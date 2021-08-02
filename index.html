@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> -->
+  <meta name="viewport" content="width=device-width,initial-scale=0.00001,minimun-scale=0.00001,maximum-scale=11.0,user-scalable=yes">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta name="robots" content="all">
+  <meta name="keywords" content="国家煤矿安全监察执法系统">
+  <meta name="description" content="国家煤矿安全监察执法系统">
+  <meta name="author" content="安信">
+  <link rel="shortcut icon" href="<%=htmlWebpackPlugin.options.staticPath %>/img/icon.png">
+  <title>国家煤矿安全监察执法系统</title>
+
+  <!-- 地图 -->
+  <!-- <script type="text/javascript" src="http://eeh.emerinfo.cn/map/bmap-offline/map3.0_init.js"></script>
+  <script type="text/javascript" src="http://eeh.emerinfo.cn/map/bmap-offline/map3.0.js"></script>
+  <script type="text/javascript" src="http://eeh.emerinfo.cn/map/bmap-demo/jquery.js"></script>
+  <script type="text/javascript" src="http://eeh.emerinfo.cn/map/bmap-demo/layer.js"></script>
+  <script type="text/javascript" src="http://eeh.emerinfo.cn/map/bmap-demo/demo.js"></script> -->
+  <!-- 引入高德地图api -->
+  <!-- <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=31a253af822b598f376a6e2e569699c7&plugin=AMap.DistrictLayer,AMap.Geocoder,AMap.ToolBar,AMap.DistrictSearch"></script> -->
+  <!-- 统计地图 -->
+  <!-- <script type="text/javascript" src="<%=htmlWebpackPlugin.options.staticPath %>/js_temp/echarts.min.js"></script>
+  <script type="text/javascript" src="<%=htmlWebpackPlugin.options.staticPath %>/js_temp/china.js"></script> -->
+
+  <script type="text/javascript">
+    function IEVersion() {
+      var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+      var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1; //判断是否IE<11浏览器
+      var isEdge = userAgent.indexOf("Edge") > -1 && !isIE; //判断是否IE的Edge浏览器
+      var isIE11 = userAgent.indexOf('Trident') > -1 && userAgent.indexOf("rv:11.0") > -1;
+      if (isIE) {
+        // var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
+        // reIE.test(userAgent);
+        // var fIEVersion = parseFloat(RegExp["$1"]);
+        alert("请使用谷歌或者火狐浏览器操作本系统");
+      } else if (isEdge) {
+        alert("请使用谷歌或者火狐浏览器操作本系统");
+      } else if (isIE11) {
+        alert("请使用谷歌或者火狐浏览器操作本系统"); // IE11
+      }
+    }
+    IEVersion();
+  </script>
+
+  <!-- 开发环境, [又放到main.js配置] 开启api请求代理拦截处理时, 配置baseURL地址. (是否开启代理通过[./config/dev.env.js]配置) -->
+  <% if (process.env.NODE_ENV === 'development') { %>
+  <script>
+    console.log('Development-------------------------------------------------------------');
+    ; (function () {
+      // if ('<%=process.env.OPEN_PROXY %>' === 'true') {
+      //   //...
+      // }
+    })();
+  </script>
+  <% } %>
+
+  <!-- 生产环境 -->
+  <% if (process.env.NODE_ENV === 'production') { %>
+  <script>
+    console.log('Production-------------------------------------------------------------');
+    ; (function () {
+      //...
+    })();
+
+  </script>
+  <% } %>
+
+</head>
+
+<body>
+  <div id="app"></div>
+</body>
+
+</html>

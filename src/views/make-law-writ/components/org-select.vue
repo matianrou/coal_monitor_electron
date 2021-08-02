@@ -1,0 +1,263 @@
+<!-- 选择企业 组件-->
+<template>
+  <div class="org-select">
+    <div class="org-select-select-main">
+      <div style="height:36px; line-height: 36px; color:#666;background:#4F83E9">
+        <td style="text-indent:20px;color:#fff;font-size：20px">选择企业</td>
+      </div>
+      <div style="flex: 1;background-color:#fff;vertical-align:top; overflow: auto;">
+        <table style="width:100%;">
+          <tr style="height:36px;background-color:#fff;color:#666;">
+            <td style="width:50%;padding-left:6px;">
+              <el-select v-model="dataForm.selPlanDate" style="width:100%;height:32px;" size="small">
+                <el-option
+                  v-for="(item, index) in planDateList"
+                  :key="index"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </td>
+            <td style="width:50%;padding-right:6px;">
+              <el-select v-model="dataForm.selGovUnit" style="width:100%;height:32px;" size="small">
+                <el-option
+                  v-for="(item, index) in orgList"
+                  :key="index"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </td>
+          </tr>
+        </table>
+        <table
+          style="width:320px;background-color:#fff;color:#666;display:inline-block"
+          id="tableCorpList">
+          <tr
+            v-for="(item, index) in corpList"
+            :key="index"
+            :data-corpId="item.corpId"
+            :title="item.corpName"
+            :class="item.active ? 'active' : ''">
+            <td
+              v-if="item.dbplan"
+              class="editaddbook"
+              :data-name="item.corpName"
+              :data-planId="item.dbplanId"
+              :data-corpId="item.corpId"
+              @dblclick="editaddbook(item)"
+              :data-item="JSON.stringify(item)"
+              style="display: inline-block;width: 318px;height:36px;padding-left:8px;cursor:pointer;line-height: 36px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"
+              @click="showDocHome(item, index)">
+              <i class="el-icon-s-flag" style="font-size:16px;color:red"></i>
+              {{ item.corpName}}
+            </td>
+            <td
+              v-else
+              class="editaddbookG"
+              :data-casetype="item.caseType"
+              :data-caseid="item.caseid"
+              :data-name="item.corpName"
+              :data-planId="item.planId"
+              :data-corpId="item.corpId"
+              @dblclick="editaddbook(item)"
+              :data-item="JSON.stringify(item)"
+              style="display: inline-block;width: 318px;height:36px;padding-left:8px;cursor:pointer;line-height: 36px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"
+              @click="showDocHome(item, index)">
+              <i class="el-icon-s-flag" style="font-size:16px;color:#53ff0c"></i>
+              {{ item.corpName}}
+            </td>
+          </tr>
+        </table>
+      </div>
+      <!-- </tr> -->
+    </div>
+    <div class="org-select-select-operation">
+      <el-button
+        class="addPlan"
+        type="primary"
+        style="height: 35px;width:60px;padding:0;margin: 0;"
+      >
+        <i class="el-icon-plus"></i>添加
+      </el-button>&nbsp;&nbsp;
+      <el-button
+        style="height: 35px; width:60px;padding:0;margin: 0;">
+        <i class="el-icon-delete"></i>删除
+      </el-button>&nbsp;&nbsp;
+    </div>
+  </div>
+</template>
+
+<script>
+import GoDB from '@/utils/godb.min.js'
+export default {
+  name: "OrgSelect",
+  components: {},
+  props: {
+  },
+  data() {
+    return {
+      planDateList: [], // 选择企业，年月
+      orgList: [], //
+      corpList: [], //
+      total: null, // 查询总数
+      dataForm: {
+        selPlanDate: null,
+        selGovUnit: null,
+      }
+    };
+  },
+  created() {
+    this.getData();
+  },
+  methods: {
+    async getData() {
+      var userGroupId = this.$getStorage("_glb_user_gid");
+      const db = new GoDB("CoalDB");
+      const orgInfo = db.table("orgInfo");
+      const docPlan = db.table("docPlan");
+      const wkCaseInfo = db.table("wkCase");
+      //查询符合条件的记录
+      const arrOrg = await orgInfo.findAll((item) => {
+        return item.delFlag == "0";
+      });
+      const arrPlan = await docPlan.findAll((item) => {
+        return item.groupId == userGroupId;
+      });
+      const wkCase = await wkCaseInfo.findAll((item) => {
+        return item.groupId == userGroupId;
+      });
+      await db.close();
+      const listArr = [...wkCase, ...arrPlan];
+      this.total = listArr.length;
+      this.planDateList = [],
+        this.orgList = [],
+        this.corpList = [];
+      var today = new Date();
+      var iYear = today.getFullYear(),
+        iMonth = today.getMonth();
+      for (var i = 1; i < 13; i++) {
+        let planDate = {
+          value: `${(iYear - 1).toString()}-${i.toString()}`,
+          label: `${(iYear - 1).toString()}年${i.toString()}月`
+        }
+        this.planDateList.push(planDate)
+      }
+      for (var i = 1; i <= iMonth + 1; i++) {
+        let planDate = {
+          value: `${iYear.toString()}-${i.toString()}`,
+          label: `${iYear.toString()}年${i.toString()}月`,
+        }
+        this.planDateList.push(planDate)
+      }
+      this.dataForm.selPlanDate = this.planDateList[0].value
+      for (var i = 0; i < arrOrg.length; i++) {
+        var obj = arrOrg[i];
+        let org = {
+          value: obj.no,
+          label: obj.name
+        }
+        this.orgList.push(org)
+      }
+      this.dataForm.selGovUnit = this.orgList[0].value
+      // for (var i = 0; i < listArr.length; i++) {
+      // 	var obj = listArr[i];
+      // 	corpList += '<tr class="leftlist" style="border-bottom: 1px solid #ccc;>';
+      // 	if (obj.planId == '' || obj.planId) corpList += '<td style="height:36px;padding-left:8px;;border-top:1px solid #DCECFB;cursor:pointer;" onclick="javascript:showDocHome(\'' + obj.no + '\',\'' + obj.corpId + '\')"><i class="el-icon-s-flag" style="font-size:16px;color:red"></i>' + obj.corpName + '</td>';
+      // 	else corpList += '<td style="height:36px;padding-left:8px;cursor:pointer;" onclick="javascript:showDocHome(\'' + obj.no + '\',\'' + obj.corpId + '\')"><i class="el-icon-s-flag" style="font-size:16px;color:#53ff0c"></i>' + obj.corpName + '</td>';
+      // 	corpList += '</tr>';
+      // }
+      listArr.map((k, index) => {
+        let corp = {}
+        if (k.dbplanId) {
+          corp= {
+            index: index,
+            dbplan: true,
+            corpId: k.corpId,
+            corpName: k.corpName,
+            dbplanId: k.dbplanId,
+            no: k.no,
+            active: false,
+          }
+        } else if (k.planId) {
+          corp = {
+            index: index,
+            plan: true,
+            casetype: k.caseType,
+            caseId: k.caseId,
+            corpName: k.corpName,
+            planId: k.planId,
+            corpId: k.corpId,
+            no: k.no,
+            active: false,
+          }
+        } else if (k.caseId) {
+          corp = {
+            index: index,
+            plan: true,
+            casetype: k.caseType,
+            caseId: k.caseId,
+            corpName: k.corpName,
+            planId: k.planId,
+            corpId: k.corpId,
+            no: k.no,
+            active: false,
+          }
+        }
+        this.corpList.push(corp)
+      })
+    },
+    async showDocHome(data, index) {
+      //读取page-work.html（首页）
+      this.$setStorage("_glb_curr_plan_id", data.planId);
+      this.$setStorage("_glb_curr_corp_id", data.corpId);
+      this.setActive(index)
+      this.$emit('show-doc', data)
+    },
+    editaddbook (item) {
+      this.$emit('create-plan', item)
+    },
+    setActive (index) {
+      // 设置为已选择样式
+      this.corpList.forEach(item => {
+        item.active = false
+      })
+      this.corpList[index].active = true
+    }
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+.org-select {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  .org-select-select-main {
+    flex: 1;
+    border-collapse: collapse;
+    background-color: #093A83;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 50px);
+  }
+  .org-select-select-operation {
+    height: 41px;
+    background-color: #DCECFB;
+    color: #666;
+    border: 1px solid #093A83;
+    border-radius: 10px;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  .active{
+    background: #5f8aca;
+    color: #fff;
+  }
+}
+</style>
