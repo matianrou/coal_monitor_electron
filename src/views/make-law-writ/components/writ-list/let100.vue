@@ -35,7 +35,7 @@
                   data-title="监察类型或方式"
                   data-type="check"
                   data-src="let-100"
-                  @click="commandFill('corpMonitor', '二、监察类型或方式：', 'MonitorCheckItem')"
+                  @click="commandFill('corpMonitors', '二、监察类型或方式：', 'CheckItem')"
                 >{{ letData.corpMonitor }}</td>
               </tr>
               <tr>
@@ -176,6 +176,7 @@
       :visible="visible"
       :selectedData="selectedData"
       @handle-close="handleClose"
+      @handle-save="handleSave"
     ></let-drawer>
   </div>
 </template>
@@ -198,12 +199,24 @@ export default {
   },
   data() {
     return {
-      letData: {}, // 文书基本数据
+      letData: {  // 文书基本数据
+        corpName: null, // 被检查单位
+        corpMonitor: null, // 监察类型或方式
+        corpMonitors: [], // 监察类型或方式 选项
+      },
       visible: false, // 展示填写组件
       selectedData: {
         key: null, // 修改的内容key
         type: null, // 填写组件类型
         title: null, // 标题
+        value: null, // 值
+        options: null, // 选项
+      },
+      options: {
+        corpMonitors: [{ "value": "1", "name": "重点监察" }, { "value": "2", "name": "专项监察" }, { "value": "3", "name": "随机抽查" }, { "value": "4", "name": "会诊" }, { "value": "5", "name": "体检" }, { "value": "7", "name": "煤矿安全集中整治" }, { "value": "8", "name": "“一通三防”全覆盖专项监察" }, { "value": "9", "name": "水害防治专项监察" }, { "value": "10", "name": "机电设备专项监察" },
+                      { "value": "11", "name": "安全培训专项监察" }, { "value": "12", "name": "提升运输专项监察" }, { "value": "13", "name": "顶板管理专项监察" }, { "value": "14", "name": "采掘接续专项监察" }, { "value": "15", "name": "建设项目专项监察" }, { "value": "16", "name": "冲击地压防治专项监察" }, { "value": "17", "name": "超能力生产专项监察" }, { "value": "18", "name": "安全投入专项监察" },
+                      { "value": "19", "name": "安全生产主体责任专项监察" }, { "value": "20", "name": "矿领导带班下井专项监察" }, { "value": "21", "name": "安全生产许可证专项监察" }, { "value": "22", "name": "安全监控系统专项监察" }, { "value": "23", "name": "应急救援专项监察" }, { "value": "25", "name": "“互联网+ 监管” 远程监察" },
+                      { "value": "30", "name": "异地监察" }, { "value": "32", "name": "全系统各环节监察" }, { "value": "33", "name": "停产停工安全巡查" }, { "value": "26", "name": "其他专项监察" }, { "value": "6", "name": "其他" }],
       }
     };
   },
@@ -289,24 +302,48 @@ export default {
       // 返回选择企业
       this.$emit('go-back')
     },
-    handleClose () {
-      // 关闭编辑
-      this.selectedData = {
-        key: null,
-        type: null,
-        title: null,
-      }
-      this.visible = false
-    },
     commandFill (key, title, type) {
       // 打开编辑
       this.visible = true
       this.selectedData = {
         type,
         key,
-        title
+        title,
+        value: this.letData[key],
+        options: this.options[key]
       }
     },
+    handleClose () {
+      // 关闭编辑
+      this.selectedData = {
+        key: null,
+        type: null,
+        title: null,
+        value: null,
+        options: null,
+      }
+      this.visible = false
+    },
+    handleSave (params) {
+      this.letData[this.selectedData.key] = params.value
+      console.log('params', params)
+      if (this.selectedData.type === 'CheckItem') {
+        // 处理多选展示内容
+        let string = ''
+        this.options[this.selectedData.key].map(option => {
+          params.value.map(val => {
+            if (option.value === val) {
+              string += option.name + ','
+            }
+          })
+        })
+        string = string.substring(0, string.length - 1)
+        // 去掉key的s，即为原key名
+        let key = this.selectedData.key.substring(0, this.selectedData.key.length - 1)
+        this.letData[key] = string
+      }
+      this.handleClose()
+    }
   },
 };
 </script>
