@@ -47,7 +47,7 @@
                   data-title="检查时间"
                   data-type="dateregion"
                   data-src
-                  onclick="commandFill(this.id)"
+                  @click="commandFill('corpTimes', '三、检查时间：', 'DaterangeItem')"
                 >{{ letData.corpTime }}</td>
               </tr>
               <tr>
@@ -62,10 +62,10 @@
               data-title="煤矿概况"
               data-type="textarea"
               data-src
-              onclick="commandFill(this.id)"
+              @click="commandFill('corpSummary', '四、煤矿概况：', 'TextareaItem')"
             >
               <p
-                style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
+                style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden; text-indent: 2em;"
               >{{ letData.corpSummary }}</p>
             </div>
             <table class="docBody">
@@ -77,8 +77,7 @@
                   id="cell_idx_4"
                   data-title="检查地点"
                   data-type="text"
-                  data-src="/organization/addAddress.html"
-                  onclick="commandFill(this.id)"
+                  @click="commandFill('corpChecksites', '五、检查地点：', 'CheckPositionItem')"
                 >{{ letData.corpChecksite }}</td>
               </tr>
             </table>
@@ -91,8 +90,7 @@
                   id="cell_idx_5"
                   data-title="检查的主要内容和分工见明细表"
                   data-type="check4"
-                  data-src="/organization/checkList.html"
-                  onclick="commandFill(this.id)"
+                  @click="commandFill('corpCheckTable', '六、检查的主要内容和分工见明细表', 'CheckTableItem')"
                 >《检查分工明细表》</td>
               </tr>
             </table>
@@ -106,8 +104,8 @@
                   data-title="其他事项"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                >检查的内容和分工变化时，应及时调整。</td>
+                  @click="commandFill('corpOther', '七、其他事项：', 'InputItem')"
+                >{{ letData.corpOther }}</td>
               </tr>
               <tr>
                 <td Sclass="textAlignLeft">附件：</td>
@@ -132,8 +130,8 @@
                   data-title="编制人"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('authorized', '编制人（签名）：', 'InputItem')"
+                >{{ letData.authorized }}</td>
                 <td class="textAlignCenter">日期：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -142,8 +140,8 @@
                   data-title="日期"
                   data-type="date"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('authorizedDate', '日期：', 'DateItem')"
+                >{{ letData.authorizedDate }}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">审批人（签名）：</td>
@@ -154,8 +152,8 @@
                   data-title="审批人"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('approver', '审批人（签名）：', 'InputItem')"
+                >{{ letData.approver }}</td>
                 <td class="textAlignCenter">日期：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -164,8 +162,8 @@
                   data-title="日期"
                   data-type="date"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('approverDate', '日期：', 'DateItem')"
+                >{{ letData.approverDate }}</td>
               </tr>
             </table>
           </div>
@@ -245,8 +243,6 @@ export default {
       const zzInfo2 = await zfZzInfo.find((item) => {
         return item.corpId == this.corpData.corpId && item.credTypeName == "安全生产许可证";
       });
-      //console.log(zzInfo1);
-      //console.log(zzInfo2);
       var sSummary =
 
         corp.corpName +
@@ -283,6 +279,7 @@ export default {
       sSummary +=
         "采煤方式为综采。通风方式为中央分列抽出，采掘作业地点有71003综采工作面采煤工作面、 71007综采工作面风巷、71007综采工作面机巷掘进工作面。";
 
+      let corpOther = '检查的内容和分工变化时，应及时调整。'
       let corpMonitor = '', corpTime = '', corpChecksite = ''
       if (checkPaper.length != 0) {
         paperContent = JSON.parse(checkPaper[0].paperContent);
@@ -295,7 +292,13 @@ export default {
         corpSummary: sSummary, // 煤矿概况
         corpMonitor, // 监察类型或方式
         corpTime, // 检查时间
-        corpChecksite // 检查地点
+        corpChecksite, // 检查地点
+        corpCheckTable: [], // 检查分工明细表
+        corpOther, // 其他事项
+        authorized: null, // 编制人
+        authorizedDate: null, // 编制日期
+        approver: null, // 审批人
+        approverDate: null, // 审批日期
       }
     },
     goBack () {
@@ -310,6 +313,7 @@ export default {
         key,
         title,
         value: this.letData[key],
+        corpData: this.corpData,
         options: this.options[key]
       }
     },
@@ -341,9 +345,38 @@ export default {
         // 去掉key的s，即为原key名
         let key = this.selectedData.key.substring(0, this.selectedData.key.length - 1)
         this.letData[key] = string
+      } else if (this.selectedData.type === 'DaterangeItem') {
+        let string = ''
+        params.value.map(item => {
+          // let dateList = item.split('-')
+          // string += `${dateList[0]}年${dateList[1]}月${dateList[2]}日-`
+          string += item + '-'
+        })
+        string = string.substring(0, string.length - 1)
+        let key = this.selectedData.key.substring(0, this.selectedData.key.length - 1)
+        this.letData[key] = string
+      } else if (this.selectedData.type === 'CheckPositionItem') {
+        // 处理检查地点
+        let {isAddress, addressContent, isUnder, coalList, tunnellingList, addList, isOther, otherContent} = params.value
+        let underlist = [...coalList, ...tunnellingList, ...addList]
+        let string = ''
+        if (isAddress) {
+          string += addressContent + '，'
+        }
+        if (isUnder && underlist.length > 0) {
+          underlist.map(under => {
+            string += under + '，'
+          })
+        }
+        if (isOther) {
+          string += otherContent + '，'
+        }
+        string = string.substring(0, string.length - 1)
+        let key = this.selectedData.key.substring(0, this.selectedData.key.length - 1)
+        this.letData[key] = string
       }
       this.handleClose()
-    }
+    },
   },
 };
 </script>

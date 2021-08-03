@@ -1,25 +1,18 @@
-<!-- 填写组件 简单input框 -->
+<!-- 填写组件 检查分工明细表 -->
 <template>
   <div style="width: 100%;">
-    <el-input
-      v-model="dataForm.tempValue"
-      :placeholder="placeholder">
-    </el-input>
+    123
   </div>
 </template>
 
 <script>
 export default {
-  name: "InputItem",
+  name: "CheckTableItem",
   props: {
     value: {
-      type: String,
-      default: null
+      type: Array,
+      default: () => []
     },
-    placeholder: {
-      type: String,
-      default: ''
-    }
   },
   data() {
     return {

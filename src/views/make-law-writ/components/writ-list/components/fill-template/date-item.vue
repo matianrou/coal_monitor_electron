@@ -1,16 +1,19 @@
-<!-- 填写组件 简单input框 -->
+<!-- 填写组件 日期选择 -->
 <template>
   <div style="width: 100%;">
-    <el-input
+    <el-date-picker
       v-model="dataForm.tempValue"
+      type="date"
+      format="yyyy年MM月dd日"
+      value-format="yyyy年MM月dd日"
       :placeholder="placeholder">
-    </el-input>
+    </el-date-picker>
   </div>
 </template>
 
 <script>
 export default {
-  name: "InputItem",
+  name: "DateItem",
   props: {
     value: {
       type: String,
@@ -37,6 +40,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.el-input {
-}
 </style>

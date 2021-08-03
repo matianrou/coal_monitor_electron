@@ -1,7 +1,7 @@
 <!-- 填写组件 简单复选框 -->
 <template>
   <div style="width: 100%;">
-    <el-checkbox-group v-model="tempValue">
+    <el-checkbox-group v-model="dataForm.tempValue">
       <el-checkbox
         v-for="(item, index) in options"
         :key="index"
@@ -27,11 +27,13 @@ export default {
   },
   data() {
     return {
-      tempValue: null
+      dataForm: {
+        tempValue: null
+      }
     };
   },
   created() {
-    this.tempValue = this.value
+    this.dataForm.tempValue = this.value
   },
   methods: {
   },

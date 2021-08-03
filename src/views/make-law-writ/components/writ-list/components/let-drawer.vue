@@ -5,7 +5,8 @@
     :visible.sync="visible"
     direction="rtl"
     :before-close="handleClose"
-    :wrapperClosable="false">
+    :wrapperClosable="false"
+    size="400px">
     <div class="let-drawer-main">
       <div class="let-drawer-component">
         <component
@@ -13,6 +14,7 @@
           :ref="selectedData.type"
           :value="selectedData.value"
           :options="selectedData.options"
+          :corp-data="selectedData.corpData"
         ></component>
       </div>
       <div class="let-drawer-operation">
@@ -39,6 +41,12 @@ export default {
   components: {
     InputItem: resolve => { require(["@/views/make-law-writ/components/writ-list/components/fill-template/input-item"], function(InputItem) { resolve(InputItem);});},
     CheckItem: resolve => { require(["@/views/make-law-writ/components/writ-list/components/fill-template/check-item"], function(CheckItem) { resolve(CheckItem);});},
+    DaterangeItem: resolve => { require(["@/views/make-law-writ/components/writ-list/components/fill-template/daterange-item"], function(DaterangeItem) { resolve(DaterangeItem);});},
+    TextareaItem: resolve => { require(["@/views/make-law-writ/components/writ-list/components/fill-template/textarea-item"], function(TextareaItem) { resolve(TextareaItem);});},
+    DateItem: resolve => { require(["@/views/make-law-writ/components/writ-list/components/fill-template/date-item"], function(DateItem) { resolve(DateItem);});},
+    CheckPositionItem: resolve => { require(["@/views/make-law-writ/components/writ-list/components/fill-template/check-position-item"], function(CheckPositionItem) { resolve(CheckPositionItem);});},
+    CheckTableItem: resolve => { require(["@/views/make-law-writ/components/writ-list/components/fill-template/check-table-item"], function(CheckTableItem) { resolve(CheckTableItem);});},
+
   },
   data() {
     return {
@@ -53,7 +61,11 @@ export default {
     },
     handleSave () {
       // 保存数据
-      this.$emit('handle-save', {value: this.$refs[this.selectedData.type].tempValue})
+      // this.$refs[this.selectedData.type].$refs.dataForm.validate(validate => {
+        // if (validate) {
+          this.$emit('handle-save', {value: this.$refs[this.selectedData.type].dataForm.tempValue})
+        // }
+      // })
     }
   },
 };
