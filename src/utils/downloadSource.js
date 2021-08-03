@@ -515,7 +515,10 @@ async function doCheckCateDb(resId, data) {
 			"categoryCode": String, //"000002",
 			"souFlag": String, // "1",
 			"parentCode": String, // "000000",
-			"parentId": String // "0"
+			"parentId": String, // "0"
+			"treeName": String,
+			"treeId": String,
+			"treeParentId": String
 		}
 	};
 	const db = new GoDB('CoalDB', schema);
@@ -524,7 +527,20 @@ async function doCheckCateDb(resId, data) {
 	for (var i = 0; i < data.length; i++) {
 		var obj = data[i];
 		const item = await checkCate.get({ no: obj.id });
-		if (!item) arrCheck.push({ no: obj.id, delFlag: obj.delFlag, sort: obj.sort, categoryName: obj.categoryName, groupId: obj.groupId, categoryCode: obj.categoryCode, souFlag: obj.souFlag, parentCode: obj.parentCode, parentId: obj.parentId });
+		if (!item) arrCheck.push({
+      no: obj.id,
+      delFlag: obj.delFlag,
+      sort: obj.sort,
+      categoryName: obj.categoryName,
+      groupId: obj.groupId,
+      categoryCode: obj.categoryCode,
+      souFlag: obj.souFlag,
+      parentCode: obj.parentCode,
+      parentId: obj.parentId,
+			treeName: obj.categoryName,
+      treeId: obj.categoryCode,
+      treeParentId: obj.parentCode
+    });
 	}
 
 	// 增:
@@ -553,7 +569,10 @@ async function doCheckListDb(resId, data) {
 			"groupId": String,
 			"souFlag": String,
 			"categoryCode": String,
-			"categoryName": String
+			"categoryName": String,
+			"treeName": String,
+			"treeId": String,
+			"treeParentId": String
 		}
 	};
 	const db = new GoDB('CoalDB', schema);
@@ -563,8 +582,21 @@ async function doCheckListDb(resId, data) {
 		var obj = data[i];
 		const item = await checkList.get({ no: obj.id });
 		if (!item) arrCheck.push({
-			no: obj.id, delFlag: obj.delFlag, createDate: obj.createDate, updateDate: obj.updateDate, itemCode: obj.itemCode, itemContent: obj.itemContent,
-			basis: obj.basis, status: obj.status, groupId: obj.groupId, souFlag: obj.souFlag, categoryCode: obj.categoryCode, categoryName: obj.categoryName
+			no: obj.id,
+      delFlag: obj.delFlag,
+      createDate: obj.createDate,
+      updateDate: obj.updateDate,
+      itemCode: obj.itemCode,
+      itemContent: obj.itemContent,
+			basis: obj.basis,
+      status: obj.status,
+      groupId: obj.groupId,
+      souFlag: obj.souFlag,
+      categoryCode: obj.categoryCode,
+      categoryName: obj.categoryName,
+      treeName: obj.itemContent,
+      treeId: obj.itemCode,
+      treeParentId: obj.categoryCode,
 		});
 	}
 

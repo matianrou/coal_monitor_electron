@@ -1,0 +1,191 @@
+<template>
+	<el-dialog
+    title="选择检查内容"
+    :close-on-click-modal="false"
+    append-to-body
+    :visible="visible"
+    @close="close">
+    <div v-loading="loading" class="select-check">
+      <div class="select-check-col">
+        <div class="select-check-col-title">
+          <span>选择检查内容</span>
+        </div>
+        <div class="select-check-col-tree">
+          <el-tree
+            :data="checkList"
+            :props="checkListTreeProps"
+            node-key="treeId"
+            ref="checkListTree"
+            show-checkbox
+            @check="checkFunctionAuthorization">
+            <span class="span-ellipsis" slot-scope="{ node }">
+              <span :title="node.label">{{ node.label }}</span>
+            </span>
+          </el-tree>
+        </div>
+      </div>
+      <div class="select-check-col" style="margin-left: 5px;">
+        <div class="select-check-col-title">
+          <span>已选择检查内容</span>
+        </div>
+        <div class="select-check-col-tree">
+          <el-tree
+            :data="selectedcheckList"
+            :props="selectedcheckListProps"
+            node-key="treeId"
+            ref="selectedcheckList"
+            default-expand-all>
+            <span class="span-ellipsis" slot-scope="{ node }">
+              <span :title="node.label">{{ node.label }}</span>
+            </span>
+          </el-tree>
+        </div>
+      </div>
+    </div>
+    <span slot="footer">
+      <el-button @click="close">取消</el-button>
+      <el-button type="primary" @click="save">确定</el-button>
+    </span>
+	</el-dialog>
+</template>
+
+<script>
+	import { treeDataTranslate } from '@/utils'
+  import GoDB from '@/utils/godb.min.js'
+  export default {
+    props: {
+      visible: {
+        type: Boolean,
+        default: false
+      },
+      corpData: {
+        type: Object,
+        default: () => {}
+      }
+    },
+    data () {
+      return {
+        loading: false,
+        checkListOriginal: [], // 全部功能原始数据
+        checkList: [], // 转换为树形结构的全部功能数组，用于选择
+        checkListTreeProps: {
+          label: 'treeName',
+          children: 'children',
+        },
+        selectedcheckList: [], // 已选择的功能，树形结构
+        selectedcheckListProps: {
+          label: 'treeName',
+          children: 'children',
+        },
+        tempKey: -666666, // 临时key, 用于解决tree半选中状态项不能传给后台接口问题.
+      }
+    },
+    created() {
+      this.getCheckList()
+    },
+    methods: {
+      async getCheckList () {
+        this.loading = true
+        const db = new GoDB('CoalDB');
+        const checkCate = db.table('checkCate');
+        const checkList = db.table('checkList');
+        const corpBase = db.table('corpBase');
+        let checkCateData = await checkCate.findAll((item) => item);
+        let checkListData = await checkList.findAll((item) => item);
+        let corpBaseData = await corpBase.findAll((item) => {
+          return item.corpId === this.corpData.corpId
+        });
+        await db.close()
+        // 设置为树状结构
+        this.checkListOriginal = [...checkCateData, ...checkListData]
+        let list = treeDataTranslate([...checkCateData, ...checkListData] || [], 'treeId', 'treeParentId')
+        let corpTypeIndex = null
+        if (corpBaseData[0].mineMinetypeName === '井工') {
+          // 井工检查内容
+          corpTypeIndex = list.findIndex(item => item.categoryCode === '000001')
+        } else {
+          // 露天检查内容
+          corpTypeIndex = list.findIndex(item => item.categoryCode === '000002')
+        }
+        this.checkList = list[corpTypeIndex].children
+        this.loading = false
+      },
+      // 移除tree临时key和半选中状态项
+      removeTreeTempKeyHandle (list) {
+        var idx = list.indexOf(this.tempKey)
+        if (idx !== -1) {
+          list.splice(idx, list.length - idx)
+        }
+        return list
+      },
+      // 功能授权树点击节点复选框调用方法
+      checkFunctionAuthorization (objectItem, selectedObjectItem) {
+        // 选择权限同时增加至已选择权限列表中
+        let selectedList = [
+          ...selectedObjectItem.checkedKeys,
+          ...selectedObjectItem.halfCheckedKeys
+        ]
+        console.log('objectItem', objectItem)
+        console.log('selectedObjectItem', selectedObjectItem)
+        this.getSelectedcheckList(selectedList)
+      },
+      getSelectedcheckList (selectedcheckIdList) {
+        // 遍历checkListOriginal,获取selectedList完整信息再转变为树形结构
+        let checkList = []
+        console.log('selectedcheckIdList', selectedcheckIdList)
+        this.checkListOriginal.map((item, itemIndex) => {
+          selectedcheckIdList.map(itemSelected => {
+            if (item.treeId === itemSelected) {
+              Object.assign(item, {children: []})
+              checkList.push(item)
+            }
+          })
+        })
+        let list = treeDataTranslate(checkList || [], 'treeId', 'treeParentId')
+        console.log('list', list)
+        this.selectedcheckList = list
+      },
+      close () {
+        this.$emit('close', 'checkSelect')
+      },
+      save () {
+        this.$emit('save', {data: this.selectedcheckList})
+        this.close()
+      },
+    }
+  }
+;
+</script>
+
+<style lang="scss" scoped>
+.select-check {
+  display: flex;
+  height: 300px;
+  .select-check-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #E8E8E8;
+    border-radius: 5px;
+    overflow-y: hidden;
+    .select-check-col-title {
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      background: #E4EAFA;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .select-check-col-tree {
+      flex: 1;
+      overflow: auto;
+      .span-ellipsis {
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  }
+}
+</style>
