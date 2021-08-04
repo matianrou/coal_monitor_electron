@@ -2,37 +2,63 @@
 <template>
   <div style="width: 100%;">
     <div>
-      <el-button type="primary" @click="showCheckDialog">选择检查内容</el-button>
+      <el-button type="primary" @click="handleDialog('checkSelect')">选择检查内容</el-button>
     </div>
     <div>
       <div class="title">
         <span>已选检查内容：</span>
       </div>
-      <el-tree
+      <el-table
         :data="dataForm.tempValue"
-        :props="checkListTreeProps"
-        node-key="treeId"
-        ref="checkListTree"
-        show-checkbox
-        default-expand-all
-        @check="checkFunctionAuthorization">
-        <span class="span-node-main" slot-scope="{node, data}">
-          <span class="span-ellipsis" :title="node.label">{{ node.label }}</span>
-          <span v-if="data.itemCode">
-            <el-button
-              type="text"
-              @click="() => handleEdit(data)">
-              编辑
-            </el-button>
-            <!-- <el-button
-              type="text"
-              size="mini"
-              @click="() => remove(node, data)">
-              Delete
-            </el-button> -->
-          </span>
-        </span>
-      </el-tree>
+        style="width: 100%"
+        row-key="treeId"
+        border>
+        <el-table-column
+          prop="categoryName"
+          label="检查事项"
+          header-align="center"
+          align="left"
+          width="110">
+        </el-table-column>
+        <el-table-column
+          header-align="center"
+          align="left"
+          label="检查内容">
+          <template slot-scope="scope">
+            <el-input
+              v-if="scope.row.isEdit"
+              v-model="scope.row.itemContent"
+              type="textarea"
+              :autosize="{ minRows: 4, maxRows: 6}">
+            </el-input>
+            <span v-else>{{ scope.row.itemContent }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          header-align="center"
+          align="left"
+          label="检查主要资料及方法">
+          <template slot-scope="scope">
+            <el-input
+              v-if="scope.row.isEdit"
+              v-model="scope.row.basis"
+              type="textarea"
+              :autosize="{ minRows: 4, maxRows: 6}">
+            </el-input>
+            <span v-else>{{ scope.row.basis }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          header-align="center"
+          align="left"
+          label="操作"
+          width="80">
+          <template slot-scope="scope">
+            <el-button v-if="scope.row.isEdit" type="text" @click="editContent(scope)">保存</el-button>
+            <el-button v-else type="text" @click="editContent(scope)">编辑</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
     </div>
     <select-check-content
       :visible="visible.checkSelect"
@@ -40,36 +66,15 @@
       @save="handleSave"
       @close="handleClose"
     ></select-check-content>
-    <el-dialog
-      title="编辑检查内容"
-      :close-on-click-modal="false"
-      append-to-body
-      :visible="visible.editCheckContent"
-      :close-on-press-escape="false"
-      width="500px"
-      @close="handleClose('editCheckContent')">
-      <div>
-        <textarea-item
-          ref="textareaItem"
-          :value="dataForm.checkContent"
-        ></textarea-item>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="handleClose('editCheckContent')">取消</el-button>
-        <el-button type="primary" @click="saveEdit">确定</el-button>
-      </span>
-    </el-dialog>
   </div>
 </template>
 
 <script>
 import selectCheckContent from '@/views/make-law-writ/components/writ-list/components/select-check-content'
-import textareaItem from '@/views/make-law-writ/components/writ-list/components/fill-template/textarea-item'
 export default {
   name: "CheckTableItem",
   components: {
     selectCheckContent,
-    textareaItem
   },
   props: {
     value: {
@@ -88,7 +93,6 @@ export default {
       },
       visible: {
         checkSelect: false,
-        editCheckContent: false
       },
       checkListTreeProps: {
         label: 'treeName',
@@ -97,47 +101,45 @@ export default {
       dataForm: {
         checkContent: null
       },
-      editContent: {}, // 需要修改的检查项
+      editText: null, // 编辑内容
     };
   },
   created() {
     this.dataForm.tempValue = this.value
   },
   methods: {
-    showCheckDialog () {
+    handleDialog (key) {
       // 展示选择检查内容弹窗
-      this.visible.checkSelect = true
+      this.visible[key] = true
     },
     handleClose (key) {
       this.visible[key] = false
     },
     handleSave (params) {
       // 保存选择的检查项
-      this.dataForm.tempValue = params.data
+      let tableData = []
+      this.handleData(params.data, tableData)
+      this.dataForm.tempValue = tableData
     },
-    saveEdit () {
-      // 保存编辑检查内容
-      this.dataForm.checkContent = this.$refs.textareaItem.dataForm.tempValue
-      Object.assign(this.editContent, {
-        treeName: this.dataForm.checkContent
-      })
-      this.visible.editCheckContent = false
+    handleData (data, tableData) {
+      // 递归遍历获取最底层数据
+      if (data.length > 0) {
+        data.map(item => {
+          if (item.children && item.children.length > 0) {
+            this.handleData(item.children, tableData)
+          } else {
+            tableData.push(Object.assign(item, {isEdit: false}))
+          }
+        })
+      } else {
+        tableData.push(Object.assign(item, {isEdit: false}))
+      }
     },
-    handleEdit (data) {
-      // 编辑 展示编辑弹窗
-      this.visible.editCheckContent = true
-      this.dataForm.checkContent = data.treeName
-      this.editContent = data
-    },
-    checkFunctionAuthorization (objectItem, selectedObjectItem) {
-      // 选择权限同时增加至已选择权限列表中
-      let selectedList = [
-        ...selectedObjectItem.checkedKeys,
-        ...selectedObjectItem.halfCheckedKeys
-      ]
-      console.log('objectItem', objectItem)
-      console.log('selectedObjectItem', selectedObjectItem)
-    },
+    editContent (scope, field) {
+      let isEdit = scope.row.isEdit
+      let data = Object.assign({}, this.dataForm.tempValue[scope.$index], {isEdit: !isEdit})
+      this.$set(this.dataForm.tempValue, scope.$index, data)
+    }
   },
 };
 </script>

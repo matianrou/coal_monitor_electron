@@ -6,7 +6,7 @@
     direction="rtl"
     :before-close="handleClose"
     :wrapperClosable="false"
-    :size="selectedData.type === 'CheckTableItem' ? '60%' : '400px'">
+    :size="selectedData.type === 'CheckTableItem' ? '80%' : '400px'">
     <div class="let-drawer-main">
       <div class="let-drawer-component">
         <component

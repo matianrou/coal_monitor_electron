@@ -3,6 +3,8 @@
   <div style="width: 100%;">
     <let-main
       :corp-data="corpData"
+      :doc-data="docData"
+      :let-data="letData"
       @go-back="goBack">
       <div slot="left">
         <div class="page page-sizeA4">
@@ -23,8 +25,8 @@
                   style="width:79%"
                   data-title="被检查单位"
                   data-type="text"
-                  @click="commandFill('corpName', '一、被检查单位：', 'InputItem')"
-                >{{ letData.corpName }}</td>
+                  @click="commandFill('cellIdx0', '一、被检查单位：', 'InputItem')"
+                >{{ letData.cellIdx0 }}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">二、监察类型或方式：</td>
@@ -35,8 +37,8 @@
                   data-title="监察类型或方式"
                   data-type="check"
                   data-src="let-100"
-                  @click="commandFill('corpMonitors', '二、监察类型或方式：', 'CheckItem')"
-                >{{ letData.corpMonitor }}</td>
+                  @click="commandFill('cellIdx1', '二、监察类型或方式：', 'CheckItem')"
+                >{{ letData.cellIdx1 }}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">三、检查时间：</td>
@@ -47,8 +49,8 @@
                   data-title="检查时间"
                   data-type="dateregion"
                   data-src
-                  @click="commandFill('corpTimes', '三、检查时间：', 'DaterangeItem')"
-                >{{ letData.corpTime }}</td>
+                  @click="commandFill('cellIdx2', '三、检查时间：', 'DaterangeItem')"
+                >{{ letData.cellIdx2 }}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">四、煤矿概况：</td>
@@ -62,11 +64,11 @@
               data-title="煤矿概况"
               data-type="textarea"
               data-src
-              @click="commandFill('corpSummary', '四、煤矿概况：', 'TextareaItem')"
+              @click="commandFill('cellIdx3', '四、煤矿概况：', 'TextareaItem')"
             >
               <p
                 style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden; text-indent: 2em;"
-              >{{ letData.corpSummary }}</p>
+              >{{ letData.cellIdx3 }}</p>
             </div>
             <table class="docBody">
               <tr>
@@ -77,8 +79,8 @@
                   id="cell_idx_4"
                   data-title="检查地点"
                   data-type="text"
-                  @click="commandFill('corpChecksites', '五、检查地点：', 'CheckPositionItem')"
-                >{{ letData.corpChecksite }}</td>
+                  @click="commandFill('cellIdx4', '五、检查地点：', 'CheckPositionItem')"
+                >{{ letData.cellIdx4 }}</td>
               </tr>
             </table>
             <table class="docBody">
@@ -90,7 +92,7 @@
                   id="cell_idx_5"
                   data-title="检查的主要内容和分工见明细表"
                   data-type="check4"
-                  @click="commandFill('corpCheckTable', '六、检查的主要内容和分工见明细表', 'CheckTableItem')"
+                  @click="commandFill('cellIdx5', '六、检查的主要内容和分工见明细表', 'CheckTableItem')"
                 >《检查分工明细表》</td>
               </tr>
             </table>
@@ -104,8 +106,8 @@
                   data-title="其他事项"
                   data-type="text"
                   data-src
-                  @click="commandFill('corpOther', '七、其他事项：', 'InputItem')"
-                >{{ letData.corpOther }}</td>
+                  @click="commandFill('cellIdx6', '七、其他事项：', 'InputItem')"
+                >{{ letData.cellIdx6 }}</td>
               </tr>
               <tr>
                 <td Sclass="textAlignLeft">附件：</td>
@@ -115,7 +117,6 @@
                   data-title="附件"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
                 >《检查分工明细表》</td>
               </tr>
               <tr></tr>
@@ -130,8 +131,8 @@
                   data-title="编制人"
                   data-type="text"
                   data-src
-                  @click="commandFill('authorized', '编制人（签名）：', 'InputItem')"
-                >{{ letData.authorized }}</td>
+                  @click="commandFill('cellIdx8', '编制人（签名）：', 'InputItem')"
+                >{{ letData.cellIdx8 }}</td>
                 <td class="textAlignCenter">日期：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -140,8 +141,8 @@
                   data-title="日期"
                   data-type="date"
                   data-src
-                  @click="commandFill('authorizedDate', '日期：', 'DateItem')"
-                >{{ letData.authorizedDate }}</td>
+                  @click="commandFill('cellIdx9', '日期：', 'DateItem')"
+                >{{ letData.cellIdx9 }}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">审批人（签名）：</td>
@@ -152,8 +153,8 @@
                   data-title="审批人"
                   data-type="text"
                   data-src
-                  @click="commandFill('approver', '审批人（签名）：', 'InputItem')"
-                >{{ letData.approver }}</td>
+                  @click="commandFill('cellIdx10', '审批人（签名）：', 'InputItem')"
+                >{{ letData.cellIdx10 }}</td>
                 <td class="textAlignCenter">日期：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -162,8 +163,8 @@
                   data-title="日期"
                   data-type="date"
                   data-src
-                  @click="commandFill('approverDate', '日期：', 'DateItem')"
-                >{{ letData.approverDate }}</td>
+                  @click="commandFill('cellIdx11', '日期：', 'DateItem')"
+                >{{ letData.cellIdx11 }}</td>
               </tr>
             </table>
           </div>
@@ -183,6 +184,7 @@
 import letMain from "@/views/make-law-writ/components/writ-list/components/let-main";
 import letDrawer from '@/views/make-law-writ/components/writ-list/components/let-drawer'
 import GoDB from '@/utils/godb.min.js'
+import { setInputItem, setCheckItem, setDaterangeItem, setTextareaItem, setCheckPositionItem, setCheckTableItem, setDateItem } from '@/utils/handlePaperData'
 export default {
   name: "Let100",
   props: {
@@ -197,11 +199,11 @@ export default {
   },
   data() {
     return {
-      letData: {  // 文书基本数据
-        corpName: null, // 被检查单位
-        corpMonitor: null, // 监察类型或方式
-        corpMonitors: [], // 监察类型或方式 选项
+      docData: {
+        docTypeNo: '22',
+        docTypeName: '检查方案'
       },
+      letData: {},
       visible: false, // 展示填写组件
       selectedData: {
         key: null, // 修改的内容key
@@ -211,10 +213,19 @@ export default {
         options: null, // 选项
       },
       options: {
-        corpMonitors: [{ "value": "1", "name": "重点监察" }, { "value": "2", "name": "专项监察" }, { "value": "3", "name": "随机抽查" }, { "value": "4", "name": "会诊" }, { "value": "5", "name": "体检" }, { "value": "7", "name": "煤矿安全集中整治" }, { "value": "8", "name": "“一通三防”全覆盖专项监察" }, { "value": "9", "name": "水害防治专项监察" }, { "value": "10", "name": "机电设备专项监察" },
+        cellIdx1: [{ "value": "1", "name": "重点监察" }, { "value": "2", "name": "专项监察" }, { "value": "3", "name": "随机抽查" }, { "value": "4", "name": "会诊" }, { "value": "5", "name": "体检" }, { "value": "7", "name": "煤矿安全集中整治" }, { "value": "8", "name": "“一通三防”全覆盖专项监察" }, { "value": "9", "name": "水害防治专项监察" }, { "value": "10", "name": "机电设备专项监察" },
                       { "value": "11", "name": "安全培训专项监察" }, { "value": "12", "name": "提升运输专项监察" }, { "value": "13", "name": "顶板管理专项监察" }, { "value": "14", "name": "采掘接续专项监察" }, { "value": "15", "name": "建设项目专项监察" }, { "value": "16", "name": "冲击地压防治专项监察" }, { "value": "17", "name": "超能力生产专项监察" }, { "value": "18", "name": "安全投入专项监察" },
                       { "value": "19", "name": "安全生产主体责任专项监察" }, { "value": "20", "name": "矿领导带班下井专项监察" }, { "value": "21", "name": "安全生产许可证专项监察" }, { "value": "22", "name": "安全监控系统专项监察" }, { "value": "23", "name": "应急救援专项监察" }, { "value": "25", "name": "“互联网+ 监管” 远程监察" },
                       { "value": "30", "name": "异地监察" }, { "value": "32", "name": "全系统各环节监察" }, { "value": "33", "name": "停产停工安全巡查" }, { "value": "26", "name": "其他专项监察" }, { "value": "6", "name": "其他" }],
+      },
+      functions: {
+        setInputItem,
+        setCheckItem,
+        setDaterangeItem,
+        setTextareaItem,
+        setCheckPositionItem,
+        setCheckTableItem,
+        setDateItem
       }
     };
   },
@@ -236,70 +247,69 @@ export default {
       const checkPaper = await wkPaper.findAll((item) => {
         return (item.caseId = caseId);
       });
-      const zfZzInfo = db.table("zfZzInfo");
-      const zzInfo1 = await zfZzInfo.find((item) => {
-        return item.corpId == this.corpData.corpId && item.credTypeName == "采矿许可证";
-      });
-      const zzInfo2 = await zfZzInfo.find((item) => {
-        return item.corpId == this.corpData.corpId && item.credTypeName == "安全生产许可证";
-      });
-      var sSummary =
-
-        corp.corpName +
-        "位于" +
-        corp.provinceName +
-        corp.cityName +
-        corp.countryName +
-        "境内，隶属于" +
-        corp.parentTypeName +
-        "煤矿。 ";
-      if (zzInfo1 && zzInfo1.expireTime)
-        sSummary += "采矿许可证有效日期至" + zzInfo1.expireTime + "、";
-      else sSummary += "采矿许可证有效日期至    ";
-      if (zzInfo2 && zzInfo2.expireTime)
-        sSummary += "、安全生产许可证有效期至" + zzInfo2.expireTime + "，";
-      else sSummary += "、安全生产许可证有效期至    ，";
-
-      if (corp.provedOutput)
-        sSummary += "矿井核定生产能力为" + corp.provedOutput + "万吨/年，";
-      else sSummary += "矿井核定生产能力为   万吨/年，";
-      sSummary +=
-        corp.mineWsGradeName +
-        "、水文地质类型为中等，煤层自燃倾向性为" +
-        corp.mineFireName +
-        "，煤尘" +
-        corp.grimeExplosiveName +
-        "，";
-      sSummary +=
-        "矿井状况为" +
-        corp.mineStatusZsName +
-        "，开拓方式为" +
-        corp.mineMinestyleName +
-        "开拓。";
-      sSummary +=
-        "采煤方式为综采。通风方式为中央分列抽出，采掘作业地点有71003综采工作面采煤工作面、 71007综采工作面风巷、71007综采工作面机巷掘进工作面。";
-
-      let corpOther = '检查的内容和分工变化时，应及时调整。'
-      let corpMonitor = '', corpTime = '', corpChecksite = ''
-      if (checkPaper.length != 0) {
-        paperContent = JSON.parse(checkPaper[0].paperContent);
-        corpMonitor = paperContent.cell_idx_1 ? paperContent.cell_idx_1 : ""
-        corpTime = paperContent.cell_idx_2 ? paperContent.cell_idx_2 : ""
-        corpChecksite = checkPaper[0].checkSite
+      if (checkPaper[0]) {
+        // 回显
+      } else {
+        // 创建初始版本
+        const zfZzInfo = db.table("zfZzInfo");
+        const zzInfo1 = await zfZzInfo.find((item) => {
+          return item.corpId == this.corpData.corpId && item.credTypeName == "采矿许可证";
+        });
+        const zzInfo2 = await zfZzInfo.find((item) => {
+          return item.corpId == this.corpData.corpId && item.credTypeName == "安全生产许可证";
+        });
+        var sSummary =
+          corp.corpName +
+          "位于" +
+          corp.provinceName +
+          corp.cityName +
+          corp.countryName +
+          "境内，隶属于" +
+          corp.parentTypeName +
+          "煤矿。 ";
+        if (zzInfo1 && zzInfo1.expireTime)
+          sSummary += "采矿许可证有效日期至" + zzInfo1.expireTime + "、";
+        else sSummary += "采矿许可证有效日期至    ";
+        if (zzInfo2 && zzInfo2.expireTime)
+          sSummary += "、安全生产许可证有效期至" + zzInfo2.expireTime + "，";
+        else sSummary += "、安全生产许可证有效期至    ，";
+        if (corp.provedOutput)
+          sSummary += "矿井核定生产能力为" + corp.provedOutput + "万吨/年，";
+        else sSummary += "矿井核定生产能力为   万吨/年，";
+        sSummary +=
+          corp.mineWsGradeName +
+          "、水文地质类型为中等，煤层自燃倾向性为" +
+          corp.mineFireName +
+          "，煤尘" +
+          corp.grimeExplosiveName +
+          "，";
+        sSummary +=
+          "矿井状况为" +
+          corp.mineStatusZsName +
+          "，开拓方式为" +
+          corp.mineMinestyleName +
+          "开拓。";
+        sSummary +=
+          "采煤方式为综采。通风方式为中央分列抽出，采掘作业地点有71003综采工作面采煤工作面、 71007综采工作面风巷、71007综采工作面机巷掘进工作面。";
+        let corpOther = '检查的内容和分工变化时，应及时调整。'
+        this.letData = {
+          cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
+          cellIdx0TypeInputItem: corp.corpName ? corp.corpName : null,
+          cellIdx1: null, // 监察类型或方式
+          cellIdx2: null, // 检查时间
+          cellIdx3: sSummary ? sSummary : null, // 煤矿概况
+          cellIdx3TypeTextareaItem: sSummary ? sSummary : null, // 煤矿概况
+          cellIdx4: null, // 检查地点
+          cellIdx5: [], // 检查分工明细表
+          cellIdx6: corpOther, // 其他事项
+          cellIdx6TypeInputItem: corpOther, // 其他事项
+          cellIdx8: null, // 编制人
+          cellIdx9: null, // 编制日期
+          cellIdx10: null, // 审批人
+          cellIdx11: null, // 审批日期
+        }
       }
-      this.letData = {
-        corpName: corp.corpName, // 被检查单位
-        corpSummary: sSummary, // 煤矿概况
-        corpMonitor, // 监察类型或方式
-        corpTime, // 检查时间
-        corpChecksite, // 检查地点
-        corpCheckTable: [], // 检查分工明细表
-        corpOther, // 其他事项
-        authorized: null, // 编制人
-        authorizedDate: null, // 编制日期
-        approver: null, // 审批人
-        approverDate: null, // 审批日期
-      }
+      await db.close()
     },
     goBack () {
       // 返回选择企业
@@ -308,11 +318,12 @@ export default {
     commandFill (key, title, type) {
       // 打开编辑
       this.visible = true
+      let valueKey = `${key}Type${type}`
       this.selectedData = {
         type,
         key,
         title,
-        value: this.letData[key],
+        value: this.letData[valueKey],
         corpData: this.corpData,
         options: this.options[key]
       }
@@ -329,54 +340,14 @@ export default {
       this.visible = false
     },
     handleSave (params) {
-      this.letData[this.selectedData.key] = params.value
-      console.log('params', params)
-      if (this.selectedData.type === 'CheckItem') {
-        // 处理多选展示内容
-        let string = ''
-        this.options[this.selectedData.key].map(option => {
-          params.value.map(val => {
-            if (option.value === val) {
-              string += option.name + ','
-            }
-          })
-        })
-        string = string.substring(0, string.length - 1)
-        // 去掉key的s，即为原key名
-        let key = this.selectedData.key.substring(0, this.selectedData.key.length - 1)
-        this.letData[key] = string
-      } else if (this.selectedData.type === 'DaterangeItem') {
-        let string = ''
-        params.value.map(item => {
-          // let dateList = item.split('-')
-          // string += `${dateList[0]}年${dateList[1]}月${dateList[2]}日-`
-          string += item + '-'
-        })
-        string = string.substring(0, string.length - 1)
-        let key = this.selectedData.key.substring(0, this.selectedData.key.length - 1)
-        this.letData[key] = string
-      } else if (this.selectedData.type === 'CheckPositionItem') {
-        // 处理检查地点
-        let {isAddress, addressContent, isUnder, coalList, tunnellingList, addList, isOther, otherContent} = params.value
-        let underlist = [...coalList, ...tunnellingList, ...addList]
-        let string = ''
-        if (isAddress) {
-          string += addressContent + '，'
-        }
-        if (isUnder && underlist.length > 0) {
-          underlist.map(under => {
-            string += under + '，'
-          })
-        }
-        if (isOther) {
-          string += otherContent + '，'
-        }
-        string = string.substring(0, string.length - 1)
-        let key = this.selectedData.key.substring(0, this.selectedData.key.length - 1)
-        this.letData[key] = string
-      }
+      let {key, type} = this.selectedData
+      // 保存反显数据
+      this.letData[`${key}Type${type}`] = params.value
+      // 处理反显数据，保存一份paperContent通用文本数据
+      this.letData[key] = this.functions[`set${type}`](this.letData[`${key}Type${type}`], this.selectedData, this.options)
       this.handleClose()
     },
+
   },
 };
 </script>

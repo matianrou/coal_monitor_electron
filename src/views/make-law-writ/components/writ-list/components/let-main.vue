@@ -11,7 +11,7 @@
       >
         <tr>
           <td style="width:80px;text-align:center;">
-            <a class="btnTool" href="javascript:cmdDocSave()">保存</a>
+            <span style="cursor: pointer; color: #fff;" @click="cmdDocSave">保存</span>
           </td>
           <td style="width:100px;text-align:center;">
             <a class="btnTool" href="javascript:cmdDocView()">打印预览</a>
@@ -27,9 +27,7 @@
         </tr>
       </table>
       <h3 class="uk-card-title" style="padding:10px;">执法对象</h3>
-      <table
-        style="border-collapse:collapse;margin:0 auto;margin:0px 10px;"
-        id="rightSideCorp">
+      <table style="border-collapse:collapse;margin:0 auto;margin:0px 10px;" id="rightSideCorp">
         <tr style="height:32px;">
           <td style="border-bottom: 1px solid #666;" colspan="2">{{ corpData.corpName }}</td>
         </tr>
@@ -39,9 +37,7 @@
         </tr>
         <tr style="height:32px;">
           <td style="border-bottom:1px solid #666;">所在区域：</td>
-          <td
-            style="border-bottom:1px solid #666;"
-          >{{ corpData.corpCountryName }}</td>
+          <td style="border-bottom:1px solid #666;">{{ corpData.corpCountryName }}</td>
         </tr>
         <tr style="height:32px;">
           <td style="border-bottom:1px solid #666;">经营地址：</td>
@@ -61,23 +57,113 @@
 </template>
 
 <script>
+import { getNowFormatTime, getNowTime } from '@/utils/date'
+import { randomString } from '@/utils/index'
 export default {
   name: "LetMain",
   components: {},
   props: {
-    corpData: {
+    corpData: { // 煤矿信息
       type: Object,
-      default: () => {}
-    }
+      default: () => {},
+    },
+    docData: { // 文书信息
+      type: Object,
+      default: () => {},
+    },
+    letData: { // 填写的信息
+      type: Object,
+      default: () => {},
+    },
   },
   data() {
     return {};
   },
-  created() {},
+  created() {
+  },
   methods: {
-    cmdDocBack () {
-      this.$emit('go-back')
-    }
+    cmdDocBack() {
+      this.$emit("go-back");
+    },
+    async cmdDocSave(saveFlag = '1') {
+      // 保存文书
+      // sessionStorage.getItem('documents');
+      var sPaperId = "p" + getNowTime() + randomString(18);
+      var checkSite = $(".checkAddress").html();
+      var checkSiteArr = getStorage("checkSiteArr");
+      console.log('letData', this.letData)
+      const schema = {
+        wkPaper: {
+          paperId: {
+            //客户端生产的文书唯一id
+            type: String,
+            unique: true,
+          },
+          remoteId: String, //服务器端生成的id/
+          delFlag: String,
+          createDate: String,
+          updateDate: String,
+          createById: String,
+          updateById: String,
+          paperType: String, //docTypeNo,
+          name: String, //文书名称
+          paperContent: String, // 文书大JSON字符串,/
+          createTime: String, //文书创建时间/
+          caseId: String, //第1次做文书时，活动的唯一id：185b15772fb746dfb3643a66aa192f86/
+          caseType: String, //活动类型
+          personId: String, //文书制作人id
+          personName: String, //文书制作人名称/
+          corpId: String,
+          corpName: String,
+          p0FloorTime: String, //归档时间：2021-06-15 11:00:38
+          p22JczfCheck: String, //检查项分工明细表
+          groupId: String, //机构id
+          groupName: String, //机构名称
+          planId: String, //docPlan表-no字段
+          // "checkSite":String
+        },
+      };
+      var jsonPaper = {
+        paperId: sPaperId,
+        remoteId: "",
+        delFlag: saveFlag,
+        createDate: getNowFormatTime(),
+        updateDate: getNowFormatTime(),
+        createById: getStorage("_glb_user_id"),
+        updateById: getStorage("_glb_user_id"),
+        paperType: this.docData.docTypeNo,
+        name: this.docData.docTypeName,
+        paperContent,
+        createTime: getNowFormatTime(),
+        caseId: this.corpData.caseId,
+        caseType: this.corpData.caseId.caseType,
+        personId: getStorage("_glb_user_id"),
+        personName: getStorage("_glb_user_name"),
+        corpId: this.corpData.corpId,
+        corpName: this.corpData.corpName,
+        p0FloorTime: "",
+        p22JczfCheck: getStorage("publicP22JczfCheck"), //检查分工明细表
+        groupId: getStorage("_glb_user_gid"), //机构id
+        groupName: getStorage("_glb_user_gname"), //机构名称
+        planId: "",
+        checkSite: this.letData.corpChecksite,
+        checkSiteArr:  this.letData.corpChecksites,
+      };
+      // const db = new GoDB("CoalDB", schema);
+      // const wkPaper = db.table("wkPaper");
+      // // 如果保存的是已编辑的 那么保存的同时要把上一条重复的数据删除
+      // const newWkPaper = await wkPaper.find((item) => {
+      //   return item.caseId == caseId;
+      // });
+      // if (newWkPaper == null) {
+      //   await wkPaper.add(jsonPaper);
+      // } else {
+      //   await wkPaper.delete({ caseId: caseId });
+      //   await wkPaper.add(jsonPaper);
+      // }
+      // await db.close();
+      // await doAlert("“" + docTypeName + "”文书已经保存完毕。");
+    },
   },
 };
 </script>
@@ -99,7 +185,7 @@ export default {
   }
   .btnTool {
     cursor: pointer;
-    color:  #fff;
+    color: #fff;
   }
 }
 </style>

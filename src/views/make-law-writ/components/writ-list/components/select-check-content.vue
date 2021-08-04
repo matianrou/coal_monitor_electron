@@ -125,8 +125,6 @@
           ...selectedObjectItem.checkedKeys,
           ...selectedObjectItem.halfCheckedKeys
         ]
-        console.log('objectItem', objectItem)
-        console.log('selectedObjectItem', selectedObjectItem)
         this.getSelectedcheckList(selectedList)
       },
       getSelectedcheckList (selectedcheckIdList) {
