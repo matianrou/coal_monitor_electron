@@ -6,7 +6,8 @@
       :doc-data="docData"
       :let-data="letData"
       :edit-data="editData"
-      @go-back="goBack">
+      @go-back="goBack"
+      @save-doc="saveDoc">
       <div slot="left">
         <div class="page page-sizeA4">
           <div>
@@ -26,7 +27,7 @@
                   style="width:79%"
                   data-title="被检查单位"
                   data-type="text"
-                  @click="commandFill('cellIdx0', '一、被检查单位：', 'InputItem')"
+                  @click="commandFill('cellIdx0', '一、被检查单位：', 'TextItem')"
                 >{{ letData.cellIdx0 }}</td>
               </tr>
               <tr>
@@ -69,7 +70,7 @@
             >
               <p
                 style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden; text-indent: 2em;"
-              >{{ letData.cellIdx3 }}</p>
+              ><span style="border-bottom: solid 1px #000; padding: 7px;">{{ letData.cellIdx3 }}</span></p>
             </div>
             <table class="docBody">
               <tr>
@@ -107,7 +108,7 @@
                   data-title="其他事项"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx6', '七、其他事项：', 'InputItem')"
+                  @click="commandFill('cellIdx6', '七、其他事项：', 'TextItem')"
                 >{{ letData.cellIdx6 }}</td>
               </tr>
               <tr>
@@ -132,7 +133,7 @@
                   data-title="编制人"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx8', '编制人（签名）：', 'InputItem')"
+                  @click="commandFill('cellIdx8', '编制人（签名）：', 'TextItem')"
                 >{{ letData.cellIdx8 }}</td>
                 <td class="textAlignCenter">日期：</td>
                 <td
@@ -154,7 +155,7 @@
                   data-title="审批人"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx10', '审批人（签名）：', 'InputItem')"
+                  @click="commandFill('cellIdx10', '审批人（签名）：', 'TextItem')"
                 >{{ letData.cellIdx10 }}</td>
                 <td class="textAlignCenter">日期：</td>
                 <td
@@ -185,7 +186,7 @@
 import letMain from "@/views/make-law-writ/components/writ-list/components/let-main";
 import letDrawer from '@/views/make-law-writ/components/writ-list/components/let-drawer'
 import GoDB from '@/utils/godb.min.js'
-import { setInputItem, setCheckItem, setDaterangeItem, setTextareaItem, setCheckPositionItem, setCheckTableItem, setDateItem } from '@/utils/handlePaperData'
+import { setTextItem, setCheckItem, setDaterangeItem, setTextareaItem, setCheckPositionItem, setCheckTableItem, setDateItem } from '@/utils/handlePaperData'
 export default {
   name: "Let100",
   props: {
@@ -220,7 +221,7 @@ export default {
                       { "value": "30", "name": "异地监察" }, { "value": "32", "name": "全系统各环节监察" }, { "value": "33", "name": "停产停工安全巡查" }, { "value": "26", "name": "其他专项监察" }, { "value": "6", "name": "其他" }],
       },
       functions: {
-        setInputItem,
+        setTextItem,
         setCheckItem,
         setDaterangeItem,
         setTextareaItem,
@@ -229,6 +230,7 @@ export default {
         setDateItem
       },
       editData: {}, // 回显数据
+      paperData: {}, // 文书数据
     };
   },
   created() {
@@ -246,13 +248,12 @@ export default {
       const caseId = this.corpData.caseId;
       //查询当前计划是否已做检查方案
       const checkPaper = await wkPaper.findAll((item) => {
-        return item.caseId === caseId;
+        return item.caseId === caseId && item.name === '检查方案';
       });
       if (checkPaper.length > 0) {
         // 回显
         this.letData = JSON.parse(checkPaper[0].paperContent)
         this.editData = checkPaper[0]
-        console.log('letData', this.letData)
       } else {
         // 创建初始版本
         const zfZzInfo = db.table("zfZzInfo");
@@ -298,7 +299,7 @@ export default {
         let corpOther = '检查的内容和分工变化时，应及时调整。'
         this.letData = {
           cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
-          cellIdx0TypeInputItem: corp.corpName ? corp.corpName : null,
+          cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null,
           cellIdx1: null, // 监察类型或方式
           cellIdx2: null, // 检查时间
           cellIdx3: sSummary ? sSummary : null, // 煤矿概况
@@ -307,7 +308,7 @@ export default {
           cellIdx5: [], // 检查分工明细表
           cellIdx5TypeCheckTableItem: {}, // 检查分工明细表
           cellIdx6: corpOther, // 其他事项
-          cellIdx6TypeInputItem: corpOther, // 其他事项
+          cellIdx6TypeTextItem: corpOther, // 其他事项
           cellIdx8: null, // 编制人
           cellIdx9: null, // 编制日期
           cellIdx10: null, // 审批人
@@ -352,7 +353,24 @@ export default {
       this.letData[key] = this.functions[`set${type}`](this.letData[`${key}Type${type}`], this.selectedData, this.options)
       this.handleClose()
     },
-
+    saveDoc (paperSameData) {
+      // 保存检查方案文书
+      let paperContent = JSON.stringify(this.letData)
+      let paperData = {
+        paperType: this.docData.docTypeNo,
+        name: this.docData.docTypeName,
+        paperContent,
+        caseId: this.corpData.caseId,
+        caseType: '',
+        corpId: this.corpData.corpId,
+        corpName: this.corpData.corpName,
+        p22JczfCheck: this.letData.cellIdx5, //检查分工明细表
+        planId: this.corpData.planId,
+        checkSite: this.letData.cellIdx4,
+        checkSiteArr:  this.letData.cellIdx4TypeCheckPositionItem,
+      }
+      this.paperData = Object.assign({}, paperSameData, paperData)
+    }
   },
 };
 </script>

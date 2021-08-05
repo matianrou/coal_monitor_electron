@@ -39,7 +39,7 @@ export default {
     },
   },
   components: {
-    InputItem: resolve => { require(["@/views/make-law-writ/components/writ-list/components/fill-template/input-item"], function(InputItem) { resolve(InputItem);});},
+    TextItem: resolve => { require(["@/views/make-law-writ/components/writ-list/components/fill-template/text-item"], function(TextItem) { resolve(TextItem);});},
     CheckItem: resolve => { require(["@/views/make-law-writ/components/writ-list/components/fill-template/check-item"], function(CheckItem) { resolve(CheckItem);});},
     DaterangeItem: resolve => { require(["@/views/make-law-writ/components/writ-list/components/fill-template/daterange-item"], function(DaterangeItem) { resolve(DaterangeItem);});},
     TextareaItem: resolve => { require(["@/views/make-law-writ/components/writ-list/components/fill-template/textarea-item"], function(TextareaItem) { resolve(TextareaItem);});},

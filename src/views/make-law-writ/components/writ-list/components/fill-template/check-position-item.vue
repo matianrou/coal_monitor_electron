@@ -99,7 +99,7 @@
 <script>
 import GoDB from '@/utils/godb.min.js'
 export default {
-  name: "InputItem",
+  name: "CheckPositionItem",
   props: {
     value: {
       type: Object,

@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  name: "InputItem",
+  name: "TextItem",
   props: {
     value: {
       type: String,

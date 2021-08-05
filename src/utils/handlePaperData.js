@@ -1,6 +1,6 @@
 
 
-function setInputItem (data) {
+function setTextItem (data) {
   // 处理简单文本数据
   return data
 }
@@ -62,7 +62,7 @@ function setDateItem (data) {
 }
 
 export {
-  setInputItem,
+  setTextItem,
   setCheckItem,
   setDaterangeItem,
   setTextareaItem,

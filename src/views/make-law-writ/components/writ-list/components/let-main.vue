@@ -11,13 +11,13 @@
       >
         <tr>
           <td style="width:80px;text-align:center;">
-            <span style="cursor: pointer; color: #fff;" @click="cmdDocSave()">保存</span>
+            <span style="cursor: pointer; color: #fff;" @click="cmdDocSave('0')">保存</span>
           </td>
           <td style="width:100px;text-align:center;">
             <a class="btnTool" href="javascript:cmdDocView()">打印预览</a>
           </td>
           <td style="width:80px;text-align:center;">
-            <a class="btnTool" href="javascript:cmdDocUploading()">归档</a>
+            <span style="cursor: pointer; color: #fff;" @click="cmdDocSave('2')">归档</span>
           </td>
           <td style="width:80px;text-align:center;">
             <span class="btnTool" @click="cmdDocBack">返回</span>
@@ -73,10 +73,6 @@ export default {
       type: Object,
       default: () => {},
     },
-    letData: { // 填写的信息
-      type: Object,
-      default: () => {},
-    },
     editData: { // 编辑回显数据
       type: Object,
       default: () => {}
@@ -92,11 +88,9 @@ export default {
       this.$emit("go-back");
     },
     async cmdDocSave(saveFlag = '0') {
-      // 保存文书
-      // sessionStorage.getItem('documents');
+      // 保存或归档文书
       var sPaperId = "p" + getNowTime() + randomString(18);
-      let paperContent = JSON.stringify(this.letData)
-      let jsonPaper = {
+      let paperSameData = {
         paperId: this.editData.paperId ? this.editData.paperId : sPaperId,
         remoteId: "",
         delFlag: saveFlag,
@@ -104,34 +98,25 @@ export default {
         updateDate: getNowFormatTime(),
         createById: this.$getStorage("_glb_user_id"),
         updateById: this.$getStorage("_glb_user_id"),
-        paperType: this.docData.docTypeNo,
-        name: this.docData.docTypeName,
-        paperContent,
         createTime: getNowFormatTime(),
-        caseId: this.corpData.caseId,
-        caseType: this.corpData.caseType,
         personId: this.$getStorage("_glb_user_id"),
         personName: this.$getStorage("_glb_user_name"),
-        corpId: this.corpData.corpId,
-        corpName: this.corpData.corpName,
         p0FloorTime: "",
-        p22JczfCheck: this.letData.cellIdx5, //检查分工明细表
         groupId: this.$getStorage("_glb_user_gid"), //机构id
         groupName: this.$getStorage("_glb_user_gname"), //机构名称
-        planId: this.corpData.planId,
-        checkSite: this.letData.cellIdx4,
-        checkSiteArr:  this.letData.cellIdx4TypeCheckPositionItem,
-      };
+      }
+      this.$emit('save-doc', paperSameData)
+      let jsonPaper = this.$parent.paperData
       const db = new GoDB("CoalDB");
       const wkPaper = db.table("wkPaper");
       // 如果保存的是已编辑的 那么保存的同时要把上一条重复的数据删除
       const newWkPaper = await wkPaper.find((item) => {
-        return item.caseId === this.corpData.caseId;
+        return item.caseId === this.corpData.caseId && item.name === this.docData.docTypeName;
       });
       if (newWkPaper == null) {
         await wkPaper.add(jsonPaper);
       } else {
-        await wkPaper.delete({ caseId: this.corpData.caseId });
+        await wkPaper.delete({ paperId: newWkPaper.paperId });
         await wkPaper.add(jsonPaper);
       }
       await db.close();
