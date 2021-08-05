@@ -7,7 +7,7 @@
         <org-select
           ref="orgSelect"
           @show-doc="showDoc"
-          @create-plan="createPlan"
+          @create-case="createCase"
         ></org-select>
       </div>
       <div class="make-law-writ-show-detail">
@@ -31,6 +31,7 @@
             <!-- 文书流程 -->
             <writ-flow
               :corp-data="corpData"
+              :flow-text="flowText"
               @change-page="changePage"
             ></writ-flow>
           </div>
@@ -46,7 +47,7 @@
       </component>
     </div>
     <writ-information
-      :visible="visible.createPlan"
+      :visible="visible.createCase"
       :corp-data="corpData"
       @close="closeDialog"
     ></writ-information>
@@ -78,47 +79,24 @@ export default {
       },
       corpData: {},
       visible: {
-        createPlan: false, // 创建检查活动弹窗
+        createCase: false, // 创建检查活动弹窗
       },
-      showTemp: null
+      showTemp: null,
+      flowText: {
+        let100: ''
+      }
     }
   },
   computed: {
   },
   created() {
+    // 初始化选择企业组件
   },
   methods: {
     showDoc(data) {
-      // 展示流程模板showDocTemplate
+      // 展示当前case流程模板showDocTemplate
       this.changePage({page: 'writFlow'})
       this.showDocTemplet(data)
-    },
-    changePage ({page, temp}) {
-      this.showPage = {
-        empty: false,
-        writFlow: false,
-        writFill: false
-      }
-      if (page === 'writFill') {
-        this.showTemp = temp
-      }
-      this.showPage[page] = true
-    },
-    createPlan (corp) {
-      // 创建检查活动
-      const corpName = corp.corpName;
-      const corpId = corp.corpId;
-      const checkId = corp.dbplanId;
-		  this.$setStorage('dbcheckId', checkId);
-      // 弹窗创建计划
-      this.visible.createPlan = true
-    },
-    async closeDialog (params) {
-      if (params.refresh) {
-        await this.$refs.orgSelect.getData()
-        await this.$refs.orgSelect.showDocHome(this.corpData.planId, this.corpData.corpId)
-      }
-      this.visible[params.name] = false
     },
     async showDocTemplet(data) {
       //读取计划数据
@@ -142,13 +120,40 @@ export default {
         caseType: data.caseType,
       }
       //查询当前计划是否已做检查方案
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (item.caseId = caseId);
+      const checkLet100 = await wkPaper.findAll((item) => {
+        return item.caseId === data.caseId && item.name === '检查方案';
       });
+      if (checkLet100.length > 0) {
+        this.flowText.let100 = checkLet100[0].delFlag === '2' ? '（已归档）' : (checkLet100[0].delFlag === '1' ? '（已保存）' : '')
+      }
       // if (checkPaper[0]) {
       //   $(".checkPlan").html("检查方案（已保存）");
       // }
       await db.close();
+    },
+    changePage ({page, temp}) {
+      this.showPage = {
+        empty: false,
+        writFlow: false,
+        writFill: false
+      }
+      if (page === 'writFill') {
+        this.showTemp = temp
+      }
+      this.showPage[page] = true
+    },
+    createCase (corp) {
+      // 创建已有计划的煤矿的检查活动
+      this.corpData = corp
+      // 弹窗创建计划
+      this.visible.createCase = true
+    },
+    async closeDialog (params) {
+      if (params.refresh) {
+        await this.$refs.orgSelect.getData()
+        // await this.$refs.orgSelect.showDocHome(this.corpData.planId, this.corpData.corpId)
+      }
+      this.visible[params.name] = false
     },
   },
 };

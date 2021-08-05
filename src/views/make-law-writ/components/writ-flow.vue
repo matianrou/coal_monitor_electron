@@ -44,7 +44,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c2.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let100','检查方案')" class="flow-span">检查方案</span>
+                  <span @click="cmdEditDoc('let100','检查方案')" class="flow-span">检查方案{{flowText.let100}}</span>
                 </td>
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
@@ -526,6 +526,10 @@ export default {
   name: "WritFlow",
   props: {
     corpData: {
+      type: Object,
+      default: () => {}
+    },
+    flowText: {
       type: Object,
       default: () => {}
     }

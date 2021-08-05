@@ -143,9 +143,9 @@ export default {
   methods: {
     async getdbserve () {
       // 获取采煤和掘进工作面
-      let servedb = new GoDB("CoalDB");
-      const zfCserve = servedb.table("zfCmgzmInfo");
-      const zfJserve = servedb.table("zfJjgzmInfo");
+      let db = new GoDB("CoalDB");
+      const zfCserve = db.table("zfCmgzmInfo");
+      const zfJserve = db.table("zfJjgzmInfo");
       const caimei = await zfCserve.findAll((item) => {
         item.select = false;
         return item.corpId == this.corpData.corpId;
@@ -156,7 +156,7 @@ export default {
       });
       this.coalOptions = caimei;
       this.tunnellingOptions = juejin;
-      servedb.close()
+      await db.close()
     },
     addUnder () {
       // 添加自定义工作面

@@ -1,3 +1,4 @@
+<!-- 选择检查内容 树状组件 -->
 <template>
 	<el-dialog
     title="选择检查内容"
@@ -12,11 +13,12 @@
         </div>
         <div class="select-check-col-tree">
           <el-tree
+            ref="checkListTree"
             :data="checkList"
             :props="checkListTreeProps"
             node-key="treeId"
-            ref="checkListTree"
             show-checkbox
+            :default-checked-keys="defaultCheckedKeys"
             @check="checkFunctionAuthorization">
             <span class="span-ellipsis" slot-scope="{ node }">
               <span :title="node.label">{{ node.label }}</span>
@@ -58,6 +60,10 @@
         type: Boolean,
         default: false
       },
+      value: {
+        type: Object,
+        default: () => {}
+      },
       corpData: {
         type: Object,
         default: () => {}
@@ -78,10 +84,14 @@
           children: 'children',
         },
         tempKey: -666666, // 临时key, 用于解决tree半选中状态项不能传给后台接口问题.
+        defaultCheckedKeys: null
       }
     },
     created() {
       this.getCheckList()
+    },
+    mounted() {
+      this.init()
     },
     methods: {
       async getCheckList () {
@@ -107,8 +117,22 @@
           // 露天检查内容
           corpTypeIndex = list.findIndex(item => item.categoryCode === '000002')
         }
+        if (this.value.selectedIdList && this.value.selectedIdList.length > 0) {
+          this.defaultCheckedKeys = this.value.selectedIdList
+          let selectedList = this.removeTreeTempKeyHandle(this.value.selectedIdList)
+          // this.$refs.checkListTree.setCheckedKeys(selectedList)
+          console.log('checkListTree', this.$refs.checkListTree)
+          let selectedIdList = [
+            ...this.$refs.checkListTree.getCheckedKeys(),
+            ...this.$refs.checkListTree.getHalfCheckedKeys()
+          ]
+          this.getSelectedcheckList(selectedIdList)
+        }
         this.checkList = list[corpTypeIndex].children
         this.loading = false
+      },
+      init() {
+
       },
       // 移除tree临时key和半选中状态项
       removeTreeTempKeyHandle (list) {
@@ -130,7 +154,6 @@
       getSelectedcheckList (selectedcheckIdList) {
         // 遍历checkListOriginal,获取selectedList完整信息再转变为树形结构
         let checkList = []
-        console.log('selectedcheckIdList', selectedcheckIdList)
         this.checkListOriginal.map((item, itemIndex) => {
           selectedcheckIdList.map(itemSelected => {
             if (item.treeId === itemSelected) {
@@ -147,7 +170,10 @@
         this.$emit('close', 'checkSelect')
       },
       save () {
-        this.$emit('save', {data: this.selectedcheckList})
+        this.$emit('save', {data: {
+            selectedcheckList: this.selectedcheckList,
+          }
+        })
         this.close()
       },
     }

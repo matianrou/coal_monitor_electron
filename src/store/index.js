@@ -10,6 +10,7 @@ export default new Vuex.Store({
   namespaced: true,
   state: {
     activeTab: null,
+    refreshPageMakeLawWrit: 0
   },
   modules: {
     user,

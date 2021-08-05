@@ -5,6 +5,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
+      :edit-data="editData"
       @go-back="goBack">
       <div slot="left">
         <div class="page page-sizeA4">
@@ -226,7 +227,8 @@ export default {
         setCheckPositionItem,
         setCheckTableItem,
         setDateItem
-      }
+      },
+      editData: {}, // 回显数据
     };
   },
   created() {
@@ -241,14 +243,16 @@ export default {
         return item.corpId == this.corpData.corpId
       });
       const wkPaper = db.table("wkPaper");
-      // const caseId = $(".active td").attr("data-caseid");
       const caseId = this.corpData.caseId;
       //查询当前计划是否已做检查方案
       const checkPaper = await wkPaper.findAll((item) => {
-        return (item.caseId = caseId);
+        return item.caseId === caseId;
       });
-      if (checkPaper[0]) {
+      if (checkPaper.length > 0) {
         // 回显
+        this.letData = JSON.parse(checkPaper[0].paperContent)
+        this.editData = checkPaper[0]
+        console.log('letData', this.letData)
       } else {
         // 创建初始版本
         const zfZzInfo = db.table("zfZzInfo");
@@ -301,6 +305,7 @@ export default {
           cellIdx3TypeTextareaItem: sSummary ? sSummary : null, // 煤矿概况
           cellIdx4: null, // 检查地点
           cellIdx5: [], // 检查分工明细表
+          cellIdx5TypeCheckTableItem: {}, // 检查分工明细表
           cellIdx6: corpOther, // 其他事项
           cellIdx6TypeInputItem: corpOther, // 其他事项
           cellIdx8: null, // 编制人

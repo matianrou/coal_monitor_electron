@@ -84,7 +84,7 @@ export default {
     return {
       dataForm: {
         address: this.$getStorage("_glb_user_gname"),
-        planId: "",
+        planId: this.corpData.dbplanId,
         startDate: "",
         endDate: "",
         checkStatus: 0,
@@ -126,79 +126,46 @@ export default {
       // 关闭弹窗
       this.$refs.dataForm.resetFields();
       this.initDate();
-      this.$emit("close", { name: "createPlan", refresh });
+      this.$emit("close", { name: "createCase", refresh });
     },
     async submit() {
       // 提交
       // 调取 doc.js 文件 doSaveCase() 方法
-      const servedb = new GoDB("CoalDB");
+      const db = new GoDB("CoalDB");
       const corpId = this.corpData.corpId;
-      const orgInfo = servedb.table("corpBase");
-      const arrPaper = await orgInfo.findAll((item) => {
+      const corpInfo = db.table("corpBase");
+      const corpBase = await corpInfo.findAll((item) => {
         return item.corpId == corpId;
       });
-      await servedb.close();
+      await db.close();
       if (!this.dataForm.planId) {
-        const dbNewplanId = getRandom(20);
         await this.doSaveCase(
-          dbNewplanId,
           this.dataForm.startDate,
           this.dataForm.endDate,
           this.dataForm.checkStatus,
-          arrPaper
+          corpBase[0]
         );
       }
       // 刷新页面
       this.cancel(true);
       this.$removeStorage("corpId");
     },
-    async doSaveCase(dbNewplanId, startDate, endDate, checkStatus, arrPaper) {
+    async doSaveCase(startDate, endDate, checkStatus, corpBase) {
       var date1 = startDate;
       var date2 = endDate;
       var userId = this.$getStorage("_glb_user_id");
       var userName = this.$getStorage("_glb_user_name");
       var groupId = this.$getStorage("_glb_user_gid");
       var groupName = this.$getStorage("_glb_user_gname");
-      var sType = checkStatus;
-      var corpId = arrPaper[0].corpId;
-      var corpName = arrPaper[0].corpName;
+      var caseType = checkStatus;
+      var corpId = corpBase.corpId;
+      var corpName = corpBase.corpName;
       var planMonth = this.$parent.$refs.orgSelect.dataForm.selPlanDate;
-      var meikuangType = arrPaper[0].meikuangType; // 计划下载里
+      var meikuangType = corpBase.meikuangType; // 计划下载里
       var meikuangPlanfrom = "1";
       var sDate = getNowFormatTime();
       var caseId = "c" + getNowTime() + randomString(18);
       var caseNo = groupId + getNowDay();
-      const schema = {
-        wkCase: {
-          caseId: {
-            //第1次做文书时，活动的唯一id：185b15772fb746dfb3643a66aa192f86
-            type: String,
-            unique: true,
-          },
-          caseNo: String, //机构id+年月日时分秒：34060013074120210615110030
-          remoteId: String, //服务器端生成的id
-          caseType: String, //活动类型
-          delFlag: String,
-          createDate: String,
-          updateDate: String,
-          createById: String,
-          updateById: String,
-          corpId: String, //企业id
-          corpName: String, //企业名称
-          personId: String, //文书制作人id
-          personName: String, //文书制作人名称
-          groupId: String, //机构id
-          groupName: String, //机构名称
-          checkReason: String, // "1",
-          checkStatus: String, // "0",
-          planBeginDate: String, //检查开始日期：2021-06-15 00:00:00
-          planEndDate: String, //检查结束日期：2021-06-22 00:00:00
-          meikuangType: String, //docPlan表-meikuangType字段
-          meikuangPlanfrom: String, //docPlan表-meikuangPlanfrom字段
-          planId: String, //docPlan表-no字段
-          pcMonth: String, //计划时间（年月）：2021-6
-        },
-      };
       var jsonCase = {
         caseId: caseId,
         caseNo: caseNo,
@@ -214,17 +181,17 @@ export default {
         personName: userName,
         groupId: groupId,
         groupName: groupName,
-        caseType: sType,
+        caseType: caseType,
         checkReason: "",
         checkStatus: "0",
         planBeginDate: date1,
         planEndDate: date2,
         meikuangType: meikuangType,
         meikuangPlanfrom: meikuangPlanfrom,
-        planId: this.$getStorage("planId"),
+        planId: corpBase.dbplanId,
         pcMonth: planMonth,
       };
-      const db = new GoDB("CoalDB", schema);
+      const db = new GoDB("CoalDB");
       // 保存时应该存到 case 表
       const wkCase = db.table("wkCase");
       await wkCase.add(jsonCase);

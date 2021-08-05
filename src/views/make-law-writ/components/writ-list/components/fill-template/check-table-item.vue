@@ -9,7 +9,7 @@
         <span>已选检查内容：</span>
       </div>
       <el-table
-        :data="dataForm.tempValue"
+        :data="dataForm.tempValue.tableData"
         style="width: 100%"
         row-key="treeId"
         border>
@@ -61,7 +61,9 @@
       </el-table>
     </div>
     <select-check-content
+      v-if="visible.checkSelect"
       :visible="visible.checkSelect"
+      :value="dataForm.tempValue"
       :corp-data="corpData"
       @save="handleSave"
       @close="handleClose"
@@ -78,8 +80,8 @@ export default {
   },
   props: {
     value: {
-      type: Array,
-      default: () => []
+      type: Object,
+      default: () => {}
     },
     corpData: {
       type: Object,
@@ -89,7 +91,10 @@ export default {
   data() {
     return {
       dataForm: {
-        tempValue: []
+        tempValue: {
+          tableData: [],
+          selectedIdList: []
+        }
       },
       visible: {
         checkSelect: false,
@@ -105,9 +110,12 @@ export default {
     };
   },
   created() {
-    this.dataForm.tempValue = this.value
+    this.initData()
   },
   methods: {
+    initData () {
+      this.dataForm.tempValue = this.value
+    },
     handleDialog (key) {
       // 展示选择检查内容弹窗
       this.visible[key] = true
@@ -118,8 +126,16 @@ export default {
     handleSave (params) {
       // 保存选择的检查项
       let tableData = []
-      this.handleData(params.data, tableData)
-      this.dataForm.tempValue = tableData
+      // 抽取选择的检查项最底一层，作为table展示
+      this.handleData(params.data.selectedcheckList, tableData)
+      this.dataForm.tempValue.tableData = tableData
+      // 遍历table获取treeId作为后续回显
+      let selectedId = []
+      tableData.length > 0 && tableData.map(item => {
+        selectedId.push(item.treeId)
+      })
+      this.dataForm.tempValue.selectedIdList = selectedId
+      this.dataForm.tempValue.selectedAllIdList = params.data.selectedAllIdList
     },
     handleData (data, tableData) {
       // 递归遍历获取最底层数据
@@ -137,8 +153,8 @@ export default {
     },
     editContent (scope, field) {
       let isEdit = scope.row.isEdit
-      let data = Object.assign({}, this.dataForm.tempValue[scope.$index], {isEdit: !isEdit})
-      this.$set(this.dataForm.tempValue, scope.$index, data)
+      let data = Object.assign({}, this.dataForm.tempValue.tableData[scope.$index], {isEdit: !isEdit})
+      this.$set(this.dataForm.tempValue.tableData, scope.$index, data)
     }
   },
 };

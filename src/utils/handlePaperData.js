@@ -54,7 +54,7 @@ function setCheckPositionItem (data, selectedData) {
 }
 
 function setCheckTableItem (data) {
-  return data
+  return data.tableData
 }
 
 function setDateItem (data) {

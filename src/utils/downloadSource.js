@@ -439,8 +439,8 @@ async function doCorpDb(resId, data) {
 	// 增:
 	await zfCmgzmInfo.addMany(arrOrg);
 	//await zfCmgzmInfo.consoleTable();
-	await db.close();
 	console.log('-----------add zfCmgzmInfo(采煤工作面信息)');
+	await db.close();
 }
 
 // “行政区域”下载。

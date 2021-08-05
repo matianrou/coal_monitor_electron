@@ -1,4 +1,4 @@
-<!-- 选择企业 组件-->
+<!-- 选择企业计划 组件-->
 <template>
   <div class="org-select">
     <div class="org-select-select-main">
@@ -110,6 +110,11 @@ export default {
   created() {
     this.getData();
   },
+  watch: {
+    '$store.state.refreshPage.makeLawWrit' (val) {
+      this.getData()
+    }
+  },
   methods: {
     async getData() {
       var userGroupId = this.$getStorage("_glb_user_gid");
@@ -121,9 +126,11 @@ export default {
       const arrOrg = await orgInfo.findAll((item) => {
         return item.delFlag == "0";
       });
+      // 计划
       const arrPlan = await docPlan.findAll((item) => {
         return item.groupId == userGroupId;
       });
+      // 检查
       const wkCase = await wkCaseInfo.findAll((item) => {
         return item.groupId == userGroupId;
       });
@@ -167,6 +174,7 @@ export default {
       // 	else corpList += '<td style="height:36px;padding-left:8px;cursor:pointer;" onclick="javascript:showDocHome(\'' + obj.no + '\',\'' + obj.corpId + '\')"><i class="el-icon-s-flag" style="font-size:16px;color:#53ff0c"></i>' + obj.corpName + '</td>';
       // 	corpList += '</tr>';
       // }
+      let corpList = []
       listArr.map((k, index) => {
         let corp = {}
         if (k.dbplanId) {
@@ -175,19 +183,7 @@ export default {
             dbplan: true,
             corpId: k.corpId,
             corpName: k.corpName,
-            dbplanId: k.dbplanId,
-            no: k.no,
-            active: false,
-          }
-        } else if (k.planId) {
-          corp = {
-            index: index,
-            plan: true,
-            casetype: k.caseType,
-            caseId: k.caseId,
-            corpName: k.corpName,
-            planId: k.planId,
-            corpId: k.corpId,
+            planId: k.dbplanId,
             no: k.no,
             active: false,
           }
@@ -204,18 +200,23 @@ export default {
             active: false,
           }
         }
-        this.corpList.push(corp)
+        corpList.push(corp)
       })
+      this.corpList = corpList
     },
     async showDocHome(data, index) {
       //读取page-work.html（首页）
-      this.$setStorage("_glb_curr_plan_id", data.planId);
-      this.$setStorage("_glb_curr_corp_id", data.corpId);
+      // 设置case激活状态
       this.setActive(index)
+      // 展示当前case流程进度
+      // data: 单条plan case相关信息
       this.$emit('show-doc', data)
     },
     editaddbook (item) {
-      this.$emit('create-plan', item)
+      // 判断当前是否已有caseId，如果已有则不弹窗新建
+      if (!item.caseId) {
+        this.$emit('create-case', item)
+      }
     },
     setActive (index) {
       // 设置为已选择样式
