@@ -264,7 +264,6 @@ export default {
           break;
         case "doc":
           //文书信息分页下载接口//文书信息分页下载接口
-          //url = 'http://eeh.emerinfo.cn/mj/a/local/jczf/getPageJczfByOfficeId?__sid=' + sessId + '&userId=3bb3963f02c34e22a7dc3cc3252c9664&officeId=&caseId=&flag=false';
           uri +=
             "/local/jczf/getPageJczfByOfficeId?__sid=" +
             userSessId +
@@ -274,12 +273,10 @@ export default {
           break;
         case "EnterpriseList":
           //文书信息分页下载接口//文书信息分页下载接口
-          //url = 'http://eeh.emerinfo.cn/mj/a/local/jczf/getPageJczfByOfficeId?__sid=' + sessId + '&userId=3bb3963f02c34e22a7dc3cc3252c9664&officeId=&caseId=&flag=false';
           uri += "/local/area/list?__sid=" + userSessId;
           break;
 
-        //载机构所有文书，
-        //url = 'http://eeh.emerinfo.cn/mj/a/local/jczf/getJczfByOfficeIdNew?__sid=' + sessId + '&officeId=130000120001';
+        //下载机构所有文书，
       }
       this.$http
         .get(`${uri}`)

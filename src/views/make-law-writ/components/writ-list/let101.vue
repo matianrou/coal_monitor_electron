@@ -257,7 +257,6 @@ export default {
         // 回显
         this.letData = JSON.parse(checkPaper[0].paperContent);
         this.editData = checkPaper[0];
-        console.log("letData", this.letData);
       } else {
         // 创建初始版本
         this.letData = {

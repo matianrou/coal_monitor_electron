@@ -90,8 +90,6 @@ export default {
       var userNo = document.getElementById("txtUserNo").value;
       var password = document.getElementById("txtPassword").value;
       password = encry(password);
-      //隐患发送接口
-      //uri = "http://eeh.emerinfo.cn/mj/a/local/postdanger/save";
 
       //监管国产化（2021/07/01）
       //统计报表（省/市/县区）

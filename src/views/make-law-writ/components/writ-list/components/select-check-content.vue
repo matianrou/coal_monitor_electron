@@ -121,7 +121,6 @@
           this.defaultCheckedKeys = this.value.selectedIdList
           let selectedList = this.removeTreeTempKeyHandle(this.value.selectedIdList)
           // this.$refs.checkListTree.setCheckedKeys(selectedList)
-          console.log('checkListTree', this.$refs.checkListTree)
           let selectedIdList = [
             ...this.$refs.checkListTree.getCheckedKeys(),
             ...this.$refs.checkListTree.getHalfCheckedKeys()
@@ -163,7 +162,6 @@
           })
         })
         let list = treeDataTranslate(checkList || [], 'treeId', 'treeParentId')
-        console.log('list', list)
         this.selectedcheckList = list
       },
       close () {

@@ -125,7 +125,7 @@ export default {
         return item.caseId === data.caseId && item.name === '检查方案';
       });
       if (checkLet100.length > 0) {
-        this.flowText.let100 = checkLet100[0].delFlag === '2' ? '（已归档）' : (checkLet100[0].delFlag === '1' ? '（已保存）' : '')
+        this.flowText.let100 = checkLet100[0].delFlag === '0' ? '（已归档）' : (checkLet100[0].delFlag === '2' ? '（已保存）' : '')
       }
       // if (checkPaper[0]) {
       //   $(".checkPlan").html("检查方案（已保存）");

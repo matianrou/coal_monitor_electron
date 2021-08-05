@@ -137,32 +137,21 @@ export default {
       const corpBase = await corpInfo.findAll((item) => {
         return item.corpId == corpId;
       });
+      const docPlan = db.table("docPlan");
+      const corpPlan = await docPlan.findAll(item => item.corpId == corpId)
       await db.close();
       if (!this.dataForm.planId) {
-        await this.doSaveCase(
-          this.dataForm.startDate,
-          this.dataForm.endDate,
-          this.dataForm.checkStatus,
-          corpBase[0]
-        );
+        await this.doSaveCase(corpBase[0], corpPlan[0]);
       }
       // 刷新页面
       this.cancel(true);
       this.$removeStorage("corpId");
     },
-    async doSaveCase(startDate, endDate, checkStatus, corpBase) {
-      var date1 = startDate;
-      var date2 = endDate;
+    async doSaveCase(corpBase, corpPlan) {
       var userId = this.$getStorage("_glb_user_id");
       var userName = this.$getStorage("_glb_user_name");
       var groupId = this.$getStorage("_glb_user_gid");
       var groupName = this.$getStorage("_glb_user_gname");
-      var caseType = checkStatus;
-      var corpId = corpBase.corpId;
-      var corpName = corpBase.corpName;
-      var planMonth = this.$parent.$refs.orgSelect.dataForm.selPlanDate;
-      var meikuangType = corpBase.meikuangType; // 计划下载里
-      var meikuangPlanfrom = "1";
       var sDate = getNowFormatTime();
       var caseId = "c" + getNowTime() + randomString(18);
       var caseNo = groupId + getNowDay();
@@ -175,21 +164,21 @@ export default {
         updateDate: sDate,
         createById: userId,
         updateById: userId,
-        corpId: corpId,
-        corpName: corpName,
+        corpId: corpBase.corpId,
+        corpName: corpBase.corpName,
         personId: userId,
         personName: userName,
         groupId: groupId,
         groupName: groupName,
-        caseType: caseType,
-        checkReason: "",
+        caseType: this.dataForm.checkStatus,
+        checkReason: "1",
         checkStatus: "0",
-        planBeginDate: date1,
-        planEndDate: date2,
-        meikuangType: meikuangType,
-        meikuangPlanfrom: meikuangPlanfrom,
-        planId: corpBase.dbplanId,
-        pcMonth: planMonth,
+        planBeginDate: this.dataForm.startDate,
+        planEndDate: this.dataForm.endDate,
+        meikuangType: corpBase.meikuangType,
+        meikuangPlanfrom: corpBase.meikuangPlanfrom ? corpBase.meikuangPlanfrom : "1",
+        planId: corpPlan.dbplanId,
+        pcMonth: this.$parent.$refs.orgSelect.dataForm.selPlanDate,
       };
       const db = new GoDB("CoalDB");
       // 保存时应该存到 case 表
