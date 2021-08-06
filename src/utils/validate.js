@@ -50,7 +50,7 @@ export function isIdCard (s) {
 
 // 校验只要正整数返回true
 export function isPositiveInteger(val){
-  var reg = /(^[1-9]\d*$)/;
+  let reg = /(^[1-9]\d*$)/;
   if (reg.test(val) || Number(val) === 0) {
     return true;
   } else {

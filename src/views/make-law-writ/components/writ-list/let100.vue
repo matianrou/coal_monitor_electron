@@ -194,6 +194,15 @@ export default {
       type: Object,
       default: () => {},
     },
+    docData: {
+      type: Object,
+      default: () => {
+        return {
+          docTypeNo: null,
+          docTypeName: null
+        }
+      }
+    },
   },
   components: {
     letMain,
@@ -201,10 +210,6 @@ export default {
   },
   data() {
     return {
-      docData: {
-        docTypeNo: '22',
-        docTypeName: '检查方案'
-      },
       letData: {},
       visible: false, // 展示填写组件
       selectedData: {
@@ -238,6 +243,7 @@ export default {
   },
   methods: {
     async initData() {
+      // 初始化文书内容
       const db = new GoDB("CoalDB");
       const corpBase = db.table('corpBase');
       //查询符合条件的记录
@@ -246,10 +252,11 @@ export default {
       });
       const wkPaper = db.table("wkPaper");
       const caseId = this.corpData.caseId;
-      //查询当前计划是否已做检查方案
+      //查询当前计划是否已做文书
       const checkPaper = await wkPaper.findAll((item) => {
-        return item.caseId === caseId && item.name === '检查方案';
+        return item.caseId === caseId && item.name === this.docData.docTypeName;
       });
+      // 已做文书则展示文书内容，否则创建初始版本
       if (checkPaper.length > 0) {
         // 回显
         this.letData = JSON.parse(checkPaper[0].paperContent)
@@ -263,7 +270,7 @@ export default {
         const zzInfo2 = await zfZzInfo.find((item) => {
           return item.corpId == this.corpData.corpId && item.credTypeName == "安全生产许可证";
         });
-        var sSummary =
+        let sSummary =
           corp.corpName +
           "位于" +
           corp.provinceName +
@@ -322,7 +329,7 @@ export default {
       this.$emit('go-back')
     },
     commandFill (key, title, type) {
-      // 打开编辑
+      // 文书各个字段点击打开左侧弹出编辑窗口
       this.visible = true
       let valueKey = `${key}Type${type}`
       this.selectedData = {
@@ -335,7 +342,7 @@ export default {
       }
     },
     handleClose () {
-      // 关闭编辑
+      // 关闭左侧编辑窗口
       this.selectedData = {
         key: null,
         type: null,
@@ -346,6 +353,7 @@ export default {
       this.visible = false
     },
     handleSave (params) {
+      // 点击确定，保存左侧弹出窗口中的数据至文书数据中
       let {key, type} = this.selectedData
       // 保存反显数据
       this.letData[`${key}Type${type}`] = params.value
@@ -354,7 +362,7 @@ export default {
       this.handleClose()
     },
     saveDoc (paperSameData) {
-      // 保存检查方案文书
+      // 保存本文书特殊字段
       let paperContent = JSON.stringify(this.letData)
       let paperData = {
         paperType: this.docData.docTypeNo,

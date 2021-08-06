@@ -8,8 +8,13 @@
       <div style="flex: 1;background-color:#fff;vertical-align:top; overflow: auto;">
         <table style="width:100%;">
           <tr style="height:36px;background-color:#fff;color:#666;">
+            <!-- 计划年月 -->
             <td style="width:50%;padding-left:6px;">
-              <el-select v-model="dataForm.selPlanDate" style="width:100%;height:32px;" size="small">
+              <el-select
+                v-model="dataForm.selPlanDate"
+                style="width:100%;height:32px;"
+                size="small"
+                @change="val => changeSelect(val, 'selPlanDate')">
                 <el-option
                   v-for="(item, index) in planDateList"
                   :key="index"
@@ -18,8 +23,13 @@
                 </el-option>
               </el-select>
             </td>
+            <!-- 归档机构 -->
             <td style="width:50%;padding-right:6px;">
-              <el-select v-model="dataForm.selGovUnit" style="width:100%;height:32px;" size="small">
+              <el-select
+                v-model="dataForm.selGovUnit"
+                style="width:100%;height:32px;"
+                size="small"
+                @change="val => changeSelect(val, 'selGovUnit')">
                 <el-option
                   v-for="(item, index) in orgList"
                   :key="index"
@@ -102,73 +112,86 @@ export default {
       corpList: [], //
       total: null, // 查询总数
       dataForm: {
-        selPlanDate: null,
-        selGovUnit: null,
+        selPlanDate: null, // 检查计划或检查活动的年-月
+        selGovUnit: null, // 归档机构单位
+        selGovUnitName: null, // 归档机构单位名称
       }
     };
   },
-  created() {
+  async created() {
+    await this.getOrgList()
+    this.getPlanDateList()
     this.getData();
   },
   methods: {
-    async getData() {
-      var userGroupId = this.$getStorage("_glb_user_gid");
+    async getOrgList () {
+      // 获取全部机构列表
       const db = new GoDB("CoalDB");
-      const orgInfo = db.table("orgInfo");
-      const docPlan = db.table("docPlan");
-      const wkCaseInfo = db.table("wkCase");
-      //查询符合条件的记录
+      const orgInfo = db.table("orgInfo"); // 机构
+      // 查询全部机构信息
       const arrOrg = await orgInfo.findAll((item) => {
         return item.delFlag == "0";
       });
-      // 计划
-      const arrPlan = await docPlan.findAll((item) => {
-        return item.groupId == userGroupId;
-      });
-      // 检查
-      const wkCase = await wkCaseInfo.findAll((item) => {
-        return item.groupId == userGroupId;
-      });
       await db.close();
-      const listArr = [...wkCase, ...arrPlan];
-      this.total = listArr.length;
-      this.planDateList = [],
-        this.orgList = [],
-        this.corpList = [];
-      var today = new Date();
-      var iYear = today.getFullYear(),
-        iMonth = today.getMonth();
-      for (var i = 1; i < 13; i++) {
-        let planDate = {
-          value: `${(iYear - 1).toString()}-${i.toString()}`,
-          label: `${(iYear - 1).toString()}年${i.toString()}月`
-        }
-        this.planDateList.push(planDate)
-      }
-      for (var i = 1; i <= iMonth + 1; i++) {
-        let planDate = {
-          value: `${iYear.toString()}-${i.toString()}`,
-          label: `${iYear.toString()}年${i.toString()}月`,
-        }
-        this.planDateList.push(planDate)
-      }
-      this.dataForm.selPlanDate = this.planDateList[0].value
-      for (var i = 0; i < arrOrg.length; i++) {
-        var obj = arrOrg[i];
+      let orgList = []
+      for (let i = 0; i < arrOrg.length; i++) {
+        let obj = arrOrg[i];
         let org = {
           value: obj.no,
           label: obj.name
         }
-        this.orgList.push(org)
+        orgList.push(org)
       }
-      this.dataForm.selGovUnit = this.orgList[0].value
-      // for (var i = 0; i < listArr.length; i++) {
-      // 	var obj = listArr[i];
-      // 	corpList += '<tr class="leftlist" style="border-bottom: 1px solid #ccc;>';
-      // 	if (obj.planId == '' || obj.planId) corpList += '<td style="height:36px;padding-left:8px;;border-top:1px solid #DCECFB;cursor:pointer;" onclick="javascript:showDocHome(\'' + obj.no + '\',\'' + obj.corpId + '\')"><i class="el-icon-s-flag" style="font-size:16px;color:red"></i>' + obj.corpName + '</td>';
-      // 	else corpList += '<td style="height:36px;padding-left:8px;cursor:pointer;" onclick="javascript:showDocHome(\'' + obj.no + '\',\'' + obj.corpId + '\')"><i class="el-icon-s-flag" style="font-size:16px;color:#53ff0c"></i>' + obj.corpName + '</td>';
-      // 	corpList += '</tr>';
-      // }
+      this.orgList = orgList
+      // 设置最后一个选项
+      this.dataForm.selGovUnit = this.orgList.length > 0 ? this.orgList[0].value : null
+      this.dataForm.selGovUnitName = this.orgList.length > 0 ? this.orgList[0].label : null
+    },
+    getPlanDateList () {
+      // 获取计划年月列表选项
+      let planDateList = [];
+      let today = new Date();
+      let iYear = today.getFullYear(),
+        iMonth = today.getMonth();
+      for (let i = 1; i < 13; i++) {
+        let planDate = {
+          value: `${(iYear - 1).toString()}-${i.toString()}`,
+          label: `${(iYear - 1).toString()}年${i.toString()}月`
+        }
+        planDateList.push(planDate)
+      }
+      for (let i = 1; i <= iMonth + 1; i++) {
+        let planDate = {
+          value: `${iYear.toString()}-${i.toString()}`,
+          label: `${iYear.toString()}年${i.toString()}月`,
+        }
+        planDateList.push(planDate)
+      }
+      this.planDateList = planDateList
+      // 设置第一个选项
+      this.dataForm.selPlanDate = this.planDateList.length > 0 ? this.planDateList[this.planDateList.length - 1].value : null
+    },
+    async getData() {
+      // 根据计划年月和机构获取计划和活动，组合成选择列表
+      const userGroupId = this.dataForm.selGovUnit;
+      const selectPlanDate = this.dataForm.selPlanDate
+      const db = new GoDB("CoalDB");
+      const docPlan = db.table("docPlan"); // 计划
+      const wkCaseInfo = db.table("wkCase"); // 检查活动
+      // 计划
+      const arrPlan = await docPlan.findAll((item) => {
+        return item.groupId === userGroupId
+        && (`${item.planYear}-${item.planMonth}`) === selectPlanDate;
+      });
+      // 检查活动
+      const wkCase = await wkCaseInfo.findAll((item) => {
+        return item.groupId === userGroupId
+        && item.pcMonth === selectPlanDate;
+      });
+      await db.close();
+      const listArr = [...wkCase, ...arrPlan];
+      this.total = listArr.length;
+      // 转换为列表所需要的值
       let corpList = []
       listArr.map((k, index) => {
         let corp = {}
@@ -205,12 +228,15 @@ export default {
       this.setActive(index)
       // 展示当前case流程进度
       // data: 单条plan case相关信息
-      this.$emit('show-doc', data)
+      this.$emit('change-page', {page: 'writFlow', data})
     },
     editaddbook (item) {
       // 判断当前是否已有caseId，如果已有则不弹窗新建
       if (!item.caseId) {
-        this.$emit('create-case', item)
+        this.$emit('create-case', {
+          corpData: item,
+          selectPlanData: this.dataForm
+        })
       }
     },
     setActive (index) {
@@ -219,6 +245,18 @@ export default {
         item.active = false
       })
       this.corpList[index].active = true
+    },
+    changeSelect (val, field) {
+      // 修改选择的活动日期或归档单位
+      if (field === 'selGovUnit') {
+        this.orgList.map(org => {
+          if (org.value === val) {
+            this.dataForm.selGovUnitName = org.label
+          }
+        })
+      }
+      this.getData()
+      this.$parent.changePage({page: 'empty'})
     }
   },
 };

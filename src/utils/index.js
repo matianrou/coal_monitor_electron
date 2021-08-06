@@ -13,9 +13,9 @@ export function getUUID () {
 //获取指定位数的随机数
 export function getRandom (num){
   const len = num || 36;
-  var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'; // 默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1
-  var maxPos = $chars.length;
-  var pwd = '';
+  let $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'; // 默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1
+  let maxPos = $chars.length;
+  let pwd = '';
   for (let i = 0; i < len; i++) {
     pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
   }
@@ -25,7 +25,7 @@ export function getRandom (num){
 //随机字符串
 export function randomString (e) {
 	e = e || 32;
-	var t = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678",
+	let t = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678",
 		a = t.length,
 		n = "";
 	for (let i = 0; i < e; i++) n += t.charAt(Math.floor(Math.random() * a));
@@ -47,12 +47,12 @@ export function hasPermission (key) {
  * @param {*} pid
  */
 export function treeDataTranslate (data, id = 'id', pid = 'parentId') {
-  var res = [];
-  var temp = {};//以自己id为索引
-  for (var i = 0; i < data.length; i++) {
+  let res = [];
+  let temp = {};//以自己id为索引
+  for (let i = 0; i < data.length; i++) {
     temp[data[i][id]] = data[i];
   }
-  for (var k = 0; k < data.length; k++) {
+  for (let k = 0; k < data.length; k++) {
     //如果有父级且当前目标的id不等于parentId
     if (temp[data[k][pid]] && data[k][id] !== data[k][pid]) {
       //父级没有children
@@ -83,14 +83,14 @@ export function treeDataTranslate (data, id = 'id', pid = 'parentId') {
  * @param {*} pid
  */
 export function cascaderDataTranslate (data, id = 'id', pid = 'parentId') {
-  var res = [];
-  var temp = {};
-  for (var i = 0; i < data.length; i++) {
+  let res = [];
+  let temp = {};
+  for (let i = 0; i < data.length; i++) {
     data[i].value = data[i][id];
     data[i].label = data[i].arcName;
     temp[data[i][id]] = data[i];
   }
-  for (var k = 0; k < data.length; k++) {
+  for (let k = 0; k < data.length; k++) {
     if (temp[data[k][pid]] && data[k][id] !== data[k][pid]) {
       if (!temp[data[k][pid]]['children']) {
         temp[data[k][pid]]['children'] = [];
@@ -116,25 +116,4 @@ export function clearLoginInfo () {
   Cookies.remove('token');
   store.commit('resetStore');
   window.SITE_CONFIG['dynamicMenuRoutesHasAdded'] = false;
-}
-
-// 存入本地存储
-export function setStorage (key, value) {
-	if (window.localStorage) {
-		localStorage.setItem(key, value);
-	}
-}
-
-// 获取本地存储
-export function getStorage (key) {
-	var ret = '';
-	if (window.localStorage && localStorage.key) ret = localStorage.getItem(key);
-	return ret;
-}
-
-// 删除本地存储
-export function removeStorage (key, value) {
-	if (window.localStorage) {
-		localStorage.removeItem(key);
-	}
 }

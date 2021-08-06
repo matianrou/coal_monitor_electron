@@ -3,10 +3,10 @@ export default {
   state: {
     userId: null,
     loginName: null,
-    name: null,
-    sessId: null,
-    groupId: null,
-    areaId: null,
-    groupName: null
+    userName: null,
+    userSessId: null,
+    userGroupId: null,
+    userAreaId: null,
+    userGroupName: null
   }
 }

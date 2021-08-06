@@ -34,12 +34,13 @@ http.interceptors.request.use(config => {
   } else if (config.method === 'post') {
     // 设置sendJson字段，如果data中发送sendJson,则直接发送data
     if (!config.data.sendJson) {
+      config.headers['content-type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
       config.data = qs.stringify(config.data)
     } else {
+      config.headers['content-type'] = 'application/json;charset=utf-8'
       config.data = config.data.data
     }
   }
-  config.headers['content-type'] = 'application/json;charset=utf-8'
   return config
 }, error => {
   return Promise.reject(error)

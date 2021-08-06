@@ -1,4 +1,4 @@
-<!-- 现场检查 一般检查 检查方案 -->
+<!-- 现场检查 一般检查 现场检查笔录 -->
 <template>
   <div style="width: 100%;">
     <let-main
@@ -195,12 +195,21 @@ import {
   setDateItem,
 } from "@/utils/handlePaperData";
 export default {
-  name: "Let100",
+  name: "Let101",
   props: {
     corpData: {
       type: Object,
       default: () => {},
     },
+    docData: {
+      type: Object,
+      default: () => {
+        return {
+          docTypeNo: null,
+          docTypeName: null,
+        }
+      },
+    }
   },
   components: {
     letMain,
@@ -208,10 +217,6 @@ export default {
   },
   data() {
     return {
-      docData: {
-        // docTypeNo: "22",
-        docTypeName: "现场检查笔录",
-      },
       letData: {},
       visible: false, // 展示填写组件
       selectedData: {

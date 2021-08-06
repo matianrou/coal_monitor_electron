@@ -28,9 +28,9 @@ async function doOrgDb(resId, data) {
   const orgInfo = db.table('orgInfo');
 
   //1-add baseInfo(煤矿基本信息)
-  var arrOrg = [];
-  for (var i = 0; i < data.length; i++) {
-    var obj = data[i];
+  let arrOrg = [];
+  for (let i = 0; i < data.length; i++) {
+    let obj = data[i];
     const item = await orgInfo.get({ no: obj.id });
     if (!item) {
       arrOrg.push({
@@ -61,8 +61,7 @@ async function doOrgDb(resId, data) {
 
 // “用户资源”下载。
 async function doPersonDb(resId, data) {
-  var arrPerson = [];
-
+  let arrPerson = [];
   const schema = {
     person: {
       no: {
@@ -78,8 +77,8 @@ async function doPersonDb(resId, data) {
   const db = new GoDB('CoalDB', schema);
   const person = db.table('person');
 
-  for (var i = 0; i < data.length; i++) {
-    var obj = data[i];
+  for (let i = 0; i < data.length; i++) {
+    let obj = data[i];
     const item = await person.get({ no: obj.id });
     if (!item) arrPerson.push({ no: obj.id, name: obj.name, loginName: obj.loginName, officeId: obj.office.id, officeName: obj.office.name });
   }
@@ -120,10 +119,10 @@ async function doPlanDb(resId, data) {
 	const db = new GoDB('CoalDB', schema);
 	const docPlan = db.table('docPlan');
 
-	var arrPlan = [];
+	let arrPlan = [];
 	if (data) {
-		for (var i = 0; i < data.length; i++) {
-			var obj = data[i];
+		for (let i = 0; i < data.length; i++) {
+			let obj = data[i];
 			const item = await docPlan.get({ no: obj.id });
 			if (!item) {
 				arrPlan.push({
@@ -155,11 +154,11 @@ async function doPlanDb(resId, data) {
 
 // “企业资源”下载。
 async function doCorpDb(resId, data) {
-	var arrBaseInfo = data.baseInfo;
-	var arrZfZzInfo = data.zfZzInfo;
-	var arrZfJjgzmInfo = data.zfJjgzmInfo;
-	var arrZfCyrytjInfo = data.zfCyrytjInfo;
-	var arrZfCmgzmInfo = data.zfCmgzmInfo;
+	let arrBaseInfo = data.baseInfo;
+	let arrZfZzInfo = data.zfZzInfo;
+	let arrZfJjgzmInfo = data.zfJjgzmInfo;
+	let arrZfCyrytjInfo = data.zfCyrytjInfo;
+	let arrZfCmgzmInfo = data.zfCmgzmInfo;
 	/*console.log("arrBaseInfo=" + arrBaseInfo.length);
 	console.log("arrZfZzInfo=" + arrZfZzInfo.length);
 	console.log("arrZfJjgzmInfo=" + arrZfJjgzmInfo.length);
@@ -276,9 +275,9 @@ async function doCorpDb(resId, data) {
 	const zfCmgzmInfo = db.table('zfCmgzmInfo');
 
 	//1-add baseInfo(煤矿基本信息)
-	var arrOrg = [];
-	for (var i = 0; i < arrBaseInfo.length; i++) {
-		var obj = arrBaseInfo[i];
+	let arrOrg = [];
+	for (let i = 0; i < arrBaseInfo.length; i++) {
+		let obj = arrBaseInfo[i];
 		const item = await corpBase.get({ corpId: obj.corpId });
 		if (!item) {
 			arrOrg.push({
@@ -328,8 +327,8 @@ async function doCorpDb(resId, data) {
 
 	//2-add zfZzInfo(证照信息)
 	arrOrg = [];
-	for (var i = 0; i < arrZfZzInfo.length; i++) {
-		var obj = arrZfZzInfo[i];
+	for (let i = 0; i < arrZfZzInfo.length; i++) {
+		let obj = arrZfZzInfo[i];
 		const item = await zfZzInfo.get({ corpId: obj.corpId });
 		if (!item) {
 			arrOrg.push({
@@ -356,8 +355,8 @@ async function doCorpDb(resId, data) {
 
 	//3-add zfJjgzmInfo(掘进工作面信息)
 	arrOrg = [];
-	for (var i = 0; i < arrZfJjgzmInfo.length; i++) {
-		var obj = arrZfJjgzmInfo[i];
+	for (let i = 0; i < arrZfJjgzmInfo.length; i++) {
+		let obj = arrZfJjgzmInfo[i];
 		const item = await zfJjgzmInfo.get({ corpId: obj.corpId });
 		if (!item) {
 			arrOrg.push({
@@ -384,8 +383,8 @@ async function doCorpDb(resId, data) {
 
 	//4-add zfCyrytjInfo(从业人员信息)
 	arrOrg = [];
-	for (var i = 0; i < arrZfCyrytjInfo.length; i++) {
-		var obj = arrZfCyrytjInfo[i];
+	for (let i = 0; i < arrZfCyrytjInfo.length; i++) {
+		let obj = arrZfCyrytjInfo[i];
 		const item = await zfCyrytjInfo.get({ corpId: obj.corpId });
 		if (!item) {
 			arrOrg.push({
@@ -415,8 +414,8 @@ async function doCorpDb(resId, data) {
 
 	//5-add zfCmgzmInfo(采煤工作面信息)
 	arrOrg = [];
-	for (var i = 0; i < arrZfCmgzmInfo.length; i++) {
-		var obj = arrZfCmgzmInfo[i];
+	for (let i = 0; i < arrZfCmgzmInfo.length; i++) {
+		let obj = arrZfCmgzmInfo[i];
 		const item = await zfCmgzmInfo.get({ corpId: obj.corpId });
 		if (!item) {
 			arrOrg.push({
@@ -445,8 +444,7 @@ async function doCorpDb(resId, data) {
 
 // “行政区域”下载。
 async function doEnterpriseList(resId, data){
-	var EnterpriseList = [];
-
+	let EnterpriseList = [];
 	const schema = {
 		doEnterpriseList: {
 			"no": {
@@ -471,8 +469,8 @@ async function doEnterpriseList(resId, data){
 	const db = new GoDB('CoalDB', schema);
 	const doEnterpriseList = db.table('doEnterpriseList');
 
-	for (var i = 0; i < data.length; i++) {
-		var obj = data[i];
+	for (let i = 0; i < data.length; i++) {
+		let obj = data[i];
 		//
 		const item = await doEnterpriseList.get({ no: obj.id });
 		if (!item) EnterpriseList.push({
@@ -499,8 +497,7 @@ async function doEnterpriseList(resId, data){
 
 // “检查项类别”下载。
 async function doCheckCateDb(resId, data) {
-	var arrCheck = [];
-
+	let arrCheck = [];
 	const schema = {
 		checkCate: {
 			"no": {
@@ -524,8 +521,8 @@ async function doCheckCateDb(resId, data) {
 	const db = new GoDB('CoalDB', schema);
 	const checkCate = db.table('checkCate');
 
-	for (var i = 0; i < data.length; i++) {
-		var obj = data[i];
+	for (let i = 0; i < data.length; i++) {
+		let obj = data[i];
 		const item = await checkCate.get({ no: obj.id });
 		if (!item) arrCheck.push({
       no: obj.id,
@@ -552,7 +549,7 @@ async function doCheckCateDb(resId, data) {
 
 // “检查项内容”下载。
 async function doCheckListDb(resId, data) {
-	var arrCheck = [];
+	let arrCheck = [];
 	const schema = {
 		checkList: {
 			"no": {
@@ -578,8 +575,8 @@ async function doCheckListDb(resId, data) {
 	const db = new GoDB('CoalDB', schema);
 	const checkList = db.table('checkList');
 
-	for (var i = 0; i < data.length; i++) {
-		var obj = data[i];
+	for (let i = 0; i < data.length; i++) {
+		let obj = data[i];
 		const item = await checkList.get({ no: obj.id });
 		if (!item) arrCheck.push({
 			no: obj.id,
@@ -608,8 +605,7 @@ async function doCheckListDb(resId, data) {
 
 // “隐患类别”下载。
 async function doDangerCateDb(resId, data) {
-	var arrDanger = [];
-
+	let arrDanger = [];
 	const schema = {
 		dangerCate: {
 			"no": {
@@ -625,16 +621,33 @@ async function doDangerCateDb(resId, data) {
 			"souFlag": String, // "1",
 			"parentCode": String, // "000000",
 			"parentId": String, // "0"
-			"pid": String
+			"pid": String,
+      "treeName": String,
+			"treeId": String,
+			"treeParentId": String
 		}
 	};
 	const db = new GoDB('CoalDB', schema);
 	const dangerCate = db.table('dangerCate');
 	if (data) {
-		for (var i = 0; i < data.length; i++) {
-			var obj = data[i];
+		for (let i = 0; i < data.length; i++) {
+			let obj = data[i];
 			const item = await dangerCate.get({ no: obj.id });
-			if (!item) arrDanger.push({ no: obj.id, delFlag: obj.delFlag, sort: obj.sort, categoryName: obj.categoryName, groupId: obj.groupId, categoryCode: obj.categoryCode, souFlag: obj.souFlag, parentCode: obj.parentCode, parentId: obj.parentId, pid: obj.pid});
+			if (!item) arrDanger.push({
+        no: obj.id,
+        delFlag: obj.delFlag,
+        sort: obj.sort,
+        categoryName: obj.categoryName,
+        groupId: obj.groupId,
+        categoryCode: obj.categoryCode,
+        souFlag: obj.souFlag,
+        parentCode: obj.parentCode,
+        parentId: obj.parentId,
+        pid: obj.pid,
+        treeName: obj.categoryName,
+        treeId: obj.categoryCode,
+        treeParentId: obj.parentCode
+      });
 		}
 	}
 	// 增:
@@ -645,8 +658,7 @@ async function doDangerCateDb(resId, data) {
 
 // “隐患内容”下载。
 async function doDangerListDb(resId, data) {
-	var arrDanger = [];
-
+	let arrDanger = [];
 	const schema = {
 		dangerList: {
 			"no": {
@@ -669,17 +681,37 @@ async function doDangerListDb(resId, data) {
 			"groupId": String,//  "000000110001",
 			"categoryCode": String,//  "750200",
 			"souFlag": String,//  "1"
+			"treeName": String,
+      "treeId": String,
+			"treeParentId": String
 		}
 	};
 	const db = new GoDB('CoalDB', schema);
 	const dangerList = db.table('dangerList');
-	for (var i = 0; i < data.length; i++) {
-		var obj = data[i];
+	for (let i = 0; i < data.length; i++) {
+		let obj = data[i];
 		const item = await dangerList.get({ no: obj.id });
 		if (!item) arrDanger.push({
-			no: obj.id, delFlag: obj.delFlag, createDate: obj.createDate, updateDate: obj.updateDate, itemCode: obj.itemCode, itemContent: obj.itemContent, noItemContent: obj.noItemContent,
-			confirmClause: obj.confirmClause, confirmBasis: obj.confirmBasis, onsiteBasis: obj.onsiteBasis, onsiteDesc: obj.onsiteDesc, penaltyBasis: obj.penaltyBasis, penaltyDesc: obj.penaltyDesc,
-			status: obj.status, groupId: obj.groupId, categoryCode: obj.categoryCode, souFlag: obj.souFlag
+			no: obj.id,
+      delFlag: obj.delFlag,
+      createDate: obj.createDate,
+      updateDate: obj.updateDate,
+      itemCode: obj.itemCode,
+      itemContent: obj.itemContent,
+      noItemContent: obj.noItemContent,
+			confirmClause: obj.confirmClause,
+      confirmBasis: obj.confirmBasis,
+      onsiteBasis: obj.onsiteBasis,
+      onsiteDesc: obj.onsiteDesc,
+      penaltyBasis: obj.penaltyBasis,
+      penaltyDesc: obj.penaltyDesc,
+			status: obj.status,
+      groupId: obj.groupId,
+      categoryCode: obj.categoryCode,
+      souFlag: obj.souFlag,
+      treeName: obj.itemContent,
+      treeId: obj.itemCode,
+      treeParentId: obj.categoryCode,
 		});
 	}
 	// 增:
@@ -690,10 +722,9 @@ async function doDangerListDb(resId, data) {
 
 // “个人账号文书资源”下载。
 async function doDocDb(resId, data){
-	var arrPaper = data?data.paper:[];
-	var arrCase = data?data.jczfCase:[];
-	var arrDanger = data?data.danger:[];
-
+	let arrPaper = data?data.paper:[];
+	let arrCase = data?data.jczfCase:[];
+	let arrDanger = data?data.danger:[];
 	const schema = {
 		wkPaper: {
 			"paperId": {     //客户端生产的文书唯一id
@@ -873,11 +904,11 @@ async function doDocDb(resId, data){
 	const wkPaper = db.table('wkPaper');
 	const wkCase = db.table('wkCase');
 	const wkDanger = db.table('wkDanger');
-	var arrDocPaper = [], arrDocCase = [], arrDocDanger = [];
+	let arrDocPaper = [], arrDocCase = [], arrDocDanger = [];
 
 	//1-paper
-	for (var i = 0; i < arrPaper.length; i++) {
-		var obj = arrPaper[i];
+	for (let i = 0; i < arrPaper.length; i++) {
+		let obj = arrPaper[i];
 		const item = await wkPaper.get({ paperId: obj.paperId });
 		if (item) await wkPaper.delete({ paperId: obj.paperId }); //删除
 		arrDocPaper.push({
@@ -907,8 +938,8 @@ async function doDocDb(resId, data){
 	}
 
 	//2-case
-	for (var i = 0; i < arrCase.length; i++) {
-		var obj = arrCase[i];
+	for (let i = 0; i < arrCase.length; i++) {
+		let obj = arrCase[i];
 		const item = await wkCase.get({ caseId: obj.caseId });
 		if (!item) {
 			arrDocCase.push({
@@ -935,14 +966,13 @@ async function doDocDb(resId, data){
 				"meikuangPlanfrom": obj.meikuangPlanfrom,
 				"planId": obj.planId,
 				"pcMonth": obj.pcMonth,
-
 			});
 		}
 	}
 
 	//3-danger
-	for (var i = 0; i < arrDanger.length; i++) {
-		var obj = arrDanger[i];
+	for (let i = 0; i < arrDanger.length; i++) {
+		let obj = arrDanger[i];
 		const item = await wkDanger.get({ dangerId: obj.dangerId });
 		if (item) await wkDanger.delete({ dangerId: obj.dangerId }); //删除
 		arrDocDanger.push({

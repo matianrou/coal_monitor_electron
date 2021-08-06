@@ -101,14 +101,14 @@ export default {
         delFlag: saveFlag,
         createDate: getNowFormatTime(),
         updateDate: getNowFormatTime(),
-        createById: this.$getStorage("_glb_user_id"),
-        updateById: this.$getStorage("_glb_user_id"),
+        createById: this.$store.state.user.userId,
+        updateById: this.$store.state.user.userId,
         createTime: getNowFormatTime(),
-        personId: this.$getStorage("_glb_user_id"),
-        personName: this.$getStorage("_glb_user_name"),
+        personId: this.$store.state.user.userId,
+        personName: this.$store.state.user.userName,
         p0FloorTime: "",
-        groupId: this.$getStorage("_glb_user_gid"), //机构id
-        groupName: this.$getStorage("_glb_user_gname"), //机构名称
+        groupId: this.$store.state.user.userGroupId, //机构id
+        groupName: this.$store.state.user.userGroupName, //机构名称
       };
       this.$emit("save-doc", paperSameData);
       let jsonPaper = this.$parent.paperData;
@@ -262,12 +262,12 @@ export default {
             meikuangType: workCase.meikuangType,
             meikuangPlanfrom: workCase.meikuangPlanfrom,
             planId:  workCase.planId,
-            pcMonth: "2020-11",
+            pcMonth: workCase.pcMonth,
           },
         ],
         danger: [],
       };
-      this.$http.post(`/local/jczf/uploadJczf?__sid=${this.$getStorage("_glb_user_sessid")}`, {
+      this.$http.post(`/local/jczf/uploadJczf?__sid=${this.$store.state.user.userSessId}`, {
         sendJson: true,
         data: JSON.stringify(submitData)
       }).then(({data}) => {

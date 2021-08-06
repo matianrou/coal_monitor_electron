@@ -202,12 +202,12 @@ export default {
     资源下载、任务/活动创建、文书保存及归档
     ***************************************************************************** */
     resDownload(resId) {
-      var objLink = document.getElementById("btn-" + resId + "-down");
+      let objLink = document.getElementById("btn-" + resId + "-down");
       objLink.disabled = true;
-      var userId = this.$getStorage("_glb_user_id");
-      var userSessId = this.$getStorage("_glb_user_sessid");
-      var userGroupId = this.$getStorage("_glb_user_gid");
-      var uri = '';
+      let userId = this.$store.state.user.userId;
+      let userSessId = this.$store.state.user.userSessId;
+      let userGroupId = this.$store.state.user.userGroupId;
+      let uri = '';
       switch (resId) {
         case "org":
           uri +=

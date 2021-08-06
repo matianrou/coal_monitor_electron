@@ -8,7 +8,6 @@ import 'element-ui/lib/theme-chalk/index.css'
 import '@/assets/scss/index.scss'
 import http from '@/utils/http'
 import cloneDeep from 'lodash/cloneDeep'
-import { getStorage, setStorage, removeStorage } from '@/utils/index'
 import Print from '@/utils/print'
 
 Vue.use(ElementUI)
@@ -17,9 +16,6 @@ Vue.config.productionTip = false
 
 // 挂载全局
 Vue.prototype.$http = http
-Vue.prototype.$getStorage = getStorage
-Vue.prototype.$setStorage = setStorage
-Vue.prototype.$removeStorage = removeStorage
 
 // 全局前缀
 window.SITE_CONFIG = {}

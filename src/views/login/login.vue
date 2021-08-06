@@ -87,8 +87,8 @@ export default {
       // 	return;
       // }
       //登录
-      var userNo = document.getElementById("txtUserNo").value;
-      var password = document.getElementById("txtPassword").value;
+      let userNo = document.getElementById("txtUserNo").value;
+      let password = document.getElementById("txtPassword").value;
       password = encry(password);
 
       //监管国产化（2021/07/01）
@@ -100,13 +100,12 @@ export default {
           mobileLogin: true,
         }).then(({data}) => {
           if (data.id) {
-            var userId = data.id;
-            var sessId = data.sessionid;
-            this.$setStorage("_glb_user_id", userId);
-            this.$setStorage("_glb_user_login", data.loginName);
-            this.$setStorage("_glb_user_name", data.name);
-            this.$setStorage("_glb_user_sessid", sessId);
+            let userId = data.id;
+            let sessId = data.sessionid;
             this.$store.state.user.userId = userId
+            this.$store.state.user.loginName = data.loginName
+            this.$store.state.user.userName = data.name
+            this.$store.state.user.userSessId = data.sessId
             //获取用户信息
             this.getUserInfo(userId, sessId);
             // 最大化窗口
@@ -123,11 +122,9 @@ export default {
     },
     getUserInfo(userId, sessId) {
       this.$http.get(`/local/user/info?__sid=${sessId}&userId=${userId}`).then(({ data }) => {
-        this.$setStorage("_glb_user_gid", data.data.groupId);
-				this.$setStorage("_glb_user_areaid", data.data.areaId);
-				this.$setStorage("_glb_user_gname", data.data.groupName);
-				//setPageWork();
-				// ipcRenderer.send('window-max');
+        this.$store.state.user.userGroupId = data.data.groupId
+        this.$store.state.user.userAreaId = data.data.areaId
+        this.$store.state.user.userGroupName = data.data.groupName
       }).catch(err => {
         console.log('获取用户信息失败：', err)
       })

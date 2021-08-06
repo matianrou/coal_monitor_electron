@@ -6,7 +6,7 @@
         <!-- 选择企业 -->
         <org-select
           ref="orgSelect"
-          @show-doc="showDoc"
+          @change-page="changePage"
           @create-case="createCase"
         ></org-select>
       </div>
@@ -43,12 +43,14 @@
       <component
         :is="showTemp"
         :corp-data="corpData"
+        :doc-data="docData"
         @go-back="changePage('writFlow')">
       </component>
     </div>
     <writ-information
       :visible="visible.createCase"
       :corp-data="corpData"
+      :select-plan-data="selectPlanData"
       @close="closeDialog"
     ></writ-information>
   </div>
@@ -78,11 +80,13 @@ export default {
         writFlow: false,
         writFill: false
       },
-      corpData: {},
+      corpData: {}, // 选择的煤矿
+      selectPlanData: {}, // 选择的计划日期和归档机构
       visible: {
         createCase: false, // 创建检查活动弹窗
       },
-      showTemp: null,
+      showTemp: null, // 展示的文书详情模板号，比如let100
+      docData: {}, // 选择显示的文书基本信息编号及名称
       flowText: {
         let100: ''
       }
@@ -94,10 +98,37 @@ export default {
     // 初始化选择企业组件
   },
   methods: {
-    showDoc(data) {
-      // 展示当前case流程模板showDocTemplate
-      this.changePage({page: 'writFlow'})
-      this.showDocTemplet(data)
+    createCase (data) {
+      // 创建已有计划的煤矿的检查活动
+      this.corpData = data.corpData
+      this.selectPlanData = data.selectPlanData
+      // 弹窗创建计划
+      this.visible.createCase = true
+    },
+    async closeDialog (params) {
+      if (params.refresh) {
+        await this.$refs.orgSelect.getData()
+      }
+      this.visible[params.name] = false
+    },
+    changePage ({page, data}) {
+      this.showPage = {
+        empty: false,
+        writFlow: false,
+        writFill: false
+      }
+      if (page === 'writFill') {
+        // 进入填写页面时，data为展示模板page
+        this.showTemp = data.page
+        this.docData = data.docData
+      } else if (page === 'empty') {
+        // 进入空页面时，清空已选择的煤矿数据
+        this.corpData = {}
+      } else if (page === 'writFlow') {
+        // 展示当前case流程模板showDocTemplate
+        this.showDocTemplet(data)
+      }
+      this.showPage[page] = true
     },
     async showDocTemplet(data) {
       //读取计划数据
@@ -108,53 +139,35 @@ export default {
       const corp = await corpBase.find((item) => {
         return item.corpId === data.corpId;
       });
-      this.corpData = {
-        corpName: corp.corpName,
-        corpTypeName: corp.corpTypeName,
-        corpCountryName: corp.provinceName + " " + corp.cityName + " " + corp.countryName,
-        address: corp.address,
-        legalName: corp.legalName,
-        tel: corp.tel,
-        corpId: corp.corpId,
-        planId: data.planId,
-        caseId: data.caseId,
-        caseType: data.caseType,
-      }
-      //查询当前计划是否已做检查方案
-      const checkLet100 = await wkPaper.findAll((item) => {
-        return item.caseId === data.caseId && item.name === '检查方案';
-      });
-      // 检查方案文本设置
-      if (checkLet100.length > 0) {
-        this.flowText.let100 = checkLet100[0].delFlag === '0' ? '（已归档）' : (checkLet100[0].delFlag === '2' ? '（已保存）' : '')
+      // 如果本地库如果没有此数据则提示
+      if (corp) {
+        this.corpData = {
+          corpName: corp.corpName,
+          corpTypeName: corp.corpTypeName,
+          corpCountryName: corp.provinceName + " " + corp.cityName + " " + corp.countryName,
+          address: corp.address,
+          legalName: corp.legalName,
+          tel: corp.tel,
+          corpId: corp.corpId,
+          planId: data.planId,
+          caseId: data.caseId,
+          caseType: data.caseType,
+        }
+        //查询当前计划是否已做检查方案
+        const checkLet100 = await wkPaper.findAll((item) => {
+          return item.caseId === data.caseId && item.name === '检查方案';
+        });
+        // 检查方案文本设置
+        if (checkLet100.length > 0) {
+          this.flowText.let100 = checkLet100[0].delFlag === '0' ? '（已归档）' : (checkLet100[0].delFlag === '2' ? '（已保存）' : '')
+        } else {
+          this.flowText.let100 = ''
+        }
       } else {
-        this.flowText.let100 = ''
+        this.$message.error('无此企业信息，请核实数据')
+        this.changePage({page: 'empty'})
       }
       await db.close();
-    },
-    changePage ({page, temp}) {
-      this.showPage = {
-        empty: false,
-        writFlow: false,
-        writFill: false
-      }
-      if (page === 'writFill') {
-        this.showTemp = temp
-      }
-      this.showPage[page] = true
-    },
-    createCase (corp) {
-      // 创建已有计划的煤矿的检查活动
-      this.corpData = corp
-      // 弹窗创建计划
-      this.visible.createCase = true
-    },
-    async closeDialog (params) {
-      if (params.refresh) {
-        await this.$refs.orgSelect.getData()
-        // await this.$refs.orgSelect.showDocHome(this.corpData.planId, this.corpData.corpId)
-      }
-      this.visible[params.name] = false
     },
   },
 };

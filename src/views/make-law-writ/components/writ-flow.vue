@@ -44,7 +44,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c2.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let100','检查方案')" class="flow-span">检查方案{{flowText.let100}}</span>
+                  <span @click="cmdEditDoc('let100','检查方案', '22')" class="flow-span">检查方案{{flowText.let100}}</span>
                 </td>
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
@@ -542,25 +542,26 @@ export default {
   created() {},
   methods: {
     doTabSwitch (tab) {
+      // 切换现场检查、行政处罚、行政强制和其他的tab切换
       if (this.activeFlowTab !== `flow-${tab}`)
       this.activeFlowTab = `flow-${tab}`
     },
-    async cmdEditDoc(letId, letName, docType) {
-      // const checkId = this.$getStorage('checkId');
-      // const plancheckId = this.corpData.planId;
-      // if (plancheckId == null || plancheckId != 'undefined') {
-      //   this.$message.error('请在左侧双击该企业,启动该企业的执法检查');
-      //   return
-      // }
-      // this.$removeStorage('plancheckId');
+    async cmdEditDoc(letId, docTypeName, docTypeNo) {
       if (this.corpData.caseId) {
         //显示文书模板（制作文书）
-        this.$emit('change-page', { page:'writFill', temp: letId })
+        this.$emit('change-page', {
+          page:'writFill',
+          data: {
+            page: letId,
+            docData: {
+              docTypeNo: docTypeNo,
+              docTypeName: docTypeName,
+            }
+          }
+        })
       } else {
         this.$message.error('请在左侧双击该企业,启动该企业的执法检查');
       }
-      // let sHTML = nodeFS.readFileSync(nodePath.join(__dirname, 'assets/' + letId + '.html'), "utf8");
-      // getRefData(letId, sHTML);
     }
   },
 };

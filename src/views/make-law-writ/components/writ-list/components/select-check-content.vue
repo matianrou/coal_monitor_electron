@@ -63,7 +63,11 @@
       },
       value: {
         type: Object,
-        default: () => {}
+        default: () => {
+          return {
+            selectedIdList: []
+          }
+        }
       },
       corpData: {
         type: Object,
@@ -90,9 +94,6 @@
     },
     created() {
       this.getCheckList()
-    },
-    mounted() {
-      this.init()
     },
     methods: {
       async getCheckList () {
@@ -131,12 +132,9 @@
         this.checkList = list[corpTypeIndex].children
         this.loading = false
       },
-      init() {
-
-      },
       // 移除tree临时key和半选中状态项
       removeTreeTempKeyHandle (list) {
-        var idx = list.indexOf(this.tempKey)
+        let idx = list.indexOf(this.tempKey)
         if (idx !== -1) {
           list.splice(idx, list.length - idx)
         }
