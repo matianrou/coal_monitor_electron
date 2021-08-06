@@ -26,7 +26,7 @@
           </el-tree>
         </div>
       </div>
-      <div class="select-check-col" style="margin-left: 5px;">
+      <!-- <div class="select-check-col" style="margin-left: 5px;">
         <div class="select-check-col-title">
           <span>已选择检查内容</span>
         </div>
@@ -42,7 +42,7 @@
             </span>
           </el-tree>
         </div>
-      </div>
+      </div> -->
     </div>
     <span slot="footer">
       <el-button @click="close">取消</el-button>

@@ -330,11 +330,6 @@ export default {
                 this.$message.success('“个人账号文书资源”已经下载完毕。');
                 break;
             }
-            // 刷新执法工作台
-            this.$store.commit('changeState', {
-              key: 'refreshPageMakeLawWrit',
-              val: Number(this.$store.state.refreshPageMakeLawWrit + 1)
-            })
             // 下载完毕
             document.getElementById('cell-' + resId + '-down').innerHTML = "下载完毕";
           }

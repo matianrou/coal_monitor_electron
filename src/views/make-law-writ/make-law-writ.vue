@@ -106,8 +106,9 @@ export default {
       const wkPaper = db.table("wkPaper");
       //查询符合条件的记录
       const corp = await corpBase.find((item) => {
-        return item.corpId == data.corpId;
+        return item.corpId === data.corpId;
       });
+      console.log('corp', corp)
       this.corpData = {
         corpName: corp.corpName,
         corpTypeName: corp.corpTypeName,
@@ -124,12 +125,12 @@ export default {
       const checkLet100 = await wkPaper.findAll((item) => {
         return item.caseId === data.caseId && item.name === '检查方案';
       });
+      // 检查方案文本设置
       if (checkLet100.length > 0) {
         this.flowText.let100 = checkLet100[0].delFlag === '0' ? '（已归档）' : (checkLet100[0].delFlag === '2' ? '（已保存）' : '')
+      } else {
+        this.flowText.let100 = ''
       }
-      // if (checkPaper[0]) {
-      //   $(".checkPlan").html("检查方案（已保存）");
-      // }
       await db.close();
     },
     changePage ({page, temp}) {

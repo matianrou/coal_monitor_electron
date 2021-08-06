@@ -81,6 +81,7 @@ export default {
       // 判断数据仓库存储的activeTab，如果有值则跳转，如果无默认为执法工作台
       if (this.$store.state.activeTab) {
         this.activeTab = this.$store.state.activeTab
+        this.changeTab(this.$store.state.activeTab)
       } else {
         this.changeTab('MakeLawWrit')
       }

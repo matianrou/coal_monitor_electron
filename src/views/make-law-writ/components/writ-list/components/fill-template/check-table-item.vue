@@ -9,6 +9,7 @@
         <span>已选检查内容：</span>
       </div>
       <el-table
+        v-if="dataForm.tempValue.tableData"
         :data="dataForm.tempValue.tableData"
         style="width: 100%"
         row-key="treeId"
@@ -81,7 +82,12 @@ export default {
   props: {
     value: {
       type: Object,
-      default: () => {}
+      default: () => {
+        return {
+          tableData: [],
+          selectedIdList: []
+        }
+      }
     },
     corpData: {
       type: Object,

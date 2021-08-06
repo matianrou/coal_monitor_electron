@@ -110,11 +110,6 @@ export default {
   created() {
     this.getData();
   },
-  watch: {
-    '$store.state.refreshPage.makeLawWrit' (val) {
-      this.getData()
-    }
-  },
   methods: {
     async getData() {
       var userGroupId = this.$getStorage("_glb_user_gid");
@@ -203,6 +198,7 @@ export default {
         corpList.push(corp)
       })
       this.corpList = corpList
+      console.log('corpList', this.corpList)
     },
     async showDocHome(data, index) {
       //读取page-work.html（首页）
