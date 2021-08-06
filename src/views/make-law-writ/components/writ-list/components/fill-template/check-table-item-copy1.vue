@@ -27,10 +27,12 @@
           label="检查内容">
           <template slot-scope="scope">
             <el-input
+              v-if="scope.row.isEdit"
               v-model="scope.row.itemContent"
               type="textarea"
               :autosize="{ minRows: 4, maxRows: 6}">
             </el-input>
+            <span v-else>{{ scope.row.itemContent }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -39,10 +41,22 @@
           label="检查主要资料及方法">
           <template slot-scope="scope">
             <el-input
+              v-if="scope.row.isEdit"
               v-model="scope.row.basis"
               type="textarea"
               :autosize="{ minRows: 4, maxRows: 6}">
             </el-input>
+            <span v-else>{{ scope.row.basis }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          header-align="center"
+          align="left"
+          label="操作"
+          width="80">
+          <template slot-scope="scope">
+            <el-button v-if="scope.row.isEdit" type="text" @click="editContent(scope)">保存</el-button>
+            <el-button v-else type="text" @click="editContent(scope)">编辑</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -136,13 +150,18 @@ export default {
           if (item.children && item.children.length > 0) {
             this.handleData(item.children, tableData)
           } else {
-            tableData.push(item)
+            tableData.push(Object.assign(item, {isEdit: false}))
           }
         })
       } else {
-        tableData.push(item)
+        tableData.push(Object.assign(item, {isEdit: false}))
       }
     },
+    editContent (scope, field) {
+      let isEdit = scope.row.isEdit
+      let data = Object.assign({}, this.dataForm.tempValue.tableData[scope.$index], {isEdit: !isEdit})
+      this.$set(this.dataForm.tempValue.tableData, scope.$index, data)
+    }
   },
 };
 </script>

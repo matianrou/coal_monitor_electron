@@ -9,8 +9,10 @@ import '@/assets/scss/index.scss'
 import http from '@/utils/http'
 import cloneDeep from 'lodash/cloneDeep'
 import { getStorage, setStorage, removeStorage } from '@/utils/index'
+import Print from '@/utils/print'
 
 Vue.use(ElementUI)
+Vue.use(Print)
 Vue.config.productionTip = false
 
 // 挂载全局

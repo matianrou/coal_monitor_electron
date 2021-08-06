@@ -3,7 +3,7 @@
   <div class="let-main">
     <div class="let-main-left">
       <!-- 左侧文书组件 -->
-      <slot name="left"></slot>
+      <slot name="left" ref="letLeft"></slot>
     </div>
     <div class="let-main-right" id="toolContainer">
       <table
@@ -14,7 +14,8 @@
             <span style="cursor: pointer; color: #fff;" @click="cmdDocSave('2')">保存</span>
           </td>
           <td style="width:100px;text-align:center;">
-            <a class="btnTool" href="javascript:cmdDocView()">打印预览</a>
+            <span style="cursor: pointer; color: #fff;" @click="cmdDocView">打印预览</span>
+            <!-- <a class="btnTool" href="javascript:cmdDocView()">打印预览</a> -->
           </td>
           <td style="width:80px;text-align:center;">
             <span style="cursor: pointer; color: #fff;" @click="cmdDocSave('0')">归档</span>
@@ -266,8 +267,11 @@ export default {
         ],
         danger: [],
       };
-      this.$http.post(`/local/jczf/uploadJczf?__sid=${this.$getStorage("_glb_user_sessid")}`, JSON.stringify(submitData)).then(({data}) => {
-          if (data.status === 200) {
+      this.$http.post(`/local/jczf/uploadJczf?__sid=${this.$getStorage("_glb_user_sessid")}`, {
+        sendJson: true,
+        data: JSON.stringify(submitData)
+      }).then(({data}) => {
+          if (data.status === '200') {
             this.$message.success(`“${this.docData.docTypeName}”文书已经上传至服务器。`)
           } else {
             this.$message.error('上传至服务器请求失败，请重新保存！')
@@ -277,6 +281,10 @@ export default {
           console.log('上传至服务器请求失败：', err)
         })
     },
+    cmdDocView () {
+      // 打印预览
+      this.$print(this.$slots.left[0].elm)
+    }
   },
 };
 </script>

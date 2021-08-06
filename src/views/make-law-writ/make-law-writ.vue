@@ -108,7 +108,6 @@ export default {
       const corp = await corpBase.find((item) => {
         return item.corpId === data.corpId;
       });
-      console.log('corp', corp)
       this.corpData = {
         corpName: corp.corpName,
         corpTypeName: corp.corpTypeName,

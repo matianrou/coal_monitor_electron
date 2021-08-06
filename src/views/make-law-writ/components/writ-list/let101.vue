@@ -122,8 +122,7 @@
               id="cell_idx_8"
               data-title="检查情况"
               data-type="textarea"
-              data-src="/coalMine/coalMining.html"
-              onclick="commandFill(this.id)"
+              @click="commandFill('cellIdx8', '检查情况：', 'DangerTableItem')"
             >{{letData.cellIdx8}}
               <p
                 style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"

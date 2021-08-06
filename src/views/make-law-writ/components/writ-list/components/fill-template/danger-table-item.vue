@@ -1,12 +1,12 @@
-<!-- 填写组件 检查分工明细表 -->
+<!-- 填写组件 隐患 -->
 <template>
   <div style="width: 100%;">
     <div>
-      <el-button type="primary" @click="handleDialog('checkSelect')">选择检查内容</el-button>
+      <el-button type="primary" @click="handleDialog('dangerSelect')">选择隐患内容</el-button>
     </div>
     <div>
       <div class="title">
-        <span>已选检查内容：</span>
+        <span>已选隐患内容：</span>
       </div>
       <el-table
         v-if="dataForm.tempValue.tableData"
@@ -47,23 +47,23 @@
         </el-table-column>
       </el-table>
     </div>
-    <select-check-content
-      v-if="visible.checkSelect"
-      :visible="visible.checkSelect"
+    <select-danger-content
+      v-if="visible.dangerSelect"
+      :visible="visible.dangerSelect"
       :value="dataForm.tempValue"
       :corp-data="corpData"
       @save="handleSave"
       @close="handleClose"
-    ></select-check-content>
+    ></select-danger-content>
   </div>
 </template>
 
 <script>
-import selectCheckContent from '@/views/make-law-writ/components/writ-list/components/select-check-content'
+import selectDangerContent from '@/views/make-law-writ/components/writ-list/components/select-danger-content'
 export default {
-  name: "CheckTableItem",
+  name: "DangerTableItem",
   components: {
-    selectCheckContent,
+    selectDangerContent,
   },
   props: {
     value: {
@@ -89,14 +89,14 @@ export default {
         }
       },
       visible: {
-        checkSelect: false,
+        dangerSelect: false,
       },
-      checkListTreeProps: {
+      dangerListTreeProps: {
         label: 'treeName',
         children: 'children',
       },
       dataForm: {
-        checkContent: null
+        dangerContent: null
       },
       editText: null, // 编辑内容
     };
@@ -119,7 +119,7 @@ export default {
       // 保存选择的检查项
       let tableData = []
       // 抽取选择的检查项最底一层，作为table展示
-      this.handleData(params.data.selectedcheckList, tableData)
+      this.handleData(params.data.selectedDangerList, tableData)
       this.dataForm.tempValue.tableData = tableData
       // 遍历table获取treeId作为后续回显
       let selectedId = []

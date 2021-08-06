@@ -198,7 +198,6 @@ export default {
         corpList.push(corp)
       })
       this.corpList = corpList
-      console.log('corpList', this.corpList)
     },
     async showDocHome(data, index) {
       //读取page-work.html（首页）
