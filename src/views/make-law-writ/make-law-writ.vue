@@ -1,11 +1,12 @@
 <!-- tab: 执法工作台 -->
 <template>
   <div id="pageWork" class="make-law-writ">
-    <div v-if="!showPage.writFill" class="make-law-writ-show">
+    <div v-show="!showPage.writFill" class="make-law-writ-show">
       <div class="make-law-writ-show-select">
         <!-- 选择企业 -->
         <org-select
           ref="orgSelect"
+          :select-plan-data="selectPlanData"
           @change-page="changePage"
           @create-case="createCase"
         ></org-select>
@@ -38,7 +39,7 @@
         </div>
       </div>
     </div>
-    <div v-if="showPage.writFill" class="make-law-writ-fill">
+    <div v-show="showPage.writFill" class="make-law-writ-fill">
       <!-- 填写文书 -->
       <component
         :is="showTemp"
@@ -64,7 +65,7 @@ import orgInformation from '@/views/make-law-writ/components/org-information' //
 import writInformation from '@/views/make-law-writ/components/writ-information' // 创建活动弹窗
 
 export default {
-  name: "WritFlow",
+  name: "MakeLawWrit",
   components: {
     orgSelect,
     writFlow,
@@ -179,7 +180,8 @@ export default {
   height: 100%;
   width: 100%;
   align-items: center;
-  padding: 0 7px;
+  padding: 10px 7px;
+  flex-direction: column;
   .make-law-writ-show {
     height: calc(100vh - 102px);
     width: 100%;
@@ -211,6 +213,7 @@ export default {
   }
   .make-law-writ-fill {
     width: 100%;
+    overflow: hidden;
   }
 }
 </style>

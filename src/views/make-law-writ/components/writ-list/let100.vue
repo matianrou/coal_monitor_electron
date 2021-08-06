@@ -1,6 +1,6 @@
 <!-- 现场检查 一般检查 检查方案 -->
 <template>
-  <div style="width: 100%;">
+  <div style="width: 100%; height: 100%;">
     <let-main
       :corp-data="corpData"
       :doc-data="docData"
@@ -70,7 +70,7 @@
             >
               <p
                 style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden; text-indent: 2em;"
-              ><span style="border-bottom: solid 1px #000; padding: 7px;">{{ letData.cellIdx3 }}</span></p>
+              ><span style="padding: 7px;">{{ letData.cellIdx3 }}</span></p>
             </div>
             <table class="docBody">
               <tr>
@@ -123,7 +123,7 @@
               </tr>
               <tr></tr>
             </table>
-            <table class="docBody">
+            <table class="docBody" style="margin-bottom: 10px;">
               <tr>
                 <td class="textAlignLeft">编制人（签名）：</td>
                 <td
@@ -240,6 +240,13 @@ export default {
   },
   created() {
     this.initData();
+  },
+  watch: {
+    'corpData.corpId' (val) {
+      if (val) {
+        this.initData()
+      }
+    }
   },
   methods: {
     async initData() {

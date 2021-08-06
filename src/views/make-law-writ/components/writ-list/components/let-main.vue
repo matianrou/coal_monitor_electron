@@ -293,8 +293,11 @@ export default {
 .let-main {
   display: flex;
   padding: 0px 12px;
+  height: 100%;
   .let-main-left {
     flex: 1;
+    height: calc(100vh - 102px);
+    overflow: auto;
   }
   .let-main-right {
     width: 320px;

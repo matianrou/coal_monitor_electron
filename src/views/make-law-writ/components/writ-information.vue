@@ -166,7 +166,7 @@ export default {
       && (`${item.planYear}-${item.planMonth}` === selPlanDate))
       await db.close();
       // 创建检查活动
-      if (corpPlan.dbplanId) {
+      if (corpPlan.length > 0 && corpPlan[0].dbplanId) {
         // 所选煤矿、检查日期年月、归档机构均符合时，直接创建检查活动
         await this.doSaveCase(corpBase[0], corpPlan[0]);
       }
@@ -204,7 +204,7 @@ export default {
         meikuangType: corpBase.meikuangType,
         meikuangPlanfrom: corpBase.meikuangPlanfrom ? corpBase.meikuangPlanfrom : "1",
         planId: corpPlan.dbplanId,
-        pcMonth: selectPlanData.selPlanDate,
+        pcMonth: this.selectPlanData.selPlanDate,
       };
       const db = new GoDB("CoalDB");
       // 保存case 表

@@ -104,6 +104,16 @@ export default {
   name: "OrgSelect",
   components: {},
   props: {
+    selectPlanData: {
+      type: Object,
+      default: () => {
+        return {
+          selPlanDate: null,
+          selGovUnit: null,
+          selGovUnitName: null,
+        }
+      }
+    }
   },
   data() {
     return {
@@ -119,11 +129,18 @@ export default {
     };
   },
   async created() {
-    await this.getOrgList()
-    this.getPlanDateList()
-    this.getData();
+    await this.init()
+  },
+  watch: {
   },
   methods: {
+    async init () {
+      await this.getOrgList()
+      this.setOrg()
+      this.getPlanDateList()
+      this.setPlanDate()
+      await this.getData()
+    },
     async getOrgList () {
       // 获取全部机构列表
       const db = new GoDB("CoalDB");
@@ -143,9 +160,17 @@ export default {
         orgList.push(org)
       }
       this.orgList = orgList
-      // 设置最后一个选项
-      this.dataForm.selGovUnit = this.orgList.length > 0 ? this.orgList[0].value : null
-      this.dataForm.selGovUnitName = this.orgList.length > 0 ? this.orgList[0].label : null
+    },
+    setOrg () {
+      // 设置默认选择的机构
+      if (this.selectPlanData.selGovUnit) {
+        // 回显已选择内容
+        this.dataForm = this.selectPlanData
+      } else {
+        // 设置最后一个选项
+        this.dataForm.selGovUnit = this.orgList.length > 0 ? this.orgList[0].value : null
+        this.dataForm.selGovUnitName = this.orgList.length > 0 ? this.orgList[0].label : null
+      }
     },
     getPlanDateList () {
       // 获取计划年月列表选项
@@ -168,8 +193,16 @@ export default {
         planDateList.push(planDate)
       }
       this.planDateList = planDateList
-      // 设置第一个选项
-      this.dataForm.selPlanDate = this.planDateList.length > 0 ? this.planDateList[this.planDateList.length - 1].value : null
+    },
+    setPlanDate () {
+      // 设置检查计划或检查活动默认日期
+      if (this.selectPlanData.selPlanDate) {
+        // 回显
+        this.dataForm.selPlanDate = this.selectPlanData.selPlanDate
+      } else {
+        // 设置第一个选项
+        this.dataForm.selPlanDate = this.planDateList.length > 0 ? this.planDateList[this.planDateList.length - 1].value : null
+      }
     },
     async getData() {
       // 根据计划年月和机构获取计划和活动，组合成选择列表

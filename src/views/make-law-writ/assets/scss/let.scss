@@ -124,11 +124,12 @@ table td{margin:0;padding:0;}
   width: 19cm;
   margin: 0 auto;
   border-collapse: collapse;
+  margin-bottom: 10px;
 }
 .docBody td {
   height: 1cm;
   line-height: 1cm;
-display: inline-block;
+  display: inline-block;
 }
 .docBody.mutiLine td{
   line-height:0.7cm !important;

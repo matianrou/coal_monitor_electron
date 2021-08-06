@@ -1,6 +1,6 @@
 <!-- 现场检查 一般检查 现场检查笔录 -->
 <template>
-  <div style="width: 100%;">
+  <div style="width: 100%; height: 100%;">
     <let-main
       :corp-data="corpData"
       :doc-data="docData"
@@ -242,6 +242,13 @@ export default {
   },
   created() {
     this.initData();
+  },
+  watch: {
+    'corpData.corpId' (val) {
+      if (val) {
+        this.initData()
+      }
+    }
   },
   methods: {
     async initData() {
