@@ -47,7 +47,6 @@ export default {
     CheckPositionItem: resolve => { require(["@/views/make-law-writ/components/writ-list/components/fill-template/check-position-item"], function(CheckPositionItem) { resolve(CheckPositionItem);});},
     CheckTableItem: resolve => { require(["@/views/make-law-writ/components/writ-list/components/fill-template/check-table-item"], function(CheckTableItem) { resolve(CheckTableItem);});},
     DangerTableItem: resolve => { require(["@/views/make-law-writ/components/writ-list/components/fill-template/danger-table-item"], function(DangerTableItem) { resolve(DangerTableItem);});},
-
   },
   data() {
     return {

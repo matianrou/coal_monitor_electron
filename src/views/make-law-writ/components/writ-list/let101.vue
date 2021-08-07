@@ -123,16 +123,16 @@
               data-title="检查情况"
               data-type="textarea"
               @click="commandFill('cellIdx8', '检查情况：', 'DangerTableItem')"
-            >{{letData.cellIdx8}}
-              <p
-                style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
-              >&nbsp;</p>
-              <p
-                style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
-              >&nbsp;</p>
-              <p
-                style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
-              >&nbsp;</p>
+            >
+              <div v-if="letData.cellIdx8">
+                <div v-html="letData.cellIdx8" class="show-danger-content">
+                </div>
+              </div>
+              <div v-else>
+                <p style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;">
+                  &nbsp;
+                </p>
+              </div>
             </div>
             <table style="border:solid 0px #000;" class="docBody">
               <tr>
@@ -187,12 +187,8 @@ import letDrawer from "@/views/make-law-writ/components/writ-list/components/let
 import GoDB from "@/utils/godb.min.js";
 import {
   setTextItem,
-  setCheckItem,
-  setDaterangeItem,
-  setTextareaItem,
-  setCheckPositionItem,
-  setCheckTableItem,
   setDateItem,
+  setDangerTableItem,
 } from "@/utils/handlePaperData";
 export default {
   name: "Let101",
@@ -230,12 +226,8 @@ export default {
       },
       functions: {
         setTextItem,
-        setCheckItem,
-        setDaterangeItem,
-        setTextareaItem,
-        setCheckPositionItem,
-        setCheckTableItem,
         setDateItem,
+        setDangerTableItem,
       },
       editData: {}, // 回显数据
     };
@@ -334,4 +326,10 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/views/make-law-writ/assets/scss/let";
+.show-danger-content {
+  display: inline;
+  border-bottom: solid 1px #000;
+  padding-bottom: 0.1rem;
+  line-height: 30px;
+}
 </style>

@@ -1,4 +1,4 @@
-
+// 各文书页面使用的保存各种类型填写数据公用方法
 
 function setTextItem (data) {
   // 处理简单文本数据
@@ -54,11 +54,22 @@ function setCheckPositionItem (data, selectedData) {
 }
 
 function setCheckTableItem (data) {
+  // 检查项数据
   return data.tableData
 }
 
 function setDateItem (data) {
+  // 日期数据
   return data
+}
+
+function setDangerTableItem (data) {
+  // 隐患项数据
+  let string = ''
+  data.tableData.map((item, index) => {
+    string += `${index + 1}.${item.itemContent}<br/>`
+  })
+  return string
 }
 
 export {
@@ -68,5 +79,6 @@ export {
   setTextareaItem,
   setCheckPositionItem,
   setCheckTableItem,
-  setDateItem
+  setDateItem,
+  setDangerTableItem
 }
