@@ -39,13 +39,13 @@
         </div>
       </div>
     </div>
-    <div v-show="showPage.writFill" class="make-law-writ-fill">
+    <div v-if="showPage.writFill" class="make-law-writ-fill">
       <!-- 填写文书 -->
       <component
         :is="showTemp"
         :corp-data="corpData"
         :doc-data="docData"
-        @go-back="changePage('writFlow')">
+        @go-back="changePage">
       </component>
     </div>
     <writ-information
@@ -88,6 +88,7 @@ export default {
       },
       showTemp: null, // 展示的文书详情模板号，比如let100
       docData: {}, // 选择显示的文书基本信息编号及名称
+      caseData: {}, // 选择的活动信息
       flowText: {
         let100: ''
       }
@@ -127,18 +128,21 @@ export default {
         this.corpData = {}
       } else if (page === 'writFlow') {
         // 展示当前case流程模板showDocTemplate
-        this.showDocTemplet(data)
+        if (data) {
+          this.caseData = data
+        }
+        this.showDocTemplet()
       }
       this.showPage[page] = true
     },
-    async showDocTemplet(data) {
+    async showDocTemplet() {
       //读取计划数据
       const db = new GoDB("CoalDB");
       const corpBase = db.table("corpBase");
       const wkPaper = db.table("wkPaper");
       //查询符合条件的记录
       const corp = await corpBase.find((item) => {
-        return item.corpId === data.corpId;
+        return item.corpId === this.caseData.corpId;
       });
       // 如果本地库如果没有此数据则提示
       if (corp) {
@@ -150,17 +154,18 @@ export default {
           legalName: corp.legalName,
           tel: corp.tel,
           corpId: corp.corpId,
-          planId: data.planId,
-          caseId: data.caseId,
-          caseType: data.caseType,
+          planId: this.caseData.planId,
+          caseId: this.caseData.caseId,
+          caseType: this.caseData.caseType,
         }
         //查询当前计划是否已做检查方案
         const checkLet100 = await wkPaper.findAll((item) => {
-          return item.caseId === data.caseId && item.name === '检查方案';
+          return item.caseId === this.caseData.caseId && item.name === '检查方案';
         });
         // 检查方案文本设置
         if (checkLet100.length > 0) {
-          this.flowText.let100 = checkLet100[0].delFlag === '0' ? '（已归档）' : (checkLet100[0].delFlag === '2' ? '（已保存）' : '')
+          let txt = checkLet100[0].delFlag === '0' ? '（已归档）' : (checkLet100[0].delFlag === '2' ? '（已保存）' : '')
+          this.$set(this.flowText, 'let100', txt)
         } else {
           this.flowText.let100 = ''
         }

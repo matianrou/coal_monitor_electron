@@ -88,7 +88,7 @@ export default {
   created() {},
   methods: {
     cmdDocBack() {
-      this.$emit("go-back");
+      this.$emit("go-back", {page: 'writFlow'});
     },
     async cmdDocSave(saveFlag = "2") {
       // 保存或归档文书
@@ -128,8 +128,11 @@ export default {
         await wkPaper.add(jsonPaper);
       }
       await db.close();
-      this.$message.success(`“${this.docData.docTypeName}”文书已经保存完毕。`);
+      let mes = saveFlag === '2' ? '保存' : '归档'
+      this.$message.success(`“${this.docData.docTypeName}”文书已经${mes}完毕。`);
       await this.saveToUpload(paperId);
+      // 返回列表并刷新
+      this.cmdDocBack()
     },
     async saveToUpload(paperId) {
       // 保存文书至服务器
@@ -283,7 +286,9 @@ export default {
     },
     cmdDocView () {
       // 打印预览
-      this.$print(this.$slots.left[0].elm)
+      // 如果打印为22检查方案，另外打印检查分工明细表
+      let printDiv = this.$slots.left[0].elm
+      this.$print(printDiv)
     }
   },
 };
@@ -311,5 +316,14 @@ export default {
     cursor: pointer;
     color: #fff;
   }
+}
+/* 应用这个样式的在打印时隐藏 */
+.noPrint {
+  display: none;
+}
+
+/* 应用这个样式的，从那个标签结束开始另算一页，之后在遇到再起一页，以此类推 */
+.page-break {
+  page-break-after: always;
 }
 </style>

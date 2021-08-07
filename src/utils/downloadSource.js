@@ -646,7 +646,7 @@ async function doDangerCateDb(resId, data) {
         pid: obj.pid,
         treeName: obj.categoryName,
         treeId: obj.categoryCode,
-        treeParentId: obj.parentCode
+        treeParentId: obj.pid
       });
 		}
 	}

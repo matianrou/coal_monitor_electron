@@ -288,9 +288,9 @@ export default {
       }
       await db.close();
     },
-    goBack() {
+    goBack({page}) {
       // 返回选择企业
-      this.$emit("go-back");
+      this.$emit("go-back", {page});
     },
     commandFill(key, title, type) {
       // 打开编辑

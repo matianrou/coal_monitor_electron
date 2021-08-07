@@ -6,9 +6,7 @@
       ></main-top>
     </div>
     <div class="main-content">
-      <!-- <keep-alive> -->
-        <router-view/>
-      <!-- </keep-alive> -->
+      <router-view/>
     </div>
   </div>
 </template>

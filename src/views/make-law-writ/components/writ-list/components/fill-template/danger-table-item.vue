@@ -2,50 +2,54 @@
 <template>
   <div style="width: 100%;">
     <div>
-      <el-button type="primary" @click="handleDialog('dangerSelect')">选择隐患内容</el-button>
+      <div class="title">
+        <span>基本信息：</span>
+      </div>
+      <el-input
+        v-model="dataForm.tempValue.baseInfor"
+        type="textarea"
+        :autosize="{ minRows: 3, maxRows: 6}"
+        placeholder="请填写基本信息">
+      </el-input>
     </div>
     <div>
       <div class="title">
-        <span>已选隐患内容：</span>
+        <span>隐患情况：</span>
       </div>
-      <el-table
-        v-if="dataForm.tempValue.tableData"
-        :data="dataForm.tempValue.tableData"
-        style="width: 100%"
-        row-key="treeId"
-        border>
-        <el-table-column
-          prop="categoryName"
-          label="检查事项"
-          header-align="center"
-          align="left"
-          width="110">
-        </el-table-column>
-        <el-table-column
-          header-align="center"
-          align="left"
-          label="检查内容">
-          <template slot-scope="scope">
-            <el-input
-              v-model="scope.row.itemContent"
-              type="textarea"
-              :autosize="{ minRows: 4, maxRows: 6}">
-            </el-input>
-          </template>
-        </el-table-column>
-        <el-table-column
-          header-align="center"
-          align="left"
-          label="检查主要资料及方法">
-          <template slot-scope="scope">
-            <el-input
-              v-model="scope.row.basis"
-              type="textarea"
-              :autosize="{ minRows: 4, maxRows: 6}">
-            </el-input>
-          </template>
-        </el-table-column>
-      </el-table>
+      <div style="margin-top: 10px;">
+        <el-button type="primary" @click="handleDialog('dangerSelect')">选择隐患内容</el-button>
+      </div>
+      <div class="danger-table-main">
+        <!-- 隐患项展示，选择 -->
+        <div class="danger-table-main-table">
+          <!-- 展示已选隐患 -->
+          <el-table
+            v-if="dataForm.tempValue.tableData"
+            :data="dataForm.tempValue.tableData"
+            style="width: 100%;"
+            row-key="treeId"
+            border
+            :default-sort = "{prop: 'order', order: 'descending'}">
+            <el-table-column
+              label="隐患项"
+              header-align="center"
+              align="left">
+              <template slot-scope="scope">
+                <span
+                  style="cursor: pointer;"
+                  :class="scope.row.active ? 'active' : ''"
+                  @click="selectedItem(scope)">
+                  {{ scope.row.itemContent }}
+                </span>
+              </template>
+            </el-table-column>
+          </el-table>
+          <!-- 修改隐患信息 -->
+        </div>
+        <!-- 修改隐患项 -->
+        <div class="danger-table-main-content">
+        </div>
+      </div>
     </div>
     <select-danger-content
       v-if="visible.dangerSelect"
@@ -70,6 +74,7 @@ export default {
       type: Object,
       default: () => {
         return {
+          baseInfor: null,
           tableData: [],
           selectedIdList: []
         }
@@ -84,6 +89,7 @@ export default {
     return {
       dataForm: {
         tempValue: {
+          baseInfor: null,
           tableData: [],
           selectedIdList: []
         }
@@ -95,10 +101,7 @@ export default {
         label: 'treeName',
         children: 'children',
       },
-      dataForm: {
-        dangerContent: null
-      },
-      editText: null, // 编辑内容
+      selectedDangerData: {}, // 选择需要编辑的隐患项
     };
   },
   created() {
@@ -119,7 +122,7 @@ export default {
       // 保存选择的检查项
       let tableData = []
       // 抽取选择的检查项最底一层，作为table展示
-      this.handleData(params.data.selectedDangerList, tableData)
+      this.handleData(params.data.selecteddangerList, tableData, 0)
       this.dataForm.tempValue.tableData = tableData
       // 遍历table获取treeId作为后续回显
       let selectedId = []
@@ -129,20 +132,34 @@ export default {
       this.dataForm.tempValue.selectedIdList = selectedId
       this.dataForm.tempValue.selectedAllIdList = params.data.selectedAllIdList
     },
-    handleData (data, tableData) {
+    handleData (data, tableData, index) {
       // 递归遍历获取最底层数据
       if (data.length > 0) {
         data.map(item => {
           if (item.children && item.children.length > 0) {
-            this.handleData(item.children, tableData)
+            this.handleData(item.children, tableData, index)
           } else {
-            tableData.push(item)
+            tableData.push(Object.assign(item, {
+              order: index,
+              active: false,
+            }))
+            index ++
           }
         })
       } else {
         tableData.push(item)
       }
     },
+    selectedItem(scope) {
+      // 选择隐患
+      // 设置选中状态
+      this.dataForm.tempValue.tableData.forEach(item => {
+        item.active = false
+      })
+      scope.row.active = true
+      this.selectedDangerData = scope.row
+      this.$set(this.dataForm.tempValue.tableData, scope.$index, selectedDangerData)
+    }
   },
 };
 </script>
@@ -157,19 +174,19 @@ export default {
   display: flex;
   align-items: center;
 }
-.span-node-main {
+.danger-table-main {
   display: flex;
-  flex: 1;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px;
-  width: 100%;
-  overflow: hidden;
-  .span-ellipsis {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    margin-right: 10px;
+  margin-top: 10px;
+  .danger-table-main-table {
+    flex: 1;
+    .active {
+      color: #409EFF;
+    }
+  }
+  .danger-table-main-content {
+    flex: 2;
+    border: 1px solid #EBEEF5;
+    border-left: 0px;
   }
 }
 </style>

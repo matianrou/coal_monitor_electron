@@ -123,7 +123,7 @@
               </tr>
               <tr></tr>
             </table>
-            <table class="docBody" style="margin-bottom: 10px;">
+            <table class="docBody">
               <tr>
                 <td class="textAlignLeft">编制人（签名）：</td>
                 <td
@@ -169,11 +169,46 @@
                 >{{ letData.cellIdx11 }}</td>
               </tr>
             </table>
+            <div style="height: 20px; width: 100%;"></div>
+            <!-- 打印22检查方案，另外打印检查分工明细表 -->
+            <div class="page-break"></div>
+            <!-- 但页面不展示 -->
+            <div style="height: 0px; overflow: hidden;">
+              <div ref="cellIdx5TypeCheckTableItem" class="page page-sizeA4">
+                <div style="width: 19.5cm;">
+                  <el-table
+                    :data="letData.cellIdx5TypeCheckTableItem && letData.cellIdx5TypeCheckTableItem.tableData"
+                    width="100%"
+                    border>
+                    <el-table-column
+                      prop="categoryName"
+                      label="检查事项"
+                      header-align="center"
+                      align="left"
+                      width="110">
+                    </el-table-column>
+                    <el-table-column
+                      prop="itemContent"
+                      header-align="center"
+                      align="left"
+                      label="检查内容">
+                    </el-table-column>
+                    <el-table-column
+                      prop="basis"
+                      header-align="center"
+                      align="left"
+                      label="检查主要资料及方法">
+                    </el-table-column>
+                  </el-table>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </let-main>
     <let-drawer
+      ref="letDrawer"
       :visible="visible"
       :selectedData="selectedData"
       @handle-close="handleClose"
@@ -331,9 +366,9 @@ export default {
       }
       await db.close()
     },
-    goBack () {
+    goBack ({page}) {
       // 返回选择企业
-      this.$emit('go-back')
+      this.$emit('go-back', {page})
     },
     commandFill (key, title, type) {
       // 文书各个字段点击打开左侧弹出编辑窗口

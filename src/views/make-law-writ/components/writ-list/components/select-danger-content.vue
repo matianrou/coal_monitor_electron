@@ -91,9 +91,6 @@
     created() {
       this.getDangerList()
     },
-    mounted() {
-      this.init()
-    },
     methods: {
       async getDangerList () {
         this.loading = true
@@ -130,9 +127,6 @@
         }
         this.dangerList = list[corpTypeIndex].children
         this.loading = false
-      },
-      init() {
-
       },
       // 移除tree临时key和半选中状态项
       removeTreeTempKeyHandle (list) {

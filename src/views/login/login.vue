@@ -105,7 +105,7 @@ export default {
             this.$store.state.user.userId = userId
             this.$store.state.user.loginName = data.loginName
             this.$store.state.user.userName = data.name
-            this.$store.state.user.userSessId = data.sessId
+            this.$store.state.user.userSessId = sessId
             //获取用户信息
             this.getUserInfo(userId, sessId);
             // 最大化窗口
