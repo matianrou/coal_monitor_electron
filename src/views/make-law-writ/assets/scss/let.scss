@@ -256,3 +256,26 @@ div::-webkit-scrollbar-thumb:hover {
 div::-webkit-scrollbar-corner {
   background: #179a16;
 }*/
+
+.show-danger-content {
+  display: inline;
+  border-bottom: solid 1px #000;
+  padding-bottom: 0.1rem;
+  line-height: 30px;
+}
+.show-area-item-content {
+  word-wrap: break-word;
+  word-break: break-all;
+  overflow: hidden;
+  .show-area-item-p {
+    width: 100%;
+    height: auto;
+    word-wrap: break-word;
+    word-wrap: break-all;
+    overflow: hidden;
+    text-indent: 2em;
+  }
+}
+.border-solid {
+  border: solid 0px #000;
+}

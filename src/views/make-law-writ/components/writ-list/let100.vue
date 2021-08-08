@@ -60,17 +60,16 @@
               </tr>
             </table>
             <div
-              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-              class="cellInput mutiLineArea"
+              class="cellInput mutiLineArea show-area-item-content"
               id="cell_idx_3"
               data-title="煤矿概况"
               data-type="textarea"
               data-src
               @click="commandFill('cellIdx3', '四、煤矿概况：', 'TextareaItem')"
             >
-              <p
-                style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden; text-indent: 2em;"
-              ><span style="padding: 7px;">{{ letData.cellIdx3 }}</span></p>
+              <p class="show-area-item-p">
+                <span style="padding: 7px;">{{ letData.cellIdx3 }}</span>
+              </p>
             </div>
             <table class="docBody">
               <tr>

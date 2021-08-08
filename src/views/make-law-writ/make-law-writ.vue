@@ -73,6 +73,7 @@ export default {
     writInformation,
     let100: resolve => { require(["@/views/make-law-writ/components/writ-list/let100.vue"], function(let100) { resolve(let100);});},
     let101: resolve => { require(["@/views/make-law-writ/components/writ-list/let101.vue"], function(let101) { resolve(let101);});},
+    let102: resolve => { require(["@/views/make-law-writ/components/writ-list/let102.vue"], function(let102) { resolve(let102);});},
   },
   data() {
     return {

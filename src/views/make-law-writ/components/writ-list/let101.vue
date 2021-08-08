@@ -18,7 +18,7 @@
             </div>
             <div class="textAlignCenter formHeader1">现 场 检 查 笔 录</div>
             <div class="stdRowH"></div>
-            <table style="border:solid 0px #000;" class="docBody">
+            <table class="docBody border-solid">
               <tr>
                 <td class="textAlignLeft">被检查单位：</td>
                 <td
@@ -117,8 +117,7 @@
               </tr>
             </table>
             <div
-              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-              class="cellInput mutiLineArea addtrouble"
+              class="cellInput mutiLineArea addtrouble show-area-item-content"
               id="cell_idx_8"
               data-title="检查情况"
               data-type="textarea"
@@ -129,12 +128,12 @@
                 </div>
               </div>
               <div v-else>
-                <p style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;">
+                <p class="show-area-item-p">
                   &nbsp;
                 </p>
               </div>
             </div>
-            <table style="border:solid 0px #000;" class="docBody">
+            <table class="docBody border-solid">
               <tr>
                 <td class="textAlignLeft">被检查单位负责人意见：</td>
                 <td
@@ -326,10 +325,4 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/views/make-law-writ/assets/scss/let";
-.show-danger-content {
-  display: inline;
-  border-bottom: solid 1px #000;
-  padding-bottom: 0.1rem;
-  line-height: 30px;
-}
 </style>
