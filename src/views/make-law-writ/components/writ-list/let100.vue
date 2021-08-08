@@ -27,7 +27,7 @@
                   style="width:79%"
                   data-title="被检查单位"
                   data-type="text"
-                  @click="commandFill('cellIdx0', '一、被检查单位：', 'TextItem')"
+                  @click="commandFill('cellIdx0', '被检查单位', 'TextItem')"
                 >{{ letData.cellIdx0 }}</td>
               </tr>
               <tr>
@@ -39,7 +39,7 @@
                   data-title="监察类型或方式"
                   data-type="check"
                   data-src="let-100"
-                  @click="commandFill('cellIdx1', '二、监察类型或方式：', 'CheckItem')"
+                  @click="commandFill('cellIdx1', '监察类型或方式', 'CheckItem')"
                 >{{ letData.cellIdx1 }}</td>
               </tr>
               <tr>
@@ -51,7 +51,7 @@
                   data-title="检查时间"
                   data-type="dateregion"
                   data-src
-                  @click="commandFill('cellIdx2', '三、检查时间：', 'DaterangeItem')"
+                  @click="commandFill('cellIdx2', '检查时间', 'DaterangeItem')"
                 >{{ letData.cellIdx2 }}</td>
               </tr>
               <tr>
@@ -65,7 +65,7 @@
               data-title="煤矿概况"
               data-type="textarea"
               data-src
-              @click="commandFill('cellIdx3', '四、煤矿概况：', 'TextareaItem')"
+              @click="commandFill('cellIdx3', '煤矿概况', 'TextareaItem')"
             >
               <p class="show-area-item-p">
                 <span style="padding: 7px;">{{ letData.cellIdx3 }}</span>
@@ -80,7 +80,7 @@
                   id="cell_idx_4"
                   data-title="检查地点"
                   data-type="text"
-                  @click="commandFill('cellIdx4', '五、检查地点：', 'CheckPositionItem')"
+                  @click="commandFill('cellIdx4', '检查地点', 'CheckPositionItem')"
                 >{{ letData.cellIdx4 }}</td>
               </tr>
             </table>
@@ -93,7 +93,7 @@
                   id="cell_idx_5"
                   data-title="检查的主要内容和分工见明细表"
                   data-type="check4"
-                  @click="commandFill('cellIdx5', '六、检查的主要内容和分工见明细表', 'CheckTableItem')"
+                  @click="commandFill('cellIdx5', '检查的主要内容和分工见明细表', 'CheckTableItem')"
                 >《检查分工明细表》</td>
               </tr>
             </table>
@@ -107,7 +107,7 @@
                   data-title="其他事项"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx6', '七、其他事项：', 'TextItem')"
+                  @click="commandFill('cellIdx6', '其他事项', 'TextItem')"
                 >{{ letData.cellIdx6 }}</td>
               </tr>
               <tr>
@@ -132,7 +132,7 @@
                   data-title="编制人"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx8', '编制人（签名）：', 'TextItem')"
+                  @click="commandFill('cellIdx8', '编制人', 'TextItem')"
                 >{{ letData.cellIdx8 }}</td>
                 <td class="textAlignCenter">日期：</td>
                 <td
@@ -142,7 +142,7 @@
                   data-title="日期"
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx9', '日期：', 'DateItem')"
+                  @click="commandFill('cellIdx9', '日期', 'DateItem')"
                 >{{ letData.cellIdx9 }}</td>
               </tr>
               <tr>
@@ -154,7 +154,7 @@
                   data-title="审批人"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx10', '审批人（签名）：', 'TextItem')"
+                  @click="commandFill('cellIdx10', '审批人', 'TextItem')"
                 >{{ letData.cellIdx10 }}</td>
                 <td class="textAlignCenter">日期：</td>
                 <td
@@ -164,7 +164,7 @@
                   data-title="日期"
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx11', '日期：', 'DateItem')"
+                  @click="commandFill('cellIdx11', '日期', 'DateItem')"
                 >{{ letData.cellIdx11 }}</td>
               </tr>
             </table>

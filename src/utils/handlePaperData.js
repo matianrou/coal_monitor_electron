@@ -72,6 +72,13 @@ function setDangerTableItem (data) {
   return string
 }
 
+function setDatetimeItem (data) {
+  // 设置日期时间
+  let string = ''
+  console.log('data', data)
+  return string
+}
+
 export {
   setTextItem,
   setCheckItem,
@@ -80,5 +87,6 @@ export {
   setCheckPositionItem,
   setCheckTableItem,
   setDateItem,
-  setDangerTableItem
+  setDangerTableItem,
+  setDatetimeItem
 }
