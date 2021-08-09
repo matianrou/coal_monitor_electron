@@ -83,8 +83,19 @@
               <el-input
                 v-model.trim="dataForm.tempValue.dangerItemDetail.onsiteDesc"
                 placeholder="请填写现场处理决定"
-                :maxlength="300">
+                :maxlength="300"
+                style="width: calc(100% - 200px);">
               </el-input>
+              <!-- 现场处理类型 -->
+              <el-select
+                v-model="dataForm.tempValue.dangerItemDetail.onsiteType">
+                <el-option
+                  v-for="(item, index) in onsiteTypeOptions"
+                  :key="index"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
             </el-form-item>
             <el-form-item
               label="b.现场处理依据："
@@ -121,19 +132,32 @@
               label="是否重大隐患："
               prop="isSerious"
               class="special-form-item">
-              <el-checkbox v-model="dataForm.tempValue.dangerItemDetail.isSerious"></el-checkbox>
+              <el-checkbox
+                v-model="dataForm.tempValue.dangerItemDetail.isSerious"
+                true-label="1"
+                false-label="0"
+                @change="val => changeValue(val, 'isSerious')"
+              ></el-checkbox>
               <span style="color: #F56C6C;">(请谨慎勾选)</span>
             </el-form-item>
             <el-form-item
               label="是否隐患复查："
               prop="isReview"
               class="special-form-item">
-              <el-checkbox v-model="dataForm.tempValue.dangerItemDetail.isReview"></el-checkbox>
+              <el-checkbox
+                v-model="dataForm.tempValue.dangerItemDetail.isReview"
+                true-label="1"
+                false-label="0"
+                @change="val => changeValue(val, 'isReview')"
+              ></el-checkbox>
               <el-date-picker
                 v-if="dataForm.tempValue.dangerItemDetail.isReview"
                 v-model="dataForm.tempValue.dangerItemDetail.reviewDate"
                 type="date"
-                placeholder="选择复查日期">
+                format="yyyy年MM月dd日"
+                value-format="yyyy年MM月dd日"
+                placeholder="选择复查日期"
+                @blur="val => changeValue(val, 'reviewDate')">
               </el-date-picker>
             </el-form-item>
             <el-form-item
@@ -217,6 +241,7 @@ export default {
             confirmClause: null, // 违法认定法条
             onsiteDesc: null, // 现场处理决定
             onsiteBasis: null, // 现场处理依据
+            onsiteType: null, // 现场处理决定类型
             penaltyDesc: null, // 行政处罚决定
             penaltyBasis: null, // 行政处罚依据
             isSerious: false, // 是否重大隐患
@@ -236,7 +261,58 @@ export default {
         itemContent: [
           { required: true, message: '请填写违法行为描述', tirgger: 'blur' }
         ]
-      }
+      },
+      dangerIndex: 0, // 计算隐患排序位置字段
+      onsiteTypeOptions: [ // 现场处理类型码表
+        {
+          label: '当场予以纠正',
+          value: '1'
+        },
+        {
+          label: '责令改正',
+          value: '2'
+        },
+        {
+          label: '责令限期改正',
+          value: '3'
+        },
+        {
+          label: '责令立即停止作业，限期改正',
+          value: '4'
+        },
+        {
+          label: '责令立即停止作业或者责令限期达到要求',
+          value: '5'
+        },
+        {
+          label: '责令停止作业或者停止使用相关设施、设备',
+          value: '6'
+        },
+        {
+          label: '责令立即停止作业',
+          value: '7'
+        },
+        {
+          label: '责令立即停止生产',
+          value: '8'
+        },
+        {
+          label: '责令限期改正或者责令立即停止使用',
+          value: '9'
+        },
+        {
+          label: '责令立即排除事故隐患',
+          value: '10'
+        },
+        {
+          label: '责令立即消除或者限期消除事故限制',
+          value: '11'
+        },
+        {
+          label: '责令从危险区域撤出作业人员',
+          value: '12'
+        },
+      ]
     };
   },
   created() {
@@ -257,7 +333,9 @@ export default {
       // 保存选择的检查项
       let tableData = []
       // 抽取选择的检查项最底一层，作为table展示
-      this.handleData(params.data.selecteddangerList, tableData, 0)
+      this.handleData(params.data.selecteddangerList, tableData)
+      // 清空隐患排序为0，已便下一次继续递归遍历赋值
+      this.dangerIndex = 0
       this.dataForm.tempValue.tableData = tableData
       // 遍历table获取treeId作为后续回显
       let selectedId = []
@@ -266,22 +344,32 @@ export default {
       })
       this.dataForm.tempValue.selectedIdList = selectedId
     },
-    handleData (data, tableData, index) {
+    handleData (data, tableData) {
       // 递归遍历获取最底层数据
       if (data.length > 0) {
-        data.map(item => {
+        data.map((item) => {
           if (item.children && item.children.length > 0) {
-            this.handleData(item.children, tableData, index)
+            this.handleData(item.children, tableData)
           } else {
             tableData.push(Object.assign(item, {
-              order: index,
+              order: this.dangerIndex,
+              isSerious: '0',
+              isReview: '0',
+              reviewDate: null,
               active: false,
             }))
-            index ++
+            this.dangerIndex = this.dangerIndex + 1
           }
         })
       } else {
-        tableData.push(item)
+        tableData.push(Object.assign(item, {
+          order: this.dangerIndex,
+          isSerious: '0',
+          isReview: '0',
+          reviewDate: null,
+          active: false,
+        }))
+        this.dangerIndex = this.dangerIndex + 1
       }
     },
     selectedItem(scope) {
@@ -320,6 +408,10 @@ export default {
       // 赋值tableData
       this.dataForm.tempValue.tableData = tableData
       dangerItemDetail.order = newOrder
+    },
+    changeValue (val, field) {
+      let index = this.dataForm.tempValue.dangerItemDetail.order
+      this.$set(this.dataForm.tempValue.tableData, index, this.dataForm.tempValue.dangerItemDetail)
     }
   },
 };

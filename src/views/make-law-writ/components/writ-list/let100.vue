@@ -6,8 +6,7 @@
       :doc-data="docData"
       :let-data="letData"
       :edit-data="editData"
-      @go-back="goBack"
-      @save-doc="saveDoc">
+      @go-back="goBack">
       <div slot="left">
         <div class="page page-sizeA4">
           <div>
@@ -269,7 +268,6 @@ export default {
         setDateItem
       },
       editData: {}, // 回显数据
-      paperData: {}, // 文书数据
     };
   },
   created() {
@@ -295,7 +293,7 @@ export default {
       const caseId = this.corpData.caseId;
       //查询当前计划是否已做文书
       const checkPaper = await wkPaper.findAll((item) => {
-        return item.caseId === caseId && item.name === this.docData.docTypeName;
+        return item.caseId === caseId && item.paperType === this.docData.docTypeNo;
       });
       // 已做文书则展示文书内容，否则创建初始版本
       if (checkPaper.length > 0) {
@@ -402,24 +400,6 @@ export default {
       this.letData[key] = this.functions[`set${type}`](this.letData[`${key}Type${type}`], this.selectedData, this.options)
       this.handleClose()
     },
-    saveDoc (paperSameData) {
-      // 保存本文书特殊字段
-      let paperContent = JSON.stringify(this.letData)
-      let paperData = {
-        paperType: this.docData.docTypeNo,
-        name: this.docData.docTypeName,
-        paperContent,
-        caseId: this.corpData.caseId,
-        caseType: '',
-        corpId: this.corpData.corpId,
-        corpName: this.corpData.corpName,
-        p22JczfCheck: this.letData.cellIdx5, //检查分工明细表
-        planId: this.corpData.planId,
-        checkSite: this.letData.cellIdx4,
-        checkSiteArr:  this.letData.cellIdx4TypeCheckPositionItem,
-      }
-      this.paperData = Object.assign({}, paperSameData, paperData)
-    }
   },
 };
 </script>

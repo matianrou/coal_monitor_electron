@@ -52,7 +52,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let101','现场检查笔录')" class="flow-span">现场检查笔录</span>
+                  <span @click="cmdEditDoc('let101','现场检查笔录', '1')" class="flow-span">现场检查笔录</span>
                 </td>
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c5.png" style="height: 65px;" />
@@ -60,7 +60,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c2.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let102','现场处理决定书')" class="flow-span">现场处理
+                  <span @click="cmdEditDoc('let102','现场处理决定书', '2')" class="flow-span">现场处理
                     <br />决定书</span>
                 </td>
                 <!-- <td style="width:28px;"><img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3.png" style="height: 65px;" /></td>
@@ -82,7 +82,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c2.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let103','检查方案(复查)','5')" class="flow-span">检查方案(复查)</span>
+                  <span @click="cmdEditDoc('let103','检查方案(复查)','42')" class="flow-span">检查方案(复查)</span>
                 </td>
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
@@ -90,7 +90,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let104','复查意见书','6')" class="flow-span">复查意见书</span>
+                  <span @click="cmdEditDoc('let104','复查意见书','13')" class="flow-span">复查意见书</span>
                 </td>
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c5.png" style="height: 65px;" />
@@ -98,7 +98,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c2.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let105','隐患整改','6')" class="flow-span">隐患整改</span>
+                  <span @click="cmdEditDoc('let105','隐患整改','')" class="flow-span">隐患整改</span>
                 </td>
                 <td style="width:12px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c7.png" style="height: 65px;" />
@@ -117,7 +117,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c2.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let106','撤出作业人员命令书','14')" class="flow-span">撤出作业人员
+                  <span @click="cmdEditDoc('let106','撤出作业人员命令书','3')" class="flow-span">撤出作业人员
                     <br />命令书</span>
                 </td>
                 <td style="width:28px;">
@@ -126,7 +126,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let107','抽样取证通知书','15')" class="flow-span">抽样取证通知书</span>
+                  <span @click="cmdEditDoc('let107','抽样取证通知书','23')" class="flow-span">抽样取证通知书</span>
                 </td>
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c5.png" style="height: 65px;" />
@@ -134,7 +134,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c2.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let108','先行登记保存证据通知书','16')" class="flow-span">先行登记保存证据
+                  <span @click="cmdEditDoc('let108','先行登记保存证据通知书','25')" class="flow-span">先行登记保存证据
                     <br />通知书</span>
                 </td>
                 <td style="width:28px;">
@@ -143,7 +143,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let109','先行登记保存证据处理决定书','17')" class="flow-span">先行登记保存证据
+                  <span @click="cmdEditDoc('let109','先行登记保存证据处理决定书','27')" class="flow-span">先行登记保存证据
                     <br />处理决定书</span>
                 </td>
                 <td style="width:12px;">
@@ -161,7 +161,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c2.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let110','查封(扣押)决定书','18')" class="flow-span">查封(扣押)
+                  <span @click="cmdEditDoc('let110','查封(扣押)决定书','32')" class="flow-span">查封(扣押)
                     <br />决定书</span>
                 </td>
                 <td style="width:28px;">
@@ -170,7 +170,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let111','解除查封(扣押)决定书','19')" class="flow-span">解除查封(扣押)
+                  <span @click="cmdEditDoc('let111','解除查封(扣押)决定书','34')" class="flow-span">解除查封(扣押)
                     <br />决定书</span>
                 </td>
                 <td style="width:28px;">
@@ -179,7 +179,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c2.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let112','停供电(停供民用爆炸物品)通知书','20')" class="flow-span">停供电(停供民用
+                  <span @click="cmdEditDoc('let112','停供电(停供民用爆炸物品)通知书','37')" class="flow-span">停供电(停供民用
                     <br />爆炸物品)通知书</span>
                 </td>
                 <td style="width:28px;">
@@ -188,7 +188,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let113','解除停供电(停供民用爆炸物品)通知书','21')" class="flow-span">解除停供电(停供民用爆炸物品)通知书</span>
+                  <span @click="cmdEditDoc('let113','解除停供电(停供民用爆炸物品)通知书','38')" class="flow-span">解除停供电(停供民用爆炸物品)通知书</span>
                 </td>
                 <td style="width:12px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c6.png" style="height: 65px;" />
@@ -218,7 +218,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c2.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let201','立案决定书','22')" class="flow-span">立案决定书</span>
+                  <span @click="cmdEditDoc('let201','立案决定书','4')" class="flow-span">立案决定书</span>
                 </td>
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
@@ -226,7 +226,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let202','调查取证笔录','23')" class="flow-span">调查取证笔录</span>
+                  <span @click="cmdEditDoc('let202','调查取证笔录','5')" class="flow-span">调查取证笔录</span>
                 </td>
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c5.png" style="height: 65px;" />
@@ -234,7 +234,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c2.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let203','案件处理呈报书','24')" class="flow-span">案件处理呈报书</span>
+                  <span @click="cmdEditDoc('let203','案件处理呈报书','36')" class="flow-span">案件处理呈报书</span>
                 </td>
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
@@ -242,7 +242,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let204','行政处罚告知书','25')" class="flow-span">行政处罚告知书</span>
+                  <span @click="cmdEditDoc('let204','行政处罚告知书','6')" class="flow-span">行政处罚告知书</span>
                 </td>
                 <td style="width:12px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c6.png" style="height: 65px;" />
@@ -258,7 +258,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c2.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let205','陈述、申辩笔录','26')" class="flow-span">陈述、申辩笔录</span>
+                  <span @click="cmdEditDoc('let205','陈述、申辩笔录','30')" class="flow-span">陈述、申辩笔录</span>
                 </td>
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
@@ -266,7 +266,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let206','行政处罚决定书','27')" class="flow-span">行政处罚决定书</span>
+                  <span @click="cmdEditDoc('let206','行政处罚决定书','8')" class="flow-span">行政处罚决定书</span>
                 </td>
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c5.png" style="height: 65px;" />
@@ -274,7 +274,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c2.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let207','送达收执','28')" class="flow-span">送达收执</span>
+                  <span @click="cmdEditDoc('let207','送达收执','9')" class="flow-span">送达收执</span>
                 </td>
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
@@ -282,7 +282,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let208','行政决定履行催告书','29')" class="flow-span">行政决定履行
+                  <span @click="cmdEditDoc('let208','行政决定履行催告书','39')" class="flow-span">行政决定履行
                     <br />催告书</span>
                 </td>
                 <td style="width:12px;">
@@ -302,7 +302,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c2.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let209','听证通知书','30')" class="flow-span">听证通知书</span>
+                  <span @click="cmdEditDoc('let209','听证通知书','28')" class="flow-span">听证通知书</span>
                 </td>
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
@@ -310,7 +310,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let210','不予受理听证申请通知书','31')" class="flow-span">不予受理听证申请
+                  <span @click="cmdEditDoc('let210','不予受理听证申请通知书','29')" class="flow-span">不予受理听证申请
                     <br />通知书</span>
                 </td>
                 <td style="width:28px;">
@@ -319,7 +319,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c2.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let211','听证笔录','32')" class="flow-span">听证笔录</span>
+                  <span @click="cmdEditDoc('let211','听证笔录','7')" class="flow-span">听证笔录</span>
                 </td>
                 <td style="width:12px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c7.png" style="height: 65px;" />
@@ -338,7 +338,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c2.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let212','罚款收缴')" class="flow-span">罚款收缴</span>
+                  <span @click="cmdEditDoc('let212','罚款收缴', '')" class="flow-span">罚款收缴</span>
                 </td>
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
@@ -346,7 +346,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let213','案件结案报告','34')" class="flow-span">案件结案报告</span>
+                  <span @click="cmdEditDoc('let213','案件结案报告','14')" class="flow-span">案件结案报告</span>
                 </td>
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c5.png" style="height: 65px;" />
@@ -354,7 +354,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c2.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let214','执法案卷（首页）及目录','35')" class="flow-span">执法案卷（首页）
+                  <span @click="cmdEditDoc('let214','执法案卷（首页）及目录','15')" class="flow-span">执法案卷（首页）
                     <br />及目录</span>
                 </td>
                 <td style="width:12px;">
@@ -376,7 +376,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c2.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let300','执法案件公开裁定记录','36')" class="flow-span">执法案件公开裁定记录</span>
+                  <span @click="cmdEditDoc('let300','执法案件公开裁定记录','31')" class="flow-span">执法案件公开裁定记录</span>
                 </td>
                 <td style="width:12px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c7.png" style="height: 65px;" />
@@ -395,7 +395,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c2.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let301','强制执行申请书','37')" class="flow-span">强制执行申请书</span>
+                  <span @click="cmdEditDoc('let301','强制执行申请书','18')" class="flow-span">强制执行申请书</span>
                 </td>
                 <td style="width:12px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c7.png" style="height: 65px;" />
@@ -414,7 +414,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c2.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let302','行政复议申请笔录','38')" class="flow-span">行政复议申请笔录</span>
+                  <span @click="cmdEditDoc('let302','行政复议申请笔录','10')" class="flow-span">行政复议申请笔录</span>
                 </td>
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
@@ -422,7 +422,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let303','不予受理行政复议申请决定书','39')" class="flow-span">不予受理行政复议
+                  <span @click="cmdEditDoc('let303','不予受理行政复议申请决定书','41')" class="flow-span">不予受理行政复议
                     <br />申请决定书</span>
                 </td>
                 <td style="width:28px;">
@@ -431,7 +431,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c2.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let304','行政复议调查笔录','40')" class="flow-span">行政复议调查笔录</span>
+                  <span @click="cmdEditDoc('let304','行政复议调查笔录','11')" class="flow-span">行政复议调查笔录</span>
                 </td>
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
@@ -439,7 +439,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let305','行政复议决定书','41')" class="flow-span">行政复议决定书</span>
+                  <span @click="cmdEditDoc('let305','行政复议决定书','12')" class="flow-span">行政复议决定书</span>
                 </td>
                 <td style="width:12px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c6.png" style="height: 65px;" />
@@ -460,7 +460,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c2.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let400','移送案件呈报书','42')" class="flow-span">移送案件呈报书</span>
+                  <span @click="cmdEditDoc('let400','移送案件呈报书','35')" class="flow-span">移送案件呈报书</span>
                 </td>
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
@@ -468,7 +468,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let401','移送书','43')" class="flow-span">移送书</span>
+                  <span @click="cmdEditDoc('let401','移送书','19')" class="flow-span">移送书</span>
                 </td>
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c5.png" style="height: 65px;" />
@@ -476,7 +476,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c2.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let402','涉嫌犯罪案件移送书','44')" class="flow-span">涉嫌犯罪案件
+                  <span @click="cmdEditDoc('let402','涉嫌犯罪案件移送书','20')" class="flow-span">涉嫌犯罪案件
                     <br />移送书</span>
                 </td>
                 <!--<td style="width:28px;"><img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3.png" style="height: 65px;" /></td>
@@ -507,7 +507,7 @@
                 <td
                   style="width:182px;background:url('static/image/doc-flow_r1_c2.png') no-repeat;text-align:center;color:#fff;"
                 >
-                  <span @click="cmdEditDoc('let406','影音证据')" class="flow-span">影音证据</span>
+                  <span @click="cmdEditDoc('let406','影音证据', '21')" class="flow-span">影音证据</span>
                 </td>
                 <td style="width:12px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c7.png" style="height: 65px;" />

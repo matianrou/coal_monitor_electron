@@ -88,14 +88,14 @@ export default {
   created() {},
   methods: {
     cmdDocBack() {
-      this.$emit("go-back", {page: 'writFlow'});
+      this.$emit("go-back", { page: "writFlow" });
     },
     async cmdDocSave(saveFlag = "2") {
       // 保存或归档文书
       let paperId = this.editData.paperId
         ? this.editData.paperId
         : "p" + getNowTime() + randomString(18);
-      let paperSameData = {
+      let jsonPaper = {
         paperId: paperId,
         remoteId: "",
         delFlag: saveFlag,
@@ -109,9 +109,15 @@ export default {
         p0FloorTime: "",
         groupId: this.$store.state.user.userGroupId, //机构id
         groupName: this.$store.state.user.userGroupName, //机构名称
+        paperContent: JSON.stringify(this.$parent.letData),
+        paperType: this.docData.docTypeNo,
+        name: this.docData.docTypeName,
+        caseId: this.corpData.caseId,
+        caseType: '',
+        corpId: this.corpData.corpId,
+        corpName: this.corpData.corpName,
+        planId: this.corpData.planId,
       };
-      this.$emit("save-doc", paperSameData);
-      let jsonPaper = this.$parent.paperData;
       const db = new GoDB("CoalDB");
       const wkPaper = db.table("wkPaper");
       // 如果保存的是已编辑的 那么保存的同时要把上一条重复的数据删除
@@ -128,11 +134,13 @@ export default {
         await wkPaper.add(jsonPaper);
       }
       await db.close();
-      let mes = saveFlag === '2' ? '保存' : '归档'
-      this.$message.success(`“${this.docData.docTypeName}”文书已经${mes}完毕。`);
+      let mes = saveFlag === "2" ? "保存" : "归档";
+      this.$message.success(
+        `“${this.docData.docTypeName}”文书已经${mes}完毕。`
+      );
       await this.saveToUpload(paperId);
       // 返回列表并刷新
-      this.cmdDocBack()
+      // this.cmdDocBack();
     },
     async saveToUpload(paperId) {
       // 保存文书至服务器
@@ -147,6 +155,7 @@ export default {
         return item.caseId == workPaper.caseId;
       });
       await db.close();
+      // 整理上传数据
       let submitData = {
         paper: [
           {
@@ -192,11 +201,6 @@ export default {
             clericalVersion: "2",
             p1PersonId: null,
             p1PersonName: null,
-            p22BeginTime: null,
-            p22EndTime: null,
-            p22JczfCheck: null,
-            p22location: null,
-            p22inspection: null,
             p5EvidenceTime: null,
             p8Penalty: null,
             p8PersonPenalty: null,
@@ -208,9 +212,10 @@ export default {
             p36PersonName: null,
             p36RegisterTime: null,
             p0ParentId: null,
-            p0FloorTime: null,
-            locationRemarks: '%e5%85%a8%e7%b3%bb%e7%bb%9f%e5%90%84%e7%8e%af%e8%8a%82%e7%9b%91%e5%af%9f',
+            p0FloorTime: getNowFormatTime(),
             p8penaltyType: null,
+            paperHtml: this.$slots.left[0].elm.innerHTML,
+            localizeFlag: '1',
           },
         ],
         jczfCase: [
@@ -258,38 +263,177 @@ export default {
             corpDataType: "",
             checkReason: workCase.checkReason,
             checkStatus: workCase.checkStatus,
-            planBeginDate: workCase.planBeginDate + ' 00:00:00',
-            planEndDate: workCase.planEndDate + ' 00:00:00',
+            planBeginDate: workCase.planBeginDate + " 00:00:00",
+            planEndDate: workCase.planEndDate + " 00:00:00",
             createTime: workCase.createDate,
             affiliate: workPaper.groupId,
             meikuangType: workCase.meikuangType,
             meikuangPlanfrom: workCase.meikuangPlanfrom,
-            planId:  workCase.planId,
+            planId: workCase.planId,
             pcMonth: workCase.pcMonth,
           },
         ],
-        danger: [],
+        danger: []
       };
-      this.$http.post(`/local/jczf/uploadJczf?__sid=${this.$store.state.user.userSessId}`, {
-        sendJson: true,
-        data: JSON.stringify(submitData)
-      }).then(({data}) => {
-          if (data.status === '200') {
-            this.$message.success(`“${this.docData.docTypeName}”文书已经上传至服务器。`)
-          } else {
-            this.$message.error('上传至服务器请求失败，请重新保存！')
+      if (this.docData.docTypeNo === '22') {
+        // 检查方案上传数据
+        let letData = this.$parent.letData
+        // 监察方式（字典值，多个用逗号隔开）
+        let p22inspection = ''
+        if (letData.cellIdx1TypeCheckItem && letData.cellIdx1TypeCheckItem.length > 0) {
+          letData.cellIdx1TypeCheckItem.map(item => {
+            p22inspection += item + ','
+          })
+        }
+        p22inspection = p22inspection.substring(0, p22inspection.length - 1)
+        // 检查项附件
+        let CheckItemRecords = []
+        if (letData.cellIdx5TypeCheckTableItem && letData.cellIdx5TypeCheckTableItem.tableData && letData.cellIdx5TypeCheckTableItem.tableData.length > 0) {
+          letData.cellIdx5TypeCheckTableItem.tableData.map(item => {
+            let CheckItemRecord = {
+              name: item.categoryName,
+              basis: item.basis,
+              categoryCode: item.categoryCode,
+              categoryName: item.categoryName,
+              createBy: {
+                id: this.$store.state.user.userId
+              },
+              createDate: item.createDate,
+              delFlag: item.delFlag,
+              groupId: item.groupId,
+              id: item.itemCode,
+              itemCode: item.itemCode,
+              itemContent: item.itemContent,
+              method: item.basis,
+              souFlag: item.souFlag,
+              status: item.status,
+              updateBy: {
+                id:this.$store.state.user.userId
+              },
+              updateDate: item.updateDate,
+              paperId: workPaper.paperId.substr(1),
+              groupName: this.$store.state.user.userGroupName
+            }
+            CheckItemRecords.push(CheckItemRecord)
+          })
+        }
+        let p22JczfCheck = {
+          CheckItemRecords
+        }
+        let p22PaperData = {
+          p22BeginTime: letData.cellIdx2TypeDaterangeItem[0].replace('年', '-').replace('月', '-').replace('日', '') + ' 00:00:00',
+          p22EndTime:  letData.cellIdx2TypeDaterangeItem[1].replace('年', '-').replace('月', '-').replace('日', '') + ' 00:00:00',
+          p22location: '检查地点',
+          p22inspection,
+          p22JczfCheck: JSON.stringify(p22JczfCheck),
+          locationRemarks: letData.cellIdx1,
+        }
+        Object.assign(submitData.paper[0], p22PaperData)
+      } else if (this.docData.docTypeNo === '1') {
+        // 现场检查笔录上传数据
+        let danger = [];
+        // 当docTypeNo = '1' 即现场检查笔录时，增加回传danger字段
+        if (this.$parent.letData && this.$parent.letData.cellIdx8TypeDangerTableItem) {
+          let dangerItem = this.$parent.letData.cellIdx8TypeDangerTableItem
+          if (dangerItem.tableData && dangerItem.tableData.length > 0) {
+            dangerItem.tableData.map(item => {
+              let dangerData = {
+                id: null,
+                isNewRecord: null,
+                remarks: null,
+                delFlag: workPaper.delFlag,
+                createDate: workPaper.createDate,
+                updateDate: workPaper.updateDate,
+                createBy: {
+                  id: workPaper.personId,
+                },
+                personIds: workPaper.personId,
+                personNames: workPaper.personName,
+                updateBy: {
+                  id: workPaper.personId,
+                },
+                caseId: workPaper.caseId.substr(1),
+                dangerId: item.dangerId ? item.dangerId : getNowTime() + randomString(18),
+                dangerType: {
+                  categoryCode: item.categoryCode,
+                },
+                dangerItemId: item.itemCode,
+                dangerContent: item.itemContent,
+                dangerLocation: null,
+                dangerStatus: null,
+                detectTime: getNowFormatTime(),
+                isHigh: item.isSerious,
+                personId: workPaper.personId,
+                personName: workPaper.personName,
+                rectifyTerm: null,
+                solveTime: null,
+                solveMethod: null,
+                checkTime: null,
+                checkPerson: null,
+                subitemCode: null,
+                subitemContent: item.itemContent,
+                subitemPenalty: item.penaltyDesc,
+                subitemPenaltyBasis: item.penaltyBasis,
+                penaltyOrg: null,
+                penaltyOrgFine: null,
+                penaltyPerson: null,
+                penaltyPersonFine: null,
+                itemOnsiteType: null,
+                itemOnsiteBasis: item.onsiteBasis,
+                onsiteContent: item.onsiteDesc,
+                verNo: null,
+                paperId: paperId,
+                basisContent: item.confirmBasis,
+                name: null,
+                sourceFlag: "0",
+                onsiteType: item.onsiteType,
+                penaltyType: null,
+                changeDangerType: item.categoryCode,
+                showIndex: item.order,
+                isCheck: item.isReview,
+                dangerParentId: null,
+                isCommon: null,
+                deviceNum: null,
+                coalingFace: null,
+                headingFace: null,
+                dangerCorrected: null,
+                reviewUnitId: null,
+                reviewUnitName: null,
+              }
+              danger.push(dangerData)
+            })
           }
-        }).catch(err => {
-          this.$message.error('上传至服务器请求失败，请重新保存！')
-          console.log('上传至服务器请求失败：', err)
+        }
+        submitData.danger = danger
+      }
+      this.$http
+        .post(
+          `/local/jczf/uploadJczf?__sid=${this.$store.state.user.userSessId}`,
+          {
+            sendJson: true,
+            data: JSON.stringify(submitData),
+          }
+        )
+        .then(({ data }) => {
+          if (data.status === "200") {
+            this.$message.success(
+              `“${this.docData.docTypeName}”文书已经上传至服务器。`
+            );
+          } else {
+            this.$message.error("上传至服务器请求失败，请重新保存！");
+          }
         })
+        .catch((err) => {
+          this.$message.error("上传至服务器请求失败，请重新保存！");
+          console.log("上传至服务器请求失败：", err);
+        });
     },
-    cmdDocView () {
+    cmdDocView() {
       // 打印预览
       // 如果打印为22检查方案，另外打印检查分工明细表
-      let printDiv = this.$slots.left[0].elm
-      this.$print(printDiv)
-    }
+      let printDiv = this.$slots.left[0].elm;
+      this.$print(printDiv);
+    },
   },
 };
 </script>

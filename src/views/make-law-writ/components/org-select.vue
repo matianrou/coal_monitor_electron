@@ -211,17 +211,29 @@ export default {
       const db = new GoDB("CoalDB");
       const docPlan = db.table("docPlan"); // 计划
       const wkCaseInfo = db.table("wkCase"); // 检查活动
-      // 计划
-      const arrPlan = await docPlan.findAll((item) => {
-        return item.groupId === userGroupId
-        && (`${item.planYear}-${item.planMonth}`) === selectPlanDate;
-      });
+      // 增加逻辑：先获取检查活动，按检查活动对比计划中的企业信息
+      // 如果计划中的企业已有检查，则名称前增加”（已做）“
       // 检查活动
       const wkCase = await wkCaseInfo.findAll((item) => {
         return item.groupId === userGroupId
         && item.pcMonth === selectPlanDate;
       });
+      // 计划
+      const arrPlan = await docPlan.findAll((item) => {
+        return item.groupId === userGroupId
+        && (`${item.planYear}-${item.planMonth}`) === selectPlanDate;
+      });
       await db.close();
+      if (wkCase.length > 0) {
+        wkCase.map(caseItem => {
+          arrPlan.forEach(planItem => {
+            if (planItem.corpId === caseItem.corpId) {
+              if (planItem.corpName.indexOf('(已做)') === -1)
+              planItem.corpName = `(已做)${planItem.corpName}`
+            }
+          })
+        })
+      }
       const listArr = [...wkCase, ...arrPlan];
       this.total = listArr.length;
       // 转换为列表所需要的值

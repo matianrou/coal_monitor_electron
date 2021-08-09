@@ -57,7 +57,7 @@
 import GoDB from "@/utils/godb.min.js";
 import { sevenafter, getNowFormatDate } from "@/utils/date";
 import { getRandom, randomString } from "@/utils/index";
-import { getNowFormatTime, getNowTime, getNowDay } from '@/utils/date'
+import { getNowFormatTime, getNowTime } from '@/utils/date'
 export default {
   name: "WritInformation",
   components: {},
@@ -180,7 +180,7 @@ export default {
       let groupName = this.selectPlanData.selGovUnitName; // 企业选择的机构名称
       let sDate = getNowFormatTime();
       let caseId = "c" + getNowTime() + randomString(18);
-      let caseNo = groupId + getNowDay();
+      let caseNo = groupId + getNowTime();
       let jsonCase = {
         caseId: caseId,
         caseNo: caseNo,

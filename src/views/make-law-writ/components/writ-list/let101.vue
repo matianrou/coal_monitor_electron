@@ -6,8 +6,7 @@
       :doc-data="docData"
       :let-data="letData"
       :edit-data="editData"
-      @go-back="goBack"
-    >
+      @go-back="goBack">
       <div slot="left">
         <div class="page page-sizeA4">
           <div>
@@ -253,7 +252,7 @@ export default {
       const caseId = this.corpData.caseId;
       //查询当前计划是否已做现场检查笔录
       const checkPaper = await wkPaper.findAll((item) => {
-        return item.caseId === caseId && item.name === '现场检查笔录';
+        return item.caseId === caseId && item.paperType === this.docData.docTypeNo;
       });
       if (checkPaper.length > 0) {
         // 回显
