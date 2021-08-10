@@ -320,7 +320,7 @@
                   data-title="执法人员（签名)"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx24', '执法人员（签名)', 'DateItem')"
+                  @click="commandFill('cellIdx24', '执法人员（签名)', 'TextItem')"
                 >{{ letData.cellIdx24 }}</td>
                 <td class="textAlignLeft">日期：</td>
                 <td

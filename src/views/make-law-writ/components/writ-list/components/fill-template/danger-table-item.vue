@@ -151,7 +151,7 @@
                 @change="val => changeValue(val, 'isReview')"
               ></el-checkbox>
               <el-date-picker
-                v-if="dataForm.tempValue.dangerItemDetail.isReview"
+                v-if="dataForm.tempValue.dangerItemDetail.isReview === '1'"
                 v-model="dataForm.tempValue.dangerItemDetail.reviewDate"
                 type="date"
                 format="yyyy年MM月dd日"

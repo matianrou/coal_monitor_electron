@@ -312,7 +312,8 @@ export default {
               },
               updateDate: item.updateDate,
               paperId: workPaper.paperId,
-              groupName: this.$store.state.user.userGroupName
+              groupName: this.$store.state.user.userGroupName,
+              personId: '[]'
             }
             CheckItemRecords.push(CheckItemRecord)
           })
@@ -368,7 +369,7 @@ export default {
                 rectifyTerm: null,
                 solveTime: null,
                 solveMethod: null,
-                checkTime: null,
+                checkTime: item.reviewDate,
                 checkPerson: null,
                 subitemCode: null,
                 subitemContent: item.itemContent,
