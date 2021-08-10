@@ -179,7 +179,7 @@ export default {
       let groupId = this.selectPlanData.selGovUnit; // 企业选择的机构id
       let groupName = this.selectPlanData.selGovUnitName; // 企业选择的机构名称
       let sDate = getNowFormatTime();
-      let caseId = "c" + getNowTime() + randomString(18);
+      let caseId = getNowTime() + randomString(18);
       let caseNo = groupId + getNowTime();
       let jsonCase = {
         caseId: caseId,

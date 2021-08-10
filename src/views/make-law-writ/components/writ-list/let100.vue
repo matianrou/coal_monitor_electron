@@ -64,8 +64,7 @@
               data-title="煤矿概况"
               data-type="textarea"
               data-src
-              @click="commandFill('cellIdx3', '煤矿概况', 'TextareaItem')"
-            >
+              @click="commandFill('cellIdx3', '煤矿概况', 'TextareaItem')">
               <p class="show-area-item-p">
                 <span style="padding: 7px;">{{ letData.cellIdx3 }}</span>
               </p>

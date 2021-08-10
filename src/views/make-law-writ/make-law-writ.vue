@@ -85,6 +85,9 @@ export default {
     let111: resolve => { require(["@/views/make-law-writ/components/writ-list/let111.vue"], function(let111) { resolve(let111);});},
     let112: resolve => { require(["@/views/make-law-writ/components/writ-list/let112.vue"], function(let112) { resolve(let112);});},
     let113: resolve => { require(["@/views/make-law-writ/components/writ-list/let113.vue"], function(let113) { resolve(let113);});},
+    let200: resolve => { require(["@/views/make-law-writ/components/writ-list/let200.vue"], function(let200) { resolve(let200);});},
+    let201: resolve => { require(["@/views/make-law-writ/components/writ-list/let201.vue"], function(let201) { resolve(let201);});},
+    let202: resolve => { require(["@/views/make-law-writ/components/writ-list/let202.vue"], function(let202) { resolve(let202);});},
   },
   data() {
     return {

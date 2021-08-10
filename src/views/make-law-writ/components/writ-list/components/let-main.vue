@@ -94,7 +94,7 @@ export default {
       // 保存或归档文书
       let paperId = this.editData.paperId
         ? this.editData.paperId
-        : "p" + getNowTime() + randomString(18);
+        : getNowTime() + randomString(18);
       let jsonPaper = {
         paperId: paperId,
         remoteId: "",
@@ -172,14 +172,14 @@ export default {
               id: workPaper.personId,
             },
             sourceFlag: "0",
-            paperId: workPaper.paperId.substr(1),
+            paperId: workPaper.paperId,
             paperType: workPaper.paperType,
             paperContent: workPaper.paperContent,
             paperPath: null,
             memo: null,
             createTime: workPaper.createTime,
             fileTime: null,
-            caseId: workPaper.caseId.substr(1),
+            caseId: workPaper.caseId,
             caseNo: workCase.caseNo,
             caseType: workCase.caseType,
             corpId: workCase.corpId,
@@ -234,7 +234,7 @@ export default {
             },
             sourceFlag: "0",
             caseSn: null,
-            caseId: workPaper.caseId.substr(1),
+            caseId: workPaper.caseId,
             caseNo: workCase.caseNo,
             caseType: workCase.caseType,
             caseStatus: null,
@@ -311,7 +311,7 @@ export default {
                 id:this.$store.state.user.userId
               },
               updateDate: item.updateDate,
-              paperId: workPaper.paperId.substr(1),
+              paperId: workPaper.paperId,
               groupName: this.$store.state.user.userGroupName
             }
             CheckItemRecords.push(CheckItemRecord)
@@ -323,7 +323,7 @@ export default {
         let p22PaperData = {
           p22BeginTime: letData.cellIdx2TypeDaterangeItem[0].replace('年', '-').replace('月', '-').replace('日', '') + ' 00:00:00',
           p22EndTime:  letData.cellIdx2TypeDaterangeItem[1].replace('年', '-').replace('月', '-').replace('日', '') + ' 00:00:00',
-          p22location: '检查地点',
+          p22location: letData.cellIdx4,
           p22inspection,
           p22JczfCheck: JSON.stringify(p22JczfCheck),
           locationRemarks: letData.cellIdx1,
@@ -352,7 +352,7 @@ export default {
                 updateBy: {
                   id: workPaper.personId,
                 },
-                caseId: workPaper.caseId.substr(1),
+                caseId: workPaper.caseId,
                 dangerId: item.dangerId ? item.dangerId : getNowTime() + randomString(18),
                 dangerType: {
                   categoryCode: item.categoryCode,
