@@ -96,6 +96,30 @@
                   :value="item.value">
                 </el-option>
               </el-select>
+              <div style="margin-top: 10px; display:flex;">
+                <div v-if="showOnsiteDesc.deviceNum" style="margin-left: 10px;">
+                  <span class="el-form-item__label">台/台套：</span>
+                  <el-input
+                    v-model.trim="dataForm.tempValue.dangerItemDetail.deviceNum"
+                    size="small"
+                    style="width: 90px;">
+                  </el-input>
+                </div>
+                <div v-if="showOnsiteDesc.coalingFace" style="margin-left: 10px;">
+                  <span class="el-form-item__label">采煤工作面/个：</span>
+                  <el-input
+                    v-model.trim="dataForm.tempValue.dangerItemDetail.coalingFace"
+                    style="width: 90px;">
+                  </el-input>
+                </div>
+                <div v-if="showOnsiteDesc.headingFace" style="margin-left: 10px;">
+                  <span class="el-form-item__label">掘进工作面/个：</span>
+                  <el-input
+                    v-model.trim="dataForm.tempValue.dangerItemDetail.headingFace"
+                    style="width: 90px;">
+                  </el-input>
+                </div>
+              </div>
             </el-form-item>
             <el-form-item
               label="b.现场处理依据："
@@ -242,6 +266,9 @@ export default {
             onsiteDesc: null, // 现场处理决定
             onsiteBasis: null, // 现场处理依据
             onsiteType: null, // 现场处理决定类型
+            headingFace: null, // 掘进工作面
+            deviceNum: null, // 设备台数
+            coalingFace: null, // 采煤工作面
             penaltyDesc: null, // 行政处罚决定
             penaltyBasis: null, // 行政处罚依据
             isSerious: false, // 是否重大隐患
@@ -312,11 +339,55 @@ export default {
           label: '责令从危险区域撤出作业人员',
           value: '12'
         },
-      ]
+      ],
+      showOnsiteDesc: {
+        deviceNum: false,
+        coalingFace: false,
+        headingFace: false,
+      }
     };
   },
   created() {
     this.initData()
+  },
+  watch: {
+    'dataForm.tempValue.dangerItemDetail.onsiteType'(val) {
+      // 监听现场处理类型
+      if (val === '4' || val === '5' || val === '7') {
+        // 展示采煤工作面和掘进工作面
+        this.showOnsiteDesc = {
+          deviceNum: false,
+          coalingFace: true,
+          headingFace: true,
+        }
+      } else if (val === '6') {
+        // 全部展示
+        this.showOnsiteDesc = {
+          deviceNum: true,
+          coalingFace: true,
+          headingFace: true,
+        }
+      } else if (val === '9') {
+        // 只展示台套
+        this.showOnsiteDesc = {
+          deviceNum: true,
+          coalingFace: false,
+          headingFace: false,
+        }
+      } else {
+        this.showOnsiteDesc = {
+          deviceNum: false,
+          coalingFace: false,
+          headingFace: false,
+        }
+      }
+      // 清空已填写数据
+      Object.assign(this.dataForm.tempValue.dangerItemDetail, {
+        headingFace: null,
+        deviceNum: null,
+        coalingFace: null,
+      })
+    }
   },
   methods: {
     initData () {
