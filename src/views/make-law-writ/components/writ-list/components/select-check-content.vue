@@ -121,13 +121,16 @@
         }
         if (this.value.selectedIdList && this.value.selectedIdList.length > 0) {
           this.defaultCheckedKeys = this.value.selectedIdList
+          this.$refs.checkListTree.setCheckedKeys(this.defaultCheckedKeys);
           let selectedList = this.removeTreeTempKeyHandle(this.value.selectedIdList)
-          // this.$refs.checkListTree.setCheckedKeys(selectedList)
-          let selectedIdList = [
-            ...this.$refs.checkListTree.getCheckedKeys(),
-            ...this.$refs.checkListTree.getHalfCheckedKeys()
-          ]
-          this.getSelectedcheckList(selectedIdList)
+          this.$nextTick(() => {
+            this.$refs.checkListTree.setCheckedKeys(selectedList)
+            let selectedIdList = [
+              ...this.$refs.checkListTree.getCheckedKeys(),
+              ...this.$refs.checkListTree.getHalfCheckedKeys()
+            ]
+            this.getSelectedcheckList(selectedIdList)
+          })
         }
         this.checkList = list[corpTypeIndex].children
         this.loading = false

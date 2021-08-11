@@ -347,6 +347,15 @@ export default {
       }
     };
   },
+  computed: {
+    watchData() {
+      return {
+        deviceNum: this.dataForm.tempValue.dangerItemDetail.deviceNum,
+        coalingFace: this.dataForm.tempValue.dangerItemDetail.coalingFace,
+        headingFace: this.dataForm.tempValue.dangerItemDetail.headingFace
+      }
+    }
+  },
   created() {
     this.initData()
   },
@@ -360,6 +369,7 @@ export default {
           coalingFace: true,
           headingFace: true,
         }
+        this.$set(this.dataForm.tempValue.dangerItemDetail, 'deviceNum', null)
       } else if (val === '6') {
         // 全部展示
         this.showOnsiteDesc = {
@@ -374,6 +384,8 @@ export default {
           coalingFace: false,
           headingFace: false,
         }
+        this.$set(this.dataForm.tempValue.dangerItemDetail, 'coalingFace', null)
+        this.$set(this.dataForm.tempValue.dangerItemDetail, 'headingFace', null)
       } else {
         this.showOnsiteDesc = {
           deviceNum: false,
@@ -381,12 +393,10 @@ export default {
           headingFace: false,
         }
       }
-      // 清空已填写数据
-      Object.assign(this.dataForm.tempValue.dangerItemDetail, {
-        headingFace: null,
-        deviceNum: null,
-        coalingFace: null,
-      })
+      this.changeValue(val, 'onsiteType')
+    },
+    watchData(val) {
+      this.changeValue(val, 'watchData')
     }
   },
   methods: {
@@ -424,6 +434,9 @@ export default {
           } else {
             tableData.push(Object.assign(item, {
               order: this.dangerIndex,
+              headingFace: null, // 掘进工作面
+              deviceNum: null, // 设备台数
+              coalingFace: null, // 采煤工作面
               isSerious: '0',
               isReview: '0',
               reviewDate: null,
@@ -432,15 +445,6 @@ export default {
             this.dangerIndex = this.dangerIndex + 1
           }
         })
-      } else {
-        tableData.push(Object.assign(item, {
-          order: this.dangerIndex,
-          isSerious: '0',
-          isReview: '0',
-          reviewDate: null,
-          active: false,
-        }))
-        this.dangerIndex = this.dangerIndex + 1
       }
     },
     selectedItem(scope) {

@@ -61,6 +61,7 @@
 import { getNowFormatTime, getNowTime } from "@/utils/date";
 import { randomString } from "@/utils/index";
 import GoDB from "@/utils/godb.min.js";
+import { createHtml } from '@/utils/createHtml'
 
 export default {
   name: "LetMain",
@@ -156,6 +157,8 @@ export default {
       });
       await db.close();
       // 整理上传数据
+      // 整理网页端展示的html
+      let page = createHtml(this.$slots.left[0].elm.innerHTML)
       let submitData = {
         paper: [
           {
@@ -214,7 +217,7 @@ export default {
             p0ParentId: null,
             p0FloorTime: getNowFormatTime(),
             p8penaltyType: null,
-            paperHtml: this.$slots.left[0].elm.innerHTML,
+            paperHtml: page,
             localizeFlag: '1',
           },
         ],
@@ -407,27 +410,27 @@ export default {
         }
         submitData.danger = danger
       }
-      this.$http
-        .post(
-          `/local/jczf/uploadJczf?__sid=${this.$store.state.user.userSessId}`,
-          {
-            sendJson: true,
-            data: JSON.stringify(submitData),
-          }
-        )
-        .then(({ data }) => {
-          if (data.status === "200") {
-            this.$message.success(
-              `“${this.docData.docTypeName}”文书已经上传至服务器。`
-            );
-          } else {
-            this.$message.error("上传至服务器请求失败，请重新保存！");
-          }
-        })
-        .catch((err) => {
-          this.$message.error("上传至服务器请求失败，请重新保存！");
-          console.log("上传至服务器请求失败：", err);
-        });
+      // this.$http
+      //   .post(
+      //     `/local/jczf/uploadJczf?__sid=${this.$store.state.user.userSessId}`,
+      //     {
+      //       sendJson: true,
+      //       data: JSON.stringify(submitData),
+      //     }
+      //   )
+      //   .then(({ data }) => {
+      //     if (data.status === "200") {
+      //       this.$message.success(
+      //         `“${this.docData.docTypeName}”文书已经上传至服务器。`
+      //       );
+      //     } else {
+      //       this.$message.error("上传至服务器请求失败，请重新保存！");
+      //     }
+      //   })
+      //   .catch((err) => {
+      //     this.$message.error("上传至服务器请求失败，请重新保存！");
+      //     console.log("上传至服务器请求失败：", err);
+      //   });
     },
     cmdDocView() {
       // 打印预览

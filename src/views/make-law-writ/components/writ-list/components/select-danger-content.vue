@@ -118,12 +118,15 @@
         if (this.value.selectedIdList && this.value.selectedIdList.length > 0) {
           this.defaultCheckedKeys = this.value.selectedIdList
           let selectedList = this.removeTreeTempKeyHandle(this.value.selectedIdList)
-          // this.$refs.dangerListTree.setCheckedKeys(selectedList)
-          let selectedIdList = [
-            ...this.$refs.dangerListTree.getCheckedKeys(),
-            ...this.$refs.dangerListTree.getHalfCheckedKeys()
-          ]
-          this.getSelecteddangerList(selectedIdList)
+          this.$nextTick(() => {
+            // this.$refs.dangerListTree.setChecked(selectedList, true, false);
+            this.$refs.dangerListTree.setCheckedKeys(selectedList)
+            let selectedIdList = [
+              ...this.$refs.dangerListTree.getCheckedKeys(),
+              ...this.$refs.dangerListTree.getHalfCheckedKeys()
+            ]
+            this.getSelecteddangerList(selectedIdList)
+          })
         }
         this.dangerList = list[corpTypeIndex].children
         this.loading = false
