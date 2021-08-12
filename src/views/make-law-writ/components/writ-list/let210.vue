@@ -1,4 +1,4 @@
-<!-- 现场检查 一般检查 现场检查笔录 -->
+<!-- 行政处罚 听证程序 不予受理听证申请通知书 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -328,7 +328,7 @@ import {
   setDateItem,
 } from "@/utils/handlePaperData";
 export default {
-  name: "Let108",
+  name: "Let210",
   props: {
     corpData: {
       type: Object,

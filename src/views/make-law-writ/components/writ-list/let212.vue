@@ -1,4 +1,4 @@
-<!-- 现场检查 一般检查 现场检查笔录 有问题-->
+<!-- 行政处罚 案件结案 罚款收缴 有问题-->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -200,7 +200,7 @@ import {
   setDateItem,
 } from "@/utils/handlePaperData";
 export default {
-  name: "Let108",
+  name: "Let212",
   props: {
     corpData: {
       type: Object,

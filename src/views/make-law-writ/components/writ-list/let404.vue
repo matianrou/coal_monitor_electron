@@ -1,4 +1,4 @@
-<!-- 现场检查 一般检查 现场检查笔录 -->
+<!-- 其他 安全生产违法案件 案卷（首页） -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -150,7 +150,7 @@ import {
   setDateItem,
 } from "@/utils/handlePaperData";
 export default {
-  name: "Let108",
+  name: "Let404",
   props: {
     corpData: {
       type: Object,

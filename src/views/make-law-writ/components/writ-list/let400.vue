@@ -1,4 +1,4 @@
-<!-- 现场检查 一般检查 现场检查笔录 -->
+<!-- 其他 其他 移送案件呈报书 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -222,7 +222,7 @@ import {
   setDateItem,
 } from "@/utils/handlePaperData";
 export default {
-  name: "Let108",
+  name: "Let400",
   props: {
     corpData: {
       type: Object,

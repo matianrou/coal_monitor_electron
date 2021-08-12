@@ -1,4 +1,4 @@
-<!-- 现场检查 一般检查 现场检查笔录 -->
+<!-- 行政强制 公开裁定 执法案件公开裁定记录 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -214,7 +214,7 @@ import {
   setDateItem,
 } from "@/utils/handlePaperData";
 export default {
-  name: "Let108",
+  name: "Let300",
   props: {
     corpData: {
       type: Object,

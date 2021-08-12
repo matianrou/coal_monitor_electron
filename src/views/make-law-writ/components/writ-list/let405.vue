@@ -1,4 +1,4 @@
-<!-- 现场检查 一般检查 现场检查笔录 -->
+<!-- 其他  卷内目录 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -453,7 +453,7 @@ import {
   setDateItem,
 } from "@/utils/handlePaperData";
 export default {
-  name: "Let108",
+  name: "Let405",
   props: {
     corpData: {
       type: Object,

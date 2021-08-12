@@ -1,4 +1,4 @@
-<!-- 现场检查 一般检查 听 证 笔 录 -->
+<!-- 行政处罚 听证程序 听证笔录 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
