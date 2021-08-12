@@ -1,7 +1,7 @@
 <!-- 选择企业计划 组件-->
 <template>
-  <div class="org-select">
-    <div class="org-select-select-main">
+  <div class="case-list">
+    <div class="case-list-select-main">
       <div style="height:36px; line-height: 36px; color:#666;background:#4F83E9">
         <td style="text-indent:20px;color:#fff;font-size：20px">选择企业</td>
       </div>
@@ -82,11 +82,12 @@
       </div>
       <!-- </tr> -->
     </div>
-    <div class="org-select-select-operation">
+    <div class="case-list-select-operation">
       <el-button
         class="addPlan"
         type="primary"
         style="height: 35px;width:60px;padding:0;margin: 0;"
+        @click="addCase"
       >
         <i class="el-icon-plus"></i>添加
       </el-button>&nbsp;&nbsp;
@@ -95,14 +96,20 @@
         <i class="el-icon-delete"></i>删除
       </el-button>&nbsp;&nbsp;
     </div>
+    <select-company
+      :visible="visible.selectOrg"
+    ></select-company>
   </div>
 </template>
 
 <script>
 import GoDB from '@/utils/godb.min.js'
+import selectCompany from '@/views/make-law-writ/components/select-company'
 export default {
-  name: "OrgSelect",
-  components: {},
+  name: "CaseList",
+  components: {
+    selectCompany
+  },
   props: {
     selectPlanData: {
       type: Object,
@@ -125,6 +132,9 @@ export default {
         selPlanDate: null, // 检查计划或检查活动的年-月
         selGovUnit: null, // 归档机构单位
         selGovUnitName: null, // 归档机构单位名称
+      },
+      visible: {
+        selectOrg: false
       }
     };
   },
@@ -302,18 +312,33 @@ export default {
       }
       this.getData()
       this.$parent.changePage({page: 'empty'})
+    },
+    addCase () {
+      // 未无计划的企业添加检查活动
+      let msg  = `<div>
+        <p style="text-indent: 2em;">执法计划发生变化请从网页端添加；此处添加煤矿企业仅限于发生紧急情况或突发事件下对煤矿企业制作执法文书，文书归档后将统计为“其他”类别。</p>
+        <p style="color: #F56C6C;">是否确定继续添加？</p>
+      </div>`
+      this.$confirm(msg, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          dangerouslyUseHTMLString: true,
+          type: 'warning'
+        }).then(() => {
+          this.visible.selectOrg = true
+        }).catch(() => {})
     }
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.org-select {
+.case-list {
   height: 100%;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  .org-select-select-main {
+  .case-list-select-main {
     flex: 1;
     border-collapse: collapse;
     background-color: #093A83;
@@ -323,7 +348,7 @@ export default {
     flex-direction: column;
     height: calc(100% - 50px);
   }
-  .org-select-select-operation {
+  .case-list-select-operation {
     height: 41px;
     background-color: #DCECFB;
     color: #666;

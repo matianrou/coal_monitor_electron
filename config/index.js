@@ -12,8 +12,8 @@ module.exports = {
     // 代理列表, 是否开启代理通过[./dev.env.js]配置
     proxyTable: require('./dev.env').OPEN_PROXY ? {    //代理跨域
       '/api': {
-        // target: 'http://10.17.124.46:8081/mj/a',
-        target: 'http://eeh.emerinfo.cn/mj/a',
+        target: 'http://10.17.124.46:8081/mj/a',
+        // target: 'http://eeh.emerinfo.cn/mj/a',
         changeOrigin: true,
         pathRewrite: {
           '^/api': '/'   //替换

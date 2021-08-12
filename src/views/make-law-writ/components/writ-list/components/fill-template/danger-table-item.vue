@@ -1,7 +1,7 @@
 <!-- 填写组件 隐患 -->
 <template>
   <div style="width: 100%;">
-    <div>
+    <div v-if="options.showBaseInfor">
       <div class="title">
         <span>基本信息：</span>
       </div>
@@ -16,7 +16,7 @@
       <div class="title">
         <span>隐患情况：</span>
       </div>
-      <div style="margin-top: 10px;">
+      <div style="margin-top: 10px;" v-if="options.showSelectDangerBtn">
         <el-button type="primary" @click="handleDialog('dangerSelect')">选择隐患内容</el-button>
       </div>
       <div class="danger-table-main">
@@ -251,6 +251,15 @@ export default {
     corpData: {
       type: Object,
       default: () => {}
+    },
+    options: {
+      type: Object,
+      default: () => {
+        return {
+          showBaseInfor: true, // 用于区分是否展示基本情况大文本输入
+          showSelectDangerBtn: true // 用于区分是否可以选择隐患项
+        }
+      }
     }
   },
   data() {

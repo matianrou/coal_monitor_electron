@@ -410,27 +410,27 @@ export default {
         }
         submitData.danger = danger
       }
-      // this.$http
-      //   .post(
-      //     `/local/jczf/uploadJczf?__sid=${this.$store.state.user.userSessId}`,
-      //     {
-      //       sendJson: true,
-      //       data: JSON.stringify(submitData),
-      //     }
-      //   )
-      //   .then(({ data }) => {
-      //     if (data.status === "200") {
-      //       this.$message.success(
-      //         `“${this.docData.docTypeName}”文书已经上传至服务器。`
-      //       );
-      //     } else {
-      //       this.$message.error("上传至服务器请求失败，请重新保存！");
-      //     }
-      //   })
-      //   .catch((err) => {
-      //     this.$message.error("上传至服务器请求失败，请重新保存！");
-      //     console.log("上传至服务器请求失败：", err);
-      //   });
+      this.$http
+        .post(
+          `/local/jczf/uploadJczf?__sid=${this.$store.state.user.userSessId}`,
+          {
+            sendJson: true,
+            data: JSON.stringify(submitData),
+          }
+        )
+        .then(({ data }) => {
+          if (data.status === "200") {
+            this.$message.success(
+              `“${this.docData.docTypeName}”文书已经上传至服务器。`
+            );
+          } else {
+            this.$message.error("上传至服务器请求失败，请重新保存！");
+          }
+        })
+        .catch((err) => {
+          this.$message.error("上传至服务器请求失败，请重新保存！");
+          console.log("上传至服务器请求失败：", err);
+        });
     },
     cmdDocView() {
       // 打印预览

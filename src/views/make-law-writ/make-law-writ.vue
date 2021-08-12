@@ -3,13 +3,13 @@
   <div id="pageWork" class="make-law-writ">
     <div v-show="!showPage.writFill" class="make-law-writ-show">
       <div class="make-law-writ-show-select">
-        <!-- 选择企业 -->
-        <org-select
-          ref="orgSelect"
+        <!-- 选择检查活动 -->
+        <case-list
+          ref="caseList"
           :select-plan-data="selectPlanData"
           @change-page="changePage"
           @create-case="createCase"
-        ></org-select>
+        ></case-list>
       </div>
       <div class="make-law-writ-show-detail">
         <!-- 制作执法文书 空 -->
@@ -59,7 +59,7 @@
 
 <script>
 import GoDB from '@/utils/godb.min.js'
-import orgSelect from "@/views/make-law-writ/components/org-select"; // 选择企业
+import caseList from "@/views/make-law-writ/components/case-list"; // 选择企业
 import writFlow from "@/views/make-law-writ/components/writ-flow"; // 文书流程目录
 import orgInformation from '@/views/make-law-writ/components/org-information' // 企业信息
 import writInformation from '@/views/make-law-writ/components/writ-information' // 创建活动弹窗
@@ -67,7 +67,7 @@ import writInformation from '@/views/make-law-writ/components/writ-information' 
 export default {
   name: "MakeLawWrit",
   components: {
-    orgSelect,
+    caseList,
     writFlow,
     orgInformation,
     writInformation,
@@ -149,7 +149,7 @@ export default {
     },
     async closeDialog (params) {
       if (params.refresh) {
-        await this.$refs.orgSelect.getData()
+        await this.$refs.caseList.getData()
       }
       this.visible[params.name] = false
     },

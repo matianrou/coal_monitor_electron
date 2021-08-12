@@ -70,13 +70,21 @@ function setDateItem (data) {
   return data
 }
 
-function setDangerTableItem (data) {
+function setDangerTableItem (data, selectedData, options) {
   // 隐患项数据
-  let string = ''
-  data.tableData.map((item, index) => {
-    string += `${index + 1}.${item.itemContent}<br/>`
-  })
-  return string
+  let stringList = []
+  if (options.cellIdx7 && options.cellIdx7.page === '2') {
+    // 现场处理决定书，特殊处理展示字段： 违法行为描述+现场处理决定
+    data.tableData.map((item, index) => {
+      stringList.push(`${(index + 1)}. ${item.itemContent}${item.onsiteDesc}`)
+    })
+  } else {
+    // 其他的只返回违法行为描述list形式
+    data.tableData.map((item, index) => {
+      stringList.push(`${index + 1}. ${item.itemContent}`)
+    })
+  }
+  return stringList
 }
 
 function setDatetimeItem (data) {

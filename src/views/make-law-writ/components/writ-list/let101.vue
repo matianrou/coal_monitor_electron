@@ -122,11 +122,18 @@
               data-type="textarea"
               @click="commandFill('cellIdx8', '检查情况：', 'DangerTableItem')"
             >
-              <div v-if="letData.cellIdx8">
-                <div v-html="letData.cellIdx8" class="show-danger-content">
+              <div v-if="letData.cellIdx8 && letData.cellIdx8.length > 0">
+                <div
+                  v-for="(item, index) in letData.cellIdx8"
+                  :key="index"
+                  class="show-danger-content">
+                  <span style="border-bottom: solid 1px #000; padding-bottom: 7px;">{{item}}</span>
                 </div>
               </div>
               <div v-else>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
                 <p class="show-area-item-p">
                   &nbsp;
                 </p>

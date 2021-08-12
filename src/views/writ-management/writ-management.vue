@@ -2,12 +2,11 @@
 <template>
   <div id="pageWork" class="writ-management">
     <div v-if="true" class="writ-management-show">
-      <!-- 选择企业 -->
       <div class="writ-management-show-select">
-        <!-- 选择企业 -->
-        <org-select
+        <!-- 选择检查活动 -->
+        <case-list
           @show-doc="showDoc"
-        ></org-select>
+        ></case-list>
       </div>
       <div class="writ-management-show-detail">
       </div>
@@ -19,11 +18,11 @@
 </template>
 
 <script>
-import orgSelect from "@/views/make-law-writ/components/org-select";
+import caseList from "@/views/make-law-writ/components/case-list";
 export default {
   name: "WritManagement",
   components: {
-    orgSelect
+    caseList
   },
   data() {
     return {

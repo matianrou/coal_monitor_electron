@@ -187,10 +187,9 @@ export function createHtml(paperDiv) {
           border: solid 1px red;
         }
         .show-danger-content {
-          display: inline;
-          border-bottom: solid 1px #000;
-          padding-bottom: 0.1rem;
+          padding-bottom: 5px;
           line-height: 30px;
+          text-indent: 2em;
         }
         .show-area-item-content {
           word-wrap: break-word;

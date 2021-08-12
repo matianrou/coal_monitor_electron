@@ -1,4 +1,4 @@
-<!-- 现场检查 一般检查 现场检查笔录 -->
+<!-- 现场检查 一般检查 现场处理决定书 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -114,15 +114,30 @@
               data-title="现场处理决定"
               data-type="textarea"
               data-src
-              @click="commandFill('cellIdx7', '现场处理决定', 'TextareaItem')"
+              @click="commandFill('cellIdx7', '现场处理决定', 'DangerTableItem')"
             >
-              <p class="show-area-item-p">{{letData.cellIdx7 ? letData.cellIdx7 : '&nbsp;'}}</p>
+             <div v-if="letData.cellIdx7 && letData.cellIdx7.length > 0">
+                <div
+                  v-for="(item, index) in letData.cellIdx7"
+                  :key="index"
+                  class="show-danger-content">
+                  <span style="border-bottom: solid 1px #000; padding-bottom: 7px;">{{item}}</span>
+                </div>
+              </div>
+              <div v-else>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+              </div>
             </div>
             <table class="docBody border-solid">
               <tr>
                 <td
                   class="textAlignLeft"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如对本处理决定不服，可在接到本决定书之日起60日内向</td>
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如对本处理决定不服，可在接到本决定书之日起60日内向</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_8"
@@ -253,6 +268,7 @@ import {
   setTextItem,
   setTextareaItem,
   setDateItem,
+  setDangerTableItem
 } from "@/utils/handlePaperData";
 export default {
   name: "Let102",
@@ -286,11 +302,18 @@ export default {
         value: null, // 值
         options: null, // 选项
       },
-      options: {},
+      options: {
+        cellIdx7: {
+          page: '2', // 用于在隐患项保存，做数据处理时，判断是否增加现场处理决定字段描述
+          showBaseInfor: false, // 用于区分是否展示基本情况大文本输入
+          showSelectDangerBtn: false // 用于区分是否可以选择隐患项
+        }
+      },
       functions: {
         setTextItem,
         setTextareaItem,
         setDateItem,
+        setDangerTableItem
       },
       editData: {}, // 回显数据
     };
@@ -315,7 +338,7 @@ export default {
       });
       const wkPaper = db.table("wkPaper");
       const caseId = this.corpData.caseId;
-      //查询当前计划是否已做现场检查笔录
+      //查询当前计划是否已做现场处理决定
       const checkPaper = await wkPaper.findAll((item) => {
         return item.caseId === caseId && item.paperType === this.docData.docTypeNo;
       });
@@ -325,6 +348,15 @@ export default {
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        // 获取现场检查笔录中的隐患选择
+        const let101Data = await wkPaper.find((item) => {
+          return item.caseId === caseId && item.paperType === '1';
+        });
+        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
+        let cellIdx7StringList = []
+        let101DataPapaerContent.cellIdx8TypeDangerTableItem.tableData.map((item, index) => {
+          cellIdx7StringList.push(`${(index + 1)}. ${item.itemContent}${item.onsiteDesc}`)
+        })
         this.letData = {
           cellIdx0: null, //
           cellIdx1: null, //
@@ -334,7 +366,8 @@ export default {
           cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // 被检查单位
           cellIdx5: null, //
           cellIdx6: null, //
-          cellIdx7: null, // 现场处理决定
+          cellIdx7: cellIdx7StringList, // 现场处理决定
+          cellIdx7TypeDangerTableItem: let101DataPapaerContent.cellIdx8TypeDangerTableItem, // 现场处理决定
           cellIdx8: null, //
           cellIdx9: null, //
           cellIdx10: null, // 现场执法人员（签名)
