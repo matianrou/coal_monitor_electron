@@ -318,13 +318,13 @@ export default {
       editData: {}, // 回显数据
     };
   },
-  created() {
-    this.initData();
+  async created() {
+    await this.initData();
   },
   watch: {
-    "corpData.corpId"(val) {
+    async "corpData.corpId"(val) {
       if (val) {
-        this.initData();
+        await this.initData();
       }
     },
   },
@@ -357,6 +357,10 @@ export default {
         let101DataPapaerContent.cellIdx8TypeDangerTableItem.tableData.map((item, index) => {
           cellIdx7StringList.push(`${(index + 1)}. ${item.itemContent}${item.onsiteDesc}`)
         })
+        // 通过机构接口中的sysOfficeInfo中获取的organName和courtPrefix字段分别填充cellIdx8和cellIdx9字段
+        const orgInfo = db.table("orgInfo");
+        const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
         this.letData = {
           cellIdx0: null, //
           cellIdx1: null, //
@@ -368,8 +372,10 @@ export default {
           cellIdx6: null, //
           cellIdx7: cellIdx7StringList, // 现场处理决定
           cellIdx7TypeDangerTableItem: let101DataPapaerContent.cellIdx8TypeDangerTableItem, // 现场处理决定
-          cellIdx8: null, //
-          cellIdx9: null, //
+          cellIdx8: orgSysOfficeInfo.organName, //
+          cellIdx8TypeTextItem: orgSysOfficeInfo.organName, //
+          cellIdx9: orgSysOfficeInfo.courtPrefix, //
+          cellIdx9TypeTextItem: orgSysOfficeInfo.courtPrefix, //
           cellIdx10: null, // 现场执法人员（签名)
           cellIdx11: null, // 日期
           cellIdx12: null, // 被检查单位负责人（签名)

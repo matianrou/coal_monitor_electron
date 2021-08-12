@@ -6,8 +6,8 @@
         <el-date-picker
           v-model="dataForm.tempValue"
           type="daterange"
-          format="yyyy年MM月dd日"
-          value-format="yyyy年MM月dd日"
+          format="yyyy年M月d日"
+          value-format="yyyy年M月d日"
           range-separator="-"
           :start-placeholder="options && options.startPlaceholder ? options.startPlaceholder  : ''"
           :end-placeholder="options && options.endPlaceholder ? options.endPlaceholder  : ''"

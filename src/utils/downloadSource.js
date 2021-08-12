@@ -21,7 +21,8 @@ async function doOrgDb(resId, data) {
       "areaId": String,
       "areaName": String,
       "areaShortName": String,
-      "areaParentIds": String
+      "areaParentIds": String,
+      "sysOfficeInfo": String
     }
   };
   const db = new GoDB('CoalDB', schema);
@@ -49,8 +50,9 @@ async function doOrgDb(resId, data) {
         "areaName": obj.area.name,
         "areaShortName": obj.area.shortName,
         "areaParentIds": obj.area.parentIds,
-        "areaParentId": obj.area.parentId
-      });
+        "areaParentId": obj.area.parentId,
+        "sysOfficeInfo": JSON.stringify(obj.sysOfficeInfo)
+    });
     }
   }
   // 增:

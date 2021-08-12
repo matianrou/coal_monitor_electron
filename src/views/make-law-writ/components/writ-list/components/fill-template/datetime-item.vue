@@ -4,8 +4,8 @@
     <el-date-picker
       v-model="dataForm.tempValue"
       type="datetime"
-      format="yyyy年MM月dd日HH时mm分ss秒"
-      value-format="yyyy年MM月dd日HH时mm分ss秒"
+      format="yyyy年M月d日H时m分s秒"
+      value-format="yyyy年M月d日H时m分s秒"
       :placeholder="placeholder">
     </el-date-picker>
   </div>

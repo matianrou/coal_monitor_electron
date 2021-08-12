@@ -1,4 +1,4 @@
-<!-- 现场检查 一般检查 现场检查笔录 -->
+<!-- 现场检查 实施检查 撤出作业人员命令书 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -389,7 +389,7 @@ import {
   setDateItem,
 } from "@/utils/handlePaperData";
 export default {
-  name: "Let102",
+  name: "Let106",
   props: {
     corpData: {
       type: Object,

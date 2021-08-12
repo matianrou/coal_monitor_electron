@@ -1,4 +1,4 @@
-<!-- 现场检查 一般检查 现场检查笔录 -->
+<!-- 现场检查 实施检查 停供电(停供民用爆炸物品)通知书 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -318,7 +318,7 @@ import {
   setDateItem,
 } from "@/utils/handlePaperData";
 export default {
-  name: "Let108",
+  name: "Let112",
   props: {
     corpData: {
       type: Object,

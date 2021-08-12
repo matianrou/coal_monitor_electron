@@ -1,4 +1,4 @@
-<!-- 现场检查 一般检查 现场检查笔录 -->
+<!-- 现场检查 实施检查 抽样取证通知书 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -351,7 +351,7 @@ import {
   setDateItem,
 } from "@/utils/handlePaperData";
 export default {
-  name: "Let102",
+  name: "Let107",
   props: {
     corpData: {
       type: Object,
