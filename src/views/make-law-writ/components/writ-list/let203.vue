@@ -142,7 +142,7 @@
               data-title="法制审核意见"
               data-type="textarea"
               data-src
-              @click="commandFill('cellIdx8', '法制审核意见', 'TextareaItem')">
+              @click="commandFill('cellIdx8', '法制审核意见', 'SelectInputItem')">
               <p class="show-area-item-p">
                 <span style="padding: 7px;">{{ letData.cellIdx8 }}</span>
               </p>
@@ -246,7 +246,9 @@ import {
   setTextItem,
   setTextareaItem,
   setDateItem,
+  setSelectInputItem
 } from "@/utils/handlePaperData";
+import {getNowDate} from '@/utils/date'
 export default {
   name: "Let203",
   props: {
@@ -279,11 +281,14 @@ export default {
         value: null, // 值
         options: null, // 选项
       },
-      options: {},
+      options: {
+        cellIdx8: []
+      },
       functions: {
         setTextItem,
         setTextareaItem,
         setDateItem,
+        setSelectInputItem
       },
       editData: {}, // 回显数据
     };
@@ -319,15 +324,66 @@ export default {
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
+        // 获取笔录文书中的隐患数据
+        const let101Data = await wkPaper.find((item) => {
+          return item.caseId === caseId && item.paperType === '1';
+        });
+        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
+        let cellIdx2String = corp.corpName
+        let101DataPapaerContent.cellIdx8TypeDangerTableItem.tableData.map(item => {
+          // 判断最后一位是否是句号。如果是则替换为、
+          if (item.itemContent.substring(item.itemContent.length - 1) === '。') {
+            let contentstring = item.itemContent.substring(0, item.itemContent.length - 2)
+            cellIdx2String += contentstring + '、'
+          } else {
+            cellIdx2String += item.itemContent + '、'
+          }
+        })
+        cellIdx2String = cellIdx2String.substring(0, cellIdx2String.length - 1)
+        cellIdx2String += '案。'
+        // 2.违法事实及依据：隐患描述+“经调查取证以上违法违规行为属实，分别违反了”+违法认定发条
+        // 隐患描述
+        let dangerString = ''
+        // 违法认定法条
+        let illegalString = ''
+        // 行政处罚依据+行政处罚决定
+        let treatmentSuggestion = ''
+        let101DataPapaerContent.cellIdx8TypeDangerTableItem.tableData.map((item, index) => {
+          dangerString += `${(index + 1)}. ${item.itemContent}`
+          illegalString += `${item.confirmClause}、`
+          treatmentSuggestion += `${(index + 1)}. ${item.penaltyBasis ? item.penaltyBasis : ''}${item.penaltyDesc ? item.penaltyDesc : ''};`
+        })
+        illegalString = illegalString.substring(0, illegalString.length - 1)
+        let cellIdx6String = `${dangerString}经调查取证以上违法违规行为属实，分别违反了${illegalString}的规定。`
+        // 3.建议案件处理意见：行政处罚依据+行政处罚决定（分条）
+        let cellIdx7String = `分别依据${treatmentSuggestion}`
+        // 4.法制审核意见初始化码表
+        let nowDate = getNowDate()
+        let optionList = [
+          '认为案件事实清楚，证据确凿充分，定性准确，处罚适当，程序合法，同意处罚意见。',
+          '认为案件主要事实不清，证据不足，建议继续调查或不予作出行政执法决定的建议。',
+          '认为案件定性不准，使用法律不准确，执行裁量基准不当的，建议给予XXX的行政处罚。',
+          '认为案件程序不合法的，建议进行纠正。'
+        ]
+        optionList.map(item => {
+          this.options.cellIdx8.push({
+            name: `经${nowDate}法制审核，${item}`,
+            value: `经${nowDate}法制审核，${item}`
+          })
+        })
         this.letData = {
           cellIdx0: null, //
           cellIdx1: null, // 编号
-          cellIdx2: null, // 案由
+          cellIdx2: cellIdx2String, // 案由
+          cellIdx2TypeTextareaItem: cellIdx2String, // 案由
           cellIdx3: null, // 立案决定书编号
           cellIdx4: null, // 立案时间
           cellIdx5: null, // 承办人
-          cellIdx6: null, // 违法事实及依据
-          cellIdx7: null, // 建议案件处理意见
+          cellIdx6: cellIdx6String, // 违法事实及依据
+          cellIdx6TypeTextareaItem: cellIdx6String, // 违法事实及依据
+          cellIdx7: cellIdx7String, // 建议案件处理意见
+          cellIdx7TypeTextareaItem: cellIdx7String, // 建议案件处理意见
           cellIdx8: null, // 法制审核意见
           cellIdx9: null, // 分管负责人意见
           cellIdx10: null, // 签名

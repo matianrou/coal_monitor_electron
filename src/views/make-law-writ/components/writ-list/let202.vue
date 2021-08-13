@@ -153,7 +153,7 @@
                   data-title="性别"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx10', '性别', 'TextItem')"
+                  @click="commandFill('cellIdx10', '性别', 'SelectItem')"
                 >{{letData.cellIdx10}}</td>
                 <td class="textAlignLeft">年龄</td>
                 <td
@@ -216,7 +216,7 @@
                   data-title="政治面貌"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx15', '政治面貌', 'TextItem')"
+                  @click="commandFill('cellIdx15', '政治面貌', 'SelectItem')"
                 >{{letData.cellIdx15}}</td>
                 <td class="textAlignLeft">文化程度</td>
                 <td
@@ -227,7 +227,7 @@
                   data-title="文化程度"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx16', '文化程度', 'TextItem')"
+                  @click="commandFill('cellIdx16', '文化程度', 'SelectItem')"
                 >{{letData.cellIdx16}}</td>
                 <td class="textAlignLeft">电&nbsp;&nbsp;&nbsp;&nbsp;话</td>
                 <td
@@ -284,8 +284,8 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_21"
-                  contenteditable="true"
                   style="width:95%"
+                  @click="commandFill('cellIdx21', '', 'TextareaItem')"
                 >{{letData.cellIdx21}}</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -296,14 +296,14 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_23"
-                  contenteditable="true"
                   style="width:95%"
+                  contenteditable="true"
                 >{{letData.cellIdx23}}</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_24"
-                  contenteditable="true"
                   style="width:95%"
+                  contenteditable="true"
                 >{{letData.cellIdx24}}</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -381,6 +381,7 @@ import {
   setTextItem,
   setTextareaItem,
   setDateItem,
+  setSelectItem
 } from "@/utils/handlePaperData";
 export default {
   name: "Let202",
@@ -414,11 +415,127 @@ export default {
         value: null, // 值
         options: null, // 选项
       },
-      options: {},
+      options: {
+        cellIdx10: [ // 性别码表
+          {
+            value: '男',
+            name: '男'
+          },
+          {
+            value: '女',
+            name: '女'
+          },
+        ],
+        cellIdx15: [ // 政治面貌码表
+          {
+            value: '中共党员',
+            name: '中共党员',
+          },
+          {
+            value: '中共预备党员',
+            name: '中共预备党员',
+          },
+          {
+            value: '共青团员',
+            name: '共青团员',
+          },
+          {
+            value: '民革党员',
+            name: '民革党员',
+          },
+          {
+            value: '民盟盟员',
+            name: '民盟盟员',
+          },
+          {
+            value: '民建会员',
+            name: '民建会员',
+          },
+          {
+            value: '民进会员',
+            name: '民进会员',
+          },
+          {
+            value: '农工党党员',
+            name: '农工党党员',
+          },
+          {
+            value: '致公党党员',
+            name: '致公党党员',
+          },
+          {
+            value: '九三学社社员',
+            name: '九三学社社员',
+          },
+          {
+            value: '台盟盟员',
+            name: '台盟盟员',
+          },
+          {
+            value: '无党派人士',
+            name: '无党派人士',
+          },
+          {
+            value: '群众',
+            name: '群众',
+          },
+        ],
+        cellIdx16: [ // 文化程度码表
+          {
+            value: '博士',
+            name: '博士'
+          },
+          {
+            value: '硕士',
+            name: '硕士'
+          },
+          {
+            value: '本科',
+            name: '本科'
+          },
+          {
+            value: '大专',
+            name: '大专'
+          },
+          {
+            value: '中专',
+            name: '中专'
+          },
+          {
+            value: '中技',
+            name: '中技'
+          },
+          {
+            value: '技工学校',
+            name: '技工学校'
+          },
+          {
+            value: '高中',
+            name: '高中'
+          },
+          {
+            value: '初中',
+            name: '初中'
+          },
+          {
+            value: '小学',
+            name: '小学'
+          },
+          {
+            value: '文盲',
+            name: '文盲'
+          },
+          {
+            value: '半文盲',
+            name: '半文盲'
+          },
+        ]
+      },
       functions: {
         setTextItem,
         setTextareaItem,
         setDateItem,
+        setSelectItem
       },
       editData: {}, // 回显数据
     };
@@ -454,6 +571,19 @@ export default {
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        // 1.调查事由：煤矿名称+“涉嫌”+隐患描述
+        // 隐患描述
+        const let101Data = await wkPaper.find((item) => {
+          return item.caseId === caseId && item.paperType === '1';
+        });
+        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
+        let dangerString = ''
+        let101DataPapaerContent.cellIdx8TypeDangerTableItem.tableData.map((item, index) => {
+          dangerString += `${item.itemContent}`
+        })
+        let cellIdx8String = `${corp.corpName}涉嫌${dangerString}`
+        //组成： “我们是”+当前机构+“监察员，这是我们的执法证件（出示行政执法证件），现就你”+煤矿名称+“涉嫌”+隐患描述+“违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？”
+        let cellIdx21String = `我们是${this.$store.state.user.userGroupName}监察员，这是我们的执法证件（出示行政执法证件），现就你${corp.corpName}涉嫌${dangerString}违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？`
         this.letData = {
           cellIdx0: null, // 年
           cellIdx1: null, // 月
@@ -463,7 +593,8 @@ export default {
           cellIdx5: null, // 时
           cellIdx6: null, // 分
           cellIdx7: null, // 地点
-          cellIdx8: null, // 调查事由
+          cellIdx8: cellIdx8String, // 调查事由
+          cellIdx8TypeTextareaItem: cellIdx8String, // 调查事由
           cellIdx9: null, // 姓名
           cellIdx10: null, // 性别
           cellIdx11: null, // 年龄
@@ -476,7 +607,8 @@ export default {
           cellIdx18: null, // 住址
           cellIdx19: null, // 调查人（签名）
           cellIdx20: null, // 记录人（签名）
-          cellIdx21: null,
+          cellIdx21: cellIdx21String,
+          cellIdx21TypeTextareaItem: cellIdx21String,
           cellIdx22: null,
           cellIdx23: null,
           cellIdx24: null,

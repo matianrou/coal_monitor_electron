@@ -79,9 +79,12 @@ import GoDB from "@/utils/godb.min.js";
       },
       // 获取企业列表
       async getCompanyList() {
-        // 获取企业树
+        // 获取企业数据
         const db = new GoDB("CoalDB");
         const corpInfo = db.table("orgInfo"); // 机构
+        console.log('userAreaId', this.$store.state.user.userAreaId)
+        let corpList = await corpInfo.findAll(item => item.groupId === this.$store.state.user.userGroupId && item.delFlag === '0')
+        console.log('corpList', corpList)
         await db.close();
 
       },

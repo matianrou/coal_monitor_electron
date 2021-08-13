@@ -93,6 +93,23 @@ function setDatetimeItem (data) {
   return string
 }
 
+function setSelectItem (data, selectedData, options) {
+  // 选项数据返回
+  // 通过value值返回name字段，展示文本字符
+  let string = ''
+  selectedData.options.map(item => {
+    if (item.value === data) {
+      string = item.name
+    }
+  })
+  return string
+}
+
+function setSelectInputItem (data) {
+  // 设置选择模板后修改输入组件值
+  return data
+}
+
 export {
   setTextItem,
   setCheckItem,
@@ -102,5 +119,7 @@ export {
   setCheckTableItem,
   setDateItem,
   setDangerTableItem,
-  setDatetimeItem
+  setDatetimeItem,
+  setSelectItem,
+  setSelectInputItem
 }
