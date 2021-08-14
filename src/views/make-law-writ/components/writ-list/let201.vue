@@ -253,6 +253,7 @@
 import letMain from "@/views/make-law-writ/components/writ-list/components/let-main";
 import GoDB from "@/utils/godb.min.js";
 import { handleDate } from '@/utils/date'
+import { getDangerContent, getDangerObject } from '@/utils/setInitPaperData'
 export default {
   name: "Let201",
   props: {
@@ -313,22 +314,8 @@ export default {
         // 创建初始版本
          // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
         // 获取笔录文书中的隐患数据
-        const let101Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === '1';
-        });
-        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
-        let cellIdx4String = corp.corpName
-        let101DataPapaerContent.cellIdx8TypeDangerTableItem.tableData.map(item => {
-          // 判断最后一位是否是句号。如果是则替换为、
-          if (item.itemContent.substring(item.itemContent.length - 1) === '。') {
-            let contentstring = item.itemContent.substring(0, item.itemContent.length - 2)
-            cellIdx4String += contentstring + '、'
-          } else {
-            cellIdx4String += item.itemContent + '、'
-          }
-        })
-        cellIdx4String = cellIdx4String.substring(0, cellIdx4String.length - 1)
-        cellIdx4String += '案。'
+        let dangerContent = await getDangerContent(wkPaper, caseId)
+        let cellIdx4String = `${corp.corpName}${dangerContent}案。`
         // 2.案情摘要：检查时间+当前机构名称+“对”+煤矿名称+“进行现场检查时发现”+隐患描述+"以上行为分别涉嫌违反了"+违法认定法条+“依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。”
         // 获取检查时间
         const let100Data = await wkPaper.find((item) => {
@@ -337,15 +324,7 @@ export default {
         let let100DataPapaerContent = JSON.parse(let100Data.paperContent)
         // 整合检查时间日期文本：
         let dateString = handleDate(let100DataPapaerContent.cellIdx2, '-')
-        // 隐患描述
-        let dangerString = ''
-        // 违法认定法条
-        let illegalString = ''
-        let101DataPapaerContent.cellIdx8TypeDangerTableItem.tableData.map((item, index) => {
-          dangerString += `${(index + 1)}. ${item.itemContent}`
-          illegalString += `${item.confirmClause}、`
-        })
-        illegalString = illegalString.substring(0, illegalString.length - 1)
+        let {dangerString, illegalString} = await getDangerObject(wkPaper, caseId)
         let cellIdx5String = `${dateString}，${this.$store.state.user.userGroupName}对${corp.corpName}进行现场检查时发现：${dangerString}以上行为分别涉嫌违反了${illegalString}的规定。依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`
         this.letData = {
           cellIdx0: null, // 文书号

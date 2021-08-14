@@ -371,6 +371,7 @@
 <script>
 import letMain from "@/views/make-law-writ/components/writ-list/components/let-main";
 import GoDB from "@/utils/godb.min.js";
+import { getDangerContent } from '@/utils/setInitPaperData'
 export default {
   name: "Let202",
   props: {
@@ -546,16 +547,9 @@ export default {
         // 创建初始版本
         // 1.调查事由：煤矿名称+“涉嫌”+隐患描述
         // 隐患描述
-        const let101Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === '1';
-        });
-        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
-        let dangerString = ''
-        let101DataPapaerContent.cellIdx8TypeDangerTableItem.tableData.map((item, index) => {
-          dangerString += `${item.itemContent}`
-        })
-        let cellIdx8String = `${corp.corpName}涉嫌${dangerString}`
-        //组成： “我们是”+当前机构+“监察员，这是我们的执法证件（出示行政执法证件），现就你”+煤矿名称+“涉嫌”+隐患描述+“违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？”
+        let dangerString = await getDangerContent(wkPaper, caseId)
+        let cellIdx8String = `${corp.corpName}涉嫌${dangerString}。`
+        // 2.组成： “我们是”+当前机构+“监察员，这是我们的执法证件（出示行政执法证件），现就你”+煤矿名称+“涉嫌”+隐患描述+“违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？”
         let cellIdx21String = `我们是${this.$store.state.user.userGroupName}监察员，这是我们的执法证件（出示行政执法证件），现就你${corp.corpName}涉嫌${dangerString}违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？`
         this.letData = {
           cellIdx0: null, // 年

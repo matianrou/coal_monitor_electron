@@ -393,11 +393,7 @@ export default {
   methods: {
     async initData() {
       const db = new GoDB("CoalDB");
-      const corpBase = db.table("corpBase");
       //查询符合条件的记录
-      const corp = await corpBase.find((item) => {
-        return item.corpId == this.corpData.corpId;
-      });
       const wkPaper = db.table("wkPaper");
       const caseId = this.corpData.caseId;
       const checkPaper = await wkPaper.findAll((item) => {

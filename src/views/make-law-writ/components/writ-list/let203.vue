@@ -236,7 +236,8 @@
 <script>
 import letMain from "@/views/make-law-writ/components/writ-list/components/let-main";
 import GoDB from "@/utils/godb.min.js";
-import {getNowDate} from '@/utils/date'
+import { getNowDate } from '@/utils/date'
+import { getDangerContent, getDangerObject }from '@/utils/setInitPaperData'
 export default {
   name: "Let203",
   props: {
@@ -299,35 +300,10 @@ export default {
         // 创建初始版本
         // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
         // 获取笔录文书中的隐患数据
-        const let101Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === '1';
-        });
-        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
-        let cellIdx2String = corp.corpName
-        let101DataPapaerContent.cellIdx8TypeDangerTableItem.tableData.map(item => {
-          // 判断最后一位是否是句号。如果是则替换为、
-          if (item.itemContent.substring(item.itemContent.length - 1) === '。') {
-            let contentstring = item.itemContent.substring(0, item.itemContent.length - 2)
-            cellIdx2String += contentstring + '、'
-          } else {
-            cellIdx2String += item.itemContent + '、'
-          }
-        })
-        cellIdx2String = cellIdx2String.substring(0, cellIdx2String.length - 1)
-        cellIdx2String += '案。'
+        let dangerContent = await getDangerContent(wkPaper, caseId)
+        let cellIdx2String = `${corp.corpName}${dangerContent}案。`
         // 2.违法事实及依据：隐患描述+“经调查取证以上违法违规行为属实，分别违反了”+违法认定发条
-        // 隐患描述
-        let dangerString = ''
-        // 违法认定法条
-        let illegalString = ''
-        // 行政处罚依据+行政处罚决定
-        let treatmentSuggestion = ''
-        let101DataPapaerContent.cellIdx8TypeDangerTableItem.tableData.map((item, index) => {
-          dangerString += `${(index + 1)}. ${item.itemContent}`
-          illegalString += `${item.confirmClause}、`
-          treatmentSuggestion += `${(index + 1)}. ${item.penaltyBasis ? item.penaltyBasis : ''}${item.penaltyDesc ? item.penaltyDesc : ''};`
-        })
-        illegalString = illegalString.substring(0, illegalString.length - 1)
+        let { dangerString, illegalString, treatmentSuggestion} = await getDangerObject(wkPaper, caseId)
         let cellIdx6String = `${dangerString}经调查取证以上违法违规行为属实，分别违反了${illegalString}的规定。`
         // 3.建议案件处理意见：行政处罚依据+行政处罚决定（分条）
         let cellIdx7String = `分别依据${treatmentSuggestion}`

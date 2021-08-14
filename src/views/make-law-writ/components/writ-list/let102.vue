@@ -258,6 +258,7 @@
 <script>
 import letMain from "@/views/make-law-writ/components/writ-list/components/let-main";
 import GoDB from "@/utils/godb.min.js";
+import { getIndexDangerOnsiteDesc } from '@/utils/setInitPaperData'
 export default {
   name: "Let102",
   props: {
@@ -321,15 +322,12 @@ export default {
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
-        // 获取现场检查笔录中的隐患选择
         const let101Data = await wkPaper.find((item) => {
           return item.caseId === caseId && item.paperType === '1';
         });
         let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
-        let cellIdx7StringList = []
-        let101DataPapaerContent.cellIdx8TypeDangerTableItem.tableData.map((item, index) => {
-          cellIdx7StringList.push(`${(index + 1)}. ${item.itemContent}${item.onsiteDesc}`)
-        })
+        // 获取现场检查笔录中的隐患选择
+        let cellIdx7StringList = await getIndexDangerOnsiteDesc(wkPaper, caseId)
         // 通过机构接口中的sysOfficeInfo中获取的organName和courtPrefix字段分别填充cellIdx8和cellIdx9字段
         const orgInfo = db.table("orgInfo");
         const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
