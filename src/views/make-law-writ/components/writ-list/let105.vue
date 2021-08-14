@@ -1,7 +1,8 @@
-<!-- 现场检查 复查 隐患整改 询问通知书 -->
+<!-- 现场检查 复查 隐患整改 询问通知书 有问题-->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
+      ref="letMain"
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
@@ -152,25 +153,12 @@
         </div>
       </div>
     </let-main>
-    <let-drawer
-      :visible="visible"
-      :selectedData="selectedData"
-      @handle-close="handleClose"
-      @handle-save="handleSave"
-    ></let-drawer>
   </div>
 </template>
 
 <script>
 import letMain from "@/views/make-law-writ/components/writ-list/components/let-main";
-import letDrawer from "@/views/make-law-writ/components/writ-list/components/let-drawer";
 import GoDB from "@/utils/godb.min.js";
-import {
-  setTextItem,
-  setTextareaItem,
-  setDateItem,
-  setDatetimeItem,
-} from "@/utils/handlePaperData";
 export default {
   name: "Let105",
   props: {
@@ -190,26 +178,11 @@ export default {
   },
   components: {
     letMain,
-    letDrawer,
   },
   data() {
     return {
       letData: {},
-      visible: false, // 展示填写组件
-      selectedData: {
-        key: null, // 修改的内容key
-        type: null, // 填写组件类型
-        title: null, // 标题
-        value: null, // 值
-        options: null, // 选项
-      },
       options: {},
-      functions: {
-        setTextItem,
-        setTextareaItem,
-        setDateItem,
-        setDatetimeItem,
-      },
       editData: {}, // 回显数据
     };
   },
@@ -270,39 +243,7 @@ export default {
     },
     commandFill(key, title, type) {
       // 打开编辑
-      this.visible = true;
-      let valueKey = `${key}Type${type}`;
-      this.selectedData = {
-        type,
-        key,
-        title,
-        value: this.letData[valueKey],
-        corpData: this.corpData,
-        options: this.options[key],
-      };
-    },
-    handleClose() {
-      // 关闭编辑
-      this.selectedData = {
-        key: null,
-        type: null,
-        title: null,
-        value: null,
-        options: null,
-      };
-      this.visible = false;
-    },
-    handleSave(params) {
-      let { key, type } = this.selectedData;
-      // 保存反显数据
-      this.letData[`${key}Type${type}`] = params.value;
-      // 处理反显数据，保存一份paperContent通用文本数据
-      this.letData[key] = this.functions[`set${type}`](
-        this.letData[`${key}Type${type}`],
-        this.selectedData,
-        this.options
-      );
-      this.handleClose();
+      this.$refs.letMain.commandFill(key, title, type, this.letData[`${key}Type${type}`], this.options[key])
     },
   },
 };

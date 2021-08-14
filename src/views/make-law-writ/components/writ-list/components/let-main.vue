@@ -54,6 +54,13 @@
         </tr>
       </table>
     </div>
+    <let-drawer
+      ref="letDrawer"
+      :visible="visible"
+      :selectedData="selectedData"
+      @handle-close="handleClose"
+      @handle-save="handleSave"
+    ></let-drawer>
   </div>
 </template>
 
@@ -61,11 +68,27 @@
 import { getNowFormatTime, getNowTime } from "@/utils/date";
 import { randomString } from "@/utils/index";
 import GoDB from "@/utils/godb.min.js";
-import { createHtml } from '@/utils/createHtml'
+import { createHtml } from "@/utils/createHtml";
+import letDrawer from "@/views/make-law-writ/components/writ-list/components/let-drawer";
+import {
+  setTextItem,
+  setCheckItem,
+  setDaterangeItem,
+  setTextareaItem,
+  setCheckPositionItem,
+  setCheckTableItem,
+  setDateItem,
+  setDangerTableItem,
+  setDatetimeItem,
+  setSelectItem,
+  setSelectInputItem,
+} from "@/utils/handlePaperData";
 
 export default {
   name: "LetMain",
-  components: {},
+  components: {
+    letDrawer,
+  },
   props: {
     corpData: {
       // 煤矿信息
@@ -84,7 +107,29 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      visible: false, // 展示填写组件
+      selectedData: {
+        key: null, // 修改的内容key
+        type: null, // 填写组件类型
+        title: null, // 标题
+        value: null, // 值
+        options: null, // 选项
+      },
+      functions: {
+        setTextItem,
+        setCheckItem,
+        setDaterangeItem,
+        setTextareaItem,
+        setCheckPositionItem,
+        setCheckTableItem,
+        setDateItem,
+        setDangerTableItem,
+        setDatetimeItem,
+        setSelectItem,
+        setSelectInputItem,
+      },
+    };
   },
   created() {},
   methods: {
@@ -114,7 +159,7 @@ export default {
         paperType: this.docData.docTypeNo,
         name: this.docData.docTypeName,
         caseId: this.corpData.caseId,
-        caseType: '',
+        caseType: "",
         corpId: this.corpData.corpId,
         corpName: this.corpData.corpName,
         planId: this.corpData.planId,
@@ -158,7 +203,7 @@ export default {
       await db.close();
       // 整理上传数据
       // 整理网页端展示的html
-      let page = createHtml(this.$slots.left[0].elm.innerHTML)
+      let page = createHtml(this.$slots.left[0].elm.innerHTML);
       let submitData = {
         paper: [
           {
@@ -218,7 +263,7 @@ export default {
             p0FloorTime: getNowFormatTime(),
             p8penaltyType: null,
             paperHtml: page,
-            localizeFlag: '1',
+            localizeFlag: "1",
           },
         ],
         jczfCase: [
@@ -276,30 +321,37 @@ export default {
             pcMonth: workCase.pcMonth,
           },
         ],
-        danger: []
+        danger: [],
       };
-      if (this.docData.docTypeNo === '22') {
+      if (this.docData.docTypeNo === "22") {
         // 检查方案上传数据
-        let letData = this.$parent.letData
+        let letData = this.$parent.letData;
         // 监察方式（字典值，多个用逗号隔开）
-        let p22inspection = ''
-        if (letData.cellIdx1TypeCheckItem && letData.cellIdx1TypeCheckItem.length > 0) {
-          letData.cellIdx1TypeCheckItem.map(item => {
-            p22inspection += item + ','
-          })
+        let p22inspection = "";
+        if (
+          letData.cellIdx1TypeCheckItem &&
+          letData.cellIdx1TypeCheckItem.length > 0
+        ) {
+          letData.cellIdx1TypeCheckItem.map((item) => {
+            p22inspection += item + ",";
+          });
         }
-        p22inspection = p22inspection.substring(0, p22inspection.length - 1)
+        p22inspection = p22inspection.substring(0, p22inspection.length - 1);
         // 检查项附件
-        let CheckItemRecords = []
-        if (letData.cellIdx5TypeCheckTableItem && letData.cellIdx5TypeCheckTableItem.tableData && letData.cellIdx5TypeCheckTableItem.tableData.length > 0) {
-          letData.cellIdx5TypeCheckTableItem.tableData.map(item => {
+        let CheckItemRecords = [];
+        if (
+          letData.cellIdx5TypeCheckTableItem &&
+          letData.cellIdx5TypeCheckTableItem.tableData &&
+          letData.cellIdx5TypeCheckTableItem.tableData.length > 0
+        ) {
+          letData.cellIdx5TypeCheckTableItem.tableData.map((item) => {
             let CheckItemRecord = {
               name: item.categoryName,
               basis: item.basis,
               categoryCode: item.categoryCode,
               categoryName: item.categoryName,
               createBy: {
-                id: this.$store.state.user.userId
+                id: this.$store.state.user.userId,
               },
               createDate: item.createDate,
               delFlag: item.delFlag,
@@ -311,36 +363,47 @@ export default {
               souFlag: item.souFlag,
               status: item.status,
               updateBy: {
-                id:this.$store.state.user.userId
+                id: this.$store.state.user.userId,
               },
               updateDate: item.updateDate,
               paperId: workPaper.paperId,
               groupName: this.$store.state.user.userGroupName,
-              personId: '[]'
-            }
-            CheckItemRecords.push(CheckItemRecord)
-          })
+              personId: "[]",
+            };
+            CheckItemRecords.push(CheckItemRecord);
+          });
         }
         let p22JczfCheck = {
-          CheckItemRecords
-        }
+          CheckItemRecords,
+        };
         let p22PaperData = {
-          p22BeginTime: letData.cellIdx2TypeDaterangeItem[0].replace('年', '-').replace('月', '-').replace('日', '') + ' 00:00:00',
-          p22EndTime:  letData.cellIdx2TypeDaterangeItem[1].replace('年', '-').replace('月', '-').replace('日', '') + ' 00:00:00',
+          p22BeginTime:
+            letData.cellIdx2TypeDaterangeItem[0]
+              .replace("年", "-")
+              .replace("月", "-")
+              .replace("日", "") + " 00:00:00",
+          p22EndTime:
+            letData.cellIdx2TypeDaterangeItem[1]
+              .replace("年", "-")
+              .replace("月", "-")
+              .replace("日", "") + " 00:00:00",
           p22location: letData.cellIdx4,
           p22inspection,
           p22JczfCheck: JSON.stringify(p22JczfCheck),
           locationRemarks: letData.cellIdx1,
-        }
-        Object.assign(submitData.paper[0], p22PaperData)
-      } else if (this.docData.docTypeNo === '1') {
+        };
+        Object.assign(submitData.paper[0], p22PaperData);
+      } else if (this.docData.docTypeNo === "1") {
         // 现场检查笔录上传数据
         let danger = [];
         // 当docTypeNo = '1' 即现场检查笔录时，增加回传danger字段
-        if (this.$parent.letData && this.$parent.letData.cellIdx8TypeDangerTableItem) {
-          let dangerItem = this.$parent.letData.cellIdx8TypeDangerTableItem
+        if (
+          this.$parent.letData &&
+          this.$parent.letData.cellIdx8TypeDangerTableItem
+        ) {
+          let dangerItem = this.$parent.letData.cellIdx8TypeDangerTableItem;
           if (dangerItem.tableData && dangerItem.tableData.length > 0) {
-            dangerItem.tableData.map(item => {
+            dangerItem.tableData.map((item) => {
               let dangerData = {
                 id: null,
                 isNewRecord: null,
@@ -357,7 +420,9 @@ export default {
                   id: workPaper.personId,
                 },
                 caseId: workPaper.caseId,
-                dangerId: item.dangerId ? item.dangerId : getNowTime() + randomString(18),
+                dangerId: item.dangerId
+                  ? item.dangerId
+                  : getNowTime() + randomString(18),
                 dangerType: {
                   categoryCode: item.categoryCode,
                 },
@@ -403,12 +468,12 @@ export default {
                 dangerCorrected: null,
                 reviewUnitId: null,
                 reviewUnitName: null,
-              }
-              danger.push(dangerData)
-            })
+              };
+              danger.push(dangerData);
+            });
           }
         }
-        submitData.danger = danger
+        submitData.danger = danger;
       }
       this.$http
         .post(
@@ -437,6 +502,52 @@ export default {
       // 如果打印为22检查方案，另外打印检查分工明细表
       let printDiv = this.$slots.left[0].elm;
       this.$print(printDiv);
+    },
+    commandFill(key, title, type, value, options) {
+      // 文书各个字段点击打开左侧弹出编辑窗口
+      // key为文书数据letData中的的键值
+      // title为el-drawer右侧弹出框的title
+      // type为编辑窗口let-drawer内打开编辑的组件名
+      // value为回显值
+      // options为各组件所需的其他内容：比如选择框的选项等
+      this.visible = true;
+      this.selectedData = {
+        type,
+        key,
+        title,
+        value,
+        corpData: this.corpData,
+        options,
+      };
+    },
+    handleClose() {
+      // 关闭左侧编辑窗口
+      this.selectedData = {
+        key: null,
+        type: null,
+        title: null,
+        value: null,
+        options: null,
+      };
+      this.visible = false;
+    },
+    handleSave(params) {
+      // 点击确定，保存左侧弹出窗口中的数据至文书数据中
+      // params为保存的数据
+      let { key, type, options } = this.selectedData;
+      // 保存反显数据
+      this.$parent.letData[`${key}Type${type}`] = params.value;
+      // 处理反显数据，保存一份paperContent通用文本数据
+      this.$set(
+        this.$parent.letData,
+        key,
+        this.functions[`set${type}`](
+          this.$parent.letData[`${key}Type${type}`],
+          this.selectedData,
+          options
+        )
+      );
+      this.handleClose();
     },
   },
 };

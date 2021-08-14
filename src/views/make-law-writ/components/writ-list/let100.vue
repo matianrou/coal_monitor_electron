@@ -2,6 +2,7 @@
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
+      ref="letMain"
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
@@ -204,21 +205,12 @@
         </div>
       </div>
     </let-main>
-    <let-drawer
-      ref="letDrawer"
-      :visible="visible"
-      :selectedData="selectedData"
-      @handle-close="handleClose"
-      @handle-save="handleSave"
-    ></let-drawer>
   </div>
 </template>
 
 <script>
 import letMain from "@/views/make-law-writ/components/writ-list/components/let-main";
-import letDrawer from '@/views/make-law-writ/components/writ-list/components/let-drawer'
 import GoDB from '@/utils/godb.min.js'
-import { setTextItem, setCheckItem, setDaterangeItem, setTextareaItem, setCheckPositionItem, setCheckTableItem, setDateItem } from '@/utils/handlePaperData'
 export default {
   name: "Let100",
   props: {
@@ -238,33 +230,15 @@ export default {
   },
   components: {
     letMain,
-    letDrawer,
   },
   data() {
     return {
       letData: {},
-      visible: false, // 展示填写组件
-      selectedData: {
-        key: null, // 修改的内容key
-        type: null, // 填写组件类型
-        title: null, // 标题
-        value: null, // 值
-        options: null, // 选项
-      },
       options: {
         cellIdx1: [{ "value": "1", "name": "重点监察" }, { "value": "2", "name": "专项监察" }, { "value": "3", "name": "随机抽查" }, { "value": "4", "name": "会诊" }, { "value": "5", "name": "体检" }, { "value": "7", "name": "煤矿安全集中整治" }, { "value": "8", "name": "“一通三防”全覆盖专项监察" }, { "value": "9", "name": "水害防治专项监察" }, { "value": "10", "name": "机电设备专项监察" },
                       { "value": "11", "name": "安全培训专项监察" }, { "value": "12", "name": "提升运输专项监察" }, { "value": "13", "name": "顶板管理专项监察" }, { "value": "14", "name": "采掘接续专项监察" }, { "value": "15", "name": "建设项目专项监察" }, { "value": "16", "name": "冲击地压防治专项监察" }, { "value": "17", "name": "超能力生产专项监察" }, { "value": "18", "name": "安全投入专项监察" },
                       { "value": "19", "name": "安全生产主体责任专项监察" }, { "value": "20", "name": "矿领导带班下井专项监察" }, { "value": "21", "name": "安全生产许可证专项监察" }, { "value": "22", "name": "安全监控系统专项监察" }, { "value": "23", "name": "应急救援专项监察" }, { "value": "25", "name": "“互联网+ 监管” 远程监察" },
                       { "value": "30", "name": "异地监察" }, { "value": "32", "name": "全系统各环节监察" }, { "value": "33", "name": "停产停工安全巡查" }, { "value": "26", "name": "其他专项监察" }, { "value": "6", "name": "其他" }],
-      },
-      functions: {
-        setTextItem,
-        setCheckItem,
-        setDaterangeItem,
-        setTextareaItem,
-        setCheckPositionItem,
-        setCheckTableItem,
-        setDateItem
       },
       editData: {}, // 回显数据
     };
@@ -368,36 +342,7 @@ export default {
     },
     commandFill (key, title, type) {
       // 文书各个字段点击打开左侧弹出编辑窗口
-      this.visible = true
-      let valueKey = `${key}Type${type}`
-      this.selectedData = {
-        type,
-        key,
-        title,
-        value: this.letData[valueKey],
-        corpData: this.corpData,
-        options: this.options[key]
-      }
-    },
-    handleClose () {
-      // 关闭左侧编辑窗口
-      this.selectedData = {
-        key: null,
-        type: null,
-        title: null,
-        value: null,
-        options: null,
-      }
-      this.visible = false
-    },
-    handleSave (params) {
-      // 点击确定，保存左侧弹出窗口中的数据至文书数据中
-      let {key, type} = this.selectedData
-      // 保存反显数据
-      this.letData[`${key}Type${type}`] = params.value
-      // 处理反显数据，保存一份paperContent通用文本数据
-      this.letData[key] = this.functions[`set${type}`](this.letData[`${key}Type${type}`], this.selectedData, this.options)
-      this.handleClose()
+      this.$refs.letMain.commandFill(key, title, type, this.letData[`${key}Type${type}`], this.options[key])
     },
   },
 };
