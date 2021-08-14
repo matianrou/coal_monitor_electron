@@ -87,7 +87,7 @@
                   data-title="单位"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx5', '单位', 'TextItem')"
+                  @click="commandFill('cellIdx5', '', 'TextItem')"
                 >{{letData.cellIdx5}}</td>
                 <td class="textAlignLeft">的以下行为</td>
               </tr>
@@ -303,12 +303,29 @@
         </div>
       </div>
     </let-main>
+    <el-dialog
+      title="文书信息选择"
+      :close-on-click-modal="false"
+      append-to-body
+      :visible="visible"
+      width="400px"
+      :show-close="false">
+      <span>请选择：</span>
+      <el-radio-group v-model="selectedType">
+        <el-radio label="1">单位</el-radio>
+        <el-radio label="2">个人</el-radio>
+      </el-radio-group>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="confirm">确定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import letMain from "@/views/make-law-writ/components/writ-list/components/let-main";
 import GoDB from "@/utils/godb.min.js";
+import { getDangerObject } from '@/utils/setInitPaperData'
 export default {
   name: "Let204",
   props: {
@@ -334,6 +351,8 @@ export default {
       letData: {},
       options: {},
       editData: {}, // 回显数据
+      visible: false,
+      selectedType: '1', // 初始化时选择的单位或个人，1为单位，2为个人
     };
   },
   created() {
@@ -349,11 +368,7 @@ export default {
   methods: {
     async initData() {
       const db = new GoDB("CoalDB");
-      const corpBase = db.table("corpBase");
       //查询符合条件的记录
-      const corp = await corpBase.find((item) => {
-        return item.corpId == this.corpData.corpId;
-      });
       const wkPaper = db.table("wkPaper");
       const caseId = this.corpData.caseId;
       const checkPaper = await wkPaper.findAll((item) => {
@@ -367,6 +382,8 @@ export default {
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        // 1.弹出提示框，选择单位或个人
+        this.visible = true
         this.letData = {
           cellIdx0: null, // 文书号
           cellIdx1: null, // 文书号
@@ -389,7 +406,7 @@ export default {
           cellIdx18: null, // 月
           cellIdx19: null, // 日
           cellIdx20: null,
-        };
+        }
       }
       await db.close();
     },
@@ -401,6 +418,57 @@ export default {
       // 打开编辑
       this.$refs.letMain.commandFill(key, title, type, this.letData[`${key}Type${type}`], this.options[key])
     },
+    async confirm() {
+      // 选择单位或个人
+      this.visible = false
+      if (this.selectedType === '1') {
+        const db = new GoDB("CoalDB");
+        const wkPaper = db.table("wkPaper");
+        const caseId = this.corpData.caseId;
+        // 按单位初始化信息
+        // 1.经查，你XX的以下行为
+        this.letData.cellIdx5 = '单位'
+        this.letData.cellIdx5TypeTextItem = '单位'
+        let {dangerString, illegalString, penaltyBasisString, penaltyDesc} = await getDangerObject(wkPaper, caseId)
+        // 2.隐患描述+分别违反了+违法认定法条
+        this.letData.cellIdx6 = `${dangerString}分别违反了${illegalString}`
+        this.letData.cellIdx6TypeTextareaItem = `${dangerString}分别违反了${illegalString}`
+        // 3.行政处罚依据
+        this.letData.cellIdx7 = penaltyBasisString
+        this.letData.cellIdx7TypeTextareaItem = penaltyBasisString
+        // 4.行政处罚决定
+        this.letData.cellIdx8 = penaltyDesc
+        this.letData.cellIdx8TypeTextareaItem = penaltyDesc
+        // 5.你单位或个人
+        this.letData.cellIdx9 = '单位'
+        this.letData.cellIdx9TypeTextItem = '单位'
+        // 6.机构接口中获取sysOfficeInfo实体中
+        const orgInfo = db.table("orgInfo");
+        const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
+        // depAddress：我分局地址、
+        // depPost：邮政编码、
+        // master：我分局联系人、
+        // phone：联系电话
+        this.letData.cellIdx12 = orgSysOfficeInfo.depAddress
+        this.letData.cellIdx12TypeTextItem = orgSysOfficeInfo.depAddress
+        this.letData.cellIdx13 = orgSysOfficeInfo.depPost
+        this.letData.cellIdx13TypeTextItem = orgSysOfficeInfo.depPost
+        this.letData.cellIdx14 = orgSysOfficeInfo.master
+        this.letData.cellIdx14TypeTextItem = orgSysOfficeInfo.master
+        this.letData.cellIdx15 = orgSysOfficeInfo.phone
+        this.letData.cellIdx15TypeTextItem = orgSysOfficeInfo.phone
+        await db.close();
+      } else {
+        // 按个人初始化信息
+        // 1.经查，你XX的以下行为
+        this.letData.cellIdx5 = '个人'
+        this.letData.cellIdx5TypeTextItem = '个人'
+        // 2.你单位或个人
+        this.letData.cellIdx9 = '个人'
+        this.letData.cellIdx9TypeTextItem = '个人'
+      }
+    }
   },
 };
 </script>

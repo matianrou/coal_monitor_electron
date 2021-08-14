@@ -41,6 +41,8 @@ export async function getDangerContent (wkPaper, caseId) {
 // dangerString：隐患描述（展示形式为：1. XXX2.XXX未处理最后标点符号）、
 // illegalString：违法认定法条（展示形式：XXX、XXX）
 // treatmentSuggestion： 行政处罚依据+行政处罚决定（展示形式：1.XXX;2.XXX;）
+// penaltyBasisString：行政处罚依据（展示形式：XXX、XXX）
+// penaltyDesc：行政处罚决定（展示形式为：1. XXX2.XXX未处理最后标点符号）、
 export async function getDangerObject (wkPaper, caseId) {
   // wkPaper 文书库表
   // caseId 需要检索的检查活动的id
@@ -54,17 +56,26 @@ export async function getDangerObject (wkPaper, caseId) {
   let illegalString = ''
   // 行政处罚依据+行政处罚决定
   let treatmentSuggestion = ''
+  // 行政处罚依据
+  let penaltyBasisString = ''
+  // 行政处罚决定
+  let penaltyDesc = ''
   let101DataPapaerContent.cellIdx8TypeDangerTableItem.tableData.map((item, index) => {
     dangerString += `${(index + 1)}. ${item.itemContent}`
     illegalString += `${item.confirmClause}、`
     treatmentSuggestion += `${(index + 1)}. ${item.penaltyBasis ? item.penaltyBasis : ''}${item.penaltyDesc ? item.penaltyDesc : ''}；`
+    penaltyBasisString += `${item.penaltyBasisString ? item.penaltyBasisString : ''}、`
+    penaltyDesc += `${item.penaltyDesc ? `${(index + 1)}. ${item.penaltyDesc}` : ''}、`
   })
   illegalString = illegalString.substring(0, illegalString.length - 1)
-  treatmentSuggestion = treatmentSuggestion.substring(0, treatmentSuggestion.length - 1)
-  treatmentSuggestion += '。'
+  treatmentSuggestion = treatmentSuggestion.substring(0, treatmentSuggestion.length - 1) + '。'
+  penaltyBasisString = penaltyBasisString.substring(0, penaltyBasisString.length - 1)
+  penaltyDesc = penaltyDesc.substring(0, penaltyDesc.length - 1) + '。'
   return {
     dangerString,
     illegalString,
-    treatmentSuggestion
+    treatmentSuggestion,
+    penaltyBasisString,
+    penaltyDesc
   }
 }

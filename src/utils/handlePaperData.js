@@ -73,7 +73,7 @@ function setDateItem (data) {
 function setDangerTableItem (data, selectedData, options) {
   // 隐患项数据
   let stringList = []
-  if (options.cellIdx7 && options.cellIdx7.page === '2') {
+  if (options && options.cellIdx7 && options.cellIdx7.page === '2') {
     // 现场处理决定书，特殊处理展示字段： 违法行为描述+现场处理决定
     data.tableData.map((item, index) => {
       stringList.push(`${(index + 1)}. ${item.itemContent}${item.onsiteDesc}`)
