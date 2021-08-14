@@ -70,7 +70,7 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_4"
                   align="center"
-                  style="width:10%"
+                  style="width:9.5%"
                   data-title="分"
                   data-type="text"
                   data-src
@@ -92,7 +92,7 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_6"
                   align="center"
-                  style="width:10%"
+                  style="width:9.5%"
                   data-title="分"
                   data-type="text"
                   data-src
@@ -270,10 +270,10 @@
                   id="cell_idx_20"
                   align="center"
                   style="width:15%"
-                  data-title="陈述、申辩"
+                  data-title="单位/个人"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx20', '陈述、申辩', 'TextItem')"
+                  @click="commandFill('cellIdx20', '单位/个人', 'TextItem')"
                 >{{letData.cellIdx20}}</td>
                 <td class="textAlignLeft">的陈述、申辩。</td>
               </tr>
@@ -305,6 +305,7 @@
 <script>
 import letMain from "@/views/make-law-writ/components/writ-list/components/let-main";
 import GoDB from "@/utils/godb.min.js";
+import { getDangerContent } from '@/utils/setInitPaperData'
 export default {
   name: "Let205",
   props: {
@@ -345,11 +346,7 @@ export default {
   methods: {
     async initData() {
       const db = new GoDB("CoalDB");
-      const corpBase = db.table("corpBase");
       //查询符合条件的记录
-      const corp = await corpBase.find((item) => {
-        return item.corpId == this.corpData.corpId;
-      });
       const wkPaper = db.table("wkPaper");
       const caseId = this.corpData.caseId;
       const checkPaper = await wkPaper.findAll((item) => {
@@ -363,30 +360,60 @@ export default {
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        // 1.时间：当前年、月、日、时、分
+        let now = new Date()
+        let cellIdx0Year = now.getFullYear()
+        let cellIdx1Month = now.getMonth() + 1
+        let cellIdx2Date = now.getDate()
+        let cellIdx3Hour = now.getHours()
+        let cellIdx4Minu = now.getMinutes()
+        // 2.工作单位：煤矿名称
+        const corpBase = db.table("corpBase");
+        const corp = await corpBase.find((item) => {
+          return item.corpId == this.corpData.corpId;
+        });
+        let cellIdx11String = corp.corpName
+        // 3.监察单位
+        let cellIdx18String = this.$store.state.user.userGroupName
+        // 4.陈述、申辩：煤矿名称 + '涉嫌' + 隐患描述 + '案。'
+        let dangerString = await getDangerContent(wkPaper, caseId)
+        let cellIdx19String = `${corp.corpName}涉嫌${dangerString}案。`
+        // 5.单位/个人：从行政处罚告知书(paperType === '6')中获取
+        const let204Data = await wkPaper.find(item => item.caseId === caseId && item.paperType === '6');
+        let let204DataPaperContent = JSON.parse(let204Data.paperContent)
+        let cellIdx20String = let204DataPaperContent.cellIdx9
         this.letData = {
-          cellIdx0: null, // 年
-          cellIdx1: null, // 月
-          cellIdx2: null, // 日
-          cellIdx3: null, // 时
-          cellIdx4: null, // 分
+          cellIdx0: cellIdx0Year, // 年
+          cellIdx0TypeTextItem: cellIdx0Year, // 年
+          cellIdx1: cellIdx1Month, // 月
+          cellIdx1TypeTextItem: cellIdx1Month, // 年
+          cellIdx2: cellIdx2Date, // 日
+          cellIdx2TypeTextItem: cellIdx2Date, // 年
+          cellIdx3: cellIdx3Hour, // 时
+          cellIdx3TypeTextItem: cellIdx3Hour, // 时
+          cellIdx4: cellIdx4Minu, // 分
+          cellIdx4TypeTextItem: cellIdx4Minu, // 分
           cellIdx5: null, // 时
           cellIdx6: null, // 分
           cellIdx7: null, // 地点
           cellIdx8: null, // 陈述、申辩人
           cellIdx9: null, // 性别
           cellIdx10: null, // 年龄
-          cellIdx11: null, // 工作单位
+          cellIdx11: cellIdx11String, // 工作单位
+          cellIdx11TypeTextItem: cellIdx11String, // 工作单位
           cellIdx12: null, // 职务（职业）
           cellIdx13: null, // 邮政编码
           cellIdx14: null, // 电话
           cellIdx15: null, // 承办人（签名）
           cellIdx16: null, // 承办人（签名）
           cellIdx17: null, // 记录人（签名）
-          cellIdx18: null, // 监察员
-          cellIdx19: null, // 违法行为
-          cellIdx20: null, // 陈述、申辩
+          cellIdx18: cellIdx18String, // 监察员
+          cellIdx18TypeTextItem: cellIdx18String, // 监察员
+          cellIdx19: cellIdx19String, // 违法行为
+          cellIdx19TypeTextareaItem: cellIdx19String, // 违法行为
+          cellIdx20: cellIdx20String, // 单位/个人
+          cellIdx20TypeTextItem: cellIdx20String, // 单位/个人
           cellIdx21: null, // 法制审核意见
-
         };
       }
       await db.close();

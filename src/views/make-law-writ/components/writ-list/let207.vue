@@ -126,7 +126,7 @@
                   data-title="送达方式"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx7', '送达方式', 'TextItem')"
+                  @click="commandFill('cellIdx7', '送达方式', 'SelectItem')"
                 >{{letData.cellIdx7}}</td>
               </tr>
             </table>
@@ -248,6 +248,7 @@
 <script>
 import letMain from "@/views/make-law-writ/components/writ-list/components/let-main";
 import GoDB from "@/utils/godb.min.js";
+import { getDocNumber } from '@/utils/setInitPaperData'
 export default {
   name: "Let207",
   props: {
@@ -271,7 +272,30 @@ export default {
   data() {
     return {
       letData: {},
-      options: {},
+      options: {
+        cellIdx7: [ // 送达方式码表
+          {
+            value: '直接送达',
+            name: '直接送达'
+          },
+          {
+            value: '留置送达',
+            name: '留置送达'
+          },
+          {
+            value: '委托送达',
+            name: '委托送达'
+          },
+          {
+            value: '邮寄送达',
+            name: '邮寄送达'
+          },
+          {
+            value: '公告送达',
+            name: '公告送达'
+          },
+        ],
+      },
       editData: {}, // 回显数据
     };
   },
@@ -306,14 +330,24 @@ export default {
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        // 1.送达文书：国家煤矿安全监察行政处罚决定书
+        let cellIdx4String = '国家煤矿安全监察行政处罚决定书'
+        // 2.文书字号：
+        let userGroupId = this.$store.state.user.userGroupId
+        let cellIdx5String = await getDocNumber(db, this.docData.docTypeNo, userGroupId)
+        // 3.送达地点：煤矿名称
+        let cellIdx6String = corp.corpName
         this.letData = {
           cellIdx0: null, // 文书号
           cellIdx1: null, // 文书号
           cellIdx2: null, // 文书号
           cellIdx3: null, // 文书号
-          cellIdx4: null, // 送达文书
-          cellIdx5: null, // 文书字号
-          cellIdx6: null, // 送达地点
+          cellIdx4: cellIdx4String, // 送达文书
+          cellIdx4TypeTextItem: cellIdx4String, // 送达文书
+          cellIdx5: cellIdx5String, // 文书字号
+          cellIdx5TypeTextItem: cellIdx5String, // 文书字号
+          cellIdx6: cellIdx6String, // 送达地点
+          cellIdx6TypeTextItem: cellIdx6String, // 送达地点
           cellIdx7: null, // 送达方式
           cellIdx8: null, // 送达人
           cellIdx9: null, // 签名

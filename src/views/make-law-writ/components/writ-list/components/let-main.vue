@@ -393,15 +393,17 @@ export default {
           locationRemarks: letData.cellIdx1,
         };
         Object.assign(submitData.paper[0], p22PaperData);
-      } else if (this.docData.docTypeNo === "1") {
-        // 现场检查笔录上传数据
+      } else if (this.docData.docTypeNo === "1" || this.docData.docTypeNo === "2") {
+        // 现场检查笔录或现场处理决定书增加上传隐患项数据
         let danger = [];
-        // 当docTypeNo = '1' 即现场检查笔录时，增加回传danger字段
+        // 当docTypeNo = '1' 即现场检查笔录时，隐患项key为cellIdx8TypeDangerTableItem
+        // 当docTypeNo = '2' 即现场处理决定书时，隐患项key为cellIdx7TypeDangerTableItem
+        let key = this.docData.docTypeNo === "1" ? 'cellIdx8TypeDangerTableItem' : 'cellIdx7TypeDangerTableItem'
         if (
           this.$parent.letData &&
-          this.$parent.letData.cellIdx8TypeDangerTableItem
+          this.$parent.letData[key]
         ) {
-          let dangerItem = this.$parent.letData.cellIdx8TypeDangerTableItem;
+          let dangerItem = this.$parent.letData[key];
           if (dangerItem.tableData && dangerItem.tableData.length > 0) {
             dangerItem.tableData.map((item) => {
               let dangerData = {
@@ -474,6 +476,18 @@ export default {
           }
         }
         submitData.danger = danger;
+      } else if (this.docData.docTypeNo === "8") {
+        // 行政处罚决定书let206增加上传数据
+        let p8PaperData = {
+          p8Penalty: '', // 罚款总额
+          p8PersonPenalty: '', // 个人罚款总额
+          p8OrgPenalty: '' // 企业罚款总额
+        }
+        let p8dangerData = {
+          penaltyType: '', // 行政处罚类型
+          penaltyOrgFine: '', // 单位罚金
+          penaltyPersonFine: '', // 个人罚金
+        }
       }
       this.$http
         .post(

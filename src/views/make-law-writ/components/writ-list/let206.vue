@@ -376,25 +376,56 @@ export default {
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        // 1.关联行政处罚告知书
+        const let205Data = await wkPaper.find(item => item.caseId === caseId && item.paperType === '6')
+        // 2.单位/个人：行政处罚告知书中的单位/个人cellIdx5
+        let let205DataPaperContent = JSON.parse(let205Data.paperContent)
+        let cellIdx4String = let205DataPaperContent.cellIdx5
+        console.log('let205DataPaperContent', let205DataPaperContent)
+        // 3.被处罚：如果为单位时赋值煤矿名称coprName
+        // 4.地址：如果为单位时赋值煤矿地址address
+        // 5.违法事实：行政处罚告知书中的cellIdx6
+        // 6.法律规定 :行政处罚告知书中的cellIdx7
+        // 7.法律依据 :行政处罚告知书中的cellIdx8
+        // 8.行政处罚 :行政处罚告知书中的cellIdx9
+        // 9.机构接口中sysOfficeInfo实体中对应：
+        // accountName；银行：accountBank；账户名称：billName；账号：account；
+        // 地址：accountAddress；组织机构名：organName；法院：courtPrefix
+        const orgInfo = db.table("orgInfo");
+        const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
         this.letData = {
           cellIdx0: null, // 文书号
           cellIdx1: null, // 文书号
           cellIdx2: null, // 文书号
           cellIdx3: null, // 文书号
-          cellIdx4: null, //
-          cellIdx5: null, // 被处罚
-          cellIdx6: null, // 地址
-          cellIdx7: null, // 违法事实
-          cellIdx8: null, // 法律规定
-          cellIdx9: null, // 法律依据
-          cellIdx10: null, // 行政处罚
-          cellIdx11: null, // 煤监机构
-          cellIdx12: null, // 银行
-          cellIdx13: null, // 支行（分理处），账户名称
-          cellIdx14: null, // 账号
-          cellIdx15: null, // 地址
-          cellIdx16: null, // 煤监机构
-          cellIdx17: null, // 人民法院
+          cellIdx4: let205DataPaperContent.cellIdx5, // 单位/个人
+          cellIdx5: cellIdx4String === '单位' ? corp.corpName : '', // 被处罚
+          cellIdx5TextItem: cellIdx4String === '单位' ? corp.corpName : '', // 被处罚
+          cellIdx6: cellIdx4String === '单位' ? corp.address : '', // 地址
+          cellIdx6TextItem: cellIdx4String === '单位' ? corp.address : '', // 地址
+          cellIdx7: let205DataPaperContent.cellIdx6, // 违法事实
+          cellIdx7TypeTextareaItem: let205DataPaperContent.cellIdx6, // 违法事实
+          cellIdx8: let205DataPaperContent.cellIdx7, // 法律规定
+          cellIdx8TypeTextareaItem: let205DataPaperContent.cellIdx7, // 法律规定
+          cellIdx9: let205DataPaperContent.cellIdx8, // 法律依据
+          cellIdx9TypeTextareaItem: let205DataPaperContent.cellIdx8, // 法律依据
+          cellIdx10: let205DataPaperContent.cellIdx9, // 行政处罚
+          cellIdx10TypeTextItem: let205DataPaperContent.cellIdx9, // 行政处罚
+          cellIdx11: orgSysOfficeInfo.accountName, //
+          cellIdx11TypeTextItem: orgSysOfficeInfo.accountName, //
+          cellIdx12: orgSysOfficeInfo.accountBank, // 银行
+          cellIdx12TypeTextItem: orgSysOfficeInfo.accountBank, // 银行
+          cellIdx13: orgSysOfficeInfo.billName, // 支行（分理处），账户名称
+          cellIdx13TypeTextItem: orgSysOfficeInfo.billName, // 支行（分理处），账户名称
+          cellIdx14: orgSysOfficeInfo.account, // 账号
+          cellIdx14TypeTextItem: orgSysOfficeInfo.account, // 账号
+          cellIdx15: orgSysOfficeInfo.accountAddress, // 地址
+          cellIdx15TypeTextItem: orgSysOfficeInfo.accountAddress, // 地址
+          cellIdx16: orgSysOfficeInfo.organName, // 煤监机构
+          cellIdx16TypeTextItem: orgSysOfficeInfo.organName, // 煤监机构
+          cellIdx17: orgSysOfficeInfo.courtPrefix, // 人民法院
+          cellIdx17TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
           cellIdx18: null, //
           cellIdx19: null, // 年
           cellIdx20: null, // 月

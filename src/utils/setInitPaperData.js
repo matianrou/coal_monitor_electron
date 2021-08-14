@@ -1,5 +1,47 @@
 // 初始化各文书数据
 
+// 初始化文书编号：
+// 文书编号规则：1.机构接口中sysOfficeInfo实体中docRiseSafe字段+“煤安监”
+//             2.机构接口中sysOfficeInfo实体中docRiseDepa字段 +
+//             3.根据不同文书 显示（立、告、罚、送、催）+
+//             4.{当前年份}+
+//             5.个人执法编号+
+//             6.3位数字（自增的）
+export async function getDocNumber(db, docTypeNo, userGroupId) {
+  // 获取当前机构
+  const orgInfo = db.table("orgInfo");
+  const orgData = await orgInfo.find(item => item.no === userGroupId)
+  let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
+  // 根据文书类型，获得（立、告、罚、送、催）
+  let docString = ''
+  switch (docTypeNo) {
+    case '4': // 立案决定书let201
+      docString = '立'
+      break
+    case '6': // 行政处罚告知书let204
+      docString = '告'
+      break
+    case '8': // 行政处罚决定书let206
+      docString = '罚'
+      break
+    case '9': // 送达收执let207
+      docString = '送'
+      break
+    case '39': // 行政决定履行催告书let208
+      docString = '催'
+      break
+    case '2': // 行现场处理决定书let102
+      docString = '处'
+      break
+  }
+  // 当前年份
+  let date = new Date()
+  let curYear = date.getFullYear()
+  // 个人执法编号
+  // 3位数字
+  return `${orgSysOfficeInfo.docRiseSafe}煤安监${orgSysOfficeInfo.docRiseDepa}${docString}〔${curYear}〕`
+}
+
 // 返回已选的隐患描述+现场处理决定，展示样式：1.XXXX2.XXXXXX（未处理隐患文本及现场处理决定中最后的符号）
 export async function getIndexDangerOnsiteDesc (wkPaper, caseId) {
   // wkPaper 文书库表
