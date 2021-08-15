@@ -146,7 +146,7 @@ export default {
       // 关闭弹窗
       this.$refs.dataForm.resetFields();
       this.initData();
-      this.$emit("close", { name: "createCase", refresh });
+      this.$emit("close", { name: "newCase", refresh });
     },
     async submit() {
       // 提交
@@ -169,6 +169,9 @@ export default {
       if (corpPlan.length > 0 && corpPlan[0].dbplanId) {
         // 所选煤矿、检查日期年月、归档机构均符合时，直接创建检查活动
         await this.doSaveCase(corpBase[0], corpPlan[0]);
+      } else {
+        // 无计划时，创建无planId的检查活动，放入其他类型中
+        await this.doSaveCase(corpBase[0]);
       }
       // 刷新页面
       this.cancel(true);
@@ -203,7 +206,7 @@ export default {
         planEndDate: this.dataForm.endDate,
         meikuangType: corpBase.meikuangType,
         meikuangPlanfrom: corpBase.meikuangPlanfrom ? corpBase.meikuangPlanfrom : "1",
-        planId: corpPlan.dbplanId,
+        planId: corpPlan ? corpPlan.dbplanId : '',
         pcMonth: this.selectPlanData.selPlanDate,
       };
       const db = new GoDB("CoalDB");

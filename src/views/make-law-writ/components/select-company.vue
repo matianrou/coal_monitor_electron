@@ -5,35 +5,80 @@
     :close-on-click-modal="false"
     append-to-body
     :visible="visible"
-    width="500px"
+    width="800px"
+    top="10vh"
     @close="close">
     <div class="company-tree" v-loading="loading">
-      <el-tree
-        ref="companyTree"
-        node-key="fid"
-        :data="companyList"
-        :props="{
-          children: 'children',
-          label: 'jgqc'
-        }"
-        accordion
-        :expand-on-click-node="true"
-        :highlight-current="true"
-        style="height: 300px; padding: 0px 10px;"
-        :default-expanded-keys="defaultExpandedKey"
-        @node-click="selectCompany">
-      </el-tree>
+      <el-form
+        v-loading="loading"
+        :model="dataForm"
+        ref="dataForm"
+        label-width="0"
+        size="small"
+        @keyup.enter.native="getCompanyList()">
+        <!-- 是否本级机构筛选 -->
+        <!-- <el-form-item
+          prop="onlySelf">
+          <el-checkbox
+            v-model="dataForm.onlySelf"
+            @change="getCompanyList">
+            仅显示本机构
+          </el-checkbox>
+        </el-form-item> -->
+        <!-- 企业矿井类型筛选 -->
+        <el-form-item
+          prop="companyStatus">
+          <el-radio-group
+            v-model="dataForm.companyStatus"
+            @change="getCompanyList">
+            <el-radio label="">全部</el-radio>
+            <el-radio label="11">上级企业</el-radio>
+            <el-radio label="0101">正常生产矿井</el-radio>
+            <el-radio label="0301">关闭矿井</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <!-- 企业名称输入检索 -->
+        <el-form-item
+          prop="companyName">
+          <el-input
+            v-model.trim="dataForm.companyName"
+            placeholder="请输入企业名称"
+            style="width: 200px;"
+            clearable>
+          </el-input>
+          <el-button type="primary" @click="getCompanyList">搜索</el-button>
+        </el-form-item>
+      </el-form>
+      <div class="select-company-main">
+        <!-- 按地区筛选 -->
+        <div class="select-company-tree">
+          <el-tree
+            ref="areaTree"
+            :data="areaTree"
+            :props="{
+              label: 'name',
+              children: 'children',
+            }"
+            node-key="code"
+            default-expand-all
+            :highlight-current="true"
+            :expand-on-click-node="false"
+            @node-click="selectArea">
+          </el-tree>
+        </div>
+        <!-- 企业筛选结果 -->
+        <div class="select-company-list">
+          <div
+            v-for="(item, index) in companyList"
+            :key="index"
+            :class="item.active ? 'active-item select-company-list-item' : 'select-company-list-item'"
+            @click="selectCompany(item, index)">
+            <img src="@/views/make-law-writ/assets/image/company.png" alt="" />
+            <span style="margin-left: 7px;">{{ item.corpName }}</span>
+          </div>
+        </div>
+      </div>
     </div>
-    <el-row class="select-depart-row">
-      <span>已选择：{{ selectedDepartTem.jgqc }}
-        <i
-          v-if="selectedDepartTem.jgqc"
-          class="el-icon-close"
-          title="清空已选企业"
-          @click="clearSelect">
-        </i>
-      </span>
-    </el-row>
     <span slot="footer" class="dialog-footer">
       <el-button @click="close">取消</el-button>
       <el-button type="primary" @click="confirm">确定</el-button>
@@ -43,6 +88,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
+import { treeDataTranslate } from '@/utils/index'
   export default {
     name: 'selectCompanyDialog',
     props: {
@@ -50,17 +96,20 @@ import GoDB from "@/utils/godb.min.js";
         type: Boolean,
         default: false
       },
-      companyId: { // 已选中的机构
-        type: String,
-        default: null
-      },
     },
     data () {
       return {
         loading: false,
-        selectedDepartTem: {}, // 临时选择的机构
-        defaultExpandedKey: [],
         companyList: [],
+        areaTree: [],
+        selectedCompany: null, // 选择的企业
+        dataForm: { // 筛选条件
+          onlySelf: false, // 仅显示本机构
+          companyStatus: '', // 企业状态：全部、上级企业、正常生产矿井、关闭矿井
+          companyName: '', // 按企业名称搜索
+          areaId: '', // 按地区检索
+        },
+        curAreaLevel: null, // 当前地区节点的level，用于检索
       }
     },
     created () {
@@ -70,103 +119,130 @@ import GoDB from "@/utils/godb.min.js";
       async init () {
         this.loading = true
         // 获取企业列表
+        await this.getAreaTree()
         await this.getCompanyList()
-        // 回显
-        this.setSearchDepart()
-        // 高亮及展开
-        this.setTreeKey()
         this.loading = false
+      },
+      async getAreaTree() {
+        const db = new GoDB('CoalDB');
+        const doEnterpriseList = db.table('doEnterpriseList');
+        let areaId = this.$store.state.user.userAreaId
+        const areaList = await doEnterpriseList.findAll((item) => {
+          return item.parentId === areaId || item.no === areaId;
+        })
+        this.areaTree = treeDataTranslate(areaList, 'code', 'parentId')
+        this.selectArea(this.areaTree[0])
+        await db.close()
       },
       // 获取企业列表
       async getCompanyList() {
         // 获取企业数据
+        // 整理筛选项内容：
+        let {companyStatus, companyName, areaId} = this.dataForm
         const db = new GoDB("CoalDB");
-        const corpInfo = db.table("orgInfo"); // 机构
-        console.log('userAreaId', this.$store.state.user.userAreaId)
-        let corpList = await corpInfo.findAll(item => item.groupId === this.$store.state.user.userGroupId && item.delFlag === '0')
-        console.log('corpList', corpList)
+        const corpBase = db.table("corpBase"); // 煤矿企业
+        let corpList = await corpBase.findAll(item => {
+          if (companyStatus === '11')  {
+            return item.constructType == companyStatus &&
+                    item.delFlag === '0' &&
+                    item.corpName.indexOf(companyName) !== -1 &&
+                    item.zoneCountyId.slice(0, this.curAreaLevel) === (areaId ? areaId.slice(0, this.curAreaLevel) : item.zoneCountyId)
+          } else if (companyStatus === '') {
+            return item.corpName.indexOf(companyName) !== -1 &&
+                    item.delFlag === '0' &&
+                    item.zoneCountyId.slice(0, this.curAreaLevel) === (areaId ? areaId.slice(0, this.curAreaLevel) : item.zoneCountyId)
+          } else {
+            return item.mineStatusZs == companyStatus &&
+                    item.delFlag === '0' &&
+                    item.corpName.indexOf(companyName) !== -1 &&
+                    item.zoneCountyId.slice(0, this.curAreaLevel) === (areaId ? areaId.slice(0, this.curAreaLevel) : item.zoneCountyId)
+          }
+        })
+        if (corpList.length > 0) {
+          corpList.forEach(item => {
+            item.active = false
+          })
+        }
+        this.companyList = corpList
         await db.close();
 
       },
-      setTreeKey () {
-        // 设置高亮及展开
-        if (this.companyId) {
-          // 如果有选中的单位，回显，则高亮选中并展开
-          this.$refs.companyTree.setCurrentKey(this.companyId)
-          this.$set(this.defaultExpandedKey, '0', this.companyId)
+      selectArea(data, node, ele) {
+        // 选中地区进行筛选 按名称中是否有省做判断条件，当前选中地区的level
+        if (data.name.indexOf('省') !== -1) {
+          this.curAreaLevel = 3
         } else {
-          if (this.companyList.length > 0) {
-            // 如果没有选中单位，则默认展开第一个机构，但不高亮显示
-            // this.$refs.companyTree.setCurrentKey(this.companyList[0].fid)
-            this.$set(this.defaultExpandedKey, '0', this.companyList[0].fid)
-          }
+          this.curAreaLevel = 4
         }
+        this.dataForm.areaId = data.code
+        this.getCompanyList()
       },
-      setSearchDepart () {
-        // 设置回显
-        if (this.companyId) {
-          this.searchDepart(this.companyList, this.companyId)
-        } else {
-          this.selectedDepartTem = {
-            fid: '',
-            jgqc: '',
-            level: null
-          }
-        }
-      },
-      searchDepart(list, depart) {
-        // 用于回显departOption和departSelect
-        for (let i = 0; i < list.length; i++ ) {
-          if (list[i].fid === depart) {
-            this.selectedDepartTem = list[i]
-          } else {
-            this.searchDepart(list[i].children, depart)
-          }
-        }
-      },
-      selectCompany(data, node, ele) {
-        // 临时保存数据
-        this.selectedDepartTem = JSON.parse(JSON.stringify(data))
-        this.$nextTick(() => {
-          // 使树筛选时选中的节点高亮显示
-          this.$refs.companyTree.setCurrentKey(data.fid)
-        })
-      },
-      close () {
+      close (refresh) {
         // 关闭选择弹窗
-        this.selectedDepartTem = {}
-        this.$emit('close')
+        this.selectedCompany = null
+        this.$emit('close', {page: 'selectCompany', refresh})
+      },
+      selectCompany (company, index) {
+        // 选中企业
+        // 清空其他企业选中状态
+        this.companyList.forEach(item => {
+          item.active = false
+        })
+        // 设置选中样式
+        let companyObj = Object.assign({}, company, {
+          active: true
+        })
+        this.$set(this.companyList, index, companyObj)
+        this.selectedCompany = companyObj
       },
       confirm() {
         // 关闭机构弹窗，并赋值
         // 将临时保存数据结果赋值到数据中
-        this.$emit('confirm', this.selectedDepartTem)
+        this.$emit('confirm-company', this.selectedCompany)
+        this.close()
       },
-      clearSelect () {
-        // 清空选择
-        this.$set(this, 'selectedDepartTem', {})
-        this.$nextTick(() => {
-          this.$refs.companyTree.setCurrentKey(null)
-        })
-      }
     }
   }
 </script>
 
 <style lang="scss" scoped>
+.el-form-item {
+  margin-bottom: 0px;
+}
 .company-tree {
   border: 1px solid #DCDFE6;
-}
-.select-depart-row {
-  padding: 0px 30px;
-  margin-top: 30px;
-  font-size: 16px;
-  color: #303133;
-  i {
-    color: #409EFF;
-    cursor: pointer;
-    &:hover {
-      color: rgb(140, 197, 255);
+  padding: 10px 20px;
+  .select-company-main {
+    display: flex;
+    height: 400px;
+    border: 1px solid #DCDFE6;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+    margin-top: 10px;
+    .select-company-tree {
+      flex: 2;
+      border-right: 1px solid #DCDFE6;
+    }
+    .select-company-list {
+      flex: 3;
+      height: 100%;
+      overflow: auto;
+      white-space: nowrap;
+      .select-company-list-item {
+        display: flex;
+        height: 30px;
+        align-items: center;
+        cursor: pointer;
+        padding: 0 10px;
+        &:hover {
+          background: rgba(83, 168, 255, 0.7);
+          color: #fff;
+        }
+      }
+      .active-item {
+        background: rgb(83, 168, 255);
+        color: #fff;
+      }
     }
   }
 }
@@ -184,8 +260,16 @@ import GoDB from "@/utils/godb.min.js";
 /deep/ .el-tree-node__children {
   overflow: visible!important;
 }
+/deep/ .el-tree-node__content:hover {
+  background: rgba(83, 168, 255, 0.7);
+  color: #fff;
+}
+/deep/ .el-tree-node:focus>.el-tree-node__content {
+  background: rgb(83, 168, 255);
+  color: #fff;
+}
 /deep/ .el-tree--highlight-current .el-tree-node.is-current>.el-tree-node__content {
-  background-color: #0060a6;
+  background: rgb(83, 168, 255);
   color: #fff;
 }
 </style>

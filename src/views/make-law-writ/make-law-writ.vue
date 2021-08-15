@@ -49,7 +49,7 @@
       </component>
     </div>
     <writ-information
-      :visible="visible.createCase"
+      :visible="visible.newCase"
       :corp-data="corpData"
       :select-plan-data="selectPlanData"
       @close="closeDialog"
@@ -124,7 +124,7 @@ export default {
       corpData: {}, // 选择的煤矿
       selectPlanData: {}, // 选择的计划日期和归档机构
       visible: {
-        createCase: false, // 创建检查活动弹窗
+        newCase: false, // 创建检查活动弹窗
       },
       showTemp: null, // 展示的文书详情模板号，比如let100
       docData: {}, // 选择显示的文书基本信息编号及名称
@@ -143,7 +143,7 @@ export default {
       this.corpData = data.corpData
       this.selectPlanData = data.selectPlanData
       // 弹窗创建计划
-      this.visible.createCase = true
+      this.visible.newCase = true
     },
     async closeDialog (params) {
       if (params.refresh) {

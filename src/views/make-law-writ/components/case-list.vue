@@ -40,6 +40,19 @@
             </td>
           </tr>
         </table>
+        <div style="height:36px;background-color:#fff;color:#666;display:flex; justify-content: flex-end;padding: 0 8px;">
+          <!-- 选择计划或其他 -->
+          <div style="width:30%;">
+            <el-select
+              v-model="dataForm.caseType"
+              style="width:100%;height:32px;"
+              size="small"
+              @change="val => changeSelect(val, 'caseType')">
+              <el-option value="计划"></el-option>
+              <el-option value="其他"></el-option>
+            </el-select>
+          </div>
+        </div>
         <table
           style="width:320px;background-color:#fff;color:#666;display:inline-block"
           id="tableCorpList">
@@ -97,7 +110,10 @@
       </el-button>&nbsp;&nbsp;
     </div>
     <select-company
-      :visible="visible.selectOrg"
+      v-if="visible.selectCompany"
+      :visible="visible.selectCompany"
+      @close="close"
+      @confirm-company="confirmCompany"
     ></select-company>
   </div>
 </template>
@@ -132,9 +148,10 @@ export default {
         selPlanDate: null, // 检查计划或检查活动的年-月
         selGovUnit: null, // 归档机构单位
         selGovUnitName: null, // 归档机构单位名称
+        caseType: '计划', // 是否为计划内的检查活动
       },
       visible: {
-        selectOrg: false
+        selectCompany: false
       }
     };
   },
@@ -221,60 +238,91 @@ export default {
       const db = new GoDB("CoalDB");
       const docPlan = db.table("docPlan"); // 计划
       const wkCaseInfo = db.table("wkCase"); // 检查活动
-      // 增加逻辑：先获取检查活动，按检查活动对比计划中的企业信息
-      // 如果计划中的企业已有检查，则名称前增加”（已做）“
-      // 检查活动
-      const wkCase = await wkCaseInfo.findAll((item) => {
-        return item.groupId === userGroupId
-        && item.pcMonth === selectPlanDate;
-      });
-      // 计划
-      const arrPlan = await docPlan.findAll((item) => {
-        return item.groupId === userGroupId
-        && (`${item.planYear}-${item.planMonth}`) === selectPlanDate;
-      });
-      await db.close();
-      if (wkCase.length > 0) {
-        wkCase.map(caseItem => {
-          arrPlan.forEach(planItem => {
-            if (planItem.corpId === caseItem.corpId) {
-              if (planItem.corpName.indexOf('(已做)') === -1)
-              planItem.corpName = `(已做)${planItem.corpName}`
-            }
+      // 判断检查活动类型选择为计划或者其他，计划则为由网页端创建的计划再创建的检查活动，
+      // 其他则为未从网页端创建，直接从客户端创建的检查活动，无planId，归档时归入其他类
+      let corpList = []
+      if (this.dataForm.caseType === '计划') {
+        // 增加逻辑：先获取检查活动，按检查活动对比计划中的企业信息
+        // 如果计划中的企业已有检查，则名称前增加”（已做）“
+        // 检查活动
+        let wkCase = await wkCaseInfo.findAll((item) => {
+          return item.groupId === userGroupId
+          && item.pcMonth === selectPlanDate
+          && item.planId;
+        });
+        // 计划
+        let arrPlan = await docPlan.findAll((item) => {
+          return item.groupId === userGroupId
+          && (`${item.planYear}-${item.planMonth}`) === selectPlanDate;
+        });
+        if (wkCase.length > 0) {
+          wkCase.map(caseItem => {
+            arrPlan.forEach(planItem => {
+              if (planItem.corpId === caseItem.corpId) {
+                if (planItem.corpName.indexOf('(已做)') === -1)
+                planItem.corpName = `(已做)${planItem.corpName}`
+              }
+            })
           })
+        }
+        let listArr = [...wkCase, ...arrPlan];
+        this.total = listArr.length;
+        // 转换为列表所需要的值
+        listArr.map((k, index) => {
+          let corp = {}
+          if (k.dbplanId) {
+            corp= {
+              index: index,
+              dbplan: true,
+              corpId: k.corpId,
+              corpName: k.corpName,
+              planId: k.dbplanId,
+              no: k.no,
+              active: false,
+            }
+          } else if (k.caseId) {
+            corp = {
+              index: index,
+              plan: true,
+              casetype: k.caseType,
+              caseId: k.caseId,
+              corpName: k.corpName,
+              planId: k.planId,
+              corpId: k.corpId,
+              no: k.no,
+              active: false,
+            }
+          }
+          corpList.push(corp)
+        })
+      } else if (this.dataForm.caseType === '其他') {
+        // 检查活动
+        let wkCase = await wkCaseInfo.findAll((item) => {
+          return item.groupId === userGroupId
+          && item.pcMonth === selectPlanDate
+          && !item.planId;
+        })
+        let listArr = [...wkCase]
+        // 转换为列表所需要的值
+        listArr.map((k, index) => {
+          let corp = {}
+          if (k.caseId) {
+            corp = {
+              index: index,
+              plan: true,
+              casetype: k.caseType,
+              caseId: k.caseId,
+              corpName: k.corpName,
+              planId: '',
+              corpId: k.corpId,
+              no: k.no,
+              active: false,
+            }
+          }
+          corpList.push(corp)
         })
       }
-      const listArr = [...wkCase, ...arrPlan];
-      this.total = listArr.length;
-      // 转换为列表所需要的值
-      let corpList = []
-      listArr.map((k, index) => {
-        let corp = {}
-        if (k.dbplanId) {
-          corp= {
-            index: index,
-            dbplan: true,
-            corpId: k.corpId,
-            corpName: k.corpName,
-            planId: k.dbplanId,
-            no: k.no,
-            active: false,
-          }
-        } else if (k.caseId) {
-          corp = {
-            index: index,
-            plan: true,
-            casetype: k.caseType,
-            caseId: k.caseId,
-            corpName: k.corpName,
-            planId: k.planId,
-            corpId: k.corpId,
-            no: k.no,
-            active: false,
-          }
-        }
-        corpList.push(corp)
-      })
+      await db.close();
       this.corpList = corpList
     },
     async showDocHome(data, index) {
@@ -325,8 +373,15 @@ export default {
           dangerouslyUseHTMLString: true,
           type: 'warning'
         }).then(() => {
-          this.visible.selectOrg = true
+          this.visible.selectCompany = true
         }).catch(() => {})
+    },
+    close ({page, refresh}) {
+      this.visible[page] = false
+    },
+    confirmCompany (company) {
+      // 选中企业
+      this.editaddbook(company)
     }
   },
 };
