@@ -52,9 +52,12 @@
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
                 </td>
-                <td
-                  style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"
-                >
+                <td class="writ-flow-spantd-ex">
+                  <img
+                    v-if="flowStatus.paper1"
+                    :src="require(flowStatus.paper1 === 'save' ? '@/views/make-law-writ/assets/image/save.png' : '@/views/make-law-writ/assets/image/file.png')"
+                    :title="flowStatus.paper1 === 'save' ? '已保存' : '已归档'"
+                    alt="" />
                   <span @click="cmdEditDoc('let101','现场检查笔录', '1')" class="flow-span">现场检查笔录</span>
                 </td>
                 <td style="width:28px;">
@@ -70,7 +73,7 @@
                     <br />决定书</span>
                 </td>
                 <!-- <td style="width:28px;"><img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3.png" style="height: 65px;" /></td>
-                <td style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"><a class="{let103}" href="javascript:cmdEditDoc('let103','责令限期整改指令书','5')">责令限期整改<br />指令书</a></td>-->
+                <td class="writ-flow-spantd-ex"><a class="{let103}" href="javascript:cmdEditDoc('let103','责令限期整改指令书','5')">责令限期整改<br />指令书</a></td>-->
                 <td style="width:12px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c7.png" style="height: 65px;" />
                 </td>
@@ -96,9 +99,12 @@
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
                 </td>
-                <td
-                  style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"
-                >
+                <td class="writ-flow-spantd-ex">
+                  <img
+                    v-if="flowStatus.paper13"
+                    :src="require(flowStatus.paper13 === 'save' ? '@/views/make-law-writ/assets/image/save.png' : '@/views/make-law-writ/assets/image/file.png')"
+                    :title="flowStatus.paper13 === 'save' ? '已保存' : '已归档'"
+                    alt="" />
                   <span @click="cmdEditDoc('let104','复查意见书','13')" class="flow-span">复查意见书</span>
                 </td>
                 <td style="width:28px;">
@@ -138,9 +144,12 @@
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
                 </td>
-                <td
-                  style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"
-                >
+                <td class="writ-flow-spantd-ex">
+                  <img
+                    v-if="flowStatus.paper23"
+                    :src="require(flowStatus.paper23 === 'save' ? '@/views/make-law-writ/assets/image/save.png' : '@/views/make-law-writ/assets/image/file.png')"
+                    :title="flowStatus.paper23 === 'save' ? '已保存' : '已归档'"
+                    alt="" />
                   <span @click="cmdEditDoc('let107','抽样取证通知书','23')" class="flow-span">抽样取证通知书</span>
                 </td>
                 <td style="width:28px;">
@@ -158,9 +167,12 @@
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
                 </td>
-                <td
-                  style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"
-                >
+                <td class="writ-flow-spantd-ex">
+                  <img
+                    v-if="flowStatus.paper27"
+                    :src="require(flowStatus.paper27 === 'save' ? '@/views/make-law-writ/assets/image/save.png' : '@/views/make-law-writ/assets/image/file.png')"
+                    :title="flowStatus.paper27 === 'save' ? '已保存' : '已归档'"
+                    alt="" />
                   <span @click="cmdEditDoc('let109','先行登记保存证据处理决定书','27')" class="flow-span">先行登记保存证据
                     <br />处理决定书</span>
                 </td>
@@ -188,9 +200,12 @@
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
                 </td>
-                <td
-                  style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"
-                >
+                <td class="writ-flow-spantd-ex">
+                  <img
+                    v-if="flowStatus.paper34"
+                    :src="require(flowStatus.paper34 === 'save' ? '@/views/make-law-writ/assets/image/save.png' : '@/views/make-law-writ/assets/image/file.png')"
+                    :title="flowStatus.paper34 === 'save' ? '已保存' : '已归档'"
+                    alt="" />
                   <span @click="cmdEditDoc('let111','解除查封(扣押)决定书','34')" class="flow-span">解除查封(扣押)
                     <br />决定书</span>
                 </td>
@@ -209,10 +224,13 @@
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
                 </td>
-                <td
-                  style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"
-                >
-                  <span @click="cmdEditDoc('let113','解除停供电(停供民用爆炸物品)通知书','38')" class="flow-span">解除停供电(停供民用爆炸物品)通知书</span>
+                <td class="writ-flow-spantd-ex">
+                  <img
+                    v-if="flowStatus.paper38"
+                    :src="require(flowStatus.paper38 === 'save' ? '@/views/make-law-writ/assets/image/save.png' : '@/views/make-law-writ/assets/image/file.png')"
+                    :title="flowStatus.paper38 === 'save' ? '已保存' : '已归档'"
+                    alt="" />
+                  <span @click="cmdEditDoc('let113','解除停供电(停供民用爆炸物品)通知书','38')" class="flow-span">解除停供电(停供民<br />用爆炸物品)通知书</span>
                 </td>
                 <td style="width:12px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c6.png" style="height: 65px;" />
@@ -250,9 +268,12 @@
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
                 </td>
-                <td
-                  style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"
-                >
+                <td class="writ-flow-spantd-ex">
+                  <img
+                    v-if="flowStatus.paper5"
+                    :src="require(flowStatus.paper5 === 'save' ? '@/views/make-law-writ/assets/image/save.png' : '@/views/make-law-writ/assets/image/file.png')"
+                    :title="flowStatus.paper5 === 'save' ? '已保存' : '已归档'"
+                    alt="" />
                   <span @click="cmdEditDoc('let202','调查取证笔录','5')" class="flow-span">调查取证笔录</span>
                 </td>
                 <td style="width:28px;">
@@ -269,9 +290,12 @@
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
                 </td>
-                <td
-                  style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"
-                >
+                <td class="writ-flow-spantd-ex">
+                  <img
+                    v-if="flowStatus.paper6"
+                    :src="require(flowStatus.paper6 === 'save' ? '@/views/make-law-writ/assets/image/save.png' : '@/views/make-law-writ/assets/image/file.png')"
+                    :title="flowStatus.paper6 === 'save' ? '已保存' : '已归档'"
+                    alt="" />
                   <span @click="cmdEditDoc('let204','行政处罚告知书','6')" class="flow-span">行政处罚告知书</span>
                 </td>
                 <td style="width:12px;">
@@ -296,9 +320,12 @@
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
                 </td>
-                <td
-                  style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"
-                >
+                <td class="writ-flow-spantd-ex">
+                  <img
+                    v-if="flowStatus.paper8"
+                    :src="require(flowStatus.paper8 === 'save' ? '@/views/make-law-writ/assets/image/save.png' : '@/views/make-law-writ/assets/image/file.png')"
+                    :title="flowStatus.paper8 === 'save' ? '已保存' : '已归档'"
+                    alt="" />
                   <span @click="cmdEditDoc('let206','行政处罚决定书','8')" class="flow-span">行政处罚决定书</span>
                 </td>
                 <td style="width:28px;">
@@ -315,9 +342,12 @@
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
                 </td>
-                <td
-                  style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"
-                >
+                <td class="writ-flow-spantd-ex">
+                  <img
+                    v-if="flowStatus.paper39"
+                    :src="require(flowStatus.paper39 === 'save' ? '@/views/make-law-writ/assets/image/save.png' : '@/views/make-law-writ/assets/image/file.png')"
+                    :title="flowStatus.paper39 === 'save' ? '已保存' : '已归档'"
+                    alt="" />
                   <span @click="cmdEditDoc('let208','行政决定履行催告书','39')" class="flow-span">行政决定履行
                     <br />催告书</span>
                 </td>
@@ -346,9 +376,12 @@
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
                 </td>
-                <td
-                  style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"
-                >
+                <td class="writ-flow-spantd-ex">
+                  <img
+                    v-if="flowStatus.paper29"
+                    :src="require(flowStatus.paper29 === 'save' ? '@/views/make-law-writ/assets/image/save.png' : '@/views/make-law-writ/assets/image/file.png')"
+                    :title="flowStatus.paper29 === 'save' ? '已保存' : '已归档'"
+                    alt="" />
                   <span @click="cmdEditDoc('let210','不予受理听证申请通知书','29')" class="flow-span">不予受理听证申请
                     <br />通知书</span>
                 </td>
@@ -388,9 +421,12 @@
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
                 </td>
-                <td
-                  style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"
-                >
+                <td class="writ-flow-spantd-ex">
+                  <img
+                    v-if="flowStatus.paper14"
+                    :src="require(flowStatus.paper14 === 'save' ? '@/views/make-law-writ/assets/image/save.png' : '@/views/make-law-writ/assets/image/file.png')"
+                    :title="flowStatus.paper14 === 'save' ? '已保存' : '已归档'"
+                    alt="" />
                   <span @click="cmdEditDoc('let213','案件结案报告','14')" class="flow-span">案件结案报告</span>
                 </td>
                 <td style="width:28px;">
@@ -476,9 +512,12 @@
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
                 </td>
-                <td
-                  style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"
-                >
+                <td class="writ-flow-spantd-ex">
+                  <img
+                    v-if="flowStatus.paper41"
+                    :src="require(flowStatus.paper41 === 'save' ? '@/views/make-law-writ/assets/image/save.png' : '@/views/make-law-writ/assets/image/file.png')"
+                    :title="flowStatus.paper41 === 'save' ? '已保存' : '已归档'"
+                    alt="" />
                   <span @click="cmdEditDoc('let303','不予受理行政复议申请决定书','41')" class="flow-span">不予受理行政复议
                     <br />申请决定书</span>
                 </td>
@@ -496,9 +535,12 @@
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
                 </td>
-                <td
-                  style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"
-                >
+                <td class="writ-flow-spantd-ex">
+                  <img
+                    v-if="flowStatus.paper12"
+                    :src="require(flowStatus.paper12 === 'save' ? '@/views/make-law-writ/assets/image/save.png' : '@/views/make-law-writ/assets/image/file.png')"
+                    :title="flowStatus.paper12 === 'save' ? '已保存' : '已归档'"
+                    alt="" />
                   <span @click="cmdEditDoc('let305','行政复议决定书','12')" class="flow-span">行政复议决定书</span>
                 </td>
                 <td style="width:12px;">
@@ -528,9 +570,12 @@
                 <td style="width:28px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
                 </td>
-                <td
-                  style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"
-                >
+                <td class="writ-flow-spantd-ex">
+                  <img
+                    v-if="flowStatus.paper19"
+                    :src="require(flowStatus.paper19 === 'save' ? '@/views/make-law-writ/assets/image/save.png' : '@/views/make-law-writ/assets/image/file.png')"
+                    :title="flowStatus.paper19 === 'save' ? '已保存' : '已归档'"
+                    alt="" />
                   <span @click="cmdEditDoc('let401','移送书','19')" class="flow-span">移送书</span>
                 </td>
                 <td style="width:28px;">
@@ -546,7 +591,7 @@
                     <br />移送书</span>
                 </td>
                 <!--<td style="width:28px;"><img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3.png" style="height: 65px;" /></td>
-                <td style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"><a class="{let403}" href="#">查封扣押处理<br />决定书</a></td>-->
+                <td class="writ-flow-spantd-ex"><a class="{let403}" href="#">查封扣押处理<br />决定书</a></td>-->
                 <td style="width:12px;">
                   <img src="@/views/make-law-writ/assets/image/doc-flow_r1_c7.png" style="height: 65px;" />
                 </td>
@@ -557,7 +602,7 @@
                     <td style="width:12px;"><img src="@/views/make-law-writ/assets/image/doc-flow_r1_c1.png" style="height: 65px;" /></td>
                     <td class="writ-flow-spantd"><a class="{let404}" href="javascript:cmdEditDoc('let404','案卷首页','39')">案卷首页</a></td>
                     <td style="width:28px;"><img src="@/views/make-law-writ/assets/image/doc-flow_r1_c3-1.png" style="height: 65px;" /></td>
-                    <td style="width:182px;background:url('static/image/doc-flow_r1_c4.png') no-repeat;text-align:center;color:#fff;"><a class="{let405}" href="javascript:cmdEditDoc('let405','卷内目录','40')">卷内目录</a></td>
+                    <td class="writ-flow-spantd-ex"><a class="{let405}" href="javascript:cmdEditDoc('let405','卷内目录','40')">卷内目录</a></td>
                     <td style="width:12px;"><img src="@/views/make-law-writ/assets/image/doc-flow_r1_c6.png" style="height: 65px;" /></td>
                   </tr>
             </table>-->
@@ -641,6 +686,19 @@ export default {
 .writ-flow-spantd {
   width:182px;
   background:url('~@/views/make-law-writ/assets/image/doc-flow_r1_c2.png') no-repeat;
+  text-align:center;
+  color:#fff;
+  position: relative;
+  img {
+    position: absolute;
+    width: 20px;
+    top: 8px;
+    left: 0px;
+  }
+}
+.writ-flow-spantd-ex {
+  width:182px;
+  background:url('~@/views/make-law-writ/assets/image/doc-flow_r1_c4.png') no-repeat;
   text-align:center;
   color:#fff;
   position: relative;
