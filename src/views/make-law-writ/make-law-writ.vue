@@ -32,7 +32,7 @@
             <!-- 文书流程 -->
             <writ-flow
               :corp-data="corpData"
-              :flow-text="flowText"
+              :flow-status="flowStatus"
               @change-page="changePage"
             ></writ-flow>
           </div>
@@ -129,9 +129,7 @@ export default {
       showTemp: null, // 展示的文书详情模板号，比如let100
       docData: {}, // 选择显示的文书基本信息编号及名称
       caseData: {}, // 选择的活动信息
-      flowText: {
-        let100: ''
-      }
+      flowStatus: {}, // 检查活动流程各文书状态，'save'为保存，'file'为存档
     }
   },
   computed: {
@@ -176,7 +174,7 @@ export default {
       this.showPage[page] = true
     },
     async showDocTemplet() {
-      //读取计划数据
+      //读取当前点击的计划或检查活动的数据
       const db = new GoDB("CoalDB");
       const corpBase = db.table("corpBase");
       const wkPaper = db.table("wkPaper");
@@ -198,16 +196,23 @@ export default {
           caseId: this.caseData.caseId,
           caseType: this.caseData.caseType,
         }
-        //查询当前计划是否已做检查方案
-        const checkLet100 = await wkPaper.findAll((item) => {
-          return item.caseId === this.caseData.caseId && item.name === '检查方案';
+        // 查询当前检查流程中已保存或归档的所有文书，即wkPaper中已有文书
+        const checkLetList = await wkPaper.findAll((item) => {
+          return item.caseId === this.caseData.caseId
         });
-        // 检查方案文本设置
-        if (checkLet100.length > 0) {
-          let txt = checkLet100[0].delFlag === '0' ? '（已归档）' : (checkLet100[0].delFlag === '2' ? '（已保存）' : '')
-          this.$set(this.flowText, 'let100', txt)
-        } else {
-          this.flowText.let100 = ''
+        this.flowStatus = {}
+        if (checkLetList.length > 0) {
+          // 遍历所有保存的文书，设置paperType的文书文本为已保存或已归档
+          checkLetList.map(item => {
+            let status = ''
+            if (item.delFlag === '0') {
+              status = 'file'
+            } else if (item.delFlag === '2') {
+              status = 'save'
+            } else {
+            }
+            this.$set(this.flowStatus, `paper${item.paperType}`, status)
+          })
         }
       } else {
         this.$message.error('无此企业信息，请核实数据')

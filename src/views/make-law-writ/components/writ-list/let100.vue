@@ -226,7 +226,7 @@ export default {
           docTypeName: null
         }
       }
-    },
+    }
   },
   components: {
     letMain,
@@ -341,8 +341,11 @@ export default {
       this.$emit('go-back', {page})
     },
     commandFill (key, title, type) {
-      // 文书各个字段点击打开左侧弹出编辑窗口
-      this.$refs.letMain.commandFill(key, title, type, this.letData[`${key}Type${type}`], this.options[key])
+      // 判断是否可编辑
+      if (this.$refs.letMain.canEdit) {
+        // 文书各个字段点击打开左侧弹出编辑窗口
+        this.$refs.letMain.commandFill(key, title, type, this.letData[`${key}Type${type}`], this.options[key])
+      }
     },
   },
 };

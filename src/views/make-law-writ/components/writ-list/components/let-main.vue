@@ -11,17 +11,29 @@
       >
         <tr>
           <td style="width:80px;text-align:center;">
-            <span style="cursor: pointer; color: #fff;" @click="cmdDocSave('2')">保存</span>
+            <el-button
+              :disabled="!canEdit"
+              type="text"
+              @click="cmdDocSave('2')"
+              style="color: #fff;">
+              保存
+            </el-button>
           </td>
           <td style="width:100px;text-align:center;">
-            <span style="cursor: pointer; color: #fff;" @click="cmdDocView">打印预览</span>
+            <el-button type="text" @click="cmdDocView" style="color: #fff;">打印预览</el-button>
             <!-- <a class="btnTool" href="javascript:cmdDocView()">打印预览</a> -->
           </td>
           <td style="width:80px;text-align:center;">
-            <span style="cursor: pointer; color: #fff;" @click="cmdDocSave('0')">归档</span>
+            <el-button
+              :disabled="!canEdit"
+              type="text"
+              @click="cmdDocSave('0')"
+              style="color: #fff;">
+              归档
+            </el-button>
           </td>
           <td style="width:80px;text-align:center;">
-            <span class="btnTool" @click="cmdDocBack">返回</span>
+            <el-button type="text" @click="cmdDocBack" style="color: #fff;">返回</el-button>
             <!-- <a class="btnTool" href="javascript:cmdDocBack()">返回</a> -->
           </td>
           <td style="width:80px;">&nbsp;</td>
@@ -131,7 +143,24 @@ export default {
       },
     };
   },
-  created() {},
+  computed: {
+    canEdit() {
+      // 是否可编辑或保存归档
+      let edit = false
+      let paperDoc = `paper${this.docData.docTypeNo}`
+      if (this.$parent.$parent.flowStatus) {
+        let flowStatus = this.$parent.$parent.flowStatus
+        if (!flowStatus[paperDoc]) {
+          edit = true
+        } else if (flowStatus[paperDoc] && flowStatus[paperDoc] === 'save') {
+          edit = true
+        }
+      }
+      return edit
+    }
+  },
+  created() {
+  },
   methods: {
     cmdDocBack() {
       this.$emit("go-back", { page: "writFlow" });

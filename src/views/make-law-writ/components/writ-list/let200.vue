@@ -451,9 +451,12 @@ export default {
       // 返回选择企业
       this.$emit("go-back", { page });
     },
-    commandFill(key, title, type) {
-      // 打开编辑
-      this.$refs.letMain.commandFill(key, title, type, this.letData[`${key}Type${type}`], this.options[key])
+    commandFill (key, title, type) {
+      // 判断是否可编辑
+      if (this.$refs.letMain.canEdit) {
+        // 文书各个字段点击打开左侧弹出编辑窗口
+        this.$refs.letMain.commandFill(key, title, type, this.letData[`${key}Type${type}`], this.options[key])
+      }
     },
   },
 };

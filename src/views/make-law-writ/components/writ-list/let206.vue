@@ -381,7 +381,6 @@ export default {
         // 2.单位/个人：行政处罚告知书中的单位/个人cellIdx5
         let let205DataPaperContent = JSON.parse(let205Data.paperContent)
         let cellIdx4String = let205DataPaperContent.cellIdx5
-        console.log('let205DataPaperContent', let205DataPaperContent)
         // 3.被处罚：如果为单位时赋值煤矿名称coprName
         // 4.地址：如果为单位时赋值煤矿地址address
         // 5.违法事实：行政处罚告知书中的cellIdx6
@@ -438,9 +437,12 @@ export default {
       // 返回选择企业
       this.$emit("go-back", { page });
     },
-    commandFill(key, title, type) {
-      // 打开编辑
-      this.$refs.letMain.commandFill(key, title, type, this.letData[`${key}Type${type}`], this.options[key])
+    commandFill (key, title, type) {
+      // 判断是否可编辑
+      if (this.$refs.letMain.canEdit) {
+        // 文书各个字段点击打开左侧弹出编辑窗口
+        this.$refs.letMain.commandFill(key, title, type, this.letData[`${key}Type${type}`], this.options[key])
+      }
     },
   },
 };

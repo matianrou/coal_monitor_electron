@@ -8,7 +8,7 @@ function setTextItem (data) {
 function setCheckItem (data, selectedData, options) {
   // 处理多选展示内容
   let string = ''
-  options[selectedData.key].map(option => {
+  options.map(option => {
     data.map(val => {
       if (option.value === val) {
         string += option.name + ','
