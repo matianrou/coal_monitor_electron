@@ -381,7 +381,7 @@ export default {
         // 5.单位/个人：从行政处罚告知书(paperType === '6')中获取
         const let204Data = await wkPaper.find(item => item.caseId === caseId && item.paperType === '6');
         let let204DataPaperContent = JSON.parse(let204Data.paperContent)
-        let cellIdx20String = let204DataPaperContent.cellIdx9
+        let cellIdx20String = let204DataPaperContent.cellIdx5
         this.letData = {
           cellIdx0: cellIdx0Year, // 年
           cellIdx0TypeTextItem: cellIdx0Year, // 年

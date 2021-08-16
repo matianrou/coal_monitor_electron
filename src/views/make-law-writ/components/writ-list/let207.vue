@@ -333,8 +333,10 @@ export default {
         // 1.送达文书：国家煤矿安全监察行政处罚决定书
         let cellIdx4String = '国家煤矿安全监察行政处罚决定书'
         // 2.文书字号：
+        let userId = this.$store.state.user.userId
         let userGroupId = this.$store.state.user.userGroupId
-        let cellIdx5String = await getDocNumber(db, this.docData.docTypeNo, userGroupId)
+        let { numString } = await getDocNumber(db, this.docData.docTypeNo, caseId, userId, userGroupId)
+        let cellIdx5String = numString
         // 3.送达地点：煤矿名称
         let cellIdx6String = corp.corpName
         this.letData = {

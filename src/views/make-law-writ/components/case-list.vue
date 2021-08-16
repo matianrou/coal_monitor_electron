@@ -105,7 +105,8 @@
         <i class="el-icon-plus"></i>添加
       </el-button>&nbsp;&nbsp;
       <el-button
-        style="height: 35px; width:60px;padding:0;margin: 0;">
+        style="height: 35px; width:60px;padding:0;margin: 0;"
+        @click="deleteCase">
         <i class="el-icon-delete"></i>删除
       </el-button>&nbsp;&nbsp;
     </div>
@@ -152,7 +153,8 @@ export default {
       },
       visible: {
         selectCompany: false
-      }
+      },
+      selectedCase: {}, // 已选中的检查活动（或计划）
     };
   },
   async created() {
@@ -331,6 +333,7 @@ export default {
       this.setActive(index)
       // 展示当前case流程进度
       // data: 单条plan case相关信息
+      this.selectedCase = data
       this.$emit('change-page', {page: 'writFlow', data})
     },
     editaddbook (item) {
@@ -382,6 +385,10 @@ export default {
     confirmCompany (company) {
       // 选中企业
       this.editaddbook(company)
+    },
+    deleteCase () {
+      // 删除检查活动
+      this.selectedCase
     }
   },
 };

@@ -138,7 +138,14 @@
               <el-input
                 v-model.trim="dataForm.tempValue.dangerItemDetail.penaltyDesc"
                 placeholder="请填写行政处罚决定"
-                :maxlength="300">
+                :maxlength="300"
+                style="width: calc(100% - 155px);">
+              </el-input>
+              <el-input
+                v-model.trim="dataForm.tempValue.dangerItemDetail.penaltyDescFine"
+                placeholder="罚金"
+                style="width: 150px;">
+                <template slot="append">万元</template>
               </el-input>
             </el-form-item>
             <el-form-item
@@ -279,6 +286,7 @@ export default {
             deviceNum: null, // 设备台数
             coalingFace: null, // 采煤工作面
             penaltyDesc: null, // 行政处罚决定
+            penaltyDescFine: null, // 行政处罚决定罚金
             penaltyBasis: null, // 行政处罚依据
             isSerious: false, // 是否重大隐患
             isReview: false, // 是否复查

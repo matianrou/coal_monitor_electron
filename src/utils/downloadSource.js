@@ -73,7 +73,8 @@ async function doPersonDb(resId, data) {
       name: String,
       loginName: String,
       officeId: String,
-      officeName: String
+      officeName: String,
+      userNumber: String
     }
   };
   const db = new GoDB('CoalDB', schema);
@@ -82,7 +83,7 @@ async function doPersonDb(resId, data) {
   for (let i = 0; i < data.length; i++) {
     let obj = data[i];
     const item = await person.get({ no: obj.id });
-    if (!item) arrPerson.push({ no: obj.id, name: obj.name, loginName: obj.loginName, officeId: obj.office.id, officeName: obj.office.name });
+    if (!item) arrPerson.push({ no: obj.id, name: obj.name, loginName: obj.loginName, officeId: obj.office.id, officeName: obj.office.name, userNumber: obj.userNumber });
   }
 
   // 增:
@@ -900,7 +901,7 @@ async function doDocDb(resId, data){
 			"dangerCorrected": String,  //隐患整改情况(0未整改，1已整改）：null
 			"reviewUnitId": String,     //复查单位id：null
 			"reviewUnitName": String,   //复查单位名称：null
-        }
+    },
 	};
 	const db = new GoDB('CoalDB', schema);
 	const wkPaper = db.table('wkPaper');

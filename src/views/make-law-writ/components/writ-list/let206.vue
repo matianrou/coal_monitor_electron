@@ -343,6 +343,7 @@ export default {
       letData: {},
       options: {},
       editData: {}, // 回显数据
+      dangerTable: [], // 隐患项数组
     };
   },
   created() {
@@ -377,10 +378,11 @@ export default {
       } else {
         // 创建初始版本
         // 1.关联行政处罚告知书
-        const let205Data = await wkPaper.find(item => item.caseId === caseId && item.paperType === '6')
+        const let204Data = await wkPaper.find(item => item.caseId === caseId && item.paperType === '6')
         // 2.单位/个人：行政处罚告知书中的单位/个人cellIdx5
-        let let205DataPaperContent = JSON.parse(let205Data.paperContent)
-        let cellIdx4String = let205DataPaperContent.cellIdx5
+        let let204DataPaperContent = JSON.parse(let204Data.paperContent)
+        console.log('let204DataPaperContent', let204DataPaperContent)
+        let cellIdx4String = let204DataPaperContent.cellIdx5
         // 3.被处罚：如果为单位时赋值煤矿名称coprName
         // 4.地址：如果为单位时赋值煤矿地址address
         // 5.违法事实：行政处罚告知书中的cellIdx6
@@ -398,19 +400,19 @@ export default {
           cellIdx1: null, // 文书号
           cellIdx2: null, // 文书号
           cellIdx3: null, // 文书号
-          cellIdx4: let205DataPaperContent.cellIdx5, // 单位/个人
+          cellIdx4: let204DataPaperContent.cellIdx5, // 单位/个人
           cellIdx5: cellIdx4String === '单位' ? corp.corpName : '', // 被处罚
           cellIdx5TextItem: cellIdx4String === '单位' ? corp.corpName : '', // 被处罚
           cellIdx6: cellIdx4String === '单位' ? corp.address : '', // 地址
           cellIdx6TextItem: cellIdx4String === '单位' ? corp.address : '', // 地址
-          cellIdx7: let205DataPaperContent.cellIdx6, // 违法事实
-          cellIdx7TypeTextareaItem: let205DataPaperContent.cellIdx6, // 违法事实
-          cellIdx8: let205DataPaperContent.cellIdx7, // 法律规定
-          cellIdx8TypeTextareaItem: let205DataPaperContent.cellIdx7, // 法律规定
-          cellIdx9: let205DataPaperContent.cellIdx8, // 法律依据
-          cellIdx9TypeTextareaItem: let205DataPaperContent.cellIdx8, // 法律依据
-          cellIdx10: let205DataPaperContent.cellIdx9, // 行政处罚
-          cellIdx10TypeTextItem: let205DataPaperContent.cellIdx9, // 行政处罚
+          cellIdx7: let204DataPaperContent.cellIdx6, // 违法事实
+          cellIdx7TypeTextareaItem: let204DataPaperContent.cellIdx6, // 违法事实
+          cellIdx8: let204DataPaperContent.cellIdx7, // 法律规定
+          cellIdx8TypeTextareaItem: let204DataPaperContent.cellIdx7, // 法律规定
+          cellIdx9: let204DataPaperContent.cellIdx8, // 法律依据
+          cellIdx9TypeTextareaItem: let204DataPaperContent.cellIdx8, // 法律依据
+          cellIdx10: let204DataPaperContent.cellIdx10, // 行政处罚
+          cellIdx10TypeTextItem: let204DataPaperContent.cellIdx10, // 行政处罚
           cellIdx11: orgSysOfficeInfo.accountName, //
           cellIdx11TypeTextItem: orgSysOfficeInfo.accountName, //
           cellIdx12: orgSysOfficeInfo.accountBank, // 银行

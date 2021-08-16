@@ -79,7 +79,7 @@
               data-title="案由"
               data-type="textarea"
               data-src
-              @click="commandFill('cellIdx4', '案由', 'TextareaItem')">
+              @click="commandFill('cellIdx4', '案由', 'DangerTableItem')">
               <p class="show-area-item-p">
                 <span style="padding: 7px;">{{ letData.cellIdx4 }}</span>
               </p>
@@ -282,6 +282,7 @@ export default {
     };
   },
   created() {
+
     this.initData();
   },
   watch: {
@@ -314,7 +315,7 @@ export default {
         // 创建初始版本
          // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
         // 获取笔录文书中的隐患数据
-        let dangerContent = await getDangerContent(wkPaper, caseId)
+        let {dangerString, illegalString, letPaperDataPapaerContent} = await getDangerObject(wkPaper, caseId, '2', 'cellIdx7', {danger: true})
         let cellIdx4String = `${corp.corpName}${dangerContent}案。`
         // 2.案情摘要：检查时间+当前机构名称+“对”+煤矿名称+“进行现场检查时发现”+隐患描述+"以上行为分别涉嫌违反了"+违法认定法条+“依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。”
         // 获取检查时间
@@ -324,7 +325,6 @@ export default {
         let let100DataPapaerContent = JSON.parse(let100Data.paperContent)
         // 整合检查时间日期文本：
         let dateString = handleDate(let100DataPapaerContent.cellIdx2, '-')
-        let {dangerString, illegalString} = await getDangerObject(wkPaper, caseId)
         let cellIdx5String = `${dateString}，${this.$store.state.user.userGroupName}对${corp.corpName}进行现场检查时发现：${dangerString}以上行为分别涉嫌违反了${illegalString}的规定。依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`
         this.letData = {
           cellIdx0: null, // 文书号
@@ -332,9 +332,9 @@ export default {
           cellIdx2: null, // 文书号
           cellIdx3: null, // 文书号
           cellIdx4: cellIdx4String, // 案由
-          cellIdx4TypeTextareaItem: cellIdx4String, // 案由
+          cellIdx4TypeDangerTableItem: letPaperDataPapaerContent, // 案由
           cellIdx5: cellIdx5String, // 案情摘要
-          cellIdx5TypeTextareaItem: cellIdx5String, // 案情摘要
+          cellIdx5TypeDangerTableItem: letPaperDataPapaerContent, // 案情摘要
           cellIdx6: null, // 年
           cellIdx7: null, // 月
           cellIdx8: null, // 日

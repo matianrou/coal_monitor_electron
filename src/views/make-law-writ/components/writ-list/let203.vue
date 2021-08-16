@@ -237,7 +237,7 @@
 import letMain from "@/views/make-law-writ/components/writ-list/components/let-main";
 import GoDB from "@/utils/godb.min.js";
 import { getNowDate } from '@/utils/date'
-import { getDangerContent, getDangerObject }from '@/utils/setInitPaperData'
+import { getDangerContent, getDangerObject, transformNumToChinese }from '@/utils/setInitPaperData'
 export default {
   name: "Let203",
   props: {
@@ -303,10 +303,10 @@ export default {
         let dangerContent = await getDangerContent(wkPaper, caseId)
         let cellIdx2String = `${corp.corpName}${dangerContent}案。`
         // 2.违法事实及依据：隐患描述+“经调查取证以上违法违规行为属实，分别违反了”+违法认定发条
-        let { dangerString, illegalString, treatmentSuggestion} = await getDangerObject(wkPaper, caseId)
+        let { dangerString, illegalString, treatmentSuggestion, penaltyDescFineTotle} = await getDangerObject(wkPaper, caseId, {danger: true})
         let cellIdx6String = `${dangerString}经调查取证以上违法违规行为属实，分别违反了${illegalString}的规定。`
         // 3.建议案件处理意见：行政处罚依据+行政处罚决定（分条）
-        let cellIdx7String = `分别依据${treatmentSuggestion}`
+        let cellIdx7String = `分别依据${treatmentSuggestion}合并罚款人民币${transformNumToChinese(penaltyDescFineTotle)}（￥${penaltyDescFineTotle.toLocaleString()}）罚款。`
         // 4.法制审核意见初始化码表
         let nowDate = getNowDate()
         let optionList = [

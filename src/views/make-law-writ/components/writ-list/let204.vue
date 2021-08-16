@@ -127,18 +127,28 @@
             <table style="border:solid 0px #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">的规定，&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;拟对你</td>
+                <td
+                  class="cellInput"
+                  id="cell_idx_9"
+                  align="center"
+                  style="width:10%"
+                  data-title="单位/个人"
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx9', '单位/个人', 'TextItem')"
+                >{{letData.cellIdx9}}</td>
               </tr>
             </table>
             <div
               style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
               class="cellInput mutiLineArea"
-              id="cell_idx_9"
+              id="cell_idx_10"
               data-title="法律规定"
               data-type="textarea"
               data-src
-              @click="commandFill('cellIdx9', '法律规定', 'TextareaItem')">
+              @click="commandFill('cellIdx10', '法律规定', 'TextareaItem')">
               <p class="show-area-item-p">
-                <span style="padding: 7px;">{{ letData.cellIdx9 }}</span>
+                <span style="padding: 7px;">{{ letData.cellIdx10 }}</span>
               </p>
             </div>
             <table style="border:solid 0px #000;" class="docBody">
@@ -146,14 +156,14 @@
                 <td class="textAlignLeft">的行政处罚。&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;根据《中华人民共和国行政处罚法》第三十二条规定，你</td>
                 <td
                   class="cellInput"
-                  id="cell_idx_10"
+                  id="cell_idx_11"
                   align="center"
                   style="width:12%"
                   data-title="单位或个人"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx10', '单位或个人', 'TextItem')"
-                >{{letData.cellIdx10}}</td>
+                  @click="commandFill('cellIdx11', '单位或个人', 'TextItem')"
+                >{{letData.cellIdx11}}</td>
                 <td class="textAlignLeft">对上述拟作出的</td>
               </tr>
               <tr>
@@ -180,84 +190,72 @@
                 <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收件人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_11"
+                  id="cell_idx_12"
                   style="width:24%"
                   data-title="收件人（签名）"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx11', '收件人（签名）', 'TextItem')"
-                >{{letData.cellIdx11}}</td>
+                  @click="commandFill('cellIdx12', '收件人（签名）', 'TextItem')"
+                >{{letData.cellIdx12}}</td>
                 <td
                   class="textAlignLeft"
                 >&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_12"
+                  id="cell_idx_13"
                   style="width:24.6%"
                   data-title="日期"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx12', '日期', 'TextItem')"
-                >{{letData.cellIdx12}}</td>
+                  @click="commandFill('cellIdx13', '日期', 'TextItem')"
+                >{{letData.cellIdx13}}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我分局地址</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_13"
+                  id="cell_idx_14"
                   style="width:30%"
                   data-title="我分局地址"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx13', '我分局地址', 'TextItem')"
-                >{{letData.cellIdx13}}</td>
+                  @click="commandFill('cellIdx14', '我分局地址', 'TextItem')"
+                >{{letData.cellIdx14}}</td>
                 <td class="textAlignLeft">&nbsp;&nbsp;邮政编码：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_14"
+                  id="cell_idx_15"
                   style="width:24.8%"
                   data-title="邮政编码"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx14', '邮政编码', 'TextItem')"
-                >{{letData.cellIdx14}}</td>
+                  @click="commandFill('cellIdx15', '邮政编码', 'TextItem')"
+                >{{letData.cellIdx15}}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我分局联系人</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_15"
+                  id="cell_idx_16"
                   style="width:28%"
                   data-title="我分局联系人"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx15', '我分局联系人', 'TextItem')"
-                >{{letData.cellIdx15}}</td>
+                  @click="commandFill('cellIdx16', '我分局联系人', 'TextItem')"
+                >{{letData.cellIdx16}}</td>
                 <td class="textAlignLeft">&nbsp;&nbsp;联系电话：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_16"
+                  id="cell_idx_17"
                   style="width:24.8%"
                   data-title="联系电话"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx16', '联系电话', 'TextItem')"
-                >{{letData.cellIdx16}}</td>
+                  @click="commandFill('cellIdx17', '联系电话', 'TextItem')"
+                >{{letData.cellIdx17}}</td>
               </tr>
             </table>
             <table height="30"></table>
-
-            <table class="docBody">
-              <tr>
-                <td
-                  class="cellInput"
-                  id="cell_idx_17"
-                  align="right"
-                  style="width:95%">
-                 {{letData.cellIdx17}}
-                </td>
-              </tr>
-            </table>
             <table class="docBody">
               <td class="cellInput" style="width:55%"></td>
               <td
@@ -295,11 +293,19 @@
               <td class="textAlignLeft">日</td>
             </table>
             <table height="60"></table>
-
             <table class="docBody">
               <hr />
               <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份送被拟处罚</td>
-              <td class="cellInput" id="cell_idx_21" align="center" style="width:15%">{{letData.cellIdx21}}</td>
+              <td
+                class="cellInput"
+                id="cell_idx_21"
+                align="center"
+                style="width:15%"
+                data-title="单位或个人"
+                data-type="text"
+                data-src
+                @click="commandFill('cellIdx21', '单位或个人', 'TextItem')"
+              >{{letData.cellIdx21}}</td>
               <td class="textAlignLeft">，一份存档。</td>
             </table>
           </div>
@@ -328,7 +334,7 @@
 <script>
 import letMain from "@/views/make-law-writ/components/writ-list/components/let-main";
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject } from '@/utils/setInitPaperData'
+import { getDangerObject, transformNumToChinese } from '@/utils/setInitPaperData'
 export default {
   name: "Let204",
   props: {
@@ -397,15 +403,15 @@ export default {
           cellIdx6: null, // 违法行为
           cellIdx7: null, // 违法行为
           cellIdx8: null, // 法律依据
-          cellIdx9: null, // 法律规定
-          cellIdx10: null, // 单位或个人
-          cellIdx11: null, // 签名
-          cellIdx12: null, // 日期
-          cellIdx13: null, // 我分局地址
-          cellIdx14: null, // 邮政编码
-          cellIdx15: null, // 我分局联系人
-          cellIdx16: null, // 联系电话
-          cellIdx17: null, //
+          cellIdx9: null, // 单位或个人
+          cellIdx10: null, // 法律规定
+          cellIdx11: null, // 单位或个人
+          cellIdx12: null, // 签名
+          cellIdx13: null, // 日期
+          cellIdx14: null, // 我分局地址
+          cellIdx15: null, // 邮政编码
+          cellIdx16: null, // 我分局联系人
+          cellIdx17: null, // 联系电话
           cellIdx18: null, // 年
           cellIdx19: null, // 月
           cellIdx20: null, // 日
@@ -432,27 +438,35 @@ export default {
         const db = new GoDB("CoalDB");
         const wkPaper = db.table("wkPaper");
         const caseId = this.corpData.caseId;
+        let corpName = this.corpData.corpName
         // 按单位初始化信息
-        // 1.经查，你XX的以下行为
+        // 1.单位名称
+        this.letData.cellIdx4 = corpName
+        this.letData.cellIdx4TypeTextItem = corpName
+        // 2.经查，你XX的以下行为
         this.letData.cellIdx5 = this.selectedType
         this.letData.cellIdx5TypeTextItem = this.selectedType
-        let {dangerString, illegalString, penaltyBasisString, penaltyDesc} = await getDangerObject(wkPaper, caseId)
-        // 2.隐患描述
+        let {dangerString, illegalString, penaltyBasisString, penaltyDesc, penaltyDescFineTotle} = await getDangerObject(wkPaper, caseId, {danger: true, penaltyDesc: true})
+        // 3.隐患描述
         this.letData.cellIdx6 = `${dangerString}`
         this.letData.cellIdx6TypeTextareaItem = `${dangerString}`
-        // 3.分别违反了+违法认定法条
+        // 4.分别违反了+违法认定法条
         this.letData.cellIdx7 = `分别违反了${illegalString}`
         this.letData.cellIdx7TypeTextareaItem = `分别违反了${illegalString}`
-        // 4.行政处罚依据
+        // 5.行政处罚依据
         this.letData.cellIdx8 = penaltyBasisString
         this.letData.cellIdx8TypeTextareaItem = penaltyBasisString
-        // 5.行政处罚决定
-        this.letData.cellIdx9 = penaltyDesc
-        this.letData.cellIdx9TypeTextareaItem = penaltyDesc
         // 6.你单位或个人
-        this.letData.cellIdx10 = this.selectedType
-        this.letData.cellIdx10TypeTextItem = this.selectedType
-        // 7.机构接口中获取sysOfficeInfo实体中
+        this.letData.cellIdx9 = this.selectedType
+        this.letData.cellIdx9TypeTextItem = this.selectedType
+        // 7.行政处罚决定
+        let cellIdx10String = `分别作出：${penaltyDesc}合并罚款人民币${transformNumToChinese(penaltyDescFineTotle)}（￥${penaltyDescFineTotle.toLocaleString()}）罚款。`
+        this.letData.cellIdx10 = cellIdx10String
+        this.letData.cellIdx10TypeTextareaItem = cellIdx10String
+        // 8.你单位或个人
+        this.letData.cellIdx11 = this.selectedType
+        this.letData.cellIdx11TypeTextItem = this.selectedType
+        // 9.机构接口中获取sysOfficeInfo实体中
         const orgInfo = db.table("orgInfo");
         const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
         let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
@@ -460,14 +474,16 @@ export default {
         // depPost：邮政编码、
         // master：我分局联系人、
         // phone：联系电话
-        this.letData.cellIdx13 = orgSysOfficeInfo.depAddress
-        this.letData.cellIdx13TypeTextItem = orgSysOfficeInfo.depAddress
-        this.letData.cellIdx14 = orgSysOfficeInfo.depPost
-        this.letData.cellIdx14TypeTextItem = orgSysOfficeInfo.depPost
-        this.letData.cellIdx15 = orgSysOfficeInfo.master
-        this.letData.cellIdx15TypeTextItem = orgSysOfficeInfo.master
-        this.letData.cellIdx16 = orgSysOfficeInfo.phone
-        this.letData.cellIdx16TypeTextItem = orgSysOfficeInfo.phone
+        this.letData.cellIdx14 = orgSysOfficeInfo.depAddress
+        this.letData.cellIdx14TypeTextItem = orgSysOfficeInfo.depAddress
+        this.letData.cellIdx15 = orgSysOfficeInfo.depPost
+        this.letData.cellIdx15TypeTextItem = orgSysOfficeInfo.depPost
+        this.letData.cellIdx16 = orgSysOfficeInfo.master
+        this.letData.cellIdx16TypeTextItem = orgSysOfficeInfo.master
+        this.letData.cellIdx17 = orgSysOfficeInfo.phone
+        this.letData.cellIdx17TypeTextItem = orgSysOfficeInfo.phone
+        this.letData.cellIdx21 = this.selectedType
+        this.letData.cellIdx21TypeTextItem = this.selectedType
         await db.close();
       } else {
         // 按个人初始化信息
@@ -475,8 +491,12 @@ export default {
         this.letData.cellIdx5 = this.selectedType
         this.letData.cellIdx5TypeTextItem = this.selectedType
         // 2.你单位或个人
-        this.letData.cellIdx10 = this.selectedType
-        this.letData.cellIdx10TypeTextItem = this.selectedType
+        this.letData.cellIdx9 = this.selectedType
+        this.letData.cellIdx9TypeTextItem = this.selectedType
+        this.letData.cellIdx11 = this.selectedType
+        this.letData.cellIdx11TypeTextItem = this.selectedType
+        this.letData.cellIdx21 = this.selectedType
+        this.letData.cellIdx21TypeTextItem = this.selectedType
       }
     }
   },
