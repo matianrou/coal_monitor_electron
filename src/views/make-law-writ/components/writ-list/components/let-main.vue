@@ -217,14 +217,9 @@ export default {
         })
       }
       // 添加隐患项
-      let dangerKey = '' // 隐患项字段的key
       let companyOrPerson = ''
-      switch(this.docData.docTypeNo) {
-        case '1':
-          dangerKey = 'cellIdx8'
-      }
-      let dangerList = this.$parent.letData[`${dangerKey}TypeDangerTableItem`].tableData
-      console.log('dangerList', dangerList)
+      let dangerList = this.$parent.letData.dangerItemObject.tableData
+
       // 隐患项
       let arrDocDanger = []
       dangerList.map(item => {
@@ -492,17 +487,14 @@ export default {
           locationRemarks: letData.cellIdx1,
         };
         Object.assign(submitData.paper[0], p22PaperData);
-      } else if (this.docData.docTypeNo === "1" || this.docData.docTypeNo === "2") {
+      } else if (this.docData.docTypeNo === "1" || this.docData.docTypeNo === "2" || this.docData.docTypeNo === "8") {
         // 现场检查笔录或现场处理决定书增加上传隐患项数据
         let danger = [];
-        // 当docTypeNo = '1' 即现场检查笔录时，隐患项key为cellIdx8TypeDangerTableItem
-        // 当docTypeNo = '2' 即现场处理决定书时，隐患项key为cellIdx7TypeDangerTableItem
-        let key = this.docData.docTypeNo === "1" ? 'cellIdx8TypeDangerTableItem' : 'cellIdx7TypeDangerTableItem'
         if (
           this.$parent.letData &&
-          this.$parent.letData[key]
+          this.$parent.letData.dangerItemObject
         ) {
-          let dangerItem = this.$parent.letData[key];
+          let dangerItem = this.$parent.letData.dangerItemObject;
           if (dangerItem.tableData && dangerItem.tableData.length > 0) {
             dangerItem.tableData.map((item) => {
               let dangerData = {
@@ -544,6 +536,7 @@ export default {
                 subitemContent: item.itemContent,
                 subitemPenalty: item.penaltyDesc,
                 subitemPenaltyBasis: item.penaltyBasis,
+                penaltyDescFine: item.penaltyDescFine,
                 penaltyOrg: null,
                 penaltyOrgFine: null,
                 penaltyPerson: null,
@@ -574,21 +567,29 @@ export default {
             });
           }
         }
+        if (this.docData.docTypeNo === "8") {
+          // 行政处罚决定书保存时除添加隐患项数据以外还需保存以下数据
+          let letData =  this.$parent.letData
+          let penaltyTotle = 0
+          if (letData.dangerItemObject.tableData.length > 0) {
+            letData.dangerItemObject.tableData.map(item => {
+              penaltyTotle += item.penaltyDescFine ? Number(item.penaltyDescFine) : 0
+            })
+          }
+          submitData.paper.p8Penalty = penaltyTotle // 罚款总额
+          submitData.paper.p8PersonPenalty = letData.cellIdx4 === '个人' ? penaltyTotle : '', // 个人罚款总额
+          submitData.paper.p8OrgPenalty = letData.cellIdx4 === '单位' ? penaltyTotle : '' // 企业罚款总额
+          if (danger.length > 0) {
+            danger.forEach(item => {
+              item.penaltyType = letData.cellIdx4 // 行政处罚类型
+              item.penaltyOrgFine = letData.cellIdx4 === '单位' ? item.penaltyDescFine: '' // 单位罚金
+              item.penaltyPersonFine = letData.cellIdx4 === '个人' ? item.penaltyDescFine: '' // 个人罚金
+            })
+          }
+        }
         submitData.danger = danger;
-      } else if (this.docData.docTypeNo === "8") {
-        // 行政处罚决定书let206增加上传数据
-        // this.$parent.letData
-        let p8PaperData = {
-          p8Penalty: '', // 罚款总额
-          p8PersonPenalty: '', // 个人罚款总额
-          p8OrgPenalty: '' // 企业罚款总额
-        }
-        let p8dangerData = {
-          penaltyType: '', // 行政处罚类型
-          penaltyOrgFine: '', // 单位罚金
-          penaltyPersonFine: '', // 个人罚金
-        }
       }
+      console.log('submitData', submitData)
       this.$http
         .post(
           `/local/jczf/uploadJczf?__sid=${this.$store.state.user.userSessId}`,
@@ -617,9 +618,10 @@ export default {
       let printDiv = this.$slots.left[0].elm;
       this.$print(printDiv);
     },
-    commandFill(key, title, type, value, options) {
+    commandFill(key, dataKey, title, type, value, options) {
       // 文书各个字段点击打开左侧弹出编辑窗口
       // key为文书数据letData中的的键值
+      // dataKey为文书数据letData保存回显的键值主要用来特殊保存隐患的
       // title为el-drawer右侧弹出框的title
       // type为编辑窗口let-drawer内打开编辑的组件名
       // value为回显值
@@ -628,6 +630,7 @@ export default {
       this.selectedData = {
         type,
         key,
+        dataKey,
         title,
         value,
         corpData: this.corpData,
@@ -638,6 +641,7 @@ export default {
       // 关闭左侧编辑窗口
       this.selectedData = {
         key: null,
+        dataKey: null,
         type: null,
         title: null,
         value: null,
@@ -648,15 +652,15 @@ export default {
     handleSave(params) {
       // 点击确定，保存左侧弹出窗口中的数据至文书数据中
       // params为保存的数据
-      let { key, type, options } = this.selectedData;
+      let { key, dataKey, type, options } = this.selectedData;
       // 保存反显数据
-      this.$parent.letData[`${key}Type${type}`] = params.value;
+      this.$parent.letData[dataKey] = params.value;
       // 处理反显数据，保存一份paperContent通用文本数据
       this.$set(
         this.$parent.letData,
         key,
         this.functions[`set${type}`](
-          this.$parent.letData[`${key}Type${type}`],
+          this.$parent.letData[dataKey],
           this.selectedData,
           options
         )

@@ -1,4 +1,5 @@
 // 各文书页面使用的保存各种类型填写数据公用方法
+import { getDangerObject, transformNumToChinese }from '@/utils/setInitPaperData'
 
 function setTextItem (data) {
   // 处理简单文本数据
@@ -72,19 +73,70 @@ function setDateItem (data) {
 
 function setDangerTableItem (data, selectedData, options) {
   // 隐患项数据
-  let stringList = []
-  if (options && options.cellIdx7 && options.cellIdx7.page === '2') {
-    // 现场处理决定书，特殊处理展示字段： 违法行为描述+现场处理决定
-    data.tableData.map((item, index) => {
-      stringList.push(`${(index + 1)}. ${item.itemContent}${item.onsiteDesc}`)
-    })
-  } else {
-    // 其他的只返回违法行为描述list形式
-    data.tableData.map((item, index) => {
-      stringList.push(`${index + 1}. ${item.itemContent}`)
-    })
+  let string = ''
+  console.log('options', options)
+  // 根据不同的文书，返回不同形式的文本
+  let dangerObject = getDangerObject(data.tableData)
+  let dangerObjectIndex = getDangerObject(data.tableData, {
+    danger: true
+  })
+  switch(options.page) {
+    case '1':  // 现场检查笔录
+      string = dangerObjectIndex.dangerString
+      break
+    case '2': // 现场处理决定书
+      string = dangerObjectIndex.contentOnsiteDesc
+      break
+    case '4': // 立案决定书
+      if (options.key === 'cellIdx4') {
+        string = `${options.spellString.corpName}${dangerObject.dangerString}案。`
+      } else if (options.key === 'cellIdx5') {
+        string = `${options.spellString.dateString}，${options.spellString.userGroupName}对${options.spellString.corpName}进行现场检查时发现：${dangerObjectIndex.dangerString}。以上行为分别涉嫌违反了${dangerObject.illegalString}的规定。依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`
+      }
+      break
+    case '5': // 调查取证笔录
+      if (options.key === 'cellIdx8') {
+        string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString}案。`
+      } else if (options.key === 'cellIdx21') {
+        string = `我们是${options.spellString.userGroupName}监察员，这是我们的执法证件（出示行政执法证件），现就你${options.spellString.corpName}涉嫌${dangerObject.dangerString}违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？`
+      }
+      break
+    case '36': // 案件处理呈报书
+      if (options.key === 'cellIdx2') {
+        string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString}案。`
+      } else if (options.key === 'cellIdx6') {
+        string = `${dangerObjectIndex.dangerString}。经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString}的规定。`
+      } else if (options.key === 'cellIdx7') {
+        string = `分别依据${dangerObject.treatmentSuggestion}。合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle)}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`
+      }
+      break
+    case '6': // 行政处罚告知书
+      if (options.key === 'cellIdx6') {
+        string = `${dangerObjectIndex.dangerString}`
+      } else if (options.key === 'cellIdx7') {
+        string = `分别违反了${dangerObject.illegalString}`
+      } else if (options.key === 'cellIdx8') {
+        string = dangerObject.penaltyBasisString
+      } else if (options.key === 'cellIdx10') {
+        string = `分别作出：${dangerObjectIndex.penaltyDesc}。合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle)}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`
+      }
+      break
+    case '30': // 陈述、申辩笔录
+      string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString}案。`
+      break
+    case '8': // 行政处罚决定书
+      if (options.key === 'cellIdx7') {
+        string = `${dangerObjectIndex.dangerString}`
+      } else if (options.key === 'cellIdx8') {
+        string = `分别违反了${dangerObject.illegalString}`
+      } else if (options.key === 'cellIdx9') {
+        string = dangerObject.penaltyBasisString
+      } else if (options.key === 'cellIdx10') {
+        string = `分别${dangerObject.penaltyDesc}。合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle)}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`
+      }
+      break
   }
-  return stringList
+  return string
 }
 
 function setDatetimeItem (data) {

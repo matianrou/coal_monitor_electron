@@ -68,7 +68,12 @@
               </tr>
               <tr>
                 <td class="textAlignLeft">被处罚</td>
-                <td class="cellInput" id="cell_idx_4" align="center" style="width:10%">{{letData.cellIdx4}}</td>
+                <td class="cellInput"
+                  id="cell_idx_4"
+                  align="center"
+                  style="width:10%"
+                  @click="commandFill('cellIdx4', '单位/个人', 'TextItem')"
+                >{{letData.cellIdx4}}</td>
                 <td class="textAlignLeft">:</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -105,10 +110,20 @@
               data-title="违法事实"
               data-type="textarea"
               data-src
-              @click="commandFill('cellIdx7', '违法事实', 'TextareaItem')">
-              <p class="show-area-item-p">
-                <span style="padding: 7px;">{{ letData.cellIdx7 }}</span>
-              </p>
+              @click="commandFill('cellIdx7', '违法事实', 'DangerTableItem')">
+              <div v-if="letData.cellIdx7 && letData.cellIdx7.length > 0">
+                <p class="show-area-item-p">
+                  <span style="padding: 7px;">{{ letData.cellIdx7 }}</span>
+                </p>
+              </div>
+              <div v-else>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+              </div>
             </div>
             <table style="border:solid 0px #000;" class="docBody">
               <tr>
@@ -122,10 +137,20 @@
               data-title="法律规定"
               data-type="textarea"
               data-src
-              @click="commandFill('cellIdx8', '法律规定', 'TextareaItem')">
-              <p class="show-area-item-p">
-                <span style="padding: 7px;">{{ letData.cellIdx8 }}</span>
-              </p>
+              @click="commandFill('cellIdx8', '法律规定', 'DangerTableItem')">
+              <div v-if="letData.cellIdx8 && letData.cellIdx8.length > 0">
+                <p class="show-area-item-p">
+                  <span style="padding: 7px;">{{ letData.cellIdx8 }}</span>
+                </p>
+              </div>
+              <div v-else>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+              </div>
             </div>
             <table style="border:solid 0px #000;" class="docBody">
               <tr>
@@ -139,10 +164,20 @@
               data-title="法律依据"
               data-type="textarea"
               data-src
-              @click="commandFill('cellIdx9', '法律依据', 'TextareaItem')">
-              <p class="show-area-item-p">
-                <span style="padding: 7px;">{{ letData.cellIdx9 }}</span>
-              </p>
+              @click="commandFill('cellIdx9', '法律依据', 'DangerTableItem')">
+              <div v-if="letData.cellIdx9 && letData.cellIdx9.length > 0">
+                <p class="show-area-item-p">
+                  <span style="padding: 7px;">{{ letData.cellIdx9 }}</span>
+                </p>
+              </div>
+              <div v-else>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+              </div>
             </div>
             <table style="border:solid 0px #000;" class="docBody">
               <tr>
@@ -156,10 +191,20 @@
               data-title="行政处罚"
               data-type="textarea"
               data-src
-              @click="commandFill('cellIdx10', '行政处罚', 'TextareaItem')">
-              <p class="show-area-item-p">
-                <span style="padding: 7px;">{{ letData.cellIdx10 }}</span>
-              </p>
+              @click="commandFill('cellIdx10', '行政处罚', 'DangerTableItem')">
+              <div v-if="letData.cellIdx10 && letData.cellIdx10.length > 0">
+                <p class="show-area-item-p">
+                  <span style="padding: 7px;">{{ letData.cellIdx10 }}</span>
+                </p>
+              </div>
+              <div v-else>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+              </div>
             </div>
             <table style="border:solid 0px #000;" class="docBody">
               <tr>
@@ -305,7 +350,16 @@
             <table class="docBody">
               <hr />
               <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式三份，一份交被处罚</td>
-              <td class="cellInput" align="center" style="width:10%"></td>
+              <td
+                class="cellInput"
+                id="cell_idx_22"
+                align="center"
+                style="width:10%"
+                data-title="单位/个人"
+                data-type="text"
+                data-src
+                @click="commandFill('cellIdx21', '单位/个人', 'TextItem')"
+              >{{letData.cellIdx22}}</td>
               <td class="textAlignLeft">，一份交银行，一份存档。</td>
             </table>
           </div>
@@ -318,6 +372,7 @@
 <script>
 import letMain from "@/views/make-law-writ/components/writ-list/components/let-main";
 import GoDB from "@/utils/godb.min.js";
+import { getDangerObject, transformNumToChinese } from '@/utils/setInitPaperData'
 export default {
   name: "Let206",
   props: {
@@ -341,9 +396,26 @@ export default {
   data() {
     return {
       letData: {},
-      options: {},
+      options: {
+        cellIdx7: {
+          page: '8',
+          key: 'cellIdx7'
+        },
+        cellIdx8: {
+          page: '8',
+          key: 'cellIdx8'
+        },
+        cellIdx9: {
+          page: '8',
+          key: 'cellIdx9'
+        },
+        cellIdx10: {
+          page: '8',
+          key: 'cellIdx10'
+        },
+      },
       editData: {}, // 回显数据
-      dangerTable: [], // 隐患项数组
+      extraData: {}, // 用于拼写隐患内容的字符集合
     };
   },
   created() {
@@ -371,6 +443,7 @@ export default {
           item.caseId === caseId && item.paperType === this.docData.docTypeNo
         );
       });
+      // await wkPaper.delete(checkPaper[0].id)
       if (checkPaper.length > 0) {
         // 回显
         this.letData = JSON.parse(checkPaper[0].paperContent);
@@ -381,11 +454,11 @@ export default {
         const let204Data = await wkPaper.find(item => item.caseId === caseId && item.paperType === '6')
         // 2.单位/个人：行政处罚告知书中的单位/个人cellIdx5
         let let204DataPaperContent = JSON.parse(let204Data.paperContent)
-        console.log('let204DataPaperContent', let204DataPaperContent)
         let cellIdx4String = let204DataPaperContent.cellIdx5
         // 3.被处罚：如果为单位时赋值煤矿名称coprName
         // 4.地址：如果为单位时赋值煤矿地址address
         // 5.违法事实：行政处罚告知书中的cellIdx6
+        let dangerObject = getDangerObject(let204DataPaperContent.dangerItemObject.tableData, {danger: true})
         // 6.法律规定 :行政处罚告知书中的cellIdx7
         // 7.法律依据 :行政处罚告知书中的cellIdx8
         // 8.行政处罚 :行政处罚告知书中的cellIdx9
@@ -401,18 +474,15 @@ export default {
           cellIdx2: null, // 文书号
           cellIdx3: null, // 文书号
           cellIdx4: let204DataPaperContent.cellIdx5, // 单位/个人
+          cellIdx4TypeTextItem: let204DataPaperContent.cellIdx5, // 单位/个人
           cellIdx5: cellIdx4String === '单位' ? corp.corpName : '', // 被处罚
           cellIdx5TextItem: cellIdx4String === '单位' ? corp.corpName : '', // 被处罚
           cellIdx6: cellIdx4String === '单位' ? corp.address : '', // 地址
           cellIdx6TextItem: cellIdx4String === '单位' ? corp.address : '', // 地址
-          cellIdx7: let204DataPaperContent.cellIdx6, // 违法事实
-          cellIdx7TypeTextareaItem: let204DataPaperContent.cellIdx6, // 违法事实
-          cellIdx8: let204DataPaperContent.cellIdx7, // 法律规定
-          cellIdx8TypeTextareaItem: let204DataPaperContent.cellIdx7, // 法律规定
-          cellIdx9: let204DataPaperContent.cellIdx8, // 法律依据
-          cellIdx9TypeTextareaItem: let204DataPaperContent.cellIdx8, // 法律依据
-          cellIdx10: let204DataPaperContent.cellIdx10, // 行政处罚
-          cellIdx10TypeTextItem: let204DataPaperContent.cellIdx10, // 行政处罚
+          cellIdx7: dangerObject.dangerString, // 违法事实
+          cellIdx8: `分别违反了${dangerObject.illegalString}`, // 法律规定
+          cellIdx9: dangerObject.penaltyBasisString, // 法律依据
+          cellIdx10: `分别${dangerObject.penaltyDesc}。合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle)}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`, // 行政处罚
           cellIdx11: orgSysOfficeInfo.accountName, //
           cellIdx11TypeTextItem: orgSysOfficeInfo.accountName, //
           cellIdx12: orgSysOfficeInfo.accountBank, // 银行
@@ -431,6 +501,9 @@ export default {
           cellIdx19: null, // 年
           cellIdx20: null, // 月
           cellIdx21: null, // 日
+          cellIdx22: let204DataPaperContent.cellIdx5, // 单位/个人
+          cellIdx22TypeTextItem: let204DataPaperContent.cellIdx5, // 单位/个人
+          dangerItemObject: let204DataPaperContent.dangerItemObject
         };
       }
       await db.close();
@@ -443,7 +516,15 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        this.$refs.letMain.commandFill(key, title, type, this.letData[`${key}Type${type}`], this.options[key])
+        let dataKey = `${key}Type${type}`
+        if (key === 'cellIdx7' || key === 'cellIdx8' || key === 'cellIdx9' || key === 'cellIdx10') {
+           this.options[key] = {
+            page: '8',
+            key: key,
+          }
+          dataKey = 'dangerItemObject'
+        }
+        this.$refs.letMain.commandFill(key, dataKey, title, type, this.letData[dataKey], this.options[key])
       }
     },
   },

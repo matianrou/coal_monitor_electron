@@ -257,10 +257,20 @@
               data-title="违法行为"
               data-type="textarea"
               data-src
-              @click="commandFill('cellIdx19', '违法行为', 'TextareaItem')">
-              <p class="show-area-item-p">
-                <span style="padding: 7px;">{{ letData.cellIdx19 }}</span>
-              </p>
+              @click="commandFill('cellIdx19', '违法行为', 'DangerTableItem')">
+              <div v-if="letData.cellIdx19 && letData.cellIdx19.length > 0">
+                <p class="show-area-item-p">
+                  <span style="padding: 7px;">{{ letData.cellIdx19 }}</span>
+                </p>
+              </div>
+              <div v-else>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+              </div>
             </div>
             <table class="docBody">
               <tr>
@@ -305,7 +315,7 @@
 <script>
 import letMain from "@/views/make-law-writ/components/writ-list/components/let-main";
 import GoDB from "@/utils/godb.min.js";
-import { getDangerContent } from '@/utils/setInitPaperData'
+import { getDangerObject } from '@/utils/setInitPaperData'
 export default {
   name: "Let205",
   props: {
@@ -329,8 +339,14 @@ export default {
   data() {
     return {
       letData: {},
-      options: {},
+      options: {
+        cellIdx19: {
+          page: '30',
+          key: 'cellIdx19' // 用来区分一个页面多个地方调用隐患大表，最后返回值
+        },
+      },
       editData: {}, // 回显数据
+      extraData: {}, // 用于拼写隐患内容的字符集合
     };
   },
   created() {
@@ -354,6 +370,15 @@ export default {
           item.caseId === caseId && item.paperType === this.docData.docTypeNo
         );
       });
+      const corpBase = db.table("corpBase");
+      const corp = await corpBase.find((item) => {
+        return item.corpId == this.corpData.corpId;
+      });
+      // await wkPaper.delete(checkPaper[0].id)
+      // 保存额外拼写的数据内容，用于修改隐患项时回显使用
+      this.extraData = {
+        corpName: corp.corpName,
+      }
       if (checkPaper.length > 0) {
         // 回显
         this.letData = JSON.parse(checkPaper[0].paperContent);
@@ -368,16 +393,17 @@ export default {
         let cellIdx3Hour = now.getHours()
         let cellIdx4Minu = now.getMinutes()
         // 2.工作单位：煤矿名称
-        const corpBase = db.table("corpBase");
-        const corp = await corpBase.find((item) => {
-          return item.corpId == this.corpData.corpId;
-        });
         let cellIdx11String = corp.corpName
         // 3.监察单位
         let cellIdx18String = this.$store.state.user.userGroupName
+        // 获取笔录文书中的隐患数据
+        const let101Data = await wkPaper.find((item) => {
+          return item.caseId === caseId && item.paperType === '1';
+        });
+        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
+        let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
         // 4.陈述、申辩：煤矿名称 + '涉嫌' + 隐患描述 + '案。'
-        let dangerString = await getDangerContent(wkPaper, caseId)
-        let cellIdx19String = `${corp.corpName}涉嫌${dangerString}案。`
+        let cellIdx19String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`
         // 5.单位/个人：从行政处罚告知书(paperType === '6')中获取
         const let204Data = await wkPaper.find(item => item.caseId === caseId && item.paperType === '6');
         let let204DataPaperContent = JSON.parse(let204Data.paperContent)
@@ -410,10 +436,10 @@ export default {
           cellIdx18: cellIdx18String, // 监察员
           cellIdx18TypeTextItem: cellIdx18String, // 监察员
           cellIdx19: cellIdx19String, // 违法行为
-          cellIdx19TypeTextareaItem: cellIdx19String, // 违法行为
           cellIdx20: cellIdx20String, // 单位/个人
           cellIdx20TypeTextItem: cellIdx20String, // 单位/个人
           cellIdx21: null, // 法制审核意见
+          dangerItemObject: let101DataPapaerContent.dangerItemObject
         };
       }
       await db.close();
@@ -426,7 +452,16 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        this.$refs.letMain.commandFill(key, title, type, this.letData[`${key}Type${type}`], this.options[key])
+        let dataKey = `${key}Type${type}`
+        if (key === 'cellIdx19') {
+          this.options[key] = {
+            page: '30',
+            key: key,
+            spellString: this.extraData
+          }
+          dataKey = 'dangerItemObject'
+        }
+        this.$refs.letMain.commandFill(key, dataKey, title, type, this.letData[dataKey], this.options[key])
       }
     },
   },

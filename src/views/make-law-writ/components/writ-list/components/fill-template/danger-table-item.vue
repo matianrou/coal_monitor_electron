@@ -49,8 +49,8 @@
         <!-- 修改隐患项 -->
         <div class="danger-table-main-content">
           <el-form
-            v-if="dataForm.tempValue.dangerItemDetail.id"
-            :model="dataForm.tempValue.dangerItemDetail"
+            v-if="dangerItemDetail.id"
+            :model="dangerItemDetail"
             ref="dataForm"
             label-position="top"
             size="small"
@@ -59,7 +59,7 @@
               label="违法行为描述（可追加细节）："
               prop="itemContent">
               <el-input
-                v-model.trim="dataForm.tempValue.dangerItemDetail.itemContent"
+                v-model.trim="dangerItemDetail.itemContent"
                 placeholder="请填写违法行为描述"
                 type="textarea"
                 :autosize="{ minRows: 2, maxRows: 4}"
@@ -70,7 +70,7 @@
               label="a.违法认定法条："
               prop="confirmClause">
               <el-input
-                v-model.trim="dataForm.tempValue.dangerItemDetail.confirmClause"
+                v-model.trim="dangerItemDetail.confirmClause"
                 type="textarea"
                 placeholder="请填写违法认定法条"
                 :autosize="{ minRows: 2, maxRows: 4}"
@@ -81,14 +81,15 @@
               label="b.现场处理决定："
               prop="onsiteDesc">
               <el-input
-                v-model.trim="dataForm.tempValue.dangerItemDetail.onsiteDesc"
+                v-model.trim="dangerItemDetail.onsiteDesc"
                 placeholder="请填写现场处理决定"
                 :maxlength="300"
                 style="width: calc(100% - 200px);">
               </el-input>
               <!-- 现场处理类型 -->
               <el-select
-                v-model="dataForm.tempValue.dangerItemDetail.onsiteType">
+                v-model="dangerItemDetail.onsiteType"
+                @change="val => changeValue(val, 'onsiteType')">
                 <el-option
                   v-for="(item, index) in onsiteTypeOptions"
                   :key="index"
@@ -97,26 +98,29 @@
                 </el-option>
               </el-select>
               <div style="margin-top: 10px; display:flex;">
-                <div v-if="showOnsiteDesc.deviceNum" style="margin-left: 10px;">
+                <div v-show="showOnsiteDesc.deviceNum" style="margin-left: 10px;">
                   <span class="el-form-item__label">台/台套：</span>
                   <el-input
-                    v-model.trim="dataForm.tempValue.dangerItemDetail.deviceNum"
+                    v-model.trim="dangerItemDetail.deviceNum"
                     size="small"
-                    style="width: 90px;">
+                    style="width: 90px;"
+                    @change="val => changeValue(val, 'deviceNum')">
                   </el-input>
                 </div>
-                <div v-if="showOnsiteDesc.coalingFace" style="margin-left: 10px;">
+                <div v-show="showOnsiteDesc.coalingFace" style="margin-left: 10px;">
                   <span class="el-form-item__label">采煤工作面/个：</span>
                   <el-input
-                    v-model.trim="dataForm.tempValue.dangerItemDetail.coalingFace"
-                    style="width: 90px;">
+                    v-model.trim="dangerItemDetail.coalingFace"
+                    style="width: 90px;"
+                    @change="val => changeValue(val, 'coalingFace')">
                   </el-input>
                 </div>
-                <div v-if="showOnsiteDesc.headingFace" style="margin-left: 10px;">
+                <div v-show="showOnsiteDesc.headingFace" style="margin-left: 10px;">
                   <span class="el-form-item__label">掘进工作面/个：</span>
                   <el-input
-                    v-model.trim="dataForm.tempValue.dangerItemDetail.headingFace"
-                    style="width: 90px;">
+                    v-model.trim="dangerItemDetail.headingFace"
+                    style="width: 90px;"
+                    @change="val => changeValue(val, 'headingFace')">
                   </el-input>
                 </div>
               </div>
@@ -125,7 +129,7 @@
               label="b.现场处理依据："
               prop="onsiteBasis">
               <el-input
-                v-model.trim="dataForm.tempValue.dangerItemDetail.onsiteBasis"
+                v-model.trim="dangerItemDetail.onsiteBasis"
                 type="textarea"
                 placeholder="请填写现场处理依据"
                 :autosize="{ minRows: 2, maxRows: 4}"
@@ -136,13 +140,13 @@
               label="c.行政处罚决定："
               prop="penaltyDesc">
               <el-input
-                v-model.trim="dataForm.tempValue.dangerItemDetail.penaltyDesc"
+                v-model.trim="dangerItemDetail.penaltyDesc"
                 placeholder="请填写行政处罚决定"
                 :maxlength="300"
                 style="width: calc(100% - 155px);">
               </el-input>
               <el-input
-                v-model.trim="dataForm.tempValue.dangerItemDetail.penaltyDescFine"
+                v-model.trim="dangerItemDetail.penaltyDescFine"
                 placeholder="罚金"
                 style="width: 150px;">
                 <template slot="append">万元</template>
@@ -152,7 +156,7 @@
               label="c.行政处罚依据："
               prop="penaltyBasis">
               <el-input
-                v-model.trim="dataForm.tempValue.dangerItemDetail.penaltyBasis"
+                v-model.trim="dangerItemDetail.penaltyBasis"
                 type="textarea"
                 placeholder="请填写行政处罚依据"
                 :autosize="{ minRows: 2, maxRows: 4}"
@@ -164,7 +168,7 @@
               prop="isSerious"
               class="special-form-item">
               <el-checkbox
-                v-model="dataForm.tempValue.dangerItemDetail.isSerious"
+                v-model="dangerItemDetail.isSerious"
                 true-label="1"
                 false-label="0"
                 @change="val => changeValue(val, 'isSerious')"
@@ -176,14 +180,14 @@
               prop="isReview"
               class="special-form-item">
               <el-checkbox
-                v-model="dataForm.tempValue.dangerItemDetail.isReview"
+                v-model="dangerItemDetail.isReview"
                 true-label="1"
                 false-label="0"
                 @change="val => changeValue(val, 'isReview')"
               ></el-checkbox>
               <el-date-picker
-                v-if="dataForm.tempValue.dangerItemDetail.isReview === '1'"
-                v-model="dataForm.tempValue.dangerItemDetail.reviewDate"
+                v-if="dangerItemDetail.isReview === '1'"
+                v-model="dangerItemDetail.reviewDate"
                 type="date"
                 format="yyyy年MM月dd日"
                 value-format="yyyy年MM月dd日"
@@ -195,13 +199,13 @@
               label="排序："
               class="special-form-item">
               <el-button
-                v-if="dataForm.tempValue.dangerItemDetail.order !== 0"
+                v-if="dangerItemDetail.order !== 0"
                 type="text"
                 @click="changeOrder('forward')">
                 向前
               </el-button>
               <el-button
-                v-if="dataForm.tempValue.dangerItemDetail.order !== dataForm.tempValue.tableData.length - 1"
+                v-if="dangerItemDetail.order !== dataForm.tempValue.tableData.length - 1"
                 type="text"
                 @click="changeOrder('backwards')">
                 向后
@@ -246,14 +250,7 @@ export default {
   props: {
     value: {
       type: Object,
-      default: () => {
-        return {
-          baseInfor: null,
-          tableData: [],
-          selectedIdList: [],
-          dangerItemDetail: {}
-        }
-      }
+      default: () => {}
     },
     corpData: {
       type: Object,
@@ -263,8 +260,8 @@ export default {
       type: Object,
       default: () => {
         return {
-          showBaseInfor: true, // 用于区分是否展示基本情况大文本输入
-          showSelectDangerBtn: true // 用于区分是否可以选择隐患项
+          showBaseInfor: false, // 用于区分是否展示基本情况大文本输入
+          showSelectDangerBtn: false // 用于区分是否可以选择隐患项
         }
       }
     }
@@ -276,23 +273,23 @@ export default {
           baseInfor: null,
           tableData: [],
           selectedIdList: [],
-          dangerItemDetail: {
-            itemContent: null, // 违法行为描述
-            confirmClause: null, // 违法认定法条
-            onsiteDesc: null, // 现场处理决定
-            onsiteBasis: null, // 现场处理依据
-            onsiteType: null, // 现场处理决定类型
-            headingFace: null, // 掘进工作面
-            deviceNum: null, // 设备台数
-            coalingFace: null, // 采煤工作面
-            penaltyDesc: null, // 行政处罚决定
-            penaltyDescFine: null, // 行政处罚决定罚金
-            penaltyBasis: null, // 行政处罚依据
-            isSerious: false, // 是否重大隐患
-            isReview: false, // 是否复查
-            reviewDate: null, // 复查日期
-          }
         }
+      },
+      dangerItemDetail: {
+        itemContent: null, // 违法行为描述
+        confirmClause: null, // 违法认定法条
+        onsiteDesc: null, // 现场处理决定
+        onsiteBasis: null, // 现场处理依据
+        onsiteType: null, // 现场处理决定类型
+        headingFace: null, // 掘进工作面
+        deviceNum: null, // 设备台数
+        coalingFace: null, // 采煤工作面
+        penaltyDesc: null, // 行政处罚决定
+        penaltyDescFine: null, // 行政处罚决定罚金
+        penaltyBasis: null, // 行政处罚依据
+        isSerious: false, // 是否重大隐患
+        isReview: false, // 是否复查
+        reviewDate: null, // 复查日期
       },
       visible: {
         dangerSelect: false,
@@ -364,20 +361,11 @@ export default {
       }
     };
   },
-  computed: {
-    watchData() {
-      return {
-        deviceNum: this.dataForm.tempValue.dangerItemDetail.deviceNum,
-        coalingFace: this.dataForm.tempValue.dangerItemDetail.coalingFace,
-        headingFace: this.dataForm.tempValue.dangerItemDetail.headingFace
-      }
-    }
-  },
   created() {
     this.initData()
   },
   watch: {
-    'dataForm.tempValue.dangerItemDetail.onsiteType'(val) {
+    'dangerItemDetail.onsiteType'(val) {
       // 监听现场处理类型
       if (val === '4' || val === '5' || val === '7') {
         // 展示采煤工作面和掘进工作面
@@ -386,7 +374,7 @@ export default {
           coalingFace: true,
           headingFace: true,
         }
-        this.$set(this.dataForm.tempValue.dangerItemDetail, 'deviceNum', null)
+        this.$set(this.dangerItemDetail, 'deviceNum', null)
       } else if (val === '6') {
         // 全部展示
         this.showOnsiteDesc = {
@@ -401,24 +389,31 @@ export default {
           coalingFace: false,
           headingFace: false,
         }
-        this.$set(this.dataForm.tempValue.dangerItemDetail, 'coalingFace', null)
-        this.$set(this.dataForm.tempValue.dangerItemDetail, 'headingFace', null)
+        this.$set(this.dangerItemDetail, 'coalingFace', null)
+        this.$set(this.dangerItemDetail, 'headingFace', null)
       } else {
         this.showOnsiteDesc = {
           deviceNum: false,
           coalingFace: false,
           headingFace: false,
         }
+        this.$set(this.dangerItemDetail, 'deviceNum', null)
+        this.$set(this.dangerItemDetail, 'coalingFace', null)
+        this.$set(this.dangerItemDetail, 'headingFace', null)
       }
       this.changeValue(val, 'onsiteType')
     },
-    watchData(val) {
-      this.changeValue(val, 'watchData')
-    }
   },
   methods: {
     initData () {
       this.dataForm.tempValue = this.value
+      console.log('this.value', this.value)
+      if (this.value.tableData.length > 0) {
+        this.selectedItem({
+          $index: 0,
+          row: this.value.tableData[0]
+        })
+      }
     },
     handleDialog (key) {
       // 展示选择检查内容弹窗
@@ -449,16 +444,17 @@ export default {
           if (item.children && item.children.length > 0) {
             this.handleData(item.children, tableData)
           } else {
-            tableData.push(Object.assign(item, {
+            let itemObject = Object.assign({}, item, {
               order: this.dangerIndex,
-              headingFace: null, // 掘进工作面
-              deviceNum: null, // 设备台数
-              coalingFace: null, // 采煤工作面
+              headingFace: '', // 掘进工作面
+              deviceNum: '', // 设备台数
+              coalingFace: '', // 采煤工作面
               isSerious: '0',
               isReview: '0',
               reviewDate: null,
               active: false,
-            }))
+            })
+            tableData.push(itemObject)
             this.dangerIndex = this.dangerIndex + 1
           }
         })
@@ -474,11 +470,12 @@ export default {
       // 设置选中状态
       this.$set(this.dataForm.tempValue.tableData, scope.$index, scope.row)
       // 将选中的隐患项内容赋值进form中
-      this.dataForm.tempValue.dangerItemDetail = scope.row
+      // this.$set(this, 'dangerItemDetail', scope.row)
+      this.dangerItemDetail = scope.row
     },
     changeOrder(type) {
       // 修改排序
-      let dangerItemDetail = this.dataForm.tempValue.dangerItemDetail
+      let dangerItemDetail = this.dangerItemDetail
       let newOrder = null
       if (type === 'forward') {
         // 向前
@@ -502,8 +499,8 @@ export default {
       dangerItemDetail.order = newOrder
     },
     changeValue (val, field) {
-      let index = this.dataForm.tempValue.dangerItemDetail.order
-      this.$set(this.dataForm.tempValue.tableData, index, this.dataForm.tempValue.dangerItemDetail)
+      let index = this.dangerItemDetail.order
+      this.$set(this.dataForm.tempValue.tableData, index, this.dangerItemDetail)
     }
   },
 };

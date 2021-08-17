@@ -118,12 +118,9 @@
               @click="commandFill('cellIdx7', '现场处理决定', 'DangerTableItem')"
             >
              <div v-if="letData.cellIdx7 && letData.cellIdx7.length > 0">
-                <div
-                  v-for="(item, index) in letData.cellIdx7"
-                  :key="index"
-                  class="show-danger-content">
-                  <span style="border-bottom: solid 1px #000; padding-bottom: 7px;">{{item}}</span>
-                </div>
+                <p class="show-area-item-p">
+                  <span style="padding: 7px;">{{ letData.cellIdx7 }}</span>
+                </p>
               </div>
               <div v-else>
                 <p class="show-area-item-p">
@@ -258,7 +255,7 @@
 <script>
 import letMain from "@/views/make-law-writ/components/writ-list/components/let-main";
 import GoDB from "@/utils/godb.min.js";
-import { getIndexDangerOnsiteDesc } from '@/utils/setInitPaperData'
+import { getDangerObject } from '@/utils/setInitPaperData'
 export default {
   name: "Let102",
   props: {
@@ -316,18 +313,20 @@ export default {
       const checkPaper = await wkPaper.findAll((item) => {
         return item.caseId === caseId && item.paperType === this.docData.docTypeNo;
       });
+      // await wkPaper.delete(checkPaper[0].id)
       if (checkPaper.length > 0) {
         // 回显
         this.letData = JSON.parse(checkPaper[0].paperContent);
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        // 获取现场检查笔录中的隐患选择
         const let101Data = await wkPaper.find((item) => {
           return item.caseId === caseId && item.paperType === '1';
         });
         let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
-        // 获取现场检查笔录中的隐患选择
-        let cellIdx7StringList = await getIndexDangerOnsiteDesc(wkPaper, caseId)
+        console.log('let101DataPapaerContent', let101DataPapaerContent)
+        let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
         // 通过机构接口中的sysOfficeInfo中获取的organName和courtPrefix字段分别填充cellIdx8和cellIdx9字段
         const orgInfo = db.table("orgInfo");
         const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
@@ -341,8 +340,7 @@ export default {
           cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // 被检查单位
           cellIdx5: null, //
           cellIdx6: null, //
-          cellIdx7: cellIdx7StringList, // 现场处理决定
-          cellIdx7TypeDangerTableItem: let101DataPapaerContent.cellIdx8TypeDangerTableItem, // 现场处理决定
+          cellIdx7: dangerObject.contentOnsiteDesc, // 现场处理决定
           cellIdx8: orgSysOfficeInfo.organName, //
           cellIdx8TypeTextItem: orgSysOfficeInfo.organName, //
           cellIdx9: orgSysOfficeInfo.courtPrefix, //
@@ -353,6 +351,7 @@ export default {
           cellIdx13: null, // 日期
           cellIdx14: null, //
           cellIdx15: null, //
+          dangerItemObject: let101DataPapaerContent.dangerItemObject, // 隐患项大表
         };
       }
       await db.close();
@@ -365,7 +364,12 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 打开编辑
-        this.$refs.letMain.commandFill(key, title, type, this.letData[`${key}Type${type}`], this.options[key])
+        let dataKey = `${key}Type${type}`
+        if (key === 'cellIdx7') {
+          // 隐患项时对应letData中的dangerItemObject
+          dataKey = 'dangerItemObject'
+        }
+        this.$refs.letMain.commandFill(key, dataKey, title, type, this.letData[dataKey], this.options[key])
       }
     },
   },

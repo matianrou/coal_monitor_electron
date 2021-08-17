@@ -62,66 +62,22 @@ export async function getDocNumber(db, docTypeNo, caseId, userId, userGroupId) {
   }
 }
 
-// 返回已选的隐患描述+现场处理决定，展示样式：1.XXXX2.XXXXXX（未处理隐患文本及现场处理决定中最后的符号）
-// 现场处理决定书专用（返回为数组形式）
-export async function getIndexDangerOnsiteDesc (wkPaper, caseId) {
-  // wkPaper 文书库表
-  // caseId 需要检索的检查活动的id
-  const let101Data = await wkPaper.find((item) => {
-    return item.caseId === caseId && item.paperType === '1';
-  });
-  let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
-  let stringList = []
-  let101DataPapaerContent.cellIdx8TypeDangerTableItem.tableData.map((item, index) => {
-    stringList.push(`${(index + 1)}. ${item.itemContent}${item.onsiteDesc}`)
-  })
-  return stringList
-}
-
-// 返回隐患描述：已选的隐患描述，处理隐患项内容如果最后一位是句号。则修改为、
-export async function getDangerContent (wkPaper, caseId) {
-  // wkPaper 文书库表
-  // caseId 需要检索的检查活动的id
-  const let101Data = await wkPaper.find((item) => {
-    return item.caseId === caseId && item.paperType === '1';
-  });
-  let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
-  let string = ''
-  let101DataPapaerContent.cellIdx8TypeDangerTableItem.tableData.map(item => {
-    // 判断最后一位是否是句号。如果是则替换为、
-    if (item.itemContent.substring(item.itemContent.length - 1) === '。') {
-      let contentstring = item.itemContent.substring(0, item.itemContent.length - 1)
-      string += contentstring + '；'
-    } else {
-      string += item.itemContent + '；'
-    }
-  })
-  string = string.substring(0, string.length - 1)
-  return string
-}
-
-// paperType：文书编号
-// 返回对象：
+// 返回对象根据隐患项生成的文本数据：
 // dangerString：隐患描述（展示形式为：1. XXX2.XXX未处理最后标点符号）、
 // illegalString：违法认定法条（展示形式：XXX、XXX）
 // treatmentSuggestion： 行政处罚依据+行政处罚决定（展示形式：1.XXX;2.XXX;）
 // penaltyBasisString：行政处罚依据（展示形式：XXX、XXX）
 // penaltyDesc：行政处罚决定（展示形式为：1. XXX2.XXX未处理最后标点符号）、
 // penaltyDescFineTotle: 行政处罚罚金总额
-export async function getDangerObject (wkPaper, caseId, paperType = '1', hasIndex = {
+export function getDangerObject (tableData, hasIndex = {
   danger: false, // 决定dangerString是否带有索引值，1.XXX
   illegal: false, // 决定illegalString是否带有索引值，1.XXX
   treatmentSuggestion: false, // 决定treatmentSuggestion是否带有索引值，1.XXX(未实现)
   penaltyBasis: false, // 决定penaltyBasisString是否带有索引值，1.XXX
   penaltyDesc: false, // 决定penaltyDesc是否带有索引值，1.XXX
 }) {
-  // wkPaper 文书库表
-  // caseId 需要检索的检查活动的id
-  const letPaperData = await wkPaper.find((item) => {
-    return item.caseId === caseId && item.paperType === '2';
-  });
-  console.log('letPaperData', letPaperData)
-  let letPaperDataPapaerContent = JSON.parse(letPaperData.paperContent)
+  // 现场处理决定书：违法行为描述+现场处理决定
+  let contentOnsiteDesc = ''
   // 隐患描述
   let dangerString = ''
   // 违法认定法条
@@ -134,12 +90,13 @@ export async function getDangerObject (wkPaper, caseId, paperType = '1', hasInde
   let penaltyDesc = ''
   // 行政处罚罚金总额
   let penaltyDescFineTotle = 0
-  console.log('letPaperDataPapaerContent', letPaperDataPapaerContent)
-  letPaperDataPapaerContent.cellIdx8TypeDangerTableItem.tableData.map((item, index) => {
+  console.log('tableData', tableData)
+  tableData.map((item, index) => {
+    contentOnsiteDesc += `${(index + 1)}. ${item.itemContent}${item.onsiteDesc}。`
     dangerString += hasIndex.danger ? `${(index + 1)}. ${item.itemContent}` : `${item.itemContent}`
     illegalString += hasIndex.illegal ? `${(index + 1)}. ${item.confirmClause}、` : `${item.confirmClause}、`
     treatmentSuggestion += `${(index + 1)}. ${item.penaltyBasis ? item.penaltyBasis : ''}${item.penaltyDesc ? item.penaltyDesc : ''}；`
-    penaltyBasisString += hasIndex.penaltyBasis ? `${(index + 1)}. ${item.penaltyBasisString ? item.penaltyBasisString : ''}、` : `${item.penaltyBasisString ? item.penaltyBasisString : ''}、`
+    penaltyBasisString += hasIndex.penaltyBasis ? `${(index + 1)}. ${item.penaltyBasis ? item.penaltyBasis : ''}、` : `${item.penaltyBasis ? item.penaltyBasis : ''}、`
     penaltyDesc +=  hasIndex.penaltyDesc ? `${item.penaltyDesc ? `${(index + 1)}. ${item.penaltyDesc}` : ''}` : `${item.penaltyDesc ? `${item.penaltyDesc}` : ''}`
     penaltyDescFineTotle += item.penaltyDescFine ? Number(item.penaltyDescFine) : 0
   })
@@ -149,7 +106,7 @@ export async function getDangerObject (wkPaper, caseId, paperType = '1', hasInde
   penaltyDesc = penaltyDesc.substring(0, penaltyDesc.length - 1) + '。'
   penaltyDescFineTotle = penaltyDescFineTotle * 10000
   return {
-    letPaperDataPapaerContent,
+    contentOnsiteDesc,
     dangerString,
     illegalString,
     treatmentSuggestion,
@@ -159,6 +116,7 @@ export async function getDangerObject (wkPaper, caseId, paperType = '1', hasInde
   }
 }
 
+// 数字转换为文字
 export function transformNumToChinese(data) {
   let num = parseFloat(data);
   let strOutput = "",

@@ -124,12 +124,9 @@
               @click="commandFill('cellIdx8', '检查情况：', 'DangerTableItem')"
             >
               <div v-if="letData.cellIdx8 && letData.cellIdx8.length > 0">
-                <div
-                  v-for="(item, index) in letData.cellIdx8"
-                  :key="index"
-                  class="show-danger-content">
-                  <span style="border-bottom: solid 1px #000; padding-bottom: 7px;">{{item}}</span>
-                </div>
+                <p class="show-area-item-p">
+                  <span style="padding: 7px;">{{ letData.cellIdx8 }}</span>
+                </p>
               </div>
               <div v-else>
                 <p class="show-area-item-p">
@@ -208,6 +205,11 @@ export default {
     return {
       letData: {},
       options: {
+        cellIdx8: {
+          page: '1', // 用于在隐患项保存，做数据处理
+          showBaseInfor: true, // 用于区分是否展示基本情况大文本输入
+          showSelectDangerBtn: true // 用于区分是否可以选择隐患项
+        }
       },
       editData: {}, // 回显数据
     };
@@ -236,6 +238,8 @@ export default {
       const checkPaper = await wkPaper.findAll((item) => {
         return item.caseId === caseId && item.paperType === this.docData.docTypeNo;
       });
+      console.log('checkPaper',checkPaper[0])
+      // await wkPaper.delete(checkPaper[0].id)
       if (checkPaper.length > 0) {
         // 回显
         this.letData = JSON.parse(checkPaper[0].paperContent);
@@ -256,6 +260,27 @@ export default {
           cellIdx9: null, // 被检查单位负责人意见
           cellIdx10: null, // 签名
           cellIdx11: null, // 日期
+          dangerItemObject: {
+            baseInfor: null,
+            tableData: [],
+            selectedIdList: [],
+            dangerItemDetail: {
+              itemContent: null, // 违法行为描述
+              confirmClause: null, // 违法认定法条
+              onsiteDesc: null, // 现场处理决定
+              onsiteBasis: null, // 现场处理依据
+              onsiteType: null, // 现场处理决定类型
+              headingFace: null, // 掘进工作面
+              deviceNum: null, // 设备台数
+              coalingFace: null, // 采煤工作面
+              penaltyDesc: null, // 行政处罚决定
+              penaltyDescFine: null, // 行政处罚决定罚金
+              penaltyBasis: null, // 行政处罚依据
+              isSerious: false, // 是否重大隐患
+              isReview: false, // 是否复查
+              reviewDate: null, // 复查日期
+            }
+          }, // 隐患项大表
         };
       }
       await db.close();
@@ -268,7 +293,12 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 打开编辑
-        this.$refs.letMain.commandFill(key, title, type, this.letData[`${key}Type${type}`], this.options[key])
+        let dataKey = `${key}Type${type}`
+        if (key === 'cellIdx8') {
+          // 隐患项时对应letData中的dangerItemObject
+          dataKey = 'dangerItemObject'
+        }
+        this.$refs.letMain.commandFill(key, dataKey, title, type, this.letData[dataKey], this.options[key])
       }
     },
   },

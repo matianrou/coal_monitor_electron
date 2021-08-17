@@ -99,13 +99,42 @@
               data-title="违法行为"
               data-type="textarea"
               data-src
-              @click="commandFill('cellIdx6', '违法行为', 'TextareaItem')">
-              <p class="show-area-item-p">
-                <span style="padding: 7px;">{{ letData.cellIdx6 }}</span>
-              </p>
-              <p class="show-area-item-p">
-                <span style="padding: 7px;">{{ letData.cellIdx7 }}</span>
-              </p>
+              @click="commandFill('cellIdx6', '违法行为', 'DangerTableItem')">
+              <div v-if="letData.cellIdx6 && letData.cellIdx6.length > 0">
+                <p class="show-area-item-p">
+                  <span style="padding: 7px;">{{ letData.cellIdx6 }}</span>
+                </p>
+              </div>
+              <div v-else>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+              </div>
+            </div>
+            <div
+              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+              class="cellInput mutiLineArea"
+              id="cell_idx_7"
+              data-title="违法行为"
+              data-type="textarea"
+              data-src
+              @click="commandFill('cellIdx7', '违法行为', 'DangerTableItem')">
+              <div v-if="letData.cellIdx7 && letData.cellIdx7.length > 0">
+                <p class="show-area-item-p">
+                  <span style="padding: 7px;">{{ letData.cellIdx7 }}</span>
+                </p>
+              </div>
+              <div v-else>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+              </div>
             </div>
             <table style="border:solid 0px #000;" class="docBody">
               <tr>
@@ -119,10 +148,20 @@
               data-title="法律依据"
               data-type="textarea"
               data-src
-              @click="commandFill('cellIdx8', '法律依据', 'TextareaItem')">
-              <p class="show-area-item-p">
-                <span style="padding: 7px;">{{ letData.cellIdx8 }}</span>
-              </p>
+              @click="commandFill('cellIdx8', '法律依据', 'DangerTableItem')">
+              <div v-if="letData.cellIdx8 && letData.cellIdx8.length > 0">
+                <p class="show-area-item-p">
+                  <span style="padding: 7px;">{{ letData.cellIdx8 }}</span>
+                </p>
+              </div>
+              <div v-else>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+              </div>
             </div>
             <table style="border:solid 0px #000;" class="docBody">
               <tr>
@@ -146,10 +185,20 @@
               data-title="法律规定"
               data-type="textarea"
               data-src
-              @click="commandFill('cellIdx10', '法律规定', 'TextareaItem')">
-              <p class="show-area-item-p">
-                <span style="padding: 7px;">{{ letData.cellIdx10 }}</span>
-              </p>
+              @click="commandFill('cellIdx10', '法律规定', 'DangerTableItem')">
+              <div v-if="letData.cellIdx10 && letData.cellIdx10.length > 0">
+                <p class="show-area-item-p">
+                  <span style="padding: 7px;">{{ letData.cellIdx10 }}</span>
+                </p>
+              </div>
+              <div v-else>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+              </div>
             </div>
             <table style="border:solid 0px #000;" class="docBody">
               <tr>
@@ -358,10 +407,28 @@ export default {
   data() {
     return {
       letData: {},
-      options: {},
+      options: {
+        cellIdx6: {
+          page: '6',
+          key: 'cellIdx6'
+        },
+        cellIdx7: {
+          page: '6',
+          key: 'cellIdx7'
+        },
+        cellIdx8: {
+          page: '6',
+          key: 'cellIdx8'
+        },
+        cellIdx10: {
+          page: '6',
+          key: 'cellIdx10'
+        },
+      },
       editData: {}, // 回显数据
       visible: false,
       selectedType: '单位', // 初始化时选择的单位或个人
+      extraData: {}, // 用于拼写隐患内容的字符集合
     };
   },
   created() {
@@ -385,6 +452,7 @@ export default {
           item.caseId === caseId && item.paperType === this.docData.docTypeNo
         );
       });
+      // await wkPaper.delete(checkPaper[0].id)
       if (checkPaper.length > 0) {
         // 回显
         this.letData = JSON.parse(checkPaper[0].paperContent);
@@ -428,7 +496,15 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        this.$refs.letMain.commandFill(key, title, type, this.letData[`${key}Type${type}`], this.options[key])
+        let dataKey = `${key}Type${type}`
+        if (key === 'cellIdx6' || key === 'cellIdx7' || key === 'cellIdx8' || key === 'cellIdx10') {
+          this.options[key] = {
+            page: '6',
+            key: key,
+          }
+          dataKey = 'dangerItemObject'
+        }
+        this.$refs.letMain.commandFill(key, dataKey, title, type, this.letData[dataKey], this.options[key])
       }
     },
     async confirm() {
@@ -446,23 +522,24 @@ export default {
         // 2.经查，你XX的以下行为
         this.letData.cellIdx5 = this.selectedType
         this.letData.cellIdx5TypeTextItem = this.selectedType
-        let {dangerString, illegalString, penaltyBasisString, penaltyDesc, penaltyDescFineTotle} = await getDangerObject(wkPaper, caseId, {danger: true, penaltyDesc: true})
+        // 获取笔录文书中的隐患数据
+        const let101Data = await wkPaper.find((item) => {
+          return item.caseId === caseId && item.paperType === '1';
+        });
+        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
+        let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData, {danger: true, penaltyDesc: true})
         // 3.隐患描述
-        this.letData.cellIdx6 = `${dangerString}`
-        this.letData.cellIdx6TypeTextareaItem = `${dangerString}`
+        this.letData.cellIdx6 = `${dangerObject.dangerString}`
         // 4.分别违反了+违法认定法条
-        this.letData.cellIdx7 = `分别违反了${illegalString}`
-        this.letData.cellIdx7TypeTextareaItem = `分别违反了${illegalString}`
+        this.letData.cellIdx7 = `分别违反了${dangerObject.illegalString}`
         // 5.行政处罚依据
-        this.letData.cellIdx8 = penaltyBasisString
-        this.letData.cellIdx8TypeTextareaItem = penaltyBasisString
+        this.letData.cellIdx8 = dangerObject.penaltyBasisString
         // 6.你单位或个人
         this.letData.cellIdx9 = this.selectedType
         this.letData.cellIdx9TypeTextItem = this.selectedType
         // 7.行政处罚决定
-        let cellIdx10String = `分别作出：${penaltyDesc}合并罚款人民币${transformNumToChinese(penaltyDescFineTotle)}（￥${penaltyDescFineTotle.toLocaleString()}）罚款。`
+        let cellIdx10String = `分别作出：${dangerObject.penaltyDesc}。合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle)}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`
         this.letData.cellIdx10 = cellIdx10String
-        this.letData.cellIdx10TypeTextareaItem = cellIdx10String
         // 8.你单位或个人
         this.letData.cellIdx11 = this.selectedType
         this.letData.cellIdx11TypeTextItem = this.selectedType
@@ -484,6 +561,7 @@ export default {
         this.letData.cellIdx17TypeTextItem = orgSysOfficeInfo.phone
         this.letData.cellIdx21 = this.selectedType
         this.letData.cellIdx21TypeTextItem = this.selectedType
+        this.letData.dangerItemObject = let101DataPapaerContent.dangerItemObject
         await db.close();
       } else {
         // 按个人初始化信息
@@ -497,6 +575,7 @@ export default {
         this.letData.cellIdx11TypeTextItem = this.selectedType
         this.letData.cellIdx21 = this.selectedType
         this.letData.cellIdx21TypeTextItem = this.selectedType
+        this.letData.dangerItemObject = let101DataPapaerContent.dangerItemObject
       }
     }
   },
