@@ -69,6 +69,7 @@
 <script>
 import { encry } from '@/utils/AesEncryptUtil'
 import electronRequest from '@/utils/electronRequest'
+import GoDB from "@/utils/godb.min.js";
 export default {
   name: "Login",
   data() {
@@ -120,14 +121,19 @@ export default {
           console.log('登录请求失败：', err)
         })
     },
-    getUserInfo(userId, sessId) {
-      this.$http.get(`/local/user/info?__sid=${sessId}&userId=${userId}`).then(({ data }) => {
+    async getUserInfo(userId, sessId) {
+      await this.$http.get(`/local/user/info?__sid=${sessId}&userId=${userId}`).then(({ data }) => {
         this.$store.state.user.userGroupId = data.data.groupId
         this.$store.state.user.userAreaId = data.data.areaId
         this.$store.state.user.userGroupName = data.data.groupName
       }).catch(err => {
         console.log('获取用户信息失败：', err)
       })
+      const db = new GoDB("CoalDB");
+      // 个人执法编号
+      let person = db.table("person")
+      let userInfo = await person.find(item => item.no === userId)
+      this.$store.state.user.userNumber = userInfo.userNumber
     }
   },
 };

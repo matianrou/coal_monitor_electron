@@ -372,7 +372,7 @@
 <script>
 import letMain from "@/views/make-law-writ/components/writ-list/components/let-main";
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, transformNumToChinese } from '@/utils/setInitPaperData'
+import { getDangerObject, transformNumToChinese, getDocNumber } from '@/utils/setInitPaperData'
 export default {
   name: "Let206",
   props: {
@@ -468,11 +468,16 @@ export default {
         const orgInfo = db.table("orgInfo");
         const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
         let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
+        let paperNumber = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
         this.letData = {
-          cellIdx0: null, // 文书号
-          cellIdx1: null, // 文书号
-          cellIdx2: null, // 文书号
-          cellIdx3: null, // 文书号
+          cellIdx0: paperNumber.num0, // 文书号
+          cellIdx0TypeTextItem: paperNumber.num0, // 文书号
+          cellIdx1: paperNumber.num1, // 文书号
+          cellIdx1TypeTextItem: paperNumber.num1, // 文书号
+          cellIdx2: paperNumber.num3, // 文书号
+          cellIdx2TypeTextItem: paperNumber.num3, // 文书号
+          cellIdx3: paperNumber.num4, // 文书号
+          cellIdx3TypeTextItem: paperNumber.num4, // 文书号
           cellIdx4: let204DataPaperContent.cellIdx5, // 单位/个人
           cellIdx4TypeTextItem: let204DataPaperContent.cellIdx5, // 单位/个人
           cellIdx5: cellIdx4String === '单位' ? corp.corpName : '', // 被处罚

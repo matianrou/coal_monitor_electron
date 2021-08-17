@@ -813,7 +813,7 @@ async function doDocDb(resId, data){
 			"planBeginDate": String, //检查开始日期：2021-06-15 00:00:00
 			"planEndDate": String, //检查结束日期：2021-06-22 00:00:00
 			//"createTime": "2021-06-15 11:00:25",
-			//"caseSn": "23307",
+			"caseSn": String,
 			//"sourceFlag": "0",
 			//"affiliate": "130000120001",
 			//"meikuangType": "2",
@@ -948,6 +948,7 @@ async function doDocDb(resId, data){
 			arrDocCase.push({
 				"caseId": obj.caseId,
 				"caseNo": obj.caseNo,
+			  "caseSn": obj.caseSn,
 				"remoteId": obj.id,
 				"delFlag": obj.delFlag,
 				"createDate": obj.createDate,

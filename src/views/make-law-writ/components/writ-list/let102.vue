@@ -255,7 +255,7 @@
 <script>
 import letMain from "@/views/make-law-writ/components/writ-list/components/let-main";
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject } from '@/utils/setInitPaperData'
+import { getDangerObject, getDocNumber } from '@/utils/setInitPaperData'
 export default {
   name: "Let102",
   props: {
@@ -325,17 +325,21 @@ export default {
           return item.caseId === caseId && item.paperType === '1';
         });
         let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
-        console.log('let101DataPapaerContent', let101DataPapaerContent)
         let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
         // 通过机构接口中的sysOfficeInfo中获取的organName和courtPrefix字段分别填充cellIdx8和cellIdx9字段
         const orgInfo = db.table("orgInfo");
         const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
         let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
+        let paperNumber = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
         this.letData = {
-          cellIdx0: null, //
-          cellIdx1: null, //
-          cellIdx2: null, //
-          cellIdx3: null, //
+          cellIdx0: paperNumber.num0, // 文书号
+          cellIdx0TypeTextItem: paperNumber.num0, // 文书号
+          cellIdx1: paperNumber.num1, // 文书号
+          cellIdx1TypeTextItem: paperNumber.num1, // 文书号
+          cellIdx2: paperNumber.num3, // 文书号
+          cellIdx2TypeTextItem: paperNumber.num3, // 文书号
+          cellIdx3: paperNumber.num4, // 文书号
+          cellIdx3TypeTextItem: paperNumber.num4, // 文书号
           cellIdx4: corp.corpName ? corp.corpName : null, // 被检查单位
           cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // 被检查单位
           cellIdx5: null, //

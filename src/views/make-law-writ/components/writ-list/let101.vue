@@ -238,7 +238,6 @@ export default {
       const checkPaper = await wkPaper.findAll((item) => {
         return item.caseId === caseId && item.paperType === this.docData.docTypeNo;
       });
-      console.log('checkPaper',checkPaper[0])
       // await wkPaper.delete(checkPaper[0].id)
       if (checkPaper.length > 0) {
         // 回显

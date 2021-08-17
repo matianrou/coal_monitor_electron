@@ -7,6 +7,7 @@ export default {
     userSessId: null,
     userGroupId: null,
     userAreaId: null,
-    userGroupName: null
+    userGroupName: null,
+    userNumber: null
   }
 }

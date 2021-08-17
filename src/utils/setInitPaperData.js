@@ -12,13 +12,12 @@
 // 2.num1: 文书号2（docRiseDepa）
 // 3.num2: 文书号3（立、告、罚、送、催）
 // 4.num3: 文书号4（curYear）
-// 5.num4: 文书号5（个人执法编号）
-// 6.num5: 文书号6（自增三位数字）
-// 7.numString: 整体文书编号
-export async function getDocNumber(db, docTypeNo, caseId, userId, userGroupId) {
+// 5.num4: 文书号5（个人执法编号+自增三位数字）
+// 6.numString: 整体文书编号
+export async function getDocNumber(db, docTypeNo, caseId, user) {
   // 获取当前机构
   const orgInfo = db.table("orgInfo");
-  const orgData = await orgInfo.find(item => item.no === userGroupId)
+  const orgData = await orgInfo.find(item => item.no === user.userGroupId)
   let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
   // 根据文书类型，获得（立、告、罚、送、催）
   let docString = ''
@@ -45,20 +44,16 @@ export async function getDocNumber(db, docTypeNo, caseId, userId, userGroupId) {
   // 当前年份
   let date = new Date()
   let curYear = date.getFullYear()
-  // 个人执法编号
-  let person = db.table("person")
-  let userInfo = await person.find(item => item.no === userId)
   // 3位数字
   let wkCase = db.table("wkCase")
-  let caseInfo = wkCase.find(item => item.caseId === caseId)
+  let caseInfo = await wkCase.find(item => item.caseId === caseId)
   return {
     num0: orgSysOfficeInfo.docRiseSafe,
     num1: orgSysOfficeInfo.docRiseDepa,
     num2: docString,
-    num3: curYear,
-    num5: userInfo.userNumber,
-    num6: caseInfo.caseNo,
-    numString: `${orgSysOfficeInfo.docRiseSafe}煤安监${orgSysOfficeInfo.docRiseDepa}${docString}〔${curYear}〕${userInfo.userNumber}${caseInfo.caseNo}号`
+    num3: curYear + '',
+    num4: caseInfo.caseSn,
+    numString: `${orgSysOfficeInfo.docRiseSafe}煤安监${orgSysOfficeInfo.docRiseDepa}${docString}〔${curYear}〕${caseInfo.caseSn}号`
   }
 }
 
@@ -90,7 +85,6 @@ export function getDangerObject (tableData, hasIndex = {
   let penaltyDesc = ''
   // 行政处罚罚金总额
   let penaltyDescFineTotle = 0
-  console.log('tableData', tableData)
   tableData.map((item, index) => {
     contentOnsiteDesc += `${(index + 1)}. ${item.itemContent}${item.onsiteDesc}。`
     dangerString += hasIndex.danger ? `${(index + 1)}. ${item.itemContent}` : `${item.itemContent}`

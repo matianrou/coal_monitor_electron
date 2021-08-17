@@ -186,18 +186,20 @@ export default {
       let caseNo = groupId + getNowTime();
       // 生成文书编号的最后三位自增数字：存储在LocalStorage中，根据userId获取对应数据
       let num = 0
-      if(localStorage.getItem(`addSelfNum-${userId}`)) {
-        num = Number(localStorage.getItem(`addSelfNum-${userId}`)) + 1
-        localStorage.setItem(`addSelfNum-${userId}`, num)
+      let userNumber = this.$store.state.user.userNumber
+      if(localStorage.getItem(`addSelfNum-${userNumber}`)) {
+        num = Number(localStorage.getItem(`addSelfNum-${userNumber}`)) + 1
+        localStorage.setItem(`addSelfNum-${userNumber}`, num)
       } else {
         num = 1
-        localStorage.setItem(`addSelfNum-${userId}`, 1)
+        localStorage.setItem(`addSelfNum-${userNumber}`, 1)
       }
       // numString三位数字存储进wkCase表中，文书编号生成时抓取
       let numString = (Array(3).join(0) + num).slice(-3)
       let jsonCase = {
         caseId: caseId,
         caseNo: caseNo,
+        caseSn: `${userNumber}${numString}`, // 文书编号后五位：用户userNumber+自增三位数字
         remoteId: "",
         delFlag: "0",
         createDate: sDate,

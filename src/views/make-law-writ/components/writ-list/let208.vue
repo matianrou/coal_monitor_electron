@@ -414,6 +414,7 @@
 <script>
 import letMain from "@/views/make-law-writ/components/writ-list/components/let-main";
 import GoDB from "@/utils/godb.min.js";
+import { getDocNumber } from '@/utils/setInitPaperData'
 export default {
   name: "Let208",
   props: {
@@ -472,11 +473,16 @@ export default {
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        let paperNumber = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
         this.letData = {
-          cellIdx0: null, // 文书号
-          cellIdx1: null, // 文书号
-          cellIdx2: null, // 文书号
-          cellIdx3: null, // 文书号
+          cellIdx0: paperNumber.num0, // 文书号
+          cellIdx0TypeTextItem: paperNumber.num0, // 文书号
+          cellIdx1: paperNumber.num1, // 文书号
+          cellIdx1TypeTextItem: paperNumber.num1, // 文书号
+          cellIdx2: paperNumber.num3, // 文书号
+          cellIdx2TypeTextItem: paperNumber.num3, // 文书号
+          cellIdx3: paperNumber.num4, // 文书号
+          cellIdx3TypeTextItem: paperNumber.num4, // 文书号
           cellIdx4: null, //
           cellIdx5: null, // 单位
           cellIdx6: null, // 年

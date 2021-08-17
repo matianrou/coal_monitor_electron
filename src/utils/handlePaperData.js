@@ -74,7 +74,6 @@ function setDateItem (data) {
 function setDangerTableItem (data, selectedData, options) {
   // 隐患项数据
   let string = ''
-  console.log('options', options)
   // 根据不同的文书，返回不同形式的文本
   let dangerObject = getDangerObject(data.tableData)
   let dangerObjectIndex = getDangerObject(data.tableData, {

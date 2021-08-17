@@ -332,18 +332,21 @@ export default {
         // 创建初始版本
         // 1.送达文书：国家煤矿安全监察行政处罚决定书
         let cellIdx4String = '国家煤矿安全监察行政处罚决定书'
-        // 2.文书字号：
-        let userId = this.$store.state.user.userId
-        let userGroupId = this.$store.state.user.userGroupId
-        let { numString } = await getDocNumber(db, this.docData.docTypeNo, caseId, userId, userGroupId)
+        // 2.文书字号：使用行政处罚决定书的文书编号
+        let { numString } = await getDocNumber(db, '8', caseId, this.$store.state.user)
         let cellIdx5String = numString
         // 3.送达地点：煤矿名称
         let cellIdx6String = corp.corpName
+        let paperNumber = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
         this.letData = {
-          cellIdx0: null, // 文书号
-          cellIdx1: null, // 文书号
-          cellIdx2: null, // 文书号
-          cellIdx3: null, // 文书号
+          cellIdx0: paperNumber.num0, // 文书号
+          cellIdx0TypeTextItem: paperNumber.num0, // 文书号
+          cellIdx1: paperNumber.num1, // 文书号
+          cellIdx1TypeTextItem: paperNumber.num1, // 文书号
+          cellIdx2: paperNumber.num3, // 文书号
+          cellIdx2TypeTextItem: paperNumber.num3, // 文书号
+          cellIdx3: paperNumber.num4, // 文书号
+          cellIdx3TypeTextItem: paperNumber.num4, // 文书号
           cellIdx4: cellIdx4String, // 送达文书
           cellIdx4TypeTextItem: cellIdx4String, // 送达文书
           cellIdx5: cellIdx5String, // 文书字号

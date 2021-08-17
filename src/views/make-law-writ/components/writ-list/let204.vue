@@ -383,7 +383,7 @@
 <script>
 import letMain from "@/views/make-law-writ/components/writ-list/components/let-main";
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, transformNumToChinese } from '@/utils/setInitPaperData'
+import { getDangerObject, transformNumToChinese, getDocNumber } from '@/utils/setInitPaperData'
 export default {
   name: "Let204",
   props: {
@@ -461,11 +461,16 @@ export default {
         // 创建初始版本
         // 1.弹出提示框，选择单位或个人
         this.visible = true
+        let paperNumber = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
         this.letData = {
-          cellIdx0: null, // 文书号
-          cellIdx1: null, // 文书号
-          cellIdx2: null, // 文书号
-          cellIdx3: null, // 文书号
+          cellIdx0: paperNumber.num0, // 文书号
+          cellIdx0TypeTextItem: paperNumber.num0, // 文书号
+          cellIdx1: paperNumber.num1, // 文书号
+          cellIdx1TypeTextItem: paperNumber.num1, // 文书号
+          cellIdx2: paperNumber.num3, // 文书号
+          cellIdx2TypeTextItem: paperNumber.num3, // 文书号
+          cellIdx3: paperNumber.num4, // 文书号
+          cellIdx3TypeTextItem: paperNumber.num4, // 文书号
           cellIdx4: null, // 煤矿名称
           cellIdx5: null, // 单位
           cellIdx6: null, // 违法行为
