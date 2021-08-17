@@ -137,6 +137,10 @@ export default {
           selGovUnitName: null,
         }
       }
+    },
+    usePage: { // 判断当前使用的页面，如果为执法工作台MakeLawWrit则可创建检查活动，文书管理WritManagement则不可
+      type: String,
+      default: null
     }
   },
   data() {
@@ -328,17 +332,20 @@ export default {
       this.corpList = corpList
     },
     async showDocHome(data, index) {
-      //读取page-work.html（首页）
       // 设置case激活状态
       this.setActive(index)
-      // 展示当前case流程进度
       // data: 单条plan case相关信息
       this.selectedCase = data
-      this.$emit('change-page', {page: 'writFlow', data})
+      // 执法工作台时点击打开检查活动流程
+      if (this.usePage === 'MakeLawWrit') {
+        // 展示当前case流程进度
+        this.$emit('change-page', {page: 'writFlow', data})
+      }
     },
     editaddbook (item) {
       // 判断当前是否已有caseId，如果已有则不弹窗新建
-      if (!item.caseId) {
+      // 使用页面未执法工作台MakeLawWrit时可创建检查活动
+      if (this.usePage === 'MakeLawWrit' && !item.caseId) {
         this.$emit('create-case', {
           corpData: item,
           selectPlanData: this.dataForm

@@ -6,6 +6,7 @@
         <!-- 选择检查活动 -->
         <case-list
           ref="caseList"
+          use-page="MakeLawWrit"
           :select-plan-data="selectPlanData"
           @change-page="changePage"
           @create-case="createCase"

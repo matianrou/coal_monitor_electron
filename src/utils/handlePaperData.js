@@ -134,6 +134,9 @@ function setDangerTableItem (data, selectedData, options) {
         string = `分别${dangerObject.penaltyDesc}。合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle)}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`
       }
       break
+    case '31': // 执法案件公开裁定记录
+      string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString}案。`
+      break
   }
   return string
 }

@@ -5,10 +5,22 @@
       <div class="writ-management-show-select">
         <!-- 选择检查活动 -->
         <case-list
-          @show-doc="showDoc"
+          ref="caseList"
+          use-page="WritManagement"
+          :select-plan-data="selectPlanData"
+          @change-page="changePage"
         ></case-list>
       </div>
-      <div class="writ-management-show-detail">
+      <div class="detail-main">
+        <div class="detail-org-information">
+          <!-- 企业信息 -->
+          <!-- <org-information
+            :corp-data="corpData"
+          ></org-information> -->
+        </div>
+        <div class="detail-writ-flow">
+          <!-- 文书列表 -->
+        </div>
       </div>
     </div>
     <div v-if="false" class="make-law-writ-fill">
@@ -19,19 +31,23 @@
 
 <script>
 import caseList from "@/views/make-law-writ/components/case-list";
+import orgInformation from '@/views/make-law-writ/components/org-information' // 企业信息
 export default {
   name: "WritManagement",
   components: {
-    caseList
+    caseList,
+    orgInformation
   },
   data() {
     return {
+      corpData: {}, // 选择的企业信息
+      selectPlanData: {}, // 选择的计划日期和归档机构
     };
   },
   created() {
   },
   methods: {
-    showDoc () {
+    changePage () {
       // 展示文书管理 showDocManage
     }
   },
