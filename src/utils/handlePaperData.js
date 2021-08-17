@@ -137,6 +137,9 @@ function setDangerTableItem (data, selectedData, options) {
     case '31': // 执法案件公开裁定记录
       string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString}案。`
       break
+    case '18': // 强制执行申请书
+      string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString}案。`
+      break
   }
   return string
 }
