@@ -40,6 +40,12 @@ export async function getDocNumber(db, docTypeNo, caseId, user) {
     case '2': // 行现场处理决定书let102
       docString = '处'
       break
+    case '41': // 不予受理行政复议申请决定书
+      docString = '复不受'
+      break
+    case '12': // 行政复议决定书
+      docString = '复决'
+      break
   }
   // 当前年份
   let date = new Date()

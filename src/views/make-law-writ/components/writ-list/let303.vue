@@ -67,7 +67,12 @@
                 <td class="textAlignLeft cellBottomLine">号&nbsp;&nbsp;</td>
               </tr>
               <tr>
-                <td class="cellInput cellBottomLine" id="cell_idx_4" style="width:62%">{{letData.cellIdx4}}</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_4"
+                  style="width:62%"
+                  @click="commandFill('cellIdx3', '单位名称', 'TextItem')"
+                >{{letData.cellIdx4}}</td>
                 <td class="textAlignLeft">:</td>
               </tr>
             </table>
@@ -79,10 +84,10 @@
                   id="cell_idx_5"
                   align="center"
                   style="width:10%"
-                  data-title="案由"
+                  data-title=""
                   data-type="textarea"
                   data-src
-                  @click="commandFill('cellIdx5', '案由', 'TextItem')"
+                  @click="commandFill('cellIdx5', '单位/个人', 'TextItem')"
                 >{{letData.cellIdx5}}</td>
                 <td class="textAlignLeft">于</td>
                 <td
@@ -127,10 +132,10 @@
                   id="cell_idx_9"
                   align="center"
                   style="width:12%"
-                  data-title="案由"
+                  data-title=""
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx9', '案由', 'TextItem')"
+                  @click="commandFill('cellIdx9', '', 'TextItem')"
                 >{{letData.cellIdx9}}</td>
                 <td class="textAlignLeft">项情形：</td>
               </tr>
@@ -183,10 +188,10 @@
                   id="cell_idx_10"
                   align="center"
                   style="width:10%"
-                  data-title="案由"
+                  data-title="单位/个人"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx10', '案由', 'TextItem')"
+                  @click="commandFill('cellIdx10', '单位/个人', 'TextItem')"
                 >{{letData.cellIdx10}}</td>
                 <td class="textAlignLeft">的行政复议申请。</td>
               </tr>
@@ -200,10 +205,10 @@
                   contenteditable="true"
                   align="center"
                   style="width:15%"
-                  data-title="案由"
+                  data-title="人民法院"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx11', '案由', 'TextItem')"
+                  @click="commandFill('cellIdx11', '人民法院', 'TextItem')"
                 >{{letData.cellIdx11}}</td>
               </tr>
               <tr>
@@ -287,62 +292,73 @@
             </table>
             <table height="60"></table>
             <table class="docBody">
-              <tr>
-                <td class="cellInput" id="cell_idx_18" align="right" style="width:95%">{{letData.cellIdx18}}</td>
-              </tr>
-            </table>
-            <table class="docBody">
               <td class="cellInput" style="width:55%"></td>
               <td
                 class="cellInput cellBottomLine"
-                id="cell_idx_19"
+                id="cell_idx_18"
                 align="center"
                 style="width:10%"
                 data-title="年"
                 data-type="text"
                 data-src
-                @click="commandFill('cellIdx19', '年', 'TextItem')"
-              >{{letData.cellIdx19}}</td>
+                @click="commandFill('cellIdx18', '年', 'TextItem')"
+              >{{letData.cellIdx18}}</td>
               <td class="textAlignLeft">年</td>
               <td
                 class="cellInput cellBottomLine"
-                id="cell_idx_20"
+                id="cell_idx_19"
                 align="center"
                 style="width:10%"
                 data-title="月"
                 data-type="text"
                 data-src
-                @click="commandFill('cellIdx20', '月', 'TextItem')"
-              >{{letData.cellIdx20}}</td>
+                @click="commandFill('cellIdx19', '月', 'TextItem')"
+              >{{letData.cellIdx19}}</td>
               <td class="textAlignLeft">月</td>
               <td
                 class="cellInput cellBottomLine"
-                id="cell_idx_21"
+                id="cell_idx_20"
                 align="center"
                 style="width:10%"
                 data-title="日"
                 data-type="text"
                 data-src
-                @click="commandFill('cellIdx21', '日', 'TextItem')"
-              >{{letData.cellIdx21}}</td>
+                @click="commandFill('cellIdx20', '日', 'TextItem')"
+              >{{letData.cellIdx20}}</td>
               <td class="textAlignLeft">日</td>
             </table>
             <table class="docBody">
               <hr />
               <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交申请行政复议</td>
-              <td class="cellInput" id="cell_idx_22" align="center" style="width:8%">{{letData.cellIdx22}}</td>
               <td class="textAlignLeft">，一份存档。</td>
             </table>
           </div>
         </div>
       </div>
     </let-main>
+    <el-dialog
+      title="文书信息选择"
+      :close-on-click-modal="false"
+      append-to-body
+      :visible="visible"
+      width="400px"
+      :show-close="false">
+      <span>请选择：</span>
+      <el-radio-group v-model="selectedType">
+        <el-radio label="单位">单位</el-radio>
+        <el-radio label="个人">个人</el-radio>
+      </el-radio-group>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="confirm">确定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import letMain from "@/views/make-law-writ/components/writ-list/components/let-main";
 import GoDB from "@/utils/godb.min.js";
+import { getDocNumber } from '@/utils/setInitPaperData'
 export default {
   name: "Let303",
   props: {
@@ -368,6 +384,8 @@ export default {
       letData: {},
       options: {},
       editData: {}, // 回显数据
+      visible: false,
+      selectedType: '单位', // 初始化时选择的单位或个人
     };
   },
   created() {
@@ -395,36 +413,63 @@ export default {
           item.caseId === caseId && item.paperType === this.docData.docTypeNo
         );
       });
+      // await wkPaper.delete(checkPaper[0].id)
       if (checkPaper.length > 0) {
         // 回显
         this.letData = JSON.parse(checkPaper[0].paperContent);
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        // 1.弹出提示框，选择单位或个人
+        this.visible = true
+        // 2.生成文书编号
+        let paperNumber = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
+        // 3.企业煤矿名称
+        // 4.获取当前时间：年、月、日
+        let now = new Date()
+        // 5.通过sysOfficeInfo获取人民法院courtPrefix、我局地址：depAddress、
+        //   邮政编码：depPost、我局联系人：master、联系电话：phone
+        const orgInfo = db.table("orgInfo");
+        const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
         this.letData = {
-          cellIdx0: null, // 文书号
-          cellIdx1: null, // 文书号
-          cellIdx2: null, // 文书号
-          cellIdx3: null, // 文书号
-          cellIdx4: null, //
-          cellIdx5: null, // 案由
-          cellIdx6: null, // 年
-          cellIdx7: null, // 月
-          cellIdx8: null, // 日
-          cellIdx9: null, // 案由
-          cellIdx10: null, // 案由
-          cellIdx11: null, // 案由
+          cellIdx0: paperNumber.num0, // 文书号
+          cellIdx0TypeTextItem: paperNumber.num0, // 文书号
+          cellIdx1: paperNumber.num1, // 文书号
+          cellIdx1TypeTextItem: paperNumber.num1, // 文书号
+          cellIdx2: paperNumber.num3, // 文书号
+          cellIdx2TypeTextItem: paperNumber.num3, // 文书号
+          cellIdx3: paperNumber.num4, // 文书号
+          cellIdx3TypeTextItem: paperNumber.num4, // 文书号
+          cellIdx4: corp.corpName, //
+          cellIdx4TypeTextItem: corp.corpName, //
+          cellIdx5: null, // 单位/个人
+          cellIdx6: now.getFullYear(), // 年
+          cellIdx6TypeTextItem: now.getFullYear(), // 年
+          cellIdx7: now.getMonth() + 1, // 月
+          cellIdx7TypeTextItem: now.getMonth() + 1, // 月
+          cellIdx8: now.getDate(), // 日
+          cellIdx8TypeTextItem: now.getDate(), // 日
+          cellIdx9: null, //
+          cellIdx10: null, // 单位/个人
+          cellIdx11: orgSysOfficeInfo.courtPrefix, // 人民法院
+          cellIdx11TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
           cellIdx12: null, // 签收人（签名）
           cellIdx13: null, // 日期
-          cellIdx14: null, // 我局地址
-          cellIdx15: null, // 邮政编码
-          cellIdx16: null, // 我局联系人
-          cellIdx17: null, // 联系电话
-          cellIdx18: null, //
-          cellIdx19: null, // 年
-          cellIdx20: null, // 月
-          cellIdx21: null, // 日
-          cellIdx22: null, //
+          cellIdx14: orgSysOfficeInfo.depAddress, // 我局地址
+          cellIdx14TypeTextItem: orgSysOfficeInfo.depAddress, // 我局地址
+          cellIdx15: orgSysOfficeInfo.depPost, // 邮政编码
+          cellIdx15TypeTextItem: orgSysOfficeInfo.depPost, // 邮政编码
+          cellIdx16: orgSysOfficeInfo.master, // 我局联系人
+          cellIdx16TypeTextItem: orgSysOfficeInfo.master, // 我局联系人
+          cellIdx17: orgSysOfficeInfo.phone, // 联系电话
+          cellIdx17TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
+          cellIdx18: now.getFullYear(), // 年
+          cellIdx18TypeTextItem: now.getFullYear(), // 年
+          cellIdx19: now.getMonth() + 1, // 月
+          cellIdx19TypeTextItem: now.getMonth() + 1, // 月
+          cellIdx20: now.getDate(), // 日
+          cellIdx20TypeTextItem: now.getDate(), // 日
         };
       }
       await db.close();
@@ -441,6 +486,14 @@ export default {
         this.$refs.letMain.commandFill(key, dataKey, title, type, this.letData[dataKey], this.options[key])
       }
     },
+    async confirm() {
+      // 选择单位或个人
+      this.visible = false
+      this.letData.cellIdx5 = this.selectedType
+      this.letData.cellIdx5TypeTextItem = this.selectedType
+      this.letData.cellIdx10 = this.selectedType
+      this.letData.cellIdx10TypeTextItem = this.selectedType
+    }
   },
 };
 </script>

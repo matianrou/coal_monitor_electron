@@ -213,6 +213,7 @@
 <script>
 import letMain from "@/views/make-law-writ/components/writ-list/components/let-main";
 import GoDB from "@/utils/godb.min.js";
+import { getDangerObject, getDocNumber } from '@/utils/setInitPaperData'
 export default {
   name: "Let302",
   props: {
@@ -265,28 +266,47 @@ export default {
           item.caseId === caseId && item.paperType === this.docData.docTypeNo
         );
       });
+      // await wkPaper.delete(checkPaper[0].id)
       if (checkPaper.length > 0) {
         // 回显
         this.letData = JSON.parse(checkPaper[0].paperContent);
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        // 1.时间：当前年、月、日、时、分
+        let now = new Date()
+        // 2.申请人单位
+        // 3.申请记录：“我代表”+煤矿名称+“对”+机构名称+“做出的行政处罚决定”+文书编号（行政处罚决定）+“申请行政复议，对处罚的”+隐患描述+“违法行为进行复议。我矿认为......。请求从轻或者免于处罚。”
+        const let101Data = await wkPaper.find((item) => {
+          return item.caseId === caseId && item.paperType === '1';
+        });
+        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
+        let { numString } = await getDocNumber(db, '8', caseId, this.$store.state.user)
+        let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
+        let cellIdx14String = `我代表${corp.corpName}对${this.$store.state.user.userGroupName}做出的行政处罚决定${numString}申请行政复议，对处罚的${dangerObject.dangerString}违法行为进行复议。我矿认为......。请求从轻或者免于处罚。`
         this.letData = {
-          cellIdx0: null, // 年
-          cellIdx1: null, // 月
-          cellIdx2: null, // 日
-          cellIdx3: null, // 时
-          cellIdx4: null, // 分
+          cellIdx0: now.getFullYear(), // 年
+          cellIdx0TypeTextItem: now.getFullYear(), // 年
+          cellIdx1: now.getMonth() + 1, // 月
+          cellIdx1TypeTextItem: now.getMonth() + 1, // 月
+          cellIdx2: now.getDate(), // 日
+          cellIdx2TypeTextItem: now.getDate(), // 日
+          cellIdx3: now.getHours(), // 时
+          cellIdx3TypeTextItem: now.getHours(), // 时
+          cellIdx4: now.getMinutes(), // 分
+          cellIdx4TypeTextItem: now.getMinutes(), // 分
           cellIdx5: null, // 申请地点
           cellIdx6: null, // 申请人姓名
           cellIdx7: null, // 性别
           cellIdx8: null, // 年龄
-          cellIdx9: null, // 申请人单位
+          cellIdx9: corp.corpName, // 申请人单位
+          cellIdx9TypeTextItem: corp.corpName, // 申请人单位
           cellIdx10: null, // 职务（职业）
           cellIdx11: null, // 电话
           cellIdx12: null, // 申请人住址
           cellIdx13: null, // 记录人（签名）
-          cellIdx14: null, // 申请记录
+          cellIdx14: cellIdx14String, // 申请记录
+          cellIdx14TypeTextareaItem: cellIdx14String, // 申请记录
         };
       }
       await db.close();

@@ -247,86 +247,18 @@
                   @click="commandFill('cellIdx17', '住址', 'TextItem')"
                 >{{letData.cellIdx17}}</td>
               </tr>
-              <tr>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_18"
-                  contenteditable="true"
-                  style="width:95%"
-                >{{letData.cellIdx18}}</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_19"
-                  contenteditable="true"
-                  style="width:95%"
-                >{{letData.cellIdx19}}</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_20"
-                  contenteditable="true"
-                  style="width:95%"
-                >{{letData.cellIdx20}}</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_21"
-                  contenteditable="true"
-                  style="width:95%"
-                >{{letData.cellIdx21}}</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_22"
-                  contenteditable="true"
-                  style="width:95%"
-                >{{letData.cellIdx22}}</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_23"
-                  contenteditable="true"
-                  style="width:95%"
-                >{{letData.cellIdx23}}</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_24"
-                  contenteditable="true"
-                  style="width:95%"
-                >{{letData.cellIdx24}}</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_25"
-                  contenteditable="true"
-                  style="width:95%"
-                >{{letData.cellIdx25}}</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_26"
-                  contenteditable="true"
-                  style="width:95%"
-                >{{letData.cellIdx26}}</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_27"
-                  contenteditable="true"
-                  style="width:95%"
-                >{{letData.cellIdx27}}</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_28"
-                  contenteditable="true"
-                  style="width:95%"
-                >{{letData.cellIdx28}}</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_29"
-                  contenteditable="true"
-                  style="width:95%"
-                >{{letData.cellIdx29}}</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_30"
-                  contenteditable="true"
-                  style="width:95%"
-                >{{letData.cellIdx30}}</td>
-              </tr>
+              <div
+                style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+                class="cellInput mutiLineArea"
+                id="cell_idx_18"
+                data-title="调查笔录"
+                data-type="textarea"
+                data-src
+                @click="commandFill('cellIdx18', '调查笔录', 'TextareaItem')">
+                <p class="show-area-item-p">
+                  <span style="padding: 7px; white-space: pre-wrap;">{{ letData.cellIdx18 }}</span>
+                </p>
+              </div>
               <tr>
                 <td
                   class="textAlignLeft"
@@ -343,6 +275,7 @@
 <script>
 import letMain from "@/views/make-law-writ/components/writ-list/components/let-main";
 import GoDB from "@/utils/godb.min.js";
+import { getDangerObject, transformNumToChinese, getDocNumber } from '@/utils/setInitPaperData'
 export default {
   name: "Let304",
   props: {
@@ -401,12 +334,33 @@ export default {
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        // 1.时间：当前年、月、日、时、分
+        let now = new Date()
+        let cellIdx0Year = now.getFullYear()
+        let cellIdx1Month = now.getMonth() + 1
+        let cellIdx2Date = now.getDate()
+        let cellIdx3Hour = now.getHours()
+        let cellIdx4Minu = now.getMinutes()
+        // 2.单位名称
+        // 3.调查笔录：“我们是”+机构名称+“执法监督处工作人员，这是我们的执法证件（出示行政执法证件），现就你矿涉嫌”+隐患描述+“案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？答：听清楚了。”
+        // 获取笔录文书中的隐患数据
+        const let101Data = await wkPaper.find((item) => {
+          return item.caseId === caseId && item.paperType === '1';
+        });
+        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
+        let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
+        let cellIdx18 = `我们是${this.$store.state.user.userGroupName}执法监督处工作人员，这是我们的执法证件（出示行政执法证件），现就你矿涉嫌${dangerObject.dangerString}案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？\r\n      答：听清楚了。`
         this.letData = {
-          cellIdx0: null, // 年
-          cellIdx1: null, // 月
-          cellIdx2: null, // 日
-          cellIdx3: null, // 时
-          cellIdx4: null, // 分
+          cellIdx0: cellIdx0Year, // 年
+          cellIdx0TypeTextItem: cellIdx0Year, // 年
+          cellIdx1: cellIdx1Month, // 月
+          cellIdx1TypeTextItem: cellIdx1Month, // 月
+          cellIdx2: cellIdx2Date, // 日
+          cellIdx2TypeTextItem: cellIdx2Date, // 日
+          cellIdx3: cellIdx3Hour, // 时
+          cellIdx3TypeTextItem: cellIdx3Hour, // 时
+          cellIdx4: cellIdx4Minu, // 分
+          cellIdx4TypeTextItem: cellIdx4Minu, // 分
           cellIdx5: null, // 时
           cellIdx6: null, // 分
           cellIdx7: null, // 地点
@@ -416,23 +370,13 @@ export default {
           cellIdx11: null, // 性别
           cellIdx12: null, // 年龄
           cellIdx13: null, // 身份证号
-          cellIdx14: null, // 单位
+          cellIdx14: corp.corpName, // 单位
+          cellIdx14TypeTextItem: corp.corpName, // 单位
           cellIdx15: null, // 职务（职业）
           cellIdx16: null, // 电话
           cellIdx17: null, // 住址
-          cellIdx18: null, //
-          cellIdx19: null, //
-          cellIdx20: null, //
-          cellIdx21: null, //
-          cellIdx22: null, //
-          cellIdx23: null, //
-          cellIdx24: null, //
-          cellIdx25: null, //
-          cellIdx26: null, //
-          cellIdx27: null, //
-          cellIdx28: null, //
-          cellIdx29: null, //
-          cellIdx30: null, //
+          cellIdx18: cellIdx18, // 调查笔录
+          cellIdx18TypeTextareaItem: cellIdx18, // 调查笔录
         };
       }
       await db.close();
