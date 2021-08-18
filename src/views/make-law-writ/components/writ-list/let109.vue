@@ -1,4 +1,4 @@
-<!-- 现场检查 实施检查 先行登记保存处理决定书 -->
+<!-- 现场检查 实施检查 先行登记保存证据处理决定书 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -227,41 +227,12 @@
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx16', '', 'TextItem')"
+                  @click="commandFill('cellIdx16', '人民法院', 'TextItem')"
                 >{{ letData.cellIdx16 }}</td>
                 <td class="textAlignLeft">人民法院提起行政诉讼，但不停止执行本决定。</td>
               </tr>
             </table>
             <table height="90"></table>
-            <table class="docBody">
-              <tr>
-                <td
-                  class="cellInput"
-                  id="cell_idx_17"
-                  align="right"
-                  style="width:95%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx17', '', 'TextItem')"
-                >{{ letData.cellIdx17 }}</td>
-              </tr>
-            </table>
-            <table class="docBody">
-              <tr>
-                <td class="cellInput" style="width:55%"></td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_18"
-                  align="center"
-                  style="width:45%"
-                  data-title="日期"
-                  data-type="date"
-                  data-src
-                  @click="commandFill('cellIdx18', '日期', 'DateItem')"
-                >{{ letData.cellIdx18 }}</td>
-              </tr>
-            </table>
             <table height="60"></table>
             <table>
               <hr />
@@ -277,6 +248,7 @@
 <script>
 import letMain from "@/views/make-law-writ/components/writ-list/components/let-main";
 import GoDB from "@/utils/godb.min.js";
+import { getDocNumber } from '@/utils/setInitPaperData'
 export default {
   name: "Let109",
   props: {
@@ -333,27 +305,74 @@ export default {
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        // 1.生成文书编号
+        let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
+        // 2.获取先行登记保存证据通知书中的日期、物品清单和编号字段
+        const let108Data = await wkPaper.find((item) => {
+          return item.caseId === caseId && item.paperType === '25';
+        });
+        let let108DataPapaerContent = JSON.parse(let108Data.paperContent)
+        // 日期
+        let let108Date = let108DataPapaerContent.cellIdx14
+        let108Date = let108Date.replace('年', '-').replace('月', '-').replace('日', '-')
+        let dateList = let108Date.split('-')
+        let cellIdx6String = dateList[0]
+        let cellIdx7String = dateList[0]
+        let cellIdx8String = dateList[0]
+        // 物品名称：
+        let let108Article = let108DataPapaerContent.samplingForensicsTable.tableData
+        let articleName = ''
+        if (let108DataPapaerContent.samplingForensicsTable.tableData.length > 0) {
+          let108DataPapaerContent.samplingForensicsTable.tableData.map(item => {
+            articleName += item.name + '、'
+          })
+          articleName = articleName.substring(0, articleName.length - 1)
+        }
+        let cellIdx9String = articleName
+        // 文书号：
+        let num1080 = let108DataPapaerContent.cellIdx0
+        let num1081 = let108DataPapaerContent.cellIdx1
+        let num1083 = let108DataPapaerContent.cellIdx2
+        let num1084 = let108DataPapaerContent.cellIdx3
+        // 3.sysOfficeInfo实体中 organName、人民法院：courtPrefix
+        const orgInfo = db.table("orgInfo");
+        const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
+        let cellIdx15String = orgSysOfficeInfo.organName
+        let cellIdx16String = orgSysOfficeInfo.courtPrefix
         this.letData = {
-          cellIdx0: null, //
-          cellIdx1: null, //
-          cellIdx2: null, //
-          cellIdx3: null, //
+          cellIdx0: num0, // 文书号
+          cellIdx0TypeTextItem: num0, // 文书号
+          cellIdx1: num1, // 文书号
+          cellIdx1TypeTextItem: num1, // 文书号
+          cellIdx2: num3, // 文书号
+          cellIdx2TypeTextItem: num3, // 文书号
+          cellIdx3: num4, // 文书号
+          cellIdx3TypeTextItem: num4, // 文书号
           cellIdx4: corp.corpName ? corp.corpName : null, // corpname
           cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
-          cellIdx5: null, //
-          cellIdx6: null, // 年
-          cellIdx7: null, // 月
-          cellIdx8: null, // 日
-          cellIdx9: null, //
-          cellIdx10: null, //
-          cellIdx11: null, //
-          cellIdx12: null, //
-          cellIdx13: null, //
+          cellIdx5: null, // 单位
+          cellIdx6: cellIdx6String, // 年
+          cellIdx6TypeTextItem: cellIdx6String, // 年
+          cellIdx7: cellIdx7String, // 月
+          cellIdx7TypeTextItem: cellIdx7String, // 月
+          cellIdx8: cellIdx8String, // 日
+          cellIdx8TypeTextItem: cellIdx8String, // 日
+          cellIdx9: cellIdx9String, // 物品名称
+          cellIdx9TypeTextItem: cellIdx9String, // 物品名称
+          cellIdx10: num1080, // 文书号
+          cellIdx10TypeTextItem: num1080, // 文书号
+          cellIdx11: num1081, // 文书号
+          cellIdx11TypeTextItem: num1081, // 文书号
+          cellIdx12: num1083, // 文书号
+          cellIdx12TypeTextItem: num1083, // 文书号
+          cellIdx13: num1084, // 文书号
+          cellIdx13TypeTextItem: num1084, // 文书号
           cellIdx14: null, // 处理决定
-          cellIdx15: null, //
-          cellIdx16: null, //
-          cellIdx17: null, //
-          cellIdx18: null, // 日期
+          cellIdx15: cellIdx15String, // 可在接到本决定书之日起60日内向。。。申请行政复议或6个月内向
+          cellIdx15TypeTextItem: cellIdx15String, // 可在接到本决定书之日起60日内向。。。申请行政复议或6个月内向
+          cellIdx16: cellIdx16String, // 人民法院
+          cellIdx16TypeTextItem: cellIdx16String, // 人民法院
         };
       }
       await db.close();

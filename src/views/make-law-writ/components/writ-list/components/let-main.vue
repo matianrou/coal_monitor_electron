@@ -94,6 +94,7 @@ import {
   setDatetimeItem,
   setSelectItem,
   setSelectInputItem,
+  setSamplingForensicsTable
 } from "@/utils/handlePaperData";
 
 export default {
@@ -140,6 +141,7 @@ export default {
         setDatetimeItem,
         setSelectItem,
         setSelectInputItem,
+        setSamplingForensicsTable
       },
     };
   },

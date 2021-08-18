@@ -153,6 +153,15 @@ function setDangerTableItem (data, selectedData, options) {
         string = `${dangerObject.onsiteDescString}`
       }
       break
+    case '3': // 撤出作业人员命令书
+      string = `${dangerObject.dangerString}`
+      break
+    case '23': // 抽样取证通知书
+      string = `${dangerObject.dangerString}`
+      break
+    case '25': // 先行登记保存证据通知书
+      string = `${dangerObject.dangerString}`
+      break
   }
   return string
 }
@@ -180,6 +189,11 @@ function setSelectInputItem (data) {
   return data
 }
 
+function setSamplingForensicsTable (data) {
+  // 保存抽样取证清单
+  return data
+}
+
 export {
   setTextItem,
   setCheckItem,
@@ -191,5 +205,6 @@ export {
   setDangerTableItem,
   setDatetimeItem,
   setSelectItem,
-  setSelectInputItem
+  setSelectInputItem,
+  setSamplingForensicsTable
 }

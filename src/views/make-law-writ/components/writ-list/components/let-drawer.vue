@@ -6,7 +6,7 @@
     direction="rtl"
     :before-close="handleClose"
     :wrapperClosable="false"
-    :size="selectedData.type === 'CheckTableItem' || selectedData.type === 'DangerTableItem' ? '80%' : '400px'">
+    :size="selectedData.type === 'CheckTableItem' || selectedData.type === 'DangerTableItem' || selectedData.type === 'SamplingForensicsTable' ? '80%' : '400px'">
     <div class="let-drawer-main">
       <div class="let-drawer-component">
         <component
@@ -50,6 +50,7 @@ export default {
     DatetimeItem: resolve => { require(["@/views/make-law-writ/components/writ-list/components/fill-template/datetime-item"], function(DatetimeItem) { resolve(DatetimeItem);});},
     SelectItem: resolve => { require(["@/views/make-law-writ/components/writ-list/components/fill-template/select-item"], function(SelectItem) { resolve(SelectItem);});},
     SelectInputItem: resolve => { require(["@/views/make-law-writ/components/writ-list/components/fill-template/select-input-item"], function(SelectInputItem) { resolve(SelectInputItem);});},
+    SamplingForensicsTable: resolve => { require(["@/views/make-law-writ/components/writ-list/components/fill-template/sampling-forensics-table"], function(SamplingForensicsTable) { resolve(SamplingForensicsTable);});},
   },
   data() {
     return {

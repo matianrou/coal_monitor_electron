@@ -55,6 +55,18 @@ export async function getDocNumber(db, docTypeNo, caseId, user) {
     case '13': // 复查意见书
       docString = '复'
       break
+    case '3': // 撤出作业人员命令书
+      docString = '撤'
+      break
+    case '23': // 抽样取证通知书
+      docString = '抽'
+      break
+    case '25': // 先行登记保存证据通知书
+      docString = '先保'
+      break
+    case '27': // 先行登记保存证据处理决定书
+      docString = '先保处'
+      break
   }
   // 当前年份
   let date = new Date()

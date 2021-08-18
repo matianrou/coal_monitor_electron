@@ -29,7 +29,7 @@
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx0', '', 'TextItem')"
+                  @click="commandFill('cellIdx0', '文书号', 'TextItem')"
                 >{{ letData.cellIdx0 }}</td>
                 <td class="textAlignLeft cellBottomLine">煤安监</td>
                 <td
@@ -40,7 +40,7 @@
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx1', '', 'TextItem')"
+                  @click="commandFill('cellIdx1', '文书号', 'TextItem')"
                 >{{ letData.cellIdx1 }}</td>
                 <td class="textAlignLeft cellBottomLine">撤〔</td>
                 <td
@@ -51,7 +51,7 @@
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx2', '', 'TextItem')"
+                  @click="commandFill('cellIdx2', '文书号', 'TextItem')"
                 >{{ letData.cellIdx2 }}</td>
                 <td class="textAlignLeft cellBottomLine">〕</td>
                 <td
@@ -62,7 +62,7 @@
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx3', '', 'TextItem')"
+                  @click="commandFill('cellIdx3', '文书号', 'TextItem')"
                 >{{ letData.cellIdx3 }}</td>
                 <td class="textAlignLeft cellBottomLine">号&nbsp;&nbsp;</td>
               </tr>
@@ -91,7 +91,7 @@
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx5', '', 'TextItem')"
+                  @click="commandFill('cellIdx5', '单位', 'TextItem')"
                 >{{ letData.cellIdx5 }}</td>
                 <td class="textAlignLeft">于</td>
                 <td
@@ -164,7 +164,7 @@
               </tr>
               <tr>
                 <td class="textAlignLeft">有</td>
-                <td
+                <!-- <td
                   style="width:95%"
                   class="cellInput cellBottomLine"
                   id="cell_idx_12"
@@ -172,7 +172,29 @@
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx12', '', 'TextItem')"
-                >{{ letData.cellIdx12 }}</td>
+                >{{ letData.cellIdx12 }}</td> -->
+                <div
+                  style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+                  class="cellInput mutiLineArea"
+                  id="cell_idx_7"
+                  data-title="违法行为"
+                  data-type="textarea"
+                  data-src
+                  @click="commandFill('cellIdx12', '违法行为', 'DangerTableItem')">
+                  <div v-if="letData.cellIdx12 && letData.cellIdx12.length > 0">
+                    <p class="show-area-item-p">
+                      <span style="padding: 7px;">{{ letData.cellIdx12 }}</span>
+                    </p>
+                  </div>
+                  <div v-else>
+                    <p class="show-area-item-p">
+                      &nbsp;
+                    </p>
+                    <p class="show-area-item-p">
+                      &nbsp;
+                    </p>
+                  </div>
+                </div>
               </tr>
               <tr>
                 <td class="textAlignLeft">等威胁职工生命安全的紧急情况，现命令立即从</td>
@@ -377,6 +399,7 @@
 <script>
 import letMain from "@/views/make-law-writ/components/writ-list/components/let-main";
 import GoDB from "@/utils/godb.min.js";
+import { getDangerObject, getDocNumber } from '@/utils/setInitPaperData'
 export default {
   name: "Let106",
   props: {
@@ -400,7 +423,12 @@ export default {
   data() {
     return {
       letData: {},
-      options: {},
+      options: {
+        cellIdx12: {
+          page: '3',
+          key: 'cellIdx12'
+        },
+      },
       editData: {}, // 回显数据
     };
   },
@@ -433,29 +461,68 @@ export default {
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        // 1.生成文书编号
+        let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
+        // 2.时间
+        let now = new Date()
+        let cellIdx6Year = now.getFullYear()
+        let cellIdx7Month = now.getMonth() + 1
+        let cellIdx8Date = now.getDate()
+        let cellIdx9Hour = now.getHours()
+        let cellIdx10Minu = now.getMinutes()
+        // 3.隐患描述
+        // 获取笔录文书中的隐患数据
+        const let101Data = await wkPaper.find((item) => {
+          return item.caseId === caseId && item.paperType === '1';
+        });
+        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
+        let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
+        let cellIdx12String = dangerObject.dangerString
+        // 4.sysOfficeInfo中organName和courtPrefix
+        const orgInfo = db.table("orgInfo");
+        const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
+        let cellIdx19String = orgSysOfficeInfo.organName
+        let cellIdx20String = orgSysOfficeInfo.courtPrefix
         this.letData = {
-          cellIdx0: null, //
-          cellIdx1: null, //
-          cellIdx2: null, //
-          cellIdx3: null, //
+          cellIdx0: num0, // 文书号
+          cellIdx0TypeTextItem: num0, // 文书号
+          cellIdx1: num1, // 文书号
+          cellIdx1TypeTextItem: num1, // 文书号
+          cellIdx2: num3, // 文书号
+          cellIdx2TypeTextItem: num3, // 文书号
+          cellIdx3: num4, // 文书号
+          cellIdx3TypeTextItem: num4, // 文书号
           cellIdx4: corp.corpName ? corp.corpName : null, // corpname
           cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
-          cellIdx5: null, //
-          cellIdx6: null, // 年
-          cellIdx7: null, // 月
-          cellIdx8: null, // 日
-          cellIdx9: null, // 时
-          cellIdx10: null, // 分
-          cellIdx11: null, //
-          cellIdx12: null, //
+          cellIdx5: null, // 单位
+          cellIdx6: cellIdx6Year, // 年
+          cellIdx6TypeTextItem: cellIdx6Year, // 年
+          cellIdx7: cellIdx7Month, // 月
+          cellIdx7TypeTextItem: cellIdx7Month, // 月
+          cellIdx8: cellIdx8Date, // 日
+          cellIdx8TypeTextItem: cellIdx8Date, // 日
+          cellIdx9: cellIdx9Hour, // 时
+          cellIdx9TypeTextItem: cellIdx9Hour, // 时
+          cellIdx10: cellIdx10Minu, // 分
+          cellIdx10TypeTextItem: cellIdx10Minu, // 分
+          cellIdx11: null, // 发现在。。。有
+          cellIdx12: cellIdx12String, // 隐患描述
           cellIdx13: null, //
-          cellIdx14: null, // 年
-          cellIdx15: null, // 月
-          cellIdx16: null, // 日
-          cellIdx17: null, // 时
-          cellIdx18: null, // 分
-          cellIdx19: null, //
-          cellIdx20: null, //
+          cellIdx14: cellIdx6Year, // 年
+          cellIdx14TypeTextItem: cellIdx6Year, // 年
+          cellIdx15: cellIdx7Month, // 月
+          cellIdx15TypeTextItem: cellIdx7Month, // 月
+          cellIdx16: cellIdx8Date, // 日
+          cellIdx16TypeTextItem: cellIdx8Date, // 日
+          cellIdx17: cellIdx9Hour, // 时
+          cellIdx17TypeTextItem: cellIdx9Hour, // 时
+          cellIdx18: cellIdx10Minu, // 分
+          cellIdx18TypeTextItem: cellIdx10Minu, // 分
+          cellIdx19: cellIdx19String, // 机构名
+          cellIdx19TypeTextItem: cellIdx19String, // 机构名
+          cellIdx20: cellIdx20String, // 人民法院
+          cellIdx20TypeTextItem: cellIdx20String, // 人民法院
           cellIdx21: null, // 被检查单位负责人意见
           cellIdx22: null, // 签名
           cellIdx23: null, // 日期
