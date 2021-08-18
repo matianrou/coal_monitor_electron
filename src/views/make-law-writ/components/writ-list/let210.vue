@@ -91,13 +91,23 @@
               style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
               class="cellInput mutiLineArea"
               id="cell_idx_6"
-              data-title="案由"
+              data-title="违法行为"
               data-type="textarea"
               data-src
-              @click="commandFill('cellIdx6', '案由', 'TextareaItem')">
-              <p class="show-area-item-p">
-                <span style="padding: 7px;">{{ letData.cellIdx6 }}</span>
-              </p>
+              @click="commandFill('cellIdx6', '违法行为', 'DangerTableItem')">
+              <div v-if="letData.cellIdx6 && letData.cellIdx6.length > 0">
+                <p class="show-area-item-p">
+                  <span style="padding: 7px;">{{ letData.cellIdx6 }}</span>
+                </p>
+              </div>
+              <div v-else>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+              </div>
             </div>
             <table style="border:solid 0px #000;" class="docBody">
               <tr>
@@ -110,7 +120,7 @@
                   data-title="编号"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx7', '编号', 'TextItem')"
+                  @click="commandFill('cellIdx7', '编号', 'SelectItem')"
                 >{{letData.cellIdx7}}</td>
                 <td class="textAlignLeft">项情形：</td>
               </tr>
@@ -138,10 +148,10 @@
                   id="cell_idx_8"
                   align="center"
                   style="width:10%"
-                  data-title="分局"
+                  data-title="单位"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx8', '分局', 'TextItem')"
+                  @click="commandFill('cellIdx8', '单位', 'TextItem')"
                 >{{letData.cellIdx8}}</td>
                 <td class="textAlignLeft">决定不予受理</td>
               </tr>
@@ -260,62 +270,80 @@
             </table>
             <table height="60"></table>
             <table class="docBody">
-              <tr>
-                <td class="cellInput" id="cell_idx_18" align="right" style="width:95%">{{letData.cellIdx18}}</td>
-              </tr>
-            </table>
-            <table class="docBody">
               <td class="cellInput" style="width:55%"></td>
               <td
                 class="cellInput"
-                id="cell_idx_19"
+                id="cell_idx_18"
                 align="center"
                 style="width:10%"
                 data-title="年"
                 data-type="text"
                 data-src
-                @click="commandFill('cellIdx19', '年', 'TextItem')"
-              >{{letData.cellIdx19}}</td>
+                @click="commandFill('cellIdx18', '年', 'TextItem')"
+              >{{letData.cellIdx18}}</td>
               <td class="textAlignLeft">年</td>
               <td
                 class="cellInput"
-                id="cell_idx_20"
+                id="cell_idx_19"
                 align="center"
                 style="width:10%"
                 data-title="月"
                 data-type="text"
                 data-src
-                @click="commandFill('cellIdx20', '月', 'TextItem')"
-              >{{letData.cellIdx20}}</td>
+                @click="commandFill('cellIdx19', '月', 'TextItem')"
+              >{{letData.cellIdx19}}</td>
               <td class="textAlignLeft">月</td>
               <td
                 class="cellInput"
-                id="cell_idx_21"
+                id="cell_idx_20"
                 align="center"
                 style="width:10%"
                 data-title="日"
                 data-type="text"
                 data-src
-                @click="commandFill('cellIdx21', '日', 'TextItem')"
-              >{{letData.cellIdx21}}</td>
+                @click="commandFill('cellIdx20', '日', 'TextItem')"
+              >{{letData.cellIdx20}}</td>
               <td class="textAlignLeft">日</td>
             </table>
             <table class="docBody">
               <hr />
               <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交申请听证</td>
-              <td class="cellInput" id="cell_idx_22" align="center" style="width:8%">{{letData.cellIdx22}}</td>
+              <td
+                class="cellInput"
+                id="cell_idx_21"
+                align="center"
+                style="width:8%"
+                @click="commandFill('cellIdx21', '单位/个人', 'TextItem')"
+              >{{letData.cellIdx21}}</td>
               <td class="textAlignLeft">，一份存档。</td>
             </table>
           </div>
         </div>
       </div>
     </let-main>
+    <el-dialog
+      title="文书信息选择"
+      :close-on-click-modal="false"
+      append-to-body
+      :visible="visible"
+      width="400px"
+      :show-close="false">
+      <span>请选择：</span>
+      <el-radio-group v-model="selectedType">
+        <el-radio label="单位">单位</el-radio>
+        <el-radio label="个人">个人</el-radio>
+      </el-radio-group>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="confirm">确定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import letMain from "@/views/make-law-writ/components/writ-list/components/let-main";
 import GoDB from "@/utils/godb.min.js";
+import { getDocNumber, getDangerObject } from '@/utils/setInitPaperData'
 export default {
   name: "Let210",
   props: {
@@ -339,8 +367,30 @@ export default {
   data() {
     return {
       letData: {},
-      options: {},
+      options: {
+        cellIdx6: {
+          page: '29',
+          key: 'cellIdx6'
+        },
+        cellIdx7: [
+          {
+            value: '（一）',
+            name: '（一）',
+          },
+          {
+            value: '（二）',
+            name: '（二）',
+          },
+          {
+            value: '（三）',
+            name: '（三）',
+          },
+        ]
+      },
       editData: {}, // 回显数据
+      visible: false,
+      selectedType: '单位', // 初始化时选择的单位或个人
+      extraData: {}, // 用于拼写隐患内容的字符集合
     };
   },
   created() {
@@ -368,36 +418,70 @@ export default {
           item.caseId === caseId && item.paperType === this.docData.docTypeNo
         );
       });
+      // await wkPaper.delete(checkPaper[0].id)
+      // 保存额外拼写的数据内容，用于修改隐患项时回显使用
+      this.extraData = {
+        corpName: corp.corpName,
+      }
       if (checkPaper.length > 0) {
         // 回显
         this.letData = JSON.parse(checkPaper[0].paperContent);
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        // 1.弹出提示框，选择单位或个人
+        this.visible = true
+        // 2.生成文书编号
+        let {num0, num1, num3, num4} = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
+        // 3.企业煤矿名称
+        // 4.违法行为：获取笔录文书中的隐患数据
+        const let101Data = await wkPaper.find((item) => {
+          return item.caseId === caseId && item.paperType === '1';
+        });
+        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
+        let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
+        let cellIdx6String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`
+        // 5.地点：sysOfficeInfo实体中depAddress字段+ deparFullname字段
+        // 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
+        const orgInfo = db.table("orgInfo");
+        const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
+        let cellIdx13String = orgSysOfficeInfo.depAddress
+        let cellIdx14String = orgSysOfficeInfo.depPost
+        let cellIdx16String = orgSysOfficeInfo.master
+        let cellIdx17String = orgSysOfficeInfo.phone
         this.letData = {
-          cellIdx0: null, // 文书号
-          cellIdx1: null, // 文书号
-          cellIdx2: null, // 文书号
-          cellIdx3: null, // 文书号
-          cellIdx4: null, //
+          cellIdx0: num0, // 文书号
+          cellIdx0TypeTextItem: num0, // 文书号
+          cellIdx1: num1, // 文书号
+          cellIdx1TypeTextItem: num1, // 文书号
+          cellIdx2: num3, // 文书号
+          cellIdx2TypeTextItem: num3, // 文书号
+          cellIdx3: num4, // 文书号
+          cellIdx3TypeTextItem: num4, // 文书号
+          cellIdx4: corp.corpName, // 企业煤矿名称
+          cellIdx4TypeTextItem: corp.corpName, //
           cellIdx5: null, // 单位或个人
-          cellIdx6: null, // 案由
+          cellIdx6: cellIdx6String, // 违法行为
           cellIdx7: null, // 编号
-          cellIdx8: null, // 分局
+          cellIdx8: null, // 单位
           cellIdx9: null, // 单位或个人
           cellIdx10: null, // 签收人（签名）
           cellIdx11: null, // 日期
-          cellIdx12: null, // 单位或个人
-          cellIdx13: null, // 地址
-          cellIdx14: null, // 邮政编码
-          cellIdx15: null, // 单位或个人
-          cellIdx16: null, // 联系人
-          cellIdx17: null, // 联系电话
-          cellIdx18: null, //
-          cellIdx19: null, // 年
-          cellIdx20: null, // 月
-          cellIdx21: null, // 日
-          cellIdx22: null, //
+          cellIdx12: null, // 单位
+          cellIdx13: cellIdx13String, // 地址
+          cellIdx13TypeTextItem: cellIdx13String, // 地址
+          cellIdx14: cellIdx14String, // 邮政编码
+          cellIdx14TypeTextItem: cellIdx14String, // 邮政编码
+          cellIdx15: null, // 单位
+          cellIdx16: cellIdx16String, // 联系人
+          cellIdx16TypeTextItem: cellIdx16String, // 联系人
+          cellIdx17: cellIdx17String, // 联系电话
+          cellIdx17TypeTextItem: cellIdx17String, // 联系电话
+          cellIdx18: null, // 年
+          cellIdx19: null, // 月
+          cellIdx20: null, // 日
+          cellIdx21: null, // 单位或个人
         };
       }
       await db.close();
@@ -411,9 +495,27 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}Type${type}`
+        if (key === 'cellIdx6') {
+          this.options[key] = {
+            page: '29',
+            key: key,
+            spellString: this.extraData
+          }
+          dataKey = 'dangerItemObject'
+        }
         this.$refs.letMain.commandFill(key, dataKey, title, type, this.letData[dataKey], this.options[key])
       }
     },
+    async confirm() {
+      // 选择单位或个人
+      this.visible = false
+      this.letData.cellIdx5 = this.selectedType
+      this.letData.cellIdx5TypeTextItem = this.selectedType
+      this.letData.cellIdx9 = this.selectedType
+      this.letData.cellIdx9TypeTextItem = this.selectedType
+      this.letData.cellIdx21 = this.selectedType
+      this.letData.cellIdx21TypeTextItem = this.selectedType
+    }
   },
 };
 </script>

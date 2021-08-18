@@ -140,6 +140,12 @@ function setDangerTableItem (data, selectedData, options) {
     case '18': // 强制执行申请书
       string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString}案。`
       break
+    case '28': // 听证通知书
+      string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString}案。`
+      break
+    case '29': // 不予受理听证申请通知书
+      string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString}案。`
+      break
   }
   return string
 }
