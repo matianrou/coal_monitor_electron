@@ -52,6 +52,9 @@ export async function getDocNumber(db, docTypeNo, caseId, user) {
     case '29': // 不予受理听证申请通知书
       docString = '听不受'
       break
+    case '13': // 复查意见书
+      docString = '复'
+      break
   }
   // 当前年份
   let date = new Date()
@@ -82,6 +85,7 @@ export function getDangerObject (tableData, hasIndex = {
   treatmentSuggestion: false, // 决定treatmentSuggestion是否带有索引值，1.XXX(未实现)
   penaltyBasis: false, // 决定penaltyBasisString是否带有索引值，1.XXX
   penaltyDesc: false, // 决定penaltyDesc是否带有索引值，1.XXX
+  onsiteDesc: false, // 现场处理决定
 }) {
   // 现场处理决定书：违法行为描述+现场处理决定
   let contentOnsiteDesc = ''
@@ -89,6 +93,8 @@ export function getDangerObject (tableData, hasIndex = {
   let dangerString = ''
   // 违法认定法条
   let illegalString = ''
+  // 现场处理决定
+  let onsiteDescString = ''
   // 行政处罚依据+行政处罚决定
   let treatmentSuggestion = ''
   // 行政处罚依据
@@ -97,16 +103,19 @@ export function getDangerObject (tableData, hasIndex = {
   let penaltyDesc = ''
   // 行政处罚罚金总额
   let penaltyDescFineTotle = 0
+  console.log('tableData', tableData)
   tableData.map((item, index) => {
     contentOnsiteDesc += `${(index + 1)}. ${item.itemContent}${item.onsiteDesc}。`
     dangerString += hasIndex.danger ? `${(index + 1)}. ${item.itemContent}` : `${item.itemContent}`
     illegalString += hasIndex.illegal ? `${(index + 1)}. ${item.confirmClause}、` : `${item.confirmClause}、`
+    onsiteDescString += hasIndex.onsiteDesc ? `${(index + 1)}. ${item.onsiteDesc}、` : `${item.onsiteDesc}、`
     treatmentSuggestion += `${(index + 1)}. ${item.penaltyBasis ? item.penaltyBasis : ''}${item.penaltyDesc ? item.penaltyDesc : ''}；`
     penaltyBasisString += hasIndex.penaltyBasis ? `${(index + 1)}. ${item.penaltyBasis ? item.penaltyBasis : ''}、` : `${item.penaltyBasis ? item.penaltyBasis : ''}、`
     penaltyDesc +=  hasIndex.penaltyDesc ? `${item.penaltyDesc ? `${(index + 1)}. ${item.penaltyDesc}` : ''}` : `${item.penaltyDesc ? `${item.penaltyDesc}` : ''}`
     penaltyDescFineTotle += item.penaltyDescFine ? Number(item.penaltyDescFine) : 0
   })
   illegalString = illegalString.substring(0, illegalString.length - 1)
+  onsiteDescString = onsiteDescString.substring(0, onsiteDescString.length - 1)
   treatmentSuggestion = treatmentSuggestion.substring(0, treatmentSuggestion.length - 1) + '。'
   penaltyBasisString = penaltyBasisString.substring(0, penaltyBasisString.length - 1)
   penaltyDesc = penaltyDesc.substring(0, penaltyDesc.length - 1) + '。'
@@ -115,6 +124,7 @@ export function getDangerObject (tableData, hasIndex = {
     contentOnsiteDesc,
     dangerString,
     illegalString,
+    onsiteDescString,
     treatmentSuggestion,
     penaltyBasisString,
     penaltyDesc,

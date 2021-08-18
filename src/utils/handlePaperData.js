@@ -146,6 +146,13 @@ function setDangerTableItem (data, selectedData, options) {
     case '29': // 不予受理听证申请通知书
       string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString}案。`
       break
+    case '13': // 复查意见书
+      if (options.key === 'cellIdx9') {
+        string = `${dangerObjectIndex.dangerString}`
+      } else if (options.key === 'cellIdx10') {
+        string = `${dangerObject.onsiteDescString}`
+      }
+      break
   }
   return string
 }

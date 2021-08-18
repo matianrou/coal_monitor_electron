@@ -42,7 +42,7 @@
                   data-title="监察类型或方式"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx1', '监察类型或方式', 'TextItem')"
+                  @click="commandFill('cellIdx1', '监察类型或方式', 'CheckItem')"
                 >{{ letData.cellIdx1 }}</td>
               </tr>
               <tr>
@@ -54,7 +54,7 @@
                   data-title="检查时间"
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx2', '检查时间', 'TextItem')"
+                  @click="commandFill('cellIdx2', '检查时间', 'DaterangeItem')"
                 >{{ letData.cellIdx2 }}</td>
               </tr>
               <tr>
@@ -85,28 +85,41 @@
                   data-title="检查地点"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx4', '检查地点', 'TextItem')"
+                  @click="commandFill('cellIdx4', '检查地点', 'CheckPositionItem')"
                 >{{ letData.cellIdx4 }}</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">六、检查的主要内容和分工见明细表</td>
-                <td class="cellInput"></td>
+                <td style="width:40%" class="textAlignLeft">六、检查的主要内容和分工见明细表</td>
+                <td
+                  style="width:60%"
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_5"
+                  data-title="检查的主要内容和分工见明细表"
+                  data-type="check4"
+                  @click="commandFill('cellIdx5', '检查的主要内容和分工见明细表', 'CheckTableItem')"
+                >《检查分工明细表》</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">七、其他事项：</td>
                 <td
                   style="width:82%"
                   class="cellInput textPaddingLeft cellBottomLine oneLine"
-                  id="cell_idx_5"
+                  id="cell_idx_6"
                   data-title="其他事项"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx5', '其他事项', 'TextItem')"
-                >{{ letData.cellIdx5 }}</td>
+                  @click="commandFill('cellIdx6', '其他事项', 'TextItem')"
+                >{{ letData.cellIdx6 }}</td>
               </tr>
               <tr>
                 <td Sclass="textAlignLeft">附件：</td>
-                <td class="cellInput" colspan="3" id="cell_idx_6"></td>
+                <td
+                  class="cellInput"
+                  id="cell_idx_7"
+                  data-title="附件"
+                  data-type="text"
+                  data-src
+                >《检查分工明细表》</td>
               </tr>
             </table>
             <table class="docBody">
@@ -114,47 +127,81 @@
                 <td class="textAlignLeft">编制人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_7"
+                  id="cell_idx_8"
                   style="width:35%"
                   data-title="编制人（签名）"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx7', '编制人（签名）', 'TextItem')"
-                >{{ letData.cellIdx7 }}</td>
+                  @click="commandFill('cellIdx8', '编制人（签名）', 'TextItem')"
+                >{{ letData.cellIdx8 }}</td>
                 <td class="textAlignCenter">日期:</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_8"
+                  id="cell_idx_9"
                   style="width:25%"
                   data-title="日期"
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx8', '日期', 'DateItem')"
-                >{{ letData.cellIdx8 }}</td>
+                  @click="commandFill('cellIdx9', '日期', 'DateItem')"
+                >{{ letData.cellIdx9 }}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">审批人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_9"
+                  id="cell_idx_10"
                   style="width:35%"
                   data-title="审批人（签名）"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx9', '审批人（签名）', 'TextItem')"
-                >{{ letData.cellIdx9 }}</td>
+                  @click="commandFill('cellIdx10', '审批人（签名）', 'TextItem')"
+                >{{ letData.cellIdx10 }}</td>
                 <td class="textAlignCenter">日期:</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_10"
+                  id="cell_idx_11"
                   style="width:25%"
                   data-title="日期"
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx10', '日期', 'DateItem')"
-                >{{ letData.cellIdx10 }}</td>
+                  @click="commandFill('cellIdx11', '日期', 'DateItem')"
+                >{{ letData.cellIdx11 }}</td>
               </tr>
             </table>
+            <div style="height: 20px; width: 100%;"></div>
+            <!-- 打印42检查方案（复查），另外打印检查分工明细表 -->
+            <div class="page-break"></div>
+            <!-- 但页面不展示 -->
+            <div style="height: 0px; overflow: hidden;">
+              <div ref="cellIdx5TypeCheckTableItem" class="page page-sizeA4">
+                <div style="width: 19.5cm;">
+                  <el-table
+                    :data="letData.cellIdx5TypeCheckTableItem && letData.cellIdx5TypeCheckTableItem.tableData"
+                    width="100%"
+                    border>
+                    <el-table-column
+                      prop="categoryName"
+                      label="检查事项"
+                      header-align="center"
+                      align="left"
+                      width="110">
+                    </el-table-column>
+                    <el-table-column
+                      prop="itemContent"
+                      header-align="center"
+                      align="left"
+                      label="检查内容">
+                    </el-table-column>
+                    <el-table-column
+                      prop="basis"
+                      header-align="center"
+                      align="left"
+                      label="检查主要资料及方法">
+                    </el-table-column>
+                  </el-table>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -188,7 +235,12 @@ export default {
   data() {
     return {
       letData: {},
-      options: {},
+      options: {
+        cellIdx1: [{ "value": "1", "name": "重点监察" }, { "value": "2", "name": "专项监察" }, { "value": "3", "name": "随机抽查" }, { "value": "4", "name": "会诊" }, { "value": "5", "name": "体检" }, { "value": "7", "name": "煤矿安全集中整治" }, { "value": "8", "name": "“一通三防”全覆盖专项监察" }, { "value": "9", "name": "水害防治专项监察" }, { "value": "10", "name": "机电设备专项监察" },
+                      { "value": "11", "name": "安全培训专项监察" }, { "value": "12", "name": "提升运输专项监察" }, { "value": "13", "name": "顶板管理专项监察" }, { "value": "14", "name": "采掘接续专项监察" }, { "value": "15", "name": "建设项目专项监察" }, { "value": "16", "name": "冲击地压防治专项监察" }, { "value": "17", "name": "超能力生产专项监察" }, { "value": "18", "name": "安全投入专项监察" },
+                      { "value": "19", "name": "安全生产主体责任专项监察" }, { "value": "20", "name": "矿领导带班下井专项监察" }, { "value": "21", "name": "安全生产许可证专项监察" }, { "value": "22", "name": "安全监控系统专项监察" }, { "value": "23", "name": "应急救援专项监察" }, { "value": "25", "name": "“互联网+ 监管” 远程监察" },
+                      { "value": "30", "name": "异地监察" }, { "value": "32", "name": "全系统各环节监察" }, { "value": "33", "name": "停产停工安全巡查" }, { "value": "26", "name": "其他专项监察" }, { "value": "6", "name": "其他" }],
+      },
       editData: {}, // 回显数据
     };
   },
@@ -221,19 +273,63 @@ export default {
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        const zfZzInfo = db.table("zfZzInfo");
+        const zzInfo1 = await zfZzInfo.find((item) => {
+          return item.corpId == this.corpData.corpId && item.credTypeName == "采矿许可证";
+        });
+        const zzInfo2 = await zfZzInfo.find((item) => {
+          return item.corpId == this.corpData.corpId && item.credTypeName == "安全生产许可证";
+        });
+        let sSummary =
+          corp.corpName +
+          "位于" +
+          corp.provinceName +
+          corp.cityName +
+          corp.countryName +
+          "境内，隶属于" +
+          corp.parentTypeName +
+          "煤矿。 ";
+        if (zzInfo1 && zzInfo1.expireTime)
+          sSummary += "采矿许可证有效日期至" + zzInfo1.expireTime + "、";
+        else sSummary += "采矿许可证有效日期至    ";
+        if (zzInfo2 && zzInfo2.expireTime)
+          sSummary += "、安全生产许可证有效期至" + zzInfo2.expireTime + "，";
+        else sSummary += "、安全生产许可证有效期至    ，";
+        if (corp.provedOutput)
+          sSummary += "矿井核定生产能力为" + corp.provedOutput + "万吨/年，";
+        else sSummary += "矿井核定生产能力为   万吨/年，";
+        sSummary +=
+          corp.mineWsGradeName +
+          "、水文地质类型为中等，煤层自燃倾向性为" +
+          corp.mineFireName +
+          "，煤尘" +
+          corp.grimeExplosiveName +
+          "，";
+        sSummary +=
+          "矿井状况为" +
+          corp.mineStatusZsName +
+          "，开拓方式为" +
+          corp.mineMinestyleName +
+          "开拓。";
+        sSummary +=
+          "采煤方式为综采。通风方式为中央分列抽出，采掘作业地点有71003综采工作面采煤工作面、 71007综采工作面风巷、71007综采工作面机巷掘进工作面。";
+        let corpOther = '检查的内容和分工变化时，应及时调整。'
         this.letData = {
           cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
-          cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null, // 被检查单位
+          cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null,
           cellIdx1: null, // 监察类型或方式
           cellIdx2: null, // 检查时间
-          cellIdx3: null, // 煤矿概况
+          cellIdx3: sSummary ? sSummary : null, // 煤矿概况
+          cellIdx3TypeTextareaItem: sSummary ? sSummary : null, // 煤矿概况
           cellIdx4: null, // 检查地点
-          cellIdx5: null, // 其他事项
-          cellIdx6: null, // 附件
-          cellIdx7: null, // 编制人（签名）
-          cellIdx8: null, // 日期
-          cellIdx9: null, // 审批人（签名）
-          cellIdx10: null, // 日期
+          cellIdx5: [], // 检查分工明细表
+          cellIdx5TypeCheckTableItem: {}, // 检查分工明细表
+          cellIdx6: corpOther, // 其他事项
+          cellIdx6TypeTextItem: corpOther, // 其他事项
+          cellIdx8: null, // 编制人
+          cellIdx9: null, // 编制日期
+          cellIdx10: null, // 审批人
+          cellIdx11: null, // 审批日期
         };
       }
       await db.close();
