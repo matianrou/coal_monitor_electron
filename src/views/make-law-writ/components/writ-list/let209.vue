@@ -744,7 +744,7 @@ export default {
         this.$refs.letMain.commandFill(key, dataKey, title, type, this.letData[dataKey], this.options[key])
       }
     },
-    async confirm() {
+    confirm() {
       // 选择单位或个人
       this.visible = false
       this.letData.cellIdx6 = this.selectedType

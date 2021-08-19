@@ -234,6 +234,35 @@
             </table>
             <table height="90"></table>
             <table height="60"></table>
+            <table class="docBody">
+              <tr>
+                <td
+                  class="cellInput"
+                  id="cell_idx_17"
+                  align="right"
+                  style="width:95%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx17', '', 'TextItem')"
+                >{{ letData.cellIdx17 }}</td>
+              </tr>
+            </table>
+            <table class="docBody">
+              <tr>
+                <td class="cellInput" style="width:55%"></td>
+                <td
+                  class="cellInput"
+                  id="cell_idx_18"
+                  align="center"
+                  style="width:45%"
+                  data-title="日期"
+                  data-type="date"
+                  data-src
+                  @click="commandFill('cellIdx18', '日期', 'DateItem')"
+                >{{ letData.cellIdx18 }}</td>
+              </tr>
+            </table>
             <table>
               <hr />
               <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被检查单位，一份存档。</td>
@@ -373,6 +402,8 @@ export default {
           cellIdx15TypeTextItem: cellIdx15String, // 可在接到本决定书之日起60日内向。。。申请行政复议或6个月内向
           cellIdx16: cellIdx16String, // 人民法院
           cellIdx16TypeTextItem: cellIdx16String, // 人民法院
+          cellIdx17: null, //
+          cellIdx18: null, // 日期
         };
       }
       await db.close();

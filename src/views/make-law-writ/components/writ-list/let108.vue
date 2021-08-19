@@ -427,6 +427,8 @@ export default {
           cellIdx19ypeTextItem: cellIdx19String, // 联系人
           cellIdx20: cellIdx20String, // 联系电话
           cellIdx20ypeTextItem: cellIdx20String, // 联系电话
+          cellIdx21: null, //
+          cellIdx22: null, //
           dangerItemObject: let101DataPapaerContent.dangerItemObject,
           samplingForensicsTable: {
             tableData: [],

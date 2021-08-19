@@ -162,6 +162,13 @@ function setDangerTableItem (data, selectedData, options) {
     case '25': // 先行登记保存证据通知书
       string = `${dangerObject.dangerString}`
       break
+    case '32': // 查封(扣押)决定书
+      if (options.key === 'cellIdx7') {
+        string = `${dangerObject.dangerString}`
+      } else if (options.key === 'cellIdx8') {
+        string = `${dangerObject.illegalString}`
+      }
+      break
   }
   return string
 }

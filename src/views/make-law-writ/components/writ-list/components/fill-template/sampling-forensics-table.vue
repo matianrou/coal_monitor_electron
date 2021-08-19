@@ -1,9 +1,9 @@
-<!-- 填写组件 抽样取证清单或先行登记保存证据清单 表格（可编辑） -->
+<!-- 填写组件 抽样取证清单或先行登记保存证据清单或物品清单 表格（可编辑） -->
 <template>
   <div class="sampling-main">
     <!-- 标题 -->
     <div class="sampling-title">
-      <span>{{options.page === '23' ? '抽样取证清单' : '先行登记保存证据清单'}}</span>
+      <span>{{ title }}</span>
     </div>
     <!-- 表格 -->
     <div class="sampling-table-main">
@@ -76,20 +76,35 @@
       </el-table>
     </div>
     <!-- 底部 -->
-    <div class="sampling-foot-main" :style="options.page === '25' ? 'height: 160px;' : ''">
-      <div v-if="options.page === '25'">
-        <span>其他证据：</span>
-        <el-input
-          v-model="dataForm.tempValue.otherEvidence"
-          style="width: 200px;"
-          size="small">
-        </el-input>
+    <div class="sampling-foot-main" :style="options.page === '25' || options.page === '32' ? 'height: 160px;' : ''">
+      <div v-if="options.page === '25' || options.page === '23'">
+        <div v-if="options.page === '25'">
+          <span>其他证据：</span>
+          <el-input
+            v-model="dataForm.tempValue.otherEvidence"
+            style="width: 200px;"
+            size="small">
+          </el-input>
+        </div>
+        <div style="margin-top: 10px;">
+          <span>上述证据经核无误。</span>
+        </div>
+      </div>
+      <div v-if="options.page === '32'">
+        <div>
+          <span>场所地点：</span>
+          <el-input
+            v-model="dataForm.tempValue.places"
+            style="width: 200px;"
+            size="small">
+          </el-input>
+        </div>
+        <div style="margin-top: 10px;">
+          <span>上述设施、设备、器材经核无误。</span>
+        </div>
       </div>
       <div style="margin-top: 10px;">
-        <span>上述证据经核无误。</span>
-      </div>
-      <div style="margin-top: 10px;">
-        <span>被取证单位负责人（签名）：</span>
+        <span>被{{options.page === '32' ? options.name : '取证'}}单位负责人（签名）：</span>
         <el-input
           v-model="dataForm.tempValue.signature"
           style="width: 200px;"
@@ -104,7 +119,7 @@
           size="small">
         </el-date-picker>
       </div>
-      <div v-if="options.page === '25'" style="margin-top: 10px;">
+      <div v-if="options.page === '25' || options.page === '32'" style="margin-top: 10px;">
         <span>执法人员（签名）：</span>
         <el-input
           v-model="dataForm.tempValue.lawSignature"
@@ -159,6 +174,7 @@ export default {
           otherEvidence: null, // 其他证据
           lawSignature: null, // 执法人员（签名）
           lawSignDate: null, // 日期
+          places: null, // 场所地点
         }
       },
       colList: [
@@ -209,6 +225,20 @@ export default {
         },
       ]
     };
+  },
+  computed: {
+    title() {
+      let title = ''
+      console.log('this.options', this.options)
+      if (this.options.page === '23') {
+        title = '抽样取证清单'
+      } else if (this.options.page === '25') {
+        title = '先行登记保存证据清单'
+      } else if (this.options.page === '32') {
+        title = '物品清单'
+      }
+      return title
+    }
   },
   created() {
     this.init()
