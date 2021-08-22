@@ -1,4 +1,4 @@
-<!-- 现场检查 一般检查 现场检查记录 -->
+<!-- 现场检查 一般检查 先行登记保存证据通知书 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -7,11 +7,311 @@
       :doc-data="docData"
       :let-data="letData"
       :edit-data="editData"
-      @go-back="goBack">
+      @go-back="goBack"
+    >
       <div slot="left">
         <div class="page page-sizeA4">
           <div>
-
+            <div class="stdRowH"></div>
+            <div class="textAlignCenter formHeader0">
+              煤矿安全监管行政执法文书
+              <br />
+            </div>
+            <div class="textAlignCenter formHeader3">先行登记保存证据通知书</div>
+            <div class="stdRowH"></div>
+            <table class="docBody">
+              <tr>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_0"
+                  align="right"
+                  style="width:55%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td class="textAlignLeft cellBottomLine">煤安监</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_1"
+                  align="center"
+                  style="width:7%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td class="textAlignLeft cellBottomLine">先保〔</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_2"
+                  align="center"
+                  style="width:7%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td class="textAlignLeft cellBottomLine">〕</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_3"
+                  align="center"
+                  style="width:7%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td class="textAlignLeft cellBottomLine">号&nbsp;&nbsp;</td>
+              </tr>
+              <tr>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_4"
+                  style="width:62%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                >{corp_name}</td>
+                <td class="textAlignLeft">:</td>
+              </tr>
+            </table>
+            <table style="border:solid 0px #000;" class="docBody">
+              <tr>
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;你</td>
+                <td
+                  class="cellInput"
+                  id="cell_idx_5"
+                  align="center"
+                  style="width:10%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td
+                  style="width:78.5%"
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_6"
+                  data-title
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+              </tr>
+              <tr>
+                <td
+                  class="textAlignLeft"
+                >&nbsp;&nbsp;&nbsp;&nbsp;的行为涉嫌违法违规。根据《中华人民共和国行政处罚法》第三十七条第二款规定，我</td>
+                <td
+                  class="cellInput"
+                  id="cell_idx_7"
+                  style="width:10%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+              </tr>
+              <tr>
+                <td class="textAlignLeft">决定对你</td>
+                <td
+                  class="cellInput"
+                  id="cell_idx_8"
+                  align="center"
+                  style="width:10%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td class="textAlignLeft">的有关证据（详见《先行登记保存证据清单》）采取先行登记保存措施。</td>
+              </tr>
+              <tr>
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;先行登记保存的证据，存放在</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_9"
+                  style="width:50%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+              </tr>
+              <tr>
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;由</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_10"
+                  style="width:35%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td class="textAlignLeft">负责保管，在此期间，不得销毁或者转移证据。</td>
+              </tr>
+              <tr>
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我</td>
+                <td
+                  class="cellInput"
+                  id="cell_idx_11"
+                  align="center"
+                  style="width:10%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td class="textAlignLeft">将在七日内对先行登记保存的证据依法作出处理决定。逾期未作出处理决定</td>
+              </tr>
+              <tr>
+                <td class="textAlignLeft">的，先行登记保存措施自动解除。</td>
+              </tr>
+            </table>
+            <table height="30"></table>
+            <table class="docBody">
+              <tr>
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;附件：</td>
+                <td
+                  class="cellInput"
+                  id="cell_idx_12"
+                  style="width:80%"
+                  data-title="附件"
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+              </tr>
+            </table>
+            <table class="docBody">
+              <tr>
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;受送达人（签名）：</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_13"
+                  style="width:24%"
+                  data-title="受送达人（签名）"
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td class="textAlignLeft">&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期：</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_14"
+                  style="width:24.6%"
+                  data-title="日期"
+                  data-type="date"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+              </tr>
+              <tr>
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我</td>
+                <td
+                  class="cellInput"
+                  id="cell_idx_15"
+                  align="center"
+                  style="width:8%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td class="textAlignLeft">地址：</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_16"
+                  style="width:27.1%"
+                  data-title="地址"
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td class="textAlignLeft">&nbsp;&nbsp;邮政编码：</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_17"
+                  style="width:24.8%"
+                  data-title="邮政编码"
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+              </tr>
+              <tr>
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我</td>
+                <td
+                  class="cellInput"
+                  id="cell_idx_18"
+                  align="center"
+                  style="width:8%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td class="textAlignLeft">联系人：</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_19"
+                  style="width:24.9%"
+                  data-title="联系人"
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td class="textAlignLeft">&nbsp;&nbsp;联系电话：</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_20"
+                  style="width:24.8%"
+                  data-title="联系电话"
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+              </tr>
+            </table>
+            <table height="30"></table>
+            <table class="docBody">
+              <tr>
+                <td
+                  class="cellInput"
+                  id="cell_idx_21"
+                  align="right"
+                  style="width:95%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+              </tr>
+            </table>
+            <table class="docBody">
+              <tr>
+                <td class="cellInput" style="width:55%"></td>
+                <td
+                  class="cellInput"
+                  id="cell_idx_22"
+                  align="center"
+                  style="width:45%"
+                  data-title="日期"
+                  data-type="date"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+              </tr>
+            </table>
+            <table>
+              <hr />
+              <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被检查单位，一份存档。</td>
+            </table>
           </div>
         </div>
       </div>
@@ -21,9 +321,9 @@
 
 <script>
 import letMain from "../let-main";
-import GoDB from '@/utils/godb.min.js'
+import GoDB from "@/utils/godb.min.js";
 export default {
-  name: "Let100",
+  name: "Let108",
   props: {
     corpData: {
       type: Object,
@@ -34,10 +334,10 @@ export default {
       default: () => {
         return {
           docTypeNo: null,
-          docTypeName: null
-        }
-      }
-    }
+          docTypeName: null,
+        };
+      },
+    },
   },
   components: {
     letMain,
@@ -53,32 +353,34 @@ export default {
     this.initData();
   },
   watch: {
-    'corpData.corpId' (val) {
+    "corpData.corpId"(val) {
       if (val) {
-        this.initData()
+        this.initData();
       }
-    }
+    },
   },
   methods: {
-    async initData() {
+    async initData() {
       // 初始化文书内容
       const db = new GoDB("CoalSupervisionDB");
-      const corpBase = db.table('corpBase');
+      const corpBase = db.table("corpBase");
       //查询符合条件的记录
       const corp = await corpBase.find((item) => {
-        return item.corpId == this.corpData.corpId
+        return item.corpId == this.corpData.corpId;
       });
       const wkPaper = db.table("wkPaper");
       const caseId = this.corpData.caseId;
       //查询当前计划是否已做文书
       const checkPaper = await wkPaper.findAll((item) => {
-        return item.caseId === caseId && item.paperType === this.docData.docTypeNo;
+        return (
+          item.caseId === caseId && item.paperType === this.docData.docTypeNo
+        );
       });
       // 已做文书则展示文书内容，否则创建初始版本
       if (checkPaper.length > 0) {
         // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent)
-        this.editData = checkPaper[0]
+        this.letData = JSON.parse(checkPaper[0].paperContent);
+        this.editData = checkPaper[0];
       } else {
         // 创建初始版本
         this.letData = {
@@ -97,20 +399,27 @@ export default {
           cellIdx9: null, // 编制日期
           cellIdx10: null, // 审批人
           cellIdx11: null, // 审批日期
-        }
+        };
       }
-      await db.close()
+      await db.close();
     },
-    goBack ({page}) {
+    goBack({ page }) {
       // 返回选择企业
-      this.$emit('go-back', {page})
+      this.$emit("go-back", { page });
     },
-    commandFill (key, title, type) {
+    commandFill(key, title, type) {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`
-        this.$refs.letMain.commandFill(key, dataKey, title, type, this.letData[dataKey], this.options[key])
+        let dataKey = `${key}Type${type}`;
+        this.$refs.letMain.commandFill(
+          key,
+          dataKey,
+          title,
+          type,
+          this.letData[dataKey],
+          this.options[key]
+        );
       }
     },
   },

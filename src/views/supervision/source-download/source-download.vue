@@ -211,7 +211,7 @@ export default {
       switch (resId) {
         case "org":
           uri +=
-            "/local/office/list?__sid=" +
+            "/sv/local/office/list?__sid=" +
             userSessId +
             "&officeId=" +
             userGroupId +
@@ -219,29 +219,29 @@ export default {
           break;
         case "person":
           uri +=
-            "/local/user/getUserByOfficeId?__sid=" +
+            "/sv/local/user/getUserByOfficeId?__sid=" +
             userSessId +
             "&officeId=" +
             userGroupId;
           break;
         case "plan":
           uri +=
-            "/local/plan/list?__sid=" + userSessId + "&officeId=" + userGroupId;
+            "/sv/local/plan/list?__sid=" + userSessId + "&officeId=" + userGroupId;
           break;
         case "corp":
           uri +=
-            "/local/corp/list?__sid=" + userSessId + "&officeId=" + userGroupId;
+            "/sv/local/corp/list?__sid=" + userSessId + "&officeId=" + userGroupId;
           break;
         case "check-cate": //根据机构id获取全部检查类别
           uri +=
-            "/local/schema/getCategoryAll?__sid=" +
+            "/sv/local/schema/getCategoryAll?__sid=" +
             userSessId +
             "&officeId=" +
             userGroupId;
           break;
         case "check-list": //根据机构id获取全部检查内容
           uri +=
-            "/local/schema/getItemAll?__sid=" +
+            "/sv/local/schema/getItemAll?__sid=" +
             userSessId +
             "&officeId=" +
             userGroupId;
@@ -249,7 +249,7 @@ export default {
         case "danger-cate":
           //根据机构id获取全部隐患类别
           uri +=
-            "/local/statute/getCategoryAll?__sid=" +
+            "/sv/local/statute/getCategoryAll?__sid=" +
             userSessId +
             "&officeId=" +
             userGroupId;
@@ -257,7 +257,7 @@ export default {
         case "danger-list":
           //根据机构id获取全部隐患内容
           uri +=
-            "/local/statute/getItemContentList?__sid=" +
+            "/sv/local/statute/getItemContentList?__sid=" +
             userSessId +
             "&officeId=" +
             userGroupId;
@@ -265,7 +265,7 @@ export default {
         case "doc":
           //文书信息分页下载接口//文书信息分页下载接口
           uri +=
-            "/local/jczf/getPageJczfByOfficeId?__sid=" +
+            "/sv/local/jczf/getPageJczfByOfficeId?__sid=" +
             userSessId +
             "&userId=" +
             userId +
@@ -273,7 +273,7 @@ export default {
           break;
         case "EnterpriseList":
           //文书信息分页下载接口//文书信息分页下载接口
-          uri += "/local/area/list?__sid=" + userSessId;
+          uri += "/sv/local/area/list?__sid=" + userSessId;
           break;
 
         //下载机构所有文书，

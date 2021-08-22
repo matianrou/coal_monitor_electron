@@ -1,4 +1,4 @@
-<!-- 现场检查 一般检查 抽样取证通知书 -->
+<!-- 现场检查 一般检查 解除停供电(停供民用爆炸物品)通知书 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -13,36 +13,39 @@
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader0">
-              煤矿安全监管行政执法文书
-              <br />
+            <div class="textAlignCenter formHeader0">煤矿安全监管行政执法文书</div>
+            <div class="textAlignLeft formHeader3">
+              <table class="docBody">
+                <tr>
+                  <td class="textAlignCenter">解除</td>
+                  <td
+                    class="cellInput"
+                    id="cell_idx_0"
+                    align="right"
+                    style="width:55%"
+                    data-title="停供电(停供民用爆炸物品)"
+                    data-type="text"
+                    data-src
+                    onclick="commandFill(this.id)"
+                  ></td>
+                  <td class="textAlignLeft">&nbsp;通知书</td>
+                </tr>
+              </table>
             </div>
-            <div class="textAlignCenter formHeader3">抽样取证通知书</div>
             <div class="stdRowH"></div>
             <table class="docBody">
               <tr>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_0"
+                  id="cell_idx_1"
                   align="right"
-                  style="width:60%"
+                  style="width:50%"
                   data-title
                   data-type="text"
                   data-src
                   onclick="commandFill(this.id)"
                 ></td>
                 <td class="textAlignLeft cellBottomLine">煤安监</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_1"
-                  align="center"
-                  style="width:7%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  onclick="commandFill(this.id)"
-                ></td>
-                <td class="textAlignLeft cellBottomLine">抽〔</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_2"
@@ -53,10 +56,21 @@
                   data-src
                   onclick="commandFill(this.id)"
                 ></td>
-                <td class="textAlignLeft cellBottomLine">〕</td>
+                <td class="textAlignLeft cellBottomLine">解停〔</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_3"
+                  align="center"
+                  style="width:7%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td class="textAlignLeft cellBottomLine">〕</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_4"
                   align="center"
                   style="width:7%"
                   data-title
@@ -69,8 +83,8 @@
               <tr>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_4"
-                  style="width:62%"
+                  id="cell_idx_5"
+                  style="width:50%"
                   data-title
                   data-type="text"
                   data-src
@@ -81,132 +95,49 @@
             </table>
             <table style="border:solid 0px #000;" class="docBody">
               <tr>
-                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;你单位</td>
                 <td
-                  style="width:87%"
                   class="cellInput cellBottomLine"
-                  id="cell_idx_5"
-                  data-title
-                  data-type="text"
-                  data-src
-                  onclick="commandFill(this.id)"
-                ></td>
-              </tr>
-              <tr>
-                <td
-                  class="textAlignLeft"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;涉嫌违法违规。根据《中华人民共和国行政处罚法》第三十七条第二款规定，我</td>
-                <td
-                  class="cellInput"
                   id="cell_idx_6"
-                  style="width:15%"
+                  align="center"
+                  style="width:30%"
                   data-title
                   data-type="text"
                   data-src
                   onclick="commandFill(this.id)"
                 ></td>
+                <td class="textAlignLeft">已依法履行行政决定，采取相应措施消除了安全隐患，</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">决定对你单位的有关证据（详见《抽样取证清单》）采取抽样取证。</td>
+                <td class="textAlignLeft">发生生产安全事故的现实危险已不存在，根据《中华人民共和国安全生产法》第六十七</td>
               </tr>
-            </table>
-            <table class="docBody">
               <tr>
-                <td
-                  class="textAlignLeft"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;附件</td>
+                <td class="textAlignLeft">条第二款规定，请贵单位解除对其采取的</td>
                 <td
                   class="cellInput"
-                  id="cell_idx_7"
-                  style="width:70%"
-                  data-title="附件"
-                  data-type="text"
-                  data-src
-                  onclick="commandFill(this.id)"
-                ></td>
-              </tr>
-            </table>
-            <table class="docBody">
-              <tr>
-                <td
-                  class="textAlignLeft"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;抽样承办人：（签名）</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_8"
-                  style="width:59%"
-                  data-title="抽样承办人：（签名）"
-                  data-type="text"
-                  data-src
-                  onclick="commandFill(this.id)"
-                ></td>
-              </tr>
-              <tr>
-                <td
-                  class="textAlignLeft"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;抽样时间：</td>
-                <td
-                  class="cellInput cellBottomLine"
                   id="cell_idx_9"
                   align="center"
-                  style="width:6%"
-                  data-title="年"
+                  style="width:20%"
+                  data-title="解除停供电(停供民用爆炸物品)"
                   data-type="text"
                   data-src
                   onclick="commandFill(this.id)"
                 ></td>
-                <td class="textAlignLeft">年</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_10"
-                  align="center"
-                  style="width:6%"
-                  data-title="月"
-                  data-type="text"
-                  data-src
-                  onclick="commandFill(this.id)"
-                ></td>
-                <td class="textAlignLeft">月</td>
+                <td class="textAlignLeft">措施。</td>
+              </tr>
+            </table>
+            <table height="30"></table>
+            <!-- <table class="docBody">
+    <tr>
+        <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;附件：</td>
+        <td class="cellInput" id="cell_idx_10"  style="width:80%"></td>
+    </tr>
+            </table>-->
+            <table class="docBody">
+              <tr>
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;受送达人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_11"
-                  align="center"
-                  style="width:6%"
-                  data-title="日"
-                  data-type="text"
-                  data-src
-                  onclick="commandFill(this.id)"
-                ></td>
-                <td class="textAlignLeft">日</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_12"
-                  align="center"
-                  style="width:6%"
-                  data-title="时"
-                  data-type="text"
-                  data-src
-                  onclick="commandFill(this.id)"
-                ></td>
-                <td class="textAlignLeft">时</td>
-                <td class="textAlignLeft">&nbsp;&nbsp;抽样地点：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_13"
-                  style="width:24.8%"
-                  data-title="抽样地点"
-                  data-type="text"
-                  data-src
-                  onclick="commandFill(this.id)"
-                ></td>
-              </tr>
-              <tr>
-                <td
-                  class="textAlignLeft"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;受送达人（签名）：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_14"
                   style="width:24%"
                   data-title="受送达人（签名）"
                   data-type="text"
@@ -216,7 +147,7 @@
                 <td class="textAlignLeft">&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_15"
+                  id="cell_idx_12"
                   style="width:24.6%"
                   data-title="日期"
                   data-type="date"
@@ -225,12 +156,10 @@
                 ></td>
               </tr>
               <tr>
-                <td
-                  class="textAlignLeft"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我</td>
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我</td>
                 <td
                   class="cellInput"
-                  id="cell_idx_16"
+                  id="cell_idx_13"
                   align="center"
                   style="width:8%"
                   data-title
@@ -241,7 +170,7 @@
                 <td class="textAlignLeft">地址：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_17"
+                  id="cell_idx_14"
                   style="width:27.1%"
                   data-title="地址"
                   data-type="text"
@@ -251,7 +180,7 @@
                 <td class="textAlignLeft">&nbsp;&nbsp;邮政编码：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_18"
+                  id="cell_idx_15"
                   style="width:24.8%"
                   data-title="邮政编码"
                   data-type="text"
@@ -260,12 +189,10 @@
                 ></td>
               </tr>
               <tr>
-                <td
-                  class="textAlignLeft"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我</td>
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我</td>
                 <td
                   class="cellInput"
-                  id="cell_idx_19"
+                  id="cell_idx_16"
                   align="center"
                   style="width:8%"
                   data-title
@@ -276,7 +203,7 @@
                 <td class="textAlignLeft">联系人：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_20"
+                  id="cell_idx_17"
                   style="width:24.9%"
                   data-title="联系人"
                   data-type="text"
@@ -286,7 +213,7 @@
                 <td class="textAlignLeft">&nbsp;&nbsp;联系电话：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_21"
+                  id="cell_idx_18"
                   style="width:24.8%"
                   data-title="联系电话"
                   data-type="text"
@@ -295,12 +222,13 @@
                 ></td>
               </tr>
             </table>
-            <table height="60"></table>
+            <table height="90"></table>
+
             <table class="docBody">
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_22"
+                  id="cell_idx_19"
                   align="right"
                   style="width:95%"
                   data-title
@@ -311,23 +239,34 @@
               </tr>
             </table>
             <table class="docBody">
-              <tr>
-                <td class="cellInput" style="width:55%"></td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_23"
-                  align="center"
-                  style="width:45%"
-                  data-title="日期"
-                  data-type="date"
-                  data-src
-                  onclick="commandFill(this.id)"
-                ></td>
-              </tr>
+              <td class="cellInput" style="width:55%"></td>
+              <td
+                class="cellInput"
+                id="cell_idx_20"
+                align="center"
+                style="width:45%"
+                data-title="日期"
+                data-type="date"
+                data-src
+                onclick="commandFill(this.id)"
+              ></td>
             </table>
+            <table height="60"></table>
+
             <table>
               <hr />
-              <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被检查单位，一份存档。</td>
+              <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式三份，一份交</td>
+              <td
+                class="cellInput"
+                id="cell_idx_21"
+                align="center"
+                style="width:15%"
+                data-title
+                data-type="text"
+                data-src
+                onclick="commandFill(this.id)"
+              ></td>
+              <td class="textAlignLeft">，一份交煤矿，一份存档。</td>
             </table>
           </div>
         </div>
@@ -340,7 +279,7 @@
 import letMain from "../let-main";
 import GoDB from "@/utils/godb.min.js";
 export default {
-  name: "Let107",
+  name: "Let113",
   props: {
     corpData: {
       type: Object,

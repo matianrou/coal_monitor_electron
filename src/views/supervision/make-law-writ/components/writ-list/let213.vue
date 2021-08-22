@@ -1,4 +1,4 @@
-<!-- 现场检查 一般检查 现场检查记录 -->
+<!-- 加处罚款决定书/延期（分期）缴纳罚款决定书 /案件结案报告-->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -17,167 +17,139 @@
               煤矿安全监管行政执法文书
               <br />
             </div>
-            <div class="textAlignCenter formHeader1">现场检查记录</div>
+            <div class="textAlignCenter formHeader1">案 件 结 案 报 告</div>
             <div class="stdRowH"></div>
             <table style="border:solid 0px #000;" class="docBody">
               <tr>
-                <td class="textAlignLeft">被检查单位：</td>
+                <td
+                  class="textAlignLeft"
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;主要内容：案由；行政相对人基本情况；案发时间及地点；主要违法事实、立案调查及审理</td>
+              </tr>
+              <tr>
+                <td class="textAlignLeft">情况；行政处罚执行情况；结案理由。</td>
+              </tr>
+              <tr>
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;承办人意见：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_0"
-                  style="width:85.6%"
-                  data-title="被检查单位"
-                  data-type="text"
+                  align="center"
+                  style="width:18%"
+                  data-title="承办人意见"
+                  data-type="textarea"
                   data-src
                   onclick="commandFill(this.id)"
-                >{corp_name}</td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">检查时间：</td>
+                ></td>
+                <td class="textAlignLeft">签名：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_1"
-                  style="width:87.8%"
-                  data-title="检查时间"
-                  data-type="date"
+                  align="center"
+                  style="width:18%"
+                  data-title="签名"
+                  data-type="textarea"
                   data-src
                   onclick="commandFill(this.id)"
                 ></td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">采矿许可证：</td>
+                <td class="textAlignLeft">日期：</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_2"
+                  align="center"
+                  style="width:10%"
+                  data-title="年"
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td class="textAlignLeft">年</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_3"
-                  style="width:40%"
-                  data-title="采矿许可证"
+                  align="center"
+                  style="width:10%"
+                  data-title="月"
                   data-type="text"
                   data-src
                   onclick="commandFill(this.id)"
                 ></td>
-                <td class="textAlignLeft">有效期：</td>
+                <td class="textAlignLeft">月</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_4"
-                  style="width:40%"
-                  data-title="有效期"
-                  data-type="date"
+                  align="center"
+                  style="width:10%"
+                  data-title="日"
+                  data-type="text"
                   data-src
                   onclick="commandFill(this.id)"
                 ></td>
+                <td class="textAlignLeft">日</td>
               </tr>
               <tr>
-                <td class="textAlignCenter">安全生产许可证：</td>
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;审批人意见：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_5"
-                  style="width:28%"
-                  data-title="安全生产许可证"
-                  data-type="text"
+                  align="center"
+                  style="width:18%"
+                  data-title="审批人意见"
+                  data-type="textarea"
                   data-src
                   onclick="commandFill(this.id)"
                 ></td>
-                <td class="textAlignLeft">有效期：</td>
+                <td class="textAlignLeft">签名：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_6"
-                  style="width:40%"
-                  data-title="采矿许可证"
-                  data-type="date"
+                  align="center"
+                  style="width:18%"
+                  data-title="签名"
+                  data-type="textarea"
                   data-src
                   onclick="commandFill(this.id)"
                 ></td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">统一社会信用代码：</td>
+                <td class="textAlignLeft">日期：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_7"
-                  style="width:79%"
-                  data-title="统一社会信用代码"
+                  align="center"
+                  style="width:10%"
+                  data-title="年"
                   data-type="text"
                   data-src
                   onclick="commandFill(this.id)"
                 ></td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">主要负责人：</td>
+                <td class="textAlignLeft">年</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_8"
-                  style="width:28%"
-                  data-title="主要负责人"
+                  align="center"
+                  style="width:10%"
+                  data-title="月"
                   data-type="text"
                   data-src
                   onclick="commandFill(this.id)"
                 ></td>
-                <td class="textAlignCenter">联系电话：</td>
+                <td class="textAlignLeft">月</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
-                  style="width:38%"
-                  data-title="联系电话"
+                  align="center"
+                  style="width:10%"
+                  data-title="日"
                   data-type="text"
                   data-src
                   onclick="commandFill(this.id)"
                 ></td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">检查地点（路线）：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_10"
-                  style="width:79%"
-                  data-title="检查地点（路线）"
-                  data-type="text"
-                  data-src
-                  onclick="commandFill(this.id)"
-                ></td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">检查人（签名）：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_11"
-                  style="width:81.4%"
-                  data-title="检查人（签名）"
-                  data-type="text"
-                  data-src
-                  onclick="commandFill(this.id)"
-                ></td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">记录人（签名）：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_12"
-                  style="width:28%"
-                  data-title="记录人（签名）"
-                  data-type="text"
-                  data-src
-                  onclick="commandFill(this.id)"
-                ></td>
-                <td class="textAlignCenter">陪同检察人员：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_13"
-                  style="width:38%"
-                  data-title="陪同检察人员"
-                  data-type="text"
-                  data-src
-                  onclick="commandFill(this.id)"
-                ></td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">检查情况：</td>
-                <td style="width:88.3%">&nbsp;</td>
+                <td class="textAlignLeft">日</td>
               </tr>
             </table>
             <div
               style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
               class="cellInput mutiLineArea"
-              id="cell_idx_14"
-              data-title="检查情况"
+              id="cell_idx_10"
+              data-title="案由"
               data-type="textarea"
               data-src
               onclick="commandFill(this.id)"
@@ -188,45 +160,7 @@
               <p
                 style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
               >&nbsp;</p>
-              <p
-                style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
-              >&nbsp;</p>
             </div>
-
-            <table style="border:solid 0px #000;" class="docBody">
-              <tr>
-                <td class="textAlignLeft">被检查单位负责人意见：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_15"
-                  style="width:20%"
-                  data-title="被检查单位负责人意见"
-                  data-type="text"
-                  data-src
-                  onclick="commandFill(this.id)"
-                ></td>
-                <td class="textAlignCenter">单位负责人签名:</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_16"
-                  style="width:10%"
-                  data-title="签名"
-                  data-type="text"
-                  data-src
-                  onclick="commandFill(this.id)"
-                ></td>
-                <td class="textAlignCenter">日期:</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_17"
-                  style="width:15%"
-                  data-title="日期"
-                  data-type="date"
-                  data-src
-                  onclick="commandFill(this.id)"
-                ></td>
-              </tr>
-            </table>
           </div>
         </div>
       </div>
@@ -238,7 +172,7 @@
 import letMain from "../let-main";
 import GoDB from "@/utils/godb.min.js";
 export default {
-  name: "Let101",
+  name: "Let213",
   props: {
     corpData: {
       type: Object,

@@ -252,7 +252,7 @@
 import letMain from "../let-main";
 import GoDB from "@/utils/godb.min.js";
 export default {
-  name: "Let100",
+  name: "Let103",
   props: {
     corpData: {
       type: Object,

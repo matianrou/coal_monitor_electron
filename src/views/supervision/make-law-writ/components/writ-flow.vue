@@ -72,7 +72,7 @@
                     :title="flowStatus.paper3 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let101','现场检查笔录', '3')" class="flow-span">现场检查笔录</span>
+                  <span @click="cmdEditDoc('let101','现场检查记录', '3')" class="flow-span">现场检查记录</span>
                 </td>
                 <td style="width:28px;">
                   <img src="../assets/image/doc-flow_r1_c5.png" style="height: 65px;" />
@@ -411,7 +411,7 @@
                     :title="flowStatus.paper28 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let208','送达收执', '28')" class="flow-span">
+                  <span @click="cmdEditDoc('let207','送达收执', '28')" class="flow-span">
                     送达收执
                   </span>
                 </td>
@@ -626,7 +626,7 @@
                     :title="flowStatus.paper39 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let303','强制执行申请书', '39')" class="flow-span">
+                  <span @click="cmdEditDoc('let301','强制执行申请书', '39')" class="flow-span">
                     强制执行
                     <br />申请书
                   </span>

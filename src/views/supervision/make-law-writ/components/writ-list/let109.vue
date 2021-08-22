@@ -1,4 +1,4 @@
-<!-- 现场检查 一般检查 现场检查记录 -->
+<!-- 现场检查 一般检查 先行登记保存证据处理决定书 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -7,11 +7,267 @@
       :doc-data="docData"
       :let-data="letData"
       :edit-data="editData"
-      @go-back="goBack">
+      @go-back="goBack"
+    >
       <div slot="left">
         <div class="page page-sizeA4">
           <div>
+            <div class="stdRowH"></div>
+            <div class="textAlignCenter formHeader0">
+              煤矿安全监管行政执法文书
+              <br />
+            </div>
+            <div class="textAlignCenter formHeader3">先行登记保存证据处理决定书</div>
+            <div class="stdRowH"></div>
+            <table class="docBody">
+              <tr>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_0"
+                  align="right"
+                  style="width:55%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td class="textAlignLeft cellBottomLine">煤安监</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_1"
+                  align="center"
+                  style="width:7%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td class="textAlignLeft cellBottomLine">先保处〔</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_2"
+                  align="center"
+                  style="width:7%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td class="textAlignLeft cellBottomLine">〕</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_3"
+                  align="center"
+                  style="width:7%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td class="textAlignLeft cellBottomLine">号&nbsp;&nbsp;</td>
+              </tr>
+              <tr>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_4"
+                  style="width:62%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                >{corp_name}</td>
+                <td class="textAlignLeft">:</td>
+              </tr>
+            </table>
+            <table style="border:solid 0px #000;" class="docBody">
+              <tr>
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我</td>
+                <td
+                  class="cellInput"
+                  id="cell_idx_5"
+                  align="center"
+                  style="width:10%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td class="textAlignLeft">于</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_6"
+                  align="center"
+                  style="width:8%"
+                  data-title="年"
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td class="textAlignLeft">年</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_7"
+                  align="center"
+                  style="width:8%"
+                  data-title="月"
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td class="textAlignLeft">月</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_8"
+                  align="center"
+                  style="width:8%"
+                  data-title="日"
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td class="textAlignLeft">日对你单位的</td>
+                <td
+                  style="width:37%"
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_9"
+                  data-title
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+              </tr>
+              <tr>
+                <td class="textAlignLeft">等物品进行了先行登记保存（</td>
+                <td
+                  class="cellInput"
+                  id="cell_idx_10"
+                  align="center"
+                  style="width:8%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td class="textAlignLeft">煤安监</td>
+                <td
+                  class="cellInput"
+                  id="cell_idx_11"
+                  align="center"
+                  style="width:8%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td class="textAlignLeft">先保〔</td>
+                <td
+                  class="cellInput"
+                  id="cell_idx_12"
+                  align="center"
+                  style="width:8%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td class="textAlignLeft">〕</td>
+                <td
+                  class="cellInput"
+                  id="cell_idx_13"
+                  align="center"
+                  style="width:8%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td class="textAlignLeft">号）。现根据</td>
+              </tr>
+              <tr>
+                <td class="textAlignLeft">《中华人民共和国行政处罚法》第三十七条第二款规定，对上述物品作出以下处理决</td>
+              </tr>
+              <tr>
+                <td class="textAlignLeft">定:</td>
+              </tr>
+            </table>
+            <div
+              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+              class="cellInput mutiLineArea"
+              id="cell_idx_14"
+              data-title="处理决定"
+              data-type="textarea"
+              data-src
+              onclick="commandFill(this.id)"
+            >
+              <p
+                style="width:95%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
+              >&nbsp;</p>
+            </div>
+            <table style="border:solid 0px #000;" class="docBody">
+              <tr>
+                <td
+                  class="textAlignLeft"
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如对本处理决定不服，可在接到本决定书之日起60日内向</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_15"
+                  style="width:36.2%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+              </tr>
+              <tr>
+                <td class="textAlignLeft">申请行政复议或6个月内向</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_16"
+                  style="width:20%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td class="textAlignLeft">人民法院提起行政诉讼，但不停止执行本决定。</td>
+              </tr>
+            </table>
+            <table height="90"></table>
+            <table class="docBody">
+              <tr>
+                <td
+                  class="cellInput"
+                  id="cell_idx_17"
+                  align="right"
+                  style="width:95%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+              </tr>
+            </table>
+            <table class="docBody">
+              <tr>
+                <td class="cellInput" style="width:55%"></td>
+                <td
+                  class="cellInput"
+                  id="cell_idx_18"
+                  align="center"
+                  style="width:45%"
+                  data-title="日期"
+                  data-type="date"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+              </tr>
+            </table>
+            <table height="60"></table>
 
+            <table>
+              <hr />
+              <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被检查单位，一份存档。</td>
+            </table>
           </div>
         </div>
       </div>
@@ -21,9 +277,9 @@
 
 <script>
 import letMain from "../let-main";
-import GoDB from '@/utils/godb.min.js'
+import GoDB from "@/utils/godb.min.js";
 export default {
-  name: "Let100",
+  name: "Let109",
   props: {
     corpData: {
       type: Object,
@@ -34,10 +290,10 @@ export default {
       default: () => {
         return {
           docTypeNo: null,
-          docTypeName: null
-        }
-      }
-    }
+          docTypeName: null,
+        };
+      },
+    },
   },
   components: {
     letMain,
@@ -53,32 +309,34 @@ export default {
     this.initData();
   },
   watch: {
-    'corpData.corpId' (val) {
+    "corpData.corpId"(val) {
       if (val) {
-        this.initData()
+        this.initData();
       }
-    }
+    },
   },
   methods: {
-    async initData() {
+    async initData() {
       // 初始化文书内容
       const db = new GoDB("CoalSupervisionDB");
-      const corpBase = db.table('corpBase');
+      const corpBase = db.table("corpBase");
       //查询符合条件的记录
       const corp = await corpBase.find((item) => {
-        return item.corpId == this.corpData.corpId
+        return item.corpId == this.corpData.corpId;
       });
       const wkPaper = db.table("wkPaper");
       const caseId = this.corpData.caseId;
       //查询当前计划是否已做文书
       const checkPaper = await wkPaper.findAll((item) => {
-        return item.caseId === caseId && item.paperType === this.docData.docTypeNo;
+        return (
+          item.caseId === caseId && item.paperType === this.docData.docTypeNo
+        );
       });
       // 已做文书则展示文书内容，否则创建初始版本
       if (checkPaper.length > 0) {
         // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent)
-        this.editData = checkPaper[0]
+        this.letData = JSON.parse(checkPaper[0].paperContent);
+        this.editData = checkPaper[0];
       } else {
         // 创建初始版本
         this.letData = {
@@ -97,20 +355,27 @@ export default {
           cellIdx9: null, // 编制日期
           cellIdx10: null, // 审批人
           cellIdx11: null, // 审批日期
-        }
+        };
       }
-      await db.close()
+      await db.close();
     },
-    goBack ({page}) {
+    goBack({ page }) {
       // 返回选择企业
-      this.$emit('go-back', {page})
+      this.$emit("go-back", { page });
     },
-    commandFill (key, title, type) {
+    commandFill(key, title, type) {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`
-        this.$refs.letMain.commandFill(key, dataKey, title, type, this.letData[dataKey], this.options[key])
+        let dataKey = `${key}Type${type}`;
+        this.$refs.letMain.commandFill(
+          key,
+          dataKey,
+          title,
+          type,
+          this.letData[dataKey],
+          this.options[key]
+        );
       }
     },
   },

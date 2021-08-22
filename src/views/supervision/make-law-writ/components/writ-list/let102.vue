@@ -1,4 +1,4 @@
-<!-- 现场检查 一般检查 现场处理措施决定书 -->
+<!-- 现场检查 一般检查 现场处理决定书 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -250,7 +250,7 @@
 import letMain from "../let-main";
 import GoDB from "@/utils/godb.min.js";
 export default {
-  name: "Let100",
+  name: "Let102",
   props: {
     corpData: {
       type: Object,
