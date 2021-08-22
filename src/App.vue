@@ -17,7 +17,18 @@
         // 返回仓库数据
         if (sessionStorage.getItem('state')) {
           this.$store.replaceState(Object.assign({}, this.$store.state, JSON.parse(sessionStorage.getItem("state"))))
+          let path = ''
+          if (this.$store.state.DBName === 'CoalSupervisionDB') {
+            path = 'CalmineSupervisionElectronMain'
+          } else if (this.$store.state.DBName === 'CoalMonitorDB') {
+            path = 'CalmineMonitorElectronMain'
+          }
+          this.$router.replace({
+            name: path
+          })
+          sessionStorage.removeItem('state')
         }
+        console.log('state', this.$store.state)
       },
       saveState() {
         // 刷新页面时存储仓库

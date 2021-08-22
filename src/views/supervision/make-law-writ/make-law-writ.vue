@@ -85,7 +85,6 @@ export default {
     let110: resolve => { require(["./components/writ-list/let110.vue"], function(let110) { resolve(let110);});},
     let111: resolve => { require(["./components/writ-list/let111.vue"], function(let111) { resolve(let111);});},
     let112: resolve => { require(["./components/writ-list/let112.vue"], function(let112) { resolve(let112);});},
-    let113: resolve => { require(["./components/writ-list/let113.vue"], function(let113) { resolve(let113);});},
     let200: resolve => { require(["./components/writ-list/let200.vue"], function(let200) { resolve(let200);});},
     let201: resolve => { require(["./components/writ-list/let201.vue"], function(let201) { resolve(let201);});},
     let202: resolve => { require(["./components/writ-list/let202.vue"], function(let202) { resolve(let202);});},
@@ -99,8 +98,6 @@ export default {
     let210: resolve => { require(["./components/writ-list/let210.vue"], function(let210) { resolve(let210);});},
     let211: resolve => { require(["./components/writ-list/let211.vue"], function(let211) { resolve(let211);});},
     let212: resolve => { require(["./components/writ-list/let212.vue"], function(let212) { resolve(let212);});},
-    let213: resolve => { require(["./components/writ-list/let213.vue"], function(let213) { resolve(let213);});},
-    let214: resolve => { require(["./components/writ-list/let214.vue"], function(let214) { resolve(let214);});},
     let300: resolve => { require(["./components/writ-list/let300.vue"], function(let300) { resolve(let300);});},
     let301: resolve => { require(["./components/writ-list/let301.vue"], function(let301) { resolve(let301);});},
     let302: resolve => { require(["./components/writ-list/let302.vue"], function(let302) { resolve(let302);});},
@@ -176,7 +173,7 @@ export default {
     },
     async showDocTemplet() {
       //读取当前点击的计划或检查活动的数据
-      const db = new GoDB("CoalMonitorDB");
+      const db = new GoDB("CoalSupervisionDB");
       const corpBase = db.table("corpBase");
       const wkPaper = db.table("wkPaper");
       //查询符合条件的记录

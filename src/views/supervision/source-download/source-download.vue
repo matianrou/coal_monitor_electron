@@ -190,7 +190,7 @@
 </template>
 
 <script>
-import { doOrgDb, doPersonDb, doPlanDb, doCorpDb, doEnterpriseList, doCheckCateDb, doCheckListDb, doDangerCateDb, doDangerListDb, doDocDb } from "@/utils/monitor/downloadSource"
+import { doOrgDb, doPersonDb, doPlanDb, doCorpDb, doEnterpriseList, doCheckCateDb, doCheckListDb, doDangerCateDb, doDangerListDb, doDocDb } from "@/utils/supervision/downloadSource"
 export default {
   name: "SupervisionSourceDownload",
   data() {
@@ -287,48 +287,50 @@ export default {
             );
             objLink.disabled = false;
           } else {
-            // 删除当前库表，处理数据，保存至IndexDB
-            switch (resId) {
-              case "org":
-                await doOrgDb(resId, response.data.data);
-	              this.$message.success('“机构资源”已经下载完毕。');
-                break;
-              case "person":
-                await doPersonDb(resId, response.data.data);
-                this.$message.success('“用户资源”已经下载完毕。');
-                break;
-              case "plan":
-                await doPlanDb(resId, response.data.data);
-                this.$message.success('“其他资源”已经下载完毕。');
-                break;
-              case "corp":
-                await doCorpDb(resId, response.data.data);
-	              this.$message.success('“企业资源”已经下载完毕。');
-                break;
-              case "EnterpriseList":
-                await doEnterpriseList(resId, response.data.data);
-	              this.$message.success('“行政区域”已经下载完毕。');
-                break;
-              case "check-cate":
-                await doCheckCateDb(resId, response.data.data);
-	              this.$message.success('“检查项类别”已经下载完毕。');
-                break;
-              case "check-list":
-                await doCheckListDb(resId, response.data.data);
-	              this.$message.success('“检查项内容”已经下载完毕。');
-                break;
-              case "danger-cate":
-                await doDangerCateDb(resId, response.data.data);
-	              this.$message.success('“隐患类别”已经下载完毕。');
-                break;
-              case "danger-list":
-                await doDangerListDb(resId, response.data.data);
-                this.$message.success('“隐患内容”已经下载完毕。');
-                break;
-              case "doc":
-                await doDocDb(resId, response.data.data);
-                this.$message.success('“个人账号文书资源”已经下载完毕。');
-                break;
+            if (response.data.data) {
+              // 删除当前库表，处理数据，保存至IndexDB
+              switch (resId) {
+                case "org":
+                  await doOrgDb(resId, response.data.data);
+                  this.$message.success('“机构资源”已经下载完毕。');
+                  break;
+                case "person":
+                  await doPersonDb(resId, response.data.data);
+                  this.$message.success('“用户资源”已经下载完毕。');
+                  break;
+                case "plan":
+                  await doPlanDb(resId, response.data.data);
+                  this.$message.success('“其他资源”已经下载完毕。');
+                  break;
+                case "corp":
+                  await doCorpDb(resId, response.data.data);
+                  this.$message.success('“企业资源”已经下载完毕。');
+                  break;
+                case "EnterpriseList":
+                  await doEnterpriseList(resId, response.data.data);
+                  this.$message.success('“行政区域”已经下载完毕。');
+                  break;
+                case "check-cate":
+                  await doCheckCateDb(resId, response.data.data);
+                  this.$message.success('“检查项类别”已经下载完毕。');
+                  break;
+                case "check-list":
+                  await doCheckListDb(resId, response.data.data);
+                  this.$message.success('“检查项内容”已经下载完毕。');
+                  break;
+                case "danger-cate":
+                  await doDangerCateDb(resId, response.data.data);
+                  this.$message.success('“隐患类别”已经下载完毕。');
+                  break;
+                case "danger-list":
+                  await doDangerListDb(resId, response.data.data);
+                  this.$message.success('“隐患内容”已经下载完毕。');
+                  break;
+                case "doc":
+                  await doDocDb(resId, response.data.data);
+                  this.$message.success('“个人账号文书资源”已经下载完毕。');
+                  break;
+              }
             }
             // 下载完毕
             document.getElementById('cell-' + resId + '-down').innerHTML = "下载完毕";

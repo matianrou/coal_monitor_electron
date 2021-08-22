@@ -104,14 +104,13 @@ export default {
             this.$store.state.user.userName = data.name
             this.$store.state.user.userSessId = sessId
             //获取用户信息
-            this.getUserInfo(userId, sessId);
             // 最大化窗口
             electronRequest('maxWindow');
             // 判断当前登录用户为监管或监察，分别进入不同的路由
-            let path = 'CalmineMonitorElectronMain' // 监察路径
-            let DBName = 'CoalMonitorDB' // 监察使用DB
-            // let path = 'CalmineSupervisionElectronMain' // 监管路径
-            // let DBName = 'CoalSupervisionDB' // 监管使用DB
+            // let path = 'CalmineMonitorElectronMain' // 监察路径
+            // let DBName = 'CoalMonitorDB' // 监察使用DB
+            let path = 'CalmineSupervisionElectronMain' // 监管路径
+            let DBName = 'CoalSupervisionDB' // 监管使用DB
             this.$router.replace({
               name: path
             })
@@ -119,6 +118,7 @@ export default {
               key: 'DBName',
               val: DBName
             })
+            this.getUserInfo(userId, sessId);
           } else {
             this.$message.error(data.message)
           }
@@ -127,14 +127,18 @@ export default {
         })
     },
     async getUserInfo(userId, sessId) {
-      await this.$http.get(`/local/user/info?__sid=${sessId}&userId=${userId}`).then(({ data }) => {
+      let path = ''
+      if (this.$store.state.DBName === 'CoalSupervisionDB') {
+        path = '/sv'
+      }
+      await this.$http.get(`${path}/local/user/info?__sid=${sessId}&userId=${userId}`).then(({ data }) => {
         this.$store.state.user.userGroupId = data.data.groupId
         this.$store.state.user.userAreaId = data.data.areaId
         this.$store.state.user.userGroupName = data.data.groupName
       }).catch(err => {
         console.log('获取用户信息失败：', err)
       })
-      const db = new GoDB("CoalMonitorDB");
+      const db = new GoDB(this.$store.state.DBName);
       // 个人执法编号
       let person = db.table("person")
       let userInfo = await person.find(item => item.no === userId)

@@ -170,10 +170,12 @@ import { treeDataTranslate } from '@/utils/index'
       },
       selectArea(data, node, ele) {
         // 选中地区进行筛选 按名称中是否有省做判断条件，当前选中地区的level
-        if (data.name.indexOf('省') !== -1) {
-          this.curAreaLevel = 3
-        } else {
-          this.curAreaLevel = 4
+        if (data && data.name) {
+          if (data.name.indexOf('省') !== -1) {
+            this.curAreaLevel = 3
+          } else {
+            this.curAreaLevel = 4
+          }
         }
         this.dataForm.areaId = data.code
         this.getCompanyList()

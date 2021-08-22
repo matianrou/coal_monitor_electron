@@ -45,6 +45,7 @@ export default {
     };
   },
   created() {
+    console.log('监管-文书管理')
   },
   methods: {
     changePage () {

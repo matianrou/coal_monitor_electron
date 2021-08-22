@@ -25,7 +25,7 @@ async function doOrgDb(resId, data) {
       "sysOfficeInfo": String
     }
   };
-  const db = new GoDB('CoalMonitorDB', schema);
+  const db = new GoDB('CoalSupervisionDB', schema);
   const orgInfo = db.table('orgInfo');
 
   //1-add baseInfo(煤矿基本信息)
@@ -77,7 +77,7 @@ async function doPersonDb(resId, data) {
       userNumber: String
     }
   };
-  const db = new GoDB('CoalMonitorDB', schema);
+  const db = new GoDB('CoalSupervisionDB', schema);
   const person = db.table('person');
 
   for (let i = 0; i < data.length; i++) {
@@ -119,7 +119,7 @@ async function doPlanDb(resId, data) {
 			"dbplanId":String,
 		}
 	};
-	const db = new GoDB('CoalMonitorDB', schema);
+	const db = new GoDB('CoalSupervisionDB', schema);
 	const docPlan = db.table('docPlan');
 
 	let arrPlan = [];
@@ -270,7 +270,7 @@ async function doCorpDb(resId, data) {
 			"workfaceName": String, // "3085"
 		}
 	};
-	const db = new GoDB('CoalMonitorDB', schema);
+	const db = new GoDB('CoalSupervisionDB', schema);
 	const corpBase = db.table('corpBase');
 	const zfZzInfo = db.table('zfZzInfo');
 	const zfJjgzmInfo = db.table('zfJjgzmInfo');
@@ -469,7 +469,7 @@ async function doEnterpriseList(resId, data){
 			"updateDate": String,
 		}
 	};
-	const db = new GoDB('CoalMonitorDB', schema);
+	const db = new GoDB('CoalSupervisionDB', schema);
 	const doEnterpriseList = db.table('doEnterpriseList');
 
 	for (let i = 0; i < data.length; i++) {
@@ -521,7 +521,7 @@ async function doCheckCateDb(resId, data) {
 			"treeParentId": String
 		}
 	};
-	const db = new GoDB('CoalMonitorDB', schema);
+	const db = new GoDB('CoalSupervisionDB', schema);
 	const checkCate = db.table('checkCate');
 
 	for (let i = 0; i < data.length; i++) {
@@ -575,7 +575,7 @@ async function doCheckListDb(resId, data) {
 			"treeParentId": String
 		}
 	};
-	const db = new GoDB('CoalMonitorDB', schema);
+	const db = new GoDB('CoalSupervisionDB', schema);
 	const checkList = db.table('checkList');
 
 	for (let i = 0; i < data.length; i++) {
@@ -630,7 +630,7 @@ async function doDangerCateDb(resId, data) {
 			"treeParentId": String
 		}
 	};
-	const db = new GoDB('CoalMonitorDB', schema);
+	const db = new GoDB('CoalSupervisionDB', schema);
 	const dangerCate = db.table('dangerCate');
 	if (data) {
 		for (let i = 0; i < data.length; i++) {
@@ -689,7 +689,7 @@ async function doDangerListDb(resId, data) {
 			"treeParentId": String
 		}
 	};
-	const db = new GoDB('CoalMonitorDB', schema);
+	const db = new GoDB('CoalSupervisionDB', schema);
 	const dangerList = db.table('dangerList');
 	for (let i = 0; i < data.length; i++) {
 		let obj = data[i];
@@ -725,9 +725,9 @@ async function doDangerListDb(resId, data) {
 
 // “个人账号文书资源”下载。
 async function doDocDb(resId, data){
-	let arrPaper = data?data.paper:[];
-	let arrCase = data?data.jczfCase:[];
-	let arrDanger = data?data.danger:[];
+	let arrPaper = data ? data.paper : [];
+	let arrCase = data ? data.jczfCase : [];
+	let arrDanger = data ? data.danger : [];
 	const schema = {
 		wkPaper: {
 			"paperId": {     //客户端生产的文书唯一id
@@ -903,7 +903,7 @@ async function doDocDb(resId, data){
 			"reviewUnitName": String,   //复查单位名称：null
     },
 	};
-	const db = new GoDB('CoalMonitorDB', schema);
+	const db = new GoDB('CoalSupervisionDB', schema);
 	const wkPaper = db.table('wkPaper');
 	const wkCase = db.table('wkCase');
 	const wkDanger = db.table('wkDanger');

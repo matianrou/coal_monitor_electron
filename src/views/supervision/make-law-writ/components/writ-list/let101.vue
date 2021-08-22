@@ -1,4 +1,4 @@
-<!-- 现场检查 一般检查 现场检查笔录 -->
+<!-- 现场检查 一般检查 现场检查记录 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -7,18 +7,19 @@
       :doc-data="docData"
       :let-data="letData"
       :edit-data="editData"
-      @go-back="goBack">
+      @go-back="goBack"
+    >
       <div slot="left">
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
             <div class="textAlignCenter formHeader0">
-              国 家 煤 矿 安 全 监 察
+              煤矿安全监管行政执法文书
               <br />
             </div>
-            <div class="textAlignCenter formHeader1">现 场 检 查 笔 录</div>
+            <div class="textAlignCenter formHeader1">现场检查记录</div>
             <div class="stdRowH"></div>
-            <table class="docBody border-solid">
+            <table style="border:solid 0px #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">被检查单位：</td>
                 <td
@@ -28,8 +29,8 @@
                   data-title="被检查单位"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx0', '被检查单位：', 'TextItem')"
-                >{{letData.cellIdx0}}</td>
+                  onclick="commandFill(this.id)"
+                >{corp_name}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">检查时间：</td>
@@ -40,20 +41,8 @@
                   data-title="检查时间"
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx1', '检查时间：', 'DateItem')"
-                >{{letData.cellIdx1}}</td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">检查地点（路线）：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_2"
-                  style="width:79%"
-                  data-title="检查地点（路线）"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx2', '检查地点（路线）：', 'TextItem')"
-                >{{letData.cellIdx2}}</td>
+                  onclick="commandFill(this.id)"
+                ></td>
               </tr>
               <tr>
                 <td class="textAlignLeft">采矿许可证：</td>
@@ -64,52 +53,120 @@
                   data-title="采矿许可证"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx3', '采矿许可证：', 'TextItem')"
-                >{{letData.cellIdx3}}</td>
-                <td class="textAlignCenter">安全生产许可证：</td>
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td class="textAlignLeft">有效期：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_4"
+                  style="width:40%"
+                  data-title="有效期"
+                  data-type="date"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+              </tr>
+              <tr>
+                <td class="textAlignCenter">安全生产许可证：</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_5"
                   style="width:28%"
                   data-title="安全生产许可证"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx4', '安全生产许可证：', 'TextItem')"
-                >{{letData.cellIdx4}}</td>
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td class="textAlignLeft">有效期：</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_6"
+                  style="width:40%"
+                  data-title="采矿许可证"
+                  data-type="date"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+              </tr>
+              <tr>
+                <td class="textAlignLeft">统一社会信用代码：</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_7"
+                  style="width:79%"
+                  data-title="统一社会信用代码"
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+              </tr>
+              <tr>
+                <td class="textAlignLeft">主要负责人：</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_8"
+                  style="width:28%"
+                  data-title="主要负责人"
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td class="textAlignCenter">联系电话：</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_9"
+                  style="width:38%"
+                  data-title="联系电话"
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
+              </tr>
+              <tr>
+                <td class="textAlignLeft">检查地点（路线）：</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_10"
+                  style="width:79%"
+                  data-title="检查地点（路线）"
+                  data-type="text"
+                  data-src
+                  onclick="commandFill(this.id)"
+                ></td>
               </tr>
               <tr>
                 <td class="textAlignLeft">检查人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_5"
+                  id="cell_idx_11"
                   style="width:81.4%"
                   data-title="检查人（签名）"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx5', '检查人（签名）：', 'TextItem')"
-                >{{letData.cellIdx5}}</td>
+                  onclick="commandFill(this.id)"
+                ></td>
               </tr>
               <tr>
                 <td class="textAlignLeft">记录人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_6"
+                  id="cell_idx_12"
                   style="width:28%"
                   data-title="记录人（签名）"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx6', '记录人（签名）：', 'TextItem')"
-                >{{letData.cellIdx6}}</td>
+                  onclick="commandFill(this.id)"
+                ></td>
                 <td class="textAlignCenter">陪同检察人员：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_7"
+                  id="cell_idx_13"
                   style="width:38%"
                   data-title="陪同检察人员"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx7', '陪同检察人员：', 'TextItem')"
-                >{{letData.cellIdx7}}</td>
+                  onclick="commandFill(this.id)"
+                ></td>
               </tr>
               <tr>
                 <td class="textAlignLeft">检查情况：</td>
@@ -117,58 +174,57 @@
               </tr>
             </table>
             <div
-              class="cellInput mutiLineArea addtrouble show-area-item-content"
-              id="cell_idx_8"
+              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+              class="cellInput mutiLineArea"
+              id="cell_idx_14"
               data-title="检查情况"
               data-type="textarea"
-              @click="commandFill('cellIdx8', '检查情况：', 'DangerTableItem')"
+              data-src
+              onclick="commandFill(this.id)"
             >
-              <div v-if="letData.cellIdx8 && letData.cellIdx8.length > 0">
-                <p class="show-area-item-p">
-                  <span style="padding: 7px;">{{ letData.cellIdx8 }}</span>
-                </p>
-              </div>
-              <div v-else>
-                <p class="show-area-item-p">
-                  &nbsp;
-                </p>
-                <p class="show-area-item-p">
-                  &nbsp;
-                </p>
-              </div>
+              <p
+                style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
+              >&nbsp;</p>
+              <p
+                style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
+              >&nbsp;</p>
+              <p
+                style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
+              >&nbsp;</p>
             </div>
-            <table class="docBody border-solid">
+
+            <table style="border:solid 0px #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">被检查单位负责人意见：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_9"
-                  style="width:30%"
+                  id="cell_idx_15"
+                  style="width:20%"
                   data-title="被检查单位负责人意见"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx9', '被检查单位负责人意见：', 'TextItem')"
-                >{{letData.cellIdx9}}</td>
-                <td class="textAlignCenter">签名:</td>
+                  onclick="commandFill(this.id)"
+                ></td>
+                <td class="textAlignCenter">单位负责人签名:</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_10"
-                  style="width:15%"
+                  id="cell_idx_16"
+                  style="width:10%"
                   data-title="签名"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx10', '签名:', 'TextItem')"
-                >{{letData.cellIdx10}}</td>
+                  onclick="commandFill(this.id)"
+                ></td>
                 <td class="textAlignCenter">日期:</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_11"
-                  style="width:20%"
+                  id="cell_idx_17"
+                  style="width:15%"
                   data-title="日期"
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx11', '日期:', 'DateItem')"
-                >{{letData.cellIdx11}}</td>
+                  onclick="commandFill(this.id)"
+                ></td>
               </tr>
             </table>
           </div>
@@ -182,7 +238,7 @@
 import letMain from "../let-main";
 import GoDB from "@/utils/godb.min.js";
 export default {
-  name: "Let101",
+  name: "Let100",
   props: {
     corpData: {
       type: Object,
@@ -194,9 +250,9 @@ export default {
         return {
           docTypeNo: null,
           docTypeName: null,
-        }
+        };
       },
-    }
+    },
   },
   components: {
     letMain,
@@ -204,13 +260,7 @@ export default {
   data() {
     return {
       letData: {},
-      options: {
-        cellIdx8: {
-          page: '1', // 用于在隐患项保存，做数据处理
-          showBaseInfor: true, // 用于区分是否展示基本情况大文本输入
-          showSelectDangerBtn: true // 用于区分是否可以选择隐患项
-        }
-      },
+      options: {},
       editData: {}, // 回显数据
     };
   },
@@ -218,15 +268,16 @@ export default {
     this.initData();
   },
   watch: {
-    'corpData.corpId' (val) {
+    "corpData.corpId"(val) {
       if (val) {
-        this.initData()
+        this.initData();
       }
-    }
+    },
   },
   methods: {
     async initData() {
-      const db = new GoDB("CoalMonitorDB");
+      // 初始化文书内容
+      const db = new GoDB("CoalSupervisionDB");
       const corpBase = db.table("corpBase");
       //查询符合条件的记录
       const corp = await corpBase.find((item) => {
@@ -234,11 +285,13 @@ export default {
       });
       const wkPaper = db.table("wkPaper");
       const caseId = this.corpData.caseId;
-      //查询当前计划是否已做现场检查笔录
+      //查询当前计划是否已做文书
       const checkPaper = await wkPaper.findAll((item) => {
-        return item.caseId === caseId && item.paperType === this.docData.docTypeNo;
+        return (
+          item.caseId === caseId && item.paperType === this.docData.docTypeNo
+        );
       });
-      // await wkPaper.delete(checkPaper[0].id)
+      // 已做文书则展示文书内容，否则创建初始版本
       if (checkPaper.length > 0) {
         // 回显
         this.letData = JSON.parse(checkPaper[0].paperContent);
@@ -248,56 +301,40 @@ export default {
         this.letData = {
           cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
           cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null,
-          cellIdx1: null, // 检查时间
-          cellIdx2: null, // 检查地点（路线）
-          cellIdx3: null, // 采矿许可证
-          cellIdx4: null, // 安全生产许可证
-          cellIdx5: null, // 检查人（签名）
-          cellIdx6: null, // 记录人（签名）
-          cellIdx7: null, // 陪同检察人员
-          cellIdx8: null, // 检查情况
-          cellIdx9: null, // 被检查单位负责人意见
-          cellIdx10: null, // 签名
-          cellIdx11: null, // 日期
-          dangerItemObject: {
-            baseInfor: null,
-            tableData: [],
-            selectedIdList: [],
-            dangerItemDetail: {
-              itemContent: null, // 违法行为描述
-              confirmClause: null, // 违法认定法条
-              onsiteDesc: null, // 现场处理决定
-              onsiteBasis: null, // 现场处理依据
-              onsiteType: null, // 现场处理决定类型
-              headingFace: null, // 掘进工作面
-              deviceNum: null, // 设备台数
-              coalingFace: null, // 采煤工作面
-              penaltyDesc: null, // 行政处罚决定
-              penaltyDescFine: null, // 行政处罚决定罚金
-              penaltyBasis: null, // 行政处罚依据
-              isSerious: false, // 是否重大隐患
-              isReview: false, // 是否复查
-              reviewDate: null, // 复查日期
-            }
-          }, // 隐患项大表
+          cellIdx1: null, // 监察类型或方式
+          cellIdx2: null, // 检查时间
+          cellIdx3: sSummary ? sSummary : null, // 煤矿概况
+          cellIdx3TypeTextareaItem: sSummary ? sSummary : null, // 煤矿概况
+          cellIdx4: null, // 检查地点
+          cellIdx5: [], // 检查分工明细表
+          cellIdx5TypeCheckTableItem: {}, // 检查分工明细表
+          cellIdx6: corpOther, // 其他事项
+          cellIdx6TypeTextItem: corpOther, // 其他事项
+          cellIdx8: null, // 编制人
+          cellIdx9: null, // 编制日期
+          cellIdx10: null, // 审批人
+          cellIdx11: null, // 审批日期
         };
       }
       await db.close();
     },
-    goBack({page}) {
+    goBack({ page }) {
       // 返回选择企业
-      this.$emit("go-back", {page});
+      this.$emit("go-back", { page });
     },
     commandFill(key, title, type) {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
-        // 打开编辑
-        let dataKey = `${key}Type${type}`
-        if (key === 'cellIdx8') {
-          // 隐患项时对应letData中的dangerItemObject
-          dataKey = 'dangerItemObject'
-        }
-        this.$refs.letMain.commandFill(key, dataKey, title, type, this.letData[dataKey], this.options[key])
+        // 文书各个字段点击打开左侧弹出编辑窗口
+        let dataKey = `${key}Type${type}`;
+        this.$refs.letMain.commandFill(
+          key,
+          dataKey,
+          title,
+          type,
+          this.letData[dataKey],
+          this.options[key]
+        );
       }
     },
   },
