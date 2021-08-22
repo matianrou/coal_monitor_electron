@@ -196,7 +196,6 @@
                   data-src
                   @click="commandFill('cellIdx14', '', 'TextItem')"
                 >{{ letData.cellIdx14 }}</td>
-                <td class="textAlignLeft">查</td>
                 <td
                   class="cellInput"
                   id="cell_idx_15"
@@ -266,7 +265,7 @@
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx20', '', 'TextItem')"
+                  @click="commandFill('cellIdx20', '', 'SelectItem')"
                 >{{ letData.cellIdx20 }}</td>
                 <td class="textAlignLeft">解除</td>
                 <td
@@ -285,8 +284,13 @@
             <table height="30"></table>
             <table class="docBody">
               <tr>
-                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;附件：</td>
                 <td
+                  style="cursor: pointer;"
+                  @click="commandFill('cellIdx22', '附件：物品清单', 'SamplingForensicsTable')"
+                  class="textAlignLeft">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;附件：物品清单
+                </td>
+                <!-- <td
                   class="cellInput"
                   id="cell_idx_22"
                   style="width:80%"
@@ -294,7 +298,7 @@
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx22', '', '')"
-                ></td>
+                ></td> -->
               </tr>
             </table>
             <table height="30"></table>
@@ -391,7 +395,18 @@ export default {
   data() {
     return {
       letData: {},
-      options: {},
+      options: {
+        cellIdx20: [
+          {
+            value: '全部',
+            name: '全部'
+          },
+          {
+            value: '部分',
+            name: '部分'
+          },
+        ],
+      },
       editData: {}, // 回显数据
       selectedType: '查封',
       visible: false,
@@ -430,34 +445,63 @@ export default {
         this.visible = true
         // 2.生成文书编号
         let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
+        // 3.获取查封（扣押）决定书的日期和编号
+        const let110Data = await wkPaper.find((item) => {
+          return item.caseId === caseId && item.paperType === '32';
+        });
+        let let110DataPapaerContent = JSON.parse(let110Data.paperContent)
+        let date = let110DataPapaerContent.cellIdx20
+        date = date.replace('年', '-').replace('月', '-').replace('日', '-')
+        let dateList = date.split('-')
+        let cellIdx8String = dateList[0]
+        let cellIdx9String = dateList[1]
+        let cellIdx10String = dateList[2]
+        // 文书编号：
+        let cellIdx13String = let110DataPapaerContent.cellIdx1
+        let cellIdx14String = let110DataPapaerContent.cellIdx2
+        let cellIdx16String = let110DataPapaerContent.cellIdx3
+        let cellIdx17String = let110DataPapaerContent.cellIdx4
         this.letData = {
           cellIdx0: null, // 查封(扣押)
-          cellIdx1: null, //
-          cellIdx2: null, //
-          cellIdx3: null, //
-          cellIdx4: null, //
-          cellIdx5: null, //
+          cellIdx1: num0, // 文书号
+          cellIdx1TypeTextItem: num0, // 文书号
+          cellIdx2: num1, // 文书号
+          cellIdx2TypeTextItem: num1, // 文书号
+          cellIdx3: null, // 查/扣
+          cellIdx3TypeTextItem: null, // 查/扣
+          cellIdx4: num3, // 文书号
+          cellIdx4TypeTextItem: num3, // 文书号
+          cellIdx5: num4, // 文书号
+          cellIdx5TypeTextItem: num4, // 文书号
           cellIdx6: corp.corpName ? corp.corpName : null, // corpname
           cellIdx6TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
-          cellIdx7: null, //
-          cellIdx8: null, // 年
-          cellIdx9: null, // 月
-          cellIdx10: null, // 日
-          cellIdx11: null, //
-          cellIdx12: null, //
-          cellIdx13: null, //
-          cellIdx14: null, //
-          cellIdx15: null, //
-          cellIdx16: null, //
-          cellIdx17: null, //
-          cellIdx18: null, //
-          cellIdx19: null, //
-          cellIdx20: null, //
-          cellIdx21: null, //
+          cellIdx7: null, // 单位
+          cellIdx8: cellIdx8String, // 年
+          cellIdx8TypeTextItem: cellIdx8String, // 年
+          cellIdx9: cellIdx9String, // 月
+          cellIdx9TypeTextItem: cellIdx9String, // 月
+          cellIdx10: cellIdx10String, // 日
+          cellIdx10TypeTextItem: cellIdx10String, // 日
+          cellIdx11: null, // 单位/个人
+          cellIdx12: null, // 查封(扣押)
+          cellIdx13: cellIdx13String, // 文书号
+          cellIdx13TypeTextItem: cellIdx13String, // 文书号
+          cellIdx14: cellIdx14String, // 文书号
+          cellIdx14TypeTextItem: cellIdx14String, // 文书号
+          cellIdx15: null, // 查/扣
+          cellIdx16: cellIdx16String, // 文书号
+          cellIdx16TypeTextItem: cellIdx16String, // 文书号
+          cellIdx17: cellIdx17String, // 文书号
+          cellIdx17TypeTextItem: cellIdx17String, // 文书号
+          cellIdx18: null, // 查封(扣押)
+          cellIdx19: null, // 第X项的规定
+          cellIdx20: null, // 全部/部分
+          cellIdx21: null, // 查封(扣押)
           cellIdx22: null, // 附件
           cellIdx23: null, //
           cellIdx24: null, // 日期
           cellIdx25: null, //
+          samplingForensicsTable: let110DataPapaerContent.samplingForensicsTable
         };
       }
       await db.close();
@@ -471,6 +515,14 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}Type${type}`
+         if (key === 'cellIdx22') {
+          this.options[key] = {
+            canEdit: true,
+            page: '34', // 物品清单
+            name: this.selectedType
+          }
+          dataKey = 'samplingForensicsTable'
+        }
         this.$refs.letMain.commandFill(key, dataKey, title, type, this.letData[dataKey], this.options[key])
       }
     },
@@ -479,6 +531,16 @@ export default {
       this.visible = false
       this.letData.cellIdx0 = this.selectedType
       this.letData.cellIdx0TypeTextItem = this.selectedType
+      this.letData.cellIdx3 = this.selectedType.substring(0, 1)
+      this.letData.cellIdx3TypeTextItem = this.selectedType.substring(0, 1)
+      this.letData.cellIdx12 = this.selectedType
+      this.letData.cellIdx12TypeTextItem = this.selectedType
+      this.letData.cellIdx15 = this.selectedType.substring(0, 1)
+      this.letData.cellIdx15TypeTextItem = this.selectedType.substring(0, 1)
+      this.letData.cellIdx18 = this.selectedType
+      this.letData.cellIdx18TypeTextItem = this.selectedType
+      this.letData.cellIdx21 = this.selectedType
+      this.letData.cellIdx21TypeTextItem = this.selectedType
     }
   },
 };

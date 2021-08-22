@@ -210,6 +210,7 @@
 <script>
 import letMain from "@/views/make-law-writ/components/writ-list/components/let-main";
 import GoDB from "@/utils/godb.min.js";
+import { getDangerObject, getDocNumber } from '@/utils/setInitPaperData'
 export default {
   name: "Let400",
   props: {
@@ -268,12 +269,33 @@ export default {
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        // 1.案由：煤矿名称+隐患描述+“案”组成
+        const let101Data = await wkPaper.find((item) => {
+          return item.caseId === caseId && item.paperType === '1';
+        });
+        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
+        let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
+        let cellIdx2String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`
+        // 2.理由和依据
+        // 1，移送案件的理由和依据：立案时间+“我分局对”+煤矿名称+“进行安全监察时，发现该矿”+隐患描述+“经分局执法人员初步调查取证，认定该行为涉嫌违反了《矿产资源法》第十七条规定。”
+        // 立案时间：
+        const let201Data = await wkPaper.find((item) => {
+          return item.caseId === caseId && item.paperType === '4';
+        });
+        let let201DataPapaerContent = JSON.parse(let201Data.paperContent)
+        let dangerObjectIndex = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData, {danger: true})
+        let cellIdx3String = `${let201DataPapaerContent.cellIdx6}年${let201DataPapaerContent.cellIdx7}月${let201DataPapaerContent.cellIdx8}日我分局对${corp.corpName}进行安全监察时，发现该矿${dangerObjectIndex.dangerString}。经分局执法人员初步调查取证，认定该行为涉嫌违反了《矿产资源法》第十七条规定。`
+        // XXX国土资源局
+        let cellIdx4String = 'XXX国土资源局'
         this.letData = {
           cellIdx0: null, //
           cellIdx1: null, // 编号
-          cellIdx2: null, // 案由
-          cellIdx3: null, // 理由和依据
-          cellIdx4: null, // 人民法院
+          cellIdx2: cellIdx2String, // 案由
+          cellIdx2TypeTextareaItem: cellIdx2String, // 案由
+          cellIdx3: cellIdx3String, // 理由和依据
+          cellIdx3TypeTextareaItem: cellIdx3String, // 案由
+          cellIdx4: cellIdx4String, // 人民法院
+          cellIdx4TypeTextItem: cellIdx4String, // 人民法院
           cellIdx5: null, //
           cellIdx6: null, // 承办人（签名）
           cellIdx7: null, // 日期

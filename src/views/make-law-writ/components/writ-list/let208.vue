@@ -178,7 +178,7 @@
                   id="cell_idx_14"
                   align="center"
                   style="width:15%"
-                  data-title="文书号"
+                  data-title=""
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx14', '', 'TextItem')"
@@ -195,7 +195,7 @@
                   id="cell_idx_15"
                   align="center"
                   style="width:15%"
-                  data-title="文书号"
+                  data-title=""
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx15', '', 'TextItem')"
@@ -207,7 +207,7 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_16"
                   style="width:83%"
-                  data-title="文书号"
+                  data-title=""
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx16', '', 'TextItem')"
@@ -235,7 +235,7 @@
                   id="cell_idx_18"
                   align="center"
                   style="width:15%"
-                  data-title="文书号"
+                  data-title=""
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx18', '', 'TextItem')"
@@ -252,7 +252,7 @@
                   id="cell_idx_19"
                   align="center"
                   style="width:7%"
-                  data-title="文书号"
+                  data-title=""
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx19', '', 'TextItem')"
@@ -483,7 +483,7 @@ export default {
           cellIdx2TypeTextItem: paperNumber.num3, // 文书号
           cellIdx3: paperNumber.num4, // 文书号
           cellIdx3TypeTextItem: paperNumber.num4, // 文书号
-          cellIdx4: null, //
+          cellIdx4: null, // 煤矿单位
           cellIdx5: null, // 单位
           cellIdx6: null, // 年
           cellIdx7: null, // 月
@@ -493,12 +493,12 @@ export default {
           cellIdx11: null, // 文书号
           cellIdx12: null, // 文书号
           cellIdx13: null, // 文书号
-          cellIdx14: null, //
-          cellIdx15: null, //
-          cellIdx16: null, //
-          cellIdx17: null, //
-          cellIdx18: null, //
-          cellIdx19: null, //
+          cellIdx14: null, // 单位/个人
+          cellIdx15: null, // 单位/个人
+          cellIdx16: null, // 缴纳罚款
+          cellIdx17: null, //  单位/个人
+          cellIdx18: null, // 单位
+          cellIdx19: null, // 单位/个人
           cellIdx20: null, // 签名
           cellIdx21: null, // 日期
           cellIdx22: null, // 单位
@@ -511,7 +511,7 @@ export default {
           cellIdx29: null, // 年
           cellIdx30: null, // 月
           cellIdx31: null, // 日
-          cellIdx32: null, //
+          cellIdx32: null, // 单位/个人
         };
       }
       await db.close();

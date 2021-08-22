@@ -70,6 +70,21 @@ export async function getDocNumber(db, docTypeNo, caseId, user) {
     case '32': // 查封(扣押)决定书
       docString = '查/扣'
       break
+    case '34': // 解除查封(扣押)决定书
+      docString = '解查/解扣'
+      break
+    case '37': // 停供电(停供民用爆炸物品)通知书
+      docString = '停'
+      break
+    case '38': // 解除停供电(停供民用爆炸物品)通知书
+      docString = '解停'
+      break
+    case '19': // 移送书
+      docString = '移'
+      break
+    case '20': // 涉嫌犯罪案件移送书
+      docString = '涉'
+      break
   }
   // 当前年份
   let date = new Date()
@@ -94,7 +109,7 @@ export async function getDocNumber(db, docTypeNo, caseId, user) {
 // penaltyBasisString：行政处罚依据（展示形式：XXX、XXX）
 // penaltyDesc：行政处罚决定（展示形式为：1. XXX2.XXX未处理最后标点符号）、
 // penaltyDescFineTotle: 行政处罚罚金总额
-export function getDangerObject (tableData, hasIndex = {
+export function getDangerObject(tableData, hasIndex = {
   danger: false, // 决定dangerString是否带有索引值，1.XXX
   illegal: false, // 决定illegalString是否带有索引值，1.XXX
   treatmentSuggestion: false, // 决定treatmentSuggestion是否带有索引值，1.XXX(未实现)
@@ -126,7 +141,7 @@ export function getDangerObject (tableData, hasIndex = {
     onsiteDescString += hasIndex.onsiteDesc ? `${(index + 1)}. ${item.onsiteDesc}、` : `${item.onsiteDesc}、`
     treatmentSuggestion += `${(index + 1)}. ${item.penaltyBasis ? item.penaltyBasis : ''}${item.penaltyDesc ? item.penaltyDesc : ''}；`
     penaltyBasisString += hasIndex.penaltyBasis ? `${(index + 1)}. ${item.penaltyBasis ? item.penaltyBasis : ''}、` : `${item.penaltyBasis ? item.penaltyBasis : ''}、`
-    penaltyDesc +=  hasIndex.penaltyDesc ? `${item.penaltyDesc ? `${(index + 1)}. ${item.penaltyDesc}` : ''}` : `${item.penaltyDesc ? `${item.penaltyDesc}` : ''}`
+    penaltyDesc += hasIndex.penaltyDesc ? `${item.penaltyDesc ? `${(index + 1)}. ${item.penaltyDesc}` : ''}` : `${item.penaltyDesc ? `${item.penaltyDesc}` : ''}`
     penaltyDescFineTotle += item.penaltyDescFine ? Number(item.penaltyDescFine) : 0
   })
   illegalString = illegalString.substring(0, illegalString.length - 1)
@@ -151,15 +166,60 @@ export function getDangerObject (tableData, hasIndex = {
 export function transformNumToChinese(data) {
   let num = parseFloat(data);
   let strOutput = "",
-      strUnit = '仟佰拾亿仟佰拾万仟佰拾元角分';
+    strUnit = '仟佰拾亿仟佰拾万仟佰拾元角分';
   num += "00";
   let intPos = num.indexOf('.');
-  if (intPos >= 0){
-      num = num.substring(0, intPos) + num.substr(intPos + 1, 2);
+  if (intPos >= 0) {
+    num = num.substring(0, intPos) + num.substr(intPos + 1, 2);
   }
   strUnit = strUnit.substr(strUnit.length - num.length);
-  for (let i=0; i < num.length; i++){
-      strOutput += '零壹贰叁肆伍陆柒捌玖'.substr(num.substr(i,1),1) + strUnit.substr(i,1);
+  for (let i = 0; i < num.length; i++) {
+    strOutput += '零壹贰叁肆伍陆柒捌玖'.substr(num.substr(i, 1), 1) + strUnit.substr(i, 1);
   }
   return strOutput.replace(/零角零分$/, '整').replace(/零[仟佰拾]/g, '零').replace(/零{2,}/g, '零').replace(/零([亿|万])/g, '$1').replace(/零+元/, '元').replace(/亿零{0,3}万/, '亿').replace(/^元/, "零元")
+}
+
+// 生成煤矿描述信息
+export async function corpInformation(db, corpData) {
+  const zfZzInfo = db.table("zfZzInfo");
+  const zzInfo1 = await zfZzInfo.find((item) => {
+    return item.corpId == corpData.corpId && item.credTypeName == "采矿许可证";
+  });
+  const zzInfo2 = await zfZzInfo.find((item) => {
+    return item.corpId == corpData.corpId && item.credTypeName == "安全生产许可证";
+  });
+  let sSummary =
+    corpData.corpName +
+    "位于" +
+    corpData.provinceName +
+    corpData.cityName +
+    corpData.countryName +
+    "境内，隶属于" +
+    corpData.parentTypeName +
+    "煤矿。 ";
+  if (zzInfo1 && zzInfo1.expireTime)
+    sSummary += "采矿许可证有效日期至" + zzInfo1.expireTime + "、";
+  else sSummary += "采矿许可证有效日期至    ";
+  if (zzInfo2 && zzInfo2.expireTime)
+    sSummary += "、安全生产许可证有效期至" + zzInfo2.expireTime + "，";
+  else sSummary += "、安全生产许可证有效期至    ，";
+  if (corpData.provedOutput)
+    sSummary += "矿井核定生产能力为" + corpData.provedOutput + "万吨/年，";
+  else sSummary += "矿井核定生产能力为   万吨/年，";
+  sSummary +=
+    corpData.mineWsGradeName +
+    "、水文地质类型为中等，煤层自燃倾向性为" +
+    corpData.mineFireName +
+    "，煤尘" +
+    corpData.grimeExplosiveName +
+    "，";
+  sSummary +=
+    "矿井状况为" +
+    corpData.mineStatusZsName +
+    "，开拓方式为" +
+    corpData.mineMinestyleName +
+    "开拓。";
+  sSummary +=
+    "采煤方式为综采。通风方式为中央分列抽出，采掘作业地点有71003综采工作面采煤工作面、 71007综采工作面风巷、71007综采工作面机巷掘进工作面。";
+  return sSummary
 }

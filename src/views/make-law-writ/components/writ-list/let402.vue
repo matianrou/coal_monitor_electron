@@ -465,13 +465,35 @@ export default {
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        // 1.生成文书编号
+        let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
+        // 2.违法行为：获取笔录文书中的隐患数据
+         const let101Data = await wkPaper.find((item) => {
+          return item.caseId === caseId && item.paperType === '1';
+        });
+        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
+        let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
+        let cellIdx5String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`
+        // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
+        const orgInfo = db.table("orgInfo");
+        const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
+        let cellIdx15String = orgSysOfficeInfo.depAddress
+        let cellIdx16String = orgSysOfficeInfo.depPost
+        let cellIdx18String = orgSysOfficeInfo.master
+        let cellIdx19String = orgSysOfficeInfo.phone
         this.letData = {
-          cellIdx0: null, // 文书号
-          cellIdx1: null, // 文书号
-          cellIdx2: null, // 文书号
-          cellIdx3: null, // 文书号
+          cellIdx0: num0, // 文书号
+          cellIdx0TypeTextItem: num0, // 文书号
+          cellIdx1: num1, // 文书号
+          cellIdx1TypeTextItem: num1, // 文书号
+          cellIdx2: num3, // 文书号
+          cellIdx2TypeTextItem: num3, // 文书号
+          cellIdx3: num4, // 文书号
+          cellIdx3TypeTextItem: num4, // 文书号
           cellIdx4: null, // 签发人
-          cellIdx5: null, // 调查事由
+          cellIdx5String: null, // 调查事由
+          cellIdx5StringTypeTextItem: null, // 调查事由
           cellIdx6: null, // 单位
           cellIdx7: null, // 年
           cellIdx8: null, // 月
@@ -481,11 +503,15 @@ export default {
           cellIdx12: null, // 份数
           cellIdx13: null, // 页数
           cellIdx14: null, // 签发人
-          cellIdx15: null, // 地址
-          cellIdx16: null, // 邮政编码
+          cellIdx15: cellIdx15String, // 地址
+          cellIdx15TypeTextItem: cellIdx15String, // 地址
+          cellIdx16: cellIdx16String, // 邮政编码
+          cellIdx16TypeTextItem: cellIdx16String, // 地址
           cellIdx17: null, // 单位
-          cellIdx18: null, // 联系人
-          cellIdx19: null, // 电话
+          cellIdx18: cellIdx18String, // 联系人
+          cellIdx18TypeTextItem: cellIdx18String, // 地址
+          cellIdx19: cellIdx19String, // 电话
+          cellIdx19TypeTextItem: cellIdx19String, // 地址
           cellIdx20: null, // 签发人
           cellIdx21: null, // 签发人
           cellIdx22: null, // 送件人（签名）

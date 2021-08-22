@@ -169,6 +169,9 @@ function setDangerTableItem (data, selectedData, options) {
         string = `${dangerObject.illegalString}`
       }
       break
+    case '15': // 执法案卷（首页）及目录
+      string = `${options.spellString.corpName}${dangerObject.dangerString}案。`
+      break
   }
   return string
 }

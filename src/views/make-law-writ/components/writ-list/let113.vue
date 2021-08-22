@@ -17,7 +17,7 @@
             <div class="textAlignLeft formHeader3">
               <table class="docBody">
                 <tr>
-                  <td class="textAlignCenter">解除</td>
+                  <!-- <td class="textAlignCenter">解除</td> -->
                   <td
                     class="cellInput"
                     id="cell_idx_0"
@@ -270,12 +270,29 @@
         </div>
       </div>
     </let-main>
+    <el-dialog
+      title="文书信息选择"
+      :close-on-click-modal="false"
+      append-to-body
+      :visible="visible"
+      width="400px"
+      :show-close="false">
+      <span>请选择：</span>
+      <el-radio-group v-model="selectedType">
+        <el-radio label="解除停供电">解除停供电</el-radio>
+        <el-radio label="解除停供民用爆炸物品">解除停供民用爆炸物品</el-radio>
+      </el-radio-group>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="confirm">确定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import letMain from "@/views/make-law-writ/components/writ-list/components/let-main";
 import GoDB from "@/utils/godb.min.js";
+import { getDocNumber } from '@/utils/setInitPaperData'
 export default {
   name: "Let113",
   props: {
@@ -301,6 +318,8 @@ export default {
       letData: {},
       options: {},
       editData: {}, // 回显数据
+      visible: false,
+      selectedType: '解除停供电', // 初始化时选择的解除停供电
     };
   },
   created() {
@@ -332,27 +351,47 @@ export default {
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        // 1.弹出提示框，选择停供电或停供民用爆炸物品
+        this.visible = true
+        // 2.生成文书编号
+        let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
+        // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
+        const orgInfo = db.table("orgInfo");
+        const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
+        let cellIdx11String = orgSysOfficeInfo.depAddress
+        let cellIdx12String = orgSysOfficeInfo.depPost
+        let cellIdx14String = orgSysOfficeInfo.master
+        let cellIdx15String = orgSysOfficeInfo.phone
         this.letData = {
-          cellIdx0: null, // 停供电(停供民用爆炸物品)
-          cellIdx1: null, //
-          cellIdx2: null, //
-          cellIdx3: null, //
-          cellIdx4: null, //
-          cellIdx5: corp.corpName ? corp.corpName : null, // corpname
-          cellIdx5TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
-          cellIdx6: null, //
-          cellIdx7: null, //
+          cellIdx0: null, // 解除停供电(解除停供民用爆炸物品)
+          cellIdx1: num0, // 文书号
+          cellIdx1TypeTextItem: num0, // 文书号
+          cellIdx2: num1, // 文书号
+          cellIdx2TypeTextItem: num1, // 文书号
+          cellIdx3: num3, // 文书号
+          cellIdx3TypeTextItem: num3, // 文书号
+          cellIdx4: num4, // 文书号
+          cellIdx4TypeTextItem: num4, // 文书号
+          cellIdx5: null, // 单位
+          cellIdx6: corp.corpName ? corp.corpName : null, // corpname
+          cellIdx6TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
+          cellIdx7: null, // 解除停供电(解除停供民用爆炸物品)
           cellIdx8: null, // 受送达人（签名）
           cellIdx9: null, // 日期
-          cellIdx10: null, //
-          cellIdx11: null, // 地址
-          cellIdx12: null, // 邮政编码
-          cellIdx13: null, //
-          cellIdx14: null, // 联系人
-          cellIdx15: null, // 联系电话
+          cellIdx10: null, // 单位
+          cellIdx11: cellIdx11String, // 地址
+          cellIdx11TypeTextItem: cellIdx11String, // 地址
+          cellIdx12: cellIdx12String, // 邮政编码
+          cellIdx12TypeTextItem: cellIdx12String, // 邮政编码
+          cellIdx13: null, // 单位
+          cellIdx14: cellIdx14String, // 联系人
+          cellIdx14TypeTextItem: cellIdx14String, // 联系人
+          cellIdx15: cellIdx15String, // 联系电话
+          cellIdx15TypeTextItem: cellIdx15String, // 联系电话
           cellIdx16: null, //
           cellIdx17: null, // 日期
-          cellIdx18: null, //
+          cellIdx18: null, // 单位/个人
         };
       }
       await db.close();
@@ -369,6 +408,14 @@ export default {
         this.$refs.letMain.commandFill(key, dataKey, title, type, this.letData[dataKey], this.options[key])
       }
     },
+    confirm() {
+      // 选择解除停供电或解除停供民用爆炸物品
+      this.visible = false
+      this.letData.cellIdx0 = this.selectedType
+      this.letData.cellIdx0TypeTextItem = this.selectedType
+      this.letData.cellIdx7 = this.selectedType.substring(2, this.selectedType.length)
+      this.letData.cellIdx7TypeTextItem = this.selectedType.substring(2, this.selectedType.length)
+    }
   },
 };
 </script>

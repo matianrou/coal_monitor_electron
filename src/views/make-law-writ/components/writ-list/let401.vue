@@ -93,10 +93,10 @@
                   id="cell_idx_5"
                   contenteditable="true"
                   style="width:50%"
-                  data-title="调查事由"
+                  data-title=""
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx5', '调查事由', 'TextItem')"
+                  @click="commandFill('cellIdx5', '', 'TextItem')"
                 >{{letData.cellIdx5}}</td>
                 <td class="textAlignLeft">：</td>
               </tr>
@@ -108,10 +108,10 @@
                   contenteditable="true"
                   align="center"
                   style="width:10%"
-                  data-title="调查事由"
+                  data-title="单位"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx6', '调查事由', 'TextItem')"
+                  @click="commandFill('cellIdx6', '单位', 'TextItem')"
                 >{{letData.cellIdx6}}</td>
                 <td class="textAlignLeft">检查，发现</td>
                 <td
@@ -119,7 +119,7 @@
                   id="cell_idx_7"
                   contenteditable="true"
                   style="width:67%"
-                  data-title="调查事由"
+                  data-title=""
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx7', '', 'TextItem')"
@@ -136,7 +136,7 @@
               data-title="调查事由"
               data-type="textarea"
               data-src
-              @click="commandFill('cellIdx8', '', 'TextareaItem')">
+              @click="commandFill('cellIdx8', '违法行为', 'TextareaItem')">
               <p class="show-area-item-p">
                 <span style="padding: 7px;">{{ letData.cellIdx8 }}</span>
               </p>
@@ -375,6 +375,7 @@
 <script>
 import letMain from "@/views/make-law-writ/components/writ-list/components/let-main";
 import GoDB from "@/utils/godb.min.js";
+import { getDangerObject, getDocNumber } from '@/utils/setInitPaperData'
 export default {
   name: "Let401",
   props: {
@@ -433,24 +434,51 @@ export default {
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        // 1.生成文书编号
+        let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
+        // 2.违法行为：获取笔录文书中的隐患数据
+        const let101Data = await wkPaper.find((item) => {
+          return item.caseId === caseId && item.paperType === '1';
+        });
+        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
+        let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
+        let cellIdx8String = `${dangerObject.dangerString}`
+        // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
+        const orgInfo = db.table("orgInfo");
+        const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
+        let cellIdx12String = orgSysOfficeInfo.depAddress
+        let cellIdx13String = orgSysOfficeInfo.depPost
+        let cellIdx15String = orgSysOfficeInfo.master
+        let cellIdx16String = orgSysOfficeInfo.phone
         this.letData = {
-          cellIdx0: null, // 文书号
-          cellIdx1: null, // 文书号
-          cellIdx2: null, // 文书号
-          cellIdx3: null, // 文书号
+          cellIdx0: num0, // 文书号
+          cellIdx0TypeTextItem: num0, // 文书号
+          cellIdx1: num1, // 文书号
+          cellIdx1TypeTextItem: num1, // 文书号
+          cellIdx2: num3, // 文书号
+          cellIdx2TypeTextItem: num3, // 文书号
+          cellIdx3: num4, // 文书号
+          cellIdx3TypeTextItem: num4, // 文书号
           cellIdx4: null, // 签发人
           cellIdx5: null, //
-          cellIdx6: null, //
-          cellIdx7: null, //
-          cellIdx8: null, //
-          cellIdx9: null, //
-          cellIdx10: null, //
-          cellIdx11: null, //
-          cellIdx12: null, // 地址
-          cellIdx13: null, // 邮政编码
-          cellIdx14: null, //
-          cellIdx15: null, // 联系人
-          cellIdx16: null, // 电话
+          cellIdx6: null, // 单位
+          cellIdx7: corp.corpName, //
+          cellIdx7TypeTextItem: corp.corpName, //
+          cellIdx8: cellIdx8String, // 违法行为
+          cellIdx8TypeTextareaItem: cellIdx8String, // 违法行为
+          cellIdx9: null, // X份
+          cellIdx10: null, // X页
+          cellIdx11: null, // 单位
+          cellIdx12: cellIdx12String, // 地址
+          cellIdx12TypeTextItem: cellIdx12String, // 地址
+          cellIdx13: cellIdx13String, // 邮政编码
+          cellIdx13TypeTextItem: cellIdx13String, // 邮政编码
+          cellIdx14: null, // 单位
+          cellIdx15: cellIdx15String, // 联系人
+          cellIdx15TypeTextItem: cellIdx15String, // 联系人
+          cellIdx16: cellIdx16String, // 电话
+          cellIdx16TypeTextItem: cellIdx16String, // 电话
           cellIdx17: null, // 送件人（签名）
           cellIdx18: null, // 日期
           cellIdx19: null, // 收件人（签名）

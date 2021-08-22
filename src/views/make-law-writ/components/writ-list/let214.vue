@@ -25,7 +25,7 @@
                   <br />执法单位
                 </td>
                 <td
-                  style="width:159mm;height:30mm"
+                  style="width:158mm;height:30mm"
                   class="cellInput cellBottomLine textPaddingLeft"
                   id="cell_idx_0"
                   align="center"
@@ -44,7 +44,7 @@
                   <br />案卷类别
                 </td>
                 <td
-                  style="width:159mm;height:50mm"
+                  style="width:158mm;height:50mm"
                   class="cellInput cellBottomLine textPaddingLeft"
                   id="cell_idx_1"
                   align="center"
@@ -63,7 +63,7 @@
                   <br />案卷题名
                 </td>
                 <td
-                  style="width:159mm;height:120mm"
+                  style="width:158mm;height:120mm"
                   class="cellInput textPaddingLeft"
                   id="cell_idx_2"
                   align="center"
@@ -269,6 +269,7 @@
 <script>
 import letMain from "@/views/make-law-writ/components/writ-list/components/let-main";
 import GoDB from "@/utils/godb.min.js";
+import { getDangerObject } from '@/utils/setInitPaperData'
 export default {
   name: "Let214",
   props: {
@@ -292,7 +293,12 @@ export default {
   data() {
     return {
       letData: {},
-      options: {},
+      options: {
+        cellIdx2: {
+          page: '15',
+          key: 'cellIdx2'
+        },
+      },
       editData: {}, // 回显数据
     };
   },
@@ -321,24 +327,36 @@ export default {
           item.caseId === caseId && item.paperType === this.docData.docTypeNo
         );
       });
+      // 保存额外拼写的数据内容，用于修改隐患项时回显使用
+      this.extraData = {
+        corpName: corp.corpName,
+      }
       if (checkPaper.length > 0) {
         // 回显
         this.letData = JSON.parse(checkPaper[0].paperContent);
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        // 1.案卷题名: 煤矿名称+隐患描述+案
+        // 获取笔录文书中的隐患数据
+        const let101Data = await wkPaper.find((item) => {
+          return item.caseId === caseId && item.paperType === '1';
+        });
+        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
+        let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
+        let cellIdx2String = `${corp.corpName}${dangerObject.dangerString}案。`
         this.letData = {
           cellIdx0: null, // 执法单位
           cellIdx1: null, // 案卷类别
-          cellIdx2: null, // 案卷题名
+          cellIdx2: cellIdx2String, // 案卷题名
           cellIdx3: null, // 年
           cellIdx4: null, // 月
           cellIdx5: null, // 日
           cellIdx6: null, // 年
           cellIdx7: null, // 月
           cellIdx8: null, // 日
-          cellIdx9: null, // 案由
-          cellIdx10: null, // 案由
+          cellIdx9: null, //
+          cellIdx10: null, //
           cellIdx11: null, // 年
           cellIdx12: null, // 月
           cellIdx13: null, // 日
@@ -355,6 +373,7 @@ export default {
           cellIdx24: null, //
           cellIdx25: null, //
           cellIdx26: null, //
+          dangerItemObject: let101DataPapaerContent.dangerItemObject
         };
       }
       await db.close();
@@ -368,6 +387,14 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}Type${type}`
+        if (key === 'cellIdx2') {
+          this.options[key] = {
+            page: '15',
+            key: key,
+            spellString: this.extraData
+          }
+          dataKey = 'dangerItemObject'
+        }
         this.$refs.letMain.commandFill(key, dataKey, title, type, this.letData[dataKey], this.options[key])
       }
     },
