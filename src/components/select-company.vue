@@ -73,7 +73,7 @@
             :key="index"
             :class="item.active ? 'active-item select-company-list-item' : 'select-company-list-item'"
             @click="selectCompany(item, index)">
-            <img src="../assets/image/company.png" alt="" />
+            <img src="./assets/image/company.png" alt="" />
             <span style="margin-left: 7px;">{{ item.corpName }}</span>
           </div>
         </div>
@@ -110,6 +110,7 @@ import { treeDataTranslate } from '@/utils/index'
           areaId: '', // 按地区检索
         },
         curAreaLevel: null, // 当前地区节点的level，用于检索
+        DBName: this.$store.state.DBName
       }
     },
     created () {
@@ -124,7 +125,7 @@ import { treeDataTranslate } from '@/utils/index'
         this.loading = false
       },
       async getAreaTree() {
-        const db = new GoDB('CoalDB');
+        const db = new GoDB(this.DBName);
         const doEnterpriseList = db.table('doEnterpriseList');
         let areaId = this.$store.state.user.userAreaId
         const areaList = await doEnterpriseList.findAll((item) => {
@@ -139,7 +140,7 @@ import { treeDataTranslate } from '@/utils/index'
         // 获取企业数据
         // 整理筛选项内容：
         let {companyStatus, companyName, areaId} = this.dataForm
-        const db = new GoDB("CoalDB");
+        const db = new GoDB(this.DBName);
         const corpBase = db.table("corpBase"); // 煤矿企业
         let corpList = await corpBase.findAll(item => {
           if (companyStatus === '11')  {

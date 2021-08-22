@@ -121,7 +121,7 @@
 
 <script>
 import GoDB from '@/utils/godb.min.js'
-import selectCompany from './select-company'
+import selectCompany from '@/components/select-company'
 export default {
   name: "CaseList",
   components: {
@@ -159,6 +159,7 @@ export default {
         selectCompany: false
       },
       selectedCase: {}, // 已选中的检查活动（或计划）
+      DBName: this.$store.state.DBName
     };
   },
   async created() {
@@ -176,7 +177,7 @@ export default {
     },
     async getOrgList () {
       // 获取全部机构列表
-      const db = new GoDB("CoalDB");
+      const db = new GoDB(this.DBName);
       const orgInfo = db.table("orgInfo"); // 机构
       // 查询全部机构信息
       const arrOrg = await orgInfo.findAll((item) => {
@@ -241,7 +242,7 @@ export default {
       // 根据计划年月和机构获取计划和活动，组合成选择列表
       const userGroupId = this.dataForm.selGovUnit;
       const selectPlanDate = this.dataForm.selPlanDate
-      const db = new GoDB("CoalDB");
+      const db = new GoDB(this.DBName);
       const docPlan = db.table("docPlan"); // 计划
       const wkCaseInfo = db.table("wkCase"); // 检查活动
       // 判断检查活动类型选择为计划或者其他，计划则为由网页端创建的计划再创建的检查活动，

@@ -81,7 +81,7 @@ import { getNowFormatTime, getNowTime } from "@/utils/date";
 import { randomString } from "@/utils/index";
 import GoDB from "@/utils/godb.min.js";
 import { createHtml } from "@/utils/createHtml";
-import letDrawer from "./let-drawer";
+import letDrawer from "@/components/let-drawer";
 import {
   setTextItem,
   setCheckItem,
@@ -195,7 +195,7 @@ export default {
         corpName: this.corpData.corpName,
         planId: this.corpData.planId,
       };
-      const db = new GoDB("CoalDB");
+      const db = new GoDB("CoalMonitorDB");
       const wkPaper = db.table("wkPaper");
       // 如果保存的是已编辑的 那么保存的同时要把上一条重复的数据删除
       const paperData = await wkPaper.find((item) => {
@@ -289,7 +289,7 @@ export default {
     },
     async saveToUpload(paperId) {
       // 保存文书至服务器
-      const db = new GoDB("CoalDB");
+      const db = new GoDB("CoalMonitorDB");
       const wkPaper = db.table("wkPaper");
       const wkCase = db.table("wkCase");
       //查询符合条件的记录

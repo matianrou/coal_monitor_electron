@@ -127,6 +127,7 @@ export default {
       },
       coalOptions: [], // 采煤工作面选项列表
       tunnellingOptions: [], // 掘进工作面选项列表
+      DBName: this.$store.state.DBName
     };
   },
   computed: {
@@ -143,7 +144,7 @@ export default {
   methods: {
     async getdbserve () {
       // 获取采煤和掘进工作面
-      let db = new GoDB("CoalDB");
+      let db = new GoDB(this.DBName);
       const zfCserve = db.table("zfCmgzmInfo");
       const zfJserve = db.table("zfJjgzmInfo");
       const caimei = await zfCserve.findAll((item) => {

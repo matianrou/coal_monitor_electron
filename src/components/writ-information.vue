@@ -55,9 +55,8 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { sevenafter, getNowFormatDate } from "@/utils/date";
+import { sevenafter, getNowFormatDate, getNowFormatTime, getNowTime  } from "@/utils/date";
 import { getRandom, randomString } from "@/utils/index";
-import { getNowFormatTime, getNowTime } from '@/utils/date'
 export default {
   name: "WritInformation",
   components: {},
@@ -114,6 +113,7 @@ export default {
           { required: true, message: "请选择类别", trigger: "change" },
         ],
       },
+      DBName: this.$store.state.DBName
     };
   },
   created() {
@@ -151,7 +151,7 @@ export default {
     async submit() {
       // 提交
       // 调取 doc.js 文件 doSaveCase() 方法
-      const db = new GoDB("CoalDB");
+      const db = new GoDB(this.DBName);
       const corpId = this.corpData.corpId;
       const corpInfo = db.table("corpBase");
       // 获取煤矿基本信息
@@ -222,7 +222,7 @@ export default {
         planId: corpPlan ? corpPlan.dbplanId : '',
         pcMonth: this.selectPlanData.selPlanDate,
       };
-      const db = new GoDB("CoalDB");
+      const db = new GoDB(this.DBName);
       // 保存case 表
       const wkCase = db.table("wkCase");
       await wkCase.add(jsonCase);

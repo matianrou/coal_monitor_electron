@@ -1,21 +1,21 @@
-<!-- 选择隐患内容 树状组件 -->
+<!-- 选择检查内容 树状组件 -->
 <template>
 	<el-dialog
-    title="选择隐患内容"
+    title="选择检查内容"
     :close-on-click-modal="false"
     append-to-body
     :visible="visible"
     @close="close">
-    <div v-loading="loading" class="select-danger">
-      <div class="select-danger-col">
-        <div class="select-danger-col-title">
-          <span>选择隐患内容</span>
+    <div v-loading="loading" class="select-check">
+      <div class="select-check-col">
+        <div class="select-check-col-title">
+          <span>选择检查内容</span>
         </div>
-        <div class="select-danger-col-tree">
+        <div class="select-check-col-tree">
           <el-tree
-            ref="dangerListTree"
-            :data="dangerList"
-            :props="dangerListTreeProps"
+            ref="checkListTree"
+            :data="checkList"
+            :props="checkListTreeProps"
             node-key="treeId"
             show-checkbox
             :default-checked-keys="defaultCheckedKeys"
@@ -26,16 +26,16 @@
           </el-tree>
         </div>
       </div>
-      <!-- <div class="select-danger-col" style="margin-left: 5px;">
-        <div class="select-danger-col-title">
-          <span>已选择隐患内容</span>
+      <!-- <div class="select-check-col" style="margin-left: 5px;">
+        <div class="select-check-col-title">
+          <span>已选择检查内容</span>
         </div>
-        <div class="select-danger-col-tree">
+        <div class="select-check-col-tree">
           <el-tree
-            :data="selecteddangerList"
-            :props="selecteddangerListProps"
+            :data="selectedcheckList"
+            :props="selectedcheckListProps"
             node-key="treeId"
-            ref="selecteddangerList"
+            ref="selectedcheckList"
             default-expand-all>
             <span class="span-ellipsis" slot-scope="{ node }">
               <span :title="node.label">{{ node.label }}</span>
@@ -55,7 +55,7 @@
 	import { treeDataTranslate } from '@/utils'
   import GoDB from '@/utils/godb.min.js'
   export default {
-    name: 'SelectDangerContent',
+    name: 'SelectCheckContent',
     props: {
       visible: {
         type: Boolean,
@@ -63,7 +63,11 @@
       },
       value: {
         type: Object,
-        default: () => {}
+        default: () => {
+          return {
+            selectedIdList: []
+          }
+        }
       },
       corpData: {
         type: Object,
@@ -73,40 +77,41 @@
     data () {
       return {
         loading: false,
-        dangerListOriginal: [], // 全部功能原始数据
-        dangerList: [], // 转换为树形结构的全部功能数组，用于选择
-        dangerListTreeProps: {
+        checkListOriginal: [], // 全部功能原始数据
+        checkList: [], // 转换为树形结构的全部功能数组，用于选择
+        checkListTreeProps: {
           label: 'treeName',
           children: 'children',
         },
-        selecteddangerList: [], // 已选择的功能，树形结构
-        selecteddangerListProps: {
+        selectedcheckList: [], // 已选择的功能，树形结构
+        selectedcheckListProps: {
           label: 'treeName',
           children: 'children',
         },
         tempKey: -666666, // 临时key, 用于解决tree半选中状态项不能传给后台接口问题.
-        defaultCheckedKeys: null
+        defaultCheckedKeys: null,
+        DBName: this.$store.state.DBName
       }
     },
     created() {
-      this.getDangerList()
+      this.getCheckList()
     },
     methods: {
-      async getDangerList () {
+      async getCheckList () {
         this.loading = true
-        const db = new GoDB('CoalDB');
-        const dangerCate = db.table('dangerCate');
-        const dangerList = db.table('dangerList');
+        const db = new GoDB(this.DBName);
+        const checkCate = db.table('checkCate');
+        const checkList = db.table('checkList');
         const corpBase = db.table('corpBase');
-        let dangerCateData = await dangerCate.findAll((item) => item);
-        let dangerListData = await dangerList.findAll((item) => item);
+        let checkCateData = await checkCate.findAll((item) => item);
+        let checkListData = await checkList.findAll((item) => item);
         let corpBaseData = await corpBase.findAll((item) => {
           return item.corpId === this.corpData.corpId
         });
         await db.close()
         // 设置为树状结构
-        this.dangerListOriginal = [...dangerCateData, ...dangerListData]
-        let list = treeDataTranslate([...dangerCateData, ...dangerListData] || [], 'treeId', 'treeParentId')
+        this.checkListOriginal = [...checkCateData, ...checkListData]
+        let list = treeDataTranslate([...checkCateData, ...checkListData] || [], 'treeId', 'treeParentId')
         let corpTypeIndex = null
         if (corpBaseData[0].mineMinetypeName === '井工') {
           // 井工检查内容
@@ -117,18 +122,18 @@
         }
         if (this.value.selectedIdList && this.value.selectedIdList.length > 0) {
           this.defaultCheckedKeys = this.value.selectedIdList
+          this.$refs.checkListTree.setCheckedKeys(this.defaultCheckedKeys);
           let selectedList = this.removeTreeTempKeyHandle(this.value.selectedIdList)
           this.$nextTick(() => {
-            // this.$refs.dangerListTree.setChecked(selectedList, true, false);
-            this.$refs.dangerListTree.setCheckedKeys(selectedList)
+            this.$refs.checkListTree.setCheckedKeys(selectedList)
             let selectedIdList = [
-              ...this.$refs.dangerListTree.getCheckedKeys(),
-              ...this.$refs.dangerListTree.getHalfCheckedKeys()
+              ...this.$refs.checkListTree.getCheckedKeys(),
+              ...this.$refs.checkListTree.getHalfCheckedKeys()
             ]
-            this.getSelecteddangerList(selectedIdList)
+            this.getSelectedcheckList(selectedIdList)
           })
         }
-        this.dangerList = list[corpTypeIndex].children
+        this.checkList = list[corpTypeIndex].children
         this.loading = false
       },
       // 移除tree临时key和半选中状态项
@@ -146,28 +151,28 @@
           ...selectedObjectItem.checkedKeys,
           ...selectedObjectItem.halfCheckedKeys
         ]
-        this.getSelecteddangerList(selectedList)
+        this.getSelectedcheckList(selectedList)
       },
-      getSelecteddangerList (selecteddangerIdList) {
+      getSelectedcheckList (selectedcheckIdList) {
         // 遍历checkListOriginal,获取selectedList完整信息再转变为树形结构
-        let dangerList = []
-        this.dangerListOriginal.map((item, itemIndex) => {
-          selecteddangerIdList.map(itemSelected => {
+        let checkList = []
+        this.checkListOriginal.map((item, itemIndex) => {
+          selectedcheckIdList.map(itemSelected => {
             if (item.treeId === itemSelected) {
               Object.assign(item, {children: []})
-              dangerList.push(item)
+              checkList.push(item)
             }
           })
         })
-        let list = treeDataTranslate(dangerList || [], 'treeId', 'treeParentId')
-        this.selecteddangerList = list
+        let list = treeDataTranslate(checkList || [], 'treeId', 'treeParentId')
+        this.selectedcheckList = list
       },
       close () {
-        this.$emit('close', 'dangerSelect')
+        this.$emit('close', 'checkSelect')
       },
       save () {
         this.$emit('save', {data: {
-            selecteddangerList: this.selecteddangerList,
+            selectedcheckList: this.selectedcheckList,
           }
         })
         this.close()
@@ -178,17 +183,17 @@
 </script>
 
 <style lang="scss" scoped>
-.select-danger {
+.select-check {
   display: flex;
   height: 300px;
-  .select-danger-col {
+  .select-check-col {
     flex: 1;
     display: flex;
     flex-direction: column;
     border: 1px solid #E8E8E8;
     border-radius: 5px;
     overflow-y: hidden;
-    .select-danger-col-title {
+    .select-check-col-title {
       height: 40px;
       line-height: 40px;
       text-align: center;
@@ -196,7 +201,7 @@
       font-size: 14px;
       font-weight: 500;
     }
-    .select-danger-col-tree {
+    .select-check-col-tree {
       flex: 1;
       overflow: auto;
       .span-ellipsis {

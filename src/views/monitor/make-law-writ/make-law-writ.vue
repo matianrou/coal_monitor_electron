@@ -60,13 +60,13 @@
 
 <script>
 import GoDB from '@/utils/godb.min.js'
-import caseList from "./components/case-list"; // 选择企业
+import caseList from "@/components/case-list"; // 选择企业
 import writFlow from "./components/writ-flow"; // 文书流程目录
-import orgInformation from './components/org-information' // 企业信息
-import writInformation from './components/writ-information' // 创建活动弹窗
+import orgInformation from '@/components/org-information' // 企业信息
+import writInformation from '@/components/writ-information' // 创建活动弹窗
 
 export default {
-  name: "MakeLawWrit",
+  name: "MonitorMakeLawWrit",
   components: {
     caseList,
     writFlow,
@@ -176,7 +176,7 @@ export default {
     },
     async showDocTemplet() {
       //读取当前点击的计划或检查活动的数据
-      const db = new GoDB("CoalDB");
+      const db = new GoDB("CoalMonitorDB");
       const corpBase = db.table("corpBase");
       const wkPaper = db.table("wkPaper");
       //查询符合条件的记录
@@ -252,9 +252,9 @@ export default {
         display: flex;
         flex-direction: column;
         margin-left: 10px;
-        .detail-org-information {
+        // .detail-org-information {
           // height: 180px;
-        }
+        // }
         .detail-writ-flow {
           // flex: 1;
           margin-top: 10px;

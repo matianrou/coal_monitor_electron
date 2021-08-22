@@ -23,6 +23,7 @@ export default {
     }
   },
   created (){
+    console.log('已进入监察系统')
   },
   methods: {
     changeTab (tab) {

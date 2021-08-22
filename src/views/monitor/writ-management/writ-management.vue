@@ -30,10 +30,10 @@
 </template>
 
 <script>
-import caseList from "../make-law-writ/components/case-list";
-import orgInformation from '../make-law-writ/components/org-information' // 企业信息
+import caseList from "@/components/case-list";
+import orgInformation from '@/components/org-information' // 企业信息
 export default {
-  name: "WritManagement",
+  name: "MonitorWritManagement",
   components: {
     caseList,
     orgInformation

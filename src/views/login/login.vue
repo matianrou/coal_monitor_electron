@@ -109,9 +109,15 @@ export default {
             electronRequest('maxWindow');
             // 判断当前登录用户为监管或监察，分别进入不同的路由
             let path = 'CalmineMonitorElectronMain' // 监察路径
+            let DBName = 'CoalMonitorDB' // 监察使用DB
             // let path = 'CalmineSupervisionElectronMain' // 监管路径
+            // let DBName = 'CoalSupervisionDB' // 监管使用DB
             this.$router.replace({
               name: path
+            })
+            this.$store.commit('changeState', {
+              key: 'DBName',
+              val: DBName
             })
           } else {
             this.$message.error(data.message)
@@ -128,11 +134,12 @@ export default {
       }).catch(err => {
         console.log('获取用户信息失败：', err)
       })
-      const db = new GoDB("CoalDB");
+      const db = new GoDB("CoalMonitorDB");
       // 个人执法编号
       let person = db.table("person")
       let userInfo = await person.find(item => item.no === userId)
       this.$store.state.user.userNumber = userInfo.userNumber
+      await db.close()
     }
   },
 };

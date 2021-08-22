@@ -192,7 +192,7 @@
 <script>
 import { doOrgDb, doPersonDb, doPlanDb, doCorpDb, doEnterpriseList, doCheckCateDb, doCheckListDb, doDangerCateDb, doDangerListDb, doDocDb } from "@/utils/monitor/downloadSource"
 export default {
-  name: "SourceDownload",
+  name: "MonitorSourceDownload",
   data() {
     return {};
   },
