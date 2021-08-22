@@ -39,26 +39,6 @@
         </td>
       </tr>
     </table>
-    <!-- <div id="mainContainer"></div>
-    <div
-      id="offcanvas-flip"
-      uk-offcanvas="flip:true;overlay:true"
-      style="width:720px;border:solid 1px #999;"
-    >
-      <div class="uk-offcanvas-bar" style="width:720px;">
-        <button class="uk-offcanvas-close" type="button" uk-close></button>
-        <h3 id="lblTitle"></h3>
-        <p id="elData"></p>
-      </div>
-    </div>
-    <div class="layer-dialog-bg"></div>
-    <div id="content">
-      <div class="titledialogc">
-        <span class="datatitle">企业选择</span>
-        <span id="close">X</span>
-      </div>
-      <div class="contentdialog"></div>
-    </div> -->
   </div>
 </template>
 

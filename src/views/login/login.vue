@@ -91,10 +91,6 @@ export default {
       let userNo = document.getElementById("txtUserNo").value;
       let password = document.getElementById("txtPassword").value;
       password = encry(password);
-
-      //监管国产化（2021/07/01）
-      //统计报表（省/市/县区）
-      //立案对比（监察）
       this.$http.post(`/login`, {
           username: userNo,
           password: password,
@@ -111,8 +107,11 @@ export default {
             this.getUserInfo(userId, sessId);
             // 最大化窗口
             electronRequest('maxWindow');
+            // 判断当前登录用户为监管或监察，分别进入不同的路由
+            let path = 'CalmineMonitorElectronMain' // 监察路径
+            // let path = 'CalmineSupervisionElectronMain' // 监管路径
             this.$router.replace({
-              name: 'CalmineMonitorElectronMain'
+              name: path
             })
           } else {
             this.$message.error(data.message)

@@ -22,27 +22,27 @@ export default new Router({
       component: () => import('@/views/login/login')
     },
     {
-      path: '/main',
+      path: '/monitorMain',
       name: 'CalmineMonitorElectronMain',
-      component: () => import('@/views/main'),
+      component: () => import('@/views/monitor/main'),
       children: [
         // // 资源下载
         {
           path: '/main/sourceDownload',
-          name: 'SourceDownload',
-          component: () => import('@/views/source-download/source-download')
+          name: 'MonitorSourceDownload',
+          component: () => import('@/views/monitor/source-download/source-download')
         },
         // // 执法工作台
         {
           path: '/main/MakeLawWrit',
-          name: 'MakeLawWrit',
-          component: () => import('@/views/make-law-writ/make-law-writ')
+          name: 'MonitorMakeLawWrit',
+          component: () => import('@/views/monitor/make-law-writ/make-law-writ')
         },
         // 文书管理
         {
           path: '/main/writManagement',
-          name: 'WritManagement',
-          component: () => import('@/views/writ-management/writ-management')
+          name: 'MonitorWritManagement',
+          component: () => import('@/views/monitor/writ-management/writ-management')
         },
       ]
     }
