@@ -98,7 +98,7 @@
                 >{{letData.cellIdx6}}</td>
               </tr>
             </table>
-            <table style="border:solid 0px #000;" class="docBody">
+            <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">违法事实：</td>
               </tr>
@@ -125,7 +125,7 @@
                 </p>
               </div>
             </div>
-            <table style="border:solid 0px #000;" class="docBody">
+            <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">以上事实</td>
               </tr>
@@ -152,7 +152,7 @@
                 </p>
               </div>
             </div>
-            <table style="border:solid 0px #000;" class="docBody">
+            <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">的规定，依据</td>
               </tr>
@@ -179,7 +179,7 @@
                 </p>
               </div>
             </div>
-            <table style="border:solid 0px #000;" class="docBody">
+            <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">的规定，决定给予以下行政处罚：</td>
               </tr>
@@ -206,7 +206,7 @@
                 </p>
               </div>
             </div>
-            <table style="border:solid 0px #000;" class="docBody">
+            <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td
                   class="textAlignLeft"
@@ -358,7 +358,7 @@
                 data-title="单位/个人"
                 data-type="text"
                 data-src
-                @click="commandFill('cellIdx21', '单位/个人', 'TextItem')"
+                @click="commandFill('cellIdx22', '单位/个人', 'TextItem')"
               >{{letData.cellIdx22}}</td>
               <td class="textAlignLeft">，一份交银行，一份存档。</td>
             </table>

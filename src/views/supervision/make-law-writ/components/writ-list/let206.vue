@@ -1,4 +1,6 @@
-<!-- 行政处罚决定书 -->
+<!-- 行政处罚 一般程序 
+
+ 行政处罚决定书 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -29,8 +31,8 @@
                   data-title="文书号"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx0', '文书号', 'TextItem')"
+                >{{letData.cellIdx0}}</td>
                 <td class="textAlignLeft cellBottomLine">煤安监</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -40,8 +42,8 @@
                   data-title="文书号"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx1', '文书号', 'TextItem')"
+                >{{letData.cellIdx1}}</td>
                 <td class="textAlignLeft cellBottomLine">罚〔</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -51,8 +53,8 @@
                   data-title="文书号"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx2', '文书号', 'TextItem')"
+                >{{letData.cellIdx2}}</td>
                 <td class="textAlignLeft cellBottomLine">〕</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -62,13 +64,15 @@
                   data-title="文书号"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx3', '文书号', 'TextItem')"
+                >{{letData.cellIdx3}}</td>
                 <td class="textAlignLeft cellBottomLine">号&nbsp;&nbsp;</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">被处罚</td>
-                <td class="cellInput" id="cell_idx_4" align="center" style="width:10%"></td>
+                <td class="cellInput" id="cell_idx_4" align="center" style="width:10%">
+                  @click="commandFill('cellIdx4', '', 'TextItem')"
+                >{{letData.cellIdx4}}</td>
                 <td class="textAlignLeft">:</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -78,8 +82,8 @@
                   data-title="被处罚"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx5', '被处罚', 'TextItem')"
+                >{{letData.cellIdx5}}</td>
                 <td class="textAlignLeft">地址：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -89,11 +93,11 @@
                   data-title="地址"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx6', '地址', 'TextItem')"
+                >{{letData.cellIdx6}}</td>
               </tr>
             </table>
-            <table style="border:solid 0px #000;" class="docBody">
+            <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">违法事实：</td>
               </tr>
@@ -105,16 +109,15 @@
               data-title="违法事实"
               data-type="textarea"
               data-src
-              onclick="commandFill(this.id)"
-            >
+              @click="commandFill('cellIdx7', '违法事实', 'DangerTableItem')">
               <p
                 style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
-              >&nbsp;</p>
+              >&nbsp;{{ letData.cellIdx7 }}</p>
               <p
                 style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
               >&nbsp;</p>
             </div>
-            <table style="border:solid 0px #000;" class="docBody">
+            <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">以上事实</td>
               </tr>
@@ -126,16 +129,15 @@
               data-title="法律规定"
               data-type="textarea"
               data-src
-              onclick="commandFill(this.id)"
-            >
+              @click="commandFill('cellIdx8', '法律规定', 'DangerTableItem')">
               <p
                 style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
-              >&nbsp;</p>
+              >&nbsp;{{ letData.cellIdx8 }}</p>
               <p
                 style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
               >&nbsp;</p>
             </div>
-            <table style="border:solid 0px #000;" class="docBody">
+            <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">的规定，依据</td>
               </tr>
@@ -147,16 +149,15 @@
               data-title="法律依据"
               data-type="textarea"
               data-src
-              onclick="commandFill(this.id)"
-            >
+              @click="commandFill('cellIdx9', '法律依据', 'DangerTableItem')">
               <p
                 style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
-              >&nbsp;</p>
+              >&nbsp;{{ letData.cellIdx9 }}</p>
               <p
                 style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
               >&nbsp;</p>
             </div>
-            <table style="border:solid 0px #000;" class="docBody">
+            <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">的规定，决定给予以下行政处罚：</td>
               </tr>
@@ -168,16 +169,15 @@
               data-title="行政处罚"
               data-type="textarea"
               data-src
-              onclick="commandFill(this.id)"
-            >
+               @click="commandFill('cellIdx10', '行政处罚', 'DangerTableItem')">
               <p
                 style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
-              >&nbsp;</p>
+              >&nbsp;{{ letData.cellIdx10 }}</p>
               <p
                 style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
               >&nbsp;</p>
             </div>
-            <table style="border:solid 0px #000;" class="docBody">
+            <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td
                   class="textAlignLeft"
@@ -190,8 +190,8 @@
                   data-title="煤监机构"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx12', '煤监机构', 'TextItem')"
+                >{{letData.cellIdx12}}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">银行：</td>
@@ -203,8 +203,8 @@
                   data-title="银行"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx13', '银行', 'TextItem')"
+                >{{letData.cellIdx13}}</td>
                 <td class="textAlignLeft">支行（分理处），账户名称：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -214,8 +214,8 @@
                   data-title="支行（分理处），账户名称"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx14', '支行（分理处），账户名称', 'TextItem')"
+                >{{letData.cellIdx14}}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">账号：</td>
@@ -227,8 +227,8 @@
                   data-title="账号"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx15', '账号', 'TextItem')"
+                >{{letData.cellIdx15}}</td>
                 <td class="textAlignLeft">地址：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -238,8 +238,8 @@
                   data-title="地址"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx16', '地址', 'TextItem')"
+                >{{letData.cellIdx16}}</td>
                 <td class="textAlignLeft">。</td>
               </tr>
               <tr>
@@ -257,8 +257,8 @@
                   data-title="煤监机构"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx17', '煤监机构', 'TextItem')"
+                >{{letData.cellIdx17}}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">申请行政复议或6个月内向</td>
@@ -270,8 +270,8 @@
                   data-title="人民法院"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                   @click="commandFill('cellIdx18', '人民法院', 'TextItem')"
+                >{{letData.cellIdx18}}</td>
                 <td class="textAlignLeft">人民法院提起行政诉讼，但不停止执行本决定。</td>
               </tr>
             </table>
@@ -279,7 +279,9 @@
             <table height="30"></table>
             <table class="docBody">
               <tr>
-                <td class="cellInput" id="cell_idx_19" align="right" style="width:95%"></td>
+                <td class="cellInput" id="cell_idx_19" align="right" style="width:95%"
+                @click="commandFill('cellIdx19', '', 'TextItem')"
+              >{{letData.cellIdx19}}</td>
               </tr>
             </table>
             <table class="docBody">
@@ -292,8 +294,8 @@
                 data-title="年"
                 data-type="text"
                 data-src
-                onclick="commandFill(this.id)"
-              ></td>
+                @click="commandFill('cellIdx20', '年', 'TextItem')"
+              >{{letData.cellIdx20}}</td>
               <td class="textAlignLeft">年</td>
               <td
                 class="cellInput"
@@ -303,8 +305,8 @@
                 data-title="月"
                 data-type="text"
                 data-src
-                onclick="commandFill(this.id)"
-              ></td>
+                @click="commandFill('cellIdx21', '月', 'TextItem')"
+              >{{letData.cellIdx21}}</td>
               <td class="textAlignLeft">月</td>
               <td
                 class="cellInput"
@@ -314,8 +316,8 @@
                 data-title="日"
                 data-type="text"
                 data-src
-                onclick="commandFill(this.id)"
-              ></td>
+                @click="commandFill('cellIdx22', '日', 'TextItem')"
+              >{{letData.cellIdx22}}</td>
               <td class="textAlignLeft">日</td>
             </table>
             <table class="docBody">
@@ -396,21 +398,29 @@ export default {
       } else {
         // 创建初始版本
         this.letData = {
-          cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
-          cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null,
-          cellIdx1: null, // 监察类型或方式
-          cellIdx2: null, // 检查时间
-          cellIdx3: sSummary ? sSummary : null, // 煤矿概况
-          cellIdx3TypeTextareaItem: sSummary ? sSummary : null, // 煤矿概况
-          cellIdx4: null, // 检查地点
-          cellIdx5: [], // 检查分工明细表
-          cellIdx5TypeCheckTableItem: {}, // 检查分工明细表
-          cellIdx6: corpOther, // 其他事项
-          cellIdx6TypeTextItem: corpOther, // 其他事项
-          cellIdx8: null, // 编制人
-          cellIdx9: null, // 编制日期
-          cellIdx10: null, // 审批人
-          cellIdx11: null, // 审批日期
+          cellIdx0: null,//文书号
+          cellIdx1: null, //文书号
+          cellIdx2: null, //文书号
+          cellIdx3: null, //文书号
+          cellIdx4: null,
+          cellIdx5: null,//被处罚
+          cellIdx6: null, // 地址
+          cellIdx7: null, // 违法事实
+          cellIdx8: null, // 法律规定
+          cellIdx9: null, //法律依据
+          cellIdx10: null, //行政处罚
+          cellIdx11: null,
+          cellIdx12: null, // 煤监机构
+          cellIdx13: null, //银行
+          cellIdx14: null, // 支行（分理处），账户名称
+          cellIdx15: null, //账号
+          cellIdx16: null, // 地址
+          cellIdx17: null, // 煤监机构
+          cellIdx18: null, //人民法院
+          cellIdx19: null, // 
+          cellIdx20: null, //年
+          cellIdx21: null, //月
+          cellIdx22: null, //日
         };
       }
       await db.close();
