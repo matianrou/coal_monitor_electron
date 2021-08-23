@@ -1,4 +1,4 @@
-<!-- 现场检查 一般检查 现场检查记录 -->
+<!-- 现场检查 一般检查 现场检查记录 1 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -41,7 +41,7 @@
                   data-title="检查时间"
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx1', '检查时间：', 'TextItem')"
+                  @click="commandFill('cellIdx1', '检查时间：', 'DateItem')"
                 >{{letData.cellIdx1}}</td>
               </tr>
               <tr>
@@ -180,19 +180,22 @@
               data-title="检查情况"
               data-type="textarea"
               data-src
-              @click="commandFill('cellIdx14', '检查情况', 'TextItem')"
-                >
-              <p
-                style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
-              >&nbsp;</p>
-              <p
-                style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
-              >&nbsp;</p>
-              <p
-                style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
-              >&nbsp;</p>
+              @click="commandFill('cellIdx14', '检查情况', 'DangerTableItem')"
+            >
+              <div v-if="letData.cellIdx14 && letData.cellIdx14.length > 0">
+                <p class="show-area-item-p">
+                  <span style="padding: 7px;">{{ letData.cellIdx14 }}</span>
+                </p>
+              </div>
+              <div v-else>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+              </div>
             </div>
-
             <table style="border:solid 0px #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">被检查单位负责人意见：</td>
@@ -260,7 +263,13 @@ export default {
   data() {
     return {
       letData: {},
-      options: {},
+      options: {
+        cellIdx14: {
+          page: '1', // 用于在隐患项保存，做数据处理
+          showBaseInfor: true, // 用于区分是否展示基本情况大文本输入
+          showSelectDangerBtn: true // 用于区分是否可以选择隐患项
+        }
+      },
       editData: {}, // 回显数据
     };
   },
@@ -300,17 +309,7 @@ export default {
         // 创建初始版本
         this.letData = {
           cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
-          // cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null,
-          // // cellIdx1: null, // 监察类型或方式
-          // cellIdx3: sSummary ? sSummary : null, // 煤矿概况
-          // cellIdx3TypeTextareaItem: sSummary ? sSummary : null, // 煤矿概况
-          // cellIdx4: null, // 检查地点
-          // cellIdx5: [], // 检查分工明细表
-          // cellIdx5TypeCheckTableItem: {}, // 检查分工明细表
-          // cellIdx6: corpOther, // 其他事项
-          // cellIdx6TypeTextItem: corpOther, // 其他事项
-
-         
+          cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null,
           cellIdx1: null, // 检查时间
           cellIdx3: null, // 采矿许可证
           cellIdx4: null, // 有效期
@@ -327,6 +326,27 @@ export default {
           cellIdx15: null, // 被检查单位负责人意见
           cellIdx16: null, // 单位负责人签名
           cellIdx17: null, // 日期
+          dangerItemObject: {
+            baseInfor: null,
+            tableData: [],
+            selectedIdList: [],
+            dangerItemDetail: {
+              itemContent: null, // 违法行为描述
+              confirmClause: null, // 违法认定法条
+              onsiteDesc: null, // 现场处理决定
+              onsiteBasis: null, // 现场处理依据
+              onsiteType: null, // 现场处理决定类型
+              headingFace: null, // 掘进工作面
+              deviceNum: null, // 设备台数
+              coalingFace: null, // 采煤工作面
+              penaltyDesc: null, // 行政处罚决定
+              penaltyDescFine: null, // 行政处罚决定罚金
+              penaltyBasis: null, // 行政处罚依据
+              isSerious: false, // 是否重大隐患
+              isReview: false, // 是否复查
+              reviewDate: null, // 复查日期
+            }
+          }, // 隐患项大表
         };
       }
       await db.close();
@@ -340,6 +360,10 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}Type${type}`;
+        if (key === 'cellIdx14') {
+          // 隐患项时对应letData中的dangerItemObject
+          dataKey = 'dangerItemObject'
+        }
         this.$refs.letMain.commandFill(
           key,
           dataKey,

@@ -530,6 +530,7 @@ export default {
           cellIdx25: null, // 日期
           cellIdx26: null, //
           cellIdx27: null, // 日期
+          dangerItemObject: let101DataPapaerContent.dangerItemObject
         };
       }
       await db.close();
@@ -543,6 +544,13 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}Type${type}`
+        if (key === 'cellIdx12') {
+          this.options[key] = {
+            page: '3',
+            key: key,
+          }
+          dataKey = 'dangerItemObject'
+        }
         this.$refs.letMain.commandFill(key, dataKey, title, type, this.letData[dataKey], this.options[key])
       }
     },
