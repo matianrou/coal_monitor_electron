@@ -25,8 +25,8 @@
                     data-title="停供电(停供民用爆炸物品)"
                     data-type="text"
                     data-src
-                    onclick="commandFill(this.id)"
-                  ></td>
+                    @click="commandFill('cellIdx0', '停供电(停供民用爆炸物品)', 'TextItem')"
+                  >{{ letData.cellIdx0 }}</td>
                   <td class="textAlignLeft">&nbsp;通知书</td>
                 </tr>
               </table>
@@ -42,8 +42,8 @@
                   data-title
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx1', '', 'TextItem')"
+                >{{ letData.cellIdx1 }}</td>
                 <td class="textAlignLeft cellBottomLine">煤安监</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -53,8 +53,8 @@
                   data-title
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx2', '', 'TextItem')"
+                >{{ letData.cellIdx2 }}</td>
                 <td class="textAlignLeft cellBottomLine">停〔</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -64,8 +64,8 @@
                   data-title
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx3', '', 'TextItem')"
+                >{{ letData.cellIdx3 }}</td>
                 <td class="textAlignLeft cellBottomLine">〕</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -75,8 +75,8 @@
                   data-title
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx4', '', 'TextItem')"
+                >{{ letData.cellIdx4 }}</td>
                 <td class="textAlignLeft cellBottomLine">号&nbsp;&nbsp;</td>
               </tr>
               <tr>
@@ -87,8 +87,8 @@
                   data-title
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                >{corp_name}</td>
+                  @click="commandFill('cellIdx5', '', 'TextItem')"
+                >{{ letData.cellIdx5 }}</td>
                 <td class="textAlignLeft">:</td>
               </tr>
             </table>
@@ -103,8 +103,8 @@
                   data-title
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx6', '', 'TextItem')"
+                >{{ letData.cellIdx6 }}</td>
                 <td class="textAlignLeft">在对</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -114,8 +114,8 @@
                   data-title
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx7', '', 'TextItem')"
+                >{{ letData.cellIdx7 }}</td>
                 <td class="textAlignLeft">进行安全监察中发现存在重大</td>
               </tr>
               <tr>
@@ -128,8 +128,8 @@
                   data-title
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx8', '', 'TextItem')"
+                >{{ letData.cellIdx8 }}</td>
                 <td class="textAlignLeft">的决定，但该单位拒不执行该</td>
               </tr>
               <tr>
@@ -145,8 +145,8 @@
                   data-title="停供电(停供民用爆炸物品)"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx9', '停供电(停供民用爆炸物品)', 'TextItem')"
+                >{{ letData.cellIdx9 }}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">的措施。</td>
@@ -170,8 +170,8 @@
                   data-title="受送达人（签名）"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx11', '受送达人（签名）', 'TextItem')"
+                >{{ letData.cellIdx11 }}</td>
                 <td class="textAlignLeft">&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -180,8 +180,8 @@
                   data-title="日期"
                   data-type="date"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx12', '日期', 'DateItem')"
+                >{{ letData.cellIdx12 }}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我</td>
@@ -193,8 +193,8 @@
                   data-title
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx13', '', 'TextItem')"
+                >{{ letData.cellIdx13 }}</td>
                 <td class="textAlignLeft">地址：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -203,8 +203,8 @@
                   data-title="地址"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx14', '地址', 'TextItem')"
+                >{{ letData.cellIdx14 }}</td>
                 <td class="textAlignLeft">&nbsp;&nbsp;邮政编码：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -213,8 +213,8 @@
                   data-title="邮政编码"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx15', '邮政编码', 'TextItem')"
+                >{{ letData.cellIdx15 }}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我</td>
@@ -226,8 +226,8 @@
                   data-title
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx16', '', 'TextItem')"
+                >{{ letData.cellIdx16 }}</td>
                 <td class="textAlignLeft">联系人：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -236,8 +236,8 @@
                   data-title="联系人"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx17', '联系人', 'TextItem')"
+                >{{ letData.cellIdx17 }}</td>
                 <td class="textAlignLeft">&nbsp;&nbsp;联系电话：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -246,8 +246,8 @@
                   data-title="联系电话"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx18', '联系电话', 'TextItem')"
+                >{{ letData.cellIdx18 }}</td>
               </tr>
             </table>
             <table height="60"></table>
@@ -262,8 +262,8 @@
                   data-title
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx19', '', 'TextItem')"
+                >{{ letData.cellIdx19 }}</td>
               </tr>
             </table>
             <table class="docBody">
@@ -277,8 +277,8 @@
                   data-title="日期"
                   data-type="date"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx20', '日期', 'DateItem')"
+                >{{ letData.cellIdx20 }}</td>
               </tr>
             </table>
             <table height="60"></table>
@@ -294,8 +294,8 @@
                 data-title
                 data-type="text"
                 data-src
-                onclick="commandFill(this.id)"
-              ></td>
+                @click="commandFill('cellIdx21', '', 'TextItem')"
+                >{{ letData.cellIdx21 }}</td>
               <td class="textAlignLeft">，一份交煤矿，一份存档。</td>
             </table>
           </div>
@@ -370,21 +370,28 @@ export default {
       } else {
         // 创建初始版本
         this.letData = {
-          cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
-          cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null,
-          cellIdx1: null, // 监察类型或方式
-          cellIdx2: null, // 检查时间
-          cellIdx3: sSummary ? sSummary : null, // 煤矿概况
-          cellIdx3TypeTextareaItem: sSummary ? sSummary : null, // 煤矿概况
-          cellIdx4: null, // 检查地点
-          cellIdx5: [], // 检查分工明细表
-          cellIdx5TypeCheckTableItem: {}, // 检查分工明细表
-          cellIdx6: corpOther, // 其他事项
-          cellIdx6TypeTextItem: corpOther, // 其他事项
-          cellIdx8: null, // 编制人
-          cellIdx9: null, // 编制日期
-          cellIdx10: null, // 审批人
-          cellIdx11: null, // 审批日期
+          cellIdx0: null,//停供电(停供民用爆炸物品)
+          cellIdx1: null, 
+          cellIdx2: null, 
+          cellIdx3: null, 
+          cellIdx4: null,
+          cellIdx5: null,
+          cellIdx6: null, // 
+          cellIdx7: null, //
+          cellIdx8: null, //
+          cellIdx9: null, //
+         
+          cellIdx11: null, //受送达人（签名）
+          cellIdx12: null, // 日期
+          cellIdx13: null, //
+          cellIdx14: null, // 地址
+          cellIdx15: null, //邮政编码
+          cellIdx16: null, // 
+          cellIdx17: null, // 联系人
+          cellIdx18: null, //联系电话
+          cellIdx19: null, // 
+          cellIdx20: null, //日期
+          cellIdx21: null, // 
         };
       }
       await db.close();
