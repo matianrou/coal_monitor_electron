@@ -1,4 +1,4 @@
-<!-- 送达收执 -->
+<!--行政处罚 一般程序  送达收执 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -28,8 +28,8 @@
                 data-title="文书号"
                 data-type="text"
                 data-src
-                onclick="commandFill(this.id)"
-              ></td>
+                @click="commandFill('cellIdx0', '文书号', 'TextItem')"
+                >{{letData.cellIdx0}}</td>
               <td class="textAlignLeft cellBottomLine">煤安监</td>
               <td
                 class="cellInput cellBottomLine"
@@ -39,8 +39,8 @@
                 data-title="文书号"
                 data-type="text"
                 data-src
-                onclick="commandFill(this.id)"
-              ></td>
+                @click="commandFill('cellIdx1', '文书号', 'TextItem')"
+                >{{letData.cellIdx1}}</td>
               <td class="textAlignLeft cellBottomLine">送〔</td>
               <td
                 class="cellInput cellBottomLine"
@@ -50,8 +50,8 @@
                 data-title="文书号"
                 data-type="text"
                 data-src
-                onclick="commandFill(this.id)"
-              ></td>
+                @click="commandFill('cellIdx2', '文书号', 'TextItem')"
+                >{{letData.cellIdx2}}</td>
               <td class="textAlignLeft cellBottomLine">〕</td>
               <td
                 class="cellInput cellBottomLine"
@@ -61,8 +61,8 @@
                 data-title="文书号"
                 data-type="text"
                 data-src
-                onclick="commandFill(this.id)"
-              ></td>
+                @click="commandFill('cellIdx3', '文书号', 'TextItem')"
+                >{{letData.cellIdx3}}</td>
               <td class="textAlignLeft cellBottomLine">号&nbsp;&nbsp;</td>
             </tr>
           </table>
@@ -80,8 +80,8 @@
                 data-title="送达文书"
                 data-type="text"
                 data-src
-                onclick="commandFill(this.id)"
-              ></td>
+                @click="commandFill('cellIdx4', '送达文书', 'TextItem')"
+                >{{letData.cellIdx4}}</td>
             </tr>
             <tr>
               <td
@@ -95,8 +95,8 @@
                 data-title="文书字号"
                 data-type="text"
                 data-src
-                onclick="commandFill(this.id)"
-              ></td>
+                @click="commandFill('cellIdx5', '文书字号', 'TextItem')"
+                >{{letData.cellIdx5}}</td>
             </tr>
             <tr>
               <td
@@ -110,8 +110,8 @@
                 data-title="送达地点"
                 data-type="text"
                 data-src
-                onclick="commandFill(this.id)"
-              ></td>
+                @click="commandFill('cellIdx6', '送达地点', 'TextItem')"
+                >{{letData.cellIdx6}}</td>
             </tr>
             <tr>
               <td
@@ -125,8 +125,8 @@
                 data-title="送达方式"
                 data-type="text"
                 data-src
-                onclick="commandFill(this.id)"
-              ></td>
+                @click="commandFill('cellIdx7', '送达方式', 'SelectItem')"
+                >{{letData.cellIdx7}}</td>
             </tr>
           </table>
           <!-- <table height="30"></table> -->
@@ -143,8 +143,8 @@
                 data-title="送达人"
                 data-type="text"
                 data-src
-                onclick="commandFill(this.id)"
-              ></td>
+                @click="commandFill('cellIdx8', '送达人', 'TextItem')"
+                >{{letData.cellIdx8}}</td>
               <td class="textAlignLeft">（签名）：</td>
               <td
                 class="cellInput cellBottomLine"
@@ -154,8 +154,8 @@
                 data-title="签名"
                 data-type="text"
                 data-src
-                onclick="commandFill(this.id)"
-              ></td>
+                @click="commandFill('cellIdx9', '签名', 'TextItem')"
+                >{{letData.cellIdx9}}</td>
               <td class="textAlignLeft">&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期：</td>
               <td
                 class="cellInput cellBottomLine"
@@ -165,8 +165,8 @@
                 data-title="日期"
                 data-type="text"
                 data-src
-                onclick="commandFill(this.id)"
-              ></td>
+                @click="commandFill('cellIdx10', '日期', 'DateItem')"
+                >{{letData.cellIdx10}}</td>
             </tr>
             <tr>
               <td
@@ -180,8 +180,8 @@
                 data-title="送达人（签名）"
                 data-type="text"
                 data-src
-                onclick="commandFill(this.id)"
-              ></td>
+                 @click="commandFill('cellIdx11', '送达人（签名）', 'TextItem')"
+                >{{letData.cellIdx11}}</td>
               <td class="textAlignLeft">&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期：</td>
               <td
                 class="cellInput cellBottomLine"
@@ -191,14 +191,16 @@
                 data-title="日期"
                 data-type="text"
                 data-src
-                onclick="commandFill(this.id)"
-              ></td>
+                @click="commandFill('cellIdx12', '日期', 'DateItem')"
+                >{{letData.cellIdx12}}</td>
             </tr>
           </table>
           <table height="90"></table>
           <table class="docBody">
             <tr>
-              <td class="cellInput" id="cell_idx_13" align="right" style="width:95%"></td>
+              <td class="cellInput" id="cell_idx_13" align="right" style="width:95%"
+              @click="commandFill('cellIdx13', '', 'TextItem')"
+              >{{letData.cellIdx13}}</td>
             </tr>
           </table>
           <table class="docBody">
@@ -211,8 +213,8 @@
               data-title="年"
               data-type="text"
               data-src
-              onclick="commandFill(this.id)"
-            ></td>
+              @click="commandFill('cellIdx14', '年', 'TextItem')"
+              >{{letData.cellIdx14}}</td>
             <td class="textAlignLeft">年</td>
             <td
               class="cellInput"
@@ -222,8 +224,8 @@
               data-title="月"
               data-type="text"
               data-src
-              onclick="commandFill(this.id)"
-            ></td>
+              @click="commandFill('cellIdx15', '月', 'TextItem')"
+              >{{letData.cellIdx15}}</td>
             <td class="textAlignLeft">月</td>
             <td
               class="cellInput"
@@ -233,8 +235,8 @@
               data-title="日"
               data-type="text"
               data-src
-              onclick="commandFill(this.id)"
-            ></td>
+              @click="commandFill('cellIdx16', '日', 'TextItem')"
+              >{{letData.cellIdx16}}</td>
             <td class="textAlignLeft">日</td>
           </table>
         </div>
@@ -308,21 +310,23 @@ export default {
       } else {
         // 创建初始版本
         this.letData = {
-          cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
-          cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null,
-          cellIdx1: null, // 监察类型或方式
-          cellIdx2: null, // 检查时间
-          cellIdx3: sSummary ? sSummary : null, // 煤矿概况
-          cellIdx3TypeTextareaItem: sSummary ? sSummary : null, // 煤矿概况
-          cellIdx4: null, // 检查地点
-          cellIdx5: [], // 检查分工明细表
-          cellIdx5TypeCheckTableItem: {}, // 检查分工明细表
-          cellIdx6: corpOther, // 其他事项
-          cellIdx6TypeTextItem: corpOther, // 其他事项
-          cellIdx8: null, // 编制人
-          cellIdx9: null, // 编制日期
-          cellIdx10: null, // 审批人
-          cellIdx11: null, // 审批日期
+          cellIdx0: null,//文书号
+          cellIdx1: null, //文书号
+          cellIdx2: null, //文书号
+          cellIdx3: null, //文书号
+          cellIdx4: null,//送达文书
+          cellIdx5: null,//文书字号
+          cellIdx6: null, // 送达地点
+          cellIdx7: null, // 送达方式
+          cellIdx8: null, // 送达人
+          cellIdx9: null, //签名
+          cellIdx10: null, //日期
+          cellIdx11: null,//送达人（签名）
+          cellIdx12: null, // 日期
+          cellIdx13: null, //
+          cellIdx14: null, // 年
+          cellIdx15: null, //月
+          cellIdx16: null, // 日
         };
       }
       await db.close();
