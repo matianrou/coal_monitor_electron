@@ -29,8 +29,8 @@
                   data-title="被检查单位"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                >{corp_name}</td>
+                @click="commandFill('cellIdx0', '被检查单位', 'TextItem')"
+                >{{ letData.cellIdx0 }}</td>
               </tr>
 
               <tr>
@@ -42,8 +42,8 @@
                   data-title="监察类型或方式"
                   data-type="check"
                   data-src="let-100"
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx1', '监察类型或方式', 'TextItem')"
+                >{{ letData.cellIdx1 }}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">三、计划检查时间：</td>
@@ -54,8 +54,9 @@
                   data-title="检查时间"
                   data-type="dateregion"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                   @click="commandFill('cellIdx2', '检查时间', 'TextItem')"
+                >{{ letData.cellIdx2 }}</td>
+              
               </tr>
               <tr>
                 <td class="textAlignLeft">四、煤矿企业概况：</td>
@@ -69,11 +70,11 @@
               data-title="煤矿概况"
               data-type="textarea"
               data-src
-              onclick="commandFill(this.id)"
+               @click="commandFill('cellIdx3', '煤矿概况', 'TextItem')">
             >
               <p
                 style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
-              >{corp_summary}</p>
+              >{{ letData.cellIdx3 }}</p>
             </div>
             <table class="docBody">
               <tr>
@@ -85,8 +86,9 @@
                   data-title="检查地点"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                
+                @click="commandFill('cellIdx4', '检查地点', 'TextItem')"
+                >{{ letData.cellIdx4 }}</td>
               </tr>
             </table>
             <table class="docBody">
@@ -99,7 +101,7 @@
                   data-title="检查的主要内容和分工见明细表"
                   data-type="check4"
                   data-src
-                  onclick="commandFill(this.id)"
+                 @click="commandFill('cellIdx5', '检查的主要内容和分工见明细表', 'TextItem')"
                 >（详见《检查分工明细表》）</td>
               </tr>
             </table>
@@ -113,8 +115,8 @@
                   data-title="其他事项"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                >检查的内容和分工变化时，应及时调整。</td>
+                   @click="commandFill('cellIdx6', '其他事项', 'TextItem')"
+                >{{ letData.cellIdx6 }}检查的内容和分工变化时，应及时调整。</td>
               </tr>
               <tr>
                 <td Sclass="textAlignLeft">附件：</td>
@@ -124,7 +126,7 @@
                   data-title="附件"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
+                  @click="commandFill('cellIdx7', '附件', 'TextItem')"
                 >检查分工明细表</td>
               </tr>
               <tr></tr>
@@ -139,8 +141,8 @@
                   data-title="编制人"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                   @click="commandFill('cellIdx8', '编制人', 'TextItem')"
+                >{{ letData.cellIdx8 }}</td>
                 <td class="textAlignCenter">日期：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -149,8 +151,8 @@
                   data-title="日期"
                   data-type="date"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx9', '日期', 'TextItem')"
+                >{{ letData.cellIdx9 }}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">带队人（签名）：</td>
@@ -161,8 +163,8 @@
                   data-title="编制人"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx10', '带队人', 'TextItem')"
+                >{{ letData.cellIdx10 }}</td>
                 <td class="textAlignCenter">日期：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -171,8 +173,8 @@
                   data-title="日期"
                   data-type="date"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx11', '日期', 'TextItem')"
+                >{{ letData.cellIdx11 }}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">审批人（签名）：</td>
@@ -183,8 +185,8 @@
                   data-title="审批人"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx12', '审批人', 'TextItem')"
+                >{{ letData.cellIdx12 }}</td>
                 <td class="textAlignCenter">日期：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -193,8 +195,8 @@
                   data-title="日期"
                   data-type="date"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx13', '日期', 'TextItem')"
+                >{{ letData.cellIdx13 }}</td>
               </tr>
             </table>
           </div>
@@ -282,8 +284,10 @@ export default {
           cellIdx6TypeTextItem: corpOther, // 其他事项
           cellIdx8: null, // 编制人
           cellIdx9: null, // 编制日期
-          cellIdx10: null, // 审批人
+          cellIdx10: null, // 带队人
           cellIdx11: null, // 审批日期
+          cellIdx12: null, // 审批人
+          cellIdx13: null, // 审批日期
         };
       }
       await db.close();

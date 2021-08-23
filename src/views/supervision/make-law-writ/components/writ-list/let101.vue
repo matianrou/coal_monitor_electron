@@ -19,7 +19,7 @@
             </div>
             <div class="textAlignCenter formHeader1">现场检查记录</div>
             <div class="stdRowH"></div>
-            <table style="border:solid 0px #000;" class="docBody">
+            <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">被检查单位：</td>
                 <td
@@ -29,8 +29,8 @@
                   data-title="被检查单位"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                >{corp_name}</td>
+                  @click="commandFill('cellIdx0', '被检查单位：', 'TextItem')"
+                >{{letData.cellIdx0}}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">检查时间：</td>
@@ -41,8 +41,8 @@
                   data-title="检查时间"
                   data-type="date"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx1', '检查时间：', 'TextItem')"
+                >{{letData.cellIdx1}}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">采矿许可证：</td>
@@ -53,8 +53,8 @@
                   data-title="采矿许可证"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx3', '采矿许可证', 'TextItem')"
+                >{{letData.cellIdx3}}</td>
                 <td class="textAlignLeft">有效期：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -63,8 +63,8 @@
                   data-title="有效期"
                   data-type="date"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx4', '有效期：', 'TextItem')"
+                >{{letData.cellIdx4}}</td>
               </tr>
               <tr>
                 <td class="textAlignCenter">安全生产许可证：</td>
@@ -75,8 +75,8 @@
                   data-title="安全生产许可证"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx5', '安全生产许可证', 'TextItem')"
+                >{{letData.cellIdx5}}</td>
                 <td class="textAlignLeft">有效期：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -85,8 +85,8 @@
                   data-title="采矿许可证"
                   data-type="date"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx6', '有效期', 'TextItem')"
+                >{{letData.cellIdx6}}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">统一社会信用代码：</td>
@@ -97,8 +97,8 @@
                   data-title="统一社会信用代码"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx7', '统一社会信用代码', 'TextItem')"
+                >{{letData.cellIdx7}}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">主要负责人：</td>
@@ -109,8 +109,8 @@
                   data-title="主要负责人"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx8', '主要负责人', 'TextItem')"
+                >{{letData.cellIdx8}}</td>
                 <td class="textAlignCenter">联系电话：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -119,8 +119,8 @@
                   data-title="联系电话"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx9', '联系电话', 'TextItem')"
+                >{{letData.cellIdx9}}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">检查地点（路线）：</td>
@@ -131,8 +131,8 @@
                   data-title="检查地点（路线）"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx10', '检查地点', 'TextItem')"
+                >{{letData.cellIdx10}}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">检查人（签名）：</td>
@@ -143,8 +143,8 @@
                   data-title="检查人（签名）"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx11', '检查人', 'TextItem')"
+                >{{letData.cellIdx11}}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">记录人（签名）：</td>
@@ -155,8 +155,8 @@
                   data-title="记录人（签名）"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx12', '记录人', 'TextItem')"
+                >{{letData.cellIdx12}}</td>
                 <td class="textAlignCenter">陪同检察人员：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -165,8 +165,8 @@
                   data-title="陪同检察人员"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx13', '陪同检察人员', 'TextItem')"
+                >{{letData.cellIdx13}}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">检查情况：</td>
@@ -180,8 +180,8 @@
               data-title="检查情况"
               data-type="textarea"
               data-src
-              onclick="commandFill(this.id)"
-            >
+              @click="commandFill('cellIdx14', '检查情况', 'TextItem')"
+                >
               <p
                 style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
               >&nbsp;</p>
@@ -203,8 +203,8 @@
                   data-title="被检查单位负责人意见"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx15', '被检查单位负责人意见：', 'TextItem')"
+                >{{letData.cellIdx15}}</td>
                 <td class="textAlignCenter">单位负责人签名:</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -213,8 +213,8 @@
                   data-title="签名"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx16', '签名:', 'TextItem')"
+                >{{letData.cellIdx16}}</td>
                 <td class="textAlignCenter">日期:</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -223,8 +223,8 @@
                   data-title="日期"
                   data-type="date"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx17', '日期:', 'DateItem')"
+                >{{letData.cellIdx17}}</td>
               </tr>
             </table>
           </div>
@@ -300,20 +300,33 @@ export default {
         // 创建初始版本
         this.letData = {
           cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
-          cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null,
-          cellIdx1: null, // 监察类型或方式
-          cellIdx2: null, // 检查时间
-          cellIdx3: sSummary ? sSummary : null, // 煤矿概况
-          cellIdx3TypeTextareaItem: sSummary ? sSummary : null, // 煤矿概况
-          cellIdx4: null, // 检查地点
-          cellIdx5: [], // 检查分工明细表
-          cellIdx5TypeCheckTableItem: {}, // 检查分工明细表
-          cellIdx6: corpOther, // 其他事项
-          cellIdx6TypeTextItem: corpOther, // 其他事项
-          cellIdx8: null, // 编制人
-          cellIdx9: null, // 编制日期
-          cellIdx10: null, // 审批人
-          cellIdx11: null, // 审批日期
+          // cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null,
+          // // cellIdx1: null, // 监察类型或方式
+          // cellIdx3: sSummary ? sSummary : null, // 煤矿概况
+          // cellIdx3TypeTextareaItem: sSummary ? sSummary : null, // 煤矿概况
+          // cellIdx4: null, // 检查地点
+          // cellIdx5: [], // 检查分工明细表
+          // cellIdx5TypeCheckTableItem: {}, // 检查分工明细表
+          // cellIdx6: corpOther, // 其他事项
+          // cellIdx6TypeTextItem: corpOther, // 其他事项
+
+         
+          cellIdx1: null, // 检查时间
+          cellIdx3: null, // 采矿许可证
+          cellIdx4: null, // 有效期
+          cellIdx5: null, // 安全生产许可证
+          cellIdx6: null, // 有效期
+          cellIdx7: null, // 统一社会信用代码
+          cellIdx8: null, // 主要负责人
+          cellIdx9: null, // 联系电话
+          cellIdx10: null, // 检查地点
+          cellIdx11: null, // 检查人
+          cellIdx12: null, // 记录人
+          cellIdx13: null, // 陪同检察人员
+          cellIdx14: null, // 检查情况
+          cellIdx15: null, // 被检查单位负责人意见
+          cellIdx16: null, // 单位负责人签名
+          cellIdx17: null, // 日期
         };
       }
       await db.close();
