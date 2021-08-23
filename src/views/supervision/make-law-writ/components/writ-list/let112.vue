@@ -1,4 +1,4 @@
-<!-- 现场检查 一般检查 停供电(停供民用爆炸物品)函告书 -->
+<!-- 现场检查 实施检查 停供电(停供民用爆炸物品)函告书 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -302,12 +302,29 @@
         </div>
       </div>
     </let-main>
+    <el-dialog
+      title="文书信息选择"
+      :close-on-click-modal="false"
+      append-to-body
+      :visible="visible"
+      width="400px"
+      :show-close="false">
+      <span>请选择：</span>
+      <el-radio-group v-model="selectedType">
+        <el-radio label="停供电">停供电</el-radio>
+        <el-radio label="停供民用爆炸物品">停供民用爆炸物品</el-radio>
+      </el-radio-group>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="confirm">确定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import letMain from "../let-main";
 import GoDB from "@/utils/godb.min.js";
+import { getDocNumber } from '@/utils/monitor/setInitPaperData'
 export default {
   name: "Let112",
   props: {
@@ -333,6 +350,8 @@ export default {
       letData: {},
       options: {},
       editData: {}, // 回显数据
+      visible: false,
+      selectedType: '停供电', // 初始化时选择的停供电
     };
   },
   created() {
@@ -369,29 +388,51 @@ export default {
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        // 1.弹出提示框，选择停供电或停供民用爆炸物品
+        this.visible = true
+        // 2.生成文书编号
+        let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
+        // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
+        const orgInfo = db.table("orgInfo");
+        const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
+        let cellIdx14String = orgSysOfficeInfo.depAddress
+        let cellIdx15String = orgSysOfficeInfo.depPost
+        let cellIdx17String = orgSysOfficeInfo.master
+        let cellIdx18String = orgSysOfficeInfo.phone
         this.letData = {
-          cellIdx0: null,//停供电(停供民用爆炸物品)
-          cellIdx1: null, 
-          cellIdx2: null, 
-          cellIdx3: null, 
-          cellIdx4: null,
-          cellIdx5: null,
-          cellIdx6: null, // 
-          cellIdx7: null, //
-          cellIdx8: null, //
-          cellIdx9: null, //
-         
-          cellIdx11: null, //受送达人（签名）
+          cellIdx0: null, // 停供电(停供民用爆炸物品)
+          cellIdx1: num0, // 文书号
+          cellIdx1TypeTextItem: num0, // 文书号
+          cellIdx2: num1, // 文书号
+          cellIdx2TypeTextItem: num1, // 文书号
+          cellIdx3: num3, // 文书号
+          cellIdx3TypeTextItem: num3, // 文书号
+          cellIdx4: num4, // 文书号
+          cellIdx4TypeTextItem: num4, // 文书号
+          cellIdx5: null, // 单位
+          cellIdx5TypeTextItem: null, // 单位
+          cellIdx6: null, // 单位
+          cellIdx7: corp.corpName ? corp.corpName : null, // corpname
+          cellIdx7TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
+          cellIdx8: null, // 依法作出X的决定
+          cellIdx9: null, // 采取X的措施。
+          cellIdx10: null, // 附件？页面已注释
+          cellIdx11: null, // 受送达人（签名）
           cellIdx12: null, // 日期
-          cellIdx13: null, //
-          cellIdx14: null, // 地址
-          cellIdx15: null, //邮政编码
-          cellIdx16: null, // 
-          cellIdx17: null, // 联系人
-          cellIdx18: null, //联系电话
-          cellIdx19: null, // 
-          cellIdx20: null, //日期
-          cellIdx21: null, // 
+          cellIdx13: null, // 单位
+          cellIdx14: cellIdx14String, // 地址
+          cellIdx14TypeTextItem: cellIdx14String, // 地址
+          cellIdx15: cellIdx15String, // 邮政编码
+          cellIdx15TypeTextItem: cellIdx15String, // 邮政编码
+          cellIdx16: null, // 单位
+          cellIdx17: cellIdx17String, // 联系人
+          cellIdx17TypeTextItem: cellIdx17String, // 联系人
+          cellIdx18: cellIdx18String, // 联系电话
+          cellIdx18TypeTextItem: cellIdx18String, // 联系电话
+          cellIdx19: null, //
+          cellIdx20: null, // 日期
+          cellIdx21: null, // 单位/个人
         };
       }
       await db.close();
@@ -415,6 +456,12 @@ export default {
         );
       }
     },
+    confirm() {
+      // 选择停供电或停供民用爆炸物品
+      this.visible = false
+      this.letData.cellIdx0 = this.selectedType
+      this.letData.cellIdx0TypeTextItem = this.selectedType
+    }
   },
 };
 </script>

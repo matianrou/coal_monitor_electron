@@ -1,4 +1,4 @@
-<!-- 现场检查 一般检查 停供电(停供民用爆炸物品)决定书 -->
+<!-- 现场检查 实施检查 停供电(停供民用爆炸物品)决定书 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -415,27 +415,27 @@ export default {
         // 创建初始版本
         this.letData = {
           cellIdx0: null,//查封(扣押)
-          cellIdx1: null, 
-          cellIdx2: null, 
-          cellIdx3: null, 
+          cellIdx1: null,
+          cellIdx2: null,
+          cellIdx3: null,
           cellIdx4: null,
           cellIdx5: null,
-          cellIdx6: null, // 
+          cellIdx6: null, //
           cellIdx7: null, //
           cellIdx8: null, //年
           cellIdx9: null, //月
           cellIdx10: null, //日
-          cellIdx11: null, 
-          cellIdx12: null, // 
+          cellIdx11: null,
+          cellIdx12: null, //
           cellIdx13: null, //
-          cellIdx14: null, // 
-          cellIdx15: null, 
-          cellIdx16: null, // 
-          cellIdx17: null, // 
+          cellIdx14: null, //
+          cellIdx15: null,
+          cellIdx16: null, //
+          cellIdx17: null, //
           cellIdx18: null, //
-          cellIdx19: null, // 
+          cellIdx19: null, //
           cellIdx20: null, //
-          cellIdx21: null, // 
+          cellIdx21: null, //
           cellIdx22: null, // 附件
           cellIdx23: null, //
           cellIdx24: null, // 日期

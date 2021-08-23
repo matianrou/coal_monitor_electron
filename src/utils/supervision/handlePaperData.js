@@ -96,6 +96,12 @@ function setDangerTableItem (data, selectedData, options) {
     case '3': // 撤出作业人员命令书
       string = `${dangerObject.dangerString}`
       break
+    case '23': // 抽样取证通知书
+      string = `${dangerObject.dangerString}`
+      break
+    case '25': // 先行登记保存证据通知书
+      string = `${dangerObject.dangerString}`
+      break
 
     case '4': // 立案决定书
       if (options.key === 'cellIdx4') {
@@ -159,12 +165,7 @@ function setDangerTableItem (data, selectedData, options) {
       break
 
 
-    case '23': // 抽样取证通知书
-      string = `${dangerObject.dangerString}`
-      break
-    case '25': // 先行登记保存证据通知书
-      string = `${dangerObject.dangerString}`
-      break
+
     case '32': // 查封(扣押)决定书
       if (options.key === 'cellIdx7') {
         string = `${dangerObject.dangerString}`

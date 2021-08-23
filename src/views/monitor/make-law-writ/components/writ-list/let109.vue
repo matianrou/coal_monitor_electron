@@ -351,8 +351,8 @@ export default {
         // 物品名称：
         let let108Article = let108DataPapaerContent.samplingForensicsTable.tableData
         let articleName = ''
-        if (let108DataPapaerContent.samplingForensicsTable.tableData.length > 0) {
-          let108DataPapaerContent.samplingForensicsTable.tableData.map(item => {
+        if (let108Article.length > 0) {
+          let108Article.map(item => {
             articleName += item.name + '、'
           })
           articleName = articleName.substring(0, articleName.length - 1)

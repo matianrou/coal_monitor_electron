@@ -330,7 +330,7 @@
                   data-title="日期"
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx23', '日期', 'TextItem')"
+                  @click="commandFill('cellIdx23', '日期', 'DateItem')"
                 >{{ letData.cellIdx23 }}</td>
               </tr>
               <tr>
@@ -352,7 +352,7 @@
                   data-title="日期"
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx25', '日期', 'TextItem')"
+                  @click="commandFill('cellIdx25', '日期', 'DateItem')"
                 >{{ letData.cellIdx25 }}</td>
               </tr>
             </table>
@@ -381,7 +381,7 @@
                 data-title="日期"
                 data-type="date"
                 data-src
-                @click="commandFill('cellIdx27', '日期', 'TextItem')"
+                @click="commandFill('cellIdx27', '日期', 'DateItem')"
               >{{ letData.cellIdx27 }}</td>
             </table>
             <table>
