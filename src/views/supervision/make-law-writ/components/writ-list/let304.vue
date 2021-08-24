@@ -1,4 +1,4 @@
-<!-- 行政复议调查笔录 -->
+<!--行政强制 行政复议调查笔录 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -30,8 +30,8 @@
                   data-title="年"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx0', '年', 'TextItem')"
+                >{{letData.cellIdx0}}</td>
                 <td class="textAlignLeft">年</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -41,8 +41,8 @@
                   data-title="月"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx1', '月', 'TextItem')"
+                >{{letData.cellIdx1}}</td>
                 <td class="textAlignLeft">月</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -52,8 +52,8 @@
                   data-title="日"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx2', '日', 'TextItem')"
+                >{{letData.cellIdx2}}</td>
                 <td class="textAlignLeft">日</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -63,8 +63,8 @@
                   data-title="时"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx3', '时', 'TextItem')"
+                >{{letData.cellIdx3}}</td>
                 <td class="textAlignLeft">时</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -74,8 +74,8 @@
                   data-title="分"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx4', '分', 'TextItem')"
+                >{{letData.cellIdx4}}</td>
                 <td class="textAlignLeft">分至</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -85,8 +85,8 @@
                   data-title="时"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx5', '时', 'TextItem')"
+                >{{letData.cellIdx5}}</td>
                 <td class="textAlignLeft">时</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -96,8 +96,8 @@
                   data-title="分"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx6', '分', 'TextItem')"
+                >{{letData.cellIdx6}}</td>
                 <td class="textAlignLeft">分</td>
               </tr>
               <tr>
@@ -111,8 +111,8 @@
                   data-title="地点"
                   data-type="texta"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx7', '地点', 'TextItem')"
+                >{{letData.cellIdx7}}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">调查人（签名）：</td>
@@ -125,8 +125,8 @@
                   data-title="调查人（签名）"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx8', '调查人（签名）', 'TextItem')"
+                >{{letData.cellIdx8}}</td>
                 <td class="textAlignCenter">记录人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -137,8 +137,8 @@
                   data-title="记录人（签名）"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                 @click="commandFill('cellIdx9', '记录人（签名）', 'TextItem')"
+                >{{letData.cellIdx9}}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">被调查人：</td>
@@ -152,8 +152,8 @@
                   data-title="被调查人"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx10', '被调查人', 'TextItem')"
+                >{{letData.cellIdx10}}</td>
                 <td class="textAlignLeft">性别</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -164,8 +164,8 @@
                   data-title="性别"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx11', '性别', 'TextItem')"
+                >{{letData.cellIdx11}}</td>
                 <td class="textAlignLeft">年龄</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -176,8 +176,8 @@
                   data-title="年龄"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx12', '年龄', 'TextItem')"
+                >{{letData.cellIdx12}}</td>
                 <td class="textAlignLeft">身份证号</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -188,8 +188,8 @@
                   data-title="身份证号"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx13', '身份证号', 'TextItem')"
+                >{{letData.cellIdx13}}</td>
               </tr>
               <tr>
                 <td
@@ -204,8 +204,8 @@
                   data-title="单位"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx14', '单位', 'TextItem')"
+                >{{letData.cellIdx14}}</td>
                 <td class="textAlignLeft">职务（职业）</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -216,8 +216,8 @@
                   data-title="职务（职业）"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                 @click="commandFill('cellIdx15', '职务（职业）', 'TextItem')"
+                >{{letData.cellIdx15}}</td>
                 <td class="textAlignLeft">电&nbsp;&nbsp;&nbsp;&nbsp;话</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -228,8 +228,8 @@
                   data-title="电话"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx16', '电话', 'TextItem')"
+                >{{letData.cellIdx16}}</td>
               </tr>
               <tr>
                 <td
@@ -244,8 +244,8 @@
                   data-title="住址"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx17', '住址', 'TextItem')"
+                >{{letData.cellIdx17}}</td>
               </tr>
               <tr>
                 <td
@@ -253,79 +253,92 @@
                   id="cell_idx_18"
                   contenteditable="true"
                   style="width:95%"
-                ></td>
+                @click="commandFill('cellIdx18', '', 'TextItem')"
+                >{{letData.cellIdx18}}</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_19"
                   contenteditable="true"
                   style="width:95%"
-                ></td>
+                @click="commandFill('cellIdx19', '', 'TextItem')"
+                >{{letData.cellIdx19}}</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_20"
                   contenteditable="true"
                   style="width:95%"
-                ></td>
+                @click="commandFill('cellIdx20', '', 'TextItem')"
+                >{{letData.cellIdx20}}</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_21"
                   contenteditable="true"
                   style="width:95%"
-                ></td>
+                @click="commandFill('cellIdx21', '', 'TextItem')"
+                >{{letData.cellIdx21}}</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_22"
                   contenteditable="true"
                   style="width:95%"
-                ></td>
+                @click="commandFill('cellIdx22', '', 'TextItem')"
+                >{{letData.cellIdx22}}</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_23"
                   contenteditable="true"
                   style="width:95%"
-                ></td>
+                @click="commandFill('cellIdx23', '', 'TextItem')"
+                >{{letData.cellIdx23}}</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_24"
                   contenteditable="true"
                   style="width:95%"
-                ></td>
+                @click="commandFill('cellIdx24', '', 'TextItem')"
+                >{{letData.cellIdx24}}</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_25"
                   contenteditable="true"
                   style="width:95%"
-                ></td>
+                @click="commandFill('cellIdx25', '', 'TextItem')"
+                >{{letData.cellIdx25}}</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_26"
                   contenteditable="true"
                   style="width:95%"
-                ></td>
+                @click="commandFill('cellIdx26', '', 'TextItem')"
+                >{{letData.cellIdx26}}</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_27"
                   contenteditable="true"
                   style="width:95%"
-                ></td>
+                @click="commandFill('cellIdx27', '', 'TextItem')"
+                >{{letData.cellIdx27}}</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_28"
                   contenteditable="true"
                   style="width:95%"
-                ></td>
+                @click="commandFill('cellIdx28', '', 'TextItem')"
+                >{{letData.cellIdx28}}</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_29"
                   contenteditable="true"
                   style="width:95%"
-                ></td>
+                @click="commandFill('cellIdx29', '', 'TextItem')"
+                >{{letData.cellIdx29}}</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_30"
                   contenteditable="true"
                   style="width:95%"
-                ></td>
+                @click="commandFill('cellIdx30', '', 'TextItem')"
+                >{{letData.cellIdx30}}</td>
               </tr>
               <tr>
                 <td
@@ -405,21 +418,37 @@ export default {
       } else {
         // 创建初始版本
         this.letData = {
-          cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
-          cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null,
-          cellIdx1: null, // 监察类型或方式
-          cellIdx2: null, // 检查时间
-          cellIdx3: sSummary ? sSummary : null, // 煤矿概况
-          cellIdx3TypeTextareaItem: sSummary ? sSummary : null, // 煤矿概况
-          cellIdx4: null, // 检查地点
-          cellIdx5: [], // 检查分工明细表
-          cellIdx5TypeCheckTableItem: {}, // 检查分工明细表
-          cellIdx6: corpOther, // 其他事项
-          cellIdx6TypeTextItem: corpOther, // 其他事项
-          cellIdx8: null, // 编制人
-          cellIdx9: null, // 编制日期
-          cellIdx10: null, // 审批人
-          cellIdx11: null, // 审批日期
+          cellIdx0: null,//年
+          cellIdx1: null, //月
+          cellIdx2: null, //日
+          cellIdx3: null, //时
+          cellIdx4: null,//分
+          cellIdx5: null,//时
+          cellIdx6: null, // 分
+          cellIdx7: null, // 地点
+          cellIdx8: null, // 调查人（签名）
+          cellIdx9: null, //记录人（签名）
+          cellIdx10: null, //被调查人
+          cellIdx11: null,//性别
+          cellIdx12: null, // 年龄
+          cellIdx13: null, //身份证号
+          cellIdx14: null, // 单位
+          cellIdx15: null, //职务（职业）
+          cellIdx16: null, // 电话
+          cellIdx17: null, // 住址
+          cellIdx18: null, //
+          cellIdx19: null, // 
+          cellIdx20: null, //
+          cellIdx21: null, //
+          cellIdx22: null, //
+          cellIdx23: null, // 
+          cellIdx24: null, // 
+          cellIdx25: null, // 
+          cellIdx26: null, // 
+          cellIdx27: null, //
+          cellIdx28: null, // 
+          cellIdx29: null, //
+          cellIdx30: null, //
         };
       }
       await db.close();

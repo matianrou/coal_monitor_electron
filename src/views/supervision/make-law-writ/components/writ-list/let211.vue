@@ -1,4 +1,4 @@
-<!-- 听证笔录/听证会报告书 -->
+<!-- 行政处罚 听证程序  听证笔录/听证会报告书 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -19,7 +19,7 @@
             </div>
             <div class="textAlignCenter formHeader1">听 证 笔 录</div>
             <div class="stdRowH"></div>
-            <table style="border:solid 0px #000;" class="docBody">
+            <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">听证时间：</td>
                 <td
@@ -30,8 +30,8 @@
                   data-title="年"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx0', '年', 'TextItem')"
+                >{{letData.cellIdx0}}</td>
                 <td class="textAlignLeft">年</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -41,8 +41,8 @@
                   data-title="月"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx1', '月', 'TextItem')"
+                >{{letData.cellIdx1}}</td>
                 <td class="textAlignLeft">月</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -52,8 +52,8 @@
                   data-title="日"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx2', '日', 'TextItem')"
+                >{{letData.cellIdx2}}</td>
                 <td class="textAlignLeft">日</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -63,8 +63,8 @@
                   data-title="时"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx3', '时', 'TextItem')"
+                >{{letData.cellIdx3}}</td>
                 <td class="textAlignLeft">时</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -74,8 +74,8 @@
                   data-title="分"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx4', '分', 'TextItem')"
+                >{{letData.cellIdx4}}</td>
                 <td class="textAlignLeft">分至</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -85,8 +85,8 @@
                   data-title="时"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                 @click="commandFill('cellIdx5', '时', 'TextItem')"
+                >{{letData.cellIdx5}}</td>
                 <td class="textAlignLeft">时</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -96,8 +96,8 @@
                   data-title="分"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx6', '分', 'TextItem')"
+                >{{letData.cellIdx6}}</td>
                 <td class="textAlignLeft">分</td>
               </tr>
               <tr>
@@ -110,8 +110,8 @@
                   data-title="听证地点"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx7', '听证地点', 'TextItem')"
+                >{{letData.cellIdx7}}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">听证主持人（签名）：</td>
@@ -123,8 +123,8 @@
                   data-title="听证主持人（签名）"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx8', '听证主持人（签名）', 'TextItem')"
+                >{{letData.cellIdx8}}</td>
                 <td class="textAlignLeft">记录人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -134,8 +134,8 @@
                   data-title="记录人（签名）"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx9', '记录人（签名）', 'TextItem')"
+                >{{letData.cellIdx9}}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">听证记录：</td>
@@ -144,31 +144,30 @@
             <div
               style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
               class="cellInput mutiLineArea"
-              id="cell_idx_5"
+              id="cell_idx_10"
               data-title="听证记录"
               data-type="textarea"
               data-src
-              onclick="commandFill(this.id)"
-            >
+              @click="commandFill('cellIdx10', '听证记录', 'TextareaItem')">
               <p
                 style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
-              >&nbsp;</p>
+              >&nbsp;{{ letData.cellIdx10 }}</p>
               <p
                 style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
               >&nbsp;</p>
             </div>
-            <table style="border:solid 0px #000;" class="docBody">
+            <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;听证参加人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_26"
+                  id="cell_idx_11"
                   style="width:71.5%"
                   data-title="听证参加人（签名）"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx11', '听证参加人（签名）', 'TextItem')"
+                >{{letData.cellIdx11}}</td>
               </tr>
             </table>
           </div>
@@ -243,21 +242,18 @@ export default {
       } else {
         // 创建初始版本
         this.letData = {
-          cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
-          cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null,
-          cellIdx1: null, // 监察类型或方式
-          cellIdx2: null, // 检查时间
-          cellIdx3: sSummary ? sSummary : null, // 煤矿概况
-          cellIdx3TypeTextareaItem: sSummary ? sSummary : null, // 煤矿概况
-          cellIdx4: null, // 检查地点
-          cellIdx5: [], // 检查分工明细表
-          cellIdx5TypeCheckTableItem: {}, // 检查分工明细表
-          cellIdx6: corpOther, // 其他事项
-          cellIdx6TypeTextItem: corpOther, // 其他事项
-          cellIdx8: null, // 编制人
-          cellIdx9: null, // 编制日期
-          cellIdx10: null, // 审批人
-          cellIdx11: null, // 审批日期
+          cellIdx0: null,//年
+          cellIdx1: null, //月
+          cellIdx2: null, //日
+          cellIdx3: null, //时
+          cellIdx4: null,//分
+          cellIdx5: null,//时
+          cellIdx6: null, // 分
+          cellIdx7: null, // 听证主持人（签名）
+          cellIdx8: null, // 记录人（签名）
+          cellIdx9: null, //单位或个人
+          cellIdx10: null, //签收人（签名）
+          cellIdx11: null,//听证参加人（签名）
         };
       }
       await db.close();

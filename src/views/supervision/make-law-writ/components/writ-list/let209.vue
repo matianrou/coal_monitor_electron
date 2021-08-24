@@ -394,7 +394,7 @@
                   data-title="日期"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx28', '日期', 'TextItem')"
+                  @click="commandFill('cellIdx28', '日期', 'DateItem')"
                 >{{letData.cellIdx28}}</td>
               </tr>
               <tr>
@@ -407,7 +407,7 @@
                   data-title="单位"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx29', '单位', 'DateItem')"
+                  @click="commandFill('cellIdx29', '单位', 'TextItem')"
                 >{{letData.cellIdx29}}</td>
                 <td class="textAlignLeft">地址：</td>
                 <td

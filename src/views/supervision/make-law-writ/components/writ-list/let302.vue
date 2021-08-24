@@ -1,4 +1,4 @@
-<!-- 行政复议申请笔录 -->
+<!--行政强制    行政复议申请笔录 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -19,7 +19,7 @@
             </div>
             <div class="textAlignCenter formHeader1">行 政 复 议 申 请 笔 录</div>
             <div class="stdRowH"></div>
-            <table style="border:solid 0px #000;" class="docBody">
+            <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">申请时间：</td>
                 <td
@@ -30,8 +30,8 @@
                   data-title="年"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx0', '年', 'TextItem')"
+                >{{letData.cellIdx0}}</td>
                 <td class="textAlignLeft">年</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -41,8 +41,8 @@
                   data-title="月"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx1', '月', 'TextItem')"
+                >{{letData.cellIdx1}}</td>
                 <td class="textAlignLeft">月</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -52,8 +52,8 @@
                   data-title="日"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx2', '日', 'TextItem')"
+                >{{letData.cellIdx2}}</td>
                 <td class="textAlignLeft">日</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -63,8 +63,8 @@
                   data-title="时"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx3', '时', 'TextItem')"
+                >{{letData.cellIdx3}}</td>
                 <td class="textAlignLeft">时</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -74,118 +74,118 @@
                   data-title="分"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                   @click="commandFill('cellIdx4', '分', 'TextItem')"
+                >{{letData.cellIdx4}}</td>
                 <td class="textAlignLeft">分</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">申请地点：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_7"
+                  id="cell_idx_5"
                   align="center"
                   style="width:85%"
                   data-title="申请地点"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx5', '申请地点', 'TextItem')"
+                >{{letData.cellIdx5}}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">申请人姓名：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_8"
+                  id="cell_idx_6"
                   align="center"
                   style="width:31%"
                   data-title="申请人姓名"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx6', '申请人姓名', 'TextItem')"
+                >{{letData.cellIdx6}}</td>
                 <td class="textAlignLeft">性别：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_9"
+                  id="cell_idx_7"
                   align="center"
                   style="width:20%"
                   data-title="性别"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx7', '性别', 'TextItem')"
+                >{{letData.cellIdx7}}</td>
                 <td class="textAlignLeft">年龄：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_9"
+                  id="cell_idx_8"
                   align="center"
                   style="width:20%"
                   data-title="年龄"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx8', '年龄', 'TextItem')"
+                >{{letData.cellIdx8}}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">申请人单位：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_10"
+                  id="cell_idx_9"
                   align="center"
                   style="width:31%"
                   data-title="申请人单位"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx9', '申请人单位', 'TextItem')"
+                >{{letData.cellIdx9}}</td>
                 <td class="textAlignLeft">职务（职业）：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_11"
+                  id="cell_idx_10"
                   align="center"
                   style="width:16%"
                   data-title="职务（职业）"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx10', '职务（职业）', 'TextItem')"
+                >{{letData.cellIdx10}}</td>
                 <td class="textAlignLeft">电话：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_12"
+                  id="cell_idx_11"
                   align="center"
                   style="width:16.5%"
                   data-title="电话"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx11', '电话', 'TextItem')"
+                >{{letData.cellIdx11}}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">申请人住址：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_13"
+                  id="cell_idx_12"
                   align="center"
                   style="width:83%"
                   data-title="申请人住址"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx12', '申请人住址', 'TextItem')"
+                >{{letData.cellIdx12}}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">记录人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_14"
+                  id="cell_idx_13"
                   align="center"
                   style="width:79%"
                   data-title="记录人（签名）"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx13', '记录人（签名）', 'TextItem')"
+                >{{letData.cellIdx13}}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">申请记录：</td>
@@ -194,15 +194,14 @@
             <div
               style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
               class="cellInput mutiLineArea"
-              id="cell_idx_15"
+              id="cell_idx_14"
               data-title="申请记录"
               data-type="textarea"
               data-src
-              onclick="commandFill(this.id)"
-            >
+              @click="commandFill('cellIdx14', '申请记录', 'TextareaItem')">
               <p
                 style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
-              >&nbsp;</p>
+              >&nbsp;{{ letData.cellIdx14 }}</p>
               <p
                 style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
               >&nbsp;</p>
@@ -279,21 +278,21 @@ export default {
       } else {
         // 创建初始版本
         this.letData = {
-          cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
-          cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null,
-          cellIdx1: null, // 监察类型或方式
-          cellIdx2: null, // 检查时间
-          cellIdx3: sSummary ? sSummary : null, // 煤矿概况
-          cellIdx3TypeTextareaItem: sSummary ? sSummary : null, // 煤矿概况
-          cellIdx4: null, // 检查地点
-          cellIdx5: [], // 检查分工明细表
-          cellIdx5TypeCheckTableItem: {}, // 检查分工明细表
-          cellIdx6: corpOther, // 其他事项
-          cellIdx6TypeTextItem: corpOther, // 其他事项
-          cellIdx8: null, // 编制人
-          cellIdx9: null, // 编制日期
-          cellIdx10: null, // 审批人
-          cellIdx11: null, // 审批日期
+          cellIdx0: null,//年
+          cellIdx1: null, //月
+          cellIdx2: null, //日
+          cellIdx3: null, //时
+          cellIdx4: null,//分
+          cellIdx5: null,//申请地点
+          cellIdx6: null, // 申请人姓名
+          cellIdx7: null, // 性别
+          cellIdx8: null, // 年龄
+          cellIdx9: null, //申请人单位
+          cellIdx10: null, //职务（职业）
+          cellIdx11: null,//电话
+          cellIdx12: null, //申请人住址
+          cellIdx13: null, //记录人（签名）
+          cellIdx14: null, //申请记录
         };
       }
       await db.close();

@@ -32,8 +32,8 @@
                   data-title="执法单位"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx0', '执法单位', 'TextItem')"
+                >{{letData.cellIdx0}}</td>
               </tr>
               <tr style="height:5cm;">
                 <td
@@ -51,8 +51,8 @@
                   data-title="案卷类别"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx1', '案卷类别', 'TextItem')"
+                >{{letData.cellIdx1}}</td>
               </tr>
               <tr style="height:6cm;">
                 <td style="width:30mm;height:120mm" class="textAlignCenter cellRightLine">
@@ -70,8 +70,8 @@
                   data-title="案卷题名"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx2', '案卷题名', 'TextItem')"
+                >{{letData.cellIdx2}}</td>
               </tr>
             </table>
             <table class="docBody">
@@ -85,8 +85,8 @@
                   data-title="年"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx3', '年', 'TextItem')"
+                >{{letData.cellIdx3}}</td>
                 <td class="textAlignLeft">年</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -96,8 +96,8 @@
                   data-title="月"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx4', '月', 'TextItem')"
+                >{{letData.cellIdx4}}</td>
                 <td class="textAlignLeft">月</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -107,8 +107,8 @@
                   data-title="日"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx5', '日', 'TextItem')"
+                >{{letData.cellIdx5}}</td>
                 <td
                   class="textAlignLeft"
                 >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日至&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
@@ -120,8 +120,8 @@
                   data-title="年"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx6', '年', 'TextItem')"
+                >{{letData.cellIdx6}}</td>
                 <td class="textAlignLeft">年</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -131,8 +131,8 @@
                   data-title="月"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                   @click="commandFill('cellIdx7', '月', 'TextItem')"
+                >{{letData.cellIdx7}}</td>
                 <td class="textAlignLeft">月</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -142,8 +142,8 @@
                   data-title="日"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx8', '日', 'TextItem')"
+                >{{letData.cellIdx8}}</td>
                 <td class="textAlignLeft">日</td>
               </tr>
               <tr>
@@ -156,8 +156,8 @@
                   data-title="案由"
                   data-type="textarea"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx9', '案由', 'TextItem')"
+                >{{letData.cellIdx9}}</td>
                 <td class="textAlignLeft">件</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -167,8 +167,8 @@
                   data-title="案由"
                   data-type="textarea"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx10', '案由', 'TextItem')"
+                >{{letData.cellIdx10}}</td>
                 <td class="textAlignLeft">页</td>
                 <td
                   class="textPaddingLeft"
@@ -181,8 +181,8 @@
                   data-title="年"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx11', '年', 'TextItem')"
+                >{{letData.cellIdx11}}</td>
                 <td class="textAlignLeft">年</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -192,8 +192,8 @@
                   data-title="月"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx12', '月', 'TextItem')"
+                >{{letData.cellIdx12}}</td>
                 <td class="textAlignLeft">月</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -203,8 +203,8 @@
                   data-title="日"
                   data-type="text"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx13', '日', 'TextItem')"
+                >{{letData.cellIdx13}}</td>
                 <td class="textAlignLeft">日</td>
               </tr>
               <tr>
@@ -217,8 +217,8 @@
                   data-title="承办人（签名）"
                   data-type="textarea"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                 @click="commandFill('cellIdx14', '承办人（签名）', 'TextItem')"
+                >{{letData.cellIdx14}}</td>
               </tr>
               <tr>
                 <td class="textPaddingLeft">&nbsp;&nbsp;&nbsp;档号：&nbsp;&nbsp;&nbsp;</td>
@@ -230,8 +230,8 @@
                   data-title="档号"
                   data-type="textarea"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx15', '档号', 'TextItem')"
+                >{{letData.cellIdx15}}</td>
                 <td class="textPaddingLeft">&nbsp;&nbsp;保管期限：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -241,8 +241,8 @@
                   data-title="保管期限"
                   data-type="textarea"
                   data-src
-                  onclick="commandFill(this.id)"
-                ></td>
+                  @click="commandFill('cellIdx16', '保管期限', 'TextItem')"
+                >{{letData.cellIdx16}}</td>
               </tr>
             </table>
             <table class="docBody">
@@ -331,21 +331,23 @@ export default {
       } else {
         // 创建初始版本
         this.letData = {
-          cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
-          cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null,
-          cellIdx1: null, // 监察类型或方式
-          cellIdx2: null, // 检查时间
-          cellIdx3: sSummary ? sSummary : null, // 煤矿概况
-          cellIdx3TypeTextareaItem: sSummary ? sSummary : null, // 煤矿概况
-          cellIdx4: null, // 检查地点
-          cellIdx5: [], // 检查分工明细表
-          cellIdx5TypeCheckTableItem: {}, // 检查分工明细表
-          cellIdx6: corpOther, // 其他事项
-          cellIdx6TypeTextItem: corpOther, // 其他事项
-          cellIdx8: null, // 编制人
-          cellIdx9: null, // 编制日期
-          cellIdx10: null, // 审批人
-          cellIdx11: null, // 审批日期
+          cellIdx0: null,//执法单位
+          cellIdx1: null, //案卷类别
+          cellIdx2: null, //案卷题名
+          cellIdx3: null, //年
+          cellIdx4: null,//月
+          cellIdx5: null,//日
+          cellIdx6: null, // 年
+          cellIdx7: null, // 月
+          cellIdx8: null, // 日
+          cellIdx9: null, //案由
+          cellIdx10: null, //案由
+          cellIdx11: null,//年
+          cellIdx12: null, // 月
+          cellIdx13: null, //日
+          cellIdx14: null, // 承办人（签名）
+          cellIdx15: null, //档号
+          cellIdx16: null, // 保管期限
         };
       }
       await db.close();

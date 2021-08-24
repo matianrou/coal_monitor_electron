@@ -1,4 +1,4 @@
-<!-- 罚款缴纳催告书 -->
+<!--行政处罚 案件结案 罚款缴纳催告书 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -21,7 +21,7 @@
                   class="textAlignCenter"
                   id="cell_idx_0"
                   contenteditable="true"
-                >（[SHORTNAME]）应急缴批〔[YEAR]〕[DOCNUMBER]号</td>
+               >（{{letData.cellIdx0}}）应急缴批〔{{letData.cellIdx1}}〕{{letData.cellIdx2}}号</td>
               </tr>
             </table>
             <div class="stdRowH"></div>
@@ -32,7 +32,8 @@
                   style="width:320px"
                   id="cell_idx_3"
                   contenteditable="true"
-                >{ent_name}</td>
+                  @click="commandFill('cellIdx3', '', 'TextItem')"
+                >{{letData.cellIdx3}}</td>
                 <td>：</td>
               </tr>
             </table>
@@ -44,8 +45,8 @@
                     style="display:inline-block;width:140px;"
                     class="cellInput textAlignCenter cellBottomLine"
                     id="cell_idx_4"
-                    onclick="host.commandFill(this.id,'date','日期')"
-                  >&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;日</span>，本机关对你
+                    @click="commandFill('cellIdx4', '日期', 'DateItem')"
+                  >{{letData.cellIdx4 ? letData.cellIdx4 : '&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;日'}}</span>，本机关对你
                 </td>
                 <td style="width:30mm">（单位）发出</td>
                 <td
@@ -53,7 +54,8 @@
                   class="cellInput textAlignCenter cellBottomLine"
                   id="cell_idx_5"
                   contenteditable="true"
-                ></td>
+                @click="commandFill('cellIdx5', '', 'TextItem')"
+                >{{letData.cellIdx5}}</td>
               </tr>
             </table>
             <table class="docBody">
@@ -64,7 +66,8 @@
                   class="cellInput textAlignCenter cellBottomLine"
                   id="cell_idx_6"
                   contenteditable="true"
-                ></td>
+                @click="commandFill('cellIdx6', '', 'TextItem')"
+                >{{letData.cellIdx6}}</td>
                 <td style="width:55mm">万元（大写）的决定，现根据</td>
               </tr>
               <tr>
@@ -77,15 +80,16 @@
                   style="width:20mm;"
                   class="cellInput textAlignCenter"
                   id="cell_idx_7"
-                  onclick="host.commandFill(this.id,'toggle','延期缴纳罚款')"
-                >□</td>
+                  @click="commandFill('cellIdx7', '延期缴纳罚款', 'TextItem')"
+                >□{{letData.cellIdx7}}</td>
                 <td style="width:45mm;">延期缴纳罚款。延长至</td>
                 <td
                   style="width:70mm;"
                   class="cellInput cellBottomLine"
                   id="cell_idx_8"
                   contenteditable="true"
-                ></td>
+                @click="commandFill('cellIdx8', '', 'toggle')"
+                >{{letData.cellIdx8}}</td>
                 <td style="width:55mm;">止。</td>
               </tr>
             </table>
@@ -95,22 +99,23 @@
                   style="width:20mm;"
                   class="cellInput textAlignCenter"
                   id="cell_idx_9"
-                  onclick="host.commandFill(this.id,'toggle','分期缴纳罚款')"
-                >□</td>
+                  @click="commandFill('cellIdx9', '', 'toggle')"
+                >□{{letData.cellIdx9}}</td>
                 <td style="width:35mm;">分期缴纳罚款。第</td>
                 <td
                   style="width:20mm;"
                   class="cellInput cellBottomLine textAlignCenter"
                   id="cell_idx_10"
                   contenteditable="true"
-                ></td>
+                @click="commandFill('cellIdx10', '', 'TextItem')"
+                >{{letData.cellIdx10}}</td>
                 <td style="width:10mm;" class="textAlignCenter">期至</td>
                 <td
                   style="width:75mm;"
                   class="cellInput cellBottomLine textAlignCenter"
                   id="cell_idx_11"
-                  onclick="host.commandFill(this.id,'date','日期')"
-                >年&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;日</td>
+                  @click="commandFill('cellIdx11', '日期', 'DateItem')"
+                >{{letData.cellIdx11 ? letData.cellIdx11 : '&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;日'}}</td>
                 <td style="width:30mm;">前，缴纳罚款</td>
               </tr>
             </table>
@@ -121,7 +126,8 @@
                   class="cellInput textAlignCenter cellBottomLine"
                   id="cell_idx_12"
                   contenteditable="true"
-                ></td>
+                @click="commandFill('cellIdx12', '', 'TextItem')"
+                >{{letData.cellIdx12}}</td>
                 <td style="width:140mm">万元（大写）（每期均应当单独开具本文书）。此外，尚有未缴纳的罚款</td>
               </tr>
               <tr>
@@ -129,7 +135,8 @@
                   class="cellInput textAlignCenter cellBottomLine"
                   id="cell_idx_13"
                   contenteditable="true"
-                ></td>
+                @click="commandFill('cellIdx13', '', 'TextItem')"
+                >{{letData.cellIdx13}}</td>
                 <td>元（大写）。</td>
               </tr>
             </table>
@@ -157,7 +164,8 @@
                   class="cellInput textAlignRight"
                   id="cell_idx_14"
                   contenteditable="true"
-                >[OrgName]</td>
+                @click="commandFill('cellIdx14', '', 'TextItem')"
+                >{{letData.cellIdx14}}</td>
                 <td style="width:100px;" class="textAlignCenter">（印章）</td>
               </tr>
             </table>
@@ -168,7 +176,8 @@
                   style="width:150px;"
                   class="cellInput textAlignCenter"
                   id="cell_idx_15"
-                >年&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;日</td>
+                @click="commandFill('cellIdx15', '日期', 'DateItem')"
+                >{{letData.cellIdx15 ? letData.cellIdx15 : '&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;日'}}</td>
                 <td style="width:16px;">&nbsp;</td>
               </tr>
             </table>
@@ -249,21 +258,23 @@ export default {
       } else {
         // 创建初始版本
         this.letData = {
-          cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
-          cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null,
-          cellIdx1: null, // 监察类型或方式
-          cellIdx2: null, // 检查时间
-          cellIdx3: sSummary ? sSummary : null, // 煤矿概况
-          cellIdx3TypeTextareaItem: sSummary ? sSummary : null, // 煤矿概况
-          cellIdx4: null, // 检查地点
-          cellIdx5: [], // 检查分工明细表
-          cellIdx5TypeCheckTableItem: {}, // 检查分工明细表
-          cellIdx6: corpOther, // 其他事项
-          cellIdx6TypeTextItem: corpOther, // 其他事项
-          cellIdx8: null, // 编制人
-          cellIdx9: null, // 编制日期
-          cellIdx10: null, // 审批人
-          cellIdx11: null, // 审批日期
+          cellIdx0: null,//
+          cellIdx1: null, //
+          cellIdx2: null, //
+          cellIdx3: null, //
+          cellIdx4: null,//日期
+          cellIdx5: null,//
+          cellIdx6: null, // 
+          cellIdx7: null, // 延期缴纳罚款
+          cellIdx8: null, // 
+          cellIdx9: null, //
+          cellIdx10: null, //
+          cellIdx11: null,//日期
+          cellIdx12: null, // 
+          cellIdx13: null, //
+          cellIdx14: null, // 
+          cellIdx15: null, //日期
+          
         };
       }
       await db.close();
