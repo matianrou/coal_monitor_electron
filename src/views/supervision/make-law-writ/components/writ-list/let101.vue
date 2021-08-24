@@ -37,7 +37,7 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_1"
-                  style="width:87.8%"
+                  style="width:88%"
                   data-title="检查时间"
                   data-type="date"
                   data-src
@@ -45,7 +45,7 @@
                 >{{letData.cellIdx1}}</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">采矿许可证：</td>
+                <td class="textAlignLeft">采矿许可证证号：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_3"
@@ -59,7 +59,7 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_4"
-                  style="width:40%"
+                  style="width:33%"
                   data-title="有效期"
                   data-type="date"
                   data-src
@@ -67,11 +67,11 @@
                 >{{letData.cellIdx4}}</td>
               </tr>
               <tr>
-                <td class="textAlignCenter">安全生产许可证：</td>
+                <td class="textAlignCenter">安全生产许可证证号：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_5"
-                  style="width:28%"
+                  style="width:36%"
                   data-title="安全生产许可证"
                   data-type="text"
                   data-src
@@ -81,7 +81,7 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_6"
-                  style="width:40%"
+                  style="width: 32.5%"
                   data-title="采矿许可证"
                   data-type="date"
                   data-src
@@ -93,7 +93,7 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_7"
-                  style="width:79%"
+                  style="width:79.5%"
                   data-title="统一社会信用代码"
                   data-type="text"
                   data-src
@@ -105,7 +105,7 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_8"
-                  style="width:28%"
+                  style="width:30%"
                   data-title="主要负责人"
                   data-type="text"
                   data-src
@@ -115,7 +115,7 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
-                  style="width:38%"
+                  style="width:45%"
                   data-title="联系电话"
                   data-type="text"
                   data-src
@@ -196,7 +196,7 @@
                 </p>
               </div>
             </div>
-            <table style="border:solid 0px #000;" class="docBody">
+            <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">被检查单位负责人意见：</td>
                 <td
