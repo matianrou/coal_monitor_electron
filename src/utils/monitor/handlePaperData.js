@@ -77,7 +77,8 @@ function setDangerTableItem (data, selectedData, options) {
   // 根据不同的文书，返回不同形式的文本
   let dangerObject = getDangerObject(data.tableData)
   let dangerObjectIndex = getDangerObject(data.tableData, {
-    danger: true
+    danger: true,
+    penaltyDesc: true
   })
   switch(options.page) {
     case '1':  // 现场检查笔录

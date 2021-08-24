@@ -11,7 +11,7 @@
     >
       <div slot="left">
         <div class="page page-sizeA4">
-          <div>div class="stdRowH"></div>
+          <div class="stdRowH"></div>
           <div class="textAlignCenter formHeader0">
             煤矿安全监管行政执法文书
             <br />
@@ -248,6 +248,7 @@
 <script>
 import letMain from "../let-main";
 import GoDB from "@/utils/godb.min.js";
+import { getDocNumber } from '@/utils/monitor/setInitPaperData'
 export default {
   name: "Let207",
   props: {
@@ -271,7 +272,30 @@ export default {
   data() {
     return {
       letData: {},
-      options: {},
+      options: {
+        cellIdx7: [ // 送达方式码表
+          {
+            value: '直接送达',
+            name: '直接送达'
+          },
+          {
+            value: '留置送达',
+            name: '留置送达'
+          },
+          {
+            value: '委托送达',
+            name: '委托送达'
+          },
+          {
+            value: '邮寄送达',
+            name: '邮寄送达'
+          },
+          {
+            value: '公告送达',
+            name: '公告送达'
+          },
+        ],
+      },
       editData: {}, // 回显数据
     };
   },
@@ -309,23 +333,38 @@ export default {
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        // 1.送达文书：国家煤矿安全监察行政处罚决定书
+        let cellIdx4String = '国家煤矿安全监察行政处罚决定书'
+        // 2.文书字号：使用行政处罚决定书的文书编号
+        let { numString } = await getDocNumber(db, '8', caseId, this.$store.state.user)
+        let cellIdx5String = numString
+        // 3.送达地点：煤矿名称
+        let cellIdx6String = corp.corpName
+        let paperNumber = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
         this.letData = {
-          cellIdx0: null,//文书号
-          cellIdx1: null, //文书号
-          cellIdx2: null, //文书号
-          cellIdx3: null, //文书号
-          cellIdx4: null,//送达文书
-          cellIdx5: null,//文书字号
-          cellIdx6: null, // 送达地点
+          cellIdx0: paperNumber.num0, // 文书号
+          cellIdx0TypeTextItem: paperNumber.num0, // 文书号
+          cellIdx1: paperNumber.num1, // 文书号
+          cellIdx1TypeTextItem: paperNumber.num1, // 文书号
+          cellIdx2: paperNumber.num3, // 文书号
+          cellIdx2TypeTextItem: paperNumber.num3, // 文书号
+          cellIdx3: paperNumber.num4, // 文书号
+          cellIdx3TypeTextItem: paperNumber.num4, // 文书号
+          cellIdx4: cellIdx4String, // 送达文书
+          cellIdx4TypeTextItem: cellIdx4String, // 送达文书
+          cellIdx5: cellIdx5String, // 文书字号
+          cellIdx5TypeTextItem: cellIdx5String, // 文书字号
+          cellIdx6: cellIdx6String, // 送达地点
+          cellIdx6TypeTextItem: cellIdx6String, // 送达地点
           cellIdx7: null, // 送达方式
           cellIdx8: null, // 送达人
-          cellIdx9: null, //签名
-          cellIdx10: null, //日期
-          cellIdx11: null,//送达人（签名）
+          cellIdx9: null, // 签名
+          cellIdx10: null, // 日期
+          cellIdx11: null, // 送达人（签名）
           cellIdx12: null, // 日期
           cellIdx13: null, //
           cellIdx14: null, // 年
-          cellIdx15: null, //月
+          cellIdx15: null, // 月
           cellIdx16: null, // 日
         };
       }

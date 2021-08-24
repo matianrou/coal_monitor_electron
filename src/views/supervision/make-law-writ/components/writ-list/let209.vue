@@ -524,12 +524,29 @@
         </div>
       </div>
     </let-main>
+    <el-dialog
+      title="文书信息选择"
+      :close-on-click-modal="false"
+      append-to-body
+      :visible="visible"
+      width="400px"
+      :show-close="false">
+      <span>请选择：</span>
+      <el-radio-group v-model="selectedType">
+        <el-radio label="单位">单位</el-radio>
+        <el-radio label="个人">个人</el-radio>
+      </el-radio-group>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="confirm">确定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import letMain from "../let-main";
 import GoDB from "@/utils/godb.min.js";
+import { getDangerObject, getDocNumber } from '@/utils/monitor/setInitPaperData'
 export default {
   name: "Let209",
   props: {
@@ -553,8 +570,26 @@ export default {
   data() {
     return {
       letData: {},
-      options: {},
+      options: {
+        cellIdx7: {
+          page: '28',
+          key: 'cellIdx7'
+        },
+        cellIdx13: [
+          {
+            value: '公开',
+            name: '公开',
+          },
+          {
+            value: '不公开',
+            name: '不公开',
+          },
+        ]
+      },
       editData: {}, // 回显数据
+      visible: false,
+      selectedType: '单位', // 初始化时选择的单位或个人
+      extraData: {}, // 用于拼写隐患内容的字符集合
     };
   },
   created() {
@@ -584,6 +619,10 @@ export default {
           item.caseId === caseId && item.paperType === this.docData.docTypeNo
         );
       });
+      // 保存额外拼写的数据内容，用于修改隐患项时回显使用
+      this.extraData = {
+        corpName: corp.corpName,
+      }
       // 已做文书则展示文书内容，否则创建初始版本
       if (checkPaper.length > 0) {
         // 回显
@@ -591,47 +630,79 @@ export default {
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        // 1.弹出提示框，选择单位或个人
+        this.visible = true
+        // 2.生成文书编号
+        let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
+        // 3.企业煤矿名称
+        // 4.违法行为：获取笔录文书中的隐患数据
+        const let101Data = await wkPaper.find((item) => {
+          return item.caseId === caseId && item.paperType === '1';
+        });
+        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
+        let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
+        let cellIdx7String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`
+        // 5.地点：sysOfficeInfo实体中depAddress字段+ deparFullname字段
+        // 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
+        const orgInfo = db.table("orgInfo");
+        const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
+        let cellIdx12String = `${orgSysOfficeInfo.depAddress}${orgSysOfficeInfo.deparFullname}`
+        let cellIdx30String = orgSysOfficeInfo.depAddress
+        let cellIdx31String = orgSysOfficeInfo.depPost
+        let cellIdx33String = orgSysOfficeInfo.master
+        let cellIdx34String = orgSysOfficeInfo.phone
         this.letData = {
-          cellIdx0: null,//文书号
-          cellIdx1: null, //文书号
-          cellIdx2: null, //文书号
-          cellIdx3: null, //文书号
-          cellIdx4: null,
-          cellIdx5: null,//单位
-          cellIdx6: null, // 单位
-          cellIdx7: null, // 违法行为
+          cellIdx0: num0, // 文书号
+          cellIdx0TypeTextItem: num0, // 文书号
+          cellIdx1: num1, // 文书号
+          cellIdx1TypeTextItem: num1, // 文书号
+          cellIdx2: num3, // 文书号
+          cellIdx2TypeTextItem: num3, // 文书号
+          cellIdx3: num4, // 文书号
+          cellIdx3TypeTextItem: num4, // 文书号
+          cellIdx4: corp.corpName, // 单位
+          cellIdx4TypeTextItem: corp.corpName, // 单位
+          cellIdx5: null, // 单位
+          cellIdx6: null, // 单位/个人
+          cellIdx7: cellIdx7String, // 违法行为
           cellIdx8: null, // 年
-          cellIdx9: null, //月
-          cellIdx10: null, //日
-          cellIdx11: null,//时
-          cellIdx12: null, // 地点
-          cellIdx13: null, //地点
-          cellIdx14: null, // 单位
-          cellIdx15: null, //听证主持人姓名
+          cellIdx9: null, // 月
+          cellIdx10: null, // 日
+          cellIdx11: null, // 时
+          cellIdx12: cellIdx12String, // 地点
+          cellIdx12TypeTextItem: cellIdx12String, // 地点
+          cellIdx13: null, // 公开/不公开
+          cellIdx14: null, // 单位/个人
+          cellIdx15: null, // 听证主持人姓名
           cellIdx16: null, // 职务
           cellIdx17: null, // 听证员姓名
-          cellIdx18: null, //职务
+          cellIdx18: null, // 职务
           cellIdx19: null, // 听证员姓名
-          cellIdx20: null, //职务
-          cellIdx21: null, //录人姓名
-          cellIdx22: null, //职务
-          cellIdx23: null, // 单位
+          cellIdx20: null, // 签名
+          cellIdx21: null, // 录人姓名
+          cellIdx22: null, // 职务
+          cellIdx23: null, // 单位/个人
           cellIdx24: null, // 单位
           cellIdx25: null, // 单位
           cellIdx26: null, // 单位
-          cellIdx27: null, //签收人（签名）
+          cellIdx27: null, // 签收人（签名）
           cellIdx28: null, // 日期
-          cellIdx29: null, //单位
-          cellIdx30: null, //地址
-          cellIdx31: null, //邮政编码
+          cellIdx29: null, // 单位
+          cellIdx30: cellIdx30String, // 地址
+          cellIdx30TypeTextItem: cellIdx30String, // 地址
+          cellIdx31: cellIdx31String, // 邮政编码
+          cellIdx31TypeTextItem: cellIdx31String, // 邮政编码
           cellIdx32: null, // 单位
-          cellIdx33: null, // 联系人
-          cellIdx34: null, // 联系电话
-          cellIdx35: null, //
-          cellIdx36: null, // 年
-          cellIdx37: null, //月
-          cellIdx38: null, //日
-          cellIdx39: null,//
+          cellIdx33: cellIdx33String, // 联系人
+          cellIdx33TypeTextItem: cellIdx33String, // 联系人
+          cellIdx34: cellIdx34String, // 联系电话
+          cellIdx34TypeTextItem: cellIdx34String, // 联系电话
+          cellIdx35: null, // 年
+          cellIdx36: null, // 月
+          cellIdx37: null, // 日
+          cellIdx38: null, // 单位/个人
+          dangerItemObject: let101DataPapaerContent.dangerItemObject
         };
       }
       await db.close();
@@ -645,6 +716,14 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}Type${type}`;
+        if (key === 'cellIdx7') {
+          this.options[key] = {
+            page: '28',
+            key: key,
+            spellString: this.extraData
+          }
+          dataKey = 'dangerItemObject'
+        }
         this.$refs.letMain.commandFill(
           key,
           dataKey,
@@ -655,6 +734,18 @@ export default {
         );
       }
     },
+    confirm() {
+      // 选择单位或个人
+      this.visible = false
+      this.letData.cellIdx6 = this.selectedType
+      this.letData.cellIdx6TypeTextItem = this.selectedType
+      this.letData.cellIdx14 = this.selectedType
+      this.letData.cellIdx14TypeTextItem = this.selectedType
+      this.letData.cellIdx23 = this.selectedType
+      this.letData.cellIdx23TypeTextItem = this.selectedType
+      this.letData.cellIdx39 = this.selectedType
+      this.letData.cellIdx39TypeTextItem = this.selectedType
+    }
   },
 };
 </script>

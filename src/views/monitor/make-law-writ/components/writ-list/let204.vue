@@ -256,7 +256,7 @@
                   data-title="日期"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx13', '日期', 'TextItem')"
+                  @click="commandFill('cellIdx13', '日期', 'DateItem')"
                 >{{letData.cellIdx13}}</td>
               </tr>
               <tr>

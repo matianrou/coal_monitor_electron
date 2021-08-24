@@ -77,7 +77,8 @@ function setDangerTableItem (data, selectedData, options) {
   // 根据不同的文书，返回不同形式的文本
   let dangerObject = getDangerObject(data.tableData)
   let dangerObjectIndex = getDangerObject(data.tableData, {
-    danger: true
+    danger: true,
+    penaltyDesc: true
   })
   switch(options.page) {
     case '1':  // 现场检查记录
@@ -141,6 +142,7 @@ function setDangerTableItem (data, selectedData, options) {
       } else if (options.key === 'cellIdx8') {
         string = dangerObject.penaltyBasisString
       } else if (options.key === 'cellIdx10') {
+        console.log('1')
         string = `分别作出：${dangerObjectIndex.penaltyDesc}。合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle)}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`
       }
       break
