@@ -22,7 +22,7 @@
                   id="cell_idx_0"
                   contenteditable="true"
                   @click="commandFill('cellIdx0', '', 'TextItem')"
-                
+
                 >{{letData.cellIdx0}}（[SHORTNAME]）应急责改〔[YEAR]〕[DOCNUMBER]号</td>
               </tr>
             </table>
@@ -320,7 +320,7 @@ export default {
           cellIdx0: null,
           cellIdx1: corp.corpName ? corp.corpName : null, // 被检查单位
           cellIdx1TypeTextItem: corp.corpName ? corp.corpName : null,
-          cellIdx2: null, 
+          cellIdx2: null,
           cellIdx3: null, // 问题项数
           cellIdx4: null, // 日期
           cellIdx5: null, // 人民政府
@@ -331,7 +331,7 @@ export default {
           cellIdx10: null, // 执法人员
           cellIdx11: null, // 执法证号
           cellIdx12: null, // 被检查单位负责人
-          cellIdx13: null, 
+          cellIdx13: null,
           cellIdx14: null, // 日期
         };
       }
@@ -361,5 +361,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/scss/let";
+@import "@/assets/scss/let";
 </style>

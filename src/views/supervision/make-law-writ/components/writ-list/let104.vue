@@ -1,4 +1,4 @@
-<!-- 现场检查 一般检查 复查意见书 -->
+<!-- 现场检查 复查 复查意见书 13 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -17,7 +17,7 @@
               煤矿安全监管行政执法文书
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">复查意见书</div>
+            <div class="textAlignCenter formHeader3">复 查 意 见 书</div>
             <div class="stdRowH"></div>
             <table class="docBody">
               <tr>
@@ -126,17 +126,39 @@
                   @click="commandFill('cellIdx8', '日', 'TextItem')"
                 >{{ letData.cellIdx8 }}</td>
                 <td class="textAlignLeft">日发现你矿存在:</td>
-                <td
+                <!-- <td
                   style="width:36.5%"
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx9', '违法违规行为', 'TextItem')"
-                >{{ letData.cellIdx9 }}</td>
+                  @click="commandFill('cellIdx9', '违法违规行为', 'DangerTableItem')"
+                >{{ letData.cellIdx9 }}</td> -->
+                <div
+                  style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+                  class="cellInput mutiLineArea"
+                  id="cell_idx_10"
+                  data-title="违法行为"
+                  data-type="textarea"
+                  data-src
+                  @click="commandFill('cellIdx9', '违法行为', 'DangerTableItem')">
+                  <div v-if="letData.cellIdx9 && letData.cellIdx9.length > 0">
+                    <p class="show-area-item-p">
+                      <span style="padding: 7px;">{{ letData.cellIdx9 }}</span>
+                    </p>
+                  </div>
+                  <div v-else>
+                    <p class="show-area-item-p">
+                      &nbsp;
+                    </p>
+                    <p class="show-area-item-p">
+                      &nbsp;
+                    </p>
+                  </div>
+                </div>
                 <td class="textAlignLeft">的违法违规行为，依法作出了</td>
-                <td
+                <!-- <td
                   style="width:69.2%"
                   class="cellInput cellBottomLine"
                   id="cell_idx_10"
@@ -144,7 +166,29 @@
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx10', '', 'TextItem')"
-                >{{ letData.cellIdx10 }}</td>
+                >{{ letData.cellIdx10 }}</td> -->
+                <div
+                  style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+                  class="cellInput mutiLineArea"
+                  id="cell_idx_10"
+                  data-title="现场处理决定"
+                  data-type="textarea"
+                  data-src
+                  @click="commandFill('cellIdx10', '现场处理决定', 'DangerTableItem')">
+                  <div v-if="letData.cellIdx10 && letData.cellIdx10.length > 0">
+                    <p class="show-area-item-p">
+                      <span style="padding: 7px;">{{ letData.cellIdx10 }}</span>
+                    </p>
+                  </div>
+                  <div v-else>
+                    <p class="show-area-item-p">
+                      &nbsp;
+                    </p>
+                    <p class="show-area-item-p">
+                      &nbsp;
+                    </p>
+                  </div>
+                </div>
               </tr>
               <tr>
                 <td class="textAlignLeft">的决定 （</td>
@@ -319,6 +363,7 @@
 <script>
 import letMain from "../let-main";
 import GoDB from "@/utils/godb.min.js";
+import { getDangerObject, getDocNumber } from '@/utils/monitor/setInitPaperData'
 export default {
   name: "Let104",
   props: {
@@ -342,7 +387,26 @@ export default {
   data() {
     return {
       letData: {},
-      options: {},
+      options: {
+        cellIdx9: {
+          page: '13',
+          key: 'cellIdx9'
+        },
+        cellIdx10: {
+          page: '13',
+          key: 'cellIdx10'
+        },
+        cellIdx15: [
+          {
+            value: '应你单位申请',
+            name: '应你单位申请'
+          },
+          {
+            value: '现整改期届满',
+            name: '现整改期届满'
+          },
+        ]
+      },
       editData: {}, // 回显数据
     };
   },
@@ -380,31 +444,54 @@ export default {
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        // 1.生成文书编号
+        let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
+        // 2.发现你矿存在：隐患描述
+        // 获取笔录文书中的隐患数据
+        const let101Data = await wkPaper.find((item) => {
+          return item.caseId === caseId && item.paperType === '1';
+        });
+        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
+        let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData, {danger: true})
+        let cellIdx9String = dangerObject.dangerString
+        let cellIdx10String = dangerObject.onsiteDescString
+        // 3.现场处理决定2的文书号：11-14
+        let paperNum2 = await getDocNumber(db, '2', caseId, this.$store.state.user)
         this.letData = {
-          cellIdx0: null,
-          cellIdx1: null, 
-          cellIdx2: null, 
-          cellIdx3: null, 
-          cellIdx4: null,
-          cellIdx5: null,
+          cellIdx0: num0, // 文书号
+          cellIdx0TypeTextItem: num0, // 文书号
+          cellIdx1: num1, // 文书号
+          cellIdx1TypeTextItem: num1, // 文书号
+          cellIdx2: num3, // 文书号
+          cellIdx2TypeTextItem: num3, // 文书号
+          cellIdx3: num4, // 文书号
+          cellIdx3TypeTextItem: num4, // 文书号
+          cellIdx4: corp.corpName ? corp.corpName : null, //
+          cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, //
+          cellIdx5: null, // 单位
           cellIdx6: null, // 年
           cellIdx7: null, // 月
           cellIdx8: null, // 日
-          cellIdx9: null, // 违法违规行为
-          cellIdx10: null, 
-          cellIdx11: null, 
-          cellIdx12: null, 
-          cellIdx13: null, 
-          cellIdx14: null, 
-          cellIdx15: null, 
+          cellIdx9: cellIdx9String, // 违法违规行为：隐患描述
+          cellIdx10: cellIdx10String, // 现场处理决定
+          cellIdx11: paperNum2.num0, // 文书号
+          cellIdx11TypeTextItem: paperNum2.num0, // 文书号
+          cellIdx12: paperNum2.num1, // 文书号
+          cellIdx12TypeTextItem: paperNum2.num1, // 文书号
+          cellIdx13: paperNum2.num3, // 文书号
+          cellIdx13TypeTextItem: paperNum2.num3, // 文书号
+          cellIdx14: paperNum2.num4, // 文书号
+          cellIdx14TypeTextItem: paperNum2.num4, // 文书号
+          cellIdx15: null,
           cellIdx16: null, // 意见
           cellIdx17: null, // 被复查单位意见
           cellIdx18: null, // 单位负责人（签名）
           cellIdx19: null, // 日期
           cellIdx20: null, // 复查人员（签名）
           cellIdx21: null, // 日期
-          cellIdx22: null, 
+          cellIdx22: null,
           cellIdx23: null, // 日期
+          dangerItemObject: let101DataPapaerContent.dangerItemObject
         };
       }
       await db.close();
@@ -418,6 +505,13 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}Type${type}`;
+        if (key === 'cellIdx9' || key === 'cellIdx10') {
+          this.options[key] = {
+            page: '13',
+            key: key,
+          }
+          dataKey = 'dangerItemObject'
+        }
         this.$refs.letMain.commandFill(
           key,
           dataKey,
@@ -433,5 +527,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/scss/let";
+@import "@/assets/scss/let";
 </style>

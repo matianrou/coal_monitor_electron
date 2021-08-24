@@ -1,4 +1,4 @@
-<!-- 现场检查 一般检查 先行登记保存证据通知书 -->
+<!-- 现场检查 实施检查 先行登记保存证据通知书 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -17,7 +17,7 @@
               煤矿安全监管行政执法文书
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">先行登记保存证据通知书</div>
+            <div class="textAlignCenter formHeader3">先 行 登 记 保 存 证 据 通 知 书</div>
             <div class="stdRowH"></div>
             <table class="docBody">
               <tr>
@@ -92,7 +92,7 @@
                   data-src
                   @click="commandFill('cellIdx5', '', 'TextItem')"
                 >{{ letData.cellIdx5 }}</td>
-                <td
+                <!-- <td
                   style="width:78.5%"
                   class="cellInput cellBottomLine"
                   id="cell_idx_6"
@@ -100,7 +100,29 @@
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx6', '', 'TextItem')"
-                >{{ letData.cellIdx6 }}</td>
+                >{{ letData.cellIdx6 }}</td> -->
+                <div
+                  style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+                  class="cellInput mutiLineArea"
+                  id="cell_idx_6"
+                  data-title="违法行为"
+                  data-type="textarea"
+                  data-src
+                  @click="commandFill('cellIdx6', '违法行为', 'DangerTableItem')">
+                  <div v-if="letData.cellIdx6 && letData.cellIdx6.length > 0">
+                    <p class="show-area-item-p">
+                      <span style="padding: 7px;">{{ letData.cellIdx6 }}</span>
+                    </p>
+                  </div>
+                  <div v-else>
+                    <p class="show-area-item-p">
+                      &nbsp;
+                    </p>
+                    <p class="show-area-item-p">
+                      &nbsp;
+                    </p>
+                  </div>
+                </div>
               </tr>
               <tr>
                 <td
@@ -176,8 +198,11 @@
             <table height="30"></table>
             <table class="docBody">
               <tr>
-                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;附件：</td>
                 <td
+                  style="cursor: pointer;"
+                  @click="commandFill('cellIdx12', '先行登记保存证据清单', 'SamplingForensicsTable')"
+                  class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;附件：先行登记保存证据清单</td>
+                <!-- <td
                   class="cellInput"
                   id="cell_idx_12"
                   style="width:80%"
@@ -185,7 +210,7 @@
                   data-type="text"
                   data-src
                    @click="commandFill('cellIdx12', '先行登记保存证据清单', 'SamplingForensicsTable')">
-                   {{ letData.cellIdx12 }}</td>
+                   {{ letData.cellIdx12 }}</td> -->
               </tr>
             </table>
             <table class="docBody">
@@ -322,6 +347,7 @@
 <script>
 import letMain from "../let-main";
 import GoDB from "@/utils/godb.min.js";
+import { getDangerObject, getDocNumber } from '@/utils/monitor/setInitPaperData'
 export default {
   name: "Let108",
   props: {
@@ -345,7 +371,12 @@ export default {
   data() {
     return {
       letData: {},
-      options: {},
+      options: {
+        cellIdx6: {
+          page: '25',
+          key: 'cellIdx6'
+        },
+      },
       editData: {}, // 回显数据
     };
   },
@@ -383,30 +414,62 @@ export default {
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        // 1.生成文书编号
+        let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
+        // 2.获取笔录文书中的隐患数据
+        const let101Data = await wkPaper.find((item) => {
+          return item.caseId === caseId && item.paperType === '1';
+        });
+        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
+        let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
+        let cellIdx6String = `${dangerObject.dangerString}`
+        // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
+        const orgInfo = db.table("orgInfo");
+        const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
+        let cellIdx16String = orgSysOfficeInfo.depAddress
+        let cellIdx17String = orgSysOfficeInfo.depPost
+        let cellIdx19String = orgSysOfficeInfo.master
+        let cellIdx20String = orgSysOfficeInfo.phone
         this.letData = {
-          cellIdx0: null,
-          cellIdx1: null, 
-          cellIdx2: null, 
-          cellIdx3: null, 
-          cellIdx4: null,
-          cellIdx5: null,
-          cellIdx6: null, // 违法行为
-          cellIdx7: null, 
-          cellIdx8: null, 
-          cellIdx9: null, 
-          cellIdx10: null, 
-          cellIdx11: null, 
-          cellIdx12: null, // 先行登记保存证据清单
-          cellIdx13: null, //受送达人
+          cellIdx0: num0, // 文书号
+          cellIdx0TypeTextItem: num0, // 文书号
+          cellIdx1: num1, // 文书号
+          cellIdx1TypeTextItem: num1, // 文书号
+          cellIdx2: num3, // 文书号
+          cellIdx2TypeTextItem: num3, // 文书号
+          cellIdx3: num4, // 文书号
+          cellIdx3TypeTextItem: num4, // 文书号
+          cellIdx4: corp.corpName ? corp.corpName : null, // corpname
+          cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
+          cellIdx5: null, // 单位/个人？
+          cellIdx6: cellIdx6String, // 隐患描述
+          cellIdx7: null, // 单位
+          cellIdx8: null, // 单位/个人？
+          cellIdx9: null, // 存放在...
+          cellIdx10: null, // 由...负责保管
+          cellIdx11: null, // 单位
+          cellIdx12: null, // 附件：抽样取证清单
+          cellIdx13: null, // 受送达人（签名）
           cellIdx14: null, // 日期
-          cellIdx15: null, 
-          cellIdx16: null, // 地址
-          cellIdx17: null, // 邮政编码
-          cellIdx18: null, 
-          cellIdx19: null, // 联系人
-          cellIdx20: null, //联系电话
-          cellIdx21: null, 
-          cellIdx22: null, //日期
+          cellIdx15: null, // 单位
+          cellIdx16: cellIdx16String, // 地址
+          cellIdx16ypeTextItem: cellIdx16String, // 地址
+          cellIdx17: cellIdx17String, // 邮政编码
+          cellIdx17ypeTextItem: cellIdx17String, // 邮政编码
+          cellIdx18: null, // 单位
+          cellIdx19: cellIdx19String, // 联系人
+          cellIdx19ypeTextItem: cellIdx19String, // 联系人
+          cellIdx20: cellIdx20String, // 联系电话
+          cellIdx20ypeTextItem: cellIdx20String, // 联系电话
+          cellIdx21: null, //
+          cellIdx22: null, //
+          dangerItemObject: let101DataPapaerContent.dangerItemObject,
+          samplingForensicsTable: {
+            tableData: [],
+            signature: null,
+            signDate: ''
+          }
         };
       }
       await db.close();
@@ -420,6 +483,19 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}Type${type}`;
+        if (key === 'cellIdx6') {
+          this.options[key] = {
+            page: '25',
+            key: key,
+          }
+          dataKey = 'dangerItemObject'
+        } else if (key === 'cellIdx12') {
+          this.options[key] = {
+            canEdit: true,
+            page: '25', // 控制当前为抽样取证或者先行登记保存证据清单
+          }
+          dataKey = 'samplingForensicsTable'
+        }
         this.$refs.letMain.commandFill(
           key,
           dataKey,
@@ -435,5 +511,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/scss/let";
+@import "@/assets/scss/let";
 </style>

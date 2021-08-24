@@ -725,9 +725,9 @@ async function doDangerListDb(resId, data) {
 
 // “个人账号文书资源”下载。
 async function doDocDb(resId, data){
-	let arrPaper = data?data.paper:[];
-	let arrCase = data?data.jczfCase:[];
-	let arrDanger = data?data.danger:[];
+	let arrPaper = data && data.paper ? data.paper : [];
+	let arrCase = data && data.jczfCase ? data.jczfCase : [];
+	let arrDanger = data && data.danger ? data.danger : [];
 	const schema = {
 		wkPaper: {
 			"paperId": {     //客户端生产的文书唯一id

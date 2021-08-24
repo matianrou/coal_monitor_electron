@@ -95,7 +95,7 @@ import {
   setSelectItem,
   setSelectInputItem,
   setSamplingForensicsTable
-} from "@/utils/monitor/handlePaperData";
+} from "@/utils/supervision/handlePaperData";
 
 export default {
   name: "LetMain",
@@ -422,178 +422,178 @@ export default {
         ],
         danger: [],
       };
-      // if (this.docData.docTypeNo === "22") {
-      //   // 检查方案上传数据
-      //   let letData = this.$parent.letData;
-      //   // 监察方式（字典值，多个用逗号隔开）
-      //   let p22inspection = "";
-      //   if (
-      //     letData.cellIdx1TypeCheckItem &&
-      //     letData.cellIdx1TypeCheckItem.length > 0
-      //   ) {
-      //     letData.cellIdx1TypeCheckItem.map((item) => {
-      //       p22inspection += item + ",";
-      //     });
-      //   }
-      //   p22inspection = p22inspection.substring(0, p22inspection.length - 1);
-      //   // 检查项附件
-      //   let CheckItemRecords = [];
-      //   if (
-      //     letData.cellIdx5TypeCheckTableItem &&
-      //     letData.cellIdx5TypeCheckTableItem.tableData &&
-      //     letData.cellIdx5TypeCheckTableItem.tableData.length > 0
-      //   ) {
-      //     letData.cellIdx5TypeCheckTableItem.tableData.map((item) => {
-      //       let CheckItemRecord = {
-      //         name: item.categoryName,
-      //         basis: item.basis,
-      //         categoryCode: item.categoryCode,
-      //         categoryName: item.categoryName,
-      //         createBy: {
-      //           id: this.$store.state.user.userId,
-      //         },
-      //         createDate: item.createDate,
-      //         delFlag: item.delFlag,
-      //         groupId: item.groupId,
-      //         id: item.itemCode,
-      //         itemCode: item.itemCode,
-      //         itemContent: item.itemContent,
-      //         method: item.basis,
-      //         souFlag: item.souFlag,
-      //         status: item.status,
-      //         updateBy: {
-      //           id: this.$store.state.user.userId,
-      //         },
-      //         updateDate: item.updateDate,
-      //         paperId: workPaper.paperId,
-      //         groupName: this.$store.state.user.userGroupName,
-      //         personId: "[]",
-      //       };
-      //       CheckItemRecords.push(CheckItemRecord);
-      //     });
-      //   }
-      //   let p22JczfCheck = {
-      //     CheckItemRecords,
-      //   };
-      //   let p22PaperData = {
-      //     p22BeginTime:
-      //       letData.cellIdx2TypeDaterangeItem[0]
-      //         .replace("年", "-")
-      //         .replace("月", "-")
-      //         .replace("日", "") + " 00:00:00",
-      //     p22EndTime:
-      //       letData.cellIdx2TypeDaterangeItem[1]
-      //         .replace("年", "-")
-      //         .replace("月", "-")
-      //         .replace("日", "") + " 00:00:00",
-      //     p22location: letData.cellIdx4,
-      //     p22inspection,
-      //     p22JczfCheck: JSON.stringify(p22JczfCheck),
-      //     locationRemarks: letData.cellIdx1,
-      //   };
-      //   Object.assign(submitData.paper[0], p22PaperData);
-      // } else if (this.docData.docTypeNo === "1" || this.docData.docTypeNo === "2" || this.docData.docTypeNo === "8") {
-      //   // 现场检查笔录或现场处理决定书增加上传隐患项数据
-      //   let danger = [];
-      //   if (
-      //     this.$parent.letData &&
-      //     this.$parent.letData.dangerItemObject
-      //   ) {
-      //     let dangerItem = this.$parent.letData.dangerItemObject;
-      //     if (dangerItem.tableData && dangerItem.tableData.length > 0) {
-      //       dangerItem.tableData.map((item) => {
-      //         let dangerData = {
-      //           id: null,
-      //           isNewRecord: null,
-      //           remarks: null,
-      //           delFlag: workPaper.delFlag,
-      //           createDate: workPaper.createDate,
-      //           updateDate: workPaper.updateDate,
-      //           createBy: {
-      //             id: workPaper.personId,
-      //           },
-      //           personIds: workPaper.personId,
-      //           personNames: workPaper.personName,
-      //           updateBy: {
-      //             id: workPaper.personId,
-      //           },
-      //           caseId: workPaper.caseId,
-      //           dangerId: item.dangerId
-      //             ? item.dangerId
-      //             : getNowTime() + randomString(18),
-      //           dangerType: {
-      //             categoryCode: item.categoryCode,
-      //           },
-      //           dangerItemId: item.itemCode,
-      //           dangerContent: item.itemContent,
-      //           dangerLocation: null,
-      //           dangerStatus: null,
-      //           detectTime: getNowFormatTime(),
-      //           isHigh: item.isSerious,
-      //           personId: workPaper.personId,
-      //           personName: workPaper.personName,
-      //           rectifyTerm: null,
-      //           solveTime: null,
-      //           solveMethod: null,
-      //           checkTime: item.reviewDate,
-      //           checkPerson: null,
-      //           subitemCode: null,
-      //           subitemContent: item.itemContent,
-      //           subitemPenalty: item.penaltyDesc,
-      //           subitemPenaltyBasis: item.penaltyBasis,
-      //           penaltyDescFine: item.penaltyDescFine,
-      //           penaltyOrg: null,
-      //           penaltyOrgFine: null,
-      //           penaltyPerson: null,
-      //           penaltyPersonFine: null,
-      //           itemOnsiteType: null,
-      //           itemOnsiteBasis: item.onsiteBasis,
-      //           onsiteContent: item.onsiteDesc,
-      //           verNo: null,
-      //           paperId: paperId,
-      //           basisContent: item.confirmBasis,
-      //           name: null,
-      //           sourceFlag: "0",
-      //           onsiteType: item.onsiteType,
-      //           penaltyType: null,
-      //           changeDangerType: item.categoryCode,
-      //           showIndex: item.order,
-      //           isCheck: item.isReview,
-      //           dangerParentId: null,
-      //           isCommon: null,
-      //           deviceNum: item.deviceNum,
-      //           coalingFace: item.coalingFace,
-      //           headingFace: item.headingFace,
-      //           dangerCorrected: null,
-      //           reviewUnitId: null,
-      //           reviewUnitName: null,
-      //         };
-      //         danger.push(dangerData);
-      //       });
-      //     }
-      //   }
-      //   if (this.docData.docTypeNo === "8") {
-      //     // 行政处罚决定书保存时除添加隐患项数据以外还需保存以下数据
-      //     let letData =  this.$parent.letData
-      //     let penaltyTotle = 0
-      //     if (letData.dangerItemObject.tableData.length > 0) {
-      //       letData.dangerItemObject.tableData.map(item => {
-      //         penaltyTotle += item.penaltyDescFine ? Number(item.penaltyDescFine) : 0
-      //       })
-      //     }
-      //     submitData.paper.p8Penalty = penaltyTotle // 罚款总额
-      //     submitData.paper.p8PersonPenalty = letData.cellIdx4 === '个人' ? penaltyTotle : '', // 个人罚款总额
-      //     submitData.paper.p8OrgPenalty = letData.cellIdx4 === '单位' ? penaltyTotle : '' // 企业罚款总额
-      //     if (danger.length > 0) {
-      //       danger.forEach(item => {
-      //         item.penaltyType = letData.cellIdx4 // 行政处罚类型
-      //         item.penaltyOrgFine = letData.cellIdx4 === '单位' ? item.penaltyDescFine: '' // 单位罚金
-      //         item.penaltyPersonFine = letData.cellIdx4 === '个人' ? item.penaltyDescFine: '' // 个人罚金
-      //       })
-      //     }
-      //   }
-      //   submitData.danger = danger;
-      // }
+      if (this.docData.docTypeNo === "22") {
+        // 检查方案上传数据
+        let letData = this.$parent.letData;
+        // 监察方式（字典值，多个用逗号隔开）
+        let p22inspection = "";
+        if (
+          letData.cellIdx1TypeCheckItem &&
+          letData.cellIdx1TypeCheckItem.length > 0
+        ) {
+          letData.cellIdx1TypeCheckItem.map((item) => {
+            p22inspection += item + ",";
+          });
+        }
+        p22inspection = p22inspection.substring(0, p22inspection.length - 1);
+        // 检查项附件
+        let CheckItemRecords = [];
+        if (
+          letData.cellIdx5TypeCheckTableItem &&
+          letData.cellIdx5TypeCheckTableItem.tableData &&
+          letData.cellIdx5TypeCheckTableItem.tableData.length > 0
+        ) {
+          letData.cellIdx5TypeCheckTableItem.tableData.map((item) => {
+            let CheckItemRecord = {
+              name: item.categoryName,
+              basis: item.basis,
+              categoryCode: item.categoryCode,
+              categoryName: item.categoryName,
+              createBy: {
+                id: this.$store.state.user.userId,
+              },
+              createDate: item.createDate,
+              delFlag: item.delFlag,
+              groupId: item.groupId,
+              id: item.itemCode,
+              itemCode: item.itemCode,
+              itemContent: item.itemContent,
+              method: item.basis,
+              souFlag: item.souFlag,
+              status: item.status,
+              updateBy: {
+                id: this.$store.state.user.userId,
+              },
+              updateDate: item.updateDate,
+              paperId: workPaper.paperId,
+              groupName: this.$store.state.user.userGroupName,
+              personId: "[]",
+            };
+            CheckItemRecords.push(CheckItemRecord);
+          });
+        }
+        let p22JczfCheck = {
+          CheckItemRecords,
+        };
+        let p22PaperData = {
+          p22BeginTime:
+            letData.cellIdx2TypeDaterangeItem[0]
+              .replace("年", "-")
+              .replace("月", "-")
+              .replace("日", "") + " 00:00:00",
+          p22EndTime:
+            letData.cellIdx2TypeDaterangeItem[1]
+              .replace("年", "-")
+              .replace("月", "-")
+              .replace("日", "") + " 00:00:00",
+          p22location: letData.cellIdx4,
+          p22inspection,
+          p22JczfCheck: JSON.stringify(p22JczfCheck),
+          locationRemarks: letData.cellIdx1,
+        };
+        Object.assign(submitData.paper[0], p22PaperData);
+      } else if (this.docData.docTypeNo === "1" || this.docData.docTypeNo === "2" || this.docData.docTypeNo === "8") {
+        // 现场检查笔录或现场处理决定书增加上传隐患项数据
+        let danger = [];
+        if (
+          this.$parent.letData &&
+          this.$parent.letData.dangerItemObject
+        ) {
+          let dangerItem = this.$parent.letData.dangerItemObject;
+          if (dangerItem.tableData && dangerItem.tableData.length > 0) {
+            dangerItem.tableData.map((item) => {
+              let dangerData = {
+                id: null,
+                isNewRecord: null,
+                remarks: null,
+                delFlag: workPaper.delFlag,
+                createDate: workPaper.createDate,
+                updateDate: workPaper.updateDate,
+                createBy: {
+                  id: workPaper.personId,
+                },
+                personIds: workPaper.personId,
+                personNames: workPaper.personName,
+                updateBy: {
+                  id: workPaper.personId,
+                },
+                caseId: workPaper.caseId,
+                dangerId: item.dangerId
+                  ? item.dangerId
+                  : getNowTime() + randomString(18),
+                dangerType: {
+                  categoryCode: item.categoryCode,
+                },
+                dangerItemId: item.itemCode,
+                dangerContent: item.itemContent,
+                dangerLocation: null,
+                dangerStatus: null,
+                detectTime: getNowFormatTime(),
+                isHigh: item.isSerious,
+                personId: workPaper.personId,
+                personName: workPaper.personName,
+                rectifyTerm: null,
+                solveTime: null,
+                solveMethod: null,
+                checkTime: item.reviewDate,
+                checkPerson: null,
+                subitemCode: null,
+                subitemContent: item.itemContent,
+                subitemPenalty: item.penaltyDesc,
+                subitemPenaltyBasis: item.penaltyBasis,
+                penaltyDescFine: item.penaltyDescFine,
+                penaltyOrg: null,
+                penaltyOrgFine: null,
+                penaltyPerson: null,
+                penaltyPersonFine: null,
+                itemOnsiteType: null,
+                itemOnsiteBasis: item.onsiteBasis,
+                onsiteContent: item.onsiteDesc,
+                verNo: null,
+                paperId: paperId,
+                basisContent: item.confirmBasis,
+                name: null,
+                sourceFlag: "0",
+                onsiteType: item.onsiteType,
+                penaltyType: null,
+                changeDangerType: item.categoryCode,
+                showIndex: item.order,
+                isCheck: item.isReview,
+                dangerParentId: null,
+                isCommon: null,
+                deviceNum: item.deviceNum,
+                coalingFace: item.coalingFace,
+                headingFace: item.headingFace,
+                dangerCorrected: null,
+                reviewUnitId: null,
+                reviewUnitName: null,
+              };
+              danger.push(dangerData);
+            });
+          }
+        }
+        if (this.docData.docTypeNo === "8") {
+          // 行政处罚决定书保存时除添加隐患项数据以外还需保存以下数据
+          let letData =  this.$parent.letData
+          let penaltyTotle = 0
+          if (letData.dangerItemObject.tableData.length > 0) {
+            letData.dangerItemObject.tableData.map(item => {
+              penaltyTotle += item.penaltyDescFine ? Number(item.penaltyDescFine) : 0
+            })
+          }
+          submitData.paper.p8Penalty = penaltyTotle // 罚款总额
+          submitData.paper.p8PersonPenalty = letData.cellIdx4 === '个人' ? penaltyTotle : '', // 个人罚款总额
+          submitData.paper.p8OrgPenalty = letData.cellIdx4 === '单位' ? penaltyTotle : '' // 企业罚款总额
+          if (danger.length > 0) {
+            danger.forEach(item => {
+              item.penaltyType = letData.cellIdx4 // 行政处罚类型
+              item.penaltyOrgFine = letData.cellIdx4 === '单位' ? item.penaltyDescFine: '' // 单位罚金
+              item.penaltyPersonFine = letData.cellIdx4 === '个人' ? item.penaltyDescFine: '' // 个人罚金
+            })
+          }
+        }
+        submitData.danger = danger;
+      }
       this.$http
         .post(
           `/sv/local/jczf/uploadJczf?__sid=${this.$store.state.user.userSessId}`,

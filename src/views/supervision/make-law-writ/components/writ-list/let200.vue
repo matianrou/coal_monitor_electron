@@ -1,4 +1,4 @@
-<!-- 现场检查 一般检查 行政（当场）处罚决定书 -->
+<!-- 行政处罚 一般程序 行政（当场）处罚决定书 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -455,5 +455,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/scss/let";
+@import "@/assets/scss/let";
 </style>

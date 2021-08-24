@@ -185,7 +185,7 @@
                 <td class="textAlignLeft">危险区内撤出作业人员。</td>
               </tr>
               <!-- <tr>
-              
+
                 <div
                   style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
                   class="cellInput mutiLineArea"
@@ -578,9 +578,8 @@ export default {
           cellIdx24: null, // 执法人员（签名)
           cellIdx25: null, // 日期
           cellIdx26: null, //
-          cellIdx27: null, // 年
-          cellIdx28: null, //月
-          cellIdx29: null, //日
+          cellIdx27: null, // 日期
+          dangerItemObject: let101DataPapaerContent.dangerItemObject
         };
       }
       await db.close();
@@ -594,6 +593,13 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}Type${type}`
+        if (key === 'cellIdx12') {
+          this.options[key] = {
+            page: '3',
+            key: key,
+          }
+          dataKey = 'dangerItemObject'
+        }
         this.$refs.letMain.commandFill(key, dataKey, title, type, this.letData[dataKey], this.options[key])
       }
     },
@@ -602,5 +608,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/scss/let";
+@import "@/assets/scss/let";
 </style>

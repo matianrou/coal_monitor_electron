@@ -292,78 +292,31 @@
                 >{{letData.cellIdx20}}</td>
               </tr>
               <tr>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_21"
-                  style="width:95%"
-                  @click="commandFill('cellIdx21', '', 'DangerTableItem')"
-                >{{letData.cellIdx21}}</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_22"
-                  contenteditable="true"
-                  style="width:95%"
-                >{{letData.cellIdx22}}</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_23"
-                  style="width:95%"
-                  contenteditable="true"
-                >{{letData.cellIdx23}}</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_24"
-                  style="width:95%"
-                  contenteditable="true"
-                >{{letData.cellIdx24}}</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_25"
-                  contenteditable="true"
-                  style="width:95%"
-                >{{letData.cellIdx25}}</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_26"
-                  contenteditable="true"
-                  style="width:95%"
-                >{{letData.cellIdx26}}</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_27"
-                  contenteditable="true"
-                  style="width:95%"
-                >{{letData.cellIdx27}}</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_28"
-                  contenteditable="true"
-                  style="width:95%"
-                >{{letData.cellIdx28}}</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_29"
-                  contenteditable="true"
-                  style="width:95%"
-                >{{letData.cellIdx29}}</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_30"
-                  contenteditable="true"
-                  style="width:95%"
-                >{{letData.cellIdx30}}</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_31"
-                  contenteditable="true"
-                  style="width:95%"
-                >{{letData.cellIdx31}}</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_32"
-                  contenteditable="true"
-                  style="width:95%"
-                >{{letData.cellIdx32}}</td>
+                <div
+                  style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+                  class="cellInput mutiLineArea"
+                  @click="commandFill('cellIdx21', '', 'TextareaItem')">
+                  <div v-if="letData.cellIdx8 && letData.cellIdx8.length > 0" style="position: relative;">
+                    <p class="show-area-item-p">
+                      <span style="padding: 7px;">{{letData.cellIdx21}}</span>
+                    </p>
+                    <div
+                      v-for="(item, index) in 50"
+                      :key="index"
+                      class="cellLine"
+                      :style="`top: ${(index + 1) * 9.54}mm;`"
+                    >
+                    </div>
+                  </div>
+                  <div v-else>
+                    <p
+                      v-for="(item, index) in 8"
+                      :key="index"
+                      class="show-area-item-p">
+                      &nbsp;
+                    </p>
+                  </div>
+                </div>
               </tr>
               <tr>
                 <td
@@ -410,10 +363,6 @@ export default {
         cellIdx8: {
           page: '5',
           key: 'cellIdx8'
-        },
-        cellIdx21: {
-          page: '5',
-          key: 'cellIdx21'
         },
         cellIdx10: [ // 性别码表
           {
@@ -605,6 +554,7 @@ export default {
           cellIdx19: null, // 调查人（签名）
           cellIdx20: null, // 记录人（签名）
           cellIdx21: cellIdx21String,
+          cellIdx21TypeTextareaItem: cellIdx21String,
           cellIdx22: null,
           cellIdx23: null,
           cellIdx24: null,
@@ -631,13 +581,9 @@ export default {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}Type${type}`
         let spellString = {}
-        if (key === 'cellIdx8' || key === 'cellIdx21') {
-          if (key === 'cellIdx8') {
-            spellString = {
-              corpName: this.extraData.corpName,
-            }
-          } else if (key === 'cellIdx21') {
-            spellString = this.extraData
+        if (key === 'cellIdx8') {
+          spellString = {
+            corpName: this.extraData.corpName,
           }
           this.options[key] = {
             page: '5',
@@ -654,5 +600,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/scss/let";
+@import "@/assets/scss/let";
 </style>

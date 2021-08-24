@@ -682,7 +682,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~../assets/scss/main";
+@import "@/assets/scss/main";
 .writ-flow-spantd {
   width:182px;
   background:url('~../assets/image/doc-flow_r1_c2.png') no-repeat;

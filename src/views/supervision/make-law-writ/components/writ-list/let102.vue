@@ -1,4 +1,4 @@
-<!-- 现场检查 一般检查 现场处理决定书 -->
+<!-- 现场检查 一般检查 现场处理决定书 2 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -17,7 +17,7 @@
               煤矿安全监管行政执法文书
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">现场处理决定书</div>
+            <div class="textAlignCenter formHeader3">现 场 处 理 决 定 书</div>
             <div class="stdRowH"></div>
             <table class="docBody">
               <tr>
@@ -117,13 +117,22 @@
               data-title="现场处理决定"
               data-type="textarea"
               data-src
-              @click="commandFill('cellIdx7', '现场处理决定', 'TextItem')"
+              @click="commandFill('cellIdx7', '现场处理决定', 'DangerTableItem')"
             >
-              <p
-                style="width:95%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
-              >&nbsp;{{letData.cellIdx7}}</p>
+              <div v-if="letData.cellIdx7 && letData.cellIdx7.length > 0">
+                <p class="show-area-item-p">
+                  <span style="padding: 7px;">{{ letData.cellIdx7 }}</span>
+                </p>
+              </div>
+              <div v-else>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+              </div>
             </div>
-
             <table style="border:solid 0px #000;" class="docBody">
               <tr>
                 <td
@@ -178,7 +187,7 @@
                   data-title="日期"
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx11', '日期', 'TextItem')"
+                  @click="commandFill('cellIdx11', '日期', 'DateItem')"
                 >{{letData.cellIdx11}}</td>
               </tr>
               <tr>
@@ -202,7 +211,7 @@
                   data-title="日期"
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx13', '日期：', 'TextItem')"
+                  @click="commandFill('cellIdx13', '日期：', 'DateItem')"
                 >{{letData.cellIdx13}}</td>
               </tr>
             </table>
@@ -218,7 +227,7 @@
                   data-title
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx14', '', 'TextItem')"
+                  @click="commandFill('cellIdx14', '', 'DateItem')"
                 >{{letData.cellIdx14}}</td>
               </tr>
             </table>
@@ -232,7 +241,7 @@
                 data-title="日期"
                 data-type="date"
                 data-src
-                @click="commandFill('cellIdx15', '日期', 'TextItem')"
+                @click="commandFill('cellIdx15', '日期', 'DateItem')"
               >{{letData.cellIdx15}}</td>
             </table>
             <table>
@@ -249,6 +258,7 @@
 <script>
 import letMain from "../let-main";
 import GoDB from "@/utils/godb.min.js";
+import { getDangerObject, getDocNumber } from '@/utils/monitor/setInitPaperData'
 export default {
   name: "Let102",
   props: {
@@ -272,7 +282,13 @@ export default {
   data() {
     return {
       letData: {},
-      options: {},
+      options: {
+        cellIdx7: {
+          page: '2', // 用于在隐患项保存，做数据处理时，判断是否增加现场处理决定字段描述
+          showBaseInfor: false, // 用于区分是否展示基本情况大文本输入
+          showSelectDangerBtn: false // 用于区分是否可以选择隐患项
+        }
+      },
       editData: {}, // 回显数据
     };
   },
@@ -310,23 +326,42 @@ export default {
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        // 获取现场检查笔录中的隐患选择
+        const let101Data = await wkPaper.find((item) => {
+          return item.caseId === caseId && item.paperType === '1';
+        });
+        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
+        let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
+        // 通过机构接口中的sysOfficeInfo中获取的organName和courtPrefix字段分别填充cellIdx8和cellIdx9字段
+        const orgInfo = db.table("orgInfo");
+        const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
+        let paperNumber = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
         this.letData = {
-          cellIdx0: null, 
-          cellIdx1: null, 
-          cellIdx2: null,         
-          cellIdx3: null,
-          cellIdx4: null,         
-          cellIdx5: null, 
-          cellIdx6: null, 
-          cellIdx7: null, //现场处理决定
-          cellIdx8: null,         
-          cellIdx9: null, 
+          cellIdx0: paperNumber.num0, // 文书号
+          cellIdx0TypeTextItem: paperNumber.num0, // 文书号
+          cellIdx1: paperNumber.num1, // 文书号
+          cellIdx1TypeTextItem: paperNumber.num1, // 文书号
+          cellIdx2: paperNumber.num3, // 文书号
+          cellIdx2TypeTextItem: paperNumber.num3, // 文书号
+          cellIdx3: paperNumber.num4, // 文书号
+          cellIdx3TypeTextItem: paperNumber.num4, // 文书号
+          cellIdx4: corp.corpName ? corp.corpName : null, // 被检查单位
+          cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // 被检查单位
+          cellIdx5: null,
+          cellIdx6: null,
+          cellIdx7: dangerObject.contentOnsiteDesc, //现场处理决定
+          cellIdx8: orgSysOfficeInfo.organName,
+          cellIdx8TypeTextItem: orgSysOfficeInfo.organName, //
+          cellIdx9: orgSysOfficeInfo.courtPrefix, //
+          cellIdx9TypeTextItem: orgSysOfficeInfo.courtPrefix, //
           cellIdx10: null, //现场执法人员（签名)
           cellIdx11: null, // 日期
           cellIdx12: null, // 被检查单位负责人（签名)
           cellIdx13: null, // 日期
-          cellIdx14: null, 
+          cellIdx14: null,
           cellIdx15: null, // 日期
+          dangerItemObject: let101DataPapaerContent.dangerItemObject, // 隐患项大表
         };
       }
       await db.close();
@@ -340,6 +375,10 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}Type${type}`;
+        if (key === 'cellIdx7') {
+          // 隐患项时对应letData中的dangerItemObject
+          dataKey = 'dangerItemObject'
+        }
         this.$refs.letMain.commandFill(
           key,
           dataKey,
@@ -355,5 +394,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/scss/let";
+@import "@/assets/scss/let";
 </style>

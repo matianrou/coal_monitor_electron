@@ -303,6 +303,35 @@
               </tr>
             </table>
             <table height="30"></table>
+            <table class="docBody">
+              <tr>
+                <td
+                  class="cellInput"
+                  id="cell_idx_21"
+                  align="right"
+                  style="width:95%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx21', '', 'TextItem')"
+                >{{ letData.cellIdx21 }}</td>
+              </tr>
+            </table>
+            <table class="docBody">
+              <tr>
+                <td class="cellInput" style="width:55%"></td>
+                <td
+                  class="cellInput"
+                  id="cell_idx_22"
+                  align="center"
+                  style="width:45%"
+                  data-title="日期"
+                  data-type="date"
+                  data-src
+                  @click="commandFill('cellIdx22', '日期', 'TextItem')"
+                >{{ letData.cellIdx22 }}</td>
+              </tr>
+            </table>
             <table>
               <hr />
               <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被检查单位，一份存档。</td>
@@ -469,5 +498,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/scss/let";
+@import "@/assets/scss/let";
 </style>
