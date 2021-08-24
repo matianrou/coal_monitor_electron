@@ -394,11 +394,11 @@ export default {
           cellIdx13: null, //邮政编码
           cellIdx14: null, // 我分局联系人
           cellIdx15: null, // 联系电话
-          cellIdx16: null, // 
+          cellIdx16: null, //
           cellIdx17: null, // 年
           cellIdx18: null, //月
           cellIdx19: null, // 日
-          
+
         };
       }
       await db.close();
@@ -427,5 +427,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/scss/let";
+@import "@/assets/scss/let";
 </style>

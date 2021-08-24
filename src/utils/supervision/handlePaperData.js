@@ -102,6 +102,13 @@ function setDangerTableItem (data, selectedData, options) {
     case '25': // 先行登记保存证据通知书
       string = `${dangerObject.dangerString}`
       break
+    case '32': // 查封(扣押)决定书
+      if (options.key === 'cellIdx7') {
+        string = `${dangerObject.dangerString}`
+      } else if (options.key === 'cellIdx8') {
+        string = `${dangerObject.illegalString}`
+      }
+      break
 
     case '4': // 立案决定书
       if (options.key === 'cellIdx4') {
@@ -162,16 +169,6 @@ function setDangerTableItem (data, selectedData, options) {
       break
     case '29': // 不予受理听证申请通知书
       string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString}案。`
-      break
-
-
-
-    case '32': // 查封(扣押)决定书
-      if (options.key === 'cellIdx7') {
-        string = `${dangerObject.dangerString}`
-      } else if (options.key === 'cellIdx8') {
-        string = `${dangerObject.illegalString}`
-      }
       break
     case '15': // 执法案卷（首页）及目录
       string = `${options.spellString.corpName}${dangerObject.dangerString}案。`

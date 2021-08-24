@@ -121,12 +121,12 @@ export function createHtml(paperDiv) {
         }
         .mutiLineArea p {
           width: 100%;
-          border-bottom: 1px solid #000;
           line-height: 9.6mm;
+          white-space: pre-wrap;
+          border-bottom: 1px solid #000;
         }
         .mutiLineArea span{
           width: 100%;
-          border-bottom: 1px solid #000;
           height: 9.6mm;
           line-height: 9.6mm;
         }
@@ -205,6 +205,12 @@ export function createHtml(paperDiv) {
         }
         .border-solid {
           border: solid 0px #000;
+        }
+        .cellLine {
+          height: 1px;
+          width: 100%;
+          background: #000;
+          position: absolute;
         }
       </style>
     </head>

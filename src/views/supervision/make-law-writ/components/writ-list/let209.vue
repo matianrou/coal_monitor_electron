@@ -627,7 +627,7 @@ export default {
           cellIdx32: null, // 单位
           cellIdx33: null, // 联系人
           cellIdx34: null, // 联系电话
-          cellIdx35: null, // 
+          cellIdx35: null, //
           cellIdx36: null, // 年
           cellIdx37: null, //月
           cellIdx38: null, //日
@@ -660,5 +660,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/scss/let";
+@import "@/assets/scss/let";
 </style>

@@ -395,7 +395,7 @@ export default {
           cellIdx19: null, // 违法行为
           cellIdx20: null, //陈述、申辩
           cellIdx21: null, //法制审核意见
-          
+
         };
       }
       await db.close();
@@ -424,5 +424,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/scss/let";
+@import "@/assets/scss/let";
 </style>

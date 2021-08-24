@@ -1,4 +1,4 @@
-<!-- 行政处罚 一般程序 
+<!-- 行政处罚 一般程序
 
  行政处罚决定书 -->
 <template>
@@ -417,7 +417,7 @@ export default {
           cellIdx16: null, // 地址
           cellIdx17: null, // 煤监机构
           cellIdx18: null, //人民法院
-          cellIdx19: null, // 
+          cellIdx19: null, //
           cellIdx20: null, //年
           cellIdx21: null, //月
           cellIdx22: null, //日
@@ -449,5 +449,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/scss/let";
+@import "@/assets/scss/let";
 </style>
