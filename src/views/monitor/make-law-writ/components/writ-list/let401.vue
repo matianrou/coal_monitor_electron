@@ -26,7 +26,7 @@
                   id="cell_idx_0"
                   contenteditable="true"
                   align="center"
-                  style="width:7%"
+                  style="width:25%"
                   data-title="文书号"
                   data-type="text"
                   data-src
@@ -70,8 +70,6 @@
                 >{{letData.cellIdx3}}</td>
                 <td class="textAlignLeft cellBottomLine">
                   号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   &nbsp;&nbsp;&nbsp;
                 </td>
                 <td class="textAlignLeft cellBottomLine">签发人：</td>
@@ -80,7 +78,7 @@
                   id="cell_idx_4"
                   contenteditable="true"
                   align="center"
-                  style="width:15%"
+                  style="width:17%"
                   data-title="签发人"
                   data-type="text"
                   data-src
@@ -118,18 +116,29 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_7"
                   contenteditable="true"
-                  style="width:67%"
+                  style="width:30%"
                   data-title=""
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx7', '', 'TextItem')"
                 >{{letData.cellIdx7}}</td>
-              </tr>
-              <tr>
                 <td class="textAlignLeft">存在</td>
+                <td
+                    style="width:33%"
+                    class="cellInput cellBottomLine"
+                    id="cell_idx_8"
+                    data-title="调查事由"
+                    data-type="textarea"
+                    data-src
+                    @click="commandFill('cellIdx8', '', 'TextareaItem')">
+                  {{ letData.cellIdx8 }}
+                </td>
+                <td class="textAlignLeft">的问题，根据《中华人民共和国安全生产法》第六十九条规定，现将该案件移送贵单位依法处理。</td>
+                
               </tr>
+
             </table>
-            <div
+            <!-- <div
               style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
               class="cellInput mutiLineArea"
               id="cell_idx_8"
@@ -140,14 +149,16 @@
               <p class="show-area-item-p">
                 <span style="padding: 7px;">{{ letData.cellIdx8 }}</span>
               </p>
-            </div>
+            </div> -->
             <table class="docBody">
-              <tr>
+              <!-- <tr>
                 <td class="textAlignLeft">的问题，根据《中华人民共和国安全生产法》第六十六条规定，现将该问题移送贵单位依</td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">法处理。</td>
-              </tr>
+              </tr> -->
+              <!-- <tr>
+                <td class="textAlignLeft"></td>
+              </tr> -->
+              <br>
+              <br>
               <tr>
                 <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;附件：有关材料</td>
                 <td
@@ -209,7 +220,7 @@
                   id="cell_idx_13"
                   contenteditable="true"
                   align="center"
-                  style="width:20%"
+                  style="width:21%"
                   data-title="邮政编码"
                   data-type="text"
                   data-src
@@ -328,7 +339,7 @@
             <table class="docBody">
               <td class="cellInput" style="width:55%"></td>
               <td
-                class="cellInput cellBottomLine"
+                class="cellInput "
                 id="cell_idx_22"
                 align="center"
                 style="width:10%"
@@ -339,7 +350,7 @@
               >{{letData.cellIdx22}}</td>
               <td class="textAlignLeft">年</td>
               <td
-                class="cellInput cellBottomLine"
+                class="cellInput "
                 id="cell_idx_23"
                 align="center"
                 style="width:10%"
@@ -350,7 +361,7 @@
               >{{letData.cellIdx23}}</td>
               <td class="textAlignLeft">月</td>
               <td
-                class="cellInput cellBottomLine"
+                class="cellInput "
                 id="cell_idx_24"
                 align="center"
                 style="width:10%"
