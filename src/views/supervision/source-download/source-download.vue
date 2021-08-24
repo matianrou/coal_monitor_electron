@@ -29,11 +29,12 @@
           <td>机构资源</td>
           <td>2020/10/02 18:20:36</td>
           <td style="text-align:center;" id="cell-org-down">
-            <button
+            <el-button
+              type="text"
+              :loading="loading.download"
               id="btn-org-down"
-              style="width:80px;height:28px;border:0;border-radius:10px;"
               @click="resDownload('org')"
-            >下载</button>
+            >下载</el-button>
           </td>
         </tr>
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
@@ -41,11 +42,12 @@
           <td>用户资源</td>
           <td>2020/11/15 14:48:42</td>
           <td style="text-align:center;" id="cell-person-down">
-            <button
+            <el-button
+              type="text"
+              :loading="loading.download"
               id="btn-person-down"
-              style="width:80px;height:28px;border:0;border-radius:10px;"
               @click="resDownload('person')"
-            >下载</button>
+            >下载</el-button>
           </td>
         </tr>
         <!--
@@ -61,11 +63,12 @@
           <td>其它资源</td>
           <td>2020/11/15 13:57:22</td>
           <td style="text-align:center;" id="cell-plan-down">
-            <button
+            <el-button
+              type="text"
+              :loading="loading.download"
               id="btn-plan-down"
-              style="width:80px;height:28px;border:0;border-radius:10px;"
               @click="resDownload('plan')"
-            >下载</button>
+            >下载</el-button>
           </td>
         </tr>
         <tr style="height:36px;background-color:#F9FDFF;border-top:1px solid #DCECFB;">
@@ -81,11 +84,12 @@
           <td>企业列表</td>
           <td>2020/11/15 15:10:25</td>
           <td style="text-align:center;" id="cell-corp-down">
-            <button
+            <el-button
+              type="text"
+              :loading="loading.download"
               id="btn-corp-down"
-              style="width:80px;height:28px;border:0;border-radius:10px;"
               @click="resDownload('corp')"
-            >下载</button>
+            >下载</el-button>
           </td>
         </tr>
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
@@ -93,11 +97,12 @@
           <td>行政区域</td>
           <td>2020/11/15 15:10:25</td>
           <td style="text-align:center;" id="cell-EnterpriseList-down">
-            <button
+            <el-button
+              type="text"
+              :loading="loading.download"
               id="btn-EnterpriseList-down"
-              style="width:80px;height:28px;border:0;border-radius:10px;"
               @click="resDownload('EnterpriseList')"
-            >下载</button>
+            >下载</el-button>
           </td>
         </tr>
         <tr style="height:36px;background-color:#F9FDFF;border-top:1px solid #DCECFB;">
@@ -113,11 +118,12 @@
           <td>检查项类别</td>
           <td>2020/10/02 18:20:36</td>
           <td style="text-align:center;" id="cell-check-cate-down">
-            <button
+            <el-button
+              type="text"
+              :loading="loading.download"
               id="btn-check-cate-down"
-              style="width:80px;height:28px;border:0;border-radius:10px;"
               @click="resDownload('check-cate')"
-            >下载</button>
+            >下载</el-button>
           </td>
         </tr>
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
@@ -125,11 +131,12 @@
           <td>检查项内容</td>
           <td>2020/10/02 18:20:36</td>
           <td style="text-align:center;" id="cell-check-list-down">
-            <button
+            <el-button
+              type="text"
+              :loading="loading.download"
               id="btn-check-list-down"
-              style="width:80px;height:28px;border:0;border-radius:10px;"
               @click="resDownload('check-list')"
-            >下载</button>
+            >下载</el-button>
           </td>
         </tr>
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
@@ -137,11 +144,12 @@
           <td>隐患类别</td>
           <td>2020/10/02 18:20:36</td>
           <td style="text-align:center;" id="cell-danger-cate-down">
-            <button
+            <el-button
+              type="text"
+              :loading="loading.download"
               id="btn-danger-cate-down"
-              style="width:80px;height:28px;border:0;border-radius:10px;"
               @click="resDownload('danger-cate')"
-            >下载</button>
+            >下载</el-button>
           </td>
         </tr>
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
@@ -149,11 +157,12 @@
           <td>隐患内容</td>
           <td>2020/10/02 18:20:36</td>
           <td style="text-align:center;" id="cell-danger-list-down">
-            <button
+            <el-button
+              type="text"
+              :loading="loading.download"
               id="btn-danger-list-down"
-              style="width:80px;height:28px;border:0;border-radius:10px;"
               @click="resDownload('danger-list')"
-            >下载</button>
+            >下载</el-button>
           </td>
         </tr>
         <tr style="height:36px;background-color:#F9FDFF;border-top:1px solid #DCECFB;">
@@ -169,11 +178,12 @@
           <td>个人账号文书资源</td>
           <td>2020/10/02 18:20:36</td>
           <td style="text-align:center;" id="cell-doc-down">
-            <button
+            <el-button
+              type="text"
+              :loading="loading.download"
               id="btn-doc-down"
-              style="width:80px;height:28px;border:0;border-radius:10px;"
               @click="resDownload('doc')"
-            >下载</button>
+            >下载</el-button>
           </td>
         </tr>
         <!--
@@ -191,10 +201,30 @@
 
 <script>
 import { doOrgDb, doPersonDb, doPlanDb, doCorpDb, doEnterpriseList, doCheckCateDb, doCheckListDb, doDangerCateDb, doDangerListDb, doDocDb } from "@/utils/supervision/downloadSource"
+
 export default {
   name: "SupervisionSourceDownload",
+  async beforeRouteLeave(to, from, next){
+    if (this.loading.download) {
+      await this.$confirm('当前正在下载，切换页签会导致下载失败，是否确认切换？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          dangerouslyUseHTMLString: true,
+          type: 'warning'
+        }).then(() => {
+          // 如果确定跳转则调用mainTop组件中的切换tab方法，传go为true执行继续跳转
+          this.$parent.$refs.mainTop.changeTab(to.name.substring(11, to.name.length), true)
+          next()
+        }).catch(() => {
+        })
+    }
+  },
   data() {
-    return {};
+    return {
+      loading: {
+        download: true,
+      }
+    };
   },
   created() {},
   methods: {
@@ -278,6 +308,7 @@ export default {
 
         //下载机构所有文书，
       }
+      this.loading.download = true
       this.$http
         .get(`${uri}`)
         .then(async (response) => {
@@ -286,6 +317,7 @@ export default {
               "远程请求异常，可能是认证信息超时，请重新登录。"
             );
             objLink.disabled = false;
+            this.loading.download = false
           } else {
             if (response.data.data) {
               // 删除当前库表，处理数据，保存至IndexDB
@@ -334,12 +366,14 @@ export default {
             }
             // 下载完毕
             document.getElementById('cell-' + resId + '-down').innerHTML = "下载完毕";
+            this.loading.download = false
           }
         })
         .catch((err) => {
           this.$message.error("远程请求异常，可能是认证信息超时，请重新登录。");
           console.log("下载失败：", err);
           objLink.disabled = false;
+          this.loading.download = false
         });
     },
     saveDBData(listData, ) {

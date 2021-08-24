@@ -43,8 +43,6 @@
                   @click="commandFill('cellIdx1', '', 'TextItem')"
                 >{{ letData.cellIdx1 }})</td>
                 <td class="textAlignLeft ">煤安复〔</td>
-                
-                
                 <td
                   class="cellInput "
                   id="cell_idx_2"
@@ -83,7 +81,6 @@
             </table>
             <table style="border:solid 0px #000;" class="docBody">
               <tr>
-                
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_5"
@@ -149,6 +146,7 @@
                     <p class="show-area-item-p">
                       <span style="padding: 7px;">{{ letData.cellIdx9 }}</span>
                     </p>
+                    <cell-line></cell-line>
                   </div>
                   <div v-else>
                     <p class="show-area-item-p">
@@ -160,15 +158,6 @@
                   </div>
                 </div>
                 <td class="textAlignLeft">的违法违规行为，依法作出了</td>
-                <!-- <td
-                  style="width:69.2%"
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_10"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx10', '', 'TextItem')"
-                >{{ letData.cellIdx10 }}</td> -->
                 <div
                   style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
                   class="cellInput mutiLineArea"
@@ -181,6 +170,7 @@
                     <p class="show-area-item-p">
                       <span style="padding: 7px;">{{ letData.cellIdx10 }}</span>
                     </p>
+                    <cell-line></cell-line>
                   </div>
                   <div v-else>
                     <p class="show-area-item-p">
@@ -193,63 +183,9 @@
                 </div>
               </tr>
               <tr>
-                <td class="textAlignLeft">的决定</td>
-                <!-- <td
-                  class="cellInput"
-                  id="cell_idx_11"
-                  align="center"
-                  style="width:8%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx11', '', 'TextItem')"
-                >{{ letData.cellIdx11 }}</td>
-                <td class="textAlignLeft">煤安监</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_12"
-                  align="center"
-                  style="width:8%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx12', '', 'TextItem')"
-                >{{ letData.cellIdx12 }}</td>
-                <td class="textAlignLeft">处〔</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_13"
-                  align="center"
-                  style="width:8%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx13', '', 'TextItem')"
-                >{{ letData.cellIdx13 }}</td>
-                <td class="textAlignLeft">〕</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_14"
-                  align="center"
-                  style="width:8%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx14', '', 'TextItem')"
-                >{{ letData.cellIdx14 }}</td>
-                <td class="textAlignLeft">号） 。</td> -->
+                <td class="textAlignLeft">的决定。</td>
               </tr>
               <tr>
-                <!-- <td
-                  class="cellInput"
-                  id="cell_idx_15"
-                  align="left"
-                  style="width:20%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx15', '', 'SelectItem')"
-                >{{ letData.cellIdx15 }}</td> -->
                 <td style="width:5%"></td>
                 <td class="textAlignLeft">应你单位申请，经复查，意见如下：</td>
               </tr>
@@ -267,10 +203,10 @@
               <p
                 style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
               >&nbsp;{{ letData.cellIdx11 }}</p>
+              <cell-line></cell-line>
             </div>
             <table class="docBody">
               <tr>
-              
                 <td class="textAlignLeft">现场执法人员（签名):</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -317,7 +253,7 @@
                 >{{letData.cellIdx15}}</td>
               </tr>
               <tr>
-                
+
                 <td class="textAlignLeft">被检查单位意见：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -366,11 +302,12 @@
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx19', '', 'TextItem')"
-                >{{ letData.cellIdx19 }}</td>
+                >{{ letData.cellIdx19 ? letData.cellIdx19 : '（点击编辑）' }}</td>
               </tr>
             </table>
              <table class="docBody">
               <td class="cellInput" style="width:55%"></td>
+
               <td
                 class="cellInput "
                 id="cell_idx_20"
@@ -452,16 +389,6 @@ export default {
           page: '13',
           key: 'cellIdx10'
         },
-        cellIdx15: [
-          {
-            value: '应你单位申请',
-            name: '应你单位申请'
-          },
-          {
-            value: '现整改期届满',
-            name: '现整改期届满'
-          },
-        ]
       },
       editData: {}, // 回显数据
     };
@@ -493,6 +420,7 @@ export default {
           item.caseId === caseId && item.paperType === this.docData.docTypeNo
         );
       });
+      // await wkPaper.delete(checkPaper[0].id)
       // 已做文书则展示文书内容，否则创建初始版本
       if (checkPaper.length > 0) {
         // 回显
@@ -511,8 +439,6 @@ export default {
         let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData, {danger: true})
         let cellIdx9String = dangerObject.dangerString
         let cellIdx10String = dangerObject.onsiteDescString
-        // 3.现场处理决定2的文书号：11-14
-        let paperNum2 = await getDocNumber(db, '2', caseId, this.$store.state.user)
         this.letData = {
           cellIdx0: num0, // 文书号
           cellIdx0TypeTextItem: num0, // 文书号
@@ -530,23 +456,16 @@ export default {
           cellIdx8: null, // 日
           cellIdx9: cellIdx9String, // 违法违规行为：隐患描述
           cellIdx10: cellIdx10String, // 现场处理决定
-          cellIdx11: paperNum2.num0, // 文书号
-          cellIdx11TypeTextItem: paperNum2.num0, // 文书号
-          cellIdx12: paperNum2.num1, // 文书号
-          cellIdx12TypeTextItem: paperNum2.num1, // 文书号
-          cellIdx13: paperNum2.num3, // 文书号
-          cellIdx13TypeTextItem: paperNum2.num3, // 文书号
-          cellIdx14: paperNum2.num4, // 文书号
-          cellIdx14TypeTextItem: paperNum2.num4, // 文书号
-          cellIdx15: null,
-          cellIdx16: null, // 意见
-          cellIdx17: null, // 被复查单位意见
-          cellIdx18: null, // 单位负责人（签名）
-          cellIdx19: null, // 日期
-          cellIdx20: null, // 复查人员（签名）
-          cellIdx21: null, // 日期
-          cellIdx22: null,
-          cellIdx23: null, // 日期
+          cellIdx11: null, // 意见
+          cellIdx12: null, // 现场执法人员（签名)
+          cellIdx13: null, // 执法证号
+          cellIdx14: null, // 现场执法人员（签名)
+          cellIdx15: null, // 执法证号
+          cellIdx16: null, // 被检查单位意见
+          cellIdx17: null, // 单位负责人（签名)
+          cellIdx18: null, // 日期
+          cellIdx19: null, //
+          cellIdx20: null, // 日期
           dangerItemObject: let101DataPapaerContent.dangerItemObject
         };
       }

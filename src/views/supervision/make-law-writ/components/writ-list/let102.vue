@@ -44,7 +44,6 @@
                   @click="commandFill('cellIdx1', '', 'TextItem')"
                 >{{letData.cellIdx1}}）</td>
                 <td class="textAlignLeft ">煤安处〔</td>
-
                 <td
                   class="cellInput "
                   id="cell_idx_2"
@@ -105,14 +104,13 @@
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx6', '', 'TextItem')"
-                >{{letData.cellIdx6}}</td>
+                >{{letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）'}}</td>
                 <td class="textAlignLeft">现场检查时，发现你单位有下列违法违规行为，</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">现作出以下现场处理决定：</td>
               </tr>
             </table>
-
             <div
               style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
               class="cellInput mutiLineArea"
@@ -177,8 +175,6 @@
                 >{{letData.cellIdx10}}</td>
                 <td class="textAlignLeft">人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。</td>
               </tr>
-
-
             </table>
             <table height="30"></table>
             <table class="docBody">
@@ -255,7 +251,6 @@
                 >{{letData.cellIdx16}}</td>
               </tr>
             </table>
-
             <table height="30"></table>
             <table class="docBody">
               <tr>
@@ -264,48 +259,21 @@
                   id="cell_idx_17"
                   align="right"
                   style="width:95%"
+                  @click="commandFill('cellIdx17', '', 'TextItem')"
+                >{{letData.cellIdx17 ? letData.cellIdx17 : '（点击编辑）'}}</td>
+              </tr>
+              <tr>
+                <td
+                  class="cellInput"
+                  id="cell_idx_18"
+                  align="right"
+                  style="width:95%"
                   data-title
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx17', '', 'DateItem')"
-                >{{letData.cellIdx17}}</td>
+                  @click="commandFill('cellIdx18', '日期', 'DateItem')"
+                >{{letData.cellIdx18 ? letData.cellIdx18 : '（点击编辑）'}}</td>
               </tr>
-            </table>
-            <table class="docBody">
-              <td class="cellInput" style="width:55%"></td>
-              <td
-                class="cellInput "
-                id="cell_idx_18"
-                align="center"
-                style="width:10%"
-                data-title="年"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx18', '年', 'TextItem')"
-              >{{letData.cellIdx18}}</td>
-              <td class="textAlignLeft">年</td>
-              <td
-                class="cellInput"
-                id="cell_idx_19"
-                align="center"
-                style="width:10%"
-                data-title="月"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx19', '月', 'TextItem')"
-              >{{letData.cellIdx19}}</td>
-              <td class="textAlignLeft">月</td>
-              <td
-                class="cellInput "
-                id="cell_idx_20"
-                align="center"
-                style="width:10%"
-                data-title="日"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx20', '日', 'DateItem')"
-              >{{letData.cellIdx20}}</td>
-              <td class="textAlignLeft">日</td>
             </table>
             <table>
               <hr />
@@ -382,6 +350,7 @@ export default {
           item.caseId === caseId && item.paperType === this.docData.docTypeNo
         );
       });
+      // await wkPaper.delete(checkPaper[0].id)
       // 已做文书则展示文书内容，否则创建初始版本
       if (checkPaper.length > 0) {
         // 回显
@@ -411,26 +380,23 @@ export default {
           cellIdx3TypeTextItem: paperNumber.num4, // 文书号
           cellIdx4: corp.corpName ? corp.corpName : null, // 被检查单位
           cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // 被检查单位
-          cellIdx5: null,
-          cellIdx6: null,
+          cellIdx5: null, // 暂不用
+          cellIdx6: null, // 本机关于XXX现场检查时
           cellIdx7: dangerObject.contentOnsiteDesc, //现场处理决定
-          cellIdx8: orgSysOfficeInfo.organName,
-          cellIdx8TypeTextItem: orgSysOfficeInfo.organName, //
-          cellIdx9: orgSysOfficeInfo.courtPrefix, //
-          cellIdx9TypeTextItem: orgSysOfficeInfo.courtPrefix, //
-          cellIdx10: null,
+          cellIdx8: null, // 人民政府
+          cellIdx9: orgSysOfficeInfo.organName,
+          cellIdx9TypeTextItem: orgSysOfficeInfo.organName, //
+          cellIdx10: orgSysOfficeInfo.courtPrefix, //
+          cellIdx10TypeTextItem: orgSysOfficeInfo.courtPrefix, //
           cellIdx11: null, // 现场执法人员（签名)'
           cellIdx12: null, //执法证号
           cellIdx13: null, // 现场执法人员（签名)
           cellIdx14: null,//执法证号
           cellIdx15: null, // 被检查单位负责人（签名)
-          dangerItemObject: let101DataPapaerContent.dangerItemObject, // 隐患项大表
-
           cellIdx16: null, // 日期
           cellIdx17: null, //
-          cellIdx18: null, // 年
-          cellIdx19: null,//月
-          cellIdx20: null, // 日
+          cellIdx18: null, // 日期
+          dangerItemObject: let101DataPapaerContent.dangerItemObject, // 隐患项大表
         };
       }
       await db.close();

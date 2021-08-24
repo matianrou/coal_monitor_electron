@@ -2,6 +2,7 @@
   <div class="main-page">
     <div class="main-header">
       <main-top
+        ref="mainTop"
         @change-tab="changeTab"
       ></main-top>
     </div>

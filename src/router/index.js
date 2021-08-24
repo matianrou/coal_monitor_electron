@@ -4,12 +4,13 @@ import Router from 'vue-router'
 
 //获取原型对象上的push函数
 const originalPush = Router.prototype.push
-//修改原型对象中的push方法
-Router.prototype.push = function push(location) {
-   return originalPush.call(this, location).catch(err => err)
+Router.prototype.push = function push (location, onResolve, onReject) {
+  if (onResolve || onReject){
+    return originalPush.call(this, location, onResolve, onReject)
+  }
+  return originalPush.call(this, location).catch(err => err)
 }
 Vue.use(Router)
-
 export default new Router({
   routes: [
     {
