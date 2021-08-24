@@ -118,12 +118,14 @@ export function createHtml(paperDiv) {
         .mutiLineArea {
           width: 19cm;
           margin: 0 auto;
+          position: relative;
         }
         .mutiLineArea p {
           width: 100%;
           line-height: 9.6mm;
           white-space: pre-wrap;
           border-bottom: 1px solid #000;
+          text-indent: 2em;
         }
         .mutiLineArea span{
           width: 100%;

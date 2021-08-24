@@ -163,6 +163,7 @@ table td{margin:0;padding:0;}
 .mutiLineArea {
   width: 19cm;
   margin: 0 auto;
+  position: relative;
 }
 .mutiLineArea p {
   width: 100%;
@@ -170,6 +171,7 @@ table td{margin:0;padding:0;}
   // height: 9.6mm;
   line-height: 9.6mm;
   white-space: pre-wrap;
+  text-indent: 2em;
 }
 .mutiLineArea span{
   width: 100%;

@@ -9,10 +9,13 @@ import '@/assets/scss/index.scss'
 import http from '@/utils/http'
 import cloneDeep from 'lodash/cloneDeep'
 import Print from '@/utils/print'
+import cellLine from '@/components/cell-line'
 
 Vue.use(ElementUI)
 Vue.use(Print)
 Vue.config.productionTip = false
+
+Vue.component("cellLine", cellLine)
 
 // 挂载全局
 Vue.prototype.$http = http
