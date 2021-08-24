@@ -21,7 +21,7 @@
             <div class="stdRowH"></div>
             <table class="docBody">
               <tr>
-                
+
                 <td
                   class="cellInput "
                   id="cell_idx_0"
@@ -44,7 +44,7 @@
                   @click="commandFill('cellIdx1', '', 'TextItem')"
                 >{{letData.cellIdx1}}）</td>
                 <td class="textAlignLeft ">煤安处〔</td>
-                
+
                 <td
                   class="cellInput "
                   id="cell_idx_2"
@@ -126,6 +126,7 @@
                 <p class="show-area-item-p">
                   <span style="padding: 7px;">{{ letData.cellIdx7 }}</span>
                 </p>
+                <cell-line></cell-line>
               </div>
               <div v-else>
                 <p class="show-area-item-p">
@@ -176,8 +177,8 @@
                 >{{letData.cellIdx10}}</td>
                 <td class="textAlignLeft">人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。</td>
               </tr>
-             
-              
+
+
             </table>
             <table height="30"></table>
             <table class="docBody">
@@ -417,14 +418,14 @@ export default {
           cellIdx8TypeTextItem: orgSysOfficeInfo.organName, //
           cellIdx9: orgSysOfficeInfo.courtPrefix, //
           cellIdx9TypeTextItem: orgSysOfficeInfo.courtPrefix, //
-          cellIdx10: null, 
+          cellIdx10: null,
           cellIdx11: null, // 现场执法人员（签名)'
           cellIdx12: null, //执法证号
           cellIdx13: null, // 现场执法人员（签名)
           cellIdx14: null,//执法证号
           cellIdx15: null, // 被检查单位负责人（签名)
           dangerItemObject: let101DataPapaerContent.dangerItemObject, // 隐患项大表
-          
+
           cellIdx16: null, // 日期
           cellIdx17: null, //
           cellIdx18: null, // 年

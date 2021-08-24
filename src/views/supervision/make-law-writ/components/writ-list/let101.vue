@@ -186,6 +186,7 @@
                 <p class="show-area-item-p">
                   <span style="padding: 7px;">{{ letData.cellIdx14 }}</span>
                 </p>
+                <cell-line></cell-line>
               </div>
               <div v-else>
                 <p class="show-area-item-p">
