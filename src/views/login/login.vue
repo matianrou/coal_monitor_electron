@@ -107,10 +107,10 @@ export default {
             // 最大化窗口
             electronRequest('maxWindow');
             // 判断当前登录用户为监管或监察，分别进入不同的路由
-            let path = 'CalmineMonitorElectronMain' // 监察路径
-            let DBName = 'CoalMonitorDB' // 监察使用DB
-            // let path = 'CalmineSupervisionElectronMain' // 监管路径
-            // let DBName = 'CoalSupervisionDB' // 监管使用DB
+            // let path = 'CalmineMonitorElectronMain' // 监察路径
+            // let DBName = 'CoalMonitorDB' // 监察使用DB
+            let path = 'CalmineSupervisionElectronMain' // 监管路径
+            let DBName = 'CoalSupervisionDB' // 监管使用DB
             this.$router.replace({
               name: path
             })

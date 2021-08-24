@@ -37,29 +37,29 @@
             <table class="docBody">
               <tr>
                 <td
-                  class="cellInput cellBottomLine"
+                  class="cellInput "
                   id="cell_idx_1"
                   align="right"
-                  style="width:55%"
+                  style="width:40%"
                   data-title
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx1', '', 'TextItem')"
                 >{{ letData.cellIdx1 }}</td>
-                <td class="textAlignLeft cellBottomLine">煤安监</td>
+                <td class="textAlignLeft ">煤安</td>
                 <td
-                  class="cellInput cellBottomLine"
+                  class="cellInput "
                   id="cell_idx_2"
                   align="center"
-                  style="width:7%"
+                  style="width:17%"
                   data-title
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx2', '', 'TextItem')"
                 >{{ letData.cellIdx2 }}</td>
-                <td class="textAlignLeft cellBottomLine">查〔</td>
+                <td class="textAlignLeft ">〔</td>
                 <td
-                  class="cellInput cellBottomLine"
+                  class="cellInput "
                   id="cell_idx_3"
                   align="center"
                   style="width:7%"
@@ -68,9 +68,9 @@
                   data-src
                   @click="commandFill('cellIdx3', '', 'TextItem')"
                 >{{ letData.cellIdx3 }}</td>
-                <td class="textAlignLeft cellBottomLine">〕</td>
+                <td class="textAlignLeft ">〕</td>
                 <td
-                  class="cellInput cellBottomLine"
+                  class="cellInput "
                   id="cell_idx_4"
                   align="center"
                   style="width:7%"
@@ -79,8 +79,10 @@
                   data-src
                   @click="commandFill('cellIdx4', '', 'TextItem')"
                 >{{ letData.cellIdx4 }}</td>
-                <td class="textAlignLeft cellBottomLine">号&nbsp;&nbsp;</td>
+                <td class="textAlignLeft ">号&nbsp;&nbsp;</td>
               </tr>
+              <br>
+              <br>
               <tr>
                 <td
                   class="cellInput cellBottomLine"
@@ -96,9 +98,9 @@
             </table>
             <table style="border:solid 0px #000;" class="docBody">
               <tr>
-                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;经查，你</td>
-                <td
-                  class="cellInput"
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;经查，你单位</td>
+                <!-- <td
+                  class="cellInput cellBottomLine"
                   id="cell_idx_6"
                   align="center"
                   style="width:10%"
@@ -106,9 +108,9 @@
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx6', '', 'TextItem')"
-                >{{ letData.cellIdx6 }}</td>
+                >{{ letData.cellIdx6 }}</td> -->
                 <td
-                  style="width:70%"
+                  style="width:81%"
                   class="cellInput cellBottomLine"
                   id="cell_idx_7"
                   data-title
@@ -118,11 +120,11 @@
                 >{{ letData.cellIdx7 }}</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">行为涉嫌违反</td>
+                <td class="textAlignLeft">的行为涉嫌违反</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_8"
-                  style="width:80%"
+                  style="width:84%"
                   data-title
                   data-type="text"
                   data-src
@@ -130,7 +132,10 @@
                 >{{ letData.cellIdx8 }}</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">根据《中华人民共和国安全生产法》第六十二条第一款第四项规定，我</td>
+                <td class="textAlignLeft">的规定，根据《中华人民共和国安全生产法》
+                  第六十五条第一款第四项和《中华人民共和国行政强制
+                  </td>
+                  <td>法》第二十四条规定，本机关决定对你单位涉案</td>
                 <td
                   class="cellInput"
                   id="cell_idx_9"
@@ -141,9 +146,29 @@
                   data-src
                   @click="commandFill('cellIdx9', '', 'TextItem')"
                 >{{ letData.cellIdx9 }}</td>
-                <td class="textAlignLeft">决定对你</td>
+                <td class="textAlignLeft">予以</td>
+                <td
+                  class="cellInput"
+                  id="cell_idx_11"
+                  style="width:15%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx11', '', 'TextItem')"
+                >{{ letData.cellIdx11 }}</td>
+                <td
+                  class="cellInput"
+                  id="cell_idx_11"
+                  style="width:15%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx11', '', 'TextItem')"
+                >{{ letData.cellIdx11 }}</td>
+                <td class="textAlignLeft">（详见《物品清单》）。</td>
+                
               </tr>
-              <tr>
+              <!-- <tr>
                 <td class="textAlignLeft">单位涉案</td>
                 <td
                   class="cellInput"
@@ -165,7 +190,7 @@
                   @click="commandFill('cellIdx11', '', 'TextItem')"
                 >{{ letData.cellIdx11 }}</td>
                 <td class="textAlignLeft">（详见《物品清单》）。</td>
-              </tr>
+              </tr> -->
               <tr>
                 <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我</td>
                 <td
