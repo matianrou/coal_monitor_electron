@@ -270,39 +270,46 @@
             </table>
             <table height="60"></table>
             <table class="docBody">
-              <td class="cellInput" style="width:55%"></td>
-              <td
-                class="cellInput"
-                id="cell_idx_18"
-                align="center"
-                style="width:10%"
-                data-title="年"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx18', '年', 'TextItem')"
+              <tr>
+                <td class="cellInput" id="cell_idx_18" align="right" style="width:95%"
+                @click="commandFill('cellIdx18', '', 'TextItem')"
               >{{letData.cellIdx18}}</td>
-              <td class="textAlignLeft">年</td>
+              </tr>
+            </table>
+            <table class="docBody">
+              <td class="cellInput" style="width:55%"></td>
               <td
                 class="cellInput"
                 id="cell_idx_19"
                 align="center"
                 style="width:10%"
-                data-title="月"
+                data-title="年"
                 data-type="text"
                 data-src
-                @click="commandFill('cellIdx19', '月', 'TextItem')"
+                @click="commandFill('cellIdx19', '年', 'TextItem')"
               >{{letData.cellIdx19}}</td>
-              <td class="textAlignLeft">月</td>
+              <td class="textAlignLeft">年</td>
               <td
                 class="cellInput"
                 id="cell_idx_20"
                 align="center"
                 style="width:10%"
+                data-title="月"
+                data-type="text"
+                data-src
+                @click="commandFill('cellIdx20', '月', 'TextItem')"
+              >{{letData.cellIdx20}}</td>
+              <td class="textAlignLeft">月</td>
+              <td
+                class="cellInput"
+                id="cell_idx_21"
+                align="center"
+                style="width:10%"
                 data-title="日"
                 data-type="text"
                 data-src
-                @click="commandFill('cellIdx20', '日', 'TextItem')"
-              >{{letData.cellIdx20}}</td>
+                @click="commandFill('cellIdx21', '日', 'TextItem')"
+              >{{letData.cellIdx21}}</td>
               <td class="textAlignLeft">日</td>
             </table>
             <table class="docBody">
@@ -310,11 +317,11 @@
               <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交申请听证</td>
               <td
                 class="cellInput"
-                id="cell_idx_21"
+                id="cell_idx_22"
                 align="center"
                 style="width:8%"
-                @click="commandFill('cellIdx21', '单位/个人', 'TextItem')"
-              >{{letData.cellIdx21}}</td>
+                @click="commandFill('cellIdx22', '单位/个人', 'TextItem')"
+              >{{letData.cellIdx22}}</td>
               <td class="textAlignLeft">，一份存档。</td>
             </table>
           </div>
@@ -478,10 +485,11 @@ export default {
           cellIdx16TypeTextItem: cellIdx16String, // 联系人
           cellIdx17: cellIdx17String, // 联系电话
           cellIdx17TypeTextItem: cellIdx17String, // 联系电话
-          cellIdx18: null, // 年
-          cellIdx19: null, // 月
-          cellIdx20: null, // 日
-          cellIdx21: null, // 单位或个人
+          cellIdx18: null, // 单位
+          cellIdx19: null, // 年
+          cellIdx20: null, // 月
+          cellIdx21: null, // 日
+          cellIdx22: null, // 单位或个人
         };
       }
       await db.close();
@@ -513,8 +521,8 @@ export default {
       this.letData.cellIdx5TypeTextItem = this.selectedType
       this.letData.cellIdx9 = this.selectedType
       this.letData.cellIdx9TypeTextItem = this.selectedType
-      this.letData.cellIdx21 = this.selectedType
-      this.letData.cellIdx21TypeTextItem = this.selectedType
+      this.letData.cellIdx22 = this.selectedType
+      this.letData.cellIdx22TypeTextItem = this.selectedType
     }
   },
 };

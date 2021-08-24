@@ -310,19 +310,42 @@
             <table class="docBody">
               <hr />
               <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交申请听证</td>
-              <td class="cellInput" id="cell_idx_22" align="center" style="width:8%"></td>
+              <td
+                class="cellInput"
+                id="cell_idx_22"
+                align="center"
+                style="width:8%"
+                @click="commandFill('cellIdx22', '单位/个人', 'TextItem')"
+              >{{letData.cellIdx22}}</td>
               <td class="textAlignLeft">，一份存档。</td>
             </table>
           </div>
         </div>
       </div>
     </let-main>
+    <el-dialog
+      title="文书信息选择"
+      :close-on-click-modal="false"
+      append-to-body
+      :visible="visible"
+      width="400px"
+      :show-close="false">
+      <span>请选择：</span>
+      <el-radio-group v-model="selectedType">
+        <el-radio label="单位">单位</el-radio>
+        <el-radio label="个人">个人</el-radio>
+      </el-radio-group>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="confirm">确定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import letMain from "../let-main";
 import GoDB from "@/utils/godb.min.js";
+import { getDocNumber, getDangerObject } from '@/utils/monitor/setInitPaperData'
 export default {
   name: "Let210",
   props: {
@@ -346,8 +369,30 @@ export default {
   data() {
     return {
       letData: {},
-      options: {},
+      options: {
+        cellIdx6: {
+          page: '29',
+          key: 'cellIdx6'
+        },
+        cellIdx7: [
+          {
+            value: '（一）',
+            name: '（一）',
+          },
+          {
+            value: '（二）',
+            name: '（二）',
+          },
+          {
+            value: '（三）',
+            name: '（三）',
+          },
+        ]
+      },
       editData: {}, // 回显数据
+      visible: false,
+      selectedType: '单位', // 初始化时选择的单位或个人
+      extraData: {}, // 用于拼写隐患内容的字符集合
     };
   },
   created() {
@@ -377,6 +422,10 @@ export default {
           item.caseId === caseId && item.paperType === this.docData.docTypeNo
         );
       });
+      // 保存额外拼写的数据内容，用于修改隐患项时回显使用
+      this.extraData = {
+        corpName: corp.corpName,
+      }
       // 已做文书则展示文书内容，否则创建初始版本
       if (checkPaper.length > 0) {
         // 回显
@@ -384,30 +433,60 @@ export default {
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        // 1.弹出提示框，选择单位或个人
+        this.visible = true
+        // 2.生成文书编号
+        let {num0, num1, num3, num4} = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
+        // 3.企业煤矿名称
+        // 4.违法行为：获取笔录文书中的隐患数据
+        const let101Data = await wkPaper.find((item) => {
+          return item.caseId === caseId && item.paperType === '1';
+        });
+        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
+        let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
+        let cellIdx6String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`
+        // 5.地点：sysOfficeInfo实体中depAddress字段+ deparFullname字段
+        // 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
+        const orgInfo = db.table("orgInfo");
+        const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
+        let cellIdx13String = orgSysOfficeInfo.depAddress
+        let cellIdx14String = orgSysOfficeInfo.depPost
+        let cellIdx16String = orgSysOfficeInfo.master
+        let cellIdx17String = orgSysOfficeInfo.phone
         this.letData = {
-          cellIdx0: null,//文书号
-          cellIdx1: null, //文书号
-          cellIdx2: null, //文书号
-          cellIdx3: null, //文书号
-          cellIdx4: null,
-          cellIdx5: null,//单位或个人
-          cellIdx6: null, // 违法行为
+          cellIdx0: num0, // 文书号
+          cellIdx0TypeTextItem: num0, // 文书号
+          cellIdx1: num1, // 文书号
+          cellIdx1TypeTextItem: num1, // 文书号
+          cellIdx2: num3, // 文书号
+          cellIdx2TypeTextItem: num3, // 文书号
+          cellIdx3: num4, // 文书号
+          cellIdx3TypeTextItem: num4, // 文书号
+          cellIdx4: corp.corpName, // 企业煤矿名称
+          cellIdx4TypeTextItem: corp.corpName, //
+          cellIdx5: null, // 单位或个人
+          cellIdx6: cellIdx6String, // 违法行为
           cellIdx7: null, // 编号
           cellIdx8: null, // 单位
-          cellIdx9: null, //单位或个人
-          cellIdx10: null, //签收人（签名）
-          cellIdx11: null,//日期
-          cellIdx12: null, // 单位或个人
-          cellIdx13: null, //地址
-          cellIdx14: null, // 邮政编码
-          cellIdx15: null, //单位或个人
-          cellIdx16: null, // 联系人
-          cellIdx17: null, // 联系电话
-          cellIdx18: null, //
+          cellIdx9: null, // 单位或个人
+          cellIdx10: null, // 签收人（签名）
+          cellIdx11: null, // 日期
+          cellIdx12: null, // 单位
+          cellIdx13: cellIdx13String, // 地址
+          cellIdx13TypeTextItem: cellIdx13String, // 地址
+          cellIdx14: cellIdx14String, // 邮政编码
+          cellIdx14TypeTextItem: cellIdx14String, // 邮政编码
+          cellIdx15: null, // 单位
+          cellIdx16: cellIdx16String, // 联系人
+          cellIdx16TypeTextItem: cellIdx16String, // 联系人
+          cellIdx17: cellIdx17String, // 联系电话
+          cellIdx17TypeTextItem: cellIdx17String, // 联系电话
+          cellIdx18: null, // 单位
           cellIdx19: null, // 年
-          cellIdx20: null, //月
-          cellIdx21: null, //日
-          
+          cellIdx20: null, // 月
+          cellIdx21: null, // 日
+          cellIdx22: null, // 单位或个人
         };
       }
       await db.close();
@@ -421,6 +500,14 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}Type${type}`;
+        if (key === 'cellIdx6') {
+          this.options[key] = {
+            page: '29',
+            key: key,
+            spellString: this.extraData
+          }
+          dataKey = 'dangerItemObject'
+        }
         this.$refs.letMain.commandFill(
           key,
           dataKey,
@@ -431,6 +518,16 @@ export default {
         );
       }
     },
+    async confirm() {
+      // 选择单位或个人
+      this.visible = false
+      this.letData.cellIdx5 = this.selectedType
+      this.letData.cellIdx5TypeTextItem = this.selectedType
+      this.letData.cellIdx9 = this.selectedType
+      this.letData.cellIdx9TypeTextItem = this.selectedType
+      this.letData.cellIdx22 = this.selectedType
+      this.letData.cellIdx22TypeTextItem = this.selectedType
+    }
   },
 };
 </script>
