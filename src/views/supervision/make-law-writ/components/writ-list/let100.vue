@@ -58,24 +58,11 @@
               </tr>
               <tr>
                 <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;四、煤矿企业概况：</td>
-                <td 
-                class="cellInput cellBottomLine"
-                style="width:74.5%"></td>
-                <td 
-                class="cellInput cellBottomLine"
-                style="width:100%"></td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_3"
-                  style="width:100%"
-                  data-title="煤矿概况"
-                  data-type="textarea"
-                  data-src
-                   @click="commandFill('cellIdx3', '煤矿概况', 'TextItem')"
-                >{{ letData.cellIdx3 }}</td>
+                
+         
               </tr>
             </table>
-            <!-- <div
+            <div
               style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
               class="cellInput mutiLineArea"
               id="cell_idx_3"
@@ -88,13 +75,14 @@
                 style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
               >{{ letData.cellIdx3 }}</p>
               
-            </div> -->
+            </div>
             
             <table class="docBody">
               <tr>
-                <td style="width:18%" class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;五、检查地点：</td>
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;五、检查地点：</td>
+                
                 <td
-                  style="width:82%"
+                  style="width:79%"
                   class="cellInput cellBottomLine oneLine"
                   id="cell_idx_4"
                   data-title="检查地点"
@@ -106,10 +94,10 @@
             </table>
             <table class="docBody">
               <tr>
-                <td style="width:40%" class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;六、检查的主要内容和分工见明细表</td>
+                <td  class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;六、检查的主要内容和分工见明细表</td>
                 <td
-                  style="width:60%"
-                  class="cellInput cellBottomLine"
+                  style="width:50%"
+                  class="cellInput "
                   id="cell_idx_5"
                   data-title="检查的主要内容和分工见明细表"
                   data-type="check4"
@@ -120,9 +108,9 @@
             </table>
             <table class="docBody">
               <tr>
-                <td style="width:18%" class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;七、其他事项：</td>
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;七、其他事项：</td>
                 <td
-                  style="width:82%"
+                  style="width:79%"
                   class="cellInput textPaddingLeft cellBottomLine oneLine"
                   id="cell_idx_6"
                   data-title="其他事项"
@@ -131,6 +119,8 @@
                   @click="commandFill('cellIdx6', '其他事项', 'TextItem')"
                 >{{ letData.cellIdx6 }}检查的内容和分工变化时，应及时调整。</td>
               </tr>
+              <br>
+              <br>
               <tr>
                 <td Sclass="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;附件：</td>
                 <td
@@ -142,11 +132,12 @@
                   @click="commandFill('cellIdx7', '附件', 'TextItem')"
                 >检查分工明细表</td>
               </tr>
+              <br>
               <tr></tr>
             </table>
             <table class="docBody">
               <tr>
-                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;>编制人（签名）：</td>
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;编制人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_8"
@@ -190,7 +181,7 @@
                 >{{ letData.cellIdx11 }}</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">审批人（签名）：</td>
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;审批人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_12"
@@ -216,7 +207,7 @@
             <!-- 打印22检查方案，另外打印检查分工明细表 -->
             <div class="page-break"></div>
             <!-- 但页面不展示 -->
-            <div style="height: 0px; overflow: hidden;">
+            <div style="height: 0; overflow: hidden;">
               <div ref="cellIdx5TypeCheckTableItem" class="page page-sizeA4">
                 <div style="width: 19.5cm;">
                   <el-table
