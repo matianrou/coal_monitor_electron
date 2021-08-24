@@ -22,67 +22,63 @@
             <table class="docBody">
               <tr>
                 <td
-                  class="cellInput "
+                  class="cellInput cellBottomLine"
                   id="cell_idx_0"
                   contenteditable="true"
                   align="center"
-                  style="width:20%"
+                  style="width:25%"
                   data-title="文书号"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx0', '文书号', 'TextItem')"
                 >{{letData.cellIdx0}}</td>
-                <td>(</td>
+                <td class="textAlignLeft cellBottomLine">煤安监</td>
                 <td
-                  class="cellInput "
+                  class="cellInput cellBottomLine"
                   id="cell_idx_1"
                   contenteditable="true"
                   align="center"
-                  style="width:10%"
+                  style="width:7%"
                   data-title="文书号"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx1', '文书号', 'TextItem')"
                 >{{letData.cellIdx1}}</td>
-                <td>)</td>
-                <td class="textAlignLeft ">煤安</td>
-                
-                <td class="textAlignLeft ">移〔</td>
+                <td class="textAlignLeft cellBottomLine">移〔</td>
                 <td
-                  class="cellInput "
+                  class="cellInput cellBottomLine"
                   id="cell_idx_2"
                   contenteditable="true"
                   align="center"
-                  style="width:10%"
+                  style="width:7%"
                   data-title="文书号"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx2', '文书号', 'TextItem')"
                 >{{letData.cellIdx2}}</td>
-                <td class="textAlignLeft ">〕</td>
+                <td class="textAlignLeft cellBottomLine">〕</td>
                 <td
-                  class="cellInput "
+                  class="cellInput cellBottomLine"
                   id="cell_idx_3"
                   contenteditable="true"
                   align="center"
-                  style="width:10%"
+                  style="width:7%"
                   data-title="文书号"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx3', '文书号', 'TextItem')"
                 >{{letData.cellIdx3}}</td>
-                <td class="textAlignLeft ">
-                  号
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  
+                <td class="textAlignLeft cellBottomLine">
+                  号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  &nbsp;&nbsp;&nbsp;
                 </td>
-                <td class="textAlignLeft ">签发人：</td>
+                <td class="textAlignLeft cellBottomLine">签发人：</td>
                 <td
-                  class="cellInput "
+                  class="cellInput cellBottomLine"
                   id="cell_idx_4"
                   contenteditable="true"
                   align="center"
-                  style="width:20%"
+                  style="width:17%"
                   data-title="签发人"
                   data-type="text"
                   data-src
@@ -95,76 +91,72 @@
                   id="cell_idx_5"
                   contenteditable="true"
                   style="width:50%"
-                  data-title="调查事由"
+                  data-title=""
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx5', '调查事由', 'TextItem')"
+                  @click="commandFill('cellIdx5', '', 'TextItem')"
                 >{{letData.cellIdx5}}</td>
                 <td class="textAlignLeft">：</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;经本机关检查，发现</td>
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;经我</td>
                 <td
-                  class="cellInput cellBottomLine"
+                  class="cellInput"
                   id="cell_idx_6"
                   contenteditable="true"
                   align="center"
-                  style="width:74%"
-                  data-title="调查事由"
+                  style="width:10%"
+                  data-title="单位"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx6', '调查事由', 'TextItem')"
+                  @click="commandFill('cellIdx6', '单位', 'TextItem')"
                 >{{letData.cellIdx6}}</td>
-                <td class="textAlignLeft">存在</td>
+                <td class="textAlignLeft">检查，发现</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_7"
                   contenteditable="true"
-                  style="width:95%"
-                  data-title="调查事由"
+                  style="width:30%"
+                  data-title=""
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx7', '调查事由', 'TextItem')"
+                  @click="commandFill('cellIdx7', '', 'TextItem')"
                 >{{letData.cellIdx7}}</td>
-                
-                
-            
-                
-              </tr>
-            </table>
-            <div
-              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-              class="cellInput mutiLineArea"
-              id="cell_idx_8"
-              data-title="调查事由"
-              data-type="textarea"
-              data-src
-             @click="commandFill('cellIdx8', '调查事由', 'TextareaItem')">
-              <p
-                style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
-              >&nbsp;{{ letData.cellIdx8 }}</p>
-              <p
-                style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
-              >&nbsp;</p>
-            </div>
-            <table class="docBody">
-              <tr>
+                <td class="textAlignLeft">存在</td>
+                <td
+                    style="width:33%"
+                    class="cellInput cellBottomLine"
+                    id="cell_idx_8"
+                    data-title="调查事由"
+                    data-type="textarea"
+                    data-src
+                    @click="commandFill('cellIdx8', '', 'TextareaItem')">
+                  {{ letData.cellIdx8 }}
+                </td>
                 <td class="textAlignLeft">的问题，根据《中华人民共和国安全生产法》第六十九条规定，现将该案件移送贵单位依法处理。</td>
               </tr>
-            <br>  
-            <br>
+            </table>
+            <table class="docBody">
+              <!-- <tr>
+                <td class="textAlignLeft">的问题，根据《中华人民共和国安全生产法》第六十六条规定，现将该问题移送贵单位依</td>
+              </tr> -->
+              <!-- <tr>
+                <td class="textAlignLeft"></td>
+              </tr> -->
+              <br>
+              <br>
               <tr>
-                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;附件：有关材料共</td>
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;附件：有关材料</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
                   contenteditable="true"
                   align="center"
-                  style="width:15%"
+                  style="width:10%"
                   data-title="调查事由"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx9', '调查事由', 'TextItem')"
+                  @click="commandFill('cellIdx9', '', 'TextItem')"
                 >{{letData.cellIdx9}}</td>
                 <td class="textAlignLeft">份</td>
                 <td
@@ -172,11 +164,11 @@
                   id="cell_idx_10"
                   contenteditable="true"
                   align="center"
-                  style="width:15%"
+                  style="width:10%"
                   data-title="调查事由"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx10', '调查事由', 'TextItem')"
+                  @click="commandFill('cellIdx10', '', 'TextItem')"
                 >{{letData.cellIdx10}}</td>
                 <td class="textAlignLeft">页</td>
               </tr>
@@ -184,8 +176,8 @@
             <table height="30"></table>
             <table class="docBody">
               <tr>
-                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;移送单位地址：</td>
-                <!-- <td
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我</td>
+                <td
                   class="cellInput"
                   id="cell_idx_11"
                   contenteditable="true"
@@ -194,9 +186,9 @@
                   data-title="调查事由"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx11', '调查事由', 'TextItem')"
+                  @click="commandFill('cellIdx11', '', 'TextItem')"
                 >{{letData.cellIdx11}}</td>
-                <td class="textAlignLeft">移送单位联系人：</td> -->
+                <td class="textAlignLeft">地址：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_12"
@@ -214,7 +206,7 @@
                   id="cell_idx_13"
                   contenteditable="true"
                   align="center"
-                  style="width:20%"
+                  style="width:21%"
                   data-title="邮政编码"
                   data-type="text"
                   data-src
@@ -222,8 +214,8 @@
                 >{{letData.cellIdx13}}</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;移送单位联系人：</td>
-                <!-- <td
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我</td>
+                <td
                   class="cellInput"
                   id="cell_idx_14"
                   contenteditable="true"
@@ -232,9 +224,9 @@
                   data-title="调查事由"
                   data-type="text"
                   data-src
-                 @click="commandFill('cellIdx14', '调查事由', 'TextItem')"
+                  @click="commandFill('cellIdx14', '', 'TextItem')"
                 >{{letData.cellIdx14}}</td>
-                <td class="textAlignLeft">联系人：</td> -->
+                <td class="textAlignLeft">联系人：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_15"
@@ -268,7 +260,7 @@
                   id="cell_idx_17"
                   contenteditable="true"
                   align="center"
-                  style="width:25%"
+                  style="width:29%"
                   data-title="送件人（签名）"
                   data-type="text"
                   data-src
@@ -296,11 +288,11 @@
                   id="cell_idx_19"
                   contenteditable="true"
                   align="center"
-                  style="width:25%"
+                  style="width:29%"
                   data-title="收件人（签名）"
                   data-type="text"
                   data-src
-                   @click="commandFill('cellIdx19', '收件人（签名）', 'TextItem')"
+                  @click="commandFill('cellIdx19', '收件人（签名）', 'TextItem')"
                 >{{letData.cellIdx19}}</td>
                 <td
                   class="textAlignLeft"
@@ -327,7 +319,6 @@
                   contenteditable="true"
                   align="right"
                   style="width:95%"
-                @click="commandFill('cellIdx21', '', 'TextItem')"
                 >{{letData.cellIdx21}}</td>
               </tr>
             </table>
@@ -381,6 +372,7 @@
 <script>
 import letMain from "../let-main";
 import GoDB from "@/utils/godb.min.js";
+import { getDangerObject, getDocNumber } from '@/utils/monitor/setInitPaperData'
 export default {
   name: "Let401",
   props: {
@@ -442,30 +434,57 @@ export default {
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        // 1.生成文书编号
+        let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
+        // 2.违法行为：获取笔录文书中的隐患数据
+        const let101Data = await wkPaper.find((item) => {
+          return item.caseId === caseId && item.paperType === '1';
+        });
+        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
+        let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
+        let cellIdx8String = `${dangerObject.dangerString}`
+        // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
+        const orgInfo = db.table("orgInfo");
+        const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
+        let cellIdx12String = orgSysOfficeInfo.depAddress
+        let cellIdx13String = orgSysOfficeInfo.depPost
+        let cellIdx15String = orgSysOfficeInfo.master
+        let cellIdx16String = orgSysOfficeInfo.phone
         this.letData = {
-          cellIdx0: null,//文书号
-          // cellIdx1: null, //文书号
-          cellIdx2: null, //文书号
-          cellIdx3: null, //文书号
-          cellIdx4: null,//签发人
-          cellIdx5: null,//调查事由
-          cellIdx6: null, // 调查事由
-          cellIdx7: null, // 调查事由
-          cellIdx8: null, // 调查事由
-          cellIdx9: null, //调查事由
-          cellIdx10: null, //调查事由
-          // cellIdx11: null,//调查事由
-          cellIdx12: null, // 地址
-          cellIdx13: null, //邮政编码
-          // cellIdx14: null, // 调查事由
-          cellIdx15: null, //联系人
-          cellIdx16: null, // 电话
+          cellIdx0: num0, // 文书号
+          cellIdx0TypeTextItem: num0, // 文书号
+          cellIdx1: num1, // 文书号
+          cellIdx1TypeTextItem: num1, // 文书号
+          cellIdx2: num3, // 文书号
+          cellIdx2TypeTextItem: num3, // 文书号
+          cellIdx3: num4, // 文书号
+          cellIdx3TypeTextItem: num4, // 文书号
+          cellIdx4: null, // 签发人
+          cellIdx5: null, //
+          cellIdx6: null, // 单位
+          cellIdx7: corp.corpName, //
+          cellIdx7TypeTextItem: corp.corpName, //
+          cellIdx8: cellIdx8String, // 违法行为
+          cellIdx8TypeTextareaItem: cellIdx8String, // 违法行为
+          cellIdx9: null, // X份
+          cellIdx10: null, // X页
+          cellIdx11: null, // 单位
+          cellIdx12: cellIdx12String, // 地址
+          cellIdx12TypeTextItem: cellIdx12String, // 地址
+          cellIdx13: cellIdx13String, // 邮政编码
+          cellIdx13TypeTextItem: cellIdx13String, // 邮政编码
+          cellIdx14: null, // 单位
+          cellIdx15: cellIdx15String, // 联系人
+          cellIdx15TypeTextItem: cellIdx15String, // 联系人
+          cellIdx16: cellIdx16String, // 电话
+          cellIdx16TypeTextItem: cellIdx16String, // 电话
           cellIdx17: null, // 送件人（签名）
-          cellIdx18: null, //日期
+          cellIdx18: null, // 日期
           cellIdx19: null, // 收件人（签名）
-          cellIdx20: null, //日期
+          cellIdx20: null, // 日期
           cellIdx21: null, //
-          cellIdx22: null, //年
+          cellIdx22: null, // 年
           cellIdx23: null, // 月
           cellIdx24: null, // 日
         };

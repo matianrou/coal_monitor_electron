@@ -134,22 +134,8 @@
                   {{ letData.cellIdx8 }}
                 </td>
                 <td class="textAlignLeft">的问题，根据《中华人民共和国安全生产法》第六十九条规定，现将该案件移送贵单位依法处理。</td>
-                
               </tr>
-
             </table>
-            <!-- <div
-              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-              class="cellInput mutiLineArea"
-              id="cell_idx_8"
-              data-title="调查事由"
-              data-type="textarea"
-              data-src
-              @click="commandFill('cellIdx8', '违法行为', 'TextareaItem')">
-              <p class="show-area-item-p">
-                <span style="padding: 7px;">{{ letData.cellIdx8 }}</span>
-              </p>
-            </div> -->
             <table class="docBody">
               <!-- <tr>
                 <td class="textAlignLeft">的问题，根据《中华人民共和国安全生产法》第六十六条规定，现将该问题移送贵单位依</td>

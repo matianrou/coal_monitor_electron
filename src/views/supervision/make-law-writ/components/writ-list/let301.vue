@@ -21,6 +21,16 @@
             <div class="stdRowH"></div>
             <table class="docBody">
               <tr>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_0"
+                  align="right"
+                  style="width:7%"
+                  data-title="文书号"
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx0', '文书号', 'TextItem')"
+                >{{letData.cellIdx0}}</td>
                 <td class="textAlignLeft cellBottomLine">煤安监</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -30,7 +40,7 @@
                   data-title="文书号"
                   data-type="text"
                   data-src
-                   @click="commandFill('cellIdx1', '文书号', 'TextItem')"
+                  @click="commandFill('cellIdx1', '文书号', 'TextItem')"
                 >{{letData.cellIdx1}}</td>
                 <td class="textAlignLeft cellBottomLine">执〔</td>
                 <td
@@ -59,15 +69,13 @@
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </td>
                 <td class="textAlignLeft cellBottomLine">签发人：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_4"
                   align="center"
-                  style="width:15%"
+                  style="width:7%"
                   data-title="签发人"
                   data-type="text"
                   data-src
@@ -87,7 +95,7 @@
                 >{{letData.cellIdx5}}</td>
               </tr>
             </table>
-            <table style="border:solid 0 #000;" class="docBody">
+            <table style="border:solid 0px #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;法定代表人：姓名</td>
                 <td
@@ -100,12 +108,12 @@
                   data-src
                   @click="commandFill('cellIdx6', '法定代表人：姓名', 'TextItem')"
                 >{{letData.cellIdx6}}</td>
-                <td class="textAlignLeft">职务</td>
+                <td class="textAlignLeft">职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;务</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_7"
                   align="center"
-                  style="width:55%"
+                  style="width:50%"
                   data-title="职务"
                   data-type="text"
                   data-src
@@ -129,7 +137,7 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
                   align="center"
-                  style="width:20%"
+                  style="width:19%"
                   data-title="工作单位"
                   data-type="text"
                   data-src
@@ -140,7 +148,7 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_10"
                   align="center"
-                  style="width:19.5%"
+                  style="width:18%"
                   data-title="职务（职业）"
                   data-type="text"
                   data-src
@@ -171,12 +179,12 @@
                   data-src
                   @click="commandFill('cellIdx12', '法定代表人：姓名', 'TextItem')"
                 >{{letData.cellIdx12}}</td>
-                <td class="textAlignLeft">职务</td>
+                <td class="textAlignLeft">职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;务</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_13"
                   align="center"
-                  style="width:26%"
+                  style="width:19%"
                   data-title="职务"
                   data-type="text"
                   data-src
@@ -196,7 +204,6 @@
               </tr>
               <tr>
                 <td class="textAlignLeft">
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;住址
@@ -223,15 +230,22 @@
               data-title="对被申请人"
               data-type="textarea"
               data-src
-               @click="commandFill('cellIdx16', '对被申请人', 'DangerTableItem')">
-              <p
-                style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
-              >&nbsp;{{ letData.cellIdx16 }}</p>
-              <p
-                style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
-              >&nbsp;</p>
+              @click="commandFill('cellIdx16', '对被申请人', 'DangerTableItem')">
+              <div v-if="letData.cellIdx16 && letData.cellIdx16.length > 0">
+                <p class="show-area-item-p">
+                  <span style="padding: 7px;">{{ letData.cellIdx16 }}</span>
+                </p>
+              </div>
+              <div v-else>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+              </div>
             </div>
-            <table style="border:solid 0 #000;" class="docBody">
+            <table style="border:solid 0px #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">，我</td>
                 <td
@@ -341,18 +355,15 @@
               style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
               class="cellInput mutiLineArea"
               id="cell_idx_25"
-              data-title="案由"
+              data-title=""
               data-type="textarea"
               data-src
-               @click="commandFill('cellIdx25', '', 'TextareaItem')">
-              <p
-                style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
-              >&nbsp;{{ letData.cellIdx25 }}</p>
-              <p
-                style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
-              >&nbsp;</p>
+              @click="commandFill('cellIdx25', '', 'TextareaItem')">
+              <p class="show-area-item-p">
+                <span style="padding: 7px;">{{ letData.cellIdx25 }}</span>
+              </p>
             </div>
-            <table style="border:solid 0 #000;" class="docBody">
+            <table style="border:solid 0px #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;此致</td>
               </tr>
@@ -365,7 +376,7 @@
                   data-title="人民法院"
                   data-type="text"
                   data-src
-                   @click="commandFill('cellIdx26', '人民法院', 'TextItem')"
+                  @click="commandFill('cellIdx26', '人民法院', 'TextItem')"
                 >{{letData.cellIdx26}}</td>
                 <td class="textAlignLeft">人民法院</td>
               </tr>
@@ -435,8 +446,12 @@
             <table height="60"></table>
             <table class="docBody">
               <tr>
-                <td class="cellInput" id="cell_idx_32" align="right" style="width:95%"
-                @click="commandFill('cellIdx32', '', 'TextItem')"
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_32"
+                  align="right"
+                  style="width:95%"
+                  @click="commandFill('cellIdx32', '', 'TextItem')"
                 >{{letData.cellIdx32}}</td>
               </tr>
             </table>
@@ -451,7 +466,7 @@
                 data-type="text"
                 data-src
                 @click="commandFill('cellIdx33', '年', 'TextItem')"
-                >{{letData.cellIdx33}}</td>
+              >{{letData.cellIdx33}}</td>
               <td class="textAlignLeft">年</td>
               <td
                 class="cellInput cellBottomLine"
@@ -490,6 +505,7 @@
 <script>
 import letMain from "../let-main";
 import GoDB from "@/utils/godb.min.js";
+import { getDocNumber, getDangerObject } from '@/utils/monitor/setInitPaperData'
 export default {
   name: "Let301",
   props: {
@@ -513,8 +529,14 @@ export default {
   data() {
     return {
       letData: {},
-      options: {},
+      options: {
+        cellIdx16: {
+          page: '18',
+          key: 'cellIdx16'
+        },
+      },
       editData: {}, // 回显数据
+      extraData: {}, // 用于拼写隐患内容的字符集合
     };
   },
   created() {
@@ -544,6 +566,9 @@ export default {
           item.caseId === caseId && item.paperType === this.docData.docTypeNo
         );
       });
+      this.extraData = {
+        corpName: corp.corpName
+      }
       // 已做文书则展示文书内容，否则创建初始版本
       if (checkPaper.length > 0) {
         // 回显
@@ -551,43 +576,84 @@ export default {
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        // 1.文书编号：送达收执文书编号
+        let paperNumber = await getDocNumber(db, '9', caseId, this.$store.state.user)
+        // 2.申请人：机构名称
+        let cellIdx5String = this.$store.state.user.userGroupName
+        // 3.被申请人：企业煤矿名称
+        let cellIdx11String = corp.corpName
+        // 4.对被申请人：企业名称+'涉嫌'+隐患描述+'案'
+        // 获取笔录文书中的隐患数据
+        const let101Data = await wkPaper.find((item) => {
+          return item.caseId === caseId && item.paperType === '1';
+        });
+        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
+        let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
+        let cellIdx16String = `${corp.corpName}涉嫌${dangerObject.dangerString}案`
+        // 5.文书号2：催告书编号
+        let paperNumber39 = await getDocNumber(db, '39', caseId, this.$store.state.user)
+        // 从sysOfficeInfo中获取：
+        const orgInfo = db.table("orgInfo");
+        const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
+        // 6.强制执行下列项目：‘划转罚款至’accountName+accountBank‘账户名称：’+billName+‘待结算财政款项账号：’+account
+        let cellIdx25String = `划转罚款至${orgSysOfficeInfo.accountName}${orgSysOfficeInfo.accountBank}。账户名称：${orgSysOfficeInfo.billName}。待结算财政款项账号：${orgSysOfficeInfo.account}`
+        // 7.人民法院：courtPrefix 联系人：master 联系电话：phone
+        // 8.申请人的法定代表人legalPerson和职务post
         this.letData = {
-          cellIdx0: null,//文书号
-          cellIdx1: null, //文书号
-          cellIdx2: null, //文书号
-          cellIdx3: null, //文书号
-          cellIdx4: null,//签发人
-          cellIdx5: null,//申请人
-          cellIdx6: null, // 法定代表人：姓名
-          cellIdx7: null, // 职务
+          cellIdx0: paperNumber.num0, // 文书号
+          cellIdx0TypeTextItem: paperNumber.num0, // 文书号
+          cellIdx1: paperNumber.num1, // 文书号
+          cellIdx1TypeTextItem: paperNumber.num1, // 文书号
+          cellIdx2: paperNumber.num3, // 文书号
+          cellIdx2TypeTextItem: paperNumber.num3, // 文书号
+          cellIdx3: paperNumber.num4, // 文书号
+          cellIdx3TypeTextItem: paperNumber.num4, // 文书号
+          cellIdx4: null, // 签发人
+          cellIdx5: cellIdx5String, // 申请人
+          cellIdx5TypeTextItem: cellIdx5String, // 申请人
+          cellIdx6: orgSysOfficeInfo.legalPerson, // 法定代表人：姓名
+          cellIdx6TypeTextItem: orgSysOfficeInfo.legalPerson, // 法定代表人：姓名
+          cellIdx7: orgSysOfficeInfo.post, // 职务
+          cellIdx7TypeTextItem: orgSysOfficeInfo.post, // 职务
           cellIdx8: null, // 委托代理人：姓名
-          cellIdx9: null, //工作单位
-          cellIdx10: null, //职务（职业）
-          cellIdx11: null,//被申请人
-          cellIdx12: null, //法定代表人：姓名
-          cellIdx13: null, //职务
-          cellIdx14: null, //性别
-          cellIdx15: null, //住址
-          cellIdx16: null, // 对被申请人
+          cellIdx9: null, // 工作单位
+          cellIdx10: null, // 职务（职业）
+          cellIdx11: cellIdx11String, // 被申请人
+          cellIdx11TypeTextItem: cellIdx11String, // 被申请人
+          cellIdx12: null, // 法定代表人：姓名
+          cellIdx13: null, // 职务
+          cellIdx14: null, // 性别
+          cellIdx15: null, // 住址
+          cellIdx16: cellIdx16String, // 对被申请人
           cellIdx17: null, // 煤监机构
-          cellIdx18: null, //年
-          cellIdx19: null, //月
-          cellIdx20: null, //日
-          cellIdx21: null, //文书号
-          cellIdx22: null, //文书号
-          cellIdx23: null, // 文书号
-          cellIdx24: null, // 文书号
-          cellIdx25: null, // 
-          cellIdx26: null, // 人民法院
-          cellIdx27: null, //收件人（签名）
+          cellIdx18: null, // 年
+          cellIdx19: null, // 月
+          cellIdx20: null, // 日
+          cellIdx21: paperNumber39.num0, // 文书号
+          cellIdx21TypeTextItem: paperNumber39.num0, // 文书号
+          cellIdx22: paperNumber39.num1, // 文书号
+          cellIdx22TypeTextItem: paperNumber39.num1, // 文书号
+          cellIdx23: paperNumber39.num3, // 文书号
+          cellIdx23TypeTextItem: paperNumber39.num3, // 文书号
+          cellIdx24: paperNumber39.num4, // 文书号
+          cellIdx24TypeTextItem: paperNumber39.num4, // 文书号
+          cellIdx25: cellIdx25String, //
+          cellIdx25TypeTextareaItem: cellIdx25String, //
+          cellIdx26: orgSysOfficeInfo.courtPrefix, // 人民法院
+          cellIdx26TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
+          cellIdx27: null, // 收件人（签名）
           cellIdx28: null, // 日期
-          cellIdx29: null, //单位
-          cellIdx30: null, //联系人
-          cellIdx31: null, //联系电话
-          cellIdx32: null, // 
+          cellIdx29: null, // 单位
+          cellIdx30: orgSysOfficeInfo.master, // 联系人
+          cellIdx30TypeTextItem: orgSysOfficeInfo.master, // 联系人
+          cellIdx31: orgSysOfficeInfo.phone, // 联系电话
+          cellIdx31TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
+          cellIdx32: null, //
           cellIdx33: null, // 年
           cellIdx34: null, // 月
           cellIdx35: null, // 日
+          dangerItemObject: let101DataPapaerContent.dangerItemObject
         };
       }
       await db.close();
@@ -601,6 +667,14 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}Type${type}`;
+        if (key === 'cellIdx16') {
+          this.options[key] = {
+            page: '18',
+            key: key,
+            spellString: this.extraData
+          }
+          dataKey = 'dangerItemObject'
+        }
         this.$refs.letMain.commandFill(
           key,
           dataKey,

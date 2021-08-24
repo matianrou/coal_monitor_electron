@@ -72,8 +72,7 @@
                 <td class="textAlignLeft cellBottomLine">
                   号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </td>
                 <td class="textAlignLeft cellBottomLine">签发人：</td>
@@ -159,12 +158,9 @@
               data-type="textarea"
               data-src
               @click="commandFill('cellIdx10', '违法行为', 'TextareaItem')">
-              <p
-                style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
-              >&nbsp;{{ letData.cellIdx10 }}</p>
-              <p
-                style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
-              >&nbsp;</p>
+              <p class="show-area-item-p">
+                <span style="padding: 7px;">{{ letData.cellIdx10 }}</span>
+              </p>
             </div>
             <table class="docBody">
               <tr>
@@ -182,12 +178,9 @@
               data-type="textarea"
               data-src
               @click="commandFill('cellIdx11', '法律规定', 'TextareaItem')">
-              <p
-                style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
-              >&nbsp;{{ letData.cellIdx11 }}</p>
-              <p
-                style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
-              >&nbsp;</p>
+              <p class="show-area-item-p">
+                <span style="padding: 7px;">{{ letData.cellIdx11 }}</span>
+              </p>
             </div>
             <table class="docBody">
               <tr>
@@ -204,7 +197,7 @@
                   data-title="份数"
                   data-type="text"
                   data-src
-                 @click="commandFill('cellIdx12', '份数', 'TextItem')"
+                  @click="commandFill('cellIdx12', '份数', 'TextItem')"
                 >{{letData.cellIdx12}}</td>
                 <td class="textAlignLeft">份</td>
                 <td
@@ -216,7 +209,7 @@
                   data-title="页数"
                   data-type="text"
                   data-src
-                 @click="commandFill('cellIdx13', '页数', 'TextItem')"
+                  @click="commandFill('cellIdx13', '页数', 'TextItem')"
                 >{{letData.cellIdx13}}</td>
                 <td class="textAlignLeft">页</td>
               </tr>
@@ -367,7 +360,7 @@
                   contenteditable="true"
                   align="right"
                   style="width:95%"
-                @click="commandFill('cellIdx24', '', 'TextItem')"
+                  @click="commandFill('cellIdx24', '', 'TextItem')"
                 >{{letData.cellIdx24}}</td>
               </tr>
             </table>
@@ -379,7 +372,7 @@
                 contenteditable="true"
                 align="center"
                 style="width:10%"
-              @click="commandFill('cellIdx25', '年', 'TextItem')"
+                @click="commandFill('cellIdx25', '年', 'TextItem')"
               >{{letData.cellIdx25}}</td>
               <td class="textAlignLeft">年</td>
               <td
@@ -388,7 +381,7 @@
                 contenteditable="true"
                 align="center"
                 style="width:10%"
-              @click="commandFill('cellIdx26', '月', 'TextItem')"
+                @click="commandFill('cellIdx26', '月', 'TextItem')"
               >{{letData.cellIdx26}}</td>
               <td class="textAlignLeft">月</td>
               <td
@@ -397,7 +390,7 @@
                 contenteditable="true"
                 align="center"
                 style="width:10%"
-              @click="commandFill('cellIdx27', '日', 'TextItem')"
+                @click="commandFill('cellIdx27', '日', 'TextItem')"
               >{{letData.cellIdx27}}</td>
               <td class="textAlignLeft">日</td>
             </table>
@@ -476,36 +469,61 @@ export default {
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        // 1.生成文书编号
+        let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
+        // 2.违法行为：获取笔录文书中的隐患数据
+         const let101Data = await wkPaper.find((item) => {
+          return item.caseId === caseId && item.paperType === '1';
+        });
+        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
+        let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
+        let cellIdx5String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`
+        // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
+        const orgInfo = db.table("orgInfo");
+        const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
+        let cellIdx15String = orgSysOfficeInfo.depAddress
+        let cellIdx16String = orgSysOfficeInfo.depPost
+        let cellIdx18String = orgSysOfficeInfo.master
+        let cellIdx19String = orgSysOfficeInfo.phone
         this.letData = {
-          cellIdx0: null,//文书号
-          cellIdx1: null, //文书号
-          cellIdx2: null, //文书号
-          cellIdx3: null, //文书号
-          cellIdx4: null,//签发人
-          cellIdx5: null,//调查事由
+          cellIdx0: num0, // 文书号
+          cellIdx0TypeTextItem: num0, // 文书号
+          cellIdx1: num1, // 文书号
+          cellIdx1TypeTextItem: num1, // 文书号
+          cellIdx2: num3, // 文书号
+          cellIdx2TypeTextItem: num3, // 文书号
+          cellIdx3: num4, // 文书号
+          cellIdx3TypeTextItem: num4, // 文书号
+          cellIdx4: null, // 签发人
+          cellIdx5String: null, // 调查事由
+          cellIdx5StringTypeTextItem: null, // 调查事由
           cellIdx6: null, // 单位
           cellIdx7: null, // 年
           cellIdx8: null, // 月
-          cellIdx9: null, //日
-          cellIdx10: null, //违法行为
-          cellIdx11: null,//法律规定
+          cellIdx9: null, // 日
+          cellIdx10: null, // 违法行为
+          cellIdx11: null, // 法律规定
           cellIdx12: null, // 份数
-          cellIdx13: null, //页数
+          cellIdx13: null, // 页数
           cellIdx14: null, // 签发人
-          cellIdx15: null, //地址
-          cellIdx16: null, // 邮政编码
+          cellIdx15: cellIdx15String, // 地址
+          cellIdx15TypeTextItem: cellIdx15String, // 地址
+          cellIdx16: cellIdx16String, // 邮政编码
+          cellIdx16TypeTextItem: cellIdx16String, // 地址
           cellIdx17: null, // 单位
-          cellIdx18: null, //联系人
-          cellIdx19: null, // 电话
-          cellIdx20: null, //签发人
-          cellIdx21: null, //签发人
-          cellIdx22: null, //送件人（签名）
+          cellIdx18: cellIdx18String, // 联系人
+          cellIdx18TypeTextItem: cellIdx18String, // 地址
+          cellIdx19: cellIdx19String, // 电话
+          cellIdx19TypeTextItem: cellIdx19String, // 地址
+          cellIdx20: null, // 签发人
+          cellIdx21: null, // 签发人
+          cellIdx22: null, // 送件人（签名）
           cellIdx23: null, // 日期
-          cellIdx24: null, // 
+          cellIdx24: null, //
           cellIdx25: null, // 年
           cellIdx26: null, // 月
           cellIdx27: null, // 日
-          
         };
       }
       await db.close();
