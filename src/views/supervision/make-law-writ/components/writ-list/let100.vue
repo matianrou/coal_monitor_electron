@@ -21,11 +21,11 @@
             <div class="stdRowH"></div>
             <table class="docBody">
               <tr>
-                <td class="textAlignLeft">一、被检查单位：</td>
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;一、被检查单位：</td>
                 <td
                   class="cellInput textPaddingLeft cellBottomLine oneLine"
                   id="cell_idx_0"
-                  style="width:79%"
+                  style="width:76.5%"
                   data-title="被检查单位"
                   data-type="text"
                   data-src
@@ -34,11 +34,11 @@
               </tr>
 
               <tr>
-                <td class="textAlignLeft">二、监管类型或方式：</td>
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;二、监管类型或方式：</td>
                 <td
                   class="cellInput textPaddingLeft cellBottomLine oneLine"
                   id="cell_idx_1"
-                  style="width:74.6%"
+                  style="width:72%"
                   data-title="监察类型或方式"
                   data-type="check"
                   data-src="let-100"
@@ -46,11 +46,11 @@
                 >{{ letData.cellIdx1 }}</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">三、计划检查时间：</td>
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;三、计划检查时间：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_2"
-                  style="width:81.3%"
+                  style="width:74%"
                   data-title="检查时间"
                   data-type="dateregion"
                   data-src
@@ -59,11 +59,25 @@
               
               </tr>
               <tr>
-                <td class="textAlignLeft">四、煤矿企业概况：</td>
-                <td style="width:81.3%"></td>
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;四、煤矿企业概况：</td>
+                <td 
+                class="cellInput cellBottomLine"
+                style="width:74.5%"></td>
+                <td 
+                class="cellInput cellBottomLine"
+                style="width:100%"></td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_3"
+                  style="width:100%"
+                  data-title="煤矿概况"
+                  data-type="textarea"
+                  data-src
+                   @click="commandFill('cellIdx3', '煤矿概况', 'TextItem')"
+                >{{ letData.cellIdx3 }}</td>
               </tr>
             </table>
-            <div
+            <!-- <div
               style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
               class="cellInput mutiLineArea"
               id="cell_idx_3"
@@ -71,14 +85,16 @@
               data-type="textarea"
               data-src
                @click="commandFill('cellIdx3', '煤矿概况', 'TextItem')">
-            >
+           
               <p
                 style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
               >{{ letData.cellIdx3 }}</p>
-            </div>
+              
+            </div> -->
+            
             <table class="docBody">
               <tr>
-                <td style="width:18%" class="textAlignLeft">五、检查地点：</td>
+                <td style="width:18%" class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;五、检查地点：</td>
                 <td
                   style="width:82%"
                   class="cellInput cellBottomLine oneLine"
@@ -93,7 +109,7 @@
             </table>
             <table class="docBody">
               <tr>
-                <td style="width:40%" class="textAlignLeft">六、检查的主要内容和分工见明细表</td>
+                <td style="width:40%" class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;六、检查的主要内容和分工见明细表</td>
                 <td
                   style="width:60%"
                   class="cellInput cellBottomLine"
@@ -107,7 +123,7 @@
             </table>
             <table class="docBody">
               <tr>
-                <td style="width:18%" class="textAlignLeft">七、其他事项：</td>
+                <td style="width:18%" class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;七、其他事项：</td>
                 <td
                   style="width:82%"
                   class="cellInput textPaddingLeft cellBottomLine oneLine"
@@ -119,7 +135,7 @@
                 >{{ letData.cellIdx6 }}检查的内容和分工变化时，应及时调整。</td>
               </tr>
               <tr>
-                <td Sclass="textAlignLeft">附件：</td>
+                <td Sclass="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;附件：</td>
                 <td
                   class="cellInput"
                   id="cell_idx_7"
@@ -133,7 +149,7 @@
             </table>
             <table class="docBody">
               <tr>
-                <td class="textAlignLeft">编制人（签名）：</td>
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;>编制人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_8"
@@ -155,7 +171,7 @@
                 >{{ letData.cellIdx9 }}</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">带队人（签名）：</td>
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;带队人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_10"
