@@ -344,10 +344,10 @@
                   data-type="date"
                   data-src
                   @click="commandFill('cellIdx23', '日期', 'DateItem')"
-                >{{letData.cellIdx23 ? letData.cellIdx23 : '（点击编辑）'}}</td>
+                >{{letData.cellIdx23 ? letData.cellIdx18 : '（点击编辑）'}}</td>
               </tr>
-            
             </table>
+           
             
             <table>
               <hr />
