@@ -703,7 +703,33 @@
                 </td>
               </tr>
             </table>
+             <div style="height:32px;line-height:32px;font-weight:bold;color:#333;">
+              <img src="@/components/assets/image/letTitle.png" style="vertical-align:middle;" />报告上传
+            </div>
+            <table style="width: 206px;height:65px;border-collapse: collapse;">
+              <tr>
+                <td style="width:12px;">
+                  <img src="../assets/image/doc-flow_r1_c1.png" style="height: 65px;" />
+                </td>
+                <td class="writ-flow-spantd">
+                  <img
+                    v-if="flowStatus.paper13"
+                    :src="require(flowStatus.paper13 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
+                    :title="flowStatus.paper13 === 'save' ? '已保存' : '已归档'"
+                    alt
+                  />
+                  <span @click="cmdEditDoc('let104','监管排查报告', '13')" class="flow-span">监管排查报告</span>
+                </td>
+                <td style="width:12px;">
+                  <img src="../assets/image/doc-flow_r1_c7.png" style="height: 65px;" />
+                </td>
+              </tr>
+            </table>
+            
+            
+            
           </div>
+         
         </td>
       </tr>
     </table>
