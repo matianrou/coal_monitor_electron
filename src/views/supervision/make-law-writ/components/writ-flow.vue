@@ -260,7 +260,7 @@
                   />
                   <span @click="cmdEditDoc('let111','停供电(停供民用爆炸物品)决定书', '56')" class="flow-span">
                     停供电(停供民用
-                    <br />爆炸物品)决定书?
+                    <br />爆炸物品)决定书
                   </span>
                 </td>
                 <td style="width:28px;">
@@ -612,7 +612,7 @@
                     :title="flowStatus.paper53 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let302','行政强制执行事先催告书', '53')" class="flow-span">
+                  <span @click="cmdEditDoc('let309','行政强制执行事先催告书', '53')" class="flow-span">
                     行政强制执行<br />事先催告书
                   </span>
                 </td>
@@ -692,7 +692,7 @@
                     :title="flowStatus.paper55 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let402','鉴定委托书', '55')" class="flow-span">
+                  <span @click="cmdEditDoc('let406','鉴定委托书', '55')" class="flow-span">
                     鉴定委托书
                   </span>
                 </td>
@@ -703,7 +703,33 @@
                 </td>
               </tr>
             </table>
+             <div style="height:32px;line-height:32px;font-weight:bold;color:#333;">
+              <img src="@/components/assets/image/letTitle.png" style="vertical-align:middle;" />报告上传
+            </div>
+            <table style="width: 206px;height:65px;border-collapse: collapse;">
+              <tr>
+                <td style="width:12px;">
+                  <img src="../assets/image/doc-flow_r1_c1.png" style="height: 65px;" />
+                </td>
+                <td class="writ-flow-spantd">
+                  <img
+                    v-if="flowStatus.paper13"
+                    :src="require(flowStatus.paper13 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
+                    :title="flowStatus.paper13 === 'save' ? '已保存' : '已归档'"
+                    alt
+                  />
+                  <span @click="cmdEditDoc('let104','监管排查报告', '13')" class="flow-span">监管排查报告</span>
+                </td>
+                <td style="width:12px;">
+                  <img src="../assets/image/doc-flow_r1_c7.png" style="height: 65px;" />
+                </td>
+              </tr>
+            </table>
+            
+            
+            
           </div>
+         
         </td>
       </tr>
     </table>

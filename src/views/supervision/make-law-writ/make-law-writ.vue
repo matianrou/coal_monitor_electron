@@ -112,11 +112,13 @@ export default {
     let306: resolve => { require(["./components/writ-list/let306"], function(let306) { resolve(let306);});},
     let307: resolve => { require(["./components/writ-list/let307"], function(let307) { resolve(let307);});},
     let308: resolve => { require(["./components/writ-list/let308"], function(let308) { resolve(let308);});},
+    let309: resolve => { require(["./components/writ-list/let309"], function(let309) { resolve(let309);});},
     let400: resolve => { require(["./components/writ-list/let400"], function(let400) { resolve(let400);});},
     let401: resolve => { require(["./components/writ-list/let401"], function(let401) { resolve(let401);});},
     let402: resolve => { require(["./components/writ-list/let402"], function(let402) { resolve(let402);});},
     let404: resolve => { require(["./components/writ-list/let404"], function(let404) { resolve(let404);});},
     let405: resolve => { require(["./components/writ-list/let405"], function(let405) { resolve(let405);});},
+    let406: resolve => { require(["./components/writ-list/let406"], function(let406) { resolve(let406);});},
   },
   data() {
     return {

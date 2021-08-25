@@ -291,56 +291,29 @@
             </table>
 
             <table height="60"></table>
-            <table class="docBody">
+           
+             <table class="docBody">
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_19"
+                  id="cell_idx_22"
+                  align="right"
+                  style="width:95%"
+                  @click="commandFill('cellIdx17', '', 'TextItem')"
+                >{{letData.cellIdx22 ? letData.cellIdx22 : '（点击编辑）'}}</td>
+              </tr>
+              <tr>
+                <td
+                  class="cellInput"
+                  id="cell_idx_23"
                   align="right"
                   style="width:95%"
                   data-title
-                  data-type="text"
+                  data-type="date"
                   data-src
-                  @click="commandFill('cellIdx19', '', 'TextItem')"
-                >{{ letData.cellIdx19 ? letData.cellIdx19 : '（点击编辑）' }}</td>
+                  @click="commandFill('cellIdx23', '日期', 'DateItem')"
+                >{{letData.cellIdx23 ? letData.cellIdx18 : '（点击编辑）'}}</td>
               </tr>
-            </table>
-             <table class="docBody">
-              <td class="cellInput" style="width:55%"></td>
-
-              <td
-                class="cellInput "
-                id="cell_idx_20"
-                align="center"
-                style="width:10%"
-                data-title="年"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx20', '年', 'TextItem')"
-              >{{letData.cellIdx20}}</td>
-              <td class="textAlignLeft">年</td>
-              <td
-                class="cellInput"
-                id="cell_idx_21"
-                align="center"
-                style="width:10%"
-                data-title="月"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx21', '月', 'TextItem')"
-              >{{letData.cellIdx21}}</td>
-              <td class="textAlignLeft">月</td>
-              <td
-                class="cellInput "
-                id="cell_idx_22"
-                align="center"
-                style="width:10%"
-                data-title="日"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx22', '日', 'DateItem')"
-              >{{letData.cellIdx22}}</td>
-              <td class="textAlignLeft">日</td>
             </table>
             <table>
               <hr />

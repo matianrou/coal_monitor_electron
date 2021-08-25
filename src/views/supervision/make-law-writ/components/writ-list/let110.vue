@@ -333,7 +333,7 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_17"
                   align="center"
-                  style="width:35%"
+                  style="width:5%"
                   data-title
                   data-type="text"
                   data-src
