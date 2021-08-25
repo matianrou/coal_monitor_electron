@@ -2,7 +2,12 @@
 <template>
   <div>
     <ul class="enterprisedata">
-      <p>企业信息</p>
+      <p>
+        <img
+          src="@/components/assets/image/letTitle.png"
+          style="width:32px;height:32px;vertical-align:middle"
+        />企业信息
+      </p>
       <li>
         <span>企业名称：</span>
         <span>{{corpData.corpName}}</span>
@@ -87,9 +92,13 @@ export default {
     line-height: 35px;
     text-indent: 30px;
     color: #fff;
-    font-size: 20px;
-    background: #4f83e9;
+    font-size: 18px;
     margin: 0px;
+    border-top-left-radius: 10px;
+    background: rgba(#4f83e9, 1);
+  }
+  span {
+    color: #303133;
   }
 }
 </style>

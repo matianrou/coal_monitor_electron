@@ -477,15 +477,15 @@ export default {
         };
         let p22PaperData = {
           p22BeginTime:
-            letData.cellIdx2TypeDaterangeItem[0]
+            letData.cellIdx2TypeDaterangeItem.length > 0 ? letData.cellIdx2TypeDaterangeItem[0]
               .replace("年", "-")
               .replace("月", "-")
-              .replace("日", "") + " 00:00:00",
+              .replace("日", "") + " 00:00:00" : null,
           p22EndTime:
-            letData.cellIdx2TypeDaterangeItem[1]
+            letData.cellIdx2TypeDaterangeItem.length > 1 ? letData.cellIdx2TypeDaterangeItem[1]
               .replace("年", "-")
               .replace("月", "-")
-              .replace("日", "") + " 00:00:00",
+              .replace("日", "") + " 00:00:00" : null,
           p22location: letData.cellIdx4,
           p22inspection,
           p22JczfCheck: JSON.stringify(p22JczfCheck),

@@ -4,14 +4,14 @@ import store from '@/store';
 /**
  * 获取uuid
  */
-export function getUUID () {
+export function getUUID() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
     return (c === 'x' ? (Math.random() * 16 | 0) : ('r&0x3' | '0x8')).toString(16);
   });
 }
 
 //获取指定位数的随机数
-export function getRandom (num){
+export function getRandom(num) {
   const len = num || 36;
   let $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'; // 默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1
   let maxPos = $chars.length;
@@ -23,20 +23,20 @@ export function getRandom (num){
 }
 
 //随机字符串
-export function randomString (e) {
-	e = e || 32;
-	let t = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678",
-		a = t.length,
-		n = "";
-	for (let i = 0; i < e; i++) n += t.charAt(Math.floor(Math.random() * a));
-	return n
+export function randomString(e) {
+  e = e || 32;
+  let t = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678",
+    a = t.length,
+    n = "";
+  for (let i = 0; i < e; i++) n += t.charAt(Math.floor(Math.random() * a));
+  return n
 }
 
 /**
  * 权限
  * @param {*} key
  */
-export function hasPermission (key) {
+export function hasPermission(key) {
   return window.SITE_CONFIG['permissions'].indexOf(key) !== -1 || false;
 }
 
@@ -46,7 +46,7 @@ export function hasPermission (key) {
  * @param {*} id
  * @param {*} pid
  */
-export function treeDataTranslate (data, id = 'id', pid = 'parentId') {
+export function treeDataTranslate(data, id = 'id', pid = 'parentId') {
   let res = [];
   let temp = {};//以自己id为索引
   for (let i = 0; i < data.length; i++) {
@@ -65,7 +65,7 @@ export function treeDataTranslate (data, id = 'id', pid = 'parentId') {
         temp[data[k][pid]]['_level'] = 2;
       }
       data[k]['_level'] = temp[data[k][pid]]._level + 1;
-      if(Array.isArray(temp[data[k][pid]]['children'])){
+      if (Array.isArray(temp[data[k][pid]]['children'])) {
         temp[data[k][pid]]['children'].push(data[k]);
       }
       // temp[data[k][pid]]['children'].push(data[k]);
@@ -82,7 +82,7 @@ export function treeDataTranslate (data, id = 'id', pid = 'parentId') {
  * @param {*} id
  * @param {*} pid
  */
-export function cascaderDataTranslate (data, id = 'id', pid = 'parentId') {
+export function cascaderDataTranslate(data, id = 'id', pid = 'parentId') {
   let res = [];
   let temp = {};
   for (let i = 0; i < data.length; i++) {
@@ -112,6 +112,84 @@ export function cascaderDataTranslate (data, id = 'id', pid = 'parentId') {
 /**
  * 清除登录信息
  */
-export function clearLoginInfo () {
+export function clearLoginInfo() {
   store.commit('resetStore');
+}
+
+// 数组排序：升序
+// order为自定义排序规则，比如：order = ["1","2","0"]
+export function sortbyAsc(name, order) {
+  if (order) {
+    return function (o, p) {
+      var a, b;
+      if (typeof o === "object" && typeof p === "object" && o && p) {
+        a = o[name];
+        b = p[name];
+        if (a === b) {
+          return 0;
+        }
+        if (typeof a === typeof b) {
+          return order.indexOf(a) < order.indexOf(b) ? -1 : 1;
+        }
+        return typeof order.indexOf(a) < typeof order.indexOf(b) ? -1 : 1;
+      } else {
+        throw ("error");
+      }
+    }
+  } else {
+    return function (o, p) {
+      var a, b;
+      if (typeof o === "object" && typeof p === "object" && o && p) {
+        a = o[name];
+        b = p[name];
+        if (a === b) {
+          return 0;
+        }
+        if (typeof a === typeof b) {
+          return a < b ? -1 : 1;
+        }
+        return typeof a < typeof b ? -1 : 1;
+      } else {
+        throw ("error");
+      }
+    }
+  }
+}
+
+// 数组排序：降序
+export function sortbyDes (name, order) {
+  if (order) {
+    return function (o, p) {
+      if (typeof o === "object" && typeof p === "object" && o && p) {
+        a = o[name];
+        b = p[name];
+        if (a === b) {
+          return 0;
+        }
+        if (typeof a === typeof b) {
+          return order.indexOf(a) > order.indexOf(b) ? -1 : 1;
+        }
+        return typeof order.indexOf(a) > typeof order.indexOf(b) ? -1 : 1;
+      } else {
+        throw ("error");
+      }
+    }
+  } else {
+    return function (o, p) {
+      var a, b;
+      if (typeof o === "object" && typeof p === "object" && o && p) {
+        a = o[name];
+        b = p[name];
+        if (a === b) {
+          return 0;
+        }
+        if (typeof a === typeof b) {
+          return a > b ? -1 : 1;
+        }
+        return typeof a > typeof b ? -1 : 1;
+      } else {
+        throw ("error");
+      }
+    }
+  }
 }

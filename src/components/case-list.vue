@@ -3,7 +3,7 @@
   <div class="case-list">
     <div class="case-list-select-main">
       <div style="height:36px; line-height: 36px; color:#666;background:#4F83E9">
-        <td style="text-indent:20px;color:#fff;font-size：20px">选择企业</td>
+        <td style="text-indent:20px;color:#fff;font-size：20px">{{usePage === 'MakeLawWrit' ? '选择企业' : '选择检查活动'}}</td>
       </div>
       <div style="flex: 1;background-color:#fff;vertical-align:top; overflow: auto;">
         <table style="width:100%;">
@@ -95,7 +95,7 @@
       </div>
       <!-- </tr> -->
     </div>
-    <div class="case-list-select-operation">
+    <div v-if="usePage === 'MakeLawWrit'" class="case-list-select-operation">
       <el-button
         class="addPlan"
         type="primary"
@@ -159,7 +159,10 @@ export default {
         selectCompany: false
       },
       selectedCase: {}, // 已选中的检查活动（或计划）
-      DBName: this.$store.state.DBName
+      DBName: this.$store.state.DBName,
+      loading: {
+        btn: false
+      }
     };
   },
   async created() {
@@ -255,12 +258,13 @@ export default {
         let wkCase = await wkCaseInfo.findAll((item) => {
           return item.groupId === userGroupId
           && item.pcMonth === selectPlanDate
-          && item.planId;
+          && item.planId && item.delFlag !== '1';
         });
         // 计划
         let arrPlan = await docPlan.findAll((item) => {
           return item.groupId === userGroupId
-          && (`${item.planYear}-${item.planMonth}`) === selectPlanDate;
+          && (`${item.planYear}-${item.planMonth}`) === selectPlanDate
+          && item.delFlag !== '1';
         });
         if (wkCase.length > 0) {
           wkCase.map(caseItem => {
@@ -272,7 +276,8 @@ export default {
             })
           })
         }
-        let listArr = [...wkCase, ...arrPlan];
+        // 使用页面usePage为执法工作台时，计划中展示计划数据，如果为文书管理，计划内也只展示检查活动
+        let listArr = this.usePage === 'MakeLawWrit' ? [...wkCase, ...arrPlan] : [...wkCase];
         this.total = listArr.length;
         // 转换为列表所需要的值
         listArr.map((k, index) => {
@@ -307,7 +312,7 @@ export default {
         let wkCase = await wkCaseInfo.findAll((item) => {
           return item.groupId === userGroupId
           && item.pcMonth === selectPlanDate
-          && !item.planId;
+          && !item.planId && item.delFlag !== '1';
         })
         let listArr = [...wkCase]
         // 转换为列表所需要的值
@@ -337,11 +342,9 @@ export default {
       this.setActive(index)
       // data: 单条plan case相关信息
       this.selectedCase = data
-      // 执法工作台时点击打开检查活动流程
-      if (this.usePage === 'MakeLawWrit') {
-        // 展示当前case流程进度
-        this.$emit('change-page', {page: 'writFlow', data})
-      }
+      // 执法工作台时点击打开检查活动流程 展示当前case流程进度
+      // 文书管理时，展示选择检查活动的所有文书列表
+      this.$emit('change-page', {page: 'writFlow', data})
     },
     editaddbook (item) {
       // 判断当前是否已有caseId，如果已有则不弹窗新建
@@ -370,6 +373,7 @@ export default {
         })
       }
       this.getData()
+      this.selectedCase = {}
       this.$parent.changePage({page: 'empty'})
     },
     addCase () {
@@ -396,7 +400,57 @@ export default {
     },
     deleteCase () {
       // 删除检查活动
-      this.selectedCase
+      if (this.selectedCase && this.selectedCase.caseId) {
+        this.loading.btn = true
+        this.$confirm(`是否确定删除“${this.selectedCase.corpName}”的检查活动及已保存的文书？`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          dangerouslyUseHTMLString: true,
+          type: 'warning'
+        }).then(async () => {
+          // 删除检查活动
+          // 首先遍历检查活动中的文书时候已经有归档的文书
+          const db = new GoDB(this.DBName);
+          const wkPaper = db.table('wkPaper')
+          // 获取所有此检查活动caseId的文书
+          let paperList = await wkPaper.findAll(item => item.caseId === this.selectedCase.caseId)
+          let canDelete = true
+          // 遍历文书，判断是否有已经归档的文书
+          paperList.length > 0 && paperList.map(item => {
+            if (item.delFlag === '0') {
+              canDelete = false
+            }
+          })
+          if (canDelete) {
+            // 调用接口删除文书及检查活动，接口删除成功后进行本地删除
+
+            // 本地删除：文书
+            // 遍历所有已经保存的文书，进行修改保存（本地及上传服务器），delFlag为1，即删除
+            paperList.map(async (item) => {
+              let data = item
+              data.delFlag = '1'
+              await wkPaper.put(data)
+            })
+            // 本地删除：检查活动
+            // 删除检查活动delFlag为1
+            const wkCase = db.table('wkCase')
+            let curCase = await wkCase.find(item => item.caseId === this.selectedCase.caseId)
+            curCase.delFlag = '1'
+            await wkCase.put(curCase)
+            // 删除成功后刷新企业列表
+            this.getData()
+          } else {
+            // 如果有已经归档的文书则弹出无法删除提示
+            this.$message.error('当前检查活动有已经归档文书，无法删除！')
+          }
+          await db.close()
+          this.loading.btn = false
+        }).catch(() => {
+          this.loading.btn = false
+        })
+      } else {
+        this.$message.error('请选择检查活动后点击删除！')
+      }
     }
   },
 };
