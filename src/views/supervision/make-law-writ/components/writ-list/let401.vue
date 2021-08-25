@@ -259,7 +259,9 @@
                 >{{letData.cellIdx16}}</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;送件人（签名）：</td>
+                 <td style="width:5%"></td>
+
+                <td class="textAlignLeft">送件人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_17"
@@ -287,7 +289,9 @@
                 >{{letData.cellIdx18}}</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收件人（签名）：</td>
+                 <td style="width:5%"></td>
+
+                <td class="textAlignLeft">收件人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_19"
