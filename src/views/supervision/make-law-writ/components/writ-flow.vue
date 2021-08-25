@@ -150,7 +150,7 @@
                   />
                   <span @click="cmdEditDoc('let106','责令撤出作业人员命令书', '3')" class="flow-span">
                     责令撤出作业人员
-                    <br />命令书
+                    <br />指令书
                   </span>
                 </td>
                 <td style="width:28px;">
@@ -228,7 +228,7 @@
                     :title="flowStatus.paper45 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let110','延长查封（扣押）期限决定书', '45')" class="flow-span">
+                  <span @click="cmdEditDoc('let1100','延长查封（扣押）期限决定书', '45')" class="flow-span">
                     延长查封（扣押）
                     <br />期限决定书
                   </span>
@@ -243,7 +243,7 @@
                     :title="flowStatus.paper46 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let110','查封(扣押)处理决定书', '46')" class="flow-span">
+                  <span @click="cmdEditDoc('let1101','查封(扣押)处理决定书', '46')" class="flow-span">
                     查封(扣押)处理
                     <br />决定书
                   </span>

@@ -85,6 +85,8 @@ export default {
     let110: resolve => { require(["./components/writ-list/let110"], function(let110) { resolve(let110);});},
     let111: resolve => { require(["./components/writ-list/let111"], function(let111) { resolve(let111);});},
     let112: resolve => { require(["./components/writ-list/let112"], function(let112) { resolve(let112);});},
+    let1100: resolve => { require(["./components/writ-list/let1100"], function(let1100) { resolve(let1100);});},
+    let1101: resolve => { require(["./components/writ-list/let1101"], function(let1101) { resolve(let1101);});},
     let113: resolve => { require(["./components/writ-list/let113"], function(let113) { resolve(let113);});},
     let200: resolve => { require(["./components/writ-list/let200"], function(let200) { resolve(let200);});},
     let201: resolve => { require(["./components/writ-list/let201"], function(let201) { resolve(let201);});},
