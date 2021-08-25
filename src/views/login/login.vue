@@ -1,66 +1,40 @@
 <template>
   <div>
     <div style="text-align:center;">
-      <div
-        style="background-image: url('static/image/login_bg.jpg');background-repeat:no-repeat;background-position:center center;width:1200px;height:720px;margin:0 auto;"
-      >
-        <div style="width:100%;height:15px;"></div>
-        <table style="width:100%;">
-          <tr>
-            <td style="width:1140px;">&nbsp;</td>
-            <td style="width:50px;text-align:center;">
-              <img src="@/views/login/assets/btnPower.png" style="cursor: pointer;" @click="closeWin" />
-            </td>
-            <td style="width:10px;">&nbsp;</td>
-          </tr>
-        </table>
-        <div style="width:100%;height:174px;"></div>
-        <table style="width:100%;margin:0 auto;">
-          <tr>
-            <td style="width:790px;">&nbsp;</td>
-            <td style="width:270px;">
-              <!-- <div style="width:100%;height:50px;line-height:50px;"><input type="text" id="txtUserNo" style="width:100%;height:42px;border:0;" value="test" /></div> -->
-              <div style="width:100%;height:50px;line-height:50px;">
-                <input
-                  type="text"
-                  id="txtUserNo"
-                  style="width:100%;height:42px;border:0;"
-                  value=""
-                />
+      <div class="login-main">
+        <div class="close-icon">
+          <img src="@/views/login/assets/btnPower.png" style="cursor: pointer;" @click="closeWin" />
+        </div>
+        <div class="login-form-main">
+          <div style="width: 300px; margin: 0 auto;">
+            <div style="height: 40px;"></div>
+            <div class="form-title">
+              <span>用户登录</span>
+            </div>
+            <div style="height: 20px;"></div>
+            <div class="form-content">
+              <div class="form-content-item">
+                <span class="item-label">USER NAME</span>
+                <el-input v-model="dataForm.txtUserNo"></el-input>
               </div>
-              <div style="width:100%;height:44px;">&nbsp;</div>
-              <!-- <div style="width:100%;height:50px;line-height:50px;"><input type="password" id="txtPassword" style="width:100%;height:42px;border:0;" value="Cs_11223344" /></div> -->
-              <div style="width:100%;height:50px;line-height:50px;">
-                <input
-                  type="password"
-                  id="txtPassword"
-                  style="width:100%;height:42px;border:0;"
-                  value=""
-                />
+              <div class="form-content-item">
+                <span class="item-label">PASSWORD</span>
+                <el-input v-model="dataForm.txtPassword"></el-input>
               </div>
-              <div style="width:100%;height:15px;">&nbsp;</div>
-              <table style="width:100%;">
-                <tr>
-                  <td style="width:50%;text-align:left;">
-                    <input type="checkbox" />记住登录账号
-                  </td>
-                  <td style="width:50%;text-align:right">
-                    <input type="checkbox" />离线使用
-                  </td>
-                </tr>
-              </table>
-              <div style="width:100%;height:30px;">&nbsp;</div>
-              <div style="width:100%;height:45px;margin:0 auto;text-align:center;">
-                <img
-                  src="@/views/login/assets/login-btn-enter.jpg"
-                  @click="doLogin"
-                  style="border:0;cursor:pointer;"
-                />
-              </div>
-            </td>
-            <td style="width:125px;"></td>
-          </tr>
-        </table>
+            </div>
+            <div class="form-foot">
+              <el-checkbox v-model="recordAccount">记住登录账号</el-checkbox>
+              <el-checkbox v-model="offLine">离线使用</el-checkbox>
+            </div>
+            <div class="login-btn">
+              <img
+                src="@/views/login/assets/login-btn-enter.jpg"
+                @click="doLogin"
+                style="border:0;cursor:pointer;"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -73,10 +47,28 @@ import GoDB from "@/utils/godb.min.js";
 export default {
   name: "Login",
   data() {
-    return{
+    return {
+      dataForm: {
+        txtUserNo: null,
+        txtPassword: null
+      },
+      recordAccount: false, // 是否记住登录账号
+      offLine: false, // 是否离线使用
     }
   },
+  created() {
+    this.initAccount()
+  },
   methods: {
+    initAccount () {
+      // 如果已记住登录账号则返回账号及密码
+      if (localStorage.getItem('userAccount')) {
+        this.dataForm = JSON.parse(localStorage.getItem('userAccount'))
+        this.recordAccount = true
+      } else {
+        this.recordAccount = false
+      }
+    },
     closeWin () {
       // 关闭程序
       electronRequest('closeWindow')
@@ -87,13 +79,20 @@ export default {
       // 	doAlert('网络不可用，请确认设备已经联网。');
       // 	return;
       // }
+      // 如果已勾选记住登录账号：
+      if (this.recordAccount) {
+        // 保存当前账号至LocalStoreage
+        localStorage.setItem('userAccount', JSON.stringify(this.dataForm))
+      } else {
+        if (localStorage.getItem('userAccount')) {
+          localStorage.removeItem('userAccount')
+        }
+      }
       //登录
-      let userNo = document.getElementById("txtUserNo").value;
-      let password = document.getElementById("txtPassword").value;
-      password = encry(password);
+      let password = encry(this.dataForm.txtPassword);
       this.$http.post(`/login`, {
-          username: userNo,
-          password: password,
+          username: this.dataForm.txtUserNo,
+          password,
           mobileLogin: true,
         }).then(({data}) => {
           if (data.id) {
@@ -118,10 +117,10 @@ export default {
               key: 'DBName',
               val: DBName
             })
-            this.$store.commit('changeState', {
-              key: 'activeTab',
-              val: 'MakeLawWrit'
-            })
+            // this.$store.commit('changeState', {
+            //   key: 'activeTab',
+            //   val: 'MakeLawWrit'
+            // })
             this.getUserInfo(userId, sessId);
           } else {
             this.$message.error(data.message)
@@ -148,10 +147,79 @@ export default {
       let userInfo = await person.find(item => item.no === userId)
       this.$store.state.user.userNumber = userInfo.userNumber
       await db.close()
-    }
+    },
   },
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+.login-main {
+  background: url('~@/assets/img/login_bg.jpg') no-repeat;
+  background-position: center center;
+  width: 1200px;
+  height: 720px;
+  margin: 0 auto;
+  position: relative;
+  .close-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  .login-form-main {
+    height: 495px;
+    width: 420px;
+    position: absolute;
+    top: 89px;
+    right: 82px;
+    .form-title {
+      height: 60px;
+      display: flex;
+      align-items: center;
+      span {
+        font-size: 19px;
+        font-weight: 500;
+      }
+    }
+    .form-content {
+      .form-content-item {
+        height: 65px;
+        width: 300px;
+        position: relative;
+        border: 1px solid #EBEEF5;
+        margin-bottom: 20px;
+        display: flex;
+        .item-label {
+          position: absolute;
+          top: -11px;
+          left: 7px;
+          background: #fff;
+          display: inline-block;
+          padding: 0 3px;
+        }
+        /deep/ .el-input {
+          width: 100%;
+          display: flex;
+          align-items: flex-end;
+          justify-content: center;
+        }
+        /deep/ .el-input__inner {
+          background: #fff;
+          border: none;
+          border-bottom: 1px solid #DCDFE6;
+          width: 210px;
+          margin-bottom: 10px;
+        }
+      }
+    }
+    .form-foot {
+      margin-bottom: 30px;
+      /deep/ .el-checkbox__label {
+        font-size: 16px;
+      }
+    }
+    .login-btn {
+    }
+  }
+}
+
 </style>

@@ -33,9 +33,10 @@
         </td>
         <td style="width:auto;-webkit-app-region:drag;-webkit-user-select:none;"></td>
         <td style="width:150px;text-align:right;-webkit-app-region:no-drag;">
-          <img src="@/components/assets/image/min.png" id="minbt" @click="electronRequest('minWindow')" />&nbsp;
-          <img src="@/components/assets/image/maxed.png" id="maxbt" @click="electronRequest('maxWindow')" />&nbsp;
-          <img src="@/components/assets/image/close.png" id="closebt" @click="electronRequest('closeWindow')" />&nbsp;&nbsp;
+          <el-button type="text" @click="logoutHandle">退出</el-button>
+          <img src="@/components/assets/image/min.png" id="minbt" @click="handleWindow('minWindow')" />&nbsp;
+          <img src="@/components/assets/image/maxed.png" id="maxbt" @click="handleWindow('maxWindow')" />&nbsp;
+          <img src="@/components/assets/image/close.png" id="closebt" @click="handleWindow('closeWindow')" />&nbsp;&nbsp;
         </td>
       </tr>
     </table>
@@ -44,12 +45,14 @@
 
 <script>
 import electronRequest from '@/utils/electronRequest'
+import { clearLoginInfo } from '@/utils'
 export default {
   name: "MainTop",
   data() {
     return {
       activeTab: null,
-      electronRequest: electronRequest
+      electronRequest: electronRequest,
+      maxSrc: false, // 最大化和标准窗口中间切换图标
     };
   },
   created() {
@@ -90,6 +93,17 @@ export default {
         }
       }
     },
+    handleWindow (message) {
+      if (message === 'maxWindow') {
+        this.maxSrc = !this.maxSrc
+      }
+      electronRequest(message)
+    },
+    logoutHandle () {
+      clearLoginInfo()
+      this.$router.push({ name: 'Login' })
+
+    }
   },
 };
 </script>

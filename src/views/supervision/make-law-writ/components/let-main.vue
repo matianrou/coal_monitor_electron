@@ -707,4 +707,8 @@ export default {
 .page-break {
   page-break-after: always;
 }
+@page {
+  margin: 0px;
+  margin-top: 16px;
+}
 </style>
