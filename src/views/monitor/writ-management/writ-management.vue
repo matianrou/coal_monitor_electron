@@ -11,15 +11,17 @@
           @change-page="changePage"
         ></case-list>
       </div>
-      <div class="detail-main">
-        <div class="detail-org-information">
-          <!-- 企业信息 -->
-          <!-- <org-information
-            :corp-data="corpData"
-          ></org-information> -->
-        </div>
-        <div class="detail-writ-flow">
-          <!-- 文书列表 -->
+      <div class="writ-management-show-detail">
+        <div class="detail-main">
+          <div class="detail-org-information">
+            <!-- 企业信息 -->
+            <org-information
+              :corp-data="corpData"
+            ></org-information>
+          </div>
+          <div class="detail-writ-flow">
+            <!-- 文书列表 -->
+          </div>
         </div>
       </div>
     </div>
@@ -74,8 +76,17 @@ export default {
     .writ-management-show-detail {
       flex: 1;
       height: 100%;
-      overflow-y:auto;
-      overflow-x:hidden;
+      overflow-y: auto;
+      overflow-x: hidden;
+      .detail-main {
+        display: flex;
+        flex-direction: column;
+        margin-left: 10px;
+      }
+    }
+    .make-law-writ-fill {
+      width: 100%;
+      overflow: hidden;
     }
   }
 }

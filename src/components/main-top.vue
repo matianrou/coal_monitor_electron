@@ -66,7 +66,7 @@ export default {
         this.changeTab('MakeLawWrit')
       }
     },
-    changeTab (tab, go = false) {
+    changeTab (tab, go) {
       if (this.activeTab !== tab) {
         if (this.activeTab === 'SourceDownload') {
           if (go) {

@@ -217,12 +217,15 @@ export default {
           next()
         }).catch(() => {
         })
+    } else {
+      this.$parent.$refs.mainTop.changeTab(to.name.substring(11, to.name.length), true)
+      next()
     }
   },
   data() {
     return {
       loading: {
-        download: true,
+        download: false,
       }
     };
   },

@@ -112,11 +112,15 @@ export default {
             let path = 'CalmineSupervisionElectronMain' // 监管路径
             let DBName = 'CoalSupervisionDB' // 监管使用DB
             this.$router.replace({
-              name: path
+              name: path,
             })
             this.$store.commit('changeState', {
               key: 'DBName',
               val: DBName
+            })
+            this.$store.commit('changeState', {
+              key: 'activeTab',
+              val: 'MakeLawWrit'
             })
             this.getUserInfo(userId, sessId);
           } else {
