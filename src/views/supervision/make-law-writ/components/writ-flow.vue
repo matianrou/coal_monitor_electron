@@ -612,7 +612,7 @@
                     :title="flowStatus.paper53 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let302','行政强制执行事先催告书', '53')" class="flow-span">
+                  <span @click="cmdEditDoc('let309','行政强制执行事先催告书', '53')" class="flow-span">
                     行政强制执行<br />事先催告书
                   </span>
                 </td>
@@ -692,7 +692,7 @@
                     :title="flowStatus.paper55 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let402','鉴定委托书', '55')" class="flow-span">
+                  <span @click="cmdEditDoc('let406','鉴定委托书', '55')" class="flow-span">
                     鉴定委托书
                   </span>
                 </td>
