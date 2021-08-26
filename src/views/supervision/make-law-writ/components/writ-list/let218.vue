@@ -2,12 +2,12 @@
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
-      ref="letMain"
-      :corp-data="corpData"
-      :doc-data="docData"
-      :let-data="letData"
-      :edit-data="editData"
-      @go-back="goBack"
+        ref="letMain"
+        :corp-data="corpData"
+        :doc-data="docData"
+        :let-data="letData"
+        :edit-data="editData"
+        @go-back="goBack"
     >
       <div slot="left">
         <div class="page page-sizeA4">
@@ -15,141 +15,146 @@
             <div class="stdRowH"></div>
             <div class="textAlignCenter formHeader0">
               煤矿安全监管行政执法文书
-              <br />
+              <br/>
             </div>
             <div class="textAlignCenter formHeader1">听证会报告书</div>
             <div class="stdRowH"></div>
             <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td
-                  class="cellInput "
-                  id="cell_idx_0"
-                  align="center"
-                  style="width:68%"
-                  data-title=""
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx0', '', 'TextItem')"
-                >{{letData.cellIdx0}}</td>
+                    class="cellInput "
+                    id="cell_idx_0"
+                    align="center"
+                    style="width:68%"
+                    data-title=""
+                    data-type="text"
+                    data-src
+                    @click="commandFill('cellIdx0', '', 'TextItem')"
+                >{{ letData.cellIdx0 }}
+                </td>
                 <td class="textAlignLeft">编号：</td>
-                
+
                 <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_1"
-                  align="center"
-                  style="width:25%"
-                  data-title="编号"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx1', '编号', 'TextItem')"
-                >{{letData.cellIdx1}}</td>
+                    class="cellInput cellBottomLine"
+                    id="cell_idx_1"
+                    align="center"
+                    style="width:25%"
+                    data-title="编号"
+                    data-type="text"
+                    data-src
+                    @click="commandFill('cellIdx1', '编号', 'TextItem')"
+                >{{ letData.cellIdx1 }}
+                </td>
 
               </tr>
               <tr>
                 <td class="textAlignLeft">案由：</td>
-                
+
               </tr>
               <div
-              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-              class="cellInput mutiLineArea"
-              id="cell_idx_7"
-              data-title="案由"
-              data-type="textarea"
-              data-src
-             @click="commandFill('cellIdx7', '案由', 'DangerTableItem')">
-              <p
-                style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
-              >&nbsp;{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</p>
-              <p
-                style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
-              >&nbsp;</p>
-            </div>
- </table>
-<table class="docBody">
+                  style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+                  class="cellInput mutiLineArea"
+                  id="cell_idx_7"
+                  data-title="案由"
+                  data-type="textarea"
+                  data-src
+                  @click="commandFill('cellIdx7', '案由', 'DangerTableItem')">
+                <p
+                    style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
+                >&nbsp;{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）' }}</p>
+                <p
+                    style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
+                >&nbsp;</p>
+              </div>
+            </table>
+            <table class="docBody">
 
- 
+
               <tr>
                 <td class="textAlignLeft" style="width:14%">听证主持人：</td>
                 <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_15"
-                  align="center"
-                  style="width:24%"
-                  data-title="听证主持人"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx15', '听证主持人', 'TextItem')"
-                >{{letData.cellIdx15}}</td>
+                    class="cellInput cellBottomLine"
+                    id="cell_idx_15"
+                    align="center"
+                    style="width:24%"
+                    data-title="听证主持人"
+                    data-type="text"
+                    data-src
+                    @click="commandFill('cellIdx15', '听证主持人', 'TextItem')"
+                >{{ letData.cellIdx15 }}
+                </td>
                 <td class="textAlignCenter">&nbsp;&nbsp;</td>
                 <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_16"
-                  align="center"
-                  style="width:24%"
-                  data-title="听证主持人"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx16', '听证主持人', 'TextItem')"
-                >{{letData.cellIdx16}}</td>
+                    class="cellInput cellBottomLine"
+                    id="cell_idx_16"
+                    align="center"
+                    style="width:24%"
+                    data-title="听证主持人"
+                    data-type="text"
+                    data-src
+                    @click="commandFill('cellIdx16', '听证主持人', 'TextItem')"
+                >{{ letData.cellIdx16 }}
+                </td>
                 <td class="textAlignLeft" style="width:10%">&nbsp;记录人：</td>
                 <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_17"
-                  align="center"
-                  style="width:26%"
-                  data-title="记录人"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx17', '记录人', 'TextItem')"
-                >{{letData.cellIdx17}}</td>
+                    class="cellInput cellBottomLine"
+                    id="cell_idx_17"
+                    align="center"
+                    style="width:26%"
+                    data-title="记录人"
+                    data-type="text"
+                    data-src
+                    @click="commandFill('cellIdx17', '记录人', 'TextItem')"
+                >{{ letData.cellIdx17 }}
+                </td>
               </tr>
-              </table>
-             <table class="docBody">
+            </table>
+            <table class="docBody">
 
-             
-               <tr>
+
+              <tr>
                 <td class="textAlignLeft" style="width:23%">听证会基本情况摘要：</td>
-                
-              </tr>
-              <div
-              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-              class="cellInput mutiLineArea"
-              id="cell_idx_7"
-              data-title="听证会基本情况摘要"
-              data-type="textarea"
-              data-src
-             @click="commandFill('cellIdx7', '听证会基本情况摘要', 'DangerTableItem')">
-              <p
-                style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
-              >&nbsp;{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</p>
-              <p
-                style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
-              >&nbsp;</p>
-            </div>
- </table>
-<table class="docBody">
 
- 
-            <tr>
-                <td class="textAlignLeft" style="width:23%">听证主持人意见：</td>
-                
               </tr>
               <div
-              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-              class="cellInput mutiLineArea"
-              id="cell_idx_7"
-              data-title="听证主持人意见"
-              data-type="textarea"
-              data-src
-             @click="commandFill('cellIdx7', '听证主持人意见', 'DangerTableItem')">
-              <p
-                style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
-              >&nbsp;{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</p>
-              <p
-                style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
-              >&nbsp;</p>
-            </div>
-            </table>  
+                  style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+                  class="cellInput mutiLineArea"
+                  id="cell_idx_7"
+                  data-title="听证会基本情况摘要"
+                  data-type="textarea"
+                  data-src
+                  @click="commandFill('cellIdx7', '听证会基本情况摘要', 'DangerTableItem')">
+                <p
+                    style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
+                >&nbsp;{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）' }}</p>
+                <p
+                    style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
+                >&nbsp;</p>
+              </div>
+            </table>
+            <table class="docBody">
+
+
+              <tr>
+                <td class="textAlignLeft" style="width:23%">听证主持人意见：</td>
+
+              </tr>
+              <div
+                  style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+                  class="cellInput mutiLineArea"
+                  id="cell_idx_7"
+                  data-title="听证主持人意见"
+                  data-type="textarea"
+                  data-src
+                  @click="commandFill('cellIdx7', '听证主持人意见', 'DangerTableItem')">
+                <p
+                    style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
+                >&nbsp;{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）' }}</p>
+                <p
+                    style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
+                >&nbsp;</p>
+              </div>
+            </table>
 
             <table class="docBody">
               <tr>
@@ -181,7 +186,7 @@
                 >{{ letData.cellIdx11 }}
                 </td>
               </tr>
-               <tr>
+              <tr>
                 <td
                     class="textAlignLeft" style="width:18%"
                 >负责人审核意见：
@@ -212,8 +217,8 @@
                     @click="commandFill('cellIdx9', '负责人（签名）', 'TextItem')"
                 >{{ letData.cellIdx9 }}
                 </td>
-                
-               
+
+
                 <td class="textAlignCenter">日期：</td>
                 <td
                     class="cellInput cellBottomLine"
@@ -238,13 +243,15 @@
 <script>
 import letMain from "../let-main";
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject } from '@/utils/monitor/setInitPaperData'
+import {getDangerObject} from '@/utils/monitor/setInitPaperData'
+
 export default {
   name: "Let205",
   props: {
     corpData: {
       type: Object,
-      default: () => {},
+      default: () => {
+      },
     },
     docData: {
       type: Object,
@@ -295,7 +302,7 @@ export default {
       //查询当前计划是否已做文书
       const checkPaper = await wkPaper.findAll((item) => {
         return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo
+            item.caseId === caseId && item.paperType === this.docData.docTypeNo
         );
       });
       // 保存额外拼写的数据内容，用于修改隐患项时回显使用
@@ -368,9 +375,9 @@ export default {
       }
       await db.close();
     },
-    goBack({ page }) {
+    goBack({page}) {
       // 返回选择企业
-      this.$emit("go-back", { page });
+      this.$emit("go-back", {page});
     },
     commandFill(key, title, type) {
       // 判断是否可编辑
@@ -386,12 +393,12 @@ export default {
           dataKey = 'dangerItemObject'
         }
         this.$refs.letMain.commandFill(
-          key,
-          dataKey,
-          title,
-          type,
-          this.letData[dataKey],
-          this.options[key]
+            key,
+            dataKey,
+            title,
+            type,
+            this.letData[dataKey],
+            this.options[key]
         );
       }
     },
