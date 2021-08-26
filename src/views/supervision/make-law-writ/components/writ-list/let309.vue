@@ -412,18 +412,18 @@
 
             <table>
               <hr />
-              <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式三份，一份交</td>
+              <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份送被催告</td>
               <td
                 class="cellInput"
                 id="cell_idx_21"
                 align="center"
-                style="width:20%"
+                style="width:10%"
                 data-title
                 data-type="text"
                 data-src
-                @click="commandFill('cellIdx21', '', 'TextItem')"
+                @click="commandFill('cellIdx21', '单位', 'TextItem')"
                 >{{ letData.cellIdx21 }}</td>
-              <td class="textAlignLeft">，一份交煤矿，一份存档。</td>
+              <td class="textAlignLeft">，一份存档。</td>
             </table>
           </div>
         </div>

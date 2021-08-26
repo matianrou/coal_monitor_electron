@@ -129,7 +129,7 @@
               @click="commandFill('cellIdx8', '调查事由', 'DangerTableItem')">
               <div v-if="letData.cellIdx8 && letData.cellIdx8.length > 0">
                 <p class="show-area-item-p">
-                  <span style="padding: 7px;">{{ letData.cellIdx8 }}</span>
+                  <span style="padding: 7px;">{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
                 </p>
               </div>
               <div v-else>
@@ -144,7 +144,7 @@
             <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">被调查人：</td>
-                <td class="textAlignLeft">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</td>
+                <td class="textAlignLeft">姓名</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
@@ -155,7 +155,7 @@
                   data-src
                   @click="commandFill('cellIdx9', '姓名', 'TextItem')"
                 >{{letData.cellIdx9}}</td>
-                <td class="textAlignLeft">性别</td>
+                <td class="textAlignLeft">&nbsp;性别</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_10"
@@ -166,12 +166,12 @@
                   data-src
                   @click="commandFill('cellIdx10', '性别', 'SelectItem')"
                 >{{letData.cellIdx10}}</td>
-                <td class="textAlignLeft">年龄</td>
+                <td class="textAlignLeft">&nbsp;年龄</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_11"
                   align="center"
-                  style="width:7%"
+                  style="width:8%"
                   data-title="年龄"
                   data-type="text"
                   data-src
@@ -182,7 +182,7 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_12"
                   align="center"
-                  style="width:28%"
+                  style="width:30%"
                   data-title="身份证号"
                   data-type="text"
                   data-src
@@ -190,9 +190,10 @@
                 >{{letData.cellIdx12}}</td>
               </tr>
               <tr>
+                <td style="width:11%"></td>
                 <td
                   class="textAlignLeft"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;工作单位</td>
+                >工作单位</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_13"
@@ -203,7 +204,7 @@
                   data-src
                   @click="commandFill('cellIdx13', '工作单位', 'TextItem')"
                 >{{letData.cellIdx13}}</td>
-                <td class="textAlignLeft">职务（职业）</td>
+                <td class="textAlignLeft">&nbsp;职务（职业）</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_14"
@@ -216,9 +217,10 @@
                 >{{letData.cellIdx14}}</td>
               </tr>
               <tr>
+                <td style="width:11%"></td>
                 <td
                   class="textAlignLeft"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;政治面貌</td>
+                >政治面貌</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_15"
@@ -228,7 +230,7 @@
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx15', '政治面貌', 'SelectItem')"
-                >{{letData.cellIdx15}}</td>
+                >{{letData.cellIdx15 ? letData.cellIdx15 : '（点击编辑）'}}</td>
                 <td class="textAlignLeft">文化程度</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -239,7 +241,7 @@
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx16', '文化程度', 'SelectItem')"
-                >{{letData.cellIdx16}}</td>
+                >{{letData.cellIdx16 ? letData.cellIdx16 : '（点击编辑）'}}</td>
                 <td class="textAlignLeft">电&nbsp;&nbsp;&nbsp;&nbsp;话</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -253,14 +255,15 @@
                 >{{letData.cellIdx17}}</td>
               </tr>
               <tr>
+                <td style="width:11%"></td>
                 <td
                   class="textAlignLeft"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;住&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址</td>
+                >住&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_18"
                   align="center"
-                  style="width:78%"
+                  style="width:79%"
                   data-title="住址"
                   data-type="text"
                   data-src
@@ -298,7 +301,7 @@
                   @click="commandFill('cellIdx21', '', 'TextareaItem')">
                   <div v-if="letData.cellIdx8 && letData.cellIdx8.length > 0" style="position: relative;">
                     <p class="show-area-item-p">
-                      <span style="padding: 7px;">{{letData.cellIdx21}}</span>
+                      <span style="padding: 7px;">{{letData.cellIdx21 ? letData.cellIdx21 : '（点击编辑）'}}</span>
                     </p>
                     <div
                       v-for="(item, index) in 50"
@@ -320,7 +323,7 @@
               <tr>
                 <td
                   class="textAlignLeft"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;备注：被调查人员应在过目笔录后，签署意见，并签名押印。</td>
+                >备注:被调查人员应在核对笔录后，书写 “ 以上笔录我已看过，与我说的一致 ” ，并签名押印。</td>
               </tr>
             </table>
           </div>
