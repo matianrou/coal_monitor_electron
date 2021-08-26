@@ -355,7 +355,7 @@
                     :title="flowStatus.paper48 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let204','集体讨论记录', '48')" class="flow-span">集体讨论记录</span>
+                  <span @click="cmdEditDoc('let215','集体讨论记录', '48')" class="flow-span">集体讨论记录</span>
                 </td>
                 <td style="width:12px;">
                   <img src="../assets/image/doc-flow_r1_c6.png" style="height: 65px;" />
@@ -373,7 +373,7 @@
                     :title="flowStatus.paper36 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let203','案件处理呈报书', '36')" class="flow-span">案件处理呈报书</span>
+                  <span @click="cmdEditDoc('let216','案件处理呈报书', '36')" class="flow-span">案件处理呈报书</span>
                 </td>
                 <td style="width:28px;">
                   <img src="../assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
@@ -436,7 +436,7 @@
                     :title="flowStatus.paper57 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let105','询问通知书', '57')" class="flow-span">
+                  <span @click="cmdEditDoc('let217','询问通知书', '57')" class="flow-span">
                     询问通知书
                   </span>
                 </td>
@@ -641,7 +641,7 @@
                     :title="flowStatus.paper54 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let304','行政执法有关事项审批报告', '54')" class="flow-span">
+                  <span @click="cmdEditDoc('let310','行政执法有关事项审批报告', '54')" class="flow-span">
                     行政执法有关事项<br />审批报告
                   </span>
                 </td>
@@ -703,31 +703,7 @@
                 </td>
               </tr>
             </table>
-             <div style="height:32px;line-height:32px;font-weight:bold;color:#333;">
-              <img src="@/components/assets/image/letTitle.png" style="vertical-align:middle;" />报告上传
-            </div>
-            <table style="width: 206px;height:65px;border-collapse: collapse;">
-              <tr>
-                <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c1.png" style="height: 65px;" />
-                </td>
-                <td class="writ-flow-spantd">
-                  <img
-                    v-if="flowStatus.paper13"
-                    :src="require(flowStatus.paper13 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
-                    :title="flowStatus.paper13 === 'save' ? '已保存' : '已归档'"
-                    alt
-                  />
-                  <span @click="cmdEditDoc('let104','监管排查报告', '13')" class="flow-span">监管排查报告</span>
-                </td>
-                <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c7.png" style="height: 65px;" />
-                </td>
-              </tr>
-            </table>
-
           </div>
-
         </td>
       </tr>
     </table>
@@ -792,7 +768,7 @@ export default {
     position: absolute;
     width: 20px;
     top: 8px;
-    left: 0px;
+    left: 0;
   }
 }
 .writ-flow-spantd-ex {
@@ -805,7 +781,7 @@ export default {
     position: absolute;
     width: 20px;
     top: 8px;
-    left: 0px;
+    left: 0;
   }
 }
 .flow-span {

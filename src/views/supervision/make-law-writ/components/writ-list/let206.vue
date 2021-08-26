@@ -22,49 +22,50 @@
             <table class="docBody">
               <tr>
                 <td
-                  class="cellInput cellBottomLine"
+                  class="cellInput "
                   id="cell_idx_0"
                   align="right"
-                  style="width:60%"
+                  style="width:40%"
                   data-title="文书号"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx0', '文书号', 'TextItem')"
                 >{{letData.cellIdx0}}</td>
-                <td class="textAlignLeft cellBottomLine">煤安监</td>
+                <td class="textAlignLeft ">（</td>
                 <td
-                  class="cellInput cellBottomLine"
+                  class="cellInput "
                   id="cell_idx_1"
                   align="center"
-                  style="width:7%"
+                  style="width:20%"
                   data-title="文书号"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx1', '文书号', 'TextItem')"
                 >{{letData.cellIdx1}}</td>
-                <td class="textAlignLeft cellBottomLine">罚〔</td>
+                <td class="textAlignLeft ">）煤安罚〔</td>
+                
                 <td
-                  class="cellInput cellBottomLine"
+                  class="cellInput "
                   id="cell_idx_2"
                   align="center"
-                  style="width:7%"
+                  style="width:8%"
                   data-title="文书号"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx2', '文书号', 'TextItem')"
                 >{{letData.cellIdx2}}</td>
-                <td class="textAlignLeft cellBottomLine">〕</td>
+                <td class="textAlignLeft ">〕</td>
                 <td
-                  class="cellInput cellBottomLine"
+                  class="cellInput "
                   id="cell_idx_3"
                   align="center"
-                  style="width:7%"
+                  style="width:10%"
                   data-title="文书号"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx3', '文书号', 'TextItem')"
                 >{{letData.cellIdx3}}</td>
-                <td class="textAlignLeft cellBottomLine">号&nbsp;&nbsp;</td>
+                <td class="textAlignLeft ">号&nbsp;&nbsp;</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">被处罚</td>
@@ -79,7 +80,7 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_5"
                   align="center"
-                  style="width:40%"
+                  style="width:43%"
                   data-title="被处罚"
                   data-type="text"
                   data-src
@@ -113,7 +114,7 @@
               @click="commandFill('cellIdx7', '违法事实', 'DangerTableItem')">
               <div v-if="letData.cellIdx7 && letData.cellIdx7.length > 0">
                 <p class="show-area-item-p">
-                  <span style="padding: 7px;">{{ letData.cellIdx7 }}</span>
+                  <span style="padding: 7px;">{{ letData.cellIdx7? letData.cellIdx7 : '（点击编辑）' }}</span>
                 </p>
               </div>
               <div v-else>
@@ -140,7 +141,7 @@
               @click="commandFill('cellIdx8', '法律规定', 'DangerTableItem')">
               <div v-if="letData.cellIdx8 && letData.cellIdx8.length > 0">
                 <p class="show-area-item-p">
-                  <span style="padding: 7px;">{{ letData.cellIdx8 }}</span>
+                  <span style="padding: 7px;">{{ letData.cellIdx8? letData.cellIdx8 : '违反了' }}</span>
                 </p>
               </div>
               <div v-else>
@@ -167,7 +168,7 @@
               @click="commandFill('cellIdx9', '法律依据', 'DangerTableItem')">
               <div v-if="letData.cellIdx9 && letData.cellIdx9.length > 0">
                 <p class="show-area-item-p">
-                  <span style="padding: 7px;">{{ letData.cellIdx9 }}</span>
+                  <span style="padding: 7px;">{{ letData.cellIdx9? letData.cellIdx9 : '（点击编辑）' }}</span>
                 </p>
               </div>
               <div v-else>
@@ -181,7 +182,7 @@
             </div>
             <table style="border:solid 0 #000;" class="docBody">
               <tr>
-                <td class="textAlignLeft">的规定，决定给予以下行政处罚：</td>
+                <td class="textAlignLeft">决定给予以下行政处罚：</td>
               </tr>
             </table>
             <div
@@ -194,7 +195,7 @@
               @click="commandFill('cellIdx10', '行政处罚', 'DangerTableItem')">
               <div v-if="letData.cellIdx10 && letData.cellIdx10.length > 0">
                 <p class="show-area-item-p">
-                  <span style="padding: 7px;">{{ letData.cellIdx10 }}</span>
+                  <span style="padding: 7px;">{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）'}}</span>
                 </p>
               </div>
               <div v-else>
@@ -208,14 +209,15 @@
             </div>
             <table style="border:solid 0 #000;" class="docBody">
               <tr>
+                <td style="width:5%"></td>
                 <td
                   class="textAlignLeft"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;接到本处罚决定书之日起15日内将罚款缴至</td>
+                >接到本处罚决定书之日起15日内将罚款缴至</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_11"
                   align="center"
-                  style="width:55%"
+                  style="width:52%"
                   data-title="煤监机构"
                   data-type="text"
                   data-src
@@ -228,7 +230,7 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_12"
                   align="center"
-                  style="width:35%"
+                  style="width:30%"
                   data-title="银行"
                   data-type="text"
                   data-src
@@ -239,7 +241,7 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_13"
                   align="center"
-                  style="width:30%"
+                  style="width:34%"
                   data-title="支行（分理处），账户名称"
                   data-type="text"
                   data-src
@@ -252,7 +254,7 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_14"
                   align="center"
-                  style="width:42%"
+                  style="width:35%"
                   data-title="账号"
                   data-type="text"
                   data-src
@@ -263,7 +265,7 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_15"
                   align="center"
-                  style="width:41%"
+                  style="width:49%"
                   data-title="地址"
                   data-type="text"
                   data-src
@@ -274,84 +276,89 @@
               <tr>
                 <td class="textAlignLeft">到期不缴纳罚款的，每日按罚款数额的百分之三加处罚款。</td>
               </tr>
-              <tr>
+             <tr>
+                <td style="width:5%"></td>
                 <td
                   class="textAlignLeft"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如对本处罚决定不服，可在接到本决定书之日起60日内向</td>
+                >如不服本决定，可在接到本决定书之日起60日内向</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_16"
                   align="center"
-                  style="width:43%"
-                  data-title="煤监机构"
+                  style="width:44%"
+                  data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx16', '煤监机构', 'TextItem')"
-                >{{letData.cellIdx16}}</td>
+                  @click="commandFill('cellIdx16', '', 'TextItem')"
+                >{{ letData.cellIdx16 }}</td>
+               
               </tr>
               <tr>
-                <td class="textAlignLeft">申请行政复议或6个月内向</td>
+                 <td class="textAlignLeft">人民政府或者</td>
+                 <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_17"
+                  align="center"
+                  style="width:49%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx17', '', 'TextItem')"
+                >{{ letData.cellIdx17 }}</td>
+                <td class="textAlignLeft">申请行政复议，或者在6个月内依法向</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_17"
                   align="center"
-                  style="width:20%"
-                  data-title="人民法院"
+                  style="width:35%"
+                  data-title
                   data-type="text"
                   data-src
-                   @click="commandFill('cellIdx17', '人民法院', 'TextItem')"
-                >{{letData.cellIdx17}}</td>
+                  @click="commandFill('cellIdx17', '', 'TextItem')"
+                >{{ letData.cellIdx17 }}</td>
                 <td class="textAlignLeft">人民法院提起行政诉讼，但不停止执行本决定。</td>
               </tr>
             </table>
-            <table height="30"></table>
-            <table height="30"></table>
-            <table class="docBody">
+             <table class="docBody">
               <tr>
-                <td class="cellInput" id="cell_idx_18" align="right" style="width:95%"
-                @click="commandFill('cellIdx18', '', 'TextItem')"
-              >{{letData.cellIdx18}}</td>
+                <td
+                  class="cellInput"
+                  id="cell_idx_22"
+                  align="right"
+                  style="width:30%"
+                  @click="commandFill('cellIdx17', '附件', 'TextItem')"
+                >{{letData.cellIdx22 ? letData.cellIdx22 : '（点击编辑）'}}</td>
+              </tr>
+              
+            </table>
+            
+            <table height="90"></table>
+          <table class="docBody">
+              <tr>
+                <td
+                  class="cellInput"
+                  id="cell_idx_22"
+                  align="right"
+                  style="width:95%"
+                  @click="commandFill('cellIdx17', '', 'TextItem')"
+                >{{letData.cellIdx22 ? letData.cellIdx22 : '（点击编辑）'}}</td>
+              </tr>
+              <tr>
+                <td
+                  class="cellInput"
+                  id="cell_idx_23"
+                  align="right"
+                  style="width:95%"
+                  data-title
+                  data-type="date"
+                  data-src
+                  @click="commandFill('cellIdx23', '日期', 'DateItem')"
+                >{{letData.cellIdx23 ? letData.cellIdx18 : '（点击编辑）'}}</td>
               </tr>
             </table>
             <table class="docBody">
-              <td class="cellInput" style="width:55%"></td>
-              <td
-                class="cellInput"
-                id="cell_idx_19"
-                align="center"
-                style="width:10%"
-                data-title="年"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx19', '年', 'TextItem')"
-              >{{letData.cellIdx19}}</td>
-              <td class="textAlignLeft">年</td>
-              <td
-                class="cellInput"
-                id="cell_idx_20"
-                align="center"
-                style="width:10%"
-                data-title="月"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx20', '月', 'TextItem')"
-              >{{letData.cellIdx20}}</td>
-              <td class="textAlignLeft">月</td>
-              <td
-                class="cellInput"
-                id="cell_idx_21"
-                align="center"
-                style="width:10%"
-                data-title="日"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx21', '日', 'TextItem')"
-              >{{letData.cellIdx21}}</td>
-              <td class="textAlignLeft">日</td>
-            </table>
-            <table class="docBody">
               <hr />
-              <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式三份，一份交被处罚</td>
+              <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式三份，一份交银行，一份交被罚处</td>
               <td
                 class="cellInput"
                 id="cell_idx_22"
@@ -362,7 +369,7 @@
                 data-src
                 @click="commandFill('cellIdx22', '单位/个人', 'TextItem')"
               >{{letData.cellIdx22}}</td>
-              <td class="textAlignLeft">，一份交银行，一份存档。</td>
+              <td class="textAlignLeft">，一份存档。</td>
             </table>
           </div>
         </div>
