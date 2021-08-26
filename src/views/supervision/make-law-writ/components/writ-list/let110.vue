@@ -1,4 +1,4 @@
-<!-- 现场检查 实施检查 查封(扣押)决定书、延长查封（扣押）期限决定书、查封(扣押)处理决定书 -->
+<!-- 现场检查 实施检查 、延长查封（扣押）期限决定书 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -322,18 +322,18 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_17"
                   align="center"
-                  style="width:51%"
+                  style="width:49%"
                   data-title
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx17', '', 'TextItem')"
                 >{{ letData.cellIdx17 }}</td>
-                <td class="textAlignLeft">申请行政复议,或者在6个月内依法向</td>
+                <td class="textAlignLeft">申请行政复议，或者在6个月内依法向</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_17"
                   align="center"
-                  style="width:5%"
+                  style="width:35%"
                   data-title
                   data-type="text"
                   data-src
