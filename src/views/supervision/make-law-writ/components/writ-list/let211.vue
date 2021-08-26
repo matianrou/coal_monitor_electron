@@ -1,4 +1,4 @@
-<!-- 行政处罚 听证程序  听证笔录/听证会报告书 -->
+<!-- 行政处罚 听证程序  听证笔录 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -17,11 +17,11 @@
               煤矿安全监管行政执法文书
               <br />
             </div>
-            <div class="textAlignCenter formHeader1">听 证 笔 录</div>
+            <div class="textAlignCenter formHeader1" >听 证 笔 录</div>
             <div class="stdRowH"></div>
             <table style="border:solid 0 #000;" class="docBody">
               <tr>
-                <td class="textAlignLeft">听证时间：</td>
+                <td class="textAlignLeft" style="width:12%">听证时间：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_0"
@@ -101,12 +101,12 @@
                 <td class="textAlignLeft">分</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">听证地点：</td>
+                <td class="textAlignLeft"  style="width:12%">听证地点：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_7"
                   align="center"
-                  style="width:85%"
+                  style="width:88%"
                   data-title="听证地点"
                   data-type="text"
                   data-src
@@ -114,23 +114,23 @@
                 >{{letData.cellIdx7}}</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">听证主持人（签名）：</td>
+                <td class="textAlignLeft"  style="width:23%">听证主持人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_8"
                   align="center"
-                  style="width:25%"
+                  style="width:29%"
                   data-title="听证主持人（签名）"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx8', '听证主持人（签名）', 'TextItem')"
                 >{{letData.cellIdx8}}</td>
-                <td class="textAlignLeft">记录人（签名）：</td>
+                <td class="textAlignLeft"  style="width:18%">记录人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
                   align="center"
-                  style="width:35%"
+                  style="width:30%"
                   data-title="记录人（签名）"
                   data-type="text"
                   data-src
@@ -158,11 +158,12 @@
             </div>
             <table style="border:solid 0 #000;" class="docBody">
               <tr>
-                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;听证参加人（签名）：</td>
+                <td style="width:5%"></td>
+                <td class="textAlignLeft" style="width:23%" >听证参加人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_11"
-                  style="width:71.5%"
+                  style="width:72%"
                   data-title="听证参加人（签名）"
                   data-type="text"
                   data-src

@@ -504,7 +504,7 @@
                     :title="flowStatus.paper49 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let211','听证会报告书', '49')" class="flow-span">
+                  <span @click="cmdEditDoc('let218','听证会报告书', '49')" class="flow-span">
                     听证会报告书
                   </span>
                 </td>
