@@ -1,4 +1,4 @@
-<!-- '执法案卷（首页）及目录 -->
+<!-- 行政处罚 案件结案 '执法案卷（首页）及目录 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -111,7 +111,7 @@
                 >{{letData.cellIdx5}}</td>
                 <td
                   class="textAlignLeft"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日至&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                >&nbsp;&nbsp;&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;至&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_6"
@@ -147,12 +147,12 @@
                 <td class="textAlignLeft">日</td>
               </tr>
               <tr>
-                <td class="textPaddingLeft">&nbsp;&nbsp;本卷共：&nbsp;&nbsp;</td>
+                <td class="textPaddingLeft">本卷共：&nbsp;&nbsp;</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
                   align="center"
-                  style="width:8%"
+                  style="width:11%"
                   data-title="案由"
                   data-type="textarea"
                   data-src
@@ -163,7 +163,7 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_10"
                   align="center"
-                  style="width:8%"
+                  style="width:10%"
                   data-title="案由"
                   data-type="textarea"
                   data-src
@@ -172,7 +172,7 @@
                 <td class="textAlignLeft">页</td>
                 <td
                   class="textPaddingLeft"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;归档日期：&nbsp;&nbsp;</td>
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;归 档 日 期：&nbsp;&nbsp;</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_11"
@@ -208,12 +208,12 @@
                 <td class="textAlignLeft">日</td>
               </tr>
               <tr>
-                <td class="textPaddingLeft">承办人（签名）：</td>
+                <td class="textPaddingLeft" style="width:18%" >承办人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_14"
                   align="center"
-                  style="width:80%"
+                  style="width:82%"
                   data-title="承办人（签名）"
                   data-type="textarea"
                   data-src
@@ -221,7 +221,7 @@
                 >{{letData.cellIdx14}}</td>
               </tr>
               <tr>
-                <td class="textPaddingLeft">&nbsp;&nbsp;&nbsp;档号：&nbsp;&nbsp;&nbsp;</td>
+                <td class="textPaddingLeft" style="width:9%">档号：&nbsp;&nbsp;</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_15"
@@ -232,17 +232,29 @@
                   data-src
                   @click="commandFill('cellIdx15', '档号', 'TextItem')"
                 >{{letData.cellIdx15}}</td>
-                <td class="textPaddingLeft">&nbsp;&nbsp;保管期限：</td>
+                <td class="textPaddingLeft" style="width:13%">&nbsp;&nbsp;保管期限：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_16"
                   align="center"
-                  style="width:36%"
+                  style="width:38%"
                   data-title="保管期限"
                   data-type="textarea"
                   data-src
                   @click="commandFill('cellIdx16', '保管期限', 'TextItem')"
                 >{{letData.cellIdx16}}</td>
+              </tr>
+              <tr>
+                <td
+                  class="cellInput "
+                  id="cell_idx_17"
+                  align="center"
+                  style="width:100%"
+                  data-title="双击编辑目录"
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx17', '双击编辑目录', 'TextItem')"
+                >{{letData.cellIdx17  ? letData.cellIdx17 : '双击编辑目录'}}</td>
               </tr>
             </table>
             <table class="docBody">

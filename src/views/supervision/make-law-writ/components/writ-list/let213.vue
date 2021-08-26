@@ -1,4 +1,4 @@
-<!-- 加处罚款决定书/延期（分期）缴纳罚款决定书 /案件结案报告-->
+<!-- 行政处罚 案件结案 案件结案报告-->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -21,15 +21,39 @@
             <div class="stdRowH"></div>
             <table style="border:solid 0 #000;" class="docBody">
               <tr>
+                <td style="width:5%"></td>
                 <td
                   class="textAlignLeft"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;主要内容：案由；行政相对人基本情况；案发时间及地点；主要违法事实、立案调查及审理</td>
+                >主要内容：案由；行政相对人基本情况；案发时间及地点；主要违法事实、立案调查及审理情</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">情况；行政处罚执行情况；结案理由。</td>
+                <td class="textAlignLeft">况；行政处罚执行情况；结案理由。</td>
               </tr>
-              <tr>
-                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;承办人意见：</td>
+             
+            </table>
+            <table height="30"></table>
+            <table class="docBody">
+              <div
+                  style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+                  class="cellInput mutiLineArea"
+                  id="cell_idx_7"
+                  data-title="案由"
+                  data-type="textarea"
+                  data-src
+                  @click="commandFill('cellIdx7', '案由', 'DangerTableItem')">
+                <p
+                    style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
+                >&nbsp;{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）' }}</p>
+                <p
+                    style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
+                >&nbsp;</p>
+              </div>
+            </table>
+
+            <table class="docBody">
+
+               <tr>
+                <td class="textAlignLeft">承办人意见：</td>
                 <!-- <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_0"
@@ -99,7 +123,7 @@
                 <td class="textAlignLeft">日</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;审批人意见：</td>
+                <td class="textAlignLeft">审批人意见：</td>
                 <!-- <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_5"
@@ -169,18 +193,8 @@
                 <td class="textAlignLeft">日</td>
               </tr>
             </table>
-            <div
-              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-              class="cellInput mutiLineArea"
-              id="cell_idx_10"
-              data-title="案由"
-              data-type="textarea"
-              data-src
-              @click="commandFill('cellIdx10', '案由', 'TextareaItem')">
-              <p class="show-area-item-p">
-                <span style="padding: 7px; white-space: pre-wrap;">{{ letData.cellIdx10 }}</span>
-              </p>
-            </div>
+
+           
           </div>
         </div>
       </div>
