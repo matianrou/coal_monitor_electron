@@ -95,6 +95,7 @@ export default {
     font-size: 18px;
     margin: 0px;
     border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     background: rgba(#4f83e9, 1);
   }
   span {

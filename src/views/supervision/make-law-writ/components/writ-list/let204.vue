@@ -470,6 +470,10 @@ export default {
           item.caseId === caseId && item.paperType === this.docData.docTypeNo
         );
       });
+      console.log('corpData', this.corpData)
+      console.log('caseId', caseId)
+      console.log('docTypeNo', this.docData.docTypeNo)
+      console.log('checkPaper', checkPaper)
       // 已做文书则展示文书内容，否则创建初始版本
       if (checkPaper.length > 0) {
         // 回显

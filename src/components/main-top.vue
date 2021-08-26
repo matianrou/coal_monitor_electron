@@ -109,7 +109,7 @@ export default {
   background: url('~@/assets/img/top_bg.png');
   background-position: center center;
   border-spacing: 0px;
-  padding: 0 20px;
+  // padding: 0 20px;
   display: flex;
   .main-top-nav {
     margin-left: 40px;
