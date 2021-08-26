@@ -355,7 +355,7 @@
                     :title="flowStatus.paper48 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let204','集体讨论记录', '48')" class="flow-span">集体讨论记录</span>
+                  <span @click="cmdEditDoc('let215','集体讨论记录', '48')" class="flow-span">集体讨论记录</span>
                 </td>
                 <td style="width:12px;">
                   <img src="../assets/image/doc-flow_r1_c6.png" style="height: 65px;" />

@@ -50,7 +50,8 @@
               <tr>
                 <td style="width:5%"></td>
                 <td class="textAlignLeft ">案&nbsp;&nbsp;&nbsp;由：</td>
-                <div
+              </tr>
+              <div
                     style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
                     class="cellInput mutiLineArea"
                     id="cell_idx_2"
@@ -63,13 +64,13 @@
                     <span style="padding: 7px;">{{ letData.cellIdx2 ? letData.cellIdx2 : '（点击编辑）' }}</span>
                   </p>
                 </div>
-
-
-              </tr>
               <tr>
                 <td style="width:5%"></td>
                 <td class="textAlignLeft ">审批事项：</td>
-                <div
+                
+
+              </tr>
+              <div
                     style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
                     class="cellInput mutiLineArea"
                     id="cell_idx_3"
@@ -82,12 +83,13 @@
                     <span style="padding: 7px;">{{ letData.cellIdx3 ? letData.cellIdx3 : '（点击编辑）' }}</span>
                   </p>
                 </div>
-
-              </tr>
               <tr>
                 <td style="width:5%"></td>
                 <td class="textAlignLeft ">行政相对人基本情况：</td>
-                <div
+                
+
+              </tr>
+              <div
                     style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
                     class="cellInput mutiLineArea"
                     id="cell_idx_4"
@@ -100,12 +102,13 @@
                     <span style="padding: 7px;">{{ letData.cellIdx4 ? letData.cellIdx4 : '（点击编辑）' }}</span>
                   </p>
                 </div>
-
-              </tr>
               <tr>
                 <td style="width:5%" class="cellBottomLine"></td>
                 <td class="textAlignLeft cellBottomLine">案情摘要：</td>
 
+
+              </tr>
+              
                 <div
                     style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
                     class="cellInput mutiLineArea"
@@ -119,12 +122,13 @@
                     <span style="padding: 7px;">{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）' }}</span>
                   </p>
                 </div>
-
-              </tr>
               <tr>
                 <td style="width:5%"></td>
                 <td class="textAlignLeft ">提请审批的理由及依据：</td>
 
+
+              </tr>
+              
                 <div
                     style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
                     class="cellInput mutiLineArea"
@@ -138,13 +142,14 @@
                     <span style="padding: 7px;">{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）' }}</span>
                   </p>
                 </div>
-
-              </tr>
               <tr>
                 <td style="width:5%"></td>
                 <td class="textAlignLeft ">承办人意见：</td>
 
-                <div
+                
+
+              </tr>
+              <div
                     style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
                     class="cellInput mutiLineArea"
                     id="cell_idx_7"
@@ -156,8 +161,6 @@
                     <span style="padding: 7px;">{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）' }}</span>
                   </p>
                 </div>
-
-              </tr>
             </table>
             <table height="60"></table>
             <table class="docBody">
