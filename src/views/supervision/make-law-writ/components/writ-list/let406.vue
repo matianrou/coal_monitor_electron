@@ -96,16 +96,26 @@
               
               </tr>
             </table>
-            <!-- <table  class="docBody " style="border:1px solid #fff">
-              <tr   style="border:1px solid #fff;height:50px;text-align:center;line-height:50px">
-                <td style="width:30%">物品名称</td>
+            <table  class="docBody " style="border:1px solid #000">
+              <tr style="border:1px solid #000;height:50px;text-align:center;line-height:50px">
+                <td style="width:30%" >物品名称</td>
                 <td style="width:30%">规格型号</td>
                 <td style="width:15%">数量</td>
                 <td style="width:25%">备注</td>
               </tr>
-              <tr style="border:1px solid #fff;height:50px"></tr>
+              <tr style="border:1px solid #000;height:150px">
+                <td
+                  class="cellInput "
+                  id="cell_idx_5"
+                  style="width:100%;height:150px"
+                  data-title=""
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx5', '', 'TextItem')"
+                >{{letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</td>
+              </tr>
 
-            </table> -->
+            </table>
              <table height="40"></table>
            <table class="docBody">
               
