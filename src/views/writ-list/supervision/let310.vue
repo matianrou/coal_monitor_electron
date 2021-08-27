@@ -41,11 +41,9 @@
                     data-title
                     data-type="text"
                     data-src
-                    @click="commandFill('cellIdx1', '', 'TextItem')"
+                    @click="commandFill('cellIdx1', '编号', 'TextItem')"
                 >{{ letData.cellIdx1 }}
                 </td>
-
-
               </tr>
               <tr>
                 <td style="width:5%"></td>
@@ -66,9 +64,7 @@
                 </div>
               <tr>
                 <td style="width:5%"></td>
-                <td class="textAlignLeft ">审批事项：</td>
-
-
+                <td class="textAlignLeft">审批事项：</td>
               </tr>
               <div
                     style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
@@ -86,8 +82,6 @@
               <tr>
                 <td style="width:5%"></td>
                 <td class="textAlignLeft ">行政相对人基本情况：</td>
-
-
               </tr>
               <div
                     style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
@@ -103,12 +97,9 @@
                   </p>
                 </div>
               <tr>
-                <td style="width:5%" class="cellBottomLine"></td>
-                <td class="textAlignLeft cellBottomLine">案情摘要：</td>
-
-
+                <td style="width:5%"></td>
+                <td class="textAlignLeft">案情摘要：</td>
               </tr>
-
                 <div
                     style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
                     class="cellInput mutiLineArea"
@@ -125,10 +116,7 @@
               <tr>
                 <td style="width:5%"></td>
                 <td class="textAlignLeft ">提请审批的理由及依据：</td>
-
-
               </tr>
-
                 <div
                     style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
                     class="cellInput mutiLineArea"
@@ -145,9 +133,6 @@
               <tr>
                 <td style="width:5%"></td>
                 <td class="textAlignLeft ">承办人意见：</td>
-
-
-
               </tr>
               <div
                     style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
@@ -169,50 +154,50 @@
                 <td class="textAlignLeft">承办人（签名):</td>
                 <td
                     class="cellInput cellBottomLine"
-                    id="cell_idx_12"
+                    id="cell_idx_8"
                     align="center"
                     style="width:53.5%"
                     data-title="承办人（签名)"
                     data-type="text"
                     data-src
-                    @click="commandFill('cellIdx12', '承办人（签名)', 'TextItem')"
-                >{{ letData.cellIdx12 }}
+                    @click="commandFill('cellIdx8', '承办人（签名)', 'TextItem')"
+                >{{ letData.cellIdx8 }}
                 </td>
                 <td class="textAlignCenter">日期：</td>
                 <td
                     class="cellInput cellBottomLine"
-                    id="cell_idx_13"
+                    id="cell_idx_9"
                     align="center"
                     style="width:19%"
                     data-title="日期"
                     data-type="date"
                     data-src
-                    @click="commandFill('cellIdx13', '日期', 'DateItem')"
-                >{{ letData.cellIdx13 }}
+                    @click="commandFill('cellIdx9', '日期', 'DateItem')"
+                >{{ letData.cellIdx9 }}
                 </td>
                 <td style="width:20%"></td>
                 <td
                     class="cellInput cellBottomLine"
-                    id="cell_idx_14"
+                    id="cell_idx_10"
                     align="center"
                     style="width:53.5%"
                     data-title="现场执法人员（签名)"
                     data-type="text"
                     data-src
-                    @click="commandFill('cellIdx14', '现场执法人员（签名)', 'TextItem')"
-                >{{ letData.cellIdx14 }}
+                    @click="commandFill('cellIdx10', '现场执法人员（签名)', 'TextItem')"
+                >{{ letData.cellIdx10 }}
                 </td>
                 <td class="textAlignCenter">日期：</td>
                 <td
                     class="cellInput cellBottomLine"
-                    id="cell_idx_15"
+                    id="cell_idx_11"
                     align="center"
                     style="width:19%"
                     data-title="日期"
                     data-type="date"
                     data-src
-                    @click="commandFill('cellIdx15', '日期', 'DateItem')"
-                >{{ letData.cellIdx15 }}
+                    @click="commandFill('cellIdx11', '日期', 'DateItem')"
+                >{{ letData.cellIdx11 }}
                 </td>
               </tr>
               <tr>
@@ -220,39 +205,39 @@
                 <td class="textAlignLeft">分管负责人意见：</td>
                 <td
                     class="cellInput cellBottomLine"
-                    id="cell_idx_16"
+                    id="cell_idx_12"
                     align="center"
                     style="width:23%"
                     data-title="被检查单位意见"
                     data-type="text"
                     data-src
-                    @click="commandFill('cellIdx16', '被检查单位意见', 'TextItem')"
-                >{{ letData.cellIdx16 }}
+                    @click="commandFill('cellIdx12', '被检查单位意见', 'TextItem')"
+                >{{ letData.cellIdx12 }}
                 </td>
 
                 <td class="textAlignLeft">签名：</td>
                 <td
                     class="cellInput cellBottomLine"
-                    id="cell_idx_17"
+                    id="cell_idx_13"
                     align="center"
                     style="width:21%"
                     data-title="单位负责人（签名)"
                     data-type="text"
                     data-src
-                    @click="commandFill('cellIdx17', '单位负责人（签名)', 'TextItem')"
-                >{{ letData.cellIdx17 }}
+                    @click="commandFill('cellIdx13', '单位负责人（签名)', 'TextItem')"
+                >{{ letData.cellIdx13 }}
                 </td>
                 <td class="textAlignCenter">日期：</td>
                 <td
                     class="cellInput cellBottomLine"
-                    id="cell_idx_18"
+                    id="cell_idx_14"
                     align="center"
                     style="width:19%"
                     data-title="日期"
                     data-type="date"
                     data-src
-                    @click="commandFill('cellIdx18', '日期：', 'DateItem')"
-                >{{ letData.cellIdx18 }}
+                    @click="commandFill('cellIdx14', '日期', 'DateItem')"
+                >{{ letData.cellIdx14 }}
                 </td>
               </tr>
               <tr>
@@ -260,67 +245,65 @@
                 <td class="textAlignLeft">主要负责人意见：</td>
                 <td
                     class="cellInput cellBottomLine"
-                    id="cell_idx_16"
+                    id="cell_idx_15"
                     align="center"
                     style="width:23%"
                     data-title="被检查单位意见"
                     data-type="text"
                     data-src
-                    @click="commandFill('cellIdx16', '被检查单位意见', 'TextItem')"
-                >{{ letData.cellIdx16 }}
+                    @click="commandFill('cellIdx15', '被检查单位意见', 'TextItem')"
+                >{{ letData.cellIdx15 }}
                 </td>
 
                 <td class="textAlignLeft">签名：</td>
                 <td
                     class="cellInput cellBottomLine"
-                    id="cell_idx_17"
+                    id="cell_idx_16"
                     align="center"
                     style="width:21%"
                     data-title="单位负责人（签名)"
                     data-type="text"
                     data-src
-                    @click="commandFill('cellIdx17', '单位负责人（签名)', 'TextItem')"
-                >{{ letData.cellIdx17 }}
+                    @click="commandFill('cellIdx16', '单位负责人（签名)', 'TextItem')"
+                >{{ letData.cellIdx16 }}
                 </td>
                 <td class="textAlignCenter">日期：</td>
                 <td
                     class="cellInput cellBottomLine"
-                    id="cell_idx_18"
+                    id="cell_idx_17"
                     align="center"
                     style="width:19%"
                     data-title="日期"
                     data-type="date"
                     data-src
-                    @click="commandFill('cellIdx18', '日期：', 'DateItem')"
-                >{{ letData.cellIdx18 }}
+                    @click="commandFill('cellIdx17', '日期', 'DateItem')"
+                >{{ letData.cellIdx17 }}
                 </td>
               </tr>
             </table>
-
             <table height="60"></table>
-
             <table class="docBody">
               <tr>
                 <td
                     class="cellInput"
-                    id="cell_idx_22"
+                    id="cell_idx_18"
                     align="right"
                     style="width:95%"
-                    @click="commandFill('cellIdx17', '', 'TextItem')"
-                >{{ letData.cellIdx22 ? letData.cellIdx22 : '（点击编辑）' }}
+                    @click="commandFill('cellIdx18', '', 'TextItem')"
+                >{{ letData.cellIdx18 ? letData.cellIdx18 : '（点击编辑）' }}
                 </td>
               </tr>
               <tr>
                 <td
                     class="cellInput"
-                    id="cell_idx_23"
+                    id="cell_idx_19"
                     align="right"
                     style="width:95%"
                     data-title
                     data-type="date"
                     data-src
-                    @click="commandFill('cellIdx23', '日期', 'DateItem')"
-                >{{ letData.cellIdx23 ? letData.cellIdx18 : '（点击编辑）' }}
+                    @click="commandFill('cellIdx19', '日期', 'DateItem')"
+                >{{ letData.cellIdx19 ? letData.cellIdx19 : '（点击编辑）' }}
                 </td>
               </tr>
             </table>
@@ -364,16 +347,7 @@ export default {
   data() {
     return {
       letData: {},
-      options: {
-        cellIdx9: {
-          page: '13',
-          key: 'cellIdx9'
-        },
-        cellIdx10: {
-          page: '13',
-          key: 'cellIdx10'
-        },
-      },
+      options: {},
       editData: {}, // 回显数据
     };
   },
@@ -424,33 +398,27 @@ export default {
         let cellIdx9String = dangerObject.dangerString
         let cellIdx10String = dangerObject.onsiteDescString
         this.letData = {
-          cellIdx0: num0, // 文书号
-          cellIdx0TypeTextItem: num0, // 文书号
-          cellIdx1: num1, // 文书号
-          cellIdx1TypeTextItem: num1, // 文书号
-          cellIdx2: num3, // 文书号
-          cellIdx2TypeTextItem: num3, // 文书号
-          cellIdx3: num4, // 文书号
-          cellIdx3TypeTextItem: num4, // 文书号
-          cellIdx4: corp.corpName ? corp.corpName : null, //
-          cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, //
-          cellIdx5: null, // 单位
-          cellIdx6: null, // 年
-          cellIdx7: null, // 月
-          cellIdx8: null, // 日
-          cellIdx9: cellIdx9String, // 违法违规行为：隐患描述
-          cellIdx10: cellIdx10String, // 现场处理决定
-          cellIdx11: null, // 意见
-          cellIdx12: null, // 现场执法人员（签名)
-          cellIdx13: null, // 执法证号
-          cellIdx14: null, // 现场执法人员（签名)
-          cellIdx15: null, // 执法证号
-          cellIdx16: null, // 被检查单位意见
-          cellIdx17: null, // 单位负责人（签名)
-          cellIdx18: null, // 日期
-          cellIdx19: null, //
-          cellIdx20: null, // 日期
-          dangerItemObject: let101DataPapaerContent.dangerItemObject
+          cellIdx0: null, //
+          cellIdx1: null, // 编号
+          cellIdx2: null, // 案由
+          cellIdx2TypeTextareaItem: null, // 案由
+          cellIdx3: null, // 审批事项
+          cellIdx4: null, // 行政相对人基本情况
+          cellIdx5: null, // 案情摘要
+          cellIdx6: null, // 提请审批的理由及依据
+          cellIdx7: null, // 承办人意见
+          cellIdx8: null, // 承办人（签名)
+          cellIdx9: null, // 日期
+          cellIdx10: null, // 现场执法人员（签名)
+          cellIdx11: null, // 日期
+          cellIdx12: null, // 被检查单位意见
+          cellIdx13: null, // 单位负责人（签名)
+          cellIdx14: null, // 日期
+          cellIdx15: null, // 被检查单位意见
+          cellIdx16: null, // 单位负责人（签名)
+          cellIdx17: null, // 日期
+          cellIdx18: null, //
+          cellIdx19: null, // 日期
         };
       }
       await db.close();
@@ -464,13 +432,6 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}Type${type}`;
-        if (key === 'cellIdx9' || key === 'cellIdx10') {
-          this.options[key] = {
-            page: '13',
-            key: key,
-          }
-          dataKey = 'dangerItemObject'
-        }
         this.$refs.letMain.commandFill(
             key,
             dataKey,

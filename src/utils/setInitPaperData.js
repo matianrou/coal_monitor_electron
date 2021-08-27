@@ -93,14 +93,14 @@ export async function getDocNumber(db, docTypeNo, caseId, user) {
   // 3位数字
   let wkCase = db.table("wkCase")
   let caseInfo = await wkCase.find(item => item.caseId === caseId)
-  let paperTypeName = store.state.DBName === 'CoalSupervisionDB' ? '' : '煤安监'
+  let paperTypeName = store.state.DBName === 'CoalSupervisionDB' ? '煤安' : '煤安监'
   return {
     num0: orgSysOfficeInfo.docRiseSafe,
     num1: orgSysOfficeInfo.docRiseDepa,
     num2: docString,
     num3: curYear + '',
     num4: caseInfo.caseSn,
-    numString: `${orgSysOfficeInfo.docRiseSafe}煤安监${orgSysOfficeInfo.docRiseDepa}${docString}〔${curYear}〕${caseInfo.caseSn}号`
+    numString: `${orgSysOfficeInfo.docRiseSafe}${paperTypeName}${orgSysOfficeInfo.docRiseDepa}${docString}〔${curYear}〕${caseInfo.caseSn}号`
   }
 }
 
