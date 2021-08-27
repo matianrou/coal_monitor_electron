@@ -54,14 +54,14 @@
               <div
                   style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
                   class="cellInput mutiLineArea"
-                  id="cell_idx_7"
+                  id="cell_idx_2"
                   data-title="案由"
                   data-type="textarea"
                   data-src
-                  @click="commandFill('cellIdx7', '案由', 'DangerTableItem')">
+                  @click="commandFill('cellIdx2', '案由', 'DangerTableItem')">
                 <p
                     style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
-                >&nbsp;{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）' }}</p>
+                >&nbsp;{{ letData.cellIdx2 ? letData.cellIdx2 : '（点击编辑）' }}</p>
                 <p
                     style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
                 >&nbsp;</p>
@@ -74,38 +74,38 @@
                 <td class="textAlignLeft" style="width:14%">听证主持人：</td>
                 <td
                     class="cellInput cellBottomLine"
-                    id="cell_idx_15"
+                    id="cell_idx_3"
                     align="center"
                     style="width:24%"
                     data-title="听证主持人"
                     data-type="text"
                     data-src
-                    @click="commandFill('cellIdx15', '听证主持人', 'TextItem')"
-                >{{ letData.cellIdx15 }}
+                    @click="commandFill('cellIdx3', '听证主持人', 'TextItem')"
+                >{{ letData.cellIdx3 }}
                 </td>
                 <td class="textAlignCenter">&nbsp;&nbsp;</td>
                 <td
                     class="cellInput cellBottomLine"
-                    id="cell_idx_16"
+                    id="cell_idx_4"
                     align="center"
                     style="width:24%"
                     data-title="听证主持人"
                     data-type="text"
                     data-src
-                    @click="commandFill('cellIdx16', '听证主持人', 'TextItem')"
-                >{{ letData.cellIdx16 }}
+                    @click="commandFill('cellIdx4', '听证主持人', 'TextItem')"
+                >{{ letData.cellIdx4 }}
                 </td>
                 <td class="textAlignLeft" style="width:10%">&nbsp;记录人：</td>
                 <td
                     class="cellInput cellBottomLine"
-                    id="cell_idx_17"
+                    id="cell_idx_5"
                     align="center"
                     style="width:26%"
                     data-title="记录人"
                     data-type="text"
                     data-src
-                    @click="commandFill('cellIdx17', '记录人', 'TextItem')"
-                >{{ letData.cellIdx17 }}
+                    @click="commandFill('cellIdx5', '记录人', 'TextItem')"
+                >{{ letData.cellIdx5 }}
                 </td>
               </tr>
             </table>
@@ -119,14 +119,14 @@
               <div
                   style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
                   class="cellInput mutiLineArea"
-                  id="cell_idx_7"
+                  id="cell_idx_6"
                   data-title="听证会基本情况摘要"
                   data-type="textarea"
                   data-src
-                  @click="commandFill('cellIdx7', '听证会基本情况摘要', 'DangerTableItem')">
+                  @click="commandFill('cellIdx6', '听证会基本情况摘要', 'DangerTableItem')">
                 <p
                     style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
-                >&nbsp;{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）' }}</p>
+                >&nbsp;{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）' }}</p>
                 <p
                     style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
                 >&nbsp;</p>
@@ -164,26 +164,26 @@
                 </td>
                 <td
                     class="cellInput cellBottomLine"
-                    id="cell_idx_9"
+                    id="cell_idx_8"
                     align="center"
                     style="width:49%"
                     data-title="听证主持人（签名）"
                     data-type="text"
                     data-src
-                    @click="commandFill('cellIdx9', '听证主持人（签名）', 'TextItem')"
-                >{{ letData.cellIdx9 }}
+                    @click="commandFill('cellIdx8', '听证主持人（签名）', 'TextItem')"
+                >{{ letData.cellIdx8 }}
                 </td>
                 <td class="textAlignCenter">&nbsp;日期：</td>
                 <td
                     class="cellInput cellBottomLine"
-                    id="cell_idx_11"
+                    id="cell_idx_9"
                     align="center"
                     style="width:20.5%"
                     data-title="日期"
                     data-type="text"
                     data-src
-                    @click="commandFill('cellIdx11', '日期', 'DateItem')"
-                >{{ letData.cellIdx11 }}
+                    @click="commandFill('cellIdx9', '日期', 'DateItem')"
+                >{{ letData.cellIdx9 }}
                 </td>
               </tr>
               <tr>
@@ -193,14 +193,14 @@
                 </td>
                 <td
                     class="cellInput cellBottomLine"
-                    id="cell_idx_9"
+                    id="cell_idx_10"
                     align="center"
                     style="width:20%"
                     data-title="负责人审核意见"
                     data-type="text"
                     data-src
-                    @click="commandFill('cellIdx9', '负责人审核意见', 'TextItem')"
-                >{{ letData.cellIdx9 }}
+                    @click="commandFill('cellIdx10', '负责人审核意见', 'TextItem')"
+                >{{ letData.cellIdx10 }}
                 </td>
                 <td
                     class="textAlignLeft " style="width:18%"
@@ -208,28 +208,28 @@
                 </td>
                 <td
                     class="cellInput cellBottomLine"
-                    id="cell_idx_9"
+                    id="cell_idx_11"
                     align="center"
                     style="width:17%"
                     data-title="负责人（签名）"
                     data-type="text"
                     data-src
-                    @click="commandFill('cellIdx9', '负责人（签名）', 'TextItem')"
-                >{{ letData.cellIdx9 }}
+                    @click="commandFill('cellIdx11', '负责人（签名）', 'TextItem')"
+                >{{ letData.cellIdx11 }}
                 </td>
 
 
                 <td class="textAlignCenter">日期：</td>
                 <td
                     class="cellInput cellBottomLine"
-                    id="cell_idx_11"
+                    id="cell_idx_12"
                     align="center"
                     style="width:20%"
                     data-title="日期"
                     data-type="text"
                     data-src
-                    @click="commandFill('cellIdx11', '日期', 'DateItem')"
-                >{{ letData.cellIdx11 }}
+                    @click="commandFill('cellIdx12', '日期', 'DateItem')"
+                >{{ letData.cellIdx12 }}
                 </td>
               </tr>
             </table>

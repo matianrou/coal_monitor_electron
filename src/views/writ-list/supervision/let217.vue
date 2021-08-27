@@ -98,50 +98,50 @@
 
                 <td
                   class="cellInput "
-                  id="cell_idx_5"
+                  id="cell_idx_6"
                   align="center"
                   style="width:10%;"
                   data-title=""
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx5', '', 'TextItem')"
-                >{{letData.cellIdx5}}</td>
+                  @click="commandFill('cellIdx6', '', 'TextItem')"
+                >{{letData.cellIdx6}}</td>
                 <td class="textAlignLeft"> 于</td>
                  <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_6"
+                  id="cell_idx_7"
                   contenteditable="true"
                   align="center"
                   style="width:8%"
                   data-title="年"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx6', '年', 'TextItem')"
-                >{{letData.cellIdx6}}</td>
+                  @click="commandFill('cellIdx7', '年', 'TextItem')"
+                >{{letData.cellIdx7}}</td>
                 <td class="textAlignLeft">年</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_7"
+                  id="cell_idx_8"
                   contenteditable="true"
                   align="center"
                   style="width:8%"
                   data-title="月"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx7', '月', 'TextItem')"
-                >{{letData.cellIdx7}}</td>
+                  @click="commandFill('cellIdx8', '月', 'TextItem')"
+                >{{letData.cellIdx8}}</td>
                 <td class="textAlignLeft">月</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_20"
+                  id="cell_idx_9"
                   contenteditable="true"
                   align="center"
                   style="width:8%"
                   data-title="日"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx20', '日', 'TextItem')"
-                >{{letData.cellIdx20}}</td>
+                  @click="commandFill('cellIdx9', '日', 'TextItem')"
+                >{{letData.cellIdx9}}</td>
                 <td class="textAlignLeft">日到</td>
 
 
@@ -151,15 +151,15 @@
               <tr>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_20"
+                  id="cell_idx_10"
                   contenteditable="true"
                   align="center"
                   style="width:40%"
                   data-title=""
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx20', '', 'TextItem')"
-                >{{letData.cellIdx20}}</td>
+                  @click="commandFill('cellIdx10', '', 'TextItem')"
+                >{{letData.cellIdx10}}</td>
                 <td style="width:420px;">接受询问调查，来时请携带下列证件材料（见打√处）：</td>
               </tr>
             </table>
@@ -169,29 +169,29 @@
                 <td
                   style="width:3%;"
                   class="cellInput"
-                  id="cell_idx_8"
-                  @click="commandFill('cellIdx8', '身份证', 'SelectItem')"
-                >{{letData.cellIdx8}}</td>
+                  id="cell_idx_11"
+                  @click="commandFill('cellIdx11', '身份证', 'SelectItem')"
+                >{{letData.cellIdx11}}</td>
                 <td>身份证</td>
               </tr>
               <tr>
                 <td style="width:5%"></td>
                 <td
-                  id="cell_idx_9"
+                  id="cell_idx_12"
                   style="width:3%;"
                   class="cellInput"
-                  @click="commandFill('cellIdx9', '营业执照', 'SelectItem')"
-                >{{letData.cellIdx9}}</td>
+                  @click="commandFill('cellIdx12', '营业执照', 'SelectItem')"
+                >{{letData.cellIdx12}}</td>
                 <td>营业执照</td>
               </tr>
               <tr>
                 <td style="width:5%"></td>
                 <td
-                  id="cell_idx_10"
+                  id="cell_idx_13"
                   style="width:3%;"
                   class="cellInput"
-                  @click="commandFill('cellIdx10', '法定代表人身份证明或者委托书', 'SelectItem')"
-                >{{letData.cellIdx10}}</td>
+                  @click="commandFill('cellIdx13', '法定代表人身份证明或者委托书', 'SelectItem')"
+                >{{letData.cellIdx13}}</td>
                 <td>法定代表人身份证明或者委托书</td>
               </tr>
               <tr>
@@ -199,16 +199,16 @@
 
                 <td
                   class="cellInput"
-                  id="cell_idx_11"
+                  id="cell_idx_14"
                   style="width:3%;"
-                  @click="commandFill('cellIdx11', '其他', 'SelectItem')"
-                >{{letData.cellIdx11}}</td>
+                  @click="commandFill('cellIdx14', '其他', 'SelectItem')"
+                >{{letData.cellIdx14}}</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_12"
+                  id="cell_idx_15"
                   style="width:92%;"
-                  @click="commandFill('cellIdx12', '', 'TextItem')"
-                >{{letData.cellIdx12 ? letData.cellIdx12 : '其他'}}</td>
+                  @click="commandFill('cellIdx15', '', 'TextItem')"
+                >{{letData.cellIdx15 ? letData.cellIdx15 : '其他'}}</td>
               </tr>
               <tr>
                 <td style="width:5%"></td>
@@ -217,69 +217,57 @@
             </table>
             <table class="docBody">
               <tr>
-                <td style="width:5%"></td>
 
                 <td style="width:16%">执法机关地址：</td>
                 <td
-                  style="width:79%"
+                  style="width:84%"
                   class="cellInput cellBottomLine textAlignCenter"
-                  id="cell_idx_13"
-                  @click="commandFill('cellIdx13', '执法机关地址', 'TextItem')"
-                >{{letData.cellIdx13}}</td>
+                  id="cell_idx_16"
+                  @click="commandFill('cellIdx16', '执法机关地址', 'TextItem')"
+                >{{letData.cellIdx16}}</td>
               </tr>
             </table>
             <table class="docBody">
               <tr>
-                 <td style="width:5%"></td>
                 <td  style="width:9%">联系人：</td>
                 <td
                   style="width:45%;"
                   class="cellInput cellBottomLine textAlignCenter"
-                  @click="commandFill('cellIdx14', '联系人', 'TextItem')"
-                  id="cell_idx_14"
-                >{{letData.cellIdx14}}</td>
+                  @click="commandFill('cellIdx17', '联系人', 'TextItem')"
+                  id="cell_idx_17"
+                >{{letData.cellIdx17}}</td>
                 <td style="width:12%;text-align:right;">联系电话：</td>
                 <td
-                  style="width:29%;"
+                  style="width:34%;"
                   class="cellInput cellBottomLine textAlignCenter"
-                  @click="commandFill('cellIdx15', '联系电话', 'TextItem')"
-                  id="cell_idx_15"
-                >{{letData.cellIdx15}}</td>
+                  @click="commandFill('cellIdx18', '联系电话', 'TextItem')"
+                  id="cell_idx_18"
+                >{{letData.cellIdx18}}</td>
               </tr>
             </table>
-            <table class="docBody">
-              <tr>
-                <td
-                  class="cellInput"
-                  id="cell_idx_22"
-                  align="right"
-                  style="width:40%"
-                  @click="commandFill('cellIdx17', '附件', 'TextItem')"
-                >{{letData.cellIdx22 ? letData.cellIdx22 : '（点击编辑）'}}</td>
-              </tr>
-            </table>
+           
             <table height="30"></table>
           <table class="docBody">
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_22"
+                  id="cell_idx_19"
                   align="right"
                   style="width:95%"
-                  @click="commandFill('cellIdx17', '', 'TextItem')"
-                >{{letData.cellIdx22 ? letData.cellIdx22 : '（点击编辑）'}}</td>
+                  @click="commandFill('cellIdx19', '', 'TextItem')"
+                >{{letData.cellIdx19 ? letData.cellIdx19 : '（点击编辑）'}}</td>
               </tr>
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_23"
+                  id="cell_idx_20"
                   align="right"
                   style="width:95%"
                   data-title
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx23', '日期', 'DateItem')"
-                >{{letData.cellIdx23 ? letData.cellIdx18 : '（点击编辑）'}}</td>
+                  @click="commandFill('cellIdx20', '日期', 'DateItem')"
+                >{{letData.cellIdx20 ? letData.cellIdx20 : '（点击编辑）'}}</td>
               </tr>
             </table>
 
