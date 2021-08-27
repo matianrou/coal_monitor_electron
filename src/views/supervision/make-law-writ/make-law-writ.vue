@@ -145,10 +145,7 @@ export default {
       flowStatus: {}, // 检查活动流程各文书状态，'save'为保存，'file'为存档
     }
   },
-  computed: {
-  },
   created() {
-    // 初始化选择企业组件
   },
   methods: {
     createCase (data) {
@@ -243,12 +240,11 @@ export default {
   height: 100%;
   width: 100%;
   align-items: center;
-  padding: 10px 7px;
-  flex-direction: column;
   .make-law-writ-show {
     height: calc(100vh - 102px);
-    width: 100%;
+    width: calc(100vw - 20px);
     display: flex;
+    margin: auto;
     .make-law-writ-show-select {
       width: 330px;
       background-color: #ffffff;

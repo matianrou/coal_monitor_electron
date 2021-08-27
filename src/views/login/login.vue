@@ -94,7 +94,7 @@ export default {
           username: this.dataForm.txtUserNo,
           password,
           mobileLogin: true,
-        }).then(({data}) => {
+        }).then(async ({data}) => {
           if (data.id) {
             let userId = data.id;
             let sessId = data.sessionid;
@@ -106,27 +106,49 @@ export default {
             // 最大化窗口
             electronRequest('maxWindow');
             // 判断当前登录用户为监管或监察，分别进入不同的路由
-            // let path = 'CalmineMonitorElectronMain' // 监察路径
-            // let DBName = 'CoalMonitorDB' // 监察使用DB
-            let path = 'CalmineSupervisionElectronMain' // 监管路径
-            let DBName = 'CoalSupervisionDB' // 监管使用DB
-            this.$router.replace({
-              name: path,
-            })
-            this.$store.commit('changeState', {
-              key: 'DBName',
-              val: DBName
-            })
-            // this.$store.commit('changeState', {
-            //   key: 'activeTab',
-            //   val: 'MakeLawWrit'
-            // })
-            this.getUserInfo(userId, sessId);
+            await this.getUserType(userId, sessId)
+            await this.getUserInfo(userId, sessId);
           } else {
             this.$message.error(data.message)
           }
         }).catch(err => {
           console.log('登录请求失败：', err)
+        })
+    },
+    async getUserType (userId, sessId) {
+      await this.$http.get(`/local/user/role?__sid=${sessId}&userId=${userId}`).then(({ data }) => {
+          console.log('data', data)
+          if(data.status === '200') {
+            // 返回用户类别标识
+            let path = ''
+            let DBName = ''
+            if (data.message === '1') {
+              // 1为监察执法
+              path = 'CalmineMonitorElectronMain'
+              DBName = 'CoalMonitorDB'
+            } else if (data.message === '2') {
+              // 2为监管执法
+              path = 'CalmineSupervisionElectronMain'
+              DBName = 'CoalSupervisionDB'
+            }
+            this.$store.commit('changeState', {
+              key: 'DBName',
+              val: DBName
+            })
+            this.$router.replace({
+              name: path,
+            })
+          } else {
+            this.$message.error('获取用户信息失败，请重新登录！')
+            this.$router.replace({
+              name: 'Login',
+            })
+          }
+        }).catch(err => {
+          this.$router.replace({
+            name: 'Login',
+          })
+          console.log('获取用户为监管或监察失败：', err)
         })
     },
     async getUserInfo(userId, sessId) {
@@ -216,8 +238,6 @@ export default {
       /deep/ .el-checkbox__label {
         font-size: 16px;
       }
-    }
-    .login-btn {
     }
   }
 }

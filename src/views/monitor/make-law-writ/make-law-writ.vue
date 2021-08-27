@@ -231,12 +231,11 @@ export default {
   height: 100%;
   width: 100%;
   align-items: center;
-  padding: 10px 7px;
-  flex-direction: column;
   .make-law-writ-show {
     height: calc(100vh - 102px);
-    width: 100%;
+    width: calc(100vw - 20px);
     display: flex;
+    margin: auto;
     .make-law-writ-show-select {
       width: 330px;
       background-color: #ffffff;

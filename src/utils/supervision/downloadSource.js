@@ -742,6 +742,7 @@ async function doDocDb(resId, data){
 			"updateById": String,
 			"paperType": String, //docTypeNo,
 			"paperContent": String, // 文书大JSON字符串,/
+      "paperHtml": String, // 文书展示样式html
 			"createTime": String, //文书创建时间/
 			"caseId": String, //第1次做文书时，活动的唯一id：185b15772fb746dfb3643a66aa192f86/
 			"caseType": String, //活动类型
@@ -855,6 +856,7 @@ async function doDocDb(resId, data){
 				"categoryCode": "710100"
 			},
 			*/
+      "delFlag": String,
 			"dangerCate": String,
 			"dangerItemId": String,   //"7101000033",
 			"dangerContent": String,  //"煤矿建设项目未按规定进行安全预评价和安全验收评价，逾期未改正的。",
@@ -983,6 +985,7 @@ async function doDocDb(resId, data){
 			"dangerId": obj.dangerId,
 			"paperId": obj.paperId,
 			"remoteId": obj.id,
+      "delFlag": obj.delFlag,
 			"dangerCate": obj.dangerType.categoryCode,
 			"dangerItemId": obj.dangerItemId,
 			"dangerContent": obj.dangerContent,
@@ -1004,7 +1007,7 @@ async function doDocDb(resId, data){
 			"subitemContent": obj.subitemContent,
 			"subitemPenalty": obj.subitemPenalty,
 			"subitemPenaltyBasis": obj.subitemPenaltyBasis,
-
+      "penaltyDescFine": obj.penaltyDescFine,
 			"penaltyOrg": obj.penaltyOrg,
 			"penaltyOrgFine": obj.penaltyOrgFine,
 			"penaltyPerson": obj.penaltyPerson,

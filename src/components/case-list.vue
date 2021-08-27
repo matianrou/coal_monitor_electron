@@ -422,23 +422,46 @@ export default {
             }
           })
           if (canDelete) {
-            // 调用接口删除文书及检查活动，接口删除成功后进行本地删除
-
-            // 本地删除：文书
-            // 遍历所有已经保存的文书，进行修改保存（本地及上传服务器），delFlag为1，即删除
-            paperList.map(async (item) => {
-              let data = item
-              data.delFlag = '1'
-              await wkPaper.put(data)
-            })
-            // 本地删除：检查活动
-            // 删除检查活动delFlag为1
+            // 调用接口删除检查活动，接口删除成功后进行本地删除
             const wkCase = db.table('wkCase')
             let curCase = await wkCase.find(item => item.caseId === this.selectedCase.caseId)
-            curCase.delFlag = '1'
-            await wkCase.put(curCase)
+            await this.$http.get(`${this.DBName === 'CoalSupervisionDB' ? '/sv' : ''}/local/jczf/deleteCaseByCaseId?__sid=${this.$store.state.user.userSessId}&caseId=${curCase.caseId}`)
+              .then(async ({ data }) => {
+                if (data.status === "200") {
+                  // 本地删除：检查活动
+                  // 删除检查活动delFlag为1
+                  curCase.delFlag = '1'
+                  await wkCase.put(curCase)
+                  // 本地删除：文书
+                  // 遍历所有已经保存的文书，进行修改保存（本地），delFlag为1，即删除
+                  const wkDanger = db.table('wkDanger')
+                  paperList.map(async (paper) => {
+                    let data = paper
+                    data.delFlag = '1'
+                    await wkPaper.put(data)
+                    // 删除wkDanger中隐患项数据
+                    let curDangerList = await wkDanger.findAll(danger => danger.paperId === paper.paperId)
+                    if (curDangerList && curDangerList.length > 0) {
+                      curDangerList.map(async (danger) => {
+                        let dangerData = danger
+                        dangerData.delFlag = '1'
+                        await wkDanger.put(dangerData)
+                      })
+                    }
+                  })
+                  this.$message.success('删除成功！')
+                } else {
+                  this.$message.error('删除检查失败，请再次尝试')
+                }
+              })
+              .catch((err) => {
+                this.$message.error('删除检查失败，请再次尝试')
+                console.log('err', err)
+              });
             // 删除成功后刷新企业列表
             this.getData()
+            this.selectedCase = {}
+            this.$parent.changePage({page: 'empty'})
           } else {
             // 如果有已经归档的文书则弹出无法删除提示
             this.$message.error('当前检查活动有已经归档文书，无法删除！')
@@ -451,7 +474,7 @@ export default {
       } else {
         this.$message.error('请选择检查活动后点击删除！')
       }
-    }
+    },
   },
 };
 </script>

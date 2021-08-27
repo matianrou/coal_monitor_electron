@@ -1,7 +1,7 @@
 <!-- 执法文书 流程 组件 -->
 <template>
   <div>
-    <table style="width:98%;border-collapse:collapse;margin:0 auto;">
+    <table style="width:100%;border-collapse:collapse;margin:0 auto;">
       <tr>
         <td style="padding:0;">
           <table style="width:495px;border-collapse:collapse;margin-left:10px;" id="tabMenu">
@@ -703,12 +703,7 @@
                 </td>
               </tr>
             </table>
-            
-            
-            
-            
           </div>
-         
         </td>
       </tr>
     </table>

@@ -2,12 +2,20 @@
 <template>
   <div>
     <ul class="enterprisedata">
-      <p>
+      <div class="enterprisedata-title">
         <img
           src="@/components/assets/image/letTitle.png"
-          style="width:32px;height:32px;vertical-align:middle"
+          style="width:32px;"
         />企业信息
-      </p>
+        <div v-if="caseData.planDate" class="plan-date">
+          <i class="el-icon-time"></i>
+          <span>{{caseData.planDate}}</span>
+        </div>
+        <div v-if="caseData.groupName" class="group-name">
+          <i class="el-icon-s-flag"></i>
+          <span>{{`${DBName === 'CoalSupervisionDB' ? '监管' : '监察'} 归档至${caseData.groupName}`}}</span>
+        </div>
+      </div>
       <li>
         <span>企业名称：</span>
         <span>{{corpData.corpName}}</span>
@@ -47,6 +55,7 @@
 </template>
 
 <script>
+import GoDB from '@/utils/godb.min.js'
 export default {
   name: "OrgInformation",
   props: {
@@ -56,10 +65,37 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      DBName: this.$store.state.DBName,
+      caseData: {}
+    };
   },
-  created() {},
-  methods: {},
+  watch: {
+    async corpData(val) {
+      await this.init()
+    }
+  },
+  async created() {
+    await this.init()
+  },
+  methods: {
+    async init () {
+      // 获取检查活动相关信息
+      const db = new GoDB(this.DBName)
+      const wkCase = db.table('wkCase')
+      let caseData = await wkCase.find(item => item.caseId === this.corpData.caseId)
+      let planDate = ''
+      if (caseData && caseData.planBeginDate && caseData.planEndDate) {
+        // 处理检查时间
+        let beginList = caseData.planBeginDate.split('-')
+        let endList = caseData.planEndDate.split('-')
+        planDate = `${beginList[1]}月${beginList[2]}日-${endList[1]}月${endList[2]}日`
+      }
+      caseData = Object.assign({}, caseData, { planDate })
+      this.caseData = caseData
+      await db.close()
+    }
+  },
 };
 </script>
 
@@ -86,16 +122,49 @@ export default {
   li span:nth-child(2) {
     text-indent: 0;
   }
-  p {
+  .enterprisedata-title {
     width: 100%;
     height: 35px;
     line-height: 35px;
-    text-indent: 30px;
     color: #fff;
     font-size: 18px;
     margin: 0px;
     border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     background: rgba(#4f83e9, 1);
+    display: flex;
+    padding: 0 20px;
+    align-items: center;
+    .plan-date {
+      margin-left: 20px;
+      padding: 0 10px;
+      background: rgba(#DDFAE6, 0.9);
+      color: #303133;
+      height: 25px;
+      font-size: 14px;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      span {
+        display: inline-block;
+        margin-left: 5px;
+      }
+    }
+    .group-name {
+      margin-left: 20px;
+      padding: 0 10px;
+      background: rgba(#FAF8DD, 0.9);
+      color: #303133;
+      height: 25px;
+      font-size: 14px;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      span {
+        display: inline-block;
+        margin-left: 5px;
+      }
+    }
   }
   span {
     color: #303133;
