@@ -117,6 +117,7 @@
                   data-title="附件"
                   data-type="text"
                   data-src
+                  @click="commandFill('cellIdx5', '检查的主要内容和分工见明细表', 'CheckTableItem')"
                 >《检查分工明细表》</td>
               </tr>
               <tr></tr>

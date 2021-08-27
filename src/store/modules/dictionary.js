@@ -14,7 +14,7 @@ export default {
       },
       {
         id: '2',
-        name: '现场检查记录',
+        name: '现场处理决定书',
         page: 'let102'
       },
       {

@@ -330,7 +330,7 @@
                   data-title="日期"
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx22', '日期：', 'DateItem')"
+                  @click="commandFill('cellIdx22', '日期', 'DateItem')"
                 >{{letData.cellIdx22}}</td>
               </tr>
             </table>
@@ -346,11 +346,8 @@
                   @click="commandFill('cellIdx23', '附件', 'TextItem')"
                 >{{letData.cellIdx23 ? letData.cellIdx23 : '（点击编辑）'}}</td>
               </tr>
-              
             </table>
-
             <table height="60"></table>
-
              <table class="docBody">
               <tr>
                 <td
@@ -417,9 +414,9 @@ export default {
           page: '13',
           key: 'cellIdx9'
         },
-        cellIdx10: {
+        cellIdx14: {
           page: '13',
-          key: 'cellIdx10'
+          key: 'cellIdx14'
         },
       },
       editData: {}, // 回显数据
@@ -465,12 +462,25 @@ export default {
         // 2.发现你矿存在：隐患描述
         // 获取笔录文书中的隐患数据
         const let101Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === '1';
-        });
+          return item.caseId === caseId && item.paperType === '1' && item.delFlag !== '1';
+        })
+        if (!let101Data) {
+          this.$message.error('请先填写并保存现场检查记录中内容！')
+          return
+        }
         let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
         let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData, {danger: true})
         let cellIdx9String = dangerObject.dangerString
         let cellIdx10String = dangerObject.onsiteDescString
+        // 现场处理决定书文书号：
+        let let102Data = await wkPaper.find((item) => {
+          return item.caseId === caseId && item.paperType === '2' && item.delFlag !== '1';
+        });
+        if (!let102Data) {
+          this.$message.error('请先填写并保存现场处理决定书中内容！')
+          return
+        }
+        let let102DataPapaerContent = JSON.parse(let102Data.paperContent)
         this.letData = {
           cellIdx0: num0, // 文书号
           cellIdx0TypeTextItem: num0, // 文书号
@@ -487,18 +497,26 @@ export default {
           cellIdx7: null, // 月
           cellIdx8: null, // 日
           cellIdx9: cellIdx9String, // 违法违规行为：隐患描述
-          cellIdx10: null, // 文书号
-          cellIdx10: cellIdx10String, // 现场处理决定
-          cellIdx11: null, // 意见
-          cellIdx12: null, // 现场执法人员（签名)
-          cellIdx13: null, // 执法证号
-          cellIdx14: null, // 现场执法人员（签名)
-          cellIdx15: null, // 执法证号
-          cellIdx16: null, // 被检查单位意见
-          cellIdx17: null, // 单位负责人（签名)
-          cellIdx18: null, // 日期
-          cellIdx19: null, //
-          cellIdx20: null, // 日期
+          cellIdx10: let102DataPapaerContent.cellIdx0, // 现场处理决定书 文书号
+          cellIdx10TypeTextItem: let102DataPapaerContent.cellIdx0, // 现场处理决定书 文书号
+          cellIdx11: let102DataPapaerContent.cellIdx1, // 现场处理决定书 文书号
+          cellIdx11TypeTextItem: let102DataPapaerContent.cellIdx1, // 现场处理决定书 文书号
+          cellIdx12: let102DataPapaerContent.cellIdx2, // 现场处理决定书 文书号
+          cellIdx12TypeTextItem: let102DataPapaerContent.cellIdx2, // 现场处理决定书 文书号
+          cellIdx13: let102DataPapaerContent.cellIdx3, // 现场处理决定书 文书号
+          cellIdx13TypeTextItem: let102DataPapaerContent.cellIdx3, // 现场处理决定书 文书号
+          cellIdx14: cellIdx10String, // 现场处理决定
+          cellIdx15: null, // 意见
+          cellIdx16: null, // 现场执法人员（签名)
+          cellIdx17: null, // 执法证号
+          cellIdx18: null, // 现场执法人员（签名)
+          cellIdx19: null, // 执法证号
+          cellIdx20: null, // 被检查单位意见
+          cellIdx21: null, // 单位负责人（签名)
+          cellIdx22: null, // 日期
+          cellIdx23: null, // 附件
+          cellIdx24: null, //
+          cellIdx25: null, // 日期
           dangerItemObject: let101DataPapaerContent.dangerItemObject
         };
       }
@@ -513,7 +531,7 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}Type${type}`;
-        if (key === 'cellIdx9' || key === 'cellIdx10') {
+        if (key === 'cellIdx9' || key === 'cellIdx14') {
           this.options[key] = {
             page: '13',
             key: key,

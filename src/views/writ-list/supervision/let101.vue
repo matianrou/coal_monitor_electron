@@ -265,7 +265,7 @@ export default {
     return {
       letData: {},
       options: {
-        cellIdx14: {
+        cellIdx13: {
           page: '1', // 用于在隐患项保存，做数据处理
           showBaseInfor: true, // 用于区分是否展示基本情况大文本输入
           showSelectDangerBtn: true // 用于区分是否可以选择隐患项
@@ -361,7 +361,7 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}Type${type}`;
-        if (key === 'cellIdx14') {
+        if (key === 'cellIdx13') {
           // 隐患项时对应letData中的dangerItemObject
           dataKey = 'dangerItemObject'
         }

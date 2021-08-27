@@ -407,6 +407,7 @@ export default {
   methods: {
     initData () {
       this.dataForm.tempValue = this.value
+      console.log('value', this.value)
       if (this.value.tableData.length > 0) {
         this.selectedItem({
           $index: 0,

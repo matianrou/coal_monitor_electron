@@ -21,7 +21,6 @@
             <div class="stdRowH"></div>
             <table class="docBody">
               <tr>
-
                 <td
                   class="cellInput "
                   id="cell_idx_0"
@@ -149,7 +148,7 @@
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx8', '', 'TextItem')"
+                  @click="commandFill('cellIdx8', '人民政府', 'TextItem')"
                 >{{letData.cellIdx8}}</td>
                  <td class="textAlignLeft">人民政府或者</td>
                 <td
@@ -171,7 +170,7 @@
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx10', '', 'TextItem')"
+                  @click="commandFill('cellIdx10', '人民法院', 'TextItem')"
                 >{{letData.cellIdx10}}</td>
                 <td class="textAlignLeft">人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。</td>
               </tr>
@@ -212,7 +211,7 @@
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx13', '现场执法人员（签名)', 'TextItem')"
-                >{{letData.cellIdx10}}</td>
+                >{{letData.cellIdx13}}</td>
                 <td class="textAlignCenter">执法证号：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -262,7 +261,6 @@
                   @click="commandFill('cellIdx17', '附件', 'TextItem')"
                 >{{letData.cellIdx17 ? letData.cellIdx17 : '（点击编辑）'}}</td>
               </tr>
-              
             </table>
             <table height="30"></table>
             <table class="docBody">
@@ -399,16 +397,16 @@ export default {
           cellIdx8: null, // 人民政府
           cellIdx9: orgSysOfficeInfo.organName,
           cellIdx9TypeTextItem: orgSysOfficeInfo.organName, //
-          cellIdx10: orgSysOfficeInfo.courtPrefix, //
-          cellIdx10TypeTextItem: orgSysOfficeInfo.courtPrefix, //
+          cellIdx10: orgSysOfficeInfo.courtPrefix, // 人民法院
+          cellIdx10TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
           cellIdx11: null, // 现场执法人员（签名)'
           cellIdx12: null, //执法证号
           cellIdx13: null, // 现场执法人员（签名)
           cellIdx14: null,//执法证号
           cellIdx15: null, // 被检查单位负责人（签名)
           cellIdx16: null, // 日期
-          cellIdx17: null, //附件
-          cellIdx18: null, // 
+          cellIdx17: null, // 附件
+          cellIdx18: null, //
           cellIdx18: null, // 日期
           dangerItemObject: let101DataPapaerContent.dangerItemObject, // 隐患项大表
         };
