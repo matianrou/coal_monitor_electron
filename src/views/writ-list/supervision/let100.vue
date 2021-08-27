@@ -22,7 +22,7 @@
             <table class="docBody">
               <tr>
                 <td style="width: 5%;"></td>
-                <td class="textAlignLeft">一、被检查单位：</td>
+                <td class="textAlignLeft" style="width: 18%;">一、被检查单位：</td>
                 <td
                   class="cellInput textPaddingLeft cellBottomLine oneLine"
                   id="cell_idx_0"
@@ -35,7 +35,7 @@
               </tr>
               <tr>
                 <td style="width: 5%;"></td>
-                <td class="textAlignLeft">二、监管类型或方式：</td>
+                <td class="textAlignLeft" style="width: 23%;">二、监管类型或方式：</td>
                 <td
                   class="cellInput textPaddingLeft cellBottomLine oneLine"
                   id="cell_idx_1"
@@ -48,7 +48,7 @@
               </tr>
               <tr>
                 <td style="width: 5%;"></td>
-                <td class="textAlignLeft">三、计划检查时间：</td>
+                <td class="textAlignLeft" style="width: 21%;">三、计划检查时间：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_2"
@@ -61,7 +61,7 @@
               </tr>
               <tr>
                 <td style="width: 5%;"></td>
-                <td class="textAlignLeft">四、煤矿企业概况：</td>
+                <td class="textAlignLeft" style="width: 21%;">四、煤矿企业概况：</td>
               </tr>
             </table>
             <div
@@ -80,7 +80,7 @@
             <table class="docBody">
               <tr>
                 <td style="width: 5%;"></td>
-                <td class="textAlignLeft">五、检查地点：</td>
+                <td class="textAlignLeft" style="width: 16%;">五、检查地点：</td>
                 <td
                   style="width:79%"
                   class="cellInput cellBottomLine oneLine"
@@ -95,7 +95,7 @@
             <table class="docBody">
               <tr>
                 <td style="width: 5%;"></td>
-                <td  class="textAlignLeft">六、检查的主要内容和分工见明细表</td>
+                <td  class="textAlignLeft" style="width: 36%;">六、检查的主要内容和分工见明细表</td>
                 <td
                   style="width:50%"
                   class="cellInput "
@@ -110,7 +110,7 @@
             <table class="docBody">
               <tr>
                 <td style="width: 5%;"></td>
-                <td class="textAlignLeft">七、其他事项：</td>
+                <td class="textAlignLeft" style="width: 16%;">七、其他事项：</td>
                 <td
                   style="width:79%"
                   class="cellInput textPaddingLeft cellBottomLine oneLine"
@@ -132,7 +132,7 @@
                   data-title="附件"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx5', '检查的主要内容和分工见明细表', 'CheckTableItem')"
+                  @click="commandFill('cellIdx7', '检查的主要内容和分工见明细表', 'CheckTableItem')"
                 >检查分工明细表</td>
               </tr>
               <br>
