@@ -257,33 +257,21 @@
                   class="cellInput"
                   id="cell_idx_17"
                   align="right"
-                  style="width:50%"
-                  @click="commandFill('cellIdx17', '附件', 'TextItem')"
+                  style="width:95%"
+                  @click="commandFill('cellIdx17', '', 'TextItem')"
                 >{{letData.cellIdx17 ? letData.cellIdx17 : '（点击编辑）'}}</td>
               </tr>
-            </table>
-            <table height="30"></table>
-            <table class="docBody">
               <tr>
                 <td
                   class="cellInput"
                   id="cell_idx_18"
                   align="right"
                   style="width:95%"
-                  @click="commandFill('cellIdx18', '', 'TextItem')"
-                >{{letData.cellIdx18 ? letData.cellIdx18 : '（点击编辑）'}}</td>
-              </tr>
-              <tr>
-                <td
-                  class="cellInput"
-                  id="cell_idx_19"
-                  align="right"
-                  style="width:95%"
                   data-title
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx19', '日期', 'DateItem')"
-                >{{letData.cellIdx19 ? letData.cellIdx19 : '（点击编辑）'}}</td>
+                  @click="commandFill('cellIdx18', '日期', 'DateItem')"
+                >{{letData.cellIdx18 ? letData.cellIdx18 : '（点击编辑）'}}</td>
               </tr>
             </table>
             <table>
@@ -405,8 +393,7 @@ export default {
           cellIdx14: null,//执法证号
           cellIdx15: null, // 被检查单位负责人（签名)
           cellIdx16: null, // 日期
-          cellIdx17: null, // 附件
-          cellIdx18: null, //
+          cellIdx17: null, //
           cellIdx18: null, // 日期
           dangerItemObject: let101DataPapaerContent.dangerItemObject, // 隐患项大表
         };

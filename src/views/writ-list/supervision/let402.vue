@@ -1,4 +1,4 @@
-<!--其他 其他 涉嫌犯罪案件移送书/鉴定委托书 -->
+<!--其他 其他 涉嫌犯罪案件移送书 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -39,7 +39,7 @@
                   id="cell_idx_1"
                   contenteditable="true"
                   align="center"
-                  style="width:25%"
+                  style="width:20%"
                   data-title="文书号"
                   data-type="text"
                   data-src
@@ -54,7 +54,7 @@
                   id="cell_idx_2"
                   contenteditable="true"
                   align="center"
-                  style="width:7%"
+                  style="width:8%"
                   data-title="文书号"
                   data-type="text"
                   data-src
@@ -66,14 +66,14 @@
                   id="cell_idx_3"
                   contenteditable="true"
                   align="center"
-                  style="width:7%"
+                  style="width:10%"
                   data-title="文书号"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx3', '文书号', 'TextItem')"
                 >{{letData.cellIdx3}}</td>
                 <td class="textAlignLeft ">
-                  号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </td>
                 <td class="textAlignLeft ">签发人：</td>
                 <td
@@ -94,10 +94,10 @@
                   id="cell_idx_5"
                   contenteditable="true"
                   style="width:50%"
-                  data-title="调查事由"
+                  data-title="被检查单位"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx5', '调查事由', 'TextItem')"
+                  @click="commandFill('cellIdx5', '被检查单位', 'TextItem')"
                 >{{letData.cellIdx5}}</td>
                 <td class="textAlignLeft">：</td>
               </tr>
@@ -236,163 +236,163 @@
                 <td class="textAlignLeft">移送单位地址：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_11"
+                  id="cell_idx_14"
                   contenteditable="true"
                   align="center"
                   style="width:42%"
-                  data-title="调查事由"
+                  data-title="移送单位地址"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx11', '', 'TextItem')"
-                >{{letData.cellIdx11}}</td>
+                  @click="commandFill('cellIdx14', '', 'TextItem')"
+                >{{letData.cellIdx14}}</td>
                 <!-- <td class="textAlignLeft">地址：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_12"
+                  id="cell_idx_15"
                   contenteditable="true"
                   align="center"
                   style="width:27%"
                   data-title="地址"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx12', '地址', 'TextItem')"
-                >{{letData.cellIdx12}}</td> -->
+                  @click="commandFill('cellIdx15', '地址', 'TextItem')"
+                >{{letData.cellIdx15}}</td> -->
                 <td class="textAlignLeft">&nbsp;&nbsp;邮政编码：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_13"
-                  contenteditable="true"
-                  align="center"
-                  style="width:29%"
-                  data-title="邮政编码"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx13', '邮政编码', 'TextItem')"
-                >{{letData.cellIdx13}}</td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">移送单位联系人：</td>
-                <!-- <td
-                  class="cellInput"
-                  id="cell_idx_14"
-                  contenteditable="true"
-                  align="center"
-                  style="width:10%"
-                  data-title="调查事由"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx14', '', 'TextItem')"
-                >{{letData.cellIdx14}}</td>
-                <td class="textAlignLeft">联系人：</td> -->
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_15"
-                  contenteditable="true"
-                  align="center"
-                  style="width:40%"
-                  data-title="联系人"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx15', '联系人', 'TextItem')"
-                >{{letData.cellIdx15}}</td>
-                <td
-                  class="textAlignLeft"
-                >&nbsp;&nbsp;电&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_16"
                   contenteditable="true"
                   align="center"
                   style="width:29%"
+                  data-title="邮政编码"
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx16', '邮政编码', 'TextItem')"
+                >{{letData.cellIdx16}}</td>
+              </tr>
+              <tr>
+                <td class="textAlignLeft">移送单位联系人：</td>
+                <!-- <td
+                  class="cellInput"
+                  id="cell_idx_17"
+                  contenteditable="true"
+                  align="center"
+                  style="width:10%"
+                  data-title="单位"
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx17', '', 'TextItem')"
+                >{{letData.cellIdx17}}</td>
+                <td class="textAlignLeft">联系人：</td> -->
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_18"
+                  contenteditable="true"
+                  align="center"
+                  style="width:40%"
+                  data-title="移送单位联系人"
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx18', '移送单位联系人', 'TextItem')"
+                >{{letData.cellIdx18}}</td>
+                <td
+                  class="textAlignLeft"
+                >&nbsp;&nbsp;电&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话：</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_19"
+                  contenteditable="true"
+                  align="center"
+                  style="width:29%"
                   data-title="电话"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx16', '电话', 'TextItem')"
-                >{{letData.cellIdx16}}</td>
+                  @click="commandFill('cellIdx19', '电话', 'TextItem')"
+                >{{letData.cellIdx19}}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">送件人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_17"
+                  id="cell_idx_20"
                   contenteditable="true"
                   align="center"
                   style="width:40%"
                   data-title="送件人（签名）"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx17', '送件人（签名）', 'TextItem')"
-                >{{letData.cellIdx17}}</td>
+                  @click="commandFill('cellIdx20', '送件人（签名）', 'TextItem')"
+                >{{letData.cellIdx20}}</td>
                 <td
                   class="textAlignLeft"
                 >&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_18"
+                  id="cell_idx_21"
                   contenteditable="true"
                   align="center"
                   style="width:28%"
                   data-title="日期"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx18', '日期', 'DateItem')"
-                >{{letData.cellIdx18}}</td>
+                  @click="commandFill('cellIdx21', '日期', 'DateItem')"
+                >{{letData.cellIdx21}}</td>
               </tr>
              <tr>
                 <td class="textAlignLeft">送件人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_17"
+                  id="cell_idx_22"
                   contenteditable="true"
                   align="center"
                   style="width:40%"
                   data-title="送件人（签名）"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx17', '送件人（签名）', 'TextItem')"
-                >{{letData.cellIdx17}}</td>
+                  @click="commandFill('cellIdx22', '送件人（签名）', 'TextItem')"
+                >{{letData.cellIdx22}}</td>
                 <td
                   class="textAlignLeft"
                 >&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_18"
+                  id="cell_idx_23"
                   contenteditable="true"
                   align="center"
                   style="width:28%"
                   data-title="日期"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx18', '日期', 'DateItem')"
-                >{{letData.cellIdx18}}</td>
+                  @click="commandFill('cellIdx23', '日期', 'DateItem')"
+                >{{letData.cellIdx23}}</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">收件人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_19"
+                  id="cell_idx_24"
                   contenteditable="true"
                   align="center"
                   style="width:40%"
                   data-title="收件人（签名）"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx19', '收件人（签名）', 'TextItem')"
-                >{{letData.cellIdx19}}</td>
+                  @click="commandFill('cellIdx24', '收件人（签名）', 'TextItem')"
+                >{{letData.cellIdx24}}</td>
                 <td
                   class="textAlignLeft"
                 >&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_20"
+                  id="cell_idx_25"
                   contenteditable="true"
                   align="center"
                   style="width:28%"
                   data-title="日期"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx20', '日期', 'DateItem')"
-                >{{letData.cellIdx20}}</td>
+                  @click="commandFill('cellIdx25', '日期', 'DateItem')"
+                >{{letData.cellIdx25}}</td>
               </tr>
             </table>
             <table height="30"></table>
@@ -400,23 +400,23 @@
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_17"
+                  id="cell_idx_26"
                   align="right"
                   style="width:95%"
-                  @click="commandFill('cellIdx17', '', 'TextItem')"
-                >{{letData.cellIdx17 ? letData.cellIdx17 : '（点击编辑）'}}</td>
+                  @click="commandFill('cellIdx26', '', 'TextItem')"
+                >{{letData.cellIdx26 ? letData.cellIdx26 : '（点击编辑）'}}</td>
               </tr>
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_18"
+                  id="cell_idx_27"
                   align="right"
                   style="width:95%"
                   data-title
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx18', '日期', 'DateItem')"
-                >{{letData.cellIdx18 ? letData.cellIdx18 : '（点击编辑）'}}</td>
+                  @click="commandFill('cellIdx27', '日期', 'DateItem')"
+                >{{letData.cellIdx27 ? letData.cellIdx27 : '（点击编辑）'}}</td>
               </tr>
             </table>
             <table class="docBody">
@@ -521,9 +521,9 @@ export default {
           cellIdx3: num4, // 文书号
           cellIdx3TypeTextItem: num4, // 文书号
           cellIdx4: null, // 签发人
-          cellIdx5String: null, // 调查事由
-          cellIdx5StringTypeTextItem: null, // 调查事由
-          cellIdx6: null, // 单位
+          cellIdx5String: null, // 被检查单位
+          cellIdx5StringTypeTextItem: null, // 被检查单位
+          // cellIdx6: null, // 单位 暂不用
           cellIdx7: null, // 年
           cellIdx8: null, // 月
           cellIdx9: null, // 日
@@ -533,22 +533,23 @@ export default {
           cellIdx13: null, // 页数
           cellIdx14: null, // 签发人
           cellIdx15: cellIdx15String, // 地址
-          cellIdx15TypeTextItem: cellIdx15String, // 地址
+          // cellIdx15TypeTextItem: cellIdx15String, // 地址  暂不用
           cellIdx16: cellIdx16String, // 邮政编码
           cellIdx16TypeTextItem: cellIdx16String, // 地址
           cellIdx17: null, // 单位
-          cellIdx18: cellIdx18String, // 联系人
-          cellIdx18TypeTextItem: cellIdx18String, // 地址
+          cellIdx18: cellIdx18String, // 移送单位联系人
+          cellIdx18TypeTextItem: cellIdx18String, // 移送单位联系人
           cellIdx19: cellIdx19String, // 电话
-          cellIdx19TypeTextItem: cellIdx19String, // 地址
-          cellIdx20: null, // 签发人
-          cellIdx21: null, // 签发人
+          cellIdx19TypeTextItem: cellIdx19String, // 电话
+          cellIdx20: null, // 送件人（签名）
+          cellIdx21: null, // 日期
           cellIdx22: null, // 送件人（签名）
           cellIdx23: null, // 日期
-          cellIdx24: null, //
-          cellIdx25: null, // 年
-          cellIdx26: null, // 月
-          cellIdx27: null, // 日
+          cellIdx24: null, //收件人（签名）
+          cellIdx25: null, // 日期
+          cellIdx26: null, // 
+          cellIdx27: null, // 日期
+
         };
       }
       await db.close();
