@@ -161,17 +161,7 @@
                 >{{ letData.cellIdx11 }}</td>
                 <td>)  </td>
                 <td class="textAlignLeft">&nbsp;&nbsp;煤安保〔</td>
-                <!-- <td
-                  class="cellInput"
-                  id="cell_idx_11"
-                  align="center"
-                  style="width:8%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx11', '', 'TextItem')"
-                >{{ letData.cellIdx11 }}</td>
-                <td class="textAlignLeft">先保〔</td> -->
+
                 <td
                   class="cellInput"
                   id="cell_idx_12"
