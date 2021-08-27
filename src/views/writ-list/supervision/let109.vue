@@ -154,18 +154,6 @@
                 <td>(</td>
                  <td
                   class="cellInput"
-                  id="cell_idx_10"
-                  align="center"
-                  style="width:8%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx10', '', 'TextItem')"
-                >{{ letData.cellIdx10 }}</td>
-                <td>)  </td>
-                <td class="textAlignLeft">&nbsp;&nbsp;煤安保〔</td>
-                <!-- <td
-                  class="cellInput"
                   id="cell_idx_11"
                   align="center"
                   style="width:8%"
@@ -174,7 +162,9 @@
                   data-src
                   @click="commandFill('cellIdx11', '', 'TextItem')"
                 >{{ letData.cellIdx11 }}</td>
-                <td class="textAlignLeft">先保〔</td> -->
+                <td>)  </td>
+                <td class="textAlignLeft">&nbsp;&nbsp;煤安保〔</td>
+                
                 <td
                   class="cellInput"
                   id="cell_idx_12"
@@ -246,13 +236,13 @@
                 <td class="textAlignLeft">申请行政复议,或者在6个月依法内向</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_16"
+                  id="cell_idx_17"
                   style="width:31%"
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx16', '人民法院', 'TextItem')"
-                >{{ letData.cellIdx16 }}</td>
+                  @click="commandFill('cellIdx17', '人民法院', 'TextItem')"
+                >{{ letData.cellIdx17 }}</td>
                 <td class="textAlignLeft">人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。</td>
               </tr>
             </table>
@@ -261,23 +251,23 @@
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_22"
+                  id="cell_idx_18"
                   align="right"
                   style="width:95%"
-                  @click="commandFill('cellIdx17', '', 'TextItem')"
-                >{{letData.cellIdx22 ? letData.cellIdx22 : '（点击编辑）'}}</td>
+                  @click="commandFill('cellIdx18', '', 'TextItem')"
+                >{{letData.cellIdx18 ? letData.cellIdx18 : '（点击编辑）'}}</td>
               </tr>
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_23"
+                  id="cell_idx_19"
                   align="right"
                   style="width:95%"
                   data-title
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx23', '日期', 'DateItem')"
-                >{{letData.cellIdx23 ? letData.cellIdx18 : '（点击编辑）'}}</td>
+                  @click="commandFill('cellIdx19', '日期', 'DateItem')"
+                >{{letData.cellIdx19 ? letData.cellIdx19 : '（点击编辑）'}}</td>
               </tr>
             </table>
             <table height="60"></table>

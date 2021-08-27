@@ -130,7 +130,7 @@
               <tr>
                 <td
                   class="textAlignLeft"
-                >的行为涉嫌违法违规。根据《中华人民共和国行政处罚法》第五十六条规定，本机关决定对你单位的</td>
+                >的行为涉嫌违法违规。依据《中华人民共和国行政处罚法》第五十六条规定，本机关决定对你单位的</td>
                 <td class="textAlignLeft">有关证据（详见《先行登记保存证据清单》）采取先行登记保存措施。先行登记保存的证据，存放在</td>
                 <!-- <td
                   class="cellInput"
@@ -333,7 +333,7 @@
             </table>
             <table>
               <hr />
-              <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被检查单位，一份存档。</td>
+              <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被取证单位，一份存档。</td>
             </table>
           </div>
         </div>

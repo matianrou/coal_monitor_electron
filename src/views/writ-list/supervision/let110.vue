@@ -73,17 +73,6 @@
                 <td class="textAlignLeft ">(</td>
                 <td
                   class="cellInput "
-                  id="cell_idx_3"
-                  align="center"
-                  style="width:7%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx3', '', 'TextItem')"
-                >{{ letData.cellIdx3 }}</td>
-                <td class="textAlignLeft ">)</td>
-                <td
-                  class="cellInput "
                   id="cell_idx_4"
                   align="center"
                   style="width:8%"
@@ -92,19 +81,30 @@
                   data-src
                   @click="commandFill('cellIdx4', '', 'TextItem')"
                 >{{ letData.cellIdx4 }}</td>
+                <td class="textAlignLeft ">)</td>
+                <td
+                  class="cellInput "
+                  id="cell_idx_5"
+                  align="center"
+                  style="width:10%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx5', '', 'TextItem')"
+                >{{ letData.cellIdx5 }}</td>
                 <td class="textAlignLeft ">号&nbsp;&nbsp;</td>
               </tr>
 
               <tr>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_5"
+                  id="cell_idx_6"
                   style="width:62%"
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx5', '', 'TextItem')"
-                >{{ letData.cellIdx5 }}</td>
+                  @click="commandFill('cellIdx6', '', 'TextItem')"
+                >{{ letData.cellIdx6 }}</td>
                 <td class="textAlignLeft">:</td>
               </tr>
             </table>
@@ -194,24 +194,16 @@
                   @click="commandFill('cellIdx9', '', 'TextItem')"
                 >{{ letData.cellIdx9 }}</td>
                 <td class="textAlignLeft">予以</td>
-                <!-- <td
-                  class="cellInput"
-                  id="cell_idx_11"
-                  style="width:15%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx11', '', 'TextItem')"
-                >{{ letData.cellIdx11 }}</td> -->
+                
                 <td
                   class="cellInput"
-                  id="cell_idx_11"
+                  id="cell_idx_10"
                   style="width:15%"
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx11', '', 'TextItem')"
-                >{{ letData.cellIdx11 }}</td>
+                  @click="commandFill('cellIdx10', '', 'TextItem')"
+                >{{ letData.cellIdx10 }}</td>
                 <td class="textAlignLeft">,（详见《</td>
                 <td
                   class="cellInput"
@@ -225,52 +217,34 @@
                 <td class="textAlignLeft">物品清单》）。</td>
 
               </tr>
-              <!-- <tr>
-                <td class="textAlignLeft">单位涉案</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_10"
-                  style="width:30%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx10', '', 'SelectItem')"
-                >{{ letData.cellIdx10 }}</td>
-                <td class="textAlignLeft">予以</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_11"
-                  style="width:15%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx11', '', 'TextItem')"
-                >{{ letData.cellIdx11 }}</td>
-                <td class="textAlignLeft">（详见《物品清单》）。</td>
-              </tr> -->
+            
               <tr>
-                <!-- <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我</td>
+                
                 <td
                   class="cellInput"
                   id="cell_idx_12"
-                  align="center"
-                  style="width:10%"
+                  style="width:15%"
                   data-title
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx12', '', 'TextItem')"
                 >{{ letData.cellIdx12 }}</td>
-                <td class="textAlignLeft">将于三十日内（不包括检测、检验或者技术鉴定期限）对上述被</td> -->
+                <td class="textAlignLeft">的</td>
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 <td
                   class="cellInput"
                   id="cell_idx_13"
-                  style="width:15%"
+                  align="center"
+                  style="width:20%"
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx13', '', 'TextItem')"
+                  @click="commandFill('cellIdx13', '', 'SelectItem')"
                 >{{ letData.cellIdx13 }}</td>
-                <td class="textAlignLeft">的</td>
+                <td class="textAlignLeft">作出处理决定。此前，你单位不得使用、销毁或转移上述</td>
+              </tr>
+
+              <tr>
                 <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 <td
                   class="cellInput"
@@ -282,21 +256,6 @@
                   data-src
                   @click="commandFill('cellIdx14', '', 'SelectItem')"
                 >{{ letData.cellIdx14 }}</td>
-                <td class="textAlignLeft">作出处理决定。此前，你单位不得使用、销毁或转移上述</td>
-              </tr>
-
-              <tr>
-                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_15"
-                  align="center"
-                  style="width:20%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx15', '', 'SelectItem')"
-                >{{ letData.cellIdx15 }}</td>
                 <td class="textAlignLeft">，并负有安全保障责任。</td>
               </tr>
               <tr>
@@ -306,28 +265,28 @@
                 >如不服本决定，可在接到本决定书之日起60日内向</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_16"
+                  id="cell_idx_15"
                   align="center"
                   style="width:44%"
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx16', '', 'TextItem')"
-                >{{ letData.cellIdx16 }}</td>
+                  @click="commandFill('cellIdx15', '', 'TextItem')"
+                >{{ letData.cellIdx15 }}</td>
 
               </tr>
               <tr>
                  <td class="textAlignLeft">人民政府或者</td>
                  <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_17"
+                  id="cell_idx_16"
                   align="center"
                   style="width:49%"
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx17', '', 'TextItem')"
-                >{{ letData.cellIdx17 }}</td>
+                  @click="commandFill('cellIdx16', '', 'TextItem')"
+                >{{ letData.cellIdx16 }}</td>
                 <td class="textAlignLeft">申请行政复议，或者在6个月内依法向</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -354,23 +313,15 @@
                 </td>
                 <td
                   class="cellInput"
-                  id="cell_idx_18"
+                  id="cell_idx_19"
                   style="width:8%"
                   data-title="附件"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx18', '', '')"
+                  @click="commandFill('cellIdx19', '', '')"
                 ></td>
                 <td  class="textAlignLeft">《物品清单》</td>
-                <!-- <td
-                  class="cellInput"
-                  id="cell_idx_18"
-                  style="width:80%"
-                  data-title="附件"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx18', '', '')"
-                ></td> -->
+                
               </tr>
             </table>
             <table height="30"></table>
@@ -378,23 +329,23 @@
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_17"
+                  id="cell_idx_20"
                   align="right"
                   style="width:95%"
-                  @click="commandFill('cellIdx17', '', 'TextItem')"
-                >{{letData.cellIdx17 ? letData.cellIdx17 : '（点击编辑）'}}</td>
+                  @click="commandFill('cellIdx20', '', 'TextItem')"
+                >{{letData.cellIdx20 ? letData.cellIdx20 : '（点击编辑）'}}</td>
               </tr>
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_18"
+                  id="cell_idx_21"
                   align="right"
                   style="width:95%"
                   data-title
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx18', '日期', 'DateItem')"
-                >{{letData.cellIdx18 ? letData.cellIdx18 : '（点击编辑）'}}</td>
+                  @click="commandFill('cellIdx21', '日期', 'DateItem')"
+                >{{letData.cellIdx21 ? letData.cellIdx21 : '（点击编辑）'}}</td>
               </tr>
             </table>
             <table height="60"></table>
@@ -404,14 +355,14 @@
               <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被</td>
               <td
                 class="cellInput"
-                id="cell_idx_21"
+                id="cell_idx_22"
                 align="center"
                 style="width:10%"
                 data-title
                 data-type="text"
                 data-src
-                @click="commandFill('cellIdx21', '', 'TextItem')"
-                >{{ letData.cellIdx21 }}</td>
+                @click="commandFill('cellIdx22', '', 'TextItem')"
+                >{{ letData.cellIdx22 }}</td>
               <td class="textAlignLeft">单位，一份存档。</td>
             </table>
           </div>

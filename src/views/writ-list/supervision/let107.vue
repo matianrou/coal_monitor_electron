@@ -331,7 +331,7 @@
                   id="cell_idx_22"
                   align="right"
                   style="width:95%"
-                  @click="commandFill('cellIdx17', '', 'TextItem')"
+                  @click="commandFill('cellIdx22', '', 'TextItem')"
                 >{{letData.cellIdx22 ? letData.cellIdx22 : '（点击编辑）'}}</td>
               </tr>
               <tr>
@@ -344,7 +344,7 @@
                   data-type="date"
                   data-src
                   @click="commandFill('cellIdx23', '日期', 'DateItem')"
-                >{{letData.cellIdx23 ? letData.cellIdx18 : '（点击编辑）'}}</td>
+                >{{letData.cellIdx23 ? letData.cellIdx23 : '（点击编辑）'}}</td>
               </tr>
             </table>
 
