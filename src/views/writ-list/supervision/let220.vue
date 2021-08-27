@@ -502,9 +502,9 @@
 </template>
 
 <script>
-import letMain from "../let-main";
+import letMain from "@/views/make-law-writ/components/let-main";
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, getDocNumber } from '@/utils/monitor/setInitPaperData'
+import { getDangerObject, getDocNumber } from '@/utils/setInitPaperData'
 export default {
   name: "Let106",
   props: {

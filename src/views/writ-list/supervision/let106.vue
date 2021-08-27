@@ -178,14 +178,14 @@
                 <div
                   style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
                   class="cellInput mutiLineArea"
-                  id="cell_idx_13"
+                  id="cell_idx_30"
                   data-title="违法行为"
                   data-type="textarea"
                   data-src
-                  @click="commandFill('cellIdx13', '违法行为', 'DangerTableItem')">
-                  <div v-if="letData.cellIdx13 && letData.cellIdx13.length > 0">
+                  @click="commandFill('cellIdx30', '违法行为', 'DangerTableItem')">
+                  <div v-if="letData.cellIdx30 && letData.cellIdx30.length > 0">
                     <p class="show-area-item-p">
-                      <span style="padding: 7px;">{{ letData.cellIdx12 }}</span>
+                      <span style="padding: 7px;">{{ letData.cellIdx30 }}</span>
                     </p>
                   </div>
                   <div v-else>
@@ -209,7 +209,7 @@
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx13', '', 'TextItem')"
+                  @click="commandFill('cellIdx14', '', 'TextItem')"
                 >{{ letData.cellIdx13 }}</td>
                 <td class="textAlignLeft">危险区内撤出作业人员。</td>
 
@@ -408,14 +408,14 @@
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_18"
+                  id="cell_idx_30"
                   align="right"
                   style="width:95%"
                   data-title
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx18', '日期', 'DateItem')"
-                >{{letData.cellIdx18 ? letData.cellIdx18 : '（点击编辑）'}}</td>
+                  @click="commandFill('cellIdx30', '日期', 'DateItem')"
+                >{{letData.cellIdx30 ? letData.cellIdx30 : '（点击编辑）'}}</td>
               </tr>
             </table>
 
@@ -571,9 +571,9 @@ export default {
           cellIdx27: null, // 签名
           cellIdx28: null, // 日期
           cellIdx29: null, //
-          cellIdx30: null, // 年
-          cellIdx31: null, //月
-          cellIdx32: null, //日
+          cellIdx30: null, // 日期
+          
+          cellIdx31: null, //
           dangerItemObject: let101DataPapaerContent.dangerItemObject
         };
       }

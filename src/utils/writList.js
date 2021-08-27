@@ -81,6 +81,7 @@ const supervisionWritList = {
   let217: resolve => { require(["@/views/writ-list/supervision/let217"], function(let217) { resolve(let217);});},
   let218: resolve => { require(["@/views/writ-list/supervision/let218"], function(let218) { resolve(let218);});},
   let219: resolve => { require(["@/views/writ-list/supervision/let219"], function(let219) { resolve(let219);});},
+  let220: resolve => { require(["@/views/writ-list/supervision/let220"], function(let220) { resolve(let220);});},
   let300: resolve => { require(["@/views/writ-list/supervision/let300"], function(let300) { resolve(let300);});},
   let301: resolve => { require(["@/views/writ-list/supervision/let301"], function(let301) { resolve(let301);});},
   let302: resolve => { require(["@/views/writ-list/supervision/let302"], function(let302) { resolve(let302);});},

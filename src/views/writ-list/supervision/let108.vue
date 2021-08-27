@@ -41,15 +41,15 @@
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx1', '', 'TextItem')"
-                >{{ letData.cellIdx1 }}）</td>
+                >{{ letData.cellIdx1 }}</td>
 
-                <td class="textAlignLeft ">煤安保〔</td>
+                <td class="textAlignLeft ">） 煤安保〔</td>
 
                 <td
                   class="cellInput "
                   id="cell_idx_2"
                   align="center"
-                  style="width:7%"
+                  style="width:8%"
                   data-title
                   data-type="text"
                   data-src
@@ -60,7 +60,7 @@
                   class="cellInput "
                   id="cell_idx_3"
                   align="center"
-                  style="width:8%"
+                  style="width:10%"
                   data-title
                   data-type="text"
                   data-src
@@ -181,12 +181,12 @@
                   保管单位负有妥善保管的义务，不得有短缺、灭失、损毁或者</td>
                   <td>擅自移动等改变证据物品的任何行为。</td>
               </tr>
-
+              
               <tr>
-                 <td style="width:5%"></td>
+                <td style="width:5%"></td>
                 <td class="textAlignLeft">本机关将在七个工作日内对先行登记保存的证据依法作出处理决定。
-                  逾期未作出处理决定的，先行登</td>
-                  <td class="textAlignLeft">记保存措施自动解除。</td>
+                  逾期未作出处理决定的，先</td>
+                  <td class="textAlignLeft">行登记保存措施自动解除。</td>
                 <!-- <td
                   class="cellInput"
                   id="cell_idx_11"
@@ -210,15 +210,7 @@
                   style="cursor: pointer;"
                   @click="commandFill('cellIdx12', '先行登记保存证据清单', 'SamplingForensicsTable')"
                   class="textAlignLeft">附件：先行登记保存证据清单</td>
-                <!-- <td
-                  class="cellInput"
-                  id="cell_idx_12"
-                  style="width:80%"
-                  data-title="附件"
-                  data-type="text"
-                  data-src
-                   @click="commandFill('cellIdx12', '先行登记保存证据清单', 'SamplingForensicsTable')">
-                   {{ letData.cellIdx12 }}</td> -->
+                
               </tr>
             </table>
             <table height="30"></table>
@@ -320,23 +312,23 @@
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_22"
+                  id="cell_idx_21"
                   align="right"
                   style="width:95%"
-                  @click="commandFill('cellIdx17', '', 'TextItem')"
-                >{{letData.cellIdx22 ? letData.cellIdx22 : '（点击编辑）'}}</td>
+                  @click="commandFill('cellIdx21', '', 'TextItem')"
+                >{{letData.cellIdx21 ? letData.cellIdx21 : '（点击编辑）'}}</td>
               </tr>
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_23"
+                  id="cell_idx_22"
                   align="right"
                   style="width:95%"
                   data-title
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx23', '日期', 'DateItem')"
-                >{{letData.cellIdx23 ? letData.cellIdx18 : '（点击编辑）'}}</td>
+                  @click="commandFill('cellIdx22', '日期', 'DateItem')"
+                >{{letData.cellIdx22 ? letData.cellIdx22 : '（点击编辑）'}}</td>
               </tr>
             </table>
             <table>
@@ -450,8 +442,8 @@ export default {
           cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
           cellIdx5: null, // 单位/个人？
           cellIdx6: cellIdx6String, // 隐患描述
-          cellIdx7: null, // 单位
-          cellIdx8: null, // 单位/个人？
+          // cellIdx7: null, // 单位
+          // cellIdx8: null, // 单位/个人？
           cellIdx9: null, // 存放在...
           cellIdx10: null, // 由...负责保管
           cellIdx11: null, // 单位

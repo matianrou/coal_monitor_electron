@@ -41,9 +41,9 @@
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx1', '', 'TextItem')"
-                >{{ letData.cellIdx1 }}）</td>
+                >{{ letData.cellIdx1 }}</td>
 
-                <td class="textAlignLeft ">煤安抽〔</td>
+                <td class="textAlignLeft ">） 煤安抽〔</td>
 
                 <td
                   class="cellInput "
@@ -264,7 +264,7 @@
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx16', '执法机关地', 'TextItem')"
+                  @click="commandFill('cellIdx16', '执法机关地址', 'TextItem')"
                 >{{ letData.cellIdx16 }}</td>
                 <!-- <td class="textAlignLeft">地址：</td>
                 <td
@@ -299,7 +299,7 @@
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx19', '', 'TextItem')"
+                  @click="commandFill('cellIdx19', '执法机关联系人', 'TextItem')"
                 >{{ letData.cellIdx19 }}</td>
                 <!-- <td class="textAlignLeft">联系人：</td>
                 <td
@@ -351,7 +351,7 @@
 
             <table>
               <hr />
-              <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被检查单位，一份存档。</td>
+              <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被取证单位，一份存档。</td>
             </table>
           </div>
         </div>
@@ -466,7 +466,7 @@ export default {
           cellIdx4: corp.corpName ? corp.corpName : null, // corpname
           cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
           cellIdx5: cellIdx5String, // 隐患描述
-          cellIdx6: null, // 单位
+          // cellIdx6: null, // 单位
           cellIdx7: null, // 抽样取证清单
           cellIdx8: null, // 抽样承办人：（签名）
           cellIdx9: cellIdx9Year, // 年
@@ -480,14 +480,14 @@ export default {
           cellIdx13: null, // 抽样地点
           cellIdx14: null, // 受送达人（签名）
           cellIdx15: null, // 日期
-          cellIdx16: null, // 单位
-          cellIdx17: cellIdx17String, // 地址
-          cellIdx17TypeTextItem: cellIdx17String, // 地址
+          cellIdx16: null, // 执法机关地址
+          // cellIdx17: cellIdx17String, // 地址
+          // cellIdx17TypeTextItem: cellIdx17String, // 地址
           cellIdx18: cellIdx18String, // 邮政编码
           cellIdx18TypeTextItem: cellIdx18String, // 邮政编码
-          cellIdx19: null, // 单位
-          cellIdx20: cellIdx20String, // 联系人
-          cellIdx20TypeTextItem: cellIdx20String, // 联系人
+          cellIdx19: null, // 执法机关联系人
+          // cellIdx20: cellIdx20String, // 联系人
+          // cellIdx20TypeTextItem: cellIdx20String, // 联系人
           cellIdx21: cellIdx21String, // 联系电话
           cellIdx21TypeTextItem: cellIdx21String, // 联系电话
           cellIdx22: null, //

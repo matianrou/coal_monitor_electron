@@ -44,7 +44,9 @@
             </table>
             <table class="docBody">
               <tr>
-                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;经查，你单位存在下列问题：</td>
+                 <td style="width:5%"></td>
+
+                <td>经查，你单位存在下列问题：</td>
               </tr>
             </table>
             <div
