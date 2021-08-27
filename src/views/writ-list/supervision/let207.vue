@@ -90,7 +90,7 @@
               <td
                 class="textAlignLeft"
                 style="width:12%"
-              >文书字号：</td>
+              >文书编号：</td>
               <td
                 class="cellInput cellBottomLine"
                 id="cell_idx_5"
@@ -145,25 +145,25 @@
 
               <td
                 class="cellInput cellBottomLine"
-                id="cell_idx_9"
+                id="cell_idx_8"
                 align="center"
                 style="width:26%"
                 data-title="签名"
                 data-type="text"
                 data-src
-                @click="commandFill('cellIdx9', '签名', 'TextItem')"
-                >{{letData.cellIdx9}}</td>
+                @click="commandFill('cellIdx8', '签名', 'TextItem')"
+                >{{letData.cellIdx8}}</td>
               <td class="textAlignLeft">&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期：</td>
               <td
                 class="cellInput cellBottomLine"
-                id="cell_idx_10"
+                id="cell_idx_9"
                 align="center"
                 style="width:23%"
                 data-title="日期"
                 data-type="text"
                 data-src
-                @click="commandFill('cellIdx10', '日期', 'DateItem')"
-                >{{letData.cellIdx10}}</td>
+                @click="commandFill('cellIdx9', '日期', 'DateItem')"
+                >{{letData.cellIdx9}}</td>
             </tr>
             <tr>
               <td
@@ -172,25 +172,25 @@
               >送达人（签名）：</td>
               <td
                 class="cellInput cellBottomLine"
-                id="cell_idx_11"
+                id="cell_idx_10"
                 align="center"
                 style="width:46%"
                 data-title="送达人（签名）"
                 data-type="text"
                 data-src
-                 @click="commandFill('cellIdx11', '送达人（签名）', 'TextItem')"
-                >{{letData.cellIdx11}}</td>
+                 @click="commandFill('cellIdx10', '送达人（签名）', 'TextItem')"
+                >{{letData.cellIdx10}}</td>
               <td class="textAlignLeft">&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期：</td>
               <td
                 class="cellInput cellBottomLine"
-                id="cell_idx_12"
+                id="cell_idx_11"
                 align="center"
                 style="width:23%"
                 data-title="日期"
                 data-type="text"
                 data-src
-                @click="commandFill('cellIdx12', '日期', 'DateItem')"
-                >{{letData.cellIdx12}}</td>
+                @click="commandFill('cellIdx11', '日期', 'DateItem')"
+                >{{letData.cellIdx11}}</td>
             </tr>
           </table>
          <table height="90"></table>
@@ -198,23 +198,23 @@
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_22"
+                  id="cell_idx_12"
                   align="right"
                   style="width:95%"
-                  @click="commandFill('cellIdx17', '', 'TextItem')"
-                >{{letData.cellIdx22 ? letData.cellIdx22 : '（点击编辑）'}}</td>
+                  @click="commandFill('cellIdx12', '', 'TextItem')"
+                >{{letData.cellIdx12 ? letData.cellIdx12 : '（点击编辑）'}}</td>
               </tr>
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_23"
+                  id="cell_idx_13"
                   align="right"
                   style="width:95%"
                   data-title
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx23', '日期', 'DateItem')"
-                >{{letData.cellIdx23 ? letData.cellIdx18 : '（点击编辑）'}}</td>
+                  @click="commandFill('cellIdx13', '日期', 'DateItem')"
+                >{{letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）'}}</td>
               </tr>
             </table>
         </div>

@@ -331,10 +331,10 @@
               <tr>
                 <td style="width:5%"></td>
                 <td
-                  class="textAlignLeft">1. 请事先准备相关证据，通知证人或委托代理人准时参加;无正当理由拒不出席听证或者未经许可</td>
+                  class="textAlignLeft">1. 请事先准备相关证据，通知证人或委托代理人准时参加；无正当理由拒不出席听证或者未经许</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">中途退出听证的，视为放弃听证权利，本机关将终止听证。</td>
+                <td class="textAlignLeft">可中途退出听证的，视为放弃听证权利，本机关将终止听证。</td>
               </tr>
               <tr>
                 <td style="width:5%"></td>
@@ -352,14 +352,14 @@
                 >3. 申请延期举行的，应当在举行听证会前向本机关提出，由本机关决定是否延期。</td>
                 <td
                   class="cellInput"
-                  id="cell_idx_25"
+                  id="cell_idx_24"
                   align="center"
                   style="width:10%"
                   data-title="单位"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx25', '单位', 'TextItem')"
-                >{{letData.cellIdx25}}</td>
+                  @click="commandFill('cellIdx24', '单位', 'TextItem')"
+                >{{letData.cellIdx24}}</td>
 
               </tr>
 
@@ -371,48 +371,48 @@
                 <td class="textAlignLeft">受送达人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_12"
+                  id="cell_idx_25"
                   style="width:35%"
                   data-title="收件人（签名）"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx12', '收件人（签名）', 'TextItem')"
-                >{{letData.cellIdx12}}</td>
+                  @click="commandFill('cellIdx25', '收件人（签名）', 'TextItem')"
+                >{{letData.cellIdx25}}</td>
                 <td
                   class="textAlignLeft"
                 >&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_13"
+                  id="cell_idx_26"
                   style="width:26%"
                   data-title="日期"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx13', '日期', 'DateItem')"
-                >{{letData.cellIdx13}}</td>
+                  @click="commandFill('cellIdx26', '日期', 'DateItem')"
+                >{{letData.cellIdx26}}</td>
               </tr>
               <tr>
                 <td style="width:5%"></td>
                 <td class="textAlignLeft">执法机关地址：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_14"
+                  id="cell_idx_27"
                   style="width:40%"
                   data-title="我分局地址"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx14', '我分局地址', 'TextItem')"
-                >{{letData.cellIdx14}}</td>
+                  @click="commandFill('cellIdx27', '我分局地址', 'TextItem')"
+                >{{letData.cellIdx27}}</td>
                 <td class="textAlignLeft">&nbsp;&nbsp;邮政编码：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_15"
+                  id="cell_idx_28"
                   style="width:26%"
                   data-title="邮政编码"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx15', '邮政编码', 'TextItem')"
-                >{{letData.cellIdx15}}</td>
+                  @click="commandFill('cellIdx28', '邮政编码', 'TextItem')"
+                >{{letData.cellIdx28}}</td>
               </tr>
               <tr>
                 <td style="width:5%"></td>
@@ -420,23 +420,23 @@
                 <td class="textAlignLeft">执法机关联系人：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_16"
+                  id="cell_idx_29"
                   style="width:38%"
                   data-title="我分局联系人"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx16', '我分局联系人', 'TextItem')"
-                >{{letData.cellIdx16}}</td>
+                  @click="commandFill('cellIdx29', '我分局联系人', 'TextItem')"
+                >{{letData.cellIdx29}}</td>
                 <td class="textAlignLeft">&nbsp;&nbsp;联系电话：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_17"
+                  id="cell_idx_30"
                   style="width:26%"
                   data-title="联系电话"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx17', '联系电话', 'TextItem')"
-                >{{letData.cellIdx17}}</td>
+                  @click="commandFill('cellIdx30', '联系电话', 'TextItem')"
+                >{{letData.cellIdx30}}</td>
               </tr>
             </table>
 
@@ -446,23 +446,23 @@
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_22"
+                  id="cell_idx_31"
                   align="right"
                   style="width:95%"
-                  @click="commandFill('cellIdx17', '', 'TextItem')"
-                >{{letData.cellIdx22 ? letData.cellIdx22 : '（点击编辑）'}}</td>
+                  @click="commandFill('cellIdx31', '', 'TextItem')"
+                >{{letData.cellIdx31 ? letData.cellIdx31 : '（点击编辑）'}}</td>
               </tr>
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_24"
+                  id="cell_idx_32"
                   align="right"
                   style="width:95%"
                   data-title
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx23', '日期', 'DateItem')"
-                >{{letData.cellIdx24 ? letData.cellIdx24: '（点击编辑）'}}</td>
+                  @click="commandFill('cellIdx32', '日期', 'DateItem')"
+                >{{letData.cellIdx32 ? letData.cellIdx32: '（点击编辑）'}}</td>
               </tr>
             </table>
             <table class="docBody">

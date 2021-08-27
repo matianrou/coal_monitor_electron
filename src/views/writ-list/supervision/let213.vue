@@ -36,14 +36,14 @@
               <div
                   style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
                   class="cellInput mutiLineArea"
-                  id="cell_idx_7"
+                  id="cell_idx_0"
                   data-title="案由"
                   data-type="textarea"
                   data-src
-                  @click="commandFill('cellIdx7', '案由', 'DangerTableItem')">
+                  @click="commandFill('cellIdx0', '案由', 'DangerTableItem')">
                 <p
                     style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
-                >&nbsp;{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）' }}</p>
+                >&nbsp;{{ letData.cellIdx0 ? letData.cellIdx0 : '（点击编辑）' }}</p>
                 <p
                     style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
                 >&nbsp;</p>
@@ -54,72 +54,63 @@
 
                <tr>
                 <td class="textAlignLeft">承办人意见：</td>
-                <!-- <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_0"
-                  align="center"
-                  style="width:18%"
-                  data-title="承办人意见"
-                  data-type="textarea"
-                  data-src
-                  @click="commandFill('cellIdx0', '承办人意见', 'TextItem')"
-                >{{letData.cellIdx0}}</td> -->
+              
                 <div
                   style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
                   class="cellInput mutiLineArea"
-                  id="cell_idx_0"
+                  id="cell_idx_1"
                   data-title="承办人意见"
                   data-type="textarea"
                   data-src
-                  @click="commandFill('cellIdx0', '承办人意见', 'TextareaItem')">
+                  @click="commandFill('cellIdx1', '承办人意见', 'TextareaItem')">
                   <p class="show-area-item-p">
-                    <span style="padding: 7px;">{{ letData.cellIdx0 }}</span>
+                    <span style="padding: 7px;">{{ letData.cellIdx1 }}</span>
                   </p>
                 </div>
                 <td class="textAlignLeft">签名：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_1"
+                  id="cell_idx_2"
                   align="center"
                   style="width:18%"
                   data-title="签名"
                   data-type="textarea"
                   data-src
-                 @click="commandFill('cellIdx1', '签名', 'TextItem')"
-                >{{letData.cellIdx1}}</td>
-                <td class="textAlignLeft">日期：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_2"
-                  align="center"
-                  style="width:10%"
-                  data-title="年"
-                  data-type="text"
-                  data-src
-                   @click="commandFill('cellIdx2', '年', 'TextItem')"
+                 @click="commandFill('cellIdx2', '签名', 'TextItem')"
                 >{{letData.cellIdx2}}</td>
-                <td class="textAlignLeft">年</td>
+                <td class="textAlignLeft">日期：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_3"
                   align="center"
                   style="width:10%"
-                  data-title="月"
+                  data-title="年"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx3', '月', 'TextItem')"
+                   @click="commandFill('cellIdx3', '年', 'TextItem')"
                 >{{letData.cellIdx3}}</td>
-                <td class="textAlignLeft">月</td>
+                <td class="textAlignLeft">年</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_4"
                   align="center"
                   style="width:10%"
+                  data-title="月"
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx4', '月', 'TextItem')"
+                >{{letData.cellIdx4}}</td>
+                <td class="textAlignLeft">月</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_5"
+                  align="center"
+                  style="width:10%"
                   data-title="日"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx4', '日', 'TextItem')"
-                >{{letData.cellIdx4}}</td>
+                  @click="commandFill('cellIdx5', '日', 'TextItem')"
+                >{{letData.cellIdx5}}</td>
                 <td class="textAlignLeft">日</td>
               </tr>
               <tr>
@@ -137,59 +128,59 @@
                 <div
                   style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
                   class="cellInput mutiLineArea"
-                  id="cell_idx_5"
+                  id="cell_idx_6"
                   data-title="审批人意见"
                   data-type="textarea"
                   data-src
-                  @click="commandFill('cellIdx5', '审批人意见', 'TextareaItem')">
+                  @click="commandFill('cellIdx6', '审批人意见', 'TextareaItem')">
                   <p class="show-area-item-p">
-                    <span style="padding: 7px;">{{ letData.cellIdx5 }}</span>
+                    <span style="padding: 7px;">{{ letData.cellIdx6 }}</span>
                   </p>
                 </div>
                 <td class="textAlignLeft">签名：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_6"
+                  id="cell_idx_7"
                   align="center"
                   style="width:18%"
                   data-title="签名"
                   data-type="textarea"
                   data-src
-                  @click="commandFill('cellIdx6', '签名', 'TextItem')"
-                >{{letData.cellIdx6}}</td>
-                <td class="textAlignLeft">日期：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_7"
-                  align="center"
-                  style="width:10%"
-                  data-title="年"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx7', '年', 'TextItem')"
+                  @click="commandFill('cellIdx7', '签名', 'TextItem')"
                 >{{letData.cellIdx7}}</td>
-                <td class="textAlignLeft">年</td>
+                <td class="textAlignLeft">日期：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_8"
                   align="center"
                   style="width:10%"
-                  data-title="月"
+                  data-title="年"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx8', '月', 'TextItem')"
+                  @click="commandFill('cellIdx8', '年', 'TextItem')"
                 >{{letData.cellIdx8}}</td>
-                <td class="textAlignLeft">月</td>
+                <td class="textAlignLeft">年</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
                   align="center"
                   style="width:10%"
+                  data-title="月"
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx9', '月', 'TextItem')"
+                >{{letData.cellIdx9}}</td>
+                <td class="textAlignLeft">月</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_10"
+                  align="center"
+                  style="width:10%"
                   data-title="日"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx9', '日', 'TextItem')"
-                >{{letData.cellIdx9}}</td>
+                  @click="commandFill('cellIdx10', '日', 'TextItem')"
+                >{{letData.cellIdx10}}</td>
                 <td class="textAlignLeft">日</td>
               </tr>
             </table>

@@ -299,7 +299,7 @@
                   style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
                   class="cellInput mutiLineArea"
                   @click="commandFill('cellIdx21', '', 'TextareaItem')">
-                  <div v-if="letData.cellIdx8 && letData.cellIdx8.length > 0" style="position: relative;">
+                  <div v-if="letData.cellIdx21 && letData.cellIdx21.length > 0" style="position: relative;">
                     <p class="show-area-item-p">
                       <span style="padding: 7px;">{{letData.cellIdx21 ? letData.cellIdx21 : '（点击编辑）'}}</span>
                     </p>
