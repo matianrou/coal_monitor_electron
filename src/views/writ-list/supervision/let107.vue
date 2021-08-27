@@ -42,9 +42,7 @@
                   data-src
                   @click="commandFill('cellIdx1', '', 'TextItem')"
                 >{{ letData.cellIdx1 }}</td>
-
                 <td class="textAlignLeft ">） 煤安抽〔</td>
-
                 <td
                   class="cellInput "
                   id="cell_idx_2"
@@ -94,7 +92,6 @@
                   data-src
                   @click="commandFill('cellIdx5', '', 'TextItem')"
                 >{{ letData.cellIdx5 }}</td> -->
-
                 <div
                   style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
                   class="cellInput mutiLineArea"
@@ -107,6 +104,7 @@
                     <p class="show-area-item-p">
                       <span style="padding: 7px;">{{ letData.cellIdx5  ? letData.cellIdx5 : '（点击编辑）'}}</span>
                     </p>
+                    <cell-line></cell-line>
                   </div>
                   <div v-else>
                     <p class="show-area-item-p">
@@ -132,10 +130,7 @@
                   @click="commandFill('cellIdx6', '', 'TextItem')"
                 >{{ letData.cellIdx6 }}</td> -->
               </tr>
-
-
             </table>
-
             <table height="60"></table>
             <table class="docBody">
               <tr>
@@ -347,8 +342,6 @@
                 >{{letData.cellIdx23 ? letData.cellIdx18 : '（点击编辑）'}}</td>
               </tr>
             </table>
-
-
             <table>
               <hr />
               <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被取证单位，一份存档。</td>
@@ -480,14 +473,14 @@ export default {
           cellIdx13: null, // 抽样地点
           cellIdx14: null, // 受送达人（签名）
           cellIdx15: null, // 日期
-          cellIdx16: null, // 执法机关地址
-          // cellIdx17: cellIdx17String, // 地址
-          // cellIdx17TypeTextItem: cellIdx17String, // 地址
+          cellIdx16: cellIdx17String, // 执法机关地址
+          cellIdx16TypeTextItem: cellIdx17String, // 地址
+          // cellIdx17: null, // 地址
           cellIdx18: cellIdx18String, // 邮政编码
           cellIdx18TypeTextItem: cellIdx18String, // 邮政编码
-          cellIdx19: null, // 执法机关联系人
-          // cellIdx20: cellIdx20String, // 联系人
-          // cellIdx20TypeTextItem: cellIdx20String, // 联系人
+          cellIdx19: cellIdx20String, // 执法机关联系人
+          cellIdx19TypeTextItem: cellIdx20String, // 联系人
+          // cellIdx20: null, // 联系人
           cellIdx21: cellIdx21String, // 联系电话
           cellIdx21TypeTextItem: cellIdx21String, // 联系电话
           cellIdx22: null, //

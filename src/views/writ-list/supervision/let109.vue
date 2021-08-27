@@ -42,9 +42,7 @@
                   data-src
                   @click="commandFill('cellIdx1', '', 'TextItem')"
                 >{{ letData.cellIdx1 }}）</td>
-
                 <td class="textAlignLeft ">煤安报处〔</td>
-
                 <td
                   class="cellInput "
                   id="cell_idx_2"
@@ -95,7 +93,6 @@
                   data-src
                   @click="commandFill('cellIdx5', '', 'TextItem')"
                 >{{ letData.cellIdx5 }}</td> -->
-
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_6"
@@ -154,14 +151,14 @@
                 <td>(</td>
                  <td
                   class="cellInput"
-                  id="cell_idx_10"
+                  id="cell_idx_11"
                   align="center"
                   style="width:8%"
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx10', '', 'TextItem')"
-                >{{ letData.cellIdx10 }}</td>
+                  @click="commandFill('cellIdx11', '', 'TextItem')"
+                >{{ letData.cellIdx11 }}</td>
                 <td>)  </td>
                 <td class="textAlignLeft">&nbsp;&nbsp;煤安保〔</td>
                 <!-- <td
@@ -246,13 +243,13 @@
                 <td class="textAlignLeft">申请行政复议,或者在6个月依法内向</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_16"
+                  id="cell_idx_17"
                   style="width:31%"
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx16', '人民法院', 'TextItem')"
-                >{{ letData.cellIdx16 }}</td>
+                  @click="commandFill('cellIdx17', '人民法院', 'TextItem')"
+                >{{ letData.cellIdx17 }}</td>
                 <td class="textAlignLeft">人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。</td>
               </tr>
             </table>
@@ -261,27 +258,26 @@
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_22"
+                  id="cell_idx_18"
                   align="right"
                   style="width:95%"
-                  @click="commandFill('cellIdx17', '', 'TextItem')"
-                >{{letData.cellIdx22 ? letData.cellIdx22 : '（点击编辑）'}}</td>
+                  @click="commandFill('cellIdx18', '', 'TextItem')"
+                >{{letData.cellIdx18 ? letData.cellIdx18 : '（点击编辑）'}}</td>
               </tr>
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_23"
+                  id="cell_idx_19"
                   align="right"
                   style="width:95%"
                   data-title
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx23', '日期', 'DateItem')"
-                >{{letData.cellIdx23 ? letData.cellIdx18 : '（点击编辑）'}}</td>
+                  @click="commandFill('cellIdx19', '日期', 'DateItem')"
+                >{{letData.cellIdx19 ? letData.cellIdx19 : '（点击编辑）'}}</td>
               </tr>
             </table>
             <table height="60"></table>
-
             <table>
               <hr />
               <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被检查单位，一份存档。</td>
@@ -362,16 +358,20 @@ export default {
         let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
         // 2.获取先行登记保存证据通知书中的日期、物品清单和编号字段
         const let108Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === '25';
+          return item.caseId === caseId && item.paperType === '25' && item.delFlag !== '1';
         });
+        if (!let108Data) {
+          this.$message.error('请先填写并保存先行登记保存证据通知书的相关内容！')
+          return
+        }
         let let108DataPapaerContent = JSON.parse(let108Data.paperContent)
         // 日期
         let let108Date = let108DataPapaerContent.cellIdx14
-        let108Date = let108Date.replace('年', '-').replace('月', '-').replace('日', '-')
+        let108Date = let108Date ? let108Date.replace('年', '-').replace('月', '-').replace('日', '-') : ' - - '
         let dateList = let108Date.split('-')
         let cellIdx6String = dateList[0]
-        let cellIdx7String = dateList[0]
-        let cellIdx8String = dateList[0]
+        let cellIdx7String = dateList[1]
+        let cellIdx8String = dateList[2]
         // 物品名称：
         let let108Article = let108DataPapaerContent.samplingForensicsTable.tableData
         let articleName = ''
@@ -422,12 +422,13 @@ export default {
           cellIdx13: num1084, // 文书号
           cellIdx13TypeTextItem: num1084, // 文书号
           cellIdx14: null, // 处理决定
-          cellIdx15: cellIdx15String, // 可在接到本决定书之日起60日内向。。。申请行政复议或6个月内向
-          cellIdx15TypeTextItem: cellIdx15String, // 可在接到本决定书之日起60日内向。。。申请行政复议或6个月内向
-          cellIdx16: cellIdx16String, // 人民法院
-          cellIdx16TypeTextItem: cellIdx16String, // 人民法院
-          cellIdx17: null, //
-          cellIdx18: null, // 日期
+          cellIdx15: null, // 可在接到本决定书之日起60日内向。。。申请行政复议或6个月内向
+          cellIdx16: cellIdx15String, // organName
+          cellIdx16TypeTextItem: cellIdx15String, // organName
+          cellIdx17: cellIdx16String, // 人民法院
+          cellIdx17TypeTextItem: cellIdx16String, // 人民法院
+          cellIdx18: null, //
+          cellIdx19: null, // 日期
         };
       }
       await db.close();

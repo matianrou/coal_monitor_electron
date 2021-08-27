@@ -42,9 +42,7 @@
                   data-src
                   @click="commandFill('cellIdx1', '', 'TextItem')"
                 >{{ letData.cellIdx1 }}</td>
-
                 <td class="textAlignLeft ">） 煤安保〔</td>
-
                 <td
                   class="cellInput "
                   id="cell_idx_2"
@@ -85,7 +83,7 @@
               <tr>
                  <td style="width:5%"></td>
                 <td class="textAlignLeft">你单位</td>
-                <td
+                <!-- <td
                   class="cellInput"
                   id="cell_idx_5"
                   align="center"
@@ -94,7 +92,7 @@
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx5', '', 'TextItem')"
-                >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</td>
+                >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</td> -->
                 <!-- <td
                   style="width:78.5%"
                   class="cellInput cellBottomLine"
@@ -157,7 +155,6 @@
                 <td class="textAlignLeft">的有关证据（详见《先行登记保存证据清单》）采取先行登记保存措施。</td>
               </tr> -->
               <tr>
-
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
@@ -181,7 +178,6 @@
                   保管单位负有妥善保管的义务，不得有短缺、灭失、损毁或者</td>
                   <td>擅自移动等改变证据物品的任何行为。</td>
               </tr>
-              
               <tr>
                 <td style="width:5%"></td>
                 <td class="textAlignLeft">本机关将在七个工作日内对先行登记保存的证据依法作出处理决定。
@@ -197,9 +193,6 @@
                   data-src
                   @click="commandFill('cellIdx11', '', 'TextItem')"
                 >{{ letData.cellIdx11 }}</td> -->
-
-
-
               </tr>
             </table>
             <table height="30"></table>
@@ -210,7 +203,6 @@
                   style="cursor: pointer;"
                   @click="commandFill('cellIdx12', '先行登记保存证据清单', 'SamplingForensicsTable')"
                   class="textAlignLeft">附件：先行登记保存证据清单</td>
-                
               </tr>
             </table>
             <table height="30"></table>
@@ -440,28 +432,28 @@ export default {
           cellIdx3TypeTextItem: num4, // 文书号
           cellIdx4: corp.corpName ? corp.corpName : null, // corpname
           cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
-          cellIdx5: null, // 单位/个人？
+          // cellIdx5: null, // 单位/个人？
           cellIdx6: cellIdx6String, // 隐患描述
           // cellIdx7: null, // 单位
           // cellIdx8: null, // 单位/个人？
           cellIdx9: null, // 存放在...
           cellIdx10: null, // 由...负责保管
-          cellIdx11: null, // 单位
-          cellIdx12: null, // 附件：抽样取证清单
+          // cellIdx11: null, // 单位
+          cellIdx12: null, // 附件：先行登记保存证据清单
           cellIdx13: null, // 受送达人（签名）
           cellIdx14: null, // 日期
-          cellIdx15: null, // 单位
-          cellIdx16: cellIdx16String, // 地址
-          cellIdx16ypeTextItem: cellIdx16String, // 地址
+          cellIdx15: cellIdx16String, // 执法机关地址
+          cellIdx15ypeTextItem: cellIdx16String, // 地址
+          // cellIdx16: null, // 地址
           cellIdx17: cellIdx17String, // 邮政编码
           cellIdx17ypeTextItem: cellIdx17String, // 邮政编码
-          cellIdx18: null, // 单位
-          cellIdx19: cellIdx19String, // 联系人
-          cellIdx19ypeTextItem: cellIdx19String, // 联系人
+          cellIdx18: cellIdx19String, // 执法机关联系人
+          cellIdx18ypeTextItem: cellIdx19String, // 联系人
+          // cellIdx19: null, // 联系人
           cellIdx20: cellIdx20String, // 联系电话
           cellIdx20ypeTextItem: cellIdx20String, // 联系电话
           cellIdx21: null, //
-          cellIdx22: null, //
+          cellIdx22: null, // 日期
           dangerItemObject: let101DataPapaerContent.dangerItemObject,
           samplingForensicsTable: {
             tableData: [],
