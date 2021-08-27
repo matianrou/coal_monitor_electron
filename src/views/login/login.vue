@@ -120,15 +120,12 @@ export default {
           console.log('data', data)
           if(data.status === '200') {
             // 返回用户类别标识
-            let path = ''
             let DBName = ''
             if (data.message === '1') {
               // 1为监察执法
-              path = 'CalmineMonitorElectronMain'
               DBName = 'CoalMonitorDB'
             } else if (data.message === '2') {
               // 2为监管执法
-              path = 'CalmineSupervisionElectronMain'
               DBName = 'CoalSupervisionDB'
             }
             this.$store.commit('changeState', {
@@ -136,7 +133,7 @@ export default {
               val: DBName
             })
             this.$router.replace({
-              name: path,
+              name: 'CalmineElectronMain',
             })
           } else {
             this.$message.error('获取用户信息失败，请重新登录！')

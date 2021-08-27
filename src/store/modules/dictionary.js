@@ -197,6 +197,7 @@ export default {
         name: '监管排查报告',
         page: 'let104'
       },
-    ]
+    ],
+    monitorPaperType: []
   }
 }

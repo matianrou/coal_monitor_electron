@@ -61,71 +61,19 @@
 <script>
 import GoDB from '@/utils/godb.min.js'
 import caseList from "@/components/case-list"; // 选择企业
-import writFlow from "./components/writ-flow"; // 文书流程目录
+import { writFlow } from '@/utils/writFlow' // 文书流程目录
 import orgInformation from '@/components/org-information' // 企业信息
 import writInformation from '@/components/writ-information' // 创建活动弹窗
+import { writList } from '@/utils/writList'
 
 export default {
   name: "MakeLawWrit",
   components: {
     caseList,
-    writFlow,
     orgInformation,
     writInformation,
-    let100: resolve => { require(["./components/writ-list/let100"], function(let100) { resolve(let100);});},
-    let101: resolve => { require(["./components/writ-list/let101"], function(let101) { resolve(let101);});},
-    let102: resolve => { require(["./components/writ-list/let102"], function(let102) { resolve(let102);});},
-    let103: resolve => { require(["./components/writ-list/let103"], function(let103) { resolve(let103);});},
-    let104: resolve => { require(["./components/writ-list/let104"], function(let104) { resolve(let104);});},
-    let105: resolve => { require(["./components/writ-list/let105"], function(let105) { resolve(let105);});},
-    let106: resolve => { require(["./components/writ-list/let106"], function(let106) { resolve(let106);});},
-    let107: resolve => { require(["./components/writ-list/let107"], function(let107) { resolve(let107);});},
-    let108: resolve => { require(["./components/writ-list/let108"], function(let108) { resolve(let108);});},
-    let109: resolve => { require(["./components/writ-list/let109"], function(let109) { resolve(let109);});},
-    let110: resolve => { require(["./components/writ-list/let110"], function(let110) { resolve(let110);});},
-    let111: resolve => { require(["./components/writ-list/let111"], function(let111) { resolve(let111);});},
-    let112: resolve => { require(["./components/writ-list/let112"], function(let112) { resolve(let112);});},
-    let1100: resolve => { require(["./components/writ-list/let1100"], function(let1100) { resolve(let1100);});},
-    let1101: resolve => { require(["./components/writ-list/let1101"], function(let1101) { resolve(let1101);});},
-    let113: resolve => { require(["./components/writ-list/let113"], function(let113) { resolve(let113);});},
-    let200: resolve => { require(["./components/writ-list/let200"], function(let200) { resolve(let200);});},
-    let201: resolve => { require(["./components/writ-list/let201"], function(let201) { resolve(let201);});},
-    let202: resolve => { require(["./components/writ-list/let202"], function(let202) { resolve(let202);});},
-    let203: resolve => { require(["./components/writ-list/let203"], function(let203) { resolve(let203);});},
-    let204: resolve => { require(["./components/writ-list/let204"], function(let204) { resolve(let204);});},
-    let205: resolve => { require(["./components/writ-list/let205"], function(let205) { resolve(let205);});},
-    let206: resolve => { require(["./components/writ-list/let206"], function(let206) { resolve(let206);});},
-    let207: resolve => { require(["./components/writ-list/let207"], function(let207) { resolve(let207);});},
-    let208: resolve => { require(["./components/writ-list/let208"], function(let208) { resolve(let208);});},
-    let209: resolve => { require(["./components/writ-list/let209"], function(let209) { resolve(let209);});},
-    let210: resolve => { require(["./components/writ-list/let210"], function(let210) { resolve(let210);});},
-    let211: resolve => { require(["./components/writ-list/let211"], function(let211) { resolve(let211);});},
-    let212: resolve => { require(["./components/writ-list/let212"], function(let212) { resolve(let212);});},
-    let213: resolve => { require(["./components/writ-list/let213"], function(let213) { resolve(let213);});},
-    let214: resolve => { require(["./components/writ-list/let214"], function(let214) { resolve(let214);});},
-    let215: resolve => { require(["./components/writ-list/let215"], function(let215) { resolve(let215);});},
-    let216: resolve => { require(["./components/writ-list/let216"], function(let216) { resolve(let216);});},
-    let217: resolve => { require(["./components/writ-list/let217"], function(let217) { resolve(let217);});},
-    let218: resolve => { require(["./components/writ-list/let218"], function(let218) { resolve(let218);});},
-    let219: resolve => { require(["./components/writ-list/let219"], function(let219) { resolve(let219);});},
-    let220: resolve => { require(["./components/writ-list/let220"], function(let220) { resolve(let220);});},
-    let300: resolve => { require(["./components/writ-list/let300"], function(let300) { resolve(let300);});},
-    let301: resolve => { require(["./components/writ-list/let301"], function(let301) { resolve(let301);});},
-    let302: resolve => { require(["./components/writ-list/let302"], function(let302) { resolve(let302);});},
-    let303: resolve => { require(["./components/writ-list/let303"], function(let303) { resolve(let303);});},
-    let304: resolve => { require(["./components/writ-list/let304"], function(let304) { resolve(let304);});},
-    let305: resolve => { require(["./components/writ-list/let305"], function(let305) { resolve(let305);});},
-    let306: resolve => { require(["./components/writ-list/let306"], function(let306) { resolve(let306);});},
-    let307: resolve => { require(["./components/writ-list/let307"], function(let307) { resolve(let307);});},
-    let308: resolve => { require(["./components/writ-list/let308"], function(let308) { resolve(let308);});},
-    let309: resolve => { require(["./components/writ-list/let309"], function(let309) { resolve(let309);});},
-    let310: resolve => { require(["./components/writ-list/let310"], function(let310) { resolve(let310);});},
-    let400: resolve => { require(["./components/writ-list/let400"], function(let400) { resolve(let400);});},
-    let401: resolve => { require(["./components/writ-list/let401"], function(let401) { resolve(let401);});},
-    let402: resolve => { require(["./components/writ-list/let402"], function(let402) { resolve(let402);});},
-    let404: resolve => { require(["./components/writ-list/let404"], function(let404) { resolve(let404);});},
-    let405: resolve => { require(["./components/writ-list/let405"], function(let405) { resolve(let405);});},
-    let406: resolve => { require(["./components/writ-list/let406"], function(let406) { resolve(let406);});},
+    ...writFlow,
+    ...writList
   },
   data() {
     return {
@@ -143,6 +91,7 @@ export default {
       docData: {}, // 选择显示的文书基本信息编号及名称
       caseData: {}, // 选择的活动信息
       flowStatus: {}, // 检查活动流程各文书状态，'save'为保存，'file'为存档
+      DBName: this.$store.state.DBName
     }
   },
   created() {
@@ -185,7 +134,7 @@ export default {
     },
     async showDocTemplet() {
       //读取当前点击的计划或检查活动的数据
-      const db = new GoDB("CoalSupervisionDB");
+      const db = new GoDB(this.DBName);
       const corpBase = db.table("corpBase");
       const wkPaper = db.table("wkPaper");
       //查询符合条件的记录

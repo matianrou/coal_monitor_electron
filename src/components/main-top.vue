@@ -96,7 +96,6 @@ export default {
     logoutHandle () {
       clearLoginInfo()
       this.$router.push({ name: 'Login' })
-
     }
   },
 };
