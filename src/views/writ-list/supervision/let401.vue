@@ -130,10 +130,10 @@
                     style="width:33%"
                     class="cellInput cellBottomLine"
                     id="cell_idx_8"
-                    data-title="调查事由"
+                    data-title="违法行为"
                     data-type="textarea"
                     data-src
-                    @click="commandFill('cellIdx8', '', 'TextareaItem')">
+                    @click="commandFill('cellIdx8', '违法行为', 'TextareaItem')">
                   {{ letData.cellIdx8 }}
                 </td>
                 <td class="textAlignLeft">的问题，根据《中华人民共和国安全生产法》第六十六条规定，现将该案件移送贵单位依法处理。</td>
@@ -156,10 +156,10 @@
                   contenteditable="true"
                   align="center"
                   style="width:10%"
-                  data-title="调查事由"
+                  data-title="x份"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx9', '', 'TextItem')"
+                  @click="commandFill('cellIdx9', 'x份', 'TextItem')"
                 >{{letData.cellIdx9}}</td>
                 <td class="textAlignLeft">份</td>
                 <td
@@ -168,10 +168,10 @@
                   contenteditable="true"
                   align="center"
                   style="width:10%"
-                  data-title="调查事由"
+                  data-title="X页"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx10', '', 'TextItem')"
+                  @click="commandFill('cellIdx10', 'X页', 'TextItem')"
                 >{{letData.cellIdx10}}</td>
                 <td class="textAlignLeft">页</td>
               </tr>
@@ -187,10 +187,10 @@
                   contenteditable="true"
                   align="center"
                   style="width:38%"
-                  data-title="调查事由"
+                  data-title="移送单位地址"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx11', '', 'TextItem')"
+                  @click="commandFill('cellIdx11', '移送单位地址', 'TextItem')"
                 >{{letData.cellIdx11}}</td>
                 <!-- <td class="textAlignLeft">地址：</td>
                 <td
@@ -238,10 +238,10 @@
                   contenteditable="true"
                   align="center"
                   style="width:36%"
-                  data-title="联系人"
+                  data-title="移送单位联系人"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx15', '联系人', 'TextItem')"
+                  @click="commandFill('cellIdx15', '移送单位联系人', 'TextItem')"
                 >{{letData.cellIdx15}}</td>
                 <td
                   class="textAlignLeft"
@@ -324,28 +324,28 @@
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_17"
+                  id="cell_idx_21"
                   align="right"
                   style="width:95%"
-                  @click="commandFill('cellIdx17', '', 'TextItem')"
-                >{{letData.cellIdx17 ? letData.cellIdx17 : '（点击编辑）'}}</td>
+                  @click="commandFill('cellIdx21', '', 'TextItem')"
+                >{{letData.cellIdx21 ? letData.cellIdx21: '（点击编辑）'}}</td>
               </tr>
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_18"
+                  id="cell_idx_22"
                   align="right"
                   style="width:95%"
                   data-title
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx18', '日期', 'DateItem')"
-                >{{letData.cellIdx18 ? letData.cellIdx18 : '（点击编辑）'}}</td>
+                  @click="commandFill('cellIdx22', '日期', 'DateItem')"
+                >{{letData.cellIdx22 ? letData.cellIdx22 : '（点击编辑）'}}</td>
               </tr>
             </table>
             <table class="docBody">
               <hr />
-              <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份移送有关单位，一份存档。</td>
+              <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交受移送单位，一份存档。</td>
             </table>
           </div>
         </div>
@@ -447,20 +447,20 @@ export default {
           cellIdx3TypeTextItem: num4, // 文书号
           cellIdx4: null, // 签发人
           cellIdx5: null, //
-          cellIdx6: null, // 单位
+          cellIdx6: null, // 单位  暂不用
           cellIdx7: corp.corpName, //
           cellIdx7TypeTextItem: corp.corpName, //
           cellIdx8: cellIdx8String, // 违法行为
           cellIdx8TypeTextareaItem: cellIdx8String, // 违法行为
           cellIdx9: null, // X份
           cellIdx10: null, // X页
-          cellIdx11: null, // 单位
-          cellIdx12: cellIdx12String, // 地址
+          cellIdx11: null, // 移送单位地址
+          cellIdx12: cellIdx12String, // 地址  暂不用
           cellIdx12TypeTextItem: cellIdx12String, // 地址
           cellIdx13: cellIdx13String, // 邮政编码
           cellIdx13TypeTextItem: cellIdx13String, // 邮政编码
-          cellIdx14: null, // 单位
-          cellIdx15: cellIdx15String, // 联系人
+          cellIdx14: null, // 单位  暂不用
+          cellIdx15: cellIdx15String, // 移送单位联系人
           cellIdx15TypeTextItem: cellIdx15String, // 联系人
           cellIdx16: cellIdx16String, // 电话
           cellIdx16TypeTextItem: cellIdx16String, // 电话
@@ -469,9 +469,8 @@ export default {
           cellIdx19: null, // 收件人（签名）
           cellIdx20: null, // 日期
           cellIdx21: null, //
-          cellIdx22: null, // 年
-          cellIdx23: null, // 月
-          cellIdx24: null, // 日
+          cellIdx22: null, // 日期
+          
         };
       }
       await db.close();

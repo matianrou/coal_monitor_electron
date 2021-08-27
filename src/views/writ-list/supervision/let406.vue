@@ -46,6 +46,253 @@
                 >{{letData.cellIdx1}}</td>
                 <td class="textAlignLeft ">）</td>
                 <td class="textAlignLeft ">煤安鉴〔</td>
+                
+                
+                <td
+                  class="cellInput "
+                  id="cell_idx_2"
+                  contenteditable="true"
+                  align="center"
+                  style="width:8%"
+                  data-title="文书号"
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx2', '文书号', 'TextItem')"
+                >{{letData.cellIdx2}}</td>
+                <td class="textAlignLeft ">〕</td>
+                <td
+                  class="cellInput "
+                  id="cell_idx_3"
+                  contenteditable="true"
+                  align="center"
+                  style="width:8%"
+                  data-title="文书号"
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx3', '文书号', 'TextItem')"
+                >{{letData.cellIdx3}}</td>
+                <td class="textAlignLeft ">
+                  号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+               
+              </tr>
+              <tr>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_4"
+                  contenteditable="true"
+                  style="width:50%"
+                  data-title=""
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx4', '', 'TextItem')"
+                >{{letData.cellIdx4}}</td>
+                <td class="textAlignLeft">：</td>
+              </tr>
+              <tr>
+                 <td style="width:5%"></td>
+                <td class="textAlignLeft">因调查有关安全生产违法案件的需要，本机关现委托你单位对下列物品进行鉴定。</td>
+                
+              
+              </tr>
+            </table>
+            <table  class="docBody " style="border:1px solid #000">
+              <tr style="border:1px solid #000;height:50px;text-align:center;line-height:50px">
+                <td style="width:30%" >物品名称</td>
+                <td style="width:30%">规格型号</td>
+                <td style="width:15%">数量</td>
+                <td style="width:25%">备注</td>
+              </tr>
+              <tr style="border:1px solid #000;height:150px">
+                <td
+                  class="cellInput "
+                  id="cell_idx_5"
+                  style="width:100%;height:150px"
+                  data-title=""
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx5', '', 'TextItem')"
+                >{{letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</td>
+              </tr>
+
+            </table>
+             <table height="40"></table>
+           <table class="docBody">
+              
+              <tr>
+                <td class="textAlignLeft">鉴定要求：</td>
+                 <div
+                  style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+                  class="cellInput mutiLineArea"
+                  id="cell_idx_6"
+                  data-title="鉴定要求"
+                  data-type="textarea"
+                  data-src
+                  @click="commandFill('cellIdx6', '鉴定要求', 'DangerTableItem')">
+                  <div v-if="letData.cellIdx6 && letData.cellIdx6.length > 0">
+                    <p class="show-area-item-p">
+                      <span style="padding: 7px;">{{ letData.cellIdx6  ? letData.cellIdx6 : '（点击编辑）'}}</span>
+                    </p>
+                  </div>
+                  <div v-else>
+                    <p class="show-area-item-p">
+                      &nbsp;
+                    </p>
+                    <p class="show-area-item-p">
+                      &nbsp;
+                    </p>
+                  </div>
+                </div>
+              </tr>
+            </table>
+              <table class="docBody">
+             
+             <tr>
+                <td style="width:5%"></td>
+                <td class="textAlignLeft">请于</td>
+                 <td
+                class="cellInput cellBottomLine"
+                id="cell_idx_7"
+                align="center"
+                style="width:10%"
+                data-title="年"
+                data-type="text"
+                data-src
+                @click="commandFill('cellIdx7', '年', 'TextItem')"
+              >{{letData.cellIdx7}}</td>
+              <td class="textAlignLeft">年</td>
+              <td
+                class="cellInput cellBottomLine"
+                id="cell_idx_8"
+                align="center"
+                style="width:10%"
+                data-title="月"
+                data-type="text"
+                data-src
+                @click="commandFill('cellIdx8', '月', 'TextItem')"
+              >{{letData.cellIdx8}}</td>
+              <td class="textAlignLeft">月</td>
+              <td
+                class="cellInput cellBottomLine"
+                id="cell_idx_9"
+                align="center"
+                style="width:10%"
+                data-title="日"
+                data-type="text"
+                data-src
+                @click="commandFill('cellIdx9', '日', 'TextItem')"
+              >{{letData.cellIdx9}}</td>
+              <td class="textAlignLeft">日前向本机关提交鉴定结果。</td>
+             </tr>
+               
+
+             <tr>
+                <td style="width:5%"></td>
+                <td class="textAlignLeft">联系人：</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_10"
+                  align="center"
+                  style="width:40%"
+                  data-title="联系人"
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx10', '联系人', 'TextItem')"
+                >{{letData.cellIdx10}}</td>
+                <td class="textAlignLeft">&nbsp;&nbsp;联系电话：</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_11"
+                  align="center"
+                  style="width:33%"
+                  data-title="联系电话"
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx11', '联系电话', 'TextItem')"
+                >{{letData.cellIdx11}}</td>
+             </tr>
+            </table>
+             
+            <table height="40"></table>
+           <table class="docBody">
+              <tr>
+                <td
+                  class="cellInput"
+                  id="cell_idx_12"
+                  align="right"
+                  style="width:95%"
+                  @click="commandFill('cellIdx12', '', 'TextItem')"
+                >{{letData.cellIdx12 ? letData.cellIdx12 : '（点击编辑）'}}</td>
+              </tr>
+              <tr>
+                <td
+                  class="cellInput"
+                  id="cell_idx_13"
+                  align="right"
+                  style="width:95%"
+                  data-title
+                  data-type="date"
+                  data-src
+                  @click="commandFill('cellIdx13', '日期', 'DateItem')"
+                >{{letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）'}}</td>
+              </tr>
+            </table>
+            <table class="docBody">
+              <hr />
+              <td class="textAlignLeft">鉴定结果请提出具体鉴定报告书，并由鉴定人员签名或者盖章，加盖鉴定机构印章。</td>
+            </table>
+          </div>
+        </div>
+      </div>
+    </let-main>
+  </div>
+</template>
+  <div style="width: 100%; height: 100%;">
+    <let-main
+      ref="letMain"
+      :corp-data="corpData"
+      :doc-data="docData"
+      :let-data="letData"
+      :edit-data="editData"
+      @go-back="goBack"
+    >
+      <div slot="left">
+        <div class="page page-sizeA4">
+          <div>
+            <div class="stdRowH"></div>
+            <div class="textAlignCenter formHeader0">
+              煤矿安全监管行政执法文书
+              <br />
+            </div>
+            <div class="textAlignCenter formHeader3">鉴 定 委 托 书</div>
+            <div class="stdRowH"></div>
+            <table class="docBody">
+              <tr>
+                <td
+                  class="cellInput "
+                  id="cell_idx_0"
+                  contenteditable="true"
+                  align="center"
+                  style="width:30%"
+                  data-title="文书号"
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx0', '文书号', 'TextItem')"
+                >{{letData.cellIdx0}}</td>
+                  <td class="textAlignLeft ">（</td>
+                <td
+                  class="cellInput "
+                  id="cell_idx_1"
+                  contenteditable="true"
+                  align="center"
+                  style="width:25%"
+                  data-title="文书号"
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx1', '文书号', 'TextItem')"
+                >{{letData.cellIdx1}}</td>
+                <td class="textAlignLeft ">）</td>
+                <td class="textAlignLeft ">煤安鉴〔</td>
 
 
                 <td
@@ -96,8 +343,8 @@
 
               </tr>
             </table>
-            <!-- <table  class="docBody " style="border:1px solid #fff">
-              <tr   style="border:1px solid #fff;height:50px;text-align:center;line-height:50px">
+            <table  class="docBody " style="border:1px solid #000">
+              <tr   style="border:1px solid #000;height:50px;text-align:center;line-height:50px">
                 <td style="width:30%">物品名称</td>
                 <td style="width:30%">规格型号</td>
                 <td style="width:15%">数量</td>
@@ -105,7 +352,7 @@
               </tr>
               <tr style="border:1px solid #fff;height:50px"></tr>
 
-            </table> -->
+            </table>
              <table height="40"></table>
            <table class="docBody">
 
@@ -329,33 +576,17 @@ export default {
           cellIdx2TypeTextItem: num3, // 文书号
           cellIdx3: num4, // 文书号
           cellIdx3TypeTextItem: num4, // 文书号
-          cellIdx4: null, // 签发人
+          cellIdx4: null, // 被检查单位
           cellIdx5: null, //
-          cellIdx6: null, // 单位
-          cellIdx7: corp.corpName, //
-          cellIdx7TypeTextItem: corp.corpName, //
-          cellIdx8: cellIdx8String, // 违法行为
-          cellIdx8TypeTextareaItem: cellIdx8String, // 违法行为
-          cellIdx9: null, // X份
-          cellIdx10: null, // X页
-          cellIdx11: null, // 单位
-          cellIdx12: cellIdx12String, // 地址
-          cellIdx12TypeTextItem: cellIdx12String, // 地址
-          cellIdx13: cellIdx13String, // 邮政编码
-          cellIdx13TypeTextItem: cellIdx13String, // 邮政编码
-          cellIdx14: null, // 单位
-          cellIdx15: cellIdx15String, // 联系人
-          cellIdx15TypeTextItem: cellIdx15String, // 联系人
-          cellIdx16: cellIdx16String, // 电话
-          cellIdx16TypeTextItem: cellIdx16String, // 电话
-          cellIdx17: null, // 送件人（签名）
-          cellIdx18: null, // 日期
-          cellIdx19: null, // 收件人（签名）
-          cellIdx20: null, // 日期
-          cellIdx21: null, //
-          cellIdx22: null, // 年
-          cellIdx23: null, // 月
-          cellIdx24: null, // 日
+          cellIdx6: null, // 鉴定要求
+          cellIdx7: null, //年
+          cellIdx8: null, // 月
+          cellIdx9: null, //日
+          cellIdx10: null, // 联系人
+          cellIdx11: null, // 联系电话
+          cellIdx12: null, // 
+          cellIdx13: null, // 日期
+
         };
       }
       await db.close();
