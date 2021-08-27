@@ -543,7 +543,7 @@
                     :title="flowStatus.paper51 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let213','加处罚款决定书', '51')" class="flow-span">
+                  <span @click="cmdEditDoc('let220','加处罚款决定书', '51')" class="flow-span">
                     加处罚款决定书
                   </span>
                 </td>
