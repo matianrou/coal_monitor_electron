@@ -209,6 +209,7 @@
                 >{{ letData.cellIdx13 }}</td>
               </tr>
             </table>
+            <!-- <div class="footer-test">页脚</div> -->
             <div style="height: 20px; width: 100%;"></div>
             <!-- 打印22检查方案，另外打印检查分工明细表 -->
             <div class="page-break"></div>

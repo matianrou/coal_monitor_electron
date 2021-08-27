@@ -394,7 +394,44 @@ export default {
   page-break-after: always;
 }
 @page {
-  margin: 0px;
-  margin-top: 16px;
+  margin: 20px 2.6mm 3.5mm 2.8mm;
+}
+
+@media print {
+  .header-test,.header,
+  .footer-test,.footer {
+    height:100px;
+  }
+  .header-test {
+    position:fixed;
+    top:0;
+  }
+  .footer-test {
+    position:fixed;
+    bottom:0;
+  }
+  thead {
+    display: table-header-group;
+  }
+  tfoot {
+    display: table-footer-group;
+  }
+  // -------分界线(上面就可以实现每页上都有页眉页脚了)-------------
+  #printtest {
+    display:none;
+  }
+  .header-test,.footer-test {
+    display:block;
+  }
+}
+// 网页上隐藏自定义的页眉页脚，打印时才显示
+@media screen {
+  #printtest {
+    display:block;
+  }
+  .header-test,.footer-test {
+    display:none;
+  }
 }
 </style>
+
