@@ -57,8 +57,6 @@
                   >{{ letData.cellIdx2 }}</td>
                   <td class="textAlignLeft">）</td>
                 <td class="textAlignLeft ">煤安停</td>
-                
-
                 <td class="textAlignLeft ">〔</td>
                 <td
                   class="cellInput "
@@ -100,7 +98,7 @@
               <tr>
                  <td style="width:5%"></td>
                 <td class="textAlignLeft">本机关在对</td>
-                
+
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_6"
@@ -144,10 +142,8 @@
                 >{{ letData.cellIdx8 }}</td>
                 <td class="textAlignLeft">的措施。</td>
               </tr>
-
             </table>
             <table height="30"></table>
-           
             <table height="30"></table>
             <table class="docBody">
               <tr>
@@ -186,7 +182,7 @@
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx11', '执法机关地', 'TextItem')"
+                  @click="commandFill('cellIdx11', '执法机关地址', 'TextItem')"
                 >{{ letData.cellIdx11 }}</td>
 
                 <td class="textAlignLeft">&nbsp;&nbsp;邮政编码：</td>
@@ -212,7 +208,7 @@
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx13', '', 'TextItem')"
+                  @click="commandFill('cellIdx13', '执法机关联系人', 'TextItem')"
                 >{{ letData.cellIdx13 }}</td>
 
                 <td class="textAlignLeft">&nbsp;&nbsp;联系电话：</td>
@@ -227,9 +223,6 @@
                 >{{ letData.cellIdx14 }}</td>
               </tr>
             </table>
-
-
-          
             <table height="30"></table>
              <table class="docBody">
               <tr>
@@ -368,11 +361,7 @@ export default {
         // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
         const orgInfo = db.table("orgInfo");
         const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
-        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
-        let cellIdx14String = orgSysOfficeInfo.depAddress
-        let cellIdx15String = orgSysOfficeInfo.depPost
-        let cellIdx17String = orgSysOfficeInfo.master
-        let cellIdx18String = orgSysOfficeInfo.phone
+        let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: ''}
         this.letData = {
           cellIdx0: null, // 停供电(停供民用爆炸物品)
           cellIdx1: num0, // 文书号
@@ -383,29 +372,24 @@ export default {
           cellIdx3TypeTextItem: num3, // 文书号
           cellIdx4: num4, // 文书号
           cellIdx4TypeTextItem: num4, // 文书号
-          cellIdx5: null, // 单位
-          cellIdx5TypeTextItem: null, // 单位
-          cellIdx6: null, // 单位
-          cellIdx7: corp.corpName ? corp.corpName : null, // corpname
-          cellIdx7TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
-          cellIdx8: null, // 依法作出X的决定
-          cellIdx9: null, // 采取X的措施。
-          cellIdx10: null, // 附件？页面已注释
-          cellIdx11: null, // 受送达人（签名）
-          cellIdx12: null, // 日期
-          cellIdx13: null, // 单位
-          cellIdx14: cellIdx14String, // 地址
-          cellIdx14TypeTextItem: cellIdx14String, // 地址
-          cellIdx15: cellIdx15String, // 邮政编码
-          cellIdx15TypeTextItem: cellIdx15String, // 邮政编码
-          cellIdx16: null, // 单位
-          cellIdx17: cellIdx17String, // 联系人
-          cellIdx17TypeTextItem: cellIdx17String, // 联系人
-          cellIdx18: cellIdx18String, // 联系电话
-          cellIdx18TypeTextItem: cellIdx18String, // 联系电话
-          cellIdx19: null, //
-          cellIdx20: null, // 日期
-          cellIdx21: null, // 单位/个人
+          cellIdx5: corp.corpName, // 单位
+          cellIdx5TypeTextItem: corp.corpName, // 单位
+          cellIdx6: null, // 本机关在对XXX进行安全监察中发现
+          cellIdx7: null, // 依法作出XXX的决定
+          cellIdx8: null, // 请贵单位对其采取XXX的措施。
+          cellIdx9: null, // 受送达人（签名）
+          cellIdx10: null, // 日期
+          cellIdx11: orgSysOfficeInfo.depAddress, // 执法机关地址
+          cellIdx11TypeTextItem: orgSysOfficeInfo.depAddress, // 执法机关地址
+          cellIdx12: orgSysOfficeInfo.depPost, // 邮政编码
+          cellIdx12TypeTextItem: orgSysOfficeInfo.depPost, // 邮政编码
+          cellIdx13: orgSysOfficeInfo.master, // 执法机关联系人
+          cellIdx13TypeTextItem: orgSysOfficeInfo.master, // 执法机关联系人
+          cellIdx14: orgSysOfficeInfo.phone, // 联系电话
+          cellIdx14TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
+          cellIdx15: null, //
+          cellIdx16: null, // 日期
+          cellIdx17: null, // 一份交XXX
         };
       }
       await db.close();
@@ -434,6 +418,8 @@ export default {
       this.visible = false
       this.letData.cellIdx0 = this.selectedType
       this.letData.cellIdx0TypeTextItem = this.selectedType
+      this.letData.cellIdx8 = this.selectedType
+      this.letData.cellIdx8TypeTextItem = this.selectedType
     }
   },
 };

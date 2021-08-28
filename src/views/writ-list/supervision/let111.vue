@@ -22,10 +22,10 @@
                     class="cellInput"
                     id="cell_idx_0"
                     style="width:15%"
-                    data-title="查封(扣押)"
+                    data-title="停供电(停供民用爆炸物品)"
                     data-type="text"
                     data-src
-                    @click="commandFill('cellIdx0', '查封(扣押)', 'TextItem')"
+                    @click="commandFill('cellIdx0', '停供电(停供民用爆炸物品)', 'TextItem')"
                   >{{ letData.cellIdx0 }}</td>
                   <td class="textAlignLeft">决定书</td>
                 </tr>
@@ -120,7 +120,6 @@
                   data-src
                   @click="commandFill('cellIdx7', '年', 'TextItem')"
                 >{{ letData.cellIdx7 }}</td>
-               
                 <td class="textAlignLeft">年</td>
                 <td
                   class="cellInput cellBottomLine "
@@ -222,8 +221,6 @@
                   @click="commandFill('cellIdx16', '', 'TextItem')"
                 >{{ letData.cellIdx16 }}</td>
                 <td class="textAlignLeft">的措施，强制你单位履行决定。</td>
-
-
               </tr>
               <tr>
                  <td style="width:5%"></td>
@@ -244,9 +241,8 @@
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx17', '', 'TextItem')"
+                  @click="commandFill('cellIdx17', '人民政府', 'TextItem')"
                 >{{ letData.cellIdx17 }}</td>
-
               </tr>
               <tr>
                  <td class="textAlignLeft">人民政府或者</td>
@@ -273,9 +269,7 @@
                 >{{ letData.cellIdx19 }}</td>
                 <td class="textAlignLeft">人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。</td>
               </tr>
-
             </table>
-
             <table height="30"></table>
              <table class="docBody">
               <tr>
@@ -301,22 +295,37 @@
               </tr>
             </table>
             <table height="60"></table>
-
             <table>
               <hr />
               <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交煤矿，一份存档。</td>
-
             </table>
           </div>
         </div>
       </div>
     </let-main>
+    <el-dialog
+      title="文书信息选择"
+      :close-on-click-modal="false"
+      append-to-body
+      :visible="visible"
+      width="400px"
+      :show-close="false">
+      <span>请选择：</span>
+      <el-radio-group v-model="selectedType">
+        <el-radio label="停供电">停供电</el-radio>
+        <el-radio label="停供民用爆炸物品">停供民用爆炸物品</el-radio>
+      </el-radio-group>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="confirm">确定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
+import { getDocNumber } from '@/utils/setInitPaperData'
 export default {
   name: "Let111",
   props: {
@@ -342,6 +351,8 @@ export default {
       letData: {},
       options: {},
       editData: {}, // 回显数据
+      visible: false,
+      selectedType: '停供电',
     };
   },
   created() {
@@ -378,33 +389,44 @@ export default {
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
+        // 1.选择：
+        this.visible = true
+        // 2.文书编号
+        let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
+        // 3.sysOfficeInfo实体中organName字段+ courtPrefix字段
+        const orgInfo = db.table("orgInfo");
+        const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+        let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {organName: '', depAddress: ''}
         this.letData = {
-          cellIdx0: null,//查封(扣押)
-          cellIdx1: null,
-          cellIdx2: null,
-          cellIdx3: null,
-          cellIdx4: null,
-          cellIdx5: null,
-          cellIdx6: null, //
-          cellIdx7: null, //
-          cellIdx8: null, //年
-          cellIdx9: null, //月
-          cellIdx10: null, //日
-          cellIdx11: null,
-          cellIdx12: null, //
-          cellIdx13: null, //
-          cellIdx14: null, //
-          cellIdx15: null,
-          cellIdx16: null, //
-          cellIdx17: null, //
-          cellIdx18: null, //
-          cellIdx19: null, //
+          cellIdx0: null, // 停供电(停供民用爆炸物品)
+          cellIdx1: num0, // 文书号
+          cellIdx1TypeTextItem: num0, // 文书号
+          cellIdx2: num1, // 文书号
+          cellIdx2TypeTextItem: num1, // 文书号
+          cellIdx3: null, // 停供电(停供民用爆炸物品)
+          cellIdx4: num3, // 文书号
+          cellIdx4TypeTextItem: num3, // 文书号
+          cellIdx5: num4, // 文书号
+          cellIdx5TypeTextItem: num4, // 文书号
+          cellIdx6: corp.corpName, // corpName
+          cellIdx6TypeTextItem: corp.corpName, // corpName
+          cellIdx7: null, // 年
+          cellIdx8: null, // 月
+          cellIdx9: null, // 日
+          cellIdx10: null, // 依法对你单位作出XXX的决定
+          cellIdx11: null, // 年
+          cellIdx12: null, // 月
+          cellIdx13: null, // 日
+          cellIdx14: null, // 时
+          cellIdx15: null, // 分
+          cellIdx16: null, // 采取XX的措施
+          cellIdx17: null, // 人民政府
+          cellIdx18: orgSysOfficeInfo.organName, //
+          cellIdx18TypeTextItem: orgSysOfficeInfo.organName, //
+          cellIdx19: orgSysOfficeInfo.courtPrefix, // 人民法院
+          cellIdx19TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
           cellIdx20: null, //
-          cellIdx21: null, //
-          cellIdx22: null, // 附件
-          cellIdx23: null, //
-          cellIdx24: null, // 日期
-          cellIdx25: null, //
+          cellIdx21: null, // 日期
         };
       }
       await db.close();
@@ -428,6 +450,14 @@ export default {
         );
       }
     },
+    confirm() {
+      // 选择停供电(停供民用爆炸物品)
+      this.visible = false
+      this.letData.cellIdx0 = this.selectedType
+      this.letData.cellIdx0TypeTextItem = this.selectedType
+      // this.letData.cellIdx3 = this.selectedType.substring(1, 2)
+      // this.letData.cellIdx3TypeTextItem = this.selectedType.substring(1, 2)
+    }
   },
 };
 </script>

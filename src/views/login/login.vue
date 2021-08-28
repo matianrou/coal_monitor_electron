@@ -19,7 +19,7 @@
               </div>
               <div class="form-content-item">
                 <span class="item-label">PASSWORD</span>
-                <el-input v-model="dataForm.txtPassword"></el-input>
+                <el-input v-model="dataForm.txtPassword" type="password"></el-input>
               </div>
             </div>
             <div class="form-foot">
@@ -106,8 +106,16 @@ export default {
             // 最大化窗口
             electronRequest('maxWindow');
             // 判断当前登录用户为监管或监察，分别进入不同的路由
-            await this.getUserType(userId, sessId)
+            // await this.getUserType(userId, sessId)
+            this.$store.commit('changeState', {
+              key: 'DBName',
+              val: 'CoalSupervisionDB'
+            })
+
             await this.getUserInfo(userId, sessId);
+            this.$router.replace({
+              name: 'CalmineElectronMain',
+            })
           } else {
             this.$message.error(data.message)
           }
@@ -131,9 +139,6 @@ export default {
             this.$store.commit('changeState', {
               key: 'DBName',
               val: DBName
-            })
-            this.$router.replace({
-              name: 'CalmineElectronMain',
             })
           } else {
             this.$message.error('获取用户信息失败，请重新登录！')

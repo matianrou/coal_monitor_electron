@@ -87,8 +87,8 @@ export default {
       let planDate = ''
       if (caseData && caseData.planBeginDate && caseData.planEndDate) {
         // 处理检查时间
-        let beginList = caseData.planBeginDate.split('-')
-        let endList = caseData.planEndDate.split('-')
+        let beginList = caseData.planBeginDate.split(' ')[0].split('-')
+        let endList = caseData.planEndDate.split(' ')[0].split('-')
         planDate = `${beginList[1]}月${beginList[2]}日-${endList[1]}月${endList[2]}日`
       }
       caseData = Object.assign({}, caseData, { planDate })

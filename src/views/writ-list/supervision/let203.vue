@@ -58,17 +58,18 @@
               </tr>
             </table>
             <div
-                style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-                class="cellInput mutiLineArea"
-                id="cell_idx_3"
-                data-title="案由"
-                data-type="textarea"
-                data-src
-                @click="commandFill('cellIdx3', '案由', 'DangerTableItem')">
+              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+              class="cellInput mutiLineArea"
+              id="cell_idx_3"
+              data-title="案由"
+              data-type="textarea"
+              data-src
+              @click="commandFill('cellIdx3', '案由', 'DangerTableItem')">
               <div v-if="letData.cellIdx3 && letData.cellIdx3.length > 0">
                 <p class="show-area-item-p">
                   <span style="padding: 7px;">{{ letData.cellIdx3 ? letData.cellIdx3 : '（点击编辑）' }}</span>
                 </p>
+                <cell-line></cell-line>
               </div>
               <div v-else>
                 <p class="show-area-item-p">
@@ -87,129 +88,125 @@
               </tr>
             </table>
             <div
-                style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-                class="cellInput mutiLineArea"
-                id="cell_idx_4"
-                data-title="行政相对人基本情况"
-                data-type="textarea"
-                data-src
-                @click="commandFill('cellIdx4', '行政相对人基本情况', 'TextareaItem')">
+              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+              class="cellInput mutiLineArea"
+              id="cell_idx_4"
+              data-title="行政相对人基本情况"
+              data-type="textarea"
+              data-src
+              @click="commandFill('cellIdx4', '行政相对人基本情况', 'TextareaItem')">
               <p class="show-area-item-p">
                 <span style="padding: 7px;">{{ letData.cellIdx4 ? letData.cellIdx4 : '（点击编辑）' }}</span>
               </p>
+              <cell-line></cell-line>
             </div>
             <table style="border:solid 0s #000;" class="docBody">
               <tr>
                 <td style="width:5%"></td>
-
                 <td class="textAlignLeft">案情摘要：</td>
               </tr>
             </table>
             <div
-                style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-                class="cellInput mutiLineArea"
-                id="cell_idx_5"
-                data-title="行政相对人基本情况"
-                data-type="textarea"
-                data-src
-                @click="commandFill('cellIdx5', '行政相对人基本情况', 'TextareaItem')">
+              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+              class="cellInput mutiLineArea"
+              id="cell_idx_5"
+              data-title="案情摘要"
+              data-type="textarea"
+              data-src
+              @click="commandFill('cellIdx5', '案情摘要', 'DangerTableItem')">
               <p class="show-area-item-p">
                 <span style="padding: 7px;">{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）' }}</span>
               </p>
+              <cell-line></cell-line>
             </div>
             <table style="border:solid 0s #000;" class="docBody">
               <tr>
                 <td style="width:5%"></td>
-
                 <td class="textAlignLeft">作出决定依据：</td>
               </tr>
             </table>
             <div
-                style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-                class="cellInput mutiLineArea"
-                id="cell_idx_6"
-                data-title="作出决定依据"
-                data-type="textarea"
-                data-src
-                @click="commandFill('cellIdx6', '作出决定依据', 'TextareaItem')">
+              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+              class="cellInput mutiLineArea"
+              id="cell_idx_6"
+              data-title="作出决定依据"
+              data-type="textarea"
+              data-src
+              @click="commandFill('cellIdx6', '作出决定依据', 'DangerTableItem')">
               <p class="show-area-item-p">
                 <span style="padding: 7px;">{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）' }}</span>
               </p>
+              <cell-line></cell-line>
             </div>
               <table style="border:solid 0s #000;" class="docBody">
               <tr>
                 <td style="width:5%"></td>
-
                 <td class="textAlignLeft">建议行政决定：</td>
               </tr>
             </table>
             <div
-                style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-                class="cellInput mutiLineArea"
-                id="cell_idx_7"
-                data-title="法制审核意见"
-                data-type="textarea"
-                data-src
-                @click="commandFill('cellIdx7', '法制审核意见', 'TextareaItem')">
+              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+              class="cellInput mutiLineArea"
+              id="cell_idx_7"
+              data-title="建议行政决定"
+              data-type="textarea"
+              data-src
+              @click="commandFill('cellIdx7', '建议行政决定', 'TextareaItem')">
               <p class="show-area-item-p">
                 <span style="padding: 7px;">{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）' }}</span>
               </p>
+              <cell-line></cell-line>
             </div>
             <table style="border:solid 0s #000;" class="docBody">
               <tr>
                 <td style="width:5%"></td>
-
                 <td class="textAlignLeft">法制审核意见：</td>
               </tr>
             </table>
             <div
-                style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-                class="cellInput mutiLineArea"
-                id="cell_idx_8"
-                data-title="法制审核意见"
-                data-type="textarea"
-                data-src
-                @click="commandFill('cellIdx8', '法制审核意见', 'TextareaItem')">
+              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+              class="cellInput mutiLineArea"
+              id="cell_idx_8"
+              data-title="法制审核意见"
+              data-type="textarea"
+              data-src
+              @click="commandFill('cellIdx8', '法制审核意见', 'SelectInputItem')">
               <p class="show-area-item-p">
                 <span style="padding: 7px;">{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）' }}</span>
               </p>
+              <cell-line></cell-line>
             </div>
-
-
             <table height="60"></table>
             <table class="docBody">
               <tr>
                 <td
-                    class="textAlignLeft"
-                >法制审核人员（签名）：
+                  class="textAlignLeft"
+                  >法制审核人员（签名）：
                 </td>
                 <td
-                    class="cellInput cellBottomLine"
-                    id="cell_idx_9"
-                    align="center"
-                    style="width:40%"
-                    data-title="分管负责人意见"
-                    data-type="text"
-                    data-src
-                    @click="commandFill('cellIdx9', '分管负责人意见', 'TextItem')"
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_9"
+                  align="center"
+                  style="width:40%"
+                  data-title="分管负责人意见"
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx9', '分管负责人意见', 'TextItem')"
                 >{{ letData.cellIdx9 }}
                 </td>
-
-
                 <td class="textAlignCenter">&nbsp;日期：</td>
                 <td
-                    class="cellInput cellBottomLine"
-                    id="cell_idx_10"
-                    align="center"
-                    style="width:28%"
-                    data-title="日期"
-                    data-type="text"
-                    data-src
-                    @click="commandFill('cellIdx10', '日期', 'DateItem')"
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_10"
+                  align="center"
+                  style="width:28%"
+                  data-title="日期"
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx10', '日期', 'DateItem')"
                 >{{ letData.cellIdx10 }}
                 </td>
               </tr>
-
             </table>
             <table height="30"></table>
           </div>
@@ -250,18 +247,6 @@ export default {
     return {
       letData: {},
       options: {
-        cellIdx2: {
-          page: '36', // 用于在隐患项保存，做数据处理时，判断是否增加现场处理决定字段描述
-          key: 'cellIdx2' // 用来区分一个页面多个地方调用隐患大表，最后返回值
-        },
-        cellIdx6: {
-          page: '36',
-          key: 'cellIdx6'
-        },
-        cellIdx7: {
-          page: '36',
-          key: 'cellIdx7'
-        },
         cellIdx8: []
       },
       editData: {}, // 回显数据
@@ -314,12 +299,13 @@ export default {
         let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
         // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
         // 获取笔录文书中的隐患数据
-        let cellIdx2String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`
+        let cellIdx3String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`
         // 2.违法事实及依据：隐患描述+“经调查取证以上违法违规行为属实，分别违反了”+违法认定发条
         dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData, {danger: true})
-        let cellIdx6String = `${dangerObject.dangerString}经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString}的规定。`
+        let cellIdx5String = `${dangerObject.dangerString}经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString}的规定。`
         // 3.建议案件处理意见：行政处罚依据+行政处罚决定（分条）
-        let cellIdx7String = `分别依据${dangerObject.treatmentSuggestion}。合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle)}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`
+        let cellIdx6String = `${dangerObject.penaltyBasisString}`
+        let cellIdx7String = `${dangerObject.penaltyDesc}`
         // 4.法制审核意见初始化码表
         let nowDate = getNowDate()
         let optionList = [
@@ -337,12 +323,12 @@ export default {
         this.letData = {
           cellIdx0: null, //
           cellIdx1: null, // 编号
-          cellIdx2: cellIdx2String, // 案由
-          cellIdx3: null, // 立案决定书编号
-          cellIdx4: null, // 立案时间
-          cellIdx5: null, // 承办人
-          cellIdx6: cellIdx6String, // 违法事实及依据
-          cellIdx7: cellIdx7String, // 建议案件处理意见
+          cellIdx2: null, //
+          cellIdx3: cellIdx3String, // 案由
+          cellIdx4: null, // 行政相对人基本情况
+          cellIdx5: cellIdx5String, // 案情摘要
+          cellIdx6: cellIdx6String, // 作出决定依据
+          cellIdx7: cellIdx7String, // 建议行政决定
           cellIdx8: null, // 法制审核意见
           cellIdx9: null, // 分管负责人意见
           cellIdx10: null, // 签名
@@ -365,14 +351,14 @@ export default {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}Type${type}`;
         let spellString = {}
-        if (key === 'cellIdx2' || key === 'cellIdx6' || key === 'cellIdx7') {
-          if (key === 'cellIdx2') {
+        if (key === 'cellIdx3' || key === 'cellIdx5' || key === 'cellIdx6' || key === 'cellIdx7') {
+          if (key === 'cellIdx3') {
             spellString = {
               corpName: this.extraData.corpName,
             }
           }
           this.options[key] = {
-            page: '36',
+            page: '47',
             key: key,
             spellString
           }

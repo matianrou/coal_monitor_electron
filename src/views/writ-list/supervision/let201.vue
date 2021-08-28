@@ -43,10 +43,7 @@
                   @click="commandFill('cellIdx1', '文书号', 'TextItem')"
                 >{{letData.cellIdx1}}</td>
                 <td class="textAlignLeft ">）</td>
-
                 <td class="textAlignLeft ">&nbsp;&nbsp;煤安立&nbsp;&nbsp;〔</td>
-
-
                 <td
                   class="cellInput "
                   id="cell_idx_2"
@@ -88,6 +85,7 @@
                 <p class="show-area-item-p">
                   <span style="padding: 7px;">{{ letData.cellIdx4? letData.cellIdx4 : '（点击编辑）' }}</span>
                 </p>
+                <cell-line></cell-line>
               </div>
               <div v-else>
                 <p class="show-area-item-p">
@@ -115,6 +113,7 @@
                 <p class="show-area-item-p">
                   <span style="padding: 7px;">{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</span>
                 </p>
+                <cell-line></cell-line>
               </div>
               <div v-else>
                 <p class="show-area-item-p">
@@ -132,7 +131,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_6"
-                  contenteditable="true"
                   align="center"
                   style="width:12%"
                   data-title="年"
@@ -144,7 +142,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_7"
-                  contenteditable="true"
                   align="center"
                   style="width:12%"
                   data-title="月"
@@ -156,7 +153,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_8"
-                  contenteditable="true"
                   align="center"
                   style="width:12%"
                   data-title="日"
@@ -180,9 +176,7 @@
                 <td class="textAlignLeft">为本案承办人。</td>
               </tr>
             </table>
-
             <table height="60"></table>
-
             <table class="docBody">
               <tr>
                 <td style="width:5%"></td>
@@ -219,18 +213,17 @@
               </tr>
             </table>
             <table height="60"></table>
-            <table class="docBody">
+            <!-- <table class="docBody">
               <tr>
                 <td
                   class="cellInput"
                   id="cell_idx_13"
-                  contenteditable="true"
                   align="right"
                   style="width:95%"
-                @click="commandFill('cellIdx13', '', 'DateItem')"
+                  @click="commandFill('cellIdx13', '', 'DateItem')"
                 >{{letData.cellIdx13}}</td>
               </tr>
-            </table>
+            </table> -->
             <table class="docBody">
               <tr>
                 <td
@@ -255,7 +248,6 @@
               </tr>
             </table>
             <table height="60"></table>
-
             <!-- <table>
 		<hr />
 		<td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被复查单位，一份存档。</td>
@@ -341,9 +333,13 @@ export default {
       const let100Data = await wkPaper.find((item) => {
         return item.caseId === caseId && item.paperType === '22';
       });
+      if (!let100Data) {
+        this.$message.error('请先填写并保存检查方案中内容！')
+        return
+      }
       let let100DataPapaerContent = JSON.parse(let100Data.paperContent)
       // 整合检查时间日期文本：
-      let dateString = handleDate(let100DataPapaerContent.cellIdx2, '-')
+      let dateString = let100DataPapaerContent.cellIdx2 ? handleDate(let100DataPapaerContent.cellIdx2, '-') : 'X年X月X日-X年X月X日'
       this.extraData = {
         corpName: corp.corpName,
         dateString,
@@ -361,6 +357,10 @@ export default {
         const let101Data = await wkPaper.find((item) => {
           return item.caseId === caseId && item.paperType === '1';
         });
+        if (!let101Data) {
+          this.$message.error('请先填写并保存现场检查记录中内容！')
+          return
+        }
         let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
         let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
         let cellIdx4String = `${corp.corpName}${dangerObject.dangerString}案。`
@@ -386,10 +386,9 @@ export default {
           cellIdx10: null, // 审批人意见
           cellIdx11: null, // 审批人（签名）
           cellIdx12: null, // 日期
-          cellIdx13: null, //
-          cellIdx14: null, // 年
-          cellIdx15: null, // 月
-          cellIdx16: null, // 日
+          // cellIdx13: null, //
+          cellIdx14: null, //
+          cellIdx15: null, // 日期
           dangerItemObject: let101DataPapaerContent.dangerItemObject
         };
       }

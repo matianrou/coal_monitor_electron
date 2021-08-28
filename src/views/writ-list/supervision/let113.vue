@@ -58,6 +58,7 @@
                   >{{ letData.cellIdx2 }}</td>
                   <td class="textAlignLeft">）</td>
                 <td class="textAlignLeft ">煤安解停</td>
+                <td class="textAlignLeft ">〔</td>
                 <td
                   class="cellInput "
                   id="cell_idx_3"
@@ -67,10 +68,8 @@
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx3', '', 'TextItem')"
-                  >{{ letData.cellIdx3 }}</td>
-
-
-                <td class="textAlignLeft ">〔</td>
+                  >{{ letData.cellIdx4 }}</td>
+                <td class="textAlignLeft ">〕</td>
                 <td
                   class="cellInput "
                   id="cell_idx_4"
@@ -81,29 +80,18 @@
                   data-src
                   @click="commandFill('cellIdx4', '', 'TextItem')"
                   >{{ letData.cellIdx4 }}</td>
-                <td class="textAlignLeft ">〕</td>
-                <td
-                  class="cellInput "
-                  id="cell_idx_5"
-                  align="center"
-                  style="width:8%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx5', '', 'TextItem')"
-                  >{{ letData.cellIdx5 }}</td>
                 <td class="textAlignLeft ">号&nbsp;&nbsp;</td>
               </tr>
               <tr>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_6"
+                  id="cell_idx_5"
                   style="width:50%"
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx6', '', 'TextItem')"
-                  >{{ letData.cellIdx6 }}</td>
+                  @click="commandFill('cellIdx5', '', 'TextItem')"
+                  >{{ letData.cellIdx5 }}</td>
                 <td class="textAlignLeft">:</td>
               </tr>
             </table>
@@ -111,17 +99,15 @@
               <tr>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_7"
+                  id="cell_idx_6"
                   align="center"
                   style="width:40%"
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx7', '', 'TextItem')"
-                >{{ letData.cellIdx7}}</td>
+                  @click="commandFill('cellIdx6', '', 'TextItem')"
+                >{{ letData.cellIdx6}}</td>
                 <td class="textAlignLeft">已依法履行行政决定并采取相应措施消除了安全隐患，发生
-
-
               </td>
               </tr>
               <tr>
@@ -132,19 +118,17 @@
                 <td class="textAlignLeft">贵单位解除对其采取的</td>
                 <td
                   class="cellInput"
-                  id="cell_idx_8"
+                  id="cell_idx_7"
                   align="center"
                   style="width:20%"
                   data-title="解除停供电(停供民用爆炸物品)"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx8', '解除停供电(停供民用爆炸物品)', 'DateItem')"
-                >{{ letData.cellIdx8 }}</td>
+                  @click="commandFill('cellIdx7', '解除停供电(停供民用爆炸物品)', 'DateItem')"
+                >{{ letData.cellIdx7 }}</td>
                 <td class="textAlignLeft">措施。</td>
               </tr>
             </table>
-
-           
            <table height="30"></table>
             <table class="docBody">
               <tr>
@@ -153,23 +137,23 @@
                 >受送达人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_9"
+                  id="cell_idx_8"
                   style="width:32%"
                   data-title="受送达人（签名）"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx9', '受送达人（签名）', 'TextItem')"
-                >{{ letData.cellIdx9 }}</td>
+                  @click="commandFill('cellIdx8', '受送达人（签名）', 'TextItem')"
+                >{{ letData.cellIdx8 }}</td>
                 <td class="textAlignLeft">&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_10"
+                  id="cell_idx_9"
                   style="width:35%"
                   data-title="日期"
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx10', '日期', 'DateItem')"
-                >{{ letData.cellIdx10 }}</td>
+                  @click="commandFill('cellIdx9', '日期', 'DateItem')"
+                >{{ letData.cellIdx9 }}</td>
               </tr>
               <tr>
                 <td
@@ -177,25 +161,24 @@
                 >执法机关地址:</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_11"
+                  id="cell_idx_10"
                   align="center"
                   style="width:39%"
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx11', '执法机关地', 'TextItem')"
-                >{{ letData.cellIdx11 }}</td>
-
+                  @click="commandFill('cellIdx10', '执法机关地址', 'TextItem')"
+                >{{ letData.cellIdx10 }}</td>
                 <td class="textAlignLeft">&nbsp;&nbsp;邮政编码：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_12"
+                  id="cell_idx_11"
                   style="width:34%"
                   data-title="邮政编码"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx12', '邮政编码', 'TextItem')"
-                >{{ letData.cellIdx12 }}</td>
+                  @click="commandFill('cellIdx11', '邮政编码', 'TextItem')"
+                >{{ letData.cellIdx11 }}</td>
               </tr>
               <tr>
                 <td
@@ -203,68 +186,65 @@
                 >执法机关联系人：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_13"
+                  id="cell_idx_12"
                   align="center"
                   style="width:35%"
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx13', '', 'TextItem')"
-                >{{ letData.cellIdx13 }}</td>
+                  @click="commandFill('cellIdx12', '执法机关联系人', 'TextItem')"
+                >{{ letData.cellIdx12 }}</td>
 
                 <td class="textAlignLeft">&nbsp;&nbsp;联系电话：</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_14"
+                  id="cell_idx_13"
                   style="width:34%"
                   data-title="联系电话"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx14', '联系电话', 'TextItem')"
-                >{{ letData.cellIdx14 }}</td>
+                  @click="commandFill('cellIdx13', '联系电话', 'TextItem')"
+                >{{ letData.cellIdx13 }}</td>
               </tr>
             </table>
-
-       
-              <table height="30"></table>
-             <table class="docBody">
+            <table height="30"></table>
+            <table class="docBody">
+              <tr>
+                <td
+                  class="cellInput"
+                  id="cell_idx_14"
+                  align="right"
+                  style="width:95%"
+                  @click="commandFill('cellIdx14', '', 'TextItem')"
+                >{{letData.cellIdx14 ? letData.cellIdx14 : '（点击编辑）'}}</td>
+              </tr>
               <tr>
                 <td
                   class="cellInput"
                   id="cell_idx_15"
                   align="right"
                   style="width:95%"
-                  @click="commandFill('cellIdx15', '', 'TextItem')"
-                >{{letData.cellIdx15 ? letData.cellIdx15 : '（点击编辑）'}}</td>
-              </tr>
-              <tr>
-                <td
-                  class="cellInput"
-                  id="cell_idx_16"
-                  align="right"
-                  style="width:95%"
                   data-title
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx16', '日期', 'DateItem')"
-                >{{letData.cellIdx16 ? letData.cellIdx16 : '（点击编辑）'}}</td>
+                  @click="commandFill('cellIdx15', '日期', 'DateItem')"
+                >{{letData.cellIdx15 ? letData.cellIdx15 : '（点击编辑）'}}</td>
               </tr>
             </table>
             <table height="60"></table>
-
             <table>
               <hr />
               <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式三份，一份交</td>
               <td
                 class="cellInput"
-                id="cell_idx_17"
+                id="cell_idx_16"
                 align="center"
                 style="width:15%"
                 data-title
                 data-type="text"
                 data-src
-                @click="commandFill('cellIdx17', '', 'TextItem')"
-                >{{ letData.cellIdx17 }}</td>
+                @click="commandFill('cellIdx16', '', 'TextItem')"
+                >{{ letData.cellIdx16 }}</td>
               <td class="textAlignLeft">，一份交煤矿，一份存档。</td>
             </table>
           </div>
@@ -364,11 +344,7 @@ export default {
         // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
         const orgInfo = db.table("orgInfo");
         const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
-        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
-        let cellIdx11String = orgSysOfficeInfo.depAddress
-        let cellIdx12String = orgSysOfficeInfo.depPost
-        let cellIdx14String = orgSysOfficeInfo.master
-        let cellIdx15String = orgSysOfficeInfo.phone
+        let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: ''}
         this.letData = {
           cellIdx0: null, // 解除停供电(解除停供民用爆炸物品)
           cellIdx1: num0, // 文书号
@@ -379,25 +355,23 @@ export default {
           cellIdx3TypeTextItem: num3, // 文书号
           cellIdx4: num4, // 文书号
           cellIdx4TypeTextItem: num4, // 文书号
-          cellIdx5: null, // 单位
-          cellIdx6: corp.corpName ? corp.corpName : null, // corpname
-          cellIdx6TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
+          cellIdx5: corp.corpName ? corp.corpName : null, // corpname
+          cellIdx5TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
+          cellIdx6: null, // XXX已依法履行行政决定并采取相应措施消除了安全隐患
           cellIdx7: null, // 解除停供电(解除停供民用爆炸物品)
           cellIdx8: null, // 受送达人（签名）
           cellIdx9: null, // 日期
-          cellIdx10: null, // 单位
-          cellIdx11: cellIdx11String, // 地址
-          cellIdx11TypeTextItem: cellIdx11String, // 地址
-          cellIdx12: cellIdx12String, // 邮政编码
-          cellIdx12TypeTextItem: cellIdx12String, // 邮政编码
-          cellIdx13: null, // 单位
-          cellIdx14: cellIdx14String, // 联系人
-          cellIdx14TypeTextItem: cellIdx14String, // 联系人
-          cellIdx15: cellIdx15String, // 联系电话
-          cellIdx15TypeTextItem: cellIdx15String, // 联系电话
-          cellIdx16: null, //
-          cellIdx17: null, // 日期
-          cellIdx18: null, // 单位/个人
+          cellIdx10: orgSysOfficeInfo.depAddress, // 执法机关地址
+          cellIdx10TypeTextItem: orgSysOfficeInfo.depAddress, // 执法机关地址
+          cellIdx11: orgSysOfficeInfo.depPost, // 邮政编码
+          cellIdx11TypeTextItem: orgSysOfficeInfo.depPost, // 邮政编码
+          cellIdx12: orgSysOfficeInfo.master, // 执法机关联系人
+          cellIdx12TypeTextItem: orgSysOfficeInfo.master, // 执法机关联系人
+          cellIdx13: orgSysOfficeInfo.phone, // 联系电话
+          cellIdx13TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
+          cellIdx14: null, //
+          cellIdx15: null, // 日期
+          cellIdx16: null, // 一份交XXX
         };
       }
       await db.close();
