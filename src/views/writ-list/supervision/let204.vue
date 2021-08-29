@@ -106,6 +106,7 @@
                 <p class="show-area-item-p">
                   <span style="padding: 7px;">{{ letData.cellIdx6? letData.cellIdx6 : '（点击编辑）' }}</span>
                 </p>
+                <cell-line></cell-line>
               </div>
               <div v-else>
                 <p class="show-area-item-p">
@@ -128,6 +129,7 @@
                 <p class="show-area-item-p">
                   <span style="padding: 7px;">{{ letData.cellIdx7? letData.cellIdx7 : '（点击编辑）' }}</span>
                 </p>
+                <cell-line></cell-line>
               </div>
               <div v-else>
                 <p class="show-area-item-p">
@@ -155,6 +157,7 @@
                 <p class="show-area-item-p">
                   <span style="padding: 7px;">{{ letData.cellIdx8 }}</span>
                 </p>
+                <cell-line></cell-line>
               </div>
               <div v-else>
                 <p class="show-area-item-p">
@@ -192,6 +195,7 @@
                 <p class="show-area-item-p">
                   <span style="padding: 7px;">{{ letData.cellIdx10? letData.cellIdx10 : '（点击编辑）' }}</span>
                 </p>
+                <cell-line></cell-line>
               </div>
               <div v-else>
                 <p class="show-area-item-p">
@@ -207,7 +211,6 @@
                 <td
                   class="textAlignLeft"
                 >的行政处罚。</td>
-
               </tr>
               <tr>
                 <td style="width:5%"></td>
@@ -228,7 +231,6 @@
               <tr>
                 <td class="textAlignLeft">陈述、申辩的权利。</td>
               </tr>
-
               <!-- <tr>
                 <td style="width:5%"></td>
                 <td
@@ -243,8 +245,6 @@
               </tr> -->
               <tr>
                 <td style="width:5%"></td>
-
-
               </tr>
             </table>
              <div
@@ -259,7 +259,6 @@
                 <span style="padding: 7px;">{{ letData.cellIdx12 ? letData.cellIdx12 : '（点击编辑）' }}</span>
               </p>
             </div>
-
             <table height="30"></table>
             <table class="docBody">
               <tr>
@@ -272,7 +271,7 @@
                   data-title="收件人（签名）"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx13', '收件人（签名）', 'TextItem')"
+                  @click="commandFill('cellIdx13', '受送达人（签名', 'TextItem')"
                 >{{letData.cellIdx13}}</td>
                 <td
                   class="textAlignLeft"
@@ -335,8 +334,6 @@
                 >{{letData.cellIdx18}}</td>
               </tr>
             </table>
-
-
             <table height="90"></table>
           <table class="docBody">
               <tr>
@@ -479,10 +476,6 @@ export default {
           item.caseId === caseId && item.paperType === this.docData.docTypeNo
         );
       });
-      console.log('corpData', this.corpData)
-      console.log('caseId', caseId)
-      console.log('docTypeNo', this.docData.docTypeNo)
-      console.log('checkPaper', checkPaper)
       // 已做文书则展示文书内容，否则创建初始版本
       if (checkPaper.length > 0) {
         // 回显
@@ -510,16 +503,16 @@ export default {
           cellIdx9: null, // 单位或个人
           cellIdx10: null, // 法律规定
           cellIdx11: null, // 单位或个人
-          cellIdx12: null, // 签名
-          cellIdx13: null, // 日期
-          cellIdx14: null, // 我分局地址
-          cellIdx15: null, // 邮政编码
-          cellIdx16: null, // 我分局联系人
-          cellIdx17: null, // 联系电话
-          cellIdx18: null, // 年
-          cellIdx19: null, // 月
-          cellIdx20: null, // 日
-          cellIdx21: null,
+          cellIdx12: null, //
+          cellIdx13: null, // 受送达人（签名
+          cellIdx14: null, // 日期
+          cellIdx15: null, // 执法机关地址
+          cellIdx16: null, // 邮政编码
+          cellIdx17: null, // 执法机关联系人
+          cellIdx18: null, // 联系电话
+          cellIdx19: null, //
+          cellIdx20: null, // 日期
+          cellIdx21: null, // 单位或个人
         };
       }
       await db.close();
@@ -569,7 +562,10 @@ export default {
         const let101Data = await wkPaper.find((item) => {
           return item.caseId === caseId && item.paperType === '1';
         });
-        console.log('let101Data', let101Data)
+        if (!let101Data) {
+          this.$message.error('请先填写并保存现场检查记录中内容！')
+          return
+        }
         let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
         let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData, {danger: true, penaltyDesc: true})
         // 3.隐患描述
@@ -590,19 +586,19 @@ export default {
         // 9.机构接口中获取sysOfficeInfo实体中
         const orgInfo = db.table("orgInfo");
         const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
-        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
+        let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: ''}
         // depAddress：我分局地址、
         // depPost：邮政编码、
         // master：我分局联系人、
         // phone：联系电话
-        this.letData.cellIdx14 = orgSysOfficeInfo.depAddress
-        this.letData.cellIdx14TypeTextItem = orgSysOfficeInfo.depAddress
-        this.letData.cellIdx15 = orgSysOfficeInfo.depPost
-        this.letData.cellIdx15TypeTextItem = orgSysOfficeInfo.depPost
-        this.letData.cellIdx16 = orgSysOfficeInfo.master
-        this.letData.cellIdx16TypeTextItem = orgSysOfficeInfo.master
-        this.letData.cellIdx17 = orgSysOfficeInfo.phone
-        this.letData.cellIdx17TypeTextItem = orgSysOfficeInfo.phone
+        this.letData.cellIdx15 = orgSysOfficeInfo.depAddress
+        this.letData.cellIdx15TypeTextItem = orgSysOfficeInfo.depAddress
+        this.letData.cellIdx16 = orgSysOfficeInfo.depPost
+        this.letData.cellIdx16TypeTextItem = orgSysOfficeInfo.depPost
+        this.letData.cellIdx17 = orgSysOfficeInfo.master
+        this.letData.cellIdx17TypeTextItem = orgSysOfficeInfo.master
+        this.letData.cellIdx18 = orgSysOfficeInfo.phone
+        this.letData.cellIdx18TypeTextItem = orgSysOfficeInfo.phone
         this.letData.cellIdx21 = this.selectedType
         this.letData.cellIdx21TypeTextItem = this.selectedType
         this.letData.dangerItemObject = let101DataPapaerContent.dangerItemObject

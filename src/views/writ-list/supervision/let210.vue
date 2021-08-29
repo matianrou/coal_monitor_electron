@@ -43,7 +43,6 @@
                   @click="commandFill('cellIdx1', '文书号', 'TextItem')"
                 >{{letData.cellIdx1}}</td>
                 <td class="textAlignLeft ">）煤安不听〔</td>
-
                 <td
                   class="cellInput "
                   id="cell_idx_2"
@@ -73,10 +72,10 @@
                   id="cell_idx_4"
                   align="center"
                   style="width:60%"
-                  data-title="文书号"
+                  data-title=""
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx4', '文书号', 'TextItem')"
+                  @click="commandFill('cellIdx4', '', 'TextItem')"
                 >{{letData.cellIdx4}}</td>
                 <td class="textAlignLeft ">：</td>
               </tr>
@@ -107,12 +106,20 @@
               data-type="textarea"
               data-src
               @click="commandFill('cellIdx6', '违法行为', 'DangerTableItem')">
-              <p
-                style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
-              >&nbsp;{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）'}}</p>
-              <p
-                style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
-              >&nbsp;</p>
+              <div v-if="letData.cellIdx6 && letData.cellIdx6.length > 0">
+                <p class="show-area-item-p">
+                  <span style="padding: 7px;">{{ letData.cellIdx6 }}</span>
+                </p>
+                <cell-line></cell-line>
+              </div>
+              <div v-else>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+              </div>
             </div>
             <table style="border:solid 0 #000;" class="docBody">
               <tr>
@@ -164,7 +171,6 @@
                 >{{letData.cellIdx8}}</td>
                 <td class="textAlignLeft">的听证申请。</td>
               </tr>
-
             </table>
            <table height="90"></table>
             <table class="docBody">
@@ -177,7 +183,7 @@
                   data-title="收件人（签名）"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx9', '收件人（签名）', 'TextItem')"
+                  @click="commandFill('cellIdx9', '受送达人（签名）', 'TextItem')"
                 >{{letData.cellIdx9}}</td>
                 <td
                   class="textAlignLeft"
@@ -201,7 +207,7 @@
                   data-title="我分局地址"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx11', '我分局地址', 'TextItem')"
+                  @click="commandFill('cellIdx11', '执法机关地址', 'TextItem')"
                 >{{letData.cellIdx11}}</td>
                 <td class="textAlignLeft">&nbsp;&nbsp;邮政编码：</td>
                 <td
@@ -215,7 +221,6 @@
                 >{{letData.cellIdx12}}</td>
               </tr>
               <tr>
-
                 <td class="textAlignLeft">执法机关联系人：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -224,7 +229,7 @@
                   data-title="我分局联系人"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx13', '我分局联系人', 'TextItem')"
+                  @click="commandFill('cellIdx13', '执法机关联系人', 'TextItem')"
                 >{{letData.cellIdx13}}</td>
                 <td class="textAlignLeft">&nbsp;&nbsp;联系电话：</td>
                 <td
@@ -237,12 +242,9 @@
                   @click="commandFill('cellIdx14', '联系电话', 'TextItem')"
                 >{{letData.cellIdx14}}</td>
               </tr>
-              
             </table>
-
-
             <table height="90"></table>
-          <table class="docBody">
+            <table class="docBody">
               <tr>
                 <td
                   class="cellInput"
@@ -268,7 +270,6 @@
             <table class="docBody">
               <hr />
               <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交听证申请人，一份存档。</td>
-
             </table>
           </div>
         </div>
@@ -400,11 +401,7 @@ export default {
         // 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
         const orgInfo = db.table("orgInfo");
         const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
-        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
-        let cellIdx13String = orgSysOfficeInfo.depAddress
-        let cellIdx14String = orgSysOfficeInfo.depPost
-        let cellIdx16String = orgSysOfficeInfo.master
-        let cellIdx17String = orgSysOfficeInfo.phone
+        let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: '' }
         this.letData = {
           cellIdx0: num0, // 文书号
           cellIdx0TypeTextItem: num0, // 文书号
@@ -420,24 +417,18 @@ export default {
           cellIdx6: cellIdx6String, // 违法行为
           cellIdx7: null, // 编号
           cellIdx8: null, // 单位
-          cellIdx9: null, // 单位或个人
-          cellIdx10: null, // 签收人（签名）
-          cellIdx11: null, // 日期
-          cellIdx12: null, // 单位
-          cellIdx13: cellIdx13String, // 地址
-          cellIdx13TypeTextItem: cellIdx13String, // 地址
-          cellIdx14: cellIdx14String, // 邮政编码
-          cellIdx14TypeTextItem: cellIdx14String, // 邮政编码
+          cellIdx9: null, // 受送达人（签名）
+          cellIdx10: null, // 日期
+          cellIdx11: orgSysOfficeInfo.depAddress, // 执法机关地址
+          cellIdx11TypeTextItem: orgSysOfficeInfo.depAddress, // 执法机关地址
+          cellIdx12: orgSysOfficeInfo.depPost, // 邮政编码
+          cellIdx12TypeTextItem: orgSysOfficeInfo.depPost, // 邮政编码
+          cellIdx13: orgSysOfficeInfo.master, // 执法机关联系人
+          cellIdx13TypeTextItem: orgSysOfficeInfo.master, // 执法机关联系人
+          cellIdx14: orgSysOfficeInfo.phone, // 联系电话
+          cellIdx14TypeTextItem: orgSysOfficeInfo.phone, // 邮政编码
           cellIdx15: null, // 单位
-          cellIdx16: cellIdx16String, // 联系人
-          cellIdx16TypeTextItem: cellIdx16String, // 联系人
-          cellIdx17: cellIdx17String, // 联系电话
-          cellIdx17TypeTextItem: cellIdx17String, // 联系电话
-          cellIdx18: null, // 单位
-          cellIdx19: null, // 年
-          cellIdx20: null, // 月
-          cellIdx21: null, // 日
-          cellIdx22: null, // 单位或个人
+          cellIdx16: null, // 日期
         };
       }
       await db.close();
@@ -474,10 +465,6 @@ export default {
       this.visible = false
       this.letData.cellIdx5 = this.selectedType
       this.letData.cellIdx5TypeTextItem = this.selectedType
-      this.letData.cellIdx9 = this.selectedType
-      this.letData.cellIdx9TypeTextItem = this.selectedType
-      this.letData.cellIdx22 = this.selectedType
-      this.letData.cellIdx22TypeTextItem = this.selectedType
     }
   },
 };

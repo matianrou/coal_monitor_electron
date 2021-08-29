@@ -31,7 +31,6 @@
                 @click="commandFill('cellIdx0', '文书号', 'TextItem')"
                 >{{letData.cellIdx0}}</td>
               <td class="textAlignLeft ">（</td>
-
                 <td
                 class="cellInput "
                 id="cell_idx_1"
@@ -43,7 +42,6 @@
                 @click="commandFill('cellIdx1', '文书号', 'TextItem')"
                 >{{letData.cellIdx1}}</td>
               <td class="textAlignLeft ">）煤安送〔</td>
-
               <td
                 class="cellInput "
                 id="cell_idx_2"
@@ -142,7 +140,6 @@
                 class="textAlignLeft"
                 style="width:38%"
               >受送达单位负责人（个人）（签名）：</td>
-
               <td
                 class="cellInput cellBottomLine"
                 id="cell_idx_8"
@@ -151,7 +148,7 @@
                 data-title="签名"
                 data-type="text"
                 data-src
-                @click="commandFill('cellIdx8', '签名', 'TextItem')"
+                @click="commandFill('cellIdx8', '受送达单位负责人（个人）（签名）', 'TextItem')"
                 >{{letData.cellIdx8}}</td>
               <td class="textAlignLeft">&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期：</td>
               <td
@@ -311,8 +308,8 @@ export default {
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
-        // 1.送达文书：国家煤矿安全监察行政处罚决定书
-        let cellIdx4String = '国家煤矿安全监察行政处罚决定书'
+        // 1.送达文书：国家煤矿安全监管行政处罚决定书
+        let cellIdx4String = '国家煤矿安全监管行政处罚决定书'
         // 2.文书字号：使用行政处罚决定书的文书编号
         let { numString } = await getDocNumber(db, '8', caseId, this.$store.state.user)
         let cellIdx5String = numString
@@ -335,15 +332,12 @@ export default {
           cellIdx6: cellIdx6String, // 送达地点
           cellIdx6TypeTextItem: cellIdx6String, // 送达地点
           cellIdx7: null, // 送达方式
-          cellIdx8: null, // 送达人
-          cellIdx9: null, // 签名
-          cellIdx10: null, // 日期
-          cellIdx11: null, // 送达人（签名）
-          cellIdx12: null, // 日期
-          cellIdx13: null, //
-          cellIdx14: null, // 年
-          cellIdx15: null, // 月
-          cellIdx16: null, // 日
+          cellIdx8: null, // 受送达单位负责人（个人）（签名）
+          cellIdx9: null, // 日期
+          cellIdx10: null, // 送达人（签名）
+          cellIdx11: null, // 日期
+          cellIdx12: null, //
+          cellIdx13: null, // 日期
         };
       }
       await db.close();

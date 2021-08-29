@@ -59,24 +59,30 @@
                   @click="commandFill('cellIdx2', '检查时间', 'DaterangeItem')"
                 >{{ letData.cellIdx2 }}</td>
               </tr>
-              <tr>
+              <!-- <tr>
                 <td style="width: 5%;"></td>
                 <td class="textAlignLeft" style="width: 21%;">四、煤矿企业概况：</td>
-              </tr>
+              </tr> -->
             </table>
-            <div
+            <div class="docTextarea">
+              <label style="width: 5%;"></label>四、煤矿企业概况：
+              <span
+                @click="commandFill('cellIdx3', '煤矿概况', 'TextareaItem')"
+              >{{ letData.cellIdx3 }}</span>
+            </div>
+            <!-- <div
               style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
               class="cellInput mutiLineArea"
               id="cell_idx_3"
               data-title="煤矿概况"
               data-type="textarea"
               data-src
-               @click="commandFill('cellIdx3', '煤矿概况', 'TextItem')">
+              @click="commandFill('cellIdx3', '煤矿概况', 'TextItem')">
               <p
                 style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
               >{{ letData.cellIdx3 }}</p>
               <cell-line></cell-line>
-            </div>
+            </div> -->
             <table class="docBody">
               <tr>
                 <td style="width: 5%;"></td>
@@ -119,7 +125,7 @@
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx6', '其他事项', 'TextItem')"
-                >{{ letData.cellIdx6 }}检查的内容和分工变化时，应及时调整。</td>
+                >{{ letData.cellIdx6 }}</td>
               </tr>
               <br>
               <br>

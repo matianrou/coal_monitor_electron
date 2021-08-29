@@ -87,6 +87,20 @@ export function createHtml(paperDiv) {
         .docBody.mutiLine td{
           line-height:0.7cm !important;
         }
+        .docTextarea {
+          width: 19cm;
+          margin: 0 auto;
+          line-height: 1cm;
+            display: flow-root;
+            label {
+            display: inline-block;
+          }
+          span {
+            border-bottom: solid 1px #000;
+            word-break: break-all;
+            cursor: pointer;
+          }
+        }
         .docHeader{
           width: 19cm;
           left: 1cm;
