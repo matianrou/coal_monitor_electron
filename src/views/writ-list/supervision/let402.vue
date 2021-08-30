@@ -94,7 +94,7 @@
               </tr>
               <tr>
                  <td style="width:5%"></td>
-                <td class="textAlignLeft">本机关于</td>
+                <td class="textAlignLeft" style="width:9%">本机关于</td>
                 <!-- <td
                   class="cellInput"
                   id="cell_idx_6"
@@ -116,7 +116,7 @@
                   data-src
                   @click="commandFill('cellIdx7', '年', 'TextItem')"
                 >{{letData.cellIdx7}}</td>
-                <td class="textAlignLeft">年</td>
+                <td class="textAlignLeft" style="width:2%">年</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_8"
@@ -127,7 +127,7 @@
                   data-src
                   @click="commandFill('cellIdx8', '月', 'TextItem')"
                 >{{letData.cellIdx8}}</td>
-                <td class="textAlignLeft">月</td>
+                <td class="textAlignLeft" style="width:2%">月</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
@@ -138,7 +138,7 @@
                   data-src
                   @click="commandFill('cellIdx9', '日', 'TextItem')"
                 >{{letData.cellIdx9}}</td>
-                <td class="textAlignLeft">日对</td>
+                <td class="textAlignLeft" style="width:5%">日对</td>
                  <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_10"
@@ -217,7 +217,7 @@
            <table height="40"></table>
             <table class="docBody">
               <tr>
-                <td class="textAlignLeft">移送单位地址：</td>
+                <td class="textAlignLeft" style="width:16%">移送单位地址：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_14"
@@ -239,7 +239,7 @@
                   data-src
                   @click="commandFill('cellIdx15', '地址', 'TextItem')"
                 >{{letData.cellIdx15}}</td> -->
-                <td class="textAlignLeft">&nbsp;&nbsp;邮政编码：</td>
+                <td class="textAlignLeft" style="width:2%">&nbsp;&nbsp;邮政编码：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_16"
