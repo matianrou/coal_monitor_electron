@@ -43,7 +43,6 @@
                 >{{ letData.cellIdx1 }}</td>
               <td  class="textAlignLeft ">）</td>
                 <td class="textAlignLeft ">煤安催告〔</td>
-
                 <td
                   class="cellInput "
                   id="cell_idx_2"
@@ -399,7 +398,6 @@
               </tr>
             </table>
             <table height="60"></table>
-
             <table>
               <hr />
               <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份送被催告</td>
@@ -460,7 +458,7 @@ export default {
     return {
       letData: {},
       options: {
-        cellIdx8: toggleDictionary,
+        cellIdx10: toggleDictionary,
         cellIdx18: toggleDictionary,
       },
       editData: {}, // 回显数据
@@ -505,7 +503,7 @@ export default {
         // 2.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
         const orgInfo = db.table("orgInfo");
         const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
-        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
+        let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: ''}
         let depAddress = orgSysOfficeInfo.depAddress
         let depPost = orgSysOfficeInfo.depPost
         let master = orgSysOfficeInfo.master

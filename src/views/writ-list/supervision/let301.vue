@@ -132,7 +132,7 @@
                   @click="commandFill('cellIdx8', '日', 'TextItem')"
                 >{{ letData.cellIdx8 }}</td>
                 <td class="textAlignLeft">日对被申请执行人</td>
-                <td
+                <!-- <td
                   style="width:36%"
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
@@ -140,8 +140,29 @@
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx9', '', 'TextItem')"
-                >{{ letData.cellIdx9 }}</td>
+                >{{ letData.cellIdx9 }}</td> -->
               </tr>
+           </table>
+           <div
+            style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+            class="cellInput mutiLineArea"
+            @click="commandFill('cellIdx9', '现场处理决定', 'DangerTableItem')">
+            <div v-if="letData.cellIdx9 && letData.cellIdx9.length > 0">
+              <p class="show-area-item-p">
+                <span style="padding: 7px;">{{ letData.cellIdx9 }}</span>
+              </p>
+              <cell-line></cell-line>
+            </div>
+            <div v-else>
+              <p class="show-area-item-p">
+                &nbsp;
+              </p>
+              <p class="show-area-item-p">
+                &nbsp;
+              </p>
+            </div>
+          </div>
+          <table style="border:solid 0 #000;" class="docBody">
               <tr>
                  <td class="textAlignLeft">作出了</td>
                 <td
@@ -519,13 +540,13 @@ export default {
         });
         let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
         let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
-        let cellIdx16String = `${corp.corpName}涉嫌${dangerObject.dangerString}案`
+        let cellIdx9String = `${corp.corpName}涉嫌${dangerObject.dangerString}案`
         // 5.文书号2：催告书编号
         let paperNumber39 = await getDocNumber(db, '39', caseId, this.$store.state.user)
         // 从sysOfficeInfo中获取：
         const orgInfo = db.table("orgInfo");
         const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
-        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
+        let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {accountName: '', accountBank: '', billName: '', account: ''}
         // 6.强制执行下列项目：‘划转罚款至’accountName+accountBank‘账户名称：’+billName+‘待结算财政款项账号：’+account
         let cellIdx25String = `划转罚款至${orgSysOfficeInfo.accountName}${orgSysOfficeInfo.accountBank}。账户名称：${orgSysOfficeInfo.billName}。待结算财政款项账号：${orgSysOfficeInfo.account}`
         // 7.人民法院：courtPrefix 联系人：master 联系电话：phone
@@ -545,7 +566,7 @@ export default {
           cellIdx6: null, // 年
           cellIdx7: null, // 月
           cellIdx8: null, // 日
-          cellIdx9: null, // 对被申请执行人
+          cellIdx9: cellIdx9String, // 对被申请执行人
           cellIdx10: null, // 行政处罚决定
           cellIdx11: null, // 行政处罚决定 文书号
           cellIdx11TypeTextItem: null, // 行政处罚决定 文书号
