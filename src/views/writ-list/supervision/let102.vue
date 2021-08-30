@@ -79,60 +79,17 @@
                 <td class="textAlignLeft">:</td>
               </tr>
             </table>
-            <table style="border:solid 0 #000;" class="docBody">
-              <tr>
-                <td style="width:5%"></td>
-                <td class="textAlignLeft" style="width:9%">本机关于</td>
-                <!-- <td
-                  class="cellInput"
-                  id="cell_idx_5"
-                  align="center"
-                  style="width:8%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx5', '', 'TextItem')"
-                >{{letData.cellIdx5}}</td>
-                <td class="textAlignLeft">于</td> -->
-                <td
-                  class="cellInput "
-                  id="cell_idx_6"
-                  align="center"
-                  style="width:39%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx6', '', 'TextItem')"
-                >{{letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）'}}</td>
-                <td class="textAlignLeft" style="width:47%">现场检查时，发现你单位有下列违法违规行为，</td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft" style="width:28%">现作出以下现场处理决定：</td>
-              </tr>
-            </table>
-            <div
-              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-              class="cellInput mutiLineArea"
-              id="cell_idx_7"
-              data-title="现场处理决定"
-              data-type="textarea"
-              data-src
-              @click="commandFill('cellIdx7', '现场处理决定', 'DangerTableItem')"
-            >
-              <div v-if="letData.cellIdx7 && letData.cellIdx7.length > 0">
-                <p class="show-area-item-p">
-                  <span style="padding: 7px;">{{ letData.cellIdx7 }}</span>
-                </p>
-                <cell-line></cell-line>
-              </div>
-              <div v-else>
-                <p class="show-area-item-p">
-                  &nbsp;
-                </p>
-                <p class="show-area-item-p">
-                  &nbsp;
-                </p>
-              </div>
+            <div class="docTextarea">
+              <label style="width:5%"></label>
+              本机关于
+              <span
+                @click="commandFill('cellIdx6', '', 'TextItem')"
+              >{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）'}}</span>
+              现场检查时，发现你单位有下列违法违规行为，现作出以下现场处理决定：
+              <span
+                @click="commandFill('cellIdx7', '现场处理决定', 'DangerTableItem')"
+              >{{ letData.cellIdx7 }}</span>
+              <div class="line"></div>
             </div>
             <table style="border:solid 0px #000;" class="docBody">
               <tr>
@@ -172,7 +129,7 @@
                   data-src
                   @click="commandFill('cellIdx10', '人民法院', 'TextItem')"
                 >{{letData.cellIdx10}}</td>
-               
+
               </tr>
               <tr>
                  <td class="textAlignLeft"  style="width:64%">人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。</td>

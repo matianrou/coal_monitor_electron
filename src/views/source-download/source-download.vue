@@ -303,7 +303,7 @@ export default {
             userSessId +
             "&userId=" +
             userId +
-            "&officeId=&caseId=&flag=false&pageNo=0&pageSize=10";
+            "&officeId=&caseId=&flag=false&pageNo=0&pageSize=1000";
           break;
         case "EnterpriseList":
           //文书信息分页下载接口//文书信息分页下载接口
