@@ -148,17 +148,17 @@
             <table class="docBody">
               <tr>
                 <td style="width: 5%;"></td>
-                <td class="textAlignLeft">编制人（签名）：</td>
+                <td class="textAlignLeft" style="width:18%">编制人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_8"
-                  style="width:35%"
+                  style="width:40%"
                   data-title="编制人"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx8', '编制人', 'TextItem')"
                 >{{ letData.cellIdx8 }}</td>
-                <td class="textAlignCenter">日期：</td>
+                <td class="textAlignCenter" style="width:7%">日期：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
@@ -171,17 +171,17 @@
               </tr>
               <tr>
                 <td style="width: 5%;"></td>
-                <td class="textAlignLeft">带队人（签名）：</td>
+                <td class="textAlignLeft" style="width:18%">带队人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_10"
-                  style="width:35%"
+                  style="width:40%"
                   data-title="编制人"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx10', '带队人', 'TextItem')"
                 >{{ letData.cellIdx10 }}</td>
-                <td class="textAlignCenter">日期：</td>
+                <td class="textAlignCenter" style="width:7%">日期：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_11"
@@ -194,17 +194,17 @@
               </tr>
               <tr>
                 <td style="width: 5%;"></td>
-                <td class="textAlignLeft">审批人（签名）：</td>
+                <td class="textAlignLeft" style="width:18%">审批人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_12"
-                  style="width:35%"
+                  style="width:40%"
                   data-title="审批人"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx12', '审批人', 'TextItem')"
                 >{{ letData.cellIdx12 }}</td>
-                <td class="textAlignCenter">日期：</td>
+                <td class="textAlignCenter" style="width:7%">日期：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_13"

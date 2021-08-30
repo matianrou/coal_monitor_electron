@@ -82,7 +82,7 @@
             <table style="border:solid 0px #000;" class="docBody">
               <tr>
                  <td style="width:5%"></td>
-                <td class="textAlignLeft">你单位</td>
+                <td class="textAlignLeft" style="width:7%">你单位</td>
                 <!-- <td
                   style="width:87%"
                   class="cellInput cellBottomLine"
@@ -118,8 +118,8 @@
               </tr>
               <tr>
                 <td
-                  class="textAlignLeft"
-                >的行为涉嫌违法违规。根据《中华人民共和国行政处罚法》第五十六条规定，本机关决定对你单位的有关证据（详见《抽样取证清单》）采取抽样取证。</td>
+                  class="textAlignLeft" style="width:100%"
+                >的行为涉嫌违法违规。根据《中华人民共和国行政处罚法》第五十六条规定，本机关决定对你单位的</td>
                 <!-- <td
                   class="cellInput"
                   id="cell_idx_6"
@@ -129,6 +129,11 @@
                   data-src
                   @click="commandFill('cellIdx6', '', 'TextItem')"
                 >{{ letData.cellIdx6 }}</td> -->
+              </tr>
+              <tr>
+                <td
+                  class="textAlignLeft" style="width:52%">
+                有关证据（详见《抽样取证清单》）采取抽样取证。</td>
               </tr>
             </table>
             <table height="60"></table>
@@ -152,7 +157,7 @@
             <table class="docBody">
               <tr>
                 <td
-                  class="textAlignLeft"
+                  class="textAlignLeft" style="width:23%;"
                 >抽样承办人：（签名）</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -166,7 +171,7 @@
               </tr>
               <tr>
                 <td
-                  class="textAlignLeft"
+                  class="textAlignLeft" style="width:12%;"
                 >抽样时间：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -178,7 +183,7 @@
                   data-src
                   @click="commandFill('cellIdx9', '年', 'TextItem')"
                 >{{ letData.cellIdx9 }}</td>
-                <td class="textAlignLeft">年</td>
+                <td class="textAlignLeft" style="width:2%;">年</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_10"
@@ -189,7 +194,7 @@
                   data-src
                   @click="commandFill('cellIdx10', '月', 'TextItem')"
                 >{{ letData.cellIdx10 }}</td>
-                <td class="textAlignLeft">月</td>
+                <td class="textAlignLeft" style="width:2%;">月</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_11"
@@ -200,7 +205,7 @@
                   data-src
                   @click="commandFill('cellIdx11', '日', 'TextItem')"
                 >{{ letData.cellIdx11 }}</td>
-                <td class="textAlignLeft">日</td>
+                <td class="textAlignLeft" style="width:2%;">日</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_12"
@@ -211,12 +216,12 @@
                   data-src
                   @click="commandFill('cellIdx12', '时', 'TextItem')"
                 >{{ letData.cellIdx12 }}</td>
-                <td class="textAlignLeft">时</td>
-                <td class="textAlignLeft">&nbsp;&nbsp;抽样地点：</td>
+                <td class="textAlignLeft" style="width:2%;">时</td>
+                <td class="textAlignLeft" style="width:14%;">&nbsp;&nbsp;抽样地点：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_13"
-                  style="width:35%"
+                  style="width:34%"
                   data-title="抽样地点"
                   data-type="text"
                   data-src
@@ -225,7 +230,7 @@
               </tr>
               <tr>
                 <td
-                  class="textAlignLeft"
+                  class="textAlignLeft" style="width:21%;"
                 >受送达人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -236,7 +241,7 @@
                   data-src
                   @click="commandFill('cellIdx14', '受送达人（签名）', 'TextItem')"
                 >{{ letData.cellIdx14 }}</td>
-                <td class="textAlignLeft">&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期：</td>
+                <td class="textAlignLeft" style="width:12%;">&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;期： </td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_15"
@@ -249,13 +254,13 @@
               </tr>
               <tr>
                 <td
-                  class="textAlignLeft"
+                  class="textAlignLeft" style="width:15%"
                 >执法机关地址:</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_16"
                   align="center"
-                  style="width:39%"
+                  style="width:38%"
                   data-title
                   data-type="text"
                   data-src
@@ -271,7 +276,7 @@
                   data-src
                   @click="commandFill('cellIdx17', '地址', 'TextItem')"
                 >{{ letData.cellIdx17 }}</td> -->
-                <td class="textAlignLeft">&nbsp;&nbsp;邮政编码：</td>
+                <td class="textAlignLeft" style="width:13%">&nbsp;邮政编码：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_18"
@@ -284,7 +289,7 @@
               </tr>
               <tr>
                 <td
-                  class="textAlignLeft"
+                  class="textAlignLeft" style="width:18%"
                 >执法机关联系人：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -306,7 +311,7 @@
                   data-src
                   @click="commandFill('cellIdx20', '联系人', 'TextItem')"
                 >{{ letData.cellIdx20 }}</td> -->
-                <td class="textAlignLeft">&nbsp;&nbsp;联系电话：</td>
+                <td class="textAlignLeft"  style="width:13%">&nbsp;联系电话：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_21"

@@ -239,12 +239,12 @@
                   data-src
                   @click="commandFill('cellIdx15', '地址', 'TextItem')"
                 >{{letData.cellIdx15}}</td> -->
-                <td class="textAlignLeft" style="width:2%">&nbsp;&nbsp;邮政编码：</td>
+                <td class="textAlignLeft" style="width:14%">&nbsp;&nbsp;邮政编码：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_16"
                   align="center"
-                  style="width:29%"
+                  style="width:28%"
                   data-title="邮政编码"
                   data-type="text"
                   data-src
@@ -252,7 +252,7 @@
                 >{{letData.cellIdx16}}</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">移送单位联系人：</td>
+                <td class="textAlignLeft" style="width:18%">移送单位联系人：</td>
                 <!-- <td
                   class="cellInput"
                   id="cell_idx_17"
@@ -275,13 +275,13 @@
                   @click="commandFill('cellIdx18', '移送单位联系人', 'TextItem')"
                 >{{letData.cellIdx18}}</td>
                 <td
-                  class="textAlignLeft"
-                >&nbsp;&nbsp;电&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话：</td>
+                  class="textAlignLeft" style="width:14%"
+                >&nbsp;&nbsp;电&nbsp;&nbsp;&nbsp;&nbsp;话：&nbsp;</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_19"
                   align="center"
-                  style="width:29%"
+                  style="width:28%"
                   data-title="电话"
                   data-type="text"
                   data-src
@@ -289,7 +289,7 @@
                 >{{letData.cellIdx19}}</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">送件人（签名）：</td>
+                <td class="textAlignLeft" style="width:18%">送件人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_20"
@@ -301,8 +301,8 @@
                   @click="commandFill('cellIdx20', '送件人（签名）', 'TextItem')"
                 >{{letData.cellIdx20}}</td>
                 <td
-                  class="textAlignLeft"
-                >&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期：</td>
+                  class="textAlignLeft" style="width:14%"
+                >&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;期： </td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_21"
@@ -315,7 +315,7 @@
                 >{{letData.cellIdx21}}</td>
               </tr>
              <tr>
-                <td class="textAlignLeft">送件人（签名）：</td>
+                <td class="textAlignLeft" style="width:18%" >送件人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_22"
@@ -327,8 +327,8 @@
                   @click="commandFill('cellIdx22', '送件人（签名）', 'TextItem')"
                 >{{letData.cellIdx22}}</td>
                 <td
-                  class="textAlignLeft"
-                >&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期：</td>
+                  class="textAlignLeft" style="width:14%"
+                >&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;期：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_23"
@@ -341,7 +341,7 @@
                 >{{letData.cellIdx23}}</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">收件人（签名）：</td>
+                <td class="textAlignLeft" style="width:18%">收件人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_24"
@@ -353,8 +353,8 @@
                   @click="commandFill('cellIdx24', '收件人（签名）', 'TextItem')"
                 >{{letData.cellIdx24}}</td>
                 <td
-                  class="textAlignLeft"
-                >&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期：</td>
+                  class="textAlignLeft" style="width:14%"
+                >&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;期：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_25"

@@ -157,7 +157,7 @@
             <table class="docBody">
               <tr>
                 <td style="width:5%"></td>
-                <td class="textAlignLeft">请于</td>
+                <td class="textAlignLeft" style="width:5%">请于</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_7"
@@ -168,7 +168,7 @@
                   data-src
                   @click="commandFill('cellIdx7', '年', 'TextItem')"
                 >{{letData.cellIdx7}}</td>
-                <td class="textAlignLeft">年</td>
+                <td class="textAlignLeft" style="width:2%">年</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_8"
@@ -179,7 +179,7 @@
                   data-src
                   @click="commandFill('cellIdx8', '月', 'TextItem')"
                 >{{letData.cellIdx8}}</td>
-                <td class="textAlignLeft">月</td>
+                <td class="textAlignLeft" style="width:2%">月</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
@@ -190,11 +190,11 @@
                   data-src
                   @click="commandFill('cellIdx9', '日', 'TextItem')"
                 >{{letData.cellIdx9}}</td>
-                <td class="textAlignLeft">日前向本机关提交鉴定结果。</td>
+                <td class="textAlignLeft" style="width:30%">日前向本机关提交鉴定结果。</td>
               </tr>
               <tr>
                 <td style="width:5%"></td>
-                <td class="textAlignLeft">联系人：</td>
+                <td class="textAlignLeft" style="width:9%">联系人：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_10"
@@ -205,7 +205,7 @@
                   data-src
                   @click="commandFill('cellIdx10', '联系人', 'TextItem')"
                 >{{letData.cellIdx10}}</td>
-                <td class="textAlignLeft">&nbsp;&nbsp;联系电话：</td>
+                <td class="textAlignLeft" style="width:14%">&nbsp;&nbsp;联系电话：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_11"

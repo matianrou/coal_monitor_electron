@@ -82,7 +82,7 @@
             <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td style="width:5%"></td>
-                <td class="textAlignLeft">本机关于</td>
+                <td class="textAlignLeft" style="width:9%">本机关于</td>
                 <!-- <td
                   class="cellInput"
                   id="cell_idx_5"
@@ -103,7 +103,7 @@
                   data-src
                   @click="commandFill('cellIdx6', '年', 'TextItem')"
                 >{{ letData.cellIdx6 }}</td>
-                <td class="textAlignLeft">年</td>
+                <td class="textAlignLeft" style="width:2%">年</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_7"
@@ -114,7 +114,7 @@
                   data-src
                   @click="commandFill('cellIdx7', '月', 'TextItem')"
                 >{{ letData.cellIdx7 }}</td>
-                <td class="textAlignLeft">月</td>
+                <td class="textAlignLeft" style="width:2%">月</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_8"
@@ -125,7 +125,7 @@
                   data-src
                   @click="commandFill('cellIdx8', '日', 'TextItem')"
                 >{{ letData.cellIdx8 }}</td>
-                <td class="textAlignLeft">日对你单位的</td>
+                <td class="textAlignLeft" style="width:14%">日对你单位的</td>
                 <td
                   style="width:44%"
                   class="cellInput cellBottomLine"
@@ -137,18 +137,18 @@
                 >{{ letData.cellIdx9 }}</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">等证据进行了先行登记保存（</td>
+                <td class="textAlignLeft" style="width:29%">等证据进行了先行登记保存（</td>
                 <td
                   class="cellInput"
                   id="cell_idx_10"
                   align="center"
-                  style="width:8%"
+                  style="width:7%"
                   data-title
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx10', '', 'TextItem')"
                 >{{ letData.cellIdx10 }}</td>
-                <td>(</td>
+                <td  class="textAlignLeft" style="width:1%">(</td>
                  <td
                   class="cellInput"
                   id="cell_idx_11"
@@ -159,14 +159,14 @@
                   data-src
                   @click="commandFill('cellIdx11', '', 'TextItem')"
                 >{{ letData.cellIdx11 }}</td>
-                <td>)  </td>
-                <td class="textAlignLeft">&nbsp;&nbsp;煤安保〔</td>
+                <td class="textAlignLeft" style="width:1%">)  </td>
+                <td class="textAlignLeft" style="width:12%">&nbsp;&nbsp;煤安保〔</td>
 
                 <td
                   class="cellInput"
                   id="cell_idx_12"
                   align="center"
-                  style="width:8%"
+                  style="width:7%"
                   data-title
                   data-type="text"
                   data-src
@@ -177,13 +177,13 @@
                   class="cellInput"
                   id="cell_idx_13"
                   align="center"
-                  style="width:8%"
+                  style="width:7%"
                   data-title
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx13', '', 'TextItem')"
                 >{{ letData.cellIdx13 }}</td>
-                <td class="textAlignLeft">号）。现根据《中华人民</td>
+                <td class="textAlignLeft" style="width:25%">号）。现根据《中华人民</td>
               </tr>
               <tr>
                 <td class="textAlignLeft">共和国行政处罚法》第五十六条规定，对上述证据作出如下处理决定:</td>
@@ -207,7 +207,7 @@
               <tr>
                 <td style="width:5%"></td>
                 <td
-                  class="textAlignLeft"
+                  class="textAlignLeft" style="width:52%"
                 >如果不服本决定，可在接到本决定书之日起60日内向</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -220,7 +220,7 @@
                 >{{ letData.cellIdx15 }}</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">人民政府或者</td>
+                <td class="textAlignLeft" style="width:14%">人民政府或者</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_16"
@@ -230,11 +230,11 @@
                   data-src
                   @click="commandFill('cellIdx16', '人民法院', 'TextItem')"
                 >{{ letData.cellIdx16 }}</td>
-                <td class="textAlignLeft">申请行政复议,或者在6个月依法内向</td>
+                <td class="textAlignLeft" style="width:36%">申请行政复议,或者在6个月依法内向</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_17"
-                  style="width:31%"
+                  style="width:30%"
                   data-title
                   data-type="text"
                   data-src

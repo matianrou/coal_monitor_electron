@@ -109,7 +109,7 @@
             <table style="border:solid 0 #000;" class="docBody">
              <tr>
                 <td style="width:5%"></td>
-                <td class="textAlignLeft">本机关于</td>
+                <td class="textAlignLeft" style="width:9%">本机关于</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_7"
@@ -120,7 +120,7 @@
                   data-src
                   @click="commandFill('cellIdx7', '年', 'TextItem')"
                 >{{ letData.cellIdx7 }}</td>
-                <td class="textAlignLeft">年</td>
+                <td class="textAlignLeft" style="width:2%">年</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_8"
@@ -131,7 +131,7 @@
                   data-src
                   @click="commandFill('cellIdx8', '月', 'TextItem')"
                 >{{ letData.cellIdx8 }}</td>
-                <td class="textAlignLeft">月</td>
+                <td class="textAlignLeft" style="width:2%">月</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
@@ -142,7 +142,7 @@
                   data-src
                   @click="commandFill('cellIdx9', '日', 'TextItem')"
                 >{{ letData.cellIdx9 }}</td>
-                <td class="textAlignLeft">日对你单位涉案场所</td>
+                <td class="textAlignLeft" style="width:21%">日对你单位涉案场所</td>
                 <td
                   style="width:15%"
                   class="cellInput "
@@ -152,7 +152,7 @@
                   data-src
                   @click="commandFill('cellIdx10', '', 'TextItem')"
                 >{{ letData.cellIdx10 }}</td>
-                <td class="textAlignLeft">予以</td>
+                <td class="textAlignLeft" style="width:5%">予以</td>
                 <td
                   style="width:13%"
                   class="cellInput "
@@ -247,14 +247,14 @@
                 </div>
               </tr>
               <tr>
-                <td class="textAlignLeft">，依据《中华人民共和国行政强制法》
+                <td class="textAlignLeft" style="width:82%">，依据《中华人民共和国行政强制法》
                   第二十五条规定，第一、二款规定，将以上
                   </td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_18"
                   align="center"
-                  style="width:16.5%"
+                  style="width:18%"
                   data-title
                   data-type="text"
                   data-src

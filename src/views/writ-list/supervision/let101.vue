@@ -21,11 +21,11 @@
             <div class="stdRowH"></div>
             <table style="border:solid 0 #000;" class="docBody">
               <tr>
-                <td class="textAlignLeft">被检查单位：</td>
+                <td class="textAlignLeft" style="width:14%">被检查单位：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_0"
-                  style="width:85.6%"
+                  style="width:86%"
                   data-title="被检查单位"
                   data-type="text"
                   data-src
@@ -33,7 +33,7 @@
                 >{{letData.cellIdx0}}</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">检查时间：</td>
+                <td class="textAlignLeft" style="width:12%">检查时间：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_1"
@@ -45,7 +45,7 @@
                 >{{letData.cellIdx1}}</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">采矿许可证证号：</td>
+                <td class="textAlignLeft" style="width:18%">采矿许可证证号：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_2"
@@ -55,7 +55,7 @@
                   data-src
                   @click="commandFill('cellIdx2', '采矿许可证', 'TextItem')"
                 >{{letData.cellIdx2}}</td>
-                <td class="textAlignLeft">有效期：</td>
+                <td class="textAlignLeft" style="width:9%">有效期：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_3"
@@ -67,21 +67,21 @@
                 >{{letData.cellIdx3}}</td>
               </tr>
               <tr>
-                <td class="textAlignCenter">安全生产许可证证号：</td>
+                <td class="textAlignCenter" style="width:23%">安全生产许可证证号：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_4"
-                  style="width:36%"
+                  style="width:35%"
                   data-title="安全生产许可证"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx4', '安全生产许可证', 'TextItem')"
                 >{{letData.cellIdx4}}</td>
-                <td class="textAlignLeft">有效期：</td>
+                <td class="textAlignLeft" style="width:9%">有效期：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_5"
-                  style="width: 32.5%"
+                  style="width: 33%"
                   data-title="采矿许可证"
                   data-type="date"
                   data-src
@@ -89,11 +89,11 @@
                 >{{letData.cellIdx5}}</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">统一社会信用代码：</td>
+                <td class="textAlignLeft" style="width:21%">统一社会信用代码：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_6"
-                  style="width:79.5%"
+                  style="width:79%"
                   data-title="统一社会信用代码"
                   data-type="text"
                   data-src
@@ -101,7 +101,7 @@
                 >{{letData.cellIdx6}}</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">主要负责人：</td>
+                <td class="textAlignLeft" style="width:14%">主要负责人：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_7"
@@ -111,11 +111,11 @@
                   data-src
                   @click="commandFill('cellIdx7', '主要负责人', 'TextItem')"
                 >{{letData.cellIdx7}}</td>
-                <td class="textAlignCenter">联系电话：</td>
+                <td class="textAlignCenter" style="width:12%">联系电话：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_8"
-                  style="width:45%"
+                  style="width:44%"
                   data-title="联系电话"
                   data-type="text"
                   data-src
@@ -123,7 +123,7 @@
                 >{{letData.cellIdx8}}</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">检查地点（路线）：</td>
+                <td class="textAlignLeft" style="width:21%">检查地点（路线）：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
@@ -135,11 +135,11 @@
                 >{{letData.cellIdx9}}</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">检查人（签名）：</td>
+                <td class="textAlignLeft" style="width:18%">检查人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_10"
-                  style="width:81.4%"
+                  style="width:82%"
                   data-title="检查人（签名）"
                   data-type="text"
                   data-src
@@ -147,7 +147,7 @@
                 >{{letData.cellIdx10}}</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">记录人（签名）：</td>
+                <td class="textAlignLeft" style="width:18%">记录人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_11"
@@ -157,7 +157,7 @@
                   data-src
                   @click="commandFill('cellIdx11', '记录人', 'TextItem')"
                 >{{letData.cellIdx11}}</td>
-                <td class="textAlignCenter">陪同检察人员：</td>
+                <td class="textAlignCenter" style="width:16%">陪同检察人员：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_12"
@@ -199,7 +199,7 @@
             </div>
             <table style="border:solid 0 #000;" class="docBody">
               <tr>
-                <td class="textAlignLeft">被检查单位负责人意见：</td>
+                <td class="textAlignLeft" style="width:25%">被检查单位负责人意见：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_14"
@@ -209,17 +209,17 @@
                   data-src
                   @click="commandFill('cellIdx14', '被检查单位负责人意见：', 'TextItem')"
                 >{{letData.cellIdx14}}</td>
-                <td class="textAlignCenter">单位负责人签名:</td>
+                <td class="textAlignCenter" style="width:17%">单位负责人签名:</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_15"
-                  style="width:10%"
+                  style="width:17%"
                   data-title="签名"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx15', '签名:', 'TextItem')"
                 >{{letData.cellIdx15}}</td>
-                <td class="textAlignCenter">日期:</td>
+                <td class="textAlignCenter" style="width:6%">日期:</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_16"

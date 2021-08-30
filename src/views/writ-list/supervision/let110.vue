@@ -39,7 +39,7 @@
                   class="cellInput"
                   id="cell_idx_1"
                   align="right"
-                  style="width:40%"
+                  style="width:35%"
                   data-title
                   data-type="text"
                   data-src
@@ -109,7 +109,7 @@
             <table style="border:solid 0px #000;" class="docBody">
               <tr>
                 <td style="width:5%"></td>
-                <td class="textAlignLeft">经查，你单位</td>
+                <td class="textAlignLeft" style="width:14%">经查，你单位</td>
                 <!-- <td
                   style="width:81%"
                   class="cellInput cellBottomLine"
@@ -144,7 +144,7 @@
                 </div>
               </tr>
               <tr>
-                <td class="textAlignLeft">的行为涉嫌违反</td>
+                <td class="textAlignLeft" style="width:16%">的行为涉嫌违反</td>
                 <!-- <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_8"
@@ -182,33 +182,36 @@
                 <td class="textAlignLeft">的规定，根据《中华人民共和国安全生产法》
                   第六十二条第一款第四项和《中华人民共和国行政强制
                   </td>
-                  <td>法》第二十四条规定，本机关决定对你单位涉案</td>
+                  <td class="textAlignLeft" style="width:47%">法》第二十四条规定，本机关决定对你单位涉案</td>
                 <td
                   class="cellInput"
                   id="cell_idx_9"
                   align="center"
-                  style="width:15.5%"
+                  style="width:25%"
                   data-title
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx9', '', 'TextItem')"
                 >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</td>
-                <td class="textAlignLeft">予以</td>
+                <td class="textAlignLeft" style="width:5%">予以</td>
                 <td
                   class="cellInput"
                   align="center"
                   id="cell_idx_10"
-                  style="width:8%"
+                  style="width:7%"
                   data-title
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx10', '', 'TextItem')"
                 >{{ letData.cellIdx10 }}</td>
                 <!-- <td class="textAlignLeft"></td> -->
-                <td
+               
+              </tr>
+              <tr>
+                 <td
                   class="cellInput"
                   id="cell_idx_11"
-                  style="width:23%"
+                  style="width:26%"
                   data-title
                   data-type="text"
                   data-src
@@ -226,8 +229,8 @@
                   data-src
                   @click="commandFill('cellIdx12', '', 'TextItem')"
                 >{{ letData.cellIdx12 ? letData.cellIdx12 : '（点击编辑）' }}</td>
-                <td class="textAlignLeft">的</td>
-                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td class="textAlignLeft" style="width:2%">的</td>
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 <td
                   class="cellInput"
                   id="cell_idx_13"
@@ -238,7 +241,7 @@
                   data-src
                   @click="commandFill('cellIdx13', '', 'SelectItem')"
                 >{{ letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）' }}</td>
-                <td class="textAlignLeft">作出处理决定。此前，你单位不得使用、销毁或转移上述</td>
+                <td class="textAlignLeft" style="width:56%">作出处理决定。此前，你单位不得使用、销毁或转移上述</td>
               </tr>
 
               <tr>
@@ -253,12 +256,12 @@
                   data-src
                   @click="commandFill('cellIdx14', '', 'SelectItem')"
                 >{{ letData.cellIdx14 ? letData.cellIdx14 : '（点击编辑）' }}</td>
-                <td class="textAlignLeft">，并负有安全保障责任。</td>
+                <td class="textAlignLeft" style="width:26%">，并负有安全保障责任。</td>
               </tr>
               <tr>
                 <td style="width:5%"></td>
                 <td
-                  class="textAlignLeft"
+                  class="textAlignLeft" style="width:51%"
                 >如不服本决定，可在接到本决定书之日起60日内向</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -273,7 +276,7 @@
 
               </tr>
               <tr>
-                 <td class="textAlignLeft">人民政府或者</td>
+                 <td class="textAlignLeft" style="width:14%">人民政府或者</td>
                  <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_16"
@@ -284,18 +287,18 @@
                   data-src
                   @click="commandFill('cellIdx16', '', 'TextItem')"
                 >{{ letData.cellIdx16 }}</td>
-                <td class="textAlignLeft">申请行政复议，或者在6个月内依法向</td>
+                <td class="textAlignLeft" style="width:37%">申请行政复议，或者在6个月内依法向</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_17"
                   align="center"
-                  style="width:35%"
+                  style="width:37%"
                   data-title
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx17', '', 'TextItem')"
                 >{{ letData.cellIdx17 }}</td>
-                <td class="textAlignLeft">人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。</td>
+                <td class="textAlignLeft" style="width:63%">人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。</td>
               </tr>
             </table>
             <table height="30"></table>
