@@ -106,94 +106,38 @@
                 <td class="textAlignLeft">:</td>
               </tr>
             </table>
+            <div class="docTextarea">
+              <label style="width:5%"></label>
+              经查，你单位
+              <span
+                @click="commandFill('cellIdx7', '违法行为', 'DangerTableItem')"
+              >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
+              的行为涉嫌违反
+              <span
+                @click="commandFill('cellIdx8', '', 'DangerTableItem')"
+              >{{ letData.cellIdx8? letData.cellIdx8 : '（点击编辑）' }}</span>
+              的规定，根据《中华人民共和国安全生产法》第六十二条第一款第四项和《中华人民共和国行政强制法》第二十四条规定，本机关决定对你单位涉案
+              <span
+                @click="commandFill('cellIdx9', '', 'DangerTableItem')"
+              >{{ letData.cellIdx9? letData.cellIdx9 : '（点击编辑）' }}</span>
+              予以
+              <span
+                @click="commandFill('cellIdx9', '', 'TextItem')"
+              >{{ letData.cellIdx9? letData.cellIdx9 : '（点击编辑）' }}</span>
+              
+              <div class="line"></div>
+            </div>
+
+
+
             <table style="border:solid 0px #000;" class="docBody">
+              
+          
               <tr>
-                <td style="width:5%"></td>
-                <td class="textAlignLeft" style="width:14%">经查，你单位</td>
-                <!-- <td
-                  style="width:81%"
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_7"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx7', '', 'TextItem')"
-                >{{ letData.cellIdx7 }}</td> -->
-                <div
-                  style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-                  class="cellInput mutiLineArea"
-                  id="cell_idx_7"
-                  data-title="违法行为"
-                  data-type="textarea"
-                  data-src
-                  @click="commandFill('cellIdx7', '违法行为', 'DangerTableItem')">
-                  <div v-if="letData.cellIdx7 && letData.cellIdx7.length > 0">
-                    <p class="show-area-item-p">
-                      <span style="padding: 7px;">{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）' }}</span>
-                    </p>
-                    <cell-line></cell-line>
-                  </div>
-                  <div v-else>
-                    <p class="show-area-item-p">
-                      &nbsp;
-                    </p>
-                    <p class="show-area-item-p">
-                      &nbsp;
-                    </p>
-                  </div>
-                </div>
-              </tr>
-              <tr>
-                <td class="textAlignLeft" style="width:16%">的行为涉嫌违反</td>
-                <!-- <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_8"
-                  style="width:84%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx8', '', 'TextItem')"
-                >{{ letData.cellIdx8 }}</td> -->
-                <div
-                  style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-                  class="cellInput mutiLineArea"
-                  id="cell_idx_8"
-                  data-title=""
-                  data-type="textarea"
-                  data-src
-                  @click="commandFill('cellIdx8', '', 'DangerTableItem')">
-                  <div v-if="letData.cellIdx8 && letData.cellIdx8.length > 0">
-                    <p class="show-area-item-p">
-                      <span style="padding: 7px;">{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）' }}</span>
-                    </p>
-                    <cell-line></cell-line>
-                  </div>
-                  <div v-else>
-                    <p class="show-area-item-p">
-                      &nbsp;
-                    </p>
-                    <p class="show-area-item-p">
-                      &nbsp;
-                    </p>
-                  </div>
-                </div>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">的规定，根据《中华人民共和国安全生产法》
-                  第六十二条第一款第四项和《中华人民共和国行政强制
+                <td class="textAlignLeft">
                   </td>
-                  <td class="textAlignLeft" style="width:47%">法》第二十四条规定，本机关决定对你单位涉案</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_9"
-                  align="center"
-                  style="width:25%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx9', '', 'TextItem')"
-                >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</td>
-                <td class="textAlignLeft" style="width:5%">予以</td>
+                  <td class="textAlignLeft" style="width:47%"></td>
+                
                 <td
                   class="cellInput"
                   align="center"

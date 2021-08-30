@@ -79,105 +79,27 @@
                 <td class="textAlignLeft">:</td>
               </tr>
             </table>
-            <table style="border:solid 0px #000;" class="docBody">
-              <tr>
-                 <td style="width:5%"></td>
-                <td class="textAlignLeft" style="width:7%">你单位</td>
-                <!-- <td
-                  class="cellInput"
-                  id="cell_idx_5"
-                  align="center"
-                  style="width:40%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx5', '', 'TextItem')"
-                >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</td> -->
-                <!-- <td
-                  style="width:78.5%"
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_6"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx6', '', 'TextItem')"
-                >{{ letData.cellIdx6 }}</td> -->
-                <div
-                  style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-                  class="cellInput mutiLineArea"
-                  id="cell_idx_6"
-                  data-title="违法行为"
-                  data-type="textarea"
-                  data-src
-                  @click="commandFill('cellIdx6', '违法行为', 'DangerTableItem')">
-                  <div v-if="letData.cellIdx6 && letData.cellIdx6.length > 0">
-                    <p class="show-area-item-p">
-                      <span style="padding: 7px;">{{ letData.cellIdx6 }}</span>
-                    </p>
-                  </div>
-                  <div v-else>
-                    <p class="show-area-item-p">
-                      &nbsp;
-                    </p>
-                    <p class="show-area-item-p">
-                      &nbsp;
-                    </p>
-                  </div>
-                </div>
-              </tr>
-              <tr>
-                <td
-                  class="textAlignLeft"
-                >的行为涉嫌违法违规。依据《中华人民共和国行政处罚法》第五十六条规定，本机关决定对你单位的</td>
-                <td class="textAlignLeft">有关证据（详见《先行登记保存证据清单》）采取先行登记保存措施。先行登记保存的证据，存放在</td>
-                <!-- <td
-                  class="cellInput"
-                  id="cell_idx_7"
-                  style="width:10%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx7', '', 'TextItem')"
-                >{{ letData.cellIdx7 }}</td> -->
-              </tr>
-              <!-- <tr>
 
-                <td
-                  class="cellInput"
-                  id="cell_idx_8"
-                  align="center"
-                  style="width:10%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx8', '', 'TextItem')"
-                >{{ letData.cellIdx8 }}</td>
-                <td class="textAlignLeft">的有关证据（详见《先行登记保存证据清单》）采取先行登记保存措施。</td>
-              </tr> -->
-              <tr>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_9"
-                  style="width:50%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx9', '', 'TextItem')"
-                >{{ letData.cellIdx9 }}</td>
-                <td class="textAlignLeft" style="width:5%">，由</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_10"
-                  style="width:45%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx10', '', 'TextItem')"
-                >{{ letData.cellIdx10 }}</td>
-                <td class="textAlignLeft">负责保管。在本机关作出处理决定前，
-                  保管单位负有妥善保管的义务，不得有短缺、灭失、损毁或者</td>
-                  <td>擅自移动等改变证据物品的任何行为。</td>
-              </tr>
+
+             <div class="docTextarea">
+              <label style="width:5%"></label>
+              你单位
+              <span
+                @click="commandFill('cellIdx6', '违法行为', 'DangerTableItem')"
+              >{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）'}}</span>
+              的行为涉嫌违法违规。依据《中华人民共和国行政处罚法》第五十六条规定，本机关决定对你单位的有关证据（详见《先行登记保存证据清单》）采取先行登记保存措施。先行登记保存的证据，存放在
+              <span
+                @click="commandFill('cellIdx9', '', 'TextItem')"
+              >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</span>
+              ，由
+              <span
+                @click="commandFill('cellIdx10', '', 'TextItem')"
+              >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）'}}</span>
+              负责保管。在本机关作出处理决定前，保管单位负有妥善保管的义务，不得有短缺、灭失、损毁或者擅自移动等改变证据物品的任何行为。
+            </div>
+
+            <table style="border:solid 0px #000;" class="docBody">
+              
               <tr>
                 <td style="width:5%"></td>
                 <td class="textAlignLeft">本机关将在七个工作日内对先行登记保存的证据依法作出处理决定。

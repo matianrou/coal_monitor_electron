@@ -79,62 +79,19 @@
                 <td class="textAlignLeft">:</td>
               </tr>
             </table>
+            <div class="docTextarea">
+              <label style="width:5%"></label>
+              你单位
+              <span
+                @click="commandFill('cellIdx5', '违法行为', 'DangerTableItem')"
+              >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</span>
+              的行为涉嫌违法违规。根据《中华人民共和国行政处罚法》第五十六条规定，本机关决定对你单位的有关证据（详见《抽样取证清单》）采取抽样取证。
+              
+            </div>
+
             <table style="border:solid 0px #000;" class="docBody">
-              <tr>
-                 <td style="width:5%"></td>
-                <td class="textAlignLeft" style="width:7%">你单位</td>
-                <!-- <td
-                  style="width:87%"
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_5"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx5', '', 'TextItem')"
-                >{{ letData.cellIdx5 }}</td> -->
-                <div
-                  style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-                  class="cellInput mutiLineArea"
-                  id="cell_idx_5"
-                  data-title="违法行为"
-                  data-type="textarea"
-                  data-src
-                  @click="commandFill('cellIdx5', '违法行为', 'DangerTableItem')">
-                  <div v-if="letData.cellIdx5 && letData.cellIdx5.length > 0">
-                    <p class="show-area-item-p">
-                      <span style="padding: 7px;">{{ letData.cellIdx5  ? letData.cellIdx5 : '（点击编辑）'}}</span>
-                    </p>
-                    <cell-line></cell-line>
-                  </div>
-                  <div v-else>
-                    <p class="show-area-item-p">
-                      &nbsp;
-                    </p>
-                    <p class="show-area-item-p">
-                      &nbsp;
-                    </p>
-                  </div>
-                </div>
-              </tr>
-              <tr>
-                <td
-                  class="textAlignLeft" style="width:100%"
-                >的行为涉嫌违法违规。根据《中华人民共和国行政处罚法》第五十六条规定，本机关决定对你单位的</td>
-                <!-- <td
-                  class="cellInput"
-                  id="cell_idx_6"
-                  style="width:15%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx6', '', 'TextItem')"
-                >{{ letData.cellIdx6 }}</td> -->
-              </tr>
-              <tr>
-                <td
-                  class="textAlignLeft" style="width:52%">
-                有关证据（详见《抽样取证清单》）采取抽样取证。</td>
-              </tr>
+
+
             </table>
             <table height="60"></table>
             <table class="docBody">

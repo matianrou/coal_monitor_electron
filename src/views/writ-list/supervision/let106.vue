@@ -1,4 +1,4 @@
-<!-- 现场检查 实施检查 责令撤出作业人员命令书 3 -->
+<!-- 现场检查 实施检查 责令撤出作业人员指令书 3 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -79,137 +79,53 @@
                 <td class="textAlignLeft">:</td>
               </tr>
             </table>
+            <div class="docTextarea">
+              <label style="width:5%"></label>
+              本机关于
+              
+              <span
+                @click="commandFill('cellIdx6', '年', 'TextItem')"
+              >{{ letData.cellIdx6 ? letData.cellIdx6 : '（XX）'}}</span>
+              年
+              <span
+                @click="commandFill('cellIdx7', '月', 'TextItem')"
+              >{{ letData.cellIdx7 ? letData.cellIdx7 : '（XX）' }}</span>
+              月
+              <span
+                @click="commandFill('cellIdx8', '日', 'TextItem')"
+              >{{ letData.cellIdx8 ? letData.cellIdx8 : '（XX）'}}</span>
+              日
+              <span
+                @click="commandFill('cellIdx9', '时', 'TextItem')"
+              >{{ letData.cellIdx9 ? letData.cellIdx9 : '（XX）'}}</span>
+              时
+              <span
+                @click="commandFill('cellIdx10', '时', 'TextItem')"
+              >{{ letData.cellIdx10 ? letData.cellIdx10 : '（XX）'}}</span>
+              分，在对你单位检查时，发现在
+              
+              
+              <span 
+                @click="commandFill('cellIdx11', '', 'TextItem')"
+              >{{ letData.cellIdx11? letData.cellIdx11 : '（点击编辑）' }}</span>
+              有
+              <span 
+                @click="commandFill('cellIdx12', '违法行为', 'DangerTableItem')"
+              >{{ letData.cellIdx12 ? letData.cellIdx12 : '（点击编辑）'}}</span>
+              等威胁作业人员生命安全的紧急情况，现责令立即从
+              <span 
+                @click="commandFill('cellIdx13', '', 'TextItem')"
+              >{{ letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）'}}</span>
+
+              危险区内撤出作业人员。
+            
+
+            </div>
+
+
+
             <table style="border:solid 0px #000;" class="docBody">
-              <tr>
-                <td style="width:5%"></td>
-                <td class="textAlignLeft" style="width:9%" >本机关于</td>
-                <!-- <td
-                  class="cellInput"
-                  id="cell_idx_5"
-                  align="center"
-                  style="width:8%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx5', '', 'TextItem')"
-                >{{ letData.cellIdx5 }}</td>
-                <td class="textAlignLeft">于</td> -->
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_6"
-                  align="center"
-                  style="width:9%"
-                  data-title="年"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx6', '年', 'TextItem')"
-                >{{ letData.cellIdx6 }}</td>
-                <td class="textAlignLeft"  style="width:2%">年</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_7"
-                  align="center"
-                  style="width:9%"
-                  data-title="月"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx7', '月', 'TextItem')"
-                >{{ letData.cellIdx7 }}</td>
-                <td class="textAlignLeft"  style="width:2%">月</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_8"
-                  align="center"
-                  style="width:9%"
-                  data-title="日"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx8', '日', 'TextItem')"
-                >{{ letData.cellIdx8 }}</td>
-                <td class="textAlignLeft"  style="width:2%">日</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_9"
-                  align="center"
-                  style="width:9%"
-                  data-title="时"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx9', '时', 'TextItem')"
-                >{{ letData.cellIdx9 }}</td>
-                <td class="textAlignLeft"  style="width:2%">时</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_10"
-                  align="center"
-                  style="width:9%"
-                  data-title="分"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx10', '分', 'TextItem')"
-                >{{ letData.cellIdx10 }}</td>
-                <td class="textAlignLeft"  style="width:32%">分，在对你单位检查时，发现在</td>
-              </tr>
-              <tr>
-                <!-- <td class="textAlignLeft">时，发现在</td> -->
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_11"
-                  style="width:48%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx11', '', 'TextItem')"
-                >{{ letData.cellIdx11 }}</td>
-                <td class="textAlignLeft"  style="width:2%">有</td>
-                <!-- <td
-                  style="width:47%"
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_12"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx12', '', 'TextItem')"
-                >
-                {{letData.cellIdx12 ? letData.cellIdx12 : '（点击编辑）'}}
-                </td> -->
-                <div
-                  style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-                  class="cellInput mutiLineArea"
-                  id="cell_idx_12"
-                  data-title="违法行为"
-                  data-type="textarea"
-                  data-src
-                  @click="commandFill('cellIdx12', '违法行为', 'DangerTableItem')">
-                  <div v-if="letData.cellIdx12 && letData.cellIdx12.length > 0">
-                    <p class="show-area-item-p">
-                      <span style="padding: 7px;">{{ letData.cellIdx12 }}</span>
-                    </p>
-                    <cell-line></cell-line>
-                  </div>
-                  <div v-else>
-                    <p class="show-area-item-p">
-                      &nbsp;
-                    </p>
-                    <p class="show-area-item-p">
-                      &nbsp;
-                    </p>
-                  </div>
-                </div>
-              </tr>
-              <tr>
-                <td class="textAlignLeft"  style="width:52%">等威胁作业人员生命安全的紧急情况，现责令立即从</td>
-                <td
-                  style="width:48%"
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_13"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx14', '', 'TextItem')"
-                >{{ letData.cellIdx13 }}</td>
-                <td class="textAlignLeft"  style="width:26%">危险区内撤出作业人员。</td>
-              </tr>
+             
               <tr>
                 <td style="width:5%"></td>
                 <td
