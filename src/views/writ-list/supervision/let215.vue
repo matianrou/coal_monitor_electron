@@ -50,88 +50,88 @@
             </div>
             <table style="border:solid 0 #000;" class="docBody">
               <tr>
-                <td class="textAlignLeft">讨论时间：&nbsp;</td>
+                <td class="textAlignLeft" style="width:13%">讨论时间：&nbsp;</td>
               <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_1"
                   align="center"
-                  style="width:8%"
+                  style="width:10%"
                   data-title="年"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx1', '年', 'TextItem')"
                 >{{ letData.cellIdx1 }}</td>
-                <td class="textAlignLeft">&nbsp;年&nbsp;</td>
+                <td class="textAlignLeft" style="width:2%">年</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_2"
                   align="center"
-                  style="width:8%"
+                  style="width:10%"
                   data-title="月"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx2', '月', 'TextItem')"
                 >{{ letData.cellIdx2 }}</td>
-                <td class="textAlignLeft">&nbsp;月&nbsp;</td>
+                <td class="textAlignLeft" style="width:2%">月</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_3"
                   align="center"
-                  style="width:8%"
+                  style="width:10%"
                   data-title="日"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx3', '日', 'TextItem')"
                 >{{ letData.cellIdx3 }}</td>
-                <td class="textAlignLeft">&nbsp;日&nbsp;</td>
+                <td class="textAlignLeft" style="width:2%">日</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_4"
                   align="center"
-                  style="width:8%"
+                   style="width:10%"
                   data-title="时"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx4', '时', 'TextItem')"
                 >{{ letData.cellIdx4 }}</td>
-                <td class="textAlignLeft">&nbsp;时&nbsp;</td>
+                <td class="textAlignLeft" style="width:2%">时</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_5"
                   align="center"
-                  style="width:8%"
+                  style="width:10%"
                   data-title="分"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx5', '分', 'TextItem')"
                 >{{ letData.cellIdx5 }}</td>
-                <td class="textAlignLeft">&nbsp;分至</td>
+                <td class="textAlignLeft" style="width:5%">分至</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_6"
                   align="center"
-                  style="width:8%"
+                  style="width:10%"
                   data-title="时"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx6', '时', 'TextItem')"
                 >{{ letData.cellIdx6 }}</td>
-                <td class="textAlignLeft">&nbsp;时&nbsp;</td>
+                <td class="textAlignLeft" style="width:2%">时</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_7"
                   align="center"
-                  style="width:8%"
+                  style="width:10%"
                   data-title="分"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx7', '分', 'TextItem')"
                 >{{ letData.cellIdx7 }}</td>
-                <td class="textAlignLeft">&nbsp;分</td>
+                <td class="textAlignLeft" style="width:2%">分</td>
               </tr>
 
               <tr>
-                <td class="textAlignLeft">地点：</td>
+                <td class="textAlignLeft" style="width:7%">地点：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_8"
@@ -144,7 +144,7 @@
                 >{{ letData.cellIdx8 }}</td>
               </tr>
                <tr>
-                <td class="textAlignLeft">主持人：</td>
+                <td class="textAlignLeft" style="width:9%">主持人：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
@@ -155,7 +155,7 @@
                   data-src
                   @click="commandFill('cellIdx9', '主持人', 'TextItem')"
                 >{{ letData.cellIdx9 }}</td>
-                <td class="textAlignLeft">汇报人：</td>
+                <td class="textAlignLeft" style="width:9%">汇报人：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_10"
@@ -166,7 +166,7 @@
                   data-src
                   @click="commandFill('cellIdx10', '汇报人', 'TextItem')"
                 >{{ letData.cellIdx10 }}</td>
-                <td class="textAlignLeft">记录人：</td>
+                <td class="textAlignLeft" style="width:9%">记录人：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_11"
