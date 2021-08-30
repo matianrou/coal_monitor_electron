@@ -82,7 +82,7 @@
             <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td style="width:5%"></td>
-                <td class="textAlignLeft">本机关于</td>
+                <td class="textAlignLeft" style="width:9%">本机关于</td>
                 <!-- <td
                   class="cellInput"
                   id="cell_idx_5"
@@ -104,10 +104,10 @@
                   data-src
                   @click="commandFill('cellIdx6', '', 'TextItem')"
                 >{{letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）'}}</td>
-                <td class="textAlignLeft">现场检查时，发现你单位有下列违法违规行为，</td>
+                <td class="textAlignLeft" style="width:47%">现场检查时，发现你单位有下列违法违规行为，</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">现作出以下现场处理决定：</td>
+                <td class="textAlignLeft" style="width:28%">现作出以下现场处理决定：</td>
               </tr>
             </table>
             <div
@@ -138,19 +138,19 @@
               <tr>
                 <td style="width:5%"></td>
                 <td
-                  class="textAlignLeft"
+                  class="textAlignLeft" style="width:54%"
                 >如果不服从本决定，可在接到本决定书之日起60日内向</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_8"
                   align="center"
-                  style="width:40.5%"
+                  style="width:41%"
                   data-title
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx8', '人民政府', 'TextItem')"
                 >{{letData.cellIdx8}}</td>
-                 <td class="textAlignLeft">人民政府或者</td>
+                 <td class="textAlignLeft" style="width:14%">人民政府或者</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
@@ -161,36 +161,39 @@
                   data-src
                   @click="commandFill('cellIdx9', '', 'TextItem')"
                 >{{letData.cellIdx9}}</td>
-                <td class="textAlignLeft">申请行政复议，或者在6个月内依法向</td>
+                <td class="textAlignLeft" style="width:38%">申请行政复议，或者在6个月内依法向</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_10"
                   align="center"
-                  style="width:29%"
+                  style="width:28%"
                   data-title
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx10', '人民法院', 'TextItem')"
                 >{{letData.cellIdx10}}</td>
-                <td class="textAlignLeft">人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。</td>
+               
+              </tr>
+              <tr>
+                 <td class="textAlignLeft"  style="width:64%">人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。</td>
               </tr>
             </table>
             <table height="30"></table>
             <table class="docBody">
               <tr>
                 <td style="width:5%"></td>
-                <td class="textAlignLeft">现场执法人员（签名):</td>
+                <td class="textAlignLeft"  style="width:23%">现场执法人员（签名):</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_11"
                   align="center"
-                  style="width:25%"
+                  style="width:35%"
                   data-title="现场执法人员（签名)"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx11', '现场执法人员（签名)', 'TextItem')"
                 >{{letData.cellIdx11}}</td>
-                <td class="textAlignCenter">执法证号：</td>
+                <td class="textAlignCenter"  style="width:12%">执法证号：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_12"
@@ -201,18 +204,18 @@
                   data-src
                   @click="commandFill('cellIdx12', '执法证号', 'TextItem')"
                 >{{letData.cellIdx12}}</td>
-                <td style="width:26%"></td>
+                <td style="width:28%"></td>
                  <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_13"
                   align="center"
-                  style="width:25%"
+                  style="width:35%"
                   data-title="现场执法人员（签名)"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx13', '现场执法人员（签名)', 'TextItem')"
                 >{{letData.cellIdx13}}</td>
-                <td class="textAlignCenter">执法证号：</td>
+                <td class="textAlignCenter"  style="width:12%">执法证号：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_14"
@@ -226,18 +229,18 @@
               </tr>
               <tr>
                 <td style="width:5%"></td>
-                <td class="textAlignLeft">被检查单位负责人（签名):</td>
+                <td class="textAlignLeft"  style="width:27%">被检查单位负责人（签名):</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_15"
                   align="center"
-                  style="width:20%"
+                  style="width:30%"
                   data-title="被检查单位负责人（签名)"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx15', '被检查单位负责人（签名)', 'TextItem')"
                 >{{letData.cellIdx15}}</td>
-                <td class="textAlignCenter">&nbsp;日&nbsp; &nbsp; &nbsp; &nbsp;期：</td>
+                <td class="textAlignCenter"  style="width:13%">&nbsp;日&nbsp; &nbsp; 期：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_16"
