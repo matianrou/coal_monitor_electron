@@ -96,6 +96,9 @@ export default {
   },
   created() {
   },
+  destroyed() {
+    console.log('已被销毁')
+  },
   methods: {
     createCase (data) {
       // 创建已有计划的煤矿的检查活动

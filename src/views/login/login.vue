@@ -106,12 +106,11 @@ export default {
             // 最大化窗口
             electronRequest('maxWindow');
             // 判断当前登录用户为监管或监察，分别进入不同的路由
-            // await this.getUserType(userId, sessId)
-            this.$store.commit('changeState', {
-              key: 'DBName',
-              val: 'CoalSupervisionDB'
-            })
-
+            await this.getUserType(userId, sessId)
+            // this.$store.commit('changeState', {
+            //   key: 'DBName',
+            //   val: 'CoalSupervisionDB'
+            // })
             await this.getUserInfo(userId, sessId);
             this.$router.replace({
               name: 'CalmineElectronMain',
@@ -169,7 +168,7 @@ export default {
       // 个人执法编号
       let person = db.table("person")
       let userInfo = await person.find(item => item.no === userId)
-      this.$store.state.user.userNumber = userInfo.userNumber
+      this.$store.state.user.userNumber = userInfo ? userInfo.userNumber : ''
       await db.close()
     },
   },

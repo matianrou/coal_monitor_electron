@@ -5,4 +5,5 @@ const monitorWritFlow = {
 const supervisionWritFlow = {
   writFlow: resolve => { require(["@/views/writ-flow/supervision/writ-flow"], function(writFlow) { resolve(writFlow);});},
 }
+console.log('---------------store.state.DBName--------------',  store.state.DBName)
 export const writFlow = store.state.DBName === 'CoalSupervisionDB' ? supervisionWritFlow : monitorWritFlow

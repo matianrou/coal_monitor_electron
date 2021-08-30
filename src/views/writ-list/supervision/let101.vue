@@ -168,12 +168,15 @@
                   @click="commandFill('cellIdx12', '陪同检察人员', 'TextItem')"
                 >{{letData.cellIdx12}}</td>
               </tr>
-              <tr>
-                <td class="textAlignLeft">检查情况：</td>
-                <td style="width:88.3%">&nbsp;</td>
-              </tr>
             </table>
-            <div
+            <div class="docTextarea">
+              检查情况：
+              <span
+                @click="commandFill('cellIdx13', '检查情况', 'DangerTableItem')"
+              >{{ letData.cellIdx13 }}</span>
+              <div class="line"></div>
+            </div>
+            <!-- <div
               style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
               class="cellInput mutiLineArea"
               id="cell_idx_13"
@@ -196,7 +199,7 @@
                   &nbsp;
                 </p>
               </div>
-            </div>
+            </div> -->
             <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft" style="width:25%">被检查单位负责人意见：</td>
