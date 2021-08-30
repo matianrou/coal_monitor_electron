@@ -509,7 +509,8 @@ export default {
           cellIdx18: null, // 第二十七条、XXX第二十八条第一款第
           cellIdx19: null, // 第二十八条第一款第XX项的规定
           cellIdx20: null, // 查封/扣押
-          cellIdx21: null, // 人民政府
+          cellIdx21: orgSysOfficeInfo.goverPrefix, // 人民政府
+          cellIdx21TypeTextItem: orgSysOfficeInfo.goverPrefix, // 人民政府
           cellIdx22: orgSysOfficeInfo.organName, // organName
           cellIdx22TypeTextItem: orgSysOfficeInfo.organName, // organName
           cellIdx23: orgSysOfficeInfo.courtPrefix, // courtPrefix人民法院

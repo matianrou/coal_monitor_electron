@@ -102,7 +102,7 @@
               存在
               <span
                 @click="commandFill('cellIdx8', '违法行为', 'TextareaItem')"
-              >{{ letData.cellIdx8 }}</span>的问题，根据《中华人民共和国安全生产法》第六十六条规定，现将该案件移送贵单位依法处理。
+              >{{ letData.cellIdx8? letData.cellIdx8 : '（点击编辑）'}}</span>的问题，根据《中华人民共和国安全生产法》第六十六条规定，现将该案件移送贵单位依法处理。
             </div>
             <table class="docBody">
               <!-- <tr>

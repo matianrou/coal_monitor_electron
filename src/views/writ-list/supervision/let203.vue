@@ -180,7 +180,7 @@
             <table class="docBody">
               <tr>
                 <td
-                  class="textAlignLeft"
+                  class="textAlignLeft" style="width:25%"
                   >法制审核人员（签名）：
                 </td>
                 <td
@@ -194,12 +194,12 @@
                   @click="commandFill('cellIdx9', '分管负责人意见', 'TextItem')"
                 >{{ letData.cellIdx9 }}
                 </td>
-                <td class="textAlignCenter">&nbsp;日期：</td>
+                <td class="textAlignCenter" style="width:8%">&nbsp;日期：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_10"
                   align="center"
-                  style="width:28%"
+                  style="width:27%"
                   data-title="日期"
                   data-type="text"
                   data-src
@@ -291,18 +291,22 @@ export default {
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本
-        // 获取笔录文书中的隐患数据
+        // 获取笔录文书中的隐患数据和  现场检查笔录时间
         const let101Data = await wkPaper.find((item) => {
           return item.caseId === caseId && item.paperType === '1';
         });
+       
         let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
         let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
+       
+        
         // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
         // 获取笔录文书中的隐患数据
         let cellIdx3String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`
         // 2.违法事实及依据：隐患描述+“经调查取证以上违法违规行为属实，分别违反了”+违法认定发条
         dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData, {danger: true})
-        let cellIdx5String = `${dangerObject.dangerString}经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString}的规定。`
+        // let cellIdx5String = `${dangerObject.dangerString}经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString}的规定。`
+        let cellIdx5String = `${let101DataPapaerContent.cellIdx1}${this.$store.state.user.userGroupName}对${corp.corpName}进行现场检查时发现${dangerObject.dangerString}以上行为分别涉嫌${dangerObject.illegalString}依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`
         // 3.建议案件处理意见：行政处罚依据+行政处罚决定（分条）
         let cellIdx6String = `${dangerObject.penaltyBasisString}`
         let cellIdx7String = `${dangerObject.penaltyDesc}`
@@ -320,12 +324,15 @@ export default {
             value: `经${nowDate}法制审核，${item}`
           })
         })
+     
+        //5.行政相对人基本情况：煤矿名称+（煤矿基本信息字段uscCode）+（煤矿基本信息字段？）+（煤矿基本信息字段？）
+        let cellIdx4String =`${corp.corpName}社会统一信用代码是${corp.useCode}采矿许可证号是${corp.uscCode}安全生产许可证号是${corp.uscCode} `
         this.letData = {
           cellIdx0: null, //
           cellIdx1: null, // 编号
           cellIdx2: null, //
           cellIdx3: cellIdx3String, // 案由
-          cellIdx4: null, // 行政相对人基本情况
+          cellIdx4: cellIdx4String, // 行政相对人基本情况
           cellIdx5: cellIdx5String, // 案情摘要
           cellIdx6: cellIdx6String, // 作出决定依据
           cellIdx7: cellIdx7String, // 建议行政决定
