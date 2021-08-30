@@ -550,7 +550,7 @@ export default {
         }
         let let206DataPapaerContent = JSON.parse(let206Data.paperContent)
         let date206 = let206DataPapaerContent.cellIdx20 ? let206DataPapaerContent.cellIdx20.replace('年', '-').replace('月', '-').replace('日', '-').split('-') : ['', '', '']
-        // 4.sysOfficeInfo中organName和courtPrefix
+        // 4.sysOfficeInfo中 goverPrefix和organName和courtPrefix
         const orgInfo = db.table("orgInfo");
         const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
         let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {accountName: '', accountBank: '', billName: '', account: '', accountAddress: '', organName: '', courtPrefix: ''}
@@ -606,7 +606,8 @@ export default {
           cellIdx29TypeTextItem: orgSysOfficeInfo.account, // 账号
           cellIdx30: orgSysOfficeInfo.accountAddress, // 地址
           cellIdx30TypeTextItem: orgSysOfficeInfo.accountAddress, // 地址
-          cellIdx31: null, // 人民政府
+          cellIdx31: orgSysOfficeInfo.goverPrefix, // 人民政府
+          cellIdx31TypeTextItem: orgSysOfficeInfo.goverPrefix, // 人民政府
           cellIdx32: orgSysOfficeInfo.organName, //
           cellIdx32TypeTextItem: orgSysOfficeInfo.organName, //
           cellIdx33: orgSysOfficeInfo.courtPrefix, // 人民法院

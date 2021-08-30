@@ -46,7 +46,7 @@
                 </td>
               </tr>
               <tr>
-                <td class="textAlignLeft">案由：</td>
+                <td class="textAlignLeft" style="width:7%">案由：</td>
               </tr>
               <div
                 style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
@@ -98,12 +98,12 @@
                     @click="commandFill('cellIdx4', '听证主持人', 'TextItem')"
                 >{{ letData.cellIdx4 }}
                 </td>
-                <td class="textAlignLeft" style="width:10%">&nbsp;记录人：</td>
+                <td class="textAlignLeft" style="width:11%">&nbsp;记录人：</td>
                 <td
                     class="cellInput cellBottomLine"
                     id="cell_idx_5"
                     align="center"
-                    style="width:26%"
+                    style="width:24%"
                     data-title="记录人"
                     data-type="text"
                     data-src
@@ -142,31 +142,21 @@
             </table>
             <table class="docBody">
               <tr>
-                <td class="textAlignLeft" style="width:23%">听证主持人意见：</td>
+                <td class="textAlignLeft" style="width:18%">听证主持人意见：</td>
               </tr>
-              <div
-                style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-                class="cellInput mutiLineArea"
-                id="cell_idx_7"
-                data-title="听证主持人意见"
-                data-type="textarea"
-                data-src
-                @click="commandFill('cellIdx7', '听证主持人意见', 'DangerTableItem')">
-                <div v-if="letData.cellIdx7 && letData.cellIdx7.length > 0">
+               <div
+                    style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+                    class="cellInput mutiLineArea"
+                    id="cell_idx_7"
+                    data-title="听证主持人意见"
+                    data-type="textarea"
+                    data-src
+                    @click="commandFill('cellIdx7', '听证主持人意见', 'SelectItem')"
+                >
                   <p class="show-area-item-p">
                     <span style="padding: 7px;">{{ letData.cellIdx7? letData.cellIdx7 : '（点击编辑）' }}</span>
                   </p>
-                  <cell-line></cell-line>
                 </div>
-                <div v-else>
-                  <p class="show-area-item-p">
-                    &nbsp;
-                  </p>
-                  <p class="show-area-item-p">
-                    &nbsp;
-                  </p>
-                </div>
-              </div>
             </table>
             <table class="docBody">
               <tr>
@@ -185,12 +175,12 @@
                     @click="commandFill('cellIdx8', '听证主持人（签名）', 'TextItem')"
                 >{{ letData.cellIdx8 }}
                 </td>
-                <td class="textAlignCenter">&nbsp;日期：</td>
+                <td class="textAlignCenter" style="width:8%">&nbsp;日期：</td>
                 <td
                     class="cellInput cellBottomLine"
                     id="cell_idx_9"
                     align="center"
-                    style="width:20.5%"
+                    style="width:20%"
                     data-title="日期"
                     data-type="text"
                     data-src
@@ -229,7 +219,7 @@
                     @click="commandFill('cellIdx11', '负责人（签名）', 'TextItem')"
                 >{{ letData.cellIdx11 }}
                 </td>
-                <td class="textAlignCenter">日期：</td>
+                <td class="textAlignCenter" style="width:7%">日期：</td>
                 <td
                     class="cellInput cellBottomLine"
                     id="cell_idx_12"
@@ -284,6 +274,37 @@ export default {
           page: '30',
           key: 'cellIdx2' // 用来区分一个页面多个地方调用隐患大表，最后返回值
         },
+        cellIdx7:[
+          {
+            value: '(1)经过听证，认定违法事实清楚，拟行政处罚意见适用法律正确，证据确凿，程序合法，处罚适当的，提出维持意见;',
+            name: '(1)经过听证，认定违法事实清楚，拟行政处罚意见适用法律正确，证据确凿，程序合法，处罚适当的，提出维持意见;'
+
+          },
+          {
+            value:'(2）经过听证，认定违法事实清楚，但拟行政处罚意见适用法律错误或者处罚裁量不当的，提出纠正意见;',
+            name:'(2）经过听证，认定违法事实清楚，但拟行政处罚意见适用法律错误或者处罚裁量不当的，提出纠正意见;'
+          },
+          {
+            value:'(3)经过听证,认定违法行为轻微，提出免予行政处罚意见;',
+            name:'(3)经过听证,认定违法行为轻微，提出免予行政处罚意见;'
+          },
+          {
+            value:'(4)经过听证，认定违法事实不能成立，提出不予行政处罚意见;',
+            name:'(4)经过听证，认定违法事实不能成立，提出不予行政处罚意见;'
+          },
+          {
+            value:'(5）经过听证，认定违法事实不清、证据不足的,提出继续调查意见;',
+            name:'(5）经过听证，认定违法事实不清、证据不足的,提出继续调查意见;'
+          },
+          {
+            value:'(6）经过听证，认定违法行为涉嫌犯罪的，提出移送司法机关处理建议;',
+            name:'(6）经过听证，认定违法行为涉嫌犯罪的，提出移送司法机关处理建议;'
+          },
+
+
+        ]
+
+        
       },
       editData: {}, // 回显数据
     };

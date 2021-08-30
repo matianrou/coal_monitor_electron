@@ -486,7 +486,7 @@ export default {
         }
         let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
         let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
-        // 4.地点：sysOfficeInfo实体中organName字段+ courtPrefix字段
+        // 4.地点：sysOfficeInfo实体中goverPrefix字段 organName字段+ courtPrefix字段
         const orgInfo = db.table("orgInfo");
         const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
         let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {organName: '', depAddress: ''}
@@ -534,7 +534,8 @@ export default {
           cellIdx19: null, // 年
           cellIdx20: null, // 月
           cellIdx21: null, // 日
-          cellIdx22: null, // 可在接到本决定书之日起60日内向XX人民政府
+          cellIdx22: orgSysOfficeInfo.goverPrefix, // 可在接到本决定书之日起60日内向XX人民政府
+          cellIdx22TypeTextItem: orgSysOfficeInfo.goverPrefix, // 可在接到本决定书之日起60日内向XX人民政府
           cellIdx23: orgSysOfficeInfo.organName, // organName
           cellIdx23TypeTextItem: orgSysOfficeInfo.organName, // organName
           cellIdx24: orgSysOfficeInfo.depAddress, // courtPrefix人民法院

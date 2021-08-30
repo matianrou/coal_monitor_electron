@@ -85,10 +85,10 @@
               </tr>
             </table>
             <table class="docBody" style="border:1px solid #000">
-              <tr style="border:1px solid #000;height:50px;text-align:center;line-height:50px">
-                <td style="width:30%">物品名称</td>
-                <td style="width:30%">规格型号</td>
-                <td style="width:15%">数量</td>
+              <tr  style="border:1px solid #000;height:38px;text-align:center;">
+                <td style="width:29%" class="cellRightLine ">物品名称</td>
+                <td style="width:30%" class="cellRightLine ">规格型号</td>
+                <td style="width:15%" class="cellRightLine ">数量</td>
                 <td style="width:25%">备注</td>
               </tr>
               <template v-if="!letData.cellIdx5 || letData.cellIdx5.length === 0">
@@ -210,7 +210,7 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_11"
                   align="center"
-                  style="width:33%"
+                  style="width:32%"
                   data-title="联系电话"
                   data-type="text"
                   data-src
