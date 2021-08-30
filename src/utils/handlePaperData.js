@@ -110,7 +110,6 @@ function setDangerTableItem (data, selectedData, options) {
         string = `${dangerObject.illegalString}`
       }
       break
-
     case '4': // 立案决定书
       if (options.key === 'cellIdx4') {
         string = `${options.spellString.corpName}${dangerObject.dangerString}案。`
@@ -173,6 +172,17 @@ function setDangerTableItem (data, selectedData, options) {
       break
     case '15': // 执法案卷（首页）及目录
       string = `${options.spellString.corpName}${dangerObject.dangerString}案。`
+      break
+    case '47': // 行政执法决定法制审核意见书
+      if (options.key === 'cellIdx3') {
+        string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString}案。`
+      } else if (options.key === 'cellIdx5') {
+        string = `${dangerObject.dangerString}经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString}的规定。`
+      } else if (options.key === 'cellIdx6') {
+        string = `${dangerObject.penaltyBasisString}`
+      } else if (options.key === 'cellIdx10') {
+        string = `${dangerObject.penaltyDesc}`
+      }
       break
   }
   return string

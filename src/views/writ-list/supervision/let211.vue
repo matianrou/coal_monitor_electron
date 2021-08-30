@@ -149,12 +149,20 @@
               data-type="textarea"
               data-src
               @click="commandFill('cellIdx10', '听证记录', 'TextareaItem')">
-              <p
-                style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
-              >&nbsp;{{ letData.cellIdx10 }}</p>
-              <p
-                style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
-              >&nbsp;</p>
+              <div v-if="letData.cellIdx10 && letData.cellIdx10.length > 0">
+                <p class="show-area-item-p">
+                  <span style="padding: 7px;">{{ letData.cellIdx10 }}</span>
+                </p>
+                <cell-line :line-num="300"></cell-line>
+              </div>
+              <div v-else>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+              </div>
             </div>
             <table style="border:solid 0 #000;" class="docBody">
               <tr>

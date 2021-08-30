@@ -18,11 +18,10 @@
         if (sessionStorage.getItem('state')) {
           this.$store.replaceState(Object.assign({}, this.$store.state, JSON.parse(sessionStorage.getItem("state"))))
           this.$router.replace({
-            name: 'CalmineElectronMain'
+            name: this.$store.state.activeTab
           })
           sessionStorage.removeItem('state')
         }
-        console.log('state', this.$store.state)
       },
       saveState() {
         // 刷新页面时存储仓库

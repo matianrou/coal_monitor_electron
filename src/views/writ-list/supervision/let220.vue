@@ -42,9 +42,7 @@
                   data-src
                   @click="commandFill('cellIdx1', '', 'TextItem')"
                 >{{ letData.cellIdx1 }}</td>
-
                 <td class="textAlignLeft ">） 煤安加罚〔</td>
-
                 <td
                   class="cellInput "
                   id="cell_idx_2"
@@ -85,7 +83,6 @@
               <tr>
                 <td style="width:5%"></td>
                 <td class="textAlignLeft">本机关于</td>
-
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_5"
@@ -130,7 +127,6 @@
                   @click="commandFill('cellIdx8', '单位', 'TextItem')"
                 >{{ letData.cellIdx8 }}</td>
                 <td class="textAlignLeft">送达 《行政处罚决定书》 (</td>
-                
                 <td
                   class="cellInput"
                   id="cell_idx_9"
@@ -154,7 +150,6 @@
                 >{{ letData.cellIdx10 }}</td>
                 <td class="textAlignLeft">)  </td>
                 <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;煤安罚&nbsp;&nbsp;&nbsp;〔</td>
-                
                 <td
                   class="cellInput"
                   id="cell_idx_11"
@@ -166,8 +161,6 @@
                   @click="commandFill('cellIdx11', '', 'TextItem')"
                 >{{ letData.cellIdx11 }}</td>
                 <td class="textAlignLeft ">〕</td>
-
-                
                 <td
                   class="cellInput "
                   id="cell_idx_12"
@@ -190,19 +183,17 @@
                   @click="commandFill('cellIdx13', '单位', 'TextItem')"
                 >{{ letData.cellIdx13 }}</td>
                  <td class="textAlignLeft">罚款</td>
-
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_14"
                   align="center"
                   style="width:20%"
-                  data-title="年"
+                  data-title="罚款"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx14', '年', 'TextItem')"
+                  @click="commandFill('cellIdx14', '罚款', 'TextItem')"
                 >{{ letData.cellIdx14 }}</td>
                 <td class="textAlignLeft">，要求于</td>
-
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_15"
@@ -236,8 +227,6 @@
                   @click="commandFill('cellIdx17', '日', 'TextItem')"
                 >{{ letData.cellIdx17 }}</td>
                 <td class="textAlignLeft">日前履行。 &nbsp;截至</td>
-                
-
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_18"
@@ -271,13 +260,9 @@
                   @click="commandFill('cellIdx20', '日', 'TextItem')"
                 >{{ letData.cellIdx20 }}</td>
                 <td class="textAlignLeft">日你单位未履行</td>
-               
-
               </tr>
               <tr>
-                
                 <td class="textAlignLeft">该处罚决定，依据《中华人民共和国行政处罚法》第七十二条第一款第一项规定，本机关决定对你</td>
-
               </tr>
               <tr>
                 <td
@@ -336,13 +321,7 @@
                   @click="commandFill('cellIdx25', '日', 'TextItem')"
                 >{{ letData.cellIdx25 }}</td>
                 <td class="textAlignLeft">日前将加处的罚款缴至</td>
-
-
               </tr>
-
-              
-             
-
               <tr>
                 <td
                   class="cellInput cellBottomLine"
@@ -354,7 +333,6 @@
                   data-src
                   @click="commandFill('cellIdx26', '罚款缴至', 'TextItem')"
                 >{{ letData.cellIdx26 }}</td>
-
                 <td class="textAlignLeft" style="width:6%"> 银行</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -369,7 +347,6 @@
                 <td class="textAlignLeft" style="width:16%">支行（分理处）</td>
               </tr>
                <tr>
-
                 <td class="textAlignLeft" style="width:12%"> 账户名称：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -405,7 +382,6 @@
                   data-src
                   @click="commandFill('cellIdx30', '地址', 'TextItem')"
                 >{{ letData.cellIdx30 }}</td>
-
               </tr>
                <tr>
                 <td style="width:5%"></td>
@@ -422,7 +398,6 @@
                   data-src
                   @click="commandFill('cellIdx31', '', 'TextItem')"
                 >{{ letData.cellIdx31 }}</td>
-               
               </tr>
               <tr>
                  <td class="textAlignLeft">人民政府或者</td>
@@ -449,13 +424,9 @@
                 >{{ letData.cellIdx33 }}</td>
                 <td class="textAlignLeft">人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。</td>
               </tr>
-              
-
             </table>
             <table height="60"></table>
-            
-
-          <table class="docBody">
+            <table class="docBody">
               <tr>
                 <td
                   class="cellInput"
@@ -478,7 +449,6 @@
                 >{{letData.cellIdx35 ? letData.cellIdx35: '（点击编辑）'}}</td>
               </tr>
             </table>
-            
             <table>
               <hr />
               <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式三份；一份交银行，一份交被处罚</td>
@@ -492,7 +462,6 @@
                   @click="commandFill('cellIdx36', '单位', 'TextItem')"
                 >{{letData.cellIdx36}}</td>
               <td class="textAlignLeft">，一份存档。</td>
-
             </table>
           </div>
         </div>
@@ -528,12 +497,7 @@ export default {
   data() {
     return {
       letData: {},
-      options: {
-        cellIdx12: {
-          page: '3',
-          key: 'cellIdx12'
-        },
-      },
+      options: {},
       editData: {}, // 回显数据
     };
   },
@@ -578,22 +542,18 @@ export default {
         let cellIdx6Year = now.getFullYear()
         let cellIdx7Month = now.getMonth() + 1
         let cellIdx8Date = now.getDate()
-        let cellIdx9Hour = now.getHours()
-        let cellIdx10Minu = now.getMinutes()
-        // 3.隐患描述
-        // 获取笔录文书中的隐患数据
-        const let101Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === '1';
-        });
-        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
-        let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
-        let cellIdx12String = dangerObject.dangerString
+        // 3.行政处罚决定书 日期、编号、
+        const let206Data = await wkPaper.find(item => item.caseId === caseId && item.paperType === '8')
+        if (!let206Data) {
+          this.$message.error('请先填写并保存行政处罚决定书中内容！')
+          return
+        }
+        let let206DataPapaerContent = JSON.parse(let206Data.paperContent)
+        let date206 = let206DataPapaerContent.cellIdx20 ? let206DataPapaerContent.cellIdx20.replace('年', '-').replace('月', '-').replace('日', '-').split('-') : ['', '', '']
         // 4.sysOfficeInfo中organName和courtPrefix
         const orgInfo = db.table("orgInfo");
         const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
-        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
-        let cellIdx19String = orgSysOfficeInfo.organName
-        let cellIdx20String = orgSysOfficeInfo.courtPrefix
+        let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {accountName: '', accountBank: '', billName: '', account: '', accountAddress: '', organName: '', courtPrefix: ''}
         this.letData = {
           cellIdx0: num0, // 文书号
           cellIdx0TypeTextItem: num0, // 文书号
@@ -605,47 +565,55 @@ export default {
           cellIdx3TypeTextItem: num4, // 文书号
           cellIdx4: corp.corpName ? corp.corpName : null, // corpname
           cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
-          cellIdx5: null, // 单位
-          cellIdx6: cellIdx6Year, // 年
-          cellIdx6TypeTextItem: cellIdx6Year, // 年
-          cellIdx7: cellIdx7Month, // 月
-          cellIdx7TypeTextItem: cellIdx7Month, // 月
-          cellIdx8: cellIdx8Date, // 日
-          cellIdx8TypeTextItem: cellIdx8Date, // 日
-          cellIdx9: cellIdx9Hour, // 时
-          cellIdx9TypeTextItem: cellIdx9Hour, // 时
-          cellIdx10: cellIdx10Minu, // 分
-          cellIdx10TypeTextItem: cellIdx10Minu, // 分
-          cellIdx11: null, // 发现在。。。有
-          cellIdx12: cellIdx12String, // 隐患描述
-          cellIdx13: null, //
-          cellIdx14: cellIdx6Year, // 年
-          cellIdx14TypeTextItem: cellIdx6Year, // 年
-          cellIdx15: cellIdx7Month, // 月
-          cellIdx15TypeTextItem: cellIdx7Month, // 月
-          cellIdx16: cellIdx8Date, // 日
-          cellIdx16TypeTextItem: cellIdx8Date, // 日
-          cellIdx17: cellIdx9Hour, // 时
-          cellIdx17TypeTextItem: cellIdx9Hour, // 时
-          cellIdx18: cellIdx10Minu, // 分
-          cellIdx18TypeTextItem: cellIdx10Minu, // 分
-          cellIdx19: null, //
-          cellIdx20: cellIdx19String, // 机构名
-          cellIdx20TypeTextItem: cellIdx19String, // 机构名
-          cellIdx21: cellIdx20String, // 人民法院
-          cellIdx21TypeTextItem: cellIdx20String, // 人民法院
-          cellIdx22: null, // 现场执法人员（签名）
-          cellIdx23: null, // 执法证号
-          cellIdx24: null, // 现场执法人员（签名）
-          cellIdx25: null, // 执法证号
-          cellIdx26: null, //被检查单位负责人意见
-          cellIdx27: null, // 签名
-          cellIdx28: null, // 日期
-          cellIdx29: null, //
-          cellIdx30: null, // 年
-          cellIdx31: null, //月
-          cellIdx32: null, //日
-          dangerItemObject: let101DataPapaerContent.dangerItemObject
+          cellIdx5: date206[0], // 年
+          cellIdx5TypeTextItem: date206[0], // 年
+          cellIdx6: date206[1], // 月
+          cellIdx6TypeTextItem: date206[1], // 月
+          cellIdx7: date206[2], // 日
+          cellIdx7TypeTextItem: date206[2], // 日
+          cellIdx8: null, // 单位
+          cellIdx9: let206DataPapaerContent.cellIdx0, // 行政处罚决定书 文书号
+          cellIdx9TypeTextItem: let206DataPapaerContent.cellIdx0, // 行政处罚决定书 文书号
+          cellIdx10: let206DataPapaerContent.cellIdx1, // 行政处罚决定书 文书号
+          cellIdx10TypeTextItem: let206DataPapaerContent.cellIdx1, // 行政处罚决定书 文书号
+          cellIdx11: let206DataPapaerContent.cellIdx2, // 行政处罚决定书 文书号
+          cellIdx11TypeTextItem: let206DataPapaerContent.cellIdx2, // 行政处罚决定书 文书号
+          cellIdx12: let206DataPapaerContent.cellIdx3, // 行政处罚决定书 文书号
+          cellIdx12TypeTextItem: let206DataPapaerContent.cellIdx3, // 行政处罚决定书 文书号
+          cellIdx13: null, // 单位
+          cellIdx14: null, // 罚款
+          cellIdx15: null, // 年
+          cellIdx16: null, // 月
+          cellIdx17: null, // 日
+          cellIdx18: cellIdx6Year, // 年
+          cellIdx18TypeTextItem: cellIdx6Year, // 年
+          cellIdx19: cellIdx7Month, // 月
+          cellIdx19TypeTextItem: cellIdx7Month, // 月
+          cellIdx20: cellIdx8Date, // 日
+          cellIdx20TypeTextItem: cellIdx8Date, // 日
+          cellIdx21: null, // 单位
+          cellIdx22: null, // 加处罚款
+          cellIdx23: null, // 年
+          cellIdx24: null, // 月
+          cellIdx25: null, // 日
+          cellIdx26: orgSysOfficeInfo.accountBank, // 银行
+          cellIdx26TypeTextItem: orgSysOfficeInfo.accountBank, // 银行
+          cellIdx27: orgSysOfficeInfo.billName, // 支行（分理处）
+          cellIdx27TypeTextItem: orgSysOfficeInfo.billName, // 支行（分理处）
+          cellIdx28: orgSysOfficeInfo.billName, // 账户名称
+          cellIdx28TypeTextItem: orgSysOfficeInfo.billName, // 账户名称
+          cellIdx29: orgSysOfficeInfo.account, // 账号
+          cellIdx29TypeTextItem: orgSysOfficeInfo.account, // 账号
+          cellIdx30: orgSysOfficeInfo.accountAddress, // 地址
+          cellIdx30TypeTextItem: orgSysOfficeInfo.accountAddress, // 地址
+          cellIdx31: null, // 人民政府
+          cellIdx32: orgSysOfficeInfo.organName, //
+          cellIdx32TypeTextItem: orgSysOfficeInfo.organName, //
+          cellIdx33: orgSysOfficeInfo.courtPrefix, // 人民法院
+          cellIdx33TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
+          cellIdx34: null, //
+          cellIdx35: null, // 日期
+          cellIdx36: let206DataPapaerContent.cellIdx4, // 单位
         };
       }
       await db.close();
@@ -659,13 +627,6 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}Type${type}`;
-        if (key === 'cellIdx12') {
-          this.options[key] = {
-            page: '3',
-            key: key,
-          }
-          dataKey = 'dangerItemObject'
-        }
         this.$refs.letMain.commandFill(
           key,
           dataKey,

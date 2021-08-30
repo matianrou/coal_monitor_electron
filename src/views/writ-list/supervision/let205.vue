@@ -261,6 +261,7 @@
               <p
                 style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
               >&nbsp;{{ letData.cellIdx19 ? letData.cellIdx19 : '（点击编辑）' }}</p>
+              <cell-line></cell-line>
               <p
                 style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
               >&nbsp;</p>
@@ -462,12 +463,20 @@ export default {
         const let101Data = await wkPaper.find((item) => {
           return item.caseId === caseId && item.paperType === '1';
         });
+        if (!let101Data) {
+          this.$message.error('请先填写并保存现场检查记录中内容！')
+          return
+        }
         let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
         let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
         // 4.陈述、申辩：煤矿名称 + '涉嫌' + 隐患描述 + '案。'
         let cellIdx19String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`
         // 5.单位/个人：从行政处罚告知书(paperType === '6')中获取
         const let204Data = await wkPaper.find(item => item.caseId === caseId && item.paperType === '6');
+        if (!let204Data) {
+          this.$message.error('请先填写并保存行政处罚告知书中内容！')
+          return
+        }
         let let204DataPaperContent = JSON.parse(let204Data.paperContent)
         let cellIdx20String = let204DataPaperContent.cellIdx5
         this.letData = {
@@ -490,7 +499,7 @@ export default {
           cellIdx11: cellIdx11String, // 工作单位
           cellIdx11TypeTextItem: cellIdx11String, // 工作单位
           cellIdx12: null, // 职务（职业）
-          cellIdx13: null, // 邮政编码
+          cellIdx13: null, // 住址
           cellIdx14: null, // 电话
           cellIdx15: null, // 承办人（签名）
           cellIdx16: null, // 承办人（签名）
@@ -501,6 +510,11 @@ export default {
           cellIdx20: cellIdx20String, // 单位/个人
           cellIdx20TypeTextItem: cellIdx20String, // 单位/个人
           cellIdx21: null, // 法制审核意见
+          cellIdx22: null, // 陈述申辩人意见
+          cellIdx23: null, // 陈述申辩人（签名）
+          cellIdx24: null, // 年
+          cellIdx25: null, // 月
+          cellIdx26: null, // 日
           dangerItemObject: let101DataPapaerContent.dangerItemObject
         };
       }

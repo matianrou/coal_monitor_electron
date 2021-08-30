@@ -43,7 +43,6 @@
                   @click="commandFill('cellIdx1', '文书号', 'TextItem')"
                 >{{letData.cellIdx1}}</td>
                 <td class="textAlignLeft ">）煤安听〔</td>
-
                 <td
                   class="cellInput "
                   id="cell_idx_2"
@@ -73,11 +72,11 @@
                   id="cell_idx_4"
                   align="center"
                   style="width:60%"
-                  data-title="文书号"
+                  data-title=""
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx4', '文书号', 'TextItem')"
-                >{{letData.cellIdx3}}</td>
+                  @click="commandFill('cellIdx4', '', 'TextItem')"
+                >{{letData.cellIdx4}}</td>
                 <td class="textAlignLeft ">：</td>
               </tr>
             </table>
@@ -192,7 +191,7 @@
                   data-title="地点"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx13', '地点', 'SelectItem')"
+                  @click="commandFill('cellIdx13', '公开/不公开', 'SelectItem')"
                 >{{letData.cellIdx13}}</td>
                 <td class="textAlignLeft">）举行听证会议，请你</td>
                 <td
@@ -291,10 +290,10 @@
                   id="cell_idx_21"
                   align="center"
                   style="width:30%"
-                  data-title="录人姓名"
+                  data-title="记录人姓名"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx21', '录人姓名', 'TextItem')"
+                  @click="commandFill('cellIdx21', '记录人姓名', 'TextItem')"
                 >{{letData.cellIdx21}}</td>
                 <td class="textAlignLeft">&nbsp;&nbsp;职务：</td>
                 <td
@@ -338,13 +337,10 @@
               </tr>
               <tr>
                 <td style="width:5%"></td>
-
                 <td
                   class="textAlignLeft"
                 >2. 委托代理人参加听证的，应当在听证会前向本机关提交授权委托书等有关证明。</td>
-
               </tr>
-
               <tr>
                 <td style="width:5%"></td>
                 <td
@@ -360,9 +356,7 @@
                   data-src
                   @click="commandFill('cellIdx24', '单位', 'TextItem')"
                 >{{letData.cellIdx24}}</td>
-
               </tr>
-
             </table>
             <table height="30"></table>
             <table class="docBody">
@@ -376,7 +370,7 @@
                   data-title="收件人（签名）"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx25', '收件人（签名）', 'TextItem')"
+                  @click="commandFill('cellIdx25', '受送达人（签名）', 'TextItem')"
                 >{{letData.cellIdx25}}</td>
                 <td
                   class="textAlignLeft"
@@ -398,10 +392,10 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_27"
                   style="width:40%"
-                  data-title="我分局地址"
+                  data-title="执法机关地址"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx27', '我分局地址', 'TextItem')"
+                  @click="commandFill('cellIdx27', '执法机关地址', 'TextItem')"
                 >{{letData.cellIdx27}}</td>
                 <td class="textAlignLeft">&nbsp;&nbsp;邮政编码：</td>
                 <td
@@ -422,10 +416,10 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_29"
                   style="width:38%"
-                  data-title="我分局联系人"
+                  data-title="执法机关联系人"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx29', '我分局联系人', 'TextItem')"
+                  @click="commandFill('cellIdx29', '执法机关联系人', 'TextItem')"
                 >{{letData.cellIdx29}}</td>
                 <td class="textAlignLeft">&nbsp;&nbsp;联系电话：</td>
                 <td
@@ -439,8 +433,6 @@
                 >{{letData.cellIdx30}}</td>
               </tr>
             </table>
-
-
             <table height="90"></table>
           <table class="docBody">
               <tr>
@@ -468,7 +460,6 @@
             <table class="docBody">
               <hr />
               <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交听证申请人，一份存档。</td>
-
             </table>
           </div>
         </div>
@@ -589,6 +580,10 @@ export default {
         const let101Data = await wkPaper.find((item) => {
           return item.caseId === caseId && item.paperType === '1';
         });
+        if (!let101Data) {
+          this.$message.error('请先填写并保存现场检查记录中内容！')
+          return
+        }
         let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
         let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
         let cellIdx7String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`
@@ -596,12 +591,8 @@ export default {
         // 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
         const orgInfo = db.table("orgInfo");
         const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
-        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
+        let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: '', deparFullname: '' }
         let cellIdx12String = `${orgSysOfficeInfo.depAddress}${orgSysOfficeInfo.deparFullname}`
-        let cellIdx30String = orgSysOfficeInfo.depAddress
-        let cellIdx31String = orgSysOfficeInfo.depPost
-        let cellIdx33String = orgSysOfficeInfo.master
-        let cellIdx34String = orgSysOfficeInfo.phone
         this.letData = {
           cellIdx0: num0, // 文书号
           cellIdx0TypeTextItem: num0, // 文书号
@@ -629,29 +620,23 @@ export default {
           cellIdx17: null, // 听证员姓名
           cellIdx18: null, // 职务
           cellIdx19: null, // 听证员姓名
-          cellIdx20: null, // 签名
-          cellIdx21: null, // 录人姓名
+          cellIdx20: null, // 职务
+          cellIdx21: null, // 记录人姓名
           cellIdx22: null, // 职务
           cellIdx23: null, // 单位/个人
-          cellIdx24: null, // 单位
-          cellIdx25: null, // 单位
-          cellIdx26: null, // 单位
-          cellIdx27: null, // 签收人（签名）
-          cellIdx28: null, // 日期
-          cellIdx29: null, // 单位
-          cellIdx30: cellIdx30String, // 地址
-          cellIdx30TypeTextItem: cellIdx30String, // 地址
-          cellIdx31: cellIdx31String, // 邮政编码
-          cellIdx31TypeTextItem: cellIdx31String, // 邮政编码
-          cellIdx32: null, // 单位
-          cellIdx33: cellIdx33String, // 联系人
-          cellIdx33TypeTextItem: cellIdx33String, // 联系人
-          cellIdx34: cellIdx34String, // 联系电话
-          cellIdx34TypeTextItem: cellIdx34String, // 联系电话
-          cellIdx35: null, // 年
-          cellIdx36: null, // 月
-          cellIdx37: null, // 日
-          cellIdx38: null, // 单位/个人
+          cellIdx24: null, // 单位 ？
+          cellIdx25: null, // 受送达人（签名）
+          cellIdx26: null, // 日期
+          cellIdx27: orgSysOfficeInfo.depAddress, // 执法机关地址
+          cellIdx27TypeTextItem: orgSysOfficeInfo.depAddress, // 执法机关地址
+          cellIdx28: orgSysOfficeInfo.depPost, // 邮政编码
+          cellIdx28TypeTextItem: orgSysOfficeInfo.depPost, // 邮政编码
+          cellIdx29: orgSysOfficeInfo.master, // 执法机关联系人
+          cellIdx29TypeTextItem: orgSysOfficeInfo.master, // 执法机关联系人
+          cellIdx30: orgSysOfficeInfo.phone, // 联系电话
+          cellIdx30TypeTextItem: orgSysOfficeInfo.phone, // 地址
+          cellIdx31: null, //
+          cellIdx32: null, // 日期
           dangerItemObject: let101DataPapaerContent.dangerItemObject
         };
       }

@@ -42,9 +42,7 @@
                   data-src
                   @click="commandFill('cellIdx1', '', 'TextItem')"
                 >{{ letData.cellIdx1 }}</td>
-
                 <td class="textAlignLeft ">） 煤安催缴〔</td>
-
                 <td
                   class="cellInput "
                   id="cell_idx_2"
@@ -85,7 +83,6 @@
               <tr>
                 <td style="width:5%"></td>
                 <td class="textAlignLeft">本机关于</td>
-
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_5"
@@ -119,7 +116,6 @@
                   @click="commandFill('cellIdx7', '日', 'TextItem')"
                 >{{ letData.cellIdx7 }}</td>
                 <td class="textAlignLeft">日作出 《行政处罚决定书》 (</td>
-                
                 <td
                   class="cellInput"
                   id="cell_idx_8"
@@ -143,7 +139,6 @@
                 >{{ letData.cellIdx9 }}</td>
                 <td>)  </td>
                 <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;煤安罚&nbsp;&nbsp;&nbsp;（</td>
-                
                 <td
                   class="cellInput"
                   id="cell_idx_10"
@@ -155,7 +150,6 @@
                   @click="commandFill('cellIdx10', '', 'TextItem')"
                 >{{ letData.cellIdx10 }}</td>
                 <td class="textAlignLeft">）</td>
-                
                 <td
                   class="cellInput "
                   id="cell_idx_11"
@@ -178,7 +172,6 @@
                   @click="commandFill('cellIdx12', '单位', 'TextItem')"
                 >{{ letData.cellIdx12 }}</td>
                 <td class="textAlignLeft">于</td>
-
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_13"
@@ -212,7 +205,6 @@
                   @click="commandFill('cellIdx15', '日', 'TextItem')"
                 >{{ letData.cellIdx15 }}</td>
                 <td class="textAlignLeft">日</td>
-
               </tr>
               <tr>
                 <td class="textAlignLeft">前将罚款缴至</td>
@@ -227,7 +219,6 @@
                   @click="commandFill('cellIdx16', '罚款缴至', 'TextItem')"
                 >{{ letData.cellIdx16 }}</td>
                 <td class="textAlignLeft">。因你单位逾期未履行该处罚决定，依据《中华人民</td>
-
               </tr>
               <tr>
                 <td class="textAlignLeft">共和国行政强制法》第三十五条规定，现催告你</td>
@@ -242,16 +233,12 @@
                   @click="commandFill('cellIdx17', '单位', 'TextItem')"
                 >{{ letData.cellIdx17 }}</td>
                 <td class="textAlignLeft">履行以上决定，本机关将依据《中华人民</td>
-
               </tr>
-
               <tr>
                 <td class="textAlignLeft">共和国行政处罚法》第七十二条第一款第一项规定，每日按罚款数额的3%加处罚款。</td>
-
               </tr>
               <tr>
                 <td style="width:5%"></td>
-
                 <td class="textAlignLeft">如有异议，依据《中华人民共和国行政强制法》第三十六条规定，你</td>
                 <td
                   class="cellInput "
@@ -267,9 +254,7 @@
               </tr>
               <tr>
                 <td class="textAlignLeft">告书之日起3日内向本机关提出陈述和申辩，逾期未提出的，视为放弃此权利。</td>
-
               </tr>
-
             </table>
             <table height="60"></table>
              <table class="docBody">
@@ -283,7 +268,7 @@
                   data-title="收件人（签名）"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx19', '收件人（签名）', 'TextItem')"
+                  @click="commandFill('cellIdx19', '受送达人（签名）', 'TextItem')"
                 >{{letData.cellIdx19}}</td>
                 <td
                   class="textAlignLeft"
@@ -323,7 +308,6 @@
               </tr>
               <tr>
                 <td style="width:5%"></td>
-
                 <td class="textAlignLeft">执法机关联系人：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -345,12 +329,9 @@
                   @click="commandFill('cellIdx24', '联系电话', 'TextItem')"
                 >{{letData.cellIdx24}}</td>
               </tr>
-              
             </table>
-        
-
             <table height="90"></table>
-          <table class="docBody">
+            <table class="docBody">
               <tr>
                 <td
                   class="cellInput"
@@ -373,7 +354,6 @@
                 >{{letData.cellIdx26 ? letData.cellIdx26: '（点击编辑）'}}</td>
               </tr>
             </table>
-            
             <table>
               <hr />
               <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份：一份交被处罚</td>
@@ -387,7 +367,6 @@
                   @click="commandFill('cellIdx27', '单位', 'TextItem')"
                 >{{letData.cellIdx27}}</td>
               <td class="textAlignLeft">，一份存档。</td>
-
             </table>
           </div>
         </div>
@@ -395,7 +374,7 @@
     </let-main>
   </div>
 </template>
-  
+
 
 <script>
 import letMain from "@/views/make-law-writ/components/let-main.vue";
@@ -464,6 +443,17 @@ export default {
         // 创建初始版本
         // 1.生成文书编号
         let {num0, num1, num3, num4} = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
+        // 2.行政处罚决定书 日期、编号、
+        const let206Data = await wkPaper.find(item => item.caseId === caseId && item.paperType === '8')
+        if (!let206Data) {
+          this.$message.error('请先填写并保存行政处罚决定书中内容！')
+          return
+        }
+        let let206DataPapaerContent = JSON.parse(let206Data.paperContent)
+        let date206 = let206DataPapaerContent.cellIdx20 ? let206DataPapaerContent.cellIdx20.replace('年', '-').replace('月', '-').replace('日', '-').split('-') : ['', '', '']
+        const orgInfo = db.table("orgInfo");
+        const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+        let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {accountName: '', accountBank: '', billName: '', account: '', accountAddress: '', organName: '', courtPrefix: ''}
         this.letData = {
           cellIdx0: num0, // 文书号
           cellIdx0TypeTextItem: num0, // 文书号
@@ -475,30 +465,36 @@ export default {
           cellIdx3TypeTextItem: num4, // 文书号
           cellIdx4: corp.corpName, // corpName
           cellIdx4TypeTextItem: corp.corpName, // corpName
-          cellIdx5: null, // 年
-          cellIdx6: null, // 月
-          cellIdx7: null, // 日
-          cellIdx8: null, // 文书号
-          cellIdx9: null, // 文书号
-          cellIdx10: null, // 文书号
-          cellIdx11: null,// 文书号
+          cellIdx5: date206[0], // 年
+          cellIdx5TypeTextItem: date206[0], // 年
+          cellIdx6: date206[1], // 月
+          cellIdx6TypeTextItem: date206[1], // 月
+          cellIdx7: date206[2], // 日
+          cellIdx7TypeTextItem: date206[2], // 日
+          cellIdx8: let206DataPapaerContent.cellIdx0, // 行政处罚决定书 文书号
+          cellIdx8TypeTextItem: let206DataPapaerContent.cellIdx0, // 行政处罚决定书 文书号
+          cellIdx9: let206DataPapaerContent.cellIdx1, // 行政处罚决定书 文书号
+          cellIdx9TypeTextItem: let206DataPapaerContent.cellIdx1, // 行政处罚决定书 文书号
+          cellIdx10: let206DataPapaerContent.cellIdx2, // 行政处罚决定书 文书号
+          cellIdx10TypeTextItem: let206DataPapaerContent.cellIdx2, // 行政处罚决定书 文书号
+          cellIdx11: let206DataPapaerContent.cellIdx3, // 行政处罚决定书 文书号
+          cellIdx11TypeTextItem: let206DataPapaerContent.cellIdx3, // 行政处罚决定书 文书号
           cellIdx12: null, // 单位
           cellIdx13: null, // 年
           cellIdx14: null, // 月
-          cellIdx15: null, //日
-          cellIdx16: null, //罚款缴至
+          cellIdx15: null, // 日
+          cellIdx16: null, // 罚款缴至
           cellIdx17: null, // 单位
-          cellIdx18: null, //  单位
-          cellIdx19: null, // 收件人（签名）
+          cellIdx18: null, // 单位
+          cellIdx19: null, // 受送达人（签名）
           cellIdx20: null, // 日期
-          cellIdx21: null,// 执法机关地址
-          cellIdx22: null, //邮政编码
+          cellIdx21: orgSysOfficeInfo.accountAddress, // 执法机关地址
+          cellIdx22: null, // 邮政编码
           cellIdx23: null, // 执法机关联系人
           cellIdx24: null, // 联系电话
           cellIdx25: null, //
           cellIdx26: null, //日期
-          cellIdx27: null, //单位
-
+          cellIdx27: let206DataPapaerContent.cellIdx4, //单位
         };
       }
       await db.close();

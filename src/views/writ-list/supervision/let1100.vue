@@ -57,9 +57,7 @@
                   @click="commandFill('cellIdx2', '', 'TextItem')"
                 >{{ letData.cellIdx2 }}</td>
                 <td class="textAlignLeft ">）</td>
-
                 <td class="textAlignLeft ">煤安延 </td>
-
                 <td
                   class="cellInput "
                   id="cell_idx_3"
@@ -112,8 +110,6 @@
              <tr>
                 <td style="width:5%"></td>
                 <td class="textAlignLeft">本机关于</td>
-              
-
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_7"
@@ -222,25 +218,10 @@
                   data-src
                   @click="commandFill('cellIdx16', '', 'TextItem')"
                 >{{ letData.cellIdx16 }}</td>
-                <td
-                  class="cellInput "
-                  id="cell_idx_17"
-                  align="center"
-                  style="width:8%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx17', '', 'TextItem')"
-                >{{ letData.cellIdx17 }}</td>
                 <td class="textAlignLeft ">号&nbsp;&nbsp;)</td>
-                 <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;因</td>
+                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;因</td>
               </tr>
-
-
-
-
               <tr>
-                
                 <div
                   style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
                   class="cellInput mutiLineArea"
@@ -248,11 +229,12 @@
                   data-title=""
                   data-type="textarea"
                   data-src
-                  @click="commandFill('cellIdx18', '', 'DangerTableItem')">
-                  <div v-if="letData.cellIdx18 && letData.cellIdx18.length > 0">
+                  @click="commandFill('cellIdx17', '', 'TextareaItem')">
+                  <div v-if="letData.cellIdx17 && letData.cellIdx17.length > 0">
                     <p class="show-area-item-p">
-                      <span style="padding: 7px;">{{ letData.cellIdx18 ? letData.cellIdx18 : '（点击编辑）' }}</span>
+                      <span style="padding: 7px;">{{ letData.cellIdx17 ? letData.cellIdx17 : '（点击编辑）' }}</span>
                     </p>
+                    <cell-line></cell-line>
                   </div>
                   <div v-else>
                     <p class="show-area-item-p">
@@ -266,58 +248,54 @@
               </tr>
               <tr>
                 <td class="textAlignLeft">，依据《中华人民共和国行政强制法》
-                  第二十五条规定，第一、二款规定，定将以上
+                  第二十五条规定，第一、二款规定，将以上
                   </td>
-
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_19"
+                  id="cell_idx_18"
                   align="center"
                   style="width:16.5%"
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx19', '', 'TextItem')"
-                >{{ letData.cellIdx19 }}</td>
+                  @click="commandFill('cellIdx18', '', 'TextItem')"
+                >{{ letData.cellIdx18 }}</td>
                 <td class="textAlignLeft">的期限延长至</td>
-              
+
                  <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_20"
+                  id="cell_idx_19"
                   align="center"
                   style="width:8%"
                   data-title="年"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx20', '年', 'TextItem')"
-                >{{ letData.cellIdx20 }}</td>
+                  @click="commandFill('cellIdx19', '年', 'TextItem')"
+                >{{ letData.cellIdx19 }}</td>
                 <td class="textAlignLeft">年</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_21"
+                  id="cell_idx_20"
                   align="center"
                   style="width:8%"
                   data-title="月"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx21', '月', 'TextItem')"
-                >{{ letData.cellIdx21}}</td>
+                  @click="commandFill('cellIdx20', '月', 'TextItem')"
+                >{{ letData.cellIdx20}}</td>
                 <td class="textAlignLeft">月</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_22"
+                  id="cell_idx_21"
                   align="center"
                   style="width:8%"
                   data-title="日"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx22', '日', 'TextItem')"
-                >{{ letData.cellIdx22 }}</td>
+                  @click="commandFill('cellIdx21', '日', 'TextItem')"
+                >{{ letData.cellIdx21 }}</td>
                 <td class="textAlignLeft">日。</td>
-              
-
               </tr>
-             
               <tr>
                 <td style="width:5%"></td>
                 <td
@@ -325,66 +303,65 @@
                 >如果不服本决定，可在接到本决定书之日起60日内向</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_23"
+                  id="cell_idx_22"
                   align="center"
                   style="width:43%"
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx23', '', 'TextItem')"
-                >{{ letData.cellIdx23 }}</td>
+                  @click="commandFill('cellIdx22', '', 'TextItem')"
+                >{{ letData.cellIdx22 }}</td>
 
               </tr>
               <tr>
                  <td class="textAlignLeft">人民政府或者</td>
                  <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_24"
+                  id="cell_idx_23"
                   align="center"
                   style="width:49%"
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx24', '', 'TextItem')"
-                >{{ letData.cellIdx24 }}</td>
+                  @click="commandFill('cellIdx23', '', 'TextItem')"
+                >{{ letData.cellIdx23 }}</td>
                 <td class="textAlignLeft">申请行政复议，或者在6个月内依法向</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_25"
+                  id="cell_idx_24"
                   align="center"
                   style="width:35%"
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx25', '', 'TextItem')"
-                >{{ letData.cellIdx25 }}</td>
+                  @click="commandFill('cellIdx24', '', 'TextItem')"
+                >{{ letData.cellIdx24 }}</td>
                 <td class="textAlignLeft">人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。</td>
               </tr>
             </table>
             <table height="30"></table>
-           
             <table height="30"></table>
            <table class="docBody">
+              <tr>
+                <td
+                  class="cellInput"
+                  id="cell_idx_25"
+                  align="right"
+                  style="width:95%"
+                  @click="commandFill('cellIdx25', '', 'TextItem')"
+                >{{letData.cellIdx25 ? letData.cellIdx25 : '（点击编辑）'}}</td>
+              </tr>
               <tr>
                 <td
                   class="cellInput"
                   id="cell_idx_26"
                   align="right"
                   style="width:95%"
-                  @click="commandFill('cellIdx26', '', 'TextItem')"
-                >{{letData.cellIdx26 ? letData.cellIdx26 : '（点击编辑）'}}</td>
-              </tr>
-              <tr>
-                <td
-                  class="cellInput"
-                  id="cell_idx_27"
-                  align="right"
-                  style="width:95%"
                   data-title
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx27', '日期', 'DateItem')"
-                >{{letData.cellIdx27 ? letData.cellIdx27 : '（点击编辑）'}}</td>
+                  @click="commandFill('cellIdx26', '日期', 'DateItem')"
+                >{{letData.cellIdx26 ? letData.cellIdx26 : '（点击编辑）'}}</td>
               </tr>
             </table>
             <table height="60"></table>
@@ -394,14 +371,14 @@
               <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被</td>
               <td
                 class="cellInput"
-                id="cell_idx_28"
+                id="cell_idx_27"
                 align="center"
                 style="width:15%"
                 data-title
                 data-type="text"
                 data-src
-                @click="commandFill('cellIdx28', '', 'TextItem')"
-                >{{ letData.cellIdx28 }}</td>
+                @click="commandFill('cellIdx27', '', 'TextItem')"
+                >{{ letData.cellIdx27 }}</td>
               <td class="textAlignLeft">单位，一份存档。</td>
             </table>
           </div>
@@ -431,36 +408,7 @@
 import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject, getDocNumber } from '@/utils/setInitPaperData'
-const dictionary = [
-  {
-    value: '场所',
-    name: '场所'
-  },
-  {
-    value: '设施',
-    name: '设施'
-  },
-  {
-    value: '物品',
-    name: '物品'
-  },
-  {
-    value: '场所、设施',
-    name: '场所、设施'
-  },
-  {
-    value: '场所、物品',
-    name: '场所、物品'
-  },
-  {
-    value: '设施、物品',
-    name: '设施、物品'
-  },
-  {
-    value: '场所、设施、物品',
-    name: '场所、设施、物品'
-  },
-]
+
 export default {
   name: "Let110",
   props: {
@@ -484,19 +432,7 @@ export default {
   data() {
     return {
       letData: {},
-      options: {
-        cellIdx7: {
-          page: '32',
-          key: 'cellIdx7'
-        },
-        cellIdx8: {
-          page: '32',
-          key: 'cellIdx8'
-        },
-        cellIdx10: dictionary,
-        cellIdx14: dictionary,
-        cellIdx15: dictionary,
-      },
+      options: {},
       editData: {}, // 回显数据
       selectedType: '查封',
       visible: false,
@@ -544,46 +480,68 @@ export default {
         const let101Data = await wkPaper.find((item) => {
           return item.caseId === caseId && item.paperType === '1';
         });
+        if (!let101Data) {
+          this.$message.error('请先填写并保存现场检查记录中内容！')
+          return
+        }
         let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
         let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
-        let cellIdx7String = `${dangerObject.dangerString}`
-        let cellIdx8String = `${dangerObject.illegalString}`
         // 4.地点：sysOfficeInfo实体中organName字段+ courtPrefix字段
         const orgInfo = db.table("orgInfo");
         const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
-        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
-        let cellIdx16String = orgSysOfficeInfo.organName
-        let cellIdx17String = orgSysOfficeInfo.depAddress
+        let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {organName: '', depAddress: ''}
+        // 5.查封扣押文书号
+        const let110Data = await wkPaper.find((item) => {
+          return item.caseId === caseId && item.paperType === '32';
+        });
+        if (!let110Data) {
+          this.$message.error('请先填写并保存查封(扣押)决定书中内容！')
+          return
+        }
+        let let110DataPapaerContent = JSON.parse(let110Data.paperContent)
+        let let110Date = let110DataPapaerContent.cellIdx20 ? let110DataPapaerContent.cellIdx20.replace('年', '-').replace('月', '-').replace('日', '-').split('-') : ['', '', '']
         this.letData = {
           cellIdx0: null, // 查封(扣押)
           cellIdx1: num0, // 文书号
           cellIdx1TypeTextItem: num0, // 文书号
           cellIdx2: num1, // 文书号
           cellIdx2TypeTextItem: num1, // 文书号
-          cellIdx3: num3, // 文书号
-          cellIdx3TypeTextItem: num3, // 文书号
-          cellIdx4: num4, // 文书号
-          cellIdx4TypeTextItem: num4, // 文书号
-          cellIdx5: corp.corpName ? corp.corpName : null, // corpname
-          cellIdx5TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
-          cellIdx6: null, // 单位
-          cellIdx7: cellIdx7String, // 隐患描述
-          cellIdx8: cellIdx8String, // 违法认定法条
-          cellIdx9: null, // 单位
-          cellIdx10: null, // 检查物品场所码表
-          cellIdx11: null, // 查封/扣押
-          cellIdx12: null, // 单位
-          cellIdx13: null, // 查封/扣押
-          cellIdx14: null, // 检查物品场所码表
-          cellIdx15: null, // 检查物品场所码表
-          cellIdx16: cellIdx16String, // organName
-          cellIdx16TypeTextItem: cellIdx16String, // organName
-          cellIdx17: cellIdx17String, // courtPrefix人民法院
-          cellIdx17TypeTextItem: cellIdx17String, // courtPrefix人民法院
-          cellIdx18: null, // 附件
-          cellIdx19: null, //
-          cellIdx20: null, // 日期
-          cellIdx21: null, //
+          cellIdx3: null, // 查/扣
+          cellIdx4: num3, // 文书号
+          cellIdx4TypeTextItem: num3, // 文书号
+          cellIdx5: num4, // 文书号
+          cellIdx5ypeTextItem: num4, // 文书号
+          cellIdx6: corp.corpName ? corp.corpName : null, // corpname
+          cellIdx6TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
+          cellIdx7: let110Date[0], // 年
+          cellIdx8: let110Date[1], // 月
+          cellIdx9: let110Date[2], // 日
+          cellIdx10: null, // 对你单位涉案场所XX
+          cellIdx11: null, // 予以XX 查封、扣押
+          cellIdx12: let110DataPapaerContent.cellIdx1, // 查封扣押文书号
+          cellIdx12TypeTextareaItem: let110DataPapaerContent.cellIdx1, // 查封扣押文书号
+          cellIdx13: let110DataPapaerContent.cellIdx2, // 查封扣押文书号
+          cellIdx13TypeTextareaItem: let110DataPapaerContent.cellIdx2, // 查封扣押文书号
+          cellIdx14: let110DataPapaerContent.cellIdx3, // 查封扣押文书号 查、扣
+          cellIdx14TypeTextareaItem: let110DataPapaerContent.cellIdx3, // 查封扣押文书号 查、扣
+          cellIdx15: let110DataPapaerContent.cellIdx4, // 查封扣押文书号
+          cellIdx15TypeTextareaItem: let110DataPapaerContent.cellIdx4, // 查封扣押文书号
+          cellIdx16: let110DataPapaerContent.cellIdx5, // 查封扣押文书号
+          cellIdx16TypeTextareaItem: let110DataPapaerContent.cellIdx5, // 查封扣押文书号
+          cellIdx17: dangerObject.dangerString, // 隐患描述
+          cellIdx17TypeTextareaItem: dangerObject.dangerString, // 隐患描述
+          cellIdx18: null, // 将以上XX的期限延长
+          cellIdx19: null, // 年
+          cellIdx20: null, // 月
+          cellIdx21: null, // 日
+          cellIdx22: null, // 可在接到本决定书之日起60日内向XX人民政府
+          cellIdx23: orgSysOfficeInfo.organName, // organName
+          cellIdx23TypeTextItem: orgSysOfficeInfo.organName, // organName
+          cellIdx24: orgSysOfficeInfo.depAddress, // courtPrefix人民法院
+          cellIdx24TypeTextItem: orgSysOfficeInfo.depAddress, // courtPrefix人民法院
+          cellIdx25: null, //
+          cellIdx26: null, // 日期
+          cellIdx27: null, // 查封/扣押
           dangerItemObject: let101DataPapaerContent.dangerItemObject,
           samplingForensicsTable: {
             tableData: [],
@@ -603,20 +561,6 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}Type${type}`;
-        if (key === 'cellIdx7' || key === 'cellIdx8') {
-          this.options[key] = {
-            page: '32',
-            key: key,
-          }
-          dataKey = 'dangerItemObject'
-        } else if (key === 'cellIdx18') {
-          this.options[key] = {
-            canEdit: true,
-            page: '32', // 物品清单
-            name: this.selectedType
-          }
-          dataKey = 'samplingForensicsTable'
-        }
         this.$refs.letMain.commandFill(
           key,
           dataKey,
@@ -630,21 +574,12 @@ export default {
     confirm() {
       // 选择单位或个人
       this.visible = false
-      // 1.根据DocType设置为“查封(扣押)”、“延长查封（扣押）期限”或“查封(扣押)处理”
-      let cellIdx0String = ''
-      if (this.docData.docTypeNo === '32') {
-        cellIdx0String = `${this.selectedType}`
-      } else if (this.docData.docTypeNo === '45') {
-        cellIdx0String = `延长${this.selectedType}期限`
-      } else if (this.docData.docTypeNo === '46') {
-        cellIdx0String = `${this.selectedType}处理`
-      }
-      this.letData.cellIdx0 = cellIdx0String
-      this.letData.cellIdx0TypeTextItem = cellIdx0String
+      this.letData.cellIdx0 = `延长${this.selectedType}期限`
+      this.letData.cellIdx0TypeTextItem = `延长${this.selectedType}期限`
       this.letData.cellIdx11 = this.selectedType
       this.letData.cellIdx11TypeTextItem = this.selectedType
-      this.letData.cellIdx13 = this.selectedType
-      this.letData.cellIdx13TypeTextItem = this.selectedType
+      this.letData.cellIdx27 = this.selectedType
+      this.letData.cellIdx27TypeTextItem = this.selectedType
     }
   },
 };

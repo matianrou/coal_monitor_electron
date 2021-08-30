@@ -19,7 +19,10 @@ export async function getDocNumber(db, docTypeNo, caseId, user) {
   // 获取当前机构
   const orgInfo = db.table("orgInfo");
   const orgData = await orgInfo.find(item => item.no === user.userGroupId)
-  let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
+  let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {
+    docRiseSafe: '',
+    docRiseDepa: ''
+  }
   // 根据文书类型，获得（立、告、罚、送、催）
   let docString = ''
   switch (docTypeNo) {
@@ -137,7 +140,7 @@ export function getDangerObject(tableData, hasIndex = {
   let penaltyDescFineTotle = 0
   tableData.map((item, index) => {
     contentOnsiteDesc += `${(index + 1)}. ${item.itemContent}${item.onsiteDesc}。`
-    dangerString += hasIndex.danger ? `${(index + 1)}. ${item.itemContent}\r\n` : `${item.itemContent}`
+    dangerString += hasIndex.danger ? `${(index + 1)}. ${item.itemContent}` : `${item.itemContent}`
     illegalString += hasIndex.illegal ? `${(index + 1)}. ${item.confirmClause}、` : `${item.confirmClause}、`
     onsiteDescString += hasIndex.onsiteDesc ? `${(index + 1)}. ${item.onsiteDesc}、` : `${item.onsiteDesc}、`
     treatmentSuggestion += `${(index + 1)}. ${item.penaltyBasis ? item.penaltyBasis : ''}${item.penaltyDesc ? item.penaltyDesc : ''}；`

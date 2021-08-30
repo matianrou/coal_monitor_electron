@@ -63,7 +63,6 @@
                 >{{letData.cellIdx3}}</td>
                 <td class="textAlignLeft ">号&nbsp;&nbsp;</td>
               </tr>
-
             </table>
             <div class="stdRowH"></div>
             <table class="docBody">
@@ -95,7 +94,6 @@
                   @click="commandFill('cellIdx5', '', 'TextItem')"
                 >{{letData.cellIdx5}}</td>
                 <td class="textAlignLeft"> ，请你</td>
-
                 <td
                   class="cellInput "
                   id="cell_idx_6"
@@ -106,7 +104,7 @@
                   data-src
                   @click="commandFill('cellIdx6', '', 'TextItem')"
                 >{{letData.cellIdx6}}</td>
-                <td class="textAlignLeft"> 于</td>
+                <td class="textAlignLeft">于</td>
                  <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_7"
@@ -143,8 +141,6 @@
                   @click="commandFill('cellIdx9', '日', 'TextItem')"
                 >{{letData.cellIdx9}}</td>
                 <td class="textAlignLeft">日到</td>
-
-
               </tr>
             </table>
             <table class="docBody">
@@ -217,7 +213,6 @@
             </table>
             <table class="docBody">
               <tr>
-
                 <td style="width:16%">执法机关地址：</td>
                 <td
                   style="width:84%"
@@ -245,7 +240,6 @@
                 >{{letData.cellIdx18}}</td>
               </tr>
             </table>
-           
             <table height="30"></table>
           <table class="docBody">
               <tr>
@@ -270,13 +264,10 @@
                 >{{letData.cellIdx20 ? letData.cellIdx20 : '（点击编辑）'}}</td>
               </tr>
             </table>
-
           </div>
-
           <table class="docBody">
               <hr />
               <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被询问人，一份存档。</td>
-
             </table>
         </div>
       </div>
@@ -365,6 +356,11 @@ export default {
       } else {
         // 创建初始版本
         let paperNumber = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
+        // sysOfficeInfo实体中depAddress字段+ deparFullname字段
+        // 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
+        const orgInfo = db.table("orgInfo");
+        const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+        let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', master: '', phone: ''}
         this.letData = {
           cellIdx0: paperNumber.num0, // 文书号
           cellIdx0TypeTextItem: paperNumber.num0, // 文书号
@@ -377,18 +373,24 @@ export default {
           cellIdx4: corp.corpName, // 煤矿名称
           cellIdx4TypeTextItem: corp.corpName, // 煤矿名称
           cellIdx5: null, // 因XXX,
-          cellIdx6: null, // 请你单位于XX日期
-          cellIdx7: null, // 到XXX接受询问调查
-          cellIdx8: '□', // 身份证
-          cellIdx9: '□', // 营业执照
-          cellIdx10: '□', // 法定代表人身份证明或者委托书
-          cellIdx11: '□', // 其他
-          cellIdx12: null, // 其他内容
-          cellIdx13: null, // 执法机关地址
-          cellIdx14: null, // 联系人
-          cellIdx15: null, // 联系电话
-          cellIdx16: null, // OrgName
-          cellIdx17: null, // 日期
+          cellIdx6: null, // 请你XX于
+          cellIdx7: null, // 年
+          cellIdx8: null, // 月
+          cellIdx9: null, // 日
+          cellIdx10: null, // 到XXX接受询问调查
+          cellIdx11: '□', // 身份证
+          cellIdx12: '□', // 营业执照
+          cellIdx13: '□', // 法定代表人身份证明或者委托书
+          cellIdx14: '□', // 其他
+          cellIdx15: null, // 其他内容
+          cellIdx16: orgSysOfficeInfo.depAddress, // 执法机关地址
+          cellIdx16TypeTextItem: orgSysOfficeInfo.depAddress, // 执法机关地址
+          cellIdx17: orgSysOfficeInfo.master, // 联系人
+          cellIdx17TypeTextItem: orgSysOfficeInfo.master, // 联系人
+          cellIdx18: orgSysOfficeInfo.phone, // 联系电话
+          cellIdx18TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
+          cellIdx19: null, //
+          cellIdx20: null, // 日期
         };
       }
       await db.close();

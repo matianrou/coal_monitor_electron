@@ -131,6 +131,7 @@
                 <p class="show-area-item-p">
                   <span style="padding: 7px;">{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
                 </p>
+                <cell-line></cell-line>
               </div>
               <div v-else>
                 <p class="show-area-item-p">
@@ -304,7 +305,7 @@
                       <span style="padding: 7px;">{{letData.cellIdx21 ? letData.cellIdx21 : '（点击编辑）'}}</span>
                     </p>
                     <div
-                      v-for="(item, index) in 50"
+                      v-for="(item, index) in 200"
                       :key="index"
                       class="cellLine"
                       :style="`top: ${(index + 1) * 9.54}mm;`"
@@ -529,6 +530,10 @@ export default {
         const let101Data = await wkPaper.find((item) => {
           return item.caseId === caseId && item.paperType === '1';
         });
+        if (!let101Data) {
+          this.$message.error('请先填写并保存现场检查记录中内容！')
+          return
+        }
         let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
         let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
         let cellIdx8String = `${corp.corpName}涉嫌${dangerObject.dangerString}。`
@@ -558,17 +563,6 @@ export default {
           cellIdx20: null, // 记录人（签名）
           cellIdx21: cellIdx21String,
           cellIdx21TypeTextareaItem: cellIdx21String,
-          cellIdx22: null,
-          cellIdx23: null,
-          cellIdx24: null,
-          cellIdx25: null,
-          cellIdx26: null,
-          cellIdx27: null,
-          cellIdx28: null,
-          cellIdx29: null,
-          cellIdx30: null,
-          cellIdx31: null,
-          cellIdx32: null,
           dangerItemObject: let101DataPapaerContent.dangerItemObject
         };
       }
