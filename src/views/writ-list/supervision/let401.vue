@@ -24,7 +24,6 @@
                 <td
                   class="cellInput "
                   id="cell_idx_0"
-                  contenteditable="true"
                   align="center"
                   style="width:10%"
                   data-title="文书号"
@@ -36,7 +35,6 @@
                 <td
                   class="cellInput "
                   id="cell_idx_1"
-                  contenteditable="true"
                   align="center"
                   style="width:25%"
                   data-title="文书号"
@@ -46,12 +44,9 @@
                 >{{letData.cellIdx1}}</td>
                 <td class="textAlignLeft ">）</td>
                 <td class="textAlignLeft ">煤安移〔</td>
-
-
                 <td
                   class="cellInput "
                   id="cell_idx_2"
-                  contenteditable="true"
                   align="center"
                   style="width:7%"
                   data-title="文书号"
@@ -63,9 +58,8 @@
                 <td
                   class="cellInput "
                   id="cell_idx_3"
-                  contenteditable="true"
                   align="center"
-                  style="width:7%"
+                  style="width:9%"
                   data-title="文书号"
                   data-type="text"
                   data-src
@@ -78,7 +72,6 @@
                 <td
                   class="cellInput "
                   id="cell_idx_4"
-                  contenteditable="true"
                   align="center"
                   style="width:17%"
                   data-title="签发人"
@@ -91,7 +84,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_5"
-                  contenteditable="true"
                   style="width:50%"
                   data-title=""
                   data-type="text"
@@ -100,45 +92,18 @@
                 >{{letData.cellIdx5}}</td>
                 <td class="textAlignLeft">：</td>
               </tr>
-              <tr>
-                 <td style="width:5%"></td>
-                <td class="textAlignLeft">经本机关检查</td>
-                <!-- <td
-                  class="cellInput"
-                  id="cell_idx_6"
-                  contenteditable="true"
-                  align="center"
-                  style="width:10%"
-                  data-title="单位"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx6', '单位', 'TextItem')"
-                >{{letData.cellIdx6}}</td> -->
-                <td class="textAlignLeft">检查，发现</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_7"
-                  contenteditable="true"
-                  style="width:33%"
-                  data-title=""
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx7', '', 'TextItem')"
-                >{{letData.cellIdx7}}</td>
-                <td class="textAlignLeft">存在</td>
-                <td
-                    style="width:33%"
-                    class="cellInput cellBottomLine"
-                    id="cell_idx_8"
-                    data-title="违法行为"
-                    data-type="textarea"
-                    data-src
-                    @click="commandFill('cellIdx8', '违法行为', 'TextareaItem')">
-                  {{ letData.cellIdx8 }}
-                </td>
-                <td class="textAlignLeft">的问题，根据《中华人民共和国安全生产法》第六十六条规定，现将该案件移送贵单位依法处理。</td>
-              </tr>
             </table>
+            <div class="docTextarea">
+              <label style="width: 5%;"></label>
+              经本机关检查，发现
+              <span
+                @click="commandFill('cellIdx7', '', 'TextItem')"
+              >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
+              存在
+              <span
+                @click="commandFill('cellIdx8', '违法行为', 'TextareaItem')"
+              >{{ letData.cellIdx8 }}</span>的问题，根据《中华人民共和国安全生产法》第六十六条规定，现将该案件移送贵单位依法处理。
+            </div>
             <table class="docBody">
               <!-- <tr>
                 <td class="textAlignLeft">的问题，根据《中华人民共和国安全生产法》第六十六条规定，现将该问题移送贵单位依</td>
@@ -153,7 +118,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
-                  contenteditable="true"
                   align="center"
                   style="width:10%"
                   data-title="x份"
@@ -165,7 +129,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_10"
-                  contenteditable="true"
                   align="center"
                   style="width:10%"
                   data-title="X页"
@@ -184,7 +147,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_11"
-                  contenteditable="true"
                   align="center"
                   style="width:38%"
                   data-title="移送单位地址"
@@ -196,7 +158,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_12"
-                  contenteditable="true"
                   align="center"
                   style="width:27%"
                   data-title="地址"
@@ -208,7 +169,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_13"
-                  contenteditable="true"
                   align="center"
                   style="width:28%"
                   data-title="邮政编码"
@@ -223,7 +183,6 @@
                 <!-- <td
                   class="cellInput"
                   id="cell_idx_14"
-                  contenteditable="true"
                   align="center"
                   style="width:10%"
                   data-title="调查事由"
@@ -235,7 +194,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_15"
-                  contenteditable="true"
                   align="center"
                   style="width:36%"
                   data-title="移送单位联系人"
@@ -249,7 +207,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_16"
-                  contenteditable="true"
                   align="center"
                   style="width:28%"
                   data-title="电话"
@@ -260,12 +217,10 @@
               </tr>
               <tr>
                  <td style="width:5%"></td>
-
                 <td class="textAlignLeft">送件人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_17"
-                  contenteditable="true"
                   align="center"
                   style="width:36%"
                   data-title="送件人（签名）"
@@ -279,7 +234,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_18"
-                  contenteditable="true"
                   align="center"
                   style="width:27%"
                   data-title="日期"
@@ -289,13 +243,11 @@
                 >{{letData.cellIdx18}}</td>
               </tr>
               <tr>
-                 <td style="width:5%"></td>
-
+                <td style="width:5%"></td>
                 <td class="textAlignLeft">收件人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_19"
-                  contenteditable="true"
                   align="center"
                   style="width:36%"
                   data-title="收件人（签名）"
@@ -309,7 +261,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_20"
-                  contenteditable="true"
                   align="center"
                   style="width:27%"
                   data-title="日期"
@@ -320,7 +271,7 @@
               </tr>
             </table>
             <table height="30"></table>
-           <table class="docBody">
+            <table class="docBody">
               <tr>
                 <td
                   class="cellInput"
@@ -431,11 +382,7 @@ export default {
         // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
         const orgInfo = db.table("orgInfo");
         const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
-        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
-        let cellIdx12String = orgSysOfficeInfo.depAddress
-        let cellIdx13String = orgSysOfficeInfo.depPost
-        let cellIdx15String = orgSysOfficeInfo.master
-        let cellIdx16String = orgSysOfficeInfo.phone
+        let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: ''}
         this.letData = {
           cellIdx0: num0, // 文书号
           cellIdx0TypeTextItem: num0, // 文书号
@@ -446,31 +393,32 @@ export default {
           cellIdx3: num4, // 文书号
           cellIdx3TypeTextItem: num4, // 文书号
           cellIdx4: null, // 签发人
-          cellIdx5: null, //
+          cellIdx5: corp.corpName, //
+          cellIdx5TypeTextItem: corp.corpName, //
           cellIdx6: null, // 单位  暂不用
-          cellIdx7: corp.corpName, //
-          cellIdx7TypeTextItem: corp.corpName, //
+          cellIdx7: null, // 发现XX存在
+          cellIdx7TypeTextItem: null, // 发现XX存在
           cellIdx8: cellIdx8String, // 违法行为
           cellIdx8TypeTextareaItem: cellIdx8String, // 违法行为
           cellIdx9: null, // X份
           cellIdx10: null, // X页
-          cellIdx11: null, // 移送单位地址
-          cellIdx12: cellIdx12String, // 地址  暂不用
-          cellIdx12TypeTextItem: cellIdx12String, // 地址
-          cellIdx13: cellIdx13String, // 邮政编码
-          cellIdx13TypeTextItem: cellIdx13String, // 邮政编码
+          cellIdx11: orgSysOfficeInfo.depAddress, // 移送单位地址
+          cellIdx11TypeTextItem: orgSysOfficeInfo.depAddress, // 移送单位地址
+          cellIdx12: null, // 地址  暂不用
+          cellIdx13: orgSysOfficeInfo.depPost, // 邮政编码
+          cellIdx13TypeTextItem: orgSysOfficeInfo.depPost, // 邮政编码
           cellIdx14: null, // 单位  暂不用
-          cellIdx15: cellIdx15String, // 移送单位联系人
-          cellIdx15TypeTextItem: cellIdx15String, // 联系人
-          cellIdx16: cellIdx16String, // 电话
-          cellIdx16TypeTextItem: cellIdx16String, // 电话
+          cellIdx15: orgSysOfficeInfo.master, // 移送单位联系人
+          cellIdx15TypeTextItem: orgSysOfficeInfo.master, // 联系人
+          cellIdx16: orgSysOfficeInfo.phone, // 电话
+          cellIdx16TypeTextItem: orgSysOfficeInfo.phone, // 电话
           cellIdx17: null, // 送件人（签名）
           cellIdx18: null, // 日期
           cellIdx19: null, // 收件人（签名）
           cellIdx20: null, // 日期
           cellIdx21: null, //
           cellIdx22: null, // 日期
-          
+
         };
       }
       await db.close();

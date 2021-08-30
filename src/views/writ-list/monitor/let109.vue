@@ -349,7 +349,7 @@ export default {
         let cellIdx7String = dateList[0]
         let cellIdx8String = dateList[0]
         // 物品名称：
-        let let108Article = let108DataPapaerContent.samplingForensicsTable.tableData
+        let let108Article = let108DataPapaerContent.SamplingForensicsTable.tableData
         let articleName = ''
         if (let108Article.length > 0) {
           let108Article.map(item => {

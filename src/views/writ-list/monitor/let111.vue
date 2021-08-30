@@ -501,7 +501,7 @@ export default {
           cellIdx23: null, //
           cellIdx24: null, // 日期
           cellIdx25: null, //
-          samplingForensicsTable: let110DataPapaerContent.samplingForensicsTable
+          SamplingForensicsTable: let110DataPapaerContent.SamplingForensicsTable
         };
       }
       await db.close();
@@ -521,7 +521,7 @@ export default {
             page: '34', // 物品清单
             name: this.selectedType
           }
-          dataKey = 'samplingForensicsTable'
+          dataKey = 'SamplingForensicsTable'
         }
         this.$refs.letMain.commandFill(key, dataKey, title, type, this.letData[dataKey], this.options[key])
       }

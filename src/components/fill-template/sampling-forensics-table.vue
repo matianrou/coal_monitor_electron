@@ -234,7 +234,7 @@ export default {
         title = '抽样取证清单'
       } else if (this.options.page === '25') {
         title = '先行登记保存证据清单'
-      } else if (this.options.page === '32' || this.options.page === '34') {
+      } else if (this.options.page === '32' || this.options.page === '34' || this.options.page === '55') {
         title = '物品清单'
       }
       return title

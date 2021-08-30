@@ -455,7 +455,7 @@ export default {
           cellIdx21: null, //
           cellIdx22: null, // 日期
           dangerItemObject: let101DataPapaerContent.dangerItemObject,
-          samplingForensicsTable: {
+          SamplingForensicsTable: {
             tableData: [],
             signature: null,
             signDate: ''
@@ -484,7 +484,7 @@ export default {
             canEdit: true,
             page: '25', // 控制当前为抽样取证或者先行登记保存证据清单
           }
-          dataKey = 'samplingForensicsTable'
+          dataKey = 'SamplingForensicsTable'
         }
         this.$refs.letMain.commandFill(
           key,

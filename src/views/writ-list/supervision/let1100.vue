@@ -543,7 +543,7 @@ export default {
           cellIdx26: null, // 日期
           cellIdx27: null, // 查封/扣押
           dangerItemObject: let101DataPapaerContent.dangerItemObject,
-          samplingForensicsTable: {
+          SamplingForensicsTable: {
             tableData: [],
             signature: null,
             signDate: ''

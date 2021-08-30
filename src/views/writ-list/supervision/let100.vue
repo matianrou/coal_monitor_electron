@@ -69,6 +69,7 @@
               <span
                 @click="commandFill('cellIdx3', '煤矿概况', 'TextareaItem')"
               >{{ letData.cellIdx3 }}</span>
+              <div class="line"></div>
             </div>
             <!-- <div
               style="word-wrap:break-word;word-break:break-all;overflow:hidden;"

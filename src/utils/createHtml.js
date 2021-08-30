@@ -91,14 +91,21 @@ export function createHtml(paperDiv) {
           width: 19cm;
           margin: 0 auto;
           line-height: 1cm;
-            display: flow-root;
-            label {
+          display: flow-root;
+          label {
             display: inline-block;
           }
           span {
             border-bottom: solid 1px #000;
             word-break: break-all;
             cursor: pointer;
+          }
+          .line {
+            border-top: 1px solid;
+            height: 0px;
+            position: absolute;
+            bottom: 7px;
+            width: 100%;
           }
         }
         .docHeader{

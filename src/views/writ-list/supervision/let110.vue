@@ -539,7 +539,7 @@ export default {
           cellIdx20: null, // 日期
           cellIdx21: null, // 查封(扣押)
           dangerItemObject: let101DataPapaerContent.dangerItemObject,
-          samplingForensicsTable: {
+          SamplingForensicsTable: {
             tableData: [],
             signature: null,
             signDate: ''
@@ -569,7 +569,7 @@ export default {
             page: '32', // 物品清单
             name: this.selectedType
           }
-          dataKey = 'samplingForensicsTable'
+          dataKey = 'SamplingForensicsTable'
         }
         this.$refs.letMain.commandFill(
           key,

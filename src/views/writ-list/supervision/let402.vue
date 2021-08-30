@@ -9,7 +9,6 @@
       :edit-data="editData"
       @go-back="goBack"
     >
-
       <div slot="left">
         <div class="page page-sizeA4">
           <div>
@@ -25,7 +24,6 @@
                 <td
                   class="cellInput "
                   id="cell_idx_0"
-                  contenteditable="true"
                   align="center"
                   style="width:10%"
                   data-title="文书号"
@@ -37,7 +35,6 @@
                 <td
                   class="cellInput "
                   id="cell_idx_1"
-                  contenteditable="true"
                   align="center"
                   style="width:20%"
                   data-title="文书号"
@@ -47,12 +44,9 @@
                 >{{letData.cellIdx1}}</td>
                 <td class="textAlignLeft ">）</td>
                 <td class="textAlignLeft ">煤安涉〔</td>
-
-
                 <td
                   class="cellInput "
                   id="cell_idx_2"
-                  contenteditable="true"
                   align="center"
                   style="width:8%"
                   data-title="文书号"
@@ -64,7 +58,6 @@
                 <td
                   class="cellInput "
                   id="cell_idx_3"
-                  contenteditable="true"
                   align="center"
                   style="width:10%"
                   data-title="文书号"
@@ -79,7 +72,6 @@
                 <td
                   class="cellInput "
                   id="cell_idx_4"
-                  contenteditable="true"
                   align="center"
                   style="width:17%"
                   data-title="签发人"
@@ -92,7 +84,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_5"
-                  contenteditable="true"
                   style="width:50%"
                   data-title="被检查单位"
                   data-type="text"
@@ -107,7 +98,6 @@
                 <!-- <td
                   class="cellInput"
                   id="cell_idx_6"
-                  contenteditable="true"
                   align="center"
                   style="width:10%"
                   data-title="单位"
@@ -152,7 +142,6 @@
                  <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_10"
-                  contenteditable="true"
                   align="center"
                   style="width:47%"
                   data-title="违法行为"
@@ -160,8 +149,6 @@
                   data-src
                   @click="commandFill('cellIdx10', '违法行为', 'TextItem')"
                 >{{letData.cellIdx10}}</td>
-
-
               </tr>
             </table>
             <!-- <div
@@ -206,7 +193,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_12"
-                  contenteditable="true"
                   align="center"
                   style="width:10%"
                   data-title="份数"
@@ -218,7 +204,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_13"
-                  contenteditable="true"
                   align="center"
                   style="width:10%"
                   data-title="页数"
@@ -232,24 +217,21 @@
            <table height="40"></table>
             <table class="docBody">
               <tr>
-
                 <td class="textAlignLeft">移送单位地址：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_14"
-                  contenteditable="true"
                   align="center"
                   style="width:42%"
                   data-title="移送单位地址"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx14', '', 'TextItem')"
+                  @click="commandFill('cellIdx14', '移送单位地址', 'TextItem')"
                 >{{letData.cellIdx14}}</td>
                 <!-- <td class="textAlignLeft">地址：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_15"
-                  contenteditable="true"
                   align="center"
                   style="width:27%"
                   data-title="地址"
@@ -261,7 +243,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_16"
-                  contenteditable="true"
                   align="center"
                   style="width:29%"
                   data-title="邮政编码"
@@ -275,7 +256,6 @@
                 <!-- <td
                   class="cellInput"
                   id="cell_idx_17"
-                  contenteditable="true"
                   align="center"
                   style="width:10%"
                   data-title="单位"
@@ -287,7 +267,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_18"
-                  contenteditable="true"
                   align="center"
                   style="width:40%"
                   data-title="移送单位联系人"
@@ -301,7 +280,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_19"
-                  contenteditable="true"
                   align="center"
                   style="width:29%"
                   data-title="电话"
@@ -315,7 +293,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_20"
-                  contenteditable="true"
                   align="center"
                   style="width:40%"
                   data-title="送件人（签名）"
@@ -329,7 +306,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_21"
-                  contenteditable="true"
                   align="center"
                   style="width:28%"
                   data-title="日期"
@@ -343,7 +319,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_22"
-                  contenteditable="true"
                   align="center"
                   style="width:40%"
                   data-title="送件人（签名）"
@@ -357,7 +332,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_23"
-                  contenteditable="true"
                   align="center"
                   style="width:28%"
                   data-title="日期"
@@ -371,7 +345,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_24"
-                  contenteditable="true"
                   align="center"
                   style="width:40%"
                   data-title="收件人（签名）"
@@ -385,7 +358,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_25"
-                  contenteditable="true"
                   align="center"
                   style="width:28%"
                   data-title="日期"
@@ -506,11 +478,7 @@ export default {
         // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
         const orgInfo = db.table("orgInfo");
         const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
-        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
-        let cellIdx15String = orgSysOfficeInfo.depAddress
-        let cellIdx16String = orgSysOfficeInfo.depPost
-        let cellIdx18String = orgSysOfficeInfo.master
-        let cellIdx19String = orgSysOfficeInfo.phone
+        let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: ''}
         this.letData = {
           cellIdx0: num0, // 文书号
           cellIdx0TypeTextItem: num0, // 文书号
@@ -521,8 +489,7 @@ export default {
           cellIdx3: num4, // 文书号
           cellIdx3TypeTextItem: num4, // 文书号
           cellIdx4: null, // 签发人
-          cellIdx5String: null, // 被检查单位
-          cellIdx5StringTypeTextItem: null, // 被检查单位
+          cellIdx5: null, // 被检查单位
           // cellIdx6: null, // 单位 暂不用
           cellIdx7: null, // 年
           cellIdx8: null, // 月
@@ -531,23 +498,23 @@ export default {
           cellIdx11: null, // 法律规定
           cellIdx12: null, // 份数
           cellIdx13: null, // 页数
-          cellIdx14: null, // 签发人
-          cellIdx15: cellIdx15String, // 地址
-          // cellIdx15TypeTextItem: cellIdx15String, // 地址  暂不用
-          cellIdx16: cellIdx16String, // 邮政编码
-          cellIdx16TypeTextItem: cellIdx16String, // 地址
-          cellIdx17: null, // 单位
-          cellIdx18: cellIdx18String, // 移送单位联系人
-          cellIdx18TypeTextItem: cellIdx18String, // 移送单位联系人
-          cellIdx19: cellIdx19String, // 电话
-          cellIdx19TypeTextItem: cellIdx19String, // 电话
+          cellIdx14: orgSysOfficeInfo.depAddress, // 移送单位地址
+          cellIdx14TypeTextItem: orgSysOfficeInfo.depAddress, // 移送单位地址
+          cellIdx15: null, // 单位 暂不用
+          cellIdx16: orgSysOfficeInfo.depPost, // 邮政编码
+          cellIdx16TypeTextItem: orgSysOfficeInfo.depPost, // 地址
+          cellIdx17: null, // 单位 暂不用
+          cellIdx18: orgSysOfficeInfo.master, // 移送单位联系人
+          cellIdx18TypeTextItem: orgSysOfficeInfo.master, // 移送单位联系人
+          cellIdx19: orgSysOfficeInfo.phone, // 电话
+          cellIdx19TypeTextItem: orgSysOfficeInfo.phone, // 电话
           cellIdx20: null, // 送件人（签名）
           cellIdx21: null, // 日期
           cellIdx22: null, // 送件人（签名）
           cellIdx23: null, // 日期
-          cellIdx24: null, //收件人（签名）
+          cellIdx24: null, // 收件人（签名）
           cellIdx25: null, // 日期
-          cellIdx26: null, // 
+          cellIdx26: null, //
           cellIdx27: null, // 日期
 
         };

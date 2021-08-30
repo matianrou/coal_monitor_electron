@@ -218,7 +218,7 @@
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx16', '物品清单', 'samplingForensicsTable')"
+                  @click="commandFill('cellIdx16', '物品清单', 'SamplingForensicsTable')"
                 >《物品清单》所列物品予以</td>
                 <!-- <td class="textAlignLeft"></td> -->
                 <!-- <td class="textAlignLeft">号）。现根据《中华人民</td> -->
@@ -323,7 +323,7 @@
                   data-title="附件"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx16', '物品清单', 'samplingForensicsTable')"
+                  @click="commandFill('cellIdx16', '物品清单', 'SamplingForensicsTable')"
                 >附件：物品清单</td>
               </tr>
             </table>
@@ -517,7 +517,7 @@ export default {
           // cellIdx24: null, // 附件
           cellIdx25: null, //
           cellIdx26: null, // 日期
-          samplingForensicsTable: let110DataPapaerContent.samplingForensicsTable
+          SamplingForensicsTable: let110DataPapaerContent.SamplingForensicsTable
         };
       }
       await db.close();
@@ -537,7 +537,7 @@ export default {
             page: this.docData.docTypeNo, // 物品清单
             name: this.selectedType
           }
-          dataKey = 'samplingForensicsTable'
+          dataKey = 'SamplingForensicsTable'
         }
         this.$refs.letMain.commandFill(
           key,

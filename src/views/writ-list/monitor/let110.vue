@@ -573,7 +573,7 @@ export default {
           cellIdx22: null, // 日
           cellIdx23: null, //
           dangerItemObject: let101DataPapaerContent.dangerItemObject,
-          samplingForensicsTable: {
+          SamplingForensicsTable: {
             tableData: [],
             signature: null,
             signDate: ''
@@ -603,7 +603,7 @@ export default {
             page: '32', // 物品清单
             name: this.selectedType
           }
-          dataKey = 'samplingForensicsTable'
+          dataKey = 'SamplingForensicsTable'
         }
         this.$refs.letMain.commandFill(key, dataKey, title, type, this.letData[dataKey], this.options[key])
       }

@@ -211,9 +211,15 @@ function setSelectInputItem (data) {
   return data
 }
 
-function setSamplingForensicsTable (data) {
+function setSamplingForensicsTable (data, selectedData, options) {
   // 保存抽样取证清单
-  return data
+  if (options.page === '55') {
+    // 鉴定委托书 文书 回传table
+    return data.tableData
+  } else {
+    // 其他为整体回传即可
+    return data
+  }
 }
 
 export {
