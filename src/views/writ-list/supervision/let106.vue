@@ -82,7 +82,7 @@
             <table style="border:solid 0px #000;" class="docBody">
               <tr>
                 <td style="width:5%"></td>
-                <td class="textAlignLeft">本机关于</td>
+                <td class="textAlignLeft" style="width:9%" >本机关于</td>
                 <!-- <td
                   class="cellInput"
                   id="cell_idx_5"
@@ -98,57 +98,57 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_6"
                   align="center"
-                  style="width:8.5%"
+                  style="width:9%"
                   data-title="年"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx6', '年', 'TextItem')"
                 >{{ letData.cellIdx6 }}</td>
-                <td class="textAlignLeft">年</td>
+                <td class="textAlignLeft"  style="width:2%">年</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_7"
                   align="center"
-                  style="width:8.5%"
+                  style="width:9%"
                   data-title="月"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx7', '月', 'TextItem')"
                 >{{ letData.cellIdx7 }}</td>
-                <td class="textAlignLeft">月</td>
+                <td class="textAlignLeft"  style="width:2%">月</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_8"
                   align="center"
-                  style="width:8.5%"
+                  style="width:9%"
                   data-title="日"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx8', '日', 'TextItem')"
                 >{{ letData.cellIdx8 }}</td>
-                <td class="textAlignLeft">日</td>
+                <td class="textAlignLeft"  style="width:2%">日</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
                   align="center"
-                  style="width:8.5%"
+                  style="width:9%"
                   data-title="时"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx9', '时', 'TextItem')"
                 >{{ letData.cellIdx9 }}</td>
-                <td class="textAlignLeft">时</td>
+                <td class="textAlignLeft"  style="width:2%">时</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_10"
                   align="center"
-                  style="width:8.5%"
+                  style="width:9%"
                   data-title="分"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx10', '分', 'TextItem')"
                 >{{ letData.cellIdx10 }}</td>
-                <td class="textAlignLeft">分，在对你单位检查时，发现在</td>
+                <td class="textAlignLeft"  style="width:32%">分，在对你单位检查时，发现在</td>
               </tr>
               <tr>
                 <!-- <td class="textAlignLeft">时，发现在</td> -->
@@ -161,7 +161,7 @@
                   data-src
                   @click="commandFill('cellIdx11', '', 'TextItem')"
                 >{{ letData.cellIdx11 }}</td>
-                <td class="textAlignLeft">有</td>
+                <td class="textAlignLeft"  style="width:2%">有</td>
                 <!-- <td
                   style="width:47%"
                   class="cellInput cellBottomLine"
@@ -198,9 +198,9 @@
                 </div>
               </tr>
               <tr>
-                <td class="textAlignLeft">等威胁作业人员生命安全的紧急情况，现责令立即从</td>
+                <td class="textAlignLeft"  style="width:52%">等威胁作业人员生命安全的紧急情况，现责令立即从</td>
                 <td
-                  style="width:48.5%"
+                  style="width:48%"
                   class="cellInput cellBottomLine"
                   id="cell_idx_13"
                   data-title
@@ -208,12 +208,12 @@
                   data-src
                   @click="commandFill('cellIdx14', '', 'TextItem')"
                 >{{ letData.cellIdx13 }}</td>
-                <td class="textAlignLeft">危险区内撤出作业人员。</td>
+                <td class="textAlignLeft"  style="width:26%">危险区内撤出作业人员。</td>
               </tr>
               <tr>
                 <td style="width:5%"></td>
                 <td
-                  class="textAlignLeft"
+                  class="textAlignLeft" style="width:7%"
                 >此指令</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -225,7 +225,7 @@
                   data-src
                   @click="commandFill('cellIdx14', '年', 'TextItem')"
                 >{{ letData.cellIdx14 }}</td>
-                <td class="textAlignLeft">年</td>
+                <td class="textAlignLeft" style="width:2%">年</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_15"
@@ -236,7 +236,7 @@
                   data-src
                   @click="commandFill('cellIdx15', '月', 'TextItem')"
                 >{{ letData.cellIdx15 }}</td>
-                <td class="textAlignLeft">月</td>
+                <td class="textAlignLeft" style="width:2%">月</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_16"
@@ -247,7 +247,7 @@
                   data-src
                   @click="commandFill('cellIdx16', '日', 'TextItem')"
                 >{{ letData.cellIdx16 }}</td>
-                <td class="textAlignLeft">日</td>
+                <td class="textAlignLeft" style="width:2%">日</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_17"
@@ -258,7 +258,7 @@
                   data-src
                   @click="commandFill('cellIdx17', '时', 'TextItem')"
                 >{{ letData.cellIdx17 }}</td>
-                <td class="textAlignLeft">时</td>
+                <td class="textAlignLeft" style="width:2%">时</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_18"
@@ -269,13 +269,13 @@
                   data-src
                   @click="commandFill('cellIdx18', '分', 'TextItem')"
                 >{{ letData.cellIdx18 }}</td>
-                <td class="textAlignLeft">分现场已作出。</td>
+                <td class="textAlignLeft"  style="width:16%">分现场已作出。</td>
               </tr>
               <tr></tr>
               <tr>
                 <td style="width:5%"></td>
                 <td
-                  class="textAlignLeft"
+                  class="textAlignLeft" style="width:52%"
                 >如果不服本指令，可在接到本指令书之日起60日内向</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -286,7 +286,7 @@
                   data-src
                   @click="commandFill('cellIdx19', '', 'TextItem')"
                 >{{ letData.cellIdx19 }}</td>
-                <td>人民政府或者</td>
+                <td  class="textAlignLeft" style="width:14%">人民政府或者</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_20"
@@ -296,38 +296,38 @@
                   data-src
                   @click="commandFill('cellIdx20', '', 'TextItem')"
                 >{{ letData.cellIdx20 }}</td>
-                <td class="textAlignLeft">申请行政复议，或者在6个月内依法向</td>
+                <td class="textAlignLeft"  style="width:37%">申请行政复议，或者在6个月内依法向</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_21"
-                  style="width:38%"
+                  style="width:39%"
                   data-title
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx21', '', 'TextItem')"
                 >{{ letData.cellIdx21 }}</td>
-                <td class="textAlignLeft">人民法院提起行政诉讼；复议、诉讼期间不停止执行本指令。</td>
+                <td class="textAlignLeft" style="width:61%">人民法院提起行政诉讼；复议、诉讼期间不停止执行本指令。</td>
               </tr>
 
             </table>
             <table height="60"></table>
             <table class="docBody">
               <tr>
-                <td class="textAlignLeft">现场执法人员（签名）：</td>
+                <td class="textAlignLeft" style="width:25%">现场执法人员（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_22"
-                  style="width:23%"
+                  style="width:33%"
                   data-title="现场执法人员（签名）"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx22', '现场执法人员（签名）', 'TextItem')"
                 >{{ letData.cellIdx22 }}</td>
-                <td class="textAlignLeft">执法证号：</td>
+                <td class="textAlignLeft" style="width:12%">执法证号：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_23"
-                  style="width:20%"
+                  style="width:30%"
                   data-title="执法证号"
                   data-type="text"
                   data-src
@@ -337,17 +337,17 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_24"
-                  style="width:23%"
+                  style="width:33%"
                   data-title="现场执法人员（签名）"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx24', '现场执法人员（签名）', 'TextItem')"
                 >{{ letData.cellIdx24 }}</td>
-                <td class="textAlignLeft">执法证号：</td>
+                <td class="textAlignLeft"  style="width:12%">执法证号：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_25"
-                  style="width:20%"
+                  style="width:30%"
                   data-title="日期"
                   data-type="date"
                   data-src
@@ -355,17 +355,17 @@
                 >{{ letData.cellIdx25 }}</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">被检查单位负责人意见</td>
+                <td class="textAlignLeft" style="width:25%">被检查单位负责人意见：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_26"
-                  style="width:20%"
+                  style="width:21%"
                   data-title="被检查单位负责人意见"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx26', '被检查单位负责人意见', 'TextItem')"
                 >{{ letData.cellIdx26 }}</td>
-                <td class="textAlignLeft">签名：</td>
+                <td class="textAlignLeft" style="width:7%">签名：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_27"
@@ -375,7 +375,7 @@
                   data-src
                   @click="commandFill('cellIdx27', '签名', 'TextItem')"
                 >{{ letData.cellIdx27}}</td>
-                <td class="textAlignLeft">日期：</td>
+                <td class="textAlignLeft" style="width:7%">日期：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_28"
