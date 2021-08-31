@@ -117,15 +117,18 @@
                 @click="commandFill('cellIdx8', '', 'DangerTableItem')"
               >{{ letData.cellIdx8? letData.cellIdx8 : '（点击编辑）' }}</span>
               的规定，根据《中华人民共和国安全生产法》第六十二条第一款第四项和《中华人民共和国行政强制法》第二十四条规定，本机关决定对你单位涉案
-              <span
+              <span style="borderBottom:none"
                 @click="commandFill('cellIdx9', '', 'DangerTableItem')"
               >{{ letData.cellIdx9? letData.cellIdx9 : '（点击编辑）' }}</span>
               予以
-              <span
-                @click="commandFill('cellIdx9', '', 'TextItem')"
-              >{{ letData.cellIdx9? letData.cellIdx9 : '（点击编辑）' }}</span>
-              
-              <div class="line"></div>
+              <span style="borderBottom:none"
+                @click="commandFill('cellIdx10', '', 'TextItem')"
+              >{{ letData.cellIdx10? letData.cellIdx10 : '（点击编辑）' }}</span>
+              ,（详见《
+              <span style="borderBottom:none"
+                @click="commandFill('cellIdx11', '附件：物品清单', 'SamplingForensicsTable')"
+              >{{ letData.cellIdx11? letData.cellIdx11 : '（点击编辑）' }}</span>
+              物品清单》）。
             </div>
 
 
@@ -133,36 +136,8 @@
             <table style="border:solid 0px #000;" class="docBody">
               
           
-              <tr>
-                <td class="textAlignLeft">
-                  </td>
-                  <td class="textAlignLeft" style="width:47%"></td>
-                
-                <td
-                  class="cellInput"
-                  align="center"
-                  id="cell_idx_10"
-                  style="width:7%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx10', '', 'TextItem')"
-                >{{ letData.cellIdx10 }}</td>
-                <!-- <td class="textAlignLeft"></td> -->
-               
-              </tr>
-              <tr>
-                 <td
-                  class="cellInput"
-                  id="cell_idx_11"
-                  style="width:26%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx18', '附件：物品清单', 'SamplingForensicsTable')"
-                >,（详见《物品清单》）</td>
-                <td class="textAlignLeft">。</td>
-              </tr>
+              
+             
               <tr>
                 <td
                   class="cellInput"
@@ -254,14 +229,26 @@
                   style="cursor: pointer;"
                   >附件：
                 </td>
+                
+                <td
+                class="cellInput"
+                id="cell_idx_18"
+                align="center"
+                style="width:5%"
+                data-title
+                data-type="text"
+                data-src
+                @click="commandFill('cellIdx18', '', 'TextItem')"
+                >{{ letData.cellIdx18 }}</td>
+                
                 <td
                   class="cellInput"
-                  id="cell_idx_18"
+                  id="cell_idx_19"
                   style="width:20%"
                   data-title="附件"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx18', '附件：物品清单', 'SamplingForensicsTable')"
+                  @click="commandFill('cellIdx19', '附件：物品清单', 'SamplingForensicsTable')"
                 >《物品清单》</td>
               </tr>
             </table>
@@ -270,22 +257,22 @@
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_19"
+                  id="cell_idx_20"
                   align="right"
                   style="width:95%"
-                  @click="commandFill('cellIdx19', '', 'TextItem')"
-                >{{letData.cellIdx19 ? letData.cellIdx19 : '（点击编辑）'}}</td>
+                  @click="commandFill('cellIdx20', '', 'TextItem')"
+                >{{letData.cellIdx20 ? letData.cellIdx20 : '（点击编辑）'}}</td>
               </tr>
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_20"
+                  id="cell_idx_21"
                   align="right"
                   style="width:95%"
                   data-title
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx20', '日期', 'DateItem')"
+                  @click="commandFill('cellIdx21', '日期', 'DateItem')"
                 >{{letData.cellIdx20 ? letData.cellIdx20 : '（点击编辑）'}}</td>
               </tr>
             </table>
@@ -295,14 +282,14 @@
               <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被</td>
               <td
                 class="cellInput"
-                id="cell_idx_21"
+                id="cell_idx_22"
                 align="center"
                 style="width:10%"
                 data-title
                 data-type="text"
                 data-src
-                @click="commandFill('cellIdx21', '', 'TextItem')"
-                >{{ letData.cellIdx21 }}</td>
+                @click="commandFill('cellIdx22', '', 'TextItem')"
+                >{{ letData.cellIdx22 }}</td>
               <td class="textAlignLeft">单位，一份存档。</td>
             </table>
           </div>
@@ -481,10 +468,11 @@ export default {
           cellIdx16TypeTextItem: cellIdx16String, // organName
           cellIdx17: cellIdx17String, // courtPrefix人民法院
           cellIdx17TypeTextItem: cellIdx17String, // courtPrefix人民法院
-          cellIdx18: null, // 附件
-          cellIdx19: null, //
-          cellIdx20: null, // 日期
-          cellIdx21: null, // 查封(扣押)
+          cellIdx18: null,  // 查封(扣押)
+          cellIdx19: null, // 附件
+          cellIdx20: null, //
+          cellIdx21: null, // 日期
+          cellIdx22: null, // 查封(扣押)
           dangerItemObject: let101DataPapaerContent.dangerItemObject,
           SamplingForensicsTable: {
             tableData: [],
@@ -510,7 +498,7 @@ export default {
             key: key,
           }
           dataKey = 'dangerItemObject'
-        } else if (key === 'cellIdx18') {
+        } else if (key === 'cellIdx19') {
           this.options[key] = {
             canEdit: true,
             page: '32', // 物品清单
@@ -537,8 +525,10 @@ export default {
       this.letData.cellIdx3TypeTextItem = this.selectedType.substring(0, 1)
       this.letData.cellIdx10 = this.selectedType
       this.letData.cellIdx10TypeTextItem = this.selectedType
-      this.letData.cellIdx21 = this.selectedType
-      this.letData.cellIdx21TypeTextItem = this.selectedType
+      this.letData.cellIdx18 = this.selectedType
+      this.letData.cellIdx18TypeTextItem = this.selectedType
+      this.letData.cellIdx22 = this.selectedType
+      this.letData.cellIdx22TypeTextItem = this.selectedType
     }
   },
 };

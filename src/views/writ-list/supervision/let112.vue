@@ -38,7 +38,7 @@
                   class="cellInput "
                   id="cell_idx_1"
                   align="right"
-                  style="width:30%"
+                  style="width:40%"
                   data-title
                   data-type="text"
                   data-src
@@ -49,7 +49,7 @@
                   class="cellInput "
                   id="cell_idx_2"
                   align="center"
-                  style="width:25%"
+                  style="width:15%"
                   data-title
                   data-type="text"
                   data-src
@@ -94,54 +94,26 @@
                 <td class="textAlignLeft">:</td>
               </tr>
             </table>
-            <table style="border:solid 0px #000;" class="docBody">
-              <tr>
-                 <td style="width:5%"></td>
-                <td class="textAlignLeft">本机关在对</td>
+             <div class="docTextarea">
+              <label style="width:5%"></label>
+              本机关在对
+              <span
+                @click="commandFill('cellIdx6', '', 'TextItem')"
+              >{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）'}}</span>
+              进行安全监察中发现存在重大事故隐患，依法作出
+              <span
+                @click="commandFill('cellIdx7', '', 'TextItem')"
+              >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
+              的决定，但该单位拒不执行该决定，未及时消除安全隐患，现有发生生产安全事故的危险。根据《中华人民共和国安全生产法》第六十七条第一款规定，请贵单位对其采取
+              <span style="borderBottom:none"
+                @click="commandFill('cellIdx8', '停供电(停供民用爆炸物品)', 'TextItem')"
+              >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
+              的措施。
+            </div>
 
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_6"
-                  align="center"
-                  style="width:48%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx6', '', 'TextItem')"
-                >{{ letData.cellIdx6 }}</td>
-                <td class="textAlignLeft">进行安全监察中发现存在重大事故隐</td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">患，依法作出</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_7"
-                  align="center"
-                  style="width:35%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx7', '', 'TextItem')"
-                >{{ letData.cellIdx7 }}</td>
-                <td class="textAlignLeft">的决定，但该单位拒不执行该决定，未及时消除安全</td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">隐患，现有发生生产安全事故的危险。根据《中华人民共和国安全生产法》第六十七条第一款规定，</td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">请贵单位对其采取</td>
-                <td
-                  class="cellInput "
-                  id="cell_idx_8"
-                  align="center"
-                  style="width:30%"
-                  data-title="停供电(停供民用爆炸物品)"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx8', '停供电(停供民用爆炸物品)', 'TextItem')"
-                >{{ letData.cellIdx8 }}</td>
-                <td class="textAlignLeft">的措施。</td>
-              </tr>
+
+            <table style="border:solid 0px #000;" class="docBody">
+            
             </table>
             <table height="30"></table>
             <table height="30"></table>

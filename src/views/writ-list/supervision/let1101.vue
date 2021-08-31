@@ -39,7 +39,7 @@
                   class="cellInput"
                   id="cell_idx_1"
                   align="right"
-                  style="width:40%"
+                  style="width:35%"
                   data-title
                   data-type="text"
                   data-src
@@ -105,172 +105,70 @@
                 <td class="textAlignLeft">:</td>
               </tr>
             </table>
+            <div class="docTextarea">
+              <label style="width:5%"></label>
+              本机关于
+              <span
+                @click="commandFill('cellIdx7', '年', 'TextItem')"
+              >{{ letData.cellIdx7 ? letData.cellIdx7 : '（XX）'}}</span>
+              年
+              <span
+                @click="commandFill('cellIdx8', '月', 'TextItem')"
+              >{{ letData.cellIdx8? letData.cellIdx8 : '（XX）' }}</span>
+              月
+              <span
+                @click="commandFill('cellIdx9', '', 'TextItem')"
+              >{{ letData.cellIdx9? letData.cellIdx9 : '（XX）' }}</span>
+              日向你单位作出&nbsp;&nbsp;《
+              <span style="borderBottom:none"
+                @click="commandFill('cellIdx10', '', 'TextItem')"
+              >{{ letData.cellIdx10? letData.cellIdx10 : '（点击编辑）' }}</span>
+              决定书》&nbsp;&nbsp;（
+              <span style="borderBottom:none"
+                @click="commandFill('cellIdx11', '', 'TextItem')"
+              >{{ letData.cellIdx11? letData.cellIdx11 : '（点击编辑）' }}</span>
+               (
+              <span style="borderBottom:none"
+                @click="commandFill('cellIdx12', '', 'TextItem')"
+              >{{ letData.cellIdx12? letData.cellIdx12 : '（点击编辑）' }}</span>
+             )  煤安
+                <span style="borderBottom:none"
+                @click="commandFill('cellIdx13', '', 'TextItem')"
+              >{{ letData.cellIdx13? letData.cellIdx13 : '（点击编辑）' }}</span>
+              〔
+              <span style="borderBottom:none"
+                @click="commandFill('cellIdx14', '', 'TextItem')"
+              >{{ letData.cellIdx14? letData.cellIdx14 : '（点击编辑）' }}</span>
+              〕
+              <span style="borderBottom:none"
+                @click="commandFill('cellIdx15', '', 'TextItem')"
+              >{{ letData.cellIdx15? letData.cellIdx15 : '（点击编辑）' }}</span>
+              号&nbsp;&nbsp;)&nbsp;&nbsp;&nbsp;对所附《
+              <span style="borderBottom:none"
+                @click="commandFill('cellIdx16', '物品清单', 'SamplingForensicsTable')"
+              >{{ letData.cellIdx16? letData.cellIdx16 : '（点击编辑）' }}</span>
+              物品清单》所列物品予以
+              <span style="borderBottom:none"
+                @click="commandFill('cellIdx17', '', 'TextItem')"
+              >{{ letData.cellIdx17? letData.cellIdx17 : '（点击编辑）' }}</span>
+              。现根据《中华人民共和国行政强制法》第二十七条、
+              <span style="borderBottom:none"
+                @click="commandFill('cellIdx18', '', 'TextItem')"
+              >{{ letData.cellIdx18? letData.cellIdx18 : '□' }}</span>
+              第二十八条第一款第
+              <span
+                @click="commandFill('cellIdx19', '年', 'TextItem')"
+              >{{ letData.cellIdx19 ? letData.cellIdx19 : '（点击编辑）'}}</span>
+              项的规定，作出处理决定：具体处理决定详见《
+              <span style="borderBottom:none"
+                @click="commandFill('cellIdx20', '物品处理表', 'TextItem')"
+              >{{ letData.cellIdx20? letData.cellIdx20 : '（点击编辑）' }}</span>
+              物品处理表》。
+              
+            </div>
+
+
             <table style="border:solid 0 #000;" class="docBody">
-             <tr>
-                <td style="width:5%"></td>
-                <td class="textAlignLeft">本机关于</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_7"
-                  align="center"
-                  style="width:8%"
-                  data-title="年"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx7', '年', 'TextItem')"
-                >{{ letData.cellIdx7 }}</td>
-                <td class="textAlignLeft">年</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_8"
-                  align="center"
-                  style="width:8%"
-                  data-title="月"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx8', '月', 'TextItem')"
-                >{{ letData.cellIdx8 }}</td>
-                <td class="textAlignLeft">月</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_9"
-                  align="center"
-                  style="width:8%"
-                  data-title="日"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx9', '日', 'TextItem')"
-                >{{ letData.cellIdx9 }}</td>
-                <td class="textAlignLeft">日向你单位作出&nbsp;&nbsp;《</td>
-                <td
-                  style="width:9%"
-                  class="cellInput "
-                  id="cell_idx_10"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx10', '', 'TextItem')"
-                >{{ letData.cellIdx10 }}</td>
-                <td class="textAlignLeft">决定书》&nbsp;&nbsp;</td>
-                <td class="textAlignLeft" >(</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_11"
-                  align="center"
-                  style="width:8%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx11', '', 'TextItem')"
-                >{{ letData.cellIdx11 }}</td>
-                <td>(</td>
-                 <td
-                  class="cellInput"
-                  id="cell_idx_12"
-                  align="center"
-                  style="width:8%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx12', '', 'TextItem')"
-                >{{ letData.cellIdx12 }}</td>
-                <td>)  </td>
-                <td class="textAlignLeft">&nbsp;&nbsp;煤安</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_13"
-                  align="center"
-                  style="width:8%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx13', '', 'TextItem')"
-                >{{ letData.cellIdx13 }}</td>
-                <td class="textAlignLeft">〔</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_14"
-                  align="center"
-                  style="width:8%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx14', '', 'TextItem')"
-                >{{ letData.cellIdx14 }}</td>
-                <td class="textAlignLeft">〕</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_15"
-                  align="center"
-                  style="width:8%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx15', '', 'TextItem')"
-                >{{ letData.cellIdx15 }}</td>
-                <td class="textAlignLeft ">号&nbsp;&nbsp;)</td>
-                 <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;对所附</td>
-                <td
-                  class="cellInput "
-                  id="cell_idx_16"
-                  align="center"
-                  style="width:30%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx16', '物品清单', 'SamplingForensicsTable')"
-                >《物品清单》所列物品予以</td>
-                <!-- <td class="textAlignLeft"></td> -->
-                <!-- <td class="textAlignLeft">号）。现根据《中华人民</td> -->
-              </tr>
-              <tr>
-                <td
-                  class="cellInput "
-                  id="cell_idx_17"
-                  align="center"
-                  style="width:8%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx17', '', 'TextItem')"
-                >{{ letData.cellIdx17 }}</td>
-                <td  class="textAlignLeft">。现根据《中华人民共和国行政强制法》
-                  第二十七条</td>
-                <td
-                  class="cellInput "
-                  id="cell_idx_18"
-                  align="center"
-                  style="width:18%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx18', '', 'TextItem')"
-                >{{ letData.cellIdx18 ? letData.cellIdx18 : '点击编辑' }}</td>
-                  <td  class="textAlignLeft">、第二十八条第一款第</td>
-                  <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_19"
-                  align="center"
-                  style="width:8%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx19', '', 'TextItem')"
-                >{{ letData.cellIdx19 }}</td>
-                <td  class="textAlignLeft">项的</td>
-                <td  class="textAlignLeft">规定，作出处理决定：具体处理决定详见《</td>
-                <td
-                  class="cellInput "
-                  id="cell_idx_20"
-                  align="center"
-                  style="width:6%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx20', '', 'TextItem')"
-                >{{ letData.cellIdx20 }}</td>
-                <td  class="textAlignLeft">物品处理表》。</td>
-              </tr>
               <tr>
                 <td style="width:5%"></td>
                 <td
@@ -316,15 +214,30 @@
             <table height="60"></table>
             <table class="docBody">
               <tr>
+                <td style="width:5%"></td>
+                <td class="textAlignLeft">附件：</td>
+                <td
+                class="cellInput"
+                id="cell_idx_24"
+                align="center"
+                style="width:5%"
+                data-title
+                data-type="text"
+                data-src
+                @click="commandFill('cellIdx24', '', 'TextItem')"
+                >{{ letData.cellIdx24 }}</td>
+
                 <td
                   class="cellInput"
-                  id="cell_idx_24"
-                  style="width:30%"
+                  id="cell_idx_25"
+                  style="width:20%"
                   data-title="附件"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx16', '物品清单', 'SamplingForensicsTable')"
-                >附件：物品清单</td>
+                  @click="commandFill('cellIdx25', '物品处理表', 'SamplingForensicsTable')"
+                >物品处理表</td>
+                
+
               </tr>
             </table>
             <table height="30"></table>
@@ -332,11 +245,11 @@
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_25"
+                  id="cell_idx_26"
                   align="right"
                   style="width:95%"
-                  @click="commandFill('cellIdx25', '', 'TextItem')"
-                >{{letData.cellIdx25 ? letData.cellIdx25 : '（点击编辑）'}}</td>
+                  @click="commandFill('cellIdx26', '', 'TextItem')"
+                >{{letData.cellIdx26 ? letData.cellIdx26 : '（点击编辑）'}}</td>
               </tr>
               <tr>
                 <td
@@ -347,8 +260,8 @@
                   data-title
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx26', '日期', 'DateItem')"
-                >{{letData.cellIdx26 ? letData.cellIdx26 : '（点击编辑）'}}</td>
+                  @click="commandFill('cellIdx27', '日期', 'DateItem')"
+                >{{letData.cellIdx27 ? letData.cellIdx27 : '（点击编辑）'}}</td>
               </tr>
             </table>
             <table height="60"></table>
@@ -515,9 +428,11 @@ export default {
           cellIdx22TypeTextItem: orgSysOfficeInfo.organName, // organName
           cellIdx23: orgSysOfficeInfo.courtPrefix, // courtPrefix人民法院
           cellIdx23TypeTextItem: orgSysOfficeInfo.courtPrefix, // courtPrefix人民法院
-          // cellIdx24: null, // 附件
+          cellIdx24: let110DataPapaerContent.cellIdx0, // 查封/扣押
           cellIdx25: null, //
-          cellIdx26: null, // 日期
+          cellIdx26: null, //
+          cellIdx27: null, // 日期
+          cellIdx28: let110DataPapaerContent.cellIdx0, // 查封/扣押
           SamplingForensicsTable: let110DataPapaerContent.SamplingForensicsTable
         };
       }
