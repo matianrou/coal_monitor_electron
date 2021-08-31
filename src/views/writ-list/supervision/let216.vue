@@ -53,8 +53,18 @@
                   @click="commandFill('cellIdx2', '', 'TextItem')"
                 >{{ letData.cellIdx2 }}</td>
               </tr>
+              
+            </table>
+             <div class="docTextarea">
+             案&nbsp;&nbsp;由：
+              <span 
+                @click="commandFill('cellIdx3', '案由', 'DangerTableItem')"
+              >{{ letData.cellIdx3 ? letData.cellIdx3 : '（点击编辑）'}}</span>
+              
+              <div class="line"></div>
+            </div>
+            <!-- <table style="border:solid 0s #000;" class="docBody">
               <tr>
-                <td style="width:5%"></td>
                 <td class="textAlignLeft">案&nbsp;&nbsp;由：</td>
               </tr>
             </table>
@@ -77,7 +87,7 @@
                 <p class="show-area-item-p">&nbsp;</p>
                 <p class="show-area-item-p">&nbsp;</p>
               </div>
-            </div>
+            </div> -->
             <table style="border:solid 0s #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">立案决定书编号：</td>
@@ -114,7 +124,31 @@
                 >{{ letData.cellIdx6 }}</td>
               </tr>
             </table>
-            <table style="border:solid 0s #000;" class="docBody">
+             <div class="docTextarea">
+             违法事实及依据：
+              <span 
+                @click="commandFill('cellIdx7', '违法事实及依据', 'TextareaItem')"
+              >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
+              
+              <div class="line"></div>
+            </div>
+             <div class="docTextarea">
+             法制审核意见：
+              <span 
+                @click="commandFill('cellIdx8', '法制审核意见', 'TextareaItem')"
+              >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
+              
+              <div class="line"></div>
+            </div>
+             <div class="docTextarea">
+             建议案件处理意见：
+              <span 
+                @click="commandFill('cellIdx9', '建议案件处理意见', 'TextareaItem')"
+              >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</span>
+              
+              <div class="line"></div>
+            </div>
+            <!-- <table style="border:solid 0s #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">违法事实及依据：</td>
               </tr>
@@ -132,8 +166,8 @@
                 <span style="padding: 7px;">{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）' }}</span>
               </p>
               <cell-line></cell-line>
-            </div>
-            <table style="border:solid 0s #000;" class="docBody">
+            </div> -->
+            <!-- <table style="border:solid 0s #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">法制审核意见：</td>
               </tr>
@@ -151,8 +185,8 @@
                 <span style="padding: 7px;">{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）' }}</span>
               </p>
               <cell-line></cell-line>
-            </div>
-            <table style="border:solid 0s #000;" class="docBody">
+            </div> -->
+            <!-- <table style="border:solid 0s #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">建议案件处理意见：</td>
               </tr>
@@ -170,7 +204,7 @@
                 <span style="padding: 7px;">{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）' }}</span>
               </p>
               <cell-line></cell-line>
-            </div>
+            </div> -->
             <table height="60"></table>
             <table class="docBody">
               <tr>

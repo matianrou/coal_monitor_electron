@@ -24,7 +24,7 @@
                 class="cellInput "
                 id="cell_idx_0"
                 align="right"
-                style="width:30%"
+                style="width:40%"
                 data-title="文书号"
                 data-type="text"
                 data-src
@@ -35,7 +35,7 @@
                 class="cellInput "
                 id="cell_idx_1"
                 align="center"
-                style="width:22%"
+                style="width:15%"
                 data-title="文书号"
                 data-type="text"
                 data-src
@@ -150,12 +150,12 @@
                 data-src
                 @click="commandFill('cellIdx8', '受送达单位负责人（个人）（签名）', 'TextItem')"
                 >{{letData.cellIdx8}}</td>
-              <td class="textAlignLeft">&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期：</td>
+              <td class="textAlignLeft"   style="width:10%">&nbsp;&nbsp;日&nbsp;期：</td>
               <td
                 class="cellInput cellBottomLine"
                 id="cell_idx_9"
                 align="center"
-                style="width:23%"
+                style="width:26%"
                 data-title="日期"
                 data-type="text"
                 data-src
@@ -177,12 +177,12 @@
                 data-src
                  @click="commandFill('cellIdx10', '送达人（签名）', 'TextItem')"
                 >{{letData.cellIdx10}}</td>
-              <td class="textAlignLeft">&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期：</td>
+              <td class="textAlignLeft"  style="width:10%">&nbsp;&nbsp;日&nbsp;期：</td>
               <td
                 class="cellInput cellBottomLine"
                 id="cell_idx_11"
                 align="center"
-                style="width:23%"
+                style="width:26%"
                 data-title="日期"
                 data-type="text"
                 data-src

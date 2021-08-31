@@ -52,9 +52,68 @@
                 >{{ letData.cellIdx2 }}
                 </td>
               </tr>
+            </table>
+            <div class="docTextarea">
+              <label style="width:5%"></label>
+             案&nbsp;&nbsp;由：
+              <span 
+                @click="commandFill('cellIdx3', '案由', 'DangerTableItem')"
+              >{{ letData.cellIdx3 ? letData.cellIdx3 : '（点击编辑）'}}</span>
+              
+              <div class="line"></div>
+            </div>
+
+             <div class="docTextarea">
+              <label style="width:5%"></label>
+             行政相对人基本情况：
+              <span 
+                @click="commandFill('cellIdx4', '行政相对人基本情况', 'DangerTableItem')"
+              >{{ letData.cellIdx4 ? letData.cellIdx4 : '（点击编辑）'}}</span>
+              
+              <div class="line"></div>
+            </div>
+
+             <div class="docTextarea">
+              <label style="width:5%"></label>
+             案情摘要：
+              <span 
+                @click="commandFill('cellIdx5', '案情摘要', 'DangerTableItem')"
+              >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</span>
+              
+              <div class="line"></div>
+            </div>
+            <div class="docTextarea">
+              <label style="width:5%"></label>
+             作出决定依据：
+              <span 
+                @click="commandFill('cellIdx6', '作出决定依据', 'DangerTableItem')"
+              >{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）'}}</span>
+              
+              <div class="line"></div>
+            </div>
+            <div class="docTextarea">
+              <label style="width:5%"></label>
+             建议行政决定：
+              <span 
+                @click="commandFill('cellIdx7', '建议行政决定', 'DangerTableItem')"
+              >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
+              
+              <div class="line"></div>
+            </div>
+             <div class="docTextarea">
+              <label style="width:5%"></label>
+             法制审核意见：
+              <span 
+                @click="commandFill('cellIdx8', '法制审核意见', 'DangerTableItem')"
+              >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
+              
+              <div class="line"></div>
+            </div>
+            <!-- <table style="border:solid 0s #000;" class="docBody">
               <tr>
                 <td style="width:5%"></td>
                 <td class="textAlignLeft">案&nbsp;&nbsp;由：</td>
+
               </tr>
             </table>
             <div
@@ -79,8 +138,9 @@
                   &nbsp;
                 </p>
               </div>
-            </div>
-            <table style="border:solid 0s #000;" class="docBody">
+            </div> -->
+           
+            <!-- <table style="border:solid 0s #000;" class="docBody">
               <tr>
                 <td style="width:5%"></td>
 
@@ -99,8 +159,9 @@
                 <span style="padding: 7px;">{{ letData.cellIdx4 ? letData.cellIdx4 : '（点击编辑）' }}</span>
               </p>
               <cell-line></cell-line>
-            </div>
-            <table style="border:solid 0s #000;" class="docBody">
+            </div> -->
+           
+            <!-- <table style="border:solid 0s #000;" class="docBody">
               <tr>
                 <td style="width:5%"></td>
                 <td class="textAlignLeft">案情摘要：</td>
@@ -118,8 +179,9 @@
                 <span style="padding: 7px;">{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）' }}</span>
               </p>
               <cell-line></cell-line>
-            </div>
-            <table style="border:solid 0s #000;" class="docBody">
+            </div> -->
+            
+            <!-- <table style="border:solid 0s #000;" class="docBody">
               <tr>
                 <td style="width:5%"></td>
                 <td class="textAlignLeft">作出决定依据：</td>
@@ -137,8 +199,9 @@
                 <span style="padding: 7px;">{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）' }}</span>
               </p>
               <cell-line></cell-line>
-            </div>
-              <table style="border:solid 0s #000;" class="docBody">
+            </div> -->
+            
+              <!-- <table style="border:solid 0s #000;" class="docBody">
               <tr>
                 <td style="width:5%"></td>
                 <td class="textAlignLeft">建议行政决定：</td>
@@ -156,8 +219,9 @@
                 <span style="padding: 7px;">{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）' }}</span>
               </p>
               <cell-line></cell-line>
-            </div>
-            <table style="border:solid 0s #000;" class="docBody">
+            </div> -->
+           
+            <!-- <table style="border:solid 0s #000;" class="docBody">
               <tr>
                 <td style="width:5%"></td>
                 <td class="textAlignLeft">法制审核意见：</td>
@@ -175,7 +239,7 @@
                 <span style="padding: 7px;">{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）' }}</span>
               </p>
               <cell-line></cell-line>
-            </div>
+            </div> -->
             <table height="60"></table>
             <table class="docBody">
               <tr>

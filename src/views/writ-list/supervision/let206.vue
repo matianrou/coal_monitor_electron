@@ -36,7 +36,7 @@
                   class="cellInput "
                   id="cell_idx_1"
                   align="center"
-                  style="width:20%"
+                  style="width:15%"
                   data-title="文书号"
                   data-type="text"
                   data-src
@@ -71,7 +71,7 @@
                 <td class="cellInput"
                   id="cell_idx_4"
                   align="center"
-                  style="width:10%"
+                  style="width:9%"
                   @click="commandFill('cellIdx4', '单位/个人', 'TextItem')"
                 >{{letData.cellIdx4}}</td>
                 <td class="textAlignLeft">:</td>
@@ -98,7 +98,34 @@
                 >{{letData.cellIdx6}}</td>
               </tr>
             </table>
-            <table style="border:solid 0 #000;" class="docBody">
+            <div class="docTextarea">
+                违法事实：
+              <span 
+                @click="commandFill('cellIdx7', '违法事实', 'DangerTableItem')"
+              >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
+              以上事实
+              <span 
+                @click="commandFill('cellIdx8', '法律规定', 'DangerTableItem')"
+              >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
+              的规定，依据
+              <span 
+                @click="commandFill('cellIdx9', '法律依据', 'DangerTableItem')"
+              >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</span>
+
+
+              <div class="line"></div>
+            </div>
+            <div class="docTextarea">
+             决定给予以下行政处罚：
+              <span 
+                @click="commandFill('cellIdx10', '行政处罚', 'DangerTableItem')"
+              >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）'}}</span>
+              
+              <div class="line"></div>
+            </div>
+            
+            
+            <!-- <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">违法事实：</td>
               </tr>
@@ -125,8 +152,8 @@
                   &nbsp;
                 </p>
               </div>
-            </div>
-            <table style="border:solid 0 #000;" class="docBody">
+            </div> -->
+            <!-- <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">以上事实</td>
               </tr>
@@ -181,8 +208,8 @@
                   &nbsp;
                 </p>
               </div>
-            </div>
-            <table style="border:solid 0 #000;" class="docBody">
+            </div> -->
+            <!-- <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">决定给予以下行政处罚：</td>
               </tr>
@@ -209,12 +236,12 @@
                   &nbsp;
                 </p>
               </div>
-            </div>
+            </div> -->
             <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td style="width:5%"></td>
                 <td
-                  class="textAlignLeft"
+                  class="textAlignLeft" style="width:43%"
                 >接到本处罚决定书之日起15日内将罚款缴至</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -228,7 +255,7 @@
                 >{{letData.cellIdx11}}</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">银行：</td>
+                <td class="textAlignLeft"  style="width:7%">银行：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_12"
@@ -239,7 +266,7 @@
                   data-src
                   @click="commandFill('cellIdx12', '银行', 'TextItem')"
                 >{{letData.cellIdx12}}</td>
-                <td class="textAlignLeft">支行（分理处），账户名称：</td>
+                <td class="textAlignLeft"  style="width:29%">支行（分理处），账户名称：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_13"
@@ -252,7 +279,7 @@
                 >{{letData.cellIdx13}}</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">账号：</td>
+                <td class="textAlignLeft"  style="width:7%">账号：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_14"
@@ -263,12 +290,12 @@
                   data-src
                   @click="commandFill('cellIdx14', '账号', 'TextItem')"
                 >{{letData.cellIdx14}}</td>
-                <td class="textAlignLeft">地址：</td>
+                <td class="textAlignLeft"  style="width:7%">地址：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_15"
                   align="center"
-                  style="width:49%"
+                  style="width:48%"
                   data-title="地址"
                   data-type="text"
                   data-src
