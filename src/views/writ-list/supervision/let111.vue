@@ -155,6 +155,15 @@
 
 
             <table style="border:solid 0px #000;" class="docBody">
+              <tr><td style="width:5%"></td>
+                <td
+                  class="textAlignLeft"
+                >你单位依法履行行政决定、采取相应措施消除事故隐患，本机关将及时通知有关单位解除上述有</td>
+              </tr><tr>
+                <td
+                  class="textAlignLeft"
+                >关措施。</td>
+              </tr>
              
               <tr>
                 <td style="width:5%"></td>
