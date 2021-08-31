@@ -128,32 +128,13 @@
               </template>
             </table>
             <table height="40"></table>
-            <table class="docBody">
-              <tr>
-                <td class="textAlignLeft">鉴定要求：</td>
-                <div
-                  style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-                  class="cellInput mutiLineArea"
-                  id="cell_idx_6"
-                  data-title="鉴定要求"
-                  data-type="textarea"
-                  data-src
-                  @click="commandFill('cellIdx6', '鉴定要求', 'DangerTableItem')"
-                >
-                  <div v-if="letData.cellIdx6 && letData.cellIdx6.length > 0">
-                    <p class="show-area-item-p">
-                      <span
-                        style="padding: 7px;"
-                      >{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）'}}</span>
-                    </p>
-                  </div>
-                  <div v-else>
-                    <p class="show-area-item-p">&nbsp;</p>
-                    <p class="show-area-item-p">&nbsp;</p>
-                  </div>
-                </div>
-              </tr>
-            </table>
+             <div class="docTextarea ">
+              <span class="no-line">鉴定要求：</span>
+              <span
+                @click="commandFill('cellIdx6', '鉴定要求', 'TextareaItem')"
+              >{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）'}}</span>
+              <div class="line"></div>
+            </div>
             <table class="docBody">
               <tr>
                 <td style="width:5%"></td>

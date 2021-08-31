@@ -81,7 +81,7 @@
             </table>
             <div class="docTextarea">
               <label style="width:5%"></label>
-              <span 
+              <span
                 @click="commandFill('cellIdx5', '', 'TextItem')"
               >{{ letData.cellIdx5  ? letData.cellIdx5 : '（点击编辑）'}}</span>
               于
@@ -104,7 +104,7 @@
               <span style="borderBottom:none"
                 @click="commandFill('cellIdx10', '', 'TextItem')"
               >{{ letData.cellIdx10 }}</span>
-              （ 
+              （
               <span style="borderBottom:none"
                 @click="commandFill('cellIdx11', '', 'TextItem')"
               >{{ letData.cellIdx11 }}</span>
@@ -121,28 +121,25 @@
               <span
                 @click="commandFill('cellIdx14', '现场处理决定', 'DangerTableItem')"
               >{{ letData.cellIdx14 }}</span>
-              
               的决定。
-
             </div>
-
              <div class="docTextarea ">
-              <span class="no-line" style="marginLeft:5% " >应你单位申请，经复查，意见如下：</span>
-              <span 
+              <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;应你单位申请，经复查，意见如下：</span>
+              <span
                 @click="commandFill('cellIdx15', '意见', 'TextareaItem')"
               >{{ letData.cellIdx15 ? letData.cellIdx15 : '（点击编辑）'}}</span>
-              
+
               <div class="line"></div>
             </div>
             <table style="border:solid 0px #000;" class="docBody">
-             
+
               <tr>
                 <td style="width:5%"></td>
                 <td class="textAlignLeft" style="width:36%"></td>
               </tr>
               <tr></tr>
             </table>
-           
+
             <table class="docBody">
               <tr>
                 <td class="textAlignLeft" style="width:23%">现场执法人员（签名):</td>
@@ -229,7 +226,7 @@
             </table>
             <table height="30"></table>
 
-            
+
              <table class="docBody">
               <tr>
                 <td
@@ -396,9 +393,9 @@ export default {
           cellIdx20: null, // 被检查单位意见
           cellIdx21: null, // 单位负责人（签名)
           cellIdx22: null, // 日期
-          cellIdx23: null, // 
+          cellIdx23: null, //
           cellIdx24: null, //日期
-       
+
           dangerItemObject: let101DataPapaerContent.dangerItemObject
         };
       }

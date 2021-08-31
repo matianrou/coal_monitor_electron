@@ -104,11 +104,21 @@ export function createHtml(paperDiv) {
             cursor: pointer;
           }
           .line {
-            border-top: 1px solid;
+            border-top: 1px solid ;
             height: 0px;
             position: absolute;
             bottom: 10px;
             width: 100%;
+          }
+          .no-line {
+            position: relative;
+            border-bottom: 1px solid rgba($color: #000000, $alpha: 0);
+            height: 28px;
+            bottom: 0;
+            z-index: 99;
+            display: inline-block;
+            background-color: #fff;
+            cursor: text;
           }
           .no-underline {
             border-bottom: 0px;
