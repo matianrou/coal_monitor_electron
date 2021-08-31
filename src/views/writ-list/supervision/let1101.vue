@@ -145,24 +145,27 @@
               >{{ letData.cellIdx15? letData.cellIdx15 : '（点击编辑）' }}</span>
               号&nbsp;&nbsp;)&nbsp;&nbsp;&nbsp;对所附《
               <span style="borderBottom:none"
-                @click="commandFill('cellIdx16', '物品清单', 'SamplingForensicsTable')"
+                @click="commandFill('cellIdx16', '', 'TextItem')"
               >{{ letData.cellIdx16? letData.cellIdx16 : '（点击编辑）' }}</span>
-              物品清单》所列物品予以
               <span style="borderBottom:none"
-                @click="commandFill('cellIdx17', '', 'TextItem')"
-              >{{ letData.cellIdx17? letData.cellIdx17 : '（点击编辑）' }}</span>
-              。现根据《中华人民共和国行政强制法》第二十七条、
+                @click="commandFill('cellIdx17', '物品清单', 'SamplingForensicsTable')"
+              >{{ letData.cellIdx17 }}物品清单》所列物品予以</span>
+              
               <span style="borderBottom:none"
                 @click="commandFill('cellIdx18', '', 'TextItem')"
-              >{{ letData.cellIdx18? letData.cellIdx18 : '□' }}</span>
+              >{{ letData.cellIdx18? letData.cellIdx18 : '（点击编辑）' }}</span>
+              。现根据《中华人民共和国行政强制法》第二十七条、
+              <span style="borderBottom:none"
+                @click="commandFill('cellIdx19', '', 'SelectItem')"
+              >{{ letData.cellIdx19? letData.cellIdx19 : '□' }}</span>
               第二十八条第一款第
               <span
-                @click="commandFill('cellIdx19', '年', 'TextItem')"
-              >{{ letData.cellIdx19 ? letData.cellIdx19 : '（点击编辑）'}}</span>
+                @click="commandFill('cellIdx20', '年', 'TextItem')"
+              >{{ letData.cellIdx20 ? letData.cellIdx20 : '（点击编辑）'}}</span>
               项的规定，作出处理决定：具体处理决定详见《
               <span style="borderBottom:none"
-                @click="commandFill('cellIdx20', '物品处理表', 'TextItem')"
-              >{{ letData.cellIdx20? letData.cellIdx20 : '（点击编辑）' }}</span>
+                @click="commandFill('cellIdx21', '物品处理表', 'TextItem')"
+              >{{ letData.cellIdx21? letData.cellIdx21 : '（点击编辑）' }}</span>
               物品处理表》。
               
             </div>
@@ -176,38 +179,38 @@
                 >如果不服本决定，可在接到本决定书之日起60日内向</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_21"
+                  id="cell_idx_22"
                   align="center"
                   style="width:43%"
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx21', '人民政府', 'TextItem')"
-                >{{ letData.cellIdx21 }}</td>
+                  @click="commandFill('cellIdx22', '人民政府', 'TextItem')"
+                >{{ letData.cellIdx22 }}</td>
               </tr>
               <tr>
                  <td class="textAlignLeft">人民政府或者</td>
                  <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_22"
+                  id="cell_idx_23"
                   align="center"
                   style="width:49%"
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx22', '', 'TextItem')"
-                >{{ letData.cellIdx22 }}</td>
+                  @click="commandFill('cellIdx23', '', 'TextItem')"
+                >{{ letData.cellIdx23 }}</td>
                 <td class="textAlignLeft">申请行政复议，或者在6个月内依法向</td>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_23"
+                  id="cell_idx_24"
                   align="center"
                   style="width:37%"
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx23', '人民法院', 'TextItem')"
-                >{{ letData.cellIdx23 }}</td>
+                  @click="commandFill('cellIdx24', '人民法院', 'TextItem')"
+                >{{ letData.cellIdx24 }}</td>
                 <td class="textAlignLeft">人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。</td>
               </tr>
             </table>
@@ -218,23 +221,23 @@
                 <td class="textAlignLeft">附件：</td>
                 <td
                 class="cellInput"
-                id="cell_idx_24"
+                id="cell_idx_25"
                 align="center"
                 style="width:5%"
                 data-title
                 data-type="text"
                 data-src
-                @click="commandFill('cellIdx24', '', 'TextItem')"
-                >{{ letData.cellIdx24 }}</td>
+                @click="commandFill('cellIdx25', '', 'TextItem')"
+                >{{ letData.cellIdx25 }}</td>
 
                 <td
                   class="cellInput"
-                  id="cell_idx_25"
+                  id="cell_idx_26"
                   style="width:20%"
                   data-title="附件"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx25', '物品处理表', 'SamplingForensicsTable')"
+                  @click="commandFill('cellIdx26', '物品处理表', 'SamplingForensicsTable')"
                 >物品处理表</td>
                 
 
@@ -245,23 +248,23 @@
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_26"
+                  id="cell_idx_27"
                   align="right"
                   style="width:95%"
-                  @click="commandFill('cellIdx26', '', 'TextItem')"
-                >{{letData.cellIdx26 ? letData.cellIdx26 : '（点击编辑）'}}</td>
+                  @click="commandFill('cellIdx27', '', 'TextItem')"
+                >{{letData.cellIdx27 ? letData.cellIdx27 : '（点击编辑）'}}</td>
               </tr>
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_27"
+                  id="cell_idx_28"
                   align="right"
                   style="width:95%"
                   data-title
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx27', '日期', 'DateItem')"
-                >{{letData.cellIdx27 ? letData.cellIdx27 : '（点击编辑）'}}</td>
+                  @click="commandFill('cellIdx28', '日期', 'DateItem')"
+                >{{letData.cellIdx28 ? letData.cellIdx28 : '（点击编辑）'}}</td>
               </tr>
             </table>
             <table height="60"></table>
@@ -271,14 +274,14 @@
               <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被</td>
               <td
                 class="cellInput"
-                id="cell_idx_28"
+                id="cell_idx_29"
                 align="center"
                 style="width:15%"
                 data-title
                 data-type="text"
                 data-src
-                @click="commandFill('cellIdx28', '单位', 'TextItem')"
-                >{{ letData.cellIdx28 }}</td>
+                @click="commandFill('cellIdx29', '单位', 'TextItem')"
+                >{{ letData.cellIdx29 }}</td>
               <td class="textAlignLeft">单位，一份存档。</td>
             </table>
           </div>
@@ -308,7 +311,16 @@
 import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject, getDocNumber } from '@/utils/setInitPaperData'
-
+const toggleDictionary = [
+  {
+    value: '□',
+    name: '□'
+  },
+  {
+    value: '√',
+    name: '√'
+  },
+];
 export default {
   name: "Let110",
   props: {
@@ -323,6 +335,7 @@ export default {
           docTypeNo: null,
           docTypeName: null,
         };
+        
       },
     },
   },
@@ -332,7 +345,9 @@ export default {
   data() {
     return {
       letData: {},
-      options: {},
+      options: {
+        cellIdx19: toggleDictionary,
+      },
       editData: {}, // 回显数据
       selectedType: '查封',
       visible: false,
@@ -417,22 +432,23 @@ export default {
           cellIdx14TypeTextareaItem: let110DataPapaerContent.cellIdx4, // 查封扣押文书号
           cellIdx15: let110DataPapaerContent.cellIdx5, // 查封扣押文书号
           cellIdx15TypeTextareaItem: let110DataPapaerContent.cellIdx5, // 查封扣押文书号
-          cellIdx16: null, // 查封扣押中的物品清单
-          cellIdx17: null, // 查封/扣押
-          cellIdx18: null, // 第二十七条、XXX第二十八条第一款第
-          cellIdx19: null, // 第二十八条第一款第XX项的规定
-          cellIdx20: null, // 查封/扣押
-          cellIdx21: orgSysOfficeInfo.goverPrefix, // 人民政府
-          cellIdx21TypeTextItem: orgSysOfficeInfo.goverPrefix, // 人民政府
-          cellIdx22: orgSysOfficeInfo.organName, // organName
-          cellIdx22TypeTextItem: orgSysOfficeInfo.organName, // organName
-          cellIdx23: orgSysOfficeInfo.courtPrefix, // courtPrefix人民法院
-          cellIdx23TypeTextItem: orgSysOfficeInfo.courtPrefix, // courtPrefix人民法院
-          cellIdx24: let110DataPapaerContent.cellIdx0, // 查封/扣押
-          cellIdx25: null, //
+          cellIdx16: null, // 查封/扣押
+          cellIdx17: null, // 查封扣押中的物品清单
+          cellIdx18: null, // 查封/扣押
+          cellIdx19: null, // 第二十七条、XXX第二十八条第一款第
+          cellIdx20: null, // 第二十八条第一款第XX项的规定
+          cellIdx21: null, // 查封/扣押
+          cellIdx22: orgSysOfficeInfo.goverPrefix, // 人民政府
+          cellIdx22TypeTextItem: orgSysOfficeInfo.goverPrefix, // 人民政府
+          cellIdx23: orgSysOfficeInfo.organName, // organName
+          cellIdx23TypeTextItem: orgSysOfficeInfo.organName, // organName
+          cellIdx24: orgSysOfficeInfo.courtPrefix, // courtPrefix人民法院
+          cellIdx24TypeTextItem: orgSysOfficeInfo.courtPrefix, // courtPrefix人民法院
+          cellIdx25: let110DataPapaerContent.cellIdx0, // 查封/扣押
           cellIdx26: null, //
-          cellIdx27: null, // 日期
-          cellIdx28: let110DataPapaerContent.cellIdx0, // 查封/扣押
+          cellIdx27: null, //
+          cellIdx28: null, // 日期
+          cellIdx29: let110DataPapaerContent.cellIdx0, // 查封/扣押
           SamplingForensicsTable: let110DataPapaerContent.SamplingForensicsTable
         };
       }
@@ -447,7 +463,7 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}Type${type}`;
-        if (key === 'cellIdx16') {
+        if (key === 'cellIdx17') {
           this.options[key] = {
             canEdit: true,
             page: this.docData.docTypeNo, // 物品清单
@@ -470,10 +486,12 @@ export default {
       this.visible = false
       this.letData.cellIdx0 = `${this.selectedType}处理`
       this.letData.cellIdx0TypeTextItem = `${this.selectedType}处理`
-      this.letData.cellIdx17 = this.selectedType
-      this.letData.cellIdx17TypeTextItem = this.selectedType
-      this.letData.cellIdx20 = this.selectedType
-      this.letData.cellIdx20TypeTextItem = this.selectedType
+      this.letData.cellIdx16 = this.selectedType
+      this.letData.cellIdx16TypeTextItem = this.selectedType
+      this.letData.cellIdx18 = this.selectedType
+      this.letData.cellIdx18TypeTextItem = this.selectedType
+      this.letData.cellIdx21 = this.selectedType
+      this.letData.cellIdx21TypeTextItem = this.selectedType
     }
   },
 };

@@ -133,7 +133,8 @@
               <div class="line"></div>
             </div>
              <div class="docTextarea">
-             法制审核意见：
+             <span class="no-line" style="width:16%">法制审核意见：</span>
+
               <span 
                 @click="commandFill('cellIdx8', '法制审核意见', 'TextareaItem')"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
@@ -141,7 +142,8 @@
               <div class="line"></div>
             </div>
              <div class="docTextarea">
-             建议案件处理意见：
+               <span class="no-line">建议案件处理意见：</span>
+             
               <span 
                 @click="commandFill('cellIdx9', '建议案件处理意见', 'TextareaItem')"
               >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</span>

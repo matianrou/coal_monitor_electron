@@ -81,7 +81,7 @@
             <div class="docTextarea">
               <label style="width:5%"></label>
              经查，你
-              <span 
+              <span class="no-underline"
                 @click="commandFill('cellIdx5', '单位', 'TextItem')"
               >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</span>
               的以下行为

@@ -101,10 +101,12 @@
               <div class="line"></div>
             </div>
              <div class="docTextarea">
-              <label style="width:5%"></label>
-             法制审核意见：
+              
+              <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;法制审核意见：
+              </span>
+             
               <span 
-                @click="commandFill('cellIdx8', '法制审核意见', 'DangerTableItem')"
+                @click="commandFill('cellIdx8', '法制审核意见', 'SelectItem')"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
               
               <div class="line"></div>
@@ -311,7 +313,31 @@ export default {
     return {
       letData: {},
       options: {
-        cellIdx8: []
+        cellIdx8:[
+          {
+            value: '经2021年8月31日法制审核，认为案件事实清楚、证据确凿充分、定性准确、处罚适当、程序合法，同意处罚意见。',
+            name: '经2021年8月31日法制审核，认为案件事实清楚、证据确凿充分、定性准确、处罚适当、程序合法，同意处罚意见。'
+
+          },
+          {
+            value:'经2021年8月31日法制审核，认为案件主要事实不清、证据不足，建议继续调查或不予作出行政执法决定的建议。',
+            name:'经2021年8月31日法制审核，认为案件主要事实不清、证据不足，建议继续调查或不予作出行政执法决定的建议。'
+          },
+          {
+            value:'经2021年8月31日法制审核，认为案件定性不准、适用法律不准确、执行裁量基准不当的，建议给予XXX的行政处罚。',
+            name:'经2021年8月31日法制审核，认为案件定性不准、适用法律不准确、执行裁量基准不当的，建议给予XXX的行政处罚。'
+          },
+          {
+            value:'经2021年8月31日法制审核，认为案件程序不合法的，建议进行纠正。',
+            name:'经2021年8月31日法制审核，认为案件程序不合法的，建议进行纠正。'
+          },
+          {
+            value:'经2021年8月31日法制审核，认为超出本机关管辖范围或者涉嫌犯罪的，建议移送。',
+            name:'经2021年8月31日法制审核，认为超出本机关管辖范围或者涉嫌犯罪的，建议移送。'
+          },
+
+
+        ]
       },
       editData: {}, // 回显数据
       extraData: {}, // 用于拼写隐患内容的字符集合

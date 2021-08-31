@@ -20,7 +20,7 @@
             <div class="textAlignCenter formHeader3">集体讨论记录</div>
             <div class="stdRowH"></div>
             <div class="docTextarea">
-             案由：
+             <span class="no-line">案由：</span>
               <span 
                 @click="commandFill('cellIdx0', '案由', 'DangerTableItem')"
               >{{ letData.cellIdx0 ? letData.cellIdx0 : '（点击编辑）'}}</span>
@@ -189,7 +189,8 @@
              
             </table>
              <div class="docTextarea">
-             出席人员姓名以及职务:
+               <span class="no-line"> 出席人员姓名以及职务：</span>
+            
               <span 
                 @click="commandFill('cellIdx12', '出席人员姓名以及职务', 'TextareaItem')"
               >{{ letData.cellIdx12 ? letData.cellIdx12 : '（点击编辑）'}}</span>
@@ -197,7 +198,8 @@
               <div class="line"></div>
             </div>
             <div class="docTextarea">
-             讨论内容：
+               <span class="no-line"> 讨论内容：</span>
+ 
               <span 
                 @click="commandFill('cellIdx13', '讨论内容', 'TextareaItem')"
               >{{ letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）'}}</span>
@@ -205,7 +207,8 @@
               <div class="line"></div>
             </div>
             <div class="docTextarea">
-             讨论记录：
+              <span class="no-line"> 讨论记录：</span>
+          
               <span 
                 @click="commandFill('cellIdx14', '讨论记录', 'TextareaItem')"
               >{{ letData.cellIdx14 ? letData.cellIdx14 : '（点击编辑）'}}</span>
@@ -213,7 +216,8 @@
               <div class="line"></div>
             </div>
             <div class="docTextarea">
-             结论性意见：
+              <span class="no-line"> 结论性意见：</span>
+             
               <span 
                 @click="commandFill('cellIdx15', '结论性意见', 'TextareaItem')"
               >{{ letData.cellIdx15 ? letData.cellIdx15 : '（点击编辑）'}}</span>
@@ -221,7 +225,8 @@
               <div class="line"></div>
             </div>
             <div class="docTextarea">
-             出席人员签名：
+              <span class="no-line"> 出席人员签名：</span>
+             
               <span 
                 @click="commandFill('cellIdx16', '出席人员签名', 'TextareaItem')"
               >{{ letData.cellIdx16 ? letData.cellIdx16 : '（点击编辑）'}}</span>

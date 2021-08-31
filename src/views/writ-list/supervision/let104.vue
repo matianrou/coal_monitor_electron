@@ -121,13 +121,13 @@
               <span
                 @click="commandFill('cellIdx14', '现场处理决定', 'DangerTableItem')"
               >{{ letData.cellIdx14 }}</span>
+              
               的决定。
 
             </div>
 
-             <div class="docTextarea">
-              <label style="width:5%"></label>
-              应你单位申请，经复查，意见如下：
+             <div class="docTextarea ">
+              <span class="no-line" style="marginLeft:5% " >应你单位申请，经复查，意见如下：</span>
               <span 
                 @click="commandFill('cellIdx15', '意见', 'TextareaItem')"
               >{{ letData.cellIdx15 ? letData.cellIdx15 : '（点击编辑）'}}</span>

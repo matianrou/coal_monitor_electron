@@ -286,7 +286,7 @@ export default {
         let cellIdx7String = dateList[1]
         let cellIdx8String = dateList[2]
         // 物品名称：
-        let let108Article = let108DataPapaerContent.SamplingForensicsTable.tableData
+        let let108Article = let108DataPapaerContent.SamplingForensicsTable?let108DataPapaerContent.SamplingForensicsTable.tableData:[];
         let articleName = ''
         if (let108Article.length > 0) {
           let108Article.map(item => {
@@ -300,12 +300,14 @@ export default {
         let num1081 = let108DataPapaerContent.cellIdx1
         let num1083 = let108DataPapaerContent.cellIdx2
         let num1084 = let108DataPapaerContent.cellIdx3
-        // 3.sysOfficeInfo实体中 organName、人民法院：courtPrefix
+        // 3.sysOfficeInfo实体中 goverPrefix organName、人民法院：courtPrefix
         const orgInfo = db.table("orgInfo");
         const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
         let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
-        let cellIdx15String = orgSysOfficeInfo.organName
-        let cellIdx16String = orgSysOfficeInfo.courtPrefix
+        console.log(orgSysOfficeInfo);
+        let cellIdx15String = orgSysOfficeInfo.goverPrefix
+        let cellIdx16String = orgSysOfficeInfo.organName
+        let cellIdx17String = orgSysOfficeInfo.courtPrefix
         this.letData = {
           cellIdx0: num0, // 文书号
           cellIdx0TypeTextItem: num0, // 文书号
@@ -335,11 +337,12 @@ export default {
           cellIdx13: num1084, // 文书号
           cellIdx13TypeTextItem: num1084, // 文书号
           cellIdx14: null, // 处理决定
-          cellIdx15: null, // 可在接到本决定书之日起60日内向。。。申请行政复议或6个月内向
-          cellIdx16: cellIdx15String, // organName
-          cellIdx16TypeTextItem: cellIdx15String, // organName
-          cellIdx17: cellIdx16String, // 人民法院
-          cellIdx17TypeTextItem: cellIdx16String, // 人民法院
+          cellIdx15: cellIdx15String, // 可在接到本决定书之日起60日内向。。。申请行政复议或6个月内向
+          cellIdx15TypeTextItem: cellIdx15String,// 可在接到本决定书之日起60日内向。。。申请行政复议或6个月内向
+          cellIdx16: cellIdx16String, // organName
+          cellIdx16TypeTextItem: cellIdx16String, // organName
+          cellIdx17: cellIdx17String, // 人民法院
+          cellIdx17TypeTextItem: cellIdx17String, // 人民法院
           cellIdx18: null, //
           cellIdx19: null, // 日期
         };

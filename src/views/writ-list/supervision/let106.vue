@@ -432,8 +432,8 @@ export default {
         const orgInfo = db.table("orgInfo");
         const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
         let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
-        let cellIdx19String = orgSysOfficeInfo.organName
-        let cellIdx20String = orgSysOfficeInfo.courtPrefix
+        let cellIdx20String = orgSysOfficeInfo.organName
+        let cellIdx21String = orgSysOfficeInfo.courtPrefix
         this.letData = {
           cellIdx0: num0, // 文书号
           cellIdx0TypeTextItem: num0, // 文书号
@@ -469,11 +469,12 @@ export default {
           cellIdx17TypeTextItem: cellIdx9Hour, // 时
           cellIdx18: cellIdx10Minu, // 分
           cellIdx18TypeTextItem: cellIdx10Minu, // 分
-          cellIdx19: null, //
-          cellIdx20: cellIdx19String, // 机构名
-          cellIdx20TypeTextItem: cellIdx19String, // 机构名
-          cellIdx21: cellIdx20String, // 人民法院
-          cellIdx21TypeTextItem: cellIdx20String, // 人民法院
+          cellIdx19: orgSysOfficeInfo.goverPrefix, // 人民政府
+          cellIdx19TypeTextItem: orgSysOfficeInfo.goverPrefix, // 人民政府
+          cellIdx20: cellIdx20String, // 机构名
+          cellIdx20TypeTextItem: cellIdx20String, // 机构名
+          cellIdx21: cellIdx21String, // 人民法院
+          cellIdx21TypeTextItem: cellIdx21String, // 人民法院
           cellIdx22: null, // 现场执法人员（签名）
           cellIdx23: null, // 执法证号
           cellIdx24: null, // 现场执法人员（签名）

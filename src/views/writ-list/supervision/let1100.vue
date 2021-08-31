@@ -459,6 +459,8 @@ export default {
       this.letData.cellIdx0TypeTextItem = `延长${this.selectedType}期限`
       this.letData.cellIdx11 = this.selectedType
       this.letData.cellIdx11TypeTextItem = this.selectedType
+      this.letData.cellIdx18 = this.selectedType
+      this.letData.cellIdx18TypeTextItem = this.selectedType
       this.letData.cellIdx27 = this.selectedType
       this.letData.cellIdx27TypeTextItem = this.selectedType
     }
