@@ -36,7 +36,7 @@
                   class="cellInput "
                   id="cell_idx_1"
                   align="center"
-                  style="width:23%"
+                  style="width:15%"
                   data-title="文书号"
                   data-type="text"
                   data-src
@@ -68,7 +68,16 @@
                 <td class="textAlignLeft ">号&nbsp;&nbsp;</td>
               </tr>
             </table>
-            <table style="border:solid 0 #000;" class="docBody">
+            <div class="docTextarea">
+              
+              案&nbsp;&nbsp;&nbsp;&nbsp;由：
+              <span 
+                @click="commandFill('cellIdx4', '案由', 'DangerTableItem')"
+              >{{ letData.cellIdx4 ? letData.cellIdx4 : '（点击编辑）'}}</span>
+              
+              <div class="line"></div>
+            </div>
+            <!-- <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">案&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;由：</td>
               </tr>
@@ -95,8 +104,17 @@
                   &nbsp;
                 </p>
               </div>
+            </div> -->
+             <div class="docTextarea">
+              
+              案情摘要：
+              <span 
+                @click="commandFill('cellIdx5', '案情摘要', 'DangerTableItem')"
+              >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</span>
+              
+              <div class="line"></div>
             </div>
-            <table style="border:solid 0 #000;" class="docBody">
+            <!-- <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">案情摘要：</td>
               </tr>
@@ -123,7 +141,7 @@
                   &nbsp;
                 </p>
               </div>
-            </div>
+            </div> -->
             <table class="docBody">
               <tr>
                 <td style="width:5%"></td>
@@ -167,7 +185,7 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
                   align="left"
-                  style="width:35%"
+                  style="width:55%"
                   data-title="本案承办人"
                   data-type="text"
                   data-src

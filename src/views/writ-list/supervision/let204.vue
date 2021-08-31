@@ -22,7 +22,7 @@
                   class="cellInput "
                   id="cell_idx_0"
                   align="right"
-                  style="width:35%"
+                  style="width:40%"
                   data-title="文书号"
                   data-type="text"
                   data-src
@@ -33,7 +33,7 @@
                   class="cellInput "
                   id="cell_idx_1"
                   align="center"
-                  style="width:23%"
+                  style="width:15%"
                   data-title="文书号"
                   data-type="text"
                   data-src
@@ -78,23 +78,35 @@
                 <td class="textAlignLeft">:</td>
               </tr>
             </table>
-            <table style="border:solid 0 #000;" class="docBody">
-              <tr>
-                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;经查，你</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_5"
-                  align="center"
-                  style="width:10%"
-                  data-title="单位"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx5', '单位', 'TextItem')"
-                >{{letData.cellIdx5}}</td>
-                <td class="textAlignLeft">的以下行为</td>
-              </tr>
-            </table>
-            <div
+            <div class="docTextarea">
+              <label style="width:5%"></label>
+             经查，你
+              <span 
+                @click="commandFill('cellIdx5', '单位', 'TextItem')"
+              >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</span>
+              的以下行为
+              <span 
+                @click="commandFill('cellIdx6', '违法行为', 'DangerTableItem')"
+              >{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）'}}</span>
+              <span 
+                @click="commandFill('cellIdx7', '违法行为', 'DangerTableItem')"
+              >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
+              的规定，依据
+              <span 
+                @click="commandFill('cellIdx8', '法律依据', 'DangerTableItem')"
+              >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
+              的规定，拟对你
+              <span class="no-underline"
+                @click="commandFill('cellIdx9', '单位/个人', 'TextItem')"
+              >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</span>
+
+              <span 
+                @click="commandFill('cellIdx10', '法律规定', 'TextItem')"
+              >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）'}}</span>
+              的行政处罚。
+            </div>
+            
+            <!-- <div
               style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
               class="cellInput mutiLineArea"
               id="cell_idx_6"
@@ -205,7 +217,7 @@
                   &nbsp;
                 </p>
               </div>
-            </div>
+            </div> -->
             <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td

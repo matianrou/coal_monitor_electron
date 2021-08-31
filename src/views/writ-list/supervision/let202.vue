@@ -114,7 +114,16 @@
                 >{{letData.cellIdx7}}</td>
               </tr>
             </table>
-            <table style="border:solid 0 #000;" class="docBody">
+            <div class="docTextarea">
+              
+              调查事由：
+              <span 
+                @click="commandFill('cellIdx8', '调查事由', 'DangerTableItem')"
+              >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
+              
+              <div class="line"></div>
+            </div>
+            <!-- <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">调查事由：</td>
               </tr>
@@ -141,7 +150,7 @@
                   &nbsp;
                 </p>
               </div>
-            </div>
+            </div> -->
             <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft" style="width:12%">被调查人：</td>
