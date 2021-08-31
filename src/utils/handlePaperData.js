@@ -1,5 +1,6 @@
 // 各文书页面使用的保存各种类型填写数据公用方法
 import { getDangerObject, transformNumToChinese }from '@/utils/setInitPaperData'
+import store from '@/store'
 
 function setTextItem (data) {
   // 处理简单文本数据
@@ -90,7 +91,7 @@ function setDangerTableItem (data, selectedData, options) {
     case '13': // 复查意见书
       if (options.key === 'cellIdx9') {
         string = `${dangerObjectIndex.dangerString}`
-      } else if (options.key === 'cellIdx10') {
+      } else if (options.key === 'cellIdx14') {
         string = `${dangerObject.onsiteDescString}`
       }
       break
@@ -127,10 +128,16 @@ function setDangerTableItem (data, selectedData, options) {
     case '36': // 案件处理呈报书
       if (options.key === 'cellIdx2') {
         string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString}案。`
+      } else if (options.key === 'cellIdx3') {
+        string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString}案。`
       } else if (options.key === 'cellIdx6') {
         string = `${dangerObjectIndex.dangerString}。经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString}的规定。`
       } else if (options.key === 'cellIdx7') {
-        string = `分别依据${dangerObject.treatmentSuggestion}。合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle)}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`
+        if (store.state.DBName === 'CoalSupervisionDB') {
+          string = `${dangerObject.dangerString}经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString}的规定。`
+        } else {
+          string = `分别依据${dangerObject.treatmentSuggestion}。合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle)}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`
+        }
       }
       break
     case '6': // 行政处罚告知书
@@ -177,12 +184,15 @@ function setDangerTableItem (data, selectedData, options) {
       if (options.key === 'cellIdx3') {
         string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString}案。`
       } else if (options.key === 'cellIdx5') {
-        string = `${dangerObject.dangerString}经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString}的规定。`
+        string = `${options.spellString.let101Date}${options.spellString.userGroupName}对${options.spellString.corpName}进行现场检查时发现${dangerObjectIndex.dangerString}以上行为分别涉嫌${dangerObject.illegalString}依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`
       } else if (options.key === 'cellIdx6') {
         string = `${dangerObject.penaltyBasisString}`
-      } else if (options.key === 'cellIdx10') {
+      } else if (options.key === 'cellIdx7') {
         string = `${dangerObject.penaltyDesc}`
       }
+      break
+    case '48': // 集体讨论记录
+      string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString}案。`
       break
   }
   return string

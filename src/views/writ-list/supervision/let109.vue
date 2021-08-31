@@ -81,11 +81,10 @@
             </table>
             <div class="docTextarea">
               <label style="width:5%"></label>
-              
              本机关于
               <span
                 @click="commandFill('cellIdx6', '年', 'TextItem')"
-              >{{ letData.cellIdx6 ? letData.cellIdx7 : '（XX）'}}</span>
+              >{{ letData.cellIdx6 ? letData.cellIdx6 : '（XX）'}}</span>
               年
               <span
                 @click="commandFill('cellIdx7', '月', 'TextItem')"
@@ -102,7 +101,7 @@
               <span style="borderBottom:none"
                 @click="commandFill('cellIdx10', '', 'TextItem')"
               >{{ letData.cellIdx10 ? letData.cellIdx10 : '点击编辑'}}</span>
-              （ 
+              （
               <span style="borderBottom:none"
                 @click="commandFill('cellIdx11', '', 'TextItem')"
               >{{ letData.cellIdx11 ? letData.cellIdx11 : '点击编辑'}}</span>
@@ -120,12 +119,7 @@
                 @click="commandFill('cellIdx14', '处理决定', 'TextareaItem')"
               >{{ letData.cellIdx14? letData.cellIdx14 : '（点击编辑）'  }}</span>
               的决定。
-
             </div>
-
-
-            
-           
             <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td style="width:5%"></td>
@@ -303,8 +297,7 @@ export default {
         // 3.sysOfficeInfo实体中 goverPrefix organName、人民法院：courtPrefix
         const orgInfo = db.table("orgInfo");
         const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
-        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
-        console.log(orgSysOfficeInfo);
+        let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {goverPrefix: '', organName: '', courtPrefix: ''}
         let cellIdx15String = orgSysOfficeInfo.goverPrefix
         let cellIdx16String = orgSysOfficeInfo.organName
         let cellIdx17String = orgSysOfficeInfo.courtPrefix

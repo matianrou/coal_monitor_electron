@@ -124,7 +124,6 @@ export default {
     },
     async getUserType (userId, sessId) {
       await this.$http.get(`/local/user/role?__sid=${sessId}&userId=${userId}`).then(({ data }) => {
-          console.log('data', data)
           if(data.status === '200') {
             // 返回用户类别标识
             let DBName = ''

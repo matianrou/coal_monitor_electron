@@ -421,7 +421,6 @@ export default {
           return
         }
         let let206DataPapaerContent = JSON.parse(let206Data.paperContent)
-        console.log('let206DataPapaerContent', let206DataPapaerContent)
         let paperDate206 = let206DataPapaerContent.cellIdx20 ? let206DataPapaerContent.cellIdx20.replace('年', '-').replace('月', '-').replace('日', '-').split('-') : ['', '', '']
         // 行政强制执行事先催告书编号
         const let309Data = await wkPaper.find((item) => {
@@ -432,7 +431,6 @@ export default {
           return
         }
         let let309DataPapaerContent = JSON.parse(let309Data.paperContent)
-        console.log('let309DataPapaerContent', let309DataPapaerContent)
         let paperDate309 = let309DataPapaerContent.cellIdx28 ? let309DataPapaerContent.cellIdx28.replace('年', '-').replace('月', '-').replace('日', '-').split('-') : ['', '', '']
         this.letData = {
           cellIdx0: paperNumber.num0, // 文书号

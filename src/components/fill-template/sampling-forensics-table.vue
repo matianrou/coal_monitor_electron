@@ -229,14 +229,16 @@ export default {
   computed: {
     title() {
       let title = ''
-      console.log('this.options', this.options)
       if (this.options.page === '23') {
         title = '抽样取证清单'
       } else if (this.options.page === '25') {
         title = '先行登记保存证据清单'
       } else if (this.options.page === '32' || this.options.page === '34' || this.options.page === '55') {
         title = '物品清单'
+      } else if (this.options.page === '46') {
+        title = '物品处理表'
       }
+      console.log('options', this.options)
       return title
     }
   },
@@ -248,6 +250,7 @@ export default {
       this.dataForm.tempValue = this.value
       if (this.options.canEdit) {
         // 如果value.tableData无数据则自动添加一条
+        console.log('tempValue', this.dataForm.tempValue)
         if (this.dataForm.tempValue.tableData.length === 0) {
           this.dataForm.tempValue.tableData.push({
             sindex: 1, // 序号

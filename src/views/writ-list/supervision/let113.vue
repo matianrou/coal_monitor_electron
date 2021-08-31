@@ -105,15 +105,12 @@
                 <td class="textAlignLeft">:</td>
               </tr>
             </table>
-
             <div class="docTextarea">
               <label style="width:5%"></label>
-            
               <span
                 @click="commandFill('cellIdx7', '', 'TextItem')"
               >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
               已依法履行行政决定并采取相应措施消除了安全隐患，生产安全事故的现实危险已不存在，根据《中华人民共和国安全生产法》第六十七条第二款规定，请贵单位解除对其采取的
-              
               <span style="borderBottom:none"
                 @click="commandFill('cellIdx8', '停供电(停供民用爆炸物品)', 'TextItem')"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
@@ -360,7 +357,7 @@ export default {
           cellIdx13TypeTextItem: orgSysOfficeInfo.master, // 执法机关联系人
           cellIdx14: orgSysOfficeInfo.phone, // 联系电话
           cellIdx14TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
-          cellIdx15: null, // 
+          cellIdx15: null, //
           cellIdx16: null, // 日期
           cellIdx17: null, // 一份交XXX
         };

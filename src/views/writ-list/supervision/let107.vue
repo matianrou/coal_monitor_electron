@@ -86,7 +86,7 @@
                 @click="commandFill('cellIdx5', '违法行为', 'DangerTableItem')"
               >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</span>
               的行为涉嫌违法违规。根据《中华人民共和国行政处罚法》第五十六条规定，本机关决定对你单位的有关证据（详见《抽样取证清单》）采取抽样取证。
-              
+
             </div>
 
             <table style="border:solid 0px #000;" class="docBody">
@@ -404,7 +404,7 @@ export default {
         // 4.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
         const orgInfo = db.table("orgInfo");
         const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
-        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
+        let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: ''}
         let cellIdx17String = orgSysOfficeInfo.depAddress
         let cellIdx18String = orgSysOfficeInfo.depPost
         let cellIdx20String = orgSysOfficeInfo.master

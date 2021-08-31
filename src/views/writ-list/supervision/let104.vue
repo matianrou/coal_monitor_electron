@@ -185,7 +185,6 @@
                 >{{letData.cellIdx19}}</td>
               </tr>
               <tr>
-
                 <td class="textAlignLeft" style="width:18%">被检查单位意见：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -222,8 +221,6 @@
               </tr>
             </table>
             <table height="30"></table>
-
-
              <table class="docBody">
               <tr>
                 <td

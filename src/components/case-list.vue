@@ -456,7 +456,7 @@ export default {
               })
               .catch((err) => {
                 this.$message.error('删除检查失败，请再次尝试')
-                console.log('err', err)
+                console.log('删除检查失败:', err)
               });
             // 删除成功后刷新企业列表
             this.getData()

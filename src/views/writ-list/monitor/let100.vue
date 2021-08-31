@@ -269,7 +269,6 @@ export default {
       const checkPaper = await wkPaper.findAll((item) => {
         return item.caseId === caseId && item.paperType === this.docData.docTypeNo;
       });
-      console.log('checkPaper', checkPaper)
       // 已做文书则展示文书内容，否则创建初始版本
       if (checkPaper.length > 0) {
         // 回显

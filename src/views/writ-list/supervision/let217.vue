@@ -104,7 +104,7 @@
               >{{ letData.cellIdx9 ? letData.cellIdx9 : '（XX）'}}</span>
               日到
               <span
-                @click="commandFill('cellIdx10', '日', 'TextItem')"
+                @click="commandFill('cellIdx10', '', 'TextItem')"
               >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）'}}</span>
               接受询问调查，来时请携带下列证件材料（见打√处）：
             </div>

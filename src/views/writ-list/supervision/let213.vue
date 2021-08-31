@@ -54,28 +54,13 @@
             <table class="docBody">
               <tr>
                 <td class="textAlignLeft">承办人意见：</td>
-                <div
-                  style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-                  class="cellInput mutiLineArea"
-                  id="cell_idx_1"
-                  data-title="承办人意见"
-                  data-type="textarea"
+                <td
+                  class="cellInput cellBottomLine"
+                  align="center"
+                  style="width:18%"
                   data-src
-                  @click="commandFill('cellIdx1', '承办人意见', 'TextareaItem')"
-                >
-                  <div v-if="letData.cellIdx1 && letData.cellIdx1.length > 0">
-                    <p class="show-area-item-p">
-                      <span
-                        style="padding: 7px;"
-                      >{{ letData.cellIdx1? letData.cellIdx1 : '（点击编辑）' }}</span>
-                    </p>
-                    <cell-line></cell-line>
-                  </div>
-                  <div v-else>
-                    <p class="show-area-item-p">&nbsp;</p>
-                    <p class="show-area-item-p">&nbsp;</p>
-                  </div>
-                </div>
+                  @click="commandFill('cellIdx1', '承办人意见', 'TextItem')"
+                >{{letData.cellIdx1}}</td>
                 <td class="textAlignLeft">签名：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -124,38 +109,15 @@
               </tr>
               <tr>
                 <td class="textAlignLeft">审批人意见：</td>
-                <!-- <td
+                <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_5"
                   align="center"
                   style="width:18%"
                   data-title="审批人意见"
                   data-type="textarea"
                   data-src
-                  @click="commandFill('cellIdx5', '审批人意见', 'TextItem')"
-                >{{letData.cellIdx5}}</td>-->
-                <div
-                  style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-                  class="cellInput mutiLineArea"
-                  id="cell_idx_6"
-                  data-title="审批人意见"
-                  data-type="textarea"
-                  data-src
-                  @click="commandFill('cellIdx6', '审批人意见', 'TextareaItem')"
-                >
-                  <div v-if="letData.cellIdx6 && letData.cellIdx6.length > 0">
-                    <p class="show-area-item-p">
-                      <span
-                        style="padding: 7px;"
-                      >{{ letData.cellIdx6? letData.cellIdx6 : '（点击编辑）' }}</span>
-                    </p>
-                    <cell-line></cell-line>
-                  </div>
-                  <div v-else>
-                    <p class="show-area-item-p">&nbsp;</p>
-                    <p class="show-area-item-p">&nbsp;</p>
-                  </div>
-                </div>
+                  @click="commandFill('cellIdx6', '审批人意见', 'TextItem')"
+                >{{letData.cellIdx6}}</td>
                 <td class="textAlignLeft">签名：</td>
                 <td
                   class="cellInput cellBottomLine"

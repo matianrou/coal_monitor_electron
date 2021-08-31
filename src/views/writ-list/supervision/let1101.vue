@@ -150,7 +150,6 @@
               <span style="borderBottom:none"
                 @click="commandFill('cellIdx17', '物品清单', 'SamplingForensicsTable')"
               >{{ letData.cellIdx17 }}物品清单》所列物品予以</span>
-              
               <span style="borderBottom:none"
                 @click="commandFill('cellIdx18', '', 'TextItem')"
               >{{ letData.cellIdx18? letData.cellIdx18 : '（点击编辑）' }}</span>
@@ -167,10 +166,7 @@
                 @click="commandFill('cellIdx21', '物品处理表', 'TextItem')"
               >{{ letData.cellIdx21? letData.cellIdx21 : '（点击编辑）' }}</span>
               物品处理表》。
-              
             </div>
-
-
             <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td style="width:5%"></td>
@@ -229,7 +225,6 @@
                 data-src
                 @click="commandFill('cellIdx25', '', 'TextItem')"
                 >{{ letData.cellIdx25 }}</td>
-
                 <td
                   class="cellInput"
                   id="cell_idx_26"
@@ -237,10 +232,8 @@
                   data-title="附件"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx26', '物品处理表', 'SamplingForensicsTable')"
+                  @click="commandFill('cellIdx17', '物品处理表', 'SamplingForensicsTable')"
                 >物品处理表</td>
-                
-
               </tr>
             </table>
             <table height="30"></table>
@@ -335,7 +328,7 @@ export default {
           docTypeNo: null,
           docTypeName: null,
         };
-        
+
       },
     },
   },
@@ -422,16 +415,17 @@ export default {
           cellIdx8: let110Date[1], // 月
           cellIdx9: let110Date[2], // 日
           cellIdx10: let110DataPapaerContent.cellIdx0, // 查封(扣押)
+          cellIdx10TypeTextItem: let110DataPapaerContent.cellIdx0, // 查封(扣押)
           cellIdx11: let110DataPapaerContent.cellIdx1, // 查封扣押文书号
-          cellIdx11TypeTextareaItem: let110DataPapaerContent.cellIdx1, // 查封扣押文书号
+          cellIdx11TypeTextItem: let110DataPapaerContent.cellIdx1, // 查封扣押文书号
           cellIdx12: let110DataPapaerContent.cellIdx2, // 查封扣押文书号
-          cellIdx12TypeTextareaItem: let110DataPapaerContent.cellIdx2, // 查封扣押文书号
+          cellIdx12TypeTextItem: let110DataPapaerContent.cellIdx2, // 查封扣押文书号
           cellIdx13: let110DataPapaerContent.cellIdx3, // 查封扣押文书号 查、扣
-          cellIdx13TypeTextareaItem: let110DataPapaerContent.cellIdx3, // 查封扣押文书号 查、扣
+          cellIdx13TypeTextItem: let110DataPapaerContent.cellIdx3, // 查封扣押文书号 查、扣
           cellIdx14: let110DataPapaerContent.cellIdx4, // 查封扣押文书号
-          cellIdx14TypeTextareaItem: let110DataPapaerContent.cellIdx4, // 查封扣押文书号
+          cellIdx14TypeTextItem: let110DataPapaerContent.cellIdx4, // 查封扣押文书号
           cellIdx15: let110DataPapaerContent.cellIdx5, // 查封扣押文书号
-          cellIdx15TypeTextareaItem: let110DataPapaerContent.cellIdx5, // 查封扣押文书号
+          cellIdx15TypeTextItem: let110DataPapaerContent.cellIdx5, // 查封扣押文书号
           cellIdx16: null, // 查封/扣押
           cellIdx17: null, // 查封扣押中的物品清单
           cellIdx18: null, // 查封/扣押
@@ -445,11 +439,17 @@ export default {
           cellIdx24: orgSysOfficeInfo.courtPrefix, // courtPrefix人民法院
           cellIdx24TypeTextItem: orgSysOfficeInfo.courtPrefix, // courtPrefix人民法院
           cellIdx25: let110DataPapaerContent.cellIdx0, // 查封/扣押
-          cellIdx26: null, //
+          cellIdx25TypeTextItem: let110DataPapaerContent.cellIdx0, // 查封/扣押
+          cellIdx26: null, // 暂不用
           cellIdx27: null, //
           cellIdx28: null, // 日期
           cellIdx29: let110DataPapaerContent.cellIdx0, // 查封/扣押
-          SamplingForensicsTable: let110DataPapaerContent.SamplingForensicsTable
+          cellIdx29TypeTextItem: let110DataPapaerContent.cellIdx0, // 查封/扣押
+          SamplingForensicsTable: let110DataPapaerContent.SamplingForensicsTable ? let110DataPapaerContent.SamplingForensicsTable : {
+            tableData: [],
+            signature: null,
+            signDate: ''
+          }
         };
       }
       await db.close();

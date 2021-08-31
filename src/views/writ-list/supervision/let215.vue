@@ -1,4 +1,4 @@
-<!-- 行政处罚 一般程序 集体讨论记录/-->
+<!-- 行政处罚 一般程序 集体讨论记录 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -21,13 +21,11 @@
             <div class="stdRowH"></div>
             <div class="docTextarea">
              <span class="no-line">案由：</span>
-              <span 
+              <span
                 @click="commandFill('cellIdx0', '案由', 'DangerTableItem')"
               >{{ letData.cellIdx0 ? letData.cellIdx0 : '（点击编辑）'}}</span>
-              
               <div class="line"></div>
             </div>
-
             <!-- <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">案由：</td>
@@ -186,51 +184,41 @@
                   @click="commandFill('cellIdx11', '记录人', 'TextItem')"
                 >{{ letData.cellIdx11 }}</td>
               </tr>
-             
             </table>
              <div class="docTextarea">
                <span class="no-line"> 出席人员姓名以及职务：</span>
-            
-              <span 
+              <span
                 @click="commandFill('cellIdx12', '出席人员姓名以及职务', 'TextareaItem')"
               >{{ letData.cellIdx12 ? letData.cellIdx12 : '（点击编辑）'}}</span>
-              
               <div class="line"></div>
             </div>
             <div class="docTextarea">
                <span class="no-line"> 讨论内容：</span>
- 
-              <span 
+              <span
                 @click="commandFill('cellIdx13', '讨论内容', 'TextareaItem')"
               >{{ letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）'}}</span>
-              
               <div class="line"></div>
             </div>
             <div class="docTextarea">
               <span class="no-line"> 讨论记录：</span>
-          
-              <span 
+              <span
                 @click="commandFill('cellIdx14', '讨论记录', 'TextareaItem')"
               >{{ letData.cellIdx14 ? letData.cellIdx14 : '（点击编辑）'}}</span>
-              
+
               <div class="line"></div>
             </div>
             <div class="docTextarea">
               <span class="no-line"> 结论性意见：</span>
-             
-              <span 
+              <span
                 @click="commandFill('cellIdx15', '结论性意见', 'TextareaItem')"
               >{{ letData.cellIdx15 ? letData.cellIdx15 : '（点击编辑）'}}</span>
-              
               <div class="line"></div>
             </div>
             <div class="docTextarea">
               <span class="no-line"> 出席人员签名：</span>
-             
-              <span 
-                @click="commandFill('cellIdx16', '出席人员签名', 'TextareaItem')"
+              <span
+                @click="commandFill('cellIdx16', '出席人员签名', 'TextItem')"
               >{{ letData.cellIdx16 ? letData.cellIdx16 : '（点击编辑）'}}</span>
-              
               <div class="line"></div>
             </div>
              <!-- <table style="border:solid 0s #000;" class="docBody">
@@ -372,16 +360,7 @@ export default {
   data() {
     return {
       letData: {},
-      options: {
-        cellIdx4: {
-          page: '4',
-          key: 'cellIdx4' // 用来区分一个页面多个地方调用隐患大表，最后返回值
-        },
-        cellIdx5: {
-          page: '4',
-          key: 'cellIdx5'
-        }
-      },
+      options: {},
       editData: {}, // 回显数据
       extraData: {}, // 用于拼写隐患内容的字符集合
     };
@@ -473,19 +452,13 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}Type${type}`;
-        let spellString = {}
-        if (key === 'cellIdx4' || key === 'cellIdx5') {
-          if (key === 'cellIdx4') {
-            spellString = {
-              corpName: this.extraData.corpName,
-            }
-          } else if (key === 'cellIdx5') {
-            spellString = this.extraData
-          }
+        if (key === 'cellIdx0') {
           this.options[key] = {
-            page: '4',
+            page: '48',
             key: key,
-            spellString
+            spellString: {
+              corpName: this.extraData.corpName
+            }
           }
           dataKey = 'dangerItemObject'
         }

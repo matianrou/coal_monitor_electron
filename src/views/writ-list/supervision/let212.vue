@@ -79,183 +79,73 @@
                 <td class="textAlignLeft">:</td>
               </tr>
             </table>
-            <table style="border:solid 0px #000;" class="docBody">
-              <tr>
-                <td style="width:5%"></td>
-                <td class="textAlignLeft">本机关于</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_5"
-                  align="center"
-                  style="width:8%"
-                  data-title="年"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx5', '年', 'TextItem')"
-                >{{ letData.cellIdx5 }}</td>
-                <td class="textAlignLeft">年</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_6"
-                  align="center"
-                  style="width:8%"
-                  data-title="月"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx6', '月', 'TextItem')"
-                >{{ letData.cellIdx6 }}</td>
-                <td class="textAlignLeft">月</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_7"
-                  align="center"
-                  style="width:8%"
-                  data-title="日"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx7', '日', 'TextItem')"
-                >{{ letData.cellIdx7 }}</td>
-                <td class="textAlignLeft">日作出 《行政处罚决定书》 (</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_8"
-                  align="center"
-                  style="width:12%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx8', '', 'TextItem')"
-                >{{ letData.cellIdx8 }}</td>
-                <td  class="textAlignLeft">(</td>
-                 <td
-                  class="cellInput"
-                  id="cell_idx_9"
-                  align="center"
-                  style="width:12%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx9', '', 'TextItem')"
-                >{{ letData.cellIdx9 }}</td>
-                <td>)  </td>
-                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;煤安罚&nbsp;&nbsp;&nbsp;（</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_10"
-                  align="center"
-                  style="width:12%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx10', '', 'TextItem')"
-                >{{ letData.cellIdx10 }}</td>
-                <td class="textAlignLeft">）</td>
-                <td
-                  class="cellInput "
-                  id="cell_idx_11"
-                  align="center"
-                  style="width:12%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx11', '', 'TextItem')"
-                >{{ letData.cellIdx11 }}</td>
-                <td class="textAlignLeft ">号&nbsp;&nbsp;，要求你 </td>
-                 <td
-                  class="cellInput "
-                  id="cell_idx_12"
-                  align="center"
-                  style="width:12%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx12', '单位', 'TextItem')"
-                >{{ letData.cellIdx12 }}</td>
-                <td class="textAlignLeft">于</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_13"
-                  align="center"
-                  style="width:8%"
-                  data-title="年"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx13', '年', 'TextItem')"
-                >{{ letData.cellIdx13 }}</td>
-                <td class="textAlignLeft">年</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_14"
-                  align="center"
-                  style="width:8%"
-                  data-title="月"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx14', '月', 'TextItem')"
-                >{{ letData.cellIdx14 }}</td>
-                <td class="textAlignLeft">月</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_15"
-                  align="center"
-                  style="width:8%"
-                  data-title="日"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx15', '日', 'TextItem')"
-                >{{ letData.cellIdx15 }}</td>
-                <td class="textAlignLeft">日</td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">前将罚款缴至</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_16"
-                  align="center"
-                  style="width:35%"
-                  data-title="罚款缴至"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx16', '罚款缴至', 'TextItem')"
-                >{{ letData.cellIdx16 }}</td>
-                <td class="textAlignLeft">。因你单位逾期未履行该处罚决定，依据《中华人民</td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">共和国行政强制法》第三十五条规定，现催告你</td>
-                <td
-                  class="cellInput "
-                  id="cell_idx_17"
-                  align="center"
-                  style="width:12%"
-                  data-title="单位"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx17', '单位', 'TextItem')"
-                >{{ letData.cellIdx17 }}</td>
-                <td class="textAlignLeft">履行以上决定，本机关将依据《中华人民</td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">共和国行政处罚法》第七十二条第一款第一项规定，每日按罚款数额的3%加处罚款。</td>
-              </tr>
-              <tr>
-                <td style="width:5%"></td>
-                <td class="textAlignLeft">如有异议，依据《中华人民共和国行政强制法》第三十六条规定，你</td>
-                <td
-                  class="cellInput "
-                  id="cell_idx_18"
-                  align="center"
-                  style="width:12%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx18', '单位', 'TextItem')"
-                >{{ letData.cellIdx18 }}</td>
-                <td class="textAlignLeft">有权在收到本催</td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">告书之日起3日内向本机关提出陈述和申辩，逾期未提出的，视为放弃此权利。</td>
-              </tr>
-            </table>
+            <div class="docTextarea">
+              <label style="width:5%"></label>
+              本机关于
+              <span
+                @click="commandFill('cellIdx5', '年', 'TextItem')"
+              >{{ letData.cellIdx5 ? letData.cellIdx5 : '（XX）'}}</span>
+              年
+              <span
+                @click="commandFill('cellIdx6', '月', 'TextItem')"
+              >{{ letData.cellIdx6 ? letData.cellIdx6 : '（XX）'}}</span>
+              月
+              <span
+                @click="commandFill('cellIdx7', '日', 'TextItem')"
+              >{{ letData.cellIdx7 ? letData.cellIdx7 : '（XX）'}}</span>
+              日作出 《行政处罚决定书》 (
+              <span
+                class="no-underline"
+                @click="commandFill('cellIdx8', '行政处罚决定书文书号', 'TextItem')"
+              >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
+              （
+              <span
+                class="no-underline"
+                @click="commandFill('cellIdx9', '行政处罚决定书文书号', 'TextItem')"
+              >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</span>
+              ）煤安罚〔
+              <span
+                class="no-underline"
+                @click="commandFill('cellIdx10', '行政处罚决定文书号', 'TextItem')"
+              >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）'}}</span>
+              〕
+              <span
+                class="no-underline"
+                @click="commandFill('cellIdx11', '行政处罚决定文书号', 'TextItem')"
+              >{{ letData.cellIdx11 ? letData.cellIdx11 : '（点击编辑）'}}</span>
+              号），要求你
+              <span
+                class="no-underline"
+                @click="commandFill('cellIdx12', '单位', 'TextItem')"
+              >{{ letData.cellIdx12 ? letData.cellIdx12 : '（点击编辑）'}}</span>
+              于
+              <span
+                @click="commandFill('cellIdx13', '年', 'TextItem')"
+              >{{ letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）'}}</span>
+              年
+              <span
+                @click="commandFill('cellIdx14', '月', 'TextItem')"
+              >{{ letData.cellIdx14 ? letData.cellIdx14 : '（点击编辑）'}}</span>
+              月
+              <span
+                @click="commandFill('cellIdx15', '日', 'TextItem')"
+              >{{ letData.cellIdx15 ? letData.cellIdx15 : '（点击编辑）'}}</span>
+              日前将罚款缴至
+              <span
+                @click="commandFill('cellIdx16', '罚款缴至', 'TextItem')"
+              >{{ letData.cellIdx16 ? letData.cellIdx16 : '（点击编辑）'}}</span>
+              。因你单位逾期未履行该处罚决定，依据《中华人民共和国行政强制法》第三十五条规定，现催告你
+              <span
+                class="no-underline"
+                @click="commandFill('cellIdx17', '单位', 'TextItem')"
+              >{{ letData.cellIdx17 ? letData.cellIdx17 : '（点击编辑）'}}</span>
+              履行以上决定，本机关将依据《中华人民共和国行政处罚法》第七十二条第一款第一项规定，每日按罚款数额的3%加处罚款。如有异议，依据《中华人民共和国行政强制法》第三十六条规定，你
+              <span
+                class="no-underline"
+                @click="commandFill('cellIdx18', '单位', 'TextItem')"
+              >{{ letData.cellIdx18 ? letData.cellIdx18 : '（点击编辑）'}}</span>
+              有权在收到本催告书之日起3日内向本机关提出陈述和申辩，逾期未提出的，视为放弃此权利。
+            </div>
             <table height="60"></table>
              <table class="docBody">
               <tr>

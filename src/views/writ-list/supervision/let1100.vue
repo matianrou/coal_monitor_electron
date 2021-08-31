@@ -153,7 +153,7 @@
                 @click="commandFill('cellIdx17', '', 'TextareaItem')"
               >{{ letData.cellIdx17? letData.cellIdx17 : '（点击编辑）' }}</span>
               依据《中华人民共和国行政强制法》第二十五条规定，第一、二款规定，将以上
-              <span 
+              <span
                 @click="commandFill('cellIdx18', '', 'TextItem')"
               >{{ letData.cellIdx18? letData.cellIdx18 : '（点击编辑）' }}</span>
               的期限延长至
@@ -170,7 +170,7 @@
               >{{ letData.cellIdx21? letData.cellIdx21 : '（XX）' }}</span>
               日。
             </div>
-            
+
 
 
 
@@ -399,17 +399,17 @@ export default {
           cellIdx10: null, // 对你单位涉案场所XX
           cellIdx11: null, // 予以XX 查封、扣押
           cellIdx12: let110DataPapaerContent.cellIdx1, // 查封扣押文书号
-          cellIdx12TypeTextareaItem: let110DataPapaerContent.cellIdx1, // 查封扣押文书号
+          cellIdx12TypeTextItem: let110DataPapaerContent.cellIdx1, // 查封扣押文书号
           cellIdx13: let110DataPapaerContent.cellIdx2, // 查封扣押文书号
-          cellIdx13TypeTextareaItem: let110DataPapaerContent.cellIdx2, // 查封扣押文书号
+          cellIdx13TypeTextItem: let110DataPapaerContent.cellIdx2, // 查封扣押文书号
           cellIdx14: let110DataPapaerContent.cellIdx3, // 查封扣押文书号 查、扣
-          cellIdx14TypeTextareaItem: let110DataPapaerContent.cellIdx3, // 查封扣押文书号 查、扣
+          cellIdx14TypeTextItem: let110DataPapaerContent.cellIdx3, // 查封扣押文书号 查、扣
           cellIdx15: let110DataPapaerContent.cellIdx4, // 查封扣押文书号
-          cellIdx15TypeTextareaItem: let110DataPapaerContent.cellIdx4, // 查封扣押文书号
+          cellIdx15TypeTextItem: let110DataPapaerContent.cellIdx4, // 查封扣押文书号
           cellIdx16: let110DataPapaerContent.cellIdx5, // 查封扣押文书号
-          cellIdx16TypeTextareaItem: let110DataPapaerContent.cellIdx5, // 查封扣押文书号
+          cellIdx16TypeTextItem: let110DataPapaerContent.cellIdx5, // 查封扣押文书号
           cellIdx17: dangerObject.dangerString, // 隐患描述
-          cellIdx17TypeTextareaItem: dangerObject.dangerString, // 隐患描述
+          cellIdx17TypeTextItem: dangerObject.dangerString, // 隐患描述
           cellIdx18: null, // 将以上XX的期限延长
           cellIdx19: null, // 年
           cellIdx20: null, // 月

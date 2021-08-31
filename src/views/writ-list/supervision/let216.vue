@@ -53,14 +53,12 @@
                   @click="commandFill('cellIdx2', '', 'TextItem')"
                 >{{ letData.cellIdx2 }}</td>
               </tr>
-              
             </table>
              <div class="docTextarea">
-             案&nbsp;&nbsp;由：
-              <span 
+              <span class="no-line">案&nbsp;&nbsp;由：</span>
+              <span
                 @click="commandFill('cellIdx3', '案由', 'DangerTableItem')"
               >{{ letData.cellIdx3 ? letData.cellIdx3 : '（点击编辑）'}}</span>
-              
               <div class="line"></div>
             </div>
             <!-- <table style="border:solid 0s #000;" class="docBody">
@@ -126,28 +124,26 @@
             </table>
              <div class="docTextarea">
              违法事实及依据：
-              <span 
-                @click="commandFill('cellIdx7', '违法事实及依据', 'TextareaItem')"
+              <span
+                @click="commandFill('cellIdx7', '违法事实及依据', 'DangerTableItem')"
               >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
-              
               <div class="line"></div>
             </div>
              <div class="docTextarea">
              <span class="no-line" style="width:16%">法制审核意见：</span>
-
-              <span 
+              <span
                 @click="commandFill('cellIdx8', '法制审核意见', 'TextareaItem')"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
-              
+
               <div class="line"></div>
             </div>
              <div class="docTextarea">
                <span class="no-line">建议案件处理意见：</span>
-             
-              <span 
+
+              <span
                 @click="commandFill('cellIdx9', '建议案件处理意见', 'TextareaItem')"
               >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</span>
-              
+
               <div class="line"></div>
             </div>
             <!-- <table style="border:solid 0s #000;" class="docBody">

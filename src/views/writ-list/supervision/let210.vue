@@ -137,12 +137,12 @@
                   class="cellInput"
                   id="cell_idx_8"
                   align="center"
-                  style="width:10%"
+                  style="width:15%"
                   data-title="分局"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx8', '单位', 'TextItem')"
-                >{{letData.cellIdx8}}</td>
+                >{{letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</td>
                 <td class="textAlignLeft">的听证申请。</td>
               </tr>
             </table>

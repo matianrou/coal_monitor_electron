@@ -82,7 +82,7 @@
             <div class="docTextarea">
               <label style="width:5%"></label>
               本机关于
-              
+
               <span
                 @click="commandFill('cellIdx6', '年', 'TextItem')"
               >{{ letData.cellIdx6 ? letData.cellIdx6 : '（XX）'}}</span>
@@ -103,29 +103,20 @@
                 @click="commandFill('cellIdx10', '时', 'TextItem')"
               >{{ letData.cellIdx10 ? letData.cellIdx10 : '（XX）'}}</span>
               分，在对你单位检查时，发现在
-              
-              
-              <span 
+              <span
                 @click="commandFill('cellIdx11', '', 'TextItem')"
               >{{ letData.cellIdx11? letData.cellIdx11 : '（点击编辑）' }}</span>
               有
-              <span 
+              <span
                 @click="commandFill('cellIdx12', '违法行为', 'DangerTableItem')"
               >{{ letData.cellIdx12 ? letData.cellIdx12 : '（点击编辑）'}}</span>
               等威胁作业人员生命安全的紧急情况，现责令立即从
-              <span 
+              <span
                 @click="commandFill('cellIdx13', '', 'TextItem')"
               >{{ letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）'}}</span>
-
               危险区内撤出作业人员。
-            
-
             </div>
-
-
-
             <table style="border:solid 0px #000;" class="docBody">
-             
               <tr>
                 <td style="width:5%"></td>
                 <td
@@ -431,7 +422,7 @@ export default {
         // 4.sysOfficeInfo中organName和courtPrefix
         const orgInfo = db.table("orgInfo");
         const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
-        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
+        let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {organName: '', courtPrefix: ''}
         let cellIdx20String = orgSysOfficeInfo.organName
         let cellIdx21String = orgSysOfficeInfo.courtPrefix
         this.letData = {
