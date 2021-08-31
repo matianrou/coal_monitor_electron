@@ -36,13 +36,13 @@
                   class="cellInput "
                   id="cell_idx_1"
                   align="center"
-                  style="width:20%"
+                  style="width:15%"
                   data-title
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx1', '', 'TextItem')"
-                >{{ letData.cellIdx1 }}）</td>
-                <td class="textAlignLeft ">煤安报处〔</td>
+                >{{ letData.cellIdx1 }}</td>
+                <td class="textAlignLeft ">） 煤安报处〔</td>
                 <td
                   class="cellInput "
                   id="cell_idx_2"
@@ -101,19 +101,19 @@
               等证据进行了先行登记保存（
               <span style="borderBottom:none"
                 @click="commandFill('cellIdx10', '', 'TextItem')"
-              >{{ letData.cellIdx10 }}</span>
+              >{{ letData.cellIdx10 ? letData.cellIdx10 : '点击编辑'}}</span>
               （ 
               <span style="borderBottom:none"
                 @click="commandFill('cellIdx11', '', 'TextItem')"
-              >{{ letData.cellIdx11 }}</span>
+              >{{ letData.cellIdx11 ? letData.cellIdx11 : '点击编辑'}}</span>
               )&nbsp;&nbsp;煤安保〔
               <span style="borderBottom:none"
                 @click="commandFill('cellIdx12', '', 'TextItem')"
-              >{{ letData.cellIdx12 }}</span>
+              >{{ letData.cellIdx12? letData.cellIdx12 : '点击编辑' }}</span>
               〕
               <span style="borderBottom:none"
                 @click="commandFill('cellIdx13', '', 'TextItem')"
-              >{{ letData.cellIdx13 }}</span>
+              >{{ letData.cellIdx13? letData.cellIdx9 : '点击编辑' }}</span>
 
               号）。现根据《中华人民共和国行政处罚法》第五十六条规定，对上述证据作出如下处理决定:
               <span

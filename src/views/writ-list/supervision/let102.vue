@@ -96,7 +96,7 @@
                 <td style="width:5%"></td>
                 <td
                   class="textAlignLeft" style="width:54%"
-                >如果不服从本决定，可在接到本决定书之日起60日内向</td>
+                >如果不服本决定，可在接到本决定书之日起60日内向</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_8"

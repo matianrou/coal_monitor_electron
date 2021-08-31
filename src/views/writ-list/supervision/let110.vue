@@ -229,16 +229,27 @@
                   style="cursor: pointer;"
                   >附件：
                 </td>
+                
+                <td
+                class="cellInput"
+                id="cell_idx_18"
+                align="center"
+                style="width:5%"
+                data-title
+                data-type="text"
+                data-src
+                @click="commandFill('cellIdx18', '', 'TextItem')"
+                >{{ letData.cellIdx18 }}</td>
+                
                 <td
                   class="cellInput"
-                  id="cell_idx_18"
-                  style="width:8%"
+                  id="cell_idx_19"
+                  style="width:20%"
                   data-title="附件"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx18', '附件：物品清单', 'SamplingForensicsTable')"
-                ></td>
-                 <td class="textAlignLeft" >《物品清单》</td>
+                  @click="commandFill('cellIdx19', '附件：物品清单', 'SamplingForensicsTable')"
+                >《物品清单》</td>
               </tr>
             </table>
             <table height="30"></table>
@@ -246,22 +257,22 @@
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_19"
+                  id="cell_idx_20"
                   align="right"
                   style="width:95%"
-                  @click="commandFill('cellIdx19', '', 'TextItem')"
-                >{{letData.cellIdx19 ? letData.cellIdx19 : '（点击编辑）'}}</td>
+                  @click="commandFill('cellIdx20', '', 'TextItem')"
+                >{{letData.cellIdx20 ? letData.cellIdx20 : '（点击编辑）'}}</td>
               </tr>
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_20"
+                  id="cell_idx_21"
                   align="right"
                   style="width:95%"
                   data-title
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx20', '日期', 'DateItem')"
+                  @click="commandFill('cellIdx21', '日期', 'DateItem')"
                 >{{letData.cellIdx20 ? letData.cellIdx20 : '（点击编辑）'}}</td>
               </tr>
             </table>
@@ -271,14 +282,14 @@
               <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被</td>
               <td
                 class="cellInput"
-                id="cell_idx_21"
+                id="cell_idx_22"
                 align="center"
                 style="width:10%"
                 data-title
                 data-type="text"
                 data-src
-                @click="commandFill('cellIdx21', '', 'TextItem')"
-                >{{ letData.cellIdx21 }}</td>
+                @click="commandFill('cellIdx22', '', 'TextItem')"
+                >{{ letData.cellIdx22 }}</td>
               <td class="textAlignLeft">单位，一份存档。</td>
             </table>
           </div>
@@ -457,10 +468,11 @@ export default {
           cellIdx16TypeTextItem: cellIdx16String, // organName
           cellIdx17: cellIdx17String, // courtPrefix人民法院
           cellIdx17TypeTextItem: cellIdx17String, // courtPrefix人民法院
-          cellIdx18: null, // 附件
-          cellIdx19: null, //
-          cellIdx20: null, // 日期
-          cellIdx21: null, // 查封(扣押)
+          cellIdx18: null,  // 查封(扣押)
+          cellIdx19: null, // 附件
+          cellIdx20: null, //
+          cellIdx21: null, // 日期
+          cellIdx22: null, // 查封(扣押)
           dangerItemObject: let101DataPapaerContent.dangerItemObject,
           SamplingForensicsTable: {
             tableData: [],
@@ -486,7 +498,7 @@ export default {
             key: key,
           }
           dataKey = 'dangerItemObject'
-        } else if (key === 'cellIdx18') {
+        } else if (key === 'cellIdx19') {
           this.options[key] = {
             canEdit: true,
             page: '32', // 物品清单
@@ -513,8 +525,10 @@ export default {
       this.letData.cellIdx3TypeTextItem = this.selectedType.substring(0, 1)
       this.letData.cellIdx10 = this.selectedType
       this.letData.cellIdx10TypeTextItem = this.selectedType
-      this.letData.cellIdx21 = this.selectedType
-      this.letData.cellIdx21TypeTextItem = this.selectedType
+      this.letData.cellIdx18 = this.selectedType
+      this.letData.cellIdx18TypeTextItem = this.selectedType
+      this.letData.cellIdx22 = this.selectedType
+      this.letData.cellIdx22TypeTextItem = this.selectedType
     }
   },
 };
