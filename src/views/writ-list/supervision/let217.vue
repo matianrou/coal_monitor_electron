@@ -80,7 +80,35 @@
                 <td>：</td>
               </tr>
             </table>
-            <table class="docBody">
+             <div class="docTextarea">
+              <label style="width:5%"></label>
+              因
+              <span
+                @click="commandFill('cellIdx5', '', 'TextItem')"
+              >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</span>
+              ，请你
+              <span
+                @click="commandFill('cellIdx6', '', 'TextItem')"
+              >{{ letData.cellIdx6 }}</span>
+              于
+              <span
+                @click="commandFill('cellIdx7', '年', 'TextItem')"
+              >{{ letData.cellIdx7 ? letData.cellIdx7 : '（XX）'}}</span>
+              年
+              <span
+                @click="commandFill('cellIdx8', '月', 'TextItem')"
+              >{{ letData.cellIdx8 ? letData.cellIdx8 : '（XX）' }}</span>
+              月
+              <span
+                @click="commandFill('cellIdx9', '日', 'TextItem')"
+              >{{ letData.cellIdx9 ? letData.cellIdx9 : '（XX）'}}</span>
+              日到
+              <span
+                @click="commandFill('cellIdx10', '日', 'TextItem')"
+              >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）'}}</span>
+              接受询问调查，来时请携带下列证件材料（见打√处）：
+            </div>
+            <!-- <table class="docBody">
               <tr>
                 <td style="width:15mm;text-align:right;">因</td>
                 <td
@@ -139,8 +167,8 @@
                 >{{letData.cellIdx9}}</td>
                 <td class="textAlignLeft">日到</td>
               </tr>
-            </table>
-            <table class="docBody">
+            </table> -->
+            <!-- <table class="docBody">
               <tr>
                 <td
                   class="cellInput cellBottomLine"
@@ -154,7 +182,7 @@
                 >{{letData.cellIdx10}}</td>
                 <td style="width:420px;">接受询问调查，来时请携带下列证件材料（见打√处）：</td>
               </tr>
-            </table>
+            </table> -->
             <table class="docBody">
               <tr>
                 <td style="width:5%"></td>
@@ -309,10 +337,10 @@ export default {
     return {
       letData: {},
       options: {
-        cellIdx8: toggleDictionary,
-        cellIdx9: toggleDictionary,
-        cellIdx10: toggleDictionary,
         cellIdx11: toggleDictionary,
+        cellIdx12: toggleDictionary,
+        cellIdx13: toggleDictionary,
+        cellIdx14: toggleDictionary,
       },
       editData: {}, // 回显数据
     };

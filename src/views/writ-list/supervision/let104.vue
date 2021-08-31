@@ -87,7 +87,7 @@
               于
               <span
                 @click="commandFill('cellIdx6', '年', 'TextItem')"
-              >{{ letData.cellIdx6 ? letData.cellIdx7 : '（XX）'}}</span>
+              >{{ letData.cellIdx6 ? letData.cellIdx6 : '（XX）'}}</span>
               年
               <span
                 @click="commandFill('cellIdx7', '月', 'TextItem')"
