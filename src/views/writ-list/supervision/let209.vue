@@ -94,19 +94,19 @@
               ，现定于
               <span
                 @click="commandFill('cellIdx8', '年', 'TextItem')"
-              >{{ letData.cellIdx8 ? letData.cellIdx8 : 'XX'}}</span>
+              >{{ letData.cellIdx8 ? letData.cellIdx8 : '（XX）'}}</span>
               年
               <span
                 @click="commandFill('cellIdx9', '月', 'TextItem')"
-              >{{ letData.cellIdx9 ? letData.cellIdx9 : 'XX'}}</span>
+              >{{ letData.cellIdx9 ? letData.cellIdx9 : '（XX）'}}</span>
               月
               <span
                 @click="commandFill('cellIdx10', '日', 'TextItem')"
-              >{{ letData.cellIdx10 ? letData.cellIdx10 : 'XX'}}</span>
+              >{{ letData.cellIdx10 ? letData.cellIdx10 : '（XX）'}}</span>
               日
               <span
                 @click="commandFill('cellIdx11', '时', 'TextItem')"
-              >{{ letData.cellIdx11 ? letData.cellIdx11 : 'XX'}}</span>
+              >{{ letData.cellIdx11 ? letData.cellIdx11 : '（XX）'}}</span>
               时在
               <span
                 @click="commandFill('cellIdx12', '地点', 'TextItem')"

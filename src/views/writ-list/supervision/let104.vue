@@ -83,7 +83,7 @@
               <label style="width:5%"></label>
               <span
                 @click="commandFill('cellIdx5', '', 'TextItem')"
-              >{{ letData.cellIdx5  ? letData.cellIdx5 : '（点击编辑）'}}</span>
+              >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</span>
               于
               <span
                 @click="commandFill('cellIdx6', '年', 'TextItem')"
@@ -99,28 +99,28 @@
               日发现
               <span
                 @click="commandFill('cellIdx9', '违法行为', 'DangerTableItem')"
-              >{{ letData.cellIdx9 }}</span>
+              >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）' }}</span>
               的违法违规行为，下达了《现场处理决定书》
               <span style="borderBottom:none"
-                @click="commandFill('cellIdx10', '', 'TextItem')"
-              >{{ letData.cellIdx10 }}</span>
+                @click="commandFill('cellIdx10', '现场处理决定书文书号', 'TextItem')"
+              >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）' }}</span>
               （
               <span style="borderBottom:none"
-                @click="commandFill('cellIdx11', '', 'TextItem')"
-              >{{ letData.cellIdx11 }}</span>
+                @click="commandFill('cellIdx11', '现场处理决定书文书号', 'TextItem')"
+              >{{ letData.cellIdx11 ? letData.cellIdx11 : '（点击编辑）' }}</span>
               )  煤安处〔
               <span style="borderBottom:none"
-                @click="commandFill('cellIdx12', '', 'TextItem')"
-              >{{ letData.cellIdx12 }}</span>
+                @click="commandFill('cellIdx12', '现场处理决定书文书号', 'TextItem')"
+              >{{ letData.cellIdx12 ? letData.cellIdx12 : '（点击编辑）' }}</span>
               〕
               <span style="borderBottom:none"
-                @click="commandFill('cellIdx13', '', 'TextItem')"
-              >{{ letData.cellIdx13 }}</span>
+                @click="commandFill('cellIdx13', '现场处理决定书文书号', 'TextItem')"
+              >{{ letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）' }}</span>
 
               号&nbsp;依法作出了
               <span
                 @click="commandFill('cellIdx14', '现场处理决定', 'DangerTableItem')"
-              >{{ letData.cellIdx14 }}</span>
+              >{{ letData.cellIdx14 ? letData.cellIdx14 : '（点击编辑）' }}</span>
               的决定。
             </div>
              <div class="docTextarea ">
@@ -128,18 +128,15 @@
               <span
                 @click="commandFill('cellIdx15', '意见', 'TextareaItem')"
               >{{ letData.cellIdx15 ? letData.cellIdx15 : '（点击编辑）'}}</span>
-
               <div class="line"></div>
             </div>
             <table style="border:solid 0px #000;" class="docBody">
-
               <tr>
                 <td style="width:5%"></td>
                 <td class="textAlignLeft" style="width:36%"></td>
               </tr>
               <tr></tr>
             </table>
-
             <table class="docBody">
               <tr>
                 <td class="textAlignLeft" style="width:23%">现场执法人员（签名):</td>

@@ -98,15 +98,15 @@
               本机关于
               <span
                 @click="commandFill('cellIdx7', '年', 'TextItem')"
-              >{{ letData.cellIdx7 ? letData.cellIdx7 : 'XX'}}</span>
+              >{{ letData.cellIdx7 ? letData.cellIdx7 : '（XX）'}}</span>
               年
               <span
                 @click="commandFill('cellIdx8', '月', 'TextItem')"
-              >{{ letData.cellIdx8 ? letData.cellIdx8 : 'XX'}}</span>
+              >{{ letData.cellIdx8 ? letData.cellIdx8 : '（XX）'}}</span>
               月
               <span
                 @click="commandFill('cellIdx9', '日', 'TextItem')"
-              >{{ letData.cellIdx9 ? letData.cellIdx9 : 'XX'}}</span>
+              >{{ letData.cellIdx9 ? letData.cellIdx9 : '（XX）'}}</span>
               日对
               <span
                 @click="commandFill('cellIdx10', '违法行为', 'TextareaItem')"

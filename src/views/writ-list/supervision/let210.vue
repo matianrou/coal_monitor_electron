@@ -85,15 +85,15 @@
               经审查，你
               <span
                 @click="commandFill('cellIdx5', '单位或个人', 'TextItem')"
-              >{{ letData.cellIdx5 ? letData.cellIdx5 : 'XX'}}</span>
+              >{{ letData.cellIdx5 ? letData.cellIdx5 : '（XX）'}}</span>
               关于
               <span
                 @click="commandFill('cellIdx6', '违法行为', 'TextareaItem')"
-              >{{ letData.cellIdx6 ? letData.cellIdx6 : 'XX'}}</span>
+              >{{ letData.cellIdx6 ? letData.cellIdx6 : '（XX）'}}</span>
               提出的听证申请属于以下第
               <span
                 @click="commandFill('cellIdx7', '编号', 'SelectItem')"
-              >{{ letData.cellIdx7 ? letData.cellIdx7 : 'XX'}}</span>
+              >{{ letData.cellIdx7 ? letData.cellIdx7 : '（XX）'}}</span>
               项情形：
             </div>
             <table style="border:solid 0 #000;" class="docBody">

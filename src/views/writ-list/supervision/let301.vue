@@ -99,15 +99,15 @@
               本机关于
               <span
                 @click="commandFill('cellIdx6', '年', 'TextItem')"
-              >{{ letData.cellIdx6 ? letData.cellIdx6 : 'XX'}}</span>
+              >{{ letData.cellIdx6 ? letData.cellIdx6 : '（XX）'}}</span>
               年
               <span
                 @click="commandFill('cellIdx7', '月', 'TextItem')"
-              >{{ letData.cellIdx7 ? letData.cellIdx7 : 'XX'}}</span>
+              >{{ letData.cellIdx7 ? letData.cellIdx7 : '（XX）'}}</span>
               月
               <span
                 @click="commandFill('cellIdx8', '日', 'TextItem')"
-              >{{ letData.cellIdx8 ? letData.cellIdx8 : 'XX'}}</span>
+              >{{ letData.cellIdx8 ? letData.cellIdx8 : '（XX）'}}</span>
               日对被申请执行人
               <span
                 @click="commandFill('cellIdx9', '现场处理决定', 'TextareaItem')"
@@ -139,15 +139,15 @@
               号），并于
               <span
                 @click="commandFill('cellIdx15', '年', 'TextItem')"
-              >{{ letData.cellIdx15 ? letData.cellIdx15 : 'XX'}}</span>
+              >{{ letData.cellIdx15 ? letData.cellIdx15 : '（XX）'}}</span>
               年
               <span
                 @click="commandFill('cellIdx16', '月', 'TextItem')"
-              >{{ letData.cellIdx16 ? letData.cellIdx16 : 'XX'}}</span>
+              >{{ letData.cellIdx16 ? letData.cellIdx16 : '（XX）'}}</span>
               月
               <span
                 @click="commandFill('cellIdx17', '日', 'TextItem')"
-              >{{ letData.cellIdx17 ? letData.cellIdx17 : 'XX'}}</span>
+              >{{ letData.cellIdx17 ? letData.cellIdx17 : '（XX）'}}</span>
               日送达了催告书（
               <span
                 class="no-underline"

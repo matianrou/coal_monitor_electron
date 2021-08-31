@@ -94,7 +94,7 @@
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx8', '单位', 'TextItem')"
-              >{{ letData.cellIdx8 ? letData.cellIdx8 : 'XX'}}</span>
+              >{{ letData.cellIdx8 ? letData.cellIdx8 : '（XX）'}}</span>
               在法定期限内未申请行政复议或者提起行政诉讼。依据《中华人民共和国行政强制法》第五十三条、第五十四条的规定，请你
               <span
                 class="no-underline"

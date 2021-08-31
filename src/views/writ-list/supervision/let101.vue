@@ -170,10 +170,10 @@
               </tr>
             </table>
             <div class="docTextarea">
-              检查情况：
+              <span class="no-line">检查情况：</span>
               <span
                 @click="commandFill('cellIdx13', '检查情况', 'DangerTableItem')"
-              >{{ letData.cellIdx13 }}</span>
+              >{{ letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）' }}</span>
               <div class="line"></div>
             </div>
             <!-- <div
