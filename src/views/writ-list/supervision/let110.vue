@@ -117,15 +117,18 @@
                 @click="commandFill('cellIdx8', '', 'DangerTableItem')"
               >{{ letData.cellIdx8? letData.cellIdx8 : '（点击编辑）' }}</span>
               的规定，根据《中华人民共和国安全生产法》第六十二条第一款第四项和《中华人民共和国行政强制法》第二十四条规定，本机关决定对你单位涉案
-              <span
+              <span style="borderBottom:none"
                 @click="commandFill('cellIdx9', '', 'DangerTableItem')"
               >{{ letData.cellIdx9? letData.cellIdx9 : '（点击编辑）' }}</span>
               予以
-              <span
-                @click="commandFill('cellIdx9', '', 'TextItem')"
-              >{{ letData.cellIdx9? letData.cellIdx9 : '（点击编辑）' }}</span>
-              
-              <div class="line"></div>
+              <span style="borderBottom:none"
+                @click="commandFill('cellIdx10', '', 'TextItem')"
+              >{{ letData.cellIdx10? letData.cellIdx10 : '（点击编辑）' }}</span>
+              ,（详见《
+              <span style="borderBottom:none"
+                @click="commandFill('cellIdx11', '附件：物品清单', 'SamplingForensicsTable')"
+              >{{ letData.cellIdx11? letData.cellIdx11 : '（点击编辑）' }}</span>
+              物品清单》）。
             </div>
 
 
@@ -133,36 +136,8 @@
             <table style="border:solid 0px #000;" class="docBody">
               
           
-              <tr>
-                <td class="textAlignLeft">
-                  </td>
-                  <td class="textAlignLeft" style="width:47%"></td>
-                
-                <td
-                  class="cellInput"
-                  align="center"
-                  id="cell_idx_10"
-                  style="width:7%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx10', '', 'TextItem')"
-                >{{ letData.cellIdx10 }}</td>
-                <!-- <td class="textAlignLeft"></td> -->
-               
-              </tr>
-              <tr>
-                 <td
-                  class="cellInput"
-                  id="cell_idx_11"
-                  style="width:26%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx18', '附件：物品清单', 'SamplingForensicsTable')"
-                >,（详见《物品清单》）</td>
-                <td class="textAlignLeft">。</td>
-              </tr>
+              
+             
               <tr>
                 <td
                   class="cellInput"
@@ -257,12 +232,13 @@
                 <td
                   class="cellInput"
                   id="cell_idx_18"
-                  style="width:20%"
+                  style="width:8%"
                   data-title="附件"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx18', '附件：物品清单', 'SamplingForensicsTable')"
-                >《物品清单》</td>
+                ></td>
+                 <td class="textAlignLeft" >《物品清单》</td>
               </tr>
             </table>
             <table height="30"></table>

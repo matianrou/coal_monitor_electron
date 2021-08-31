@@ -106,128 +106,56 @@
                 <td class="textAlignLeft">:</td>
               </tr>
             </table>
+             <div class="docTextarea">
+              <label style="width:5%"></label>
+              因你单位存在重大事故隐患，本机关于
+              <span
+                @click="commandFill('cellIdx7', '年', 'TextItem')"
+              >{{ letData.cellIdx7 ? letData.cellIdx7 : '（XX）'}}</span>
+              年
+              <span
+                @click="commandFill('cellIdx8', '月', 'TextItem')"
+              >{{ letData.cellIdx8? letData.cellIdx8 : '（XX）' }}</span>
+              月
+              <span
+                @click="commandFill('cellIdx9', '', 'TextItem')"
+              >{{ letData.cellIdx9? letData.cellIdx9 : '（XX）' }}</span>
+              日依法对你单位作出
+              <span
+                @click="commandFill('cellIdx10', '', 'TextItem')"
+              >{{ letData.cellIdx10? letData.cellIdx10 : '（点击编辑）' }}</span>
+              的决定，但你单位未执行以上决定，未及时消除事故隐患，存在发生生产安全事故的危险。根据《中华人民共和国安全生产法》第六十七条第一款规定，本机关决定自
+              <span
+                @click="commandFill('cellIdx11', '', 'TextItem')"
+              >{{ letData.cellIdx11? letData.cellIdx11 : '（XX）' }}</span>
+              年
+              <span 
+                @click="commandFill('cellIdx12', '', 'TextItem')"
+              >{{ letData.cellIdx12? letData.cellIdx12 : '（XX）' }}</span>
+              月
+                <span
+                @click="commandFill('cellIdx13', '', 'TextItem')"
+              >{{ letData.cellIdx13? letData.cellIdx13 : '（XX）' }}</span>
+              日
+              <span 
+                @click="commandFill('cellIdx14', '', 'TextItem')"
+              >{{ letData.cellIdx14? letData.cellIdx14 : '（XX）' }}</span>
+              时
+              <span 
+                @click="commandFill('cellIdx15', '', 'TextItem')"
+              >{{ letData.cellIdx15? letData.cellIdx15 : '（XX）' }}</span>
+              分起，对你单位采取
+              <span style="borderBottom:none"
+                @click="commandFill('cellIdx16', '', 'TextItem')"
+              >{{ letData.cellIdx16? letData.cellIdx16 : '（点击编辑）' }}</span>
+              的措施，强制你单位履行决定。
+              
+            </div>
+
+
+
             <table style="border:solid 0px #000;" class="docBody">
-              <tr>
-                <td style="width:5%"></td>
-                <td class="textAlignLeft">因你单位存在重大事故隐患，本机关于</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_7"
-                  align="center"
-                  style="width:8%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx7', '年', 'TextItem')"
-                >{{ letData.cellIdx7 }}</td>
-                <td class="textAlignLeft">年</td>
-                <td
-                  class="cellInput cellBottomLine "
-                  id="cell_idx_8"
-                  align="center"
-                  style="width:8%"
-                  data-title="月"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx8', '月', 'TextItem')"
-                >{{ letData.cellIdx8 }}</td>
-                <td class="textAlignLeft">月</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_9"
-                  align="center"
-                  style="width:8%"
-                  data-title="日"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx9', '日', 'TextItem')"
-                >{{ letData.cellIdx9 }}</td>
-                <td class="textAlignLeft">依法对你单位作出</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_10"
-                  align="center"
-                  style="width:26%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx10', '', 'TextItem')"
-                >{{ letData.cellIdx10}}</td>
-                <td class="textAlignLeft">的决定，但你单位未执行以上决定，未及时消除事故隐患，存在发生生产安</td>
-                <td class="textAlignLeft">全事故的危险。根据《中华人民共和国安全生产法》第六十七条第一款规定，本机关决定自</td>
-                 <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_11"
-                  align="center"
-                  style="width:8%"
-                  data-title="年"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx11', '年', 'TextItem')"
-                >{{ letData.cellIdx11}}</td>
-                <td class="textAlignLeft">年</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_12"
-                  align="center"
-                  style="width:8%"
-                  data-title="月"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx12', '月', 'TextItem')"
-                >{{ letData.cellIdx12 }}</td>
-                <td class="textAlignLeft">月</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_13"
-                  align="center"
-                  style="width:8%"
-                  data-title="日"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx13', '日', 'TextItem')"
-                >{{ letData.cellIdx13}}</td>
-                <td class="textAlignLeft">日</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_14"
-                  align="center"
-                  style="width:8%"
-                  data-title="时"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx14', '时', 'TextItem')"
-                >{{ letData.cellIdx14 }}</td>
-                <td class="textAlignLeft">时</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_15"
-                  align="center"
-                  style="width:8%"
-                  data-title="分"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx15', '分', 'TextItem')"
-                >{{ letData.cellIdx15 }}</td>
-                <td class="textAlignLeft">分起，对你单位采取</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_16"
-                  align="right"
-                  style="width:38%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx16', '', 'TextItem')"
-                >{{ letData.cellIdx16 }}</td>
-                <td class="textAlignLeft">的措施，强制你单位履行决定。</td>
-              </tr>
-              <tr>
-                 <td style="width:5%"></td>
-                  <td class="textAlignLeft">你单位依法履行行政决定、采取相应措施消除事故隐患，本机关将及时通知有关单位解除上述
-                  </td>
-                  <td class="textAlignLeft">有关措施。</td>
-              </tr>
+             
               <tr>
                 <td style="width:5%"></td>
                 <td
@@ -420,7 +348,8 @@ export default {
           cellIdx14: null, // 时
           cellIdx15: null, // 分
           cellIdx16: null, // 采取XX的措施
-          cellIdx17: null, // 人民政府
+          cellIdx17: orgSysOfficeInfo.goverPrefix, // 人民政府
+          cellIdx17TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民政府
           cellIdx18: orgSysOfficeInfo.organName, //
           cellIdx18TypeTextItem: orgSysOfficeInfo.organName, //
           cellIdx19: orgSysOfficeInfo.courtPrefix, // 人民法院
