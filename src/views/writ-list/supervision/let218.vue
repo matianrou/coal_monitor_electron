@@ -45,33 +45,13 @@
                 >{{ letData.cellIdx1 }}
                 </td>
               </tr>
-              <tr>
-                <td class="textAlignLeft" style="width:7%">案由：</td>
-              </tr>
-              <div
-                style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-                class="cellInput mutiLineArea"
-                id="cell_idx_2"
-                data-title="案由"
-                data-type="textarea"
-                data-src
-                @click="commandFill('cellIdx2', '案由', 'DangerTableItem')">
-                <div v-if="letData.cellIdx2 && letData.cellIdx2.length > 0">
-                  <p class="show-area-item-p">
-                    <span style="padding: 7px;">{{ letData.cellIdx2? letData.cellIdx2 : '（点击编辑）' }}</span>
-                  </p>
-                  <cell-line></cell-line>
-                </div>
-                <div v-else>
-                  <p class="show-area-item-p">
-                    &nbsp;
-                  </p>
-                  <p class="show-area-item-p">
-                    &nbsp;
-                  </p>
-                </div>
-              </div>
             </table>
+            <div class="docTextarea">
+            案由：
+            <span
+              @click="commandFill('cellIdx2', '案由', 'DangerTableItem')">
+            {{ letData.cellIdx2 ? letData.cellIdx2 : '（点击编辑）' }}</span>
+            </div>
             <table class="docBody">
               <tr>
                 <td class="textAlignLeft" style="width:14%">听证主持人：</td>
@@ -112,52 +92,18 @@
                 </td>
               </tr>
             </table>
-            <table class="docBody">
-              <tr>
-                <td class="textAlignLeft" style="width:23%">听证会基本情况摘要：</td>
-              </tr>
-              <div
-                style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-                class="cellInput mutiLineArea"
-                id="cell_idx_6"
-                data-title="听证会基本情况摘要"
-                data-type="textarea"
-                data-src
-                @click="commandFill('cellIdx6', '听证会基本情况摘要', 'DangerTableItem')">
-                <div v-if="letData.cellIdx6 && letData.cellIdx6.length > 0">
-                  <p class="show-area-item-p">
-                    <span style="padding: 7px;">{{ letData.cellIdx6? letData.cellIdx6 : '（点击编辑）' }}</span>
-                  </p>
-                  <cell-line></cell-line>
-                </div>
-                <div v-else>
-                  <p class="show-area-item-p">
-                    &nbsp;
-                  </p>
-                  <p class="show-area-item-p">
-                    &nbsp;
-                  </p>
-                </div>
-              </div>
-            </table>
-            <table class="docBody">
-              <tr>
-                <td class="textAlignLeft" style="width:18%">听证主持人意见：</td>
-              </tr>
-               <div
-                    style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-                    class="cellInput mutiLineArea"
-                    id="cell_idx_7"
-                    data-title="听证主持人意见"
-                    data-type="textarea"
-                    data-src
-                    @click="commandFill('cellIdx7', '听证主持人意见', 'SelectItem')"
-                >
-                  <p class="show-area-item-p">
-                    <span style="padding: 7px;">{{ letData.cellIdx7? letData.cellIdx7 : '（点击编辑）' }}</span>
-                  </p>
-                </div>
-            </table>
+            <div class="docTextarea">
+            听证会基本情况摘要：
+            <span
+              @click="commandFill('cellIdx6', '听证会基本情况摘要', 'TextareaItem')">
+            {{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）' }}</span>
+            </div>
+            <div class="docTextarea">
+            听证主持人意见：
+            <span
+              @click="commandFill('cellIdx7', '听证主持人意见', 'SelectItem')">
+            {{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）' }}</span>
+            </div>
             <table class="docBody">
               <tr>
                 <td
@@ -304,7 +250,7 @@ export default {
 
         ]
 
-        
+
       },
       editData: {}, // 回显数据
     };

@@ -92,100 +92,34 @@
                 >{{letData.cellIdx5}}</td>
                 <td class="textAlignLeft">：</td>
               </tr>
-              <tr>
-                 <td style="width:5%"></td>
-                <td class="textAlignLeft" style="width:9%">本机关于</td>
-                <!-- <td
-                  class="cellInput"
-                  id="cell_idx_6"
-                  align="center"
-                  style="width:10%"
-                  data-title="单位"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx6', '单位', 'TextItem')"
-                >{{letData.cellIdx6}}</td>
-                <td class="textAlignLeft">于</td> -->
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_7"
-                  align="center"
-                  style="width:10%"
-                  data-title="年"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx7', '年', 'TextItem')"
-                >{{letData.cellIdx7}}</td>
-                <td class="textAlignLeft" style="width:2%">年</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_8"
-                  align="center"
-                  style="width:10%"
-                  data-title="月"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx8', '月', 'TextItem')"
-                >{{letData.cellIdx8}}</td>
-                <td class="textAlignLeft" style="width:2%">月</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_9"
-                  align="center"
-                  style="width:10%"
-                  data-title="日"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx9', '日', 'TextItem')"
-                >{{letData.cellIdx9}}</td>
-                <td class="textAlignLeft" style="width:5%">日对</td>
-                 <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_10"
-                  align="center"
-                  style="width:47%"
-                  data-title="违法行为"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx10', '违法行为', 'TextItem')"
-                >{{letData.cellIdx10}}</td>
-              </tr>
             </table>
-            <!-- <div
-              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-              class="cellInput mutiLineArea"
-              id="cell_idx_10"
-              data-title="违法行为"
-              data-type="textarea"
-              data-src
-              @click="commandFill('cellIdx10', '违法行为', 'TextareaItem')">
-              <p class="show-area-item-p">
-                <span style="padding: 7px;">{{ letData.cellIdx10? letData.cellIdx10 : '（点击编辑）' }}</span>
-              </p>
-            </div> -->
-            <table class="docBody">
-              <tr>
-                <td class="textAlignLeft">立案调查，在调查中发现其违法事实涉嫌构成犯罪，根据《行政执法机关移送涉嫌犯罪案件的规定》</td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">第三条第一款以及</td>
-              </tr>
-            </table>
-            <div
-              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-              class="cellInput mutiLineArea"
-              id="cell_idx_11"
-              data-title="法律规定"
-              data-type="textarea"
-              data-src
-              @click="commandFill('cellIdx11', '法律规定', 'TextareaItem')">
-              <p class="show-area-item-p">
-                <span style="padding: 7px;">{{ letData.cellIdx11 ? letData.cellIdx11 : '（点击编辑）'}}</span>
-              </p>
+            <div class="docTextarea">
+              <label style="width:5%"></label>
+              本机关于
+              <span
+                @click="commandFill('cellIdx7', '年', 'TextItem')"
+              >{{ letData.cellIdx7 ? letData.cellIdx7 : 'XX'}}</span>
+              年
+              <span
+                @click="commandFill('cellIdx8', '月', 'TextItem')"
+              >{{ letData.cellIdx8 ? letData.cellIdx8 : 'XX'}}</span>
+              月
+              <span
+                @click="commandFill('cellIdx9', '日', 'TextItem')"
+              >{{ letData.cellIdx9 ? letData.cellIdx9 : 'XX'}}</span>
+              日对
+              <span
+                @click="commandFill('cellIdx10', '违法行为', 'TextareaItem')"
+              >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）'}}</span>
+              立案调查，在调查中发现其违法事实涉嫌构成犯罪，根据《行政执法机关移送涉嫌犯罪案件的规定》第三条第一款以及
+              <span
+                @click="commandFill('cellIdx11', '法律规定', 'TextareaItem')"
+              >{{ letData.cellIdx11 ? letData.cellIdx11 : '（点击编辑）'}}</span>
+              规定，现移送贵单位，请审查决定是否予以立案侦查。
             </div>
             <table class="docBody">
               <tr>
-                <td class="textAlignLeft">规定，现移送贵单位，请审查决定是否予以立案侦查。</td>
+                <td class="textAlignLeft"></td>
               </tr>
               <table height="40"></table>
               <tr>
@@ -405,6 +339,7 @@
 <script>
 import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
+import { getDangerObject, getDocNumber } from '@/utils/setInitPaperData'
 export default {
   name: "Let402",
   props: {
@@ -489,7 +424,8 @@ export default {
           cellIdx3: num4, // 文书号
           cellIdx3TypeTextItem: num4, // 文书号
           cellIdx4: null, // 签发人
-          cellIdx5: null, // 被检查单位
+          cellIdx5: corp.corpName, // 被检查单位
+          cellIdx5TypeTextItem: corp.corpName, // 被检查单位
           // cellIdx6: null, // 单位 暂不用
           cellIdx7: null, // 年
           cellIdx8: null, // 月

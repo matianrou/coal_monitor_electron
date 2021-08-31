@@ -92,6 +92,9 @@ export function createHtml(paperDiv) {
           margin: 0 auto;
           line-height: 1cm;
           display: flow-root;
+          position: relative;
+          font-family: 仿宋;
+          font-size: 16px;
           label {
             display: inline-block;
           }
@@ -104,8 +107,11 @@ export function createHtml(paperDiv) {
             border-top: 1px solid;
             height: 0px;
             position: absolute;
-            bottom: 7px;
+            bottom: 10px;
             width: 100%;
+          }
+          .no-underline {
+            border-bottom: 0px;
           }
         }
         .docHeader{

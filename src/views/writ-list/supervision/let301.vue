@@ -36,14 +36,13 @@
                   class="cellInput "
                   id="cell_idx_1"
                   align="center"
-                  style="width:25%"
+                  style="width:20%"
                   data-title="文书号"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx1', '文书号', 'TextItem')"
                 >{{letData.cellIdx1}}</td>
                 <td class="textAlignLeft ">）</td>
-
                 <td class="textAlignLeft ">煤安执〔</td>
                 <td
                   class="cellInput "
@@ -60,7 +59,7 @@
                   class="cellInput "
                   id="cell_idx_3"
                   align="center"
-                  style="width:7%"
+                  style="width:8%"
                   data-title="文书号"
                   data-type="text"
                   data-src
@@ -95,222 +94,82 @@
                 <td class="textAlignLeft ">人民法院：</td>
               </tr>
             </table>
-           <table style="border:solid 0 #000;" class="docBody">
-              <tr>
-                <td style="width:5%"></td>
-                <td class="textAlignLeft" style="width:9%">本机关于</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_6"
-                  align="center"
-                  style="width:9%"
-                  data-title="年"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx6', '年', 'TextItem')"
-                >{{ letData.cellIdx6 }}</td>
-                <td class="textAlignLeft" style="width:2%">年</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_7"
-                  align="center"
-                  style="width:9%"
-                  data-title="月"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx7', '月', 'TextItem')"
-                >{{ letData.cellIdx7 }}</td>
-                <td class="textAlignLeft" style="width:2%">月</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_8"
-                  align="center"
-                  style="width:9%"
-                  data-title="日"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx8', '日', 'TextItem')"
-                >{{ letData.cellIdx8 }}</td>
-                <td class="textAlignLeft" style="width:18%">日对被申请执行人</td>
-                <!-- <td
-                  style="width:36%"
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_9"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx9', '', 'TextItem')"
-                >{{ letData.cellIdx9 }}</td> -->
-              </tr>
-           </table>
-           <div
-            style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-            class="cellInput mutiLineArea"
-            @click="commandFill('cellIdx9', '现场处理决定', 'DangerTableItem')">
-            <div v-if="letData.cellIdx9 && letData.cellIdx9.length > 0">
-              <p class="show-area-item-p">
-                <span style="padding: 7px;">{{ letData.cellIdx9 }}</span>
-              </p>
-              <cell-line></cell-line>
+            <div class="docTextarea">
+              <label style="width:5%"></label>
+              本机关于
+              <span
+                @click="commandFill('cellIdx6', '年', 'TextItem')"
+              >{{ letData.cellIdx6 ? letData.cellIdx6 : 'XX'}}</span>
+              年
+              <span
+                @click="commandFill('cellIdx7', '月', 'TextItem')"
+              >{{ letData.cellIdx7 ? letData.cellIdx7 : 'XX'}}</span>
+              月
+              <span
+                @click="commandFill('cellIdx8', '日', 'TextItem')"
+              >{{ letData.cellIdx8 ? letData.cellIdx8 : 'XX'}}</span>
+              日对被申请执行人
+              <span
+                @click="commandFill('cellIdx9', '现场处理决定', 'TextareaItem')"
+              >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</span>
+              作出了
+              <span
+                @click="commandFill('cellIdx10', '行政处罚决定', 'TextareaItem')"
+              >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）'}}</span>
+              的行政处罚决定（
+              <span
+                class="no-underline"
+                @click="commandFill('cellIdx11', '行政处罚决定文书号', 'TextItem')"
+              >{{ letData.cellIdx11 ? letData.cellIdx11 : '（点击编辑）'}}</span>
+              (
+              <span
+                class="no-underline"
+                @click="commandFill('cellIdx12', '行政处罚决定文书号', 'TextItem')"
+              >{{ letData.cellIdx12 ? letData.cellIdx12 : '（点击编辑）'}}</span>
+              ）煤安罚〔
+              <span
+                class="no-underline"
+                @click="commandFill('cellIdx13', '行政处罚决定文书号', 'TextItem')"
+              >{{ letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）'}}</span>
+              〕
+              <span
+                class="no-underline"
+                @click="commandFill('cellIdx14', '行政处罚决定文书号', 'TextItem')"
+              >{{ letData.cellIdx14 ? letData.cellIdx14 : '（点击编辑）'}}</span>
+              号），并于
+              <span
+                @click="commandFill('cellIdx15', '年', 'TextItem')"
+              >{{ letData.cellIdx15 ? letData.cellIdx15 : 'XX'}}</span>
+              年
+              <span
+                @click="commandFill('cellIdx16', '月', 'TextItem')"
+              >{{ letData.cellIdx16 ? letData.cellIdx16 : 'XX'}}</span>
+              月
+              <span
+                @click="commandFill('cellIdx17', '日', 'TextItem')"
+              >{{ letData.cellIdx17 ? letData.cellIdx17 : 'XX'}}</span>
+              日送达了催告书（
+              <span
+                class="no-underline"
+                @click="commandFill('cellIdx18', '催告书文书号', 'TextItem')"
+              >{{ letData.cellIdx18 ? letData.cellIdx18 : '（点击编辑）'}}</span>
+              （
+              <span
+                class="no-underline"
+                @click="commandFill('cellIdx19', '催告书文书号', 'TextItem')"
+              >{{ letData.cellIdx19 ? letData.cellIdx19 : '（点击编辑）'}}</span>
+              ）煤安催告〔
+              <span
+                class="no-underline"
+                @click="commandFill('cellIdx20', '催告书文书号', 'TextItem')"
+              >{{ letData.cellIdx20 ? letData.cellIdx20 : '（点击编辑）'}}</span>
+              〕
+              <span
+                class="no-underline"
+                @click="commandFill('cellIdx21', '催告书文书号', 'TextItem')"
+              >{{ letData.cellIdx21 ? letData.cellIdx21 : '（点击编辑）'}}</span>
+              号）。被申请执行人在法定的期限内未履行上述行政处罚决定。根据《中华人民共和国行政处罚法》第七十二条第一款第四项、《中华人民共和国行政强制法》第五十三条、第五十四条规定特申请贵院强制执行。
             </div>
-            <div v-else>
-              <p class="show-area-item-p">
-                &nbsp;
-              </p>
-              <p class="show-area-item-p">
-                &nbsp;
-              </p>
-            </div>
-          </div>
-          <table style="border:solid 0 #000;" class="docBody">
-              <tr>
-                 <td class="textAlignLeft" style="width:7%">作出了</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_10"
-                  align="center"
-                  style="width:40%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx10', '', 'TextareaItem')"
-                >{{ letData.cellIdx10 }}</td>
-                <td class="textAlignLeft" style="width:19%">的行政处罚决定&nbsp;&nbsp;(</td>
-                 <td
-                  class="cellInput"
-                  id="cell_idx_11"
-                  align="center"
-                  style="width:10%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx11', '', 'TextItem')"
-                >{{ letData.cellIdx11 }}</td>
-               <td  class="textAlignLeft">(</td>
-                 <td
-                  class="cellInput"
-                  id="cell_idx_12"
-                  align="center"
-                  style="width:10%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx12', '', 'TextItem')"
-                >{{ letData.cellIdx12 }}</td>
-                <td  class="textAlignLeft">) </td>
-                <td class="textAlignLeft" style="width:11%">&nbsp;&nbsp;&nbsp;煤安罚</td>
-              </tr>
-              <tr>
-                 <td class="textAlignLeft" style="width:1%">〔</td>
-                 <td
-                  class="cellInput"
-                  id="cell_idx_13"
-                  align="center"
-                  style="width:12%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx13', '', 'TextItem')"
-                >{{ letData.cellIdx13 }}</td>
-                <td class="textAlignLeft" style="width:1%">〕</td>
-                 <td
-                  class="cellInput"
-                  id="cell_idx_14"
-                  align="center"
-                  style="width:12%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx14', '', 'TextItem')"
-                >{{ letData.cellIdx14 }}</td>
-                <td class="textAlignLeft" style="width:12%">号），并于</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_15"
-                  align="center"
-                  style="width:9%"
-                  data-title="年"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx15', '年', 'TextItem')"
-                >{{ letData.cellIdx15 }}</td>
-                <td class="textAlignLeft" style="width:2%">年</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_16"
-                  align="center"
-                  style="width:9%"
-                  data-title="月"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx16', '月', 'TextItem')"
-                >{{ letData.cellIdx16 }}</td>
-                <td class="textAlignLeft" style="width:2%">月</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_17"
-                  align="center"
-                  style="width:9%"
-                  data-title="日"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx17', '日', 'TextItem')"
-                >{{ letData.cellIdx17 }}</td>
-                <td class="textAlignLeft" style="width:21%">日送达了催告书&nbsp;&nbsp;&nbsp;(</td>
-                 <td
-                  class="cellInput"
-                  id="cell_idx_18"
-                  align="center"
-                  style="width:12%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx18', '', 'TextItem')"
-                >{{ letData.cellIdx18 }}</td>
-               <td class="textAlignLeft" style="width:1%">(</td>
-                 <td
-                  class="cellInput"
-                  id="cell_idx_19"
-                  align="center"
-                  style="width:12%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx19', '', 'TextItem')"
-                >{{ letData.cellIdx19 }}</td>
-                <td class="textAlignLeft" style="width:1%">)  </td>
-                <td class="textAlignLeft" style="width:14%">&nbsp;&nbsp;&nbsp;煤安催告</td>
-                <td class="textAlignLeft">〔</td>
-                 <td
-                  class="cellInput"
-                  id="cell_idx_20"
-                  align="center"
-                  style="width:10%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx20', '', 'TextItem')"
-                >{{ letData.cellIdx20 }}</td>
-                <td class="textAlignLeft">〕</td>
-                 <td
-                  class="cellInput"
-                  id="cell_idx_21"
-                  align="center"
-                  style="width:10%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx21', '', 'TextItem')"
-                >{{ letData.cellIdx21 }}</td>
-                <td class="textAlignLeft" style="width:34%">号）。被申请执行人在法定的期限</td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft" style="width:100%">内未履行上述行政处罚决定。根据《中华人民共和国行政处罚法》第七十二条第一款第四项、《中华</td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft" style="width:76%">人民共和国行政强制法》第五十三条、第五十四条规定特申请贵院强制执行。</td>
-              </tr>
-            </table>
             <table class="docBody">
               <tr>
                  <td style="width:5%"></td>
@@ -538,11 +397,13 @@ export default {
         const let101Data = await wkPaper.find((item) => {
           return item.caseId === caseId && item.paperType === '1';
         });
+        if (!let101Data) {
+          this.$message.error('请先填写并保存现场检查记录中内容！')
+          return
+        }
         let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
         let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
         let cellIdx9String = `${corp.corpName}涉嫌${dangerObject.dangerString}案`
-        // 5.文书号2：催告书编号
-        let paperNumber39 = await getDocNumber(db, '39', caseId, this.$store.state.user)
         // 从sysOfficeInfo中获取：
         const orgInfo = db.table("orgInfo");
         const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
@@ -551,6 +412,28 @@ export default {
         let cellIdx25String = `划转罚款至${orgSysOfficeInfo.accountName}${orgSysOfficeInfo.accountBank}。账户名称：${orgSysOfficeInfo.billName}。待结算财政款项账号：${orgSysOfficeInfo.account}`
         // 7.人民法院：courtPrefix 联系人：master 联系电话：phone
         // 8.申请人的法定代表人legalPerson和职务post
+        // 行政处罚文书编号：
+        const let206Data = await wkPaper.find((item) => {
+          return item.caseId === caseId && item.paperType === '8';
+        });
+        if (!let206Data) {
+          this.$message.error('请先填写并保存行政处罚决定书中内容！')
+          return
+        }
+        let let206DataPapaerContent = JSON.parse(let206Data.paperContent)
+        console.log('let206DataPapaerContent', let206DataPapaerContent)
+        let paperDate206 = let206DataPapaerContent.cellIdx20 ? let206DataPapaerContent.cellIdx20.replace('年', '-').replace('月', '-').replace('日', '-').split('-') : ['', '', '']
+        // 行政强制执行事先催告书编号
+        const let309Data = await wkPaper.find((item) => {
+          return item.caseId === caseId && item.paperType === '53';
+        });
+        if (!let309Data) {
+          this.$message.error('请先填写并保存行政强制执行事先催告书中内容！')
+          return
+        }
+        let let309DataPapaerContent = JSON.parse(let309Data.paperContent)
+        console.log('let309DataPapaerContent', let309DataPapaerContent)
+        let paperDate309 = let309DataPapaerContent.cellIdx28 ? let309DataPapaerContent.cellIdx28.replace('年', '-').replace('月', '-').replace('日', '-').split('-') : ['', '', '']
         this.letData = {
           cellIdx0: paperNumber.num0, // 文书号
           cellIdx0TypeTextItem: paperNumber.num0, // 文书号
@@ -563,23 +446,38 @@ export default {
           cellIdx4: null, // 签发人
           cellIdx5: orgSysOfficeInfo.courtPrefix, // 人民法院
           cellIdx5TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
-          cellIdx6: null, // 年
-          cellIdx7: null, // 月
-          cellIdx8: null, // 日
+          cellIdx6: paperDate206[0], // 年
+          cellIdx6TypeTextItem: paperDate206[0], // 年
+          cellIdx7: paperDate206[1], // 月
+          cellIdx7TypeTextItem: paperDate206[1], // 月
+          cellIdx8: paperDate206[2], // 日
+          cellIdx8TypeTextItem: paperDate206[2], // 日
           cellIdx9: cellIdx9String, // 对被申请执行人
-          cellIdx10: null, // 行政处罚决定
-          cellIdx11: null, // 行政处罚决定 文书号
-          cellIdx11TypeTextItem: null, // 行政处罚决定 文书号
-          cellIdx12: null, // 行政处罚决定 文书号
-          cellIdx13: null, // 行政处罚决定 文书号
-          cellIdx14: null, // 行政处罚决定 文书号
-          cellIdx15: null, // 年
-          cellIdx16: null, // 月
-          cellIdx17: null, // 日
-          cellIdx18: null, // 催告书 文书号
-          cellIdx19: null, // 催告书 文书号
-          cellIdx20: null, // 催告书 文书号
-          cellIdx21: null, // 催告书 文书号
+          cellIdx9TypeTextareaItem: cellIdx9String, // 对被申请执行人
+          cellIdx10: dangerObject.penaltyDesc, // 行政处罚决定
+          cellIdx10TypeTextareaItem: dangerObject.penaltyDesc, // 行政处罚决定
+          cellIdx11: let206DataPapaerContent.cellIdx0, // 行政处罚决定 文书号
+          cellIdx11TypeTextItem: let206DataPapaerContent.cellIdx0, // 行政处罚决定 文书号
+          cellIdx12: let206DataPapaerContent.cellIdx1, // 行政处罚决定 文书号
+          cellIdx12TypeTextItem: let206DataPapaerContent.cellIdx1, // 行政处罚决定 文书号
+          cellIdx13: let206DataPapaerContent.cellIdx2, // 行政处罚决定 文书号
+          cellIdx13TypeTextItem: let206DataPapaerContent.cellIdx2, // 行政处罚决定 文书号
+          cellIdx14: let206DataPapaerContent.cellIdx3, // 行政处罚决定 文书号
+          cellIdx14TypeTextItem: let206DataPapaerContent.cellIdx3, // 行政处罚决定 文书号
+          cellIdx15: paperDate309[0], // 年
+          cellIdx15TypeTextItem: paperDate309[0], // 年
+          cellIdx16: paperDate309[1], // 月
+          cellIdx16TypeTextItem: paperDate309[1], // 月
+          cellIdx17: paperDate309[2], // 日
+          cellIdx17TypeTextItem: paperDate309[2], // 日
+          cellIdx18: let309DataPapaerContent.cellIdx0, // 催告书 文书号
+          cellIdx18TypeTextItem: let309DataPapaerContent.cellIdx0, // 催告书 文书号
+          cellIdx19: let309DataPapaerContent.cellIdx1, // 催告书 文书号
+          cellIdx19TypeTextItem: let309DataPapaerContent.cellIdx1, // 催告书 文书号
+          cellIdx20: let309DataPapaerContent.cellIdx2, // 催告书 文书号
+          cellIdx20TypeTextItem: let309DataPapaerContent.cellIdx2, // 催告书 文书号
+          cellIdx21: let309DataPapaerContent.cellIdx3, // 催告书 文书号
+          cellIdx21TypeTextItem: let309DataPapaerContent.cellIdx3, // 催告书 文书号
           cellIdx22: null, // 材料1
           cellIdx23: null, // 材料2
           cellIdx24: null, // 材料3

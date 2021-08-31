@@ -596,10 +596,10 @@ export default {
           cellIdx23: null, // 年
           cellIdx24: null, // 月
           cellIdx25: null, // 日
-          cellIdx26: orgSysOfficeInfo.accountBank, // 银行
-          cellIdx26TypeTextItem: orgSysOfficeInfo.accountBank, // 银行
-          cellIdx27: orgSysOfficeInfo.billName, // 支行（分理处）
-          cellIdx27TypeTextItem: orgSysOfficeInfo.billName, // 支行（分理处）
+          cellIdx26: orgSysOfficeInfo.accountName, // 银行
+          cellIdx26TypeTextItem: orgSysOfficeInfo.accountName, // 银行
+          cellIdx27: orgSysOfficeInfo.accountBank, // 支行（分理处）
+          cellIdx27TypeTextItem: orgSysOfficeInfo.accountBank, // 支行（分理处）
           cellIdx28: orgSysOfficeInfo.billName, // 账户名称
           cellIdx28TypeTextItem: orgSysOfficeInfo.billName, // 账户名称
           cellIdx29: orgSysOfficeInfo.account, // 账号

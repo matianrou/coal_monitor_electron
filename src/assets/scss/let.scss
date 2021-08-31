@@ -141,6 +141,8 @@ table td{margin:0;padding:0;}
   line-height: 1cm;
   display: flow-root;
   position: relative;
+  font-family: 仿宋;
+  font-size: 16px;
   label {
     display: inline-block;
   }
@@ -155,6 +157,9 @@ table td{margin:0;padding:0;}
     position: absolute;
     bottom: 10px;
     width: 100%;
+  }
+  .no-underline {
+    border-bottom: 0px;
   }
 }
 .docHeader{
