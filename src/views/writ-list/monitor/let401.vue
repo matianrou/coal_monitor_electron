@@ -24,7 +24,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_0"
-                  contenteditable="true"
                   align="center"
                   style="width:25%"
                   data-title="文书号"
@@ -36,7 +35,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_1"
-                  contenteditable="true"
                   align="center"
                   style="width:7%"
                   data-title="文书号"
@@ -48,7 +46,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_2"
-                  contenteditable="true"
                   align="center"
                   style="width:7%"
                   data-title="文书号"
@@ -60,7 +57,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_3"
-                  contenteditable="true"
                   align="center"
                   style="width:7%"
                   data-title="文书号"
@@ -76,7 +72,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_4"
-                  contenteditable="true"
                   align="center"
                   style="width:17%"
                   data-title="签发人"
@@ -89,7 +84,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_5"
-                  contenteditable="true"
                   style="width:50%"
                   data-title=""
                   data-type="text"
@@ -103,7 +97,6 @@
                 <td
                   class="cellInput"
                   id="cell_idx_6"
-                  contenteditable="true"
                   align="center"
                   style="width:10%"
                   data-title="单位"
@@ -115,7 +108,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_7"
-                  contenteditable="true"
                   style="width:30%"
                   data-title=""
                   data-type="text"
@@ -150,7 +142,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
-                  contenteditable="true"
                   align="center"
                   style="width:10%"
                   data-title="调查事由"
@@ -162,7 +153,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_10"
-                  contenteditable="true"
                   align="center"
                   style="width:10%"
                   data-title="调查事由"
@@ -180,7 +170,6 @@
                 <td
                   class="cellInput"
                   id="cell_idx_11"
-                  contenteditable="true"
                   align="center"
                   style="width:10%"
                   data-title="调查事由"
@@ -192,7 +181,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_12"
-                  contenteditable="true"
                   align="center"
                   style="width:27%"
                   data-title="地址"
@@ -204,7 +192,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_13"
-                  contenteditable="true"
                   align="center"
                   style="width:21%"
                   data-title="邮政编码"
@@ -218,7 +205,6 @@
                 <td
                   class="cellInput"
                   id="cell_idx_14"
-                  contenteditable="true"
                   align="center"
                   style="width:10%"
                   data-title="调查事由"
@@ -230,7 +216,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_15"
-                  contenteditable="true"
                   align="center"
                   style="width:25%"
                   data-title="联系人"
@@ -244,7 +229,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_16"
-                  contenteditable="true"
                   align="center"
                   style="width:20%"
                   data-title="电话"
@@ -258,7 +242,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_17"
-                  contenteditable="true"
                   align="center"
                   style="width:29%"
                   data-title="送件人（签名）"
@@ -272,7 +255,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_18"
-                  contenteditable="true"
                   align="center"
                   style="width:20%"
                   data-title="日期"
@@ -286,7 +268,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_19"
-                  contenteditable="true"
                   align="center"
                   style="width:29%"
                   data-title="收件人（签名）"
@@ -300,7 +281,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_20"
-                  contenteditable="true"
                   align="center"
                   style="width:20%"
                   data-title="日期"
@@ -316,7 +296,6 @@
                 <td
                   class="cellInput"
                   id="cell_idx_21"
-                  contenteditable="true"
                   align="right"
                   style="width:95%"
                 >{{letData.cellIdx21}}</td>

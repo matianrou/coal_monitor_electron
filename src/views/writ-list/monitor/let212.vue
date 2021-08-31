@@ -70,7 +70,6 @@
                   class="cellInput cellBottomLine"
                   style="width:320px"
                   id="cell_idx_4"
-                  contenteditable="true"
                   @click="commandFill('cellIdx4', '', 'TextItem')"
                 >{{letData.cellIdx4}}</td>
                 <td>：</td>
@@ -92,7 +91,6 @@
                   style="width:84mm"
                   class="cellInput textAlignCenter cellBottomLine"
                   id="cell_idx_6"
-                  contenteditable="true"
                 @click="commandFill('cellIdx6', '', 'TextItem')"
                 >{{letData.cellIdx6}}</td>
               </tr>
@@ -104,7 +102,6 @@
                   style="width:45mm"
                   class="cellInput textAlignCenter cellBottomLine"
                   id="cell_idx_7"
-                  contenteditable="true"
                 @click="commandFill('cellIdx7', '', 'TextItem')"
                 >{{letData.cellIdx7}}</td>
                 <td style="width:55mm">万元（大写）的决定，现根据</td>
@@ -126,7 +123,6 @@
                   style="width:70mm;"
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
-                  contenteditable="true"
                 @click="commandFill('cellIdx9', '', 'TextItem')"
                 >{{letData.cellIdx9}}</td>
                 <td style="width:55mm;">止。</td>
@@ -145,7 +141,6 @@
                   style="width:20mm;"
                   class="cellInput cellBottomLine textAlignCenter"
                   id="cell_idx_11"
-                  contenteditable="true"
                 @click="commandFill('cellIdx11', '', 'TextItem')"
                 >{{letData.cellIdx11}}</td>
                 <td style="width:10mm;" class="textAlignCenter">期至</td>
@@ -164,7 +159,6 @@
                   style="width:50mm"
                   class="cellInput textAlignCenter cellBottomLine"
                   id="cell_idx_13"
-                  contenteditable="true"
                 @click="commandFill('cellIdx13', '', 'TextItem')"
                 >{{letData.cellIdx13}}</td>
                 <td style="width:140mm">万元（大写）（每期均应当单独开具本文书）。此外，尚有未缴纳的罚款</td>
@@ -173,7 +167,6 @@
                 <td
                   class="cellInput textAlignCenter cellBottomLine"
                   id="cell_idx_14"
-                  contenteditable="true"
                 @click="commandFill('cellIdx14', '', 'TextItem')"
                 >{{letData.cellIdx14}}</td>
                 <td>元（大写）。</td>
@@ -202,7 +195,6 @@
                   style="width:250px;"
                   class="cellInput textAlignRight"
                   id="cell_idx_15"
-                  contenteditable="true"
                 @click="commandFill('cellIdx15', '', 'TextItem')"
                 >{{letData.cellIdx15}}</td>
                 <td style="width:100px;" class="textAlignCenter">（印章）</td>

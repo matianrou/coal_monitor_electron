@@ -20,7 +20,6 @@
                 <td
                   class="textAlignCenter"
                   id="cell_idx_0"
-                  contenteditable="true"
                 >（[SHORTNAME]）应急恢复通〔[YEAR]〕[DOCNUMBER]号</td>
               </tr>
             </table>
@@ -31,7 +30,6 @@
                   class="cellInput cellBottomLine"
                   style="width:320px"
                   id="cell_idx_3"
-                  contenteditable="true"
                 ></td>
                 <td>：</td>
               </tr>
@@ -50,7 +48,6 @@
                   style="width:90mm"
                   class="cellInput textAlignCenter cellBottomLine"
                   id="cell_idx_5"
-                  contenteditable="true"
                 >{ent_name}</td>
               </tr>
             </table>
@@ -61,7 +58,6 @@
                   style="width:32mm;"
                   class="cellInput textAlignCenter cellBottomLine"
                   id="cell_idx_6"
-                  contenteditable="true"
                 ></td>
                 <td style="width:40mm" class="textAlignCenter">的措施，该单位已于</td>
                 <td
@@ -85,7 +81,6 @@
                   style="width:35mm;"
                   class="cellInput textAlignCenter cellBottomLine"
                   id="cell_idx_8"
-                  contenteditable="true"
                 >停止供电</td>
                 <td style="width:40mm;" class="textAlignRight">措施。请你单位于</td>
                 <td
@@ -104,7 +99,6 @@
                   style="width:50mm;"
                   class="cellInput textAlignCenter cellBottomLine"
                   id="cell_idx_10"
-                  contenteditable="true"
                 >供应生产用电</td>
                 <td style="width:120mm;">，请给予配合。</td>
               </tr>
@@ -129,7 +123,6 @@
                   style="width:250px;"
                   class="cellInput textAlignRight"
                   id="cell_idx_14"
-                  contenteditable="true"
                 >[OrgName]</td>
                 <td style="width:100px;" class="textAlignCenter">（印章）</td>
               </tr>

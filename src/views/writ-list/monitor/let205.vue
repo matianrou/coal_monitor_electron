@@ -236,7 +236,6 @@
                 <td
                   class="cellInput"
                   id="cell_idx_18"
-                  contenteditable="true"
                   align="center"
                   style="width:35%"
                   data-title="监察员"

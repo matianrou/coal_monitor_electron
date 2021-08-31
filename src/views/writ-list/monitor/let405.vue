@@ -33,7 +33,6 @@
                 <td
                   class="cellInput textAlignCenter cellBottomLine cellRightLine"
                   id="cell_idx_11"
-                  contenteditable="true"
                   onclick="host.commandFill(this.id,'checked','选择文书','catalog')"
                 >选择文书...</td>
                 <td

@@ -160,7 +160,6 @@
                 <td
                   class="cellInput"
                   id="cell_idx_9"
-                  contenteditable="true"
                   align="center"
                   style="width:10%"
                   data-title="单位或个人"

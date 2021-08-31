@@ -105,7 +105,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_7"
-                  contenteditable="true"
                   align="center"
                   style="width:85%"
                   data-title="地点"
@@ -119,7 +118,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_8"
-                  contenteditable="true"
                   align="center"
                   style="width:36%"
                   data-title="调查人（签名）"
@@ -131,7 +129,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
-                  contenteditable="true"
                   align="center"
                   style="width:28%"
                   data-title="记录人（签名）"
@@ -146,7 +143,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_10"
-                  contenteditable="true"
                   align="center"
                   style="width:20%"
                   data-title="被调查人"
@@ -158,7 +154,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_11"
-                  contenteditable="true"
                   align="center"
                   style="width:7%"
                   data-title="性别"
@@ -170,7 +165,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_12"
-                  contenteditable="true"
                   align="center"
                   style="width:7%"
                   data-title="年龄"
@@ -182,7 +176,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_13"
-                  contenteditable="true"
                   align="center"
                   style="width:28%"
                   data-title="身份证号"
@@ -198,7 +191,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_14"
-                  contenteditable="true"
                   align="center"
                   style="width:20%"
                   data-title="单位"
@@ -210,7 +202,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_15"
-                  contenteditable="true"
                   align="center"
                   style="width:20%"
                   data-title="职务（职业）"
@@ -222,7 +213,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_16"
-                  contenteditable="true"
                   align="center"
                   style="width:20%"
                   data-title="电话"
@@ -238,7 +228,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_17"
-                  contenteditable="true"
                   align="center"
                   style="width:78%"
                   data-title="住址"
@@ -251,91 +240,78 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_18"
-                  contenteditable="true"
                   style="width:95%"
                 @click="commandFill('cellIdx18', '', 'TextItem')"
                 >{{letData.cellIdx18}}</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_19"
-                  contenteditable="true"
                   style="width:95%"
                 @click="commandFill('cellIdx19', '', 'TextItem')"
                 >{{letData.cellIdx19}}</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_20"
-                  contenteditable="true"
                   style="width:95%"
                 @click="commandFill('cellIdx20', '', 'TextItem')"
                 >{{letData.cellIdx20}}</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_21"
-                  contenteditable="true"
                   style="width:95%"
                 @click="commandFill('cellIdx21', '', 'TextItem')"
                 >{{letData.cellIdx21}}</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_22"
-                  contenteditable="true"
                   style="width:95%"
                 @click="commandFill('cellIdx22', '', 'TextItem')"
                 >{{letData.cellIdx22}}</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_23"
-                  contenteditable="true"
                   style="width:95%"
                 @click="commandFill('cellIdx23', '', 'TextItem')"
                 >{{letData.cellIdx23}}</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_24"
-                  contenteditable="true"
                   style="width:95%"
                 @click="commandFill('cellIdx24', '', 'TextItem')"
                 >{{letData.cellIdx24}}</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_25"
-                  contenteditable="true"
                   style="width:95%"
                 @click="commandFill('cellIdx25', '', 'TextItem')"
                 >{{letData.cellIdx25}}</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_26"
-                  contenteditable="true"
                   style="width:95%"
                 @click="commandFill('cellIdx26', '', 'TextItem')"
                 >{{letData.cellIdx26}}</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_27"
-                  contenteditable="true"
                   style="width:95%"
                 @click="commandFill('cellIdx27', '', 'TextItem')"
                 >{{letData.cellIdx27}}</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_28"
-                  contenteditable="true"
                   style="width:95%"
                 @click="commandFill('cellIdx28', '', 'TextItem')"
                 >{{letData.cellIdx28}}</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_29"
-                  contenteditable="true"
                   style="width:95%"
                 @click="commandFill('cellIdx29', '', 'TextItem')"
                 >{{letData.cellIdx29}}</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_30"
-                  contenteditable="true"
                   style="width:95%"
                 @click="commandFill('cellIdx30', '', 'TextItem')"
                 >{{letData.cellIdx30}}</td>

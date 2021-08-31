@@ -231,58 +231,24 @@
                   @click="commandFill('cellIdx17', '记录人（签名）', 'TextItem')"
                 >{{letData.cellIdx17}}</td>
               </tr>
-              <tr>
-                <td class="textAlignLeft">陈述、申辩记录：我们是</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_18"
-                  contenteditable="true"
-                  align="center"
-                  style="width:45%"
-                  data-title="监察员"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx18', '监察员', 'TextItem')"
-                >{{letData.cellIdx18}}</td>
-                <td class="textAlignLeft">的执法人员，这是我们的证件</td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">（出示证件）。现就</td>
-              </tr>
             </table>
-            <div
-              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-              class="cellInput mutiLineArea"
-              id="cell_idx_19"
-              data-title="违法行为"
-              data-type="textarea"
-              data-src
-              @click="commandFill('cellIdx19', '违法行为', 'DangerTableItem')">
-              <p
-                style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
-              >&nbsp;{{ letData.cellIdx19 ? letData.cellIdx19 : '（点击编辑）' }}</p>
-              <cell-line></cell-line>
-              <p
-                style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
-              >&nbsp;</p>
+            <div class="docTextarea">
+              陈述、申辩记录：我们是
+              <span
+                class="no-underline"
+                @click="commandFill('cellIdx18', '监察员', 'TextItem')"
+              >{{ letData.cellIdx18 ? letData.cellIdx18 : '（点击编辑）' }}</span>
+              的执法人员，这是我们的证件（出示证件）。现就
+              <span
+                @click="commandFill('cellIdx19', '违法行为', 'DangerTableItem')"
+              >{{ letData.cellIdx19 ? letData.cellIdx19 : '（点击编辑）'}}</span>
+              听取你
+              <span
+                class="no-underline"
+                @click="commandFill('cellIdx20', '单位', 'TextItem')"
+              >{{ letData.cellIdx20 ? letData.cellIdx20 : '（点击编辑）'}}</span>
+              的陈述申辩。
             </div>
-            <table class="docBody">
-              <tr>
-                <td class="textAlignLeft">听取你</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_20"
-                  align="center"
-                  style="width:15%"
-                  data-title="陈述、申辩"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx20', '陈述、申辩', 'TextItem')"
-                >{{letData.cellIdx20}}</td>
-                <td class="textAlignLeft">的陈述申辩。</td>
-              </tr>
-
-            </table>
             <div
               style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
               class="cellInput mutiLineArea"
@@ -311,7 +277,6 @@
                   data-src
                   @click="commandFill('cellIdx22', '陈述申辩人意见', 'TextItem')"
                 >{{letData.cellIdx22}}</td>
-
               </tr>
             <tr>
                <td class="textAlignLeft" style="width:24%">陈述申辩人（签名）：</td>

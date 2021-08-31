@@ -20,7 +20,6 @@
                 <td
                   class="textAlignCenter"
                   id="cell_idx_0"
-                  contenteditable="true"
                 >（[SHORTNAME]）应急停供通〔[YEAR]〕[DOCNUMBER]号</td>
               </tr>
             </table>
@@ -31,7 +30,6 @@
                   class="cellInput cellBottomLine"
                   style="width:320px"
                   id="cell_idx_3"
-                  contenteditable="true"
                 ></td>
                 <td>：</td>
               </tr>
@@ -43,7 +41,6 @@
                   style="width:90mm"
                   class="cellInput textAlignCenter cellBottomLine"
                   id="cell_idx_4"
-                  contenteditable="true"
                 >{ent_name}</td>
                 <td style="width:80mm" class="textAlignRight">存在重大生产安全事故隐患，本机关于</td>
               </tr>
@@ -61,7 +58,6 @@
                   style="width:35mm"
                   class="cellInput textAlignCenter cellBottomLine"
                   id="cell_idx_6"
-                  contenteditable="true"
                 >暂时停产停业</td>
                 <td style="width:65mm" class="textAlignRight">的决定，该单位未执行以上决定，</td>
               </tr>
@@ -76,7 +72,6 @@
                   style="width:25mm;"
                   class="cellInput textAlignCenter cellBottomLine"
                   id="cell_idx_7"
-                  contenteditable="true"
                 >停止供电</td>
                 <td style="width:30mm;" class="textAlignRight">措施，强制其履行</td>
               </tr>
@@ -95,7 +90,6 @@
                   style="width:36mm;"
                   class="cellInput textAlignCenter cellBottomLine"
                   id="cell_idx_9"
-                  contenteditable="true"
                 >停止供应生产用电</td>
                 <td style="width:30mm;" class="textAlignRight">，请给予配合。</td>
               </tr>
@@ -127,7 +121,6 @@
                   style="width:250px;"
                   class="cellInput textAlignRight"
                   id="cell_idx_14"
-                  contenteditable="true"
                 >[OrgName]</td>
                 <td style="width:100px;" class="textAlignCenter">（印章）</td>
               </tr>

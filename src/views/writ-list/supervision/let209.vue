@@ -80,132 +80,50 @@
                 <td class="textAlignLeft ">：</td>
               </tr>
             </table>
-            <table style="border:solid 0 #000;" class="docBody">
-              <tr>
-                <td style="width:5%"></td>
-                <!-- <td class="textAlignLeft">我</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_5"
-                  align="center"
-                  style="width:8%"
-                  data-title="单位"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx5', '单位', 'TextItem')"
-                >{{letData.cellIdx5}}</td> -->
-                <td class="textAlignLeft">本机关根据你</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_6"
-                  align="center"
-                  style="width:8%"
-                  data-title="单位"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx6', '单位', 'TextItem')"
-                >{{letData.cellIdx6}}</td>
-                <td class="textAlignLeft">申请，关于</td>
-              </tr>
-            </table>
-            <div
-              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-              class="cellInput mutiLineArea"
-              id="cell_idx_7"
-              data-title="违法行为"
-              data-type="textarea"
-              data-src
-             @click="commandFill('cellIdx7', '违法行为', 'DangerTableItem')">
-              <p
-                style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
-              >&nbsp;{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</p>
-              <p
-                style="width: 100%; height: auto; word-wrap: break-word; word-wrap: break-all; overflow: hidden;"
-              >&nbsp;</p>
+            <div class="docTextarea">
+              <label style="width: 5%"></label>
+              本机关根据你
+              <span
+                class="no-underline"
+                @click="commandFill('cellIdx6', '单位', 'TextItem')"
+              >{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）' }}</span>
+              申请，关于
+              <span
+                @click="commandFill('cellIdx7', '违法行为', 'DangerTableItem')"
+              >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
+              ，现定于
+              <span
+                @click="commandFill('cellIdx8', '年', 'TextItem')"
+              >{{ letData.cellIdx8 ? letData.cellIdx8 : 'XX'}}</span>
+              年
+              <span
+                @click="commandFill('cellIdx9', '月', 'TextItem')"
+              >{{ letData.cellIdx9 ? letData.cellIdx9 : 'XX'}}</span>
+              月
+              <span
+                @click="commandFill('cellIdx10', '日', 'TextItem')"
+              >{{ letData.cellIdx10 ? letData.cellIdx10 : 'XX'}}</span>
+              日
+              <span
+                @click="commandFill('cellIdx11', '时', 'TextItem')"
+              >{{ letData.cellIdx11 ? letData.cellIdx11 : 'XX'}}</span>
+              时在
+              <span
+                @click="commandFill('cellIdx12', '地点', 'TextItem')"
+              >{{ letData.cellIdx12 ? letData.cellIdx12 : '（点击编辑）'}}</span>
+              （
+              <span
+                class="no-underline"
+                @click="commandFill('cellIdx13', '公开/不公开', 'SelectItem')"
+              >{{ letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）'}}</span>
+              ）举行听证会议，请你
+              <span
+                class="no-underline"
+                @click="commandFill('cellIdx14', '单位', 'TextItem')"
+              >{{ letData.cellIdx14 ? letData.cellIdx14 : '（点击编辑）'}}</span>
+              准时参加。
             </div>
             <table style="border:solid 0 #000;" class="docBody">
-              <tr>
-                <td class="textAlignLeft">，现定于</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_8"
-                  align="center"
-                  style="width:10%"
-                  data-title="年"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx8', '年', 'TextItem')"
-                >{{letData.cellIdx8}}</td>
-                <td class="textAlignLeft">年</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_9"
-                  align="center"
-                  style="width:10%"
-                  data-title="月"
-                  data-type="text"
-                  data-src
-                 @click="commandFill('cellIdx9', '月', 'TextItem')"
-                >{{letData.cellIdx9}}</td>
-                <td class="textAlignLeft">月</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_10"
-                  align="center"
-                  style="width:10%"
-                  data-title="日"
-                  data-type="text"
-                  data-src
-                   @click="commandFill('cellIdx10', '日', 'TextItem')"
-                >{{letData.cellIdx10}}</td>
-                <td class="textAlignLeft">日</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_11"
-                  align="center"
-                  style="width:10%"
-                  data-title="时"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx11', '时', 'TextItem')"
-                >{{letData.cellIdx11}}</td>
-                <td class="textAlignLeft">时在</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_12"
-                  align="center"
-                  style="width:39.5%"
-                  data-title="地点"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx12', '地点', 'TextItem')"
-                >{{letData.cellIdx12}}</td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">（</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_13"
-                  align="center"
-                  style="width:12%"
-                  data-title="地点"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx13', '公开/不公开', 'SelectItem')"
-                >{{letData.cellIdx13}}</td>
-                <td class="textAlignLeft">）举行听证会议，请你</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_14"
-                  align="center"
-                  style="width:10%"
-                  data-title="单位"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx14', '单位', 'TextItem')"
-                >{{letData.cellIdx14}}</td>
-                <td class="textAlignLeft">准时参加。</td>
-              </tr>
               <tr>
                 <td style="width:5%"></td>
                 <td class="textAlignLeft" style="width:18%">听证主持人姓名：</td>

@@ -26,7 +26,6 @@
                 <td
                   class="textAlignCenter"
                   id="cell_idx_0"
-                  contenteditable="true"
                 >（[SHORTNAME]）应急案〔[YEAR]〕[DOCNUMBER]号</td>
               </tr>
             </table>
@@ -37,7 +36,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_3"
-                  contenteditable="true"
                   colspan="5"
                 ></td>
               </tr>
@@ -50,7 +48,6 @@
                   style="width:170mm;"
                   class="cellInput cellBottomLine textPaddingLeft"
                   id="cell_idx_4"
-                  contenteditable="true"
                 ></td>
               </tr>
               <tr style="height:6cm;">
@@ -61,7 +58,6 @@
                 <td
                   class="cellInput cellBottomLine textPaddingLeft"
                   id="cell_idx_5"
-                  contenteditable="true"
                 ></td>
               </tr>
             </table>
@@ -91,7 +87,6 @@
                 <td
                   class="cellInput cellBottomLine textPaddingLeft"
                   id="cell_idx_8"
-                  contenteditable="true"
                 ></td>
                 <td>&nbsp;</td>
               </tr>
@@ -100,7 +95,6 @@
                 <td
                   class="cellInput cellBottomLine textPaddingLeft"
                   id="cell_idx_9"
-                  contenteditable="true"
                 ></td>
                 <td>&nbsp;</td>
               </tr>
@@ -120,7 +114,6 @@
                 <td class="textPaddingLeft">保存期限：</td>
                 <td
                   class="cellInput cellBottomLine textPaddingLeft"
-                  contenteditable="true"
                   id="cell_idx_11"
                 ></td>
                 <td>&nbsp;</td>

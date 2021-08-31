@@ -80,50 +80,25 @@
                 <td class="textAlignLeft ">：</td>
               </tr>
             </table>
-            <table style="border:solid 0 #000;" class="docBody">
-              <tr>
-                <td style="width:5%"></td>
-
-                <td class="textAlignLeft">经审查，你</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_5"
-                  align="center"
-                  style="width:10%"
-                  data-title="单位或个人"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx5', '单位或个人', 'TextItem')"
-                >{{letData.cellIdx5}}</td>
-                <td class="textAlignLeft">关于</td>
-              </tr>
-            </table>
-            <div
-              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-              class="cellInput mutiLineArea"
-              id="cell_idx_6"
-              data-title="案由"
-              data-type="textarea"
-              data-src
-              @click="commandFill('cellIdx6', '违法行为', 'DangerTableItem')">
-              <div v-if="letData.cellIdx6 && letData.cellIdx6.length > 0">
-                <p class="show-area-item-p">
-                  <span style="padding: 7px;">{{ letData.cellIdx6 }}</span>
-                </p>
-                <cell-line></cell-line>
-              </div>
-              <div v-else>
-                <p class="show-area-item-p">
-                  &nbsp;
-                </p>
-                <p class="show-area-item-p">
-                  &nbsp;
-                </p>
-              </div>
+            <div class="docTextarea">
+              <label style="width:5%"></label>
+              经审查，你
+              <span
+                @click="commandFill('cellIdx5', '单位或个人', 'TextItem')"
+              >{{ letData.cellIdx5 ? letData.cellIdx5 : 'XX'}}</span>
+              关于
+              <span
+                @click="commandFill('cellIdx6', '违法行为', 'TextareaItem')"
+              >{{ letData.cellIdx6 ? letData.cellIdx6 : 'XX'}}</span>
+              提出的听证申请属于以下第
+              <span
+                @click="commandFill('cellIdx7', '编号', 'SelectItem')"
+              >{{ letData.cellIdx7 ? letData.cellIdx7 : 'XX'}}</span>
+              项情形：
             </div>
             <table style="border:solid 0 #000;" class="docBody">
               <tr>
-                <td class="textAlignLeft">提出的听证申请属于以下第</td>
+                <td class="textAlignLeft"></td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_7"
@@ -132,9 +107,8 @@
                   data-title="编号"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx7', '编号', 'SelectItem')"
                 >{{letData.cellIdx7}}</td>
-                <td class="textAlignLeft">项情形：</td>
+                <td class="textAlignLeft"></td>
               </tr>
               <tr>
                 <td style="width:5%"></td>
@@ -322,10 +296,6 @@ export default {
     return {
       letData: {},
       options: {
-        cellIdx6: {
-          page: '29',
-          key: 'cellIdx6'
-        },
         cellIdx7: [
           {
             value: '（一）',
@@ -415,6 +385,7 @@ export default {
           cellIdx4TypeTextItem: corp.corpName, //
           cellIdx5: null, // 单位或个人
           cellIdx6: cellIdx6String, // 违法行为
+          cellIdx6TypeTextareaItem: cellIdx6String, // 违法行为
           cellIdx7: null, // 编号
           cellIdx8: null, // 单位
           cellIdx9: null, // 受送达人（签名）
@@ -442,14 +413,6 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}Type${type}`;
-        if (key === 'cellIdx6') {
-          this.options[key] = {
-            page: '29',
-            key: key,
-            spellString: this.extraData
-          }
-          dataKey = 'dangerItemObject'
-        }
         this.$refs.letMain.commandFill(
           key,
           dataKey,

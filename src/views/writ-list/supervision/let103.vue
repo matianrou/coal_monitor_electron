@@ -20,7 +20,6 @@
                 <td
                   class="cellInput textAlignCenter"
                   id="cell_idx_0"
-                  contenteditable="true"
                   @click="commandFill('cellIdx0', '', 'TextItem')"
 
                 >{{letData.cellIdx0}}（[SHORTNAME]）应急责改〔[YEAR]〕[DOCNUMBER]号</td>
@@ -217,7 +216,6 @@
                   style="width:250px;"
                   class="cellInput textAlignRight"
                   id="cell_idx_13"
-                  contenteditable="true"
                 @click="commandFill('cellIdx13', '', 'TextItem')"
                 >{{letData.cellIdx13}}</td>
                 <td style="width:100px;padding-right:16px;" class="textAlignCenter">（印章）</td>

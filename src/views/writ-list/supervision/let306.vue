@@ -20,7 +20,6 @@
                 <td
                   class="textAlignCenter"
                   id="cell_idx_0"
-                  contenteditable="true"
                 >（[SHORTNAME]）应急停供决〔[YEAR]〕[DOCNUMBER]号</td>
               </tr>
             </table>
@@ -31,7 +30,6 @@
                   class="cellInput cellBottomLine"
                   style="width:320px"
                   id="cell_idx_3"
-                  contenteditable="true"
                 >{ent_name}</td>
                 <td>：</td>
               </tr>
@@ -55,7 +53,6 @@
                   style="width:70mm"
                   class="cellInput textAlignCenter cellBottomLine"
                   id="cell_idx_5"
-                  contenteditable="true"
                 ></td>
                 <td style="width:120mm">的决定，你单位未执行以上决定，没有及时消除事故隐患，存在</td>
               </tr>
@@ -104,14 +101,12 @@
                   style="width:59mm"
                   class="cellInput textAlignCenter cellBottomLine"
                   id="cell_idx_8"
-                  contenteditable="true"
                 >[RefDeptName]</td>
                 <td style="width:72mm" class="textAlignCenter">申请行政复议，或者在6个月内依法向</td>
                 <td
                   style="width:59mm"
                   class="cellInput textAlignCenter cellBottomLine"
                   id="cell_idx_9"
-                  contenteditable="true"
                 >[RefLitigationOrgan]</td>
               </tr>
             </table>
@@ -137,7 +132,6 @@
                   style="width:250px;"
                   class="cellInput textAlignRight"
                   id="cell_idx_14"
-                  contenteditable="true"
                 >[OrgName]</td>
                 <td style="width:100px;" class="textAlignCenter">（印章）</td>
               </tr>

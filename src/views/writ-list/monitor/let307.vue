@@ -20,7 +20,6 @@
                 <td
                   class="textAlignCenter"
                   id="cell_idx_0"
-                  contenteditable="true"
                 >（{{letData.cellIdx0}}）应急停供通〔{{letData.cellIdx1}}〕{{letData.cellIdx2}}号</td>
               </tr>
             </table>

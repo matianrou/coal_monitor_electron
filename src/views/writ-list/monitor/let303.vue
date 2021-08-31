@@ -202,7 +202,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_11"
-                  contenteditable="true"
                   align="center"
                   style="width:15%"
                   data-title="人民法院"

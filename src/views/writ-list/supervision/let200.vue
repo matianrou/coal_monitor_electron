@@ -19,7 +19,6 @@
                 <td
                   class="textAlignCenter"
                   id="cell_idx_0"
-                  contenteditable="true"
                 >（[SHORTNAME]）应急罚当〔[YEAR]〕[DOCNUMBER]号</td>
               </tr>
             </table>
@@ -30,28 +29,24 @@
                   style="width:34mm;"
                   class="cellInput cellBottomLine"
                   id="cell_idx_3"
-                  contenteditable="true"
                 ></td>
                 <td style="width:13mm;" class="textAlignCenter">性别</td>
                 <td
                   style="width:13mm;"
                   class="cellInput cellBottomLine"
                   id="cell_idx_4"
-                  contenteditable="true"
                 ></td>
                 <td style="width:13mm;" class="textAlignCenter">年龄</td>
                 <td
                   style="width:14mm;"
                   class="cellInput cellBottomLine"
                   id="cell_idx_5"
-                  contenteditable="true"
                 ></td>
                 <td style="width:22mm;" class="textAlignCenter">身份证号</td>
                 <td
                   style="width:59mm;"
                   class="cellInput cellBottomLine"
                   id="cell_idx_6"
-                  contenteditable="true"
                 ></td>
               </tr>
             </table>
@@ -62,21 +57,18 @@
                   style="width:73mm;"
                   class="cellInput cellBottomLine"
                   id="cell_idx_7"
-                  contenteditable="true"
                 ></td>
                 <td style="width:20mm;" class="textAlignCenter">邮政编码</td>
                 <td
                   style="width:20mm;"
                   class="cellInput cellBottomLine textAlignCenter"
                   id="cell_idx_8"
-                  contenteditable="true"
                 ></td>
                 <td style="width:20mm;" class="textAlignCenter">联系电话</td>
                 <td
                   style="width:35mm;"
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
-                  contenteditable="true"
                 ></td>
               </tr>
             </table>
@@ -87,21 +79,18 @@
                   style="width:53mm;"
                   class="cellInput cellBottomLine"
                   id="cell_idx_10"
-                  contenteditable="true"
                 ></td>
                 <td style="width:20mm;" class="textAlignCenter">职务</td>
                 <td
                   style="width:20mm;"
                   class="cellInput cellBottomLine textAlignCenter"
                   id="cell_idx_11"
-                  contenteditable="true"
                 ></td>
                 <td style="width:20mm;" class="textAlignCenter">单位地址</td>
                 <td
                   style="width:55mm;"
                   class="cellInput cellBottomLine"
                   id="cell_idx_12"
-                  contenteditable="true"
                 ></td>
               </tr>
             </table>
@@ -112,7 +101,6 @@
                   style="width:165mm;"
                   class="cellInput textPaddingLeft cellBottomLine"
                   id="cell_idx_13"
-                  contenteditable="true"
                 >{ent_name}</td>
               </tr>
             </table>
@@ -123,14 +111,12 @@
                   style="width:130mm;"
                   class="cellInput textPaddingLeft cellBottomLine"
                   id="cell_idx_14"
-                  contenteditable="true"
                 >{op_loc_address}</td>
                 <td style="width:20mm;" class="textAlignCenter">邮政编码</td>
                 <td
                   style="width:30mm;"
                   class="cellInput textAlignCenter cellBottomLine"
                   id="cell_idx_15"
-                  contenteditable="true"
                 >{op_loc_zip_code}</td>
               </tr>
             </table>
@@ -141,21 +127,18 @@
                   style="width:35mm;"
                   class="cellInput textAlignCenter cellBottomLine"
                   id="cell_idx_16"
-                  contenteditable="true"
                 >{le_rpe}</td>
                 <td style="width:20mm;" class="textAlignCenter">职务</td>
                 <td
                   style="width:30mm;"
                   class="cellInput textAlignCenter cellBottomLine"
                   id="cell_idx_17"
-                  contenteditable="true"
                 >{rep_duty}</td>
                 <td style="width:20mm;" class="textAlignCenter">联系电话</td>
                 <td
                   style="width:40mm;"
                   class="cellInput textAlignCenter cellBottomLine"
                   id="cell_idx_18"
-                  contenteditable="true"
                 >{rep_phone}</td>
               </tr>
             </table>
@@ -184,7 +167,6 @@
                   style="width:123mm;"
                   class="cellInput textAlignCenter cellBottomLine"
                   id="cell_idx_20"
-                  contenteditable="true"
                 ></td>
                 <td style="width:27mm;" class="textAlignCenter">的规定，依据</td>
               </tr>
@@ -195,14 +177,12 @@
                   style="width:75mm;"
                   class="cellInput textAlignCenter cellBottomLine"
                   id="cell_idx_21"
-                  contenteditable="true"
                 ></td>
                 <td style="width:37mm;">的规定，决定给予</td>
                 <td
                   style="width:50mm;"
                   class="cellInput cellBottomLine"
                   id="cell_idx_22"
-                  contenteditable="true"
                 ></td>
                 <td style="width:28mm;">的行政处罚。</td>
               </tr>
@@ -236,7 +216,6 @@
                   style="width:113mm;"
                   id="cell_idx_25"
                   class="cellInput cellBottomLine"
-                  contenteditable="true"
                 >[RefPayUnit]</td>
               </tr>
             </table>
@@ -247,7 +226,6 @@
                   style="width:90mm;"
                   id="cell_idx_26"
                   class="cellInput cellBottomLine"
-                  contenteditable="true"
                 >[RefPayAccount]</td>
                 <td style="width:90mm;">，到期不缴每日按罚款数额的3%加处罚款。</td>
               </tr>
@@ -261,7 +239,6 @@
                   style="width:60mm;"
                   class="cellInput cellBottomLine textAlignCenter"
                   id="cell_idx_27"
-                  contenteditable="true"
                 >[RefReconsiderOrgan]</td>
                 <td style="width:30mm;">人民政府或者</td>
               </tr>
@@ -272,14 +249,12 @@
                   style="width:50mm;"
                   class="cellInput cellBottomLine textAlignCenter"
                   id="cell_idx_28"
-                  contenteditable="true"
                 >[RefDeptName]</td>
                 <td style="width:70mm;">申请行政复议，或在6个月内依法向</td>
                 <td
                   style="width:50mm;"
                   class="cellInput cellBottomLine textAlignCenter"
                   id="cell_idx_29"
-                  contenteditable="true"
                 >[RefLitigationOrgan]</td>
                 <td style="width:20mm;">人民法院</td>
               </tr>
@@ -296,7 +271,6 @@
                   style="width:400px;"
                   class="cellInput cellBottomLine textAlignCenter"
                   id="cell_idx_30"
-                  contenteditable="true"
                 ></td>
                 <td style="width:100px;">&nbsp;</td>
               </tr>
@@ -305,7 +279,6 @@
                 <td
                   class="cellInput cellBottomLine textAlignCenter"
                   id="cell_idx_31"
-                  contenteditable="true"
                 ></td>
                 <td>&nbsp;</td>
               </tr>
@@ -318,7 +291,6 @@
                   style="width:250px;"
                   class="cellInput textAlignRight"
                   id="cell_idx_32"
-                  contenteditable="true"
                 >[OrgName]</td>
                 <td style="width:100px;" class="textAlignCenter">（印章）</td>
               </tr>

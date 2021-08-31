@@ -26,7 +26,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_1"
-                  contenteditable="true"
                   align="center"
                   style="width:20%"
                   data-title="编号"
@@ -84,7 +83,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_4"
-                  contenteditable="true"
                   style="width:30%"
                   data-title="人民法院"
                   data-type="text"
@@ -96,7 +94,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_5"
-                  contenteditable="true"
                   style="width:50%"
                 ></td>
                 <td class="textAlignCenter">依法处理。</td>
@@ -109,7 +106,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_6"
-                  contenteditable="true"
                   align="center"
                   style="width:46.5%"
                   data-title="承办人（签名）"
@@ -121,7 +117,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_7"
-                  contenteditable="true"
                   align="center"
                   style="width:20%"
                   data-title="日期"
@@ -135,7 +130,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_8"
-                  contenteditable="true"
                   align="center"
                   style="width:20%"
                   data-title="分管负责人意见"
@@ -147,7 +141,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
-                  contenteditable="true"
                   align="center"
                   style="width:20%"
                   data-title="签名"
@@ -159,7 +152,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_10"
-                  contenteditable="true"
                   align="center"
                   style="width:20%"
                   data-title="日期"
@@ -173,7 +165,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_11"
-                  contenteditable="true"
                   align="center"
                   style="width:20%"
                   data-title="主要负责人意见"
@@ -185,7 +176,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_12"
-                  contenteditable="true"
                   align="center"
                   style="width:20%"
                   data-title="签名"
@@ -197,7 +187,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_13"
-                  contenteditable="true"
                   align="center"
                   style="width:20%"
                   data-title="日期"

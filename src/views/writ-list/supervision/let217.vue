@@ -108,7 +108,6 @@
                  <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_7"
-                  contenteditable="true"
                   align="center"
                   style="width:8%"
                   data-title="年"
@@ -120,7 +119,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_8"
-                  contenteditable="true"
                   align="center"
                   style="width:8%"
                   data-title="月"
@@ -132,7 +130,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
-                  contenteditable="true"
                   align="center"
                   style="width:8%"
                   data-title="日"
@@ -148,7 +145,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_10"
-                  contenteditable="true"
                   align="center"
                   style="width:40%"
                   data-title=""

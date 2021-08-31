@@ -26,7 +26,6 @@
                 <td
                   class="textAlignCenter"
                   id="cell_idx_0"
-                  contenteditable="true"
                 >（{{letData.cellIdx0}}）应急案〔{{letData.cellIdx1}}〕{{letData.cellIdx2}}号</td>
               </tr>
             </table>
@@ -37,7 +36,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_3"
-                  contenteditable="true"
                   colspan="5"
                   @click="commandFill('cellIdx3', '', 'TextItem')"
                 >{{letData.cellIdx3}}</td>
@@ -121,7 +119,6 @@
                 <td class="textPaddingLeft">保存期限：</td>
                 <td
                   class="cellInput cellBottomLine textPaddingLeft"
-                  contenteditable="true"
                   id="cell_idx_11"
                   @click="commandFill('cellIdx11', '保存期限', 'TextItem')"
                 >{{letData.cellIdx11}}</td>

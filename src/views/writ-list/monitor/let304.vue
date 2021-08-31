@@ -105,7 +105,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_7"
-                  contenteditable="true"
                   align="center"
                   style="width:85%"
                   data-title="地点"
@@ -119,7 +118,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_8"
-                  contenteditable="true"
                   align="center"
                   style="width:36%"
                   data-title="调查人（签名）"
@@ -131,7 +129,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
-                  contenteditable="true"
                   align="center"
                   style="width:28%"
                   data-title="记录人（签名）"
@@ -146,7 +143,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_10"
-                  contenteditable="true"
                   align="center"
                   style="width:20%"
                   data-title="被调查人"
@@ -158,7 +154,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_11"
-                  contenteditable="true"
                   align="center"
                   style="width:7%"
                   data-title="性别"
@@ -170,7 +165,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_12"
-                  contenteditable="true"
                   align="center"
                   style="width:7%"
                   data-title="年龄"
@@ -182,7 +176,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_13"
-                  contenteditable="true"
                   align="center"
                   style="width:26%"
                   data-title="身份证号"
@@ -198,7 +191,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_14"
-                  contenteditable="true"
                   align="center"
                   style="width:20%"
                   data-title="单位"
@@ -210,7 +202,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_15"
-                  contenteditable="true"
                   align="center"
                   style="width:19%"
                   data-title="职务（职业）"
@@ -222,7 +213,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_16"
-                  contenteditable="true"
                   align="center"
                   style="width:18%"
                   data-title="电话"
@@ -238,7 +228,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_17"
-                  contenteditable="true"
                   align="center"
                   style="width:78%"
                   data-title="住址"

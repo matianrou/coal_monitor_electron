@@ -129,7 +129,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_6"
-                  contenteditable="true"
                   align="center"
                   style="width:12%"
                   data-title="年"
@@ -141,7 +140,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_7"
-                  contenteditable="true"
                   align="center"
                   style="width:12%"
                   data-title="月"
@@ -153,7 +151,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_8"
-                  contenteditable="true"
                   align="center"
                   style="width:13%"
                   data-title="日"
@@ -220,7 +217,6 @@
                 <td
                   class="cellInput"
                   id="cell_idx_13"
-                  contenteditable="true"
                   align="right"
                   style="width:95%"
                 >{{letData.cellIdx13}}</td>
