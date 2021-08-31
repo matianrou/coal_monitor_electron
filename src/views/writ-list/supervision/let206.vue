@@ -530,7 +530,8 @@ export default {
           cellIdx14TypeTextItem: orgSysOfficeInfo.account, // 账号
           cellIdx15: orgSysOfficeInfo.accountAddress, // 地址
           cellIdx15TypeTextItem: orgSysOfficeInfo.accountAddress, // 地址
-          cellIdx16: null, //  人民政府
+          cellIdx16: orgSysOfficeInfo.goverPrefix, //人民政府
+          cellIdx16TypeTextIte: orgSysOfficeInfo.goverPrefix, //人民政府
           cellIdx17: orgSysOfficeInfo.organName, // organName
           cellIdx17TypeTextItem: orgSysOfficeInfo.organName, // 煤监机构
           cellIdx18: orgSysOfficeInfo.courtPrefix, // 人民法院
