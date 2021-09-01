@@ -25,7 +25,7 @@
                   class="cellInput "
                   id="cell_idx_0"
                   align="right"
-                  style="width:12%"
+                  style="width:20%"
                   data-title="文书号"
                   data-type="text"
                   data-src
@@ -36,7 +36,7 @@
                   class="cellInput "
                   id="cell_idx_1"
                   align="center"
-                  style="width:20%"
+                  style="width:15%"
                   data-title="文书号"
                   data-type="text"
                   data-src

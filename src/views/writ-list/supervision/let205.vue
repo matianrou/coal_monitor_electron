@@ -21,7 +21,7 @@
             <div class="stdRowH"></div>
             <table style="border:solid 0 #000;" class="docBody">
               <tr>
-                <td class="textAlignLeft" style="width:12%">时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;间：</td>
+                <td class="textAlignLeft" style="width:12%">时&nbsp;&nbsp;&nbsp;&nbsp;间：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_0"
@@ -101,7 +101,7 @@
                 <td class="textAlignLeft">分</td>
               </tr>
               <tr>
-                <td class="textAlignLeft" style="width:12%">地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点：</td>
+                <td class="textAlignLeft" style="width:12%">地&nbsp;&nbsp;&nbsp;&nbsp;点：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_7"
@@ -125,7 +125,7 @@
                   data-src
                   @click="commandFill('cellIdx8', '陈述、申辩人', 'TextItem')"
                 >{{letData.cellIdx8}}</td>
-                <td class="textAlignLeft" style="width:10%">性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：</td>
+                <td class="textAlignLeft" style="width:10%">性&nbsp;&nbsp;&nbsp;别：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
@@ -136,7 +136,7 @@
                   data-src
                   @click="commandFill('cellIdx9', '性别', 'TextItem')"
                 >{{letData.cellIdx9}}</td>
-                <td class="textAlignLeft" style="width:10%">年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;龄：</td>
+                <td class="textAlignLeft" style="width:10%">年&nbsp;&nbsp;&nbsp;龄：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_10"
@@ -173,7 +173,7 @@
                 >{{letData.cellIdx12}}</td>
               </tr>
               <tr>
-                <td class="textAlignLeft" style="width:12%">住&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址：</td>
+                <td class="textAlignLeft" style="width:12%">住&nbsp;&nbsp;&nbsp;&nbsp;址：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_13"
@@ -213,7 +213,7 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_16"
                   align="center"
-                  style="width:18%"
+                  style="width:17%"
                   data-title="承办人（签名）"
                   data-type="text"
                   data-src

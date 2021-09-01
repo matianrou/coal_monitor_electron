@@ -28,7 +28,7 @@
       </div>
       <div class="main-top-operation">
         <!-- 操作 -->
-        <el-button type="text" @click="logoutHandle">退出</el-button>
+        <!-- <el-button type="text" @click="logoutHandle">退出</el-button> -->
         <img src="@/components/assets/image/min.png" id="minbt" @click="handleWindow('minWindow')" />&nbsp;
         <img src="@/components/assets/image/maxed.png" id="maxbt" @click="handleWindow('maxWindow')" />&nbsp;
         <img src="@/components/assets/image/close.png" id="closebt" @click="handleWindow('closeWindow')" />&nbsp;&nbsp;
