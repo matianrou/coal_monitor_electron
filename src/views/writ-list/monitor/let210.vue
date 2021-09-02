@@ -421,7 +421,7 @@ export default {
       const caseId = this.corpData.caseId;
       const checkPaper = await wkPaper.findAll((item) => {
         return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo
+          item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
         );
       });
       // await wkPaper.delete(checkPaper[0].id)

@@ -153,11 +153,21 @@ export default {
       let edit = false
       let paperDoc = `paper${this.docData.docTypeNo}`
       if (this.$parent.$parent.flowStatus) {
+        // 执法工作台中进入文书编辑，判断是否可编辑
         let flowStatus = this.$parent.$parent.flowStatus
         if (!flowStatus[paperDoc]) {
           edit = true
         } else if (flowStatus[paperDoc] && flowStatus[paperDoc] === 'save') {
           edit = true
+        }
+      } else if (this.$parent.$parent.selectedPaper) {
+        // 文书管理进入文书编辑，判断是否可编辑
+        if (this.$parent.$parent.selectedPaper.delFlag === '2') {
+          // 保存时可再编辑
+          edit = true
+        } else {
+          // 已归档时则不可再编辑
+          edit = false
         }
       }
       return edit

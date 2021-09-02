@@ -311,7 +311,7 @@ export default {
       const caseId = this.corpData.caseId;
       //查询当前计划是否已做现场处理决定
       const checkPaper = await wkPaper.findAll((item) => {
-        return item.caseId === caseId && item.paperType === this.docData.docTypeNo;
+        return item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1';
       });
       // await wkPaper.delete(checkPaper[0].id)
       if (checkPaper.length > 0) {

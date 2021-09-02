@@ -161,7 +161,8 @@ export default {
       paperList: [], // 文书列表
       showTemp: null, // 展示的文书详情模板号，比如let100
       docData: {}, // 选择显示的文书基本信息编号及名称
-      DBName: this.$store.state.DBName
+      DBName: this.$store.state.DBName,
+      selectedPaper: {}, // 选择编辑的文书数据
     };
   },
   created() {
@@ -244,6 +245,7 @@ export default {
           }
         }
       })
+      this.selectedPaper = row
       // const db = new GoDB(this.DBName)
       // const wkPaper = db.table('wkPaper')
       // row.delFlag = '2'

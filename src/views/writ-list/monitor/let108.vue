@@ -400,7 +400,7 @@ export default {
       const wkPaper = db.table("wkPaper");
       const caseId = this.corpData.caseId;
       const checkPaper = await wkPaper.findAll((item) => {
-        return item.caseId === caseId && item.paperType === this.docData.docTypeNo;
+        return item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1';
       });
       if (checkPaper.length > 0) {
         // 回显

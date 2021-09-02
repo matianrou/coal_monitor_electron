@@ -227,7 +227,7 @@ export default {
       //查询当前计划是否已做文书
       const checkPaper = await wkPaper.findAll((item) => {
         return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo
+          item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
         );
       });
       // 已做文书则展示文书内容，否则创建初始版本

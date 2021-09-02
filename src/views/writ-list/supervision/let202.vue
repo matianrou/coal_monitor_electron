@@ -115,12 +115,12 @@
               </tr>
             </table>
             <div class="docTextarea">
-              
+
               调查事由：
-              <span 
+              <span
                 @click="commandFill('cellIdx8', '调查事由', 'DangerTableItem')"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
-              
+
               <div class="line"></div>
             </div>
             <!-- <table style="border:solid 0 #000;" class="docBody">
@@ -518,7 +518,7 @@ export default {
       //查询当前计划是否已做文书
       const checkPaper = await wkPaper.findAll((item) => {
         return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo
+          item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
         );
       });
       // 保存额外拼写的数据内容，用于修改隐患项时回显使用

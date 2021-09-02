@@ -92,7 +92,7 @@
             <div class="docTextarea">
               <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;法制审核意见：</span>
               <span
-                @click="commandFill('cellIdx8', '法制审核意见', 'SelectItem')"
+                @click="commandFill('cellIdx8', '法制审核意见', 'SelectInputItem')"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
               <div class="line"></div>
             </div>
@@ -351,7 +351,7 @@ export default {
       //查询当前计划是否已做文书
       const checkPaper = await wkPaper.findAll((item) => {
         return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo
+          item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
         );
       });
        // 获取笔录文书中的隐患数据和  现场检查笔录时间
@@ -408,7 +408,7 @@ export default {
           });
         });
         //5.行政相对人基本情况：煤矿名称+（煤矿基本信息字段uscCode）+（煤矿基本信息字段？）+（煤矿基本信息字段？）
-        let cellIdx4String = `${corp.corpName}社会统一信用代码是${corp.useCode}采矿许可证号是${corp.uscCode}安全生产许可证号是${corp.uscCode} `;
+        let cellIdx4String = `${corp.corpName}社会统一信用代码是${corp.useCode}采矿许可证号是${corp.uscCode ? corp.uscCode : 'XX'}安全生产许可证号是${corp.uscCode ? corp.uscCode : 'XX'} `;
         this.letData = {
           cellIdx0: null, //
           cellIdx1: null, // 编号

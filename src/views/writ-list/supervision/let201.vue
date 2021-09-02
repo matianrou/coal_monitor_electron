@@ -69,12 +69,12 @@
               </tr>
             </table>
             <div class="docTextarea">
-              
+
               案&nbsp;&nbsp;&nbsp;&nbsp;由：
-              <span 
+              <span
                 @click="commandFill('cellIdx4', '案由', 'DangerTableItem')"
               >{{ letData.cellIdx4 ? letData.cellIdx4 : '（点击编辑）'}}</span>
-              
+
               <div class="line"></div>
             </div>
             <!-- <table style="border:solid 0 #000;" class="docBody">
@@ -106,12 +106,12 @@
               </div>
             </div> -->
              <div class="docTextarea">
-              
+
               案情摘要：
-              <span 
+              <span
                 @click="commandFill('cellIdx5', '案情摘要', 'DangerTableItem')"
               >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</span>
-              
+
               <div class="line"></div>
             </div>
             <!-- <table style="border:solid 0 #000;" class="docBody">
@@ -343,7 +343,7 @@ export default {
       //查询当前计划是否已做文书
       const checkPaper = await wkPaper.findAll((item) => {
         return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo
+          item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
         );
       });
       // 保存额外拼写的数据内容，用于修改隐患项时回显使用

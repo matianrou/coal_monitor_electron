@@ -99,7 +99,7 @@
             </div>
 
             <table style="border:solid 0px #000;" class="docBody">
-              
+
               <tr>
                 <td style="width:5%"></td>
                 <td class="textAlignLeft">本机关将在七个工作日内对先行登记保存的证据依法作出处理决定。
@@ -316,7 +316,7 @@ export default {
       //查询当前计划是否已做文书
       const checkPaper = await wkPaper.findAll((item) => {
         return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo
+          item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
         );
       });
       // 已做文书则展示文书内容，否则创建初始版本

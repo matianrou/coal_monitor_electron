@@ -129,7 +129,7 @@
                 @click="commandFill('cellIdx11', '', 'TextItem')"
               >{{ letData.cellIdx11? letData.cellIdx11 : '（XX）' }}</span>
               年
-              <span 
+              <span
                 @click="commandFill('cellIdx12', '', 'TextItem')"
               >{{ letData.cellIdx12? letData.cellIdx12 : '（XX）' }}</span>
               月
@@ -137,11 +137,11 @@
                 @click="commandFill('cellIdx13', '', 'TextItem')"
               >{{ letData.cellIdx13? letData.cellIdx13 : '（XX）' }}</span>
               日
-              <span 
+              <span
                 @click="commandFill('cellIdx14', '', 'TextItem')"
               >{{ letData.cellIdx14? letData.cellIdx14 : '（XX）' }}</span>
               时
-              <span 
+              <span
                 @click="commandFill('cellIdx15', '', 'TextItem')"
               >{{ letData.cellIdx15? letData.cellIdx15 : '（XX）' }}</span>
               分起，对你单位采取
@@ -149,7 +149,7 @@
                 @click="commandFill('cellIdx16', '', 'TextItem')"
               >{{ letData.cellIdx16? letData.cellIdx16 : '（点击编辑）' }}</span>
               的措施，强制你单位履行决定。
-              
+
             </div>
 
 
@@ -164,7 +164,7 @@
                   class="textAlignLeft"
                 >关措施。</td>
               </tr>
-             
+
               <tr>
                 <td style="width:5%"></td>
                 <td
@@ -316,7 +316,7 @@ export default {
       //查询当前计划是否已做文书
       const checkPaper = await wkPaper.findAll((item) => {
         return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo
+          item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
         );
       });
       // 已做文书则展示文书内容，否则创建初始版本

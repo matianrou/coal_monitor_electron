@@ -100,15 +100,15 @@
             </table>
             <div class="docTextarea">
                 违法事实：
-              <span 
+              <span
                 @click="commandFill('cellIdx7', '违法事实', 'DangerTableItem')"
               >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
               以上事实
-              <span 
+              <span
                 @click="commandFill('cellIdx8', '法律规定', 'DangerTableItem')"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
               的规定，依据
-              <span 
+              <span
                 @click="commandFill('cellIdx9', '法律依据', 'DangerTableItem')"
               >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</span>
 
@@ -117,14 +117,14 @@
             </div>
             <div class="docTextarea">
              决定给予以下行政处罚：
-              <span 
+              <span
                 @click="commandFill('cellIdx10', '行政处罚', 'DangerTableItem')"
               >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）'}}</span>
-              
+
               <div class="line"></div>
             </div>
-            
-            
+
+
             <!-- <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">违法事实：</td>
@@ -467,7 +467,7 @@ export default {
       //查询当前计划是否已做文书
       const checkPaper = await wkPaper.findAll((item) => {
         return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo
+          item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
         );
       });
       // await wkPaper.delete(checkPaper[0].id)

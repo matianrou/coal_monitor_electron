@@ -435,6 +435,12 @@ export default {
         selectedId.push(item.treeId)
       })
       this.dataForm.tempValue.selectedIdList = selectedId
+      if (tableData.length > 0) {
+        this.selectedItem({
+          $index: 0,
+          row: tableData[0]
+        })
+      }
     },
     handleData (data, tableData) {
       // 递归遍历获取最底层数据
