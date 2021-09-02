@@ -110,8 +110,8 @@
                   @click="commandFill('cellIdx5', '日', 'TextItem')"
                 >{{letData.cellIdx5}}</td>
                 <td
-                  class="textAlignLeft"
-                >&nbsp;&nbsp;&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;至&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                  class="textAlignLeft" style="width:16%"
+                >&nbsp;&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;至&nbsp;&nbsp;&nbsp;</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_6"
@@ -171,8 +171,8 @@
                 >{{letData.cellIdx10}}</td>
                 <td class="textAlignLeft">页</td>
                 <td
-                  class="textPaddingLeft"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;归 档 日 期：&nbsp;&nbsp;</td>
+                  class="textPaddingLeft" style="width:25%"
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;归 档 日 期：&nbsp;&nbsp;</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_11"
@@ -232,12 +232,12 @@
                   data-src
                   @click="commandFill('cellIdx15', '档号', 'TextItem')"
                 >{{letData.cellIdx15}}</td>
-                <td class="textPaddingLeft" style="width:13%">&nbsp;&nbsp;保管期限：</td>
+                <td class="textPaddingLeft" style="width:14%">&nbsp;&nbsp;保管期限：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_16"
                   align="center"
-                  style="width:38%"
+                  style="width:37%"
                   data-title="保管期限"
                   data-type="textarea"
                   data-src

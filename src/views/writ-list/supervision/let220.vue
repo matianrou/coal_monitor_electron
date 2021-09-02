@@ -219,6 +219,7 @@
                   data-src
                   @click="commandFill('cellIdx30', '地址', 'TextItem')"
                 >{{ letData.cellIdx30 }}</td>
+                <td class="textAlignLeft" style="width:8%">。</td>
               </tr>
               <tr>
                 <td style="width:5%"></td>

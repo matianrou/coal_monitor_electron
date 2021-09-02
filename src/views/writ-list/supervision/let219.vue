@@ -46,7 +46,7 @@
                   class="cellInput"
                   id="cell_idx_2"
                   align="center"
-                  style="width:20%"
+                  style="width:15%"
                   data-title="文书号"
                   data-type="text"
                   data-src

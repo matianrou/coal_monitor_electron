@@ -371,7 +371,7 @@
 
             <table class="docBody">
               <hr />
-              <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份送被拟处罚</td>
+              <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份送拟处罚</td>
               <td
                 class="cellInput"
                 id="cell_idx_21"
