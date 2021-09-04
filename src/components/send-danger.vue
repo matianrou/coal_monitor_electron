@@ -30,49 +30,55 @@
                   </el-form-item>
                   <el-form-item label="编写隐患：" prop="dangerContent">
                     <el-button type="primary" @click="selectData('dangerSelect')">添加违法违规行为</el-button>
-                    <el-button>删除违法违规行为</el-button>
+                    <el-button @click="deleteDanger">删除违法违规行为</el-button>
                   </el-form-item>
                 </el-form>
               </div>
-              <div style="flex: 1;">
+              <div style="flex: 1; height: calc(100% - 200px);">
                 <el-table
-                  :data="addDangerList"
+                  :data="dataForm.dangerContent.tableData"
                   stripe
                   border
-                  style="width: 100%; height: 100%;"
-                  :header-cell-style="{background: '#f5f7fa'}">
+                  style="width: 100%;"
+                  height="100%"
+                  :header-cell-style="{background: '#f5f7fa'}"
+                  @selection-change="handleSelectionChange">
                   <el-table-column
-                    prop="personName"
+                    type="selection"
+                    width="55">
+                  </el-table-column>
+                  <el-table-column
+                    prop="itemContent"
                     label="违法违规行为"
                     header-align="center"
                     align="center">
                   </el-table-column>
                   <el-table-column
-                    prop="position"
+                    prop="confirmClause"
                     label="违法认定法条"
                     header-align="center"
                     align="center">
                   </el-table-column>
                   <el-table-column
-                    prop="officePhone"
+                    prop="onsiteBasis"
                     header-align="center"
                     align="center"
                     label="现场处理依据">
                   </el-table-column>
                   <el-table-column
-                    prop="phone"
+                    prop="onsiteDesc"
                     header-align="center"
                     align="center"
                     label="现场处理措施">
                   </el-table-column>
                   <el-table-column
-                    prop="officePhone"
+                    prop="penaltyBasis"
                     header-align="center"
                     align="center"
                     label="行政处罚依据">
                   </el-table-column>
                   <el-table-column
-                    prop="phone"
+                    prop="penaltyDesc"
                     header-align="center"
                     align="center"
                     label="行政处罚决定">
@@ -121,12 +127,12 @@
           @close="closeDialog"
         ></select-company>
         <select-danger-content
-          v-if="visible.dangerSelect"
-          :visible="visible.dangerSelect"
-          :value="dataForm.dangerList"
+          v-if="showDialog.dangerSelect"
+          :visible="showDialog.dangerSelect"
+          :value="dataForm.dangerContent"
           :corp-data="{corpId: dataForm.companyId}"
           @save="confirmDangerContent"
-          @close="closeDialog"
+          @close="closeDangerDialog"
         ></select-danger-content>
       </div>
       <span slot="footer">
@@ -141,6 +147,8 @@
 import selectPerson from '@/components/select-person'
 import selectCompany from '@/components/select-company'
 import selectDangerContent from '@/components/select-danger-content'
+import {getNowFormatTime} from '@/utils/date'
+import {getUUID} from '@/utils/index'
 export default {
   name: "SendDanger",
   components: {
@@ -162,17 +170,19 @@ export default {
         receiveName: null, // 接收人
         companyId: null, // 企业
         companyName: null, // 企业
-        dangerList: [], // 隐患项选择的idList
-        dangerContent: [], // 隐患项选择的内容列表
+        dangerContent: {
+          tableData: [],
+          selectedIdList: [], // 回显发送隐患的idList
+        }, // 隐患项选择的内容列表
       },
       rules: {},
-      addDangerList: [],
       sendDangerListHistory: [], // 历史发送隐患记录
       showDialog: {
         selectPerson: false, // 展示选择用户弹窗
         selectCompany: false, // 展示选择企业弹窗
         dangerSelect: false // 展示选择隐患项弹窗
-      }
+      },
+      selectedDangerList: [], // 选中的需要删除的隐患项列表
     };
   },
   created () {
@@ -183,6 +193,53 @@ export default {
     },
     save () {
       // 确定：发送隐患
+      let dangerContent = []
+      if (this.dataForm.dangerContent.tableData.length > 0) {
+        this.dataForm.dangerContent.tableData.map(item => {
+          let danger = {
+            HistoryId: getUUID(),
+            categoryCode: item.categoryCode,
+            confirmClause: item.confirmClause,
+            createDate: getNowFormatTime(),
+            id: item.id,
+            isNewRecord: false,
+            isOther: false,
+            isSelecte: true,
+            noItemContent: item.noItemContent,
+            onsiteBasis: item.onsiteBasis,
+            onsiteDesc: item.onsiteDesc,
+            penaltyBasis: item.penaltyBasis,
+            penaltyDesc: item.penaltyDesc,
+            updateDate: getNowFormatTime()
+          }
+          dangerContent.push(danger)
+        })
+      } else {
+        this.$message.error('请选择需要发送的隐患项！')
+        return
+      }
+      let params = {
+        postId: this.$store.state.user.userId,		// 发送人id
+        receiveId: this.dataForm.receiveId,		// 接收人id
+        name: this.dataForm.receiveName,		// name
+        companyId: this.dataForm.companyId,		// 企业id
+        companyName: this.dataForm.companyName,		// 企业名称
+        isReceive: '0',		// 0为未接收，1为已接收
+        dangerContent: JSON.stringify(dangerContent)		// 隐患内容
+      }
+      this.$http.post(`${this.DBName === 'CoalSupervisionDB' ? '/sv' : ''}/local/postdanger/save`, params)
+        .then(async ({ data }) => {
+          if (data.status === "200") {
+            this.$message.success('发送隐患成功！')
+            this.close()
+          } else {
+            this.$message.error('发送隐患失败，请再次尝试')
+          }
+        })
+        .catch((err) => {
+          this.$message.error('发送隐患失败，请再次尝试')
+          console.log('发送隐患失败:', err)
+        });
     },
     handleClick () {
       // 切换tab
@@ -199,7 +256,11 @@ export default {
       this.showDialog[type] = true
     },
     closeDialog ({page, refresh}) {
-      // 关闭选择用户、选择企业或者选择隐患项弹窗
+      // 关闭选择用户、选择企业弹窗
+      this.showDialog[page] = false
+    },
+    closeDangerDialog (page) {
+      // 关闭选择隐患项弹窗
       this.showDialog[page] = false
     },
     confirmPerson (selectedPerson) {
@@ -215,6 +276,47 @@ export default {
         this.dataForm.companyId = selectedCompany.corpId
         this.dataForm.companyName = selectedCompany.corpName
       }
+    },
+    confirmDangerContent ({data}) {
+      // 选定隐患项
+      // 保存选择的检查项
+      let tableData = []
+      // 抽取选择的检查项最底一层，作为table展示
+      this.handleData(data.selecteddangerList, tableData)
+      this.dataForm.dangerContent.tableData = tableData
+      // 遍历table获取treeId作为后续回显
+      let selectedId = []
+      tableData.length > 0 && tableData.map(item => {
+        selectedId.push(item.treeId)
+      })
+      console.log('table', tableData)
+      this.dataForm.dangerContent.selectedIdList = selectedId
+    },
+    handleData (data, tableData) {
+      // 递归遍历获取最底层数据
+      if (data.length > 0) {
+        data.map((item) => {
+          if (item.children && item.children.length > 0) {
+            this.handleData(item.children, tableData)
+          } else {
+            tableData.push(item)
+          }
+        })
+      }
+    },
+    handleSelectionChange (val) {
+      this.selectedDangerList = val
+    },
+    deleteDanger() {
+      // 删除已选中的隐患项
+      if (this.selectedDangerList.length === 0) {
+        this.$message.error('请先从下表中选择需要删除的违法违规行为！')
+        return
+      }
+      this.selectedDangerList.map(select => {
+        let index = this.dataForm.dangerContent.tableData.findIndex(danger => danger.itemCode === select.itemCode)
+        this.dataForm.dangerContent.tableData.splice(index, 1)
+      })
     }
   },
 };
