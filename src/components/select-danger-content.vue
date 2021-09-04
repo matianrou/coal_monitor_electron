@@ -101,7 +101,7 @@
         const corpBase = db.table('corpBase');
         let dangerCateData = await dangerCate.findAll((item) => item);
         let dangerListData = await dangerList.findAll((item) => item);
-        let corpBaseData = await corpBase.findAll((item) => {
+        let corpBaseData = await corpBase.find((item) => {
           return item.corpId === this.corpData.corpId
         });
         await db.close()
@@ -109,7 +109,7 @@
         this.dangerListOriginal = [...dangerCateData, ...dangerListData]
         let list = treeDataTranslate([...dangerCateData, ...dangerListData] || [], 'treeId', 'treeParentId')
         let corpTypeIndex = null
-        if (corpBaseData[0].mineMinetypeName === '井工') {
+        if (corpBaseData.mineMinetypeName === '井工') {
           // 井工检查内容
           corpTypeIndex = list.findIndex(item => item.categoryCode === '000001')
         } else {

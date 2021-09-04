@@ -158,6 +158,7 @@ import { treeDataTranslate } from '@/utils/index'
                     item.corpName.indexOf(companyName) !== -1 &&
                     item.zoneCountyId.slice(0, this.curAreaLevel) === (areaId ? areaId.slice(0, this.curAreaLevel) : item.zoneCountyId)
           }
+          // return item.delFlag === '0'
         })
         if (corpList.length > 0) {
           corpList.forEach(item => {

@@ -29,24 +29,37 @@
       <div class="main-top-operation">
         <!-- 操作 -->
         <!-- <el-button type="text" @click="logoutHandle">退出</el-button> -->
+        <i class="el-icon-s-promotion send-danger" title="隐患发送" @click="sendDanger"></i>
         <img src="@/components/assets/image/min.png" id="minbt" @click="handleWindow('minWindow')" />&nbsp;
         <img src="@/components/assets/image/maxed.png" id="maxbt" @click="handleWindow('maxWindow')" />&nbsp;
         <img src="@/components/assets/image/close.png" id="closebt" @click="handleWindow('closeWindow')" />&nbsp;&nbsp;
       </div>
     </div>
+    <send-danger
+      v-if="visible.sendDanger"
+      :visible="visible.sendDanger"
+      @close="visible.sendDanger = false"
+    ></send-danger>
   </div>
 </template>
 
 <script>
 import electronRequest from '@/utils/electronRequest'
 import { clearLoginInfo } from '@/utils'
+import sendDanger from '@/components/send-danger'
 export default {
   name: "MainTop",
+  components: {
+    sendDanger
+  },
   data() {
     return {
       activeTab: null,
       electronRequest: electronRequest,
       maxSrc: false, // 最大化和标准窗口中间切换图标
+      visible: {
+        sendDanger: false
+      }
     };
   },
   created() {
@@ -96,6 +109,10 @@ export default {
     logoutHandle () {
       clearLoginInfo()
       this.$router.replace({ name: 'Login' })
+    },
+    sendDanger () {
+      // 隐患发送
+      this.visible.sendDanger = true
     }
   },
 };
@@ -131,9 +148,17 @@ export default {
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    .send-danger {
+      font-size: 35px;
+      color: #303133;
+      margin-right: 20px;
+      cursor: pointer;
+      &:hover {
+        color: rgba(#f19716, 0.9);
+      }
+    }
   }
 }
-
 .topNav {
   color: #f7f7f7;
   text-decoration: none;
