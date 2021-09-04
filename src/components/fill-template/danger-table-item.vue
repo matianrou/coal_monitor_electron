@@ -18,6 +18,7 @@
       </div>
       <div style="margin-top: 10px;" v-if="options.showSelectDangerBtn">
         <el-button type="primary" @click="handleDialog('dangerSelect')">选择隐患内容</el-button>
+        <el-button type="primary" @click="handleDialog('receiveDanger')">隐患接收</el-button>
       </div>
       <div class="danger-table-main">
         <!-- 隐患项展示，选择 -->
@@ -237,15 +238,24 @@
       @save="handleSave"
       @close="handleClose"
     ></select-danger-content>
+    <receive-danger
+      v-if="visible.receiveDanger"
+      :visible="visible.receiveDanger"
+      :corp-data="corpData"
+      @save="handleSaveReceiveDanger"
+      @close="handleClose"
+    ></receive-danger>
   </div>
 </template>
 
 <script>
 import selectDangerContent from '../select-danger-content'
+import receiveDanger from '@/components/receive-danger'
 export default {
   name: "DangerTableItem",
   components: {
     selectDangerContent,
+    receiveDanger
   },
   props: {
     value: {
@@ -292,7 +302,8 @@ export default {
         reviewDate: null, // 复查日期
       },
       visible: {
-        dangerSelect: false,
+        dangerSelect: false, // 选择隐患
+        receiveDanger: false, // 接收隐患
       },
       dangerListTreeProps: {
         label: 'treeName',
@@ -506,6 +517,10 @@ export default {
     changeValue (val, field) {
       let index = this.dangerItemDetail.order
       this.$set(this.dataForm.tempValue.tableData, index, this.dangerItemDetail)
+    },
+    handleSaveReceiveDanger (dangerList) {
+      // 保存接收的隐患项: 放入隐患列表
+      console.log('dangerList', dangerList)
     }
   },
 };

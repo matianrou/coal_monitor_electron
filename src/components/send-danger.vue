@@ -137,7 +137,7 @@
       </div>
       <span slot="footer">
         <el-button @click="close">取消</el-button>
-        <el-button type="primary" @click="save">确定</el-button>
+        <el-button type="primary" @click="save">发送</el-button>
       </span>
     </el-dialog>
   </div>
@@ -183,6 +183,7 @@ export default {
         dangerSelect: false // 展示选择隐患项弹窗
       },
       selectedDangerList: [], // 选中的需要删除的隐患项列表
+      DBName: this.$store.state.DBName,
     };
   },
   created () {
