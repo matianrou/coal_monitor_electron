@@ -134,16 +134,13 @@
               <span
                 @click="commandFill('cellIdx8', '法制审核意见', 'TextareaItem')"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
-
               <div class="line"></div>
             </div>
              <div class="docTextarea">
                <span class="no-line">建议案件处理意见：</span>
-
               <span
                 @click="commandFill('cellIdx9', '建议案件处理意见', 'TextareaItem')"
               >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</span>
-
               <div class="line"></div>
             </div>
             <!-- <table style="border:solid 0s #000;" class="docBody">
@@ -281,9 +278,7 @@ export default {
   data() {
     return {
       letData: {},
-      options: {
-        cellIdx8: [],
-      },
+      options: {},
       editData: {}, // 回显数据
       extraData: {}, // 用于拼写隐患内容的字符集合
     };
@@ -353,20 +348,6 @@ export default {
         }。合并罚款人民币${transformNumToChinese(
           dangerObject.penaltyDescFineTotle
         )}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`;
-        // 4.法制审核意见初始化码表
-        let nowDate = getNowDate();
-        let optionList = [
-          "认为案件事实清楚，证据确凿充分，定性准确，处罚适当，程序合法，同意处罚意见。",
-          "认为案件主要事实不清，证据不足，建议继续调查或不予作出行政执法决定的建议。",
-          "认为案件定性不准，使用法律不准确，执行裁量基准不当的，建议给予XXX的行政处罚。",
-          "认为案件程序不合法的，建议进行纠正。",
-        ];
-        optionList.map((item) => {
-          this.options.cellIdx8.push({
-            name: `经${nowDate}法制审核，${item}`,
-            value: `经${nowDate}法制审核，${item}`,
-          });
-        });
         // 5.获取立案决定书编号及立案日期
         const let201Data = await wkPaper.find((item) => {
           return item.caseId === caseId && item.paperType === "4";
@@ -379,6 +360,14 @@ export default {
         let { cellIdx0, cellIdx1, cellIdx2, cellIdx3, cellIdx6, cellIdx7, cellIdx8} = let201DataPapaerContent
         let let201PaperNumber = `${cellIdx0}（${cellIdx1}）煤安立〔${cellIdx2}〕${cellIdx3}号`
         let let201Date = `${cellIdx6}年${cellIdx7}月${cellIdx8}日`
+        // 6.法制审核意见：带入行政执法决定法制审核意见书中的
+        const let203Data = await wkPaper.find((item) => {
+          return item.caseId === caseId && item.paperType === "47";
+        });
+        if (!let203Data) {
+          this.$message.info('可先填写并保存行政执法决定法制审核意见书中法制审核意见内容！')
+        }
+        let let203DataPapaerContent = let203Data ? JSON.parse(let203Data.paperContent) : {cellIdx8: ''};
         this.letData = {
           cellIdx0: null, //
           cellIdx1: null, // 编号
@@ -390,7 +379,8 @@ export default {
           cellIdx5TypeTextItem: let201Date, // 立案时间
           cellIdx6: null, // 承办人
           cellIdx7: cellIdx6String, // 违法事实及依据
-          cellIdx8: null, // 法制审核意见
+          cellIdx8: let203DataPapaerContent.cellIdx8, // 法制审核意见
+          cellIdx8TypeTextareaItem: let203DataPapaerContent.cellIdx8, // 法制审核意见
           cellIdx9: null, // 建议案件处理意见
           cellIdx10: null, // 执法相关负责人意见
           cellIdx11: null, // 签名

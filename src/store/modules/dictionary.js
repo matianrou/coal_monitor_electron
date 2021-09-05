@@ -119,7 +119,7 @@ export default {
       },
       {
         id: '30',
-        name: '陈述、申辩笔录',
+        name: '陈述申辩笔录',
         page: 'let205'
       },
       {
@@ -291,7 +291,7 @@ export default {
       },
       {
         id: '30',
-        name: '陈述、申辩笔录',
+        name: '陈述申辩笔录',
         page: 'let205'
       },
       {

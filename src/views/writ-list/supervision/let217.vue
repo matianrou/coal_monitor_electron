@@ -88,7 +88,7 @@
               >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</span>
               ，请你
               <span
-                @click="commandFill('cellIdx6', '', 'TextItem')"
+                @click="commandFill('cellIdx6', '', 'SelectItem')"
               >{{ letData.cellIdx6 }}</span>
               于
               <span
@@ -337,6 +337,16 @@ export default {
     return {
       letData: {},
       options: {
+        cellIdx6: [
+          {
+            value: '单位',
+            name: '单位'
+          },
+          {
+            value: '个人',
+            name: '个人'
+          },
+        ],
         cellIdx11: toggleDictionary,
         cellIdx12: toggleDictionary,
         cellIdx13: toggleDictionary,
@@ -372,6 +382,7 @@ export default {
           item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
         );
       });
+      // await wkPaper.delete(checkPaper[0].id)
       // 已做文书则展示文书内容，否则创建初始版本
       if (checkPaper.length > 0) {
         // 回显
@@ -397,7 +408,8 @@ export default {
           cellIdx4: corp.corpName, // 煤矿名称
           cellIdx4TypeTextItem: corp.corpName, // 煤矿名称
           cellIdx5: null, // 因XXX,
-          cellIdx6: null, // 请你XX于
+          cellIdx6: '个人', // 请你XX于
+          cellIdx6TypeSelectItem: '个人', // 请你XX于
           cellIdx7: null, // 年
           cellIdx8: null, // 月
           cellIdx9: null, // 日

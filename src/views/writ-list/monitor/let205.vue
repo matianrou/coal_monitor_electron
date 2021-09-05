@@ -1,4 +1,4 @@
-<!-- 行政处罚 一般程序 陈述、申辩笔录 -->
+<!-- 行政处罚 一般程序 陈述申辩笔录 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -17,7 +17,7 @@
               国 家 煤 矿 安 全 监 察
               <br />
             </div>
-            <div class="textAlignCenter formHeader1">陈 述、申 辩 笔 录</div>
+            <div class="textAlignCenter formHeader1">陈 述 申 辩 笔 录</div>
             <div class="stdRowH"></div>
             <table style="border:solid 0px #000;" class="docBody">
               <tr>
@@ -114,16 +114,16 @@
                 >{{letData.cellIdx7}}</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">陈述、申辩人：</td>
+                <td class="textAlignLeft">陈述申辩人：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_8"
                   align="center"
                   style="width:25%"
-                  data-title="陈述、申辩人"
+                  data-title="陈述申辩人"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx8', '陈述、申辩人', 'TextItem')"
+                  @click="commandFill('cellIdx8', '陈述申辩人', 'TextItem')"
                 >{{letData.cellIdx8}}</td>
                 <td class="textAlignLeft">性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：</td>
                 <td
@@ -232,7 +232,7 @@
                 >{{letData.cellIdx17}}</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">陈述、申辩记录：我们是</td>
+                <td class="textAlignLeft">陈述申辩记录：我们是</td>
                 <td
                   class="cellInput"
                   id="cell_idx_18"
@@ -284,7 +284,7 @@
                   data-src
                   @click="commandFill('cellIdx20', '单位/个人', 'TextItem')"
                 >{{letData.cellIdx20}}</td>
-                <td class="textAlignLeft">的陈述、申辩。</td>
+                <td class="textAlignLeft">的陈述申辩。</td>
               </tr>
             </table>
             <div
@@ -301,7 +301,7 @@
             </div>
             <table class="docBody">
               <tr>
-                <td class="textAlignLeft">备注：陈述、申辩人应在过目笔录后，签署意见，并签名押印。</td>
+                <td class="textAlignLeft">备注：陈述申辩人应在过目笔录后，签署意见，并签名押印。</td>
               </tr>
             </table>
           </div>
@@ -401,7 +401,7 @@ export default {
         });
         let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
         let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
-        // 4.陈述、申辩：煤矿名称 + '涉嫌' + 隐患描述 + '案。'
+        // 4.陈述申辩：煤矿名称 + '涉嫌' + 隐患描述 + '案。'
         let cellIdx19String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`
         // 5.单位/个人：从行政处罚告知书(paperType === '6')中获取
         const let204Data = await wkPaper.find(item => item.caseId === caseId && item.paperType === '6');
@@ -421,7 +421,7 @@ export default {
           cellIdx5: null, // 时
           cellIdx6: null, // 分
           cellIdx7: null, // 地点
-          cellIdx8: null, // 陈述、申辩人
+          cellIdx8: null, // 陈述申辩人
           cellIdx9: null, // 性别
           cellIdx10: null, // 年龄
           cellIdx11: cellIdx11String, // 工作单位

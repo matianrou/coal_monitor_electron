@@ -216,7 +216,7 @@
                   id="cell_idx_23"
                   style="width:3%;"
                   class="cellInput"
-                  @click="commandFill('cellIdx23', '', 'SelectItem')"
+                  @click="commandFill('cellIdx23', '分期缴纳罚款', 'SelectItem')"
                 >{{letData.cellIdx23}}</td>
                 <td class="textAlignLeft">分期缴纳罚款。分</td>
                 <td
@@ -474,10 +474,9 @@ export default {
     return {
       letData: {},
       options: {
-        cellIdx8: toggleDictionary,
-        cellIdx9: toggleDictionary,
-        cellIdx10: toggleDictionary,
-        cellIdx11: toggleDictionary,
+        cellIdx17: toggleDictionary,
+        cellIdx19: toggleDictionary,
+        cellIdx23: toggleDictionary,
       },
       editData: {}, // 回显数据
       visible: false,

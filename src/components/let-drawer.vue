@@ -6,7 +6,7 @@
     direction="rtl"
     :before-close="handleClose"
     :wrapperClosable="false"
-    :size="selectedData.type === 'CheckTableItem' || selectedData.type === 'DangerTableItem' || selectedData.type === 'SamplingForensicsTable' ? '80%' : '400px'">
+    :size="selectedData.type === 'CheckTableItem' || selectedData.type === 'DangerTableItem' || selectedData.type === 'SamplingForensicsTable' || selectedData.type === 'VolumesMenuTable' ? '80%' : '400px'">
     <div class="let-drawer-main">
       <div class="let-drawer-component">
         <component
@@ -51,6 +51,7 @@ export default {
     SelectItem: resolve => { require(["./fill-template/select-item"], function(SelectItem) { resolve(SelectItem);});},
     SelectInputItem: resolve => { require(["./fill-template/select-input-item"], function(SelectInputItem) { resolve(SelectInputItem);});},
     SamplingForensicsTable: resolve => { require(["./fill-template/sampling-forensics-table"], function(SamplingForensicsTable) { resolve(SamplingForensicsTable);});},
+    VolumesMenuTable: resolve => { require(["./fill-template/volumes-menu-table"], function(VolumesMenuTable) { resolve(VolumesMenuTable);});},
   },
   data() {
     return {

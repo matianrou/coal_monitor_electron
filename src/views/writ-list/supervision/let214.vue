@@ -260,12 +260,58 @@
             <div
               style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
               class="cellInput mutiLineArea"
-              @click="commandFill('cellIdx17', '编辑目录', 'TextareaItem')">
-              <div>
-                <p class="show-area-item-p">
-                  <span style="padding: 7px;">{{ letData.cellIdx17  ? letData.cellIdx17 : '点击编辑目录'}}</span>
-                </p>
-                <cell-line></cell-line>
+              @click="commandFill('cellIdx17', '编辑目录', 'VolumesMenuTable')">
+              <div style="margin-top: 10px; margin-bottom: 20px;">
+                <div v-if="letData.cellIdx17 && letData.cellIdx17.length > 0" class="show-volumes-menu">
+                  <div style="text-align: center; font-size: 20px; font-weight: 500;"><span>档案卷内目录</span></div>
+                  <el-table
+                    :data="letData.cellIdx17"
+                    stripe
+                    border
+                    style="width: 100%;"
+                    :header-cell-style="{background: '#f5f7fa', color: '#000'}">
+                    <el-table-column
+                      label="序号"
+                      type="index"
+                      width="50">
+                    </el-table-column>
+                    <el-table-column
+                      prop="paperNumber"
+                      label="文号"
+                      header-align="center"
+                      align="center">
+                    </el-table-column>
+                    <el-table-column
+                      prop="title"
+                      label="题名"
+                      header-align="center"
+                      align="center">
+                    </el-table-column>
+                    <el-table-column
+                      prop="date"
+                      header-align="center"
+                      align="center"
+                      width="190"
+                      label="日期">
+                    </el-table-column>
+                    <el-table-column
+                      prop="pageNumber"
+                      header-align="center"
+                      align="center"
+                      width="100"
+                      label="页号">
+                    </el-table-column>
+                    <el-table-column
+                      prop="note"
+                      header-align="center"
+                      align="center"
+                      label="备注">
+                    </el-table-column>
+                  </el-table>
+                </div>
+                <div v-else>
+                  <span>（点击编辑目录）</span>
+                </div>
               </div>
             </div>
           </div>
@@ -371,7 +417,10 @@ export default {
           cellIdx14: null, // 承办人（签名）
           cellIdx15: null, // 档号
           cellIdx16: null, // 保管期限
-          cellIdx17: null, // 编辑目录
+          cellIdx17: [], // 编辑目录
+          volumesMenuTable: {
+            tableData: []
+          }
         };
       }
       await db.close();
@@ -385,6 +434,13 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}Type${type}`;
+        if (key === 'cellIdx17') {
+          this.options[key] = {
+            canEdit: true,
+            page: '15',
+          }
+          dataKey = 'volumesMenuTable'
+        }
         this.$refs.letMain.commandFill(
           key,
           dataKey,
@@ -401,4 +457,27 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/assets/scss/let";
+.show-volumes-menu {
+  /deep/ .el-table td {
+    border-color: #606266!important;
+  }
+  /deep/ .el-table th.is-leaf {
+  border-color: #606266!important;
+  }
+  /deep/ .el-table--border {
+    border-color: #606266!important;
+  }
+  /deep/ .el-table--group {
+    border-color: #606266!important;
+  }
+  /deep/ .el-table--border::after {
+    background-color: #606266!important;
+  }
+  /deep/ .el-table--group::after {
+    background-color: #606266!important;
+  }
+  /deep/ .el-table::before {
+    background-color: #606266!important;
+  }
+}
 </style>

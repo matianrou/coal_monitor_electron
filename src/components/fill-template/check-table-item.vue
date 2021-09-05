@@ -2,7 +2,7 @@
 <template>
   <div style="width: 100%;">
     <div>
-      <el-button type="primary" @click="handleDialog('checkSelect')">选择检查内容</el-button>
+      <el-button v-if="options.canEdit" type="primary" @click="handleDialog('checkSelect')">选择检查内容</el-button>
     </div>
     <div>
       <div class="title">
@@ -27,10 +27,12 @@
           label="检查内容">
           <template slot-scope="scope">
             <el-input
+              v-if="options.canEdit"
               v-model="scope.row.itemContent"
               type="textarea"
               :autosize="{ minRows: 4, maxRows: 6}">
             </el-input>
+            <span v-else>{{ scope.row.itemContent }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -39,10 +41,12 @@
           label="检查主要资料及方法">
           <template slot-scope="scope">
             <el-input
+              v-if="options.canEdit"
               v-model="scope.row.basis"
               type="textarea"
               :autosize="{ minRows: 4, maxRows: 6}">
             </el-input>
+            <span v-else>{{ scope.row.basis }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -62,6 +66,7 @@
           </template>
         </el-table-column>
         <el-table-column
+          v-if="options.canEdit"
           header-align="center"
           align="left"
           width="160"
@@ -127,6 +132,14 @@ export default {
     corpData: {
       type: Object,
       default: () => {}
+    },
+    options: {
+      type: Object,
+      default: () => {
+        return {
+          canEdit: true
+        }
+      }
     }
   },
   data() {

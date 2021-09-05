@@ -157,15 +157,15 @@
                   data-src
                   @click="commandFill('cellIdx11', '记录人', 'TextItem')"
                 >{{letData.cellIdx11}}</td>
-                <td class="textAlignCenter" style="width:16%">陪同检察人员：</td>
+                <td class="textAlignCenter" style="width:16%">陪同检查人员：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_12"
                   style="width:38%"
-                  data-title="陪同检察人员"
+                  data-title="陪同检查人员"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx12', '陪同检察人员', 'TextItem')"
+                  @click="commandFill('cellIdx12', '陪同检查人员', 'TextItem')"
                 >{{letData.cellIdx12}}</td>
               </tr>
             </table>
@@ -202,15 +202,15 @@
             </div> -->
             <table style="border:solid 0 #000;" class="docBody">
               <tr>
-                <td class="textAlignLeft" style="width:25%">被检查单位负责人意见：</td>
+                <td class="textAlignLeft" style="width:25%">被检查单位意见：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_14"
                   style="width:20%"
-                  data-title="被检查单位负责人意见"
+                  data-title="被检查单位意见"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx14', '被检查单位负责人意见：', 'TextItem')"
+                  @click="commandFill('cellIdx14', '被检查单位意见', 'TextItem')"
                 >{{letData.cellIdx14}}</td>
                 <td class="textAlignCenter" style="width:17%">单位负责人签名:</td>
                 <td
@@ -326,9 +326,9 @@ export default {
           cellIdx9: null, // 检查地点
           cellIdx10: null, // 检查人
           cellIdx11: null, // 记录人
-          cellIdx12: null, // 陪同检察人员
+          cellIdx12: null, // 陪同检查人员
           cellIdx13: null, // 检查情况
-          cellIdx14: null, // 被检查单位负责人意见
+          cellIdx14: null, // 被检查单位意见
           cellIdx15: null, // 单位负责人签名
           cellIdx16: null, // 日期
           dangerItemObject: {

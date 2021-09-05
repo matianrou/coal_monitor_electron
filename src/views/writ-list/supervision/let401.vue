@@ -216,7 +216,7 @@
                 >{{letData.cellIdx16}}</td>
               </tr>
               <tr>
-                 <td style="width:5%"></td>
+                <td style="width:5%"></td>
                 <td class="textAlignLeft" style="width:18%">送件人（签名）：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -241,6 +241,32 @@
                   data-src
                   @click="commandFill('cellIdx18', '日期', 'DateItem')"
                 >{{letData.cellIdx18}}</td>
+              </tr>
+              <tr>
+                <td style="width:23%"></td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_23"
+                  align="center"
+                  style="width:35%"
+                  data-title="送件人（签名）"
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx23', '送件人（签名）', 'TextItem')"
+                >{{letData.cellIdx23}}</td>
+                <td
+                  class="textAlignLeft" style="width:14%"
+                >&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;期：</td>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_24"
+                  align="center"
+                  style="width:28%"
+                  data-title="日期"
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx24', '日期', 'DateItem')"
+                >{{letData.cellIdx24}}</td>
               </tr>
               <tr>
                 <td style="width:5%"></td>
@@ -414,6 +440,8 @@ export default {
           cellIdx16TypeTextItem: orgSysOfficeInfo.phone, // 电话
           cellIdx17: null, // 送件人（签名）
           cellIdx18: null, // 日期
+          cellIdx23: null, // 送件人（签名）
+          cellIdx24: null, // 日期
           cellIdx19: null, // 收件人（签名）
           cellIdx20: null, // 日期
           cellIdx21: null, //

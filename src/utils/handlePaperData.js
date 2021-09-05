@@ -151,7 +151,7 @@ function setDangerTableItem (data, selectedData, options) {
         string = `分别作出：${dangerObjectIndex.penaltyDesc}。合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle)}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`
       }
       break
-    case '30': // 陈述、申辩笔录
+    case '30': // 陈述申辩笔录
       string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString}案。`
       break
     case '8': // 行政处罚决定书
@@ -232,6 +232,11 @@ function setSamplingForensicsTable (data, selectedData, options) {
   }
 }
 
+function setVolumesMenuTable (data, selectedData, options) {
+  // 保存档案卷内目录
+  return data.tableData
+}
+
 export {
   setTextItem,
   setCheckItem,
@@ -244,5 +249,6 @@ export {
   setDatetimeItem,
   setSelectItem,
   setSelectInputItem,
-  setSamplingForensicsTable
+  setSamplingForensicsTable,
+  setVolumesMenuTable
 }

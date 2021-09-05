@@ -95,7 +95,8 @@ import {
   setDatetimeItem,
   setSelectItem,
   setSelectInputItem,
-  setSamplingForensicsTable
+  setSamplingForensicsTable,
+  setVolumesMenuTable
 } from "@/utils/handlePaperData";
 
 export default {
@@ -142,7 +143,8 @@ export default {
         setDatetimeItem,
         setSelectItem,
         setSelectInputItem,
-        setSamplingForensicsTable
+        setSamplingForensicsTable,
+        setVolumesMenuTable
       },
       DBName: this.$store.state.DBName
     };

@@ -37,7 +37,7 @@
                 data-title="案由"
                 data-type="textarea"
                 data-src
-                @click="commandFill('cellIdx0', '案由', 'DangerTableItem')"
+                @click="commandFill('cellIdx0', '案由', 'TextareaItem')"
               >
                 <div v-if="letData.cellIdx0 && letData.cellIdx0.length > 0">
                   <p class="show-area-item-p">
@@ -317,8 +317,8 @@ export default {
         let cellIdx0String =
           string1 + string2 + string3 + string4 + string5 + string6 + string7;
         this.letData = {
-          cellIdx0: cellIdx0String, // 案由
-          cellIdx0TypeTextareaItem: cellIdx0String, // 案由
+          cellIdx0: cellIdx0String ? cellIdx0String : '', // 案由
+          cellIdx0TypeTextareaItem: cellIdx0String ? cellIdx0String : '', // 案由
           cellIdx1: null, // 承办人意见
           cellIdx2: null, // 签名
           cellIdx3: null, // 年

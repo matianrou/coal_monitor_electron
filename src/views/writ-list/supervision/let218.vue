@@ -47,7 +47,7 @@
             <div class="docTextarea">
               <span class="no-line">案由：</span>
               <span
-                @click="commandFill('cellIdx2', '案由', 'DangerTableItem')"
+                @click="commandFill('cellIdx2', '案由', 'TextareaItem')"
               >{{ letData.cellIdx2 ? letData.cellIdx2 : '（点击编辑）' }}</span>
               <div class="line"></div>
             </div>
@@ -64,8 +64,8 @@
                   data-src
                   @click="commandFill('cellIdx3', '听证主持人', 'TextItem')"
                 >{{ letData.cellIdx3 }}</td>
-                <td class="textAlignCenter">&nbsp;&nbsp;</td>
-                <td
+                <!-- <td class="textAlignCenter">&nbsp;&nbsp;</td> -->
+                <!-- <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_4"
                   align="center"
@@ -74,7 +74,7 @@
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx4', '听证主持人', 'TextItem')"
-                >{{ letData.cellIdx4 }}</td>
+                >{{ letData.cellIdx4 }}</td> -->
                 <td class="textAlignLeft" style="width:11%">&nbsp;记录人：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -289,13 +289,21 @@ export default {
         );
         // 案由：煤矿名称 + '涉嫌' + 隐患描述 + '案。'
         let cellIdx2String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
+        // 获取听证笔录中的听证主持人和记录人
+        const let211Data = await wkPaper.find((item) => {
+          return item.caseId === caseId && item.paperType === "7";
+        });
+        let let211DataPapaerContent = let211Data ? JSON.parse(let211Data.paperContent) : {cellIdx8: '', cellIdx9: ''};
         this.letData = {
           cellIdx0: null, //
           cellIdx1: null, // 编号
           cellIdx2: cellIdx2String, // 案由
-          cellIdx3: null, // 听证主持人
-          cellIdx4: null, // 听证主持人
-          cellIdx5: null, // 记录人
+          cellIdx2TypeTextareaItem: cellIdx2String, // 案由
+          cellIdx3: let211DataPapaerContent.cellIdx8, // 听证主持人
+          cellIdx3TypeTextItem: let211DataPapaerContent.cellIdx8, // 听证主持人
+          // cellIdx4: null, // 听证主持人
+          cellIdx5: let211DataPapaerContent.cellIdx9, // 记录人
+          cellIdx5TypeTextItem: let211DataPapaerContent.cellIdx9, // 记录人
           cellIdx6: null, // 听证会基本情况摘要
           cellIdx7: null, // 听证主持人意见
           cellIdx8: null, // 听证主持人（签名）
@@ -317,14 +325,6 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}Type${type}`;
-        if (key === "cellIdx2") {
-          this.options[key] = {
-            page: "30",
-            key: key,
-            spellString: this.extraData,
-          };
-          dataKey = "dangerItemObject";
-        }
         this.$refs.letMain.commandFill(
           key,
           dataKey,

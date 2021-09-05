@@ -134,7 +134,7 @@
               <span
                 style="borderBottom:none"
                 @click="commandFill('cellIdx12', '附件：物品清单', 'SamplingForensicsTable')"
-              >{{ letData.cellIdx12 }} 物品清单》）。</span>
+              >物品清单》）。</span>
             </div>
             <table style="border:solid 0px #000;" class="docBody">
               <tr>
@@ -520,6 +520,23 @@ export default {
           this.letData[dataKey],
           this.options[key]
         );
+      } else {
+        if (key === "cellIdx12") {
+          this.options[key] = {
+            canEdit: false,
+            page: "32", // 物品清单
+            name: this.selectedType,
+          };
+          let dataKey = "SamplingForensicsTable";
+          this.$refs.letMain.commandFill(
+            key,
+            dataKey,
+            title,
+            type,
+            this.letData[dataKey],
+            this.options[key]
+          );
+        }
       }
     },
     confirm() {

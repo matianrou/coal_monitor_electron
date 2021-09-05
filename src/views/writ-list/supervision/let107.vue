@@ -487,6 +487,23 @@ export default {
           this.letData[dataKey],
           this.options[key]
         );
+      } else {
+         if (key === 'cellIdx7') {
+          // 不能编辑时，还需要查看附件
+          this.options[key] = {
+            canEdit: false,
+            page: '23', // 控制当前为抽样取证或者先行登记保存证据清单
+          }
+          let dataKey = 'SamplingForensicsTable'
+          this.$refs.letMain.commandFill(
+          key,
+          dataKey,
+          title,
+          type,
+          this.letData[dataKey],
+          this.options[key]
+        );
+        }
       }
     },
   },

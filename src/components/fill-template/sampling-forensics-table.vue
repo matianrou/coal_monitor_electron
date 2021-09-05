@@ -63,6 +63,7 @@
           </template>
         </el-table-column>
         <el-table-column
+          v-if="options.canEdit"
           fixed="right"
           header-align="center"
           align="center"
@@ -81,10 +82,12 @@
         <div v-if="options.page === '25'">
           <span>其他证据：</span>
           <el-input
+            v-if="options.canEdit"
             v-model="dataForm.tempValue.otherEvidence"
             style="width: 200px;"
             size="small">
           </el-input>
+          <span v-else>{{dataForm.tempValue.otherEvidence ? dataForm.tempValue.otherEvidence : ''}}</span>
         </div>
         <div style="margin-top: 10px;">
           <span>上述证据经核无误。</span>
@@ -94,10 +97,12 @@
         <div>
           <span>场所地点：</span>
           <el-input
+            v-if="options.canEdit"
             v-model="dataForm.tempValue.places"
             style="width: 200px;"
             size="small">
           </el-input>
+          <span v-else>{{dataForm.tempValue.places ? dataForm.tempValue.places : ''}}</span>
         </div>
         <div style="margin-top: 10px;">
           <span>上述设施、设备、器材经核无误。</span>
@@ -106,34 +111,42 @@
       <div style="margin-top: 10px;">
         <span>被{{options.page === '32' || options.page === '34' ? options.name : '取证'}}单位负责人（签名）：</span>
         <el-input
+          v-if="options.canEdit"
           v-model="dataForm.tempValue.signature"
           style="width: 200px;"
           size="small">
         </el-input>
+        <span v-else>{{dataForm.tempValue.signature ? dataForm.tempValue.signature : ''}}</span>
         <span>&nbsp;&nbsp;&nbsp;日期：</span>
         <el-date-picker
+          v-if="options.canEdit"
           v-model="dataForm.tempValue.signDate"
           type="date"
           format="yyyy年M月d日"
           value-format="yyyy年M月d日"
           size="small">
         </el-date-picker>
+        <span v-else>{{dataForm.tempValue.signDate ? dataForm.tempValue.signDate : ''}}</span>
       </div>
       <div v-if="options.page === '25' || options.page === '32' || options.page === '34'" style="margin-top: 10px;">
         <span>执法人员（签名）：</span>
         <el-input
+          v-if="options.canEdit"
           v-model="dataForm.tempValue.lawSignature"
           style="width: 200px;"
           size="small">
         </el-input>
+        <span v-else>{{dataForm.tempValue.lawSignature ? dataForm.tempValue.lawSignature : ''}}</span>
         <span>&nbsp;&nbsp;&nbsp;日期：</span>
         <el-date-picker
+          v-if="options.canEdit"
           v-model="dataForm.tempValue.lawSignDate"
           type="date"
           format="yyyy年M月d日"
           value-format="yyyy年M月d日"
           size="small">
         </el-date-picker>
+        <span v-else>{{dataForm.tempValue.lawSignDate ? dataForm.tempValue.lawSignDate : ''}}</span>
       </div>
     </div>
   </div>
@@ -177,7 +190,24 @@ export default {
           places: null, // 场所地点
         }
       },
-      colList: [
+    };
+  },
+  computed: {
+    title() {
+      let title = ''
+      if (this.options.page === '23') {
+        title = '抽样取证清单'
+      } else if (this.options.page === '25') {
+        title = '先行登记保存证据清单'
+      } else if (this.options.page === '32' || this.options.page === '34' || this.options.page === '55') {
+        title = '物品清单'
+      } else if (this.options.page === '46') {
+        title = '物品处理表'
+      }
+      return title
+    },
+    colList () {
+      let colList = [
         {
           label: '名称',
           prop: 'name',
@@ -216,29 +246,26 @@ export default {
           prop: 'num',
           width: '100',
           type: 'text',
-        },
-        {
+        }
+      ]
+      if (this.options.page === '46') {
+        // 当页面为查封(扣押)处理决定书时，最后一列为处理决定
+        colList.push({
+          label: '处理决定',
+          prop: 'desc',
+          width: '200',
+          type: 'text',
+        })
+      } else {
+        // 其他页面最后一列为备注
+        colList.push({
           label: '备注',
           prop: 'note',
           width: '200',
           type: 'text',
-        },
-      ]
-    };
-  },
-  computed: {
-    title() {
-      let title = ''
-      if (this.options.page === '23') {
-        title = '抽样取证清单'
-      } else if (this.options.page === '25') {
-        title = '先行登记保存证据清单'
-      } else if (this.options.page === '32' || this.options.page === '34' || this.options.page === '55') {
-        title = '物品清单'
-      } else if (this.options.page === '46') {
-        title = '物品处理表'
+        })
       }
-      return title
+      return colList
     }
   },
   created() {
@@ -250,17 +277,31 @@ export default {
       if (this.options.canEdit) {
         // 如果value.tableData无数据则自动添加一条
         if (this.dataForm.tempValue.tableData.length === 0) {
-          this.dataForm.tempValue.tableData.push({
-            sindex: 1, // 序号
-            name: null, // 名称
-            modelNumber: null, // 规格型号
-            manufacturer: null, // 生产厂家
-            sdate: null,  // 出厂日期
-            dw: null, // 单位
-            price: null, // 价格
-            num: null, // 数量
-            note: null, // 备注
-          })
+          if (this.options.page === '46') {
+            this.dataForm.tempValue.tableData.push({
+              sindex: 1, // 序号
+              name: null, // 名称
+              modelNumber: null, // 规格型号
+              manufacturer: null, // 生产厂家
+              sdate: null,  // 出厂日期
+              dw: null, // 单位
+              price: null, // 价格
+              num: null, // 数量
+              desc: null, // 处理决定
+            })
+          } else {
+            this.dataForm.tempValue.tableData.push({
+              sindex: 1, // 序号
+              name: null, // 名称
+              modelNumber: null, // 规格型号
+              manufacturer: null, // 生产厂家
+              sdate: null,  // 出厂日期
+              dw: null, // 单位
+              price: null, // 价格
+              num: null, // 数量
+              note: null, // 备注
+            })
+          }
         }
       }
     },

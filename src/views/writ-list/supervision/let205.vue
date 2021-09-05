@@ -1,4 +1,4 @@
-<!-- 行政处罚 听证程序  陈述、申辩笔录 -->
+<!-- 行政处罚 听证程序  陈述申辩笔录 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -17,7 +17,7 @@
               煤矿安全监管行政执法文书
               <br />
             </div>
-            <div class="textAlignCenter formHeader1">陈 述、申 辩 笔 录</div>
+            <div class="textAlignCenter formHeader1">陈 述 申 辩 笔 录</div>
             <div class="stdRowH"></div>
             <table style="border:solid 0 #000;" class="docBody">
               <tr>
@@ -114,16 +114,16 @@
                 >{{letData.cellIdx7}}</td>
               </tr>
               <tr>
-                <td class="textAlignLeft" style="width:16%">陈述、申辩人：</td>
+                <td class="textAlignLeft" style="width:16%">陈述申辩人：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_8"
                   align="center"
                   style="width:40%"
-                  data-title="陈述、申辩人"
+                  data-title="陈述申辩人"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx8', '陈述、申辩人', 'TextItem')"
+                  @click="commandFill('cellIdx8', '陈述申辩人', 'TextItem')"
                 >{{letData.cellIdx8}}</td>
                 <td class="textAlignLeft" style="width:10%">性&nbsp;&nbsp;&nbsp;别：</td>
                 <td
@@ -233,7 +233,7 @@
               </tr>
             </table>
             <div class="docTextarea">
-              陈述、申辩记录：我们是
+              陈述申辩记录：我们是
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx18', '监察员', 'TextItem')"
@@ -253,10 +253,10 @@
               style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
               class="cellInput mutiLineArea"
               id="cell_idx_21"
-              data-title="法制审核意见"
+              data-title="陈述申辩内容"
               data-type="textarea"
               data-src
-              @click="commandFill('cellIdx21', '法制审核意见', 'TextareaItem')">
+              @click="commandFill('cellIdx21', '陈述申辩内容', 'TextareaItem')">
               <p
                 style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
               >&nbsp;{{ letData.cellIdx21 ? letData.cellIdx21: '（点击编辑）' }}</p>
@@ -434,7 +434,7 @@ export default {
         }
         let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
         let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
-        // 4.陈述、申辩：煤矿名称 + '涉嫌' + 隐患描述 + '案。'
+        // 4.陈述申辩：煤矿名称 + '涉嫌' + 隐患描述 + '案。'
         let cellIdx19String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`
         // 5.单位/个人：从行政处罚告知书(paperType === '6')中获取
         const let204Data = await wkPaper.find(item => item.caseId === caseId && item.paperType === '6');
@@ -458,7 +458,7 @@ export default {
           cellIdx5: null, // 时
           cellIdx6: null, // 分
           cellIdx7: null, // 地点
-          cellIdx8: null, // 陈述、申辩人
+          cellIdx8: null, // 陈述申辩人
           cellIdx9: null, // 性别
           cellIdx10: null, // 年龄
           cellIdx11: cellIdx11String, // 工作单位

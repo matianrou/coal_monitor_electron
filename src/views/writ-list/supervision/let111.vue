@@ -17,7 +17,6 @@
             <div class="textAlignCenter formHeader3">
               <table class="docBody">
                 <tr>
-
                   <td
                     class="cellInput"
                     id="cell_idx_0"
@@ -334,6 +333,11 @@ export default {
         const orgInfo = db.table("orgInfo");
         const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
         let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {organName: '', depAddress: ''}
+        // 4.年、月、日取当前时间
+        let date = new Date()
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        let strDate = date.getDate();
         this.letData = {
           cellIdx0: null, // 停供电(停供民用爆炸物品)
           cellIdx1: num0, // 文书号
@@ -347,9 +351,12 @@ export default {
           cellIdx5TypeTextItem: num4, // 文书号
           cellIdx6: corp.corpName, // corpName
           cellIdx6TypeTextItem: corp.corpName, // corpName
-          cellIdx7: null, // 年
-          cellIdx8: null, // 月
-          cellIdx9: null, // 日
+          cellIdx7: year, // 年
+          cellIdx7TypeTextItem: year, // 年
+          cellIdx8: month, // 月
+          cellIdx8TypeTextItem: month, // 月
+          cellIdx9: strDate, // 日
+          cellIdx9TypeTextItem: strDate, // 日
           cellIdx10: null, // 依法对你单位作出XXX的决定
           cellIdx11: null, // 年
           cellIdx12: null, // 月
@@ -393,8 +400,8 @@ export default {
       this.visible = false
       this.letData.cellIdx0 = this.selectedType
       this.letData.cellIdx0TypeTextItem = this.selectedType
-      // this.letData.cellIdx3 = this.selectedType.substring(1, 2)
-      // this.letData.cellIdx3TypeTextItem = this.selectedType.substring(1, 2)
+      this.letData.cellIdx10 = this.selectedType
+      this.letData.cellIdx10TypeTextItem = this.selectedType
     }
   },
 };

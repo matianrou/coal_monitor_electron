@@ -1,4 +1,4 @@
-<!-- 现场检查 实施检查  查封(扣押)处理决定书 -->
+<!-- 现场检查 实施检查  查封（扣押）处理决定书 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -149,7 +149,7 @@
               >{{ letData.cellIdx16? letData.cellIdx16 : '（点击编辑）' }}</span>
               <span style="borderBottom:none"
                 @click="commandFill('cellIdx17', '物品清单', 'SamplingForensicsTable')"
-              >{{ letData.cellIdx17 }}物品清单》所列物品予以</span>
+              >物品清单》所列物品予以</span>
               <span style="borderBottom:none"
                 @click="commandFill('cellIdx18', '', 'TextItem')"
               >{{ letData.cellIdx18? letData.cellIdx18 : '（点击编辑）' }}</span>
@@ -159,7 +159,7 @@
               >{{ letData.cellIdx19? letData.cellIdx19 : '□' }}</span>
               第二十八条第一款第
               <span
-                @click="commandFill('cellIdx20', '年', 'TextItem')"
+                @click="commandFill('cellIdx20', '第几项', 'TextItem')"
               >{{ letData.cellIdx20 ? letData.cellIdx20 : '（点击编辑）'}}</span>
               项的规定，作出处理决定：具体处理决定详见《
               <span style="borderBottom:none"
@@ -479,6 +479,24 @@ export default {
           this.letData[dataKey],
           this.options[key]
         );
+      } else {
+        if (key === 'cellIdx17') {
+          // 不可编辑时仍然可查看附件
+          this.options[key] = {
+            canEdit: false,
+            page: this.docData.docTypeNo, // 物品清单
+            name: this.selectedType
+          }
+          let dataKey = 'SamplingForensicsTable'
+          this.$refs.letMain.commandFill(
+            key,
+            dataKey,
+            title,
+            type,
+            this.letData[dataKey],
+            this.options[key]
+          );
+        }
       }
     },
     confirm() {

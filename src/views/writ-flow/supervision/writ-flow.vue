@@ -450,7 +450,7 @@
                     :title="flowStatus.paper30 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let205','陈述、申辩笔录', '30')" class="flow-span">陈述、申辩笔录</span>
+                  <span @click="cmdEditDoc('let205','陈述申辩笔录', '30')" class="flow-span">陈述申辩笔录</span>
                 </td>
                 <td style="width:28px;">
                   <img src="../assets/image/doc-flow_r1_c5.png" style="height: 65px;" />

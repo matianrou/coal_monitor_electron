@@ -40,10 +40,10 @@
                   class="cellInput textPaddingLeft cellBottomLine oneLine"
                   id="cell_idx_1"
                   style="width:72%"
-                  data-title="监察类型或方式"
+                  data-title="监管类型或方式"
                   data-type="check"
                   data-src="let-100"
-                  @click="commandFill('cellIdx1', '监察类型或方式', 'CheckItem')"
+                  @click="commandFill('cellIdx1', '监管类型或方式', 'CheckItem')"
                 >{{ letData.cellIdx1 }}</td>
               </tr>
               <tr>
@@ -285,10 +285,10 @@ export default {
     return {
       letData: {},
       options: {
-        cellIdx1: [{ "value": "1", "name": "重点监察" }, { "value": "2", "name": "专项监察" }, { "value": "3", "name": "随机抽查" }, { "value": "4", "name": "会诊" }, { "value": "5", "name": "体检" }, { "value": "7", "name": "煤矿安全集中整治" }, { "value": "8", "name": "“一通三防”全覆盖专项监察" }, { "value": "9", "name": "水害防治专项监察" }, { "value": "10", "name": "机电设备专项监察" },
-                      { "value": "11", "name": "安全培训专项监察" }, { "value": "12", "name": "提升运输专项监察" }, { "value": "13", "name": "顶板管理专项监察" }, { "value": "14", "name": "采掘接续专项监察" }, { "value": "15", "name": "建设项目专项监察" }, { "value": "16", "name": "冲击地压防治专项监察" }, { "value": "17", "name": "超能力生产专项监察" }, { "value": "18", "name": "安全投入专项监察" },
-                      { "value": "19", "name": "安全生产主体责任专项监察" }, { "value": "20", "name": "矿领导带班下井专项监察" }, { "value": "21", "name": "安全生产许可证专项监察" }, { "value": "22", "name": "安全监控系统专项监察" }, { "value": "23", "name": "应急救援专项监察" }, { "value": "25", "name": "“互联网+ 监管” 远程监察" },
-                      { "value": "30", "name": "异地监察" }, { "value": "32", "name": "全系统各环节监察" }, { "value": "33", "name": "停产停工安全巡查" }, { "value": "26", "name": "其他专项监察" }, { "value": "6", "name": "其他" }],
+        cellIdx1: [{ "value": "1", "name": "重点监管" }, { "value": "2", "name": "专项监管" }, { "value": "3", "name": "随机抽查" }, { "value": "4", "name": "会诊" }, { "value": "5", "name": "体检" }, { "value": "7", "name": "煤矿安全集中整治" }, { "value": "8", "name": "“一通三防”全覆盖专项监管" }, { "value": "9", "name": "水害防治专项监管" }, { "value": "10", "name": "机电设备专项监管" },
+                      { "value": "11", "name": "安全培训专项监管" }, { "value": "12", "name": "提升运输专项监管" }, { "value": "13", "name": "顶板管理专项监管" }, { "value": "14", "name": "采掘接续专项监管" }, { "value": "15", "name": "建设项目专项监管" }, { "value": "16", "name": "冲击地压防治专项监管" }, { "value": "17", "name": "超能力生产专项监管" }, { "value": "18", "name": "安全投入专项监管" },
+                      { "value": "19", "name": "安全生产主体责任专项监管" }, { "value": "20", "name": "矿领导带班下井专项监管" }, { "value": "21", "name": "安全生产许可证专项监管" }, { "value": "22", "name": "安全监控系统专项监管" }, { "value": "23", "name": "应急救援专项监管" }, { "value": "25", "name": "“互联网+ 监管” 远程监管" },
+                      { "value": "30", "name": "异地监管" }, { "value": "32", "name": "全系统各环节监管" }, { "value": "33", "name": "停产停工安全巡查" }, { "value": "26", "name": "其他专项监管" }, { "value": "6", "name": "其他" }],
       },
       editData: {}, // 回显数据
     };
@@ -372,7 +372,7 @@ export default {
         this.letData = {
           cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
           cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null,
-          cellIdx1: null, // 监察类型或方式
+          cellIdx1: null, // 监管类型或方式
           cellIdx2: null, // 检查时间
           cellIdx3: sSummary ? sSummary : null, // 煤矿概况
           cellIdx3TypeTextareaItem: sSummary ? sSummary : null, // 煤矿概况
@@ -414,6 +414,15 @@ export default {
           this.letData[dataKey],
           this.options[key]
         );
+      } else {
+        console.log('key', key)
+        if (key === 'cellIdx5') {
+          let dataKey = 'checkTable'
+          this.options[key] = {
+            canEdit: false
+          }
+          this.$refs.letMain.commandFill(key, dataKey, title, type, this.letData[dataKey], this.options[key])
+        }
       }
     },
   },

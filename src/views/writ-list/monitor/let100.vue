@@ -350,6 +350,12 @@ export default {
           dataKey = 'checkTable'
         }
         this.$refs.letMain.commandFill(key, dataKey, title, type, this.letData[dataKey], this.options[key])
+      } else {
+        console.log('key', key)
+        if (key === 'cellIdx5') {
+          dataKey = 'checkTable'
+          this.$refs.letMain.commandFill(key, dataKey, title, type, this.letData[dataKey], this.options[key])
+        }
       }
     },
   },
