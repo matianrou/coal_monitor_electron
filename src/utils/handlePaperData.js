@@ -50,7 +50,7 @@ function setCheckPositionItem (data, selectedData) {
       string += coal + '采煤工作面，'
     })
     tunnellingList.length > 0 && tunnellingList.map(tunnelling => {
-      string += tunnelling + '掘进工作面，'
+      string += tunnelling ? tunnelling : '' + '掘进工作面，'
     })
     addList.length > 0 && addList.map(add => {
       string += add + '，'

@@ -223,7 +223,6 @@ export default {
           cellIdx3TypeTextareaItem: sSummary ? sSummary : null, // 煤矿概况
           cellIdx4: null, // 检查地点
           cellIdx5: [], // 检查分工明细表
-          cellIdx5TypeCheckTableItem: {}, // 检查分工明细表
           cellIdx6: corpOther, // 其他事项
           cellIdx6TypeTextItem: corpOther, // 其他事项
           cellIdx8: null, // 编制人

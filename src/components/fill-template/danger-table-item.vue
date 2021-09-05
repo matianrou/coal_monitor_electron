@@ -42,6 +42,7 @@
                   @click="selectedItem(scope)">
                   {{ `${scope.$index + 1}.${scope.row.itemContent}` }}
                 </span>
+                <i class="el-icon-remove delete-icon" title="删除" @click="deleteDangerItem(scope)"></i>
               </template>
             </el-table-column>
           </el-table>
@@ -521,6 +522,35 @@ export default {
     handleSaveReceiveDanger (dangerList) {
       // 保存接收的隐患项: 放入隐患列表
       console.log('dangerList', dangerList)
+    },
+    deleteDangerItem (scope) {
+      // 删除单条隐患项
+      this.$confirm(`是否确定删除第${scope.$index + 1}条隐患项？`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          dangerouslyUseHTMLString: true,
+          type: 'warning'
+        }).then(() => {
+          // 删除隐患项列表tableData中数据
+          this.dataForm.tempValue.tableData.splice(scope.$index, 1)
+          // 同时更改当前所有数据的order排序值
+          this.dataForm.tempValue.tableData.forEach((item, index) => {
+            item.order = index
+          })
+          // 删除选择隐患项中的idList中数据
+          let delIndex = this.dataForm.tempValue.selectedIdList.findIndex(item => item === scope.row.treeId)
+          this.dataForm.tempValue.selectedIdList.splice(delIndex, 1)
+          // 删除后重新选定index数据（默认逻辑：统一重新选择第一个隐患项）
+          if (this.dataForm.tempValue.tableData.length > 0) {
+            this.selectedItem({
+              $index: 0,
+              row: this.dataForm.tempValue.tableData[0]
+            })
+          } else {
+            this.dangerItemDetail = {}
+          }
+        }).catch(() => {
+        })
     }
   },
 };
@@ -543,6 +573,14 @@ export default {
     flex: 1;
     .active {
       color: #409EFF;
+    }
+    .delete-icon {
+      color: #F56C6C;
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      font-size: 20px;
+      cursor: pointer;
     }
   }
   .danger-table-main-content {

@@ -173,10 +173,10 @@
             <div class="page-break"></div>
             <!-- 但页面不展示 -->
             <div style="height: 0px; overflow: hidden;">
-              <div ref="cellIdx5TypeCheckTableItem" class="page page-sizeA4">
+              <div ref="checkTable" class="page page-sizeA4">
                 <div style="width: 19.5cm;">
                   <el-table
-                    :data="letData.cellIdx5TypeCheckTableItem && letData.cellIdx5TypeCheckTableItem.tableData"
+                    :data="letData.checkTable && letData.checkTable.tableData"
                     width="100%"
                     border>
                     <el-table-column
@@ -323,13 +323,13 @@ export default {
           cellIdx3TypeTextareaItem: sSummary ? sSummary : null, // 煤矿概况
           cellIdx4: null, // 检查地点
           cellIdx5: [], // 检查分工明细表
-          cellIdx5TypeCheckTableItem: {}, // 检查分工明细表
           cellIdx6: corpOther, // 其他事项
           cellIdx6TypeTextItem: corpOther, // 其他事项
           cellIdx8: null, // 编制人
           cellIdx9: null, // 编制日期
           cellIdx10: null, // 审批人
           cellIdx11: null, // 审批日期
+          checkTable: {}
         };
       }
       await db.close();
@@ -343,6 +343,9 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}Type${type}`
+        if (key === 'cellIdx5') {
+          dataKey = 'checkTable'
+        }
         this.$refs.letMain.commandFill(key, dataKey, title, type, this.letData[dataKey], this.options[key])
       }
     },

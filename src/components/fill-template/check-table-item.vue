@@ -45,6 +45,35 @@
             </el-input>
           </template>
         </el-table-column>
+        <el-table-column
+          header-align="center"
+          align="left"
+          label="分工">
+          <template slot-scope="scope">
+            <span>{{ scope.row.personNames }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          header-align="center"
+          align="left"
+          label="检查地点">
+          <template slot-scope="scope">
+            <span>{{ scope.row.positions }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          header-align="center"
+          align="left"
+          width="160"
+          label="操作">
+          <template slot-scope="scope">
+            <div>
+              <el-button type="text" size="small" @click="operation(scope, 'selectPerson')">分工</el-button>
+              <el-button type="text" size="small" @click="operation(scope, 'selectCheckPosition')">检查地点</el-button>
+              <el-button type="text" size="small" @click="deleteItem(scope)">删除</el-button>
+            </div>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <select-check-content
@@ -55,15 +84,35 @@
       @save="handleSave"
       @close="handleClose"
     ></select-check-content>
+    <select-person
+      :visible="visible.selectPerson"
+      :multi-select="true"
+      :selected-data-list="selectedRowPersonList"
+      @confirm-person="confirmPerson"
+      @close="closeSelect"
+    ></select-person>
+    <select-check-position
+      v-if="visible.selectCheckPosition"
+      :visible="visible.selectCheckPosition"
+      :corp-data="corpData"
+      :selected-check-position="selectedCheckPosition"
+      @confirm-check-position="confirmCheckPosition"
+      @close="closeSelect"
+    ></select-check-position>
   </div>
 </template>
 
 <script>
 import selectCheckContent from '../select-check-content'
+import selectPerson from '@/components/select-person'
+import selectCheckPosition from '@/components/select-check-position'
+import { setCheckPositionItem } from '@/utils/handlePaperData'
 export default {
   name: "CheckTableItem",
   components: {
     selectCheckContent,
+    selectPerson,
+    selectCheckPosition
   },
   props: {
     value: {
@@ -71,7 +120,7 @@ export default {
       default: () => {
         return {
           tableData: [],
-          selectedIdList: []
+          selectedIdList: [],
         }
       }
     },
@@ -85,11 +134,13 @@ export default {
       dataForm: {
         tempValue: {
           tableData: [],
-          selectedIdList: []
+          selectedIdList: [],
         }
       },
       visible: {
         checkSelect: false,
+        selectPerson: false,
+        selectCheckPosition: false
       },
       checkListTreeProps: {
         label: 'treeName',
@@ -99,6 +150,9 @@ export default {
         checkContent: null
       },
       editText: null, // 编辑内容
+      selectedIndex: null, // 选择的分工及选择地点的检查项index
+      selectedRowPersonList: [], // 选择的分工人员列表，用于回显
+      selectedCheckPosition: null, // 选择的检查分工数据，用于回显
     };
   },
   created() {
@@ -120,7 +174,23 @@ export default {
       let tableData = []
       // 抽取选择的检查项最底一层，作为table展示
       this.handleData(params.data.selectedcheckList, tableData)
-      this.dataForm.tempValue.tableData = tableData
+      // 设置saveTableData保存数据，过滤已有数据不做处理，新增的数据相应增加
+      let saveTableData = []
+      if (tableData.length > 0) {
+        tableData.map(item => {
+          let add = true
+          this.dataForm.tempValue.tableData.map(oldItem => {
+            if (oldItem.treeId === item.treeId) {
+              add = false
+              saveTableData.push(oldItem)
+            }
+          })
+          if (add) {
+            saveTableData.push(item)
+          }
+        })
+      }
+      this.dataForm.tempValue.tableData = saveTableData
       // 遍历table获取treeId作为后续回显
       let selectedId = []
       tableData.length > 0 && tableData.map(item => {
@@ -136,13 +206,72 @@ export default {
           if (item.children && item.children.length > 0) {
             this.handleData(item.children, tableData)
           } else {
-            tableData.push(item)
+            let itemObject = Object.assign({}, item, {
+              order: this.dangerIndex,
+              personNames: null, // 分工人员文字
+              personList: [], // 分工人员所有数据
+              positions: null, // 检查地点文字描述
+              positionData: {}, // 检查地点所有数据
+            })
+            tableData.push(itemObject)
           }
         })
-      } else {
-        tableData.push(item)
       }
     },
+    operation (scope, type) {
+      // 打开选择人员或者地点的弹窗
+      this.selectedIndex = scope.$index
+      if (type === 'selectPerson') {
+        this.selectedRowPersonList = scope.row.personList
+      } else if (type === 'selectCheckPosition') {
+        this.selectedCheckPosition = scope.row.positionData
+      }
+      this.visible[type] = true
+    },
+    closeSelect ({page, refresh}) {
+      // 关闭选择人员或者检查地点弹窗
+      this.selectedIndex = null
+      if (page === 'selectPerson') {
+        this.selectedRowPersonList = []
+      } else if (page === 'selectCheckPosition') {
+        this.selectedCheckPosition = {}
+      }
+      this.handleClose(page)
+    },
+    confirmPerson (personList) {
+      // 保存人员
+      let personNames = ''
+      if (personList.length > 0) {
+        personList.map(item => {
+          personNames += item.name + '，'
+        })
+        personNames = personNames.substring(0, personNames.length - 1)
+      }
+      let saveData = Object.assign({}, this.dataForm.tempValue.tableData[this.selectedIndex], {personNames, personList})
+      this.$set(this.dataForm.tempValue.tableData, this.selectedIndex, saveData)
+    },
+    confirmCheckPosition (positionData) {
+      // 保存检查地点数据
+      let positions = setCheckPositionItem(positionData)
+      let saveData = Object.assign({}, this.dataForm.tempValue.tableData[this.selectedIndex], {positions, positionData})
+      this.$set(this.dataForm.tempValue.tableData, this.selectedIndex, saveData)
+    },
+    deleteItem (scope) {
+      // 删除检查项
+      this.$confirm(`是否确定删除‘${scope.row.categoryName}’的检查事项？`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          dangerouslyUseHTMLString: true,
+          type: 'warning'
+        }).then(() => {
+          // 删除检查项列表tableData中数据
+          this.dataForm.tempValue.tableData.splice(scope.$index, 1)
+          // 删除选择检查项中的idList中数据
+          let delIndex = this.dataForm.tempValue.selectedIdList.findIndex(item => item === scope.row.treeId)
+          this.dataForm.tempValue.selectedIdList.splice(delIndex, 1)
+        }).catch(() => {
+        })
+    }
   },
 };
 </script>

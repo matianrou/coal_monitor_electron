@@ -155,11 +155,17 @@ export async function saveToUpload(paperId, userSessId) {
     // 检查项附件
     let CheckItemRecords = [];
     if (
-      paperContent.cellIdx5TypeCheckTableItem &&
-      paperContent.cellIdx5TypeCheckTableItem.tableData &&
-      paperContent.cellIdx5TypeCheckTableItem.tableData.length > 0
+      paperContent.checkTable &&
+      paperContent.checkTable.tableData &&
+      paperContent.checkTable.tableData.length > 0
     ) {
-      paperContent.cellIdx5TypeCheckTableItem.tableData.map((item) => {
+      paperContent.checkTable.tableData.map((item) => {
+        let personIdList = []
+        if (item.personList && item.personList.length > 0) {
+          item.personList.map(item => {
+            personIdList.push(item.no)
+          })
+        }
         let CheckItemRecord = {
           name: item.categoryName,
           basis: item.basis,
@@ -183,7 +189,7 @@ export async function saveToUpload(paperId, userSessId) {
           updateDate: item.updateDate,
           paperId: workPaper.paperId,
           groupName: workPaper.groupName,
-          personId: "[]",
+          personId: JSON.stringify(personIdList),
         };
         CheckItemRecords.push(CheckItemRecord);
       });
