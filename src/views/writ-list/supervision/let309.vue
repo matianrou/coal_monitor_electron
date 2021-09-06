@@ -212,10 +212,6 @@
                 @click="commandFill('cellIdx20', '单位', 'TextItem')"
               >{{ letData.cellIdx20 ? letData.cellIdx20 : '（点击编辑）'}}</span>
               不履行上述义务，本机关将依据《中华人民共和国行政强制法》第五十三条、第五十四条的规定，申请人民法院强制执行。
-              <span
-                class="no-underline"
-                @click="commandFill('cellIdx9', '单位', 'TextItem')"
-              >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</span>
             </div>
             <table height="30"></table>
             <table height="30"></table>

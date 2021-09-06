@@ -160,15 +160,19 @@ export default {
         this.$store.state.user.userGroupId = data.data.groupId
         this.$store.state.user.userAreaId = data.data.areaId
         this.$store.state.user.userGroupName = data.data.groupName
+        // 获取个人执法编号
+        // 有网络时，直接使用接口返回的数据
+        this.$store.state.user.userNumber = data.data.userNumber
       }).catch(err => {
         console.log('获取用户信息失败：', err)
       })
-      const db = new GoDB(this.$store.state.DBName);
-      // 个人执法编号
-      let person = db.table("person")
-      let userInfo = await person.find(item => item.no === userId)
-      this.$store.state.user.userNumber = userInfo ? userInfo.userNumber : ''
-      await db.close()
+        // 获取个人执法编号
+      // 当前没有网络的情况下，从本地库中获取：
+      // const db = new GoDB(this.$store.state.DBName);
+      // let person = db.table("person")
+      // let userInfo = await person.find(item => item.no === userId)
+      // this.$store.state.user.userNumber = userInfo ? userInfo.userNumber : ''
+      // await db.close()
     },
   },
 };

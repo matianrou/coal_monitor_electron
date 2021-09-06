@@ -252,6 +252,7 @@
 <script>
 import selectDangerContent from '../select-danger-content'
 import receiveDanger from '@/components/receive-danger'
+import GoDB from "@/utils/godb.min.js";
 export default {
   name: "DangerTableItem",
   components: {
@@ -370,7 +371,8 @@ export default {
         deviceNum: false,
         coalingFace: false,
         headingFace: false,
-      }
+      },
+      DBName: this.$store.state.DBName
     };
   },
   created() {
@@ -519,9 +521,61 @@ export default {
       let index = this.dangerItemDetail.order
       this.$set(this.dataForm.tempValue.tableData, index, this.dangerItemDetail)
     },
-    handleSaveReceiveDanger (dangerList) {
+    async handleSaveReceiveDanger (dangerList) {
       // 保存接收的隐患项: 放入隐患列表
-      console.log('dangerList', dangerList)
+      // 遍历当前隐患项，如果有已存在的隐患项则提示：是否需要覆盖，如果选择是则删除原隐患项，如果选择否则不删除原隐患项
+      await Promise.all(dangerList.map(async (receiveDanger) => {
+        let isAdd = true // 是否可以添加
+        let delIndex = null // 需要删除的index值
+        await Promise.all(this.dataForm.tempValue.tableData.map(async (danger, index) => {
+          if (receiveDanger.itemCode === danger.itemCode) {
+            await this.$confirm(`当前隐患项中已选择“${receiveDanger.noItemContent}”的相关隐患，是否覆盖原有隐患项？`, '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                dangerouslyUseHTMLString: true,
+                type: 'warning'
+              }).then(() => {
+                isAdd = true // 添加
+                // 删除当前已有隐患
+                delIndex = index
+              }).catch(() => {
+                isAdd = false // 不再添加
+              })
+          }
+        }))
+        if (delIndex) {
+          // 删除重复数据
+          this.dataForm.tempValue.selectedIdList = this.dataForm.tempValue.selectedIdList.filter(item => item !== this.dataForm.tempValue.tableData[delIndex].itemCode)
+          this.dataForm.tempValue.tableData.splice(delIndex, 1)
+        }
+        if (isAdd) {
+          // 添加
+          // 送数据库中匹配相应隐患项
+          const db = new GoDB(this.DBName);
+          const dangerList = db.table("dangerList");
+          let dangerItem = await dangerList.find(item => item.itemCode === receiveDanger.itemCode)
+          this.dataForm.tempValue.tableData.push({
+            active: false,
+            children: [],
+            coalingFace: '',
+            deviceNum: '',
+            headingFace: '',
+            isReview: '0',
+            isSerious: '0',
+            onsiteType: '',
+            reviewDate: null,
+            order: this.dataForm.tempValue.tableData.length,
+            penaltyDescFine: null,
+            treeId: dangerItem.itemCode,
+            treeName: dangerItem.itemContent,
+            treeParentId: dangerItem.categoryCode,
+            ...dangerItem
+          })
+          await db.close()
+          // 同时添加已选择的selectedIdList，已便回显
+          this.dataForm.tempValue.selectedIdList.push(receiveDanger.itemCode)
+        }
+      }))
     },
     deleteDangerItem (scope) {
       // 删除单条隐患项

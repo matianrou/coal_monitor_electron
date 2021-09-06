@@ -195,8 +195,8 @@ export default {
     save () {
       // 确定：发送隐患
       let dangerContent = []
-      if (this.dataForm.dangerContent.tableData.length > 0) {
-        this.dataForm.dangerContent.tableData.map(item => {
+      if (this.selectedDangerList.length > 0) {
+        this.selectedDangerList.map(item => {
           let danger = {
             HistoryId: getUUID(),
             categoryCode: item.categoryCode,
@@ -205,7 +205,8 @@ export default {
             id: item.id,
             isNewRecord: false,
             isOther: false,
-            isSelecte: true,
+            isSelected: false,
+            itemCode: item.itemCode,
             noItemContent: item.noItemContent,
             onsiteBasis: item.onsiteBasis,
             onsiteDesc: item.onsiteDesc,
@@ -220,6 +221,7 @@ export default {
         return
       }
       let params = {
+        id: getUUID(),
         postId: this.$store.state.user.userId,		// 发送人id
         receiveId: this.dataForm.receiveId,		// 接收人id
         name: this.dataForm.receiveName,		// name
@@ -228,7 +230,7 @@ export default {
         isReceive: '0',		// 0为未接收，1为已接收
         dangerContent: JSON.stringify(dangerContent)		// 隐患内容
       }
-      this.$http.post(`${this.DBName === 'CoalSupervisionDB' ? '/sv' : ''}/local/postdanger/save`, params)
+      this.$http.post(`${this.DBName === 'CoalSupervisionDB' ? '/sv' : ''}/local/postdanger/save?__sid=${this.$store.state.user.userSessId}`, {sendJson: true, data: params})
         .then(async ({ data }) => {
           if (data.status === "200") {
             this.$message.success('发送隐患成功！')

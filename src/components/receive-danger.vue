@@ -28,7 +28,7 @@
                     width="55">
                   </el-table-column>
                   <el-table-column
-                    prop="itemContent"
+                    prop="noItemContent"
                     label="违法违规行为"
                     header-align="center"
                     align="center">
@@ -74,7 +74,7 @@
                     prop="sendTime"
                     header-align="center"
                     align="center"
-                    width="160"
+                    width="170"
                     label="发送时间">
                   </el-table-column>
                 </el-table>
@@ -138,6 +138,8 @@ export default {
       tableData: [], // 接收隐患列表
       receiveDangerListHistory: [], // 历史发送隐患记录
       DBName: this.$store.state.DBName,
+      receiveDangerList: [], // 接收到的所有隐患数据, 用来发送隐患已接收状态
+      selectedDangerList: [], // 已选择的隐患项
     };
   },
   async created () {
@@ -147,10 +149,34 @@ export default {
     async getDangerList () {
       // 根绝当前企业及登录用户获取隐患列表
       this.loading = true
-      await this.$http.get(`${this.DBName === 'CoalSupervisionDB' ? '/sv' : ''}/local/postdanger/findAllByUserId?userId=${this.$store.state.user.userId}`)
+      await this.$http.get(`${this.DBName === 'CoalSupervisionDB' ? '/sv' : ''}/local/postdanger/findAllByUserId?__sid=${this.$store.state.user.userSessId}&userId=${this.$store.state.user.userId}&corpId=${this.corpData.corpId}`)
         .then(async ({ data }) => {
           if (data.status === "200") {
-            this.tableData = data.data
+            let dangerList = []
+            let dangerHistoryList = []
+            if (data.data && data.data.length > 0) {
+              data.data.map(item => {
+                let dangerContent = item.dangerContent ? JSON.parse(item.dangerContent) : []
+                if (dangerContent.length > 0) {
+                  dangerContent.map(danger => {
+                    // 根据隐患项中的isSelected字段判断是否为已接收字段 true为已接收，false为未接收
+                    let showData = {
+                      ...danger,
+                      name: item.name,
+                      sendTime: item.createDate
+                    }
+                    if (!danger.isSelected) {
+                      dangerList.push(showData)
+                    } else {
+                      dangerHistoryList.push(showData)
+                    }
+                  })
+                }
+              })
+            }
+            this.tableData = dangerList
+            this.receiveDangerList = data.data
+            this.receiveDangerListHistory = dangerHistoryList
           } else {
             this.$message.error('接收隐患失败，请再次尝试')
             this.tableData = []
@@ -168,9 +194,43 @@ export default {
       this.$emit('close', 'receiveDanger')
     },
     save () {
-      // 调用接口置接收隐患字段为1，如果成功则接收隐患，不成功则提示重新接收
       // 确定：接收隐患，将隐患放入隐患列表中
-      this.$emit('save', this.selectedDangerList)
+      if (this.selectedDangerList.length > 0) {
+        // 根据已选择的隐患遍历当前所有隐患，置已选择的隐患isSelected为true
+        this.receiveDangerList.length > 0 && this.receiveDangerList.forEach(receiveDanger => {
+          let dangerContent = receiveDanger.dangerContent ? JSON.parse(receiveDanger.dangerContent) : []
+          dangerContent.length > 0 && dangerContent.forEach(danger => {
+            this.selectedDangerList.map(selectedDanger => {
+              if (danger.HistoryId === selectedDanger.HistoryId) {
+                danger.isSelected = true
+              }
+            })
+          })
+          // 重新封装dangerContent大字段为json
+          receiveDanger.dangerContent = JSON.stringify(dangerContent)
+        })
+        // 调用接口重新发送隐患项，如果成功则接收隐患，不成功则提示重新接收
+        let receiveSuccess = true
+        this.receiveDangerList.length > 0 && this.receiveDangerList.map(receiveDanger => {
+          this.$http.post(`${this.DBName === 'CoalSupervisionDB' ? '/sv' : ''}/local/postdanger/save?__sid=${this.$store.state.user.userSessId}`, {sendJson: true, data: receiveDanger})
+            .then(async ({ data }) => {
+              if (data.status === "200") {
+              } else {
+                this.$message.error('隐患接收失败，请再次尝试！')
+                receiveSuccess = false
+              }
+            })
+            .catch((err) => {
+              this.$message.error('隐患接收失败，请再次尝试！')
+              console.log('隐患接收失败:', err)
+              receiveSuccess = false
+            });
+        })
+        // 接收成功后完成隐患添加至隐患列表中
+        receiveSuccess && this.$message.success('隐患接收成功！') && this.$emit('save', this.selectedDangerList) && this.close()
+      } else {
+        this.$message.error('请选择接收的隐患项！')
+      }
     },
     handleClick () {
       // 切换tab
