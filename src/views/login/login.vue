@@ -24,7 +24,7 @@
             </div>
             <div class="form-foot">
               <el-checkbox v-model="recordAccount">记住登录账号</el-checkbox>
-              <el-checkbox v-model="offLine">离线使用</el-checkbox>
+              <!-- <el-checkbox v-model="offLine">离线使用</el-checkbox> -->
             </div>
             <div class="login-btn">
               <img
@@ -180,7 +180,7 @@ export default {
 
 <style lang="scss" scoped>
 .login-main {
-  background: url('~@/assets/img/login_bg.jpg') no-repeat;
+  background: url('~@/assets/img/login_bg.png') no-repeat;
   background-position: center center;
   width: 1200px;
   height: 720px;

@@ -3,7 +3,8 @@
     <div class="main-top-main">
       <div style="margin-left: 10px;">
         <!-- 系统名称图 -->
-        <img src="@/components/assets/image/coal-logo.png" />
+        <img v-if="DBName === 'CoalSupervisionDB'" src="@/components/assets/image/supervision-logo.png" draggable="false" />
+        <img v-else src="@/components/assets/image/coal-logo.png" draggable="false" />
       </div>
       <div class="main-top-nav">
         <!-- 页签 -->
@@ -59,7 +60,8 @@ export default {
       maxSrc: false, // 最大化和标准窗口中间切换图标
       visible: {
         sendDanger: false
-      }
+      },
+      DBName: this.$store.state.DBName,
     };
   },
   created() {
