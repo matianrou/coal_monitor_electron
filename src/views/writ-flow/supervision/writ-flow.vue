@@ -49,11 +49,11 @@
               <img src="@/components/assets/image/letTitle.png" style="vertical-align:middle;" />一般检查
             </div>
             <table style="width: 626px;height:65px;border-collapse: collapse;">
-              <tr>
-                <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c1.png" style="height: 65px;" />
+              <tr class="writ-flow-row">
+                <td style="width:12px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c1.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd">
+                <td class="writ-flow-spantd writ-flow-td">
                   <img
                     v-if="flowStatus.paper22"
                     :src="require(flowStatus.paper22 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -62,10 +62,10 @@
                   />
                   <span @click="cmdEditDoc('let100','检查方案', '22')" class="flow-span">检查方案</span>
                 </td>
-                <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
+                <td style="width:28px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd-ex">
+                <td class="writ-flow-spantd-ex writ-flow-td">
                   <img
                     v-if="flowStatus.paper1"
                     :src="require(flowStatus.paper1 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -74,10 +74,10 @@
                   />
                   <span @click="cmdEditDoc('let101','现场检查记录', '1')" class="flow-span">现场检查记录</span>
                 </td>
-                <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c5.png" style="height: 65px;" />
+                <td style="width:28px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c5.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd">
+                <td class="writ-flow-spantd writ-flow-td">
                   <img
                     v-if="flowStatus.paper2"
                     :src="require(flowStatus.paper2 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -89,8 +89,8 @@
                     <br />决定书
                   </span>
                 </td>
-                <!-- <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
+                <!-- <td style="width:28px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
                 </td>-->
                 <!-- <td class="writ-flow-spantd-ex">
                   <img
@@ -104,8 +104,8 @@
                     <br />指令书
                   </span>
                 </td>-->
-                <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c7.png" style="height: 65px;" />
+                <td style="width:12px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c7.png" style="height: 100%;" />
                 </td>
               </tr>
             </table>
@@ -114,11 +114,11 @@
               <img src="@/components/assets/image/letTitle.png" style="vertical-align:middle;" />复查
             </div>
             <table style="width: 206px;height:65px;border-collapse: collapse;">
-              <tr>
-                <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c1.png" style="height: 65px;" />
+              <tr class="writ-flow-row">
+                <td style="width:12px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c1.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd">
+                <td class="writ-flow-spantd writ-flow-td">
                   <img
                     v-if="flowStatus.paper13"
                     :src="require(flowStatus.paper13 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -127,8 +127,8 @@
                   />
                   <span @click="cmdEditDoc('let104','复查意见书', '13')" class="flow-span">复查意见书</span>
                 </td>
-                <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c7.png" style="height: 65px;" />
+                <td style="width:12px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c7.png" style="height: 100%;" />
                 </td>
               </tr>
             </table>
@@ -137,11 +137,11 @@
               <img src="@/components/assets/image/letTitle.png" style="vertical-align:middle;" />实施检查
             </div>
             <table style="width: 1046px;height:65px;border-collapse: collapse;">
-              <tr>
-                <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c1.png" style="height: 65px;" />
+              <tr class="writ-flow-row">
+                <td style="width:12px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c1.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd">
+                <td class="writ-flow-spantd writ-flow-td">
                   <img
                     v-if="flowStatus.paper3"
                     :src="require(flowStatus.paper3 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -153,10 +153,10 @@
                     <br />指令书
                   </span>
                 </td>
-                <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
+                <td style="width:28px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd-ex">
+                <td class="writ-flow-spantd-ex writ-flow-td">
                   <img
                     v-if="flowStatus.paper23"
                     :src="require(flowStatus.paper23 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -165,10 +165,10 @@
                   />
                   <span @click="cmdEditDoc('let107','抽样取证通知书', '23')" class="flow-span">抽样取证通知书</span>
                 </td>
-                <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c5.png" style="height: 65px;" />
+                <td style="width:28px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c5.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd">
+                <td class="writ-flow-spantd writ-flow-td">
                   <img
                     v-if="flowStatus.paper25"
                     :src="require(flowStatus.paper25 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -180,10 +180,10 @@
                     <br />通知书
                   </span>
                 </td>
-                <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
+                <td style="width:28px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd-ex">
+                <td class="writ-flow-spantd-ex writ-flow-td">
                   <img
                     v-if="flowStatus.paper27"
                     :src="require(flowStatus.paper27 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -195,10 +195,10 @@
                     <br />处理决定书
                   </span>
                 </td>
-                <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c5.png" style="height: 65px;" />
+                <td style="width:28px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c5.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd">
+                <td class="writ-flow-spantd writ-flow-td">
                   <img
                     v-if="flowStatus.paper32"
                     :src="require(flowStatus.paper32 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -210,18 +210,18 @@
                     <br />决定书
                   </span>
                 </td>
-                <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c7.png" style="height: 65px;" />
+                <td style="width:12px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c7.png" style="height: 100%;" />
                 </td>
               </tr>
             </table>
             <br />
             <table style="width: 1046px;height:65px;border-collapse: collapse;">
-              <tr>
-                <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c1.png" style="height: 65px;" />
+              <tr class="writ-flow-row">
+                <td style="width:12px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c1.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd">
+                <td class="writ-flow-spantd writ-flow-td">
                   <img
                     v-if="flowStatus.paper45"
                     :src="require(flowStatus.paper45 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -233,10 +233,10 @@
                     <br />期限决定书
                   </span>
                 </td>
-                <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
+                <td style="width:28px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd-ex">
+                <td class="writ-flow-spantd-ex writ-flow-td">
                   <img
                     v-if="flowStatus.paper46"
                     :src="require(flowStatus.paper46 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -248,10 +248,10 @@
                     <br />决定书
                   </span>
                 </td>
-                <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c5.png" style="height: 65px;" />
+                <td style="width:28px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c5.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd">
+                <td class="writ-flow-spantd writ-flow-td">
                   <img
                     v-if="flowStatus.paper56"
                     :src="require(flowStatus.paper56 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -263,10 +263,10 @@
                     <br />爆炸物品)决定书
                   </span>
                 </td>
-                <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
+                <td style="width:28px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd-ex">
+                <td class="writ-flow-spantd-ex writ-flow-td">
                   <img
                     v-if="flowStatus.paper37"
                     :src="require(flowStatus.paper37 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -278,10 +278,10 @@
                     <br />爆炸物品)函告书
                   </span>
                 </td>
-                <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c5.png" style="height: 65px;" />
+                <td style="width:28px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c5.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd">
+                <td class="writ-flow-spantd writ-flow-td">
                   <img
                     v-if="flowStatus.paper38"
                     :src="require(flowStatus.paper38 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -293,8 +293,8 @@
                     <br />爆炸物品)函告书
                   </span>
                 </td>
-                <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c7.png" style="height: 65px;" />
+                <td style="width:12px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c7.png" style="height: 100%;" />
                 </td>
               </tr>
             </table>
@@ -305,11 +305,11 @@
               <img src="@/components/assets/image/letTitle.png" style="vertical-align:middle;" />一般程序
             </div>
             <table style="width: 836px;height:65px;border-collapse: collapse;">
-              <tr>
-                <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c1.png" style="height: 65px;" />
+              <tr class="writ-flow-row">
+                <td style="width:12px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c1.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd">
+                <td class="writ-flow-spantd writ-flow-td">
                   <img
                     v-if="flowStatus.paper4"
                     :src="require(flowStatus.paper4 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -318,10 +318,10 @@
                   />
                   <span @click="cmdEditDoc('let201','立案决定书', '4')" class="flow-span">立案决定书</span>
                 </td>
-                <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
+                <td style="width:28px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd-ex">
+                <td class="writ-flow-spantd-ex writ-flow-td">
                   <img
                     v-if="flowStatus.paper5"
                     :src="require(flowStatus.paper5 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -330,10 +330,10 @@
                   />
                   <span @click="cmdEditDoc('let202','调查询问笔录', '5')" class="flow-span">调查询问笔录</span>
                 </td>
-                <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c5.png" style="height: 65px;" />
+                <td style="width:28px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c5.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd">
+                <td class="writ-flow-spantd writ-flow-td">
                   <img
                     v-if="flowStatus.paper47"
                     :src="require(flowStatus.paper47 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -345,10 +345,10 @@
                     <br />审核意见书
                   </span>
                 </td>
-                <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
+                <td style="width:28px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd-ex">
+                <td class="writ-flow-spantd-ex writ-flow-td">
                   <img
                     v-if="flowStatus.paper48"
                     :src="require(flowStatus.paper48 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -357,16 +357,16 @@
                   />
                   <span @click="cmdEditDoc('let215','集体讨论记录', '48')" class="flow-span">集体讨论记录</span>
                 </td>
-                <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c6.png" style="height: 65px;" />
+                <td style="width:12px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c6.png" style="height: 100%;" />
                 </td>
               </tr>
               <br />
-              <tr>
-                <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c1.png" style="height: 65px;" />
+              <tr class="writ-flow-row">
+                <td style="width:12px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c1.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd">
+                <td class="writ-flow-spantd writ-flow-td">
                   <img
                     v-if="flowStatus.paper36"
                     :src="require(flowStatus.paper36 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -375,10 +375,10 @@
                   />
                   <span @click="cmdEditDoc('let216','案件处理呈报书', '36')" class="flow-span">案件处理呈报书</span>
                 </td>
-                <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
+                <td style="width:28px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd-ex">
+                <td class="writ-flow-spantd-ex writ-flow-td">
                   <img
                     v-if="flowStatus.paper6"
                     :src="require(flowStatus.paper6 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -387,10 +387,10 @@
                   />
                   <span @click="cmdEditDoc('let204','行政处罚告知书', '6')" class="flow-span">行政处罚告知书</span>
                 </td>
-                <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c5.png" style="height: 65px;" />
+                <td style="width:28px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c5.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd">
+                <td class="writ-flow-spantd writ-flow-td">
                   <img
                     v-if="flowStatus.paper8"
                     :src="require(flowStatus.paper8 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -401,10 +401,10 @@
                     行政处罚决定书
                   </span>
                 </td>
-                <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
+                <td style="width:28px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd-ex">
+                <td class="writ-flow-spantd-ex writ-flow-td">
                   <img
                     v-if="flowStatus.paper9"
                     :src="require(flowStatus.paper9 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -415,8 +415,8 @@
                     送达收执
                   </span>
                 </td>
-                <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c6.png" style="height: 65px;" />
+                <td style="width:12px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c6.png" style="height: 100%;" />
                 </td>
               </tr>
             </table>
@@ -425,11 +425,11 @@
               <img src="@/components/assets/image/letTitle.png" style="vertical-align:middle;" />听证程序
             </div>
             <table style="width: 1046px;height:65px;border-collapse: collapse;">
-              <tr>
-                <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c1.png" style="height: 65px;" />
+              <tr class="writ-flow-row">
+                <td style="width:12px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c1.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd">
+                <td class="writ-flow-spantd writ-flow-td">
                   <img
                     v-if="flowStatus.paper57"
                     :src="require(flowStatus.paper57 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -440,10 +440,10 @@
                     询问通知书
                   </span>
                 </td>
-                <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
+                <td style="width:28px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd-ex">
+                <td class="writ-flow-spantd-ex writ-flow-td">
                   <img
                     v-if="flowStatus.paper30"
                     :src="require(flowStatus.paper30 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -452,10 +452,10 @@
                   />
                   <span @click="cmdEditDoc('let205','陈述申辩笔录', '30')" class="flow-span">陈述申辩笔录</span>
                 </td>
-                <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c5.png" style="height: 65px;" />
+                <td style="width:28px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c5.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd">
+                <td class="writ-flow-spantd writ-flow-td">
                   <img
                     v-if="flowStatus.paper28"
                     :src="require(flowStatus.paper28 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -466,10 +466,10 @@
                     听证通知书
                   </span>
                 </td>
-                <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
+                <td style="width:28px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd-ex">
+                <td class="writ-flow-spantd-ex writ-flow-td">
                   <img
                     v-if="flowStatus.paper29"
                     :src="require(flowStatus.paper29 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -480,10 +480,10 @@
                     不予受理听证<br />申请通知书
                   </span>
                 </td>
-                <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c5.png" style="height: 65px;" />
+                <td style="width:28px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c5.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd">
+                <td class="writ-flow-spantd writ-flow-td">
                   <img
                     v-if="flowStatus.paper7"
                     :src="require(flowStatus.paper7 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -494,10 +494,10 @@
                     听证笔录
                   </span>
                 </td>
-                <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
+                <td style="width:28px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd-ex">
+                <td class="writ-flow-spantd-ex writ-flow-td">
                   <img
                     v-if="flowStatus.paper49"
                     :src="require(flowStatus.paper49 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -508,8 +508,8 @@
                     听证会报告书
                   </span>
                 </td>
-                <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c6.png" style="height: 65px;" />
+                <td style="width:12px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c6.png" style="height: 100%;" />
                 </td>
               </tr>
             </table>
@@ -518,11 +518,11 @@
               <img src="@/components/assets/image/letTitle.png" style="vertical-align:middle;" />案件结案
             </div>
             <table style="width: 1046px;height:65px;border-collapse: collapse;">
-              <tr>
-                <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c1.png" style="height: 65px;" />
+              <tr class="writ-flow-row">
+                <td style="width:12px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c1.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd">
+                <td class="writ-flow-spantd writ-flow-td">
                   <img
                     v-if="flowStatus.paper50"
                     :src="require(flowStatus.paper50 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -533,10 +533,10 @@
                     罚款缴纳催告书
                   </span>
                 </td>
-                <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
+                <td style="width:28px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd-ex">
+                <td class="writ-flow-spantd-ex writ-flow-td">
                   <img
                     v-if="flowStatus.paper51"
                     :src="require(flowStatus.paper51 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -547,10 +547,10 @@
                     加处罚款决定书
                   </span>
                 </td>
-                <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c5.png" style="height: 65px;" />
+                <td style="width:28px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c5.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd">
+                <td class="writ-flow-spantd writ-flow-td">
                   <img
                     v-if="flowStatus.paper52"
                     :src="require(flowStatus.paper52 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -561,10 +561,10 @@
                     延期（分期）缴纳<br />罚款决定书
                   </span>
                 </td>
-                <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
+                <td style="width:28px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd-ex">
+                <td class="writ-flow-spantd-ex writ-flow-td">
                   <img
                     v-if="flowStatus.paper14"
                     :src="require(flowStatus.paper14 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -575,10 +575,10 @@
                     案件结案报告
                   </span>
                 </td>
-                <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c5.png" style="height: 65px;" />
+                <td style="width:28px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c5.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd">
+                <td class="writ-flow-spantd writ-flow-td">
                   <img
                     v-if="flowStatus.paper15"
                     :src="require(flowStatus.paper15 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -589,8 +589,8 @@
                     执法案卷（首页）<br />及目录
                   </span>
                 </td>
-                <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c7.png" style="height: 65px;" />
+                <td style="width:12px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c7.png" style="height: 100%;" />
                 </td>
               </tr>
             </table>
@@ -601,11 +601,11 @@
               <img src="@/components/assets/image/letTitle.png" style="vertical-align:middle;" />行政强制执行
             </div>
             <table style="width: 626px;height:65px;border-collapse: collapse;">
-              <tr>
-                <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c1.png" style="height: 65px;" />
+              <tr class="writ-flow-row">
+                <td style="width:12px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c1.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd">
+                <td class="writ-flow-spantd writ-flow-td">
                   <img
                     v-if="flowStatus.paper53"
                     :src="require(flowStatus.paper53 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -616,10 +616,10 @@
                     行政强制执行<br />事先催告书
                   </span>
                 </td>
-                <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
+                <td style="width:28px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd-ex">
+                <td class="writ-flow-spantd-ex writ-flow-td">
                   <img
                     v-if="flowStatus.paper18"
                     :src="require(flowStatus.paper18 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -631,10 +631,10 @@
                     <br />申请书
                   </span>
                 </td>
-                <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c5.png" style="height: 65px;" />
+                <td style="width:28px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c5.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd">
+                <td class="writ-flow-spantd writ-flow-td">
                   <img
                     v-if="flowStatus.paper54"
                     :src="require(flowStatus.paper54 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -645,8 +645,8 @@
                     行政执法有关事项<br />审批报告
                   </span>
                 </td>
-                <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c7.png" style="height: 65px;" />
+                <td style="width:12px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c7.png" style="height: 100%;" />
                 </td>
               </tr>
             </table>
@@ -657,11 +657,11 @@
               <img src="@/components/assets/image/letTitle.png" style="vertical-align:middle;" />其他
             </div>
             <table style="width:626px;height:65px;border-collapse: collapse;">
-              <tr>
-                <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c1.png" style="height: 65px;" />
+              <tr class="writ-flow-row">
+                <td style="width:12px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c1.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd">
+                <td class="writ-flow-spantd writ-flow-td">
                   <img
                     v-if="flowStatus.paper19"
                     :src="require(flowStatus.paper19 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -670,10 +670,10 @@
                   />
                   <span @click="cmdEditDoc('let401','移送书', '19')" class="flow-span">移送书</span>
                 </td>
-                <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
+                <td style="width:28px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd-ex">
+                <td class="writ-flow-spantd-ex writ-flow-td">
                   <img
                     v-if="flowStatus.paper20"
                     :src="require(flowStatus.paper20 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -682,10 +682,10 @@
                   />
                   <span @click="cmdEditDoc('let402','涉嫌犯罪案件移送书', '20')" class="flow-span">涉嫌犯罪案件<br />移送书</span>
                 </td>
-                <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c5.png" style="height: 65px;" />
+                <td style="width:28px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c5.png" style="height: 100%;" />
                 </td>
-                <td class="writ-flow-spantd">
+                <td class="writ-flow-spantd writ-flow-td">
                   <img
                     v-if="flowStatus.paper55"
                     :src="require(flowStatus.paper55 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
@@ -696,10 +696,10 @@
                     鉴定委托书
                   </span>
                 </td>
-                <!--<td style="width:28px;"><img src="../assets/image/doc-flow_r1_c3-1.png" style="height: 65px;" /></td>
+                <!--<td style="width:28px;" class="writ-flow-td"><img src="../assets/image/doc-flow_r1_c3-1.png" style="height: 100%;" /></td>
                 <td style="width:182px;background:url(images/doc-flow_r1_c4.png);background-repeat:no-repeat;text-align:center;color:#fff;"><a class="{let-403}" href="#">查封扣押处理<br />决定书</a></td>-->
-                <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c7.png" style="height: 65px;" />
+                <td style="width:12px;" class="writ-flow-td">
+                  <img src="../assets/image/doc-flow_r1_c7.png" style="height: 100%;" />
                 </td>
               </tr>
             </table>
@@ -758,9 +758,21 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/assets/scss/main";
+.writ-flow-row {
+  display: flex;
+  align-items: center;
+  height: 70px;
+  .writ-flow-td {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
 .writ-flow-spantd {
   width: 182px;
   background: url("~../assets/image/doc-flow_r1_c2.png") no-repeat;
+  background-size: 100% 100%;
   text-align: center;
   color: #fff;
   position: relative;
@@ -774,6 +786,7 @@ export default {
 .writ-flow-spantd-ex {
   width: 182px;
   background: url("~../assets/image/doc-flow_r1_c4.png") no-repeat;
+  background-size: 100% 100%;
   text-align: center;
   color: #fff;
   position: relative;
