@@ -130,6 +130,7 @@ async function doPlanDb(resId, data) {
 			const item = await docPlan.get({ no: obj.id });
 			if (!item) {
 				arrPlan.push({
+          "no": obj.id,
 					"dbplanId": obj.id,
 					"createDate": obj.createDate,
 					"updateDate": obj.updateDate,

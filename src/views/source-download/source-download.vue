@@ -27,7 +27,7 @@
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
           <td>机构资源</td>
-          <td>2020/10/02 18:20:36</td>
+          <td>{{updateTime.org}}</td>
           <td style="text-align:center;" id="cell-org-down">
             <el-button
               type="text"
@@ -40,7 +40,7 @@
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
           <td>用户资源</td>
-          <td>2020/11/15 14:48:42</td>
+          <td>{{updateTime.person}}</td>
           <td style="text-align:center;" id="cell-person-down">
             <el-button
               type="text"
@@ -61,7 +61,7 @@
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
           <td>其它资源</td>
-          <td>2020/11/15 13:57:22</td>
+          <td>{{updateTime.plan}}</td>
           <td style="text-align:center;" id="cell-plan-down">
             <el-button
               type="text"
@@ -82,7 +82,7 @@
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
           <td>企业列表</td>
-          <td>2020/11/15 15:10:25</td>
+          <td>{{updateTime.corp}}</td>
           <td style="text-align:center;" id="cell-corp-down">
             <el-button
               type="text"
@@ -95,13 +95,13 @@
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
           <td>行政区域</td>
-          <td>2020/11/15 15:10:25</td>
-          <td style="text-align:center;" id="cell-EnterpriseList-down">
+          <td>{{updateTime.enterpriseList}}</td>
+          <td style="text-align:center;" id="cell-enterpriseList-down">
             <el-button
               type="text"
               :loading="loading.download"
-              id="btn-EnterpriseList-down"
-              @click="resDownload('EnterpriseList')"
+              id="btn-enterpriseList-down"
+              @click="resDownload('enterpriseList')"
             >下载</el-button>
           </td>
         </tr>
@@ -116,52 +116,52 @@
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
           <td>检查项类别</td>
-          <td>2020/10/02 18:20:36</td>
-          <td style="text-align:center;" id="cell-check-cate-down">
+          <td>{{updateTime.checkCate}}</td>
+          <td style="text-align:center;" id="cell-checkCate-down">
             <el-button
               type="text"
               :loading="loading.download"
-              id="btn-check-cate-down"
-              @click="resDownload('check-cate')"
+              id="btn-checkCate-down"
+              @click="resDownload('checkCate')"
             >下载</el-button>
           </td>
         </tr>
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
           <td>检查项内容</td>
-          <td>2020/10/02 18:20:36</td>
-          <td style="text-align:center;" id="cell-check-list-down">
+          <td>{{updateTime.checkList}}</td>
+          <td style="text-align:center;" id="cell-checkList-down">
             <el-button
               type="text"
               :loading="loading.download"
-              id="btn-check-list-down"
-              @click="resDownload('check-list')"
+              id="btn-checkList-down"
+              @click="resDownload('checkList')"
             >下载</el-button>
           </td>
         </tr>
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
           <td>隐患类别</td>
-          <td>2020/10/02 18:20:36</td>
-          <td style="text-align:center;" id="cell-danger-cate-down">
+          <td>{{updateTime.dangerCate}}</td>
+          <td style="text-align:center;" id="cell-dangerCate-down">
             <el-button
               type="text"
               :loading="loading.download"
-              id="btn-danger-cate-down"
-              @click="resDownload('danger-cate')"
+              id="btn-dangerCate-down"
+              @click="resDownload('dangerCate')"
             >下载</el-button>
           </td>
         </tr>
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
           <td>隐患内容</td>
-          <td>2020/10/02 18:20:36</td>
-          <td style="text-align:center;" id="cell-danger-list-down">
+          <td>{{updateTime.dangerList}}</td>
+          <td style="text-align:center;" id="cell-dangerList-down">
             <el-button
               type="text"
               :loading="loading.download"
-              id="btn-danger-list-down"
-              @click="resDownload('danger-list')"
+              id="btn-dangerList-down"
+              @click="resDownload('dangerList')"
             >下载</el-button>
           </td>
         </tr>
@@ -176,7 +176,7 @@
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
           <td>个人账号文书资源</td>
-          <td>2020/10/02 18:20:36</td>
+          <td>{{updateTime.doc}}</td>
           <td style="text-align:center;" id="cell-doc-down">
             <el-button
               type="text"
@@ -201,7 +201,9 @@
 
 <script>
 import { doOrgDb, doPersonDb, doPlanDb, doCorpDb, doEnterpriseList, doCheckCateDb, doCheckListDb, doDangerCateDb, doDangerListDb, doDocDb } from "@/utils/downloadSource"
-
+import GoDB from "@/utils/godb.min.js";
+import { getUUID } from '@/utils/index'
+import { getNowFormatTime } from '@/utils/date'
 export default {
   name: "SourceDownload",
   async beforeRouteLeave(to, from, next){
@@ -226,11 +228,52 @@ export default {
     return {
       loading: {
         download: false,
+      },
+      DBName: this.$store.state.DBName,
+      updateTime: {
+        id: null,
+        org: null,
+        person: null,
+        plan: null,
+        corp: null,
+        enterpriseList: null,
+        checkCate: null,
+        checkList: null,
+        dangerCate: null,
+        dangerList: null,
+        doc: null,
       }
     };
   },
-  created() {},
+  async created() {
+    await this.init()
+  },
   methods: {
+    async init () {
+      // 初始化更新时间
+      const db = new GoDB(this.DBName);
+      const sourceDownload = db.table('sourceDownload')
+      let downloadData = await sourceDownload.find(item => item)
+      if (downloadData) {
+        this.updateTime = downloadData
+      } else {
+        this.updateTime = {
+          id: getUUID(),
+          org: '未下载',
+          person: '未下载',
+          plan: '未下载',
+          corp: '未下载',
+          enterpriseList: '未下载',
+          checkCate: '未下载',
+          checkList: '未下载',
+          dangerCate: '未下载',
+          dangerList: '未下载',
+          doc: '未下载',
+        }
+        await sourceDownload.add(this.updateTime)
+      }
+      await db.close()
+    },
     /*! *****************************************************************************
     资源下载、任务/活动创建、文书保存及归档
     ***************************************************************************** */
@@ -266,21 +309,21 @@ export default {
           uri +=
             "/local/corp/list?__sid=" + userSessId + "&officeId=" + userGroupId;
           break;
-        case "check-cate": //根据机构id获取全部检查类别
+        case "checkCate": //根据机构id获取全部检查类别
           uri +=
             "/local/schema/getCategoryAll?__sid=" +
             userSessId +
             "&officeId=" +
             userGroupId;
           break;
-        case "check-list": //根据机构id获取全部检查内容
+        case "checkList": //根据机构id获取全部检查内容
           uri +=
             "/local/schema/getItemAll?__sid=" +
             userSessId +
             "&officeId=" +
             userGroupId;
           break;
-        case "danger-cate":
+        case "dangerCate":
           //根据机构id获取全部隐患类别
           uri +=
             "/local/statute/getCategoryAll?__sid=" +
@@ -288,7 +331,7 @@ export default {
             "&officeId=" +
             userGroupId;
           break;
-        case "danger-list":
+        case "dangerList":
           //根据机构id获取全部隐患内容
           uri +=
             "/local/statute/getItemContentList?__sid=" +
@@ -305,7 +348,7 @@ export default {
             userId +
             "&officeId=&caseId=&flag=false&pageNo=0&pageSize=1000";
           break;
-        case "EnterpriseList":
+        case "enterpriseList":
           //文书信息分页下载接口//文书信息分页下载接口
           uri += "/local/area/list?__sid=" + userSessId;
           break;
@@ -342,23 +385,23 @@ export default {
                   await doCorpDb(resId, response.data.data);
                   this.$message.success('“企业资源”已经下载完毕。');
                   break;
-                case "EnterpriseList":
+                case "enterpriseList":
                   await doEnterpriseList(resId, response.data.data);
                   this.$message.success('“行政区域”已经下载完毕。');
                   break;
-                case "check-cate":
+                case "checkCate":
                   await doCheckCateDb(resId, response.data.data);
                   this.$message.success('“检查项类别”已经下载完毕。');
                   break;
-                case "check-list":
+                case "checkList":
                   await doCheckListDb(resId, response.data.data);
                   this.$message.success('“检查项内容”已经下载完毕。');
                   break;
-                case "danger-cate":
+                case "dangerCate":
                   await doDangerCateDb(resId, response.data.data);
                   this.$message.success('“隐患类别”已经下载完毕。');
                   break;
-                case "danger-list":
+                case "dangerList":
                   await doDangerListDb(resId, response.data.data);
                   this.$message.success('“隐患内容”已经下载完毕。');
                   break;
@@ -370,6 +413,8 @@ export default {
             }
             // 下载完毕
             document.getElementById('cell-' + resId + '-down').innerHTML = "下载完毕";
+            // 保存更新时间：
+            this.handleUpdateTime(resId)
             this.loading.download = false
           }
         })
@@ -380,10 +425,13 @@ export default {
           this.loading.download = false
         });
     },
-    saveDBData(listData, ) {
-      if (listData && listData.length > 0) {
-        listData
-      }
+    async handleUpdateTime(resId) {
+      // 根据更新的resId为key更新updateTime为当前时间
+      const db = new GoDB(this.DBName);
+      const sourceDownload = db.table('sourceDownload')
+      this.updateTime[resId] = getNowFormatTime()
+      await sourceDownload.put(this.updateTime)
+      await db.close()
     }
   },
 };
