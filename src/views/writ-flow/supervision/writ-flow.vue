@@ -736,7 +736,7 @@ export default {
       if (this.activeFlowTab !== `flow-${tab}`)
         this.activeFlowTab = `flow-${tab}`;
     },
-    async cmdEditDoc(letId, docTypeName, docTypeNo) {
+    async cmdEditDoc(letId, docTypeName, docTypeNo, isCreated = false) {
       if (this.corpData.caseId) {
         //显示文书模板（制作文书）
         this.$emit("change-page", {
@@ -747,6 +747,7 @@ export default {
               docTypeNo: docTypeNo,
               docTypeName: docTypeName,
             },
+            isCreated
           },
         });
       } else {
@@ -761,8 +762,8 @@ export default {
           dangerouslyUseHTMLString: true,
           type: 'warning'
         }).then(() => {
-          // 进入文书页面
-          this.cmdEditDoc(letId, docTypeName, docTypeNo)
+          // 进入文书页面,isCreated传true
+          this.cmdEditDoc(letId, docTypeName, docTypeNo, true)
         }).catch(() => {
         })
     }

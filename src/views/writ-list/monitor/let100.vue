@@ -227,6 +227,10 @@ export default {
           docTypeName: null
         }
       }
+    },
+    isCreated: {
+      type: Boolean,
+      default: false
     }
   },
   components: {
@@ -270,7 +274,7 @@ export default {
         return item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1';
       });
       // 已做文书则展示文书内容，否则创建初始版本
-      if (checkPaper.length > 0) {
+      if (checkPaper.length > 0 && !this.isCreated) {
         // 回显
         this.letData = JSON.parse(checkPaper[0].paperContent)
         this.editData = checkPaper[0]

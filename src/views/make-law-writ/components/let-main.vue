@@ -119,7 +119,7 @@ export default {
       // 编辑回显数据
       type: Object,
       default: () => {},
-    },
+    }
   },
   data() {
     return {
@@ -176,12 +176,8 @@ export default {
     }
   },
   created() {
-    this.init()
   },
   methods: {
-    init () {
-      // 初始化数据，判断当前是新增文书或者编辑文书
-    },
     cmdDocBack() {
       this.$emit("go-back", { page: "writFlow" });
     },

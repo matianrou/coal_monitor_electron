@@ -46,6 +46,7 @@
         :is="showTemp"
         :corp-data="corpData"
         :doc-data="docData"
+        :paper-data="paperData"
         @go-back="changePage">
       </component>
     </div>
@@ -55,6 +56,42 @@
       :select-plan-data="selectPlanData"
       @close="closeDialog"
     ></writ-information>
+    <!-- 文书选择 -->
+    <el-dialog
+      :title="`选择${templatePaperData.docData ? templatePaperData.docData.docTypeName : ''}文书`"
+      :close-on-click-modal="false"
+      append-to-body
+      :visible="selectPaperVisible"
+      @close="closeSelectDialog">
+      <div class="select-paper">
+        <el-table
+          :data="paperList"
+          style="width: 100%;"
+          border
+          :default-sort = "{prop: 'order', order: 'descending'}"
+          highlight-current-row
+          @current-change="handleCurrentChange">
+          <el-table-column
+            type="index"
+            width="80">
+          </el-table-column>
+          <el-table-column
+            v-for="(item, index) in colList"
+            :key="index"
+            :label="item.label ? item.label: ''"
+            :header-align="item.headerAlign ? item.headerAlign : 'center'"
+            :align="item.align ? item.align : 'center'">
+            <template slot-scope="scope">
+              <span>{{ scope.row[item.prop] }}</span>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <span slot="footer">
+        <el-button @click="closeSelectDialog">取消</el-button>
+        <el-button type="primary" @click="saveSelectDialog">确定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -91,7 +128,27 @@ export default {
       docData: {}, // 选择显示的文书基本信息编号及名称
       caseData: {}, // 选择的活动信息
       flowStatus: {}, // 检查活动流程各文书状态，'save'为保存，'file'为存档
-      DBName: this.$store.state.DBName
+      DBName: this.$store.state.DBName,
+      isCreated: false, // 是否新增文书
+      paperData: {}, // 多个文书时选择的文书数据
+      selectPaperVisible: false, // 选择文书弹窗
+      templatePaperData: {},  // 当选择文书时，临时保存的文书数据，用来选择后指定文书跳转及展示
+      templateSelectedPaper: {},  // 临时选中的文书
+      paperList: [], // 选择的文书列表
+      colList: [
+        {
+          label: '制作人',
+          prop: 'personName',
+        },
+        {
+          label: '制作单位',
+          prop: 'groupName',
+        },
+        {
+          label: '制作日期',
+          prop: 'createDate',
+        },
+      ]
     }
   },
   created() {
@@ -113,27 +170,58 @@ export default {
       }
       this.visible[params.name] = false
     },
-    changePage ({page, data}) {
+    async changePage ({page, data}) {
       this.showPage = {
         empty: false,
         writFlow: false,
         writFill: false
       }
       if (page === 'writFill') {
-        // 进入填写页面时，data为展示模板page
-        this.showTemp = data.page
-        this.docData = data.docData
+        this.paperData = {}
+        this.templateSelectedPaper = {}
+        this.paperList = []
+        // 进入填写页面前，根据新增或修改调取数据，
+        // 如果新增则直接进入编辑页面并进行初始化，
+        if (data.isCreated) {
+          // 新增时进入填写页面时，data为展示模板page
+          this.gotoWritFill(data)
+        } else {
+          // 如果为编辑则调取wkPaper文书表，如果为多条则弹窗选择文书，选择后的文书id传入组件中以拉取历史数据做为回显
+          const db = new GoDB(this.$store.state.DBName);
+          const wkPaper = db.table("wkPaper");
+          const checkPaper = await wkPaper.findAll(item => item.caseId === this.corpData.caseId && item.paperType === data.docData.docTypeNo && item.delFlag !== '1');
+          if (checkPaper.length === 0) {
+            // 如果未查询到相关数据，则进入文书编辑页面，进行初始化
+            this.gotoWritFill(data)
+          } else if (checkPaper.length === 1) {
+            // 如果有一条数据，则赋值paperId进入页面, 回显
+            this.paperData = checkPaper[0]
+            this.gotoWritFill(data)
+          } else {
+            // 如果查询的文书大于1个，则弹窗选择
+            this.paperList = checkPaper
+            this.templatePaperData = data
+            this.selectPaperVisible = true
+          }
+        }
       } else if (page === 'empty') {
         // 进入空页面时，清空已选择的煤矿数据
         this.corpData = {}
+        this.showPage[page] = true
       } else if (page === 'writFlow') {
         // 展示当前case流程模板showDocTemplate
         if (data) {
           this.caseData = data
         }
         this.showDocTemplet()
+        this.showPage[page] = true
       }
-      this.showPage[page] = true
+    },
+    gotoWritFill (data) {
+      this.showPage.writFill = true
+      this.showTemp = data.page
+      this.docData = data.docData
+      this.isCreated = data.isCreated
     },
     async showDocTemplet() {
       //读取当前点击的计划或检查活动的数据
@@ -182,6 +270,20 @@ export default {
       }
       await db.close();
     },
+    closeSelectDialog () {
+      // 关闭选择文书弹窗
+      this.selectPaperVisible = false
+      this.templatePaperData = {}
+    },
+    handleCurrentChange(val) {
+      this.templateSelectedPaper = val;
+    },
+    saveSelectDialog () {
+      // 保存选择文书
+      this.paperData = this.templateSelectedPaper
+      this.gotoWritFill(this.templatePaperData)
+      this.closeSelectDialog()
+    }
   },
 };
 </script>
