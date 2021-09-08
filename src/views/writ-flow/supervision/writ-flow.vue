@@ -61,6 +61,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let100','检查方案', '22')" class="flow-span">检查方案</span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let100','检查方案', '22')"></i>
                 </td>
                 <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
@@ -752,6 +753,19 @@ export default {
         this.$message.error("请在左侧双击该企业,启动该企业的执法检查");
       }
     },
+    addPaper(letId, docTypeName, docTypeNo) {
+      // 添加文书
+      this.$confirm(`是否确定添加新的‘${docTypeName}’文书？`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          dangerouslyUseHTMLString: true,
+          type: 'warning'
+        }).then(() => {
+          // 进入文书页面
+          this.cmdEditDoc(letId, docTypeName, docTypeNo)
+        }).catch(() => {
+        })
+    }
   },
 };
 </script>
@@ -781,6 +795,17 @@ export default {
     width: 20px;
     top: 8px;
     left: 0;
+  }
+  .create-icon {
+    position: absolute;
+    bottom: 8px;
+    right: 3px;
+    cursor: pointer;
+    color: rgba(#FFD700, 1);
+    font-size: 20px;
+    &:hover {
+      color: rgba(#FFD700, 0.8);
+    }
   }
 }
 .writ-flow-spantd-ex {
