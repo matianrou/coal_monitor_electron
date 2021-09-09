@@ -348,7 +348,7 @@ export default {
     },
     editaddbook (item) {
       // 判断当前是否已有caseId，如果已有则不弹窗新建
-      // 使用页面未执法工作台MakeLawWrit时可创建检查活动
+      // 使用页面为执法工作台MakeLawWrit时可创建检查活动
       if (this.usePage === 'MakeLawWrit' && !item.caseId) {
         this.$emit('create-case', {
           corpData: item,
@@ -377,7 +377,7 @@ export default {
       this.$parent.changePage({page: 'empty'})
     },
     addCase () {
-      // 未无计划的企业添加检查活动
+      // 为无计划的企业添加检查活动
       let msg  = `<div>
         <p style="text-indent: 2em;">执法计划发生变化请从网页端添加；此处添加煤矿企业仅限于发生紧急情况或突发事件下对煤矿企业制作执法文书，文书归档后将统计为“其他”类别。</p>
         <p style="color: #F56C6C;">是否确定继续添加？</p>
@@ -425,7 +425,7 @@ export default {
             // 调用接口删除检查活动，接口删除成功后进行本地删除
             const wkCase = db.table('wkCase')
             let curCase = await wkCase.find(item => item.caseId === this.selectedCase.caseId)
-            await this.$http.get(`${this.DBName === 'CoalSupervisionDB' ? '/sv' : ''}/local/jczf/deleteCaseByCaseId?__sid=${this.$store.state.user.userSessId}&caseId=${curCase.caseId}`)
+            await this.$http.get(`${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/jczf/deleteCaseByCaseId?__sid=${this.$store.state.user.userSessId}&caseId=${curCase.caseId}`)
               .then(async ({ data }) => {
                 if (data.status === "200") {
                   // 本地删除：检查活动

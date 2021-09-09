@@ -309,7 +309,7 @@ export async function saveToUpload(paperId, userSessId) {
     // }
     submitData.danger = danger;
   }
-  let path = store.state.DBName === 'CoalSupervisionDB' ? '/sv' : ''
+  let path = store.state.user.userType === 'supervision' ? '/sv' : ''
   http.post(
       `${path}/local/jczf/uploadJczf?__sid=${userSessId}`,
       {

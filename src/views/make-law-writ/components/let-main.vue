@@ -312,7 +312,7 @@ export default {
       );
       await saveToUpload(paperId, this.$store.state.user.userSessId);
       // 返回列表并刷新
-      // this.cmdDocBack();
+      this.cmdDocBack();
     },
     cmdDocView() {
       // 打印预览

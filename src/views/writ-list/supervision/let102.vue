@@ -295,7 +295,7 @@ export default {
   methods: {
     async initData() {
       // 初始化文书内容
-      const db = new GoDB("CoalSupervisionDB");
+      const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
       //查询符合条件的记录
       const corp = await corpBase.find((item) => {
@@ -321,6 +321,10 @@ export default {
         const let101Data = await wkPaper.find((item) => {
           return item.caseId === caseId && item.paperType === '1';
         });
+        if (!let101Data) {
+          this.$message.error('请先填写并保存现场检查记录中内容！')
+          return
+        }
         let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
         let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
         // 通过机构接口中的sysOfficeInfo中获取的organName和courtPrefix字段分别填充cellIdx8和cellIdx9字段

@@ -26,7 +26,7 @@
               <el-checkbox v-model="recordAccount">记住登录账号</el-checkbox>
               <!-- <el-checkbox v-model="offLine">离线使用</el-checkbox> -->
             </div>
-            <div class="login-btn">
+            <div v-loading="loading.loginBtn" class="login-btn">
               <img
                 src="@/views/login/assets/login-btn-enter.jpg"
                 @click="doLogin"
@@ -54,6 +54,9 @@ export default {
       },
       recordAccount: false, // 是否记住登录账号
       offLine: false, // 是否离线使用
+      loading: {
+        loginBtn: false
+      }
     }
   },
   created() {
@@ -105,12 +108,13 @@ export default {
             //获取用户信息
             // 最大化窗口
             electronRequest('maxWindow');
-            // 判断当前登录用户为监管或监察，分别进入不同的路由
+            // 设置系统读取数据库
+            this.$store.commit('changeState', {
+              key: 'DBName',
+              val: userId
+            })
+            // 判断当前登录用户为监管或监察
             await this.getUserType(userId, sessId)
-            // this.$store.commit('changeState', {
-            //   key: 'DBName',
-            //   val: 'CoalSupervisionDB'
-            // })
             await this.getUserInfo(userId, sessId);
             this.$router.replace({
               name: 'CalmineElectronMain',
@@ -126,18 +130,15 @@ export default {
       await this.$http.get(`/local/user/role?__sid=${sessId}&userId=${userId}`).then(({ data }) => {
           if(data.status === '200') {
             // 返回用户类别标识
-            let DBName = ''
+            let userType = ''
             if (data.message === '1') {
               // 1为监察执法
-              DBName = 'CoalMonitorDB'
+              userType = 'monitor'
             } else if (data.message === '2') {
               // 2为监管执法
-              DBName = 'CoalSupervisionDB'
+              userType = 'supervision'
             }
-            this.$store.commit('changeState', {
-              key: 'DBName',
-              val: DBName
-            })
+            this.$store.state.user.userType = userType
           } else {
             this.$message.error('获取用户信息失败，请重新登录！')
             this.$router.replace({
@@ -153,7 +154,7 @@ export default {
     },
     async getUserInfo(userId, sessId) {
       let path = ''
-      if (this.$store.state.DBName === 'CoalSupervisionDB') {
+      if (this.$store.state.user.userType === 'supervision') {
         path = '/sv'
       }
       await this.$http.get(`${path}/local/user/info?__sid=${sessId}&userId=${userId}`).then(({ data }) => {

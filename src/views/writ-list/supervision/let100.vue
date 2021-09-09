@@ -319,7 +319,7 @@ export default {
         this.editData = this.paperData;
       } else {
         // 创建初始版本
-        const db = new GoDB("CoalSupervisionDB");
+        const db = new GoDB(this.$store.state.DBName);
         const corpBase = db.table("corpBase");
         //查询符合条件的记录
         const corp = await corpBase.find((item) => {

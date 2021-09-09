@@ -101,5 +101,5 @@ const supervisionWritList = {
   let406: resolve => { require(["@/views/writ-list/supervision/let406"], function(let406) { resolve(let406);});},
 }
 
-export const writList = store.state.DBName === 'CoalSupervisionDB' ? supervisionWritList : monitorWritList
+export const writList = store.state.user.userType === 'supervision' ? supervisionWritList : monitorWritList
 

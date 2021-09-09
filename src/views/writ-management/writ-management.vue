@@ -91,7 +91,7 @@
                         type="text"
                         size="small"
                         @click="handleEdit(scope.row)">
-                        编辑
+                        {{scope.row.delFlag === '0' ? '查看' : '编辑'}}
                       </el-button>
                       <el-button
                         :loading="loading.btn"
@@ -107,7 +107,7 @@
                         type="text"
                         size="small"
                         @click="handleFile(scope.row, 'file')">
-                        |归档
+                        归档
                       </el-button>
                     </div>
                   </template>
@@ -166,7 +166,7 @@ export default {
     };
   },
   created() {
-    console.log(`已进入${this.DBName === 'CoalSupervisionDB' ? '监管' : '监察'}文书管理`)
+    console.log(`已进入${this.$store.state.user.userType === 'supervision' ? '监管' : '监察'}文书管理`)
   },
   methods: {
     changePage ({page, data}) {
@@ -231,7 +231,7 @@ export default {
       // 编辑，打开编辑页面
       // 根据paperType打开相应页面
       let page = ''
-      let dictName = this.DBName === 'CoalSupervisionDB' ? 'supervisionPaperType' : 'monitorPaperType'
+      let dictName = this.$store.state.user.userType === 'supervision' ? 'supervisionPaperType' : 'monitorPaperType'
       this.$store.state.dictionary[dictName].map(item => {
         if (item.id === row.paperType) page = item.page
       })
@@ -265,7 +265,7 @@ export default {
             .then(async ({ data }) => {
               if (data.status === "200") {
                 // 删除成功后，从本地数据库中删除
-                const db = new GoDB('CoalSupervisionDB')
+                const db = new GoDB(this.$store.state.DBName)
                 // 删除文书
                 const wkPaper = db.table('wkPaper')
                 let paperData = await wkPaper.find(item => item.paperId === row.paperId)
@@ -307,7 +307,7 @@ export default {
           dangerouslyUseHTMLString: true,
           type: 'warning'
         }).then(async () => {
-          const db = new GoDB('CoalSupervisionDB')
+          const db = new GoDB(this.$store.state.DBName)
           const wkPaper = db.table('wkPaper')
           let curPaper = await wkPaper.find(item => item.paperId === row.paperId && item.delFlag !== '1')
           let paperData = curPaper

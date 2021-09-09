@@ -9,8 +9,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   namespaced: true,
   state: {
-    activeTab: null,
-    DBName: null,
+    activeTab: null, // 当前激活的总体tab页签
+    DBName: null, // 当前使用的数据库名称
   },
   modules: {
     user,

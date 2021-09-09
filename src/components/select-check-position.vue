@@ -51,7 +51,6 @@ export default {
   data() {
     return {
       loading: false,
-      DBName: this.$store.state.DBName,
     };
   },
   created() {
