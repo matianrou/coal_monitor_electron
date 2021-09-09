@@ -24,7 +24,7 @@ export default {
     }
   },
   created (){
-    console.log(`已进入${this.$store.state.DBName === 'CoalSupervisionDB' ? '监管' : '监察'}系统`)
+    console.log(`已进入${this.$store.state.user.userType === 'supervision' ? '监管' : '监察'}系统`)
   },
   methods: {
     changeTab (tab) {

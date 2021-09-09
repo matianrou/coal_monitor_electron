@@ -183,7 +183,7 @@ export default {
         dangerSelect: false // 展示选择隐患项弹窗
       },
       selectedDangerList: [], // 选中的需要删除的隐患项列表
-      DBName: this.$store.state.DBName,
+      userType: this.$store.state.user.userType,
     };
   },
   created () {
@@ -230,7 +230,7 @@ export default {
         isReceive: '0',		// 0为未接收，1为已接收
         dangerContent: JSON.stringify(dangerContent)		// 隐患内容
       }
-      this.$http.post(`${this.DBName === 'CoalSupervisionDB' ? '/sv' : ''}/local/postdanger/save?__sid=${this.$store.state.user.userSessId}`, {sendJson: true, data: params})
+      this.$http.post(`${this.userType === 'supervision' ? '/sv' : ''}/local/postdanger/save?__sid=${this.$store.state.user.userSessId}`, {sendJson: true, data: params})
         .then(async ({ data }) => {
           if (data.status === "200") {
             this.$message.success('发送隐患成功！')

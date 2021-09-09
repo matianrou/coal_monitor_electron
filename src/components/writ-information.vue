@@ -172,6 +172,9 @@ export default {
       } else {
         // 无计划时，创建无planId的检查活动，放入其他类型中
         await this.doSaveCase(corpBase[0]);
+        // 创建成功后进入其他选择页签
+        this.$parent.$refs.caseList.dataForm.caseType = '其他'
+        this.$parent.$refs.caseList.changeSelect('其他', 'caseType')
       }
       // 刷新页面
       this.cancel(true);

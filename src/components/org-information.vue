@@ -13,7 +13,7 @@
         </div>
         <div v-if="caseData.groupName" class="group-name">
           <i class="el-icon-s-flag"></i>
-          <span>{{`${DBName === 'CoalSupervisionDB' ? '监管' : '监察'} 归档至${caseData.groupName}`}}</span>
+          <span>{{`${userType === 'supervision' ? '监管' : '监察'} 归档至${caseData.groupName}`}}</span>
         </div>
       </div>
       <li>
@@ -67,7 +67,8 @@ export default {
   data() {
     return {
       DBName: this.$store.state.DBName,
-      caseData: {}
+      userType: this.$store.state.user.userType,
+      caseData: {},
     };
   },
   watch: {

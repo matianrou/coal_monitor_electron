@@ -137,7 +137,7 @@ export default {
       activeName: 'receiveDanger',
       tableData: [], // 接收隐患列表
       receiveDangerListHistory: [], // 历史发送隐患记录
-      DBName: this.$store.state.DBName,
+      userType: this.$store.state.user.userType,
       receiveDangerList: [], // 接收到的所有隐患数据, 用来发送隐患已接收状态
       selectedDangerList: [], // 已选择的隐患项
     };
@@ -149,7 +149,7 @@ export default {
     async getDangerList () {
       // 根绝当前企业及登录用户获取隐患列表
       this.loading = true
-      await this.$http.get(`${this.DBName === 'CoalSupervisionDB' ? '/sv' : ''}/local/postdanger/findAllByUserId?__sid=${this.$store.state.user.userSessId}&userId=${this.$store.state.user.userId}&corpId=${this.corpData.corpId}`)
+      await this.$http.get(`${this.userType === 'supervision' ? '/sv' : ''}/local/postdanger/findAllByUserId?__sid=${this.$store.state.user.userSessId}&userId=${this.$store.state.user.userId}&corpId=${this.corpData.corpId}`)
         .then(async ({ data }) => {
           if (data.status === "200") {
             let dangerList = []
@@ -212,7 +212,7 @@ export default {
         // 调用接口重新发送隐患项，如果成功则接收隐患，不成功则提示重新接收
         let receiveSuccess = true
         this.receiveDangerList.length > 0 && this.receiveDangerList.map(receiveDanger => {
-          this.$http.post(`${this.DBName === 'CoalSupervisionDB' ? '/sv' : ''}/local/postdanger/save?__sid=${this.$store.state.user.userSessId}`, {sendJson: true, data: receiveDanger})
+          this.$http.post(`${this.userType === 'supervision' ? '/sv' : ''}/local/postdanger/save?__sid=${this.$store.state.user.userSessId}`, {sendJson: true, data: receiveDanger})
             .then(async ({ data }) => {
               if (data.status === "200") {
               } else {
@@ -227,7 +227,11 @@ export default {
             });
         })
         // 接收成功后完成隐患添加至隐患列表中
-        receiveSuccess && this.$message.success('隐患接收成功！') && this.$emit('save', this.selectedDangerList) && this.close()
+        if (receiveSuccess) {
+          this.$message.success('隐患接收成功！')
+          this.$emit('save', this.selectedDangerList)
+          this.close()
+        }
       } else {
         this.$message.error('请选择接收的隐患项！')
       }

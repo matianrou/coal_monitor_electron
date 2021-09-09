@@ -283,7 +283,7 @@ export default {
       let userId = this.$store.state.user.userId;
       let userSessId = this.$store.state.user.userSessId;
       let userGroupId = this.$store.state.user.userGroupId;
-      let path = this.$store.state.DBName === 'CoalSupervisionDB' ? '/sv' : ''
+      let path = this.$store.state.user.userType === 'supervision' ? '/sv' : ''
       let uri = `${path}`;
       switch (resId) {
         case "org":

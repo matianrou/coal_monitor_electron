@@ -443,7 +443,7 @@ export default {
   },
   methods: {
     async initData() {
-      const db = new GoDB("CoalMonitorDB");
+      const db = new GoDB(this.$store.state.DBName);
       //查询符合条件的记录
       const wkPaper = db.table("wkPaper");
       const caseId = this.corpData.caseId;
@@ -516,7 +516,7 @@ export default {
       // 选择单位或个人
       this.visible = false
       if (this.selectedType === '单位') {
-        const db = new GoDB("CoalMonitorDB");
+        const db = new GoDB(this.$store.state.DBName);
         const wkPaper = db.table("wkPaper");
         const caseId = this.corpData.caseId;
         let corpName = this.corpData.corpName

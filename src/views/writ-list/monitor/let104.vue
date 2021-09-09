@@ -422,7 +422,7 @@ export default {
   },
   methods: {
     async initData() {
-      const db = new GoDB("CoalMonitorDB");
+      const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
       //查询符合条件的记录
       const corp = await corpBase.find((item) => {

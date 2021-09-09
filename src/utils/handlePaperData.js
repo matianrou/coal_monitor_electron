@@ -133,7 +133,7 @@ function setDangerTableItem (data, selectedData, options) {
       } else if (options.key === 'cellIdx6') {
         string = `${dangerObjectIndex.dangerString}。经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString}的规定。`
       } else if (options.key === 'cellIdx7') {
-        if (store.state.DBName === 'CoalSupervisionDB') {
+        if (store.state.user.userType === 'supervision') {
           string = `${dangerObject.dangerString}经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString}的规定。`
         } else {
           string = `分别依据${dangerObject.treatmentSuggestion}。合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle)}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`

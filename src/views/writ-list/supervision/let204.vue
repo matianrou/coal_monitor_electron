@@ -476,7 +476,7 @@ export default {
   methods: {
     async initData() {
       // 初始化文书内容
-      const db = new GoDB("CoalSupervisionDB");
+      const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
       //查询符合条件的记录
       const corp = await corpBase.find((item) => {
@@ -571,7 +571,7 @@ export default {
       // 选择单位或个人
       this.visible = false;
       if (this.selectedType === "单位") {
-        const db = new GoDB("CoalSupervisionDB");
+        const db = new GoDB(this.$store.state.DBName);
         const wkPaper = db.table("wkPaper");
         const caseId = this.corpData.caseId;
         let corpName = this.corpData.corpName;
