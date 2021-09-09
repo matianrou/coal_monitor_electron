@@ -74,6 +74,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let101','现场检查记录', '1')" class="flow-span">现场检查记录</span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let101','现场检查记录', '1')"></i>
                 </td>
                 <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c5.png" style="height: 100%;" />
@@ -89,6 +90,7 @@
                     现场处理
                     <br />决定书
                   </span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let102','现场处理决定书', '2')"></i>
                 </td>
                 <!-- <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
@@ -127,6 +129,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let104','复查意见书', '13')" class="flow-span">复查意见书</span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let104','复查意见书', '13')"></i>
                 </td>
                 <td style="width:12px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c7.png" style="height: 100%;" />
@@ -797,16 +800,16 @@ export default {
     top: 8px;
     left: 0;
   }
-  .create-icon {
-    position: absolute;
-    bottom: 8px;
-    right: 3px;
-    cursor: pointer;
-    color: rgba(#FFD700, 1);
-    font-size: 20px;
-    &:hover {
-      color: rgba(#FFD700, 0.8);
-    }
+}
+.create-icon {
+  position: absolute;
+  bottom: 8px;
+  right: 3px;
+  cursor: pointer;
+  color: rgba(#FFD700, 1);
+  font-size: 20px;
+  &:hover {
+    color: rgba(#FFD700, 0.8);
   }
 }
 .writ-flow-spantd-ex {

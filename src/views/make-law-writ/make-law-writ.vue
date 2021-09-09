@@ -57,41 +57,12 @@
       @close="closeDialog"
     ></writ-information>
     <!-- 文书选择 -->
-    <el-dialog
-      :title="`选择${templatePaperData.docData ? templatePaperData.docData.docTypeName : ''}文书`"
-      :close-on-click-modal="false"
-      append-to-body
+    <select-paper
       :visible="selectPaperVisible"
-      @close="closeSelectDialog">
-      <div class="select-paper">
-        <el-table
-          :data="paperList"
-          style="width: 100%;"
-          border
-          :default-sort = "{prop: 'order', order: 'descending'}"
-          highlight-current-row
-          @current-change="handleCurrentChange">
-          <el-table-column
-            type="index"
-            width="80">
-          </el-table-column>
-          <el-table-column
-            v-for="(item, index) in colList"
-            :key="index"
-            :label="item.label ? item.label: ''"
-            :header-align="item.headerAlign ? item.headerAlign : 'center'"
-            :align="item.align ? item.align : 'center'">
-            <template slot-scope="scope">
-              <span>{{ scope.row[item.prop] }}</span>
-            </template>
-          </el-table-column>
-        </el-table>
-      </div>
-      <span slot="footer">
-        <el-button @click="closeSelectDialog">取消</el-button>
-        <el-button type="primary" @click="saveSelectDialog">确定</el-button>
-      </span>
-    </el-dialog>
+      :paper-list="paperList"
+      @close="closeSelectDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
@@ -102,6 +73,7 @@ import { writFlow } from '@/utils/writFlow' // 文书流程目录
 import orgInformation from '@/components/org-information' // 企业信息
 import writInformation from '@/components/writ-information' // 创建活动弹窗
 import { writList } from '@/utils/writList'
+import selectPaper from '@/components/select-paper'
 
 export default {
   name: "MakeLawWrit",
@@ -110,7 +82,8 @@ export default {
     orgInformation,
     writInformation,
     ...writFlow,
-    ...writList
+    ...writList,
+    selectPaper
   },
   data() {
     return {
@@ -133,28 +106,10 @@ export default {
       paperData: {}, // 多个文书时选择的文书数据
       selectPaperVisible: false, // 选择文书弹窗
       templatePaperData: {},  // 当选择文书时，临时保存的文书数据，用来选择后指定文书跳转及展示
-      templateSelectedPaper: {},  // 临时选中的文书
       paperList: [], // 选择的文书列表
-      colList: [
-        {
-          label: '制作人',
-          prop: 'personName',
-        },
-        {
-          label: '制作单位',
-          prop: 'groupName',
-        },
-        {
-          label: '制作日期',
-          prop: 'createDate',
-        },
-      ]
     }
   },
   created() {
-  },
-  destroyed() {
-    console.log('已被销毁')
   },
   methods: {
     createCase (data) {
@@ -178,7 +133,6 @@ export default {
       }
       if (page === 'writFill') {
         this.paperData = {}
-        this.templateSelectedPaper = {}
         this.paperList = []
         // 进入填写页面前，根据新增或修改调取数据，
         // 如果新增则直接进入编辑页面并进行初始化，
@@ -273,14 +227,10 @@ export default {
     closeSelectDialog () {
       // 关闭选择文书弹窗
       this.selectPaperVisible = false
-      this.templatePaperData = {}
     },
-    handleCurrentChange(val) {
-      this.templateSelectedPaper = val;
-    },
-    saveSelectDialog () {
+    confirmPaper (currentRow) {
       // 保存选择文书
-      this.paperData = this.templateSelectedPaper
+      this.paperData = currentRow
       this.gotoWritFill(this.templatePaperData)
       this.closeSelectDialog()
     }
@@ -328,5 +278,8 @@ export default {
     width: 100%;
     overflow: hidden;
   }
+}
+.el-dialog__header {
+  border-bottom: 1px solid #DCDFE6;
 }
 </style>

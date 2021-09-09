@@ -13,7 +13,8 @@
         :data="dataForm.tempValue.tableData"
         style="width: 100%"
         row-key="treeId"
-        border>
+        border
+        :header-cell-style="{background: '#f5f7fa'}">
         <el-table-column
           prop="categoryName"
           label="检查事项"

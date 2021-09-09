@@ -307,7 +307,7 @@ export default {
       }
     },
     'paperData.paperId'(val) {
-        this.initData();
+      this.initData();
     }
   },
   methods: {
