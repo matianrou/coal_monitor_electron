@@ -156,6 +156,7 @@
                     责令撤出作业人员
                     <br />指令书
                   </span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let106','责令撤出作业人员命令书', '3')"></i>
                 </td>
                 <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
@@ -168,6 +169,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let107','抽样取证通知书', '23')" class="flow-span">抽样取证通知书</span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let107','抽样取证通知书', '23')"></i>
                 </td>
                 <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c5.png" style="height: 100%;" />
@@ -183,6 +185,7 @@
                     先行登记保存证据
                     <br />通知书
                   </span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let108','先行登记保存证据通知书', '25')"></i>
                 </td>
                 <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
@@ -198,6 +201,7 @@
                     先行登记保存证据
                     <br />处理决定书
                   </span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let109','先行登记保存证据处理决定书', '27')"></i>
                 </td>
                 <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c5.png" style="height: 100%;" />
@@ -209,10 +213,11 @@
                     :title="flowStatus.paper32 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let110','查封(扣押)决定书', '32')" class="flow-span">
+                  <span @click="cmdEditDoc('let110','查封（扣押）决定书', '32')" class="flow-span">
                     查封(扣押)
                     <br />决定书
                   </span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let110','查封（扣押）决定书', '32')"></i>
                 </td>
                 <td style="width:12px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c7.png" style="height: 100%;" />
@@ -236,6 +241,7 @@
                     延长查封（扣押）
                     <br />期限决定书
                   </span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let1100','延长查封（扣押）期限决定书', '45')"></i>
                 </td>
                 <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
@@ -251,6 +257,7 @@
                     查封(扣押)处理
                     <br />决定书
                   </span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let1101','查封(扣押)处理决定书', '46')"></i>
                 </td>
                 <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c5.png" style="height: 100%;" />
@@ -266,6 +273,7 @@
                     停供电(停供民用
                     <br />爆炸物品)决定书
                   </span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let111','停供电(停供民用爆炸物品)决定书', '56')"></i>
                 </td>
                 <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
@@ -281,6 +289,7 @@
                     停供电(停供民用
                     <br />爆炸物品)函告书
                   </span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let112','停供电(停供民用爆炸物品)函告书', '37')"></i>
                 </td>
                 <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c5.png" style="height: 100%;" />
@@ -296,6 +305,7 @@
                     解除停供电(停供民用
                     <br />爆炸物品)函告书
                   </span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let113','解除停供电(停供民用爆炸物品)通知书', '38')"></i>
                 </td>
                 <td style="width:12px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c7.png" style="height: 100%;" />

@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -264,31 +264,12 @@
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject, getDocNumber } from '@/utils/setInitPaperData'
-import selectPaper from '@/components/select-paper'
+import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let104",
-  props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-    selectPaper
-  },
+  mixins: [associationSelectPaper],
   data() {
     return {
       letData: {},
@@ -302,107 +283,11 @@ export default {
           key: 'cellIdx14'
         },
       },
-      editData: {}, // 回显数据
-      visible: {
-        selectPaper: false
-      },
-      paperList: [],
-      selectedIndex: 0, // 需要选择多个类型的文书时，当前选择第几个文书
-      selectFlowList: [], // 需要选择多个类型的文书流程，对象包括文书key及文书列表
-      selectedPaper: {
-        let101Data: {},
-        let102Data: {}
-      }
+      associationPaper: ['1', '2']
     };
   },
-  created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-    'paperData.paperId'(val) {
-      this.initData();
-    }
-  },
   methods: {
-    async initData() {
-      // 初始化文书内容
-      if (this.paperData && this.paperData.paperId) {
-        this.letData = JSON.parse(this.paperData.paperContent);
-        this.editData = this.paperData;
-      } else {
-        // 创建初始版本
-        // 2.发现你矿存在：隐患描述
-        const db = new GoDB(this.$store.state.DBName);
-        const wkPaper = db.table('wkPaper')
-        // 获取笔录文书中的隐患数据
-        let let101Data = await wkPaper.findAll((item) => {
-          return item.caseId === this.corpData.caseId && item.paperType === '1' && item.delFlag !== '1';
-        })
-        if (let101Data.length === 0) {
-          this.$message.error('请先填写并保存现场检查记录中内容！')
-          return
-        } else if (let101Data.length === 1) {
-          this.selectedPaper.let101Data = let101Data[0]
-        } else {
-          // 选择关联的现场检查笔录内容
-          this.selectFlowList.push({
-            key: 'let101Data',
-            paperList: let101Data
-          })
-        }
-        // 现场处理决定书文书号：
-        let let102Data = await wkPaper.findAll((item) => {
-          return item.caseId === this.corpData.caseId && item.paperType === '2' && item.delFlag !== '1';
-        });
-        if (let102Data === 0) {
-          this.$message.error('请先填写并保存现场处理决定书中内容！')
-          return
-        } else if (let102Data.length === 1) {
-          this.selectedPaper.let102Data = let102Data[0]
-        } else {
-          // 选择关联的现场检查笔录内容
-          this.selectFlowList.push({
-            key: 'let102Data',
-            paperList: let102Data
-          })
-        }
-        await db.close();
-        if (this.selectFlowList.length > 0) {
-          // 如果需要选择文书，则从第一个开始选择
-          this.handleSelectPaper()
-        } else {
-          // 如果不需要选择文书，则直接开始进行初始化
-          this.initLetData(this.selectedPaper.let101Data, this.selectedPaper.let102Data)
-        }
-      }
-    },
-    handleSelectPaper () {
-      this.paperList = this.selectFlowList[this.selectedIndex].paperList
-      console.log('paperList', this.paperList)
-      this.visible.selectPaper = true
-    },
-    closeDialog ({page, refresh}) {
-      // 关闭选择文书弹窗
-      this.visible[page] = false
-    },
-    confirmPaper (currentRow) {
-      // 选择的文书
-      this.selectedPaper[this.selectFlowList[this.selectedIndex].key] = currentRow
-      // 判断当前是否已经选择完文书，如果未选择完则继续进行文书选择，如果已经选择完则进入初始化
-      if (this.selectedIndex === this.selectFlowList.length - 1) {
-        this.initLetData(this.selectedPaper.let101Data, this.selectedPaper.let102Data)
-        this.visible.selectPaper = false
-      } else {
-        this.selectedIndex = this.selectedIndex + 1
-        this.handleSelectPaper()
-      }
-    },
-    async initLetData (let101Data, let102Data) {
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
       const corp = await corpBase.find((item) => {
@@ -411,11 +296,11 @@ export default {
       // 1.生成文书编号
       let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
       await db.close();
-      let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
-      let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData, {danger: true})
+      let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData, {danger: true})
       let cellIdx9String = dangerObject.dangerString
       let cellIdx10String = dangerObject.onsiteDescString
-      let let102DataPapaerContent = JSON.parse(let102Data.paperContent)
+      let let2DataPapaerContent = JSON.parse(selectedPaper.let2Data.paperContent)
       this.letData = {
         cellIdx0: num0, // 文书号
         cellIdx0TypeTextItem: num0, // 文书号
@@ -432,14 +317,14 @@ export default {
         cellIdx7: null, // 月
         cellIdx8: null, // 日
         cellIdx9: cellIdx9String, // 违法违规行为：隐患描述
-        cellIdx10: let102DataPapaerContent.cellIdx0, // 现场处理决定书 文书号
-        cellIdx10TypeTextItem: let102DataPapaerContent.cellIdx0, // 现场处理决定书 文书号
-        cellIdx11: let102DataPapaerContent.cellIdx1, // 现场处理决定书 文书号
-        cellIdx11TypeTextItem: let102DataPapaerContent.cellIdx1, // 现场处理决定书 文书号
-        cellIdx12: let102DataPapaerContent.cellIdx2, // 现场处理决定书 文书号
-        cellIdx12TypeTextItem: let102DataPapaerContent.cellIdx2, // 现场处理决定书 文书号
-        cellIdx13: let102DataPapaerContent.cellIdx3, // 现场处理决定书 文书号
-        cellIdx13TypeTextItem: let102DataPapaerContent.cellIdx3, // 现场处理决定书 文书号
+        cellIdx10: let2DataPapaerContent.cellIdx0, // 现场处理决定书 文书号
+        cellIdx10TypeTextItem: let2DataPapaerContent.cellIdx0, // 现场处理决定书 文书号
+        cellIdx11: let2DataPapaerContent.cellIdx1, // 现场处理决定书 文书号
+        cellIdx11TypeTextItem: let2DataPapaerContent.cellIdx1, // 现场处理决定书 文书号
+        cellIdx12: let2DataPapaerContent.cellIdx2, // 现场处理决定书 文书号
+        cellIdx12TypeTextItem: let2DataPapaerContent.cellIdx2, // 现场处理决定书 文书号
+        cellIdx13: let2DataPapaerContent.cellIdx3, // 现场处理决定书 文书号
+        cellIdx13TypeTextItem: let2DataPapaerContent.cellIdx3, // 现场处理决定书 文书号
         cellIdx14: cellIdx10String, // 现场处理决定
         cellIdx15: null, // 意见
         cellIdx16: null, // 现场执法人员（签名)
@@ -451,7 +336,7 @@ export default {
         cellIdx22: null, // 日期
         cellIdx23: null, //
         cellIdx24: null, //日期
-        dangerItemObject: let101DataPapaerContent.dangerItemObject
+        dangerItemObject: let1DataPapaerContent.dangerItemObject
       };
     },
     goBack({ page }) {

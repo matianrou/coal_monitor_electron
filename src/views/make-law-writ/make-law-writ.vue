@@ -144,6 +144,8 @@ export default {
           const db = new GoDB(this.$store.state.DBName);
           const wkPaper = db.table("wkPaper");
           const checkPaper = await wkPaper.findAll(item => item.caseId === this.corpData.caseId && item.paperType === data.docData.docTypeNo && item.delFlag !== '1');
+          // console.log('checkPaper', checkPaper)
+          // await wkPaper.delete(checkPaper[0].id) // 删除文书
           if (checkPaper.length === 0) {
             // 如果未查询到相关数据，则进入文书编辑页面，进行初始化
             this.gotoWritFill(data)

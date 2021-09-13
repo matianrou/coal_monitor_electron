@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -110,10 +110,7 @@
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
               的措施。
             </div>
-
-
             <table style="border:solid 0px #000;" class="docBody">
-
             </table>
             <table height="30"></table>
             <table height="30"></table>
@@ -156,7 +153,6 @@
                   data-src
                   @click="commandFill('cellIdx11', '执法机关地址', 'TextItem')"
                 >{{ letData.cellIdx11 }}</td>
-
                 <td class="textAlignLeft" style="width:14%">&nbsp;&nbsp;邮政编码：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -182,7 +178,6 @@
                   data-src
                   @click="commandFill('cellIdx13', '执法机关联系人', 'TextItem')"
                 >{{ letData.cellIdx13 }}</td>
-
                 <td class="textAlignLeft" style="width:14%">&nbsp;&nbsp;联系电话：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -220,7 +215,6 @@
               </tr>
             </table>
             <table height="60"></table>
-
             <table>
               <hr />
               <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式三份，一份交</td>
@@ -263,8 +257,10 @@
 import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDocNumber } from '@/utils/setInitPaperData'
+import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let112",
+  mixins: [associationSelectPaper],
   props: {
     corpData: {
       type: Object,
@@ -279,6 +275,10 @@ export default {
         };
       },
     },
+    paperData: {
+      type: Object,
+      default: () => {}
+    }
   },
   components: {
     letMain,
@@ -290,6 +290,7 @@ export default {
       editData: {}, // 回显数据
       visible: false,
       selectedType: '停供电', // 初始化时选择的停供电
+      associationPaper: ['1']
     };
   },
   created() {
@@ -301,70 +302,55 @@ export default {
         this.initData();
       }
     },
+    'paperData.paperId'(val) {
+      this.initData();
+    }
   },
   methods: {
-    async initData() {
-      // 初始化文书内容
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      //查询当前计划是否已做文书
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
-        );
-      });
-      // 已做文书则展示文书内容，否则创建初始版本
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本
-        // 1.弹出提示框，选择停供电或停供民用爆炸物品
-        this.visible = true
-        // 2.生成文书编号
-        let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
-        // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
-        const orgInfo = db.table("orgInfo");
-        const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
-        let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: ''}
-        this.letData = {
-          cellIdx0: null, // 停供电(停供民用爆炸物品)
-          cellIdx1: num0, // 文书号
-          cellIdx1TypeTextItem: num0, // 文书号
-          cellIdx2: num1, // 文书号
-          cellIdx2TypeTextItem: num1, // 文书号
-          cellIdx3: num3, // 文书号
-          cellIdx3TypeTextItem: num3, // 文书号
-          cellIdx4: num4, // 文书号
-          cellIdx4TypeTextItem: num4, // 文书号
-          cellIdx5: corp.corpName, // 单位
-          cellIdx5TypeTextItem: corp.corpName, // 单位
-          cellIdx6: null, // 本机关在对XXX进行安全监察中发现
-          cellIdx7: null, // 依法作出XXX的决定
-          cellIdx8: null, // 请贵单位对其采取XXX的措施。
-          cellIdx9: null, // 受送达人（签名）
-          cellIdx10: null, // 日期
-          cellIdx11: orgSysOfficeInfo.depAddress, // 执法机关地址
-          cellIdx11TypeTextItem: orgSysOfficeInfo.depAddress, // 执法机关地址
-          cellIdx12: orgSysOfficeInfo.depPost, // 邮政编码
-          cellIdx12TypeTextItem: orgSysOfficeInfo.depPost, // 邮政编码
-          cellIdx13: orgSysOfficeInfo.master, // 执法机关联系人
-          cellIdx13TypeTextItem: orgSysOfficeInfo.master, // 执法机关联系人
-          cellIdx14: orgSysOfficeInfo.phone, // 联系电话
-          cellIdx14TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
-          cellIdx15: null, //
-          cellIdx16: null, // 日期
-          cellIdx17: null, // 一份交XXX
-        };
-      }
+      // 1.弹出提示框，选择停供电或停供民用爆炸物品
+      this.visible = true
+      // 2.生成文书编号
+      let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
+      // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
+      const orgInfo = db.table("orgInfo");
+      const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+      let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: ''}
       await db.close();
+      this.letData = {
+        cellIdx0: null, // 停供电(停供民用爆炸物品)
+        cellIdx1: num0, // 文书号
+        cellIdx1TypeTextItem: num0, // 文书号
+        cellIdx2: num1, // 文书号
+        cellIdx2TypeTextItem: num1, // 文书号
+        cellIdx3: num3, // 文书号
+        cellIdx3TypeTextItem: num3, // 文书号
+        cellIdx4: num4, // 文书号
+        cellIdx4TypeTextItem: num4, // 文书号
+        cellIdx5: corp.corpName, // 单位
+        cellIdx5TypeTextItem: corp.corpName, // 单位
+        cellIdx6: null, // 本机关在对XXX进行安全监察中发现
+        cellIdx7: null, // 依法作出XXX的决定
+        cellIdx8: null, // 请贵单位对其采取XXX的措施。
+        cellIdx9: null, // 受送达人（签名）
+        cellIdx10: null, // 日期
+        cellIdx11: orgSysOfficeInfo.depAddress, // 执法机关地址
+        cellIdx11TypeTextItem: orgSysOfficeInfo.depAddress, // 执法机关地址
+        cellIdx12: orgSysOfficeInfo.depPost, // 邮政编码
+        cellIdx12TypeTextItem: orgSysOfficeInfo.depPost, // 邮政编码
+        cellIdx13: orgSysOfficeInfo.master, // 执法机关联系人
+        cellIdx13TypeTextItem: orgSysOfficeInfo.master, // 执法机关联系人
+        cellIdx14: orgSysOfficeInfo.phone, // 联系电话
+        cellIdx14TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
+        cellIdx15: null, //
+        cellIdx16: null, // 日期
+        cellIdx17: null, // 一份交XXX
+      };
     },
     goBack({ page }) {
       // 返回选择企业

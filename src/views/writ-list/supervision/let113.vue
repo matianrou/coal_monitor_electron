@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -181,7 +181,6 @@
                   data-src
                   @click="commandFill('cellIdx13', '执法机关联系人', 'TextItem')"
                 >{{ letData.cellIdx13 }}</td>
-
                 <td class="textAlignLeft" style="width:14%">&nbsp;&nbsp;联系电话：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -261,8 +260,10 @@
 import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDocNumber } from '@/utils/setInitPaperData'
+import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let113",
+  mixins: [associationSelectPaper],
   props: {
     corpData: {
       type: Object,
@@ -277,6 +278,10 @@ export default {
         };
       },
     },
+    paperData: {
+      type: Object,
+      default: () => {}
+    }
   },
   components: {
     letMain,
@@ -288,6 +293,7 @@ export default {
       editData: {}, // 回显数据
       visible: false,
       selectedType: '解除停供电', // 初始化时选择的解除停供电
+      associationPaper: []
     };
   },
   created() {
@@ -299,70 +305,55 @@ export default {
         this.initData();
       }
     },
+    'paperData.paperId'(val) {
+      this.initData();
+    }
   },
   methods: {
-    async initData() {
-      // 初始化文书内容
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      //查询当前计划是否已做文书
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
-        );
-      });
-      // 已做文书则展示文书内容，否则创建初始版本
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本
-        // 1.弹出提示框，选择停供电或停供民用爆炸物品
-        this.visible = true
-        // 2.生成文书编号
-        let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
-        // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
-        const orgInfo = db.table("orgInfo");
-        const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
-        let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: ''}
-        this.letData = {
-          cellIdx0: null, // 解除停供电(解除停供民用爆炸物品)
-          cellIdx1: num0, // 文书号
-          cellIdx1TypeTextItem: num0, // 文书号
-          cellIdx2: num1, // 文书号
-          cellIdx2TypeTextItem: num1, // 文书号
-          cellIdx3: null, // 文书号
-          cellIdx4: num3, // 文书号
-          cellIdx4TypeTextItem: num3, // 文书号
-          cellIdx5: num4, // 文书号
-          cellIdx5TypeTextItem: num4, // 文书号
-          cellIdx6: corp.corpName ? corp.corpName : null, // corpname
-          cellIdx6TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
-          cellIdx7: null, // XXX已依法履行行政决定并采取相应措施消除了安全隐患
-          cellIdx8: null, // 解除停供电(解除停供民用爆炸物品)
-          cellIdx9: null, // 受送达人（签名）
-          cellIdx10: null, // 日期
-          cellIdx11: orgSysOfficeInfo.depAddress, // 执法机关地址
-          cellIdx11TypeTextItem: orgSysOfficeInfo.depAddress, // 执法机关地址
-          cellIdx12: orgSysOfficeInfo.depPost, // 邮政编码
-          cellIdx12TypeTextItem: orgSysOfficeInfo.depPost, // 邮政编码
-          cellIdx13: orgSysOfficeInfo.master, // 执法机关联系人
-          cellIdx13TypeTextItem: orgSysOfficeInfo.master, // 执法机关联系人
-          cellIdx14: orgSysOfficeInfo.phone, // 联系电话
-          cellIdx14TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
-          cellIdx15: null, //
-          cellIdx16: null, // 日期
-          cellIdx17: null, // 一份交XXX
-        };
-      }
+       // 1.弹出提示框，选择停供电或停供民用爆炸物品
+      this.visible = true
+      // 2.生成文书编号
+      let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
+      // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
+      const orgInfo = db.table("orgInfo");
+      const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+      let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: ''}
       await db.close();
+      this.letData = {
+        cellIdx0: null, // 解除停供电(解除停供民用爆炸物品)
+        cellIdx1: num0, // 文书号
+        cellIdx1TypeTextItem: num0, // 文书号
+        cellIdx2: num1, // 文书号
+        cellIdx2TypeTextItem: num1, // 文书号
+        cellIdx3: null, // 文书号
+        cellIdx4: num3, // 文书号
+        cellIdx4TypeTextItem: num3, // 文书号
+        cellIdx5: num4, // 文书号
+        cellIdx5TypeTextItem: num4, // 文书号
+        cellIdx6: corp.corpName ? corp.corpName : null, // corpname
+        cellIdx6TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
+        cellIdx7: null, // XXX已依法履行行政决定并采取相应措施消除了安全隐患
+        cellIdx8: null, // 解除停供电(解除停供民用爆炸物品)
+        cellIdx9: null, // 受送达人（签名）
+        cellIdx10: null, // 日期
+        cellIdx11: orgSysOfficeInfo.depAddress, // 执法机关地址
+        cellIdx11TypeTextItem: orgSysOfficeInfo.depAddress, // 执法机关地址
+        cellIdx12: orgSysOfficeInfo.depPost, // 邮政编码
+        cellIdx12TypeTextItem: orgSysOfficeInfo.depPost, // 邮政编码
+        cellIdx13: orgSysOfficeInfo.master, // 执法机关联系人
+        cellIdx13TypeTextItem: orgSysOfficeInfo.master, // 执法机关联系人
+        cellIdx14: orgSysOfficeInfo.phone, // 联系电话
+        cellIdx14TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
+        cellIdx15: null, //
+        cellIdx16: null, // 日期
+        cellIdx17: null, // 一份交XXX
+      };
     },
     goBack({ page }) {
       // 返回选择企业

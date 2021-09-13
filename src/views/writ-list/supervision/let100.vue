@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -294,7 +294,6 @@ export default {
                       { "value": "19", "name": "安全生产主体责任专项监管" }, { "value": "20", "name": "矿领导带班下井专项监管" }, { "value": "21", "name": "安全生产许可证专项监管" }, { "value": "22", "name": "安全监控系统专项监管" }, { "value": "23", "name": "应急救援专项监管" }, { "value": "25", "name": "“互联网+ 监管” 远程监管" },
                       { "value": "30", "name": "异地监管" }, { "value": "32", "name": "全系统各环节监管" }, { "value": "33", "name": "停产停工安全巡查" }, { "value": "26", "name": "其他专项监管" }, { "value": "6", "name": "其他" }],
       },
-      editData: {}, // 回显数据
     };
   },
   created() {
@@ -313,10 +312,8 @@ export default {
   methods: {
     async initData() {
       // 初始化文书内容
-      console.log('paperData', this.paperData)
       if (this.paperData && this.paperData.paperId) {
         this.letData = JSON.parse(this.paperData.paperContent);
-        this.editData = this.paperData;
       } else {
         // 创建初始版本
         const db = new GoDB(this.$store.state.DBName);
@@ -412,7 +409,6 @@ export default {
           this.options[key]
         );
       } else {
-        console.log('key', key)
         if (key === 'cellIdx5') {
           let dataKey = 'checkTable'
           this.options[key] = {

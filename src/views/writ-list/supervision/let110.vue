@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -92,7 +92,6 @@
                 >{{ letData.cellIdx5 }}</td>
                 <td class="textAlignLeft">号&nbsp;&nbsp;</td>
               </tr>
-
               <tr>
                 <td
                   class="cellInput cellBottomLine"
@@ -290,7 +289,7 @@
       title="文书信息选择"
       :close-on-click-modal="false"
       append-to-body
-      :visible="visible"
+      :visible="visibleSelectDialog"
       width="400px"
       :show-close="false"
     >
@@ -303,13 +302,21 @@
         <el-button type="primary" @click="confirm">确定</el-button>
       </span>
     </el-dialog>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
+import associationSelectPaper from '@/components/association-select-paper'
 const dictionary = [
   {
     value: "场所",
@@ -342,24 +349,7 @@ const dictionary = [
 ];
 export default {
   name: "Let110",
-  props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-  },
+  mixins: [associationSelectPaper],
   data() {
     return {
       letData: {},
@@ -376,122 +366,84 @@ export default {
         cellIdx14: dictionary,
         cellIdx15: dictionary,
       },
-      editData: {}, // 回显数据
       selectedType: "查封",
-      visible: false,
+      visibleSelectDialog: false,
+      associationPaper: ['1']
     };
   },
-  created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-  },
   methods: {
-    async initData() {
-      // 初始化文书内容
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      //查询当前计划是否已做文书
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
-        );
-      });
-      // await wkPaper.delete(checkPaper[0].id)
-      // 已做文书则展示文书内容，否则创建初始版本
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本
-        // 1.弹出提示框，选择查封或扣押
-        this.visible = true;
-        // 2.生成文书编号
-        let { num0, num1, num3, num4 } = await getDocNumber(
-          db,
-          this.docData.docTypeNo,
-          caseId,
-          this.$store.state.user
-        );
-        // 3.违法行为：获取笔录文书中的隐患数据
-        const let101Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === "1";
-        });
-        if (!let101Data) {
-          this.$message.error('请先填写并保存现场检查记录中内容！')
-          return
-        }
-        let let101DataPapaerContent = JSON.parse(let101Data.paperContent);
-        let dangerObject = getDangerObject(
-          let101DataPapaerContent.dangerItemObject.tableData
-        );
-        let cellIdx7String = `${dangerObject.dangerString}`;
-        let cellIdx8String = `${dangerObject.illegalString}`;
-        // 4.地点：sysOfficeInfo实体中organName字段+ courtPrefix字段
-        const orgInfo = db.table("orgInfo");
-        const orgData = await orgInfo.find(
-          (item) => item.no === this.$store.state.user.userGroupId
-        );
-        let orgSysOfficeInfo = orgData
-          ? JSON.parse(orgData.sysOfficeInfo)
-          : { organName: "", depAddress: "" };
-        let cellIdx15String = orgSysOfficeInfo.goverPrefix;
-        let cellIdx16String = orgSysOfficeInfo.organName;
-        let cellIdx17String = orgSysOfficeInfo.depAddress;
-        this.letData = {
-          cellIdx0: null, // 查封(扣押)
-          cellIdx1: num0, // 文书号
-          cellIdx1TypeTextItem: num0, // 文书号
-          cellIdx2: num1, // 文书号
-          cellIdx2TypeTextItem: num1, // 文书号
-          cellIdx3: null, // 查/扣
-          cellIdx4: num3, // 文书号
-          cellIdx4TypeTextItem: num3, // 文书号
-          cellIdx5: num4, // 文书号
-          cellIdx5TypeTextItem: num4, // 文书号
-          cellIdx6: corp.corpName ? corp.corpName : null, // corpname
-          cellIdx6TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
-          cellIdx7: cellIdx7String, // 违法行为
-          cellIdx8: cellIdx8String, // 违法认定法条
-          cellIdx9: null, // 本机关决定对你单位涉案XX
-          cellIdx10: null, // 予以XX
-          cellIdx11: null, // 查封(扣押)
-          cellIdx12: null, // 物品清单
-          cellIdx13: null, // XX的
-          cellIdx14: null, // XX作出处理决定
-          cellIdx15: null, // 此前，你单位不得使用、销毁或转移上述XX
-          cellIdx16: cellIdx15String, // 人民政府
-          cellIdx16TypeTextItem: cellIdx15String, // 人民政府
-          cellIdx17: cellIdx16String, // organName
-          cellIdx17TypeTextItem: cellIdx16String, // organName
-          cellIdx18: cellIdx17String, // courtPrefix人民法院
-          cellIdx18TypeTextItem: cellIdx17String, // courtPrefix人民法院
-          cellIdx19: null, // 查封(扣押)
-          cellIdx20: null, // 附件 暂不用
-          cellIdx21: null, //
-          cellIdx22: null, // 日期
-          cellIdx23: null, // 查封(扣押)
-          dangerItemObject: let101DataPapaerContent.dangerItemObject,
-          SamplingForensicsTable: {
-            tableData: [],
-            signature: null,
-            signDate: "",
-          },
-        };
-      }
+      // 1.弹出提示框，选择查封或扣押
+      this.visibleSelectDialog = true;
+      // 2.生成文书编号
+      let { num0, num1, num3, num4 } = await getDocNumber(
+        db,
+        this.docData.docTypeNo,
+        this.corpData.caseId,
+        this.$store.state.user
+      );
+      // 3.违法行为：获取笔录文书中的隐患数据
+      let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
+      let cellIdx7String = `${dangerObject.dangerString}`;
+      let cellIdx8String = `${dangerObject.illegalString}`;
+      // 4.地点：sysOfficeInfo实体中organName字段+ courtPrefix字段
+      const orgInfo = db.table("orgInfo");
+      const orgData = await orgInfo.find(
+        (item) => item.no === this.$store.state.user.userGroupId
+      );
+      let orgSysOfficeInfo = orgData
+        ? JSON.parse(orgData.sysOfficeInfo)
+        : { organName: "", depAddress: "" };
+      let cellIdx15String = orgSysOfficeInfo.goverPrefix;
+      let cellIdx16String = orgSysOfficeInfo.organName;
+      let cellIdx17String = orgSysOfficeInfo.depAddress;
       await db.close();
+      this.letData = {
+        cellIdx0: null, // 查封(扣押)
+        cellIdx1: num0, // 文书号
+        cellIdx1TypeTextItem: num0, // 文书号
+        cellIdx2: num1, // 文书号
+        cellIdx2TypeTextItem: num1, // 文书号
+        cellIdx3: null, // 查/扣
+        cellIdx4: num3, // 文书号
+        cellIdx4TypeTextItem: num3, // 文书号
+        cellIdx5: num4, // 文书号
+        cellIdx5TypeTextItem: num4, // 文书号
+        cellIdx6: corp.corpName ? corp.corpName : null, // corpname
+        cellIdx6TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
+        cellIdx7: cellIdx7String, // 违法行为
+        cellIdx8: cellIdx8String, // 违法认定法条
+        cellIdx9: null, // 本机关决定对你单位涉案XX
+        cellIdx10: null, // 予以XX
+        cellIdx11: null, // 查封(扣押)
+        cellIdx12: null, // 物品清单
+        cellIdx13: null, // XX的
+        cellIdx14: null, // XX作出处理决定
+        cellIdx15: null, // 此前，你单位不得使用、销毁或转移上述XX
+        cellIdx16: cellIdx15String, // 人民政府
+        cellIdx16TypeTextItem: cellIdx15String, // 人民政府
+        cellIdx17: cellIdx16String, // organName
+        cellIdx17TypeTextItem: cellIdx16String, // organName
+        cellIdx18: cellIdx17String, // courtPrefix人民法院
+        cellIdx18TypeTextItem: cellIdx17String, // courtPrefix人民法院
+        cellIdx19: null, // 查封(扣押)
+        cellIdx20: null, // 附件 暂不用
+        cellIdx21: null, //
+        cellIdx22: null, // 日期
+        cellIdx23: null, // 查封(扣押)
+        dangerItemObject: let1DataPapaerContent.dangerItemObject,
+        SamplingForensicsTable: {
+          tableData: [],
+          signature: null,
+          signDate: "",
+        },
+      };
     },
     goBack({ page }) {
       // 返回选择企业
@@ -545,7 +497,7 @@ export default {
     },
     confirm() {
       // 选择单位或个人
-      this.visible = false;
+      this.visibleSelectDialog = false;
       this.letData.cellIdx0 = this.selectedType;
       this.letData.cellIdx0TypeTextItem = this.selectedType;
       this.letData.cellIdx3 = this.selectedType.substring(0, 1);

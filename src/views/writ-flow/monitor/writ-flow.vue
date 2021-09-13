@@ -194,7 +194,7 @@
                     :src="require(flowStatus.paper32 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
                     :title="flowStatus.paper32 === 'save' ? '已保存' : '已归档'"
                     alt="" />
-                  <span @click="cmdEditDoc('let110','查封(扣押)决定书','32')" class="flow-span">查封(扣押)
+                  <span @click="cmdEditDoc('let110','查封（扣押）决定书','32')" class="flow-span">查封(扣押)
                     <br />决定书</span>
                 </td>
                 <td style="width:28px;">
@@ -206,7 +206,7 @@
                     :src="require(flowStatus.paper34 === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
                     :title="flowStatus.paper34 === 'save' ? '已保存' : '已归档'"
                     alt="" />
-                  <span @click="cmdEditDoc('let111','解除查封(扣押)决定书','34')" class="flow-span">解除查封(扣押)
+                  <span @click="cmdEditDoc('let111','解除查封（扣押）决定书','34')" class="flow-span">解除查封(扣押)
                     <br />决定书</span>
                 </td>
                 <td style="width:28px;">

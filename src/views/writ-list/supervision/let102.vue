@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -253,35 +253,12 @@
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject, getDocNumber } from '@/utils/setInitPaperData'
-import selectPaper from '@/components/select-paper'
+import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let102",
-  props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-    paperData: {
-      type: Object,
-      default: () => {}
-    }
-  },
-  components: {
-    letMain,
-    selectPaper
-  },
+  mixins: [associationSelectPaper],
   data() {
     return {
       letData: {},
@@ -292,61 +269,18 @@ export default {
           showSelectDangerBtn: false // 用于区分是否可以选择隐患项
         }
       },
-      editData: {}, // 回显数据
-      visible: {
-        selectPaper: false
-      },
-      paperList: []
+      associationPaper: ['1']
     };
   },
-  created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-    'paperData.paperId'(val) {
-      this.initData();
-    }
-  },
   methods: {
-    async initData() {
-      // 初始化文书内容
-      if (this.paperData && this.paperData.paperId) {
-        this.letData = JSON.parse(this.paperData.paperContent);
-        this.editData = this.paperData;
-      } else {
-        // 创建初始版本
-        // 获取现场检查笔录中的隐患选择
-        const db = new GoDB(this.$store.state.DBName);
-        const wkPaper = db.table('wkPaper')
-        const let101Data = await wkPaper.findAll((item) => {
-          return item.caseId === this.corpData.caseId && item.paperType === '1' && item.delFlag !== '1';
-        });
-        await db.close();
-        if (let101Data.length === 0) {
-          this.$message.error('请先填写并保存现场检查记录中内容！')
-          return
-        } else if (let101Data.length === 1) {
-          this.initLetData(let101Data[0])
-        } else {
-          // 选择关联的现场检查笔录内容
-          this.paperList = let101Data
-          this.visible.selectPaper = true
-        }
-      }
-    },
-    async initLetData (let101Data) {
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
-      let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
+      let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
       // 通过机构接口中的sysOfficeInfo中获取的organName和courtPrefix字段分别填充cellIdx8和cellIdx9字段
       const orgInfo = db.table("orgInfo");
       const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
@@ -380,17 +314,8 @@ export default {
         cellIdx16: null, // 日期
         cellIdx17: null, //
         cellIdx18: null, // 日期
-        dangerItemObject: let101DataPapaerContent.dangerItemObject, // 隐患项大表
+        dangerItemObject: let1DataPapaerContent.dangerItemObject, // 隐患项大表
       };
-    },
-    closeDialog ({page, refresh}) {
-      // 关闭选择文书弹窗
-      this.visible[page] = false
-    },
-    confirmPaper (currentRow) {
-      // 选择文书
-      this.initLetData(currentRow)
-      this.visible.selectPaper = false
     },
     goBack({ page }) {
       // 返回选择企业
