@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -420,7 +420,7 @@
       title="文书信息选择"
       :close-on-click-modal="false"
       append-to-body
-      :visible="visible"
+      :visible="visibleSelectDialog"
       width="400px"
       :show-close="false"
     >
@@ -433,13 +433,21 @@
         <el-button type="primary" @click="confirm">确定</el-button>
       </span>
     </el-dialog>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDocNumber } from "@/utils/setInitPaperData";
+import associationSelectPaper from '@/components/association-select-paper'
 const toggleDictionary = [
   {
     value: "□",
@@ -452,24 +460,7 @@ const toggleDictionary = [
 ];
 export default {
   name: "Let105",
-  props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-  },
+  mixins: [associationSelectPaper],
   data() {
     return {
       letData: {},
@@ -478,123 +469,88 @@ export default {
         cellIdx19: toggleDictionary,
         cellIdx23: toggleDictionary,
       },
-      editData: {}, // 回显数据
-      visible: false,
+      visibleSelectDialog: false,
       selectedType: "延期",
+      associationPaper: ['8']
     };
   },
-  created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-  },
   methods: {
-    async initData() {
-      // 初始化文书内容
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      //查询当前计划是否已做文书
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
-        );
-      });
-      // 已做文书则展示文书内容，否则创建初始版本
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本
-        let paperNumber = await getDocNumber(
-          db,
-          this.docData.docTypeNo,
-          caseId,
-          this.$store.state.user
-        );
-        // 2.行政处罚决定书 日期、编号、
-        const let206Data = await wkPaper.find(
-          (item) => item.caseId === caseId && item.paperType === "8"
-        );
-        if (!let206Data) {
-          this.$message.error("请先填写并保存行政处罚决定书中内容！");
-          return;
-        }
-        let let206DataPapaerContent = JSON.parse(let206Data.paperContent);
-        let date206 = let206DataPapaerContent.cellIdx20
-          ? let206DataPapaerContent.cellIdx20
-              .replace("年", "-")
-              .replace("月", "-")
-              .replace("日", "-")
-              .split("-")
-          : ["", "", ""];
-        this.visible = true;
-        this.letData = {
-          cellIdx0: null, // 延期/分期
-          cellIdx1: paperNumber.num0, // 文书号
-          cellIdx1TypeTextItem: paperNumber.num0, // 文书号
-          cellIdx2: paperNumber.num1, // 文书号
-          cellIdx2TypeTextItem: paperNumber.num1, // 文书号
-          cellIdx3: paperNumber.num3, // 文书号
-          cellIdx3TypeTextItem: paperNumber.num3, // 文书号
-          cellIdx4: paperNumber.num4, // 文书号
-          cellIdx5TypeTextItem: paperNumber.num4, // 文书号
-          cellIdx5: corp.corpName, // 煤矿名称
-          cellIdx5TypeTextItem: corp.corpName, // 煤矿名称
-          cellIdx6: date206[0], // 年
-          cellIdx6TypeTextItem: date206[0], // 年
-          cellIdx7: date206[1], // 月
-          cellIdx7TypeTextItem: date206[1], // 月
-          cellIdx8: date206[2], // 日
-          cellIdx8TypeTextItem: date206[2], // 日
-          cellIdx9: null, // 单位
-          cellIdx10: let206DataPapaerContent.cellIdx0, // 行政处罚决定书 文书号
-          cellIdx10TypeTextItem: let206DataPapaerContent.cellIdx0, // 行政处罚决定书 文书号
-          cellIdx11: let206DataPapaerContent.cellIdx1, // 行政处罚决定书 文书号
-          cellIdx11TypeTextItem: let206DataPapaerContent.cellIdx1, // 行政处罚决定书 文书号
-          cellIdx12: let206DataPapaerContent.cellIdx2, // 行政处罚决定书 文书号
-          cellIdx12TypeTextItem: let206DataPapaerContent.cellIdx2, // 行政处罚决定书 文书号
-          cellIdx13: let206DataPapaerContent.cellIdx3, // 行政处罚决定书 文书号
-          cellIdx13TypeTextItem: let206DataPapaerContent.cellIdx3, // 行政处罚决定书 文书号
-          cellIdx14: null, // 单位
-          cellIdx15: null, // 罚款
-          cellIdx16: null, // 单位
-          cellIdx17: "□", // 不予批准
-          cellIdx18: null, // 延期/分期
-          cellIdx19: "□", // 延期缴纳罚款
-          cellIdx20: null, // 年
-          cellIdx21: null, // 月
-          cellIdx22: null, // 日
-          cellIdx23: "□", // 不予批准
-          cellIdx24: null, // 分几期
-          cellIdx25: null, // 第几期
-          cellIdx26: null, // 年
-          cellIdx27: null, // 月
-          cellIdx28: null, // 日
-          cellIdx29: null, // 缴纳罚款
-          cellIdx30: null, // 缴纳罚款大写
-          cellIdx31: null, // 第几期
-          cellIdx32: null, // 年
-          cellIdx33: null, // 月
-          cellIdx34: null, // 日
-          cellIdx35: null, // 缴纳罚款
-          cellIdx36: null, // 缴纳罚款大写
-          cellIdx37: null, //
-          cellIdx38: null, // 日期
-        };
-      }
+      let paperNumber = await getDocNumber(
+        db,
+        this.docData.docTypeNo,
+        this.corpData.caseId,
+        this.$store.state.user
+      );
+      // 2.行政处罚决定书 日期、编号、
+      let let8DataPapaerContent = JSON.parse(selectedPaper.let8Data.paperContent);
+      let date206 = let8DataPapaerContent.cellIdx20
+        ? let8DataPapaerContent.cellIdx20
+            .replace("年", "-")
+            .replace("月", "-")
+            .replace("日", "-")
+            .split("-")
+        : ["", "", ""];
       await db.close();
+      this.visibleSelectDialog = true;
+      this.letData = {
+        cellIdx0: null, // 延期/分期
+        cellIdx1: paperNumber.num0, // 文书号
+        cellIdx1TypeTextItem: paperNumber.num0, // 文书号
+        cellIdx2: paperNumber.num1, // 文书号
+        cellIdx2TypeTextItem: paperNumber.num1, // 文书号
+        cellIdx3: paperNumber.num3, // 文书号
+        cellIdx3TypeTextItem: paperNumber.num3, // 文书号
+        cellIdx4: paperNumber.num4, // 文书号
+        cellIdx5TypeTextItem: paperNumber.num4, // 文书号
+        cellIdx5: corp.corpName, // 煤矿名称
+        cellIdx5TypeTextItem: corp.corpName, // 煤矿名称
+        cellIdx6: date206[0], // 年
+        cellIdx6TypeTextItem: date206[0], // 年
+        cellIdx7: date206[1], // 月
+        cellIdx7TypeTextItem: date206[1], // 月
+        cellIdx8: date206[2], // 日
+        cellIdx8TypeTextItem: date206[2], // 日
+        cellIdx9: null, // 单位
+        cellIdx10: let8DataPapaerContent.cellIdx0, // 行政处罚决定书 文书号
+        cellIdx10TypeTextItem: let8DataPapaerContent.cellIdx0, // 行政处罚决定书 文书号
+        cellIdx11: let8DataPapaerContent.cellIdx1, // 行政处罚决定书 文书号
+        cellIdx11TypeTextItem: let8DataPapaerContent.cellIdx1, // 行政处罚决定书 文书号
+        cellIdx12: let8DataPapaerContent.cellIdx2, // 行政处罚决定书 文书号
+        cellIdx12TypeTextItem: let8DataPapaerContent.cellIdx2, // 行政处罚决定书 文书号
+        cellIdx13: let8DataPapaerContent.cellIdx3, // 行政处罚决定书 文书号
+        cellIdx13TypeTextItem: let8DataPapaerContent.cellIdx3, // 行政处罚决定书 文书号
+        cellIdx14: null, // 单位
+        cellIdx15: null, // 罚款
+        cellIdx16: null, // 单位
+        cellIdx17: "□", // 不予批准
+        cellIdx18: null, // 延期/分期
+        cellIdx19: "□", // 延期缴纳罚款
+        cellIdx20: null, // 年
+        cellIdx21: null, // 月
+        cellIdx22: null, // 日
+        cellIdx23: "□", // 不予批准
+        cellIdx24: null, // 分几期
+        cellIdx25: null, // 第几期
+        cellIdx26: null, // 年
+        cellIdx27: null, // 月
+        cellIdx28: null, // 日
+        cellIdx29: null, // 缴纳罚款
+        cellIdx30: null, // 缴纳罚款大写
+        cellIdx31: null, // 第几期
+        cellIdx32: null, // 年
+        cellIdx33: null, // 月
+        cellIdx34: null, // 日
+        cellIdx35: null, // 缴纳罚款
+        cellIdx36: null, // 缴纳罚款大写
+        cellIdx37: null, //
+        cellIdx38: null, // 日期
+      };
     },
     goBack({ page }) {
       // 返回选择企业
@@ -616,7 +572,7 @@ export default {
       }
     },
     confirm() {
-      this.visible = false;
+      this.visibleSelectDialog = false;
       this.letData.cellIdx0 = this.selectedType;
       this.letData.cellIdx0TypetextItem = this.selectedType;
       this.letData.cellIdx18 = this.selectedType;

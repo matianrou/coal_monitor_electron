@@ -39,8 +39,8 @@ export default {
       selectedPaper: {}
     };
   },
-  created() {
-    this.initData();
+  async created() {
+    await this.initData();
   },
   watch: {
     "corpData.corpId"(val) {
@@ -111,14 +111,16 @@ export default {
     },
     confirmPaper (currentRow) {
       // 选择的文书
-      this.selectedPaper[this.selectFlowList[this.selectedIndex].key] = currentRow
-      // 判断当前是否已经选择完文书，如果未选择完则继续进行文书选择，如果已经选择完则进入初始化
-      if (this.selectedIndex === this.selectFlowList.length - 1) {
-        this.initLetData(this.selectedPaper)
-        this.visible.selectPaper = false
-      } else {
-        this.selectedIndex = this.selectedIndex + 1
-        this.handleSelectPaper()
+      if (currentRow) {
+        this.selectedPaper[this.selectFlowList[this.selectedIndex].key] = currentRow
+        // 判断当前是否已经选择完文书，如果未选择完则继续进行文书选择，如果已经选择完则进入初始化
+        if (this.selectedIndex === this.selectFlowList.length - 1) {
+          this.initLetData(this.selectedPaper)
+          this.visible.selectPaper = false
+        } else {
+          this.selectedIndex = this.selectedIndex + 1
+          this.handleSelectPaper()
+        }
       }
     },
   },

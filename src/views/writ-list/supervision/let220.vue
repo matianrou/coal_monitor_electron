@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -303,182 +303,138 @@
         </div>
       </div>
     </let-main>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main";
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
+import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let106",
-  props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-  },
+  mixins: [associationSelectPaper],
   data() {
     return {
       letData: {},
       options: {},
-      editData: {}, // 回显数据
+      associationPaper: ['8']
     };
   },
-  created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-  },
   methods: {
-    async initData() {
-      // 初始化文书内容
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      //查询当前计划是否已做文书
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
-        );
-      });
-      // 已做文书则展示文书内容，否则创建初始版本
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本
-        // 1.生成文书编号
-        let { num0, num1, num3, num4 } = await getDocNumber(
-          db,
-          this.docData.docTypeNo,
-          caseId,
-          this.$store.state.user
-        );
-        // 2.时间
-        let now = new Date();
-        let cellIdx6Year = now.getFullYear();
-        let cellIdx7Month = now.getMonth() + 1;
-        let cellIdx8Date = now.getDate();
-        // 3.行政处罚决定书 日期、编号、
-        const let206Data = await wkPaper.find(
-          (item) => item.caseId === caseId && item.paperType === "8"
-        );
-        if (!let206Data) {
-          this.$message.error("请先填写并保存行政处罚决定书中内容！");
-          return;
-        }
-        let let206DataPapaerContent = JSON.parse(let206Data.paperContent);
-        let date206 = let206DataPapaerContent.cellIdx20
-          ? let206DataPapaerContent.cellIdx20
-              .replace("年", "-")
-              .replace("月", "-")
-              .replace("日", "-")
-              .split("-")
-          : ["", "", ""];
-        // 4.sysOfficeInfo中 goverPrefix和organName和courtPrefix
-        const orgInfo = db.table("orgInfo");
-        const orgData = await orgInfo.find(
-          (item) => item.no === this.$store.state.user.userGroupId
-        );
-        let orgSysOfficeInfo = orgData
-          ? JSON.parse(orgData.sysOfficeInfo)
-          : {
-              accountName: "",
-              accountBank: "",
-              billName: "",
-              account: "",
-              accountAddress: "",
-              organName: "",
-              courtPrefix: "",
-            };
-        this.letData = {
-          cellIdx0: num0, // 文书号
-          cellIdx0TypeTextItem: num0, // 文书号
-          cellIdx1: num1, // 文书号
-          cellIdx1TypeTextItem: num1, // 文书号
-          cellIdx2: num3, // 文书号
-          cellIdx2TypeTextItem: num3, // 文书号
-          cellIdx3: num4, // 文书号
-          cellIdx3TypeTextItem: num4, // 文书号
-          cellIdx4: corp.corpName ? corp.corpName : null, // corpname
-          cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
-          cellIdx5: date206[0], // 年
-          cellIdx5TypeTextItem: date206[0], // 年
-          cellIdx6: date206[1], // 月
-          cellIdx6TypeTextItem: date206[1], // 月
-          cellIdx7: date206[2], // 日
-          cellIdx7TypeTextItem: date206[2], // 日
-          cellIdx8: null, // 单位
-          cellIdx9: let206DataPapaerContent.cellIdx0, // 行政处罚决定书 文书号
-          cellIdx9TypeTextItem: let206DataPapaerContent.cellIdx0, // 行政处罚决定书 文书号
-          cellIdx10: let206DataPapaerContent.cellIdx1, // 行政处罚决定书 文书号
-          cellIdx10TypeTextItem: let206DataPapaerContent.cellIdx1, // 行政处罚决定书 文书号
-          cellIdx11: let206DataPapaerContent.cellIdx2, // 行政处罚决定书 文书号
-          cellIdx11TypeTextItem: let206DataPapaerContent.cellIdx2, // 行政处罚决定书 文书号
-          cellIdx12: let206DataPapaerContent.cellIdx3, // 行政处罚决定书 文书号
-          cellIdx12TypeTextItem: let206DataPapaerContent.cellIdx3, // 行政处罚决定书 文书号
-          cellIdx13: null, // 单位
-          cellIdx14: null, // 罚款
-          cellIdx15: null, // 年
-          cellIdx16: null, // 月
-          cellIdx17: null, // 日
-          cellIdx18: cellIdx6Year, // 年
-          cellIdx18TypeTextItem: cellIdx6Year, // 年
-          cellIdx19: cellIdx7Month, // 月
-          cellIdx19TypeTextItem: cellIdx7Month, // 月
-          cellIdx20: cellIdx8Date, // 日
-          cellIdx20TypeTextItem: cellIdx8Date, // 日
-          cellIdx21: null, // 单位
-          cellIdx22: null, // 加处罚款
-          cellIdx23: null, // 年
-          cellIdx24: null, // 月
-          cellIdx25: null, // 日
-          cellIdx26: orgSysOfficeInfo.accountName, // 银行
-          cellIdx26TypeTextItem: orgSysOfficeInfo.accountName, // 银行
-          cellIdx27: orgSysOfficeInfo.accountBank, // 支行（分理处）
-          cellIdx27TypeTextItem: orgSysOfficeInfo.accountBank, // 支行（分理处）
-          cellIdx28: orgSysOfficeInfo.billName, // 账户名称
-          cellIdx28TypeTextItem: orgSysOfficeInfo.billName, // 账户名称
-          cellIdx29: orgSysOfficeInfo.account, // 账号
-          cellIdx29TypeTextItem: orgSysOfficeInfo.account, // 账号
-          cellIdx30: orgSysOfficeInfo.accountAddress, // 地址
-          cellIdx30TypeTextItem: orgSysOfficeInfo.accountAddress, // 地址
-          cellIdx31: orgSysOfficeInfo.goverPrefix, // 人民政府
-          cellIdx31TypeTextItem: orgSysOfficeInfo.goverPrefix, // 人民政府
-          cellIdx32: orgSysOfficeInfo.organName, //
-          cellIdx32TypeTextItem: orgSysOfficeInfo.organName, //
-          cellIdx33: orgSysOfficeInfo.courtPrefix, // 人民法院
-          cellIdx33TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
-          cellIdx34: null, //
-          cellIdx35: null, // 日期
-          cellIdx36: let206DataPapaerContent.cellIdx4, // 单位
-        };
-      }
+      // 1.生成文书编号
+      let { num0, num1, num3, num4 } = await getDocNumber(
+        db,
+        this.docData.docTypeNo,
+        this.corpData.caseId,
+        this.$store.state.user
+      );
+      // 2.时间
+      let now = new Date();
+      let cellIdx6Year = now.getFullYear();
+      let cellIdx7Month = now.getMonth() + 1;
+      let cellIdx8Date = now.getDate();
+      // 3.行政处罚决定书 日期、编号、
+      let let8DataPapaerContent = JSON.parse(selectedPaper.let8Data.paperContent);
+      let date206 = let8DataPapaerContent.cellIdx20
+        ? let8DataPapaerContent.cellIdx20
+            .replace("年", "-")
+            .replace("月", "-")
+            .replace("日", "-")
+            .split("-")
+        : ["", "", ""];
+      // 4.sysOfficeInfo中 goverPrefix和organName和courtPrefix
+      const orgInfo = db.table("orgInfo");
+      const orgData = await orgInfo.find(
+        (item) => item.no === this.$store.state.user.userGroupId
+      );
+      let orgSysOfficeInfo = orgData
+        ? JSON.parse(orgData.sysOfficeInfo)
+        : {
+            accountName: "",
+            accountBank: "",
+            billName: "",
+            account: "",
+            accountAddress: "",
+            organName: "",
+            courtPrefix: "",
+          };
       await db.close();
+      this.letData = {
+        cellIdx0: num0, // 文书号
+        cellIdx0TypeTextItem: num0, // 文书号
+        cellIdx1: num1, // 文书号
+        cellIdx1TypeTextItem: num1, // 文书号
+        cellIdx2: num3, // 文书号
+        cellIdx2TypeTextItem: num3, // 文书号
+        cellIdx3: num4, // 文书号
+        cellIdx3TypeTextItem: num4, // 文书号
+        cellIdx4: corp.corpName ? corp.corpName : null, // corpname
+        cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
+        cellIdx5: date206[0], // 年
+        cellIdx5TypeTextItem: date206[0], // 年
+        cellIdx6: date206[1], // 月
+        cellIdx6TypeTextItem: date206[1], // 月
+        cellIdx7: date206[2], // 日
+        cellIdx7TypeTextItem: date206[2], // 日
+        cellIdx8: null, // 单位
+        cellIdx9: let8DataPapaerContent.cellIdx0, // 行政处罚决定书 文书号
+        cellIdx9TypeTextItem: let8DataPapaerContent.cellIdx0, // 行政处罚决定书 文书号
+        cellIdx10: let8DataPapaerContent.cellIdx1, // 行政处罚决定书 文书号
+        cellIdx10TypeTextItem: let8DataPapaerContent.cellIdx1, // 行政处罚决定书 文书号
+        cellIdx11: let8DataPapaerContent.cellIdx2, // 行政处罚决定书 文书号
+        cellIdx11TypeTextItem: let8DataPapaerContent.cellIdx2, // 行政处罚决定书 文书号
+        cellIdx12: let8DataPapaerContent.cellIdx3, // 行政处罚决定书 文书号
+        cellIdx12TypeTextItem: let8DataPapaerContent.cellIdx3, // 行政处罚决定书 文书号
+        cellIdx13: null, // 单位
+        cellIdx14: null, // 罚款
+        cellIdx15: null, // 年
+        cellIdx16: null, // 月
+        cellIdx17: null, // 日
+        cellIdx18: cellIdx6Year, // 年
+        cellIdx18TypeTextItem: cellIdx6Year, // 年
+        cellIdx19: cellIdx7Month, // 月
+        cellIdx19TypeTextItem: cellIdx7Month, // 月
+        cellIdx20: cellIdx8Date, // 日
+        cellIdx20TypeTextItem: cellIdx8Date, // 日
+        cellIdx21: null, // 单位
+        cellIdx22: null, // 加处罚款
+        cellIdx23: null, // 年
+        cellIdx24: null, // 月
+        cellIdx25: null, // 日
+        cellIdx26: orgSysOfficeInfo.accountName, // 银行
+        cellIdx26TypeTextItem: orgSysOfficeInfo.accountName, // 银行
+        cellIdx27: orgSysOfficeInfo.accountBank, // 支行（分理处）
+        cellIdx27TypeTextItem: orgSysOfficeInfo.accountBank, // 支行（分理处）
+        cellIdx28: orgSysOfficeInfo.billName, // 账户名称
+        cellIdx28TypeTextItem: orgSysOfficeInfo.billName, // 账户名称
+        cellIdx29: orgSysOfficeInfo.account, // 账号
+        cellIdx29TypeTextItem: orgSysOfficeInfo.account, // 账号
+        cellIdx30: orgSysOfficeInfo.accountAddress, // 地址
+        cellIdx30TypeTextItem: orgSysOfficeInfo.accountAddress, // 地址
+        cellIdx31: orgSysOfficeInfo.goverPrefix, // 人民政府
+        cellIdx31TypeTextItem: orgSysOfficeInfo.goverPrefix, // 人民政府
+        cellIdx32: orgSysOfficeInfo.organName, //
+        cellIdx32TypeTextItem: orgSysOfficeInfo.organName, //
+        cellIdx33: orgSysOfficeInfo.courtPrefix, // 人民法院
+        cellIdx33TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
+        cellIdx34: null, //
+        cellIdx35: null, // 日期
+        cellIdx36: let8DataPapaerContent.cellIdx4, // 单位
+      };
     },
     goBack({ page }) {
       // 返回选择企业

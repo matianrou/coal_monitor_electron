@@ -331,6 +331,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let201','立案决定书', '4')" class="flow-span">立案决定书</span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let201','立案决定书', '4')"></i>
                 </td>
                 <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
@@ -343,6 +344,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let202','调查询问笔录', '5')" class="flow-span">调查询问笔录</span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let202','调查询问笔录', '5')"></i>
                 </td>
                 <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c5.png" style="height: 100%;" />
@@ -358,6 +360,7 @@
                     行政执法决定法制
                     <br />审核意见书
                   </span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let203','行政执法决定法制审核意见书', '47')"></i>
                 </td>
                 <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
@@ -370,6 +373,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let215','集体讨论记录', '48')" class="flow-span">集体讨论记录</span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let215','集体讨论记录', '48')"></i>
                 </td>
                 <td style="width:12px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c6.png" style="height: 100%;" />
@@ -388,6 +392,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let216','案件处理呈报书', '36')" class="flow-span">案件处理呈报书</span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let216','案件处理呈报书', '36')"></i>
                 </td>
                 <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
@@ -400,6 +405,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let204','行政处罚告知书', '6')" class="flow-span">行政处罚告知书</span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let204','行政处罚告知书', '6')"></i>
                 </td>
                 <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c5.png" style="height: 100%;" />
@@ -414,6 +420,7 @@
                   <span @click="cmdEditDoc('let206','行政处罚决定书', '8')" class="flow-span">
                     行政处罚决定书
                   </span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let206','行政处罚决定书', '8')"></i>
                 </td>
                 <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
@@ -428,6 +435,7 @@
                   <span @click="cmdEditDoc('let207','送达收执', '9')" class="flow-span">
                     送达收执
                   </span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let207','送达收执', '9')"></i>
                 </td>
                 <td style="width:12px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c6.png" style="height: 100%;" />
@@ -453,6 +461,7 @@
                   <span @click="cmdEditDoc('let217','询问通知书', '57')" class="flow-span">
                     询问通知书
                   </span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let217','询问通知书', '57')"></i>
                 </td>
                 <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
@@ -465,6 +474,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let205','陈述申辩笔录', '30')" class="flow-span">陈述申辩笔录</span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let205','陈述申辩笔录', '30')"></i>
                 </td>
                 <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c5.png" style="height: 100%;" />
@@ -479,6 +489,7 @@
                   <span @click="cmdEditDoc('let209','听证通知书', '28')" class="flow-span">
                     听证通知书
                   </span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let209','听证通知书', '28')"></i>
                 </td>
                 <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
@@ -493,6 +504,7 @@
                   <span @click="cmdEditDoc('let210','不予受理听证申请通知书', '29')" class="flow-span">
                     不予受理听证<br />申请通知书
                   </span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let210','不予受理听证申请通知书', '29')"></i>
                 </td>
                 <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c5.png" style="height: 100%;" />
@@ -507,6 +519,7 @@
                   <span @click="cmdEditDoc('let211','听证笔录', '7')" class="flow-span">
                     听证笔录
                   </span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let211','听证笔录', '7')"></i>
                 </td>
                 <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
@@ -521,6 +534,7 @@
                   <span @click="cmdEditDoc('let218','听证会报告书', '49')" class="flow-span">
                     听证会报告书
                   </span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let218','听证会报告书', '49')"></i>
                 </td>
                 <td style="width:12px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c6.png" style="height: 100%;" />
@@ -546,6 +560,7 @@
                   <span @click="cmdEditDoc('let212','罚款缴纳催告书', '50')" class="flow-span">
                     罚款缴纳催告书
                   </span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let212','罚款缴纳催告书', '50')"></i>
                 </td>
                 <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
@@ -560,6 +575,7 @@
                   <span @click="cmdEditDoc('let220','加处罚款决定书', '51')" class="flow-span">
                     加处罚款决定书
                   </span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let220','加处罚款决定书', '51')"></i>
                 </td>
                 <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c5.png" style="height: 100%;" />
@@ -574,6 +590,7 @@
                   <span @click="cmdEditDoc('let219','延期（分期）缴纳罚款决定书', '52')" class="flow-span">
                     延期（分期）缴纳<br />罚款决定书
                   </span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let219','延期（分期）缴纳罚款决定书', '52')"></i>
                 </td>
                 <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
@@ -588,6 +605,7 @@
                   <span @click="cmdEditDoc('let213','案件结案报告', '14')" class="flow-span">
                     案件结案报告
                   </span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let213','案件结案报告', '14')"></i>
                 </td>
                 <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c5.png" style="height: 100%;" />
@@ -602,6 +620,7 @@
                   <span @click="cmdEditDoc('let214','执法案卷（首页）及目录', '15')" class="flow-span">
                     执法案卷（首页）<br />及目录
                   </span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let214','执法案卷（首页）及目录', '15')"></i>
                 </td>
                 <td style="width:12px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c7.png" style="height: 100%;" />
@@ -629,6 +648,7 @@
                   <span @click="cmdEditDoc('let309','行政强制执行事先催告书', '53')" class="flow-span">
                     行政强制执行<br />事先催告书
                   </span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let309','行政强制执行事先催告书', '53')"></i>
                 </td>
                 <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
@@ -644,6 +664,7 @@
                     强制执行
                     <br />申请书
                   </span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let301','强制执行申请书', '18')"></i>
                 </td>
                 <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c5.png" style="height: 100%;" />
@@ -658,6 +679,7 @@
                   <span @click="cmdEditDoc('let310','行政执法有关事项审批报告', '54')" class="flow-span">
                     行政执法有关事项<br />审批报告
                   </span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let310','行政执法有关事项审批报告', '54')"></i>
                 </td>
                 <td style="width:12px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c7.png" style="height: 100%;" />
@@ -683,6 +705,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let401','移送书', '19')" class="flow-span">移送书</span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let401','移送书', '19')"></i>
                 </td>
                 <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
@@ -695,6 +718,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let402','涉嫌犯罪案件移送书', '20')" class="flow-span">涉嫌犯罪案件<br />移送书</span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let402','涉嫌犯罪案件移送书', '20')"></i>
                 </td>
                 <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c5.png" style="height: 100%;" />
@@ -709,6 +733,7 @@
                   <span @click="cmdEditDoc('let406','鉴定委托书', '55')" class="flow-span">
                     鉴定委托书
                   </span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let406','鉴定委托书', '55')"></i>
                 </td>
                 <!--<td style="width:28px;" class="writ-flow-td"><img src="../assets/image/doc-flow_r1_c3-1.png" style="height: 100%;" /></td>
                 <td style="width:182px;background:url(images/doc-flow_r1_c4.png);background-repeat:no-repeat;text-align:center;color:#fff;"><a class="{let-403}" href="#">查封扣押处理<br />决定书</a></td>-->

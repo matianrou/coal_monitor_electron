@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -217,33 +217,24 @@
         </div>
       </div>
     </let-main>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDocNumber } from '@/utils/setInitPaperData'
+import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let207",
-  props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-  },
+  mixins: [associationSelectPaper],
   data() {
     return {
       letData: {},
@@ -271,76 +262,48 @@ export default {
           },
         ],
       },
-      editData: {}, // 回显数据
+      associationPaper: []
     };
   },
-  created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-  },
   methods: {
-    async initData() {
-      // 初始化文书内容
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      //查询当前计划是否已做文书
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
-        );
-      });
-      // 已做文书则展示文书内容，否则创建初始版本
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本
-        // 1.送达文书：国家煤矿安全监管行政处罚决定书
-        let cellIdx4String = '国家煤矿安全监管行政处罚决定书'
-        // 2.文书字号：使用行政处罚决定书的文书编号
-        let { numString } = await getDocNumber(db, '8', caseId, this.$store.state.user)
-        let cellIdx5String = numString
-        // 3.送达地点：煤矿名称
-        let cellIdx6String = corp.corpName
-        let paperNumber = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
-        this.letData = {
-          cellIdx0: paperNumber.num0, // 文书号
-          cellIdx0TypeTextItem: paperNumber.num0, // 文书号
-          cellIdx1: paperNumber.num1, // 文书号
-          cellIdx1TypeTextItem: paperNumber.num1, // 文书号
-          cellIdx2: paperNumber.num3, // 文书号
-          cellIdx2TypeTextItem: paperNumber.num3, // 文书号
-          cellIdx3: paperNumber.num4, // 文书号
-          cellIdx3TypeTextItem: paperNumber.num4, // 文书号
-          cellIdx4: cellIdx4String, // 送达文书
-          cellIdx4TypeTextItem: cellIdx4String, // 送达文书
-          cellIdx5: cellIdx5String, // 文书字号
-          cellIdx5TypeTextItem: cellIdx5String, // 文书字号
-          cellIdx6: cellIdx6String, // 送达地点
-          cellIdx6TypeTextItem: cellIdx6String, // 送达地点
-          cellIdx7: null, // 送达方式
-          cellIdx8: null, // 受送达单位负责人（个人）（签名）
-          cellIdx9: null, // 日期
-          cellIdx10: null, // 送达人（签名）
-          cellIdx11: null, // 日期
-          cellIdx12: null, //
-          cellIdx13: null, // 日期
-        };
-      }
+      // 1.送达文书：国家煤矿安全监管行政处罚决定书
+      let cellIdx4String = '国家煤矿安全监管行政处罚决定书'
+      // 2.文书字号：使用行政处罚决定书的文书编号
+      let { numString } = await getDocNumber(db, '8', this.corpData.caseId, this.$store.state.user)
+      let cellIdx5String = numString
+      // 3.送达地点：煤矿名称
+      let cellIdx6String = corp.corpName
+      let paperNumber = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
       await db.close();
+      this.letData = {
+        cellIdx0: paperNumber.num0, // 文书号
+        cellIdx0TypeTextItem: paperNumber.num0, // 文书号
+        cellIdx1: paperNumber.num1, // 文书号
+        cellIdx1TypeTextItem: paperNumber.num1, // 文书号
+        cellIdx2: paperNumber.num3, // 文书号
+        cellIdx2TypeTextItem: paperNumber.num3, // 文书号
+        cellIdx3: paperNumber.num4, // 文书号
+        cellIdx3TypeTextItem: paperNumber.num4, // 文书号
+        cellIdx4: cellIdx4String, // 送达文书
+        cellIdx4TypeTextItem: cellIdx4String, // 送达文书
+        cellIdx5: cellIdx5String, // 文书字号
+        cellIdx5TypeTextItem: cellIdx5String, // 文书字号
+        cellIdx6: cellIdx6String, // 送达地点
+        cellIdx6TypeTextItem: cellIdx6String, // 送达地点
+        cellIdx7: null, // 送达方式
+        cellIdx8: null, // 受送达单位负责人（个人）（签名）
+        cellIdx9: null, // 日期
+        cellIdx10: null, // 送达人（签名）
+        cellIdx11: null, // 日期
+        cellIdx12: null, //
+        cellIdx13: null, // 日期
+      };
     },
     goBack({ page }) {
       // 返回选择企业

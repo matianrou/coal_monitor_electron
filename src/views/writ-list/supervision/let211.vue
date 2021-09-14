@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -183,74 +183,38 @@
         </div>
       </div>
     </let-main>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
+import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let211",
-  props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-  },
+  mixins: [associationSelectPaper],
   data() {
     return {
       letData: {},
       options: {},
-      editData: {}, // 回显数据
+      associationPaper: []
     };
   },
-  created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-  },
   methods: {
-    async initData() {
-      // 初始化文书内容
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      //查询当前计划是否已做文书
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
-        );
-      });
-      // 已做文书则展示文书内容，否则创建初始版本
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本
-        // 1.时间
+      // 1.时间
         let now = new Date()
         let cellIdx0Year = now.getFullYear()
         let cellIdx1Month = now.getMonth() + 1
@@ -314,30 +278,29 @@ export default {
       代理人：对我当事人的违法认定没有异议，坚持认为行政处罚依据应适用中华人民共和国矿山安全法》。
       主持人：听证会到此结束，本主持人将根据听证笔录写出听证报告上报本局负责人。请听证参加人员核对听证记录。
 
-                                                                                                  XXX签名压印
-                                                                                                20XX年XX月XX日`
-        this.letData = {
-          cellIdx0: cellIdx0Year, // 年
-          cellIdx0TypeTextItem: cellIdx0Year, // 年
-          cellIdx1: cellIdx1Month, // 月
-          cellIdx1TypeTextItem: cellIdx1Month, // 年
-          cellIdx2: cellIdx2Date, // 日
-          cellIdx2TypeTextItem: cellIdx2Date, // 年
-          cellIdx3: cellIdx3Hour, // 时
-          cellIdx3TypeTextItem: cellIdx3Hour, // 时
-          cellIdx4: cellIdx4Minu, // 分
-          cellIdx4TypeTextItem: cellIdx4Minu, // 分
-          cellIdx5: null, // 时
-          cellIdx6: null, // 分
-          cellIdx7: null, // 听证地点
-          cellIdx8: null, // 听证主持人（签名）
-          cellIdx9: null, // 记录人（签名）
-          cellIdx10: cellIdx10String, // 听证记录
-          cellIdx10TypeTextareaItem: cellIdx10String, // 听证记录
-          cellIdx11: null, // 听证参加人（签名）
-        };
-      }
+                                                                     XXX签名压印
+                                                                    20XX年XX月XX日`
       await db.close();
+      this.letData = {
+        cellIdx0: cellIdx0Year, // 年
+        cellIdx0TypeTextItem: cellIdx0Year, // 年
+        cellIdx1: cellIdx1Month, // 月
+        cellIdx1TypeTextItem: cellIdx1Month, // 年
+        cellIdx2: cellIdx2Date, // 日
+        cellIdx2TypeTextItem: cellIdx2Date, // 年
+        cellIdx3: cellIdx3Hour, // 时
+        cellIdx3TypeTextItem: cellIdx3Hour, // 时
+        cellIdx4: cellIdx4Minu, // 分
+        cellIdx4TypeTextItem: cellIdx4Minu, // 分
+        cellIdx5: null, // 时
+        cellIdx6: null, // 分
+        cellIdx7: null, // 听证地点
+        cellIdx8: null, // 听证主持人（签名）
+        cellIdx9: null, // 记录人（签名）
+        cellIdx10: cellIdx10String, // 听证记录
+        cellIdx10TypeTextareaItem: cellIdx10String, // 听证记录
+        cellIdx11: null, // 听证参加人（签名）
+      };
     },
     goBack({ page }) {
       // 返回选择企业

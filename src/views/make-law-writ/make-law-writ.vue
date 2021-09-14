@@ -204,7 +204,7 @@ export default {
         }
         // 查询当前检查流程中已保存或归档的所有文书，即wkPaper中已有文书
         const checkLetList = await wkPaper.findAll((item) => {
-          return item.caseId === this.caseData.caseId
+          return item.caseId === this.caseData.caseId && item.delFlag !== '1'
         });
         this.flowStatus = {}
         if (checkLetList.length > 0) {

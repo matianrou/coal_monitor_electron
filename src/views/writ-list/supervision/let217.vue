@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -39,7 +39,6 @@
                   @click="commandFill('cellIdx1', '文书号', 'TextItem')"
                 >{{letData.cellIdx1}}</td>
                 <td class="textAlignLeft ">）煤安询〔</td>
-
                 <td
                   class="cellInput "
                   id="cell_idx_2"
@@ -216,7 +215,6 @@
               </tr>
               <tr>
                 <td style="width:5%"></td>
-
                 <td
                   class="cellInput"
                   id="cell_idx_14"
@@ -296,13 +294,21 @@
         </div>
       </div>
     </let-main>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDocNumber } from '@/utils/setInitPaperData'
+import associationSelectPaper from '@/components/association-select-paper'
 const toggleDictionary = [
   {
     value: '□',
@@ -315,24 +321,7 @@ const toggleDictionary = [
 ]
 export default {
   name: "Let105",
-  props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-  },
+  mixins: [associationSelectPaper],
   data() {
     return {
       letData: {},
@@ -352,84 +341,55 @@ export default {
         cellIdx13: toggleDictionary,
         cellIdx14: toggleDictionary,
       },
-      editData: {}, // 回显数据
+      associationPaper: []
     };
   },
-  created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-  },
   methods: {
-    async initData() {
-      // 初始化文书内容
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      //查询当前计划是否已做文书
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
-        );
-      });
-      // await wkPaper.delete(checkPaper[0].id)
-      // 已做文书则展示文书内容，否则创建初始版本
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本
-        let paperNumber = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
-        // sysOfficeInfo实体中depAddress字段+ deparFullname字段
-        // 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
-        const orgInfo = db.table("orgInfo");
-        const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
-        let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', master: '', phone: ''}
-        this.letData = {
-          cellIdx0: paperNumber.num0, // 文书号
-          cellIdx0TypeTextItem: paperNumber.num0, // 文书号
-          cellIdx1: paperNumber.num1, // 文书号
-          cellIdx1TypeTextItem: paperNumber.num1, // 文书号
-          cellIdx2: paperNumber.num3, // 文书号
-          cellIdx2TypeTextItem: paperNumber.num3, // 文书号
-          cellIdx3: paperNumber.num4, // 文书号
-          cellIdx3TypeTextItem: paperNumber.num4, // 文书号
-          cellIdx4: corp.corpName, // 煤矿名称
-          cellIdx4TypeTextItem: corp.corpName, // 煤矿名称
-          cellIdx5: null, // 因XXX,
-          cellIdx6: '个人', // 请你XX于
-          cellIdx6TypeSelectItem: '个人', // 请你XX于
-          cellIdx7: null, // 年
-          cellIdx8: null, // 月
-          cellIdx9: null, // 日
-          cellIdx10: null, // 到XXX接受询问调查
-          cellIdx11: '□', // 身份证
-          cellIdx12: '□', // 营业执照
-          cellIdx13: '□', // 法定代表人身份证明或者委托书
-          cellIdx14: '□', // 其他
-          cellIdx15: null, // 其他内容
-          cellIdx16: orgSysOfficeInfo.depAddress, // 执法机关地址
-          cellIdx16TypeTextItem: orgSysOfficeInfo.depAddress, // 执法机关地址
-          cellIdx17: orgSysOfficeInfo.master, // 联系人
-          cellIdx17TypeTextItem: orgSysOfficeInfo.master, // 联系人
-          cellIdx18: orgSysOfficeInfo.phone, // 联系电话
-          cellIdx18TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
-          cellIdx19: null, //
-          cellIdx20: null, // 日期
-        };
-      }
+      let paperNumber = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
+      // sysOfficeInfo实体中depAddress字段+ deparFullname字段
+      // 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
+      const orgInfo = db.table("orgInfo");
+      const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+      let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', master: '', phone: ''}
       await db.close();
+      this.letData = {
+        cellIdx0: paperNumber.num0, // 文书号
+        cellIdx0TypeTextItem: paperNumber.num0, // 文书号
+        cellIdx1: paperNumber.num1, // 文书号
+        cellIdx1TypeTextItem: paperNumber.num1, // 文书号
+        cellIdx2: paperNumber.num3, // 文书号
+        cellIdx2TypeTextItem: paperNumber.num3, // 文书号
+        cellIdx3: paperNumber.num4, // 文书号
+        cellIdx3TypeTextItem: paperNumber.num4, // 文书号
+        cellIdx4: corp.corpName, // 煤矿名称
+        cellIdx4TypeTextItem: corp.corpName, // 煤矿名称
+        cellIdx5: null, // 因XXX,
+        cellIdx6: '个人', // 请你XX于
+        cellIdx6TypeSelectItem: '个人', // 请你XX于
+        cellIdx7: null, // 年
+        cellIdx8: null, // 月
+        cellIdx9: null, // 日
+        cellIdx10: null, // 到XXX接受询问调查
+        cellIdx11: '□', // 身份证
+        cellIdx12: '□', // 营业执照
+        cellIdx13: '□', // 法定代表人身份证明或者委托书
+        cellIdx14: '□', // 其他
+        cellIdx15: null, // 其他内容
+        cellIdx16: orgSysOfficeInfo.depAddress, // 执法机关地址
+        cellIdx16TypeTextItem: orgSysOfficeInfo.depAddress, // 执法机关地址
+        cellIdx17: orgSysOfficeInfo.master, // 联系人
+        cellIdx17TypeTextItem: orgSysOfficeInfo.master, // 联系人
+        cellIdx18: orgSysOfficeInfo.phone, // 联系电话
+        cellIdx18TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
+        cellIdx19: null, //
+        cellIdx20: null, // 日期
+      };
     },
     goBack({ page }) {
       // 返回选择企业

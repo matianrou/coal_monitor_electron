@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -318,116 +318,68 @@
         </div>
       </div>
     </let-main>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject } from '@/utils/setInitPaperData'
+import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let214",
-  props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-  },
+  mixins: [associationSelectPaper],
   data() {
     return {
       letData: {},
       options: {},
-      editData: {}, // 回显数据
+      associationPaper: ['1']
     };
   },
-  created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-  },
   methods: {
-    async initData() {
-      // 初始化文书内容
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      //查询当前计划是否已做文书
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
-        );
-      });
-      // 保存额外拼写的数据内容，用于修改隐患项时回显使用
-      this.extraData = {
-        corpName: corp.corpName,
-      }
-      // 已做文书则展示文书内容，否则创建初始版本
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本
-        // 1.案卷题名: 煤矿名称+隐患描述+案
-        // 获取笔录文书中的隐患数据
-        const let101Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === '1';
-        });
-        if (!let101Data) {
-          this.$message.error('请先填写并保存现场检查记录中内容！')
-          return
-        }
-        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
-        let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
-        let cellIdx2String = `${corp.corpName}${dangerObject.dangerString}案。`
-        this.letData = {
-          cellIdx0: null, // 执法单位
-          cellIdx1: null, // 案卷类别
-          cellIdx2: cellIdx2String, // 案卷题名
-          cellIdx2TypeTextareaItem: cellIdx2String, // 案卷题名
-          cellIdx3: null, // 年
-          cellIdx4: null, // 月
-          cellIdx5: null, // 日
-          cellIdx6: null, // 年
-          cellIdx7: null, // 月
-          cellIdx8: null, // 日
-          cellIdx9: null, // 本卷共X件
-          cellIdx10: null, // X页
-          cellIdx11: null, // 年
-          cellIdx12: null, // 月
-          cellIdx13: null, // 日
-          cellIdx14: null, // 承办人（签名）
-          cellIdx15: null, // 档号
-          cellIdx16: null, // 保管期限
-          cellIdx17: [], // 编辑目录
-          volumesMenuTable: {
-            tableData: []
-          }
-        };
-      }
+      // 1.案卷题名: 煤矿名称+隐患描述+案
+      // 获取笔录文书中的隐患数据
+      let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
+      let cellIdx2String = `${corp.corpName}${dangerObject.dangerString}案。`
       await db.close();
+      this.letData = {
+        cellIdx0: null, // 执法单位
+        cellIdx1: null, // 案卷类别
+        cellIdx2: cellIdx2String, // 案卷题名
+        cellIdx2TypeTextareaItem: cellIdx2String, // 案卷题名
+        cellIdx3: null, // 年
+        cellIdx4: null, // 月
+        cellIdx5: null, // 日
+        cellIdx6: null, // 年
+        cellIdx7: null, // 月
+        cellIdx8: null, // 日
+        cellIdx9: null, // 本卷共X件
+        cellIdx10: null, // X页
+        cellIdx11: null, // 年
+        cellIdx12: null, // 月
+        cellIdx13: null, // 日
+        cellIdx14: null, // 承办人（签名）
+        cellIdx15: null, // 档号
+        cellIdx16: null, // 保管期限
+        cellIdx17: [], // 编辑目录
+        volumesMenuTable: {
+          tableData: []
+        }
+      };
     },
     goBack({ page }) {
       // 返回选择企业

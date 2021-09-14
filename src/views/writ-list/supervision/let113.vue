@@ -241,7 +241,7 @@
       title="文书信息选择"
       :close-on-click-modal="false"
       append-to-body
-      :visible="visible"
+      :visible="visibleSelectDialog"
       width="400px"
       :show-close="false">
       <span>请选择：</span>
@@ -253,61 +253,33 @@
         <el-button type="primary" @click="confirm">确定</el-button>
       </span>
     </el-dialog>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDocNumber } from '@/utils/setInitPaperData'
 import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let113",
   mixins: [associationSelectPaper],
-  props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-    paperData: {
-      type: Object,
-      default: () => {}
-    }
-  },
-  components: {
-    letMain,
-  },
   data() {
     return {
       letData: {},
       options: {},
       editData: {}, // 回显数据
-      visible: false,
+      visibleSelectDialog: false,
       selectedType: '解除停供电', // 初始化时选择的解除停供电
       associationPaper: []
     };
-  },
-  created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-    'paperData.paperId'(val) {
-      this.initData();
-    }
   },
   methods: {
     async initLetData (selectedPaper) {
@@ -317,7 +289,7 @@ export default {
         return item.corpId == this.corpData.corpId;
       });
        // 1.弹出提示框，选择停供电或停供民用爆炸物品
-      this.visible = true
+      this.visibleSelectDialog = true
       // 2.生成文书编号
       let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
       // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
@@ -376,7 +348,7 @@ export default {
     },
     confirm() {
       // 选择解除停供电或解除停供民用爆炸物品
-      this.visible = false
+      this.visibleSelectDialog = false
       this.letData.cellIdx0 = this.selectedType
       this.letData.cellIdx0TypeTextItem = this.selectedType
       this.letData.cellIdx8 = this.selectedType.substring(2, this.selectedType.length)

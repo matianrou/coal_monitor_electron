@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -328,132 +328,87 @@
         </div>
       </div>
     </let-main>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject, getDocNumber } from '@/utils/setInitPaperData'
+import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let401",
-  props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-  },
+  mixins: [associationSelectPaper],
   data() {
     return {
       letData: {},
       options: {},
-      editData: {}, // 回显数据
+      associationPaper: ['1']
     };
   },
-  created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-  },
   methods: {
-    async initData() {
-      // 初始化文书内容
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      //查询当前计划是否已做文书
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
-        );
-      });
-      // 已做文书则展示文书内容，否则创建初始版本
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本
-        // 1.生成文书编号
-        let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
-        // 2.违法行为：获取笔录文书中的隐患数据
-        const let101Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === '1';
-        });
-        if (!let101Data) {
-          this.$message.error('请先填写并保存现场检查记录中内容！')
-          return
-        }
-        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
-        let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
-        let cellIdx8String = `${dangerObject.dangerString}`
-        // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
-        const orgInfo = db.table("orgInfo");
-        const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
-        let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: ''}
-        this.letData = {
-          cellIdx0: num0, // 文书号
-          cellIdx0TypeTextItem: num0, // 文书号
-          cellIdx1: num1, // 文书号
-          cellIdx1TypeTextItem: num1, // 文书号
-          cellIdx2: num3, // 文书号
-          cellIdx2TypeTextItem: num3, // 文书号
-          cellIdx3: num4, // 文书号
-          cellIdx3TypeTextItem: num4, // 文书号
-          cellIdx4: null, // 签发人
-          cellIdx5: corp.corpName, //
-          cellIdx5TypeTextItem: corp.corpName, //
-          cellIdx6: null, // 单位  暂不用
-          cellIdx7: null, // 发现XX存在
-          cellIdx7TypeTextItem: null, // 发现XX存在
-          cellIdx8: cellIdx8String, // 违法行为
-          cellIdx8TypeTextareaItem: cellIdx8String, // 违法行为
-          cellIdx9: null, // X份
-          cellIdx10: null, // X页
-          cellIdx11: orgSysOfficeInfo.depAddress, // 移送单位地址
-          cellIdx11TypeTextItem: orgSysOfficeInfo.depAddress, // 移送单位地址
-          cellIdx12: null, // 地址  暂不用
-          cellIdx13: orgSysOfficeInfo.depPost, // 邮政编码
-          cellIdx13TypeTextItem: orgSysOfficeInfo.depPost, // 邮政编码
-          cellIdx14: null, // 单位  暂不用
-          cellIdx15: orgSysOfficeInfo.master, // 移送单位联系人
-          cellIdx15TypeTextItem: orgSysOfficeInfo.master, // 联系人
-          cellIdx16: orgSysOfficeInfo.phone, // 电话
-          cellIdx16TypeTextItem: orgSysOfficeInfo.phone, // 电话
-          cellIdx17: null, // 送件人（签名）
-          cellIdx18: null, // 日期
-          cellIdx23: null, // 送件人（签名）
-          cellIdx24: null, // 日期
-          cellIdx19: null, // 收件人（签名）
-          cellIdx20: null, // 日期
-          cellIdx21: null, //
-          cellIdx22: null, // 日期
-
-        };
-      }
+      // 1.生成文书编号
+      let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
+      // 2.违法行为：获取笔录文书中的隐患数据
+      let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
+      let cellIdx8String = `${dangerObject.dangerString}`
+      // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
+      const orgInfo = db.table("orgInfo");
+      const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+      let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: ''}
       await db.close();
+      this.letData = {
+        cellIdx0: num0, // 文书号
+        cellIdx0TypeTextItem: num0, // 文书号
+        cellIdx1: num1, // 文书号
+        cellIdx1TypeTextItem: num1, // 文书号
+        cellIdx2: num3, // 文书号
+        cellIdx2TypeTextItem: num3, // 文书号
+        cellIdx3: num4, // 文书号
+        cellIdx3TypeTextItem: num4, // 文书号
+        cellIdx4: null, // 签发人
+        cellIdx5: corp.corpName, //
+        cellIdx5TypeTextItem: corp.corpName, //
+        cellIdx6: null, // 单位  暂不用
+        cellIdx7: null, // 发现XX存在
+        cellIdx7TypeTextItem: null, // 发现XX存在
+        cellIdx8: cellIdx8String, // 违法行为
+        cellIdx8TypeTextareaItem: cellIdx8String, // 违法行为
+        cellIdx9: null, // X份
+        cellIdx10: null, // X页
+        cellIdx11: orgSysOfficeInfo.depAddress, // 移送单位地址
+        cellIdx11TypeTextItem: orgSysOfficeInfo.depAddress, // 移送单位地址
+        cellIdx12: null, // 地址  暂不用
+        cellIdx13: orgSysOfficeInfo.depPost, // 邮政编码
+        cellIdx13TypeTextItem: orgSysOfficeInfo.depPost, // 邮政编码
+        cellIdx14: null, // 单位  暂不用
+        cellIdx15: orgSysOfficeInfo.master, // 移送单位联系人
+        cellIdx15TypeTextItem: orgSysOfficeInfo.master, // 联系人
+        cellIdx16: orgSysOfficeInfo.phone, // 电话
+        cellIdx16TypeTextItem: orgSysOfficeInfo.phone, // 电话
+        cellIdx17: null, // 送件人（签名）
+        cellIdx18: null, // 日期
+        cellIdx23: null, // 送件人（签名）
+        cellIdx24: null, // 日期
+        cellIdx19: null, // 收件人（签名）
+        cellIdx20: null, // 日期
+        cellIdx21: null, //
+        cellIdx22: null, // 日期
+      };
     },
     goBack({ page }) {
       // 返回选择企业

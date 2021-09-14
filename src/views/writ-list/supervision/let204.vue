@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -40,7 +40,6 @@
                   @click="commandFill('cellIdx1', '文书号', 'TextItem')"
                 >{{letData.cellIdx1}}</td>
                 <td class="textAlignLeft">）煤安告〔</td>
-
                 <td class="textAlignLeft"></td>
                 <td
                   class="cellInput"
@@ -320,7 +319,6 @@
               </tr>
               <tr>
                 <td style="width:5%"></td>
-
                 <td class="textAlignLeft" style="width:18%">执法机关联系人：</td>
                 <td
                   class="cellInput cellBottomLine"
@@ -368,7 +366,6 @@
               </tr>
             </table>
             <table height="60"></table>
-
             <table class="docBody">
               <hr />
               <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份送拟处罚</td>
@@ -392,7 +389,7 @@
       title="文书信息选择"
       :close-on-click-modal="false"
       append-to-body
-      :visible="visible"
+      :visible="visibleSelectDialog"
       width="400px"
       :show-close="false"
     >
@@ -405,37 +402,28 @@
         <el-button type="primary" @click="confirm">确定</el-button>
       </span>
     </el-dialog>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import {
   getDangerObject,
   transformNumToChinese,
   getDocNumber,
 } from "@/utils/setInitPaperData";
+import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let204",
-  props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-  },
+  mixins: [associationSelectPaper],
   data() {
     return {
       letData: {},
@@ -457,84 +445,83 @@ export default {
           key: "cellIdx10",
         },
       },
-      editData: {}, // 回显数据
-      visible: false,
+      visibleSelectDialog: false,
       selectedType: "单位", // 初始化时选择的单位或个人
-      extraData: {}, // 用于拼写隐患内容的字符集合
+      associationPaper: ['1']
     };
   },
-  created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-  },
   methods: {
-    async initData() {
-      // 初始化文书内容
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
-      const corpBase = db.table("corpBase");
-      //查询符合条件的记录
-      const corp = await corpBase.find((item) => {
-        return item.corpId == this.corpData.corpId;
-      });
-      const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      //查询当前计划是否已做文书
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
-        );
-      });
-      // 已做文书则展示文书内容，否则创建初始版本
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本
-        // 1.弹出提示框，选择单位或个人
-        this.visible = true;
-        let paperNumber = await getDocNumber(
-          db,
-          this.docData.docTypeNo,
-          caseId,
-          this.$store.state.user
-        );
-        this.letData = {
-          cellIdx0: paperNumber.num0, // 文书号
-          cellIdx0TypeTextItem: paperNumber.num0, // 文书号
-          cellIdx1: paperNumber.num1, // 文书号
-          cellIdx1TypeTextItem: paperNumber.num1, // 文书号
-          cellIdx2: paperNumber.num3, // 文书号
-          cellIdx2TypeTextItem: paperNumber.num3, // 文书号
-          cellIdx3: paperNumber.num4, // 文书号
-          cellIdx3TypeTextItem: paperNumber.num4, // 文书号
-          cellIdx4: null, // 煤矿名称
-          cellIdx5: null, // 单位
-          cellIdx6: null, // 违法行为
-          cellIdx7: null, // 违法行为
-          cellIdx8: null, // 法律依据
-          cellIdx9: null, // 单位或个人
-          cellIdx10: null, // 法律规定
-          cellIdx11: null, // 单位或个人
-          cellIdx12: null, // 暂不用
-          cellIdx13: null, // 受送达人（签名
-          cellIdx14: null, // 日期
-          cellIdx15: null, // 执法机关地址
-          cellIdx16: null, // 邮政编码
-          cellIdx17: null, // 执法机关联系人
-          cellIdx18: null, // 联系电话
-          cellIdx19: null, //
-          cellIdx20: null, // 日期
-          cellIdx21: null, // 单位或个人
-        };
-      }
+      // 1.弹出提示框，选择单位或个人
+      this.visibleSelectDialog = true;
+      let paperNumber = await getDocNumber(
+        db,
+        this.docData.docTypeNo,
+        this.corpData.caseId,
+        this.$store.state.user
+      );
+      // 获取笔录文书中的隐患数据
+      let let1DataPapaerContent =JSON.parse(selectedPaper.let1Data.paperContent);
+      let dangerObject = getDangerObject(
+        let1DataPapaerContent.dangerItemObject.tableData,
+        { danger: true, penaltyDesc: true }
+      );
+      // 3.隐患描述
+      // 4.分别违反了+违法认定法条
+      // 5.行政处罚依据
+      // 7.行政处罚决定
+      let cellIdx10String = `分别作出：${
+        dangerObject.penaltyDesc
+      }。合并罚款人民币${transformNumToChinese(
+        dangerObject.penaltyDescFineTotle
+      )}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`;
+      // 9.机构接口中获取sysOfficeInfo实体中
+      const orgInfo = db.table("orgInfo");
+      const orgData = await orgInfo.find(
+        (item) => item.no === this.$store.state.user.userGroupId
+      );
+      let orgSysOfficeInfo = orgData
+        ? JSON.parse(orgData.sysOfficeInfo)
+        : { depAddress: "", depPost: "", master: "", phone: "" };
+      // depAddress：我分局地址、
+      // depPost：邮政编码、
+      // master：我分局联系人、
+      // phone：联系电话
       await db.close();
+      this.letData = {
+        cellIdx0: paperNumber.num0, // 文书号
+        cellIdx0TypeTextItem: paperNumber.num0, // 文书号
+        cellIdx1: paperNumber.num1, // 文书号
+        cellIdx1TypeTextItem: paperNumber.num1, // 文书号
+        cellIdx2: paperNumber.num3, // 文书号
+        cellIdx2TypeTextItem: paperNumber.num3, // 文书号
+        cellIdx3: paperNumber.num4, // 文书号
+        cellIdx3TypeTextItem: paperNumber.num4, // 文书号
+        cellIdx4: null, // 煤矿名称
+        cellIdx5: null, // 单位
+        cellIdx6: `${dangerObject.dangerString}`, // 违法行为
+        cellIdx7: `分别违反了${dangerObject.illegalString}`, // 违法行为
+        cellIdx8: dangerObject.penaltyBasisString, // 法律依据
+        cellIdx9: null, // 单位或个人
+        cellIdx10: cellIdx10String, // 法律规定
+        cellIdx11: null, // 单位或个人
+        cellIdx12: null, // 暂不用
+        cellIdx13: null, // 受送达人（签名
+        cellIdx14: null, // 日期
+        cellIdx15: orgSysOfficeInfo.depAddress, // 执法机关地址
+        cellIdx15TypeTextItem: orgSysOfficeInfo.depAddress, // 执法机关地址
+        cellIdx16: orgSysOfficeInfo.depPost, // 邮政编码
+        cellIdx16TypeTextItem: orgSysOfficeInfo.depPost, // 邮政编码
+        cellIdx17: orgSysOfficeInfo.master, // 执法机关联系人
+        cellIdx17TypeTextItem: orgSysOfficeInfo.master, // 执法机关联系人
+        cellIdx18: orgSysOfficeInfo.phone, // 联系电话
+        cellIdx18TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
+        cellIdx19: null, //
+        cellIdx20: null, // 日期
+        cellIdx21: null, // 单位或个人
+        dangerItemObject: let1DataPapaerContent.dangerItemObject,
+      };
     },
     goBack({ page }) {
       // 返回选择企业
@@ -569,91 +556,27 @@ export default {
     },
     async confirm() {
       // 选择单位或个人
-      this.visible = false;
+      this.visibleSelectDialog = false;
       if (this.selectedType === "单位") {
-        const db = new GoDB(this.$store.state.DBName);
-        const wkPaper = db.table("wkPaper");
-        const caseId = this.corpData.caseId;
         let corpName = this.corpData.corpName;
         // 按单位初始化信息
         // 1.单位名称
         this.letData.cellIdx4 = corpName;
         this.letData.cellIdx4TypeTextItem = corpName;
-        // 2.经查，你XX的以下行为
-        this.letData.cellIdx5 = this.selectedType;
-        this.letData.cellIdx5TypeTextItem = this.selectedType;
-        // 获取笔录文书中的隐患数据
-        const let101Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === "1";
-        });
-        if (!let101Data) {
-          this.$message.error("请先填写并保存现场检查记录中内容！");
-          return;
-        }
-        let let101DataPapaerContent = JSON.parse(let101Data.paperContent);
-        let dangerObject = getDangerObject(
-          let101DataPapaerContent.dangerItemObject.tableData,
-          { danger: true, penaltyDesc: true }
-        );
-        // 3.隐患描述
-        this.letData.cellIdx6 = `${dangerObject.dangerString}`;
-        // 4.分别违反了+违法认定法条
-        this.letData.cellIdx7 = `分别违反了${dangerObject.illegalString}`;
-        // 5.行政处罚依据
-        this.letData.cellIdx8 = dangerObject.penaltyBasisString;
-        // 6.你单位或个人
-        this.letData.cellIdx9 = this.selectedType;
-        this.letData.cellIdx9TypeTextItem = this.selectedType;
-        // 7.行政处罚决定
-        let cellIdx10String = `分别作出：${
-          dangerObject.penaltyDesc
-        }。合并罚款人民币${transformNumToChinese(
-          dangerObject.penaltyDescFineTotle
-        )}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`;
-        this.letData.cellIdx10 = cellIdx10String;
-        // 8.你单位或个人
-        this.letData.cellIdx11 = this.selectedType;
-        this.letData.cellIdx11TypeTextItem = this.selectedType;
-        // 9.机构接口中获取sysOfficeInfo实体中
-        const orgInfo = db.table("orgInfo");
-        const orgData = await orgInfo.find(
-          (item) => item.no === this.$store.state.user.userGroupId
-        );
-        let orgSysOfficeInfo = orgData
-          ? JSON.parse(orgData.sysOfficeInfo)
-          : { depAddress: "", depPost: "", master: "", phone: "" };
-        // depAddress：我分局地址、
-        // depPost：邮政编码、
-        // master：我分局联系人、
-        // phone：联系电话
-        this.letData.cellIdx15 = orgSysOfficeInfo.depAddress;
-        this.letData.cellIdx15TypeTextItem = orgSysOfficeInfo.depAddress;
-        this.letData.cellIdx16 = orgSysOfficeInfo.depPost;
-        this.letData.cellIdx16TypeTextItem = orgSysOfficeInfo.depPost;
-        this.letData.cellIdx17 = orgSysOfficeInfo.master;
-        this.letData.cellIdx17TypeTextItem = orgSysOfficeInfo.master;
-        this.letData.cellIdx18 = orgSysOfficeInfo.phone;
-        this.letData.cellIdx18TypeTextItem = orgSysOfficeInfo.phone;
-        this.letData.cellIdx21 = this.selectedType;
-        this.letData.cellIdx21TypeTextItem = this.selectedType;
-        this.letData.dangerItemObject =
-          let101DataPapaerContent.dangerItemObject;
-        await db.close();
       } else {
         // 按个人初始化信息
-        // 1.经查，你XX的以下行为
-        this.letData.cellIdx5 = this.selectedType;
-        this.letData.cellIdx5TypeTextItem = this.selectedType;
-        // 2.你单位或个人
-        this.letData.cellIdx9 = this.selectedType;
-        this.letData.cellIdx9TypeTextItem = this.selectedType;
-        this.letData.cellIdx11 = this.selectedType;
-        this.letData.cellIdx11TypeTextItem = this.selectedType;
-        this.letData.cellIdx21 = this.selectedType;
-        this.letData.cellIdx21TypeTextItem = this.selectedType;
-        this.letData.dangerItemObject =
-          let101DataPapaerContent.dangerItemObject;
       }
+      // 2.经查，你XX的以下行为
+      this.letData.cellIdx5 = this.selectedType;
+      this.letData.cellIdx5TypeTextItem = this.selectedType;
+      // 6.你单位或个人
+      this.letData.cellIdx9 = this.selectedType;
+      this.letData.cellIdx9TypeTextItem = this.selectedType;
+      // 8.你单位或个人
+      this.letData.cellIdx11 = this.selectedType;
+      this.letData.cellIdx11TypeTextItem = this.selectedType;
+      this.letData.cellIdx21 = this.selectedType;
+      this.letData.cellIdx21TypeTextItem = this.selectedType;
     },
   },
 };

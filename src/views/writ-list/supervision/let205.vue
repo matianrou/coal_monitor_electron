@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -336,33 +336,24 @@
         </div>
       </div>
     </let-main>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject } from '@/utils/setInitPaperData'
+import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let205",
-  props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-  },
+  mixins: [associationSelectPaper],
   data() {
     return {
       letData: {},
@@ -372,118 +363,78 @@ export default {
           key: 'cellIdx19' // 用来区分一个页面多个地方调用隐患大表，最后返回值
         },
       },
-      editData: {}, // 回显数据
+      associationPaper: ['1', '6']
     };
   },
-  created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-  },
   methods: {
-    async initData() {
-      // 初始化文书内容
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      //查询当前计划是否已做文书
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
-        );
-      });
-      // 保存额外拼写的数据内容，用于修改隐患项时回显使用
-      this.extraData = {
-        corpName: corp.corpName,
-      }
-      // 已做文书则展示文书内容，否则创建初始版本
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本
-        // 1.时间：当前年、月、日、时、分
-        let now = new Date()
-        let cellIdx0Year = now.getFullYear()
-        let cellIdx1Month = now.getMonth() + 1
-        let cellIdx2Date = now.getDate()
-        let cellIdx3Hour = now.getHours()
-        let cellIdx4Minu = now.getMinutes()
-        // 2.工作单位：煤矿名称
-        let cellIdx11String = corp.corpName
-        // 3.监察单位
-        let cellIdx18String = this.$store.state.user.userGroupName
-        // 获取笔录文书中的隐患数据
-        const let101Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === '1';
-        });
-        if (!let101Data) {
-          this.$message.error('请先填写并保存现场检查记录中内容！')
-          return
-        }
-        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
-        let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
-        // 4.陈述申辩：煤矿名称 + '涉嫌' + 隐患描述 + '案。'
-        let cellIdx19String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`
-        // 5.单位/个人：从行政处罚告知书(paperType === '6')中获取
-        const let204Data = await wkPaper.find(item => item.caseId === caseId && item.paperType === '6');
-        if (!let204Data) {
-          this.$message.error('请先填写并保存行政处罚告知书中内容！')
-          return
-        }
-        let let204DataPaperContent = JSON.parse(let204Data.paperContent)
-        let cellIdx20String = let204DataPaperContent.cellIdx5
-        this.letData = {
-          cellIdx0: cellIdx0Year, // 年
-          cellIdx0TypeTextItem: cellIdx0Year, // 年
-          cellIdx1: cellIdx1Month, // 月
-          cellIdx1TypeTextItem: cellIdx1Month, // 年
-          cellIdx2: cellIdx2Date, // 日
-          cellIdx2TypeTextItem: cellIdx2Date, // 年
-          cellIdx3: cellIdx3Hour, // 时
-          cellIdx3TypeTextItem: cellIdx3Hour, // 时
-          cellIdx4: cellIdx4Minu, // 分
-          cellIdx4TypeTextItem: cellIdx4Minu, // 分
-          cellIdx5: null, // 时
-          cellIdx6: null, // 分
-          cellIdx7: null, // 地点
-          cellIdx8: null, // 陈述申辩人
-          cellIdx9: null, // 性别
-          cellIdx10: null, // 年龄
-          cellIdx11: cellIdx11String, // 工作单位
-          cellIdx11TypeTextItem: cellIdx11String, // 工作单位
-          cellIdx12: null, // 职务（职业）
-          cellIdx13: null, // 住址
-          cellIdx14: null, // 电话
-          cellIdx15: null, // 承办人（签名）
-          cellIdx16: null, // 承办人（签名）
-          cellIdx17: null, // 记录人（签名）
-          cellIdx18: cellIdx18String, // 监察员
-          cellIdx18TypeTextItem: cellIdx18String, // 监察员
-          cellIdx19: cellIdx19String, // 违法行为
-          cellIdx20: cellIdx20String, // 单位/个人
-          cellIdx20TypeTextItem: cellIdx20String, // 单位/个人
-          cellIdx21: null, // 法制审核意见
-          cellIdx22: null, // 陈述申辩人意见
-          cellIdx23: null, // 陈述申辩人（签名）
-          cellIdx24: null, // 年
-          cellIdx25: null, // 月
-          cellIdx26: null, // 日
-          dangerItemObject: let101DataPapaerContent.dangerItemObject
-        };
-      }
+       // 1.时间：当前年、月、日、时、分
+      let now = new Date()
+      let cellIdx0Year = now.getFullYear()
+      let cellIdx1Month = now.getMonth() + 1
+      let cellIdx2Date = now.getDate()
+      let cellIdx3Hour = now.getHours()
+      let cellIdx4Minu = now.getMinutes()
+      // 2.工作单位：煤矿名称
+      let cellIdx11String = corp.corpName
+      // 3.监察单位
+      let cellIdx18String = this.$store.state.user.userGroupName
+      // 获取笔录文书中
+      let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
+      // 4.陈述申辩：煤矿名称 + '涉嫌' + 隐患描述 + '案。'
+      let cellIdx19String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`
+      // 5.单位/个人：从行政处罚告知书(paperType === '6')中获取
+      let let6DataPaperContent = JSON.parse(selectedPaper.let6Data.paperContent)
+      let cellIdx20String = let6DataPaperContent.cellIdx5
       await db.close();
+      this.letData = {
+        cellIdx0: cellIdx0Year, // 年
+        cellIdx0TypeTextItem: cellIdx0Year, // 年
+        cellIdx1: cellIdx1Month, // 月
+        cellIdx1TypeTextItem: cellIdx1Month, // 年
+        cellIdx2: cellIdx2Date, // 日
+        cellIdx2TypeTextItem: cellIdx2Date, // 年
+        cellIdx3: cellIdx3Hour, // 时
+        cellIdx3TypeTextItem: cellIdx3Hour, // 时
+        cellIdx4: cellIdx4Minu, // 分
+        cellIdx4TypeTextItem: cellIdx4Minu, // 分
+        cellIdx5: null, // 时
+        cellIdx6: null, // 分
+        cellIdx7: null, // 地点
+        cellIdx8: null, // 陈述申辩人
+        cellIdx9: null, // 性别
+        cellIdx10: null, // 年龄
+        cellIdx11: cellIdx11String, // 工作单位
+        cellIdx11TypeTextItem: cellIdx11String, // 工作单位
+        cellIdx12: null, // 职务（职业）
+        cellIdx13: null, // 住址
+        cellIdx14: null, // 电话
+        cellIdx15: null, // 承办人（签名）
+        cellIdx16: null, // 承办人（签名）
+        cellIdx17: null, // 记录人（签名）
+        cellIdx18: cellIdx18String, // 监察员
+        cellIdx18TypeTextItem: cellIdx18String, // 监察员
+        cellIdx19: cellIdx19String, // 违法行为
+        cellIdx20: cellIdx20String, // 单位/个人
+        cellIdx20TypeTextItem: cellIdx20String, // 单位/个人
+        cellIdx21: null, // 法制审核意见
+        cellIdx22: null, // 陈述申辩人意见
+        cellIdx23: null, // 陈述申辩人（签名）
+        cellIdx24: null, // 年
+        cellIdx25: null, // 月
+        cellIdx26: null, // 日
+        dangerItemObject: let1DataPapaerContent.dangerItemObject,
+        extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
+          corpName: corp.corpName,
+          userGroupName: this.$store.state.user.userGroupName,
+        }
+      };
     },
     goBack({ page }) {
       // 返回选择企业
@@ -498,7 +449,7 @@ export default {
           this.options[key] = {
             page: '30',
             key: key,
-            spellString: this.extraData
+            spellString: this.letData.extraData
           }
           dataKey = 'dangerItemObject'
         }
