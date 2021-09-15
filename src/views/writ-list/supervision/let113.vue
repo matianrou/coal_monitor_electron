@@ -294,7 +294,7 @@ export default {
       // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
       const orgInfo = db.table("orgInfo");
       const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
-      let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: ''}
+      let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: ''}
       await db.close();
       this.letData = {
         cellIdx0: null, // 解除停供电(解除停供民用爆炸物品)

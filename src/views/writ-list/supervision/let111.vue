@@ -291,7 +291,7 @@ export default {
       // 3.sysOfficeInfo实体中organName字段+ courtPrefix字段
       const orgInfo = db.table("orgInfo");
       const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
-      let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {organName: '', depAddress: ''}
+      let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {organName: '', depAddress: ''}
       // 4.年、月、日取当前时间
       let date = new Date()
       let year = date.getFullYear();

@@ -203,16 +203,16 @@
             <table height="60"></table>
             <table class="docBody">
               <tr>
-                <td class="textAlignLeft">执法相关负责人意见：</td>
+                <td class="textAlignLeft">执法机关负责人意见：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_10"
                   align="center"
                   style="width:23%"
-                  data-title="执法相关负责人意见"
+                  data-title="执法机关负责人意见"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx10', '执法相关负责人意见', 'TextItem')"
+                  @click="commandFill('cellIdx10', '执法机关负责人意见', 'TextItem')"
                 >{{ letData.cellIdx10 }}</td>
                 <td class="textAlignLeft">签名：</td>
                 <td
@@ -323,7 +323,7 @@ export default {
         cellIdx8: let47DataPapaerContent.cellIdx8, // 法制审核意见
         cellIdx8TypeTextareaItem: let47DataPapaerContent.cellIdx8, // 法制审核意见
         cellIdx9: null, // 建议案件处理意见
-        cellIdx10: null, // 执法相关负责人意见
+        cellIdx10: null, // 执法机关负责人意见
         cellIdx11: null, // 签名
         cellIdx12: null, // 日期
         dangerItemObject: let1DataPapaerContent.dangerItemObject,

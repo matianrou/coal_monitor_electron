@@ -41,7 +41,7 @@
                 >{{ letData.cellIdx1 }}</td>
               </tr>
             </table>
-            <table class="docBody">
+            <!-- <table class="docBody">
               <tr>
                 <td
                   class="cellInput"
@@ -53,7 +53,19 @@
                   @click="commandFill('cellIdx2', '', 'TextItem')"
                 >{{ letData.cellIdx2 }}</td>
               </tr>
-            </table>
+            </table> -->
+            <div class="docTextarea" style="display: flex; justify-content: space-evenly;">
+              <div
+                class="cellInput"
+                id="cell_idx_11"
+                @click="commandFill('cellIdx15', '一般行政执法决定法制审核', 'SelectItem')"
+              >{{letData.cellIdx15 ? letData.cellIdx15 : '□'}}一般行政执法决定法制审核</div>
+              <div
+                class="cellInput"
+                id="cell_idx_11"
+                @click="commandFill('cellIdx16', '重大行政执法决定法制审核', 'SelectItem')"
+              >{{letData.cellIdx16 ? letData.cellIdx16 : '□'}}重大行政执法决定法制审核</div>
+            </div>
             <div class="docTextarea">
               <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;案&nbsp;&nbsp;由：</span>
               <span
@@ -230,10 +242,10 @@
                   id="cell_idx_9"
                   align="center"
                   style="width:40%"
-                  data-title="分管负责人意见"
+                  data-title="法制审核人员（签名）"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx9', '分管负责人意见', 'TextItem')"
+                  @click="commandFill('cellIdx9', '法制审核人员（签名）', 'TextItem')"
                 >{{ letData.cellIdx9 }}</td>
                 <td class="textAlignCenter" style="width:8%">&nbsp;日期：</td>
                 <td
@@ -272,7 +284,16 @@ import {
   transformNumToChinese,
 } from "@/utils/setInitPaperData";
 import associationSelectPaper from '@/components/association-select-paper'
-
+const toggleDictionary = [
+  {
+    value: '□',
+    name: '□'
+  },
+  {
+    value: '√',
+    name: '√'
+  },
+]
 export default {
   name: "Let203",
   mixins: [associationSelectPaper],
@@ -307,6 +328,8 @@ export default {
             name: "经2021年8月31日法制审核，认为超出本机关管辖范围或者涉嫌犯罪的，建议移送。",
           },
         ],
+        cellIdx15: toggleDictionary,
+        cellIdx16: toggleDictionary,
       },
       associationPaper: ['1']
     };
@@ -356,7 +379,7 @@ export default {
       this.letData = {
         cellIdx0: null, //
         cellIdx1: null, // 编号
-        cellIdx2: null, //
+        cellIdx2: null, // 暂不用
         cellIdx3: cellIdx3String, // 案由
         cellIdx4: cellIdx4String, // 行政相对人基本情况
         cellIdx4TypeTextareaItem: cellIdx4String, // 行政相对人基本情况
@@ -370,6 +393,8 @@ export default {
         cellIdx12: null, // 主要负责人意见
         cellIdx13: null, // 签名
         cellIdx14: null, // 日期
+        cellIdx15: '□', // 选项：一般行政执法决定法制审核
+        cellIdx16: '□', // 选项：重大行政执法决定法制审核
         dangerItemObject: let1DataPapaerContent.dangerItemObject,
         extraData: {  // 用于拼写隐患内容的字符集合
           corpName: this.corpData.corpName,

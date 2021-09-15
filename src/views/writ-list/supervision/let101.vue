@@ -41,7 +41,7 @@
                   data-title="检查时间"
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx1', '检查时间：', 'DateItem')"
+                  @click="commandFill('cellIdx1', '检查时间：', 'DaterangeItem')"
                 >{{letData.cellIdx1}}</td>
               </tr>
               <tr>

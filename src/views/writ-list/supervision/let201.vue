@@ -302,7 +302,7 @@ export default {
           key: 'cellIdx5'
         }
       },
-      associationPaper: ['22', '1']
+      associationPaper: ['1']
     };
   },
   methods: {
@@ -313,11 +313,10 @@ export default {
         return item.corpId == this.corpData.corpId;
       });
       // 获取检查时间
-      let let22DataPapaerContent = JSON.parse(selectedPaper.let22Data.paperContent)
-      // 整合检查时间日期文本：
-      let dateString = let22DataPapaerContent.cellIdx2 ? handleDate(let22DataPapaerContent.cellIdx2, '-') : 'X年X月X日-X年X月X日'
-      // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
       let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      // 检查时间日期：
+      let dateString = let1DataPapaerContent.cellIdx1 ? let1DataPapaerContent.cellIdx1 : 'X年X月X日-X年X月X日'
+      // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
       let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
       let cellIdx4String = `${corp.corpName}${dangerObject.dangerString}案。`
       // 2.案情摘要：检查时间+当前机构名称+“对”+煤矿名称+“进行现场检查时发现”+隐患描述+"以上行为分别涉嫌违反了"+违法认定法条+“依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。”

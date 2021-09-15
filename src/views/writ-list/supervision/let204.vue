@@ -72,7 +72,7 @@
                   data-title="煤矿名称"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx4', '煤矿名称', 'TextItem')"
+                  @click="commandFill('cellIdx4', selectedType === '单位' ? '煤矿名称' : '个人名称', 'TextItem')"
                 >{{letData.cellIdx4}}</td>
                 <td class="textAlignLeft">:</td>
               </tr>
@@ -237,7 +237,7 @@
                 <td class="textAlignLeft">对上述拟作出的行政处罚有</td>
               </tr>
               <tr>
-                <td class="textAlignLeft">陈述、申辩的权利。</td>
+                <td class="textAlignLeft">陈述、申辩的权利。如果有陈述、申辩意见，应当在收到本告知书之日起三日内提出。逾期未提出的，视为放弃此权利。</td>
               </tr>
               <tr>
                 <td style="width:5%"></td>
@@ -278,7 +278,7 @@
                   data-title="收件人（签名）"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx13', '受送达人（签名', 'TextItem')"
+                  @click="commandFill('cellIdx13', '受送达人（签名）', 'TextItem')"
                 >{{letData.cellIdx13}}</td>
                 <td
                   class="textAlignLeft"
@@ -481,7 +481,7 @@ export default {
       const orgData = await orgInfo.find(
         (item) => item.no === this.$store.state.user.userGroupId
       );
-      let orgSysOfficeInfo = orgData
+      let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo
         ? JSON.parse(orgData.sysOfficeInfo)
         : { depAddress: "", depPost: "", master: "", phone: "" };
       // depAddress：我分局地址、

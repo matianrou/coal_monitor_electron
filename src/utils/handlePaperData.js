@@ -1,6 +1,7 @@
 // 各文书页面使用的保存各种类型填写数据公用方法
 import { getDangerObject, transformNumToChinese }from '@/utils/setInitPaperData'
 import store from '@/store'
+import { handleDate } from '@/utils/date'
 
 function setTextItem (data) {
   // 处理简单文本数据
@@ -28,7 +29,7 @@ function setDaterangeItem (data, selectedData) {
     // string += `${dateList[0]}年${dateList[1]}月${dateList[2]}日-`
     string += item + '-'
   })
-  return string.substring(0, string.length - 1)
+  return handleDate(string.substring(0, string.length - 1), '-')
 }
 
 function setTextareaItem (data) {
@@ -158,7 +159,12 @@ function setDangerTableItem (data, selectedData, options) {
       if (options.key === 'cellIdx7') {
         string = `${dangerObjectIndex.dangerString}`
       } else if (options.key === 'cellIdx8') {
-        string = `分别违反了${dangerObject.illegalString}`
+        if (store.state.userType === 'supervision') {
+          // 监管时返回：
+          string = `${dangerObject.illegalString}`
+        } else {
+          string = `分别违反了${dangerObject.illegalString}`
+        }
       } else if (options.key === 'cellIdx9') {
         string = dangerObject.penaltyBasisString
       } else if (options.key === 'cellIdx10') {

@@ -103,7 +103,7 @@
               <span
                 @click="commandFill('cellIdx7', '违法事实', 'DangerTableItem')"
               >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
-              以上事实
+              以上事实违反了
               <span
                 @click="commandFill('cellIdx8', '法律规定', 'DangerTableItem')"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
@@ -114,7 +114,7 @@
               <div class="line"></div>
             </div>
             <div class="docTextarea">
-             决定给予以下行政处罚：
+             的规定，决定给予以下行政处罚：
               <span
                 @click="commandFill('cellIdx10', '行政处罚', 'DangerTableItem')"
               >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）'}}</span>
@@ -340,7 +340,7 @@
                   data-src
                   @click="commandFill('cellIdx18', '', 'TextItem')"
                 >{{ letData.cellIdx18 }}</td>
-                <td class="textAlignLeft">人民法院提起行政诉讼，但不停止执行本决定。</td>
+                <td class="textAlignLeft">人民法院提起行政诉讼，复议、诉讼期间，不停止执行本决定。</td>
               </tr>
             </table>
             <table height="90"></table>
@@ -451,7 +451,7 @@ export default {
       // 地址：accountAddress；组织机构名：organName；法院：courtPrefix
       const orgInfo = db.table("orgInfo");
       const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
-      let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {accountName: '', accountBank: '', billName: '', account: '', accountAddress: '', organName: '', courtPrefix: ''}
+      let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {accountName: '', accountBank: '', billName: '', account: '', accountAddress: '', organName: '', courtPrefix: ''}
       let paperNumber = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
       await db.close();
       this.letData = {
@@ -470,7 +470,7 @@ export default {
         cellIdx6: cellIdx4String === '单位' ? corp.address : '', // 地址
         cellIdx6TextItem: cellIdx4String === '单位' ? corp.address : '', // 地址
         cellIdx7: dangerObject.dangerString, // 违法事实
-        cellIdx8: `分别违反了${dangerObject.illegalString}`, // 法律规定
+        cellIdx8: `${dangerObject.illegalString}`, // 法律规定
         cellIdx9: dangerObject.penaltyBasisString, // 法律依据
         cellIdx10: `分别${dangerObject.penaltyDesc}。合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle)}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`, // 行政处罚
         cellIdx11: orgSysOfficeInfo.accountName, //
