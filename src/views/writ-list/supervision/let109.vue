@@ -133,7 +133,6 @@
                 @click="commandFill('cellIdx13', '', 'TextItem')"
                 >{{ letData.cellIdx13 ? letData.cellIdx13 : "点击编辑" }}</span
               >
-
               号）。现根据《中华人民共和国行政处罚法》第五十六条规定，对上述证据作出如下处理决定:
               <span
                 @click="commandFill('cellIdx14', '处理决定', 'TextareaItem')"
@@ -141,7 +140,7 @@
                   letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）"
                 }}</span
               >
-              的决定。
+              。
             </div>
             <table style="border: solid 0 #000" class="docBody">
               <tr>

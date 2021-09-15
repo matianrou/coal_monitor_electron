@@ -360,6 +360,7 @@ export default {
       this.letData.cellIdx0TypeTextItem = this.selectedType
       this.letData.cellIdx10 = this.selectedType
       this.letData.cellIdx10TypeTextItem = this.selectedType
+      this.letData.selectedType = this.selectedType
     }
   },
 };

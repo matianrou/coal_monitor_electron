@@ -135,86 +135,40 @@
                 @click="commandFill('cellIdx12', '附件：物品清单', 'SamplingForensicsTable')"
               >物品清单》）。</span>
             </div>
-            <table style="border:solid 0px #000;" class="docBody">
-              <tr>
-                <td
-                  class="cellInput"
-                  id="cell_idx_13"
-                  align="center"
-                  style="width:15%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx13', '', 'TextItem')"
-                >{{ letData.cellIdx13 }}</td>
-                <td class="textAlignLeft" style="width:2%">的</td>
-                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_14"
-                  align="center"
-                  style="width:20%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx14', '', 'SelectItem')"
-                >{{ letData.cellIdx14 ? letData.cellIdx14 : '（点击编辑）' }}</td>
-                <td class="textAlignLeft" style="width:56%">作出处理决定。此前，你单位不得使用、销毁或转移上述</td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_15"
-                  align="center"
-                  style="width:20%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx15', '', 'SelectItem')"
-                >{{ letData.cellIdx15 ? letData.cellIdx15 : '（点击编辑）' }}</td>
-                <td class="textAlignLeft" style="width:26%">，并负有安全保障责任。</td>
-              </tr>
-              <tr>
-                <td style="width:5%"></td>
-                <td class="textAlignLeft" style="width:51%">如不服本决定，可在接到本决定书之日起60日内向</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_16"
-                  align="center"
-                  style="width:44%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx16', '', 'TextItem')"
-                >{{ letData.cellIdx16 }}</td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft" style="width:14%">人民政府或者</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_17"
-                  align="center"
-                  style="width:49%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx17', '', 'TextItem')"
-                >{{ letData.cellIdx17 }}</td>
-                <td class="textAlignLeft" style="width:37%">申请行政复议，或者在6个月内依法向</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_18"
-                  align="center"
-                  style="width:37%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx18', '', 'TextItem')"
-                >{{ letData.cellIdx18 }}</td>
-                <td class="textAlignLeft" style="width:63%">人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。</td>
-              </tr>
-            </table>
+            <div class="docTextarea">
+              <label style="width:5%"></label>
+              本机关将于三十日内（不包括检测、检验或者技术鉴定期限）对上述被
+              <span
+                @click="commandFill('cellIdx13', '查封/扣押', 'DangerTableItem')"
+              >{{ letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）'}}</span>
+              的
+              <span
+                @click="commandFill('cellIdx14', '', 'SelectItem')"
+              >{{ letData.cellIdx14? letData.cellIdx14 : '（点击编辑）' }}</span>
+              作出处理决定。此前，你单位不得使用、销毁或转移上述
+              <span
+                style="borderBottom:none"
+                @click="commandFill('cellIdx15', '', 'SelectItem')"
+              >{{ letData.cellIdx15? letData.cellIdx15 : '（点击编辑）' }}</span>
+              ，并负有安全保障责任。
+            </div>
+            <div class="docTextarea">
+              <label style="width:5%"></label>
+              如不服本决定，可在接到本决定书之日起60日内向
+              <span
+                @click="commandFill('cellIdx16', '人民政府', 'TextItem')"
+              >{{ letData.cellIdx16 ? letData.cellIdx16 : '（点击编辑）'}}</span>
+              人民政府或者
+              <span
+                @click="commandFill('cellIdx17', '', 'TextItem')"
+              >{{ letData.cellIdx17? letData.cellIdx17 : '（点击编辑）' }}</span>
+              申请行政复议，或者在6个月内依法向
+              <span
+                style="borderBottom:none"
+                @click="commandFill('cellIdx18', '人民法院', 'TextItem')"
+              >{{ letData.cellIdx18? letData.cellIdx18 : '（点击编辑）' }}</span>
+              人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。
+            </div>
             <table height="30"></table>
             <table class="docBody">
               <tr>
@@ -464,7 +418,7 @@ export default {
           this.options[key] = {
             canEdit: true,
             page: "32", // 物品清单
-            name: this.selectedType,
+            name: this.letData.selectedType,
           };
           dataKey = "SamplingForensicsTable";
         }
@@ -481,7 +435,7 @@ export default {
           this.options[key] = {
             canEdit: false,
             page: "32", // 物品清单
-            name: this.selectedType,
+            name: this.letData.selectedType,
           };
           let dataKey = "SamplingForensicsTable";
           this.$refs.letMain.commandFill(
@@ -512,6 +466,7 @@ export default {
       this.letData.cellIdx19TypeTextItem = this.selectedType;
       this.letData.cellIdx23 = this.selectedType;
       this.letData.cellIdx23TypeTextItem = this.selectedType;
+      this.letData.selectedType = this.selectedType
     },
   },
 };

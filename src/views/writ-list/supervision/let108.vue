@@ -98,7 +98,7 @@
             <table style="border:solid 0px #000;" class="docBody">
               <tr>
                 <td style="width:5%"></td>
-                <td class="textAlignLeft">本机关将在七个工作日内对先行登记保存的证据依法作出处理决定。
+                <td class="textAlignLeft">本机关将在七日内对先行登记保存的证据依法作出处理决定。
                   逾期未作出处理决定的，先</td>
                   <td class="textAlignLeft">行登记保存措施自动解除。</td>
                 <!-- <td
@@ -243,7 +243,7 @@
             </table>
             <table>
               <hr />
-              <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被取证单位，一份存档。</td>
+              <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式三份，一份交被取证单位，一份交保管单位，一份存档。</td>
             </table>
           </div>
         </div>

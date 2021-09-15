@@ -352,6 +352,7 @@ export default {
       this.letData.cellIdx0TypeTextItem = this.selectedType
       this.letData.cellIdx8 = this.selectedType.substring(2, this.selectedType.length)
       this.letData.cellIdx8TypeTextItem = this.selectedType.substring(2, this.selectedType.length)
+      this.letData.selectedType = this.selectedType
     }
   },
 };

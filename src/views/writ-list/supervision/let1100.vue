@@ -377,7 +377,7 @@ export default {
             .split("-")
         : ["", "", ""];
       // 查封扣押决定书文书中是查封/扣押
-      let selectedType = let32DataPapaerContent.cellIdx0
+      let selectedType = let32DataPapaerContent.selectedType
       await db.close();
       this.letData = {
         cellIdx0: `延长${selectedType}期限`, // 查封(扣押)

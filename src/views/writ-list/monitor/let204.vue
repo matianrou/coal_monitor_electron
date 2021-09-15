@@ -581,6 +581,7 @@ export default {
         this.letData.cellIdx21 = this.selectedType
         this.letData.cellIdx21TypeTextItem = this.selectedType
         this.letData.dangerItemObject = let101DataPapaerContent.dangerItemObject
+        this.letData.selectedType = this.selectedType
       }
     }
   },

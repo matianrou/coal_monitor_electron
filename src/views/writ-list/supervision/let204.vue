@@ -577,6 +577,7 @@ export default {
       this.letData.cellIdx11TypeTextItem = this.selectedType;
       this.letData.cellIdx21 = this.selectedType;
       this.letData.cellIdx21TypeTextItem = this.selectedType;
+      this.letData.selectedType = this.selectedType;
     },
   },
 };

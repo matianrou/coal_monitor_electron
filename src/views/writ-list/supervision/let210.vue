@@ -387,6 +387,7 @@ export default {
       this.visibleSelectDialog = false
       this.letData.cellIdx5 = this.selectedType
       this.letData.cellIdx5TypeTextItem = this.selectedType
+      this.letData.selectedType = this.selectedType
     }
   },
 };

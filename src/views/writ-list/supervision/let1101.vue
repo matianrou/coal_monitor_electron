@@ -434,7 +434,7 @@ export default {
             .split("-")
         : ["", "", ""];
       // 获取查封/扣押
-      let selectedType = let32DataPapaerContent.cellIdx0
+      let selectedType = let32DataPapaerContent.selectedType
       await db.close();
       this.letData = {
         cellIdx0: `${selectedType}处理`, // 查封(扣押)
