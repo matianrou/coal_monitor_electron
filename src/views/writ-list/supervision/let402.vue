@@ -17,7 +17,7 @@
               煤矿安全监管行政执法文书
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">涉 嫌 犯 罪 案 件 移 送 书</div>
+            <div class="textAlignCenter formHeader1">涉嫌犯罪案件移送书</div>
             <div class="stdRowH"></div>
             <table class="docBody">
              <tr>

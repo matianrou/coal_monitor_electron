@@ -17,7 +17,7 @@
               煤矿安全监管行政执法文书
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">行政执法决定法制审核意见书</div>
+            <div class="textAlignCenter formHeader1">行政执法决定法制审核意见书</div>
             <div class="stdRowH"></div>
             <table class="docBody">
               <tr>

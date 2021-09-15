@@ -17,7 +17,7 @@
               煤矿安全监管行政执法文书
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">撤 出 作 业 人 员  指 令 书</div>
+            <div class="textAlignCenter formHeader1">撤出作业人员指令书</div>
             <div class="stdRowH"></div>
             <table class="docBody">
               <tr>

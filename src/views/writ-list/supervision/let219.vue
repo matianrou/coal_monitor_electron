@@ -13,8 +13,8 @@
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader1">煤矿安全监管行政执法文书</div>
-            <div class="textAlignCenter formHeader3">
+            <div class="textAlignCenter formHeader0">煤矿安全监管行政执法文书</div>
+            <div class="textAlignCenter formHeader1">
               <table class="docBody">
                 <tr>
                   <td

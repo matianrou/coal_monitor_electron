@@ -17,7 +17,7 @@
               煤矿安全监管行政执法文书
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">先 行 登 记 保 存 证 据 通 知 书</div>
+            <div class="textAlignCenter formHeader1">先行登记保存证据通知书</div>
             <div class="stdRowH"></div>
             <table class="docBody">
               <tr>

@@ -14,19 +14,18 @@
           <div>
             <div class="stdRowH"></div>
             <div class="textAlignCenter formHeader0">煤矿安全监管行政执法文书</div>
-            <div class="textAlignCenter formHeader3">
+            <div class="textAlignCenter formHeader1">
               <table class="docBody">
                 <tr>
                   <td
                     class="cellInput"
                     id="cell_idx_0"
-                    style="width:15%"
                     data-title="停供电(停供民用爆炸物品)"
                     data-type="text"
                     data-src
                     @click="commandFill('cellIdx0', '停供电(停供民用爆炸物品)', 'TextItem')"
                   >{{ letData.cellIdx0 }}</td>
-                  <td class="textAlignLeft">决定书</td>
+                  <td class="textAlignLeft">&nbsp;决定书</td>
                 </tr>
               </table>
             </div>

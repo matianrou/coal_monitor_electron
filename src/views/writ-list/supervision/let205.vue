@@ -17,7 +17,7 @@
               煤矿安全监管行政执法文书
               <br />
             </div>
-            <div class="textAlignCenter formHeader1">陈 述 申 辩 笔 录</div>
+            <div class="textAlignCenter formHeader1">陈述申辩笔录</div>
             <div class="stdRowH"></div>
             <table style="border:solid 0 #000;" class="docBody">
               <tr>

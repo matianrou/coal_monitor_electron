@@ -17,7 +17,7 @@
               煤矿安全监管行政执法文书
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">
+            <div class="textAlignCenter formHeader1">
               先行登记保存证据处理决定书
             </div>
             <div class="stdRowH"></div>

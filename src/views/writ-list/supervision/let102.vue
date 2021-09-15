@@ -17,7 +17,7 @@
               煤矿安全监管行政执法文书
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">现 场 处 理 决 定 书</div>
+            <div class="textAlignCenter formHeader1">现场处理决定书</div>
             <div class="stdRowH"></div>
             <table class="docBody">
               <tr>

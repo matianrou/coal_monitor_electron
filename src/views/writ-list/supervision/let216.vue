@@ -17,7 +17,7 @@
               煤矿安全监管行政执法文书
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">案件处理呈报书</div>
+            <div class="textAlignCenter formHeader1">案件处理呈报书</div>
             <div class="stdRowH"></div>
             <table class="docBody">
               <tr>

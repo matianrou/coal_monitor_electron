@@ -17,7 +17,7 @@
               煤矿安全监管行政执法文书
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">强 制 执 行 申 请 书</div>
+            <div class="textAlignCenter formHeader1">强制执行申请书</div>
             <div class="stdRowH"></div>
             <table class="docBody">
               <tr>

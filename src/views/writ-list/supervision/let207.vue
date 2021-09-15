@@ -16,7 +16,7 @@
             煤矿安全监管行政执法文书
             <br />
           </div>
-          <div class="textAlignCenter formHeader3">送 达 收 执</div>
+          <div class="textAlignCenter formHeader1">送达收执</div>
           <div class="stdRowH"></div>
           <table class="docBody">
             <tr>

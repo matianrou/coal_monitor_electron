@@ -17,7 +17,7 @@
               煤矿安全监管行政执法文书
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">移 送 书</div>
+            <div class="textAlignCenter formHeader1">移送书</div>
             <div class="stdRowH"></div>
             <table class="docBody">
               <tr>

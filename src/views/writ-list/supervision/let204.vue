@@ -14,7 +14,7 @@
           <div>
             <div class="stdRowH"></div>
             <div class="textAlignCenter formHeader0">煤矿安全监管行政执法文书</div>
-            <div class="textAlignCenter formHeader3">行 政 处 罚 告 知 书</div>
+            <div class="textAlignCenter formHeader1">行政处罚告知书</div>
             <div class="stdRowH"></div>
             <table class="docBody">
               <tr>
