@@ -46,7 +46,6 @@ table td{margin:0;padding:0;}
 #foot {
   position: fixed;
   bottom: 0;
-
   width: 21cm;
   height: 10px;
   z-index: 99999;
@@ -80,7 +79,7 @@ table td{margin:0;padding:0;}
   margin: 0 auto;
   width: 19cm;
   font-size: 29.3px;
-  font-family: 隶书;
+  font-family: 华文中宋,SimSun;
   font-weight: bold;
   height: 1.5cm;
   line-height: 1.5cm;
@@ -89,7 +88,7 @@ table td{margin:0;padding:0;}
 .formHeader1 {
   margin: 0 auto;
   width: 19cm;
-  font-size: 27px;
+  font-size: 29.3px;
   font-family: 黑体;
   font-weight: bold;
   height: 1.5cm;
@@ -136,6 +135,23 @@ table td{margin:0;padding:0;}
 }
 .docBody.mutiLine td{
   line-height:0.7cm !important;
+}
+.docTextLine {
+  width: 19cm;
+  margin: 0 auto;
+  line-height: 1cm;
+  display: flex;
+  font-family: 仿宋;
+  font-size: 16px;
+  .line-div {
+    flex: 1;
+    border-bottom: solid 1px #000;
+    cursor: pointer;
+  }
+  .no-line-div {
+    flex: 1;
+    cursor: pointer;
+  }
 }
 .docTextarea {
   width: 19cm;

@@ -96,19 +96,28 @@
       <!-- </tr> -->
     </div>
     <div v-if="usePage === 'MakeLawWrit'" class="case-list-select-operation">
-      <el-button
-        class="addPlan"
-        type="primary"
-        style="height: 35px;width:60px;padding:0;margin: 0;"
-        @click="addCase"
-      >
-        <i class="el-icon-plus"></i>添加
-      </el-button>&nbsp;&nbsp;
-      <el-button
-        style="height: 35px; width:60px;padding:0;margin: 0;"
-        @click="deleteCase">
-        <i class="el-icon-delete"></i>删除
-      </el-button>&nbsp;&nbsp;
+      <div class="extra-btn">
+        <!-- <img 
+          src="@/components/assets/image/user-group.png" 
+          title="文书拉取" 
+          @click="paperPull"
+        /> -->
+      </div>
+      <div class="add-delete-btn">
+        <el-button
+          class="addPlan"
+          type="primary"
+          style="height: 35px;width:60px;padding:0;margin: 0;"
+          @click="addCase"
+        >
+          <i class="el-icon-plus"></i>添加
+        </el-button>&nbsp;&nbsp;
+        <el-button
+          style="height: 35px; width:60px;padding:0;margin: 0;"
+          @click="deleteCase">
+          <i class="el-icon-delete"></i>删除
+        </el-button>
+      </div>
     </div>
     <select-company
       v-if="visible.selectCompany"
@@ -116,16 +125,24 @@
       @close="close"
       @confirm-company="confirmCompany"
     ></select-company>
+    <paper-pull
+      v-if="visible.paperPull"
+      :visible="visible.paperPull"
+      @close="close"
+      @confirm="confirmPaperPull"
+    ></paper-pull>
   </div>
 </template>
 
 <script>
 import GoDB from '@/utils/godb.min.js'
 import selectCompany from '@/components/select-company'
+import paperPull from '@/components/paper-pull'
 export default {
   name: "CaseList",
   components: {
-    selectCompany
+    selectCompany,
+    paperPull
   },
   props: {
     selectPlanData: {
@@ -156,7 +173,8 @@ export default {
         caseType: '计划', // 是否为计划内的检查活动
       },
       visible: {
-        selectCompany: false
+        selectCompany: false, // 添加选择企业
+        paperPull: false, // 文书拉取
       },
       selectedCase: {}, // 已选中的检查活动（或计划）
       DBName: this.$store.state.DBName,
@@ -475,6 +493,12 @@ export default {
         this.$message.error('请选择检查活动后点击删除！')
       }
     },
+    paperPull () {
+      this.visible.paperPull = true
+    },
+    confirmPaperPull () {
+      // 确定拉取文书
+    }
   },
 };
 </script>
@@ -504,7 +528,16 @@ export default {
     padding: 6px;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    .extra-btn {
+      margin-left: 10px;
+      flex: 1;
+      img {
+        cursor: pointer;
+      }
+    }
+    .add-delete-btn {
+      width: 150px;
+    }
   }
   .active{
     background: #5f8aca;
