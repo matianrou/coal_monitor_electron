@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -14,19 +14,18 @@
           <div>
             <div class="stdRowH"></div>
             <div class="textAlignCenter formHeader0">煤矿安全监管行政执法文书</div>
-            <div class="textAlignCenter formHeader3">
+            <div class="textAlignCenter formHeader1">
               <table class="docBody">
                 <tr>
                   <td
                     class="cellInput"
                     id="cell_idx_0"
-                    style="width:15%"
                     data-title="停供电(停供民用爆炸物品)"
                     data-type="text"
                     data-src
                     @click="commandFill('cellIdx0', '停供电(停供民用爆炸物品)', 'TextItem')"
                   >{{ letData.cellIdx0 }}</td>
-                  <td class="textAlignLeft">决定书</td>
+                  <td class="textAlignLeft">&nbsp;决定书</td>
                 </tr>
               </table>
             </div>
@@ -148,11 +147,7 @@
                 @click="commandFill('cellIdx16', '', 'TextItem')"
               >{{ letData.cellIdx16? letData.cellIdx16 : '（点击编辑）' }}</span>
               的措施，强制你单位履行决定。
-
             </div>
-
-
-
             <table style="border:solid 0px #000;" class="docBody">
               <tr><td style="width:5%"></td>
                 <td
@@ -163,7 +158,6 @@
                   class="textAlignLeft"
                 >关措施。</td>
               </tr>
-
               <tr>
                 <td style="width:5%"></td>
                 <td
@@ -243,7 +237,7 @@
       title="文书信息选择"
       :close-on-click-modal="false"
       append-to-body
-      :visible="visible"
+      :visible="visibleSelectDialog"
       width="400px"
       :show-close="false">
       <span>请选择：</span>
@@ -255,126 +249,90 @@
         <el-button type="primary" @click="confirm">确定</el-button>
       </span>
     </el-dialog>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDocNumber } from '@/utils/setInitPaperData'
+import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let111",
-  props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-  },
+  mixins: [associationSelectPaper],
   data() {
     return {
       letData: {},
       options: {},
       editData: {}, // 回显数据
-      visible: false,
+      visibleSelectDialog: false,
       selectedType: '停供电',
+      associationPaper: []
     };
   },
-  created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-  },
   methods: {
-    async initData() {
-      // 初始化文书内容
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      //查询当前计划是否已做文书
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
-        );
-      });
-      // 已做文书则展示文书内容，否则创建初始版本
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本
-        // 1.选择：
-        this.visible = true
-        // 2.文书编号
-        let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
-        // 3.sysOfficeInfo实体中organName字段+ courtPrefix字段
-        const orgInfo = db.table("orgInfo");
-        const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
-        let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {organName: '', depAddress: ''}
-        // 4.年、月、日取当前时间
-        let date = new Date()
-        let year = date.getFullYear();
-        let month = date.getMonth() + 1;
-        let strDate = date.getDate();
-        this.letData = {
-          cellIdx0: null, // 停供电(停供民用爆炸物品)
-          cellIdx1: num0, // 文书号
-          cellIdx1TypeTextItem: num0, // 文书号
-          cellIdx2: num1, // 文书号
-          cellIdx2TypeTextItem: num1, // 文书号
-          cellIdx3: null, // 停供电(停供民用爆炸物品)
-          cellIdx4: num3, // 文书号
-          cellIdx4TypeTextItem: num3, // 文书号
-          cellIdx5: num4, // 文书号
-          cellIdx5TypeTextItem: num4, // 文书号
-          cellIdx6: corp.corpName, // corpName
-          cellIdx6TypeTextItem: corp.corpName, // corpName
-          cellIdx7: year, // 年
-          cellIdx7TypeTextItem: year, // 年
-          cellIdx8: month, // 月
-          cellIdx8TypeTextItem: month, // 月
-          cellIdx9: strDate, // 日
-          cellIdx9TypeTextItem: strDate, // 日
-          cellIdx10: null, // 依法对你单位作出XXX的决定
-          cellIdx11: null, // 年
-          cellIdx12: null, // 月
-          cellIdx13: null, // 日
-          cellIdx14: null, // 时
-          cellIdx15: null, // 分
-          cellIdx16: null, // 采取XX的措施
-          cellIdx17: orgSysOfficeInfo.goverPrefix, // 人民政府
-          cellIdx17TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民政府
-          cellIdx18: orgSysOfficeInfo.organName, //
-          cellIdx18TypeTextItem: orgSysOfficeInfo.organName, //
-          cellIdx19: orgSysOfficeInfo.courtPrefix, // 人民法院
-          cellIdx19TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
-          cellIdx20: null, //
-          cellIdx21: null, // 日期
-        };
-      }
+      // 1.选择：
+      this.visibleSelectDialog = true
+      // 2.文书编号
+      let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
+      // 3.sysOfficeInfo实体中organName字段+ courtPrefix字段
+      const orgInfo = db.table("orgInfo");
+      const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+      let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {organName: '', depAddress: ''}
+      // 4.年、月、日取当前时间
+      let date = new Date()
+      let year = date.getFullYear();
+      let month = date.getMonth() + 1;
+      let strDate = date.getDate(); 
       await db.close();
+      this.letData = {
+        cellIdx0: null, // 停供电(停供民用爆炸物品)
+        cellIdx1: num0, // 文书号
+        cellIdx1TypeTextItem: num0, // 文书号
+        cellIdx2: num1, // 文书号
+        cellIdx2TypeTextItem: num1, // 文书号
+        cellIdx3: null, // 停供电(停供民用爆炸物品)
+        cellIdx4: num3, // 文书号
+        cellIdx4TypeTextItem: num3, // 文书号
+        cellIdx5: num4, // 文书号
+        cellIdx5TypeTextItem: num4, // 文书号
+        cellIdx6: corp.corpName, // corpName
+        cellIdx6TypeTextItem: corp.corpName, // corpName
+        cellIdx7: year, // 年
+        cellIdx7TypeTextItem: year, // 年
+        cellIdx8: month, // 月
+        cellIdx8TypeTextItem: month, // 月
+        cellIdx9: strDate, // 日
+        cellIdx9TypeTextItem: strDate, // 日
+        cellIdx10: null, // 依法对你单位作出XXX的决定
+        cellIdx11: null, // 年
+        cellIdx12: null, // 月
+        cellIdx13: null, // 日
+        cellIdx14: null, // 时
+        cellIdx15: null, // 分
+        cellIdx16: null, // 采取XX的措施
+        cellIdx17: orgSysOfficeInfo.goverPrefix, // 人民政府
+        cellIdx17TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民政府
+        cellIdx18: orgSysOfficeInfo.organName, //
+        cellIdx18TypeTextItem: orgSysOfficeInfo.organName, //
+        cellIdx19: orgSysOfficeInfo.courtPrefix, // 人民法院
+        cellIdx19TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
+        cellIdx20: null, //
+        cellIdx21: null, // 日期
+      };
     },
     goBack({ page }) {
       // 返回选择企业
@@ -397,11 +355,12 @@ export default {
     },
     confirm() {
       // 选择停供电(停供民用爆炸物品)
-      this.visible = false
+      this.visibleSelectDialog = false
       this.letData.cellIdx0 = this.selectedType
       this.letData.cellIdx0TypeTextItem = this.selectedType
       this.letData.cellIdx10 = this.selectedType
       this.letData.cellIdx10TypeTextItem = this.selectedType
+      this.letData.selectedType = this.selectedType
     }
   },
 };

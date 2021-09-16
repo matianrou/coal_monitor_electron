@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -17,7 +17,7 @@
               煤矿安全监管行政执法文书
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">行 政 处 罚 决 定 书</div>
+            <div class="textAlignCenter formHeader1">行政处罚决定书</div>
             <div class="stdRowH"></div>
             <table class="docBody">
               <tr>
@@ -103,7 +103,7 @@
               <span
                 @click="commandFill('cellIdx7', '违法事实', 'DangerTableItem')"
               >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
-              以上事实
+              以上事实违反了
               <span
                 @click="commandFill('cellIdx8', '法律规定', 'DangerTableItem')"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
@@ -111,20 +111,15 @@
               <span
                 @click="commandFill('cellIdx9', '法律依据', 'DangerTableItem')"
               >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</span>
-
-
               <div class="line"></div>
             </div>
             <div class="docTextarea">
-             决定给予以下行政处罚：
+             的规定，决定给予以下行政处罚：
               <span
                 @click="commandFill('cellIdx10', '行政处罚', 'DangerTableItem')"
               >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）'}}</span>
-
               <div class="line"></div>
             </div>
-
-
             <!-- <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">违法事实：</td>
@@ -345,7 +340,7 @@
                   data-src
                   @click="commandFill('cellIdx18', '', 'TextItem')"
                 >{{ letData.cellIdx18 }}</td>
-                <td class="textAlignLeft">人民法院提起行政诉讼，但不停止执行本决定。</td>
+                <td class="textAlignLeft">人民法院提起行政诉讼，复议、诉讼期间，不停止执行本决定。</td>
               </tr>
             </table>
             <table height="90"></table>
@@ -391,33 +386,24 @@
         </div>
       </div>
     </let-main>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject, transformNumToChinese, getDocNumber } from '@/utils/setInitPaperData'
+import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let206",
-  props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-  },
+  mixins: [associationSelectPaper],
   data() {
     return {
       letData: {},
@@ -439,111 +425,76 @@ export default {
           key: 'cellIdx10'
         },
       },
-      editData: {}, // 回显数据
-      extraData: {}, // 用于拼写隐患内容的字符集合
+      associationPaper: ['6']
     };
   },
-  created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-  },
   methods: {
-    async initData() {
-      // 初始化文书内容
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      //查询当前计划是否已做文书
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
-        );
-      });
-      // await wkPaper.delete(checkPaper[0].id)
-      // 已做文书则展示文书内容，否则创建初始版本
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本
-        // 1.关联行政处罚告知书
-        const let204Data = await wkPaper.find(item => item.caseId === caseId && item.paperType === '6')
-        if (!let204Data) {
-          this.$message.error('请先填写并保存行政处罚告知书中内容！')
-          return
-        }
-        // 2.单位/个人：行政处罚告知书中的单位/个人cellIdx5
-        let let204DataPaperContent = JSON.parse(let204Data.paperContent)
-        let cellIdx4String = let204DataPaperContent.cellIdx5
-        // 3.被处罚：如果为单位时赋值煤矿名称coprName
-        // 4.地址：如果为单位时赋值煤矿地址address
-        // 5.违法事实：行政处罚告知书中的cellIdx6
-        let dangerObject = getDangerObject(let204DataPaperContent.dangerItemObject.tableData, {danger: true})
-        // 6.法律规定 :行政处罚告知书中的cellIdx7
-        // 7.法律依据 :行政处罚告知书中的cellIdx8
-        // 8.行政处罚 :行政处罚告知书中的cellIdx9
-        // 9.机构接口中sysOfficeInfo实体中对应：
-        // accountName；银行：accountBank；账户名称：billName；账号：account；
-        // 地址：accountAddress；组织机构名：organName；法院：courtPrefix
-        const orgInfo = db.table("orgInfo");
-        const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
-        let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {accountName: '', accountBank: '', billName: '', account: '', accountAddress: '', organName: '', courtPrefix: ''}
-        let paperNumber = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
-        this.letData = {
-          cellIdx0: paperNumber.num0, // 文书号
-          cellIdx0TypeTextItem: paperNumber.num0, // 文书号
-          cellIdx1: paperNumber.num1, // 文书号
-          cellIdx1TypeTextItem: paperNumber.num1, // 文书号
-          cellIdx2: paperNumber.num3, // 文书号
-          cellIdx2TypeTextItem: paperNumber.num3, // 文书号
-          cellIdx3: paperNumber.num4, // 文书号
-          cellIdx3TypeTextItem: paperNumber.num4, // 文书号
-          cellIdx4: let204DataPaperContent.cellIdx5, // 单位/个人
-          cellIdx4TypeTextItem: let204DataPaperContent.cellIdx5, // 单位/个人
-          cellIdx5: cellIdx4String === '单位' ? corp.corpName : '', // 被处罚
-          cellIdx5TextItem: cellIdx4String === '单位' ? corp.corpName : '', // 被处罚
-          cellIdx6: cellIdx4String === '单位' ? corp.address : '', // 地址
-          cellIdx6TextItem: cellIdx4String === '单位' ? corp.address : '', // 地址
-          cellIdx7: dangerObject.dangerString, // 违法事实
-          cellIdx8: `分别违反了${dangerObject.illegalString}`, // 法律规定
-          cellIdx9: dangerObject.penaltyBasisString, // 法律依据
-          cellIdx10: `分别${dangerObject.penaltyDesc}。合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle)}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`, // 行政处罚
-          cellIdx11: orgSysOfficeInfo.accountName, //
-          cellIdx11TypeTextItem: orgSysOfficeInfo.accountName, //
-          cellIdx12: orgSysOfficeInfo.accountBank, // 银行
-          cellIdx12TypeTextItem: orgSysOfficeInfo.accountBank, // 银行
-          cellIdx13: orgSysOfficeInfo.billName, // 支行（分理处），账户名称
-          cellIdx13TypeTextItem: orgSysOfficeInfo.billName, // 支行（分理处），账户名称
-          cellIdx14: orgSysOfficeInfo.account, // 账号
-          cellIdx14TypeTextItem: orgSysOfficeInfo.account, // 账号
-          cellIdx15: orgSysOfficeInfo.accountAddress, // 地址
-          cellIdx15TypeTextItem: orgSysOfficeInfo.accountAddress, // 地址
-          cellIdx16: orgSysOfficeInfo.goverPrefix, //人民政府
-          cellIdx16TypeTextIte: orgSysOfficeInfo.goverPrefix, //人民政府
-          cellIdx17: orgSysOfficeInfo.organName, // organName
-          cellIdx17TypeTextItem: orgSysOfficeInfo.organName, // 煤监机构
-          cellIdx18: orgSysOfficeInfo.courtPrefix, // 人民法院
-          cellIdx18TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
-          cellIdx19: null, //
-          cellIdx20: null, // 日期
-          cellIdx21: let204DataPaperContent.cellIdx5, // 单位/个人
-          cellIdx21TypeTextItem: let204DataPaperContent.cellIdx5, // 单位/个人
-          dangerItemObject: let204DataPaperContent.dangerItemObject
-        };
-      }
+      // 1.关联行政处罚告知书
+      // 2.单位/个人：行政处罚告知书中的单位/个人cellIdx5
+      let let6DataPaperContent = JSON.parse(selectedPaper.let6Data.paperContent)
+      let cellIdx4String = let6DataPaperContent.cellIdx5
+      // 3.被处罚：如果为单位时赋值煤矿名称coprName
+      // 4.地址：如果为单位时赋值煤矿地址address
+      // 5.违法事实：行政处罚告知书中的cellIdx6
+      let dangerObject = getDangerObject(let6DataPaperContent.dangerItemObject.tableData, {danger: true})
+      // 6.法律规定 :行政处罚告知书中的cellIdx7
+      // 7.法律依据 :行政处罚告知书中的cellIdx8
+      // 8.行政处罚 :行政处罚告知书中的cellIdx9
+      // 9.机构接口中sysOfficeInfo实体中对应：
+      // accountName；银行：accountBank；账户名称：billName；账号：account；
+      // 地址：accountAddress；组织机构名：organName；法院：courtPrefix
+      const orgInfo = db.table("orgInfo");
+      const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+      let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {accountName: '', accountBank: '', billName: '', account: '', accountAddress: '', organName: '', courtPrefix: ''}
+      let paperNumber = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
       await db.close();
+      this.letData = {
+        cellIdx0: paperNumber.num0, // 文书号
+        cellIdx0TypeTextItem: paperNumber.num0, // 文书号
+        cellIdx1: paperNumber.num1, // 文书号
+        cellIdx1TypeTextItem: paperNumber.num1, // 文书号
+        cellIdx2: paperNumber.num3, // 文书号
+        cellIdx2TypeTextItem: paperNumber.num3, // 文书号
+        cellIdx3: paperNumber.num4, // 文书号
+        cellIdx3TypeTextItem: paperNumber.num4, // 文书号
+        cellIdx4: cellIdx4String, // 单位/个人
+        cellIdx4TypeTextItem: cellIdx4String, // 单位/个人
+        cellIdx5: cellIdx4String === '单位' ? corp.corpName : '', // 被处罚
+        cellIdx5TextItem: cellIdx4String === '单位' ? corp.corpName : '', // 被处罚
+        cellIdx6: cellIdx4String === '单位' ? corp.address : '', // 地址
+        cellIdx6TextItem: cellIdx4String === '单位' ? corp.address : '', // 地址
+        cellIdx7: dangerObject.dangerString, // 违法事实
+        cellIdx8: `${dangerObject.illegalString}`, // 法律规定
+        cellIdx9: dangerObject.penaltyBasisString, // 法律依据
+        cellIdx10: `分别${dangerObject.penaltyDesc}。合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle)}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`, // 行政处罚
+        cellIdx11: orgSysOfficeInfo.accountName, //
+        cellIdx11TypeTextItem: orgSysOfficeInfo.accountName, //
+        cellIdx12: orgSysOfficeInfo.accountBank, // 银行
+        cellIdx12TypeTextItem: orgSysOfficeInfo.accountBank, // 银行
+        cellIdx13: orgSysOfficeInfo.billName, // 支行（分理处），账户名称
+        cellIdx13TypeTextItem: orgSysOfficeInfo.billName, // 支行（分理处），账户名称
+        cellIdx14: orgSysOfficeInfo.account, // 账号
+        cellIdx14TypeTextItem: orgSysOfficeInfo.account, // 账号
+        cellIdx15: orgSysOfficeInfo.accountAddress, // 地址
+        cellIdx15TypeTextItem: orgSysOfficeInfo.accountAddress, // 地址
+        cellIdx16: orgSysOfficeInfo.goverPrefix, //人民政府
+        cellIdx16TypeTextIte: orgSysOfficeInfo.goverPrefix, //人民政府
+        cellIdx17: orgSysOfficeInfo.organName, // organName
+        cellIdx17TypeTextItem: orgSysOfficeInfo.organName, // 煤监机构
+        cellIdx18: orgSysOfficeInfo.courtPrefix, // 人民法院
+        cellIdx18TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
+        cellIdx19: null, //
+        cellIdx20: null, // 日期
+        cellIdx21: cellIdx4String, // 单位/个人
+        cellIdx21TypeTextItem: cellIdx4String, // 单位/个人
+        dangerItemObject: let6DataPaperContent.dangerItemObject
+      };
     },
     goBack({ page }) {
       // 返回选择企业

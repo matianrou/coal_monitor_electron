@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -17,7 +17,7 @@
               煤矿安全监管行政执法文书
               <br />
             </div>
-            <div class="textAlignCenter formHeader1">调 查 取 证 笔 录</div>
+            <div class="textAlignCenter formHeader1">调查取证笔录</div>
             <div class="stdRowH"></div>
             <table style="border:solid 0 #000;" class="docBody">
               <tr>
@@ -115,12 +115,10 @@
               </tr>
             </table>
             <div class="docTextarea">
-
               调查事由：
               <span
                 @click="commandFill('cellIdx8', '调查事由', 'DangerTableItem')"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
-
               <div class="line"></div>
             </div>
             <!-- <table style="border:solid 0 #000;" class="docBody">
@@ -340,33 +338,24 @@
         </div>
       </div>
     </let-main>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject } from '@/utils/setInitPaperData'
+import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let202",
-  props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-  },
+  mixins: [associationSelectPaper],
   data() {
     return {
       letData: {},
@@ -490,92 +479,55 @@ export default {
           },
         ]
       },
-      editData: {}, // 回显数据
-      extraData: {}, // 用于拼写隐患内容的字符集合
+      associationPaper: ['1']
     };
   },
-  created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-  },
   methods: {
-    async initData() {
-      // 初始化文书内容
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      //查询当前计划是否已做文书
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
-        );
-      });
-      // 保存额外拼写的数据内容，用于修改隐患项时回显使用
-      this.extraData = {
-        corpName: corp.corpName,
-        userGroupName: this.$store.state.user.userGroupName,
-      }
-      // 已做文书则展示文书内容，否则创建初始版本
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本
-        // 1.调查事由：煤矿名称+“涉嫌”+隐患描述
-        // 隐患描述
-         // 获取笔录文书中的隐患数据
-        const let101Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === '1';
-        });
-        if (!let101Data) {
-          this.$message.error('请先填写并保存现场检查记录中内容！')
-          return
-        }
-        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
-        let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
-        let cellIdx8String = `${corp.corpName}涉嫌${dangerObject.dangerString}。`
-        // 2.组成： “我们是”+当前机构+“监察员，这是我们的执法证件（出示行政执法证件），现就你”+煤矿名称+“涉嫌”+隐患描述+“违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？”
-        let cellIdx21String = `我们是${this.$store.state.user.userGroupName}监察员，这是我们的执法证件（出示行政执法证件），现就你${corp.corpName}涉嫌${dangerObject.dangerString}违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？`
-        this.letData = {
-          cellIdx0: null, // 年
-          cellIdx1: null, // 月
-          cellIdx2: null, // 日
-          cellIdx3: null, // 时
-          cellIdx4: null, // 分
-          cellIdx5: null, // 时
-          cellIdx6: null, // 分
-          cellIdx7: null, // 地点
-          cellIdx8: cellIdx8String, // 调查事由
-          cellIdx9: null, // 姓名
-          cellIdx10: null, // 性别
-          cellIdx11: null, // 年龄
-          cellIdx12: null, // 身份证号
-          cellIdx13: null, // 工作单位
-          cellIdx14: null, // 职务（职业）
-          cellIdx15: null, // 政治面貌
-          cellIdx16: null, // 文化程度
-          cellIdx17: null, // 电话
-          cellIdx18: null, // 住址
-          cellIdx19: null, // 调查人（签名）
-          cellIdx20: null, // 记录人（签名）
-          cellIdx21: cellIdx21String,
-          cellIdx21TypeTextareaItem: cellIdx21String,
-          dangerItemObject: let101DataPapaerContent.dangerItemObject
-        };
-      }
+      // 1.调查事由：煤矿名称+“涉嫌”+隐患描述
+      // 隐患描述
+        // 获取笔录文书中的隐患数据
+      let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
+      let cellIdx8String = `${corp.corpName}涉嫌${dangerObject.dangerString}。`
+      // 2.组成： “我们是”+当前机构+“监察员，这是我们的执法证件（出示行政执法证件），现就你”+煤矿名称+“涉嫌”+隐患描述+“违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？”
+      let cellIdx21String = `我们是${this.$store.state.user.userGroupName}监察员，这是我们的执法证件（出示行政执法证件），现就你${corp.corpName}涉嫌${dangerObject.dangerString}违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？`
       await db.close();
+      this.letData = {
+        cellIdx0: null, // 年
+        cellIdx1: null, // 月
+        cellIdx2: null, // 日
+        cellIdx3: null, // 时
+        cellIdx4: null, // 分
+        cellIdx5: null, // 时
+        cellIdx6: null, // 分
+        cellIdx7: null, // 地点
+        cellIdx8: cellIdx8String, // 调查事由
+        cellIdx9: null, // 姓名
+        cellIdx10: null, // 性别
+        cellIdx11: null, // 年龄
+        cellIdx12: null, // 身份证号
+        cellIdx13: null, // 工作单位
+        cellIdx14: null, // 职务（职业）
+        cellIdx15: null, // 政治面貌
+        cellIdx16: null, // 文化程度
+        cellIdx17: null, // 电话
+        cellIdx18: null, // 住址
+        cellIdx19: null, // 调查人（签名）
+        cellIdx20: null, // 记录人（签名）
+        cellIdx21: cellIdx21String,
+        cellIdx21TypeTextareaItem: cellIdx21String,
+        dangerItemObject: let1DataPapaerContent.dangerItemObject,
+        extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
+          corpName: corp.corpName,
+          userGroupName: this.$store.state.user.userGroupName,
+        }
+      };
     },
     goBack({ page }) {
       // 返回选择企业
@@ -589,7 +541,7 @@ export default {
         let spellString = {}
         if (key === 'cellIdx8') {
           spellString = {
-            corpName: this.extraData.corpName,
+            corpName: this.letData.extraData.corpName,
           }
           this.options[key] = {
             page: '5',

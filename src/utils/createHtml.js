@@ -31,11 +31,12 @@ export function createHtml(paperDiv) {
         .formHeader0 {
           margin: 0 auto;
           width: 19cm;
-          font-size: 27px;
+          font-size: 29.3px;
           font-family: 隶书;
           font-weight: bold;
           height: 1.5cm;
           line-height: 1.5cm;
+          border-bottom: 1px solid #000;
         }
         .formHeader1 {
           margin: 0 auto;
@@ -45,7 +46,8 @@ export function createHtml(paperDiv) {
           font-weight: bold;
           height: 1.5cm;
           line-height: 1.5cm;
-          border-bottom: solid 2px #000;
+          border-top: solid 1px #000;
+          margin-top: 1px;
         }
         .formHeader2 {
           margin: 0 auto;

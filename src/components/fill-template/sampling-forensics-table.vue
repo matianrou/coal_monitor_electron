@@ -90,7 +90,7 @@
           <span v-else>{{dataForm.tempValue.otherEvidence ? dataForm.tempValue.otherEvidence : ''}}</span>
         </div>
         <div style="margin-top: 10px;">
-          <span>上述证据经核无误。</span>
+          <span>{{options.page === '25' ? '上述物品经核无误' : '上述证据经核无误。'}}</span>
         </div>
       </div>
       <div v-if="options.page === '32' || options.page === '34'">
@@ -129,7 +129,7 @@
         <span v-else>{{dataForm.tempValue.signDate ? dataForm.tempValue.signDate : ''}}</span>
       </div>
       <div v-if="options.page === '25' || options.page === '32' || options.page === '34'" style="margin-top: 10px;">
-        <span>执法人员（签名）：</span>
+        <span>{{options.page ==='25' || options.page === '32' ? '行政执法人员（签名）：' : '执法人员（签名）：'}}</span>
         <el-input
           v-if="options.canEdit"
           v-model="dataForm.tempValue.lawSignature"

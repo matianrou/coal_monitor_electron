@@ -760,6 +760,7 @@ async function doDocDb(resId, data){
 			"planId": String, //docPlan表-no字段
 			"checkSite":String,
 			"checkSiteArr":String,
+			"p0ParentId": String, // 文书与其他文书关联id
 			/*
 			"p1PersonId": String, //null,
 			"p1PersonName": String, //null,
@@ -778,8 +779,7 @@ async function doDocDb(resId, data){
 			"p31JudgeTime": String, //null,
 			"p36PersonId": String, //null,
 			"p36PersonName": String, //null,
-			"p36RegisterTime": String, //null
-			//"p0ParentId": "00000000-0000-0000-0000-000000000000",*/
+			"p36RegisterTime": String, //null */
 		},
 		wkCase: {
 			"caseId": {     //第1次做文书时，活动的唯一id：185b15772fb746dfb3643a66aa192f86
@@ -941,6 +941,7 @@ async function doDocDb(resId, data){
 			"groupName": obj.group.name,
 			"p0FloorTime": obj.p0FloorTime,
 			"p22JczfCheck": obj.p22JczfCheck,
+			"p0ParentId": obj.p0ParentId
 		});
 	}
 

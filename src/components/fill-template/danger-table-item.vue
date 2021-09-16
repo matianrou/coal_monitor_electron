@@ -86,7 +86,7 @@
                 v-model.trim="dangerItemDetail.onsiteDesc"
                 placeholder="请填写现场处理决定"
                 :maxlength="300"
-                style="width: calc(100% - 200px);">
+                style="width: calc(100% - 210px);">
               </el-input>
               <!-- 现场处理类型 -->
               <el-select

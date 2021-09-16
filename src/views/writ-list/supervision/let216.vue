@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -17,7 +17,7 @@
               煤矿安全监管行政执法文书
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">案件处理呈报书</div>
+            <div class="textAlignCenter formHeader1">案件处理呈报书</div>
             <div class="stdRowH"></div>
             <table class="docBody">
               <tr>
@@ -203,16 +203,16 @@
             <table height="60"></table>
             <table class="docBody">
               <tr>
-                <td class="textAlignLeft">执法相关负责人意见：</td>
+                <td class="textAlignLeft">执法机关负责人意见：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_10"
                   align="center"
                   style="width:23%"
-                  data-title="执法相关负责人意见"
+                  data-title="执法机关负责人意见"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx10', '执法相关负责人意见', 'TextItem')"
+                  @click="commandFill('cellIdx10', '执法机关负责人意见', 'TextItem')"
                 >{{ letData.cellIdx10 }}</td>
                 <td class="textAlignLeft">签名：</td>
                 <td
@@ -243,6 +243,14 @@
         </div>
       </div>
     </let-main>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
@@ -250,6 +258,7 @@
 import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getNowDate } from "@/utils/date";
+import associationSelectPaper from '@/components/association-select-paper'
 import {
   getDangerObject,
   transformNumToChinese,
@@ -257,138 +266,72 @@ import {
 
 export default {
   name: "Let203",
-  props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-  },
+  mixins: [associationSelectPaper],
   data() {
     return {
       letData: {},
       options: {},
-      editData: {}, // 回显数据
-      extraData: {}, // 用于拼写隐患内容的字符集合
+      associationPaper: ['1', '4', '47']
     };
   },
-  created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-  },
   methods: {
-    async initData() {
-      // 初始化文书内容
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      //查询当前计划是否已做文书
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
-        );
-      });
-      // 保存额外拼写的数据内容，用于修改隐患项时回显使用
-      this.extraData = {
-        corpName: corp.corpName,
-      };
-      // 已做文书则展示文书内容，否则创建初始版本
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本
-        // 获取笔录文书中的隐患数据
-        const let101Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === "1";
-        });
-        if (!let101Data) {
-          this.$message.error('请先填写并保存现场检查记录中内容！')
-          return
-        }
-        let let101DataPapaerContent = JSON.parse(let101Data.paperContent);
-        let dangerObject = getDangerObject(
-          let101DataPapaerContent.dangerItemObject.tableData
-        );
-        // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
-        // 获取笔录文书中的隐患数据
-        let cellIdx2String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
-        // 2.违法事实及依据：隐患描述+“经调查取证以上违法违规行为属实，分别违反了”+违法认定发条
-        dangerObject = getDangerObject(
-          let101DataPapaerContent.dangerItemObject.tableData,
-          { danger: true }
-        );
-        let cellIdx6String = `${dangerObject.dangerString}经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString}的规定。`;
-        // 3.建议案件处理意见：行政处罚依据+行政处罚决定（分条）
-        let cellIdx7String = `分别依据${
-          dangerObject.treatmentSuggestion
-        }。合并罚款人民币${transformNumToChinese(
-          dangerObject.penaltyDescFineTotle
-        )}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`;
-        // 5.获取立案决定书编号及立案日期
-        const let201Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === "4";
-        });
-        if (!let201Data) {
-          this.$message.error('请先填写并保存立案决定书中内容！')
-          return
-        }
-        let let201DataPapaerContent = JSON.parse(let201Data.paperContent);
-        let { cellIdx0, cellIdx1, cellIdx2, cellIdx3, cellIdx6, cellIdx7, cellIdx8} = let201DataPapaerContent
-        let let201PaperNumber = `${cellIdx0}（${cellIdx1}）煤安立〔${cellIdx2}〕${cellIdx3}号`
-        let let201Date = `${cellIdx6}年${cellIdx7}月${cellIdx8}日`
-        // 6.法制审核意见：带入行政执法决定法制审核意见书中的
-        const let203Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === "47";
-        });
-        if (!let203Data) {
-          this.$message.info('可先填写并保存行政执法决定法制审核意见书中法制审核意见内容！')
-        }
-        let let203DataPapaerContent = let203Data ? JSON.parse(let203Data.paperContent) : {cellIdx8: ''};
-        this.letData = {
-          cellIdx0: null, //
-          cellIdx1: null, // 编号
-          cellIdx2: null, //
-          cellIdx3: cellIdx2String, // 案由
-          cellIdx4: let201PaperNumber, // 立案决定书编号
-          cellIdx4TypeTextItem: let201PaperNumber, // 立案决定书编号
-          cellIdx5: let201Date, // 立案时间
-          cellIdx5TypeTextItem: let201Date, // 立案时间
-          cellIdx6: null, // 承办人
-          cellIdx7: cellIdx6String, // 违法事实及依据
-          cellIdx8: let203DataPapaerContent.cellIdx8, // 法制审核意见
-          cellIdx8TypeTextareaItem: let203DataPapaerContent.cellIdx8, // 法制审核意见
-          cellIdx9: null, // 建议案件处理意见
-          cellIdx10: null, // 执法相关负责人意见
-          cellIdx11: null, // 签名
-          cellIdx12: null, // 日期
-          dangerItemObject: let101DataPapaerContent.dangerItemObject,
-        };
-      }
+      // 获取笔录文书中的隐患数据
+      let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent);
+      let dangerObject = getDangerObject(
+        let1DataPapaerContent.dangerItemObject.tableData
+      );
+      // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
+      // 获取笔录文书中的隐患数据
+      let cellIdx2String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
+      // 2.违法事实及依据：隐患描述+“经调查取证以上违法违规行为属实，分别违反了”+违法认定发条
+      dangerObject = getDangerObject(
+        let1DataPapaerContent.dangerItemObject.tableData,
+        { danger: true }
+      );
+      let cellIdx6String = `${dangerObject.dangerString}经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString}的规定。`;
+      // 3.建议案件处理意见：行政处罚依据+行政处罚决定（分条）
+      let cellIdx7String = `分别依据${
+        dangerObject.treatmentSuggestion
+      }。合并罚款人民币${transformNumToChinese(
+        dangerObject.penaltyDescFineTotle
+      )}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`;
+      // 5.获取立案决定书编号及立案日期
+      let let4DataPapaerContent = JSON.parse(selectedPaper.let4Data.paperContent);
+      let { cellIdx0, cellIdx1, cellIdx2, cellIdx3, cellIdx6, cellIdx7, cellIdx8} = let4DataPapaerContent
+      let let4PaperNumber = `${cellIdx0}（${cellIdx1}）煤安立〔${cellIdx2}〕${cellIdx3}号`
+      let let4Date = `${cellIdx6 ? cellIdx6 : 'XX'}年${cellIdx7 ? cellIdx7 : 'XX'}月${cellIdx8 ? cellIdx8 : 'XX'}日`
+      // 6.法制审核意见：带入行政执法决定法制审核意见书中的
+      let let47DataPapaerContent = JSON.parse(selectedPaper.let47Data.paperContent);
       await db.close();
+      this.letData = {
+        cellIdx0: null, //
+        cellIdx1: null, // 编号
+        cellIdx2: null, //
+        cellIdx3: cellIdx2String, // 案由
+        cellIdx4: let4PaperNumber, // 立案决定书编号
+        cellIdx4TypeTextItem: let4PaperNumber, // 立案决定书编号
+        cellIdx5: let4Date, // 立案时间
+        cellIdx5TypeTextItem: let4Date, // 立案时间
+        cellIdx6: null, // 承办人
+        cellIdx7: cellIdx6String, // 违法事实及依据
+        cellIdx8: let47DataPapaerContent.cellIdx8, // 法制审核意见
+        cellIdx8TypeTextareaItem: let47DataPapaerContent.cellIdx8, // 法制审核意见
+        cellIdx9: null, // 建议案件处理意见
+        cellIdx10: null, // 执法机关负责人意见
+        cellIdx11: null, // 签名
+        cellIdx12: null, // 日期
+        dangerItemObject: let1DataPapaerContent.dangerItemObject,
+        extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
+          corpName: corp.corpName,
+          userGroupName: this.$store.state.user.userGroupName,
+        }
+      };
     },
     goBack({ page }) {
       // 返回选择企业
@@ -403,7 +346,7 @@ export default {
         if (key === "cellIdx3" || key === "cellIdx7") {
           if (key === "cellIdx3") {
             spellString = {
-              corpName: this.extraData.corpName,
+              corpName: this.letData.extraData.corpName,
             };
           }
           this.options[key] = {

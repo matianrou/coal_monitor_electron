@@ -17,7 +17,7 @@
               国 家 煤 矿 安 全 监 察
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">送 达 收 执</div>
+            <div class="textAlignCenter formHeader1">送达收执</div>
             <div class="stdRowH"></div>
             <table class="docBody">
               <tr>

@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -277,6 +277,10 @@ export default {
         };
       },
     },
+    paperData: {
+      type: Object,
+      default: () => {}
+    }
   },
   components: {
     letMain,
@@ -290,7 +294,6 @@ export default {
                       { "value": "19", "name": "安全生产主体责任专项监管" }, { "value": "20", "name": "矿领导带班下井专项监管" }, { "value": "21", "name": "安全生产许可证专项监管" }, { "value": "22", "name": "安全监控系统专项监管" }, { "value": "23", "name": "应急救援专项监管" }, { "value": "25", "name": "“互联网+ 监管” 远程监管" },
                       { "value": "30", "name": "异地监管" }, { "value": "32", "name": "全系统各环节监管" }, { "value": "33", "name": "停产停工安全巡查" }, { "value": "26", "name": "其他专项监管" }, { "value": "6", "name": "其他" }],
       },
-      editData: {}, // 回显数据
     };
   },
   created() {
@@ -302,32 +305,23 @@ export default {
         this.initData();
       }
     },
+    'paperData.paperId'(val) {
+      this.initData();
+    }
   },
   methods: {
     async initData() {
       // 初始化文书内容
-      const db = new GoDB(this.$store.state.DBName);
-      const corpBase = db.table("corpBase");
-      //查询符合条件的记录
-      const corp = await corpBase.find((item) => {
-        return item.corpId == this.corpData.corpId;
-      });
-      const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      //查询当前计划是否已做文书
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
-        );
-      });
-      // await wkPaper.delete(checkPaper[0].id)
-      // 已做文书则展示文书内容，否则创建初始版本
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
+      if (this.paperData && this.paperData.paperId) {
+        this.letData = JSON.parse(this.paperData.paperContent);
       } else {
         // 创建初始版本
+        const db = new GoDB(this.$store.state.DBName);
+        const corpBase = db.table("corpBase");
+        //查询符合条件的记录
+        const corp = await corpBase.find((item) => {
+          return item.corpId == this.corpData.corpId;
+        });
         const zfZzInfo = db.table("zfZzInfo");
         const zzInfo1 = await zfZzInfo.find((item) => {
           return item.corpId == this.corpData.corpId && item.credTypeName == "采矿许可证";
@@ -391,8 +385,8 @@ export default {
             selectedIdList: [],
           }, // 检查表
         };
+        await db.close();
       }
-      await db.close();
     },
     goBack({ page }) {
       // 返回选择企业
@@ -415,7 +409,6 @@ export default {
           this.options[key]
         );
       } else {
-        console.log('key', key)
         if (key === 'cellIdx5') {
           let dataKey = 'checkTable'
           this.options[key] = {

@@ -537,7 +537,7 @@ export default {
         // 4.地点：sysOfficeInfo实体中organName字段+ courtPrefix字段
         const orgInfo = db.table("orgInfo");
         const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
-        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
+        let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {organName: '', depAddress: ''}
         let cellIdx16String = orgSysOfficeInfo.organName
         let cellIdx17String = orgSysOfficeInfo.depAddress
         this.letData = {

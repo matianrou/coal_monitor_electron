@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -14,7 +14,7 @@
           <div>
             <div class="stdRowH"></div>
             <div class="textAlignCenter formHeader0">煤矿安全监管行政执法文书</div>
-            <div class="textAlignLeft formHeader3">
+            <div class="textAlignLeft formHeader1">
                <div class="textAlignCenter ">行政强制执行事先催告书</div>
             </div>
             <div class="stdRowH"></div>
@@ -297,7 +297,6 @@
               </tr>
             </table>
            <table height="30"></table>
-
              <table class="docBody">
               <tr>
                 <td
@@ -341,13 +340,21 @@
         </div>
       </div>
     </let-main>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDocNumber } from '@/utils/setInitPaperData'
+import associationSelectPaper from '@/components/association-select-paper'
 const toggleDictionary = [
   {
     value: '□',
@@ -360,24 +367,7 @@ const toggleDictionary = [
 ]
 export default {
   name: "Let112",
-  props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-  },
+  mixins: [associationSelectPaper],
   data() {
     return {
       letData: {},
@@ -385,97 +375,68 @@ export default {
         cellIdx10: toggleDictionary,
         cellIdx18: toggleDictionary,
       },
-      editData: {}, // 回显数据
+      associationPaper: []
     };
   },
-  created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-  },
   methods: {
-    async initData() {
-      // 初始化文书内容
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      //查询当前计划是否已做文书
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
-        );
-      });
-      // 已做文书则展示文书内容，否则创建初始版本
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本
-        // 1.生成文书编号
-        let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
-        // 2.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
-        const orgInfo = db.table("orgInfo");
-        const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
-        let orgSysOfficeInfo = orgData ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: ''}
-        let depAddress = orgSysOfficeInfo.depAddress
-        let depPost = orgSysOfficeInfo.depPost
-        let master = orgSysOfficeInfo.master
-        let phone = orgSysOfficeInfo.phone
-        this.letData = {
-          cellIdx0: num0, // 文书号
-          cellIdx0TypeTextItem: num0, // 文书号
-          cellIdx1: num1, // 文书号
-          cellIdx1TypeTextItem: num1, // 文书号
-          cellIdx2: num3, // 文书号
-          cellIdx2TypeTextItem: num3, // 文书号
-          cellIdx3: num4, // 文书号
-          cellIdx3TypeTextItem: num4, // 文书号
-          // cellIdx4: null, // 单位
-          cellIdx5: corp.corpName ? corp.corpName : null, // corpname
-          cellIdx5TypeTextItem: corp.corpName ? corp.corpName : null, //
-          cellIdx6: null, // 单位/个人
-          cellIdx7: null, // 作出XX尚未履行
-          cellIdx8: null, // 且你XX在法定期限内未申请行政复议或者提起行政诉讼
-          cellIdx9: null, // 请你XX（单位）
-          cellIdx10: '□', // 勾选项
-          cellIdx11: null, // 年
-          cellIdx12: null, // 月
-          cellIdx13: null, // 日
-          cellIdx14: null, // 罚款（大写）
-          cellIdx15: null, // 加处罚款（大写）
-          cellIdx16: null, // 合计
-          cellIdx17: null, // 银行
-          cellIdx18: '□', // 勾选项
-          cellIdx19: null, // 立即履行以下行政决定XXX
-          cellIdx20: null, // 单位/个人
-          cellIdx21: null, // 受送达人（签名）
-          cellIdx22: null, // 日期
-          cellIdx23: depAddress, // 执法机关地址
-          cellIdx23TypeTextItem: depAddress, // 执法机关地址
-          cellIdx24: depPost, // 邮政编码
-          cellIdx24TypeTextItem: depPost, // 邮政编码
-          cellIdx25: master, // 执法机关联系人
-          cellIdx25TypeTextItem: master, // 执法机关联系人
-          cellIdx26: phone, // 联系电话
-          cellIdx26TypeTextItem: phone, // 联系电话
-          cellIdx27: null, //
-          cellIdx28: null, //日期
-          cellIdx29: null, // 单位/个人
-
-        };
-      }
+      // 1.生成文书编号
+      let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
+      // 2.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
+      const orgInfo = db.table("orgInfo");
+      const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+      let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: ''}
+      let depAddress = orgSysOfficeInfo.depAddress
+      let depPost = orgSysOfficeInfo.depPost
+      let master = orgSysOfficeInfo.master
+      let phone = orgSysOfficeInfo.phone
       await db.close();
+      this.letData = {
+        cellIdx0: num0, // 文书号
+        cellIdx0TypeTextItem: num0, // 文书号
+        cellIdx1: num1, // 文书号
+        cellIdx1TypeTextItem: num1, // 文书号
+        cellIdx2: num3, // 文书号
+        cellIdx2TypeTextItem: num3, // 文书号
+        cellIdx3: num4, // 文书号
+        cellIdx3TypeTextItem: num4, // 文书号
+        // cellIdx4: null, // 单位
+        cellIdx5: corp.corpName ? corp.corpName : null, // corpname
+        cellIdx5TypeTextItem: corp.corpName ? corp.corpName : null, //
+        cellIdx6: null, // 单位/个人
+        cellIdx7: null, // 作出XX尚未履行
+        cellIdx8: null, // 且你XX在法定期限内未申请行政复议或者提起行政诉讼
+        cellIdx9: null, // 请你XX（单位）
+        cellIdx10: '□', // 勾选项
+        cellIdx11: null, // 年
+        cellIdx12: null, // 月
+        cellIdx13: null, // 日
+        cellIdx14: null, // 罚款（大写）
+        cellIdx15: null, // 加处罚款（大写）
+        cellIdx16: null, // 合计
+        cellIdx17: null, // 银行
+        cellIdx18: '□', // 勾选项
+        cellIdx19: null, // 立即履行以下行政决定XXX
+        cellIdx20: null, // 单位/个人
+        cellIdx21: null, // 受送达人（签名）
+        cellIdx22: null, // 日期
+        cellIdx23: depAddress, // 执法机关地址
+        cellIdx23TypeTextItem: depAddress, // 执法机关地址
+        cellIdx24: depPost, // 邮政编码
+        cellIdx24TypeTextItem: depPost, // 邮政编码
+        cellIdx25: master, // 执法机关联系人
+        cellIdx25TypeTextItem: master, // 执法机关联系人
+        cellIdx26: phone, // 联系电话
+        cellIdx26TypeTextItem: phone, // 联系电话
+        cellIdx27: null, //
+        cellIdx28: null, //日期
+        cellIdx29: null, // 单位/个人
+      };
     },
     goBack({ page }) {
       // 返回选择企业

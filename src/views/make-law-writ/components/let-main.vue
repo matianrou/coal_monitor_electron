@@ -119,7 +119,7 @@ export default {
       // 编辑回显数据
       type: Object,
       default: () => {},
-    },
+    }
   },
   data() {
     return {
@@ -146,31 +146,18 @@ export default {
         setSamplingForensicsTable,
         setVolumesMenuTable
       },
-      DBName: this.$store.state.DBName
+      DBName: this.$store.state.DBName,
     };
   },
   computed: {
     canEdit() {
       // 是否可编辑或保存归档
       let edit = false
-      let paperDoc = `paper${this.docData.docTypeNo}`
-      if (this.$parent.$parent.flowStatus) {
-        // 执法工作台中进入文书编辑，判断是否可编辑
-        let flowStatus = this.$parent.$parent.flowStatus
-        if (!flowStatus[paperDoc]) {
-          edit = true
-        } else if (flowStatus[paperDoc] && flowStatus[paperDoc] === 'save') {
-          edit = true
-        }
-      } else if (this.$parent.$parent.selectedPaper) {
-        // 文书管理进入文书编辑，判断是否可编辑
-        if (this.$parent.$parent.selectedPaper.delFlag === '2') {
-          // 保存时可再编辑
-          edit = true
-        } else {
-          // 已归档时则不可再编辑
-          edit = false
-        }
+      // 判断当前是否为编辑，如果编辑时则调取paperData中的delFlag字段，如果为归档，则不可编辑
+      if (this.$parent.paperData && this.$parent.paperData.paperId && this.$parent.paperData.delFlag === '0') {
+        edit = false
+      } else {
+        edit = true
       }
       return edit
     }

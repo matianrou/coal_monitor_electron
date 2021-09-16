@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -167,34 +167,24 @@
         </div>
       </div>
     </let-main>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject } from "@/utils/setInitPaperData";
-
+import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let205",
-  props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-  },
+  mixins: [associationSelectPaper],
   data() {
     return {
       letData: {},
@@ -234,87 +224,53 @@ export default {
           },
         ],
       },
-      editData: {}, // 回显数据
+      associationPaper: ['1']
     };
   },
-  created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-  },
   methods: {
-    async initData() {
-      // 初始化文书内容
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      //查询当前计划是否已做文书
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
-        );
+      // 获取笔录文书中的隐患数据
+      let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent);
+      let dangerObject = getDangerObject(
+        let1DataPapaerContent.dangerItemObject.tableData
+      );
+      // 案由：煤矿名称 + '涉嫌' + 隐患描述 + '案。'
+      let cellIdx2String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
+      // 获取听证笔录中的听证主持人和记录人
+      const wkPaper = db.table('wkPaper');
+      const let211Data = await wkPaper.find((item) => {
+        return item.caseId === this.corpData.caseId && item.paperType === "7" && item.delFlag !== '1';
       });
-      // 保存额外拼写的数据内容，用于修改隐患项时回显使用
-      this.extraData = {
-        corpName: corp.corpName,
-      };
-      // 已做文书则展示文书内容，否则创建初始版本
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本
-        // 获取笔录文书中的隐患数据
-        const let101Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === "1";
-        });
-        if (!let101Data) {
-          this.$message.error("请先填写并保存现场检查记录中内容！");
-          return;
-        }
-        let let101DataPapaerContent = JSON.parse(let101Data.paperContent);
-        let dangerObject = getDangerObject(
-          let101DataPapaerContent.dangerItemObject.tableData
-        );
-        // 案由：煤矿名称 + '涉嫌' + 隐患描述 + '案。'
-        let cellIdx2String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
-        // 获取听证笔录中的听证主持人和记录人
-        const let211Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === "7";
-        });
-        let let211DataPapaerContent = let211Data ? JSON.parse(let211Data.paperContent) : {cellIdx8: '', cellIdx9: ''};
-        this.letData = {
-          cellIdx0: null, //
-          cellIdx1: null, // 编号
-          cellIdx2: cellIdx2String, // 案由
-          cellIdx2TypeTextareaItem: cellIdx2String, // 案由
-          cellIdx3: let211DataPapaerContent.cellIdx8, // 听证主持人
-          cellIdx3TypeTextItem: let211DataPapaerContent.cellIdx8, // 听证主持人
-          // cellIdx4: null, // 听证主持人
-          cellIdx5: let211DataPapaerContent.cellIdx9, // 记录人
-          cellIdx5TypeTextItem: let211DataPapaerContent.cellIdx9, // 记录人
-          cellIdx6: null, // 听证会基本情况摘要
-          cellIdx7: null, // 听证主持人意见
-          cellIdx8: null, // 听证主持人（签名）
-          cellIdx9: null, // 日期
-          cellIdx10: null, // 负责人审核意见
-          cellIdx11: null, // 负责人（签名）
-          cellIdx12: null, // 日期
-          dangerItemObject: let101DataPapaerContent.dangerItemObject,
-        };
-      }
+      let let211DataPapaerContent = let211Data ? JSON.parse(let211Data.paperContent) : {cellIdx8: '', cellIdx9: ''};
       await db.close();
+      this.letData = {
+        cellIdx0: null, //
+        cellIdx1: null, // 编号
+        cellIdx2: cellIdx2String, // 案由
+        cellIdx2TypeTextareaItem: cellIdx2String, // 案由
+        cellIdx3: let211DataPapaerContent.cellIdx8, // 听证主持人
+        cellIdx3TypeTextItem: let211DataPapaerContent.cellIdx8, // 听证主持人
+        // cellIdx4: null, // 听证主持人
+        cellIdx5: let211DataPapaerContent.cellIdx9, // 记录人
+        cellIdx5TypeTextItem: let211DataPapaerContent.cellIdx9, // 记录人
+        cellIdx6: null, // 听证会基本情况摘要
+        cellIdx7: null, // 听证主持人意见
+        cellIdx8: null, // 听证主持人（签名）
+        cellIdx9: null, // 日期
+        cellIdx10: null, // 负责人审核意见
+        cellIdx11: null, // 负责人（签名）
+        cellIdx12: null, // 日期
+        dangerItemObject: let1DataPapaerContent.dangerItemObject,
+        extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
+          corpName: corp.corpName,
+          userGroupName: this.$store.state.user.userGroupName,
+        }
+      };
     },
     goBack({ page }) {
       // 返回选择企业

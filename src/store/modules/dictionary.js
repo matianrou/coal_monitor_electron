@@ -44,7 +44,7 @@ export default {
       },
       {
         id: '32',
-        name: '查封(扣押)决定书',
+        name: '查封（扣押）决定书',
         page: 'let110'
       },
       {
@@ -251,12 +251,12 @@ export default {
       },
       {
         id: '32',
-        name: '查封(扣押)决定书',
+        name: '查封（扣押）决定书',
         page: 'let110'
       },
       {
         id: '34',
-        name: '解除查封(扣押)决定书',
+        name: '解除查封（扣押）决定书',
         page: 'let111'
       },
       {

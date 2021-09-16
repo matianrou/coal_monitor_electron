@@ -519,7 +519,7 @@ export default {
           this.options[key] = {
             canEdit: true,
             page: '34', // 物品清单
-            name: this.selectedType
+            name: this.letData.selectedType
           }
           dataKey = 'SamplingForensicsTable'
         }
@@ -541,6 +541,7 @@ export default {
       this.letData.cellIdx18TypeTextItem = this.selectedType
       this.letData.cellIdx21 = this.selectedType
       this.letData.cellIdx21TypeTextItem = this.selectedType
+      this.letData.selectedType = this.selectedType
     }
   },
 };

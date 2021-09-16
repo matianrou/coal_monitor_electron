@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -17,7 +17,7 @@
               煤矿安全监管行政执法文书
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">集体讨论记录</div>
+            <div class="textAlignCenter formHeader1">集体讨论记录</div>
             <div class="stdRowH"></div>
             <div class="docTextarea">
              <span class="no-line">案由：</span>
@@ -204,7 +204,6 @@
               <span
                 @click="commandFill('cellIdx14', '讨论记录', 'TextareaItem')"
               >{{ letData.cellIdx14 ? letData.cellIdx14 : '（点击编辑）'}}</span>
-
               <div class="line"></div>
             </div>
             <div class="docTextarea">
@@ -329,123 +328,68 @@
         </div>
       </div>
     </let-main>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { handleDate } from '@/utils/date'
 import { getDangerObject } from '@/utils/setInitPaperData'
+import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let201",
-  props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-  },
+  mixins: [associationSelectPaper],
   data() {
     return {
       letData: {},
       options: {},
-      editData: {}, // 回显数据
-      extraData: {}, // 用于拼写隐患内容的字符集合
+      associationPaper: ['1']
     };
   },
-  created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-  },
   methods: {
-    async initData() {
-      // 初始化文书内容
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      //查询当前计划是否已做文书
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
-        );
-      });
-      // 保存额外拼写的数据内容，用于修改隐患项时回显使用
-      // 获取检查时间
-      const let100Data = await wkPaper.find((item) => {
-        return item.caseId === caseId && item.paperType === '22';
-      });
-      let let100DataPapaerContent = JSON.parse(let100Data.paperContent)
-      // 整合检查时间日期文本：
-      let dateString = handleDate(let100DataPapaerContent.cellIdx2, '-')
-      this.extraData = {
-        corpName: corp.corpName,
-        dateString,
-        userGroupName: this.$store.state.user.userGroupName,
-      }
-      // 已做文书则展示文书内容，否则创建初始版本
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本
-        // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
-        // 获取笔录文书中的隐患数据
-        const let101Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === '1';
-        });
-        if (!let101Data) {
-          this.$message.error('请先填写并保存现场检查记录中内容！')
-          return
-        }
-        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
-        let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
-        let cellIdx4String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`
-        this.letData = {
-          cellIdx0: cellIdx4String, // 案由
-          cellIdx1: null, // 年
-          cellIdx2: null, // 月
-          cellIdx3: null, // 日
-          cellIdx4: null, // 时
-          cellIdx5: null, // 分
-          cellIdx6: null, // 时
-          cellIdx7: null, // 分
-          cellIdx8: null, // 地点
-          cellIdx9: null, // 主持人
-          cellIdx10: null, // 汇报人
-          cellIdx11: null, // 记录人
-          cellIdx12: null, // 出席人员姓名以及职务
-          cellIdx13: null, // 讨论内容
-          cellIdx14: null, // 讨论记录
-          cellIdx15: null, // 结论性意见
-          cellIdx16: null, // 出席人员签名
-          dangerItemObject: let101DataPapaerContent.dangerItemObject
-        };
-      }
+      // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
+      let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
+      let cellIdx4String = `${corp.corpName}${dangerObject.dangerString}案。`
       await db.close();
+      this.letData = {
+        cellIdx0: cellIdx4String, // 案由
+        cellIdx1: null, // 年
+        cellIdx2: null, // 月
+        cellIdx3: null, // 日
+        cellIdx4: null, // 时
+        cellIdx5: null, // 分
+        cellIdx6: null, // 时
+        cellIdx7: null, // 分
+        cellIdx8: null, // 地点
+        cellIdx9: null, // 主持人
+        cellIdx10: null, // 汇报人
+        cellIdx11: null, // 记录人
+        cellIdx12: null, // 出席人员姓名以及职务
+        cellIdx13: null, // 讨论内容
+        cellIdx14: null, // 讨论记录
+        cellIdx15: null, // 结论性意见
+        cellIdx16: null, // 出席人员签名
+        dangerItemObject: let1DataPapaerContent.dangerItemObject,
+        extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
+          corpName: corp.corpName,
+          userGroupName: this.$store.state.user.userGroupName,
+        }
+      };
     },
     goBack({ page }) {
       // 返回选择企业
@@ -461,7 +405,7 @@ export default {
             page: '48',
             key: key,
             spellString: {
-              corpName: this.extraData.corpName
+              corpName: this.letData.extraData
             }
           }
           dataKey = 'dangerItemObject'

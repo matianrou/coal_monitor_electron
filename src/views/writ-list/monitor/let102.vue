@@ -329,7 +329,7 @@ export default {
         // 通过机构接口中的sysOfficeInfo中获取的organName和courtPrefix字段分别填充cellIdx8和cellIdx9字段
         const orgInfo = db.table("orgInfo");
         const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
-        let orgSysOfficeInfo = JSON.parse(orgData.sysOfficeInfo)
+        let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {organName: '', courtPrefix: ''}
         let paperNumber = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
         this.letData = {
           cellIdx0: paperNumber.num0, // 文书号
