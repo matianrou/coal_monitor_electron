@@ -93,6 +93,7 @@ export default {
       }
       //登录
       let password = encry(this.dataForm.txtPassword);
+      this.loading.loginBtn = true
       this.$http.post(`/login`, {
           username: this.dataForm.txtUserNo,
           password,
@@ -122,8 +123,10 @@ export default {
           } else {
             this.$message.error(data.message)
           }
+          this.loading.loginBtn = false
         }).catch(err => {
           console.log('登录请求失败：', err)
+          this.loading.loginBtn = false
         })
     },
     async getUserType (userId, sessId) {

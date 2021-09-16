@@ -172,7 +172,12 @@ export default {
       let createTime = this.editData.createTime
         ? this.editData.createTime
         : getNowFormatTime();
-      let page = createHtml(this.$slots.left[0].elm.innerHTML);
+      let htmlPage = this.$slots.left[0].elm.innerHTML
+      if (this.docData.docTypeNo === '22') {
+        // 检查方案时增加分工明细表
+        htmlPage = this.$slots.left[0].elm.innerHTML.replace('style="height: 0px; overflow: hidden;"', '')
+      }
+      let page = createHtml(htmlPage);
       let jsonPaper = {
         paperId: paperId,
         remoteId: "",

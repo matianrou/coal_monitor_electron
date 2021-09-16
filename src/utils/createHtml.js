@@ -23,16 +23,33 @@ export function createHtml(paperDiv) {
           /*height: 29.7cm;*/
           margin: 0 auto;
           // padding-bottom: 50px;
-          min-height:calc(100vh - 106px)
+          min-height:calc(100vh - 106px);
+          font-family: 仿宋;
+          font-size: 16px;
+        }
+        #foot {
+          position: fixed;
+          bottom: 0;
+          width: 21cm;
+          height: 10px;
+          z-index: 99999;
         }
         .page-sizeA4 {
           width: 21cm;
+        }
+        .page-sizeA3 {
+          width: 29.7cm;
+          height: 42cm;
+        }
+        .page-sizeA5 {
+          width: 14.8cm;
+          height: 21cm;
         }
         .formHeader0 {
           margin: 0 auto;
           width: 19cm;
           font-size: 29.3px;
-          font-family: 隶书;
+          font-family: 华文中宋,SimSun;
           font-weight: bold;
           height: 1.5cm;
           line-height: 1.5cm;
@@ -89,6 +106,18 @@ export function createHtml(paperDiv) {
         .docBody.mutiLine td{
           line-height:0.7cm !important;
         }
+        .docTextLine {
+          width: 19cm;
+          margin: 0 auto;
+          line-height: 1cm;
+          display: flex;
+          font-family: 仿宋;
+          font-size: 16px;
+        }
+        .docTextLine .line-div {
+          flex: 1;
+          border-bottom: solid 1px #000;
+        }
         .docTextarea {
           width: 19cm;
           margin: 0 auto;
@@ -97,34 +126,32 @@ export function createHtml(paperDiv) {
           position: relative;
           font-family: 仿宋;
           font-size: 16px;
-          label {
-            display: inline-block;
-          }
-          span {
-            border-bottom: solid 1px #000;
-            word-break: break-all;
-            cursor: pointer;
-          }
-          .line {
-            border-top: 1px solid ;
-            height: 0px;
-            position: absolute;
-            bottom: 10px;
-            width: 100%;
-          }
-          .no-line {
-            position: relative;
-            border-bottom: 1px solid rgba($color: #000000, $alpha: 0);
-            height: 28px;
-            bottom: 0;
-            z-index: 99;
-            display: inline-block;
-            background-color: #fff;
-            cursor: text;
-          }
-          .no-underline {
-            border-bottom: 0px;
-          }
+        }
+        .docTextarea label {
+          display: inline-block;
+        }
+        .docTextarea span {
+          border-bottom: 1px solid #000;
+          word-break: break-all;
+        }
+        .docTextarea .line {
+          border-top: 1px solid ;
+          height: 0px;
+          position: absolute;
+          bottom: 10px;
+          width: 100%;
+        }
+        .docTextarea .no-line {
+          position: relative;
+          border-bottom: 1px solid rgba($color: #000000, $alpha: 0);
+          height: 28px;
+          bottom: 0;
+          z-index: 99;
+          display: inline-block;
+          background-color: #fff;
+        }
+        .docTextarea .no-underline {
+          border-bottom: 0px;
         }
         .docHeader{
           width: 19cm;
@@ -149,10 +176,10 @@ export function createHtml(paperDiv) {
         }
         .oneLine {
           width: 100%;
-          word-break: keep-all; /* 不换行 */
-          white-space: nowrap; /* 不换行 */
-          overflow: hidden; /* 内容超出宽度时隐藏超出部分的内容 */
-          text-overflow: ellipsis; /* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+          word-break: keep-all; 
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         .mutiLineArea {
           width: 19cm;
@@ -161,9 +188,10 @@ export function createHtml(paperDiv) {
         }
         .mutiLineArea p {
           width: 100%;
+          border-bottom: 1px solid #000;
+          // height: 9.6mm;
           line-height: 9.6mm;
           white-space: pre-wrap;
-          border-bottom: 1px solid #000;
           text-indent: 2em;
         }
         .mutiLineArea span{
@@ -174,8 +202,6 @@ export function createHtml(paperDiv) {
         .page-break-line {
           margin: 0 auto;
           height: 10px;
-          /*border-top: dashed 1px #c0c0c0;
-          border-bottom: dashed 1px #c0c0c0;*/
         }
         .stdRowH {
           height: 1cm;
@@ -186,11 +212,9 @@ export function createHtml(paperDiv) {
           line-height: 0.5cm;
         }
         .cellInput {
-          cursor: pointer;
           outline: none;
         }
         .cellInput:focus {
-          /*border-bottom:solid 2px gold;*/
           background-color:yellow;
         }
         .textAlignCenter {
@@ -248,10 +272,17 @@ export function createHtml(paperDiv) {
           border: solid 0px #000;
         }
         .cellLine {
-          height: 1px;
+          border-top: 1px solid #000;
           width: 100%;
-          background: #000;
           position: absolute;
+        }
+        .checkTable table {
+          border-collapse: collapse;
+          margin: 0 auto;
+          text-align: center;
+        }
+        .checkTable table td, table th {
+          border: 1px solid #000;
         }
       </style>
     </head>
