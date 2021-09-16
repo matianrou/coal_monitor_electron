@@ -947,6 +947,7 @@ export default {
     margin: 0 15px;
   }
 }
+//保存前
 .writ-flow-spantd {
   width: 182px;
   // background: url("~../assets/image/doc-flow_r1_c2.png") no-repeat;
@@ -978,6 +979,7 @@ export default {
   //   color: rgba(#4282E6, 0.8);
   // }
 }
+//保存后
 .writ-flow-spantd-ex {
   width: 182px;
   // background: url("~../assets/image/doc-flow_r1_c4.png") no-repeat;
