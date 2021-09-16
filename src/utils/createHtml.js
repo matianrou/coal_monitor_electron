@@ -47,7 +47,7 @@ export function createHtml(paperDiv) {
         }
         .formHeader0 {
           margin: 0 auto;
-          width: 19cm;
+          width: 15.6cm;
           font-size: 29.3px;
           font-family: 华文中宋,SimSun;
           font-weight: bold;
@@ -56,8 +56,8 @@ export function createHtml(paperDiv) {
           border-bottom: 1px solid #000;
         }
         .formHeader1 {
-          margin: 0 auto;
-          width: 19cm;
+          margin: 0 auto 37px;
+          width: 15.6cm;
           font-size: 27px;
           font-family: 黑体;
           font-weight: bold;
@@ -68,7 +68,7 @@ export function createHtml(paperDiv) {
         }
         .formHeader2 {
           margin: 0 auto;
-          width: 19cm;
+          width: 15.6cm;
           margin-top: 2px;
           border-top: solid 2px #000;
           font-size: 27px;
@@ -93,7 +93,7 @@ export function createHtml(paperDiv) {
           line-height: 1cm;
         }
         .docBody {
-          width: 19cm;
+          width: 15.6cm;
           margin: 0 auto;
           border-collapse: collapse;
           // margin-bottom: 10px;
@@ -107,7 +107,7 @@ export function createHtml(paperDiv) {
           line-height:0.7cm !important;
         }
         .docTextLine {
-          width: 19cm;
+          width: 15.6cm;
           margin: 0 auto;
           line-height: 1cm;
           display: flex;
@@ -119,7 +119,7 @@ export function createHtml(paperDiv) {
           border-bottom: solid 1px #000;
         }
         .docTextarea {
-          width: 19cm;
+          width: 15.6cm;
           margin: 0 auto;
           line-height: 1cm;
           display: flow-root;
@@ -154,7 +154,7 @@ export function createHtml(paperDiv) {
           border-bottom: 0px;
         }
         .docHeader{
-          width: 19cm;
+          width: 15.6cm;
           left: 1cm;
           height: 1cm;
           line-height: 1cm;
@@ -165,7 +165,7 @@ export function createHtml(paperDiv) {
         .docFooter{
           position: absolute;
           bottom: 0;
-          width: 19cm;
+          width: 15.6cm;
           left: 1cm;
           height: 1cm;
           line-height: 1cm;
@@ -182,7 +182,7 @@ export function createHtml(paperDiv) {
           text-overflow: ellipsis;
         }
         .mutiLineArea {
-          width: 19cm;
+          width: 15.6cm;
           margin: 0 auto;
           position: relative;
         }

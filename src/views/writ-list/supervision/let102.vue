@@ -18,7 +18,6 @@
               <br />
             </div>
             <div class="textAlignCenter formHeader1">现场处理决定书</div>
-            <div class="stdRowH"></div>
             <table class="docBody">
               <tr>
                 <td
@@ -91,124 +90,71 @@
               >{{ letData.cellIdx7 }}</span>
               <div class="line"></div>
             </div>
-            <table style="border:solid 0px #000;" class="docBody">
-              <tr>
-                <td style="width:5%"></td>
-                <td
-                  class="textAlignLeft" style="width:54%"
-                >如果不服本决定，可在接到本决定书之日起60日内向</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_8"
-                  align="center"
-                  style="width:41%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx8', '人民政府', 'TextItem')"
-                >{{letData.cellIdx8}}</td>
-                 <td class="textAlignLeft" style="width:14%">人民政府或者</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_9"
-                  align="center"
-                  style="width:20%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx9', '', 'TextItem')"
-                >{{letData.cellIdx9}}</td>
-                <td class="textAlignLeft" style="width:38%">申请行政复议，或者在6个月内依法向</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_10"
-                  align="center"
-                  style="width:28%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx10', '人民法院', 'TextItem')"
-                >{{letData.cellIdx10}}</td>
-              </tr>
-              <tr>
-                 <td class="textAlignLeft"  style="width:64%">人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。</td>
-              </tr>
-            </table>
+            <div class="docTextarea">
+              <label style="width:5%"></label>
+              如果不服本决定，可在接到本决定书之日起60日内向
+              <span
+                @click="commandFill('cellIdx8', '人民政府', 'TextItem')"
+              >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
+              人民政府或者
+              <span
+                @click="commandFill('cellIdx9', '', 'TextItem')"
+              >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）' }}</span>
+              申请行政复议，或者在6个月内依法向
+              <span
+                @click="commandFill('cellIdx10', '人民法院', 'TextItem')"
+              >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）' }}</span>
+              人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。
+            </div>
             <table height="30"></table>
-            <table class="docBody">
-              <tr>
-                <td style="width:5%"></td>
-                <td class="textAlignLeft"  style="width:23%">现场执法人员（签名):</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_11"
-                  align="center"
-                  style="width:35%"
-                  data-title="现场执法人员（签名)"
-                  data-type="text"
-                  data-src
+            <div class="docTextLine">
+              <div style="flex: 1; display: flex;">
+                <label>现场执法人员（签名):</label>
+                <div
+                  class="line-div"
                   @click="commandFill('cellIdx11', '现场执法人员（签名)', 'TextItem')"
-                >{{letData.cellIdx11}}</td>
-                <td class="textAlignCenter"  style="width:12%">执法证号：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_12"
-                  align="center"
-                  style="width:25%"
-                  data-title="执法证号"
-                  data-type="date"
-                  data-src
+                >{{ letData.cellIdx11 ? letData.cellIdx11 : '（点击编辑）' }}</div>
+              </div>
+              <div style="flex: 1; display: flex;">
+                <label>执法证号：</label>
+                <div
+                  class="line-div"
                   @click="commandFill('cellIdx12', '执法证号', 'TextItem')"
-                >{{letData.cellIdx12}}</td>
-                <td style="width:28%"></td>
-                 <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_13"
-                  align="center"
-                  style="width:35%"
-                  data-title="现场执法人员（签名)"
-                  data-type="text"
-                  data-src
+                >{{ letData.cellIdx12 ? letData.cellIdx12 : '（点击编辑）' }}</div>
+              </div>
+            </div>
+            <div class="docTextLine">
+              <div style="flex: 1; display: flex;">
+                <label style="width: 54%"></label>
+                <div
+                  class="line-div"
                   @click="commandFill('cellIdx13', '现场执法人员（签名)', 'TextItem')"
-                >{{letData.cellIdx13}}</td>
-                <td class="textAlignCenter"  style="width:12%">执法证号：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_14"
-                  align="center"
-                  style="width:25%"
-                  data-title="执法证号"
-                  data-type="date"
-                  data-src
+                >{{ letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）' }}</div>
+              </div>
+              <div style="flex: 1; display: flex;">
+                <label>执法证号：</label>
+                <div
+                  class="line-div"
                   @click="commandFill('cellIdx14', '执法证号', 'TextItem')"
-                >{{letData.cellIdx14}}</td>
-              </tr>
-              <tr>
-                <td style="width:5%"></td>
-                <td class="textAlignLeft"  style="width:27%">被检查单位负责人（签名):</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_15"
-                  align="center"
-                  style="width:30%"
-                  data-title="被检查单位负责人（签名)"
-                  data-type="text"
-                  data-src
+                >{{ letData.cellIdx14 ? letData.cellIdx14 : '（点击编辑）' }}</div>
+              </div>
+            </div>
+            <div class="docTextLine">
+              <div style="flex: 1; display: flex;">
+                <label>被检查单位负责人（签名):</label>
+                <div
+                  class="line-div"
                   @click="commandFill('cellIdx15', '被检查单位负责人（签名)', 'TextItem')"
-                >{{letData.cellIdx15}}</td>
-                <td class="textAlignCenter"  style="width:13%">&nbsp;日&nbsp; &nbsp; 期：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_16"
-                  align="center"
-                  style="width:25%"
-                  data-title="日期"
-                  data-type="date"
-                  data-src
+                >{{ letData.cellIdx15 ? letData.cellIdx15 : '（点击编辑）' }}</div>
+              </div>
+              <div style="flex: 1; display: flex;">
+                <label>&nbsp;日&nbsp; &nbsp; 期：</label>
+                <div
+                  class="line-div"
                   @click="commandFill('cellIdx16', '日期：', 'DateItem')"
-                >{{letData.cellIdx16}}</td>
-              </tr>
-            </table>
+                >{{ letData.cellIdx16 ? letData.cellIdx16 : '（点击编辑）' }}</div>
+              </div>
+            </div>
             <table height="30"></table>
             <table class="docBody">
               <tr>
@@ -233,8 +179,8 @@
                 >{{letData.cellIdx18 ? letData.cellIdx18 : '（点击编辑）'}}</td>
               </tr>
             </table>
-            <table>
-              <hr />
+            <table style="border-top: 1px solid #000; width: 100%;">
+              <!-- <hr /> -->
               <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被检查单位，一份存档。</td>
             </table>
           </div>

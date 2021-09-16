@@ -18,7 +18,6 @@
               <br />
             </div>
             <div class="textAlignCenter formHeader1">检查方案</div>
-            <div class="stdRowH"></div>
             <div class="docTextLine">
               <label style="width: 5%;"></label>
               <label>一、被检查单位：</label>
@@ -96,111 +95,107 @@
                 @click="commandFill('cellIdx5', '检查的主要内容和分工见明细表', 'CheckTableItem')"
               >检查分工明细表</div>
             </div>
-            <table class="docBody">
-              <tr>
-                <td style="width: 5%;"></td>
-                <td class="textAlignLeft" style="width:18%">编制人（签名）：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_8"
-                  style="width:40%"
-                  data-title="编制人"
-                  data-type="text"
-                  data-src
+            <div class="docTextLine">
+              <div style="flex: 1; display: flex;">
+                <label style="width: 5%;"></label>
+                <label>编制人（签名）：</label>
+                <div
+                  class="line-div"
                   @click="commandFill('cellIdx8', '编制人', 'TextItem')"
-                >{{ letData.cellIdx8 }}</td>
-                <td class="textAlignCenter" style="width:7%">日期：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_9"
-                  style="width:25%"
-                  data-title="日期"
-                  data-type="date"
-                  data-src
+                >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）' }}</div>
+              </div>
+              <div style="flex: 1; display: flex;">
+                <label>日期：</label>
+                <div
+                  class="line-div"
                   @click="commandFill('cellIdx9', '日期', 'DateItem')"
-                >{{ letData.cellIdx9 }}</td>
-              </tr>
-              <tr>
-                <td style="width: 5%;"></td>
-                <td class="textAlignLeft" style="width:18%">带队人（签名）：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_10"
-                  style="width:40%"
-                  data-title="编制人"
-                  data-type="text"
-                  data-src
+                >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）' }}</div>
+              </div>
+            </div>
+            <div class="docTextLine">
+              <div style="flex: 1; display: flex;">
+                <label style="width: 5%;"></label>
+                <label>带队人（签名）：</label>
+                <div
+                  class="line-div"
                   @click="commandFill('cellIdx10', '带队人', 'TextItem')"
-                >{{ letData.cellIdx10 }}</td>
-                <td class="textAlignCenter" style="width:7%">日期：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_11"
-                  style="width:25%"
-                  data-title="日期"
-                  data-type="date"
-                  data-src
+                >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）' }}</div>
+              </div>
+              <div style="flex: 1; display: flex;">
+                <label>日期：</label>
+                <div
+                  class="line-div"
                   @click="commandFill('cellIdx11', '日期', 'DateItem')"
-                >{{ letData.cellIdx11 }}</td>
-              </tr>
-              <tr>
-                <td style="width: 5%;"></td>
-                <td class="textAlignLeft" style="width:18%">审批人（签名）：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_12"
-                  style="width:40%"
-                  data-title="审批人"
-                  data-type="text"
-                  data-src
+                >{{ letData.cellIdx11 ? letData.cellIdx11 : '（点击编辑）' }}</div>
+              </div>
+            </div>
+            <div class="docTextLine">
+              <div style="flex: 1; display: flex;">
+                <label style="width: 5%;"></label>
+                <label>审批人（签名）：</label>
+                <div
+                  class="line-div"
                   @click="commandFill('cellIdx12', '审批人', 'TextItem')"
-                >{{ letData.cellIdx12 }}</td>
-                <td class="textAlignCenter" style="width:7%">日期：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_13"
-                  style="width:25%"
-                  data-title="日期"
-                  data-type="date"
-                  data-src
+                >{{ letData.cellIdx12 ? letData.cellIdx12 : '（点击编辑）' }}</div>
+              </div>
+              <div style="flex: 1; display: flex;">
+                <label>日期：</label>
+                <div
+                  class="line-div"
                   @click="commandFill('cellIdx13', '日期', 'DateItem')"
-                >{{ letData.cellIdx13 }}</td>
-              </tr>
-            </table>
+                >{{ letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）' }}</div>
+              </div>
+            </div>
             <!-- <div class="footer-test">页脚</div> -->
             <div style="height: 20px; width: 100%;"></div>
-            <!-- 打印22检查方案，另外打印检查分工明细表 -->
-            <div class="page-break"></div>
-            <!-- 但页面不展示 -->
-            <div style="height: 0; overflow: hidden;">
-              <div ref="checkTable" class="page page-sizeA4">
-                <div class="checkTable" style="width: 19.5cm; margin: 0 auto;">
-                  <el-table
-                    :data="letData.checkTable && letData.checkTable.tableData"
-                    width="100%"
-                    border>
-                    <el-table-column
-                      prop="categoryName"
-                      label="检查事项"
-                      header-align="center"
-                      align="left"
-                      width="110">
-                    </el-table-column>
-                    <el-table-column
-                      prop="itemContent"
-                      header-align="center"
-                      align="left"
-                      label="检查内容">
-                    </el-table-column>
-                    <el-table-column
-                      prop="basis"
-                      header-align="center"
-                      align="left"
-                      label="检查主要资料及方法">
-                    </el-table-column>
-                  </el-table>
-                </div>
-              </div>
+            
+          </div>
+        </div>
+        <!-- 打印22检查方案，另外打印检查分工明细表 -->
+        <div class="page-break"></div>
+        <!-- 但页面不展示 -->
+        <div style="height: 0; overflow: hidden;">
+        <!-- <div class="page-sizeA4-rorate" ref="checkTable"> -->
+          <div class="page-sizeA4" ref="checkTable">
+            <div class="checkTable">
+              <el-table
+                :data="letData.checkTable && letData.checkTable.tableData"
+                width="100%"
+                border>
+                <el-table-column
+                  prop="categoryName"
+                  label="检查事项"
+                  header-align="center"
+                  align="left"
+                  width="150">
+                </el-table-column>
+                <el-table-column
+                  prop="itemContent"
+                  header-align="center"
+                  align="left"
+                  label="检查内容">
+                </el-table-column>
+                <el-table-column
+                  prop="basis"
+                  header-align="center"
+                  align="left"
+                  label="检查主要资料及方法">
+                </el-table-column>
+                <el-table-column
+                  prop="personNames"
+                  header-align="center"
+                  align="left"
+                  width="150"
+                  label="分工">
+                </el-table-column>
+                <el-table-column
+                  prop="positions"
+                  header-align="center"
+                  align="left"
+                  width="150"
+                  label="检查地点">
+                </el-table-column>
+              </el-table>
             </div>
           </div>
         </div>

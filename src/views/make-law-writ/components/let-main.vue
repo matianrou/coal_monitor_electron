@@ -310,6 +310,7 @@ export default {
       // 打印预览
       // 如果打印为22检查方案，另外打印检查分工明细表
       let printDiv = this.$slots.left[0].elm;
+      console.log('printDiv', printDiv)
       this.$print(printDiv);
     },
     commandFill(key, dataKey, title, type, value, options) {
@@ -397,10 +398,14 @@ export default {
 .page-break {
   page-break-after: always;
 }
-@page {
-  margin: 20px 2.6mm 3.5mm 2.8mm;
-}
-
+// @page {
+//   margin: 92.5px 0px 87.5px 0px;
+// }
+// @page:right {
+//   @bottom-center {
+//     content: counter(page);
+//   }
+// }
 @media print {
   .header-test,.header,
   .footer-test,.footer {
