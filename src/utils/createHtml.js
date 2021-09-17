@@ -117,6 +117,21 @@ export function createHtml(paperDiv) {
         .docTextLine .line-div {
           flex: 1;
           border-bottom: solid 1px #000;
+          cursor: pointer;
+          word-break: break-all;
+          word-wrap: break-word;
+        }
+        .docTextLine .no-line-div {
+          flex: 1;
+          cursor: pointer;
+        }
+        .paper-number-div {
+          justify-content: right;
+        }
+        .paper-number-div span {
+          border-bottom: solid 1px #000;
+          word-break: break-all;
+          cursor: pointer;
         }
         .docTextarea {
           width: 15.6cm;
