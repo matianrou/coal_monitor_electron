@@ -31,9 +31,9 @@
         <!-- 操作 -->
         <!-- <el-button type="text" @click="logoutHandle">退出</el-button> -->
         <i class="el-icon-s-promotion send-danger" title="隐患发送" @click="sendDanger"></i>
-        <img src="@/components/assets/image/min.png" id="minbt" @click="handleWindow('minWindow')" />&nbsp;
-        <img src="@/components/assets/image/maxed.png" id="maxbt" @click="handleWindow('maxWindow')" />&nbsp;
-        <img src="@/components/assets/image/close.png" id="closebt" @click="handleWindow('closeWindow')" />&nbsp;&nbsp;
+        <img src="@/components/assets/image/min.png" id="minbt" @click="handleWindow('window-min')" />&nbsp;
+        <img src="@/components/assets/image/maxed.png" id="maxbt" @click="handleWindow('window-max')" />&nbsp;
+        <img src="@/components/assets/image/close.png" id="closebt" @click="handleWindow('window-quit')" />&nbsp;&nbsp;
       </div>
     </div>
     <send-danger
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import electronRequest from '@/utils/electronRequest'
+import { electronRequest } from '@/utils/electronRequest'
 import { clearLoginInfo } from '@/utils'
 import sendDanger from '@/components/send-danger'
 export default {
@@ -103,7 +103,7 @@ export default {
       }
     },
     handleWindow (message) {
-      if (message === 'maxWindow') {
+      if (message === 'window-max') {
         this.maxSrc = !this.maxSrc
       }
       electronRequest(message)

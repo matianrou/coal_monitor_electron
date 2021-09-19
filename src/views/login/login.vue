@@ -42,7 +42,7 @@
 
 <script>
 import { encry } from '@/utils/AesEncryptUtil'
-import electronRequest from '@/utils/electronRequest'
+import { electronRequest } from '@/utils/electronRequest'
 import GoDB from "@/utils/godb.min.js";
 export default {
   name: "Login",
@@ -74,7 +74,7 @@ export default {
     },
     closeWin () {
       // 关闭程序
-      electronRequest('closeWindow')
+      electronRequest('window-quit')
     },
     doLogin () {
       //判断是否在线
@@ -108,7 +108,7 @@ export default {
             this.$store.state.user.userSessId = sessId
             //获取用户信息
             // 最大化窗口
-            electronRequest('maxWindow');
+            electronRequest('window-max');
             // 设置系统读取数据库
             this.$store.commit('changeState', {
               key: 'DBName',

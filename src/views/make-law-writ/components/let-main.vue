@@ -177,7 +177,7 @@ export default {
         // 检查方案时增加分工明细表
         htmlPage = this.$slots.left[0].elm.innerHTML.replace('style="height: 0px; overflow: hidden;"', '')
       }
-      let page = createHtml(htmlPage);
+      let page = createHtml(htmlPage, this.corpData);
       let jsonPaper = {
         paperId: paperId,
         remoteId: "",
