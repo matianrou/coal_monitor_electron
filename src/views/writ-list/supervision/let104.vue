@@ -60,15 +60,15 @@
               于
               <span
                 @click="commandFill('cellIdx6', '年', 'TextItem')"
-              >{{ letData.cellIdx6 ? letData.cellIdx6 : '（XX）'}}</span>
+              >{{ letData.cellIdx6 ? letData.cellIdx6 : 'XX'}}</span>
               年
               <span
                 @click="commandFill('cellIdx7', '月', 'TextItem')"
-              >{{ letData.cellIdx7 ? letData.cellIdx7 : '（XX）' }}</span>
+              >{{ letData.cellIdx7 ? letData.cellIdx7 : 'XX' }}</span>
               月
               <span
                 @click="commandFill('cellIdx8', '日', 'TextItem')"
-              >{{ letData.cellIdx8 ? letData.cellIdx8 : '（XX）'}}</span>
+              >{{ letData.cellIdx8 ? letData.cellIdx8 : 'XX'}}</span>
               日发现
               <span
                 @click="commandFill('cellIdx9', '违法行为', 'DangerTableItem')"
@@ -103,13 +103,6 @@
               >{{ letData.cellIdx15 ? letData.cellIdx15 : '（点击编辑）'}}</span>
               <div class="line"></div>
             </div>
-            <table style="border:solid 0px #000;" class="docBody">
-              <tr>
-                <td style="width:5%"></td>
-                <td class="textAlignLeft" style="width:36%"></td>
-              </tr>
-              <tr></tr>
-            </table>
             <div class="docTextLine">
               <div style="flex: 1; display: flex;">
                 <label>现场执法人员（签名):</label>
@@ -189,10 +182,10 @@
                 >{{letData.cellIdx24 ? letData.cellIdx24 : '（点击编辑）'}}</td>
               </tr>
             </table>
-            <table class="cellLine">
-              <!-- <hr /> -->
-              <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被复查单位，一份存档。</td>
-            </table>
+            <div class="docTextarea cellLine">
+              <label style="width: 5%"></label>
+              备注：本文书一式两份，一份交被复查单位，一份存档。
+            </div>
             <table height="50"></table>
           </div>
         </div>

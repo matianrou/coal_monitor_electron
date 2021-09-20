@@ -142,57 +142,23 @@
               >
               。
             </div>
-            <table style="border: solid 0 #000" class="docBody">
-              <tr>
-                <td style="width: 5%"></td>
-                <td class="textAlignLeft" style="width: 52%">
-                  如果不服本决定，可在接到本决定书之日起60日内向
-                </td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_15"
-                  style="width: 43%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx15', '', 'TextItem')"
-                >
-                  {{ letData.cellIdx15 }}
-                </td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft" style="width: 14%">人民政府或者</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_16"
-                  style="width: 20%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx16', '人民法院', 'TextItem')"
-                >
-                  {{ letData.cellIdx16 }}
-                </td>
-                <td class="textAlignLeft" style="width: 36%">
-                  申请行政复议,或者在6个月依法内向
-                </td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_17"
-                  style="width: 30%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx17', '人民法院', 'TextItem')"
-                >
-                  {{ letData.cellIdx17 }}
-                </td>
-                <td class="textAlignLeft">
-                  人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。
-                </td>
-              </tr>
-            </table>
-            <table height="90"></table>
+            <div class="docTextarea">
+              <label style="width:5%"></label>
+              如果不服本决定，可在接到本决定书之日起60日内向
+              <span
+                @click="commandFill('cellIdx15', '', 'TextItem')"
+              >{{ letData.cellIdx15 ? letData.cellIdx15 : '（点击编辑）'}}</span>
+              人民政府或者
+              <span
+                @click="commandFill('cellIdx16', '人民法院', 'TextItem')"
+              >{{ letData.cellIdx16 ? letData.cellIdx16 : '（点击编辑）' }}</span>
+              申请行政复议,或者在6个月依法内向
+              <span
+                @click="commandFill('cellIdx17', '人民法院', 'TextItem')"
+              >{{ letData.cellIdx17 ? letData.cellIdx17 : '（点击编辑）'}}</span>
+              人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。
+            </div>
+            <table height="60"></table>
             <table class="docBody">
               <tr>
                 <td
@@ -221,12 +187,11 @@
               </tr>
             </table>
             <table height="60"></table>
-            <table>
-              <hr />
-              <td class="textAlignLeft">
-                &nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被取证单位，一份存档。
-              </td>
-            </table>
+            <div class="docTextarea cellLine">
+              <label style="width: 5%"></label>
+              备注：本文书一式两份，一份交被取证单位，一份存档。
+            </div>
+            <table height="50"></table>
           </div>
         </div>
       </div>

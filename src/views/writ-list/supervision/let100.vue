@@ -148,7 +148,6 @@
             </div>
             <!-- <div class="footer-test">页脚</div> -->
             <div style="height: 20px; width: 100%;"></div>
-            
           </div>
         </div>
         <!-- 打印22检查方案，另外打印检查分工明细表 -->

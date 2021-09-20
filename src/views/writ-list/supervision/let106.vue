@@ -211,10 +211,10 @@
                 >{{letData.cellIdx30 ? letData.cellIdx30 : '（点击编辑）'}}</td>
               </tr>
             </table>
-            <table class="cellLine">
-              <!-- <hr /> -->
-              <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被检查单位，一份存档。</td>
-            </table>
+            <div class="docTextarea cellLine">
+              <label style="width: 5%"></label>
+              备注：本文书一式两份，一份交被检查单位，一份存档。
+            </div>
             <table height="50"></table>
           </div>
         </div>

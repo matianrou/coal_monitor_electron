@@ -1,6 +1,6 @@
 <!-- 现场检查 实施检查 停供电(停供民用爆炸物品)决定书 -->
 <template>
-  <div style="width: 100%; height: 100%;">
+  <div style="width: 100%; height: 100%">
     <let-main
       ref="letMain"
       :corp-data="corpData"
@@ -13,7 +13,9 @@
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader0">煤矿安全监管行政执法文书</div>
+            <div class="textAlignCenter formHeader0">
+              煤矿安全监管行政执法文书
+            </div>
             <div class="textAlignCenter formHeader1">
               <table class="docBody">
                 <tr>
@@ -23,212 +25,157 @@
                     data-title="停供电(停供民用爆炸物品)"
                     data-type="text"
                     data-src
-                    @click="commandFill('cellIdx0', '停供电(停供民用爆炸物品)', 'TextItem')"
-                  >{{ letData.cellIdx0 }}</td>
+                    @click="
+                      commandFill(
+                        'cellIdx0',
+                        '停供电(停供民用爆炸物品)',
+                        'TextItem'
+                      )
+                    "
+                  >
+                    {{ letData.cellIdx0 }}
+                  </td>
                   <td class="textAlignLeft">&nbsp;决定书</td>
                 </tr>
               </table>
             </div>
-            <div class="stdRowH"></div>
+            <div class="docTextLine paper-number-div">
+              <div>
+                <span @click="commandFill('cellIdx1', '', 'TextItem')">{{
+                  letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
+                }}</span>
+                <label>(</label>
+                <span @click="commandFill('cellIdx2', '', 'TextItem')">{{
+                  letData.cellIdx2 ? letData.cellIdx2 : "（编辑）"
+                }}</span>
+                <label>） 煤安撤〔</label>
+                <span @click="commandFill('cellIdx3', '', 'TextItem')">{{
+                  letData.cellIdx3 ? letData.cellIdx3 : "（编辑）"
+                }}</span>
+                <label>〕</label>
+                <span @click="commandFill('cellIdx4', '', 'TextItem')">{{
+                  letData.cellIdx4 ? letData.cellIdx4 : "（编辑）"
+                }}</span>
+                <label>号</label>
+              </div>
+            </div>
             <table class="docBody">
-              <tr>
-                <td
-                  class="cellInput "
-                  id="cell_idx_1"
-                  align="right"
-                  style="width:40%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx1', '', 'TextItem')"
-                  >{{ letData.cellIdx1 }}</td>
-                   <td class="textAlignLeft">（</td>
-                  <td
-                  class="cellInput "
-                  id="cell_idx_2"
-                  align="center"
-                  style="width:7%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx2', '', 'TextItem')"
-                  >{{ letData.cellIdx2 }}</td>
-                  <td class="textAlignLeft">）</td>
-                <td class="textAlignLeft ">煤安停</td>
-                <td
-                  class="cellInput "
-                  id="cell_idx_3"
-                  align="center"
-                  style="width:8%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx3', '', 'TextItem')"
-                  >{{ letData.cellIdx3 }}</td>
-                <td class="textAlignLeft ">决</td>
-
-                <td class="textAlignLeft ">〔</td>
-                <td
-                  class="cellInput "
-                  id="cell_idx_4"
-                  align="center"
-                  style="width:8%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx4', '', 'TextItem')"
-                  >{{ letData.cellIdx4 }}</td>
-                <td class="textAlignLeft ">〕</td>
-                <td
-                  class="cellInput "
-                  id="cell_idx_5"
-                  align="center"
-                  style="width:8%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx5', '', 'TextItem')"
-                  >{{ letData.cellIdx5 }}</td>
-                <td class="textAlignLeft ">号&nbsp;&nbsp;</td>
-              </tr>
               <tr>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_6"
-                  style="width:62%"
+                  style="width: 62%"
                   data-title
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx6', '', 'TextItem')"
-                  >{{ letData.cellIdx6 }}</td>
+                >
+                  {{ letData.cellIdx6 }}
+                </td>
                 <td class="textAlignLeft">:</td>
               </tr>
             </table>
-             <div class="docTextarea">
-              <label style="width:5%"></label>
+            <div class="docTextarea">
+              <label style="width: 5%"></label>
               因你单位存在重大事故隐患，本机关于
-              <span
-                @click="commandFill('cellIdx7', '年', 'TextItem')"
-              >{{ letData.cellIdx7 ? letData.cellIdx7 : '（XX）'}}</span>
+              <span @click="commandFill('cellIdx7', '年', 'TextItem')">{{
+                letData.cellIdx7 ? letData.cellIdx7 : "（XX）"
+              }}</span>
               年
-              <span
-                @click="commandFill('cellIdx8', '月', 'TextItem')"
-              >{{ letData.cellIdx8? letData.cellIdx8 : '（XX）' }}</span>
+              <span @click="commandFill('cellIdx8', '月', 'TextItem')">{{
+                letData.cellIdx8 ? letData.cellIdx8 : "（XX）"
+              }}</span>
               月
-              <span
-                @click="commandFill('cellIdx9', '', 'TextItem')"
-              >{{ letData.cellIdx9? letData.cellIdx9 : '（XX）' }}</span>
+              <span @click="commandFill('cellIdx9', '', 'TextItem')">{{
+                letData.cellIdx9 ? letData.cellIdx9 : "（XX）"
+              }}</span>
               日依法对你单位作出
-              <span
-                @click="commandFill('cellIdx10', '', 'TextItem')"
-              >{{ letData.cellIdx10? letData.cellIdx10 : '（点击编辑）' }}</span>
+              <span @click="commandFill('cellIdx10', '', 'TextItem')">{{
+                letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
+              }}</span>
               的决定，但你单位未执行以上决定，未及时消除事故隐患，存在发生生产安全事故的危险。根据《中华人民共和国安全生产法》第六十七条第一款规定，本机关决定自
-              <span
-                @click="commandFill('cellIdx11', '', 'TextItem')"
-              >{{ letData.cellIdx11? letData.cellIdx11 : '（XX）' }}</span>
+              <span @click="commandFill('cellIdx11', '', 'TextItem')">{{
+                letData.cellIdx11 ? letData.cellIdx11 : "（XX）"
+              }}</span>
               年
-              <span
-                @click="commandFill('cellIdx12', '', 'TextItem')"
-              >{{ letData.cellIdx12? letData.cellIdx12 : '（XX）' }}</span>
+              <span @click="commandFill('cellIdx12', '', 'TextItem')">{{
+                letData.cellIdx12 ? letData.cellIdx12 : "（XX）"
+              }}</span>
               月
-                <span
-                @click="commandFill('cellIdx13', '', 'TextItem')"
-              >{{ letData.cellIdx13? letData.cellIdx13 : '（XX）' }}</span>
+              <span @click="commandFill('cellIdx13', '', 'TextItem')">{{
+                letData.cellIdx13 ? letData.cellIdx13 : "（XX）"
+              }}</span>
               日
-              <span
-                @click="commandFill('cellIdx14', '', 'TextItem')"
-              >{{ letData.cellIdx14? letData.cellIdx14 : '（XX）' }}</span>
+              <span @click="commandFill('cellIdx14', '', 'TextItem')">{{
+                letData.cellIdx14 ? letData.cellIdx14 : "（XX）"
+              }}</span>
               时
-              <span
-                @click="commandFill('cellIdx15', '', 'TextItem')"
-              >{{ letData.cellIdx15? letData.cellIdx15 : '（XX）' }}</span>
+              <span @click="commandFill('cellIdx15', '', 'TextItem')">{{
+                letData.cellIdx15 ? letData.cellIdx15 : "（XX）"
+              }}</span>
               分起，对你单位采取
-              <span style="borderBottom:none"
+              <span
+                style="borderbottom: none"
                 @click="commandFill('cellIdx16', '', 'TextItem')"
-              >{{ letData.cellIdx16? letData.cellIdx16 : '（点击编辑）' }}</span>
+                >{{
+                  letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）"
+                }}</span
+              >
               的措施，强制你单位履行决定。
             </div>
-            <table style="border:solid 0px #000;" class="docBody">
-              <tr><td style="width:5%"></td>
-                <td
-                  class="textAlignLeft"
-                >你单位依法履行行政决定、采取相应措施消除事故隐患，本机关将及时通知有关单位解除上述有</td>
-              </tr><tr>
-                <td
-                  class="textAlignLeft"
-                >关措施。</td>
-              </tr>
-              <tr>
-                <td style="width:5%"></td>
-                <td
-                  class="textAlignLeft"
-                >如果不服本决定，可在接到本决定书之日起60日内向</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_17"
-                  align="center"
-                  style="width:43%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx17', '人民政府', 'TextItem')"
-                >{{ letData.cellIdx17 }}</td>
-              </tr>
-              <tr>
-                 <td class="textAlignLeft">人民政府或者</td>
-                 <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_18"
-                  align="center"
-                  style="width:49%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx18', '', 'TextItem')"
-                >{{ letData.cellIdx18 }}</td>
-                <td class="textAlignLeft">申请行政复议，或者在6个月内依法向</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_19"
-                  align="center"
-                  style="width:37%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx19', '', 'TextItem')"
-                >{{ letData.cellIdx19 }}</td>
-                <td class="textAlignLeft">人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。</td>
-              </tr>
-            </table>
+            <div class="docTextarea">
+              <label style="width:5%"></label>
+              你单位依法履行行政决定、采取相应措施消除事故隐患，本机关将及时通知有关单位解除上述有关措施。
+            </div>
+            <div class="docTextarea">
+              <label style="width:5%"></label>
+              如果不服本决定，可在接到本决定书之日起60日内向
+              <span
+                @click="commandFill('cellIdx17', '人民政府', 'TextItem')"
+              >{{ letData.cellIdx17 ? letData.cellIdx17 : '（点击编辑）'}}</span>
+              人民政府或者
+              <span
+                @click="commandFill('cellIdx18', '', 'TextItem')"
+              >{{ letData.cellIdx18 ? letData.cellIdx18 : '（点击编辑）' }}</span>
+              申请行政复议，或者在6个月内依法向
+              <span
+                @click="commandFill('cellIdx19', '', 'TextItem')"
+              >{{ letData.cellIdx19 ? letData.cellIdx19 : '（点击编辑）'}}</span>
+              人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。
+            </div>
             <table height="30"></table>
-             <table class="docBody">
+            <table class="docBody">
               <tr>
                 <td
                   class="cellInput"
                   id="cell_idx_20"
                   align="right"
-                  style="width:95%"
+                  style="width: 95%"
                   @click="commandFill('cellIdx20', '', 'TextItem')"
-                >{{letData.cellIdx20 ? letData.cellIdx20 : '（点击编辑）'}}</td>
+                >
+                  {{ letData.cellIdx20 ? letData.cellIdx20 : "（点击编辑）" }}
+                </td>
               </tr>
               <tr>
                 <td
                   class="cellInput"
                   id="cell_idx_21"
                   align="right"
-                  style="width:95%"
+                  style="width: 95%"
                   data-title
                   data-type="date"
                   data-src
                   @click="commandFill('cellIdx21', '日期', 'DateItem')"
-                >{{letData.cellIdx21 ? letData.cellIdx21 : '（点击编辑）'}}</td>
+                >
+                  {{ letData.cellIdx21 ? letData.cellIdx21 : "（点击编辑）" }}
+                </td>
               </tr>
             </table>
             <table height="60"></table>
-            <table>
-              <hr />
-              <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交煤矿，一份存档。</td>
-            </table>
+            <div class="docTextarea cellLine">
+              <label style="width: 5%"></label>
+              备注：本文书一式两份，一份交煤矿，一份存档。
+            </div>
           </div>
         </div>
       </div>
@@ -239,7 +186,8 @@
       append-to-body
       :visible="visibleSelectDialog"
       width="400px"
-      :show-close="false">
+      :show-close="false"
+    >
       <span>请选择：</span>
       <el-radio-group v-model="selectedType">
         <el-radio label="停供电">停供电</el-radio>
@@ -262,8 +210,8 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber } from '@/utils/setInitPaperData'
-import associationSelectPaper from '@/components/association-select-paper'
+import { getDocNumber } from "@/utils/setInitPaperData";
+import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let111",
   mixins: [associationSelectPaper],
@@ -273,30 +221,40 @@ export default {
       options: {},
       editData: {}, // 回显数据
       visibleSelectDialog: false,
-      selectedType: '停供电',
-      associationPaper: []
+      selectedType: "停供电",
+      associationPaper: [],
     };
   },
   methods: {
-    async initLetData (selectedPaper) {
+    async initLetData(selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       // 1.选择：
-      this.visibleSelectDialog = true
+      this.visibleSelectDialog = true;
       // 2.文书编号
-      let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
+      let { num0, num1, num3, num4 } = await getDocNumber(
+        db,
+        this.docData.docTypeNo,
+        caseId,
+        this.$store.state.user
+      );
       // 3.sysOfficeInfo实体中organName字段+ courtPrefix字段
       const orgInfo = db.table("orgInfo");
-      const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
-      let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {organName: '', depAddress: ''}
+      const orgData = await orgInfo.find(
+        (item) => item.no === this.$store.state.user.userGroupId
+      );
+      let orgSysOfficeInfo =
+        orgData && orgData.sysOfficeInfo
+          ? JSON.parse(orgData.sysOfficeInfo)
+          : { organName: "", depAddress: "" };
       // 4.年、月、日取当前时间
-      let date = new Date()
+      let date = new Date();
       let year = date.getFullYear();
       let month = date.getMonth() + 1;
-      let strDate = date.getDate(); 
+      let strDate = date.getDate();
       await db.close();
       this.letData = {
         cellIdx0: null, // 停供电(停供民用爆炸物品)
@@ -355,13 +313,13 @@ export default {
     },
     confirm() {
       // 选择停供电(停供民用爆炸物品)
-      this.visibleSelectDialog = false
-      this.letData.cellIdx0 = this.selectedType
-      this.letData.cellIdx0TypeTextItem = this.selectedType
-      this.letData.cellIdx10 = this.selectedType
-      this.letData.cellIdx10TypeTextItem = this.selectedType
-      this.letData.selectedType = this.selectedType
-    }
+      this.visibleSelectDialog = false;
+      this.letData.cellIdx0 = this.selectedType;
+      this.letData.cellIdx0TypeTextItem = this.selectedType;
+      this.letData.cellIdx10 = this.selectedType;
+      this.letData.cellIdx10TypeTextItem = this.selectedType;
+      this.letData.selectedType = this.selectedType;
+    },
   },
 };
 </script>

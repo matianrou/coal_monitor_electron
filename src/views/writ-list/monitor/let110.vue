@@ -33,56 +33,27 @@
                 </tr>
               </table>
             </div>
-            <div class="stdRowH"></div>
-            <table class="docBody">
-              <tr>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_1"
-                  align="right"
-                  style="width:50%"
-                  data-title
-                  data-type="text"
-                  data-src
+            <div class="docTextLine paper-number-div">
+              <div>
+                <span
                   @click="commandFill('cellIdx1', '', 'TextItem')"
-                >{{ letData.cellIdx1 }}</td>
-                <td class="textAlignLeft cellBottomLine">煤安监</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_2"
-                  align="center"
-                  style="width:17%"
-                  data-title
-                  data-type="text"
-                  data-src
+                >{{ letData.cellIdx1 ? letData.cellIdx1 : '（编辑）' }}</span>
+                <label>(</label>
+                <span
                   @click="commandFill('cellIdx2', '', 'TextItem')"
-                >{{ letData.cellIdx2 }}</td>
-                <td class="textAlignLeft cellBottomLine">{{letData.cellIdx0 && letData.cellIdx0.substring(0, 1)}}〔</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_3"
-                  align="center"
-                  style="width:7%"
-                  data-title
-                  data-type="text"
-                  data-src
+                >{{ letData.cellIdx2 ? letData.cellIdx2 : '（编辑）' }}</span>
+                <label>） 煤安撤〔</label>
+                <span
                   @click="commandFill('cellIdx3', '', 'TextItem')"
-                >{{ letData.cellIdx3 }}</td>
-                <td class="textAlignLeft cellBottomLine">〕</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_4"
-                  align="center"
-                  style="width:7%"
-                  data-title
-                  data-type="text"
-                  data-src
+                >{{ letData.cellIdx3 ? letData.cellIdx3 : '（编辑）' }}</span>
+                <label>〕</label>
+                <span
                   @click="commandFill('cellIdx4', '', 'TextItem')"
-                >{{ letData.cellIdx4 }}</td>
-                <td class="textAlignLeft cellBottomLine">号&nbsp;&nbsp;</td>
-              </tr>
-              <br>
-              <br>
+                >{{ letData.cellIdx4 ? letData.cellIdx4 : '（编辑）' }}</span>
+                <label>号</label>
+              </div>
+            </div>
+            <table class="docBody">
               <tr>
                 <td
                   class="cellInput cellBottomLine"
@@ -96,6 +67,7 @@
                 <td class="textAlignLeft">:</td>
               </tr>
             </table>
+            
             <table style="border:solid 0 #000;" class="docBody">
               <tr>
                 <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;经查，你单位</td>
