@@ -18,198 +18,143 @@
               <br />
             </div>
             <div class="textAlignCenter formHeader1">行政执法有关事项审批报告</div>
-            <div class="stdRowH"></div>
-            <table class="docBody">
-              <tr>
-                <td
-                  class="cellInput"
-                  id="cell_idx_0"
-                  align="right"
-                  style="width:62%"
-                  data-title
-                  data-type="text"
-                  data-src
+            <div class="docTextLine paper-number-div">
+              <div>
+                <!-- <span
                   @click="commandFill('cellIdx0', '', 'TextItem')"
-                >{{ letData.cellIdx0 }}</td>
-                <td>编号：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_1"
-                  align="center"
-                  style="width:30%"
-                  data-title
-                  data-type="text"
-                  data-src
+                >{{ letData.cellIdx0 ? letData.cellIdx0 : '（编辑）' }}</span> -->
+                <label>编号：</label>
+                <span
+                  class="line"
                   @click="commandFill('cellIdx1', '编号', 'TextItem')"
-                >{{ letData.cellIdx1 }}</td>
-              </tr>
-              <div class="docTextarea">
-                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;案&nbsp;&nbsp;&nbsp;由：</span>
-                <span
-                  @click="commandFill('cellIdx2', '案由', 'TextareaItem')"
-                >{{ letData.cellIdx2 ? letData.cellIdx2 : '（点击编辑）' }}</span>
-                <div class="line"></div>
+                >{{ letData.cellIdx1 ? letData.cellIdx1 : '（点击编辑）' }}</span>
               </div>
-              <div class="docTextarea">
-                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;审批事项：</span>
-                <span
-                  @click="commandFill('cellIdx3', '审批事项', 'TextareaItem')"
-                >{{ letData.cellIdx3 ? letData.cellIdx3 : '（点击编辑）' }}</span>
-                <div class="line"></div>
-              </div>
-              <div class="docTextarea">
-                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;行政相对人基本情况：</span>
-                <span
-                  @click="commandFill('cellIdx4', '行政相对人基本情况', 'TextareaItem')"
-                >{{ letData.cellIdx4 ? letData.cellIdx4 : '（点击编辑）' }}</span>
-                <div class="line"></div>
-              </div>
-              <div class="docTextarea">
-                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;案情摘要：</span>
-                <span
-                  @click="commandFill('cellIdx5', '案情摘要', 'TextareaItem')"
-                >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）' }}</span>
-                <div class="line"></div>
-              </div>
-              <div class="docTextarea">
-                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;提请审批的理由及依据：</span>
-                <span
-                  @click="commandFill('cellIdx6', '提请审批的理由及依据', 'TextareaItem')"
-                >{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）' }}</span>
-                <div class="line"></div>
-              </div>
-              <div class="docTextarea">
-                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;承办人意见：</span>
-                <span
-                  @click="commandFill('cellIdx7', '承办人意见', 'TextareaItem')"
-                >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）' }}</span>
-                <div class="line"></div>
-              </div>
-            </table>
+            </div>
+            <div class="docTextarea">
+              <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;案&nbsp;&nbsp;&nbsp;由：</span>
+              <span
+                @click="commandFill('cellIdx2', '案由', 'TextareaItem')"
+              >{{ letData.cellIdx2 ? letData.cellIdx2 : '（点击编辑）' }}</span>
+              <div class="line"></div>
+            </div>
+            <div class="docTextarea">
+              <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;审批事项：</span>
+              <span
+                @click="commandFill('cellIdx3', '审批事项', 'TextareaItem')"
+              >{{ letData.cellIdx3 ? letData.cellIdx3 : '（点击编辑）' }}</span>
+              <div class="line"></div>
+            </div>
+            <div class="docTextarea">
+              <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;行政相对人基本情况：</span>
+              <span
+                @click="commandFill('cellIdx4', '行政相对人基本情况', 'TextareaItem')"
+              >{{ letData.cellIdx4 ? letData.cellIdx4 : '（点击编辑）' }}</span>
+              <div class="line"></div>
+            </div>
+            <div class="docTextarea">
+              <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;案情摘要：</span>
+              <span
+                @click="commandFill('cellIdx5', '案情摘要', 'TextareaItem')"
+              >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）' }}</span>
+              <div class="line"></div>
+            </div>
+            <div class="docTextarea">
+              <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;提请审批的理由及依据：</span>
+              <span
+                @click="commandFill('cellIdx6', '提请审批的理由及依据', 'TextareaItem')"
+              >{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）' }}</span>
+              <div class="line"></div>
+            </div>
+            <div class="docTextarea">
+              <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;承办人意见：</span>
+              <span
+                @click="commandFill('cellIdx7', '承办人意见', 'TextareaItem')"
+              >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）' }}</span>
+              <div class="line"></div>
+            </div>
             <table height="60"></table>
-            <table class="docBody">
-              <tr>
-                <td style="width:5%"></td>
-                <td class="textAlignLeft" style="width:17%">承办人（签名):</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_8"
-                  align="center"
-                  style="width:51.5%"
-                  data-title="承办人（签名)"
-                  data-type="text"
-                  data-src
+            <div class="docTextLine">
+              <label style="width: 5%;"></label>
+              <div style="flex: 1; display: flex;">
+                <label>承办人（签名）：</label>
+                <div
+                  class="line-div"
                   @click="commandFill('cellIdx8', '承办人（签名)', 'TextItem')"
-                >{{ letData.cellIdx8 }}</td>
-                <td class="textAlignCenter" style="width:7%">日期：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_9"
-                  align="center"
-                  style="width:19%"
-                  data-title="日期"
-                  data-type="date"
-                  data-src
+                >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）' }}</div>
+              </div>
+              <div style="flex: 1; display: flex;">
+                <label>日期：</label>
+                <div
+                  class="line-div"
                   @click="commandFill('cellIdx9', '日期', 'DateItem')"
-                >{{ letData.cellIdx9 }}</td>
-                <td style="width:22%"></td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_10"
-                  align="center"
-                  style="width:51.5%"
-                  data-title="现场执法人员（签名)"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx10', '现场执法人员（签名)', 'TextItem')"
-                >{{ letData.cellIdx10 }}</td>
-                <td class="textAlignCenter" style="width:7%">日期：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_11"
-                  align="center"
-                  style="width:19%"
-                  data-title="日期"
-                  data-type="date"
-                  data-src
+                >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）' }}</div>
+              </div>
+            </div>
+            <div class="docTextLine">
+              <label style="width: 5%"></label>
+              <div style="flex: 1; display: flex;">
+              <label style="width: 45%"></label>
+                <div
+                  class="line-div"
+                  @click="commandFill('cellIdx10', '承办人（签名)', 'TextItem')"
+                >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）' }}</div>
+              </div>
+              <div style="flex: 1; display: flex;">
+                <label>日期：</label>
+                <div
+                  class="line-div"
                   @click="commandFill('cellIdx11', '日期', 'DateItem')"
-                >{{ letData.cellIdx11 }}</td>
-              </tr>
-              <tr>
-                <td style="width:5%"></td>
-                <td class="textAlignLeft" style="width:18%">分管负责人意见：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_12"
-                  align="center"
-                  style="width:23%"
-                  data-title="被检查单位意见"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx12', '被检查单位意见', 'TextItem')"
-                >{{ letData.cellIdx12 }}</td>
-
-                <td class="textAlignLeft" style="width:7%">签名：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_13"
-                  align="center"
-                  style="width:20%"
-                  data-title="单位负责人（签名)"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx13', '单位负责人（签名)', 'TextItem')"
-                >{{ letData.cellIdx13 }}</td>
-                <td class="textAlignCenter" style="width:7%">日期：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_14"
-                  align="center"
-                  style="width:19%"
-                  data-title="日期"
-                  data-type="date"
-                  data-src
+                >{{ letData.cellIdx11 ? letData.cellIdx11 : '（点击编辑）' }}</div>
+              </div>
+            </div>
+            <div class="docTextLine">
+              <label style="width: 5%;"></label>
+              <div style="flex: 3; display: flex;">
+                <label>分管负责人意见：</label>
+                <div
+                  class="line-div"
+                  @click="commandFill('cellIdx12', '分管负责人意见', 'TextItem')"
+                >{{ letData.cellIdx12 ? letData.cellIdx12 : '（点击编辑）' }}</div>
+              </div>
+              <div style="flex: 2; display: flex;">
+                <label>签名：</label>
+                <div
+                  class="line-div"
+                  @click="commandFill('cellIdx13', '签名：', 'TextItem')"
+                >{{ letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）' }}</div>
+              </div>
+              <div style="flex: 2; display: flex;">
+                <label>日期：</label>
+                <div
+                  class="line-div"
                   @click="commandFill('cellIdx14', '日期', 'DateItem')"
-                >{{ letData.cellIdx14 }}</td>
-              </tr>
-              <tr>
-                <td style="width:5%"></td>
-                <td class="textAlignLeft" style="width:18%">主要负责人意见：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_15"
-                  align="center"
-                  style="width:23%"
-                  data-title="被检查单位意见"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx15', '被检查单位意见', 'TextItem')"
-                >{{ letData.cellIdx15 }}</td>
-
-                <td class="textAlignLeft" style="width:7%">签名：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_16"
-                  align="center"
-                  style="width:20%"
-                  data-title="单位负责人（签名)"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx16', '单位负责人（签名)', 'TextItem')"
-                >{{ letData.cellIdx16 }}</td>
-                <td class="textAlignCenter" style="width:7%">日期：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_17"
-                  align="center"
-                  style="width:19%"
-                  data-title="日期"
-                  data-type="date"
-                  data-src
+                >{{ letData.cellIdx14 ? letData.cellIdx14 : '（点击编辑）' }}</div>
+              </div>
+            </div>
+            <div class="docTextLine">
+              <label style="width: 5%;"></label>
+              <div style="flex: 3; display: flex;">
+                <label>主要负责人意见：</label>
+                <div
+                  class="line-div"
+                  @click="commandFill('cellIdx15', '主要负责人意见', 'TextItem')"
+                >{{ letData.cellIdx15 ? letData.cellIdx15 : '（点击编辑）' }}</div>
+              </div>
+              <div style="flex: 2; display: flex;">
+                <label>签名：</label>
+                <div
+                  class="line-div"
+                  @click="commandFill('cellIdx16', '签名', 'TextItem')"
+                >{{ letData.cellIdx16 ? letData.cellIdx16 : '（点击编辑）' }}</div>
+              </div>
+              <div style="flex: 2; display: flex;">
+                <label>日期：</label>
+                <div
+                  class="line-div"
                   @click="commandFill('cellIdx17', '日期', 'DateItem')"
-                >{{ letData.cellIdx17 }}</td>
-              </tr>
-            </table>
+                >{{ letData.cellIdx17 ? letData.cellIdx17 : '（点击编辑）' }}</div>
+              </div>
+            </div>
             <table height="60"></table>
             <table class="docBody">
               <tr>

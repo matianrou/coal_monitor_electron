@@ -21,19 +21,19 @@
             <div class="docTextLine paper-number-div">
               <div>
                 <span
-                  @click="commandFill('cellIdx0', '', 'TextItem')"
+                  @click="commandFill('cellIdx0', '文书号', 'TextItem')"
                 >{{ letData.cellIdx0 ? letData.cellIdx0 : '（编辑）' }}</span>
                 <label>(</label>
                 <span
-                  @click="commandFill('cellIdx1', '', 'TextItem')"
+                  @click="commandFill('cellIdx1', '文书号', 'TextItem')"
                 >{{ letData.cellIdx1 ? letData.cellIdx1 : '（编辑）' }}</span>
                 <label>） 煤安抽〔</label>
                 <span
-                  @click="commandFill('cellIdx2', '', 'TextItem')"
+                  @click="commandFill('cellIdx2', '文书号', 'TextItem')"
                 >{{ letData.cellIdx2 ? letData.cellIdx2 : '（编辑）' }}</span>
                 <label>〕</label>
                 <span
-                  @click="commandFill('cellIdx3', '', 'TextItem')"
+                  @click="commandFill('cellIdx3', '文书号', 'TextItem')"
                 >{{ letData.cellIdx3 ? letData.cellIdx3 : '（编辑）' }}</span>
                 <label>号</label>
               </div>
@@ -93,22 +93,22 @@
                 <div
                   class="line-div"
                   @click="commandFill('cellIdx9', '年', 'TextItem')"
-                >{{ letData.cellIdx9 ? letData.cellIdx9 : '（XX）' }}</div>
+                >{{ letData.cellIdx9 ? letData.cellIdx9 : 'XX' }}</div>
                 年
                 <div
                   class="line-div"
                   @click="commandFill('cellIdx10', '月', 'TextItem')"
-                >{{ letData.cellIdx10 ? letData.cellIdx10 : '（XX）' }}</div>
+                >{{ letData.cellIdx10 ? letData.cellIdx10 : 'XX' }}</div>
                 月
                 <div
                   class="line-div"
                   @click="commandFill('cellIdx11', '日', 'TextItem')"
-                >{{ letData.cellIdx11 ? letData.cellIdx11 : '（XX）' }}</div>
+                >{{ letData.cellIdx11 ? letData.cellIdx11 : 'XX' }}</div>
                 日
                 <div
                   class="line-div"
                   @click="commandFill('cellIdx12', '时', 'TextItem')"
-                >{{ letData.cellIdx12 ? letData.cellIdx12 : '（XX）' }}</div>
+                >{{ letData.cellIdx12 ? letData.cellIdx12 : 'XX' }}</div>
                 时
               </div>
               <div style="flex: 1; display: flex;">

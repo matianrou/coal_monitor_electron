@@ -125,13 +125,18 @@ export function createHtml(paperDiv, corpData) {
           flex: 1;
           cursor: pointer;
         }
+        .docTextLine .center {
+          text-align: center;
+        }
         .paper-number-div {
           justify-content: right;
         }
         .paper-number-div span {
-          border-bottom: solid 1px #000;
           word-break: break-all;
           cursor: pointer;
+        }
+        .paper-number-div .line {
+          border-bottom: solid 1px #000;
         }
         .docTextarea {
           width: 15.6cm;

@@ -25,7 +25,7 @@
                   <br />执法单位
                 </td>
                 <td
-                  style="width:158mm;height:30mm"
+                  style="width:124mm;height:30mm"
                   class="cellInput cellBottomLine textPaddingLeft"
                   id="cell_idx_0"
                   align="center"
@@ -44,7 +44,7 @@
                   <br />案卷类别
                 </td>
                 <td
-                  style="width:158mm;height:50mm"
+                  style="width:124mm;height:50mm"
                   class="cellInput cellBottomLine textPaddingLeft"
                   id="cell_idx_1"
                   align="center"
@@ -63,7 +63,7 @@
                   <br />案卷题名
                 </td>
                 <td
-                  style="width:158mm;height:120mm"
+                  style="width:124mm;height:120mm"
                   class="cellInput textPaddingLeft"
                   id="cell_idx_2"
                   align="center"
@@ -92,7 +92,7 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_4"
                   align="center"
-                  style="width:10%"
+                  style="width:9%"
                   data-title="月"
                   data-type="text"
                   data-src
@@ -103,7 +103,7 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_5"
                   align="center"
-                  style="width:10%"
+                  style="width:9%"
                   data-title="日"
                   data-type="text"
                   data-src
@@ -127,7 +127,7 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_7"
                   align="center"
-                  style="width:10%"
+                  style="width:9%"
                   data-title="月"
                   data-type="text"
                   data-src
@@ -138,7 +138,7 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_8"
                   align="center"
-                  style="width:10%"
+                  style="width:9%"
                   data-title="日"
                   data-type="text"
                   data-src
@@ -152,8 +152,7 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
                   align="center"
-                  style="width:11%"
-                  data-title="案由"
+                  style="width:10%"
                   data-type="textarea"
                   data-src
                   @click="commandFill('cellIdx9', '件', 'TextItem')"
@@ -163,8 +162,7 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_10"
                   align="center"
-                  style="width:10%"
-                  data-title="案由"
+                  style="width:9%"
                   data-type="textarea"
                   data-src
                   @click="commandFill('cellIdx10', '页', 'TextItem')"
@@ -172,7 +170,7 @@
                 <td class="textAlignLeft">页</td>
                 <td
                   class="textPaddingLeft" style="width:25%"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;归 档 日 期：&nbsp;&nbsp;</td>
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;归 档 日 期：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_11"
@@ -188,7 +186,7 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_12"
                   align="center"
-                  style="width:10%"
+                  style="width:9%"
                   data-title="月"
                   data-type="text"
                   data-src
@@ -199,50 +197,13 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_13"
                   align="center"
-                  style="width:10%"
+                  style="width:9%"
                   data-title="日"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx13', '日', 'TextItem')"
                 >{{letData.cellIdx13}}</td>
                 <td class="textAlignLeft">日</td>
-              </tr>
-              <tr>
-                <td class="textPaddingLeft" style="width:18%" >承办人（签名）：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_14"
-                  align="center"
-                  style="width:82%"
-                  data-title="承办人（签名）"
-                  data-type="textarea"
-                  data-src
-                  @click="commandFill('cellIdx14', '承办人（签名）', 'TextItem')"
-                >{{letData.cellIdx14}}</td>
-              </tr>
-              <tr>
-                <td class="textPaddingLeft" style="width:9%">档号：&nbsp;&nbsp;</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_15"
-                  align="center"
-                  style="width:40%"
-                  data-title="档号"
-                  data-type="textarea"
-                  data-src
-                  @click="commandFill('cellIdx15', '档号', 'TextItem')"
-                >{{letData.cellIdx15}}</td>
-                <td class="textPaddingLeft" style="width:14%">&nbsp;&nbsp;保管期限：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_16"
-                  align="center"
-                  style="width:37%"
-                  data-title="保管期限"
-                  data-type="textarea"
-                  data-src
-                  @click="commandFill('cellIdx16', '保管期限', 'TextItem')"
-                >{{letData.cellIdx16}}</td>
               </tr>
               <!-- <tr>
                 <td
@@ -257,6 +218,31 @@
                 >{{letData.cellIdx17  ? letData.cellIdx17 : '点击编辑目录'}}</td>
               </tr> -->
             </table>
+            <div class="docTextLine">
+              <div style="flex: 1; display: flex;">
+                <label>承办人（签名）：</label>
+                <div
+                  class="line-div"
+                  @click="commandFill('cellIdx14', '承办人（签名）', 'TextItem')"
+                >{{ letData.cellIdx14 ? letData.cellIdx14 : '（点击编辑）' }}</div>
+              </div>
+            </div>
+            <div class="docTextLine">
+              <div style="flex: 1; display: flex;">
+                <label>档号：&nbsp;&nbsp;</label>
+                <div
+                  class="line-div"
+                  @click="commandFill('cellIdx15', '档号', 'TextItem')"
+                >{{ letData.cellIdx15 ? letData.cellIdx15 : '（点击编辑）' }}</div>
+              </div>
+              <div style="flex: 1; display: flex;">
+                <label>&nbsp;&nbsp;保管期限：</label>
+                <div
+                  class="line-div"
+                  @click="commandFill('cellIdx16', '保管期限', 'TextItem')"
+                >{{ letData.cellIdx16 ? letData.cellIdx16 : '（点击编辑）' }}</div>
+              </div>
+            </div>
             <div
               style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
               class="cellInput mutiLineArea"

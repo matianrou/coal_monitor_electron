@@ -169,13 +169,19 @@ table td{margin:0;padding:0;}
     flex: 1;
     cursor: pointer;
   }
+  .center {
+    text-align: center;
+  }
 }
 .paper-number-div {
   justify-content: right;
   span {
-    border-bottom: solid 1px #000;
+    // border-bottom: solid 1px #000;
     word-break: break-all;
     cursor: pointer;
+  }
+  .line {
+    border-bottom: solid 1px #000;
   }
 }
 .docTextarea {

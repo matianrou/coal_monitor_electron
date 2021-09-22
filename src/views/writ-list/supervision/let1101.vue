@@ -37,20 +37,24 @@
             <div class="docTextLine paper-number-div">
               <div>
                 <span
-                  @click="commandFill('cellIdx1', '', 'TextItem')"
+                  @click="commandFill('cellIdx1', '文书号', 'TextItem')"
                 >{{ letData.cellIdx1 ? letData.cellIdx1 : '（编辑）' }}</span>
                 <label>(</label>
                 <span
-                  @click="commandFill('cellIdx2', '', 'TextItem')"
+                  @click="commandFill('cellIdx2', '文书号', 'TextItem')"
                 >{{ letData.cellIdx2 ? letData.cellIdx2 : '（编辑）' }}</span>
-                <label>） 煤安撤〔</label>
+                <label>） 煤安</label>
                 <span
-                  @click="commandFill('cellIdx3', '', 'TextItem')"
+                  @click="commandFill('cellIdx3', '文书号', 'TextItem')"
                 >{{ letData.cellIdx3 ? letData.cellIdx3 : '（编辑）' }}</span>
+                <label>〔</label>
+                <span
+                  @click="commandFill('cellIdx4', '文书号', 'TextItem')"
+                >{{ letData.cellIdx4 ? letData.cellIdx4 : '（编辑）' }}</span>
                 <label>〕</label>
                 <span
-                  @click="commandFill('cellIdx4', '', 'TextItem')"
-                >{{ letData.cellIdx4 ? letData.cellIdx4 : '（编辑）' }}</span>
+                  @click="commandFill('cellIdx5', '文书号', 'TextItem')"
+                >{{ letData.cellIdx5 ? letData.cellIdx5 : '（编辑）' }}</span>
                 <label>号</label>
               </div>
             </div>
@@ -306,6 +310,7 @@ export default {
             .split("-")
         : ["", "", ""];
       // 获取查封/扣押
+      console.log('let32DataPapaerContent', let32DataPapaerContent)
       let selectedType = let32DataPapaerContent.selectedType
       await db.close();
       this.letData = {
@@ -315,7 +320,8 @@ export default {
         cellIdx1TypeTextItem: num0, // 文书号
         cellIdx2: num1, // 文书号
         cellIdx2TypeTextItem: num1, // 文书号
-        cellIdx3: null, // 查/扣
+        cellIdx3: selectedType.substring(0, 1), // 查/扣
+        cellIdx3TypeTextItem: selectedType.substring(0, 1), // 查/扣
         cellIdx4: num3, // 文书号
         cellIdx4TypeTextItem: num3, // 文书号
         cellIdx5: num4, // 文书号

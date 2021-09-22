@@ -29,54 +29,26 @@
                 </tr>
               </table>
             </div>
-            <table class="docBody">
-              <tr>
-                <td
-                  class="cellInput"
-                  id="cell_idx_1"
-                  align="right"
-                  style="width:40%"
-                  data-title="文书号"
-                  data-type="text"
-                  data-src
+            <div class="docTextLine paper-number-div">
+              <div>
+                <span
                   @click="commandFill('cellIdx1', '文书号', 'TextItem')"
-                >{{letData.cellIdx1}}</td>
-                <td class="textAlignLeft">（</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_2"
-                  align="center"
-                  style="width:15%"
-                  data-title="文书号"
-                  data-type="text"
-                  data-src
+                >{{ letData.cellIdx1 ? letData.cellIdx1 : '（编辑）' }}</span>
+                <label>(</label>
+                <span
                   @click="commandFill('cellIdx2', '文书号', 'TextItem')"
-                >{{letData.cellIdx2}}</td>
-                <td class="textAlignLeft">）煤安缴决〔</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_3"
-                  align="center"
-                  style="width:8%"
-                  data-title="文书号"
-                  data-type="text"
-                  data-src
+                >{{ letData.cellIdx2 ? letData.cellIdx2 : '（编辑）' }}</span>
+                <label>） 煤安缴决〔</label>
+                <span
                   @click="commandFill('cellIdx3', '文书号', 'TextItem')"
-                >{{letData.cellIdx3}}</td>
-                <td class="textAlignLeft">〕</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_4"
-                  align="center"
-                  style="width:10%"
-                  data-title="文书号"
-                  data-type="text"
-                  data-src
+                >{{ letData.cellIdx3 ? letData.cellIdx3 : '（编辑）' }}</span>
+                <label>〕</label>
+                <span
                   @click="commandFill('cellIdx4', '文书号', 'TextItem')"
-                >{{letData.cellIdx4}}</td>
-                <td class="textAlignLeft">号&nbsp;&nbsp;</td>
-              </tr>
-            </table>
+                >{{ letData.cellIdx4 ? letData.cellIdx4 : '（编辑）' }}</span>
+                <label>号</label>
+              </div>
+            </div>
             <table class="docBody">
               <tr>
                 <td
@@ -240,7 +212,7 @@
                 id="cell_idx_25"
                 contenteditable="true"
                 align="center"
-                style="width:8%"
+                style="width:7%"
                 data-title="月"
                 data-type="text"
                 data-src
@@ -288,7 +260,7 @@
                 id="cell_idx_29"
                 contenteditable="true"
                 align="center"
-                style="width:12%"
+                style="width:9%"
                 data-title="缴纳罚款"
                 data-type="text"
                 data-src
@@ -300,7 +272,7 @@
                 id="cell_idx_30"
                 contenteditable="true"
                 align="center"
-                style="width:12%"
+                style="width:10%"
                 data-title="￥"
                 data-type="text"
                 data-src
@@ -316,7 +288,7 @@
                 id="cell_idx_31"
                 contenteditable="true"
                 align="center"
-                style="width:8%"
+                style="width:7%"
                 data-title="月"
                 data-type="text"
                 data-src
@@ -364,7 +336,7 @@
                 id="cell_idx_35"
                 contenteditable="true"
                 align="center"
-                style="width:12%"
+                style="width:9%"
                 data-title="缴纳罚款"
                 data-type="text"
                 data-src
@@ -376,7 +348,7 @@
                 id="cell_idx_36"
                 contenteditable="true"
                 align="center"
-                style="width:12%"
+                style="width:10%"
                 data-title="￥"
                 data-type="text"
                 data-src
