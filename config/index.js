@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2021-09-23 11:14:00
+ * @LastEditTime: 2021-09-23 14:08:17
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \coal_monitor_electron\config\index.js
+ */
 'use strict'
 // Template version: 1.3.1
 // see http://vuejs-templates.github.io/webpack for documentation.
@@ -12,8 +20,8 @@ module.exports = {
     // 代理列表, 是否开启代理通过[./dev.env.js]配置
     proxyTable: require('./dev.env').OPEN_PROXY ? {    //代理跨域
       '/api': {
-        target: 'http://10.17.124.46:8081/mj/a',
-        // target: 'http://eeh.emerinfo.cn/mj/a',
+        // target: 'http://10.17.124.46:8081/mj/a',
+        target: 'http://eeh.emerinfo.cn/mj/a',
         changeOrigin: true,
         pathRewrite: {
           '^/api': '/'   //替换
