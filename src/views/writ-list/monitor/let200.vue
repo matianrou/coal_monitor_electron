@@ -153,7 +153,6 @@
               style="height:2cm;word-wrap:break-word;word-break:break-all;overflow:hidden;"
               class="cellInput mutiLineArea"
               id="cell_idx_19"
-              contenteditable="true"
               onkeydown="checkContent(event,this.id)"
               onchange="doContentChange(this.id)"
             >

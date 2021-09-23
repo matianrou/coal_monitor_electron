@@ -17,7 +17,7 @@
               煤矿安全监管行政执法文书
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">不 予 受 理 听 证 申 请 通 知 书</div>
+            <div class="textAlignCenter formHeader3">不予受理听证申请通知书</div>
             <div class="docTextLine paper-number-div">
               <div>
                 <span
@@ -57,7 +57,8 @@
               <label style="width:5%"></label>
               经审查，你
               <span
-                @click="commandFill('cellIdx5', '单位或个人', 'TextItem')"
+                class="no-line"
+                @click="commandFill('cellIdx5', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx5 ? letData.cellIdx5 : '（XX）'}}</span>
               关于
               <span
@@ -70,19 +71,6 @@
               项情形：
             </div>
             <table style="border:solid 0 #000;" class="docBody">
-              <tr>
-                <td class="textAlignLeft"></td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_7"
-                  align="center"
-                  style="width:20%"
-                  data-title="编号"
-                  data-type="text"
-                  data-src
-                >{{letData.cellIdx7}}</td>
-                <td class="textAlignLeft"></td>
-              </tr>
               <tr>
                 <td style="width:5%"></td>
                 <td
@@ -106,7 +94,8 @@
               <label style="width:5%"></label>
               根据《中华人民共和国行政处罚法》第六十三条、第六十四条规定，本机关决定不予受理你
               <span
-                @click="commandFill('cellIdx8', '单位', 'TextItem')"
+                class="no-line"
+                @click="commandFill('cellIdx8', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
               的听证申请。
             </div>
@@ -243,6 +232,26 @@ export default {
             value: '（三）',
             name: '（三）',
           },
+        ],
+        cellIdx5: [
+          {
+            value: '单位',
+            name: '单位',
+          },
+          {
+            value: '个人',
+            name: '个人',
+          },
+        ],
+        cellIdx8: [
+          {
+            value: '单位',
+            name: '单位',
+          },
+          {
+            value: '个人',
+            name: '个人',
+          },
         ]
       },
       visibleSelectDialog: false,
@@ -329,7 +338,9 @@ export default {
       // 选择单位或个人
       this.visibleSelectDialog = false
       this.letData.cellIdx5 = this.selectedType
-      this.letData.cellIdx5TypeTextItem = this.selectedType
+      this.letData.cellIdx5TypeSelectItem = this.selectedType
+      this.letData.cellIdx8 = this.selectedType
+      this.letData.cellIdx8TypeSelectItem = this.selectedType
       this.letData.selectedType = this.selectedType
     }
   },

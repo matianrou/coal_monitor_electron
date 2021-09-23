@@ -69,11 +69,11 @@
               <span
                 @click="commandFill('cellIdx6', '', 'TextItem')"
               >{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）'}}</span>
-              进行安全监察中发现存在重大事故隐患，依法作出
+              进行安全检查中发现存在重大事故隐患，依法作出
               <span
                 @click="commandFill('cellIdx7', '', 'TextItem')"
               >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
-              的决定，但该单位拒不执行该决定，未及时消除安全隐患，现有发生生产安全事故的危险。根据《中华人民共和国安全生产法》第六十七条第一款规定，请贵单位对其采取
+              的决定，但该单位拒不执行此决定，未及时消除安全隐患，现有发生生产安全事故的危险。根据《中华人民共和国安全生产法》第六十七条第一款规定，请贵单位对其采取
               <span style="borderBottom:none"
                 @click="commandFill('cellIdx8', '停供电(停供民用爆炸物品)', 'TextItem')"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
@@ -238,9 +238,9 @@ export default {
         cellIdx3TypeTextItem: num3, // 文书号
         cellIdx4: num4, // 文书号
         cellIdx4TypeTextItem: num4, // 文书号
-        cellIdx5: corp.corpName, // 单位
-        cellIdx5TypeTextItem: corp.corpName, // 单位
-        cellIdx6: null, // 本机关在对XXX进行安全监察中发现
+        cellIdx5: null, // 单位
+        cellIdx6: corp.corpName, // 本机关在对XXX进行安全监察中发现
+        cellIdx6TypeTextItem: corp.corpName, // 单位
         cellIdx7: null, // 依法作出XXX的决定
         cellIdx8: null, // 请贵单位对其采取XXX的措施。
         cellIdx9: null, // 受送达人（签名）
@@ -282,8 +282,8 @@ export default {
       this.visibleSelectDialog = false
       this.letData.cellIdx0 = this.selectedType
       this.letData.cellIdx0TypeTextItem = this.selectedType
-      this.letData.cellIdx8 = this.selectedType
-      this.letData.cellIdx8TypeTextItem = this.selectedType
+      this.letData.cellIdx8 = this.selectedType === '停供电' ? '停供生产性用电' : '停供民用爆炸物品'
+      this.letData.cellIdx8TypeTextItem = this.selectedType === '停供电' ? '停供生产性用电' : '停供民用爆炸物品'
       this.letData.selectedType = this.selectedType
     }
   },

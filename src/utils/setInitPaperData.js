@@ -103,7 +103,7 @@ export async function getDocNumber(db, docTypeNo, caseId, user) {
     num2: docString,
     num3: curYear + '',
     num4: caseInfo.caseSn,
-    numString: `${orgSysOfficeInfo.docRiseSafe}${paperTypeName}${orgSysOfficeInfo.docRiseDepa}${docString}〔${curYear}〕${caseInfo.caseSn}号`
+    numString: `${orgSysOfficeInfo.docRiseSafe}（${orgSysOfficeInfo.docRiseDepa}）${paperTypeName}${docString}〔${curYear}〕${caseInfo.caseSn}号`
   }
 }
 

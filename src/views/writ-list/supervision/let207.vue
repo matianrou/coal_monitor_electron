@@ -107,10 +107,15 @@
           <!-- <table height="30"></table> -->
           <div class="docTextLine">
             <div style="flex: 2; display: flex;">
-              <label>受送达单位负责人（个人）（签名）：</label>
+              <label>受送达</label>
+              <div
+                style="cursor: pointer;"
+                @click="commandFill('cellIdx14', '单位负责人/个人', 'SelectItem')"
+              >{{ letData.cellIdx14 ? letData.cellIdx14 : '（编辑）' }}</div>
+              <label>（签名）：</label>
               <div
                 class="line-div"
-                @click="commandFill('cellIdx8', '受送达单位负责人（个人）（签名）', 'TextItem')"
+                @click="commandFill('cellIdx8', '签名', 'TextItem')"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（编辑）' }}</div>
             </div>
             <div style="flex: 1; display: flex;">
@@ -208,8 +213,18 @@ export default {
             name: '公告送达'
           },
         ],
+        cellIdx14: [
+          {
+            value: '单位负责人',
+            name: '单位负责人',
+          },
+          {
+            value: '个人',
+            name: '个人',
+          },
+        ]
       },
-      associationPaper: []
+      associationPaper: ['8']
     };
   },
   methods: {
@@ -222,11 +237,16 @@ export default {
       // 1.送达文书：国家煤矿安全监管行政处罚决定书
       let cellIdx4String = '国家煤矿安全监管行政处罚决定书'
       // 2.文书字号：使用行政处罚决定书的文书编号
-      let { numString } = await getDocNumber(db, '8', this.corpData.caseId, this.$store.state.user)
-      let cellIdx5String = numString
+      // let { numString } = await getDocNumber(db, '8', this.corpData.caseId, this.$store.state.user)
+      // let cellIdx5String = numString
+      let let8DataPapaerContent = JSON.parse(selectedPaper.let8Data.paperContent);
+      let cellIdx5String = `${let8DataPapaerContent.cellIdx0}（${let8DataPapaerContent.cellIdx1}）煤安罚〔${let8DataPapaerContent.cellIdx2}〕${let8DataPapaerContent.cellIdx3}号`
       // 3.送达地点：煤矿名称
       let cellIdx6String = corp.corpName
       let paperNumber = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
+      // 获取行政处罚决定书中选择的单位/个人
+      let selectedType = let8DataPapaerContent.selectedType
+      let selectedString = selectedType === '单位' ? '单位负责人' : '个人'
       await db.close();
       this.letData = {
         cellIdx0: paperNumber.num0, // 文书号
@@ -244,12 +264,15 @@ export default {
         cellIdx6: cellIdx6String, // 送达地点
         cellIdx6TypeTextItem: cellIdx6String, // 送达地点
         cellIdx7: null, // 送达方式
+        cellIdx14: selectedString, // 单位负责人/个人
+        cellIdx14TypeSelectItem: selectedString, // 单位负责人/个人
         cellIdx8: null, // 受送达单位负责人（个人）（签名）
         cellIdx9: null, // 日期
         cellIdx10: null, // 送达人（签名）
         cellIdx11: null, // 日期
         cellIdx12: null, //
         cellIdx13: null, // 日期
+        selectedString: selectedString
       };
     },
     goBack({ page }) {

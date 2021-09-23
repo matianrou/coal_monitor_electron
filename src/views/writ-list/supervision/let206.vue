@@ -23,11 +23,11 @@
                 <span
                   @click="commandFill('cellIdx0', '文书号', 'TextItem')"
                 >{{ letData.cellIdx0 ? letData.cellIdx0 : '（编辑）' }}</span>
-                <label>(</label>
+                <label>（</label>
                 <span
                   @click="commandFill('cellIdx1', '文书号', 'TextItem')"
                 >{{ letData.cellIdx1 ? letData.cellIdx1 : '（编辑）' }}</span>
-                <label>)  煤安罚〔</label>
+                <label>）煤安罚〔</label>
                 <span
                   @click="commandFill('cellIdx2', '文书号', 'TextItem')"
                 >{{ letData.cellIdx2 ? letData.cellIdx2 : '（编辑）' }}</span>
@@ -78,15 +78,15 @@
               <label style="width: 5%;"></label>
               接到本处罚决定书之日起15日内将罚款缴至
               <span
-                @click="commandFill('cellIdx11', '煤监机构', 'TextItem')"
+                @click="commandFill('cellIdx11', '银行', 'TextItem')"
               >{{ letData.cellIdx11 ? letData.cellIdx11 : '（点击编辑）'}}</span>
               银行：
               <span
-                @click="commandFill('cellIdx12', '银行', 'TextItem')"
+                @click="commandFill('cellIdx12', '支行（分理处）', 'TextItem')"
               >{{ letData.cellIdx12 ? letData.cellIdx12 : '（点击编辑）'}}</span>
               支行（分理处），账户名称：
               <span
-                @click="commandFill('cellIdx13', '支行（分理处），账户名称', 'TextItem')"
+                @click="commandFill('cellIdx13', '账户名称', 'TextItem')"
               >{{ letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）' }}</span>
               账号：
               <span
@@ -209,7 +209,7 @@ export default {
       // 1.关联行政处罚告知书
       // 2.单位/个人：行政处罚告知书中的单位/个人cellIdx5
       let let6DataPaperContent = JSON.parse(selectedPaper.let6Data.paperContent)
-      let cellIdx4String = let6DataPaperContent.cellIdx5
+      let cellIdx4String = let6DataPaperContent.selectedType
       // 3.被处罚：如果为单位时赋值煤矿名称coprName
       // 4.地址：如果为单位时赋值煤矿地址address
       // 5.违法事实：行政处罚告知书中的cellIdx6
@@ -264,7 +264,8 @@ export default {
         cellIdx20: null, // 日期
         cellIdx21: cellIdx4String, // 单位/个人
         cellIdx21TypeTextItem: cellIdx4String, // 单位/个人
-        dangerItemObject: let6DataPaperContent.dangerItemObject
+        dangerItemObject: let6DataPaperContent.dangerItemObject,
+        selectedType: let6DataPaperContent.selectedType
       };
     },
     goBack({ page }) {

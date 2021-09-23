@@ -37,7 +37,6 @@
                 >{{ letData.cellIdx3 ? letData.cellIdx3 : '(编辑)' }}</span>
                 <label>号&nbsp;&nbsp;签发人：</label>
                 <span
-                  class="line"
                   @click="commandFill('cellIdx4',   '签发人', 'TextItem')"
                 >{{ letData.cellIdx4 ? letData.cellIdx4 : '(编辑)' }}</span>
               </div>
@@ -77,7 +76,7 @@
               <br>
               <br>
               <tr>
-                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;附件：有关材料</td>
+                <td class="textAlignLeft">附件：有关材料</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
@@ -153,7 +152,7 @@
             </div>
             <div class="docTextLine">
               <div style="flex: 1; display: flex;">
-                <label style="width: 43%;"></label>
+                <label>送件人（签名）：</label>
                 <div
                   class="line-div"
                   @click="commandFill('cellIdx23', '送件人（签名）', 'TextItem')"
@@ -170,22 +169,6 @@
             <div class="docTextLine">
               <div style="flex: 1; display: flex;">
                 <label>收件人（签名）：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx19', '收件人（签名）', 'TextItem')"
-                >{{ letData.cellIdx19 ? letData.cellIdx19 : '（点击编辑）' }}</div>
-              </div>
-              <div style="flex: 1; display: flex;">
-                <label>&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;期：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx20', '日期', 'DateItem')"
-                >{{ letData.cellIdx20 ? letData.cellIdx20 : '（点击编辑）' }}</div>
-              </div>
-            </div>
-            <div class="docTextLine">
-              <div style="flex: 1; display: flex;">
-                <label style="width: 43%;"></label>
                 <div
                   class="line-div"
                   @click="commandFill('cellIdx19', '收件人（签名）', 'TextItem')"
@@ -284,11 +267,10 @@ export default {
         cellIdx3: num4, // 文书号
         cellIdx3TypeTextItem: num4, // 文书号
         cellIdx4: null, // 签发人
-        cellIdx5: corp.corpName, //
-        cellIdx5TypeTextItem: corp.corpName, //
+        cellIdx5: null, //
         cellIdx6: null, // 单位  暂不用
-        cellIdx7: null, // 发现XX存在
-        cellIdx7TypeTextItem: null, // 发现XX存在
+        cellIdx7: corp.corpName, // 发现XX存在
+        cellIdx7TypeTextItem: corp.corpName, // 发现XX存在
         cellIdx8: cellIdx8String, // 违法行为
         cellIdx8TypeTextareaItem: cellIdx8String, // 违法行为
         cellIdx9: null, // X份

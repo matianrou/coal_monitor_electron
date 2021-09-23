@@ -522,6 +522,7 @@ export default {
       this.letData.cellIdx9TypeTextItem = this.selectedType
       this.letData.cellIdx22 = this.selectedType
       this.letData.cellIdx22TypeTextItem = this.selectedType
+      this.letData.selectedType = this.selectedType
     }
   },
 };

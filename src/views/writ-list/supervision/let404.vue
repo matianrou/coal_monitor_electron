@@ -17,7 +17,6 @@
               class="textAlignCenter formHeader3 cellInput"
               style="font-size:30px"
               id="cell_idx_12"
-              contenteditable="true"
             >[OrgName]</div>
             <div class="textAlignCenter formHeader3" style="font-size:30px">安全生产违法案件</div>
             <div class="textAlignCenter formHeader3" style="font-size:30px">案卷（首页）</div>

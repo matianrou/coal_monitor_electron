@@ -73,7 +73,7 @@
               <span
                 @click="commandFill('cellIdx9', '违法行为', 'DangerTableItem')"
               >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）' }}</span>
-              的违法违规行为，下达了《现场处理决定书》
+              的违法违规行为，下达了《现场处理决定书》（
               <span style="borderBottom:none"
                 @click="commandFill('cellIdx10', '现场处理决定书文书号', 'TextItem')"
               >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）' }}</span>
@@ -90,18 +90,28 @@
                 @click="commandFill('cellIdx13', '现场处理决定书文书号', 'TextItem')"
               >{{ letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）' }}</span>
 
-              号&nbsp;依法作出了
+              号），依法作出了
               <span
                 @click="commandFill('cellIdx14', '现场处理决定', 'DangerTableItem')"
               >{{ letData.cellIdx14 ? letData.cellIdx14 : '（点击编辑）' }}</span>
               的决定。
             </div>
              <div class="docTextarea ">
-              <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;应你单位申请，经复查，意见如下：</span>
+              <label style="width: 5%;"></label>
               <span
-                @click="commandFill('cellIdx15', '意见', 'TextareaItem')"
-              >{{ letData.cellIdx15 ? letData.cellIdx15 : '（点击编辑）'}}</span>
-              <div class="line"></div>
+                class="no-line"
+                @click="commandFill('cellIdx25', '', 'SelectItem')"
+              >{{ letData.cellIdx25 ? letData.cellIdx25 : '（点击编辑）'}}</span>
+              ，经复查，意见如下：
+            </div>
+            <div
+              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+              class="cellInput mutiLineArea"
+              @click="commandFill('cellIdx15', '意见', 'TextareaItem')">
+              <p
+                style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
+              >{{ letData.cellIdx15 ? letData.cellIdx15 : '（点击编辑）' }}</p>
+              <cell-line></cell-line>
             </div>
             <div class="docTextLine">
               <div style="flex: 1; display: flex;">
@@ -137,10 +147,10 @@
             </div>
             <div class="docTextLine">
               <div style="flex: 3; display: flex;">
-                <label>被检查单位意见:</label>
+                <label>被复查单位意见:</label>
                 <div
                   class="line-div"
-                  @click="commandFill('cellIdx20', '被检查单位意见', 'TextItem')"
+                  @click="commandFill('cellIdx20', '被复查单位意见', 'TextItem')"
                 >{{ letData.cellIdx20 ? letData.cellIdx20 : '（编辑）' }}</div>
               </div>
               <div style="flex: 3; display: flex;">
@@ -221,6 +231,16 @@ export default {
           page: '13',
           key: 'cellIdx14'
         },
+        cellIdx25: [
+          {
+            value: '应你单位申请',
+            name: '应你单位申请',
+          },
+          {
+            value: '现整改、治理期限届满',
+            name: '现整改、治理期限届满',
+          },
+        ]
       },
       associationPaper: ['1', '2']
     };
@@ -265,6 +285,7 @@ export default {
         cellIdx13: let2DataPapaerContent.cellIdx3, // 现场处理决定书 文书号
         cellIdx13TypeTextItem: let2DataPapaerContent.cellIdx3, // 现场处理决定书 文书号
         cellIdx14: cellIdx10String, // 现场处理决定
+        cellIdx25: '应你单位申请', //
         cellIdx15: null, // 意见
         cellIdx16: null, // 现场执法人员（签名)
         cellIdx17: null, // 执法证号

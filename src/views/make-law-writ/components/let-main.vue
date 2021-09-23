@@ -341,18 +341,29 @@ export default {
       // 点击确定，保存左侧弹出窗口中的数据至文书数据中
       // params为保存的数据
       let { key, dataKey, type, options } = this.selectedData;
-      // 保存反显数据
-      this.$parent.letData[dataKey] = params.value;
-      // 处理反显数据，保存一份paperContent通用文本数据
-      this.$set(
-        this.$parent.letData,
-        key,
-        this.functions[`set${type}`](
-          this.$parent.letData[dataKey],
-          this.selectedData,
-          options
-        )
-      );
+      if (options && options.saveDataKey) {
+        // 特殊保存（不保存在letData中，而是保存在letData的cellIdx中，比如let219 延期（分期）缴纳罚款决定书）
+        let {saveDataKey, saveDataIndex} = options
+        this.$set(
+          this.$parent.letData[saveDataKey][saveDataIndex],
+          dataKey,
+          params.value
+        );
+      } else {
+        // 通用保存
+        // 保存反显数据
+        // 处理反显数据，保存一份paperContent通用文本数据
+        this.$parent.letData[dataKey] = params.value;
+        this.$set(
+          this.$parent.letData,
+          key,
+          this.functions[`set${type}`](
+            this.$parent.letData[dataKey],
+            this.selectedData,
+            options
+          )
+        );
+      }
       this.handleClose();
     },
   },

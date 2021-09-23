@@ -66,7 +66,7 @@
               <span
                 @click="commandFill('cellIdx7', '日', 'TextItem')"
               >{{ letData.cellIdx7 ? letData.cellIdx7 : '（XX）'}}</span>
-              日作出 《行政处罚决定书》 (
+              日作出 《行政处罚决定书》（
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx8', '行政处罚决定书文书号', 'TextItem')"
@@ -86,36 +86,40 @@
                 class="no-underline"
                 @click="commandFill('cellIdx11', '行政处罚决定文书号', 'TextItem')"
               >{{ letData.cellIdx11 ? letData.cellIdx11 : '（点击编辑）'}}</span>
-              号），要求你
+              号），要求
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx12', '单位', 'TextItem')"
+                @click="commandFill('cellIdx12', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx12 ? letData.cellIdx12 : '（点击编辑）'}}</span>
               于
               <span
                 @click="commandFill('cellIdx13', '年', 'TextItem')"
-              >{{ letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）'}}</span>
+              >{{ letData.cellIdx13 ? letData.cellIdx13 : '（XX）'}}</span>
               年
               <span
                 @click="commandFill('cellIdx14', '月', 'TextItem')"
-              >{{ letData.cellIdx14 ? letData.cellIdx14 : '（点击编辑）'}}</span>
+              >{{ letData.cellIdx14 ? letData.cellIdx14 : '（XX）'}}</span>
               月
               <span
                 @click="commandFill('cellIdx15', '日', 'TextItem')"
-              >{{ letData.cellIdx15 ? letData.cellIdx15 : '（点击编辑）'}}</span>
+              >{{ letData.cellIdx15 ? letData.cellIdx15 : '（XX）'}}</span>
               日前将罚款缴至
               <span
                 @click="commandFill('cellIdx16', '罚款缴至', 'TextItem')"
               >{{ letData.cellIdx16 ? letData.cellIdx16 : '（点击编辑）'}}</span>
-              。因你单位逾期未履行该处罚决定，依据《中华人民共和国行政强制法》第三十五条规定，现催告你
+              。因你单位逾期未履行该处罚决定，依据《中华人民共和国行政强制法》第三十五条规定，现催告
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx17', '单位', 'TextItem')"
+                @click="commandFill('cellIdx17', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx17 ? letData.cellIdx17 : '（点击编辑）'}}</span>
-              履行以上决定，本机关将依据《中华人民共和国行政处罚法》第七十二条第一款第一项规定，每日按罚款数额的3%加处罚款。如有异议，依据《中华人民共和国行政强制法》第三十六条规定，你
+              履行以上决定，本机关将依据《中华人民共和国行政处罚法》第七十二条第一款第一项规定，每日按罚款数额的3%加处罚款。
+            </div>
+            <div class="docTextarea">
+              <label style="width:5%"></label>
+              如有异议，依据《中华人民共和国行政强制法》第三十六条规定，
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx18', '单位', 'TextItem')"
+                @click="commandFill('cellIdx18', '单位/个人', 'TextItem')"
               >{{ letData.cellIdx18 ? letData.cellIdx18 : '（点击编辑）'}}</span>
               有权在收到本催告书之日起3日内向本机关提出陈述和申辩，逾期未提出的，视为放弃此权利。
             </div>
@@ -198,7 +202,7 @@
               备注：本文书一式两份：一份交被处罚
               <span
                 style="borderBottom:none"
-                @click="commandFill('cellIdx27', '单位', 'TextItem')"
+                @click="commandFill('cellIdx27', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx27 ? letData.cellIdx27 : '（点击编辑）'}}</span>
               ，一份存档。 
             </div>
@@ -223,13 +227,38 @@
 import GoDB from "@/utils/godb.min.js";
 import { getDocNumber } from '@/utils/setInitPaperData'
 import associationSelectPaper from '@/components/association-select-paper'
+const companyPerson = [
+  {
+    value: '单位',
+    name: '单位',
+  },
+  {
+    value: '个人',
+    name: '个人',
+  },
+]
+const companyYou = [
+  {
+    value: '单位',
+    name: '单位',
+  },
+  {
+    value: '你',
+    name: '你',
+  },
+]
 export default {
   name: "Let212",
   mixins: [associationSelectPaper],
   data() {
     return {
       letData: {},
-      options: {},
+      options: {
+        cellIdx12: companyYou,
+        cellIdx17: companyYou,
+        cellIdx18: companyYou,
+        cellIdx27: companyPerson
+      },
       associationPaper: ['8']
     };
   },
@@ -274,13 +303,16 @@ export default {
         cellIdx10TypeTextItem: let8DataPapaerContent.cellIdx2, // 行政处罚决定书 文书号
         cellIdx11: let8DataPapaerContent.cellIdx3, // 行政处罚决定书 文书号
         cellIdx11TypeTextItem: let8DataPapaerContent.cellIdx3, // 行政处罚决定书 文书号
-        cellIdx12: null, // 单位
+        cellIdx12: let8DataPapaerContent.selectedType, // 单位
+        cellIdx12TypeSelectItem: let8DataPapaerContent.selectedType, // 单位
         cellIdx13: null, // 年
         cellIdx14: null, // 月
         cellIdx15: null, // 日
         cellIdx16: null, // 罚款缴至
-        cellIdx17: null, // 单位
-        cellIdx18: null, // 单位
+        cellIdx17: let8DataPapaerContent.selectedType, // 单位
+        cellIdx17TypeSelectItem: let8DataPapaerContent.selectedType, // 单位
+        cellIdx18: let8DataPapaerContent.selectedType, // 单位
+        cellIdx18TypeSelectItem: let8DataPapaerContent.selectedType, // 单位
         cellIdx19: null, // 受送达人（签名）
         cellIdx20: null, // 日期
         cellIdx21: orgSysOfficeInfo.accountAddress, // 执法机关地址
@@ -289,7 +321,9 @@ export default {
         cellIdx24: null, // 联系电话
         cellIdx25: null, //
         cellIdx26: null, //日期
-        cellIdx27: let8DataPapaerContent.cellIdx4, //单位
+        cellIdx27: let8DataPapaerContent.selectedType, //单位
+        cellIdx27TypeSelectItem: let8DataPapaerContent.selectedType, // 单位
+        selectedType: let8DataPapaerContent.selectedType, // 单位
       };
     },
     goBack({ page }) {

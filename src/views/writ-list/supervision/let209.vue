@@ -116,7 +116,7 @@
             <div class="docTextLine">
               <label style="width: 5%"></label>
               <div style="flex: 1; display: flex;">
-                <label>听证员姓名：</label>
+                <label>听 证 员 姓 名：</label>
                 <div
                   class="line-div"
                   @click="commandFill('cellIdx17', '听证员姓名', 'TextItem')"
@@ -133,7 +133,7 @@
             <div class="docTextLine">
               <label style="width: 5%"></label>
               <div style="flex: 1; display: flex;">
-                <label>听证员姓名：</label>
+                <label>听 证 员 姓 名：</label>
                 <div
                   class="line-div"
                   @click="commandFill('cellIdx19', '听证员姓名', 'TextItem')"
@@ -150,7 +150,7 @@
             <div class="docTextLine">
               <label style="width: 5%"></label>
               <div style="flex: 1; display: flex;">
-                <label>记录人姓名：</label>
+                <label>记 录 人 姓 名：</label>
                 <div
                   class="line-div"
                   @click="commandFill('cellIdx21', '记录人姓名', 'TextItem')"
@@ -182,7 +182,7 @@
             </div>
             <div class="docTextarea">
               <label style="width:5%"></label>
-              3. 申请延期举行的，应当在举行听证会前向本机关提出，由本机关决定是否延期。
+              3. 申请延期举行的，应当在举行听证会至少三日前向本机关提出，由本机关决定是否延期。
             </div>
             <!-- <table style="border:solid 0 #000;" class="docBody">
               <tr>

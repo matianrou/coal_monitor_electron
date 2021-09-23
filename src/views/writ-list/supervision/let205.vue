@@ -161,16 +161,16 @@
               陈述申辩记录：我们是
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx18', '监察员', 'TextItem')"
+                @click="commandFill('cellIdx18', '执法人员', 'TextItem')"
               >{{ letData.cellIdx18 ? letData.cellIdx18 : '（点击编辑）' }}</span>
-              的执法人员，这是我们的证件（出示证件）。现就
+              的行政执法人员，这是我们的执法证件（出示证件）。现就
               <span
                 @click="commandFill('cellIdx19', '违法行为', 'DangerTableItem')"
               >{{ letData.cellIdx19 ? letData.cellIdx19 : '（点击编辑）'}}</span>
               听取你
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx20', '单位', 'TextItem')"
+                @click="commandFill('cellIdx20', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx20 ? letData.cellIdx20 : '（点击编辑）'}}</span>
               的陈述申辩。
             </div>
@@ -263,6 +263,16 @@ export default {
           page: '30',
           key: 'cellIdx19' // 用来区分一个页面多个地方调用隐患大表，最后返回值
         },
+        cellIdx20: [
+          {
+            value: '单位',
+            name: '单位'
+          },
+          {
+            value: '个人',
+            name: '个人'
+          },
+        ]
       },
       associationPaper: ['1', '6']
     };
@@ -292,7 +302,7 @@ export default {
       let cellIdx19String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`
       // 5.单位/个人：从行政处罚告知书(paperType === '6')中获取
       let let6DataPaperContent = JSON.parse(selectedPaper.let6Data.paperContent)
-      let cellIdx20String = let6DataPaperContent.cellIdx5
+      let cellIdx20String = let6DataPaperContent.selectedType
       await db.close();
       this.letData = {
         cellIdx0: cellIdx0Year, // 年
@@ -334,7 +344,8 @@ export default {
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
           userGroupName: this.$store.state.user.userGroupName,
-        }
+        },
+        selectedType: selectedType
       };
     },
     goBack({ page }) {

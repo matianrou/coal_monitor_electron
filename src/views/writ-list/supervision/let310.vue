@@ -120,7 +120,7 @@
                 <label>签名：</label>
                 <div
                   class="line-div"
-                  @click="commandFill('cellIdx13', '签名：', 'TextItem')"
+                  @click="commandFill('cellIdx13', '分管负责人（签名）', 'TextItem')"
                 >{{ letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）' }}</div>
               </div>
               <div style="flex: 2; display: flex;">
@@ -144,7 +144,7 @@
                 <label>签名：</label>
                 <div
                   class="line-div"
-                  @click="commandFill('cellIdx16', '签名', 'TextItem')"
+                  @click="commandFill('cellIdx16', '主要负责人（签名）', 'TextItem')"
                 >{{ letData.cellIdx16 ? letData.cellIdx16 : '（点击编辑）' }}</div>
               </div>
               <div style="flex: 2; display: flex;">
@@ -210,7 +210,7 @@ export default {
     return {
       letData: {},
       options: {},
-      associationPaper: ['1']
+      associationPaper: ['4']
     };
   },
   methods: {
@@ -228,20 +228,22 @@ export default {
         this.$store.state.user
       );
       // 2.发现你矿存在：隐患描述
-      // 获取笔录文书中的隐患数据
-      let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent);
-      let dangerObject = getDangerObject(
-        let1DataPapaerContent.dangerItemObject.tableData,
-        { danger: true }
-      );
-      let cellIdx2String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
-      let cellIdx10String = dangerObject.onsiteDescString;
+      // 获取笔录文书中的隐患数据 调整为立案决定书中的案由字段cellIdx4
+      // let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent);
+      // let dangerObject = getDangerObject(
+      //   let1DataPapaerContent.dangerItemObject.tableData,
+      //   { danger: true }
+      // );
+      // let cellIdx2String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
+      // let cellIdx10String = dangerObject.onsiteDescString;
+      let let4DataPapaerContent = JSON.parse(selectedPaper.let4Data.paperContent);
+
       await db.close();
       this.letData = {
         cellIdx0: null, //
         cellIdx1: null, // 编号
-        cellIdx2: cellIdx2String, // 案由
-        cellIdx2TypeTextareaItem: cellIdx2String, // 案由
+        cellIdx2: let4DataPapaerContent.cellIdx4, // 案由
+        cellIdx2TypeTextareaItem: let4DataPapaerContent.cellIdx4, // 案由
         cellIdx3: null, // 审批事项
         cellIdx4: null, // 行政相对人基本情况
         cellIdx5: null, // 案情摘要

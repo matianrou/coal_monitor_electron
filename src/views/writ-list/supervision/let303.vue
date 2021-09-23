@@ -82,7 +82,7 @@
 				</tr>
 				<tr>
 					<td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如对本不予受理决定不服，可以自收到本通知之日起十五日内依法向</td>
-					<td class="cellInput cellBottomLine" id="cell_idx_11" contenteditable="true" align="center" style="width:15%" data-title="案由" data-type="text" data-src="" onclick="commandFill(this.id)"></td>
+					<td class="cellInput cellBottomLine" id="cell_idx_11" align="center" style="width:15%" data-title="案由" data-type="text" data-src="" onclick="commandFill(this.id)"></td>
 				</tr>
 				<tr>
 					<td class="textAlignLeft">人民法院提起行政诉讼。</td>

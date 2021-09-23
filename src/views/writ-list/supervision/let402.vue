@@ -47,10 +47,10 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_5"
                   style="width:50%"
-                  data-title="被检查单位"
+                  data-title="受移送单位"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx5', '被检查单位', 'TextItem')"
+                  @click="commandFill('cellIdx5', '受移送单位', 'TextItem')"
                 >{{letData.cellIdx5}}</td>
                 <td class="textAlignLeft">：</td>
               </tr>
@@ -71,7 +71,7 @@
               >{{ letData.cellIdx9 ? letData.cellIdx9 : '（XX）'}}</span>
               日对
               <span
-                @click="commandFill('cellIdx10', '违法行为', 'TextareaItem')"
+                @click="commandFill('cellIdx10', '', 'TextItem')"
               >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）'}}</span>
               立案调查，在调查中发现其违法事实涉嫌构成犯罪，根据《行政执法机关移送涉嫌犯罪案件的规定》第三条第一款以及
               <span
@@ -217,7 +217,7 @@
             </table>
             <table class="docBody">
               <hr />
-              <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交移送公安机关，一份存档。</td>
+              <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交受移送公安机关，一份存档。</td>
             </table>
           </div>
         </div>
@@ -276,13 +276,13 @@ export default {
         cellIdx3: num4, // 文书号
         cellIdx3TypeTextItem: num4, // 文书号
         cellIdx4: null, // 签发人
-        cellIdx5: corp.corpName, // 被检查单位
-        cellIdx5TypeTextItem: corp.corpName, // 被检查单位
+        cellIdx5: null, // 被检查单位
         // cellIdx6: null, // 单位 暂不用
         cellIdx7: null, // 年
         cellIdx8: null, // 月
         cellIdx9: null, // 日
-        cellIdx10: null, // 违法行为
+        cellIdx10: corp.corpName, // corpName
+        cellIdx10TypeTextItem: corp.corpName, // corpName
         cellIdx11: null, // 法律规定
         cellIdx12: null, // 份数
         cellIdx13: null, // 页数

@@ -89,7 +89,6 @@
                     style="width:65mm;"
                     class="cellInput textAlignCenter cellBottomLine"
                     id="cell_idx_7"
-                    contenteditable="true"
                   >[RefReconsiderOrgan]</td>
                   <td style="width:30mm;" class="textAlignCenter">人民政府或者</td>
                 </tr>

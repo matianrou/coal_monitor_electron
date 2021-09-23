@@ -59,9 +59,10 @@
               <span
                 @click="commandFill('cellIdx5', '', 'TextItem')"
               >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</span>
-              ，请你
+              ，请
               <span
-                @click="commandFill('cellIdx6', '', 'SelectItem')"
+                class="no-line"
+                @click="commandFill('cellIdx6', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx6 }}</span>
               于
               <span
@@ -224,12 +225,12 @@ export default {
       options: {
         cellIdx6: [
           {
-            value: '单位',
-            name: '单位'
+            value: '你',
+            name: '你'
           },
           {
-            value: '个人',
-            name: '个人'
+            value: '单位',
+            name: '单位'
           },
         ],
         cellIdx11: toggleDictionary,
@@ -266,8 +267,8 @@ export default {
         cellIdx4: corp.corpName, // 煤矿名称
         cellIdx4TypeTextItem: corp.corpName, // 煤矿名称
         cellIdx5: null, // 因XXX,
-        cellIdx6: '个人', // 请你XX于
-        cellIdx6TypeSelectItem: '个人', // 请你XX于
+        cellIdx6: '你', // 请你XX于
+        cellIdx6TypeSelectItem: '你', // 请你XX于
         cellIdx7: null, // 年
         cellIdx8: null, // 月
         cellIdx9: null, // 日

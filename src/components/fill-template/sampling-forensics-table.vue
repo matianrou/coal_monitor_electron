@@ -77,7 +77,7 @@
       </el-table>
     </div>
     <!-- 底部 -->
-    <div class="sampling-foot-main" :style="options.page === '25' || options.page === '32' || options.page === '34' ? 'height: 160px;' : ''">
+    <div v-if="options.page !== '55'" class="sampling-foot-main" :style="options.page === '25' || options.page === '32' || options.page === '34' || options.page === '46' ? 'height: 160px;' : ''">
       <div v-if="options.page === '25' || options.page === '23'">
         <div v-if="options.page === '25'">
           <span>其他证据：</span>
@@ -93,7 +93,7 @@
           <span>{{options.page === '25' ? '上述物品经核无误' : '上述证据经核无误。'}}</span>
         </div>
       </div>
-      <div v-if="options.page === '32' || options.page === '34'">
+      <div v-if="options.page === '32' || options.page === '34' || options.page === '46'">
         <div>
           <span>场所地点：</span>
           <el-input
@@ -109,7 +109,7 @@
         </div>
       </div>
       <div style="margin-top: 10px;">
-        <span>被{{options.page === '32' || options.page === '34' ? options.name : '取证'}}单位负责人（签名）：</span>
+        <span>被{{options.page === '32' || options.page === '34' || options.page === '46' ? options.name : '取证'}}单位负责人（签名）：</span>
         <el-input
           v-if="options.canEdit"
           v-model="dataForm.tempValue.signature"
@@ -128,8 +128,8 @@
         </el-date-picker>
         <span v-else>{{dataForm.tempValue.signDate ? dataForm.tempValue.signDate : ''}}</span>
       </div>
-      <div v-if="options.page === '25' || options.page === '32' || options.page === '34'" style="margin-top: 10px;">
-        <span>{{options.page ==='25' || options.page === '32' ? '行政执法人员（签名）：' : '执法人员（签名）：'}}</span>
+      <div v-if="options.page === '25' || options.page === '32' || options.page === '34' || options.page === '46'" style="margin-top: 10px;">
+        <span>{{options.page ==='25' || options.page === '32' || options.page === '46' ? '行政执法人员（签名）：' : '执法人员（签名）：'}}</span>
         <el-input
           v-if="options.canEdit"
           v-model="dataForm.tempValue.lawSignature"
@@ -202,7 +202,8 @@ export default {
       } else if (this.options.page === '32' || this.options.page === '34' || this.options.page === '55') {
         title = '物品清单'
       } else if (this.options.page === '46') {
-        title = '物品处理表'
+        // 查封（扣押）处理决定书
+        title = this.options.name + '物品处理表'
       }
       return title
     },
@@ -256,6 +257,31 @@ export default {
           width: '200',
           type: 'text',
         })
+      } else if (this.options.page === '55') {
+        // 当页面为鉴定委托书时，展示的列为：物品名称，规格型号，数量和备注，
+        colList = [
+          {
+            label: '物品名称',
+            prop: 'name',
+            type: 'text',
+          },
+          {
+            label: '规格型号',
+            prop: 'modelNumber',
+            type: 'text',
+          },
+          {
+            label: '数量',
+            prop: 'num',
+            width: '100',
+            type: 'text',
+          },
+          {
+            label: '备注',
+            prop: 'note',
+            type: 'text',
+          }
+        ]
       } else {
         // 其他页面最后一列为备注
         colList.push({

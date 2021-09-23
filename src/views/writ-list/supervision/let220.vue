@@ -227,7 +227,7 @@
               备注：本文书一式三份；一份交银行，一份交被处罚
               <span
                 style="borderBottom:none"
-                @click="commandFill('cellIdx36', '单位', 'TextItem')"
+                @click="commandFill('cellIdx36', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx36 ? letData.cellIdx36 : '（点击编辑）'}}</span>
               ，一份存档。 
             </div>
@@ -257,7 +257,18 @@ export default {
   data() {
     return {
       letData: {},
-      options: {},
+      options: {
+        cellIdx36: [
+          {
+            value: '单位',
+            name: '单位',
+          },
+          {
+            value: '个人',
+            name: '个人',
+          },
+        ]
+      },
       associationPaper: ['8']
     };
   },
@@ -366,7 +377,8 @@ export default {
         cellIdx33TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
         cellIdx34: null, //
         cellIdx35: null, // 日期
-        cellIdx36: let8DataPapaerContent.cellIdx4, // 单位
+        cellIdx36: let8DataPapaerContent.selectedType, // 单位
+        selectedType: let8DataPapaerContent.selectedType, // 单位
       };
     },
     goBack({ page }) {

@@ -84,17 +84,17 @@
               <span @click="commandFill('cellIdx9', '', 'TextItem')">{{
                 letData.cellIdx9 ? letData.cellIdx9 : "（XX）"
               }}</span>
-              日对你单位涉案场所
+              日对你单位涉案
               <span
-                style="borderbottom: none"
-                @click="commandFill('cellIdx10', '', 'TextItem')"
+                class="no-line"
+                @click="commandFill('cellIdx10', '', 'SelectItem')"
                 >{{
                   letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
                 }}</span
               >
               予以
               <span
-                style="borderbottom: none"
+                class="no-line"
                 @click="commandFill('cellIdx11', '', 'TextItem')"
                 >{{
                   letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）"
@@ -102,7 +102,7 @@
               >
               （
               <span
-                style="borderbottom: none"
+                class="no-line"
                 @click="commandFill('cellIdx12', '', 'TextItem')"
                 >{{
                   letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）"
@@ -110,7 +110,7 @@
               >
               (
               <span
-                style="borderbottom: none"
+                class="no-line"
                 @click="commandFill('cellIdx13', '', 'TextItem')"
                 >{{
                   letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）"
@@ -118,7 +118,7 @@
               >
               ) 煤安
               <span
-                style="borderbottom: none"
+                class="no-line"
                 @click="commandFill('cellIdx14', '', 'TextItem')"
                 >{{
                   letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）"
@@ -126,7 +126,7 @@
               >
               〔
               <span
-                style="borderbottom: none"
+                class="no-line"
                 @click="commandFill('cellIdx15', '', 'TextItem')"
                 >{{
                   letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）"
@@ -134,7 +134,7 @@
               >
               〕
               <span
-                style="borderbottom: none"
+                class="no-line"
                 @click="commandFill('cellIdx16', '', 'TextItem')"
                 >{{
                   letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）"
@@ -236,14 +236,45 @@
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
-
+const dictionary = [
+  {
+    value: "场所",
+    name: "场所",
+  },
+  {
+    value: "设施",
+    name: "设施",
+  },
+  {
+    value: "物品",
+    name: "物品",
+  },
+  {
+    value: "场所、设施",
+    name: "场所、设施",
+  },
+  {
+    value: "场所、物品",
+    name: "场所、物品",
+  },
+  {
+    value: "设施、物品",
+    name: "设施、物品",
+  },
+  {
+    value: "场所、设施、物品",
+    name: "场所、设施、物品",
+  },
+];
 export default {
   name: "Let1100",
   mixins: [associationSelectPaper],
   data() {
     return {
       letData: {},
-      options: {},
+      options: {
+        cellIdx10: dictionary,
+      },
       associationPaper: ["32"],
     };
   },
@@ -271,7 +302,6 @@ export default {
         : { organName: "", depAddress: "" };
       // 5.查封扣押文书号
       let let32DataPapaerContent = JSON.parse(selectedPaper.let32Data.paperContent);
-      console.log('let32DataPapaerContent', let32DataPapaerContent)
       let let32Date = let32DataPapaerContent.cellIdx20
         ? let32DataPapaerContent.cellIdx20
             .replace("年", "-")
@@ -329,6 +359,7 @@ export default {
         cellIdx26: null, // 日期
         cellIdx27: selectedType, // 查封/扣押
         cellIdx27TypeTextItem: selectedType, // 查封/扣押
+        selectedType: selectedType, // 查封/扣押
         SamplingForensicsTable: {
           tableData: [],
           signature: null,

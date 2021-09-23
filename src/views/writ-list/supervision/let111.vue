@@ -94,28 +94,38 @@
                 letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
               }}</span>
               的决定，但你单位未执行以上决定，未及时消除事故隐患，存在发生生产安全事故的危险。根据《中华人民共和国安全生产法》第六十七条第一款规定，本机关决定自
-              <span @click="commandFill('cellIdx11', '', 'TextItem')">{{
+              <span
+                class="no-line"
+                @click="commandFill('cellIdx11', '', 'TextItem')">{{
                 letData.cellIdx11 ? letData.cellIdx11 : "（XX）"
               }}</span>
               年
-              <span @click="commandFill('cellIdx12', '', 'TextItem')">{{
+              <span 
+                class="no-line"
+                @click="commandFill('cellIdx12', '', 'TextItem')">{{
                 letData.cellIdx12 ? letData.cellIdx12 : "（XX）"
               }}</span>
               月
-              <span @click="commandFill('cellIdx13', '', 'TextItem')">{{
+              <span 
+                class="no-line"
+                @click="commandFill('cellIdx13', '', 'TextItem')">{{
                 letData.cellIdx13 ? letData.cellIdx13 : "（XX）"
               }}</span>
               日
-              <span @click="commandFill('cellIdx14', '', 'TextItem')">{{
+              <span 
+                class="no-line"
+                @click="commandFill('cellIdx14', '', 'TextItem')">{{
                 letData.cellIdx14 ? letData.cellIdx14 : "（XX）"
               }}</span>
               时
-              <span @click="commandFill('cellIdx15', '', 'TextItem')">{{
+              <span 
+                class="no-line"
+                @click="commandFill('cellIdx15', '', 'TextItem')">{{
                 letData.cellIdx15 ? letData.cellIdx15 : "（XX）"
               }}</span>
               分起，对你单位采取
               <span
-                style="borderbottom: none"
+                class="no-line"
                 @click="commandFill('cellIdx16', '', 'TextItem')"
                 >{{
                   letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）"
@@ -238,7 +248,7 @@ export default {
       let { num0, num1, num3, num4 } = await getDocNumber(
         db,
         this.docData.docTypeNo,
-        caseId,
+        this.corpData.caseId,
         this.$store.state.user
       );
       // 3.sysOfficeInfo实体中organName字段+ courtPrefix字段
@@ -318,6 +328,8 @@ export default {
       this.letData.cellIdx0TypeTextItem = this.selectedType;
       this.letData.cellIdx10 = this.selectedType;
       this.letData.cellIdx10TypeTextItem = this.selectedType;
+      this.letData.cellIdx16 = this.selectedType === '停供电' ? '停供生产性用电' : '停供民用爆炸物品';
+      this.letData.cellIdx16TypeTextItem = this.selectedType === '停供电' ? '停供生产性用电' : '停供民用爆炸物品';
       this.letData.selectedType = this.selectedType;
     },
   },

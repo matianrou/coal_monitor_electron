@@ -376,6 +376,7 @@ export default {
       this.visible = false
       this.letData.cellIdx4 = this.selectedType
       this.letData.cellIdx4TypeTextItem = this.selectedType
+      this.letData.selectedType = this.selectedType
     }
   },
 };

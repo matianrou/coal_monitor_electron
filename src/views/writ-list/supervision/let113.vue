@@ -51,9 +51,9 @@
                   letData.cellIdx2 ? letData.cellIdx2 : "（编辑）"
                 }}</span>
                 <label>） 煤安解停</label>
-                <span @click="commandFill('cellIdx3', '', 'TextItem')">{{
+                <!-- <span @click="commandFill('cellIdx3', '', 'TextItem')">{{
                   letData.cellIdx3 ? letData.cellIdx3 : "（编辑）"
-                }}</span>
+                }}</span> -->
                 <label>〔</label>
                 <span @click="commandFill('cellIdx4', '', 'TextItem')">{{
                   letData.cellIdx4 ? letData.cellIdx4 : "（编辑）"
@@ -88,7 +88,7 @@
               }}</span>
               已依法履行行政决定并采取相应措施消除了安全隐患，生产安全事故的现实危险已不存在，根据《中华人民共和国安全生产法》第六十七条第二款规定，请贵单位解除对其采取的
               <span
-                style="borderbottom: none"
+                class="no-line"
                 @click="
                   commandFill(
                     'cellIdx8',
@@ -280,9 +280,9 @@ export default {
         cellIdx4TypeTextItem: num3, // 文书号
         cellIdx5: num4, // 文书号
         cellIdx5TypeTextItem: num4, // 文书号
-        cellIdx6: corp.corpName ? corp.corpName : null, // corpname
-        cellIdx6TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
-        cellIdx7: null, // XXX已依法履行行政决定并采取相应措施消除了安全隐患
+        cellIdx6: null, // 
+        cellIdx7: corp.corpName ? corp.corpName : null, // corpname
+        cellIdx7TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
         cellIdx8: null, // 解除停供电(解除停供民用爆炸物品)
         cellIdx9: null, // 受送达人（签名）
         cellIdx10: null, // 日期

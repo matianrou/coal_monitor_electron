@@ -54,24 +54,24 @@
             </table>
             <div class="docTextarea">
               <label style="width:5%"></label>
-              本机关对你
+              本机关对
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx6', '单位', 'TextItem')"
+                @click="commandFill('cellIdx6', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）'}}</span>
-              作出
+              作出的
               <span
                 @click="commandFill('cellIdx7', '', 'TextareaItem')"
               >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
-              尚未履行，且你
+              尚未履行，且
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx8', '单位', 'TextItem')"
+                @click="commandFill('cellIdx8', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
-              在法定期限内未申请行政复议或者提起行政诉讼。依据《中华人民共和国行政强制法》第五十三条、第五十四条的规定，请你
+              在法定期限内未申请行政复议或者提起行政诉讼。依据《中华人民共和国行政强制法》第五十三条、第五十四条的规定，请
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx9', '单位', 'TextItem')"
+                @click="commandFill('cellIdx9', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</span>
             </div>
             <div class="docTextarea">
@@ -120,10 +120,14 @@
               <span
                 @click="commandFill('cellIdx19', '行政决定', 'TextareaItem')"
               >{{ letData.cellIdx19 ? letData.cellIdx19 : '（点击编辑）'}}</span>
-              如你
+              。
+            </div>
+            <div class="docTextarea">
+              <label style="width:5%"></label>
+              如
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx20', '单位', 'TextItem')"
+                @click="commandFill('cellIdx20', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx20 ? letData.cellIdx20 : '（点击编辑）'}}</span>
               不履行上述义务，本机关将依据《中华人民共和国行政强制法》第五十三条、第五十四条的规定，申请人民法院强制执行。
             </div>
@@ -210,7 +214,7 @@
               备注：本文书一式两份，一份送被催告
               <span
                 style="borderBottom:none"
-                @click="commandFill('cellIdx29', '单位', 'TextItem')"
+                @click="commandFill('cellIdx29', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx29 ? letData.cellIdx29 : '（点击编辑）'}}</span>
               ，一份存档。 
             </div>
@@ -244,6 +248,16 @@ const toggleDictionary = [
     name: '√'
   },
 ]
+const companyPerson = [
+  {
+    value: '单位',
+    name: '单位',
+  },
+  {
+    value: '你',
+    name: '你',
+  },
+]
 export default {
   name: "Let112",
   mixins: [associationSelectPaper],
@@ -251,10 +265,24 @@ export default {
     return {
       letData: {},
       options: {
+        cellIdx6: companyPerson,
+        cellIdx8: companyPerson,
+        cellIdx9: companyPerson,
         cellIdx10: toggleDictionary,
         cellIdx18: toggleDictionary,
+        cellIdx20: companyPerson,
+        cellIdx29: [
+          {
+            value: '单位',
+            name: '单位',
+          },
+          {
+            value: '个人',
+            name: '个人',
+          },
+        ],
       },
-      associationPaper: []
+      associationPaper: ['8']
     };
   },
   methods: {
@@ -274,6 +302,10 @@ export default {
       let depPost = orgSysOfficeInfo.depPost
       let master = orgSysOfficeInfo.master
       let phone = orgSysOfficeInfo.phone
+      // 3.带入处罚决定书的单位或个人
+      let let8DataPapaerContent = JSON.parse(selectedPaper.let8Data.paperContent)
+      let selectedType = let8DataPapaerContent.selectedType
+      let selectedString = selectedType === '个人' ? '你' : '单位'
       await db.close();
       this.letData = {
         cellIdx0: num0, // 文书号
@@ -287,10 +319,13 @@ export default {
         // cellIdx4: null, // 单位
         cellIdx5: corp.corpName ? corp.corpName : null, // corpname
         cellIdx5TypeTextItem: corp.corpName ? corp.corpName : null, //
-        cellIdx6: null, // 单位/个人
+        cellIdx6: selectedString, // 单位/个人
+        cellIdx6TypeSelectItem: selectedString, // 单位/个人
         cellIdx7: null, // 作出XX尚未履行
-        cellIdx8: null, // 且你XX在法定期限内未申请行政复议或者提起行政诉讼
-        cellIdx9: null, // 请你XX（单位）
+        cellIdx8: selectedString, // 且你XX在法定期限内未申请行政复议或者提起行政诉讼
+        cellIdx8TypeSelectItem: selectedString, // 且你XX在法定期限内未申请行政复议或者提起行政诉讼
+        cellIdx9: selectedString, // 请你XX（单位）
+        cellIdx9TypeSelectItem: selectedString, // 请你XX（单位）
         cellIdx10: '□', // 勾选项
         cellIdx11: null, // 年
         cellIdx12: null, // 月
@@ -301,7 +336,8 @@ export default {
         cellIdx17: null, // 银行
         cellIdx18: '□', // 勾选项
         cellIdx19: null, // 立即履行以下行政决定XXX
-        cellIdx20: null, // 单位/个人
+        cellIdx20: selectedString, // 单位/个人
+        cellIdx20TypeSelectItem: selectedString, // 单位/个人
         cellIdx21: null, // 受送达人（签名）
         cellIdx22: null, // 日期
         cellIdx23: depAddress, // 执法机关地址
@@ -314,7 +350,9 @@ export default {
         cellIdx26TypeTextItem: phone, // 联系电话
         cellIdx27: null, //
         cellIdx28: null, //日期
-        cellIdx29: null, // 单位/个人
+        cellIdx29: selectedType, // 单位/个人
+        cellIdx29TypeSelectItem: selectedType, // 单位/个人
+        selectedType: selectedType, // 单位/个人
       };
     },
     goBack({ page }) {

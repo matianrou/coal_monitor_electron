@@ -56,56 +56,44 @@
                 <td class="textAlignLeft">因调查有关安全生产违法案件的需要，本机关现委托你单位对下列物品进行鉴定。</td>
               </tr>
             </table>
-            <table class="docBody" style="border:1px solid #000">
-              <tr  style="border:1px solid #000;height:38px;text-align:center;">
-                <td style="width:29%" class="cellRightLine ">物品名称</td>
-                <td style="width:30%" class="cellRightLine ">规格型号</td>
-                <td style="width:15%" class="cellRightLine ">数量</td>
-                <td style="width:25%">备注</td>
-              </tr>
-              <template v-if="!letData.cellIdx5 || letData.cellIdx5.length === 0">
+            <div class="itemTable">
+              <table>
+                <thead>
+                  <tr>
+                    <th style="width: 30%;">物品名称</th>
+                    <th style="width: 30%;">规格型号</th>
+                    <th style="width: 15%;">数量</th>
+                    <th>备注</th>
+                  </tr>
+                </thead>
                 <tr
-                  style="border:1px solid #000;height:150px">
-                  <td
-                    class="cellInput"
-                    style="width:100%;height:150px"
-                    data-title
-                    data-type="text"
-                    data-src
-                    @click="commandFill('cellIdx5', '', 'SamplingForensicsTable')"
-                  >（点击编辑）</td>
+                  v-for="(item, index) in (letData.cellIdx5 ? letData.cellIdx5 : [])"
+                  :key="index">
+                  <td>{{item.name}}</td>
+                  <td>{{item.modelNumber}}</td>
+                  <td>{{item.num}}</td>
+                  <td>{{item.note}}</td>
                 </tr>
-              </template>
-              <template v-else>
-                <tr
-                  v-for="(item, index) in letData.cellIdx5"
-                  :key="index"
-                  style="border:1px solid #000;height:50px;text-align:center;line-height:50px">
-                  <td style="width:30%">{{item.name}}</td>
-                  <td style="width:30%">{{item.modelNumber}}</td>
-                  <td style="width:15%">{{item.num}}</td>
-                  <td style="width:25%">{{item.note}}</td>
+                <tr 
+                  class="edit-tr"
+                  @click="commandFill('cellIdx5', '', 'SamplingForensicsTable')"
+                >
+                <span class="no-print">（点击编辑）</span>
                 </tr>
-                <tr
-                  style="border:1px solid #000;height:50px">
-                  <td
-                    class="cellInput"
-                    style="width:100%;height:50px"
-                    data-title
-                    data-type="text"
-                    data-src
-                    @click="commandFill('cellIdx5', '', 'SamplingForensicsTable')"
-                  >（点击编辑）</td>
-                </tr>
-              </template>
-            </table>
+              </table>
+            </div>
             <table height="40"></table>
             <div class="docTextarea ">
-              <span class="no-line">鉴定要求：</span>
-              <span
-                @click="commandFill('cellIdx6', '鉴定要求', 'TextareaItem')"
-              >{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）'}}</span>
-              <div class="line"></div>
+              鉴定要求：
+            </div>
+            <div
+              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+              class="cellInput mutiLineArea"
+              @click="commandFill('cellIdx6', '鉴定要求', 'TextareaItem')">
+              <p
+                style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
+              >{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）' }}</p>
+              <cell-line></cell-line>
             </div>
             <div class="docTextarea">
               <label style="width:5%"></label>
@@ -231,8 +219,7 @@ export default {
         cellIdx2TypeTextItem: num3, // 文书号
         cellIdx3: num4, // 文书号
         cellIdx3TypeTextItem: num4, // 文书号
-        cellIdx4: corp.corpName, // 被检查单位
-        cellIdx4TypeTextItem: corp.corpName, // 被检查单位
+        cellIdx4: null, // 
         cellIdx5: null, //
         cellIdx6: null, // 鉴定要求
         cellIdx7: null, //年
@@ -281,4 +268,21 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/assets/scss/let";
+.itemTable table{
+  border-collapse: collapse;
+  text-align:center;
+  width: 90%;
+  margin: 0 auto;
+  .edit-tr {
+    width: 100%;
+    height: 50px;
+    border: 1px solid #000;
+    line-height: 50px;
+    cursor: pointer;
+  }
+}
+.itemTable table td, table th {
+  border: 1px solid #000;
+  height: 40px;
+}
 </style>

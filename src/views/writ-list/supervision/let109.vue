@@ -111,25 +111,25 @@
               }}</span>
               等证据进行了先行登记保存（
               <span
-                style="borderbottom: none"
+                class="no-line"
                 @click="commandFill('cellIdx10', '', 'TextItem')"
                 >{{ letData.cellIdx10 ? letData.cellIdx10 : "点击编辑" }}</span
               >
               （
               <span
-                style="borderbottom: none"
+                class="no-line"
                 @click="commandFill('cellIdx11', '', 'TextItem')"
                 >{{ letData.cellIdx11 ? letData.cellIdx11 : "点击编辑" }}</span
               >
               )&nbsp;&nbsp;煤安保〔
               <span
-                style="borderbottom: none"
+                class="no-line"
                 @click="commandFill('cellIdx12', '', 'TextItem')"
                 >{{ letData.cellIdx12 ? letData.cellIdx12 : "点击编辑" }}</span
               >
               〕
               <span
-                style="borderbottom: none"
+                class="no-line"
                 @click="commandFill('cellIdx13', '', 'TextItem')"
                 >{{ letData.cellIdx13 ? letData.cellIdx13 : "点击编辑" }}</span
               >

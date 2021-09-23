@@ -74,7 +74,7 @@
               }}</span>
               日向你单位作出&nbsp;&nbsp;《
               <span
-                style="borderbottom: none"
+                class="no-line"
                 @click="commandFill('cellIdx10', '', 'TextItem')"
                 >{{
                   letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
@@ -82,7 +82,7 @@
               >
               决定书》&nbsp;&nbsp;（
               <span
-                style="borderbottom: none"
+                class="no-line"
                 @click="commandFill('cellIdx11', '', 'TextItem')"
                 >{{
                   letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）"
@@ -90,7 +90,7 @@
               >
               (
               <span
-                style="borderbottom: none"
+                class="no-line"
                 @click="commandFill('cellIdx12', '', 'TextItem')"
                 >{{
                   letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）"
@@ -98,7 +98,7 @@
               >
               ) 煤安
               <span
-                style="borderbottom: none"
+                class="no-line"
                 @click="commandFill('cellIdx13', '', 'TextItem')"
                 >{{
                   letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）"
@@ -106,7 +106,7 @@
               >
               〔
               <span
-                style="borderbottom: none"
+                class="no-line"
                 @click="commandFill('cellIdx14', '', 'TextItem')"
                 >{{
                   letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）"
@@ -114,7 +114,7 @@
               >
               〕
               <span
-                style="borderbottom: none"
+                class="no-line"
                 @click="commandFill('cellIdx15', '', 'TextItem')"
                 >{{
                   letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）"
@@ -122,21 +122,21 @@
               >
               号&nbsp;&nbsp;)&nbsp;&nbsp;&nbsp;对所附《
               <span
-                style="borderbottom: none"
+                class="no-line"
                 @click="commandFill('cellIdx16', '', 'TextItem')"
                 >{{
                   letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）"
                 }}</span
               >
               <span
-                style="borderbottom: none"
+                class="no-line"
                 @click="
-                  commandFill('cellIdx17', '物品清单', 'SamplingForensicsTable')
+                  commandFill('cellIdx17', '附件：', 'SamplingForensicsTable')
                 "
                 >物品清单》所列物品予以</span
               >
               <span
-                style="borderbottom: none"
+                class="no-line"
                 @click="commandFill('cellIdx18', '', 'TextItem')"
                 >{{
                   letData.cellIdx18 ? letData.cellIdx18 : "（点击编辑）"
@@ -144,7 +144,7 @@
               >
               。现根据《中华人民共和国行政强制法》第二十七条、
               <span
-                style="borderbottom: none"
+                class="no-line"
                 @click="commandFill('cellIdx19', '', 'SelectItem')"
                 >{{ letData.cellIdx19 ? letData.cellIdx19 : "□" }}</span
               >
@@ -154,8 +154,8 @@
               }}</span>
               项的规定，作出处理决定：具体处理决定详见《
               <span
-                style="borderbottom: none"
-                @click="commandFill('cellIdx21', '物品处理表', 'TextItem')"
+                class="no-line"
+                @click="commandFill('cellIdx21', '查封/扣押', 'TextItem')"
                 >{{
                   letData.cellIdx21 ? letData.cellIdx21 : "（点击编辑）"
                 }}</span
@@ -190,7 +190,7 @@
                 @click="
                     commandFill(
                       'cellIdx17',
-                      '物品处理表',
+                      '附件：',
                       'SamplingForensicsTable'
                     )
                   "
@@ -310,7 +310,6 @@ export default {
             .split("-")
         : ["", "", ""];
       // 获取查封/扣押
-      console.log('let32DataPapaerContent', let32DataPapaerContent)
       let selectedType = let32DataPapaerContent.selectedType
       await db.close();
       this.letData = {
@@ -320,8 +319,8 @@ export default {
         cellIdx1TypeTextItem: num0, // 文书号
         cellIdx2: num1, // 文书号
         cellIdx2TypeTextItem: num1, // 文书号
-        cellIdx3: selectedType.substring(0, 1), // 查/扣
-        cellIdx3TypeTextItem: selectedType.substring(0, 1), // 查/扣
+        cellIdx3: selectedType ? selectedType.substring(0, 1) : '', // 查/扣
+        cellIdx3TypeTextItem: selectedType ? selectedType.substring(0, 1) : '', // 查/扣
         cellIdx4: num3, // 文书号
         cellIdx4TypeTextItem: num3, // 文书号
         cellIdx5: num4, // 文书号
@@ -372,6 +371,7 @@ export default {
               signature: null,
               signDate: "",
             },
+        selectedType: selectedType
       };
     },
     goBack({ page }) {
@@ -387,7 +387,7 @@ export default {
           this.options[key] = {
             canEdit: true,
             page: this.docData.docTypeNo, // 物品清单
-            name: this.letData.cellIdx0,
+            name: this.letData.selectedType,
           };
           dataKey = "SamplingForensicsTable";
         }
@@ -405,7 +405,7 @@ export default {
           this.options[key] = {
             canEdit: false,
             page: this.docData.docTypeNo, // 物品清单
-            name: this.letData.cellIdx0,
+            name: this.letData.selectedType,
           };
           let dataKey = "SamplingForensicsTable";
           this.$refs.letMain.commandFill(

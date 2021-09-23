@@ -348,7 +348,6 @@
               <td
                 class="cellInput"
                 id="cell_idx_25"
-                contenteditable="true"
                 align="center"
                 style="width:10%"
                 @click="commandFill('cellIdx25', '年', 'TextItem')"
@@ -357,7 +356,6 @@
               <td
                 class="cellInput"
                 id="cell_idx_26"
-                contenteditable="true"
                 align="center"
                 style="width:10%"
                 @click="commandFill('cellIdx26', '月', 'TextItem')"
@@ -366,7 +364,6 @@
               <td
                 class="cellInput"
                 id="cell_idx_27"
-                contenteditable="true"
                 align="center"
                 style="width:10%"
                 @click="commandFill('cellIdx27', '日', 'TextItem')"
