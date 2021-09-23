@@ -18,65 +18,37 @@
               <br />
             </div>
             <div class="textAlignCenter formHeader3">撤 出 作 业 人 员 命 令 书</div>
-            <div class="stdRowH"></div>
+            <div class="docTextLine paper-number-div">
+              <div>
+                <span
+                  @click="commandFill('cellIdx0', '', 'TextItem')"
+                >{{ letData.cellIdx0 ? letData.cellIdx0 : '（编辑）' }}</span>
+                <label>煤安监</label>
+                <span
+                  @click="commandFill('cellIdx1', '', 'TextItem')"
+                >{{ letData.cellIdx1 ? letData.cellIdx1 : '（编辑）' }}</span>
+                <label>撤〔</label>
+                <span
+                  @click="commandFill('cellIdx2', '', 'TextItem')"
+                >{{ letData.cellIdx2 ? letData.cellIdx2 : '（编辑）' }}</span>
+                <label>〕</label>
+                <span
+                  @click="commandFill('cellIdx3', '', 'TextItem')"
+                >{{ letData.cellIdx3 ? letData.cellIdx3 : '（编辑）' }}</span>
+                <label>号</label>
+              </div>
+            </div>
             <table class="docBody">
               <tr>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_0"
-                  align="right"
-                  style="width:50%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx0', '文书号', 'TextItem')"
-                >{{ letData.cellIdx0 }}</td>
-                <td class="textAlignLeft cellBottomLine">煤安监</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_1"
-                  align="center"
-                  style="width:17%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx1', '文书号', 'TextItem')"
-                >{{ letData.cellIdx1 }}</td>
-                <td class="textAlignLeft cellBottomLine">撤〔</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_2"
-                  align="center"
-                  style="width:7%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx2', '文书号', 'TextItem')"
-                >{{ letData.cellIdx2 }}</td>
-                <td class="textAlignLeft cellBottomLine">〕</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_3"
-                  align="center"
-                  style="width:7%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx3', '文书号', 'TextItem')"
-                >{{ letData.cellIdx3 }}</td>
-                <td class="textAlignLeft cellBottomLine">号&nbsp;&nbsp;</td>
-              </tr>
-              <tr>
-                <td
-                  class="cellInput cellBottomLine"
                   id="cell_idx_4"
-                  style="width:50%"
+                  style="width:62%"
                   data-title
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx4', '', 'TextItem')"
-                  onclick="commandFill(this.id)"
-                >{{ letData.cellIdx4 }}</td>
+                >{{letData.cellIdx4}}</td>
                 <td class="textAlignLeft">:</td>
               </tr>
             </table>
