@@ -32,7 +32,8 @@
         <!-- <el-button type="text" @click="logoutHandle">退出</el-button> -->
         <i class="el-icon-s-promotion send-danger" title="隐患发送" @click="sendDanger"></i>
         <img src="@/components/assets/image/min.png" id="minbt" @click="handleWindow('window-min')" />&nbsp;
-        <img src="@/components/assets/image/maxed.png" id="maxbt" @click="handleWindow('window-max')" />&nbsp;
+        <img src="@/components/assets/image/maxed.png" v-show="maxSrc" id="maxbt" @click="handleWindow('window-max')" />
+        <img src="@/components/assets/image/mined.png" v-show="!maxSrc" id="minbt" @click="handleWindow('window-max')" />&nbsp;
         <img src="@/components/assets/image/close.png" id="closebt" @click="handleWindow('window-quit')" />&nbsp;&nbsp;
       </div>
     </div>

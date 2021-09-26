@@ -1,6 +1,6 @@
 <!-- 现场检查 实施检查 先行登记保存证据处理决定书 -->
 <template>
-  <div style="width: 100%; height: 100%;">
+  <div style="width: 100%; height: 100%">
     <let-main
       ref="letMain"
       :corp-data="corpData"
@@ -17,222 +17,104 @@
               国 家 煤 矿 安 全 监 察
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">先行登记保存证据处理决定书</div>
-            <div class="stdRowH"></div>
+            <div class="textAlignCenter formHeader3">
+              先行登记保存证据处理决定书
+            </div>
+            <div class="docTextLine paper-number-div">
+              <div>
+                <span @click="commandFill('cellIdx0', '', 'TextItem')">{{
+                  letData.cellIdx0 ? letData.cellIdx0 : "（编辑）"
+                }}</span>
+                <label>煤安监</label>
+                <span @click="commandFill('cellIdx1', '', 'TextItem')">{{
+                  letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
+                }}</span>
+                <label>先保处〔</label>
+                <span @click="commandFill('cellIdx2', '', 'TextItem')">{{
+                  letData.cellIdx2 ? letData.cellIdx2 : "（编辑）"
+                }}</span>
+                <label>〕</label>
+                <span @click="commandFill('cellIdx3', '', 'TextItem')">{{
+                  letData.cellIdx3 ? letData.cellIdx3 : "（编辑）"
+                }}</span>
+                <label>号</label>
+              </div>
+            </div>
             <table class="docBody">
               <tr>
                 <td
                   class="cellInput cellBottomLine"
-                  id="cell_idx_0"
-                  align="right"
-                  style="width:55%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx0', '', 'TextItem')"
-                >{{ letData.cellIdx0 }}</td>
-                <td class="textAlignLeft cellBottomLine">煤安监</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_1"
-                  align="center"
-                  style="width:7%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx1', '', 'TextItem')"
-                >{{ letData.cellIdx1 }}</td>
-                <td class="textAlignLeft cellBottomLine">先保处〔</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_2"
-                  align="center"
-                  style="width:7%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx2', '', 'TextItem')"
-                >{{ letData.cellIdx2 }}</td>
-                <td class="textAlignLeft cellBottomLine">〕</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_3"
-                  align="center"
-                  style="width:7%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx3', '', 'TextItem')"
-                >{{ letData.cellIdx3 }}</td>
-                <td class="textAlignLeft cellBottomLine">号&nbsp;&nbsp;</td>
-              </tr>
-              <tr>
-                <td
-                  class="cellInput cellBottomLine"
                   id="cell_idx_4"
-                  style="width:62%"
+                  style="width: 62%"
                   data-title
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx4', '', 'TextItem')"
-                >{{ letData.cellIdx4 }}</td>
+                >
+                  {{ letData.cellIdx4 }}
+                </td>
                 <td class="textAlignLeft">:</td>
               </tr>
             </table>
-            <table style="border:solid 0px #000;" class="docBody">
-              <tr>
-                <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_5"
-                  align="center"
-                  style="width:10%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx5', '', 'TextItem')"
-                >{{ letData.cellIdx5 }}</td>
-                <td class="textAlignLeft">于</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_6"
-                  align="center"
-                  style="width:8%"
-                  data-title="年"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx6', '年', 'TextItem')"
-                >{{ letData.cellIdx6 }}</td>
-                <td class="textAlignLeft">年</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_7"
-                  align="center"
-                  style="width:8%"
-                  data-title="月"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx7', '月', 'TextItem')"
-                >{{ letData.cellIdx7 }}</td>
-                <td class="textAlignLeft">月</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_8"
-                  align="center"
-                  style="width:8%"
-                  data-title="日"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx8', '日', 'TextItem')"
-                >{{ letData.cellIdx8 }}</td>
-                <td class="textAlignLeft">日对你单位的</td>
-                <td
-                  style="width:37%"
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_9"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx9', '', 'TextItem')"
-                >{{ letData.cellIdx9 }}</td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">等物品进行了先行登记保存（</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_10"
-                  align="center"
-                  style="width:8%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx10', '', 'TextItem')"
-                >{{ letData.cellIdx10 }}</td>
-                <td class="textAlignLeft">煤安监</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_11"
-                  align="center"
-                  style="width:8%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  click="commandFill('cellIdx11', '', 'TextItem')"
-                >{{ letData.cellIdx11 }}</td>
-                <td class="textAlignLeft">先保〔</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_12"
-                  align="center"
-                  style="width:8%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  click="commandFill('cellIdx12', '', 'TextItem')"
-                >{{ letData.cellIdx12 }}</td>
-                <td class="textAlignLeft">〕</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_13"
-                  align="center"
-                  style="width:8%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  click="commandFill('cellIdx13', '', 'TextItem')"
-                >{{ letData.cellIdx13 }}</td>
-                <td class="textAlignLeft">号）。现根据</td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">《中华人民共和国行政处罚法》第三十七条第二款规定，对上述物品作出以下处理决</td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">定:</td>
-              </tr>
-            </table>
-            <div
-              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-              class="cellInput mutiLineArea"
-              id="cell_idx_14"
-              data-title="处理决定"
-              data-type="textarea"
-              data-src
-              @click="commandFill('cellIdx14', '处理决定', 'TextareaItem')"
-            >
-              <p class="show-area-item-p">
-                <span style="padding: 7px;">{{ letData.cellIdx14 }}</span>
-              </p>
+            <div class="docTextarea">
+              <label style="width: 5%"></label>
+              我
+              <span
+                class="no-underline"
+                @click="commandFill('cellIdx5', '单位', 'TextItem')"
+                >{{
+                  letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
+                }}</span
+              >
+              于
+              <span @click="commandFill('cellIdx6', '年', 'TextItem')">{{
+                letData.cellIdx6 ? letData.cellIdx6 : "（XX）"
+              }}</span>
+              年
+              <span @click="commandFill('cellIdx7', '月', 'TextItem')">{{
+                letData.cellIdx7 ? letData.cellIdx7 : "（XX）"
+              }}</span>
+              月
+              <span @click="commandFill('cellIdx8', '日', 'TextItem')">{{
+                letData.cellIdx8 ? letData.cellIdx8 : "（XX）"
+              }}</span>
+              日对你单位的
+              <span @click="commandFill('cellIdx9', '', 'TextItem')">{{
+                letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
+              }}</span>
+              等物品进行了先行登记保存（
+              <span @click="commandFill('cellIdx10', '', 'TextItem')">{{
+                letData.cellIdx10 ? letData.cellIdx10 : "（编辑）"
+              }}</span>
+              煤安监
+              <span @click="commandFill('cellIdx11', '', 'TextItem')">{{
+                letData.cellIdx11 ? letData.cellIdx11 : "（编辑）"
+              }}</span>
+              先保〔
+              <span @click="commandFill('cellIdx12', '', 'TextItem')">{{
+                letData.cellIdx12 ? letData.cellIdx12 : "（编辑）"
+              }}</span>
+              〕
+              <span @click="commandFill('cellIdx13', '', 'TextItem')">{{
+                letData.cellIdx13 ? letData.cellIdx13 : "（编辑）"
+              }}</span>
+              号）。现根据《中华人民共和国行政处罚法》第三十七条第二款规定，对上述物品作出以下处理决定:
+              <span @click="commandFill('cellIdx14', '处理决定', 'TextItem')">{{
+                letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）"
+              }}</span>
             </div>
-            <table style="border:solid 0px #000;" class="docBody">
-              <tr>
-                <td
-                  class="textAlignLeft"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如对本处理决定不服，可在接到本决定书之日起60日内向</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_15"
-                  style="width:36.2%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx15', '', 'TextItem')"
-                >{{ letData.cellIdx15 }}</td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">申请行政复议或6个月内向</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_16"
-                  style="width:20%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx16', '人民法院', 'TextItem')"
-                >{{ letData.cellIdx16 }}</td>
-                <td class="textAlignLeft">人民法院提起行政诉讼，但不停止执行本决定。</td>
-              </tr>
-            </table>
-            <table height="90"></table>
+            <div class="docTextarea">
+              <label style="width: 5%"></label>
+              如对本处理决定不服，可在接到本决定书之日起60日内向
+              <span @click="commandFill('cellIdx15', '', 'DangerTableItem')">{{
+                letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）"
+              }}</span>
+              申请行政复议或6个月内向
+              <span @click="commandFill('cellIdx16', '人民法院', 'TextItem')">{{
+                letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）"
+              }}</span>
+              人民法院提起行政诉讼，但不停止执行本决定。
+            </div>
             <table height="60"></table>
             <table class="docBody">
               <tr>
@@ -240,32 +122,31 @@
                   class="cellInput"
                   id="cell_idx_17"
                   align="right"
-                  style="width:95%"
-                  data-title
-                  data-type="text"
-                  data-src
+                  style="width: 95%"
                   @click="commandFill('cellIdx17', '', 'TextItem')"
-                >{{ letData.cellIdx17 }}</td>
+                >
+                  {{ letData.cellIdx17 ? letData.cellIdx17 : "（点击编辑）" }}
+                </td>
               </tr>
-            </table>
-            <table class="docBody">
               <tr>
-                <td class="cellInput" style="width:55%"></td>
                 <td
                   class="cellInput"
                   id="cell_idx_18"
-                  align="center"
-                  style="width:45%"
-                  data-title="日期"
+                  align="right"
+                  style="width: 95%"
+                  data-title
                   data-type="date"
                   data-src
                   @click="commandFill('cellIdx18', '日期', 'DateItem')"
-                >{{ letData.cellIdx18 }}</td>
+                >
+                  {{ letData.cellIdx18 ? letData.cellIdx18 : "（点击编辑）" }}
+                </td>
               </tr>
             </table>
-            <table>
-              <hr />
-              <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被检查单位，一份存档。</td>
+            <table class="cellLine">
+              <td class="textAlignLeft">
+                &nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被检查单位，一份存档。
+              </td>
             </table>
           </div>
         </div>
@@ -277,7 +158,7 @@
 <script>
 import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber } from '@/utils/setInitPaperData'
+import { getDocNumber } from "@/utils/setInitPaperData";
 export default {
   name: "Let109",
   props: {
@@ -326,7 +207,11 @@ export default {
       const wkPaper = db.table("wkPaper");
       const caseId = this.corpData.caseId;
       const checkPaper = await wkPaper.findAll((item) => {
-        return item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1';
+        return (
+          item.caseId === caseId &&
+          item.paperType === this.docData.docTypeNo &&
+          item.delFlag !== "1"
+        );
       });
       if (checkPaper.length > 0) {
         // 回显
@@ -335,40 +220,54 @@ export default {
       } else {
         // 创建初始版本
         // 1.生成文书编号
-        let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
+        let { num0, num1, num3, num4 } = await getDocNumber(
+          db,
+          this.docData.docTypeNo,
+          caseId,
+          this.$store.state.user
+        );
         // 2.获取先行登记保存证据通知书中的日期、物品清单和编号字段
         const let108Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === '25';
+          return item.caseId === caseId && item.paperType === "25";
         });
-        let let108DataPapaerContent = JSON.parse(let108Data.paperContent)
+        let let108DataPapaerContent = JSON.parse(let108Data.paperContent);
         // 日期
-        let let108Date = let108DataPapaerContent.cellIdx14
-        let108Date = let108Date.replace('年', '-').replace('月', '-').replace('日', '-')
-        let dateList = let108Date.split('-')
-        let cellIdx6String = dateList[0]
-        let cellIdx7String = dateList[0]
-        let cellIdx8String = dateList[0]
+        let let108Date = let108DataPapaerContent.cellIdx14;
+        let108Date = let108Date
+          .replace("年", "-")
+          .replace("月", "-")
+          .replace("日", "-");
+        let dateList = let108Date.split("-");
+        let cellIdx6String = dateList[0];
+        let cellIdx7String = dateList[0];
+        let cellIdx8String = dateList[0];
         // 物品名称：
-        let let108Article = let108DataPapaerContent.SamplingForensicsTable.tableData
-        let articleName = ''
+        let let108Article =
+          let108DataPapaerContent.SamplingForensicsTable.tableData;
+        let articleName = "";
         if (let108Article.length > 0) {
-          let108Article.map(item => {
-            articleName += item.name + '、'
-          })
-          articleName = articleName.substring(0, articleName.length - 1)
+          let108Article.map((item) => {
+            articleName += item.name + "、";
+          });
+          articleName = articleName.substring(0, articleName.length - 1);
         }
-        let cellIdx9String = articleName
+        let cellIdx9String = articleName;
         // 文书号：
-        let num1080 = let108DataPapaerContent.cellIdx0
-        let num1081 = let108DataPapaerContent.cellIdx1
-        let num1083 = let108DataPapaerContent.cellIdx2
-        let num1084 = let108DataPapaerContent.cellIdx3
+        let num1080 = let108DataPapaerContent.cellIdx0;
+        let num1081 = let108DataPapaerContent.cellIdx1;
+        let num1083 = let108DataPapaerContent.cellIdx2;
+        let num1084 = let108DataPapaerContent.cellIdx3;
         // 3.sysOfficeInfo实体中 organName、人民法院：courtPrefix
         const orgInfo = db.table("orgInfo");
-        const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
-        let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {organName: '', courtPrefix: ''}
-        let cellIdx15String = orgSysOfficeInfo.organName
-        let cellIdx16String = orgSysOfficeInfo.courtPrefix
+        const orgData = await orgInfo.find(
+          (item) => item.no === this.$store.state.user.userGroupId
+        );
+        let orgSysOfficeInfo =
+          orgData && orgData.sysOfficeInfo
+            ? JSON.parse(orgData.sysOfficeInfo)
+            : { organName: "", courtPrefix: "" };
+        let cellIdx15String = orgSysOfficeInfo.organName;
+        let cellIdx16String = orgSysOfficeInfo.courtPrefix;
         this.letData = {
           cellIdx0: num0, // 文书号
           cellIdx0TypeTextItem: num0, // 文书号
@@ -412,12 +311,19 @@ export default {
       // 返回选择企业
       this.$emit("go-back", { page });
     },
-    commandFill (key, title, type) {
+    commandFill(key, title, type) {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`
-        this.$refs.letMain.commandFill(key, dataKey, title, type, this.letData[dataKey], this.options[key])
+        let dataKey = `${key}Type${type}`;
+        this.$refs.letMain.commandFill(
+          key,
+          dataKey,
+          title,
+          type,
+          this.letData[dataKey],
+          this.options[key]
+        );
       }
     },
   },

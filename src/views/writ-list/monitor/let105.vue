@@ -20,7 +20,7 @@
                 <span @click="commandFill('cellIdx0', '', 'TextItem')">{{
                   letData.cellIdx0 ? letData.cellIdx0 : "（编辑）"
                 }}</span>
-                <label>）应急询〔</label>
+                <label>应急询〔</label>
                 <span @click="commandFill('cellIdx1', '', 'TextItem')">{{
                   letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
                 }}</span>
@@ -79,7 +79,13 @@
                 class="cellInput"
                 id="cell_idx_9"
                 @click="
-                  commandFill('cellIdx9', '法定代表人身份证明或者委托书','SelectItem')">
+                  commandFill(
+                    'cellIdx9',
+                    '法定代表人身份证明或者委托书',
+                    'SelectItem'
+                  )
+                "
+              >
                 {{
                   letData.cellIdx9 ? letData.cellIdx9 : "□"
                 }}法定代表人身份证明或者委托书
@@ -93,7 +99,7 @@
               </div>
               如无法按时前来，请及时联系。
             </div>
-             <div class="docTextLine">
+            <div class="docTextLine">
               <label>应急管理部门地址：</label>
               <div
                 class="line-div"
@@ -143,17 +149,19 @@
             </table>
             <table height="30"></table>
             <table class="docBody">
-               <tr>
+              <tr>
                 <td
                   class="cellInput"
                   id="cell_idx_15"
                   align="right"
-                  style="width:95%"
+                  style="width: 95%"
                   data-title
                   data-type="date"
                   data-src
                   @click="commandFill('cellIdx15', '日期', 'DateItem')"
-                >{{letData.cellIdx15 ? letData.cellIdx15 : '（点击编辑）'}}</td>
+                >
+                  {{ letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）" }}
+                </td>
               </tr>
             </table>
             <table height="60"></table>

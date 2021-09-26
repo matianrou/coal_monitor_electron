@@ -38,23 +38,23 @@
           <td style="border-bottom: 1px solid #666;" colspan="2">{{ corpData.corpName }}</td>
         </tr>
         <tr style="height:32px;">
-          <td style="width:20%;border-bottom:1px solid #666;">企业类型：</td>
-          <td style="width:80%;border-bottom: 1px solid #666;">{{ corpData.corpTypeName }}</td>
+          <td style="width:30%;border-bottom:1px solid #666;">企业类型：</td>
+          <td style="border-bottom: 1px solid #666;">{{ corpData.corpTypeName }}</td>
         </tr>
         <tr style="height:32px;">
-          <td style="border-bottom:1px solid #666;">所在区域：</td>
+          <td style="width:30%;border-bottom:1px solid #666;">所在区域：</td>
           <td style="border-bottom:1px solid #666;">{{ corpData.corpCountryName }}</td>
         </tr>
         <tr style="height:32px;">
-          <td style="border-bottom:1px solid #666;">经营地址：</td>
+          <td style="width:30%;border-bottom:1px solid #666;">经营地址：</td>
           <td style="border-bottom:1px solid #666;">{{ corpData.address }}</td>
         </tr>
         <tr style="height:32px;">
-          <td style="border-bottom:1px solid #666;">负&nbsp;&nbsp;责&nbsp;&nbsp;人：</td>
+          <td style="width:30%;border-bottom:1px solid #666;">负&nbsp;&nbsp;责&nbsp;&nbsp;人：</td>
           <td style="border-bottom:1px solid #666;">{{ corpData.legalName }}</td>
         </tr>
         <tr style="height:32px;">
-          <td style="border-bottom:1px solid #666;">联系电话：</td>
+          <td style="width:30%;border-bottom:1px solid #666;">联系电话：</td>
           <td style="border-bottom:1px solid #666;">{{ corpData.tel }}</td>
         </tr>
       </table>
