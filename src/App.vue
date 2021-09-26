@@ -1,5 +1,5 @@
 <template>
-  <transition name="el-fade-in-linear">
+  <transition v-loading="loading" name="el-fade-in-linear">
     <router-view></router-view>
   </transition>
 </template>
@@ -9,6 +9,7 @@
   export default {
     data () {
       return {
+        loading: false,
         request: null
       }
     },
@@ -28,15 +29,17 @@
       checkUpdate () {
         const NODE_ENV = process.env.NODE_ENV
         if (NODE_ENV === 'production') {
+          this.loading = true
           const { ipcRenderer } = window.require('electron')
           // 设置发送消息监听
           let that = this
           ipcRenderer.on('check-update-reply', (event, arg) => {
             console.log('arg2', arg)
             that.request = arg
+            that.loading = false
           })
           // 检查是否需要更新
-          electronRequest({msgName: 'check-update', type: 'sendSync'}) // 向主进程发送同步消息，判断是否需要更新
+          electronRequest({msgName: 'check-update', message: 'checkUpdate', type: 'sendSync'}) // 向主进程发送同步消息，判断是否需要更新
         }
       },
       initStore() {

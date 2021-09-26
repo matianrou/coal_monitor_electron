@@ -106,7 +106,7 @@ export default {
       if (message === 'window-max') {
         this.maxSrc = !this.maxSrc
       }
-      electronRequest(message)
+      electronRequest({msgName: message})
     },
     logoutHandle () {
       clearLoginInfo()
