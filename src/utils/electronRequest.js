@@ -1,6 +1,6 @@
 const NODE_ENV = process.env.NODE_ENV
 // 与electron的交互通信：发送信息
-export function electronRequest ({msgName, message, type}) {
+export function electronRequest ({msgName, message, type = 'send'}) {
   let requestData = null
   if (NODE_ENV === 'production') {
     const { ipcRenderer } = window.require('electron')

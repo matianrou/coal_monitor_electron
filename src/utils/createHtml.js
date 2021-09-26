@@ -368,14 +368,6 @@ export function createHtml(paperDiv, corpData) {
     </head>
     <body>
       <div style="position: relative;">
-        <div style="width: 21cm; margin: 0 auto; text-align: right;">
-          <a
-            href="javascript:void(0);"
-            style="background-color: #409EFF; border: 1px solid #409EFF; color: #fff; padding: 7px 15px; border-radius: 5px; text-decoration: none;"
-            onclick="downloadPDF()">
-            下载
-          </a>
-        </div>
         <div id='paper'>
           ${paperDiv}
         </div>
@@ -383,3 +375,13 @@ export function createHtml(paperDiv, corpData) {
     </body>
   </html>`
 }
+
+
+// <div style="width: 21cm; margin: 0 auto; text-align: right;">
+// <a
+//   href="javascript:void(0);"
+//   style="background-color: #409EFF; border: 1px solid #409EFF; color: #fff; padding: 7px 15px; border-radius: 5px; text-decoration: none;"
+//   onclick="downloadPDF()">
+//   下载
+// </a>
+// </div>

@@ -30,11 +30,12 @@
       <div class="main-top-operation">
         <!-- 操作 -->
         <!-- <el-button type="text" @click="logoutHandle">退出</el-button> -->
-        <i class="el-icon-s-promotion send-danger" title="隐患发送" @click="sendDanger"></i>
-        <img src="@/components/assets/image/min.png" id="minbt" @click="handleWindow('window-min')" />&nbsp;
-        <img src="@/components/assets/image/maxed.png" v-show="maxSrc" id="maxbt" @click="handleWindow('window-max')" />
-        <img src="@/components/assets/image/mined.png" v-show="!maxSrc" id="minbt" @click="handleWindow('window-max')" />&nbsp;
-        <img src="@/components/assets/image/close.png" id="closebt" @click="handleWindow('window-quit')" />&nbsp;&nbsp;
+        <i class="el-icon-s-promotion btn-icon" title="隐患发送" @click="sendDanger"></i>
+        <div class="split-line"></div>
+        <img src="@/components/assets/image/minus.png" class="btn-icon" id="minbt"  title="最小化" @click="handleWindow('window-min')" />&nbsp;
+        <img src="@/components/assets/image/maximize.png" v-show="maxSrc" class="btn-icon" title="最大化" id="maxbt" @click="handleWindow('window-max')" />
+        <img src="@/components/assets/image/minimize.png" v-show="!maxSrc" class="btn-icon" id="minbt" title="还原" @click="handleWindow('window-max')" />&nbsp;
+        <img src="@/components/assets/image/close.png" id="closebt" class="btn-icon" title="关闭" @click="handleWindow('window-quit')" />&nbsp;&nbsp;
       </div>
     </div>
     <send-danger
@@ -107,7 +108,7 @@ export default {
       if (message === 'window-max') {
         this.maxSrc = !this.maxSrc
       }
-      electronRequest(message)
+      electronRequest({msgName: message})
     },
     logoutHandle () {
       clearLoginInfo()
@@ -151,14 +152,20 @@ export default {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    .send-danger {
+    .split-line {
+      width: 2px;
+      height: 60%;
+      background: #303133;
+      margin-right: 5px;
+    }
+    .btn-icon {
       font-size: 35px;
-      color: #303133;
-      margin-right: 20px;
+      color: #ECECEC;
+      margin: 0px 5px;
       cursor: pointer;
-      &:hover {
-        color: rgba(#f19716, 0.9);
-      }
+      // &:hover {
+      //   color: rgba(#f19716, 0.9);
+      // }
     }
   }
 }
