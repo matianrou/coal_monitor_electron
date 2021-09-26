@@ -17,226 +17,155 @@
               国 家 煤 矿 安 全 监 察
               <br />
             </div>
-            <div class="textAlignCenter formHeader1">送达收执</div>
-            <div class="stdRowH"></div>
-            <table class="docBody">
-              <tr>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_0"
-                  align="right"
-                  style="width:55%"
-                  data-title="文书号"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx0', '文书号', 'TextItem')"
-                >{{letData.cellIdx0}}</td>
-                <td class="textAlignLeft cellBottomLine">煤安监</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_1"
-                  align="center"
-                  style="width:7%"
-                  data-title="文书号"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx1', '文书号', 'TextItem')"
-                >{{letData.cellIdx1}}</td>
-                <td class="textAlignLeft cellBottomLine">送〔</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_2"
-                  align="center"
-                  style="width:7%"
-                  data-title="文书号"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx2', '文书号', 'TextItem')"
-                >{{letData.cellIdx2}}</td>
-                <td class="textAlignLeft cellBottomLine">〕</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_3"
-                  align="center"
-                  style="width:7%"
-                  data-title="文书号"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx3', '文书号', 'TextItem')"
-                >{{letData.cellIdx3}}</td>
-                <td class="textAlignLeft cellBottomLine">号&nbsp;&nbsp;</td>
-              </tr>
-            </table>
-            <table height="60"></table>
-            <table style="border:solid 0px #000;" class="docBody">
-              <tr>
-                <td
-                  class="textAlignLeft"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;送达文书：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_4"
-                  align="center"
-                  style="width:70%"
-                  data-title="送达文书"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx4', '送达文书', 'TextItem')"
+            <div class="textAlignCenter formHeader1">送达收执</div> 
+            <div class="docTextLine paper-number-div">
+            <div>
+              <span
+                @click="commandFill('cellIdx0', '文书号', 'TextItem')"
+              >{{ letData.cellIdx0 ? letData.cellIdx0 : '（编辑）' }}</span>
+              <label>煤安监</label>
+              <span
+                @click="commandFill('cellIdx1', '文书号', 'TextItem')"
+              >{{ letData.cellIdx1 ? letData.cellIdx1 : '（编辑）' }}</span>
+              <label>送〔</label>
+              <span
+                @click="commandFill('cellIdx2', '文书号', 'TextItem')"
+              >{{ letData.cellIdx2 ? letData.cellIdx2 : '（编辑）' }}</span>
+              <label>〕</label>
+              <span
+                @click="commandFill('cellIdx3', '文书号', 'TextItem')"
+              >{{ letData.cellIdx3 ? letData.cellIdx3 : '（编辑）' }}</span>
+              <label>号</label>
+            </div>
+          </div>
+          <table height="60"></table>
+          <table style="border:solid 0px #000;" class="docBody">
+            <tr>
+              <td
+                class="textAlignLeft"
+                style="width:15%"
+              >送达文书：</td>
+              <td
+                class="cellInput cellBottomLine"
+                id="cell_idx_4"
+                align="center"
+                style="width:85%"
+                data-title="送达文书"
+                data-type="text"
+                data-src
+                @click="commandFill('cellIdx4', '送达文书', 'TextItem')"
                 >{{letData.cellIdx4}}</td>
-              </tr>
-              <tr>
-                <td
-                  class="textAlignLeft"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;文书字号：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_5"
-                  align="center"
-                  style="width:70%"
-                  data-title="文书字号"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx5', '文书字号', 'TextItem')"
+            </tr>
+            <tr>
+              <td
+                class="textAlignLeft"
+                style="width:15%"
+              >文书字号：</td>
+              <td
+                class="cellInput cellBottomLine"
+                id="cell_idx_5"
+                align="center"
+                style="width:85%"
+                data-title="文书字号"
+                data-type="text"
+                data-src
+                @click="commandFill('cellIdx5', '文书字号', 'TextItem')"
                 >{{letData.cellIdx5}}</td>
-              </tr>
-              <tr>
-                <td
-                  class="textAlignLeft"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;送达地点：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_6"
-                  align="center"
-                  style="width:70%"
-                  data-title="送达地点"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx6', '送达地点', 'TextItem')"
+            </tr>
+            <tr>
+              <td
+                class="textAlignLeft"
+                style="width:15%"
+              >送达地点：</td>
+              <td
+                class="cellInput cellBottomLine"
+                id="cell_idx_6"
+                align="center"
+                style="width:85%"
+                data-title="送达地点"
+                data-type="text"
+                data-src
+                @click="commandFill('cellIdx6', '送达地点', 'TextItem')"
                 >{{letData.cellIdx6}}</td>
-              </tr>
-              <tr>
-                <td
-                  class="textAlignLeft"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;送达方式：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_7"
-                  align="center"
-                  style="width:70%"
-                  data-title="送达方式"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx7', '送达方式', 'SelectItem')"
+            </tr>
+            <tr>
+              <td
+                class="textAlignLeft"
+                style="width:15%"
+              >送达方式：</td>
+              <td
+                class="cellInput cellBottomLine"
+                id="cell_idx_7"
+                align="center"
+                style="width:85%"
+                data-title="送达方式"
+                data-type="text"
+                data-src
+                @click="commandFill('cellIdx7', '送达方式', 'SelectItem')"
                 >{{letData.cellIdx7}}</td>
-              </tr>
-            </table>
-            <!-- <table height="30"></table> -->
-            <table class="docBody">
+            </tr>
+          </table>
+          <!-- <table height="30"></table> -->
+          <div class="docTextLine">
+            <div style="flex: 2; display: flex;">
+              <label>受送达</label>
+              <div
+                style="cursor: pointer;"
+                @click="commandFill('cellIdx14', '单位负责人/个人', 'SelectItem')"
+              >{{ letData.cellIdx14 ? letData.cellIdx14 : '（编辑）' }}</div>
+              <label>（签名）：</label>
+              <div
+                class="line-div"
+                @click="commandFill('cellIdx8', '签名', 'TextItem')"
+              >{{ letData.cellIdx8 ? letData.cellIdx8 : '（编辑）' }}</div>
+            </div>
+            <div style="flex: 1; display: flex;">
+              <label>&nbsp;&nbsp;日&nbsp;期：</label>
+              <div
+                class="line-div"
+                @click="commandFill('cellIdx9', '日期', 'DateItem')"
+              >{{ letData.cellIdx9 ? letData.cellIdx9 : '（编辑）' }}</div>
+            </div>
+          </div>
+          <div class="docTextLine">
+            <div style="flex: 2; display: flex;">
+              <label>送达人（签名）：</label>
+              <div
+                class="line-div"
+                @click="commandFill('cellIdx10', '送达人（签名）', 'TextItem')"
+              >{{ letData.cellIdx10 ? letData.cellIdx10 : '（编辑）' }}</div>
+            </div>
+            <div style="flex: 1; display: flex;">
+              <label>&nbsp;&nbsp;日&nbsp;期：</label>
+              <div
+                class="line-div"
+                @click="commandFill('cellIdx11', '日期', 'DateItem')"
+              >{{ letData.cellIdx11 ? letData.cellIdx11 : '（编辑）' }}</div>
+            </div>
+          </div>
+         <table height="90"></table>
+          <table class="docBody">
               <tr>
-                <td
-                  class="textAlignLeft"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;受送达</td>
                 <td
                   class="cellInput"
-                  id="cell_idx_8"
-                  align="center"
-                  style="width:10%"
-                  data-title="送达人"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx8', '送达人', 'TextItem')"
-                >{{letData.cellIdx8}}</td>
-                <td class="textAlignLeft">（签名）：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_9"
-                  align="center"
-                  style="width:24%"
-                  data-title="签名"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx9', '签名', 'TextItem')"
-                >{{letData.cellIdx9}}</td>
-                <td class="textAlignLeft">&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_10"
-                  align="center"
-                  style="width:22%"
-                  data-title="日期"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx10', '日期', 'DateItem')"
-                >{{letData.cellIdx10}}</td>
-              </tr>
-              <tr>
-                <td
-                  class="textAlignLeft"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;送达人（签名）：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_11"
-                  align="center"
-                  style="width:34%"
-                  data-title="送达人（签名）"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx11', '送达人（签名）', 'TextItem')"
-                >{{letData.cellIdx11}}</td>
-                <td class="textAlignLeft">&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期：</td>
-                <td
-                  class="cellInput cellBottomLine"
                   id="cell_idx_12"
-                  align="center"
-                  style="width:22%"
-                  data-title="日期"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx12', '日期', 'DateItem')"
-                >{{letData.cellIdx12}}</td>
+                  align="right"
+                  style="width:95%"
+                  @click="commandFill('cellIdx12', '', 'TextItem')"
+                >{{letData.cellIdx12 ? letData.cellIdx12 : '（点击编辑）'}}</td>
               </tr>
-            </table>
-            <table height="90"></table>
-            <table class="docBody">
               <tr>
-                <td class="cellInput" id="cell_idx_13" align="right" style="width:95%">{{letData.cellIdx13}}</td>
+                <td
+                  class="cellInput"
+                  id="cell_idx_13"
+                  align="right"
+                  style="width:95%"
+                  data-title
+                  data-type="date"
+                  data-src
+                  @click="commandFill('cellIdx13', '日期', 'DateItem')"
+                >{{letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）'}}</td>
               </tr>
-            </table>
-            <table class="docBody">
-              <td class="cellInput" style="width:55%"></td>
-              <td
-                class="cellInput"
-                id="cell_idx_14"
-                align="center"
-                style="width:10%"
-                data-title="年"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx14', '年', 'TextItem')"
-              >{{letData.cellIdx14}}</td>
-              <td class="textAlignLeft">年</td>
-              <td
-                class="cellInput"
-                id="cell_idx_15"
-                align="center"
-                style="width:10%"
-                data-title="月"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx15', '月', 'TextItem')"
-              >{{letData.cellIdx15}}</td>
-              <td class="textAlignLeft">月</td>
-              <td
-                class="cellInput"
-                id="cell_idx_16"
-                align="center"
-                style="width:10%"
-                data-title="日"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx16', '日', 'TextItem')"
-              >{{letData.cellIdx16}}</td>
-              <td class="textAlignLeft">日</td>
             </table>
           </div>
         </div>
