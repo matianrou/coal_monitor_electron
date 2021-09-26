@@ -19,7 +19,7 @@
             </div>
             <div class="textAlignCenter formHeader1">检查方案</div>
             <div class="docTextLine">
-              <label style="width: 5%;"></label>
+              <label style="width: 2em;"></label>
               <label>一、被检查单位：</label>
               <div
                 class="line-div"
@@ -27,7 +27,7 @@
               >{{ letData.cellIdx0 ? letData.cellIdx0 : '（点击编辑）' }}</div>
             </div>
             <div class="docTextLine">
-              <label style="width: 5%;"></label>
+              <label style="width: 2em;"></label>
               <label>二、监管类型或方式：</label>
               <div
                 class="line-div"
@@ -35,7 +35,7 @@
               >{{ letData.cellIdx1 ? letData.cellIdx1 : '（点击编辑）' }}</div>
             </div>
             <div class="docTextLine">
-              <label style="width: 5%;"></label>
+              <label style="width: 2em;"></label>
               <label>三、计划检查时间：</label>
               <div
                 class="line-div"
@@ -43,59 +43,45 @@
               >{{ letData.cellIdx2 ? letData.cellIdx2 : '（点击编辑）' }}</div>
             </div>
             <div class="docTextarea">
-              <label style="width: 5%;"></label>四、煤矿企业概况：
+              <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;四、煤矿企业概况：</span>
               <span
                 @click="commandFill('cellIdx3', '煤矿概况', 'TextareaItem')"
-              >{{ letData.cellIdx3 }}</span>
+              >{{ letData.cellIdx3 ? letData.cellIdx3 : '（点击编辑）' }}</span>
               <div class="line"></div>
             </div>
-            <!-- <div
-              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-              class="cellInput mutiLineArea"
-              id="cell_idx_3"
-              data-title="煤矿概况"
-              data-type="textarea"
-              data-src
-              @click="commandFill('cellIdx3', '煤矿概况', 'TextItem')">
-              <p
-                style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
-              >{{ letData.cellIdx3 }}</p>
-              <cell-line></cell-line>
-            </div> -->
-            <div class="docTextLine">
-              <label style="width: 5%;"></label>
+            <div class="docTextarea">
+              <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;五、检查地点：</span>
+              <span
+                @click="commandFill('cellIdx4', '检查地点', 'CheckPositionItem')"
+              >{{ letData.cellIdx4 ? letData.cellIdx4 : '（点击编辑）' }}</span>
+              <div class="line"></div>
+            </div>
+            <!-- <div class="docTextLine">
+              <label style="width: 2em;"></label>
               <label>五、检查地点：</label>
               <div
                 class="line-div"
                 @click="commandFill('cellIdx4', '检查地点', 'CheckPositionItem')"
               >{{ letData.cellIdx4 ? letData.cellIdx4 : '（点击编辑）' }}</div>
-            </div>
+            </div> -->
             <div class="docTextLine">
-              <label style="width: 5%;"></label>
+              <label style="width: 2em;"></label>
               <div
                 class="no-line-div"
                 @click="commandFill('cellIdx5', '检查的主要内容和分工见明细表', 'CheckTableItem')"
-              >六、检查的主要内容和分工见明细表</div>
+              >六、检查的主要内容和分工见明细表（详见《检查分工明细表》）</div>
               <div
               ></div>
             </div>
             <div class="docTextarea">
-              <label style="width: 5%;"></label>七、其他事项：
+              <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;七、其他事项：</span>
               <span
                 @click="commandFill('cellIdx6', '其他事项', 'TextItem')"
               >{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）' }}</span>
               <div class="line"></div>
             </div>
-            <!-- <div class="docTextLine">
-              <label style="width: 5%;"></label>
-              <label>七、其他事项：</label>
-              <div
-                class="line-div"
-                @click="commandFill('cellIdx6', '其他事项', 'TextItem')"
-              >{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）' }}</div>
-            </div> -->
-            <div class="docTextLine">
-              <label style="width: 5%;"></label>
+            <div class="docTextLine" style="margin-top: 30px; margin-bottom: 30px;">
+              <label style="width: 2em;"></label>
               <label>附件：</label>
               <div
                 class="no-line-div"
@@ -104,7 +90,7 @@
             </div>
             <div class="docTextLine">
               <div style="flex: 1; display: flex;">
-                <label style="width: 5%;"></label>
+                <label style="width: 2em;"></label>
                 <label>编制人（签名）：</label>
                 <div
                   class="line-div"
@@ -121,7 +107,7 @@
             </div>
             <div class="docTextLine">
               <div style="flex: 1; display: flex;">
-                <label style="width: 5%;"></label>
+                <label style="width: 2em;"></label>
                 <label>带队人（签名）：</label>
                 <div
                   class="line-div"
@@ -138,7 +124,7 @@
             </div>
             <div class="docTextLine">
               <div style="flex: 1; display: flex;">
-                <label style="width: 5%;"></label>
+                <label style="width: 2em;"></label>
                 <label>审批人（签名）：</label>
                 <div
                   class="line-div"
@@ -163,6 +149,10 @@
         <div style="height: 0; overflow: hidden;">
         <!-- <div class="page-sizeA4-rorate" ref="checkTable"> -->
           <div class="page-sizeA4" ref="checkTable">
+            <div style="height: 90px;">
+              <span style="display: block; height: 30px;font-size: 16px;">附件：</span>
+              <span style="display: block; height: 30px; text-align: center; font-size: 24px;">检查分工明细表</span>
+            </div>
             <div class="checkTable">
               <el-table
                 :data="letData.checkTable && letData.checkTable.tableData"
@@ -188,18 +178,18 @@
                   label="检查主要资料及方法">
                 </el-table-column>
                 <el-table-column
-                  prop="personNames"
-                  header-align="center"
-                  align="left"
-                  width="150"
-                  label="分工">
-                </el-table-column>
-                <el-table-column
                   prop="positions"
                   header-align="center"
                   align="left"
                   width="150"
                   label="检查地点">
+                </el-table-column>
+                <el-table-column
+                  prop="personNames"
+                  header-align="center"
+                  align="left"
+                  label="检查人员"
+                >
                 </el-table-column>
               </el-table>
             </div>

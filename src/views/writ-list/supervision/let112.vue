@@ -25,7 +25,7 @@
                     data-src
                     @click="commandFill('cellIdx0', '停供电(停供民用爆炸物品)', 'TextItem')"
                   >{{ letData.cellIdx0 }}</td>
-                  <td class="textAlignLeft">&nbsp;函告书</td>
+                  <td class="textAlignLeft">函告书</td>
                 </tr>
               </table>
             </div>
@@ -91,7 +91,7 @@
                 >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）' }}</div>
               </div>
               <div style="flex: 1; display: flex;">
-                <label>&nbsp;&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;期：&nbsp;</label>
+                <label>&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;期：</label>
                 <div
                   class="line-div"
                   @click="commandFill('cellIdx10', '日期', 'DateItem')"
@@ -130,8 +130,7 @@
                 >{{ letData.cellIdx14 ? letData.cellIdx14 : '（点击编辑）' }}</div>
               </div>
             </div>
-            <table height="30"></table>
-             <table class="docBody">
+             <table class="docBody" style="margin-top: 30px;">
               <tr>
                 <td
                   class="cellInput"
@@ -154,9 +153,7 @@
                 >{{letData.cellIdx16 ? letData.cellIdx16 : '（点击编辑）'}}</td>
               </tr>
             </table>
-            <table height="60"></table>
-            <div class="docTextarea cellLine">
-              <label style="width: 5%"></label>
+            <div class="docTextarea" style="border-top: 2px solid #000;">
               备注：本文书一式三份，一份交
               <span
                 style="borderBottom:none"
@@ -284,6 +281,7 @@ export default {
       this.letData.cellIdx0TypeTextItem = this.selectedType
       this.letData.cellIdx8 = this.selectedType === '停供电' ? '停供生产性用电' : '停供民用爆炸物品'
       this.letData.cellIdx8TypeTextItem = this.selectedType === '停供电' ? '停供生产性用电' : '停供民用爆炸物品'
+      this.letData.cellIdx17 = this.selectedType === '停供电' ? '供电部门' : '公安机关'
       this.letData.selectedType = this.selectedType
     }
   },

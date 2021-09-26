@@ -145,7 +145,7 @@ function setDangerTableItem (data, selectedData, options) {
       if (options.key === 'cellIdx6') {
         string = `${dangerObjectIndex.dangerString}`
       } else if (options.key === 'cellIdx7') {
-        string = `分别违反了${dangerObject.illegalString}`
+        string = `${dangerObject.illegalString}`
       } else if (options.key === 'cellIdx8') {
         string = dangerObject.penaltyBasisString
       } else if (options.key === 'cellIdx10') {

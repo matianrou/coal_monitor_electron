@@ -128,8 +128,7 @@
               >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）' }}</span>
               为本案承办人。
             </div>
-            <table height="60"></table>
-            <div class="docTextLine">
+            <div class="docTextLine" style="margin-top: 60px; margin-bottom: 60px;">
               <div style="flex: 3; display: flex;">
                 <label>审批人意见:</label>
                 <div
@@ -152,7 +151,6 @@
                 >{{ letData.cellIdx12 ? letData.cellIdx12 : '（编辑）' }}</div>
               </div>
             </div>
-            <table height="60"></table>
             <!-- <table class="docBody">
               <tr>
                 <td
@@ -187,7 +185,6 @@
                 >{{letData.cellIdx15 ? letData.cellIdx15 : '（点击编辑）'}}</td>
               </tr>
             </table>
-            <table height="60"></table>
             <!-- <table>
 		<hr />
 		<td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被复查单位，一份存档。</td>

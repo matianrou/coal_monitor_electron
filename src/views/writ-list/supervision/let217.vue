@@ -38,7 +38,7 @@
                 <label>号</label>
               </div>
             </div>
-            <table class="docBody">
+            <table class="docBody" style="margin-top: 30px;">
               <tr>
                 <td
                   class="cellInput cellBottomLine"
@@ -61,7 +61,7 @@
               >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</span>
               ，请
               <span
-                class="no-line"
+                style="border: none;"
                 @click="commandFill('cellIdx6', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx6 }}</span>
               于
@@ -82,7 +82,6 @@
               >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）'}}</span>
               接受询问调查，来时请携带下列证件材料（见打√处）：
             </div>
-            
             <table class="docBody">
               <tr>
                 <td style="width:5%"></td>
@@ -159,8 +158,7 @@
                 >{{ letData.cellIdx18 ? letData.cellIdx18 : '（编辑）' }}</div>
               </div>
             </div>
-            <table height="30"></table>
-            <table class="docBody">
+            <table class="docBody" style="margin-top: 30px;">
               <tr>
                 <td
                   class="cellInput"
@@ -184,8 +182,7 @@
               </tr>
             </table>
           </div>
-          <div class="docTextarea cellLine">
-            <label style="width: 5%"></label>
+          <div class="docTextarea" style="border-top: 2px solid #000;">
             备注：本文书一式两份，一份交被询问人，一份存档。
           </div>
         </div>

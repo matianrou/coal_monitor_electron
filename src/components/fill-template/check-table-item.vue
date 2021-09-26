@@ -53,17 +53,17 @@
         <el-table-column
           header-align="center"
           align="left"
-          label="分工">
+          label="检查地点">
           <template slot-scope="scope">
-            <span>{{ scope.row.personNames }}</span>
+            <span>{{ scope.row.positions }}</span>
           </template>
         </el-table-column>
         <el-table-column
           header-align="center"
           align="left"
-          label="检查地点">
+          label="检查人员">
           <template slot-scope="scope">
-            <span>{{ scope.row.positions }}</span>
+            <span>{{ scope.row.personNames }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -74,8 +74,8 @@
           label="操作">
           <template slot-scope="scope">
             <div>
-              <el-button type="text" size="small" @click="operation(scope, 'selectPerson')">分工</el-button>
               <el-button type="text" size="small" @click="operation(scope, 'selectCheckPosition')">检查地点</el-button>
+              <el-button type="text" size="small" @click="operation(scope, 'selectPerson')">检查人员</el-button>
               <el-button type="text" size="small" @click="deleteItem(scope)">删除</el-button>
             </div>
           </template>
@@ -164,9 +164,9 @@ export default {
         checkContent: null
       },
       editText: null, // 编辑内容
-      selectedIndex: null, // 选择的分工及选择地点的检查项index
-      selectedRowPersonList: [], // 选择的分工人员列表，用于回显
-      selectedCheckPosition: null, // 选择的检查分工数据，用于回显
+      selectedIndex: null, // 选择的检查人员及选择地点的检查项index
+      selectedRowPersonList: [], // 选择的检查人员列表，用于回显
+      selectedCheckPosition: null, // 选择的检查检查人员数据，用于回显
     };
   },
   created() {
@@ -222,8 +222,8 @@ export default {
           } else {
             let itemObject = Object.assign({}, item, {
               order: this.dangerIndex,
-              personNames: null, // 分工人员文字
-              personList: [], // 分工人员所有数据
+              personNames: null, // 检查人员文字
+              personList: [], // 检查人员所有数据
               positions: null, // 检查地点文字描述
               positionData: {}, // 检查地点所有数据
             })

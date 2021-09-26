@@ -60,6 +60,7 @@
               <span
                 @click="commandFill('cellIdx6', '违法行为', 'DangerTableItem')"
               >{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）'}}</span>
+              违反了
               <span
                 @click="commandFill('cellIdx7', '违法行为', 'DangerTableItem')"
               >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
@@ -81,6 +82,7 @@
               <label style="width:5%"></label>
               根据《中华人民共和国行政处罚法》第四十五条规定，你
               <span
+                class="no-underline"
                 @click="commandFill('cellIdx11', '单位或个人', 'TextItem')"
               >{{ letData.cellIdx11 ? letData.cellIdx11 : '（点击编辑）'}}</span>
               对上述拟作出的行政处罚有陈述、申辩的权利。如果有陈述、申辩意见，应当在收到本告知书之日起三日内提出。逾期未提出的，视为放弃此权利。
@@ -99,7 +101,7 @@
                 >{{ letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）' }}</div>
               </div>
               <div style="flex: 1; display: flex;">
-                <label>&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;期：&nbsp;</label>
+                <label>&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;期：</label>
                 <div
                   class="line-div"
                   @click="commandFill('cellIdx14', '日期', 'DateItem')"
@@ -138,8 +140,7 @@
                 >{{ letData.cellIdx18 ? letData.cellIdx18 : '（点击编辑）' }}</div>
               </div>
             </div>
-            <table height="60"></table>
-            <table class="docBody">
+            <table class="docBody" style="margin-top: 30px;">
               <tr>
                 <td
                   class="cellInput"
@@ -162,9 +163,7 @@
                 >{{letData.cellIdx20 ? letData.cellIdx20 : '（点击编辑）'}}</td>
               </tr>
             </table>
-            <table height="60"></table>
-            <div class="docTextarea cellLine">
-              <label style="width: 5%"></label>
+            <div class="docTextarea" style="border-top: 2px solid #000;">
               备注：本文书一式两份，一份送拟处罚
               <span
                 style="borderBottom:none"
@@ -293,7 +292,7 @@ export default {
         cellIdx4: null, // 煤矿名称
         cellIdx5: null, // 单位
         cellIdx6: `${dangerObject.dangerString}`, // 违法行为
-        cellIdx7: `分别违反了${dangerObject.illegalString}`, // 违法行为
+        cellIdx7: `${dangerObject.illegalString}`, // 违法行为
         cellIdx8: dangerObject.penaltyBasisString, // 法律依据
         cellIdx9: null, // 单位或个人
         cellIdx10: cellIdx10String, // 法律规定

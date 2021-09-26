@@ -20,7 +20,6 @@
             <div class="textAlignCenter formHeader1">
               先行登记保存证据处理决定书
             </div>
-            <div class="stdRowH"></div>
             <table class="docBody">
               <tr>
                 <td
@@ -134,13 +133,15 @@
                 >{{ letData.cellIdx13 ? letData.cellIdx13 : "点击编辑" }}</span
               >
               号）。现根据《中华人民共和国行政处罚法》第五十六条规定，对上述证据作出如下处理决定:
-              <span
-                @click="commandFill('cellIdx14', '处理决定', 'TextareaItem')"
-                >{{
-                  letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）"
-                }}</span
-              >
-              。
+            </div>
+            <div
+              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+              class="cellInput mutiLineArea"
+              @click="commandFill('cellIdx14', '处理决定', 'TextareaItem')">
+              <p
+                style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
+              >{{ letData.cellIdx14 ? letData.cellIdx14 : '（点击编辑）' }}</p>
+              <cell-line></cell-line>
             </div>
             <div class="docTextarea">
               <label style="width:5%"></label>
@@ -187,11 +188,9 @@
               </tr>
             </table>
             <table height="60"></table>
-            <div class="docTextarea cellLine">
-              <label style="width: 5%"></label>
+            <div class="docTextarea" style="border-top: 2px solid #000;">
               备注：本文书一式两份，一份交被取证单位，一份存档。
             </div>
-            <table height="50"></table>
           </div>
         </div>
       </div>

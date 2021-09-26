@@ -144,8 +144,8 @@
               <span @click="commandFill('cellIdx17', '', 'TextareaItem')">{{
                 letData.cellIdx17 ? letData.cellIdx17 : "（点击编辑）"
               }}</span>
-              依据《中华人民共和国行政强制法》第二十五条规定，第一、二款规定，将以上
-              <span @click="commandFill('cellIdx18', '', 'TextItem')">{{
+              ，依据《中华人民共和国行政强制法》第二十五条规定，第一、二款规定，将以上
+              <span class="no-line" @click="commandFill('cellIdx18', '', 'TextItem')">{{
                 letData.cellIdx18 ? letData.cellIdx18 : "（点击编辑）"
               }}</span>
               的期限延长至
@@ -178,9 +178,7 @@
               >{{ letData.cellIdx24 ? letData.cellIdx24 : '（点击编辑）'}}</span>
               人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。
             </div>
-            <table height="30"></table>
-            <table height="30"></table>
-            <table class="docBody">
+            <table class="docBody" style="margin-top: 30px;">
               <tr>
                 <td
                   class="cellInput"
@@ -207,9 +205,7 @@
                 </td>
               </tr>
             </table>
-            <table height="60"></table>
-            <div class="docTextarea cellLine">
-              <label style="width: 5%"></label>
+            <div class="docTextarea" style="border-top: 2px solid #000;">
               备注：本文书一式两份，一份交被
               <span
                 style="borderBottom:none"

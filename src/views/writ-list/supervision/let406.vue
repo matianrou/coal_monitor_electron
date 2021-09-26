@@ -51,12 +51,12 @@
                 >{{letData.cellIdx4}}</td>
                 <td class="textAlignLeft">：</td>
               </tr>
-              <tr>
-                <td style="width:5%"></td>
-                <td class="textAlignLeft">因调查有关安全生产违法案件的需要，本机关现委托你单位对下列物品进行鉴定。</td>
-              </tr>
             </table>
-            <div class="itemTable">
+            <div class="docTextarea ">
+              <label style="width: 2em;"></label>
+            因调查有关安全生产违法案件的需要，本机关现委托你单位对下列物品进行鉴定。
+            </div>
+            <div class="docBody itemTable">
               <table>
                 <thead>
                   <tr>
@@ -82,9 +82,9 @@
                 </tr>
               </table>
             </div>
-            <table height="40"></table>
             <div class="docTextarea ">
-              鉴定要求：
+              <label style="width: 2em;"></label>
+            鉴定要求：
             </div>
             <div
               style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
@@ -96,39 +96,33 @@
               <cell-line></cell-line>
             </div>
             <div class="docTextarea">
-              <label style="width:5%"></label>
+              <label style="width: 2em;"></label>
               请于
               <span
                 @click="commandFill('cellIdx7', '年', 'TextItem')"
-              >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
+              >{{ letData.cellIdx7 ? letData.cellIdx7 : '（XX）' }}</span>
               年
               <span
                 @click="commandFill('cellIdx8', '月', 'TextItem')"
-              >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
+              >{{ letData.cellIdx8 ? letData.cellIdx8 : '（XX）' }}</span>
               月
               <span
                 @click="commandFill('cellIdx9', '日', 'TextItem')"
-              >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</span>
+              >{{ letData.cellIdx9 ? letData.cellIdx9 : '（XX）' }}</span>
               日前向本机关提交鉴定结果。
             </div>
-            <div class="docTextLine">
-              <label style="wdith: 5%；"></label>
-              <div style="flex: 1; display: flex;">
-                <label>联系人：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx10', '联系人', 'TextItem')"
-                >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）' }}</div>
-              </div>
-              <div style="flex: 1; display: flex;">
-                <label>&nbsp;&nbsp;联系电话：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx11', '联系电话', 'TextItem')"
-                >{{ letData.cellIdx11 ? letData.cellIdx11 : '（点击编辑）' }}</div>
-              </div>
+            <div class="docTextarea" style="margin-bottom: 30px;">
+              <label style="width: 2em;"></label>
+              联系人：
+              <span
+                @click="commandFill('cellIdx10', '联系人', 'TextItem')"
+              >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）' }}</span>
+              &nbsp;&nbsp;联系电话：
+              <span
+                @click="commandFill('cellIdx11', '联系电话', 'TextItem')"
+              >{{ letData.cellIdx11 ? letData.cellIdx11 : '（点击编辑）' }}</span>
+              。
             </div>
-            <table height="40"></table>
             <table class="docBody">
               <tr>
                 <td
@@ -152,10 +146,9 @@
                 >{{letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）'}}</td>
               </tr>
             </table>
-            <table class="docBody">
-              <hr />
-              <td class="textAlignLeft">鉴定结果请提出具体鉴定报告书，并由鉴定人员签名或者盖章，加盖鉴定机构印章。</td>
-            </table>
+            <div class="docTextarea" style="border-top: 2px solid #000; font-size: 15px;">
+              鉴定结果请提出具体鉴定报告书，并由鉴定人员签名或者盖章，加盖鉴定机构印章。
+            </div>
           </div>
         </div>
       </div>
@@ -271,8 +264,7 @@ export default {
 .itemTable table{
   border-collapse: collapse;
   text-align:center;
-  width: 90%;
-  margin: 0 auto;
+  width: 100%;
   .edit-tr {
     width: 100%;
     height: 50px;

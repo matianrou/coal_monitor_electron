@@ -57,7 +57,7 @@
               本机关于
               <span
                 @click="commandFill('cellIdx6', '', 'TextItem')"
-              >{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）'}}</span>
+              >{{ letData.cellIdx6 ? letData.cellIdx6 : '（时间）'}}</span>
               现场检查时，发现你单位有下列违法违规行为，现作出以下现场处理决定：
               <span
                 @click="commandFill('cellIdx7', '现场处理决定', 'DangerTableItem')"
@@ -153,8 +153,7 @@
                 >{{letData.cellIdx18 ? letData.cellIdx18 : '（点击编辑）'}}</td>
               </tr>
             </table>
-            <div class="docTextarea cellLine">
-              <label style="width: 5%"></label>
+            <div class="docTextarea" style="border-top: 2px solid #000;">
               备注：本文书一式两份，一份交被检查单位，一份存档。
             </div>
           </div>

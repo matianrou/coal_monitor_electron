@@ -75,7 +75,7 @@
               <div class="line"></div>
             </div> -->
             <div class="docTextarea">
-              <label style="width: 5%;"></label>
+              <label style="width: 2em;"></label>
               接到本处罚决定书之日起15日内将罚款缴至
               <span
                 @click="commandFill('cellIdx11', '银行', 'TextItem')"
@@ -103,7 +103,7 @@
               到期不缴纳罚款的，每日按罚款数额的百分之三加处罚款。
             </div>
             <div class="docTextarea">
-              <label style="width: 5%;"></label>
+              <label style="width: 2em;"></label>
               如果不服本决定，可在接到本决定书之日起60日内向
               <span
                 @click="commandFill('cellIdx16', '人民政府', 'TextItem')"

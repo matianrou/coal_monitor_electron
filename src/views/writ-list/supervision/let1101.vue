@@ -72,7 +72,7 @@
               <span @click="commandFill('cellIdx9', '', 'TextItem')">{{
                 letData.cellIdx9 ? letData.cellIdx9 : "（XX）"
               }}</span>
-              日向你单位作出&nbsp;&nbsp;《
+              日向你单位作出《
               <span
                 class="no-line"
                 @click="commandFill('cellIdx10', '', 'TextItem')"
@@ -80,7 +80,7 @@
                   letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
                 }}</span
               >
-              决定书》&nbsp;&nbsp;（
+              决定书》（
               <span
                 class="no-line"
                 @click="commandFill('cellIdx11', '', 'TextItem')"
@@ -120,7 +120,7 @@
                   letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）"
                 }}</span
               >
-              号&nbsp;&nbsp;)&nbsp;&nbsp;&nbsp;对所附《
+              号），对所附《
               <span
                 class="no-line"
                 @click="commandFill('cellIdx16', '', 'TextItem')"
@@ -178,7 +178,7 @@
               >{{ letData.cellIdx24 ? letData.cellIdx24 : '（点击编辑）'}}</span>
               人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。
             </div>
-            <table height="60"></table>\<div class="docTextarea">
+            <div class="docTextarea" style="margin-top: 30px; margin-bottom: 30px;">
               <label style="width:5%"></label>
               附件：
               <span
@@ -196,7 +196,6 @@
                   "
               >《物品处理表》</span>
             </div>
-            <table height="30"></table>
             <table class="docBody">
               <tr>
                 <td
@@ -224,9 +223,7 @@
                 </td>
               </tr>
             </table>
-            <table height="60"></table>
-            <div class="docTextarea cellLine">
-              <label style="width: 5%"></label>
+            <div class="docTextarea" style="border-top: 2px solid #000;">
               备注：本文书一式两份，一份交被
               <span
                 style="borderBottom:none"
@@ -234,7 +231,6 @@
               >{{ letData.cellIdx29 ? letData.cellIdx29 : '（点击编辑）'}}</span>
               单位，一份存档。 
             </div>
-            <table height="50"></table>
           </div>
         </div>
       </div>

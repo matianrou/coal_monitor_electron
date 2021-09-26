@@ -35,7 +35,7 @@
                   >
                     {{ letData.cellIdx0 }}
                   </td>
-                  <td class="textAlignLeft">&nbsp;决定书</td>
+                  <td class="textAlignLeft">决定书</td>
                 </tr>
               </table>
             </div>
@@ -95,31 +95,26 @@
               }}</span>
               的决定，但你单位未执行以上决定，未及时消除事故隐患，存在发生生产安全事故的危险。根据《中华人民共和国安全生产法》第六十七条第一款规定，本机关决定自
               <span
-                class="no-line"
                 @click="commandFill('cellIdx11', '', 'TextItem')">{{
                 letData.cellIdx11 ? letData.cellIdx11 : "（XX）"
               }}</span>
               年
               <span 
-                class="no-line"
                 @click="commandFill('cellIdx12', '', 'TextItem')">{{
                 letData.cellIdx12 ? letData.cellIdx12 : "（XX）"
               }}</span>
               月
               <span 
-                class="no-line"
                 @click="commandFill('cellIdx13', '', 'TextItem')">{{
                 letData.cellIdx13 ? letData.cellIdx13 : "（XX）"
               }}</span>
               日
               <span 
-                class="no-line"
                 @click="commandFill('cellIdx14', '', 'TextItem')">{{
                 letData.cellIdx14 ? letData.cellIdx14 : "（XX）"
               }}</span>
               时
               <span 
-                class="no-line"
                 @click="commandFill('cellIdx15', '', 'TextItem')">{{
                 letData.cellIdx15 ? letData.cellIdx15 : "（XX）"
               }}</span>
@@ -153,8 +148,7 @@
               >{{ letData.cellIdx19 ? letData.cellIdx19 : '（点击编辑）'}}</span>
               人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。
             </div>
-            <table height="30"></table>
-            <table class="docBody">
+            <table class="docBody" style="margin-top: 30px;">
               <tr>
                 <td
                   class="cellInput"
@@ -181,9 +175,7 @@
                 </td>
               </tr>
             </table>
-            <table height="60"></table>
-            <div class="docTextarea cellLine">
-              <label style="width: 5%"></label>
+            <div class="docTextarea" style="border-top: 2px solid #000;">
               备注：本文书一式两份，一份交煤矿，一份存档。
             </div>
           </div>

@@ -133,7 +133,7 @@
             </div>
             <table height="60"></table>
             <div class="docTextLine">
-              <label style="width: 5%;"></label>
+              <label style="width: 2em;"></label>
               <div style="flex: 1; display: flex;">
                 <label>受送达人（签名）：</label>
                 <div
@@ -150,7 +150,7 @@
               </div>
             </div>
             <div class="docTextLine">
-              <label style="width: 5%;"></label>
+              <label style="width: 2em;"></label>
               <div style="flex: 1; display: flex;">
                 <label>执法机关地址：</label>
                 <div
@@ -167,7 +167,7 @@
               </div>
             </div>
             <div class="docTextLine">
-              <label style="width: 5%;"></label>
+              <label style="width: 2em;"></label>
               <div style="flex: 1; display: flex;">
                 <label>执法机关联系人：</label>
                 <div

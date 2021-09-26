@@ -147,7 +147,7 @@
             </div>
             <div class="docTextLine">
               <div style="flex: 1; display: flex;">
-                <label style="width: 54%;"></label>
+                <label style="width: 60%;"></label>
                 <div
                   class="line-div"
                   @click="commandFill('cellIdx24', '现场执法人员（签名）', 'TextItem')"
@@ -211,11 +211,9 @@
                 >{{letData.cellIdx30 ? letData.cellIdx30 : '（点击编辑）'}}</td>
               </tr>
             </table>
-            <div class="docTextarea cellLine">
-              <label style="width: 5%"></label>
+            <div class="docTextarea" style="border-top: 2px solid #000;">
               备注：本文书一式两份，一份交被检查单位，一份存档。
             </div>
-            <table height="50"></table>
           </div>
         </div>
       </div>

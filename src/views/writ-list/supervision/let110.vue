@@ -104,10 +104,12 @@
               <label style="width:5%"></label>
               本机关将于三十日内（不包括检测、检验或者技术鉴定期限）对上述被
               <span
+                style="borderBottom:none"
                 @click="commandFill('cellIdx13', '查封/扣押', 'DangerTableItem')"
               >{{ letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）'}}</span>
               的
               <span
+                style="borderBottom:none"
                 @click="commandFill('cellIdx14', '', 'SelectItem')"
               >{{ letData.cellIdx14? letData.cellIdx14 : '（点击编辑）' }}</span>
               作出处理决定。此前，你单位不得使用、销毁或转移上述
@@ -129,13 +131,11 @@
               >{{ letData.cellIdx17? letData.cellIdx17 : '（点击编辑）' }}</span>
               申请行政复议，或者在6个月内依法向
               <span
-                style="borderBottom:none"
                 @click="commandFill('cellIdx18', '人民法院', 'TextItem')"
               >{{ letData.cellIdx18? letData.cellIdx18 : '（点击编辑）' }}</span>
               人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。
             </div>
-            <table height="30"></table>
-            <div class="docTextarea">
+            <div class="docTextarea" style="margin-top: 30px; margin-bottom: 30px;">
               <label style="width:5%"></label>
               附件：
               <span
@@ -147,7 +147,6 @@
                 @click="commandFill('cellIdx12', '附件：物品清单', 'SamplingForensicsTable')"
               >《物品清单》</span>
             </div>
-            <table height="30"></table>
             <table class="docBody">
               <tr>
                 <td
@@ -171,9 +170,7 @@
                 >{{letData.cellIdx22 ? letData.cellIdx22 : '（点击编辑）'}}</td>
               </tr>
             </table>
-            <table height="60"></table>
-            <div class="docTextarea cellLine">
-              <label style="width: 5%"></label>
+            <div class="docTextarea" style="border-top: 2px solid #000;">
               备注：本文书一式两份，一份交被
               <span
                 style="borderBottom:none"

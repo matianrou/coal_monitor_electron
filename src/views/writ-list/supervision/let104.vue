@@ -97,7 +97,7 @@
               的决定。
             </div>
              <div class="docTextarea ">
-              <label style="width: 5%;"></label>
+              <label style="width: 2em;"></label>
               <span
                 class="no-line"
                 @click="commandFill('cellIdx25', '', 'SelectItem')"
@@ -168,8 +168,7 @@
                 >{{ letData.cellIdx22 ? letData.cellIdx22 : '（编辑）' }}</div>
               </div>
             </div>
-            <table height="30"></table>
-             <table class="docBody">
+            <table class="docBody" style="margin-top: 30px;">
               <tr>
                 <td
                   class="cellInput"
@@ -192,11 +191,9 @@
                 >{{letData.cellIdx24 ? letData.cellIdx24 : '（点击编辑）'}}</td>
               </tr>
             </table>
-            <div class="docTextarea cellLine">
-              <label style="width: 5%"></label>
+            <div class="docTextarea" style="border-top: 2px solid #000;">
               备注：本文书一式两份，一份交被复查单位，一份存档。
             </div>
-            <table height="50"></table>
           </div>
         </div>
       </div>

@@ -62,8 +62,7 @@
             </div>
             <table style="border:solid 0px #000;" class="docBody">
             </table>
-            <table height="60"></table>
-            <table class="docBody">
+            <table class="docBody" style="margin-top: 30px; margin-bottom: 60px;">
               <tr>
                 <td
                   class="textAlignLeft"
@@ -79,7 +78,6 @@
                 ></td>
               </tr>
             </table>
-            <table height="30"></table>
             <div class="docTextLine">
               <label>抽样承办人：（签名）</label>
               <div
@@ -201,11 +199,9 @@
                 >{{letData.cellIdx23 ? letData.cellIdx23 : '（点击编辑）'}}</td>
               </tr>
             </table>
-            <div class="docTextarea cellLine">
-              <label style="width: 5%"></label>
+            <div class="docTextarea" style="border-top: 2px solid #000;">
               备注：本文书一式两份，一份交被取证单位，一份存档。
             </div>
-            <table height="50"></table>
           </div>
         </div>
       </div>

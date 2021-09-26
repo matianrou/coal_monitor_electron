@@ -187,6 +187,20 @@
                   label="检查主要资料及方法"
                 >
                 </el-table-column>
+                <el-table-column
+                  prop="positions"
+                  header-align="center"
+                  align="left"
+                  label="检查地点"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="personNames"
+                  header-align="center"
+                  align="left"
+                  label="检查人员"
+                >
+                </el-table-column>
               </el-table>
             </div>
           </div>

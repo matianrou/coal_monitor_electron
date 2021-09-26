@@ -17,7 +17,7 @@
               煤矿安全监管行政执法文书
               <br />
             </div>
-            <div class="textAlignCenter formHeader1">调查取证笔录</div>
+            <div class="textAlignCenter formHeader1">调查询问笔录</div>
             <div class="docTextLine">
               时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;间：
               <div style="flex: 1; display: flex;">
@@ -116,7 +116,7 @@
             </div> -->
             <div class="docTextLine">
               被调查人：
-              <div style="flex: 1; display: flex;">
+              <div style="flex: 2; display: flex;">
                 <label>姓名</label>
                 <div
                   class="line-div"
@@ -128,16 +128,16 @@
                 <div
                   class="line-div"
                   @click="commandFill('cellIdx10', '性别', 'SelectItem')"
-                >{{ letData.cellIdx10 ? letData.cellIdx10 : '(编辑)' }}</div>
+                >{{ letData.cellIdx10 ? letData.cellIdx10 : `&nbsp;` }}</div>
               </div>
               <div style="flex: 1; display: flex;">
                 <label>&nbsp;年龄</label>
                 <div
                   class="line-div"
                   @click="commandFill('cellIdx11', '年龄', 'TextItem')"
-                >{{ letData.cellIdx11 ? letData.cellIdx11 : '(编辑)' }}</div>
+                >{{ letData.cellIdx11 ? letData.cellIdx11 : `&nbsp;` }}</div>
               </div>
-              <div style="flex: 2; display: flex;">
+              <div style="flex: 4; display: flex;">
                 <label>身份证号</label>
                 <div
                   class="line-div"
@@ -155,7 +155,7 @@
                 >{{ letData.cellIdx13 ? letData.cellIdx13 : '(编辑)' }}</div>
               </div>
               <div style="flex: 1; display: flex;">
-                <label>&nbsp;职务（职业）</label>
+                <label>职务（职业）</label>
                 <div
                   class="line-div"
                   @click="commandFill('cellIdx14', '职务（职业）', 'TextItem')"
@@ -179,7 +179,7 @@
                 >{{ letData.cellIdx16 ? letData.cellIdx16 : '(编辑)' }}</div>
               </div>
               <div style="flex: 1; display: flex;">
-                <label>电&nbsp;&nbsp;&nbsp;话</label>
+                <label>电话</label>
                 <div
                   class="line-div"
                   @click="commandFill('cellIdx17', '电话', 'TextItem')"
@@ -189,7 +189,7 @@
             <div class="docTextLine">
               <label style="width: 13%"></label>
               <div style="flex: 1; display: flex;">
-                <label>住&nbsp;&nbsp;&nbsp;&nbsp;址</label>
+                <label>住址</label>
                 <div
                   class="line-div"
                   @click="commandFill('cellIdx18', '住址', 'TextItem')"
@@ -197,7 +197,6 @@
               </div>
             </div>
             <div class="docTextLine">
-              <label style="width: 13%"></label>
               <div style="flex: 1; display: flex;">
                 <label>调查人（签名）：</label>
                 <div
@@ -238,9 +237,8 @@
                 </p>
               </div>
             </div>
-            <div class="docTextarea cellLine" style="margin-top: 10px;">
-              <label style="width: 5%"></label>
-              备注:被调查人员应在核对笔录后，书写 “ 以上笔录我已看过，与我说的一致 ” ，并签名押印。
+            <div class="docTextarea" style="border-top: 2px solid #000; margin-top: 30px; line-height: normal;">
+              备注:被调查人员应在核对笔录后，书写“以上笔录我已看过，与我说的一致”，并签名押印。
             </div>
           </div>
         </div>

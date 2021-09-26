@@ -65,32 +65,14 @@
               ，由
               <span
                 @click="commandFill('cellIdx10', '', 'TextItem')"
-              >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）'}}</span>
+              >{{ letData.cellIdx10 ? letData.cellIdx10 : '（单位名称+保管人姓名）'}}</span>
               负责保管。在本机关作出处理决定前，保管单位负有妥善保管的义务，不得有短缺、灭失、损毁或者擅自移动等改变证据物品的任何行为。
             </div>
             <div class="docTextarea">
               <label style="width:5%"></label>
               本机关将在七日内对先行登记保存的证据依法作出处理决定。逾期未作出处理决定的，先行登记保存措施自动解除。
             </div>
-            <table style="border:solid 0px #000;" class="docBody">
-              <tr>
-                <td style="width:5%"></td>
-                <td class="textAlignLeft">
-                  </td>
-                  <td class="textAlignLeft"></td>
-                <!-- <td
-                  class="cellInput"
-                  id="cell_idx_11"
-                  align="center"
-                  style="width:10%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx11', '', 'TextItem')"
-                >{{ letData.cellIdx11 }}</td> -->
-              </tr>
-            </table>
-            <table class="docBody">
+            <table class="docBody" style="margin-top: 30px; margin-bottom: 30px;">
               <tr>
                  <td style="width:5%"></td>
                 <td
@@ -99,7 +81,6 @@
                   class="textAlignLeft">附件：先行登记保存证据清单</td>
               </tr>
             </table>
-            <table height="30"></table>
             <div class="docTextLine">
               <div style="flex: 1; display: flex;">
                 <label>受送达人（签名）：</label>
@@ -192,11 +173,9 @@
                 >{{letData.cellIdx22 ? letData.cellIdx22 : '（点击编辑）'}}</td>
               </tr>
             </table>
-            <div class="docTextarea cellLine">
-              <label style="width: 5%"></label>
+            <div class="docTextarea" style="border-top: 2px solid #000;">
               备注：本文书一式三份，一份交被取证单位，一份交保管单位，一份存档。
             </div>
-            <table height="50"></table>
           </div>
         </div>
       </div>
