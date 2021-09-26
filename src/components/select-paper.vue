@@ -5,10 +5,11 @@
     :close-on-click-modal="false"
     append-to-body
     :visible="visible"
+    top="5vh"
     width="600px"
     @close="close"
   >
-    <div>
+    <div style="height: 70vh;">
       <el-table
         :data="paperList"
         style="width: 100%;"
@@ -17,6 +18,7 @@
         :default-sort = "{prop: 'createDate', order: 'descending'}"
         highlight-current-row
         :header-cell-style="{background: '#f5f7fa'}"
+        height="100%"
         @current-change="handleCurrentChange">
         <el-table-column
           type="index"

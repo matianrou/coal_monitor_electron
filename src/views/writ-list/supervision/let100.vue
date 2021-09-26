@@ -79,14 +79,21 @@
               <div
               ></div>
             </div>
-            <div class="docTextLine">
+            <div class="docTextarea">
+              <label style="width: 5%;"></label>七、其他事项：
+              <span
+                @click="commandFill('cellIdx6', '其他事项', 'TextItem')"
+              >{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）' }}</span>
+              <div class="line"></div>
+            </div>
+            <!-- <div class="docTextLine">
               <label style="width: 5%;"></label>
               <label>七、其他事项：</label>
               <div
                 class="line-div"
                 @click="commandFill('cellIdx6', '其他事项', 'TextItem')"
               >{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）' }}</div>
-            </div>
+            </div> -->
             <div class="docTextLine">
               <label style="width: 5%;"></label>
               <label>附件：</label>
