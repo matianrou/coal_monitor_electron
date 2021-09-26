@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2021-09-23 11:14:00
- * @LastEditTime: 2021-09-23 14:08:17
- * @LastEditors: your name
+ * @LastEditTime: 2021-09-24 09:08:43
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \coal_monitor_electron\config\index.js
  */
