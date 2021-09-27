@@ -127,11 +127,11 @@
             <div class="docTextarea">
               <label style="width: 5%"></label>
               如对本命令不服，可在接到本命令书之日起60日内向
-              <span @click="commandFill('cellIdx19', '', 'TextItem')">{{
+              <span @click="commandFill('cellIdx19', '机构名', 'TextItem')">{{
                 letData.cellIdx19 ? letData.cellIdx19 : "（点击编辑）"
               }}</span>
               申请行政复议或6个月内向
-              <span @click="commandFill('cellIdx20', '', 'TextItem')">{{
+              <span @click="commandFill('cellIdx20', '人民法院', 'TextItem')">{{
                 letData.cellIdx20 ? letData.cellIdx20 : "（点击编辑）"
               }}</span>
               人民法院提起行政诉讼，但不停止执行本命令。
