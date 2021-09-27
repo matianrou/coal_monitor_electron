@@ -25,7 +25,7 @@
                   <br />执法单位
                 </td>
                 <td
-                  style="width:158mm;height:30mm"
+                  style="width:124mm;height:30mm"
                   class="cellInput cellBottomLine textPaddingLeft"
                   id="cell_idx_0"
                   align="center"
@@ -44,7 +44,7 @@
                   <br />案卷类别
                 </td>
                 <td
-                  style="width:158mm;height:50mm"
+                  style="width:124mm;height:50mm"
                   class="cellInput cellBottomLine textPaddingLeft"
                   id="cell_idx_1"
                   align="center"
@@ -63,14 +63,14 @@
                   <br />案卷题名
                 </td>
                 <td
-                  style="width:158mm;height:120mm"
+                  style="width:124mm;height:120mm"
                   class="cellInput textPaddingLeft"
                   id="cell_idx_2"
                   align="center"
                   data-title="案卷题名"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx2', '案卷题名', 'TextItem')"
+                  @click="commandFill('cellIdx2', '案卷题名', 'TextareaItem')"
                 >{{letData.cellIdx2}}</td>
               </tr>
             </table>
@@ -92,7 +92,7 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_4"
                   align="center"
-                  style="width:10%"
+                  style="width:9%"
                   data-title="月"
                   data-type="text"
                   data-src
@@ -103,15 +103,15 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_5"
                   align="center"
-                  style="width:10%"
+                  style="width:9%"
                   data-title="日"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx5', '日', 'TextItem')"
                 >{{letData.cellIdx5}}</td>
                 <td
-                  class="textAlignLeft"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日至&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                  class="textAlignLeft" style="width:16%"
+                >&nbsp;&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;至&nbsp;&nbsp;&nbsp;</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_6"
@@ -127,7 +127,7 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_7"
                   align="center"
-                  style="width:10%"
+                  style="width:9%"
                   data-title="月"
                   data-type="text"
                   data-src
@@ -138,7 +138,7 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_8"
                   align="center"
-                  style="width:10%"
+                  style="width:9%"
                   data-title="日"
                   data-type="text"
                   data-src
@@ -147,32 +147,30 @@
                 <td class="textAlignLeft">日</td>
               </tr>
               <tr>
-                <td class="textPaddingLeft">&nbsp;&nbsp;本卷共：&nbsp;&nbsp;</td>
+                <td class="textPaddingLeft">本卷共：&nbsp;&nbsp;</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
                   align="center"
-                  style="width:8%"
-                  data-title="案由"
+                  style="width:10%"
                   data-type="textarea"
                   data-src
-                  @click="commandFill('cellIdx9', '案由', 'TextItem')"
+                  @click="commandFill('cellIdx9', '件', 'TextItem')"
                 >{{letData.cellIdx9}}</td>
                 <td class="textAlignLeft">件</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_10"
                   align="center"
-                  style="width:8%"
-                  data-title="案由"
+                  style="width:9%"
                   data-type="textarea"
                   data-src
-                  @click="commandFill('cellIdx10', '案由', 'TextItem')"
+                  @click="commandFill('cellIdx10', '页', 'TextItem')"
                 >{{letData.cellIdx10}}</td>
                 <td class="textAlignLeft">页</td>
                 <td
-                  class="textPaddingLeft"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;归档日期：&nbsp;&nbsp;</td>
+                  class="textPaddingLeft" style="width:25%"
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;归 档 日 期：</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_11"
@@ -188,7 +186,7 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_12"
                   align="center"
-                  style="width:10%"
+                  style="width:9%"
                   data-title="月"
                   data-type="text"
                   data-src
@@ -199,7 +197,7 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_13"
                   align="center"
-                  style="width:10%"
+                  style="width:9%"
                   data-title="日"
                   data-type="text"
                   data-src
@@ -207,58 +205,101 @@
                 >{{letData.cellIdx13}}</td>
                 <td class="textAlignLeft">日</td>
               </tr>
-              <tr>
-                <td class="textPaddingLeft">承办人（签名）：</td>
+              <!-- <tr>
                 <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_14"
+                  class="cellInput "
+                  id="cell_idx_17"
                   align="center"
-                  style="width:80%"
-                  data-title="承办人（签名）"
-                  data-type="textarea"
+                  style="width:100%"
+                  data-title="双击编辑目录"
+                  data-type="text"
                   data-src
+                  @click="commandFill('cellIdx17', '编辑目录', 'TextItem')"
+                >{{letData.cellIdx17  ? letData.cellIdx17 : '点击编辑目录'}}</td>
+              </tr> -->
+            </table>
+            <div class="docTextLine">
+              <div style="flex: 1; display: flex;">
+                <label>承办人（签名）：</label>
+                <div
+                  class="line-div"
                   @click="commandFill('cellIdx14', '承办人（签名）', 'TextItem')"
-                >{{letData.cellIdx14}}</td>
-              </tr>
-              <tr>
-                <td class="textPaddingLeft">&nbsp;&nbsp;&nbsp;档号：&nbsp;&nbsp;&nbsp;</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_15"
-                  align="center"
-                  style="width:40%"
-                  data-title="档号"
-                  data-type="textarea"
-                  data-src
+                >{{ letData.cellIdx14 ? letData.cellIdx14 : '（点击编辑）' }}</div>
+              </div>
+            </div>
+            <div class="docTextLine">
+              <div style="flex: 1; display: flex;">
+                <label>档号：&nbsp;&nbsp;</label>
+                <div
+                  class="line-div"
                   @click="commandFill('cellIdx15', '档号', 'TextItem')"
-                >{{letData.cellIdx15}}</td>
-                <td class="textPaddingLeft">&nbsp;&nbsp;保管期限：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_16"
-                  align="center"
-                  style="width:36%"
-                  data-title="保管期限"
-                  data-type="textarea"
-                  data-src
+                >{{ letData.cellIdx15 ? letData.cellIdx15 : '（点击编辑）' }}</div>
+              </div>
+              <div style="flex: 1; display: flex;">
+                <label>&nbsp;&nbsp;保管期限：</label>
+                <div
+                  class="line-div"
                   @click="commandFill('cellIdx16', '保管期限', 'TextItem')"
-                >{{letData.cellIdx16}}</td>
-              </tr>
-            </table>
-            <table class="docBody">
-              <tr>
-                <td class="cellInput" id="cell_idx_17" align="center" style="width:100%">{{letData.cellIdx17}}</td>
-                <td class="cellInput" id="cell_idx_18" align="center" style="width:100%">{{letData.cellIdx18}}</td>
-                <td class="cellInput" id="cell_idx_19" align="center" style="width:100%">{{letData.cellIdx19}}</td>
-                <td class="cellInput" id="cell_idx_20" align="center" style="width:100%">{{letData.cellIdx20}}</td>
-                <td class="cellInput" id="cell_idx_21" align="center" style="width:100%">{{letData.cellIdx21}}</td>
-                <td class="cellInput" id="cell_idx_22" align="center" style="width:100%">{{letData.cellIdx22}}</td>
-                <td class="cellInput" id="cell_idx_23" align="center" style="width:100%">{{letData.cellIdx23}}</td>
-                <td class="cellInput" id="cell_idx_24" align="center" style="width:100%">{{letData.cellIdx24}}</td>
-                <td class="cellInput" id="cell_idx_25" align="center" style="width:100%">{{letData.cellIdx25}}</td>
-                <td class="cellInput" id="cell_idx_26" align="center" style="width:100%">{{letData.cellIdx26}}</td>
-              </tr>
-            </table>
+                >{{ letData.cellIdx16 ? letData.cellIdx16 : '（点击编辑）' }}</div>
+              </div>
+            </div>
+            <div
+              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+              class="cellInput mutiLineArea"
+              @click="commandFill('cellIdx17', '编辑目录', 'VolumesMenuTable')">
+              <div style="margin-top: 10px; margin-bottom: 20px;">
+                <div v-if="letData.cellIdx17 && letData.cellIdx17.length > 0" class="show-volumes-menu">
+                  <div style="text-align: center; font-size: 20px; font-weight: 500;"><span>档案卷内目录</span></div>
+                  <el-table
+                    :data="letData.cellIdx17"
+                    stripe
+                    border
+                    style="width: 100%;"
+                    :header-cell-style="{background: '#f5f7fa', color: '#000'}">
+                    <el-table-column
+                      label="序号"
+                      type="index"
+                      width="50">
+                    </el-table-column>
+                    <el-table-column
+                      prop="paperNumber"
+                      label="文号"
+                      header-align="center"
+                      align="center">
+                    </el-table-column>
+                    <el-table-column
+                      prop="title"
+                      label="题名"
+                      header-align="center"
+                      align="center">
+                    </el-table-column>
+                    <el-table-column
+                      prop="date"
+                      header-align="center"
+                      align="center"
+                      width="190"
+                      label="日期">
+                    </el-table-column>
+                    <el-table-column
+                      prop="pageNumber"
+                      header-align="center"
+                      align="center"
+                      width="100"
+                      label="页号">
+                    </el-table-column>
+                    <el-table-column
+                      prop="note"
+                      header-align="center"
+                      align="center"
+                      label="备注">
+                    </el-table-column>
+                  </el-table>
+                </div>
+                <div v-else>
+                  <span>（点击编辑目录）</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

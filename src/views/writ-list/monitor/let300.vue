@@ -1,6 +1,6 @@
 <!-- 行政强制 公开裁定 执法案件公开裁定记录 -->
 <template>
-  <div style="width: 100%; height: 100%;">
+  <div style="width: 100%; height: 100%">
     <let-main
       ref="letMain"
       :corp-data="corpData"
@@ -17,194 +17,167 @@
               国 家 煤 矿 安 全 监 察
               <br />
             </div>
-            <div class="textAlignCenter formHeader1">执 法 案 件 公 开 裁 定 记 录</div>
-            <div class="stdRowH"></div>
-            <table style="border:solid 0px #000;" class="docBody">
-              <tr>
-                <td class="textAlignLeft">裁定时间：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_0"
-                  align="center"
-                  style="width:10%"
-                  data-title="年"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx0', '年', 'TextItem')"
-                >{{letData.cellIdx0}}</td>
-                <td class="textAlignLeft">年</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_1"
-                  align="center"
-                  style="width:10%"
-                  data-title="月"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx1', '月', 'TextItem')"
-                >{{letData.cellIdx1}}</td>
-                <td class="textAlignLeft">月</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_2"
-                  align="center"
-                  style="width:10%"
-                  data-title="日"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx2', '日', 'TextItem')"
-                >{{letData.cellIdx2}}</td>
-                <td class="textAlignLeft">日</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_3"
-                  align="center"
-                  style="width:10%"
-                  data-title="时"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx3', '时', 'TextItem')"
-                >{{letData.cellIdx3}}</td>
-                <td class="textAlignLeft">时</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_4"
-                  align="center"
-                  style="width:10%"
-                  data-title="分"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx4', '分', 'TextItem')"
-                >{{letData.cellIdx4}}</td>
-                <td class="textAlignLeft">分至</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_5"
-                  align="center"
-                  style="width:10%"
-                  data-title="时"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx5', '时', 'TextItem')"
-                >{{letData.cellIdx5}}</td>
-                <td class="textAlignLeft">时</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_6"
-                  align="center"
-                  style="width:10%"
-                  data-title="分"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx6', '分', 'TextItem')"
-                >{{letData.cellIdx6}}</td>
-                <td class="textAlignLeft">分</td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">裁定地点：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_7"
-                  align="center"
-                  style="width:85%"
-                  data-title="裁定地点"
-                  data-type="textarea"
-                  data-src
-                  @click="commandFill('cellIdx7', '裁定地点', 'TextItem')"
-                >{{letData.cellIdx7}}</td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">裁定事项：</td>
-
+            <div class="textAlignCenter formHeader1">
+              执 法 案 件 公 开 裁 定 记 录
+            </div>
+            <div class="docTextLine">
+              裁定时间：
+              <div style="flex: 1; display: flex">
                 <div
-                  style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-                  class="cellInput mutiLineArea"
-                  id="cell_idx_8"
-                  align="center"
-                  data-title="裁定事项"
-                  data-type="textarea"
-                  data-src
-                  @click="commandFill('cellIdx8', '裁定事项', 'DangerTableItem')">
-                  <div v-if="letData.cellIdx8 && letData.cellIdx8.length > 0">
-                    <p class="show-area-item-p">
-                      <span style="padding: 7px;">{{ letData.cellIdx8 }}</span>
-                    </p>
-                  </div>
-                  <div v-else>
-                    <p class="show-area-item-p">
-                      &nbsp;
-                    </p>
-                    <p class="show-area-item-p">
-                      &nbsp;
-                    </p>
-                  </div>
+                  class="line-div center"
+                  @click="commandFill('cellIdx0', '年', 'TextItem')"
+                >
+                  {{ letData.cellIdx0 ? letData.cellIdx0 : "XX" }}
                 </div>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">裁定主持人（签名）：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_9"
-                  align="center"
-                  style="width:25%"
-                  data-title="裁定主持人（签名）"
-                  data-type="textarea"
-                  data-src
-                  @click="commandFill('cellIdx9', '裁定主持人（签名）', 'TextItem')"
-                >{{letData.cellIdx9}}</td>
-                <td class="textAlignLeft">记录人（签名）：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_10"
-                  align="center"
-                  style="width:33%"
-                  data-title="记录人（签名）"
-                  data-type="textarea"
-                  data-src
-                  @click="commandFill('cellIdx10', '记录人（签名）', 'TextItem')"
-                >{{letData.cellIdx10}}</td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">被裁定单位负责人（签名）：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_11"
-                  align="center"
-                  style="width:69.5%"
-                  data-title="被裁定单位负责人（签名）"
-                  data-type="textarea"
-                  data-src
-                  @click="commandFill('cellIdx11', '被裁定单位负责人（签名）', 'TextItem')"
-                >{{letData.cellIdx11}}</td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">其他单位参加人员（签名）：</td>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_12"
-                  align="center"
-                  style="width:69.5%"
-                  data-title="其他单位参加人员（签名）"
-                  data-type="textarea"
-                  data-src
-                  @click="commandFill('cellIdx12', '其他单位参加人员（签名）', 'TextItem')"
-                >{{letData.cellIdx12}}</td>
-              </tr>
-              <tr>
-                <td class="textAlignLeft">裁定记录：</td>
-              </tr>
-            </table>
-            <div
-              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-              class="cellInput mutiLineArea"
-              id="cell_idx_13"
-              data-title="裁定记录"
-              data-type="textarea"
-              data-src
-              @click="commandFill('cellIdx13', '裁定记录', 'TextareaItem')">
-              <p class="show-area-item-p">
-                <span style="padding: 7px; white-space: pre-wrap;">{{ letData.cellIdx13 }}</span>
-              </p>
+                <label>年</label>
+              </div>
+              <div style="flex: 1; display: flex">
+                <div
+                  class="line-div center"
+                  @click="commandFill('cellIdx1', '月', 'TextItem')"
+                >
+                  {{ letData.cellIdx1 ? letData.cellIdx1 : "XX" }}
+                </div>
+                <label>月</label>
+              </div>
+              <div style="flex: 1; display: flex">
+                <div
+                  class="line-div center"
+                  @click="commandFill('cellIdx2', '日', 'TextItem')"
+                >
+                  {{ letData.cellIdx2 ? letData.cellIdx2 : "XX" }}
+                </div>
+                <label>日</label>
+              </div>
+              <div style="flex: 1; display: flex">
+                <div
+                  class="line-div center"
+                  @click="commandFill('cellIdx3', '时', 'TextItem')"
+                >
+                  {{ letData.cellIdx3 ? letData.cellIdx3 : "XX" }}
+                </div>
+                <label>时</label>
+              </div>
+              <div style="flex: 1; display: flex">
+                <div
+                  class="line-div center"
+                  @click="commandFill('cellIdx4', '分', 'TextItem')"
+                >
+                  {{ letData.cellIdx4 ? letData.cellIdx4 : "XX" }}
+                </div>
+                <label>分至</label>
+              </div>
+              <div style="flex: 1; display: flex">
+                <div
+                  class="line-div center"
+                  @click="commandFill('cellIdx5', '时', 'TextItem')"
+                >
+                  {{ letData.cellIdx5 ? letData.cellIdx5 : "XX" }}
+                </div>
+                <label>时</label>
+              </div>
+              <div style="flex: 1; display: flex">
+                <div
+                  class="line-div center"
+                  @click="commandFill('cellIdx6', '分', 'TextItem')"
+                >
+                  {{ letData.cellIdx6 ? letData.cellIdx6 : "XX" }}
+                </div>
+                <label>分</label>
+              </div>
+            </div>
+            <div class="docTextLine">
+              裁定地点：
+              <div style="flex: 1; display: flex">
+                <div
+                  class="line-div"
+                  @click="commandFill('cellIdx7', '裁定地点', 'TextItem')"
+                >
+                  {{ letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）" }}
+                </div>
+              </div>
+            </div>
+            <div class="docTextLine">
+              裁定事项：
+              <div style="flex: 1; display: flex">
+                <div
+                  class="line-div"
+                  @click="
+                    commandFill('cellIdx8', '裁定事项', 'DangerTableItem')
+                  "
+                >
+                  {{ letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）" }}
+                </div>
+              </div>
+            </div>
+            <div class="docTextLine">
+              <div style="flex: 1; display: flex">
+                <label>裁定主持人（签名）：</label>
+                <div
+                  class="line-div"
+                  @click="
+                    commandFill('cellIdx9', '裁定主持人（签名）', 'TextItem')
+                  "
+                >
+                  {{ letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）" }}
+                </div>
+              </div>
+              <div style="flex: 1; display: flex">
+                <label>记录人（签名）：</label>
+                <div
+                  class="line-div"
+                  @click="
+                    commandFill('cellIdx10', '记录人（签名）', 'TextItem')
+                  "
+                >
+                  {{ letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）" }}
+                </div>
+              </div>
+            </div>
+            <div class="docTextLine">
+              被裁定单位负责人（签名）：
+              <div style="flex: 1; display: flex">
+                <div
+                  class="line-div"
+                  @click="
+                    commandFill(
+                      'cellIdx11',
+                      '被裁定单位负责人（签名）',
+                      'TextItem'
+                    )
+                  "
+                >
+                  {{ letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）" }}
+                </div>
+              </div>
+            </div>
+            <div class="docTextLine">
+              其他单位参加人员（签名）：
+              <div style="flex: 1; display: flex">
+                <div
+                  class="line-div"
+                  @click="
+                    commandFill(
+                      'cellIdx12',
+                      '其他单位参加人员（签名）',
+                      'TextItem'
+                    )
+                  "
+                >
+                  {{ letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）" }}
+                </div>
+              </div>
+            </div>
+            <div class="docTextLine">
+              裁定记录：
+              <div style="flex: 1; display: flex">
+                <div
+                  class="line-div"
+                  @click="commandFill('cellIdx13', '裁定记录', 'TextItem')"
+                >
+                  {{ letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）" }}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -216,7 +189,7 @@
 <script>
 import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject } from '@/utils/setInitPaperData'
+import { getDangerObject } from "@/utils/setInitPaperData";
 export default {
   name: "Let300",
   props: {
@@ -242,8 +215,8 @@ export default {
       letData: {},
       options: {
         cellIdx8: {
-          page: '31',
-          key: 'cellIdx8' // 用来区分一个页面多个地方调用隐患大表，最后返回值
+          page: "31",
+          key: "cellIdx8", // 用来区分一个页面多个地方调用隐患大表，最后返回值
         },
       },
       editData: {}, // 回显数据
@@ -272,14 +245,16 @@ export default {
       const caseId = this.corpData.caseId;
       const checkPaper = await wkPaper.findAll((item) => {
         return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
+          item.caseId === caseId &&
+          item.paperType === this.docData.docTypeNo &&
+          item.delFlag !== "1"
         );
       });
       // await wkPaper.delete(checkPaper[0].id)
       // 保存额外拼写的数据内容，用于修改隐患项时回显使用
       this.extraData = {
         corpName: corp.corpName,
-      }
+      };
       if (checkPaper.length > 0) {
         // 回显
         this.letData = JSON.parse(checkPaper[0].paperContent);
@@ -287,15 +262,17 @@ export default {
       } else {
         // 创建初始版本
         // 1.裁定事件：
-        let now = new Date()
+        let now = new Date();
         // 2.裁定地点：企业名称
         // 3.裁定事项：煤矿名称+“涉嫌”+隐患描述+“案”
         // 获取笔录文书中的隐患数据
         const let101Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === '1';
+          return item.caseId === caseId && item.paperType === "1";
         });
-        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
-        let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
+        let let101DataPapaerContent = JSON.parse(let101Data.paperContent);
+        let dangerObject = getDangerObject(
+          let101DataPapaerContent.dangerItemObject.tableData
+        );
         let cellIdx13String = `主持人：现在公开裁定开始，首先我先介绍裁定小组成员，我是主持人XXX，记录人是XXX，裁定小组成员有监察分局XXX、XXX。
       主持人：XX煤矿矿长XXX，参加公开裁定的人员是否与你矿有利害关系人员，是否申请回避？
       XX煤矿矿长XXX：不申请回避。
@@ -308,7 +285,7 @@ export default {
       案件承办人XXX、XXX：没有了。
       主持人：陈述、申辩结束，下面裁定小组集体研究。
       主持人：经过我们裁定小组集体研究，现宣布裁定结果： XX煤矿涉嫌瓦斯超限作业违法违规行为事实清楚，证据确凿充分，违反了《国务院关于预防煤矿生产安全事故的特别规定》第八条第二款第（二）项的规定，依据《国务院关于预防煤矿生产安全事故的特别贵的》第十条第一款、第十一条第一款的规定，并根据违法违规情节的轻重，拟给予责令停产整顿X日，罚款八十万元整，暂扣安全生产许可证；对煤矿企业负责人罚款四万元以整。
-      `
+      `;
         this.letData = {
           cellIdx0: now.getFullYear(), // 年
           cellIdx0TypeTextItem: now.getFullYear(), // 年
@@ -331,7 +308,7 @@ export default {
           cellIdx12: null, // 其他单位参加人员（签名）
           cellIdx13: cellIdx13String, // 裁定记录
           cellIdx13TypeTextareaItem: cellIdx13String, // 裁定记录
-          dangerItemObject: let101DataPapaerContent.dangerItemObject
+          dangerItemObject: let101DataPapaerContent.dangerItemObject,
         };
       }
       await db.close();
@@ -340,20 +317,27 @@ export default {
       // 返回选择企业
       this.$emit("go-back", { page });
     },
-    commandFill (key, title, type) {
+    commandFill(key, title, type) {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`
-        if (key === 'cellIdx8') {
+        let dataKey = `${key}Type${type}`;
+        if (key === "cellIdx8") {
           this.options[key] = {
-            page: '31',
+            page: "31",
             key: key,
-            spellString: this.extraData
-          }
-          dataKey = 'dangerItemObject'
+            spellString: this.extraData,
+          };
+          dataKey = "dangerItemObject";
         }
-        this.$refs.letMain.commandFill(key, dataKey, title, type, this.letData[dataKey], this.options[key])
+        this.$refs.letMain.commandFill(
+          key,
+          dataKey,
+          title,
+          type,
+          this.letData[dataKey],
+          this.options[key]
+        );
       }
     },
   },

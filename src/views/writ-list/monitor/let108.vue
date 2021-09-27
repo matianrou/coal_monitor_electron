@@ -101,7 +101,7 @@
             <table height="30"></table>
             <div class="docTextLine">
               <label style="width: 7%"></label>
-              <label>附件：</label>
+              <label>XX</label>
               <div
                 class="no-line-div"
                 @click="
