@@ -34,11 +34,15 @@
                 <span
                   @click="commandFill('cellIdx1', '', 'TextItem')"
                 >{{ letData.cellIdx1 ? letData.cellIdx1 : '（编辑）' }}</span>
-                <label>(</label>
+                <label>（</label>
                 <span
                   @click="commandFill('cellIdx2', '', 'TextItem')"
                 >{{ letData.cellIdx2 ? letData.cellIdx2 : '（编辑）' }}</span>
-                <label>） 煤安停〔</label>
+                <label>）煤安停</label>
+                <span
+                  @click="commandFill('cellIdx18', '', 'TextItem')"
+                >{{ letData.cellIdx18 ? letData.cellIdx18 : '（编辑）' }}</span>
+                <label>〔</label>
                 <span
                   @click="commandFill('cellIdx3', '', 'TextItem')"
                 >{{ letData.cellIdx3 ? letData.cellIdx3 : '（编辑）' }}</span>
@@ -230,6 +234,7 @@ export default {
         cellIdx1TypeTextItem: num0, // 文书号
         cellIdx2: num1, // 文书号
         cellIdx2TypeTextItem: num1, // 文书号
+        cellIdx18: null, // 停供电(停供民用爆炸物品)
         cellIdx3: num3, // 文书号
         cellIdx3TypeTextItem: num3, // 文书号
         cellIdx4: num4, // 文书号
@@ -278,6 +283,8 @@ export default {
       this.visibleSelectDialog = false
       this.letData.cellIdx0 = this.selectedType
       this.letData.cellIdx0TypeTextItem = this.selectedType
+      this.letData.cellIdx18 = this.selectedType === '停供电' ? '电' : '爆';
+      this.letData.cellIdx18TypeTextItem = this.selectedType === '停供电' ? '电' : '爆';
       this.letData.cellIdx8 = this.selectedType === '停供电' ? '停供生产性用电' : '停供民用爆炸物品'
       this.letData.cellIdx8TypeTextItem = this.selectedType === '停供电' ? '停供生产性用电' : '停供民用爆炸物品'
       this.letData.cellIdx17 = this.selectedType === '停供电' ? '供电部门' : '公安机关'

@@ -20,76 +20,26 @@
             <div class="textAlignCenter formHeader1">
               先行登记保存证据处理决定书
             </div>
-            <table class="docBody">
-              <tr>
-                <td
-                  class="cellInput"
-                  id="cell_idx_0"
-                  align="right"
-                  style="width: 40%"
-                  data-title
-                  data-type="text"
-                  data-src
+            <div class="docTextLine paper-number-div">
+              <div>
+                <span
                   @click="commandFill('cellIdx0', '文书号', 'TextItem')"
-                >
-                  {{ letData.cellIdx0 }}
-                </td>
-                <td>（</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_1"
-                  align="center"
-                  style="width: 15%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx1', '', 'TextItem')"
-                >
-                  {{ letData.cellIdx1 }}
-                </td>
-                <td class="textAlignLeft">） 煤安报处〔</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_2"
-                  align="center"
-                  style="width: 8%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx2', '', 'TextItem')"
-                >
-                  {{ letData.cellIdx2 }}
-                </td>
-                <td class="textAlignLeft">〕</td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_3"
-                  align="center"
-                  style="width: 8%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx3', '', 'TextItem')"
-                >
-                  {{ letData.cellIdx3 }}
-                </td>
-                <td class="textAlignLeft">号&nbsp;&nbsp;</td>
-              </tr>
-              <tr>
-                <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_4"
-                  style="width: 62%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx4', '', 'TextItem')"
-                >
-                  {{ letData.cellIdx4 }}
-                </td>
-                <td class="textAlignLeft">:</td>
-              </tr>
-            </table>
+                >{{ letData.cellIdx0 ? letData.cellIdx0 : '（编辑）' }}</span>
+                <label>（</label>
+                <span
+                  @click="commandFill('cellIdx1', '文书号', 'TextItem')"
+                >{{ letData.cellIdx1 ? letData.cellIdx1 : '（编辑）' }}</span>
+                <label>）煤安保处〔</label>
+                <span
+                  @click="commandFill('cellIdx2', '文书号', 'TextItem')"
+                >{{ letData.cellIdx2 ? letData.cellIdx2 : '（编辑）' }}</span>
+                <label>〕</label>
+                <span
+                  @click="commandFill('cellIdx3', '文书号', 'TextItem')"
+                >{{ letData.cellIdx3 ? letData.cellIdx3 : '（编辑）' }}</span>
+                <label>号</label>
+              </div>
+            </div>
             <div class="docTextarea">
               <label style="width: 5%"></label>
               本机关于

@@ -39,18 +39,22 @@
                 <span
                   @click="commandFill('cellIdx1', '文书号', 'TextItem')"
                 >{{ letData.cellIdx1 ? letData.cellIdx1 : '（编辑）' }}</span>
-                <label>(</label>
+                <label>（</label>
                 <span
                   @click="commandFill('cellIdx2', '文书号', 'TextItem')"
                 >{{ letData.cellIdx2 ? letData.cellIdx2 : '（编辑）' }}</span>
-                <label>） 煤安延〔</label>
+                <label>）煤安延</label>
                 <span
                   @click="commandFill('cellIdx3', '文书号', 'TextItem')"
                 >{{ letData.cellIdx3 ? letData.cellIdx3 : '（编辑）' }}</span>
-                <label>〕</label>
+                <label>〔</label>
                 <span
                   @click="commandFill('cellIdx4', '文书号', 'TextItem')"
                 >{{ letData.cellIdx4 ? letData.cellIdx4 : '（编辑）' }}</span>
+                <label>〕</label>
+                <span
+                  @click="commandFill('cellIdx5', '文书号', 'TextItem')"
+                >{{ letData.cellIdx5 ? letData.cellIdx5 : '（编辑）' }}</span>
                 <label>号</label>
               </div>
             </div>
@@ -315,7 +319,8 @@ export default {
         cellIdx1TypeTextItem: num0, // 文书号
         cellIdx2: num1, // 文书号
         cellIdx2TypeTextItem: num1, // 文书号
-        cellIdx3: null, // 查/扣
+        cellIdx3: selectedType ? selectedType.substring(0, 1) : '', // 查/扣
+        cellIdx3TypeTextItem: selectedType ? selectedType.substring(0, 1) : '', // 查/扣
         cellIdx4: num3, // 文书号
         cellIdx4TypeTextItem: num3, // 文书号
         cellIdx5: num4, // 文书号
