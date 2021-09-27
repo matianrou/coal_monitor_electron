@@ -79,11 +79,7 @@
               >{{ letData.cellIdx11 ? letData.cellIdx11 : '（点击编辑）'}}</span>
               规定，现移送贵单位，请审查决定是否予以立案侦查。
             </div>
-            <table class="docBody">
-              <tr>
-                <td class="textAlignLeft"></td>
-              </tr>
-              <table height="40"></table>
+            <table class="docBody" style="margin-top: 30px; margin-bottom: 30px;">
               <tr>
                 <td class="textAlignLeft">附：本案有关材料</td>
                 <td
@@ -110,7 +106,6 @@
                 <td class="textAlignLeft">页</td>
               </tr>
             </table>
-           <table height="40"></table>
            <div class="docTextLine">
               <div style="flex: 1; display: flex;">
                 <label>移送单位地址：</label>
@@ -191,8 +186,7 @@
                 >{{ letData.cellIdx25 ? letData.cellIdx25 : '（点击编辑）' }}</div>
               </div>
             </div>
-            <table height="30"></table>
-            <table class="docBody">
+            <table class="docBody" style="margin-top: 30px;">
               <tr>
                 <td
                   class="cellInput"
@@ -215,10 +209,9 @@
                 >{{letData.cellIdx27 ? letData.cellIdx27 : '（点击编辑）'}}</td>
               </tr>
             </table>
-            <table class="docBody">
-              <hr />
-              <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交受移送公安机关，一份存档。</td>
-            </table>
+            <div class="docTextarea" style="border-top: 2px solid #000;">
+              备注：本文书一式两份，一份交受移送公安机关，一份存档。
+            </div>
           </div>
         </div>
       </div>

@@ -123,8 +123,7 @@
               >{{ letData.cellIdx18 ? letData.cellIdx18 : '（点击编辑）'}}</span>
               有权在收到本催告书之日起3日内向本机关提出陈述和申辩，逾期未提出的，视为放弃此权利。
             </div>
-            <table height="60"></table>
-            <div class="docTextLine">
+            <div class="docTextLine" style="margin-top: 60px;">
               <div style="flex: 1; display: flex;">
                 <label>受送达人（签名）：</label>
                 <div
@@ -172,8 +171,7 @@
                 >{{ letData.cellIdx24 ? letData.cellIdx24 : '（点击编辑）' }}</div>
               </div>
             </div>
-            <table height="90"></table>
-            <table class="docBody">
+            <table class="docBody" style="margin-top: 60px;">
               <tr>
                 <td
                   class="cellInput"
@@ -196,9 +194,7 @@
                 >{{letData.cellIdx26 ? letData.cellIdx26: '（点击编辑）'}}</td>
               </tr>
             </table>
-            <table height="60"></table>
-            <div class="docTextarea cellLine">
-              <label style="width: 5%"></label>
+            <div class="docTextarea" style="border-top: 2px solid #000;">
               备注：本文书一式两份：一份交被处罚
               <span
                 style="borderBottom:none"
@@ -206,7 +202,6 @@
               >{{ letData.cellIdx27 ? letData.cellIdx27 : '（点击编辑）'}}</span>
               ，一份存档。 
             </div>
-            <table height="50"></table>
           </div>
         </div>
       </div>

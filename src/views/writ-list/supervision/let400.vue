@@ -99,8 +99,7 @@
                 <td class="textAlignCenter">依法处理。</td>
               </tr>
             </table>
-            <table height="60"></table>
-            <table class="docBody">
+            <table class="docBody" style="margin-top: 30px; margin-bottom: 30px;">
               <tr>
                 <td class="textAlignLeft">承办人（签名）：</td>
                 <td
@@ -196,7 +195,6 @@
                 ></td>
               </tr>
             </table>
-            <table height="30"></table>
           </div>
         </div>
       </div>

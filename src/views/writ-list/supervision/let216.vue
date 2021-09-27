@@ -51,7 +51,7 @@
               <div class="line"></div>
             </div>
             <div class="docTextLine">
-              <div style="flex: 1; display: flex;">
+              <div style="flex: 2; display: flex;">
                 <label>立案决定书编号：</label>
                 <div
                   class="line-div"
@@ -96,8 +96,7 @@
               >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</span>
               <div class="line"></div>
             </div>
-            <table height="60"></table>
-            <div class="docTextLine">
+            <div class="docTextLine" style="margin-top: 60px; margin-bottom: 30px;">
               <div style="flex: 5; display: flex;">
                 <label>执法机关负责人意见：</label>
                 <div
@@ -120,7 +119,6 @@
                 >{{ letData.cellIdx12 ? letData.cellIdx12 : '（编辑）' }}</div>
               </div>
             </div>
-            <table height="30"></table>
           </div>
         </div>
       </div>

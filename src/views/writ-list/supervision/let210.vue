@@ -99,8 +99,7 @@
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
               的听证申请。
             </div>
-            <table height="60"></table>
-            <div class="docTextLine">
+            <div class="docTextLine" style="margin-top: 30px;">
               <div style="flex: 1; display: flex;">
                 <label>受送达人（签名）：</label>
                 <div
@@ -148,8 +147,7 @@
                 >{{ letData.cellIdx14 ? letData.cellIdx14 : '（点击编辑）' }}</div>
               </div>
             </div>
-            <table height="90"></table>
-            <table class="docBody">
+            <table class="docBody" style="margin-top: 60px;">
               <tr>
                 <td
                   class="cellInput"
@@ -176,7 +174,6 @@
               <label style="width: 5%"></label>
               备注：本文书一式两份，一份交听证申请人，一份存档。
             </div>
-            <table height="50"></table>
           </div>
         </div>
       </div>

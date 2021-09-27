@@ -19,12 +19,11 @@
             </div>
             <div class="textAlignCenter formHeader1">案 件 结 案 报 告</div>
             <div class="docTextarea">
-              <label style="width:5%"></label>
+              <label style="width: 2em;"></label>
               主要内容：案由；行政相对人基本情况；案发时间及地点；主要违法事实、立案调查及审理情况；行政处罚执行情况；结案理由。
             </div>
-            <table height="30"></table>
             <div
-              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+              style="word-wrap:break-word;word-break:break-all;overflow:hidden; margin-top: 30px;"
               class="cellInput mutiLineArea"
               id="cell_idx_0"
               data-title="案由"
@@ -44,7 +43,8 @@
               </div>
             </div>
             <div class="docTextLine">
-              <div style="flex: 3; display: flex;">
+              <div style="flex: 5; display: flex;">
+                <label style="width: 2em;"></label>
                 <label>承办人意见：</label>
                 <div
                   class="line-div"
@@ -82,7 +82,8 @@
               </div>
             </div>
             <div class="docTextLine">
-              <div style="flex: 3; display: flex;">
+              <div style="flex: 5; display: flex;">
+                <label style="width: 2em;"></label>
                 <label>审批人意见：</label>
                 <div
                   class="line-div"

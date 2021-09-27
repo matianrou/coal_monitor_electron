@@ -42,7 +42,8 @@
               <label>被处罚</label>
               <span
                 class="no-line"
-                @click="commandFill('cellIdx4', '单位/个人', 'TextItem')"
+                style="cursor: pointer;"
+                @click="commandFill('cellIdx4', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx4 ? letData.cellIdx4 : '（点击编辑）'}}</span>
               <span
                 @click="commandFill('cellIdx5', '被处罚单位', 'TextItem')"
@@ -69,6 +70,7 @@
               <span
                 @click="commandFill('cellIdx10', '行政处罚', 'DangerTableItem')"
               >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）'}}</span>
+              。
             </div>
             <!-- <div class="docTextarea">
               
@@ -80,7 +82,7 @@
               <span
                 @click="commandFill('cellIdx11', '银行', 'TextItem')"
               >{{ letData.cellIdx11 ? letData.cellIdx11 : '（点击编辑）'}}</span>
-              银行：
+              银行
               <span
                 @click="commandFill('cellIdx12', '支行（分理处）', 'TextItem')"
               >{{ letData.cellIdx12 ? letData.cellIdx12 : '（点击编辑）'}}</span>
@@ -100,7 +102,7 @@
               <span
                 @click="commandFill('cellIdx13', '支行（分理处），账户名称', 'TextItem')"
               >{{ letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）' }}</span>
-              到期不缴纳罚款的，每日按罚款数额的百分之三加处罚款。
+              。到期不缴纳罚款的，每日按罚款数额的百分之三加处罚款。
             </div>
             <div class="docTextarea">
               <label style="width: 2em;"></label>
@@ -118,8 +120,7 @@
               >{{ letData.cellIdx18 ? letData.cellIdx18 : '（点击编辑）' }}</span>
               人民法院提起行政诉讼，复议、诉讼期间，不停止执行本决定。
             </div>
-            <table height="90"></table>
-            <table class="docBody">
+            <table class="docBody" style="margin-top: 60px;">
               <tr>
                 <td
                   class="cellInput"
@@ -142,9 +143,7 @@
                 >{{letData.cellIdx20 ? letData.cellIdx20 : '（点击编辑）'}}</td>
               </tr>
             </table>
-            <table height="60"></table>
-            <div class="docTextarea cellLine">
-              <label style="width: 5%"></label>
+            <div class="docTextarea" style="border-top: 2px solid #000;">
               备注：本文书一式三份，一份交银行，一份交被罚处
               <span
                 style="borderBottom:none"
@@ -152,7 +151,6 @@
               >{{ letData.cellIdx21 ? letData.cellIdx21 : '（点击编辑）'}}</span>
               ，一份存档。 
             </div>
-            <table height="50"></table>
           </div>
         </div>
       </div>
@@ -179,6 +177,16 @@ export default {
     return {
       letData: {},
       options: {
+        cellIdx4: [
+          {
+            value: '单位',
+            name: '单位'
+          },
+          {
+            value: '个人',
+            name: '个人'
+          },
+        ],
         cellIdx7: {
           page: '8',
           key: 'cellIdx7'

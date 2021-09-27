@@ -149,7 +149,7 @@ function setDangerTableItem (data, selectedData, options) {
       } else if (options.key === 'cellIdx8') {
         string = dangerObject.penaltyBasisString
       } else if (options.key === 'cellIdx10') {
-        string = `分别作出：${dangerObjectIndex.penaltyDesc}。合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle)}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`
+        string = `${dangerObjectIndex.penaltyDesc}。合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle)}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`
       }
       break
     case '30': // 陈述申辩笔录

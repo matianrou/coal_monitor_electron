@@ -18,7 +18,6 @@
               <br />
             </div>
             <div class="textAlignCenter formHeader1">加处罚款决定书</div>
-            <div class="stdRowH"></div>
             <div class="docTextLine paper-number-div">
               <div>
                 <span
@@ -104,27 +103,27 @@
               ，要求于
               <span
                 @click="commandFill('cellIdx15', '年', 'TextItem')"
-              >{{ letData.cellIdx15 ? letData.cellIdx15 : '（点击编辑）'}}</span>
+              >{{ letData.cellIdx15 ? letData.cellIdx15 : '（XX）'}}</span>
               年
               <span
                 @click="commandFill('cellIdx16', '月', 'TextItem')"
-              >{{ letData.cellIdx16 ? letData.cellIdx16 : '（点击编辑）'}}</span>
+              >{{ letData.cellIdx16 ? letData.cellIdx16 : '（XX）'}}</span>
               月
               <span
                 @click="commandFill('cellIdx17', '日', 'TextItem')"
-              >{{ letData.cellIdx17 ? letData.cellIdx17 : '（点击编辑）'}}</span>
+              >{{ letData.cellIdx17 ? letData.cellIdx17 : '（XX）'}}</span>
               日前履行。 截至
               <span
                 @click="commandFill('cellIdx18', '年', 'TextItem')"
-              >{{ letData.cellIdx18 ? letData.cellIdx18 : '（点击编辑）'}}</span>
+              >{{ letData.cellIdx18 ? letData.cellIdx18 : '（XX）'}}</span>
               年
               <span
                 @click="commandFill('cellIdx19', '月', 'TextItem')"
-              >{{ letData.cellIdx19 ? letData.cellIdx19 : '（点击编辑）'}}</span>
+              >{{ letData.cellIdx19 ? letData.cellIdx19 : '（XX）'}}</span>
               月
               <span
                 @click="commandFill('cellIdx20', '日', 'TextItem')"
-              >{{ letData.cellIdx20 ? letData.cellIdx20 : '（点击编辑）'}}</span>
+              >{{ letData.cellIdx20 ? letData.cellIdx20 : '（XX）'}}</span>
               日你单位未履行该处罚决定，依据《中华人民共和国行政处罚法》第七十二条第一款第一项规定，本机关决定对你
               <span
                 class="no-underline"
@@ -137,15 +136,15 @@
               ，并于
               <span
                 @click="commandFill('cellIdx23', '年', 'TextItem')"
-              >{{ letData.cellIdx23 ? letData.cellIdx23 : '（点击编辑）'}}</span>
+              >{{ letData.cellIdx23 ? letData.cellIdx23 : '（XX）'}}</span>
               年
               <span
                 @click="commandFill('cellIdx24', '月', 'TextItem')"
-              >{{ letData.cellIdx24 ? letData.cellIdx24 : '（点击编辑）'}}</span>
+              >{{ letData.cellIdx24 ? letData.cellIdx24 : '（XX）'}}</span>
               月
               <span
                 @click="commandFill('cellIdx25', '日', 'TextItem')"
-              >{{ letData.cellIdx25 ? letData.cellIdx25 : '（点击编辑）'}}</span>
+              >{{ letData.cellIdx25 ? letData.cellIdx25 : '（XX）'}}</span>
               日前将加处的罚款缴至
               <span
                 @click="commandFill('cellIdx26', '罚款缴至', 'TextItem')"
@@ -154,32 +153,19 @@
               <span
                 @click="commandFill('cellIdx27', '支行（分理处）', 'TextItem')"
               >{{ letData.cellIdx27 ? letData.cellIdx27 : '（点击编辑）'}}</span>
-              支行（分理处）
-            </div>
-            <div class="docTextLine">
-              <div style="flex: 1; display: flex;">
-                <label>账户名称：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx28', '账户名称', 'TextItem')"
-                >{{ letData.cellIdx28 ? letData.cellIdx28 : '（点击编辑）' }}</div>
-              </div>
-              <div style="flex: 1; display: flex;">
-                <label>账号：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx29', '账号', 'TextItem')"
-                >{{ letData.cellIdx29 ? letData.cellIdx29 : '（点击编辑）' }}</div>
-              </div>
-            </div>
-            <div class="docTextLine">
-              <div style="flex: 1; display: flex;">
-                <label>地址：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx30', '地址', 'TextItem')"
-                >{{ letData.cellIdx30 ? letData.cellIdx30 : '（点击编辑）' }}</div>
-              </div>
+              支行（分理处），账户名称：
+              <span
+                @click="commandFill('cellIdx28', '账户名称', 'TextItem')"
+              >{{ letData.cellIdx28 ? letData.cellIdx28 : '（点击编辑）'}}</span>
+              账号：
+              <span
+                @click="commandFill('cellIdx29', '账号', 'TextItem')"
+              >{{ letData.cellIdx29 ? letData.cellIdx29 : '（点击编辑）'}}</span>
+              地址：
+              <span
+                @click="commandFill('cellIdx30', '地址', 'TextItem')"
+              >{{ letData.cellIdx30 ? letData.cellIdx30 : '（点击编辑）'}}</span>
+              。
             </div>
             <div class="docTextarea">
               <label style="width:5%"></label>
@@ -197,8 +183,7 @@
               >{{ letData.cellIdx33 ? letData.cellIdx33 : '（点击编辑）'}}</span>
               人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。
             </div>
-            <table height="60"></table>
-            <table class="docBody">
+            <table class="docBody" style="margin-top: 60px; margin-bottom: 30px;">
               <tr>
                 <td
                   class="cellInput"
@@ -221,9 +206,7 @@
                 >{{letData.cellIdx35 ? letData.cellIdx35: '（点击编辑）'}}</td>
               </tr>
             </table>
-            <table height="60"></table>
-            <div class="docTextarea cellLine">
-              <label style="width: 5%"></label>
+            <div class="docTextarea" style="border-top: 2px solid #000;">
               备注：本文书一式三份；一份交银行，一份交被处罚
               <span
                 style="borderBottom:none"
@@ -231,7 +214,6 @@
               >{{ letData.cellIdx36 ? letData.cellIdx36 : '（点击编辑）'}}</span>
               ，一份存档。 
             </div>
-            <table height="50"></table>
           </div>
         </div>
       </div>

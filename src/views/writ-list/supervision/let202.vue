@@ -22,49 +22,49 @@
               时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;间：
               <div style="flex: 1; display: flex;">
                 <div
-                  class="line-div"
+                  class="line-div center"
                   @click="commandFill('cellIdx0', '年', 'TextItem')"
                 >{{ letData.cellIdx0 ? letData.cellIdx0 : 'XX' }}</div>
                 <label>年</label>
               </div>
               <div style="flex: 1; display: flex;">
                 <div
-                  class="line-div"
+                  class="line-div center"
                   @click="commandFill('cellIdx1', '月', 'TextItem')"
                 >{{ letData.cellIdx1 ? letData.cellIdx1 : 'XX' }}</div>
                 <label>月</label>
               </div>
               <div style="flex: 1; display: flex;">
                 <div
-                  class="line-div"
+                  class="line-div center"
                   @click="commandFill('cellIdx2', '日', 'TextItem')"
                 >{{ letData.cellIdx2 ? letData.cellIdx2 : 'XX' }}</div>
                 <label>日</label>
               </div>
               <div style="flex: 1; display: flex;">
                 <div
-                  class="line-div"
+                  class="line-div center"
                   @click="commandFill('cellIdx3', '时', 'TextItem')"
                 >{{ letData.cellIdx3 ? letData.cellIdx3 : 'XX' }}</div>
                 <label>时</label>
               </div>
               <div style="flex: 1; display: flex;">
                 <div
-                  class="line-div"
+                  class="line-div center"
                   @click="commandFill('cellIdx4', '分', 'TextItem')"
                 >{{ letData.cellIdx4 ? letData.cellIdx4 : 'XX' }}</div>
                 <label>分至</label>
               </div>
               <div style="flex: 1; display: flex;">
                 <div
-                  class="line-div"
+                  class="line-div center"
                   @click="commandFill('cellIdx5', '时', 'TextItem')"
                 >{{ letData.cellIdx5 ? letData.cellIdx5 : 'XX' }}</div>
                 <label>时</label>
               </div>
               <div style="flex: 1; display: flex;">
                 <div
-                  class="line-div"
+                  class="line-div center"
                   @click="commandFill('cellIdx6', '分', 'TextItem')"
                 >{{ letData.cellIdx6 ? letData.cellIdx6 : 'XX' }}</div>
                 <label>分</label>
@@ -76,7 +76,7 @@
                 <div
                   class="line-div"
                   @click="commandFill('cellIdx7', '地点', 'TextItem')"
-                >{{ letData.cellIdx7 ? cellIdx7.cellIdx7 : '（点击编辑）' }}</div>
+                >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）' }}</div>
               </div>
             </div>
             <div class="docTextarea">

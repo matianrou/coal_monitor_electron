@@ -175,8 +175,7 @@
                 >{{ letData.cellIdx21 ? letData.cellIdx21 : '（点击编辑）' }}</div>
               </div>
             </div>
-            <table height="60"></table>
-            <table class="docBody">
+            <table class="docBody" style="margin-top: 60px;">
               <tr>
                 <td
                   class="cellInput"

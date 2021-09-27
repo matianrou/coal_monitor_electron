@@ -102,8 +102,7 @@
               >
               的措施。
             </div>
-            <table height="60"></table>
-            <div class="docTextLine">
+            <div class="docTextLine" style="margin-top: 30px;">
               <div style="flex: 1; display: flex;">
                 <label>受送达人（签名）：</label>
                 <div

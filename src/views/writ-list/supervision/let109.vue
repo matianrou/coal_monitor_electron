@@ -159,8 +159,7 @@
               >{{ letData.cellIdx17 ? letData.cellIdx17 : '（点击编辑）'}}</span>
               人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。
             </div>
-            <table height="60"></table>
-            <table class="docBody">
+            <table class="docBody" style="margin-top: 60px;">
               <tr>
                 <td
                   class="cellInput"
@@ -187,8 +186,7 @@
                 </td>
               </tr>
             </table>
-            <table height="60"></table>
-            <div class="docTextarea" style="border-top: 2px solid #000;">
+            <div class="docTextarea" style="border-top: 2px solid #000; margin-top: 60px;">
               备注：本文书一式两份，一份交被取证单位，一份存档。
             </div>
           </div>

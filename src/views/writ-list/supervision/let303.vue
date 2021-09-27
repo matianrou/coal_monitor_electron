@@ -88,8 +88,7 @@
 					<td class="textAlignLeft">人民法院提起行政诉讼。</td>
 				</tr>
 				</table>
-				<table height="30"></table>
-				 <table class="docBody">
+				 <table class="docBody" style="margin-top: 30px;">
        <tr>
 					<td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;签收人（签名）：</td>
 					<td class="cellInput cellBottomLine" id="cell_idx_12" align="center" style="width:27%" data-title="签收人（签名）" data-type="text" data-src="" onclick="commandFill(this.id)"></td>
@@ -109,8 +108,7 @@
 						  <td class="cellInput cellBottomLine" id="cell_idx_17" align="center" style="width:24.8%" data-title="联系电话" data-type="text" data-src="" onclick="commandFill(this.id)"></td>
 						  </tr>
 						  </table>
-			<table height="60"></table>
-		<table class="docBody">
+		<table class="docBody" style="margin-top: 60px;">
 			<tr>
 			<td class="cellInput " id="cell_idx_18" align="right" style="width:95%"></td>
 		</tr>

@@ -18,7 +18,6 @@
               <br />
             </div>
             <div class="textAlignCenter formHeader1">听证会报告书</div>
-            <div class="stdRowH"></div>
             <div class="docTextLine paper-number-div">
               <div>
                 <!-- <span

@@ -243,8 +243,7 @@
                 <td class="textAlignLeft">将依法申请人民法院强制执行。</td>
               </tr>
             </table>
-            <table height="30"></table>
-            <table class="docBody">
+            <table class="docBody" style="margin-top: 30px;">
               <tr>
                 <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;受送达</td>
                 <td
@@ -353,9 +352,7 @@
                 ></td>
               </tr>
             </table>
-            <table height="90"></table>
-
-            <table class="docBody">
+            <table class="docBody" style="margin-top: 60px;">
               <tr>
                 <td class="cellInput" id="cell_idx_28" align="right" style="width:95%"></td>
               </tr>
@@ -396,9 +393,7 @@
               ></td>
               <td class="textAlignLeft">日</td>
             </table>
-            <table height="60"></table>
-
-            <table class="docBody">
+            <table class="docBody" style="margin-top: 30px;">
               <hr />
               <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份送被催告</td>
               <td class="cellInput" id="cell_idx_32" align="center" style="width:10%"></td>

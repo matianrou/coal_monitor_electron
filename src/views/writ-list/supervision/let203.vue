@@ -97,8 +97,7 @@
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
               <div class="line"></div>
             </div>
-            <table height="60"></table>
-            <div class="docTextLine">
+            <div class="docTextLine" style="margin-top: 30px; margin-bottom: 30px;">
               <div style="flex: 2; display: flex;">
                 <label>法制审核人员（签名）：</label>
                 <div
@@ -114,7 +113,6 @@
                 >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）' }}</div>
               </div>
             </div>
-            <table height="30"></table>
           </div>
         </div>
       </div>

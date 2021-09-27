@@ -101,8 +101,7 @@
                 <td class="textAlignLeft">页</td>
               </tr>
             </table>
-            <table height="30"></table>
-            <div class="docTextLine">
+            <div class="docTextLine" style="margin-top: 30px;">
               <div style="flex: 1; display: flex;">
                 <label>移送单位地址：</label>
                 <div
@@ -182,8 +181,7 @@
                 >{{ letData.cellIdx20 ? letData.cellIdx20 : '（点击编辑）' }}</div>
               </div>
             </div>
-            <table height="30"></table>
-            <table class="docBody">
+            <table class="docBody" style="margin-top: 30px;">
               <tr>
                 <td
                   class="cellInput"
@@ -206,10 +204,9 @@
                 >{{letData.cellIdx22 ? letData.cellIdx22 : '（点击编辑）'}}</td>
               </tr>
             </table>
-            <table class="docBody">
-              <hr />
-              <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交受移送单位，一份存档。</td>
-            </table>
+            <div class="docTextarea" style="border-top: 2px solid #000;">
+              备注：本文书一式两份，一份交受移送单位，一份存档。
+            </div>
           </div>
         </div>
       </div>

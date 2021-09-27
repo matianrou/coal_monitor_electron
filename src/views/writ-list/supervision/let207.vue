@@ -37,8 +37,7 @@
               <label>号</label>
             </div>
           </div>
-          <table height="60"></table>
-          <table style="border:solid 0px #000;" class="docBody">
+          <table style="border:solid 0px #000; margin-top: 30px;" class="docBody">
             <tr>
               <td
                 class="textAlignLeft"
@@ -104,7 +103,6 @@
                 >{{letData.cellIdx7}}</td>
             </tr>
           </table>
-          <!-- <table height="30"></table> -->
           <div class="docTextLine">
             <div style="flex: 2; display: flex;">
               <label>受送达</label>
@@ -142,8 +140,7 @@
               >{{ letData.cellIdx11 ? letData.cellIdx11 : '（编辑）' }}</div>
             </div>
           </div>
-         <table height="90"></table>
-          <table class="docBody">
+          <table class="docBody" style="margin-top: 60px; margin-bottom: 30px;">
               <tr>
                 <td
                   class="cellInput"

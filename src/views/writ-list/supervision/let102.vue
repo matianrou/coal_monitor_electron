@@ -80,8 +80,7 @@
               >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）' }}</span>
               人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。
             </div>
-            <table height="30"></table>
-            <div class="docTextLine">
+            <div class="docTextLine" style="margin-top: 30px;">
               <div style="flex: 1; display: flex;">
                 <label>现场执法人员（签名):</label>
                 <div
@@ -129,8 +128,7 @@
                 >{{ letData.cellIdx16 ? letData.cellIdx16 : '（点击编辑）' }}</div>
               </div>
             </div>
-            <table height="30"></table>
-            <table class="docBody">
+            <table class="docBody" style="margin-top: 30px;">
               <tr>
                 <td
                   class="cellInput"

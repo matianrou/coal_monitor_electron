@@ -112,7 +112,7 @@
               <span
                 @click="commandFill('cellIdx15', '罚款', 'TextItem')"
               >{{ letData.cellIdx15 ? letData.cellIdx15 : '（点击编辑）'}}</span>
-              的行政处罚决定。现根据
+              的行政处罚决定。现根据你
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx16', '单位/个人', 'SelectItem')"
@@ -127,7 +127,7 @@
                   class="cellInput"
                   id="cell_idx_17"
                   @click="commandFill('cellIdx17', '不予批准', 'SelectItem')"
-                >{{letData.cellIdx17}}</td>
+                >{{letData.cellIdx17 ? letData.cellIdx17 : '□'}}</td>
                 <td class="textAlignLeft">不予批准</td>
                 <td
                   class="cellInput"
@@ -148,8 +148,8 @@
                   style="width:3%;"
                   class="cellInput"
                   @click="commandFill('cellIdx19', '延期缴纳罚款', 'SelectItem')"
-                >{{letData.cellIdx19}}</td>
-                <td class="textAlignLeft">延期缴纳罚款。延长至</td>
+                >{{letData.cellIdx19 ? letData.cellIdx19 : '□'}}</td>
+                <td class="textAlignLeft">同意延期缴纳罚款。延长至</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_20"
@@ -191,8 +191,8 @@
                   style="width:3%;"
                   class="cellInput"
                   @click="commandFill('cellIdx23', '分期缴纳罚款', 'SelectItem')"
-                >{{letData.cellIdx23}}</td>
-                <td class="textAlignLeft">分期缴纳罚款。分</td>
+                >{{letData.cellIdx23 ? letData.cellIdx23 : '□'}}</td>
+                <td class="textAlignLeft">同意分期缴纳罚款。分</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_24"
@@ -385,8 +385,7 @@
               >{{letData.cellIdx36}}</td>
               <td class="textAlignLeft">)</td>
             </table> -->
-            <table height="30"></table>
-            <table class="docBody">
+            <table class="docBody" style="margin-top: 30px;">
               <tr>
                 <td
                   class="cellInput"
@@ -410,8 +409,7 @@
               </tr>
             </table>
           </div>
-          <div class="docTextarea cellLine">
-            <label style="width: 5%"></label>
+          <div class="docTextarea" style="border-top: 2px solid #000;">
             备注：本文书一式三份，一份交银行，一份交被处
             <span
               style="borderBottom:none"
@@ -419,7 +417,6 @@
             >{{ letData.cellIdx39 ? letData.cellIdx39 : '（点击编辑）'}}</span>
             ，一份存档。 
           </div>
-          <table height="50"></table>
         </div>
       </div>
     </let-main>

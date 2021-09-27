@@ -17,7 +17,7 @@
               煤矿安全监管行政执法文书
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">听 证 通 知 书</div>
+            <div class="textAlignCenter formHeader1">听证通知书</div>
             <div class="docTextLine paper-number-div">
               <div>
                 <span
@@ -54,7 +54,7 @@
               </tr>
             </table>
             <div class="docTextarea">
-              <label style="width: 5%"></label>
+              <label style="width: 2em"></label>
               本机关根据你
               <span
                 class="no-underline"
@@ -66,18 +66,22 @@
               >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
               ，现定于
               <span
+                class="center"
                 @click="commandFill('cellIdx8', '年', 'TextItem')"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（XX）'}}</span>
               年
               <span
+                class="center"
                 @click="commandFill('cellIdx9', '月', 'TextItem')"
               >{{ letData.cellIdx9 ? letData.cellIdx9 : '（XX）'}}</span>
               月
               <span
+                class="center"
                 @click="commandFill('cellIdx10', '日', 'TextItem')"
               >{{ letData.cellIdx10 ? letData.cellIdx10 : '（XX）'}}</span>
               日
               <span
+                class="center"
                 @click="commandFill('cellIdx11', '时', 'TextItem')"
               >{{ letData.cellIdx11 ? letData.cellIdx11 : '（XX）'}}</span>
               时在
@@ -97,7 +101,7 @@
               准时参加。
             </div>
             <div class="docTextLine">
-              <label style="width: 5%"></label>
+              <label style="width: 2em"></label>
               <div style="flex: 1; display: flex;">
                 <label>听证主持人姓名：</label>
                 <div
@@ -114,7 +118,7 @@
               </div>
             </div>
             <div class="docTextLine">
-              <label style="width: 5%"></label>
+              <label style="width: 2em"></label>
               <div style="flex: 1; display: flex;">
                 <label>听 证 员 姓 名：</label>
                 <div
@@ -131,7 +135,7 @@
               </div>
             </div>
             <div class="docTextLine">
-              <label style="width: 5%"></label>
+              <label style="width: 2em"></label>
               <div style="flex: 1; display: flex;">
                 <label>听 证 员 姓 名：</label>
                 <div
@@ -148,7 +152,7 @@
               </div>
             </div>
             <div class="docTextLine">
-              <label style="width: 5%"></label>
+              <label style="width: 2em"></label>
               <div style="flex: 1; display: flex;">
                 <label>记 录 人 姓 名：</label>
                 <div
@@ -165,7 +169,7 @@
               </div>
             </div>
             <div class="docTextarea">
-              <label style="width:5%"></label>
+              <label style="width: 2em"></label>
               根据《中华人民共和国行政处罚法》第六十四条规定，你
               <span
                 @click="commandFill('cellIdx23', '单位', 'TextItem')"
@@ -173,15 +177,15 @@
               可以申请听证主持人回避。有关事项告知如下：
             </div>
             <div class="docTextarea">
-              <label style="width:5%"></label>
+              <label style="width: 2em"></label>
               1. 请事先准备相关证据，通知证人或委托代理人准时参加；无正当理由拒不出席听证或者未经许可中途退出听证的，视为放弃听证权利，本机关将终止听证。
             </div>
             <div class="docTextarea">
-              <label style="width:5%"></label>
+              <label style="width: 2em"></label>
               2. 委托代理人参加听证的，应当在听证会前向本机关提交授权委托书等有关证明。
             </div>
             <div class="docTextarea">
-              <label style="width:5%"></label>
+              <label style="width: 2em"></label>
               3. 申请延期举行的，应当在举行听证会至少三日前向本机关提出，由本机关决定是否延期。
             </div>
             <!-- <table style="border:solid 0 #000;" class="docBody">
@@ -198,9 +202,8 @@
                 >{{letData.cellIdx24}}</td>
               </tr>
             </table> -->
-            <table height="30"></table>
             <div class="docTextLine">
-              <label style="width: 5%"></label>
+              <label style="width: 2em"></label>
               <div style="flex: 1; display: flex;">
                 <label>受送达人（签名）：</label>
                 <div
@@ -217,7 +220,7 @@
               </div>
             </div>
             <div class="docTextLine">
-              <label style="width: 5%"></label>
+              <label style="width: 2em"></label>
               <div style="flex: 1; display: flex;">
                 <label>执法机关地址：</label>
                 <div
@@ -234,7 +237,7 @@
               </div>
             </div>
             <div class="docTextLine">
-              <label style="width: 5%"></label>
+              <label style="width: 2em"></label>
               <div style="flex: 1; display: flex;">
                 <label>执法机关联系人：</label>
                 <div
@@ -250,8 +253,7 @@
                 >{{ letData.cellIdx30 ? letData.cellIdx30 : '（点击编辑）' }}</div>
               </div>
             </div>
-            <table height="90"></table>
-            <table class="docBody">
+            <table class="docBody" style="margin-top: 30px;">
               <tr>
                 <td
                   class="cellInput"
@@ -274,11 +276,9 @@
                 >{{letData.cellIdx32 ? letData.cellIdx32: '（点击编辑）'}}</td>
               </tr>
             </table>
-            <div class="docTextarea cellLine">
-              <label style="width: 5%"></label>
+            <div class="docTextarea" style="border-top: 2px solid #000;">
               备注：本文书一式两份，一份交听证申请人，一份存档。
             </div>
-            <table height="50"></table>
           </div>
         </div>
       </div>

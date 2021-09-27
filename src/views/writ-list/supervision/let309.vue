@@ -17,7 +17,6 @@
             <div class="textAlignLeft formHeader1">
                <div class="textAlignCenter ">行政强制执行事先催告书</div>
             </div>
-            <div class="stdRowH"></div>
             <div class="docTextLine paper-number-div">
               <div>
                 <span
@@ -73,13 +72,14 @@
                 class="no-underline"
                 @click="commandFill('cellIdx9', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</span>
+              ：
             </div>
             <div class="docTextarea">
               <label style="width:5%"></label>
               <span
                 class="no-line"
                 @click="commandFill('cellIdx10', '', 'SelectItem')"
-              >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）'}}</span>
+              >{{ letData.cellIdx10 ? letData.cellIdx10 : '□'}}</span>
               于
               <span
                 @click="commandFill('cellIdx11', '年', 'TextItem')"
@@ -92,7 +92,7 @@
               <span
                 @click="commandFill('cellIdx13', '日', 'TextItem')"
               >{{ letData.cellIdx13 ? letData.cellIdx13 : '（XX）'}}</span>
-              日&nbsp;&nbsp;&nbsp;&nbsp;前将罚款
+              日前将罚款
               <span
                 @click="commandFill('cellIdx14', '罚款', 'TextItem')"
               >{{ letData.cellIdx14 ? letData.cellIdx14 : '（点击编辑）'}}</span>
@@ -104,7 +104,7 @@
               <span
                 @click="commandFill('cellIdx16', '合计', 'TextItem')"
               >{{ letData.cellIdx16 ? letData.cellIdx16 : '（点击编辑）'}}</span>
-              元）&nbsp;&nbsp;缴至
+              元）缴纳至
               <span
                 @click="commandFill('cellIdx17', '银行', 'TextItem')"
               >{{ letData.cellIdx17 ? letData.cellIdx17 : '（点击编辑）'}}</span>
@@ -115,7 +115,7 @@
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx18', '', 'SelectItem')"
-              >{{ letData.cellIdx18 }}</span>
+              >{{ letData.cellIdx18 ? letData.cellIdx18 : '□' }}</span>
               立即履行以下行政决定:
               <span
                 @click="commandFill('cellIdx19', '行政决定', 'TextareaItem')"
@@ -131,8 +131,7 @@
               >{{ letData.cellIdx20 ? letData.cellIdx20 : '（点击编辑）'}}</span>
               不履行上述义务，本机关将依据《中华人民共和国行政强制法》第五十三条、第五十四条的规定，申请人民法院强制执行。
             </div>
-            <table height="60"></table>
-            <div class="docTextLine">
+            <div class="docTextLine" style="margin-top: 30px;">
               <label style="width: 2em;"></label>
               <div style="flex: 1; display: flex;">
                 <label>受送达人（签名）：</label>
@@ -183,8 +182,7 @@
                 >{{ letData.cellIdx26 ? letData.cellIdx26 : '（点击编辑）' }}</div>
               </div>
             </div>
-            <table height="30"></table>
-            <table class="docBody">
+            <table class="docBody" style="margin-top: 30px;">
               <tr>
                 <td
                   class="cellInput"
@@ -207,10 +205,7 @@
                 >{{letData.cellIdx28 ? letData.cellIdx28 : '（点击编辑）'}}</td>
               </tr>
             </table>
-            <table height="60"></table>
-            <table height="60"></table>
-            <div class="docTextarea cellLine">
-              <label style="width: 5%"></label>
+            <div class="docTextarea" style="border-top: 2px solid #000;">
               备注：本文书一式两份，一份送被催告
               <span
                 style="borderBottom:none"
@@ -218,7 +213,6 @@
               >{{ letData.cellIdx29 ? letData.cellIdx29 : '（点击编辑）'}}</span>
               ，一份存档。 
             </div>
-            <table height="50"></table>
           </div>
         </div>
       </div>

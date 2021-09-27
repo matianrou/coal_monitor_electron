@@ -18,17 +18,16 @@
               <br />
             </div>
             <div class="textAlignCenter formHeader1">强制执行申请书</div>
-            <div class="stdRowH"></div>
             <div class="docTextLine paper-number-div">
               <div>
                 <span
                   @click="commandFill('cellIdx0', '文书号', 'TextItem')"
                 >{{ letData.cellIdx0 ? letData.cellIdx0 : '（编辑）' }}</span>
-                <label>(</label>
+                <label>（</label>
                 <span
                   @click="commandFill('cellIdx1', '文书号', 'TextItem')"
                 >{{ letData.cellIdx1 ? letData.cellIdx1 : '（编辑）' }}</span>
-                <label>） 煤安执〔</label>
+                <label>）煤安执〔</label>
                 <span
                   @click="commandFill('cellIdx2', '文书号', 'TextItem')"
                 >{{ letData.cellIdx2 ? letData.cellIdx2 : '（编辑）' }}</span>
@@ -37,6 +36,10 @@
                   @click="commandFill('cellIdx3', '文书号', 'TextItem')"
                 >{{ letData.cellIdx3 ? letData.cellIdx3 : '（编辑）' }}</span>
                 <label>号</label>
+                <label>签发人：</label>
+                <span
+                  @click="commandFill('cellIdx4', '签发人', 'TextItem')"
+                >{{ letData.cellIdx4 ? letData.cellIdx4 : '（编辑）' }}</span>
               </div>
             </div>
             <table class="docBody">
@@ -80,22 +83,22 @@
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx11', '行政处罚决定文书号', 'TextItem')"
-              >{{ letData.cellIdx11 ? letData.cellIdx11 : '（点击编辑）'}}</span>
-              (
+              >{{ letData.cellIdx11 ? letData.cellIdx11 : '（编辑）'}}</span>
+              （
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx12', '行政处罚决定文书号', 'TextItem')"
-              >{{ letData.cellIdx12 ? letData.cellIdx12 : '（点击编辑）'}}</span>
+              >{{ letData.cellIdx12 ? letData.cellIdx12 : '（编辑）'}}</span>
               ）煤安罚〔
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx13', '行政处罚决定文书号', 'TextItem')"
-              >{{ letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）'}}</span>
+              >{{ letData.cellIdx13 ? letData.cellIdx13 : '（编辑）'}}</span>
               〕
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx14', '行政处罚决定文书号', 'TextItem')"
-              >{{ letData.cellIdx14 ? letData.cellIdx14 : '（点击编辑）'}}</span>
+              >{{ letData.cellIdx14 ? letData.cellIdx14 : '（编辑）'}}</span>
               号），并于
               <span
                 @click="commandFill('cellIdx15', '年', 'TextItem')"
@@ -112,22 +115,22 @@
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx18', '催告书文书号', 'TextItem')"
-              >{{ letData.cellIdx18 ? letData.cellIdx18 : '（点击编辑）'}}</span>
+              >{{ letData.cellIdx18 ? letData.cellIdx18 : '（编辑）'}}</span>
               （
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx19', '催告书文书号', 'TextItem')"
-              >{{ letData.cellIdx19 ? letData.cellIdx19 : '（点击编辑）'}}</span>
+              >{{ letData.cellIdx19 ? letData.cellIdx19 : '（编辑）'}}</span>
               ）煤安催告〔
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx20', '催告书文书号', 'TextItem')"
-              >{{ letData.cellIdx20 ? letData.cellIdx20 : '（点击编辑）'}}</span>
+              >{{ letData.cellIdx20 ? letData.cellIdx20 : '（编辑）'}}</span>
               〕
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx21', '催告书文书号', 'TextItem')"
-              >{{ letData.cellIdx21 ? letData.cellIdx21 : '（点击编辑）'}}</span>
+              >{{ letData.cellIdx21 ? letData.cellIdx21 : '（编辑）'}}</span>
               号）。被申请执行人在法定的期限内未履行上述行政处罚决定。根据《中华人民共和国行政处罚法》第七十二条第一款第四项、《中华人民共和国行政强制法》第五十三条、第五十四条规定，特申请贵院强制执行。
             </div>
             <table class="docBody">
@@ -137,7 +140,7 @@
               </tr>
               <tr>
                  <td style="width:5%"></td>
-                 <td class="textAlignLeft">1.&nbsp;&nbsp;</td>
+                 <td class="textAlignLeft">1.</td>
                  <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_22"
@@ -151,7 +154,7 @@
               </tr>
               <tr>
                  <td style="width:5%"></td>
-                 <td class="textAlignLeft">2.&nbsp;&nbsp;</td>
+                 <td class="textAlignLeft">2.</td>
                  <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_23"
@@ -165,7 +168,7 @@
               </tr>
               <tr>
                  <td style="width:5%"></td>
-                 <td class="textAlignLeft">3.&nbsp;&nbsp;</td>
+                 <td class="textAlignLeft">3.</td>
                  <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_24"
@@ -178,7 +181,6 @@
                 >{{ letData.cellIdx24 }}</td>
               </tr>
             </table>
-            <table height="60"></table>
             <div class="docTextLine">
               <label style="width: 5%"></label>
               <div style="flex: 1; display: flex;">
@@ -213,8 +215,7 @@
                 >{{ letData.cellIdx28 ? letData.cellIdx28 : '（点击编辑）' }}</div>
               </div>
             </div>
-             <table height="60"></table>
-             <table class="docBody">
+             <table class="docBody" style="margin-top: 30px;">
               <tr>
                 <td
                   class="cellInput"
@@ -237,10 +238,9 @@
                 >{{letData.cellIdx30 ? letData.cellIdx30 : '（点击编辑）'}}</td>
               </tr>
             </table>
-            <table class="docBody">
-              <hr />
-              <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份送人民法院，一份存档。</td>
-            </table>
+            <div class="docTextarea" style="border-top: 2px solid #000;">
+              备注：本文书一式两份，一份送人民法院，一份存档。
+            </div>
           </div>
         </div>
       </div>

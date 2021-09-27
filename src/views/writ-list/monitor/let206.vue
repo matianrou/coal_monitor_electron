@@ -17,7 +17,7 @@
               国 家 煤 矿 安 全 监 察
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">行 政 处 罚 决 定 书</div>
+            <div class="textAlignCenter formHeader3">行政处罚决定书</div>
             <div class="docTextLine paper-number-div">
               <div>
                 <span @click="commandFill('cellIdx0', '文书号', 'TextItem')">{{

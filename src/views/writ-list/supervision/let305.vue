@@ -165,8 +165,7 @@
                 <td class="textAlignLeft">人民法院提起行政诉讼。</td>
               </tr>
             </table>
-            <table height="30"></table>
-            <table class="docBody">
+            <table class="docBody" style="margin-top: 30px;">
               <tr>
                 <td class="cellInput" id="cell_idx_11" align="right" style="width:95%"></td>
               </tr>

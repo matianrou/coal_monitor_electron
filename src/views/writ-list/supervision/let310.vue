@@ -72,7 +72,6 @@
               >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）' }}</span>
               <div class="line"></div>
             </div>
-            <table height="60"></table>
             <div class="docTextLine">
               <label style="width: 2em;"></label>
               <div style="flex: 1; display: flex;">
@@ -155,8 +154,7 @@
                 >{{ letData.cellIdx17 ? letData.cellIdx17 : '（点击编辑）' }}</div>
               </div>
             </div>
-            <table height="60"></table>
-            <table class="docBody">
+            <table class="docBody" style="margin-top: 30px;">
               <tr>
                 <td
                   class="cellInput"

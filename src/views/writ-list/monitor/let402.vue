@@ -331,8 +331,7 @@
                 >{{letData.cellIdx23}}</td>
               </tr>
             </table>
-            <table height="60"></table>
-            <table class="docBody">
+            <table class="docBody" style="margin-top: 60px;">
               <tr>
                 <td
                   class="cellInput"

@@ -244,7 +244,6 @@
               <label style="width: 5%"></label>
               本文书一式两份：一份由应急管理部门备案，一份交被检查单位。
             </div>
-            <table height="50"></table>
           </div>
         </div>
       </div>

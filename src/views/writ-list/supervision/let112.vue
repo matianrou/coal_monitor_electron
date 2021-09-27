@@ -81,8 +81,7 @@
             </div>
             <table style="border:solid 0px #000;" class="docBody">
             </table>
-            <table height="60"></table>
-            <div class="docTextLine">
+            <div class="docTextLine" style="margin-top: 60px;">
               <div style="flex: 1; display: flex;">
                 <label>受送达人（签名）：</label>
                 <div

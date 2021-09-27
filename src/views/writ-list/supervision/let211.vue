@@ -17,54 +17,54 @@
               煤矿安全监管行政执法文书
               <br />
             </div>
-            <div class="textAlignCenter formHeader1" >听 证 笔 录</div>
+            <div class="textAlignCenter formHeader1" >听证笔录</div>
             <div class="docTextLine">
               听证时间：
               <div style="flex: 1; display: flex;">
                 <div
-                  class="line-div"
+                  class="line-div center"
                   @click="commandFill('cellIdx0', '年', 'TextItem')"
                 >{{ letData.cellIdx0 ? letData.cellIdx0 : 'XX' }}</div>
                 <label>年</label>
               </div>
               <div style="flex: 1; display: flex;">
                 <div
-                  class="line-div"
+                  class="line-div center"
                   @click="commandFill('cellIdx1', '月', 'TextItem')"
                 >{{ letData.cellIdx1 ? letData.cellIdx1 : 'XX' }}</div>
                 <label>月</label>
               </div>
               <div style="flex: 1; display: flex;">
                 <div
-                  class="line-div"
+                  class="line-div center"
                   @click="commandFill('cellIdx2', '日', 'TextItem')"
                 >{{ letData.cellIdx2 ? letData.cellIdx2 : 'XX' }}</div>
                 <label>日</label>
               </div>
               <div style="flex: 1; display: flex;">
                 <div
-                  class="line-div"
+                  class="line-div center"
                   @click="commandFill('cellIdx3', '时', 'TextItem')"
                 >{{ letData.cellIdx3 ? letData.cellIdx3 : 'XX' }}</div>
                 <label>时</label>
               </div>
               <div style="flex: 1; display: flex;">
                 <div
-                  class="line-div"
+                  class="line-div center"
                   @click="commandFill('cellIdx4', '分', 'TextItem')"
                 >{{ letData.cellIdx4 ? letData.cellIdx4 : 'XX' }}</div>
                 <label>分至</label>
               </div>
               <div style="flex: 1; display: flex;">
                 <div
-                  class="line-div"
+                  class="line-div center"
                   @click="commandFill('cellIdx5', '时', 'TextItem')"
                 >{{ letData.cellIdx5 ? letData.cellIdx5 : 'XX' }}</div>
                 <label>时</label>
               </div>
               <div style="flex: 1; display: flex;">
                 <div
-                  class="line-div"
+                  class="line-div center"
                   @click="commandFill('cellIdx6', '分', 'TextItem')"
                 >{{ letData.cellIdx6 ? letData.cellIdx6 : 'XX' }}</div>
                 <label>分</label>
@@ -123,16 +123,13 @@
                 </p>
               </div>
             </div>
-            <div class="docTextLine">
-              <div style="flex: 1; display: flex;">
-                <label>听证参加人（签名）：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx11', '听证参加人（签名）', 'TextItem')"
-                >{{ letData.cellIdx11 ? letData.cellIdx11 : '(编辑)' }}</div>
-              </div>
+            <div class="docTextarea" style="margin-bottom: 30px;">
+              <span class="no-line">听证参加人（签名）：</span>
+              <span
+                @click="commandFill('cellIdx11', '听证参加人（签名）', 'TextItem')"
+              >{{ letData.cellIdx11 ? letData.cellIdx11 : '（点击编辑）'}}</span>
+              <div class="line"></div>
             </div>
-            <table height="50"></table>
           </div>
         </div>
       </div>

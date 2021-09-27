@@ -178,7 +178,6 @@
               >{{ letData.cellIdx23 ? letData.cellIdx23 : '（点击编辑）'}}</span>
               单位，一份存档。 
             </div>
-            <table height="50"></table>
           </div>
         </div>
       </div>

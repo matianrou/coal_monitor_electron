@@ -73,6 +73,7 @@
                 class="no-underline"
                 @click="commandFill('cellIdx9', '单位/个人', 'TextItem')"
               >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</span>
+              作出
               <span
                 @click="commandFill('cellIdx10', '法律规定', 'DangerTableItem')"
               >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）'}}</span>
@@ -91,8 +92,7 @@
               <label style="width:5%"></label>
               根据《中华人民共和国行政处罚法》第六十三条、第六十四条规定，你单位对上述拟作出的行政处罚有要求举行听证的权利。要求举行听证的，应当在收到本告知书之日起五个工作日内提出。逾期未提出的，视为放弃此权利。
             </div>
-            <table height="30"></table>
-            <div class="docTextLine">
+            <div class="docTextLine" style="margin-top: 30px;">
               <div style="flex: 1; display: flex;">
                 <label>受送达人（签名）：</label>
                 <div
@@ -171,7 +171,6 @@
               >{{ letData.cellIdx21 ? letData.cellIdx21 : '（点击编辑）'}}</span>
               ，一份存档。 
             </div>
-            <table height="50"></table>
           </div>
         </div>
       </div>
@@ -262,7 +261,7 @@ export default {
       // 4.分别违反了+违法认定法条
       // 5.行政处罚依据
       // 7.行政处罚决定
-      let cellIdx10String = `分别作出：${
+      let cellIdx10String = `${
         dangerObject.penaltyDesc
       }。合并罚款人民币${transformNumToChinese(
         dangerObject.penaltyDescFineTotle
