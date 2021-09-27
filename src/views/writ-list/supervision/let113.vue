@@ -88,7 +88,7 @@
               }}</span>
               已依法履行行政决定并采取相应措施消除了安全隐患，生产安全事故的现实危险已不存在，根据《中华人民共和国安全生产法》第六十七条第二款规定，请贵单位解除对其采取的
               <span
-                class="no-line"
+                class="no-underline"
                 @click="
                   commandFill(
                     'cellIdx8',

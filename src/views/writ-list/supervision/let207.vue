@@ -37,72 +37,45 @@
               <label>号</label>
             </div>
           </div>
-          <table style="border:solid 0px #000; margin-top: 30px;" class="docBody">
-            <tr>
-              <td
-                class="textAlignLeft"
-                style="width:15%"
-              >送达文书：</td>
-              <td
-                class="cellInput cellBottomLine"
-                id="cell_idx_4"
-                align="center"
-                style="width:85%"
-                data-title="送达文书"
-                data-type="text"
-                data-src
+          <div class="docTextarea">
+              <span class="no-line">送达文书：</span>
+              <span
                 @click="commandFill('cellIdx4', '送达文书', 'TextItem')"
-                >{{letData.cellIdx4}}</td>
-            </tr>
-            <tr>
-              <td
-                class="textAlignLeft"
-                style="width:15%"
-              >文书编号：</td>
-              <td
-                class="cellInput cellBottomLine"
-                id="cell_idx_5"
-                align="center"
-                style="width:85%"
-                data-title="文书字号"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx5', '文书字号', 'TextItem')"
-                >{{letData.cellIdx5}}</td>
-            </tr>
-            <tr>
-              <td
-                class="textAlignLeft"
-                style="width:15%"
-              >送达地点：</td>
-              <td
-                class="cellInput cellBottomLine"
-                id="cell_idx_6"
-                align="center"
-                style="width:85%"
-                data-title="送达地点"
-                data-type="text"
-                data-src
+                >{{
+                  letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）"
+                }}</span
+              >
+              <div class="line"></div>
+            </div>
+            <div class="docTextarea">
+              <span class="no-line">文书编号：</span>
+              <span
+                @click="commandFill('cellIdx5', '文书编号', 'TextItem')"
+                >{{
+                  letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
+                }}</span
+              >
+              <div class="line"></div>
+            </div>
+            <div class="docTextarea">
+              <span class="no-line">送达地点：</span>
+              <span
                 @click="commandFill('cellIdx6', '送达地点', 'TextItem')"
-                >{{letData.cellIdx6}}</td>
-            </tr>
-            <tr>
-              <td
-                class="textAlignLeft"
-                style="width:15%"
-              >送达方式：</td>
-              <td
-                class="cellInput cellBottomLine"
-                id="cell_idx_7"
-                align="center"
-                style="width:85%"
-                data-title="送达方式"
-                data-type="text"
-                data-src
+                >{{
+                  letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
+                }}</span
+              >
+              <div class="line"></div>
+            </div>
+            <div class="docTextarea">
+              <span class="no-line">送达方式：</span>
+              <span
                 @click="commandFill('cellIdx7', '送达方式', 'SelectItem')"
-                >{{letData.cellIdx7}}</td>
-            </tr>
-          </table>
+                >{{
+                  letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
+                }}</span>
+              <div class="line"></div>
+            </div>
           <div class="docTextLine">
             <div style="flex: 2; display: flex;">
               <label>受送达</label>
