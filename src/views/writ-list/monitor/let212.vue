@@ -57,7 +57,7 @@
             <div class="docTextarea">
               <label style="width: 5%"></label>
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx5', '日期', 'DateItem')"
                 >{{
                   letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"

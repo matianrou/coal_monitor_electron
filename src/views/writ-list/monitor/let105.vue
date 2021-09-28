@@ -99,14 +99,12 @@
               </div>
               如无法按时前来，请及时联系。
             </div>
-            <div class="docTextLine">
-              <label>应急管理部门地址：</label>
-              <div
-                class="line-div"
-                @click="commandFill('cellIdx11', '', 'TextItem')"
-              >
-                {{ letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）" }}
-              </div>
+            <div class="docTextarea">
+              <span class="no-line">应急管理部门地址：</span>
+              <span
+                @click="commandFill('cellIdx11', '应急管理部门地址', 'TextItem')">{{
+                  letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）"}}</span>
+              <div class="line"></div>
             </div>
             <div class="docTextLine">
               <div style="flex: 1; display: flex">

@@ -84,16 +84,12 @@
                 <label>分</label>
               </div>
             </div>
-            <div class="docTextLine">
-              听证地点：
-              <div style="flex: 1; display: flex">
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx7', '听证地点', 'TextItem')"
-                >
-                  {{ letData.cellIdx7 ? cellIdx7.cellIdx7 : "（点击编辑）" }}
-                </div>
-              </div>
+            <div class="docTextarea">
+              <span class="no-line">地&nbsp;&nbsp;&nbsp; 点：</span>
+              <span
+                @click="commandFill('cellIdx7', '地点', 'TextItem')"
+              >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
+              <div class="line"></div>
             </div>
             <div class="docTextLine">
               <div style="flex: 1; display: flex">
@@ -117,7 +113,14 @@
                 </div>
               </div>
             </div>
-            <table style="border: solid 0 #000" class="docBody">
+            <div class="docTextarea">
+              <span class="no-line">听证记录：</span>
+              <span
+                @click="commandFill('cellIdx10', '听证记录', 'TextareaItem')"
+              >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）'}}</span>
+              <div class="line"></div>
+            </div>
+            <!-- <table style="border: solid 0 #000" class="docBody">
               <tr>
                 <td class="textAlignLeft">听证记录：</td>
               </tr>
@@ -145,7 +148,7 @@
                 <p class="show-area-item-p">&nbsp;</p>
                 <p class="show-area-item-p">&nbsp;</p>
               </div>
-            </div>
+            </div> -->
             <div class="docTextLine">
               <div style="flex: 1; display: flex">
                 <label style="width: 5%"></label>

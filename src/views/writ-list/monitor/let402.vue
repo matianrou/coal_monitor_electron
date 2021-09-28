@@ -63,7 +63,7 @@
               <label style="width: 5%"></label>
               我
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx6', '单位', 'TextItem')"
                 >{{ letData.cellIdx6 ? letData.cellIdx6 : "（编辑）" }}</span
               >

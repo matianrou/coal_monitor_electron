@@ -57,7 +57,7 @@
               <label style="width:5%"></label>
               经审查，你
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx5', '单位/个人', 'TextItem')"
               >{{ letData.cellIdx5 ? letData.cellIdx5 : ''}}</span>
               关于
@@ -94,12 +94,12 @@
               <label style="width:5%"></label>
               根据《中华人民共和国行政处罚法》第六十三条、六十四条规定，我
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx8', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
               决定不予受理你
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx9', '单位/个人', 'TextItem')"
               >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</span>
               的听证申请。

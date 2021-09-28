@@ -18,29 +18,28 @@
               <br />
             </div>
             <div class="textAlignCenter formHeader1">检 查 方 案</div>
-            <div class="docTextLine">
-              <label style="width: 5%"></label>
-              <label>一、被检查单位：</label>
-              <div
-                class="line-div"
-                @click="commandFill('cellIdx0', '被检查单位', 'TextItem')"
+            <div class="docTextarea">
+              <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;一、被检查单位：</span>
+              <span
+                @click="commandFill('cellIdx0', '被检查单位', 'TextItem')">{{
+                  letData.cellIdx0 ? letData.cellIdx0 : "（点击编辑）"}}</span>
+              <div class="line"></div>
+            </div>
+            <div class="docTextarea">
+              <span class="no-line"
+                >&nbsp;&nbsp;&nbsp;&nbsp;二、监管类型或方式：</span
               >
-                {{ letData.cellIdx0 ? letData.cellIdx0 : "（点击编辑）" }}
-              </div>
+              <span
+                @click="commandFill('cellIdx1', '监管类型或方式', 'CheckItem')"
+                >{{
+                  letData.cellIdx1 ? letData.cellIdx1 : "（点击编辑）"
+                }}</span
+              >
+              <div class="line"></div>
             </div>
             <div class="docTextLine">
-              <label style="width: 5%"></label>
-              <label>二、监察类型或方式：</label>
-              <div
-                class="line-div"
-                @click="commandFill('cellIdx1', '监察类型或方式', 'CheckItem')"
-              >
-                {{ letData.cellIdx1 ? letData.cellIdx1 : "（点击编辑）" }}
-              </div>
-            </div>
-            <div class="docTextLine">
-              <label style="width: 5%"></label>
-              <label>三、检查时间：</label>
+              <label style="width: 2em"></label>
+              <label>三、计划检查时间：</label>
               <div
                 class="line-div"
                 @click="commandFill('cellIdx2', '检查时间', 'DaterangeItem')"
@@ -49,38 +48,33 @@
               </div>
             </div>
             <div class="docTextarea">
-              <label style="width: 5%"></label>四、煤矿概况：
+              <span class="no-line"
+                >&nbsp;&nbsp;&nbsp;&nbsp;四、煤矿企业概况：</span
+              >
               <span
                 @click="commandFill('cellIdx3', '煤矿概况', 'TextareaItem')"
-                >{{ letData.cellIdx3 }}</span
+                >{{
+                  letData.cellIdx3 ? letData.cellIdx3 : "（点击编辑）"
+                }}</span
               >
               <div class="line"></div>
             </div>
-            <!-- <div
-              class="cellInput mutiLineArea show-area-item-content"
-              id="cell_idx_3"
-              data-title="煤矿概况"
-              data-type="textarea"
-              data-src
-              @click="commandFill('cellIdx3', '煤矿概况', 'TextareaItem')">
-              <p class="show-area-item-p">
-                <span style="padding: 7px;">{{ letData.cellIdx3 }}</span>
-              </p>
-            </div> -->
-            <div class="docTextLine">
-              <label style="width: 5%"></label>
-              <label>五、检查地点：</label>
-              <div
-                class="line-div"
+            <div class="docTextarea">
+              <span class="no-line"
+                >&nbsp;&nbsp;&nbsp;&nbsp;五、检查地点：</span
+              >
+              <span
                 @click="
                   commandFill('cellIdx4', '检查地点', 'CheckPositionItem')
                 "
+                >{{
+                  letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）"
+                }}</span
               >
-                {{ letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）" }}
-              </div>
+              <div class="line"></div>
             </div>
             <div class="docTextLine">
-              <label style="width: 5%"></label>
+              <label style="width: 2em"></label>
               <div
                 class="no-line-div"
                 @click="
@@ -91,18 +85,18 @@
                   )
                 "
               >
-                六、检查的主要内容和分工见明细表
+                六、检查的主要内容和分工见明细表（详见《检查分工明细表》）
               </div>
+              <div></div>
             </div>
-            <div class="docTextLine">
-              <label style="width: 5%"></label>
-              <label>七、其他事项：</label>
-              <div
-                class="line-div"
-                @click="commandFill('cellIdx6', '其他事项', 'TextItem')"
+            <div class="docTextarea">
+              <span class="no-line"
+                >&nbsp;&nbsp;&nbsp;&nbsp;七、其他事项：</span
               >
-                {{ letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）" }}
-              </div>
+              <span @click="commandFill('cellIdx6', '其他事项', 'TextItem')">{{
+                letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
+              }}</span>
+              <div class="line"></div>
             </div>
             <div class="docTextLine">
               <label style="width: 5%"></label>

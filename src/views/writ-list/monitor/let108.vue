@@ -124,17 +124,17 @@
                 <div
                   class="line-div"
                   @click="
-                    commandFill('cellIdx12', '受送达人（签名）', 'TextItem')
+                    commandFill('cellIdx13', '受送达人（签名）', 'TextItem')
                   "
                 >
-                  {{ letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）" }}
+                  {{ letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）" }}
                 </div>
                 <label>日期：</label>
                 <div
                   class="line-div"
-                  @click="commandFill('cellIdx13', '日期', 'DateItem')"
+                  @click="commandFill('cellIdx14', '日期', 'DateItem')"
                 >
-                  {{ letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）" }}
+                  {{ letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）" }}
                 </div>
               </div>
             </div>
@@ -142,24 +142,24 @@
               <span style="width: 7%"></span>
               <div style="flex: 2; display: flex">
                 <label>我</label>
-                <span @click="commandFill('cellIdx14', '', 'TextItem')">{{
-                  letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）"
+                <span @click="commandFill('cellIdx15', '', 'TextItem')">{{
+                  letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）"
                 }}</span>
                 <label>地址：</label>
                 <div
                   class="line-div"
-                  @click="commandFill('cellIdx15', '地址', 'TextItem')"
+                  @click="commandFill('cellIdx16', '地址', 'TextItem')"
                 >
-                  {{ letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）" }}
+                  {{ letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）" }}
                 </div>
               </div>
               <div style="flex: 2; display: flex">
                 <label>邮政编码：</label>
                 <div
                   class="line-div"
-                  @click="commandFill('cellIdx16', '邮政编码', 'DateItem')"
+                  @click="commandFill('cellIdx17', '邮政编码', 'DateItem')"
                 >
-                  {{ letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）" }}
+                  {{ letData.cellIdx17 ? letData.cellIdx17 : "（点击编辑）" }}
                 </div>
               </div>
             </div>
@@ -167,24 +167,24 @@
               <span style="width: 7%"></span>
               <div style="flex: 2; display: flex">
                 <label>我</label>
-                <span @click="commandFill('cellIdx17', '', 'TextItem')">{{
-                  letData.cellIdx17 ? letData.cellIdx17 : "（点击编辑）"
+                <span @click="commandFill('cellIdx18', '', 'TextItem')">{{
+                  letData.cellIdx18 ? letData.cellIdx18 : "（点击编辑）"
                 }}</span>
                 <label>联系人：</label>
                 <div
                   class="line-div"
-                  @click="commandFill('cellIdx18', '联系人', 'TextItem')"
+                  @click="commandFill('cellIdx19', '联系人', 'TextItem')"
                 >
-                  {{ letData.cellIdx18 ? letData.cellIdx18 : "（点击编辑）" }}
+                  {{ letData.cellIdx19 ? letData.cellIdx19 : "（点击编辑）" }}
                 </div>
               </div>
               <div style="flex: 2; display: flex">
                 <label>联系电话：</label>
                 <div
                   class="line-div"
-                  @click="commandFill('cellIdx19', '联系电话', 'DateItem')"
+                  @click="commandFill('cellIdx20', '联系电话', 'DateItem')"
                 >
-                  {{ letData.cellIdx19 ? letData.cellIdx19 : "（点击编辑）" }}
+                  {{ letData.cellIdx20 ? letData.cellIdx20 : "（点击编辑）" }}
                 </div>
               </div>
             </div>
@@ -193,26 +193,26 @@
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_20"
+                  id="cell_idx_21"
                   align="right"
                   style="width: 95%"
-                  @click="commandFill('cellIdx20', '', 'TextItem')"
+                  @click="commandFill('cellIdx21', '', 'TextItem')"
                 >
-                  {{ letData.cellIdx20 ? letData.cellIdx20 : "（点击编辑）" }}
+                  {{ letData.cellIdx21 ? letData.cellIdx21 : "（点击编辑）" }}
                 </td>
               </tr>
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_21"
+                  id="cell_idx_22"
                   align="right"
                   style="width: 95%"
                   data-title
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx21', '日期', 'DateItem')"
+                  @click="commandFill('cellIdx22', '日期', 'DateItem')"
                 >
-                  {{ letData.cellIdx21 ? letData.cellIdx21 : "（点击编辑）" }}
+                  {{ letData.cellIdx22 ? letData.cellIdx22 : "（点击编辑）" }}
                 </td>
               </tr>
             </table>

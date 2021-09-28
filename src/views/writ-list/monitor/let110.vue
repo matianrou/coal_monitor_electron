@@ -98,7 +98,7 @@
             <div class="docTextarea">
               <label style="width: 5%"></label>
               我
-              <span @click="commandFill('cellIdx11', '', 'TextItem')">{{
+              <span class="no-underline" @click="commandFill('cellIdx11', '', 'TextItem')">{{
                 letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）"
               }}</span>
               将于三十日内（不包括检测、检验或者技术鉴定期限）对上述被
@@ -106,7 +106,7 @@
                 letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）"
               }}</span>
               的
-              <span @click="commandFill('cellIdx13', '', 'TextItem')">{{
+              <span class="no-underline" @click="commandFill('cellIdx13', '', 'TextItem')">{{
                 letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）"
               }}</span>
               作出处理决定。此前，你单位不得使用、销毁或转移上述

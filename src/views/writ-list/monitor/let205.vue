@@ -63,16 +63,12 @@
               >
               分
             </div>
-            <div class="docTextLine">
-              地&nbsp;&nbsp;&nbsp;&nbsp;点：
-              <div style="flex: 1; display: flex">
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx7', '地点', 'TextItem')"
-                >
-                  {{ letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）" }}
-                </div>
-              </div>
+            <div class="docTextarea">
+              <span class="no-line">地&nbsp;&nbsp;&nbsp; 点：</span>
+              <span
+                @click="commandFill('cellIdx7', '地点', 'TextItem')"
+              >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
+              <div class="line"></div>
             </div>
             <div class="docTextLine">
               <label>陈述、申辩人：</label>

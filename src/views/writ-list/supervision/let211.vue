@@ -76,7 +76,7 @@
                 <div
                   class="line-div"
                   @click="commandFill('cellIdx7', '听证地点', 'TextItem')"
-                >{{ letData.cellIdx7 ? cellIdx7.cellIdx7 : '（点击编辑）' }}</div>
+                >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）' }}</div>
               </div>
             </div>
             <div class="docTextLine">

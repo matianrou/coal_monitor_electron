@@ -63,16 +63,15 @@
                 </div>
               </div>
             </div>
-            <div class="docTextLine">
-              <div style="flex: 1; display: flex">
-                <label>承办人：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx5', '承办人', 'TextItem')"
-                >
-                  {{ letData.cellIdx5 ? letData.cellIdx5 : "（编辑）" }}
-                </div>
-              </div>
+            <div class="docTextarea">
+              <span class="no-line">承办人：</span>
+              <span
+                @click="commandFill('cellIdx5', '承办人', 'TextItem')"
+                >{{
+                  letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
+                }}</span
+              >
+              <div class="line"></div>
             </div>
             <div class="docTextarea">
               <span class="no-line">违法事实及依据：</span>

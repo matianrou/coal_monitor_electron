@@ -87,7 +87,7 @@
               >
               送达行政处罚决定书 （
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx10', '文书号', 'TextItem')"
                 >{{
                   letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
@@ -95,7 +95,7 @@
               >
               煤安监
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx11', '文书号', 'TextItem')"
                 >{{
                   letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）"
@@ -103,7 +103,7 @@
               >
               罚〔
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx12', '文书号', 'TextItem')"
                 >{{
                   letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）"
@@ -111,7 +111,7 @@
               >
               〕
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx13', '文书号', 'TextItem')"
                 >{{
                   letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）"
@@ -119,7 +119,7 @@
               >
               号），你
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx14', '', 'TextItem')"
                 >{{
                   letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）"

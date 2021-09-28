@@ -39,7 +39,46 @@
             </div>
           </div>
           <table height="60"></table>
-          <table style="border:solid 0px #000;" class="docBody">
+          <div class="docTextarea">
+              <span class="no-line">送达文书：</span>
+              <span
+                @click="commandFill('cellIdx4', '送达文书', 'TextItem')"
+                >{{
+                  letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）"
+                }}</span
+              >
+              <div class="line"></div>
+            </div>
+            <div class="docTextarea">
+              <span class="no-line">文书编号：</span>
+              <span
+                @click="commandFill('cellIdx5', '文书编号', 'TextItem')"
+                >{{
+                  letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
+                }}</span
+              >
+              <div class="line"></div>
+            </div>
+            <div class="docTextarea">
+              <span class="no-line">送达地点：</span>
+              <span
+                @click="commandFill('cellIdx6', '送达地点', 'TextItem')"
+                >{{
+                  letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
+                }}</span
+              >
+              <div class="line"></div>
+            </div>
+            <div class="docTextarea">
+              <span class="no-line">送达方式：</span>
+              <span
+                @click="commandFill('cellIdx7', '送达方式', 'SelectItem')"
+                >{{
+                  letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
+                }}</span>
+              <div class="line"></div>
+            </div>
+          <!-- <table style="border:solid 0px #000;" class="docBody">
             <tr>
               <td
                 class="textAlignLeft"
@@ -104,7 +143,7 @@
                 @click="commandFill('cellIdx7', '送达方式', 'SelectItem')"
                 >{{letData.cellIdx7}}</td>
             </tr>
-          </table>
+          </table> -->
           <!-- <table height="30"></table> -->
           <div class="docTextLine">
             <div style="flex: 2; display: flex;">

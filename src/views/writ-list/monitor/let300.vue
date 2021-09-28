@@ -86,29 +86,19 @@
                 <label>分</label>
               </div>
             </div>
-            <div class="docTextLine">
-              裁定地点：
-              <div style="flex: 1; display: flex">
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx7', '裁定地点', 'TextItem')"
-                >
-                  {{ letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）" }}
-                </div>
-              </div>
+            <div class="docTextarea">
+              <span class="no-line">裁定地点：</span>
+              <span
+                @click="commandFill('cellIdx7', '裁定地点', 'TextItem')"
+              >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
+              <div class="line"></div>
             </div>
-            <div class="docTextLine">
-              裁定事项：
-              <div style="flex: 1; display: flex">
-                <div
-                  class="line-div"
-                  @click="
-                    commandFill('cellIdx8', '裁定事项', 'DangerTableItem')
-                  "
-                >
-                  {{ letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）" }}
-                </div>
-              </div>
+            <div class="docTextarea">
+              <span class="no-line">裁定事项：</span>
+              <span
+                @click="commandFill('cellIdx8', '裁定事项', 'DangerTableItem')"
+              >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
+              <div class="line"></div>
             </div>
             <div class="docTextLine">
               <div style="flex: 1; display: flex">
@@ -134,50 +124,26 @@
                 </div>
               </div>
             </div>
-            <div class="docTextLine">
-              被裁定单位负责人（签名）：
-              <div style="flex: 1; display: flex">
-                <div
-                  class="line-div"
-                  @click="
-                    commandFill(
-                      'cellIdx11',
-                      '被裁定单位负责人（签名）',
-                      'TextItem'
-                    )
-                  "
-                >
-                  {{ letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）" }}
-                </div>
-              </div>
+            <div class="docTextarea">
+              <span class="no-line">被裁定单位负责人（签名）：</span>
+              <span
+                @click="commandFill('cellIdx11', '被裁定单位负责人（签名）', 'TextItem')"
+              >{{ letData.cellIdx11 ? letData.cellIdx11 : '（点击编辑）'}}</span>
+              <div class="line"></div>
             </div>
-            <div class="docTextLine">
-              其他单位参加人员（签名）：
-              <div style="flex: 1; display: flex">
-                <div
-                  class="line-div"
-                  @click="
-                    commandFill(
-                      'cellIdx12',
-                      '其他单位参加人员（签名）',
-                      'TextItem'
-                    )
-                  "
-                >
-                  {{ letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）" }}
-                </div>
-              </div>
+            <div class="docTextarea">
+              <span class="no-line">其他单位参加人员（签名）：</span>
+              <span
+                @click="commandFill('cellIdx12', '其他单位参加人员（签名）', 'TextItem')"
+              >{{ letData.cellIdx12 ? letData.cellIdx12 : '（点击编辑）'}}</span>
+              <div class="line"></div>
             </div>
-            <div class="docTextLine">
-              裁定记录：
-              <div style="flex: 1; display: flex">
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx13', '裁定记录', 'TextItem')"
-                >
-                  {{ letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）" }}
-                </div>
-              </div>
+            <div class="docTextarea">
+              <span class="no-line">裁定记录：</span>
+              <span
+                @click="commandFill('cellIdx13', '裁定记录', 'TextItem')"
+              >{{ letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）'}}</span>
+              <div class="line"></div>
             </div>
           </div>
         </div>
