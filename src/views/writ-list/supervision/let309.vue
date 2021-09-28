@@ -77,7 +77,7 @@
             <div class="docTextarea">
               <label style="width:5%"></label>
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx10', '', 'SelectItem')"
               >{{ letData.cellIdx10 ? letData.cellIdx10 : '□'}}</span>
               于
