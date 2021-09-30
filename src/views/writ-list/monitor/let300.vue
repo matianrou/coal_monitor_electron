@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -153,12 +153,14 @@
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
+// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject } from "@/utils/setInitPaperData";
+import { getDangerObject } from '@/utils/setInitPaperData'
+import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let300",
-  props: {
+  mixins: [associationSelectPaper],
+/*   props: {
     corpData: {
       type: Object,
       default: () => {},
@@ -175,7 +177,7 @@ export default {
   },
   components: {
     letMain,
-  },
+  }, */
   data() {
     return {
       letData: {},
@@ -185,11 +187,12 @@ export default {
           key: "cellIdx8", // 用来区分一个页面多个地方调用隐患大表，最后返回值
         },
       },
-      editData: {}, // 回显数据
-      extraData: {}, // 用于拼写隐患内容的字符集合
+      associationPaper: ['1']
+      // editData: {}, // 回显数据
+      // extraData: {}, // 用于拼写隐患内容的字符集合
     };
   },
-  created() {
+/*   created() {
     this.initData();
   },
   watch: {
@@ -198,16 +201,15 @@ export default {
         this.initData();
       }
     },
-  },
+  }, */
   methods: {
-    async initData() {
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
+      /* const wkPaper = db.table("wkPaper");
       const caseId = this.corpData.caseId;
       const checkPaper = await wkPaper.findAll((item) => {
         return (
@@ -228,17 +230,19 @@ export default {
       } else {
         // 创建初始版本
         // 1.裁定事件：
-        let now = new Date();
+        let now = new Date(); */
         // 2.裁定地点：企业名称
         // 3.裁定事项：煤矿名称+“涉嫌”+隐患描述+“案”
         // 获取笔录文书中的隐患数据
-        const let101Data = await wkPaper.find((item) => {
+        let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
+        /* const let101Data = await wkPaper.find((item) => {
           return item.caseId === caseId && item.paperType === "1";
         });
         let let101DataPapaerContent = JSON.parse(let101Data.paperContent);
         let dangerObject = getDangerObject(
           let101DataPapaerContent.dangerItemObject.tableData
-        );
+        ); */
         let cellIdx13String = `主持人：现在公开裁定开始，首先我先介绍裁定小组成员，我是主持人XXX，记录人是XXX，裁定小组成员有监察分局XXX、XXX。
       主持人：XX煤矿矿长XXX，参加公开裁定的人员是否与你矿有利害关系人员，是否申请回避？
       XX煤矿矿长XXX：不申请回避。
@@ -252,6 +256,7 @@ export default {
       主持人：陈述、申辩结束，下面裁定小组集体研究。
       主持人：经过我们裁定小组集体研究，现宣布裁定结果： XX煤矿涉嫌瓦斯超限作业违法违规行为事实清楚，证据确凿充分，违反了《国务院关于预防煤矿生产安全事故的特别规定》第八条第二款第（二）项的规定，依据《国务院关于预防煤矿生产安全事故的特别贵的》第十条第一款、第十一条第一款的规定，并根据违法违规情节的轻重，拟给予责令停产整顿X日，罚款八十万元整，暂扣安全生产许可证；对煤矿企业负责人罚款四万元以整。
       `;
+      await db.close();
         this.letData = {
           cellIdx0: now.getFullYear(), // 年
           cellIdx0TypeTextItem: now.getFullYear(), // 年
@@ -274,10 +279,13 @@ export default {
           cellIdx12: null, // 其他单位参加人员（签名）
           cellIdx13: cellIdx13String, // 裁定记录
           cellIdx13TypeTextareaItem: cellIdx13String, // 裁定记录
-          dangerItemObject: let101DataPapaerContent.dangerItemObject,
-        };
-      }
-      await db.close();
+          // dangerItemObject: let101DataPapaerContent.dangerItemObject,
+          dangerItemObject: let1DataPapaerContent.dangerItemObject,
+        extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
+          corpName: corp.corpName,
+          userGroupName: this.$store.state.user.userGroupName,
+        }
+      };
     },
     goBack({ page }) {
       // 返回选择企业
@@ -292,7 +300,7 @@ export default {
           this.options[key] = {
             page: "31",
             key: key,
-            spellString: this.extraData,
+            spellString: this.letData.extraData,
           };
           dataKey = "dangerItemObject";
         }

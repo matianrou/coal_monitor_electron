@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -261,6 +261,10 @@ export default {
         };
       },
     },
+    paperData: {
+      type: Object,
+      default: () => {},
+    },
   },
   components: {
     letMain,
@@ -288,7 +292,8 @@ export default {
           },
         ],
       },
-      editData: {}, // 回显数据
+      // editData: {}, // 回显数据
+      associationPaper: ['1', '2']
     };
   },
   created() {
@@ -300,9 +305,17 @@ export default {
         this.initData();
       }
     },
+    "paperData.paperId"(val) {
+      this.initData();
+    },
   },
   methods: {
     async initData() {
+      // 初始化文书内容
+      if (this.paperData && this.paperData.paperId) {
+        this.letData = JSON.parse(this.paperData.paperContent);
+      } else {
+        // 创建初始版本
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
       //查询符合条件的记录
@@ -328,11 +341,11 @@ export default {
         let { num0, num1, num3, num4 } = await getDocNumber(
           db,
           this.docData.docTypeNo,
-          caseId,
+          this.corpData.caseId,
           this.$store.state.user
         );
-        // 2.发现你矿存在：隐患描述
-        // 获取笔录文书中的隐患数据
+        // // 2.发现你矿存在：隐患描述
+        // // 获取笔录文书中的隐患数据
         const let101Data = await wkPaper.find((item) => {
           return item.caseId === caseId && item.paperType === "1";
         });
@@ -343,14 +356,13 @@ export default {
         );
         let cellIdx9String = dangerObject.dangerString;
         let cellIdx10String = dangerObject.onsiteDescString;
-        // 3.现场处理决定2的文书号：11-14
+        // // 3.现场处理决定2的文书号：11-14
         let paperNum2 = await getDocNumber(
           db,
           "2",
           caseId,
           this.$store.state.user
         );
-
         this.letData = {
           cellIdx0: num0, // 文书号
           cellIdx0TypeTextItem: num0, // 文书号
@@ -385,10 +397,10 @@ export default {
           cellIdx21: null, // 日期
           cellIdx22: null, //
           cellIdx23: null, // 日期
-          dangerItemObject: let101DataPapaerContent.dangerItemObject,
         };
+        await db.close();
       }
-      await db.close();
+      }
     },
     goBack({ page }) {
       // 返回选择企业
@@ -414,6 +426,21 @@ export default {
           this.letData[dataKey],
           this.options[key]
         );
+      }else {
+        if (key === "cellIdx5") {
+          let dataKey = "checkTable";
+          this.options[key] = {
+            canEdit: false,
+          };
+          this.$refs.letMain.commandFill(
+            key,
+            dataKey,
+            title,
+            type,
+            this.letData[dataKey],
+            this.options[key]
+          );
+        }
       }
     },
   },

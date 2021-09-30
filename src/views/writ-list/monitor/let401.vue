@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -20,7 +20,7 @@
             <div class="textAlignCenter formHeader3">移 送 书</div>
             <div class="docTextLine paper-number-div">
               <div>
-                <span @click="commandFill('cellIdx0', '文书号', 'TextItem')">{{
+                <span @click="commandFill('cellIdx0', '文书号', 'TextItem')">{{ 
                   letData.cellIdx0 ? letData.cellIdx0 : "（编辑）"
                 }}</span>
                 <label>煤安监</label>
@@ -271,16 +271,26 @@
         </div>
       </div>
     </let-main>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
+// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
+import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let401",
-  props: {
+  mixins: [associationSelectPaper],
+  /* props: {
     corpData: {
       type: Object,
       default: () => {},
@@ -297,15 +307,16 @@ export default {
   },
   components: {
     letMain,
-  },
+  }, */
   data() {
     return {
       letData: {},
       options: {},
-      editData: {}, // 回显数据
+      associationPaper: []
+      // editData: {}, // 回显数据
     };
   },
-  created() {
+  /* created() {
     this.initData();
   },
   watch: {
@@ -314,16 +325,16 @@ export default {
         this.initData();
       }
     },
-  },
+  }, */
   methods: {
-    async initData() {
+    async initLetData(selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
       //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
+      /* const wkPaper = db.table("wkPaper");
       const caseId = this.corpData.caseId;
       const checkPaper = await wkPaper.findAll((item) => {
         return (
@@ -337,23 +348,23 @@ export default {
         this.letData = JSON.parse(checkPaper[0].paperContent);
         this.editData = checkPaper[0];
       } else {
-        // 创建初始版本
+        // 创建初始版本 */
         // 1.生成文书编号
         let { num0, num1, num3, num4 } = await getDocNumber(
           db,
           this.docData.docTypeNo,
-          caseId,
+          this.corpData.caseId,
           this.$store.state.user
         );
         // 2.违法行为：获取笔录文书中的隐患数据
-        const let101Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === "1";
-        });
-        let let101DataPapaerContent = JSON.parse(let101Data.paperContent);
-        let dangerObject = getDangerObject(
-          let101DataPapaerContent.dangerItemObject.tableData
-        );
-        let cellIdx8String = `${dangerObject.dangerString}`;
+        // const let101Data = await wkPaper.find((item) => {
+        //   return item.caseId === caseId && item.paperType === "1";
+        // });
+        // let let101DataPapaerContent = JSON.parse(let101Data.paperContent);
+        // let dangerObject = getDangerObject(
+        //   let101DataPapaerContent.dangerItemObject.tableData
+        // );
+        // let cellIdx8String = `${dangerObject.dangerString}`;
         // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
         const orgInfo = db.table("orgInfo");
         const orgData = await orgInfo.find(
@@ -369,6 +380,7 @@ export default {
                 master: "",
                 phone: "",
               };
+      await db.close();
         let cellIdx12String = orgSysOfficeInfo.depAddress;
         let cellIdx13String = orgSysOfficeInfo.depPost;
         let cellIdx15String = orgSysOfficeInfo.master;
@@ -410,8 +422,6 @@ export default {
           cellIdx23: null, // 月
           cellIdx24: null, // 日
         };
-      }
-      await db.close();
     },
     goBack({ page }) {
       // 返回选择企业

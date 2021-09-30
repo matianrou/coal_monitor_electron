@@ -159,25 +159,32 @@ export default {
   },
   methods: {
     async initData() {
+       // 初始化文书内容
+      if (this.paperData && this.paperData.paperId) {
+        this.letData = JSON.parse(this.paperData.paperContent);
+        this.editData = this.paperData;
+      } else {
+        // 创建初始版本
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
       //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      //查询当前计划是否已做现场检查笔录
-      const checkPaper = await wkPaper.findAll((item) => {
-        return item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1';
-      });
-      // await wkPaper.delete(checkPaper[0].id)
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本
+      // const wkPaper = db.table("wkPaper");
+      // const caseId = this.corpData.caseId;
+      // //查询当前计划是否已做现场检查笔录
+      // const checkPaper = await wkPaper.findAll((item) => {
+      //   return item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1';
+      // });
+      // // await wkPaper.delete(checkPaper[0].id)
+      // if (checkPaper.length > 0) {
+      //   // 回显
+      //   this.letData = JSON.parse(checkPaper[0].paperContent);
+      //   this.editData = checkPaper[0];
+      // } else {
+      //   // 创建初始版本
+      await db.close();
         this.letData = {
           cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
           cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null,
@@ -215,7 +222,7 @@ export default {
           }, // 隐患项大表
         };
       }
-      await db.close();
+      
     },
     goBack({page}) {
       // 返回选择企业

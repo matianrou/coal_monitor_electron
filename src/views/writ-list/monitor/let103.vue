@@ -234,6 +234,10 @@ export default {
         };
       },
     },
+    isCreated: {
+      type: Boolean,
+      default: false,
+    },
   },
   components: {
     letMain,
@@ -288,27 +292,32 @@ export default {
   },
   methods: {
     async initData() {
+      // 初始化文书内容
+      if (this.paperData && this.paperData.paperId) {
+        this.letData = JSON.parse(this.paperData.paperContent);
+      } else {
+        // 创建初始版本
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
       //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId &&
-          item.paperType === this.docData.docTypeNo &&
-          item.delFlag !== "1"
-        );
-      });
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本
+      // const wkPaper = db.table("wkPaper");
+      // const caseId = this.corpData.caseId;
+      // const checkPaper = await wkPaper.findAll((item) => {
+      //   return (
+      //     item.caseId === caseId &&
+      //     item.paperType === this.docData.docTypeNo &&
+      //     item.delFlag !== "1"
+      //   );
+      // });
+      // if (checkPaper.length > 0) {
+      //   // 回显
+      //   this.letData = JSON.parse(checkPaper[0].paperContent);
+      //   this.editData = checkPaper[0];
+      // } else {
+      //   // 创建初始版本
         const zfZzInfo = db.table("zfZzInfo");
         const zzInfo1 = await zfZzInfo.find((item) => {
           return (
