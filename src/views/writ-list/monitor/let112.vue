@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -218,7 +218,7 @@
       title="文书信息选择"
       :close-on-click-modal="false"
       append-to-body
-      :visible="visible"
+      :visible="visibleSelectDialog"
       width="400px"
       :show-close="false"
     >
@@ -231,16 +231,26 @@
         <el-button type="primary" @click="confirm">确定</el-button>
       </span>
     </el-dialog>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
+// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDocNumber } from "@/utils/setInitPaperData";
+import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let112",
-  props: {
+  mixins: [associationSelectPaper],
+  /*  props: {
     corpData: {
       type: Object,
       default: () => {},
@@ -257,17 +267,18 @@ export default {
   },
   components: {
     letMain,
-  },
+  }, */
   data() {
     return {
       letData: {},
       options: {},
       editData: {}, // 回显数据
-      visible: false,
+      visibleSelectDialog: false,
       selectedType: "停供电", // 初始化时选择的停供电
+      associationPaper: ["1"],
     };
   },
-  created() {
+  /*   created() {
     this.initData();
   },
   watch: {
@@ -276,16 +287,15 @@ export default {
         this.initData();
       }
     },
-  },
+  }, */
   methods: {
-    async initData() {
+    async initLetData(selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
+      /* const wkPaper = db.table("wkPaper");
       const caseId = this.corpData.caseId;
       const checkPaper = await wkPaper.findAll((item) => {
         return (
@@ -299,65 +309,64 @@ export default {
         this.letData = JSON.parse(checkPaper[0].paperContent);
         this.editData = checkPaper[0];
       } else {
-        // 创建初始版本
-        // 1.弹出提示框，选择停供电或停供民用爆炸物品
-        this.visible = true;
-        // 2.生成文书编号
-        let { num0, num1, num3, num4 } = await getDocNumber(
-          db,
-          this.docData.docTypeNo,
-          caseId,
-          this.$store.state.user
-        );
-        // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
-        const orgInfo = db.table("orgInfo");
-        const orgData = await orgInfo.find(
-          (item) => item.no === this.$store.state.user.userGroupId
-        );
-        let orgSysOfficeInfo =
-          orgData && orgData.sysOfficeInfo
-            ? JSON.parse(orgData.sysOfficeInfo)
-            : { depAddress: "", depPost: "", master: "", phone: "" };
-        let cellIdx14String = orgSysOfficeInfo.depAddress;
-        let cellIdx15String = orgSysOfficeInfo.depPost;
-        let cellIdx17String = orgSysOfficeInfo.master;
-        let cellIdx18String = orgSysOfficeInfo.phone;
-        this.letData = {
-          cellIdx0: null, // 停供电(停供民用爆炸物品)
-          cellIdx1: num0, // 文书号
-          cellIdx1TypeTextItem: num0, // 文书号
-          cellIdx2: num1, // 文书号
-          cellIdx2TypeTextItem: num1, // 文书号
-          cellIdx3: num3, // 文书号
-          cellIdx3TypeTextItem: num3, // 文书号
-          cellIdx4: num4, // 文书号
-          cellIdx4TypeTextItem: num4, // 文书号
-          cellIdx5: null, // 单位
-          cellIdx5TypeTextItem: null, // 单位
-          cellIdx6: null, // 单位
-          cellIdx7: corp.corpName ? corp.corpName : null, // corpname
-          cellIdx7TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
-          cellIdx8: null, // 依法作出X的决定
-          cellIdx9: null, // 采取X的措施。
-          cellIdx10: null, // 附件？页面已注释
-          cellIdx11: null, // 受送达人（签名）
-          cellIdx12: null, // 日期
-          cellIdx13: null, // 单位
-          cellIdx14: cellIdx14String, // 地址
-          cellIdx14TypeTextItem: cellIdx14String, // 地址
-          cellIdx15: cellIdx15String, // 邮政编码
-          cellIdx15TypeTextItem: cellIdx15String, // 邮政编码
-          cellIdx16: null, // 单位
-          cellIdx17: cellIdx17String, // 联系人
-          cellIdx17TypeTextItem: cellIdx17String, // 联系人
-          cellIdx18: cellIdx18String, // 联系电话
-          cellIdx18TypeTextItem: cellIdx18String, // 联系电话
-          cellIdx19: null, //
-          cellIdx20: null, // 日期
-          cellIdx21: null, // 单位/个人
-        };
-      }
+        // 创建初始版本 */
+      // 1.弹出提示框，选择停供电或停供民用爆炸物品
+      this.visibleSelectDialog = true;
+      // 2.生成文书编号
+      let { num0, num1, num3, num4 } = await getDocNumber(
+        db,
+        this.docData.docTypeNo,
+        this.corpData.caseId,
+        this.$store.state.user
+      );
+      // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
+      const orgInfo = db.table("orgInfo");
+      const orgData = await orgInfo.find(
+        (item) => item.no === this.$store.state.user.userGroupId
+      );
+      let orgSysOfficeInfo =
+        orgData && orgData.sysOfficeInfo
+          ? JSON.parse(orgData.sysOfficeInfo)
+          : { depAddress: "", depPost: "", master: "", phone: "" };
+      let cellIdx14String = orgSysOfficeInfo.depAddress;
+      let cellIdx15String = orgSysOfficeInfo.depPost;
+      let cellIdx17String = orgSysOfficeInfo.master;
+      let cellIdx18String = orgSysOfficeInfo.phone;
       await db.close();
+      this.letData = {
+        cellIdx0: null, // 停供电(停供民用爆炸物品)
+        cellIdx1: num0, // 文书号
+        cellIdx1TypeTextItem: num0, // 文书号
+        cellIdx2: num1, // 文书号
+        cellIdx2TypeTextItem: num1, // 文书号
+        cellIdx3: num3, // 文书号
+        cellIdx3TypeTextItem: num3, // 文书号
+        cellIdx4: num4, // 文书号
+        cellIdx4TypeTextItem: num4, // 文书号
+        cellIdx5: null, // 单位
+        cellIdx5TypeTextItem: null, // 单位
+        cellIdx6: null, // 单位
+        cellIdx7: corp.corpName ? corp.corpName : null, // corpname
+        cellIdx7TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
+        cellIdx8: null, // 依法作出X的决定
+        cellIdx9: null, // 采取X的措施。
+        cellIdx10: null, // 附件？页面已注释
+        cellIdx11: null, // 受送达人（签名）
+        cellIdx12: null, // 日期
+        cellIdx13: null, // 单位
+        cellIdx14: cellIdx14String, // 地址
+        cellIdx14TypeTextItem: cellIdx14String, // 地址
+        cellIdx15: cellIdx15String, // 邮政编码
+        cellIdx15TypeTextItem: cellIdx15String, // 邮政编码
+        cellIdx16: null, // 单位
+        cellIdx17: cellIdx17String, // 联系人
+        cellIdx17TypeTextItem: cellIdx17String, // 联系人
+        cellIdx18: cellIdx18String, // 联系电话
+        cellIdx18TypeTextItem: cellIdx18String, // 联系电话
+        cellIdx19: null, //
+        cellIdx20: null, // 日期
+        cellIdx21: null, // 单位/个人
+      };
     },
     goBack({ page }) {
       // 返回选择企业
@@ -380,7 +389,7 @@ export default {
     },
     confirm() {
       // 选择停供电或停供民用爆炸物品
-      this.visible = false;
+      this.visibleSelectDialog = false;
       this.letData.cellIdx0 = this.selectedType;
       this.letData.cellIdx0TypeTextItem = this.selectedType;
       this.letData.selectedType = this.selectedType;

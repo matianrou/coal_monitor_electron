@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -220,6 +220,10 @@ export default {
         };
       },
     },
+    paperData: {
+      type: Object,
+      default: () => {},
+    },
     isCreated: {
       type: Boolean,
       default: false,
@@ -263,7 +267,7 @@ export default {
           { value: "6", name: "其他" },
         ],
       },
-      editData: {}, // 回显数据
+      // editData: {}, // 回显数据
     };
   },
   created() {
@@ -274,6 +278,9 @@ export default {
       if (val) {
         this.initData();
       }
+    },
+    "paperData.paperId"(val) {
+      this.initData();
     },
   },
   methods: {
@@ -353,6 +360,7 @@ export default {
         sSummary +=
           "采煤方式为综采。通风方式为中央分列抽出，采掘作业地点有71003综采工作面采煤工作面、 71007综采工作面风巷、71007综采工作面机巷掘进工作面。";
         let corpOther = "检查的内容和分工变化时，应及时调整。";
+      await db.close();
         this.letData = {
           cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
           cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null,
@@ -371,7 +379,6 @@ export default {
           checkTable: {}, // 检查分工明细表
         };
       }
-      await db.close();
     },
     goBack({ page }) {
       // 返回选择企业
@@ -395,7 +402,10 @@ export default {
         );
       } else {
         if (key === 'cellIdx5') {
-          dataKey = 'checkTable'
+          dataKey = 'checkTable';
+          this.options[key] = {
+            canEdit: false,
+          };
           this.$refs.letMain.commandFill(key, dataKey, title, type, this.letData[dataKey], this.options[key])
         }
       }

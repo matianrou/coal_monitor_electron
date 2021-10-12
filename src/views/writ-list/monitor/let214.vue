@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -302,16 +302,26 @@
         </div>
       </div>
     </let-main>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
+// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject } from '@/utils/setInitPaperData'
+import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let214",
-  props: {
+  mixins: [associationSelectPaper],
+/*   props: {
     corpData: {
       type: Object,
       default: () => {},
@@ -328,20 +338,16 @@ export default {
   },
   components: {
     letMain,
-  },
+  }, */
   data() {
     return {
       letData: {},
-      options: {
-        cellIdx2: {
-          page: '15',
-          key: 'cellIdx2'
-        },
-      },
-      editData: {}, // 回显数据
+      options: {},
+      associationPaper: ['1']
+      // editData: {}, // 回显数据
     };
   },
-  created() {
+/*   created() {
     this.initData();
   },
   watch: {
@@ -350,12 +356,15 @@ export default {
         this.initData();
       }
     },
-  },
+  }, */
   methods: {
-    async initData() {
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
+      const corp = await corpBase.find((item) => {
+        return item.corpId == this.corpData.corpId;
+      });
+      /* //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
@@ -375,19 +384,18 @@ export default {
         this.letData = JSON.parse(checkPaper[0].paperContent);
         this.editData = checkPaper[0];
       } else {
-        // 创建初始版本
+        // 创建初始版本 */
         // 1.案卷题名: 煤矿名称+隐患描述+案
         // 获取笔录文书中的隐患数据
-        const let101Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === '1';
-        });
-        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
-        let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
+        let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
+        let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
         let cellIdx2String = `${corp.corpName}${dangerObject.dangerString}案。`
+        await db.close();
         this.letData = {
           cellIdx0: null, // 执法单位
           cellIdx1: null, // 案卷类别
           cellIdx2: cellIdx2String, // 案卷题名
+          cellIdx2TypeTextareaItem: cellIdx2String, // 案卷题名
           cellIdx3: null, // 年
           cellIdx4: null, // 月
           cellIdx5: null, // 日
@@ -402,20 +410,11 @@ export default {
           cellIdx14: null, // 承办人（签名）
           cellIdx15: null, // 档号
           cellIdx16: null, // 保管期限
-          cellIdx17: null, //
-          cellIdx18: null, //
-          cellIdx19: null, //
-          cellIdx20: null, //
-          cellIdx21: null, //
-          cellIdx22: null, //
-          cellIdx23: null, //
-          cellIdx24: null, //
-          cellIdx25: null, //
-          cellIdx26: null, //
-          dangerItemObject: let101DataPapaerContent.dangerItemObject
+          cellIdx17: [], // 编辑目录
+          volumesMenuTable: {
+          tableData: []
+        }
         };
-      }
-      await db.close();
     },
     goBack({ page }) {
       // 返回选择企业
@@ -426,13 +425,12 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}Type${type}`
-        if (key === 'cellIdx2') {
+        if (key === 'cellIdx17') {
           this.options[key] = {
+            canEdit: true,
             page: '15',
-            key: key,
-            spellString: this.extraData
           }
-          dataKey = 'dangerItemObject'
+          dataKey = 'volumesMenuTable'
         }
         this.$refs.letMain.commandFill(key, dataKey, title, type, this.letData[dataKey], this.options[key])
       }

@@ -187,7 +187,7 @@ export default {
           key: "cellIdx8", // 用来区分一个页面多个地方调用隐患大表，最后返回值
         },
       },
-      associationPaper: ['1']
+      associationPaper: []
       // editData: {}, // 回显数据
       // extraData: {}, // 用于拼写隐患内容的字符集合
     };
@@ -235,7 +235,7 @@ export default {
         // 3.裁定事项：煤矿名称+“涉嫌”+隐患描述+“案”
         // 获取笔录文书中的隐患数据
         let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
+        let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
         /* const let101Data = await wkPaper.find((item) => {
           return item.caseId === caseId && item.paperType === "1";
         });

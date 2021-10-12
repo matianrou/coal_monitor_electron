@@ -312,7 +312,7 @@ export default {
     return {
       letData: {},
       options: {},
-      associationPaper: []
+      associationPaper: ['1']
       // editData: {}, // 回显数据
     };
   },
@@ -327,10 +327,9 @@ export default {
     },
   }, */
   methods: {
-    async initLetData(selectedPaper) {
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
@@ -357,6 +356,9 @@ export default {
           this.$store.state.user
         );
         // 2.违法行为：获取笔录文书中的隐患数据
+         let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
+        let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
+        let cellIdx8String = `${dangerObject.dangerString}`
         // const let101Data = await wkPaper.find((item) => {
         //   return item.caseId === caseId && item.paperType === "1";
         // });
@@ -367,24 +369,13 @@ export default {
         // let cellIdx8String = `${dangerObject.dangerString}`;
         // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
         const orgInfo = db.table("orgInfo");
-        const orgData = await orgInfo.find(
-          (item) => item.no === this.$store.state.user.userGroupId
-        );
-        let orgSysOfficeInfo =
-          orgData && orgData.sysOfficeInfo
-            ? JSON.parse(orgData.sysOfficeInfo)
-            : {
-                courtPrefix: "",
-                depAddress: "",
-                depPost: "",
-                master: "",
-                phone: "",
-              };
-      await db.close();
+      const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+      let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: ''}
         let cellIdx12String = orgSysOfficeInfo.depAddress;
         let cellIdx13String = orgSysOfficeInfo.depPost;
         let cellIdx15String = orgSysOfficeInfo.master;
         let cellIdx16String = orgSysOfficeInfo.phone;
+      await db.close();
         this.letData = {
           cellIdx0: num0, // 文书号
           cellIdx0TypeTextItem: num0, // 文书号

@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="this.letData.extraData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -104,16 +104,14 @@
                 </div>
               </div>
             </div>
+            <div class="docTextarea">
+              <span class="no-line">申请人单位：</span>
+              <span @click="commandFill('cellIdx9', '申请人单位', 'TextItem')">{{
+                letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
+              }}</span>
+              <div class="line"></div>
+            </div>
             <div class="docTextLine">
-              <div style="flex: 1; display: flex">
-                <label>申请人单位：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx9', '申请人单位', 'TextItem')"
-                >
-                  {{ letData.cellIdx9 ? letData.cellIdx9 : "（编辑）" }}
-                </div>
-              </div>
               <div style="flex: 1; display: flex">
                 <label>职务（职业）：</label>
                 <div
@@ -123,7 +121,7 @@
                   {{ letData.cellIdx10 ? letData.cellIdx10 : "（编辑）" }}
                 </div>
               </div>
-              <div style="flex: 0.7; display: flex">
+              <div style="flex: 1; display: flex">
                 <label>电话：</label>
                 <div
                   class="line-div"
@@ -172,7 +170,7 @@
 <script>
 // import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject } from '@/utils/setInitPaperData'
+import { getDocNumber, getDangerObject } from '@/utils/setInitPaperData'
 import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let302",
@@ -244,7 +242,9 @@ export default {
       } else {
         // 创建初始版本
         // 1.时间：当前年、月、日、时、分
-        let now = new Date(); */
+         */
+        let now = new Date();
+        // 1.时间
         // 2.申请人单位
         // 3.申请记录：“我代表”+煤矿名称+“对”+机构名称+“做出的行政处罚决定”+文书编号（行政处罚决定）+“申请行政复议，对处罚的”+隐患描述+“违法行为进行复议。我矿认为......。请求从轻或者免于处罚。”
         let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
@@ -252,7 +252,7 @@ export default {
         let { numString } = await getDocNumber(
           db,
           "8",
-          caseId,
+          this.corpData.caseId,
           this.$store.state.user
         );
         // let dangerObject = getDangerObject(

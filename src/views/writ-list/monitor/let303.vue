@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -64,7 +64,7 @@
                 letData.cellIdx8 ? letData.cellIdx8 : "（XX）"
               }}</span>
               日 向我局提出行政复议申请，经审查不符合以下第
-              <span @click="commandFill('cellIdx9', '', 'TextItem')">{{
+              <span @click="commandFill('cellIdx9', '', 'SelectItem')">{{
                 letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
               }}</span>
               项情形：
@@ -234,7 +234,7 @@
       title="文书信息选择"
       :close-on-click-modal="false"
       append-to-body
-      :visible="visible"
+      :visible="visibleSelectDialog"
       width="400px"
       :show-close="false"
     >
@@ -247,16 +247,26 @@
         <el-button type="primary" @click="confirm">确定</el-button>
       </span>
     </el-dialog>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
+// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber } from "@/utils/setInitPaperData";
+import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
+import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let303",
-  props: {
+  mixins: [associationSelectPaper],
+/*   props: {
     corpData: {
       type: Object,
       default: () => {},
@@ -273,17 +283,49 @@ export default {
   },
   components: {
     letMain,
-  },
+  }, */
   data() {
     return {
       letData: {},
-      options: {},
-      editData: {}, // 回显数据
-      visible: false,
+      options: {
+        cellIdx9:[
+          {
+            value:"（一）",
+            name:"（一）"
+          },
+          {
+            value:"（二）",
+            name:"（二）"
+          },
+          {
+            value:"（三）",
+            name:"（三）"
+          },
+          {
+            value:"（四）",
+            name:"（四）"
+          },
+          {
+            value:"（五）",
+            name:"（五）"
+          },
+          {
+            value:"（六）",
+            name:"（六）"
+          },
+          {
+            value:"（七）",
+            name:"（七）"
+          },
+        ]
+      },
+      // editData: {}, // 回显数据
+      associationPaper: ['1'],
+      visibleSelectDialog: false,
       selectedType: "单位", // 初始化时选择的单位或个人
     };
   },
-  created() {
+/*   created() {
     this.initData();
   },
   watch: {
@@ -292,16 +334,15 @@ export default {
         this.initData();
       }
     },
-  },
+  }, */
   methods: {
-    async initData() {
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
+      /* const wkPaper = db.table("wkPaper");
       const caseId = this.corpData.caseId;
       const checkPaper = await wkPaper.findAll((item) => {
         return (
@@ -316,14 +357,14 @@ export default {
         this.letData = JSON.parse(checkPaper[0].paperContent);
         this.editData = checkPaper[0];
       } else {
-        // 创建初始版本
+        // 创建初始版本 */
         // 1.弹出提示框，选择单位或个人
-        this.visible = true;
+        this.visibleSelectDialog = true;
         // 2.生成文书编号
         let paperNumber = await getDocNumber(
           db,
           this.docData.docTypeNo,
-          caseId,
+          this.corpData.caseId,
           this.$store.state.user
         );
         // 3.企业煤矿名称
@@ -345,6 +386,7 @@ export default {
                 master: "",
                 phone: "",
               };
+      await db.close();
         this.letData = {
           cellIdx0: paperNumber.num0, // 文书号
           cellIdx0TypeTextItem: paperNumber.num0, // 文书号
@@ -384,8 +426,6 @@ export default {
           cellIdx20: now.getDate(), // 日
           cellIdx20TypeTextItem: now.getDate(), // 日
         };
-      }
-      await db.close();
     },
     goBack({ page }) {
       // 返回选择企业
@@ -408,7 +448,7 @@ export default {
     },
     async confirm() {
       // 选择单位或个人
-      this.visible = false;
+      this.visibleSelectDialog = false;
       this.letData.cellIdx5 = this.selectedType;
       this.letData.cellIdx5TypeTextItem = this.selectedType;
       this.letData.cellIdx10 = this.selectedType;

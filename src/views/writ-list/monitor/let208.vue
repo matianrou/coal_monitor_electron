@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -281,16 +281,26 @@
         </div>
       </div>
     </let-main>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
+// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDocNumber } from "@/utils/setInitPaperData";
+import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let208",
-  props: {
+  mixins: [associationSelectPaper],
+/*   props: {
     corpData: {
       type: Object,
       default: () => {},
@@ -307,15 +317,17 @@ export default {
   },
   components: {
     letMain,
-  },
+  }, */
   data() {
     return {
       letData: {},
       options: {},
-      editData: {}, // 回显数据
+      // editData: {}, // 回显数据
+      associationPaper: []
+
     };
   },
-  created() {
+/*   created() {
     this.initData();
   },
   watch: {
@@ -324,16 +336,15 @@ export default {
         this.initData();
       }
     },
-  },
+  }, */
   methods: {
-    async initData() {
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
+      /* const wkPaper = db.table("wkPaper");
       const caseId = this.corpData.caseId;
       const checkPaper = await wkPaper.findAll((item) => {
         return (
@@ -347,22 +358,23 @@ export default {
         this.letData = JSON.parse(checkPaper[0].paperContent);
         this.editData = checkPaper[0];
       } else {
-        // 创建初始版本
-        let paperNumber = await getDocNumber(
-          db,
-          this.docData.docTypeNo,
-          caseId,
-          this.$store.state.user
-        );
+        // 创建初始版本 */
+        let { num0, num1, num3, num4 } = await getDocNumber(
+        db,
+        this.docData.docTypeNo,
+        this.corpData.caseId,
+        this.$store.state.user
+      );
+        await db.close();
         this.letData = {
-          cellIdx0: paperNumber.num0, // 文书号
-          cellIdx0TypeTextItem: paperNumber.num0, // 文书号
-          cellIdx1: paperNumber.num1, // 文书号
-          cellIdx1TypeTextItem: paperNumber.num1, // 文书号
-          cellIdx2: paperNumber.num3, // 文书号
-          cellIdx2TypeTextItem: paperNumber.num3, // 文书号
-          cellIdx3: paperNumber.num4, // 文书号
-          cellIdx3TypeTextItem: paperNumber.num4, // 文书号
+          cellIdx0: num0, // 文书号
+          cellIdx0TypeTextItem: num0, // 文书号
+          cellIdx1: num1, // 文书号
+          cellIdx1TypeTextItem: num1, // 文书号
+          cellIdx2: num2, // 文书号
+          cellIdx2TypeTextItem: num2, // 文书号
+          cellIdx3: num3, // 文书号
+          cellIdx3TypeTextItem: num3, // 文书号
           cellIdx4: null, // 煤矿单位
           cellIdx5: null, // 单位
           cellIdx6: null, // 年
@@ -393,8 +405,6 @@ export default {
           cellIdx31: null, // 日
           cellIdx32: null, // 单位/个人
         };
-      }
-      await db.close();
     },
     goBack({ page }) {
       // 返回选择企业

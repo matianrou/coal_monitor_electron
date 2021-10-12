@@ -81,7 +81,7 @@
               }}</span>
               日对
               <span
-                @click="commandFill('cellIdx10', '违法行为', 'TextareaItem')"
+                @click="commandFill('cellIdx10', '违法行为', 'TextItem')"
                 >{{
                   letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
                 }}</span

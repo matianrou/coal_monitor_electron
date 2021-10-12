@@ -133,25 +133,25 @@
               <div style="flex: 2; display: flex">
                 <label>抽样时间：</label>
                 <span
-                  class="line-div"
+                  class="line-div center"
                   @click="commandFill('cellIdx9', '年', 'TextItem')"
                   >{{ letData.cellIdx9 ? letData.cellIdx9 : "（XX）" }}</span
                 >
                 <label>年</label>
                 <span
-                  class="line-div"
+                  class="line-div center"
                   @click="commandFill('cellIdx10', '月', 'TextItem')"
                   >{{ letData.cellIdx10 ? letData.cellIdx10 : "（XX）" }}</span
                 >
                 <label>月</label>
                 <span
-                  class="line-div"
+                  class="line-div center"
                   @click="commandFill('cellIdx11', '日', 'TextItem')"
                   >{{ letData.cellIdx11 ? letData.cellIdx11 : "（XX）" }}</span
                 >
                 <label>日</label>
                 <span
-                  class="line-div"
+                  class="line-div center"
                   @click="commandFill('cellIdx12', '时', 'TextItem')"
                   >{{ letData.cellIdx12 ? letData.cellIdx12 : "（XX）" }}</span
                 >

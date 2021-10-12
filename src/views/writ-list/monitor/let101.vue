@@ -129,7 +129,11 @@ export default {
           docTypeName: null,
         }
       },
-    }
+    },
+    paperData: {
+      type: Object,
+      default: () => {},
+    },
   },
   components: {
     letMain,
@@ -155,7 +159,10 @@ export default {
       if (val) {
         this.initData()
       }
-    }
+    },
+    "paperData.paperId"(val) {
+      this.initData();
+    },
   },
   methods: {
     async initData() {

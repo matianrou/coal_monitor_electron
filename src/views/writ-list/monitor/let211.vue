@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -168,15 +168,25 @@
         </div>
       </div>
     </let-main>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
+// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
+import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let211",
-  props: {
+  mixins: [associationSelectPaper],
+/*   props: {
     corpData: {
       type: Object,
       default: () => {},
@@ -193,15 +203,16 @@ export default {
   },
   components: {
     letMain,
-  },
+  }, */
   data() {
     return {
       letData: {},
       options: {},
-      editData: {}, // 回显数据
+      associationPaper: []
+      // editData: {}, // 回显数据
     };
   },
-  created() {
+/*   created() {
     this.initData();
   },
   watch: {
@@ -210,11 +221,15 @@ export default {
         this.initData();
       }
     },
-  },
+  }, */
   methods: {
-    async initData() {
+   async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
-      //查询符合条件的记录
+      const corpBase = db.table("corpBase");
+      const corp = await corpBase.find((item) => {
+        return item.corpId == this.corpData.corpId;
+      });
+      /* //查询符合条件的记录
       const wkPaper = db.table("wkPaper");
       const caseId = this.corpData.caseId;
       const checkPaper = await wkPaper.findAll((item) => {
@@ -229,7 +244,7 @@ export default {
         this.letData = JSON.parse(checkPaper[0].paperContent);
         this.editData = checkPaper[0];
       } else {
-        // 创建初始版本
+        // 创建初始版本 */
         // 1.时间
         let now = new Date();
         let cellIdx0Year = now.getFullYear();
@@ -296,6 +311,7 @@ export default {
 
                                                                                                   XXX签名压印
                                                                                                 20XX年XX月XX日`;
+      await db.close();
         this.letData = {
           cellIdx0: cellIdx0Year, // 年
           cellIdx0TypeTextItem: cellIdx0Year, // 年
@@ -316,8 +332,6 @@ export default {
           cellIdx10TypeTextareaItem: cellIdx10String, // 听证记录
           cellIdx11: null, // 听证参加人（签名）
         };
-      }
-      await db.close();
     },
     goBack({ page }) {
       // 返回选择企业

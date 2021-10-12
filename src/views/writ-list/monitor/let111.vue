@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -241,7 +241,7 @@
       title="文书信息选择"
       :close-on-click-modal="false"
       append-to-body
-      :visible="visible"
+      :visible="visibleSelectDialog"
       width="400px"
       :show-close="false"
     >
@@ -254,16 +254,26 @@
         <el-button type="primary" @click="confirm">确定</el-button>
       </span>
     </el-dialog>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
+// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
+import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let111",
-  props: {
+  mixins: [associationSelectPaper],
+  /*   props: {
     corpData: {
       type: Object,
       default: () => {},
@@ -280,7 +290,7 @@ export default {
   },
   components: {
     letMain,
-  },
+  }, */
   data() {
     return {
       letData: {},
@@ -296,12 +306,13 @@ export default {
           },
         ],
       },
-      editData: {}, // 回显数据
+      // editData: {}, // 回显数据
+      visibleSelectDialog: false,
       selectedType: "查封",
-      visible: false,
+      associationPaper: ["1"],
     };
   },
-  created() {
+  /*   created() {
     this.initData();
   },
   watch: {
@@ -310,16 +321,15 @@ export default {
         this.initData();
       }
     },
-  },
+  }, */
   methods: {
-    async initData() {
+    async initLetData(selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
+      /* const wkPaper = db.table("wkPaper");
       const caseId = this.corpData.caseId;
       const checkPaper = await wkPaper.findAll((item) => {
         return (
@@ -333,77 +343,83 @@ export default {
         this.letData = JSON.parse(checkPaper[0].paperContent);
         this.editData = checkPaper[0];
       } else {
-        // 创建初始版本
-        // 1.弹出提示框，选择查封或扣押
-        this.visible = true;
-        // 2.生成文书编号
-        let { num0, num1, num3, num4 } = await getDocNumber(
-          db,
-          this.docData.docTypeNo,
-          caseId,
-          this.$store.state.user
-        );
-        // 3.获取查封（扣押）决定书的日期和编号
-        const let110Data = await wkPaper.find((item) => {
+        // 创建初始版本 */
+      // 1.弹出提示框，选择查封或扣押
+      this.visibleSelectDialog = true;
+      // 2.生成文书编号
+      let { num0, num1, num3, num4 } = await getDocNumber(
+        db,
+        this.docData.docTypeNo,
+        this.corpData.caseId,
+        this.$store.state.user
+      );
+      // 3.获取查封（扣押）决定书的日期和编号
+      /*   const let110Data = await wkPaper.find((item) => {
           return item.caseId === caseId && item.paperType === "32";
         });
         let let110DataPapaerContent = JSON.parse(let110Data.paperContent);
         let date = let110DataPapaerContent.cellIdx20;
         date = date.replace("年", "-").replace("月", "-").replace("日", "-");
-        let dateList = date.split("-");
-        let cellIdx8String = dateList[0];
-        let cellIdx9String = dateList[1];
-        let cellIdx10String = dateList[2];
-        // 文书编号：
-        let cellIdx13String = let110DataPapaerContent.cellIdx1;
-        let cellIdx14String = let110DataPapaerContent.cellIdx2;
-        let cellIdx16String = let110DataPapaerContent.cellIdx3;
-        let cellIdx17String = let110DataPapaerContent.cellIdx4;
-        this.letData = {
-          cellIdx0: null, // 查封(扣押)
-          cellIdx1: num0, // 文书号
-          cellIdx1TypeTextItem: num0, // 文书号
-          cellIdx2: num1, // 文书号
-          cellIdx2TypeTextItem: num1, // 文书号
-          cellIdx3: null, // 查/扣
-          cellIdx3TypeTextItem: null, // 查/扣
-          cellIdx4: num3, // 文书号
-          cellIdx4TypeTextItem: num3, // 文书号
-          cellIdx5: num4, // 文书号
-          cellIdx5TypeTextItem: num4, // 文书号
-          cellIdx6: corp.corpName ? corp.corpName : null, // corpname
-          cellIdx6TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
-          cellIdx7: null, // 单位
-          cellIdx8: cellIdx8String, // 年
-          cellIdx8TypeTextItem: cellIdx8String, // 年
-          cellIdx9: cellIdx9String, // 月
-          cellIdx9TypeTextItem: cellIdx9String, // 月
-          cellIdx10: cellIdx10String, // 日
-          cellIdx10TypeTextItem: cellIdx10String, // 日
-          cellIdx11: null, // 单位/个人
-          cellIdx12: null, // 查封(扣押)
-          cellIdx13: cellIdx13String, // 文书号
-          cellIdx13TypeTextItem: cellIdx13String, // 文书号
-          cellIdx14: cellIdx14String, // 文书号
-          cellIdx14TypeTextItem: cellIdx14String, // 文书号
-          cellIdx15: null, // 查/扣
-          cellIdx16: cellIdx16String, // 文书号
-          cellIdx16TypeTextItem: cellIdx16String, // 文书号
-          cellIdx17: cellIdx17String, // 文书号
-          cellIdx17TypeTextItem: cellIdx17String, // 文书号
-          cellIdx18: null, // 查封(扣押)
-          cellIdx19: null, // 第X项的规定
-          cellIdx20: null, // 全部/部分
-          cellIdx21: null, // 查封(扣押)
-          cellIdx22: null, // 附件
-          cellIdx23: null, //
-          cellIdx24: null, // 日期
-          cellIdx25: null, //
-          SamplingForensicsTable:
-            let110DataPapaerContent.SamplingForensicsTable,
-        };
-      }
+        let dateList = date.split("-"); */
+             let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      // 2.时间
+        let now = new Date();
+        let cellIdx8Year = now.getFullYear();
+        let cellIdx9Month = now.getMonth() + 1;
+        let cellIdx10Date = now.getDate();
+      // 文书编号：
+      let cellIdx13String = let1DataPapaerContent.cellIdx1;
+      let cellIdx14String = let1DataPapaerContent.cellIdx2;
+      let cellIdx16String = let1DataPapaerContent.cellIdx3;
+      let cellIdx17String = let1DataPapaerContent.cellIdx4;
       await db.close();
+      this.letData = {
+        cellIdx0: null, // 查封(扣押)
+        cellIdx1: num0, // 文书号
+        cellIdx1TypeTextItem: num0, // 文书号
+        cellIdx2: num1, // 文书号
+        cellIdx2TypeTextItem: num1, // 文书号
+        cellIdx3: null, // 查/扣
+        cellIdx3TypeTextItem: null, // 查/扣
+        cellIdx4: num3, // 文书号
+        cellIdx4TypeTextItem: num3, // 文书号
+        cellIdx5: num4, // 文书号
+        cellIdx5TypeTextItem: num4, // 文书号
+        cellIdx6: corp.corpName ? corp.corpName : null, // corpname
+        cellIdx6TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
+        cellIdx7: null, // 单位
+        cellIdx8: cellIdx8Year, // 年
+        cellIdx8TypeTextItem: cellIdx8Year, // 年
+        cellIdx9: cellIdx9Month, // 月
+        cellIdx9TypeTextItem: cellIdx9Month, // 月
+        cellIdx10: cellIdx10Date, // 日
+        cellIdx10TypeTextItem: cellIdx10Date, // 日
+        cellIdx11: null, // 单位/个人
+        cellIdx12: null, // 查封(扣押)
+        cellIdx13: cellIdx13String, // 文书号
+        cellIdx13TypeTextItem: cellIdx13String, // 文书号
+        cellIdx14: cellIdx14String, // 文书号
+        cellIdx14TypeTextItem: cellIdx14String, // 文书号
+        cellIdx15: null, // 查/扣
+        cellIdx16: cellIdx16String, // 文书号
+        cellIdx16TypeTextItem: cellIdx16String, // 文书号
+        cellIdx17: cellIdx17String, // 文书号
+        cellIdx17TypeTextItem: cellIdx17String, // 文书号
+        cellIdx18: null, // 查封(扣押)
+        cellIdx19: null, // 第X项的规定
+        cellIdx20: null, // 全部/部分
+        cellIdx21: null, // 查封(扣押)
+        cellIdx22: null, // 附件
+        cellIdx23: null, //
+        cellIdx24: null, // 日期
+        cellIdx25: null, //
+        dangerItemObject: let1DataPapaerContent.dangerItemObject,
+        SamplingForensicsTable: {
+          tableData: [],
+          signature: null,
+          signDate: "",
+        },
+      };
     },
     goBack({ page }) {
       // 返回选择企业
@@ -434,7 +450,7 @@ export default {
     },
     confirm() {
       // 选择单位或个人
-      this.visible = false;
+      this.visibleSelectDialog = false;
       this.letData.cellIdx0 = this.selectedType;
       this.letData.cellIdx0TypeTextItem = this.selectedType;
       this.letData.cellIdx3 = this.selectedType.substring(0, 1);

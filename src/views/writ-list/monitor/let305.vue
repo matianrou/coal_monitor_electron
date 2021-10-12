@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -143,7 +143,7 @@
       title="文书信息选择"
       :close-on-click-modal="false"
       append-to-body
-      :visible="visible"
+      :visible="visibleSelectDialog"
       width="400px"
       :show-close="false"
     >
@@ -156,20 +156,30 @@
         <el-button type="primary" @click="confirm">确定</el-button>
       </span>
     </el-dialog>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
+// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import {
   getDangerObject,
   transformNumToChinese,
   getDocNumber,
 } from "@/utils/setInitPaperData";
+import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let305",
-  props: {
+  mixins: [associationSelectPaper],
+/*   props: {
     corpData: {
       type: Object,
       default: () => {},
@@ -186,14 +196,15 @@ export default {
   },
   components: {
     letMain,
-  },
+  }, */
   data() {
     return {
       letData: {},
       options: {},
-      editData: {}, // 回显数据
-      visible: false,
+      // editData: {}, // 回显数据
+      visibleSelectDialog: false,
       selectedType: "单位", // 初始化时选择的单位或个人
+      associationPaper: ["1","10"],
     };
   },
   created() {
@@ -207,9 +218,9 @@ export default {
     },
   },
   methods: {
-    async initData() {
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
-      //查询符合条件的记录
+      /* //查询符合条件的记录
       const wkPaper = db.table("wkPaper");
       const caseId = this.corpData.caseId;
       const checkPaper = await wkPaper.findAll((item) => {
@@ -224,40 +235,41 @@ export default {
         this.letData = JSON.parse(checkPaper[0].paperContent);
         this.editData = checkPaper[0];
       } else {
-        // 创建初始版本
+        // 创建初始版本 */
         // 1.弹出提示框，选择单位或个人
-        this.visible = true;
+        this.visibleSelectDialog = true;
         // 2.文书号：
         let paperNumber = await getDocNumber(
           db,
           this.docData.docTypeNo,
-          caseId,
+          this.corpData.caseId,
           this.$store.state.user
         );
         // 3.获取行政复议申请笔录中的申请时间
-        const let302Data = await wkPaper.find((item) => {
+        let let10DataPapaerContent = JSON.parse(selectedPaper.let10Data.paperContent)
+     /*    const let302Data = await wkPaper.find((item) => {
           return item.caseId === caseId && item.paperType === "10";
         });
-        let let302DataPapaerContent = JSON.parse(let302Data.paperContent);
-        let cellIdx5String = let302DataPapaerContent.cellIdx0 + "";
-        let cellIdx6String = let302DataPapaerContent.cellIdx1 + "";
-        let cellIdx7String = let302DataPapaerContent.cellIdx2 + "";
-        let cellIdx8String = let302DataPapaerContent.cellIdx2 + "";
-        let cellIdx9String = let302DataPapaerContent.cellIdx2 + "";
+        let let302DataPapaerContent = JSON.parse(let302Data.paperContent); */
+        let cellIdx5String = let10DataPapaerContent.cellIdx0 + "";
+        let cellIdx6String = let10DataPapaerContent.cellIdx1 + "";
+        let cellIdx7String = let10DataPapaerContent.cellIdx2 + "";
+        let cellIdx8String = let10DataPapaerContent.cellIdx2 + "";
+        let cellIdx9String = let10DataPapaerContent.cellIdx2 + "";
         // 4.固定模板：
         // 获取文书编号：
         // 行政处罚决定书：
         let paperNum8 = await getDocNumber(
           db,
           "8",
-          caseId,
+          this.corpData.caseId,
           this.$store.state.user
         );
         // 行政处罚告知书：
         let paperNum6 = await getDocNumber(
           db,
           "6",
-          caseId,
+          this.corpData.caseId,
           this.$store.state.user
         );
         let cellIdx10String = `申请人于 20XX 年 XX 月 XX 日对 XX 煤矿安全监察局 XX 监察分局《行政处罚决定书》（${paperNum8.numString}）作出的行政处罚决定不服，向本局提出行政复议申请，我局受理后依法采取书面审理的方式，被申请人在法定期限内提交了行政复议答辩意见。通过对有关行政执法审查和对有关人员调查询问，现已审理终结。
@@ -282,6 +294,7 @@ export default {
                 phone: "",
               };
         let cellIdx11String = orgSysOfficeInfo.courtPrefix;
+        await db.close();
         this.letData = {
           cellIdx0: paperNumber.num0, // 文书号
           cellIdx0TypeTextItem: paperNumber.num0, // 文书号
@@ -310,8 +323,6 @@ export default {
           cellIdx13: null, // 月
           cellIdx14: null, // 日
         };
-      }
-      await db.close();
     },
     goBack({ page }) {
       // 返回选择企业
@@ -334,7 +345,7 @@ export default {
     },
     async confirm() {
       // 选择单位或个人
-      this.visible = false;
+      this.visibleSelectDialog = false;
       this.letData.cellIdx4 = this.selectedType;
       this.letData.cellIdx4TypeTextItem = this.selectedType;
       this.letData.selectedType = this.selectedType;

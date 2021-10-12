@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -384,7 +384,7 @@
       title="文书信息选择"
       :close-on-click-modal="false"
       append-to-body
-      :visible="visible"
+      :visible="visibleSelectDialog"
       width="400px"
       :show-close="false"
     >
@@ -397,16 +397,26 @@
         <el-button type="primary" @click="confirm">确定</el-button>
       </span>
     </el-dialog>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
+// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
+import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let209",
-  props: {
+  mixins: [associationSelectPaper],
+/*   props: {
     corpData: {
       type: Object,
       default: () => {},
@@ -423,7 +433,7 @@ export default {
   },
   components: {
     letMain,
-  },
+  }, */
   data() {
     return {
       letData: {},
@@ -443,13 +453,14 @@ export default {
           },
         ],
       },
-      editData: {}, // 回显数据
-      visible: false,
+      // editData: {}, // 回显数据
+      associationPaper: ['1'],
+      visibleSelectDialog: false,
       selectedType: "单位", // 初始化时选择的单位或个人
-      extraData: {}, // 用于拼写隐患内容的字符集合
+      // extraData: {}, // 用于拼写隐患内容的字符集合
     };
   },
-  created() {
+/*   created() {
     this.initData();
   },
   watch: {
@@ -458,16 +469,15 @@ export default {
         this.initData();
       }
     },
-  },
+  }, */
   methods: {
-    async initData() {
+     async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
+      /* const wkPaper = db.table("wkPaper");
       const caseId = this.corpData.caseId;
       const checkPaper = await wkPaper.findAll((item) => {
         return (
@@ -486,41 +496,32 @@ export default {
         this.letData = JSON.parse(checkPaper[0].paperContent);
         this.editData = checkPaper[0];
       } else {
-        // 创建初始版本
+        // 创建初始版本 */
         // 1.弹出提示框，选择单位或个人
-        this.visible = true;
+        this.visibleSelectDialog = true;
         // 2.生成文书编号
         let { num0, num1, num3, num4 } = await getDocNumber(
           db,
           this.docData.docTypeNo,
-          caseId,
+          this.corpData.caseId,
           this.$store.state.user
         );
         // 3.企业煤矿名称
         // 4.违法行为：获取笔录文书中的隐患数据
-        const let101Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === "1";
-        });
-        let let101DataPapaerContent = JSON.parse(let101Data.paperContent);
-        let dangerObject = getDangerObject(
-          let101DataPapaerContent.dangerItemObject.tableData
-        );
-        let cellIdx7String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
+        let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
+        let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
+        let cellIdx7String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`
         // 5.地点：sysOfficeInfo实体中depAddress字段+ deparFullname字段
         // 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
         const orgInfo = db.table("orgInfo");
-        const orgData = await orgInfo.find(
-          (item) => item.no === this.$store.state.user.userGroupId
-        );
-        let orgSysOfficeInfo =
-          orgData && orgData.sysOfficeInfo
-            ? JSON.parse(orgData.sysOfficeInfo)
-            : { depAddress: "", depPost: "", master: "", phone: "" };
-        let cellIdx12String = `${orgSysOfficeInfo.depAddress}${orgSysOfficeInfo.deparFullname}`;
+        const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+        let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: '', deparFullname: '' }
+        let cellIdx12String = `${orgSysOfficeInfo.depAddress}${orgSysOfficeInfo.deparFullname}`
         let cellIdx31String = orgSysOfficeInfo.depAddress;
         let cellIdx32String = orgSysOfficeInfo.depPost;
         let cellIdx34String = orgSysOfficeInfo.master;
         let cellIdx35String = orgSysOfficeInfo.phone;
+        await db.close();
         this.letData = {
           cellIdx0: num0, // 文书号
           cellIdx0TypeTextItem: num0, // 文书号
@@ -572,10 +573,13 @@ export default {
           cellIdx37: null, // 月
           cellIdx38: null, // 日
           cellIdx39: null, // 单位/个人
-          dangerItemObject: let101DataPapaerContent.dangerItemObject,
+          dangerItemObject: let1DataPapaerContent.dangerItemObject,
+          extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
+          corpName: corp.corpName,
+          userGroupName: this.$store.state.user.userGroupName,
+        }
+          // dangerItemObject: let101DataPapaerContent.dangerItemObject,
         };
-      }
-      await db.close();
     },
     goBack({ page }) {
       // 返回选择企业
@@ -606,7 +610,7 @@ export default {
     },
     confirm() {
       // 选择单位或个人
-      this.visible = false;
+      this.visibleSelectDialog = false;
       this.letData.cellIdx6 = this.selectedType;
       this.letData.cellIdx6TypeTextItem = this.selectedType;
       this.letData.cellIdx14 = this.selectedType;

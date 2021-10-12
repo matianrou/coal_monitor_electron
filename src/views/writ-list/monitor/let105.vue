@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -185,7 +185,6 @@
 
 <script>
 import letMain from "@/views/make-law-writ/components/let-main.vue";
-import associationSelectPaper from "@/components/association-select-paper";
 import { getDocNumber } from "@/utils/setInitPaperData";
 import GoDB from "@/utils/godb.min.js";
 const toggleDictionary = [
@@ -200,7 +199,6 @@ const toggleDictionary = [
 ];
 export default {
   name: "Let105",
-  mixins: [associationSelectPaper],
   props: {
     corpData: {
       type: Object,
@@ -215,6 +213,10 @@ export default {
           toggleDictionary: {},
         };
       },
+    },
+    paperData: {
+      type: Object,
+      default: () => {},
     },
   },
   components: {
@@ -242,16 +244,24 @@ export default {
         this.initData();
       }
     },
+    "paperData.paperId"(val) {
+      this.initData();
+    },
   },
   methods: {
     async initData() {
-      const db = new GoDB("CoalMonitorDB");
-      const corpBase = db.table("corpBase");
-      //查询符合条件的记录
-      const corp = await corpBase.find((item) => {
-        return item.corpId == this.corpData.corpId;
-      });
-      const wkPaper = db.table("wkPaper");
+      // 初始化文书内容
+      if (this.paperData && this.paperData.paperId) {
+        this.letData = JSON.parse(this.paperData.paperContent);
+      } else {
+        // 创建初始版本
+        const db = new GoDB(this.$store.state.DBName);
+        const corpBase = db.table("corpBase");
+        //查询符合条件的记录
+        const corp = await corpBase.find((item) => {
+          return item.corpId == this.corpData.corpId;
+        });
+      /* const wkPaper = db.table("wkPaper");
       const caseId = this.corpData.caseId;
       const checkPaper = await wkPaper.findAll((item) => {
         return (
@@ -264,8 +274,9 @@ export default {
         // 回显
         this.letData = JSON.parse(checkPaper[0].paperContent);
         this.editData = checkPaper[0];
-      } else {
+      } else { */
         // 创建初始版本
+        await db.close();
         this.letData = {
           cellIdx0: null, // shortName
           cellIdx1: null, // year
@@ -286,7 +297,6 @@ export default {
           cellIdx16: null, // 日期
         };
       }
-      await db.close();
     },
     goBack({ page }) {
       // 返回选择企业

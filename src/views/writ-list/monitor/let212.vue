@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -168,13 +168,22 @@
         </div>
       </div>
     </let-main>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
+// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDocNumber } from "@/utils/setInitPaperData";
+import associationSelectPaper from '@/components/association-select-paper'
 const toggleDictionary = [
   {
     value: "□",
@@ -187,7 +196,8 @@ const toggleDictionary = [
 ];
 export default {
   name: "Let212",
-  props: {
+  mixins: [associationSelectPaper],
+/*   props: {
     corpData: {
       type: Object,
       default: () => {},
@@ -204,7 +214,7 @@ export default {
   },
   components: {
     letMain,
-  },
+  }, */
   data() {
     return {
       letData: {},
@@ -212,10 +222,11 @@ export default {
         cellIdx8: toggleDictionary, // 延期缴纳罚款
         cellIdx10: toggleDictionary, // 分期缴纳罚款
       },
-      editData: {}, // 回显数据
+      associationPaper: ['8']
+      // editData: {}, // 回显数据
     };
   },
-  created() {
+/*   created() {
     this.initData();
   },
   watch: {
@@ -224,13 +235,15 @@ export default {
         this.initData();
       }
     },
-  },
+  }, */
   methods: {
-    async initData() {
-      // 初始化文书内容
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
+      const corp = await corpBase.find((item) => {
+        return item.corpId == this.corpData.corpId;
+      });
+      /* //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
@@ -250,12 +263,12 @@ export default {
         this.letData = JSON.parse(checkPaper[0].paperContent);
         this.editData = checkPaper[0];
       } else {
-        // 创建初始版本
+        // 创建初始版本 */
         // 1.生成文书编号
         let { num0, num1, num3, num4 } = await getDocNumber(
           db,
           this.docData.docTypeNo,
-          caseId,
+          this.corpData.caseId,
           this.$store.state.user
         );
         this.letData = {
@@ -282,8 +295,6 @@ export default {
           cellIdx15: null, //
           cellIdx16: null, //日期
         };
-      }
-      await db.close();
     },
     goBack({ page }) {
       // 返回选择企业

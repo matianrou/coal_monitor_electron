@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -144,7 +144,7 @@
             </div>
             <div class="docTextLine">
               <label style="width: 13%"></label>
-              <div style="flex: 1; display: flex">
+              <div style="flex: 1.3; display: flex">
                 <label>单 &nbsp;&nbsp; 位</label>
                 <div
                   class="line-div"
@@ -220,20 +220,30 @@
         </div>
       </div>
     </let-main>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
+// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import {
   getDangerObject,
   transformNumToChinese,
   getDocNumber,
 } from "@/utils/setInitPaperData";
+import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let304",
-  props: {
+  mixins: [associationSelectPaper],
+ /*  props: {
     corpData: {
       type: Object,
       default: () => {},
@@ -250,15 +260,16 @@ export default {
   },
   components: {
     letMain,
-  },
+  }, */
   data() {
     return {
       letData: {},
       options: {},
       editData: {}, // 回显数据
+      associationPaper: ["1"],
     };
   },
-  created() {
+/*   created() {
     this.initData();
   },
   watch: {
@@ -267,16 +278,15 @@ export default {
         this.initData();
       }
     },
-  },
+  }, */
   methods: {
-    async initData() {
+    async initLetData(selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
+      /* const wkPaper = db.table("wkPaper");
       const caseId = this.corpData.caseId;
       const checkPaper = await wkPaper.findAll((item) => {
         return (
@@ -290,7 +300,7 @@ export default {
         this.letData = JSON.parse(checkPaper[0].paperContent);
         this.editData = checkPaper[0];
       } else {
-        // 创建初始版本
+        // 创建初始版本 */
         // 1.时间：当前年、月、日、时、分
         let now = new Date();
         let cellIdx0Year = now.getFullYear();
@@ -301,14 +311,17 @@ export default {
         // 2.单位名称
         // 3.调查笔录：“我们是”+机构名称+“执法监督处工作人员，这是我们的执法证件（出示行政执法证件），现就你矿涉嫌”+隐患描述+“案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？答：听清楚了。”
         // 获取笔录文书中的隐患数据
-        const let101Data = await wkPaper.find((item) => {
+        /* const let101Data = await wkPaper.find((item) => {
           return item.caseId === caseId && item.paperType === "1";
         });
         let let101DataPapaerContent = JSON.parse(let101Data.paperContent);
         let dangerObject = getDangerObject(
           let101DataPapaerContent.dangerItemObject.tableData
-        );
+        ); */
+        let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
+        let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
         let cellIdx18 = `我们是${this.$store.state.user.userGroupName}执法监督处工作人员，这是我们的执法证件（出示行政执法证件），现就你矿涉嫌${dangerObject.dangerString}案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？\r\n      答：听清楚了。`;
+        await db.close();
         this.letData = {
           cellIdx0: cellIdx0Year, // 年
           cellIdx0TypeTextItem: cellIdx0Year, // 年
@@ -336,9 +349,8 @@ export default {
           cellIdx17: null, // 住址
           cellIdx18: cellIdx18, // 调查笔录
           cellIdx18TypeTextareaItem: cellIdx18, // 调查笔录
+          dangerItemObject: let1DataPapaerContent.dangerItemObject,
         };
-      }
-      await db.close();
     },
     goBack({ page }) {
       // 返回选择企业

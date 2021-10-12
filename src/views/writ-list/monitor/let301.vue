@@ -370,7 +370,7 @@ export default {
           key: "cellIdx16",
         },
       },
-      associationPaper: ['1', '8', '53']
+      associationPaper: ['1', '8', ]
       // editData: {}, // 回显数据
       // extraData: {}, // 用于拼写隐患内容的字符集合
     };
@@ -416,7 +416,7 @@ export default {
         let paperNumber = await getDocNumber(
           db,
           "9",
-          caseId,
+          this.corpData.caseId,
           this.$store.state.user
         );
         // 2.申请人：机构名称
@@ -436,12 +436,8 @@ export default {
       let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
         let cellIdx16String = `${corp.corpName}涉嫌${dangerObject.dangerString}案`;
         // 5.文书号2：催告书编号
-        // let paperNumber39 = await getDocNumber(
-        //   db,
-        //   "39",
-        //   caseId,
-        //   this.$store.state.user
-        // );
+        let let8DataPapaerContent = JSON.parse(selectedPaper.let8Data.paperContent)
+      let paperDate206 = let8DataPapaerContent.cellIdx20 ? let8DataPapaerContent.cellIdx20.replace('年', '-').replace('月', '-').replace('日', '-').split('-') : ['', '', '']
         // 从sysOfficeInfo中获取：
         const orgInfo = db.table("orgInfo");
         const orgData = await orgInfo.find(
@@ -493,14 +489,14 @@ export default {
           cellIdx18: null, // 年
           cellIdx19: null, // 月
           cellIdx20: null, // 日
-          cellIdx21: paperNumber39.num0, // 文书号
-          cellIdx21TypeTextItem: paperNumber39.num0, // 文书号
-          cellIdx22: paperNumber39.num1, // 文书号
-          cellIdx22TypeTextItem: paperNumber39.num1, // 文书号
-          cellIdx23: paperNumber39.num3, // 文书号
-          cellIdx23TypeTextItem: paperNumber39.num3, // 文书号
-          cellIdx24: paperNumber39.num4, // 文书号
-          cellIdx24TypeTextItem: paperNumber39.num4, // 文书号
+          cellIdx21: let8DataPapaerContent.num0, // 文书号
+          cellIdx21TypeTextItem: let8DataPapaerContent.num0, // 文书号
+          cellIdx22: let8DataPapaerContent.num1, // 文书号
+          cellIdx22TypeTextItem: let8DataPapaerContent.num1, // 文书号
+          cellIdx23: let8DataPapaerContent.num3, // 文书号
+          cellIdx23TypeTextItem: let8DataPapaerContent.num3, // 文书号
+          cellIdx24: let8DataPapaerContent.num4, // 文书号
+          cellIdx24TypeTextItem: let8DataPapaerContent.num4, // 文书号
           cellIdx25: cellIdx25String, //
           cellIdx25TypeTextareaItem: cellIdx25String, //
           cellIdx26: orgSysOfficeInfo.courtPrefix, // 人民法院
