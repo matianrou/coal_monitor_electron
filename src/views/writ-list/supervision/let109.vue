@@ -103,7 +103,7 @@
               <span
                 @click="commandFill('cellIdx16', '人民法院', 'TextItem')"
               >{{ letData.cellIdx16 ? letData.cellIdx16 : '（点击编辑）' }}</span>
-              申请行政复议,或者在6个月依法内向
+              申请行政复议,或者在6个月内依法向
               <span
                 @click="commandFill('cellIdx17', '人民法院', 'TextItem')"
               >{{ letData.cellIdx17 ? letData.cellIdx17 : '（点击编辑）'}}</span>

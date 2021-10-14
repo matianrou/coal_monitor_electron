@@ -213,8 +213,8 @@
               备注：本文书一式两份，一份交被
               <span
                 style="borderBottom:none"
-                @click="commandFill('cellIdx29', '查封/扣押', 'TextItem')"
-              >{{ letData.cellIdx29 ? letData.cellIdx29 : '（点击编辑）'}}</span>
+                @click="commandFill('cellIdx27', '查封/扣押', 'TextItem')"
+              >{{ letData.cellIdx27 ? letData.cellIdx27 : '（点击编辑）'}}</span>
               单位，一份存档。 
             </div>
           </div>
