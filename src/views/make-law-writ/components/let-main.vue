@@ -375,8 +375,12 @@ export default {
     exportTemplate () {
       // 导出模板
       console.log('letData', this.$parent.letData)
+      // 遍历导出的数据，处理undefined情况
+      let exportData = {}
+      for (let key in this.$parent.letData) {
+        exportData[key] = this.$parent.letData[key] ? this.$parent.letData[key] : `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`
+      }
       console.log('docData', this.docData)
-      let exportData = this.$parent.letData
       if (this.docData.docTypeNo === '22') {
         Object.assign(exportData, {
           tableData: this.$parent.letData.checkTable.tableData
