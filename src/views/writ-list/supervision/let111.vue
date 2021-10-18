@@ -124,7 +124,7 @@
               }}</span>
               分起，对你单位采取
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx16', '', 'TextItem')"
                 >{{
                   letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）"

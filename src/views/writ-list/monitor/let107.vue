@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -133,25 +133,25 @@
               <div style="flex: 2; display: flex">
                 <label>抽样时间：</label>
                 <span
-                  class="line-div"
+                  class="line-div center"
                   @click="commandFill('cellIdx9', '年', 'TextItem')"
                   >{{ letData.cellIdx9 ? letData.cellIdx9 : "（XX）" }}</span
                 >
                 <label>年</label>
                 <span
-                  class="line-div"
+                  class="line-div center"
                   @click="commandFill('cellIdx10', '月', 'TextItem')"
                   >{{ letData.cellIdx10 ? letData.cellIdx10 : "（XX）" }}</span
                 >
                 <label>月</label>
                 <span
-                  class="line-div"
+                  class="line-div center"
                   @click="commandFill('cellIdx11', '日', 'TextItem')"
                   >{{ letData.cellIdx11 ? letData.cellIdx11 : "（XX）" }}</span
                 >
                 <label>日</label>
                 <span
-                  class="line-div"
+                  class="line-div center"
                   @click="commandFill('cellIdx12', '时', 'TextItem')"
                   >{{ letData.cellIdx12 ? letData.cellIdx12 : "（XX）" }}</span
                 >
@@ -276,16 +276,26 @@
         </div>
       </div>
     </let-main>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
+// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
+import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let107",
-  props: {
+  mixins: [associationSelectPaper],
+ /*  props: {
     corpData: {
       type: Object,
       default: () => {},
@@ -302,7 +312,7 @@ export default {
   },
   components: {
     letMain,
-  },
+  }, */
   data() {
     return {
       letData: {},
@@ -312,10 +322,11 @@ export default {
           key: "cellIdx5",
         },
       },
-      editData: {}, // 回显数据
+      associationPaper: ['1']
+      // editData: {}, // 回显数据
     };
   },
-  created() {
+  /* created() {
     this.initData();
   },
   watch: {
@@ -324,16 +335,16 @@ export default {
         this.initData();
       }
     },
-  },
+  }, */
   methods: {
-    async initData() {
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
       //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
+     /*  const wkPaper = db.table("wkPaper");
       const caseId = this.corpData.caseId;
       const checkPaper = await wkPaper.findAll((item) => {
         return (
@@ -347,23 +358,25 @@ export default {
         this.letData = JSON.parse(checkPaper[0].paperContent);
         this.editData = checkPaper[0];
       } else {
-        // 创建初始版本
+        // 创建初始版本 */
         // 1.生成文书编号
         let { num0, num1, num3, num4 } = await getDocNumber(
           db,
           this.docData.docTypeNo,
-          caseId,
+          this.corpData.caseId,
           this.$store.state.user
         );
         // 2.隐患描述
         // 获取笔录文书中的隐患数据
-        const let101Data = await wkPaper.find((item) => {
+        /* const let101Data = await wkPaper.find((item) => {
           return item.caseId === caseId && item.paperType === "1";
         });
         let let101DataPapaerContent = JSON.parse(let101Data.paperContent);
         let dangerObject = getDangerObject(
           let101DataPapaerContent.dangerItemObject.tableData
-        );
+        ); */
+        let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
         let cellIdx5String = `${dangerObject.dangerString}`;
         // 3.抽样时间9-12
         let now = new Date();
@@ -384,6 +397,7 @@ export default {
         let cellIdx18String = orgSysOfficeInfo.depPost;
         let cellIdx20String = orgSysOfficeInfo.master;
         let cellIdx21String = orgSysOfficeInfo.phone;
+        await db.close();
         this.letData = {
           cellIdx0: num0, // 文书号
           cellIdx0TypeTextItem: num0, // 文书号
@@ -422,15 +436,13 @@ export default {
           cellIdx21TypeTextItem: cellIdx21String, // 联系电话
           cellIdx22: null, //
           cellIdx23: null, // 日期
-          dangerItemObject: let101DataPapaerContent.dangerItemObject,
+          dangerItemObject: let1DataPapaerContent.dangerItemObject,
           SamplingForensicsTable: {
             tableData: [],
             signature: null,
             signDate: "",
           },
         };
-      }
-      await db.close();
     },
     goBack({ page }) {
       // 返回选择企业
@@ -462,6 +474,23 @@ export default {
           this.letData[dataKey],
           this.options[key]
         );
+      } else {
+         if (key === 'cellIdx7') {
+          // 不能编辑时，还需要查看附件
+          this.options[key] = {
+            canEdit: false,
+            page: '23', // 控制当前为抽样取证或者先行登记保存证据清单
+          }
+          let dataKey = 'SamplingForensicsTable'
+          this.$refs.letMain.commandFill(
+          key,
+          dataKey,
+          title,
+          type,
+          this.letData[dataKey],
+          this.options[key]
+        );
+        }
       }
     },
   },

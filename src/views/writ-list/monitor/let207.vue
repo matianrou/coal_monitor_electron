@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -39,7 +39,46 @@
             </div>
           </div>
           <table height="60"></table>
-          <table style="border:solid 0px #000;" class="docBody">
+          <div class="docTextarea">
+              <span class="no-line">送达文书：</span>
+              <span
+                @click="commandFill('cellIdx4', '送达文书', 'TextItem')"
+                >{{
+                  letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）"
+                }}</span
+              >
+              <div class="line"></div>
+            </div>
+            <div class="docTextarea">
+              <span class="no-line">文书编号：</span>
+              <span
+                @click="commandFill('cellIdx5', '文书编号', 'TextItem')"
+                >{{
+                  letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
+                }}</span
+              >
+              <div class="line"></div>
+            </div>
+            <div class="docTextarea">
+              <span class="no-line">送达地点：</span>
+              <span
+                @click="commandFill('cellIdx6', '送达地点', 'TextItem')"
+                >{{
+                  letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
+                }}</span
+              >
+              <div class="line"></div>
+            </div>
+            <div class="docTextarea">
+              <span class="no-line">送达方式：</span>
+              <span
+                @click="commandFill('cellIdx7', '送达方式', 'SelectItem')"
+                >{{
+                  letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
+                }}</span>
+              <div class="line"></div>
+            </div>
+          <!-- <table style="border:solid 0px #000;" class="docBody">
             <tr>
               <td
                 class="textAlignLeft"
@@ -104,7 +143,7 @@
                 @click="commandFill('cellIdx7', '送达方式', 'SelectItem')"
                 >{{letData.cellIdx7}}</td>
             </tr>
-          </table>
+          </table> -->
           <!-- <table height="30"></table> -->
           <div class="docTextLine">
             <div style="flex: 2; display: flex;">
@@ -171,16 +210,26 @@
         </div>
       </div>
     </let-main>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
+// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDocNumber } from '@/utils/setInitPaperData'
+import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let207",
-  props: {
+  mixins: [associationSelectPaper],
+/*   props: {
     corpData: {
       type: Object,
       default: () => {},
@@ -197,7 +246,7 @@ export default {
   },
   components: {
     letMain,
-  },
+  }, */
   data() {
     return {
       letData: {},
@@ -224,11 +273,22 @@ export default {
             name: '公告送达'
           },
         ],
+        cellIdx14: [
+          {
+            value: '单位负责人',
+            name: '单位负责人',
+          },
+          {
+            value: '个人',
+            name: '个人',
+          },
+        ]
       },
-      editData: {}, // 回显数据
+      associationPaper: ['8']
+      // editData: {}, // 回显数据
     };
   },
-  created() {
+/*   created() {
     this.initData();
   },
   watch: {
@@ -237,16 +297,15 @@ export default {
         this.initData();
       }
     },
-  },
+  }, */
   methods: {
-    async initData() {
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
+      /* const wkPaper = db.table("wkPaper");
       const caseId = this.corpData.caseId;
       const checkPaper = await wkPaper.findAll((item) => {
         return (
@@ -258,15 +317,21 @@ export default {
         this.letData = JSON.parse(checkPaper[0].paperContent);
         this.editData = checkPaper[0];
       } else {
-        // 创建初始版本
+        // 创建初始版本 */
         // 1.送达文书：国家煤矿安全监察行政处罚决定书
         let cellIdx4String = '国家煤矿安全监察行政处罚决定书'
         // 2.文书字号：使用行政处罚决定书的文书编号
-        let { numString } = await getDocNumber(db, '8', caseId, this.$store.state.user)
-        let cellIdx5String = numString
-        // 3.送达地点：煤矿名称
+        // let { numString } = await getDocNumber(db, '8', caseId, this.$store.state.user)
+        // let cellIdx5String = numString
+        let let8DataPapaerContent = JSON.parse(selectedPaper.let8Data.paperContent);
+        let cellIdx5String = `${let8DataPapaerContent.cellIdx0}（${let8DataPapaerContent.cellIdx1}）煤安罚〔${let8DataPapaerContent.cellIdx2}〕${let8DataPapaerContent.cellIdx3}号`
+      // 3.送达地点：煤矿名称
         let cellIdx6String = corp.corpName
-        let paperNumber = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
+        let paperNumber = await getDocNumber(db, this.docData.docTypeNo,this.corpData.caseId, this.$store.state.user)
+      // 获取行政处罚决定书中选择的单位/个人
+        let selectedType = let8DataPapaerContent.selectedType
+        let selectedString = selectedType === '单位' ? '单位负责人' : '个人'
+        await db.close();
         this.letData = {
           cellIdx0: paperNumber.num0, // 文书号
           cellIdx0TypeTextItem: paperNumber.num0, // 文书号
@@ -283,18 +348,16 @@ export default {
           cellIdx6: cellIdx6String, // 送达地点
           cellIdx6TypeTextItem: cellIdx6String, // 送达地点
           cellIdx7: null, // 送达方式
-          cellIdx8: null, // 送达人
-          cellIdx9: null, // 签名
-          cellIdx10: null, // 日期
-          cellIdx11: null, // 送达人（签名）
-          cellIdx12: null, // 日期
-          cellIdx13: null, //
-          cellIdx14: null, // 年
-          cellIdx15: null, // 月
-          cellIdx16: null, // 日
+          cellIdx14: selectedString, // 单位负责人/个人
+          cellIdx14TypeSelectItem: selectedString, // 单位负责人/个人
+          cellIdx8: null, // 受送达单位负责人（个人）（签名）
+          cellIdx9: null, // 日期
+          cellIdx10: null, // 送达人（签名）
+          cellIdx11: null, // 日期
+          cellIdx12: null, //
+          cellIdx13: null, // 日期
+          selectedString: selectedString
         };
-      }
-      await db.close();
     },
     goBack({ page }) {
       // 返回选择企业

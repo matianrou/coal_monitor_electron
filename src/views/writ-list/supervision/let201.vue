@@ -39,7 +39,7 @@
               </div>
             </div>
             <div class="docTextarea">
-              案&nbsp;&nbsp;&nbsp;&nbsp;由：
+              <span class="no-line">案&nbsp;&nbsp;&nbsp;&nbsp;由：</span>
               <span
                 @click="commandFill('cellIdx4', '案由', 'DangerTableItem')"
               >{{ letData.cellIdx4 ? letData.cellIdx4 : '（点击编辑）'}}</span>

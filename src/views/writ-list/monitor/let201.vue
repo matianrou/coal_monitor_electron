@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -49,16 +49,12 @@
                 {{ letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）" }}
               </div>
             </div>
-            <div class="docTextLine">
-              <label>案情摘要：</label>
-              <div
-                class="line-div"
-                @click="
-                  commandFill('cellIdx5', '案情摘要', 'DangerTableItem')
-                "
-              >
-                {{ letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）" }}
-              </div>
+            <div class="docTextarea">
+              案情摘要：
+              <span
+                @click="commandFill('cellIdx5', '案情摘要', 'DangerTableItem')"
+              >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</span>
+              <div class="line"></div>
             </div>
             <div class="docTextarea">
               <label style="width: 5%"></label>
@@ -166,17 +162,27 @@
         </div>
       </div>
     </let-main>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
+// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { handleDate } from '@/utils/date'
 import { getDangerObject, getDocNumber } from '@/utils/setInitPaperData'
+import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let201",
-  props: {
+  mixins: [associationSelectPaper],
+/*   props: {
     corpData: {
       type: Object,
       default: () => {},
@@ -193,7 +199,7 @@ export default {
   },
   components: {
     letMain,
-  },
+  }, */
   data() {
     return {
       letData: {},
@@ -207,11 +213,12 @@ export default {
           key: 'cellIdx5'
         }
       },
-      editData: {}, // 回显数据
-      extraData: {}, // 用于拼写隐患内容的字符集合
+      associationPaper: ['1']
+      // editData: {}, // 回显数据
+      // extraData: {}, // 用于拼写隐患内容的字符集合
     };
   },
-  created() {
+/*   created() {
     this.initData();
   },
   watch: {
@@ -220,16 +227,15 @@ export default {
         this.initData();
       }
     },
-  },
+  }, */
   methods: {
-    async initData() {
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
+      /* const wkPaper = db.table("wkPaper");
       const caseId = this.corpData.caseId;
       const checkPaper = await wkPaper.findAll((item) => {
         return (
@@ -241,8 +247,8 @@ export default {
       // 获取检查时间
       const let100Data = await wkPaper.find((item) => {
         return item.caseId === caseId && item.paperType === '22';
-      });
-      let let100DataPapaerContent = JSON.parse(let100Data.paperContent)
+      }); */
+      /* let let100DataPapaerContent = JSON.parse(let100Data.paperContent)
       // 整合检查时间日期文本：
       let dateString = handleDate(let100DataPapaerContent.cellIdx2, '-')
       this.extraData = {
@@ -254,8 +260,24 @@ export default {
         // 回显
         this.letData = JSON.parse(checkPaper[0].paperContent);
         this.editData = checkPaper[0];
-      } else {
+      } else { */
         // 创建初始版本
+        // 获取检查时间
+      let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      // 检查时间日期：
+      let dateString = let1DataPapaerContent.cellIdx1 ? let1DataPapaerContent.cellIdx1 : 'X年X月X日-X年X月X日'
+      // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
+      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
+      let cellIdx4String = `${corp.corpName}${dangerObject.dangerString}案。`
+      // 2.案情摘要：检查时间+当前机构名称+“对”+煤矿名称+“进行现场检查时发现”+隐患描述+"以上行为分别涉嫌违反了"+违法认定法条+“依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。”
+      dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData, {danger: true})
+      let cellIdx5String = `${dateString}，${this.$store.state.user.userGroupName}对${corp.corpName}进行现场检查时发现：${dangerObject.dangerString}以上行为分别涉嫌违反了${dangerObject.illegalString}的规定。依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`
+      let paperNumber = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
+      await db.close();
+      /*   // 获取检查时间
+      let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      // 检查时间日期：
+      let dateString = let1DataPapaerContent.cellIdx1 ? let1DataPapaerContent.cellIdx1 : 'X年X月X日-X年X月X日'
         // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
         // 获取笔录文书中的隐患数据
         const let101Data = await wkPaper.find((item) => {
@@ -263,11 +285,14 @@ export default {
         });
         let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
         let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
+        let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
         let cellIdx4String = `${corp.corpName}${dangerObject.dangerString}案。`
         // 2.案情摘要：检查时间+当前机构名称+“对”+煤矿名称+“进行现场检查时发现”+隐患描述+"以上行为分别涉嫌违反了"+违法认定法条+“依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。”
-        dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData, {danger: true})
+        // dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData, {danger: true})
+        dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData, {danger: true})
         let cellIdx5String = `${dateString}，${this.$store.state.user.userGroupName}对${corp.corpName}进行现场检查时发现：${dangerObject.dangerString}以上行为分别涉嫌违反了${dangerObject.illegalString}的规定。依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`
-        let paperNumber = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
+        let paperNumber = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
+        await db.close(); */
         this.letData = {
           cellIdx0: paperNumber.num0, // 文书号
           cellIdx0TypeTextItem: paperNumber.num0, // 文书号
@@ -290,10 +315,14 @@ export default {
           cellIdx14: null, // 年
           cellIdx15: null, // 月
           cellIdx16: null, // 日
-          dangerItemObject: let101DataPapaerContent.dangerItemObject
+          // dangerItemObject: let101DataPapaerContent.dangerItemObject
+          dangerItemObject: let1DataPapaerContent.dangerItemObject,
+        extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
+          corpName: corp.corpName,
+          dateString,
+          userGroupName: this.$store.state.user.userGroupName,
+        }
         };
-      }
-      await db.close();
     },
     goBack({ page }) {
       // 返回选择企业
@@ -308,10 +337,10 @@ export default {
         if (key === 'cellIdx4' || key === 'cellIdx5') {
           if (key === 'cellIdx4') {
             spellString = {
-              corpName: this.extraData.corpName,
+              corpName: this.letData.extraData.corpName,
             }
           } else if (key === 'cellIdx5') {
-            spellString = this.extraData
+            spellString = this.letData.extraData
           }
           this.options[key] = {
             page: '4',

@@ -232,7 +232,7 @@
               >{{ item.fine ? item.fine : `&nbsp;&nbsp;&nbsp;&nbsp;`}}</span>
               （￥
               <span
-                class="no-line"
+                class="no-underline"
                 @click="editInstallment('fineChinese', '罚款（大写）', 'TextItem', index)"
               >{{ item.fineChinese ? item.fineChinese : `&nbsp;&nbsp;&nbsp;&nbsp;`}}</span>
               ）

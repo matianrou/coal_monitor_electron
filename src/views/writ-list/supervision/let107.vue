@@ -78,12 +78,17 @@
                 ></td>
               </tr>
             </table>
-            <div class="docTextLine">
-              <label>抽样承办人：（签名）</label>
-              <div
-                class="line-div"
+            <div class="docTextarea">
+              <span class="no-line"
+                >抽样承办人：（签名）</span
+              >
+              <span
                 @click="commandFill('cellIdx8', '抽样承办人：（签名）', 'TextItem')"
-              >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）' }}</div>
+                >{{
+                  letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
+                }}</span
+              >
+              <div class="line"></div>
             </div>
             <div class="docTextLine">
               <div style="flex: 1; display: flex;">

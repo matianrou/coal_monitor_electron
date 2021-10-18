@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -163,7 +163,7 @@
                 </div>
               </div>
               <div style="flex: 2; display: flex">
-                <label>单位负责人（签名）:</label>
+                <label >单位负责人（签名）:</label>
                 <div
                   class="line-div"
                   @click="
@@ -182,7 +182,7 @@
               </div>
             </div>
             <div class="docTextLine">
-              <div style="flex: 2; display: flex">
+              <div style="flex: 2.5; display: flex">
                 <label>复查人员（签名）：</label>
                 <div
                   class="line-div"
@@ -238,16 +238,26 @@
         </div>
       </div>
     </let-main>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
+// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
+import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let104",
-  props: {
+  mixins: [associationSelectPaper],
+  /*   props: {
     corpData: {
       type: Object,
       default: () => {},
@@ -261,10 +271,14 @@ export default {
         };
       },
     },
+    paperData: {
+      type: Object,
+      default: () => {},
+    },
   },
   components: {
     letMain,
-  },
+  }, */
   data() {
     return {
       letData: {},
@@ -288,10 +302,10 @@ export default {
           },
         ],
       },
-      editData: {}, // 回显数据
+      associationPaper: ["1", "2"],
     };
   },
-  created() {
+  /*   created() {
     this.initData();
   },
   watch: {
@@ -300,16 +314,18 @@ export default {
         this.initData();
       }
     },
-  },
+    "paperData.paperId"(val) {
+      this.initData();
+    },
+  }, */
   methods: {
-    async initData() {
+    async initLetData(selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
+      /* const wkPaper = db.table("wkPaper");
       const caseId = this.corpData.caseId;
       const checkPaper = await wkPaper.findAll((item) => {
         return (
@@ -323,16 +339,16 @@ export default {
         this.letData = JSON.parse(checkPaper[0].paperContent);
         this.editData = checkPaper[0];
       } else {
-        // 创建初始版本
+        // 创建初始版本 
         // 1.生成文书编号
         let { num0, num1, num3, num4 } = await getDocNumber(
           db,
           this.docData.docTypeNo,
-          caseId,
+          this.corpData.caseId,
           this.$store.state.user
         );
-        // 2.发现你矿存在：隐患描述
-        // 获取笔录文书中的隐患数据
+        // // 2.发现你矿存在：隐患描述
+        // // 获取笔录文书中的隐患数据
         const let101Data = await wkPaper.find((item) => {
           return item.caseId === caseId && item.paperType === "1";
         });
@@ -343,52 +359,69 @@ export default {
         );
         let cellIdx9String = dangerObject.dangerString;
         let cellIdx10String = dangerObject.onsiteDescString;
-        // 3.现场处理决定2的文书号：11-14
+        // // 3.现场处理决定2的文书号：11-14
         let paperNum2 = await getDocNumber(
           db,
           "2",
           caseId,
           this.$store.state.user
-        );
-
-        this.letData = {
-          cellIdx0: num0, // 文书号
-          cellIdx0TypeTextItem: num0, // 文书号
-          cellIdx1: num1, // 文书号
-          cellIdx1TypeTextItem: num1, // 文书号
-          cellIdx2: num3, // 文书号
-          cellIdx2TypeTextItem: num3, // 文书号
-          cellIdx3: num4, // 文书号
-          cellIdx3TypeTextItem: num4, // 文书号
-          cellIdx4: corp.corpName ? corp.corpName : null, //
-          cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, //
-          cellIdx5: null, // 单位
-          cellIdx6: null, // 年
-          cellIdx7: null, // 月
-          cellIdx8: null, // 日
-          cellIdx9: cellIdx9String, // 违法违规行为：隐患描述
-          cellIdx10: cellIdx10String, // 现场处理决定
-          cellIdx11: paperNum2.num0, // 文书号
-          cellIdx11TypeTextItem: paperNum2.num0, // 文书号
-          cellIdx12: paperNum2.num1, // 文书号
-          cellIdx12TypeTextItem: paperNum2.num1, // 文书号
-          cellIdx13: paperNum2.num3, // 文书号
-          cellIdx13TypeTextItem: paperNum2.num3, // 文书号
-          cellIdx14: paperNum2.num4, // 文书号
-          cellIdx14TypeTextItem: paperNum2.num4, // 文书号
-          cellIdx15: null, //
-          cellIdx16: null, // 意见
-          cellIdx17: null, // 被复查单位意见
-          cellIdx18: null, // 单位负责人（签名）
-          cellIdx19: null, // 日期
-          cellIdx20: null, // 复查人员（签名）
-          cellIdx21: null, // 日期
-          cellIdx22: null, //
-          cellIdx23: null, // 日期
-          dangerItemObject: let101DataPapaerContent.dangerItemObject,
-        };
-      }
+        );*/
+      let { num0, num1, num3, num4 } = await getDocNumber(
+        db,
+        this.docData.docTypeNo,
+        this.corpData.caseId,
+        this.$store.state.user
+      );
       await db.close();
+      let let1DataPapaerContent = JSON.parse(
+        selectedPaper.let1Data.paperContent
+      );
+      let dangerObject = getDangerObject(
+        let1DataPapaerContent.dangerItemObject.tableData,
+        { danger: true }
+      );
+      let cellIdx9String = dangerObject.dangerString;
+      let cellIdx10String = dangerObject.onsiteDescString;
+      let let2DataPapaerContent = JSON.parse(
+        selectedPaper.let2Data.paperContent
+      );
+      await db.close();
+      this.letData = {
+        cellIdx0: num0, // 文书号
+        cellIdx0TypeTextItem: num0, // 文书号
+        cellIdx1: num1, // 文书号
+        cellIdx1TypeTextItem: num1, // 文书号
+        cellIdx2: num3, // 文书号
+        cellIdx2TypeTextItem: num3, // 文书号
+        cellIdx3: num4, // 文书号
+        cellIdx3TypeTextItem: num4, // 文书号
+        cellIdx4: corp.corpName ? corp.corpName : null, //
+        cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, //
+        cellIdx5: null, // 单位
+        cellIdx6: null, // 年
+        cellIdx7: null, // 月
+        cellIdx8: null, // 日
+        cellIdx9: cellIdx9String, // 违法违规行为：隐患描述
+        cellIdx10: cellIdx10String, // 现场处理决定
+        cellIdx11: let2DataPapaerContent.cellIdx0, // 现场处理决定书 文书号
+        cellIdx11TypeTextItem: let2DataPapaerContent.cellIdx0, // 现场处理决定书 文书号
+        cellIdx12: let2DataPapaerContent.cellIdx1, // 现场处理决定书 文书号
+        cellIdx12TypeTextItem: let2DataPapaerContent.cellIdx1, // 现场处理决定书 文书号
+        cellIdx13: let2DataPapaerContent.cellIdx2, // 现场处理决定书 文书号
+        cellIdx13TypeTextItem: let2DataPapaerContent.cellIdx2, // 现场处理决定书 文书号
+        cellIdx14: let2DataPapaerContent.cellIdx3, // 现场处理决定书 文书号
+        cellIdx14TypeTextItem: let2DataPapaerContent.cellIdx3, // 现场处理决定书 文书号
+        cellIdx15: null, //
+        cellIdx16: null, // 意见
+        cellIdx17: null, // 被复查单位意见
+        cellIdx18: null, // 单位负责人（签名）
+        cellIdx19: null, // 日期
+        cellIdx20: null, // 复查人员（签名）
+        cellIdx21: null, // 日期
+        cellIdx22: null, //
+        cellIdx23: null, // 日期
+        dangerItemObject: let1DataPapaerContent.dangerItemObject,
+      };
     },
     goBack({ page }) {
       // 返回选择企业
@@ -414,6 +447,21 @@ export default {
           this.letData[dataKey],
           this.options[key]
         );
+      } else {
+        if (key === "cellIdx5") {
+          let dataKey = "checkTable";
+          this.options[key] = {
+            canEdit: false,
+          };
+          this.$refs.letMain.commandFill(
+            key,
+            dataKey,
+            title,
+            type,
+            this.letData[dataKey],
+            this.options[key]
+          );
+        }
       }
     },
   },

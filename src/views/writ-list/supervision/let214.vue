@@ -218,14 +218,12 @@
                 >{{letData.cellIdx17  ? letData.cellIdx17 : '点击编辑目录'}}</td>
               </tr> -->
             </table>
-            <div class="docTextLine">
-              <div style="flex: 1; display: flex;">
-                <label>承办人（签名）：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx14', '承办人（签名）', 'TextItem')"
-                >{{ letData.cellIdx14 ? letData.cellIdx14 : '（点击编辑）' }}</div>
-              </div>
+            <div class="docTextarea">
+              <span class="no-line">承办人（签名）：</span>
+              <span
+                @click="commandFill('cellIdx14', '承办人（签名）', 'TextItem')"
+                >{{letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）"}}</span>
+              <div class="line"></div>
             </div>
             <div class="docTextLine">
               <div style="flex: 1; display: flex;">

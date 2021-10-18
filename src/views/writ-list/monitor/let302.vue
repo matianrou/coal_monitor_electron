@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -68,16 +68,12 @@
                 <label>分</label>
               </div>
             </div>
-            <div class="docTextLine">
-              申请地点：
-              <div style="flex: 1; display: flex">
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx5', '申请地点', 'TextItem')"
-                >
-                  {{ letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）" }}
-                </div>
-              </div>
+            <div class="docTextarea">
+              <span class="no-line">申请地点：</span>
+              <span
+                @click="commandFill('cellIdx5', '申请地点', 'TextItem')"
+              >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</span>
+              <div class="line"></div>
             </div>
             <div class="docTextLine">
               <div style="flex: 2; display: flex">
@@ -108,16 +104,14 @@
                 </div>
               </div>
             </div>
+            <div class="docTextarea">
+              <span class="no-line">申请人单位：</span>
+              <span @click="commandFill('cellIdx9', '申请人单位', 'TextItem')">{{
+                letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
+              }}</span>
+              <div class="line"></div>
+            </div>
             <div class="docTextLine">
-              <div style="flex: 1; display: flex">
-                <label>申请人单位：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx9', '申请人单位', 'TextItem')"
-                >
-                  {{ letData.cellIdx9 ? letData.cellIdx9 : "（编辑）" }}
-                </div>
-              </div>
               <div style="flex: 1; display: flex">
                 <label>职务（职业）：</label>
                 <div
@@ -127,7 +121,7 @@
                   {{ letData.cellIdx10 ? letData.cellIdx10 : "（编辑）" }}
                 </div>
               </div>
-              <div style="flex: 0.7; display: flex">
+              <div style="flex: 1; display: flex">
                 <label>电话：</label>
                 <div
                   class="line-div"
@@ -137,29 +131,19 @@
                 </div>
               </div>
             </div>
-            <div class="docTextLine">
-              申请人住址：
-              <div style="flex: 1; display: flex">
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx12', '申请人住址', 'TextItem')"
-                >
-                  {{ letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）" }}
-                </div>
-              </div>
+            <div class="docTextarea">
+              <span class="no-line">申请人住址：</span>
+              <span @click="commandFill('cellIdx12', '申请人住址', 'TextItem')">{{
+                letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）"
+              }}</span>
+              <div class="line"></div>
             </div>
-            <div class="docTextLine">
-              记录人（签名）：
-              <div style="flex: 1; display: flex">
-                <div
-                  class="line-div"
-                  @click="
-                    commandFill('cellIdx13', '记录人（签名）', 'TextItem')
-                  "
-                >
-                  {{ letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）" }}
-                </div>
-              </div>
+            <div class="docTextarea">
+              <span class="no-line">记录人（签名）：</span>
+              <span @click="commandFill('cellIdx13', '记录人（签名）', 'TextItem')">{{
+                letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）"
+              }}</span>
+              <div class="line"></div>
             </div>
             <div class="docTextarea">
               <span class="no-line">申请记录：</span>
@@ -172,59 +156,76 @@
         </div>
       </div>
     </let-main>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
+// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
+import { getDocNumber, getDangerObject } from '@/utils/setInitPaperData'
+import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let302",
-  props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-  },
+  mixins: [associationSelectPaper],
+  // props: {
+  //   corpData: {
+  //     type: Object,
+  //     default: () => {},
+  //   },
+  //   docData: {
+  //     type: Object,
+  //     default: () => {
+  //       return {
+  //         docTypeNo: null,
+  //         docTypeName: null,
+  //       };
+  //     },
+  //   },
+  //    paperData: {
+  //     type: Object,
+  //     default: () => {},
+  //   },
+  // },
+  // components: {
+  //   letMain,
+  // },
   data() {
     return {
       letData: {},
       options: {},
-      editData: {}, // 回显数据
+      associationPaper: ['1']
+      // editData: {}, // 回显数据
     };
   },
-  created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-  },
+  // created() {
+  //   this.initData();
+  // },
+  // watch: {
+  //   "corpData.corpId"(val) {
+  //     if (val) {
+  //       this.initData();
+  //     }
+  //   },
+  //   "paperData.paperId"(val) {
+  //     this.initData();
+  //   },
+  // },
   methods: {
-    async initData() {
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
+      /* const wkPaper = db.table("wkPaper");
       const caseId = this.corpData.caseId;
       const checkPaper = await wkPaper.findAll((item) => {
         return (
@@ -241,23 +242,24 @@ export default {
       } else {
         // 创建初始版本
         // 1.时间：当前年、月、日、时、分
+         */
         let now = new Date();
+        // 1.时间
         // 2.申请人单位
         // 3.申请记录：“我代表”+煤矿名称+“对”+机构名称+“做出的行政处罚决定”+文书编号（行政处罚决定）+“申请行政复议，对处罚的”+隐患描述+“违法行为进行复议。我矿认为......。请求从轻或者免于处罚。”
-        const let101Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === "1";
-        });
-        let let101DataPapaerContent = JSON.parse(let101Data.paperContent);
+        let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
         let { numString } = await getDocNumber(
           db,
           "8",
-          caseId,
+          this.corpData.caseId,
           this.$store.state.user
         );
-        let dangerObject = getDangerObject(
-          let101DataPapaerContent.dangerItemObject.tableData
-        );
+        // let dangerObject = getDangerObject(
+        //   let101DataPapaerContent.dangerItemObject.tableData
+        // );
         let cellIdx14String = `我代表${corp.corpName}对${this.$store.state.user.userGroupName}做出的行政处罚决定${numString}申请行政复议，对处罚的${dangerObject.dangerString}违法行为进行复议。我矿认为......。请求从轻或者免于处罚。`;
+            await db.close();
         this.letData = {
           cellIdx0: now.getFullYear(), // 年
           cellIdx0TypeTextItem: now.getFullYear(), // 年
@@ -281,9 +283,12 @@ export default {
           cellIdx13: null, // 记录人（签名）
           cellIdx14: cellIdx14String, // 申请记录
           cellIdx14TypeTextareaItem: cellIdx14String, // 申请记录
+          dangerItemObject: let1DataPapaerContent.dangerItemObject,
+        extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
+          corpName: corp.corpName,
+          userGroupName: this.$store.state.user.userGroupName,
+        }
         };
-      }
-      await db.close();
     },
     goBack({ page }) {
       // 返回选择企业

@@ -61,7 +61,7 @@
               >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</span>
               ，请
               <span
-                style="border: none;"
+                class="no-underline"
                 @click="commandFill('cellIdx6', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx6 }}</span>
               于
@@ -133,14 +133,15 @@
                 <td colspan="2">如无法按时前来，请及时联系。</td>
               </tr>
             </table>
-            <div class="docTextLine">
-              <div style="flex: 1; display: flex;">
-                <label>执法机关地址：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx16', '执法机关地址', 'TextItem')"
-                >{{ letData.cellIdx16 ? letData.cellIdx16 : '（编辑）' }}</div>
-              </div>
+            <div class="docTextarea">
+              <span class="no-line">执法机关地址：</span>
+              <span
+                @click="commandFill('cellIdx16', '执法机关地址', 'TextItem')"
+                >{{
+                  letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）"
+                }}</span
+              >
+              <div class="line"></div>
             </div>
             <div class="docTextLine">
               <div style="flex: 1; display: flex;">

@@ -105,7 +105,7 @@
               本机关将于三十日内（不包括检测、检验或者技术鉴定期限）对上述被
               <span
                 style="borderBottom:none"
-                @click="commandFill('cellIdx13', '查封/扣押', 'DangerTableItem')"
+                @click="commandFill('cellIdx13', '查封/扣押', 'TextItem')"
               >{{ letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）'}}</span>
               的
               <span

@@ -77,14 +77,12 @@
                 <label>分</label>
               </div>
             </div>
-            <div class="docTextLine">
-              地点：
-              <div style="flex: 1; display: flex;">
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx8', '地点', 'TextItem')"
-                >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）' }}</div>
-              </div>
+            <div class="docTextarea">
+             <span class="no-line">地点：</span>
+              <span
+                @click="commandFill('cellIdx8', '地点', 'TextItem')"
+              >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
+              <div class="line"></div>
             </div>
             <div class="docTextLine">
               <div style="flex: 1; display: flex;">

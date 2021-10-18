@@ -74,7 +74,7 @@
               }}</span>
               日向你单位作出《
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx10', '', 'TextItem')"
                 >{{
                   letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
@@ -82,7 +82,7 @@
               >
               决定书》（
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx11', '', 'TextItem')"
                 >{{
                   letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）"
@@ -90,7 +90,7 @@
               >
               (
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx12', '', 'TextItem')"
                 >{{
                   letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）"
@@ -98,7 +98,7 @@
               >
               ) 煤安
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx13', '', 'TextItem')"
                 >{{
                   letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）"
@@ -106,7 +106,7 @@
               >
               〔
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx14', '', 'TextItem')"
                 >{{
                   letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）"
@@ -114,7 +114,7 @@
               >
               〕
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx15', '', 'TextItem')"
                 >{{
                   letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）"
@@ -122,21 +122,21 @@
               >
               号），对所附《
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx16', '', 'TextItem')"
                 >{{
                   letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）"
                 }}</span
               >
               <span
-                class="no-line"
+                class="no-underline"
                 @click="
                   commandFill('cellIdx17', '附件：', 'SamplingForensicsTable')
                 "
                 >物品清单》所列物品予以</span
               >
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx18', '', 'TextItem')"
                 >{{
                   letData.cellIdx18 ? letData.cellIdx18 : "（点击编辑）"
@@ -144,7 +144,7 @@
               >
               。现根据《中华人民共和国行政强制法》第二十七条、
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx19', '', 'SelectItem')"
                 >{{ letData.cellIdx19 ? letData.cellIdx19 : "□" }}</span
               >
@@ -154,7 +154,7 @@
               }}</span>
               项的规定，作出处理决定：具体处理决定详见《
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx21', '查封/扣押', 'TextItem')"
                 >{{
                   letData.cellIdx21 ? letData.cellIdx21 : "（点击编辑）"
@@ -181,7 +181,7 @@
             <div class="docTextarea" style="margin-top: 30px; margin-bottom: 30px;">
               <label style="width:5%"></label>
               附件：
-              <span
+              <span 
                 style="borderBottom:none"
                 @click="commandFill('cellIdx25', '', 'TextItem')"
               >{{ letData.cellIdx25 ? letData.cellIdx25 : '（点击编辑）'}}</span>

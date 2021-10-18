@@ -99,7 +99,7 @@
              <div class="docTextarea ">
               <label style="width: 2em;"></label>
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx25', '', 'SelectItem')"
               >{{ letData.cellIdx25 ? letData.cellIdx25 : '（点击编辑）'}}</span>
               ，经复查，意见如下：

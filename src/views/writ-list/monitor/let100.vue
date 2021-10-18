@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -18,29 +18,28 @@
               <br />
             </div>
             <div class="textAlignCenter formHeader1">检 查 方 案</div>
-            <div class="docTextLine">
-              <label style="width: 5%"></label>
-              <label>一、被检查单位：</label>
-              <div
-                class="line-div"
-                @click="commandFill('cellIdx0', '被检查单位', 'TextItem')"
+            <div class="docTextarea">
+              <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;一、被检查单位：</span>
+              <span
+                @click="commandFill('cellIdx0', '被检查单位', 'TextItem')">{{
+                  letData.cellIdx0 ? letData.cellIdx0 : "（点击编辑）"}}</span>
+              <div class="line"></div>
+            </div>
+            <div class="docTextarea">
+              <span class="no-line"
+                >&nbsp;&nbsp;&nbsp;&nbsp;二、监管类型或方式：</span
               >
-                {{ letData.cellIdx0 ? letData.cellIdx0 : "（点击编辑）" }}
-              </div>
+              <span
+                @click="commandFill('cellIdx1', '监管类型或方式', 'CheckItem')"
+                >{{
+                  letData.cellIdx1 ? letData.cellIdx1 : "（点击编辑）"
+                }}</span
+              >
+              <div class="line"></div>
             </div>
             <div class="docTextLine">
-              <label style="width: 5%"></label>
-              <label>二、监察类型或方式：</label>
-              <div
-                class="line-div"
-                @click="commandFill('cellIdx1', '监察类型或方式', 'CheckItem')"
-              >
-                {{ letData.cellIdx1 ? letData.cellIdx1 : "（点击编辑）" }}
-              </div>
-            </div>
-            <div class="docTextLine">
-              <label style="width: 5%"></label>
-              <label>三、检查时间：</label>
+              <label style="width: 2em"></label>
+              <label>三、计划检查时间：</label>
               <div
                 class="line-div"
                 @click="commandFill('cellIdx2', '检查时间', 'DaterangeItem')"
@@ -49,38 +48,33 @@
               </div>
             </div>
             <div class="docTextarea">
-              <label style="width: 5%"></label>四、煤矿概况：
+              <span class="no-line"
+                >&nbsp;&nbsp;&nbsp;&nbsp;四、煤矿企业概况：</span
+              >
               <span
                 @click="commandFill('cellIdx3', '煤矿概况', 'TextareaItem')"
-                >{{ letData.cellIdx3 }}</span
+                >{{
+                  letData.cellIdx3 ? letData.cellIdx3 : "（点击编辑）"
+                }}</span
               >
               <div class="line"></div>
             </div>
-            <!-- <div
-              class="cellInput mutiLineArea show-area-item-content"
-              id="cell_idx_3"
-              data-title="煤矿概况"
-              data-type="textarea"
-              data-src
-              @click="commandFill('cellIdx3', '煤矿概况', 'TextareaItem')">
-              <p class="show-area-item-p">
-                <span style="padding: 7px;">{{ letData.cellIdx3 }}</span>
-              </p>
-            </div> -->
-            <div class="docTextLine">
-              <label style="width: 5%"></label>
-              <label>五、检查地点：</label>
-              <div
-                class="line-div"
+            <div class="docTextarea">
+              <span class="no-line"
+                >&nbsp;&nbsp;&nbsp;&nbsp;五、检查地点：</span
+              >
+              <span
                 @click="
                   commandFill('cellIdx4', '检查地点', 'CheckPositionItem')
                 "
+                >{{
+                  letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）"
+                }}</span
               >
-                {{ letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）" }}
-              </div>
+              <div class="line"></div>
             </div>
             <div class="docTextLine">
-              <label style="width: 5%"></label>
+              <label style="width: 2em"></label>
               <div
                 class="no-line-div"
                 @click="
@@ -91,18 +85,18 @@
                   )
                 "
               >
-                六、检查的主要内容和分工见明细表
+                六、检查的主要内容和分工见明细表（详见《检查分工明细表》）
               </div>
+              <div></div>
             </div>
-            <div class="docTextLine">
-              <label style="width: 5%"></label>
-              <label>七、其他事项：</label>
-              <div
-                class="line-div"
-                @click="commandFill('cellIdx6', '其他事项', 'TextItem')"
+            <div class="docTextarea">
+              <span class="no-line"
+                >&nbsp;&nbsp;&nbsp;&nbsp;七、其他事项：</span
               >
-                {{ letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）" }}
-              </div>
+              <span @click="commandFill('cellIdx6', '其他事项', 'TextItem')">{{
+                letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
+              }}</span>
+              <div class="line"></div>
             </div>
             <div class="docTextLine">
               <label style="width: 5%"></label>
@@ -226,6 +220,10 @@ export default {
         };
       },
     },
+    paperData: {
+      type: Object,
+      default: () => {},
+    },
     isCreated: {
       type: Boolean,
       default: false,
@@ -269,7 +267,7 @@ export default {
           { value: "6", name: "其他" },
         ],
       },
-      editData: {}, // 回显数据
+      // editData: {}, // 回显数据
     };
   },
   created() {
@@ -281,19 +279,26 @@ export default {
         this.initData();
       }
     },
+    "paperData.paperId"(val) {
+      this.initData();
+    },
   },
   methods: {
     async initData() {
       // 初始化文书内容
+      if (this.paperData && this.paperData.paperId) {
+        this.letData = JSON.parse(this.paperData.paperContent);
+      } else {
+        // 创建初始版本
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
       //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
+      /*const wkPaper = db.table("wkPaper");
       const caseId = this.corpData.caseId;
-      //查询当前计划是否已做文书
+       //查询当前计划是否已做文书
       const checkPaper = await wkPaper.findAll((item) => {
         return (
           item.caseId === caseId &&
@@ -307,7 +312,7 @@ export default {
         this.letData = JSON.parse(checkPaper[0].paperContent);
         this.editData = checkPaper[0];
       } else {
-        // 创建初始版本
+        // 创建初始版本 */
         const zfZzInfo = db.table("zfZzInfo");
         const zzInfo1 = await zfZzInfo.find((item) => {
           return (
@@ -355,6 +360,7 @@ export default {
         sSummary +=
           "采煤方式为综采。通风方式为中央分列抽出，采掘作业地点有71003综采工作面采煤工作面、 71007综采工作面风巷、71007综采工作面机巷掘进工作面。";
         let corpOther = "检查的内容和分工变化时，应及时调整。";
+      await db.close();
         this.letData = {
           cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
           cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null,
@@ -373,7 +379,6 @@ export default {
           checkTable: {}, // 检查分工明细表
         };
       }
-      await db.close();
     },
     goBack({ page }) {
       // 返回选择企业
@@ -397,7 +402,10 @@ export default {
         );
       } else {
         if (key === 'cellIdx5') {
-          dataKey = 'checkTable'
+          dataKey = 'checkTable';
+          this.options[key] = {
+            canEdit: false,
+          };
           this.$refs.letMain.commandFill(key, dataKey, title, type, this.letData[dataKey], this.options[key])
         }
       }

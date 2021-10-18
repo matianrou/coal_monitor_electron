@@ -928,7 +928,7 @@ export default {
         })
     }
   },
-};
+}; 
 </script>
 
 <style lang="scss" scoped>
@@ -954,8 +954,7 @@ export default {
   background-color: #CBE6FF;
   background-size: 100% 100%;
   border:1px solid #CBE6FF;
-    box-shadow: #666 1px 1px  5px ;//边框阴影
-
+  box-shadow: #666 1px 1px  5px ;//边框阴影
   border-radius: 5px;
   text-align: center;
   color: #000;
@@ -1009,6 +1008,5 @@ export default {
   border-color:#dff0f7 ;
   margin-bottom: 10px;
   
-
 }
 </style>

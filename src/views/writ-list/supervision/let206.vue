@@ -41,8 +41,7 @@
             <div class="docTextarea">
               <label>被处罚</label>
               <span
-                class="no-line"
-                style="cursor: pointer;"
+                class="no-underline"
                 @click="commandFill('cellIdx4', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx4 ? letData.cellIdx4 : '（点击编辑）'}}</span>
               <span

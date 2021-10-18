@@ -133,54 +133,30 @@
               >{{ letData.cellIdx21 ? letData.cellIdx21 : '（编辑）'}}</span>
               号）。被申请执行人在法定的期限内未履行上述行政处罚决定。根据《中华人民共和国行政处罚法》第七十二条第一款第四项、《中华人民共和国行政强制法》第五十三条、第五十四条规定，特申请贵院强制执行。
             </div>
-            <table class="docBody">
-              <tr>
-                 <td style="width:5%"></td>
-                 <td class="textAlignLeft">附有关材料:</td>
-              </tr>
-              <tr>
-                 <td style="width:5%"></td>
-                 <td class="textAlignLeft">1.</td>
-                 <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_22"
-                  align="center"
-                  style="width:85%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx22', '材料1', 'TextItem')"
-                >{{ letData.cellIdx22 }}</td>
-              </tr>
-              <tr>
-                 <td style="width:5%"></td>
-                 <td class="textAlignLeft">2.</td>
-                 <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_23"
-                  align="center"
-                  style="width:85%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx23', '材料2', 'TextItem')"
-                >{{ letData.cellIdx23 }}</td>
-              </tr>
-              <tr>
-                 <td style="width:5%"></td>
-                 <td class="textAlignLeft">3.</td>
-                 <td
-                  class="cellInput cellBottomLine"
-                  id="cell_idx_24"
-                  align="center"
-                  style="width:85%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx24', '材料3', 'TextItem')"
-                >{{ letData.cellIdx24 }}</td>
-              </tr>
-            </table>
+            <div class="docTextarea">
+              <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;附有关材料:</span>
+            </div>
+            <div class="docTextarea">
+              <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;1.</span>
+              <span
+                @click="commandFill('cellIdx22', '材料1', 'TextItem')">{{
+                  letData.cellIdx22 ? letData.cellIdx22 : "（点击编辑）"}}</span>
+              <div class="line"></div>
+            </div>
+            <div class="docTextarea">
+              <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;2.</span>
+              <span
+                @click="commandFill('cellIdx23', '材料2', 'TextItem')">{{
+                  letData.cellIdx23 ? letData.cellIdx23 : "（点击编辑）"}}</span>
+              <div class="line"></div>
+            </div>
+            <div class="docTextarea">
+              <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;3.</span>
+              <span
+                @click="commandFill('cellIdx24', '材料3', 'TextItem')">{{
+                  letData.cellIdx24 ? letData.cellIdx24 : "（点击编辑）"}}</span>
+              <div class="line"></div>
+            </div>
             <div class="docTextLine">
               <label style="width: 5%"></label>
               <div style="flex: 1; display: flex;">

@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -63,16 +63,12 @@
               >
               分
             </div>
-            <div class="docTextLine">
-              地&nbsp;&nbsp;&nbsp;&nbsp;点：
-              <div style="flex: 1; display: flex">
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx7', '地点', 'TextItem')"
-                >
-                  {{ letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）" }}
-                </div>
-              </div>
+            <div class="docTextarea">
+              <span class="no-line">地&nbsp;&nbsp;&nbsp; 点：</span>
+              <span
+                @click="commandFill('cellIdx7', '地点', 'TextItem')"
+              >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
+              <div class="line"></div>
             </div>
             <div class="docTextLine">
               <label>陈述、申辩人：</label>
@@ -246,16 +242,26 @@
         </div>
       </div>
     </let-main>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
+// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject } from "@/utils/setInitPaperData";
+import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let205",
-  props: {
+  mixins: [associationSelectPaper],
+/*   props: {
     corpData: {
       type: Object,
       default: () => {},
@@ -272,34 +278,49 @@ export default {
   },
   components: {
     letMain,
-  },
+  }, */
   data() {
     return {
       letData: {},
       options: {
         cellIdx19: {
-          page: "30",
-          key: "cellIdx19", // 用来区分一个页面多个地方调用隐患大表，最后返回值
+          page: '30',
+          key: 'cellIdx19' // 用来区分一个页面多个地方调用隐患大表，最后返回值
         },
+        cellIdx20: [
+          {
+            value: '单位',
+            name: '单位'
+          },
+          {
+            value: '个人',
+            name: '个人'
+          },
+        ]
       },
-      editData: {}, // 回显数据
-      extraData: {}, // 用于拼写隐患内容的字符集合
+      associationPaper: ['1', '6']
+      // editData: {}, // 回显数据
+      // extraData: {}, // 用于拼写隐患内容的字符集合
     };
   },
-  created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-  },
+  // created() {
+  //   this.initData();
+  // },
+  // watch: {
+  //   "corpData.corpId"(val) {
+  //     if (val) {
+  //       this.initData();
+  //     }
+  //   },
+  // },
   methods: {
-    async initData() {
+   async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
-      //查询符合条件的记录
+      const corpBase = db.table("corpBase");
+      const corp = await corpBase.find((item) => {
+        return item.corpId == this.corpData.corpId;
+      });
+      /* //查询符合条件的记录
       const wkPaper = db.table("wkPaper");
       const caseId = this.corpData.caseId;
       const checkPaper = await wkPaper.findAll((item) => {
@@ -323,41 +344,39 @@ export default {
         this.letData = JSON.parse(checkPaper[0].paperContent);
         this.editData = checkPaper[0];
       } else {
-        // 创建初始版本
+        // 创建初始版本 */
         // 1.时间：当前年、月、日、时、分
-        let now = new Date();
-        let cellIdx0Year = now.getFullYear();
-        let cellIdx1Month = now.getMonth() + 1;
-        let cellIdx2Date = now.getDate();
-        let cellIdx3Hour = now.getHours();
-        let cellIdx4Minu = now.getMinutes();
+        let now = new Date()
+        let cellIdx0Year = now.getFullYear()
+        let cellIdx1Month = now.getMonth() + 1
+        let cellIdx2Date = now.getDate()
+        let cellIdx3Hour = now.getHours()
+        let cellIdx4Minu = now.getMinutes()
         // 2.工作单位：煤矿名称
         let cellIdx11String = corp.corpName;
         // 3.监察单位
         let cellIdx18String = this.$store.state.user.userGroupName;
         // 获取笔录文书中的隐患数据
-        const let101Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === "1";
-        });
-        let let101DataPapaerContent = JSON.parse(let101Data.paperContent);
-        let dangerObject = getDangerObject(
-          let101DataPapaerContent.dangerItemObject.tableData
-        );
+        let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
+        let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
         // 4.陈述申辩：煤矿名称 + '涉嫌' + 隐患描述 + '案。'
         let cellIdx19String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
         // 5.单位/个人：从行政处罚告知书(paperType === '6')中获取
-        const let204Data = await wkPaper.find(
+        let let6DataPaperContent = JSON.parse(selectedPaper.let6Data.paperContent)
+        let cellIdx20String = let6DataPaperContent.selectedType
+        await db.close();
+        /* const let204Data = await wkPaper.find(
           (item) => item.caseId === caseId && item.paperType === "6"
         );
         let let204DataPaperContent = JSON.parse(let204Data.paperContent);
-        let cellIdx20String = let204DataPaperContent.cellIdx5;
+        let cellIdx20String = let204DataPaperContent.cellIdx5; */
         this.letData = {
           cellIdx0: cellIdx0Year, // 年
           cellIdx0TypeTextItem: cellIdx0Year, // 年
           cellIdx1: cellIdx1Month, // 月
-          cellIdx1TypeTextItem: cellIdx1Month, // 年
+          cellIdx1TypeTextItem: cellIdx1Month, // 月
           cellIdx2: cellIdx2Date, // 日
-          cellIdx2TypeTextItem: cellIdx2Date, // 年
+          cellIdx2TypeTextItem: cellIdx2Date, // 日
           cellIdx3: cellIdx3Hour, // 时
           cellIdx3TypeTextItem: cellIdx3Hour, // 时
           cellIdx4: cellIdx4Minu, // 分
@@ -378,14 +397,18 @@ export default {
           cellIdx17: null, // 记录人（签名）
           cellIdx18: cellIdx18String, // 监察员
           cellIdx18TypeTextItem: cellIdx18String, // 监察员
-          cellIdx19: cellIdx19String, // 违法行为
+          cellIdx19: `${corp.corpName}涉嫌${dangerObject.dangerString}案。`, // 违法行为
           cellIdx20: cellIdx20String, // 单位/个人
           cellIdx20TypeTextItem: cellIdx20String, // 单位/个人
           cellIdx21: null, // 法制审核意见
-          dangerItemObject: let101DataPapaerContent.dangerItemObject,
+          // dangerItemObject: let101DataPapaerContent.dangerItemObject,
+          dangerItemObject: let1DataPapaerContent.dangerItemObject,
+          extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
+            corpName: corp.corpName,
+            userGroupName: this.$store.state.user.userGroupName,
+        },
+          // selectedType: selectedType
         };
-      }
-      await db.close();
     },
     goBack({ page }) {
       // 返回选择企业
@@ -396,13 +419,13 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}Type${type}`;
-        if (key === "cellIdx19") {
+        if (key === 'cellIdx19') {
           this.options[key] = {
-            page: "30",
+            page: '30',
             key: key,
-            spellString: this.extraData,
-          };
-          dataKey = "dangerItemObject";
+            spellString: this.letData.extraData
+          }
+          dataKey = 'dangerItemObject'
         }
         this.$refs.letMain.commandFill(
           key,

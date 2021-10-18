@@ -69,9 +69,9 @@
                 <tr
                   v-for="(item, index) in (letData.cellIdx5 ? letData.cellIdx5 : [])"
                   :key="index">
-                  <td>{{item.name}}</td>
-                  <td>{{item.modelNumber}}</td>
-                  <td>{{item.num}}</td>
+                  <td style="width: 30%;">{{item.name}}</td>
+                  <td style="width: 30%;">{{item.modelNumber}}</td>
+                  <td style="width: 15%;">{{item.num}}</td>
                   <td>{{item.note}}</td>
                 </tr>
                 <tr 
@@ -265,6 +265,9 @@ export default {
   border-collapse: collapse;
   text-align:center;
   width: 100%;
+  td{
+    display:table-cell
+  }
   .edit-tr {
     width: 100%;
     height: 50px;

@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -35,7 +35,7 @@
             </div>
             <div class="docTextarea">
               <span class="no-line">案&nbsp;&nbsp;由：</span>
-              <span @click="commandFill('cellIdx2', '案由', 'TextareaItem')">{{
+              <span @click="commandFill('cellIdx2', '案由', 'DangerTableItem')">{{
                 letData.cellIdx2 ? letData.cellIdx2 : "（点击编辑）"
               }}</span>
               <div class="line"></div>
@@ -43,7 +43,7 @@
             <div class="docTextarea">
               <span class="no-line">移送案件的理由和依据：</span>
               <span
-                @click="commandFill('cellIdx3', '理由和依据', 'TextareaItem')"
+                @click="commandFill('cellIdx3', '理由和依据', 'DangerTableItem')"
               >
                 {{ letData.cellIdx3 ? letData.cellIdx3 : "（点击编辑）" }}
               </span>
@@ -152,16 +152,26 @@
         </div>
       </div>
     </let-main>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
+// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
+import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let400",
-  props: {
+  mixins: [associationSelectPaper],
+/*   props: {
     corpData: {
       type: Object,
       default: () => {},
@@ -178,15 +188,25 @@ export default {
   },
   components: {
     letMain,
-  },
+  }, */
   data() {
     return {
       letData: {},
-      options: {},
-      editData: {}, // 回显数据
+      options: {
+        cellIdx4: {
+          page: '4',
+          key: 'cellIdx4' // 用来区分一个页面多个地方调用隐患大表，最后返回值
+        },
+        cellIdx5: {
+          page: '4',
+          key: 'cellIdx5'
+        }
+      },
+      associationPaper: ['1']
+      // editData: {}, // 回显数据
     };
   },
-  created() {
+/*   created() {
     this.initData();
   },
   watch: {
@@ -195,16 +215,15 @@ export default {
         this.initData();
       }
     },
-  },
+  }, */
   methods: {
-    async initData() {
+    async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
+      /* const wkPaper = db.table("wkPaper");
       const caseId = this.corpData.caseId;
       const checkPaper = await wkPaper.findAll((item) => {
         return (
@@ -239,7 +258,19 @@ export default {
           let101DataPapaerContent.dangerItemObject.tableData,
           { danger: true }
         );
-        let cellIdx3String = `${let201DataPapaerContent.cellIdx6}年${let201DataPapaerContent.cellIdx7}月${let201DataPapaerContent.cellIdx8}日我分局对${corp.corpName}进行安全监察时，发现该矿${dangerObjectIndex.dangerString}。经分局执法人员初步调查取证，认定该行为涉嫌违反了《矿产资源法》第十七条规定。`;
+        let cellIdx3String = `${let201DataPapaerContent.cellIdx6}年${let201DataPapaerContent.cellIdx7}月${let201DataPapaerContent.cellIdx8}日我分局对${corp.corpName}进行安全监察时，发现该矿${dangerObjectIndex.dangerString}。经分局执法人员初步调查取证，认定该行为涉嫌违反了《矿产资源法》第十七条规定。`; */
+         // 获取检查时间
+      let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      // 检查时间日期：
+      let dateString = let1DataPapaerContent.cellIdx1 ? let1DataPapaerContent.cellIdx1 : 'X年X月X日-X年X月X日'
+      // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
+      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
+      let cellIdx2String = `${corp.corpName}${dangerObject.dangerString}案。`
+       // 2.理由和依据
+        // 1，移送案件的理由和依据：立案时间+“我分局对”+煤矿名称+“进行安全监察时，发现该矿”+隐患描述+“经分局执法人员初步调查取证，认定该行为涉嫌违反了《矿产资源法》第十七条规定。” 
+        dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData, {danger: true})
+      let cellIdx3String = `${dateString}我分局对${corp.corpName}进行安全监察时，发现该矿${dangerObject.dangerString}。经分局执法人员初步调查取证，认定该行为涉嫌违反了《矿产资源法》第十七条规定。`
+      await db.close();
         // XXX国土资源局
         let cellIdx4String = "XXX国土资源局";
         this.letData = {
@@ -260,9 +291,13 @@ export default {
           cellIdx11: null, // 主要负责人意见
           cellIdx12: null, // 签名
           cellIdx13: null, // 日期
+          dangerItemObject: let1DataPapaerContent.dangerItemObject,
+        extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
+          corpName: corp.corpName,
+          dateString,
+          userGroupName: this.$store.state.user.userGroupName,
+        }
         };
-      }
-      await db.close();
     },
     goBack({ page }) {
       // 返回选择企业
@@ -273,6 +308,22 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}Type${type}`;
+        let spellString = {}
+        if (key === 'cellIdx4' || key === 'cellIdx5') {
+          if (key === 'cellIdx4') {
+            spellString = {
+              corpName: this.letData.extraData.corpName,
+            }
+          } else if (key === 'cellIdx5') {
+            spellString = this.letData.extraData
+          }
+          this.options[key] = {
+            page: '4',
+            key: key,
+            spellString
+          }
+          dataKey = 'dangerItemObject'
+        }
         this.$refs.letMain.commandFill(
           key,
           dataKey,

@@ -60,25 +60,25 @@
               }}</span>
               等证据进行了先行登记保存（
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx10', '', 'TextItem')"
                 >{{ letData.cellIdx10 ? letData.cellIdx10 : "点击编辑" }}</span
               >
               （
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx11', '', 'TextItem')"
                 >{{ letData.cellIdx11 ? letData.cellIdx11 : "点击编辑" }}</span
               >
               )&nbsp;&nbsp;煤安保〔
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx12', '', 'TextItem')"
                 >{{ letData.cellIdx12 ? letData.cellIdx12 : "点击编辑" }}</span
               >
               〕
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx13', '', 'TextItem')"
                 >{{ letData.cellIdx13 ? letData.cellIdx13 : "点击编辑" }}</span
               >
@@ -103,7 +103,7 @@
               <span
                 @click="commandFill('cellIdx16', '人民法院', 'TextItem')"
               >{{ letData.cellIdx16 ? letData.cellIdx16 : '（点击编辑）' }}</span>
-              申请行政复议,或者在6个月依法内向
+              申请行政复议,或者在6个月内依法向
               <span
                 @click="commandFill('cellIdx17', '人民法院', 'TextItem')"
               >{{ letData.cellIdx17 ? letData.cellIdx17 : '（点击编辑）'}}</span>

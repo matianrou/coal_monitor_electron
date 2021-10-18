@@ -90,7 +90,7 @@
               }}</span>
               日对你单位涉案
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx10', '', 'SelectItem')"
                 >{{
                   letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
@@ -98,7 +98,7 @@
               >
               予以
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx11', '', 'TextItem')"
                 >{{
                   letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）"
@@ -106,7 +106,7 @@
               >
               （
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx12', '', 'TextItem')"
                 >{{
                   letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）"
@@ -114,7 +114,7 @@
               >
               (
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx13', '', 'TextItem')"
                 >{{
                   letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）"
@@ -122,7 +122,7 @@
               >
               ) 煤安
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx14', '', 'TextItem')"
                 >{{
                   letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）"
@@ -130,7 +130,7 @@
               >
               〔
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx15', '', 'TextItem')"
                 >{{
                   letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）"
@@ -138,7 +138,7 @@
               >
               〕
               <span
-                class="no-line"
+                class="no-underline"
                 @click="commandFill('cellIdx16', '', 'TextItem')"
                 >{{
                   letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）"
@@ -149,7 +149,7 @@
                 letData.cellIdx17 ? letData.cellIdx17 : "（点击编辑）"
               }}</span>
               ，依据《中华人民共和国行政强制法》第二十五条规定，第一、二款规定，将以上
-              <span class="no-line" @click="commandFill('cellIdx18', '', 'TextItem')">{{
+              <span class="no-underline" @click="commandFill('cellIdx18', '', 'TextItem')">{{
                 letData.cellIdx18 ? letData.cellIdx18 : "（点击编辑）"
               }}</span>
               的期限延长至
@@ -213,8 +213,8 @@
               备注：本文书一式两份，一份交被
               <span
                 style="borderBottom:none"
-                @click="commandFill('cellIdx29', '查封/扣押', 'TextItem')"
-              >{{ letData.cellIdx29 ? letData.cellIdx29 : '（点击编辑）'}}</span>
+                @click="commandFill('cellIdx27', '查封/扣押', 'TextItem')"
+              >{{ letData.cellIdx27 ? letData.cellIdx27 : '（点击编辑）'}}</span>
               单位，一份存档。 
             </div>
           </div>
