@@ -54,7 +54,6 @@ export default {
     };
   },
   created() {
-    console.log('selectedCheckPosition', this.selectedCheckPosition)
   },
   methods: {
     close(refresh) {
@@ -63,7 +62,6 @@ export default {
     },
     confirm() {
       // 确定选择
-      console.log('checkPositionItem', this.$refs.checkPositionItem.dataForm.tempValue)
       this.$emit('confirm-check-position', this.$refs.checkPositionItem.dataForm.tempValue)
       this.close()
     }

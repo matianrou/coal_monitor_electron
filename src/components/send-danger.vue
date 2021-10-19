@@ -292,7 +292,6 @@ export default {
       tableData.length > 0 && tableData.map(item => {
         selectedId.push(item.treeId)
       })
-      console.log('table', tableData)
       this.dataForm.dangerContent.selectedIdList = selectedId
     },
     handleData (data, tableData) {

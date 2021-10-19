@@ -374,13 +374,11 @@ export default {
     },
     exportTemplate () {
       // 导出模板
-      console.log('letData', this.$parent.letData)
       // 遍历导出的数据，处理undefined情况
       let exportData = {}
       for (let key in this.$parent.letData) {
         exportData[key] = this.$parent.letData[key] ? this.$parent.letData[key] : ''
       }
-      console.log('docData', this.docData)
       if (this.docData.docTypeNo === '22') {
         // 检查方案导出时增加检查人员分工明细表
         Object.assign(exportData, {
@@ -390,13 +388,11 @@ export default {
         // 抽样取证通知书导出时增加抽样取证清单||先行登记保存证据通知书 || 查封（扣押）决定书
         let {tableData, signature, signDate, otherEvidence, lawSignature, lawSignDate, places} = this.$parent.letData.SamplingForensicsTable
         // 遍历tableData数据，处理undefined情况
-        tableData.forEach(item => {
+        tableData && tableData.forEach(item => {
           for (let key in item) {
-            console.log('item[key]', item[key])
             item[key] = item[key] ? item[key] : ''
           }
         })
-        console.log('tableData', tableData)
         Object.assign(exportData, {
           tableData: tableData,
           tabelOtherEvidence: otherEvidence ? otherEvidence : '',
@@ -406,6 +402,13 @@ export default {
           tabelLawSignDate: lawSignDate ? lawSignDate : '',
           tabelPlaces: places ? places : ''
         }) 
+      } else if (this.docData.docTypeNo === '55') {
+        // 鉴定委托书遍历tableData数据，处理undefined情况
+        this.$parent.letData.cellIdx5 && this.$parent.letData.cellIdx5.forEach(item => {
+          for (let key in item) {
+            item[key] = item[key] ? item[key] : ''
+          }
+        })
       } else if (this.docData.docTypeNo === '15') {
         // 执法案卷首页导出时增加档案卷内目录
         Object.assign(exportData, {
