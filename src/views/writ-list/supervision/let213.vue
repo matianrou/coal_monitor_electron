@@ -17,7 +17,7 @@
               煤矿安全监管行政执法文书
               <br />
             </div>
-            <div class="textAlignCenter formHeader1">案 件 结 案 报 告</div>
+            <div class="textAlignCenter formHeader1">案件结案报告</div>
             <div class="docTextarea">
               <label style="width: 2em;"></label>
               主要内容：案由；行政相对人基本情况；案发时间及地点；主要违法事实、立案调查及审理情况；行政处罚执行情况；结案理由。

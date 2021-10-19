@@ -379,6 +379,7 @@ export default {
       for (let key in this.$parent.letData) {
         exportData[key] = this.$parent.letData[key] ? this.$parent.letData[key] : ''
       }
+      console.log('docTypeNo', this.docData.docTypeNo)
       if (this.docData.docTypeNo === '22') {
         // 检查方案导出时增加检查人员分工明细表
         Object.assign(exportData, {
@@ -414,7 +415,48 @@ export default {
         Object.assign(exportData, {
           tableData: this.$parent.letData.volumesMenuTable.tableData
         }) 
-      } 
+      }
+      if (this.docData.docTypeNo === '5' || this.docData.docTypeNo === '13' || this.docData.docTypeNo === '27'
+        || this.docData.docTypeNo === '30' || this.docData.docTypeNo === '7' || this.docData.docTypeNo === '14'
+        || this.docData.docTypeNo === '55') {
+        // 大文本换行问题解决：通过获取大文本中的\n换行符，截取字符串形成数组，将数组转换为doc文本实现换行效果
+        // 需要处理的文书：调查询问笔录cellIdx21;复查意见书cellIdx15;先行登记保存证据处理决定书cellIdx14;
+        // 需要处理的文书：陈述申辩笔录cellIdx21;听证笔录cellIdx10;案件结案报告cellIdx0;鉴定委托书cellIdx6
+        let cellIdxExtraTextarea = []
+        let key = ''
+        switch (this.docData.docTypeNo) {
+          case '5': 
+            key = 'cellIdx21'
+            break;
+          case '13':
+            key = 'cellIdx15'
+            break;
+          case '27':
+            key = 'cellIdx14'
+            break;
+          case '30':
+            key = 'cellIdx21'
+            break;
+          case '7':
+            key = 'cellIdx10'
+            break;
+          case '14':
+            key = 'cellIdx0'
+            break;
+          case '55':
+            key = 'cellIdx6'
+            break;
+        }
+        exportData[key].split('\n').map(item => {
+          cellIdxExtraTextarea.push({
+            text: item
+          })
+        })
+        console.log('cellIdxExtraTextarea', cellIdxExtraTextarea)
+        Object.assign(exportData, {
+          cellIdxExtraTextarea
+        }) 
+      }
       JSZipUtils.getBinaryContent(`./static/docxtemplate/supervision/doc${this.docData.docTypeNo}.docx`, (error, content) => {
         console.log('error = ', error, content)
         const zip = new pizzip(content)
