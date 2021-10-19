@@ -100,7 +100,6 @@ export default {
       const person = db.table("person");
       this.personList = await person.findAll((item) => item);
       // let curPerson = await person.find(item => item.no === this.$store.state.user.userId)
-      // console.log('curPerson', curPerson)
       await db.close();
       this.loading = false;
     },

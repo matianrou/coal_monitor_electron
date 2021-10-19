@@ -1,4 +1,4 @@
-<!-- 行政处罚 听证程序  陈述申辩笔录 -->
+<!-- 行政处罚 听证程序  陈述申辩笔录 30 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -170,11 +170,30 @@
               >{{ letData.cellIdx20 ? letData.cellIdx20 : '（点击编辑）'}}</span>
               的陈述申辩。
             </div>
-            <div class="docTextarea">
-              <span
-                @click="commandFill('cellIdx21', '陈述申辩内容', 'TextareaItem')">
-                {{ letData.cellIdx21 ? letData.cellIdx21: '（点击编辑）' }}</span>
-              <div class="line"></div>
+            <div
+              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+              class="cellInput mutiLineArea"
+              @click="commandFill('cellIdx21', '陈述申辩内容', 'TextareaItem')">
+              <div v-if="letData.cellIdx21 && letData.cellIdx21.length > 0" style="position: relative;">
+                <p class="show-area-item-p">
+                  <span style="padding: 7px;">{{letData.cellIdx21 ? letData.cellIdx21 : '（点击编辑）'}}</span>
+                </p>
+                <div
+                  v-for="(item, index) in 100"
+                  :key="index"
+                  class="cellLine"
+                  :style="`top: ${(index + 1) * 9.54}mm;`"
+                >
+                </div>
+              </div>
+              <div v-else>
+                <p
+                  v-for="(item, index) in 2"
+                  :key="index"
+                  class="show-area-item-p">
+                  &nbsp;
+                </p>
+              </div>
             </div>
             <div class="docTextarea">
               <span class="no-line">陈述申辩人意见：</span>

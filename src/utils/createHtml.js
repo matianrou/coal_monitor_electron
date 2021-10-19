@@ -212,7 +212,6 @@ export function createHtml(paperDiv, corpData) {
           // height: 9.6mm;
           line-height: 9.6mm;
           white-space: pre-wrap;
-          text-indent: 2em;
         }
         .mutiLineArea span{
           width: 100%;
@@ -286,7 +285,6 @@ export function createHtml(paperDiv, corpData) {
           word-wrap: break-word;
           word-wrap: break-all;
           overflow: hidden;
-          text-indent: 2em;
         }
         .border-solid {
           border: solid 0px #000;

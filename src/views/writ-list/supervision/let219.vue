@@ -1,4 +1,4 @@
-<!-- 行政处罚 案件结案 延期（分期）缴纳罚款决定书-->
+<!-- 行政处罚 案件结案 延期（分期）缴纳罚款决定书 52 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -413,7 +413,7 @@
             备注：本文书一式三份，一份交银行，一份交被处
             <span
               style="borderBottom:none"
-              @click="commandFill('cellIdx39', '单位/个人', 'TextItem')"
+              @click="commandFill('cellIdx39', '单位/个人', 'SelectItem')"
             >{{ letData.cellIdx39 ? letData.cellIdx39 : '（点击编辑）'}}</span>
             ，一份存档。 
           </div>
@@ -523,8 +523,8 @@ export default {
             .replace("日", "-")
             .split("-")
         : ["", "", ""];
-      let selectedType = let8DataPapaerContent.selectedType
-      let selectedString = selectedType === '单位' ? '单位' : '你'
+      let selectedTypeExtra = let8DataPapaerContent.selectedType
+      let selectedString = selectedTypeExtra === '单位' ? '单位' : '你'
       await db.close();
       this.visibleSelectDialog = true;
       this.letData = {
@@ -600,9 +600,8 @@ export default {
         // cellIdx36: null, // 缴纳罚款大写
         cellIdx37: null, //
         cellIdx38: null, // 日期
-        cellIdx39: selectedType, // 单位/个人
-        cellIdx39TypeSelectItem: selectedType, // 单位/个人
-        selectedType: selectedType
+        cellIdx39: selectedTypeExtra, // 单位/个人
+        cellIdx39TypeSelectItem: selectedTypeExtra, // 单位/个人
       };
     },
     goBack({ page }) {

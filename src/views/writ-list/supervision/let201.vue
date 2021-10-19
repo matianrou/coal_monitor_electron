@@ -1,4 +1,4 @@
-<!-- 行政处罚 一般程序 立案决定书 -->
+<!-- 行政处罚 一般程序 立案决定书 4 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main

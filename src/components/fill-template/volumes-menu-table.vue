@@ -160,6 +160,7 @@ export default {
         // 如果value.tableData无数据则自动添加一条
         if (this.dataForm.tempValue.tableData.length === 0) {
           this.dataForm.tempValue.tableData.push({
+            sindex: 1, // 序号
             paperNumber: null, // 文号
             title: null, // 题名
             date: null, // 日期
@@ -181,7 +182,14 @@ export default {
         // 删除行操作
         this.dataForm.tempValue.tableData.splice(scope.$index, 1)
       }
+      this.editIndex()
     },
+    editIndex () {
+      // 整理序号:重新赋值序号sindex的值
+      this.dataForm.tempValue.tableData.forEach((item, index) => {
+        item.sindex = index + 1
+      })
+    }
   },
 };
 </script>

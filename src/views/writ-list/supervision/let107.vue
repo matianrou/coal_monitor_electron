@@ -69,13 +69,13 @@
                   style="cursor: pointer;"
                   @click="commandFill('cellIdx7', '抽样取证清单', 'SamplingForensicsTable')"
                 >附件：抽样取证清单</td>
-                <td
+                <!-- <td
                   id="cell_idx_7"
                   style="width:70%;"
                   data-title="附件"
                   data-type="text"
                   data-src
-                ></td>
+                ></td> -->
               </tr>
             </table>
             <div class="docTextarea">

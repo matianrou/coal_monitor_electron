@@ -346,7 +346,7 @@
                     :title="flowStatus.paper38 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let113','解除停供电(停供民用爆炸物品)通知书', '38')" class="flow-span">
+                  <span @click="cmdEditDoc('let113','解除停供电(停供民用爆炸物品)函告书', '38')" class="flow-span">
                     解除停供电(停供民用
                     <br />爆炸物品)函告书
                   </span>
