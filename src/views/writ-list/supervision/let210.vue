@@ -1,4 +1,4 @@
-<!--行政处罚  听证程序 不予受理听证申请通知书 -->
+<!--行政处罚  听证程序 不予受理听证申请通知书 29 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -17,7 +17,7 @@
               煤矿安全监管行政执法文书
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">不予受理听证申请通知书</div>
+            <div class="textAlignCenter formHeader1">不予受理听证申请通知书</div>
             <div class="docTextLine paper-number-div">
               <div>
                 <span

@@ -1,4 +1,4 @@
-<!--行政处罚 听证程序 听证通知书 -->
+<!--行政处罚 听证程序 听证通知书 28 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -172,6 +172,7 @@
               <label style="width: 2em"></label>
               根据《中华人民共和国行政处罚法》第六十四条规定，你
               <span
+                class="no-underline"
                 @click="commandFill('cellIdx23', '单位', 'TextItem')"
               >{{ letData.cellIdx23 ? letData.cellIdx23 : '（点击编辑）'}}</span>
               可以申请听证主持人回避。有关事项告知如下：

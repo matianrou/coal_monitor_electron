@@ -232,7 +232,7 @@ export default {
         },
         {
           label: '单位',
-          prop: 'dw',
+          prop: 'units',
           width: '100',
           type: 'text',
         },
@@ -309,8 +309,8 @@ export default {
               name: null, // 名称
               modelNumber: null, // 规格型号
               manufacturer: null, // 生产厂家
-              sdate: null,  // 出厂日期
-              dw: null, // 单位
+              productDate: null,  // 出厂日期
+              units: null, // 单位
               price: null, // 价格
               num: null, // 数量
               desc: null, // 处理决定
@@ -321,8 +321,8 @@ export default {
               name: null, // 名称
               modelNumber: null, // 规格型号
               manufacturer: null, // 生产厂家
-              sdate: null,  // 出厂日期
-              dw: null, // 单位
+              productDate: null,  // 出厂日期
+              units: null, // 单位
               price: null, // 价格
               num: null, // 数量
               note: null, // 备注
@@ -343,7 +343,14 @@ export default {
         // 删除行操作
         this.dataForm.tempValue.tableData.splice(scope.$index, 1)
       }
+      this.editIndex()
     },
+    editIndex () {
+      // 整理序号:重新赋值序号sindex的值
+      this.dataForm.tempValue.tableData.forEach((item, index) => {
+        item.sindex = index + 1
+      })
+    }
   },
 };
 </script>

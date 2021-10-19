@@ -1,4 +1,4 @@
-<!-- 行政处罚 案件结案 延期（分期）缴纳罚款决定书-->
+<!-- 行政处罚 案件结案 延期（分期）缴纳罚款决定书 52 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -413,7 +413,7 @@
             备注：本文书一式三份，一份交银行，一份交被处
             <span
               style="borderBottom:none"
-              @click="commandFill('cellIdx39', '单位/个人', 'TextItem')"
+              @click="commandFill('cellIdx39', '单位/个人', 'SelectItem')"
             >{{ letData.cellIdx39 ? letData.cellIdx39 : '（点击编辑）'}}</span>
             ，一份存档。 
           </div>
