@@ -523,8 +523,8 @@ export default {
             .replace("日", "-")
             .split("-")
         : ["", "", ""];
-      let selectedType = let8DataPapaerContent.selectedType
-      let selectedString = selectedType === '单位' ? '单位' : '你'
+      let selectedTypeExtra = let8DataPapaerContent.selectedType
+      let selectedString = selectedTypeExtra === '单位' ? '单位' : '你'
       await db.close();
       this.visibleSelectDialog = true;
       this.letData = {
@@ -600,9 +600,8 @@ export default {
         // cellIdx36: null, // 缴纳罚款大写
         cellIdx37: null, //
         cellIdx38: null, // 日期
-        cellIdx39: selectedType, // 单位/个人
-        cellIdx39TypeSelectItem: selectedType, // 单位/个人
-        selectedType: selectedType
+        cellIdx39: selectedTypeExtra, // 单位/个人
+        cellIdx39TypeSelectItem: selectedTypeExtra, // 单位/个人
       };
     },
     goBack({ page }) {

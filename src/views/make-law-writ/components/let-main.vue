@@ -457,7 +457,35 @@ export default {
           cellIdxExtraTextarea
         }) 
       }
-      JSZipUtils.getBinaryContent(`./static/docxtemplate/supervision/doc${this.docData.docTypeNo}.docx`, (error, content) => {
+      // 因备注为特殊注脚形式，docx不能替换其中变量，当前临时处理为多模板，因此增加以下判断逻辑
+      let docName = ''
+      if(this.docData.docTypeNo === '32' || this.docData.docTypeNo === '37' || this.docData.docTypeNo === '38'
+        || this.docData.docTypeNo === '45' || this.docData.docTypeNo === '46' || this.docData.docTypeNo === '6'
+        || this.docData.docTypeNo === '8' || this.docData.docTypeNo === '50' || this.docData.docTypeNo === '51'
+        || this.docData.docTypeNo === '53') {
+        // 需要分别替换的模板为：查封（扣押）决定书;停供电(停供民用爆炸物品)函告书;解除停供电(停供民用爆炸物品)函告书;
+        // 需要分别替换的模板为：延长查封（扣押）期限决定书；查封（扣押）处理决定书;
+        // 需要分别替换的模板为：行政处罚告知书；行政处罚决定书；罚款缴纳催告书；加处罚款决定书；
+        // 需要分别替换的模板为：行政强制执行事先催告书；
+        let { selectedType } = this.$parent.letData
+        console.log('selectedType', selectedType)
+        if (selectedType === '查封' || selectedType === '停供电' || selectedType === '解除停供电' || selectedType === '单位') {
+          docName = this.docData.docTypeNo + '-1'
+        } else if (selectedType === '扣押' || selectedType === '停供民用爆炸物品' || selectedType === '解除停供民用爆炸物品' || selectedType === '个人'){
+          docName = this.docData.docTypeNo + '-2'
+        }
+      } else if (this.docData.docTypeNo === '52') {
+        // 特殊处理（取值不是selectedType）：延期（分期）缴纳罚款决定书；
+        if (this.$parent.letData.cellIdx39 === '单位') {
+          docName = this.docData.docTypeNo + '-1'
+        } else if (this.$parent.letData.cellIdx39 === '个人') {
+          docName = this.docData.docTypeNo + '-2'
+        }
+      } else {
+        docName = this.docData.docTypeNo
+      }
+      console.log('docName', docName)
+      JSZipUtils.getBinaryContent(`./static/docxtemplate/supervision/doc${docName}.docx`, (error, content) => {
         console.log('error = ', error, content)
         const zip = new pizzip(content)
         const doc = new docxtemplater()
