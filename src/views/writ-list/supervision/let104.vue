@@ -291,8 +291,8 @@ export default {
         cellIdx20: null, // 被检查单位意见
         cellIdx21: null, // 单位负责人（签名)
         cellIdx22: null, // 日期
-        cellIdx23: null, //
-        cellIdx24: null, //日期
+        cellIdx23: this.$store.state.user.userGroupName, //
+        cellIdx24: this.todayDate, //日期
         dangerItemObject: let1DataPapaerContent.dangerItemObject
       };
     },

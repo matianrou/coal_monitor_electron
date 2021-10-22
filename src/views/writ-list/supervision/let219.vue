@@ -598,8 +598,8 @@ export default {
         // cellIdx34: null, // 日
         // cellIdx35: null, // 缴纳罚款
         // cellIdx36: null, // 缴纳罚款大写
-        cellIdx37: null, //
-        cellIdx38: null, // 日期
+        cellIdx37: this.$store.state.user.userGroupName, //
+        cellIdx38: this.todayDate, // 日期
         cellIdx39: selectedTypeExtra, // 单位/个人
         cellIdx39TypeSelectItem: selectedTypeExtra, // 单位/个人
       };

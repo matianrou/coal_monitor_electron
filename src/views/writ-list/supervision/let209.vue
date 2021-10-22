@@ -407,8 +407,8 @@ export default {
         cellIdx29TypeTextItem: orgSysOfficeInfo.master, // 执法机关联系人
         cellIdx30: orgSysOfficeInfo.phone, // 联系电话
         cellIdx30TypeTextItem: orgSysOfficeInfo.phone, // 地址
-        cellIdx31: null, //
-        cellIdx32: null, // 日期
+        cellIdx31: this.$store.state.user.userGroupName, //
+        cellIdx32: this.todayDate, // 日期
         dangerItemObject: let1DataPapaerContent.dangerItemObject,
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,

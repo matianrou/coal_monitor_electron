@@ -170,7 +170,7 @@
                 >{{letData.cellIdx16 ? letData.cellIdx16: '（点击编辑）'}}</td>
               </tr>
             </table>
-            <div class="docTextarea cellLine">
+            <div class="docTextarea" style="border-top: 2px solid #000;">
               <label style="width: 5%"></label>
               备注：本文书一式两份，一份交听证申请人，一份存档。
             </div>
@@ -304,8 +304,8 @@ export default {
         cellIdx13TypeTextItem: orgSysOfficeInfo.master, // 执法机关联系人
         cellIdx14: orgSysOfficeInfo.phone, // 联系电话
         cellIdx14TypeTextItem: orgSysOfficeInfo.phone, // 邮政编码
-        cellIdx15: null, // 单位
-        cellIdx16: null, // 日期
+        cellIdx15: this.$store.state.user.userGroupName, // 单位
+        cellIdx16: this.todayDate, // 日期
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
           userGroupName: this.$store.state.user.userGroupName,

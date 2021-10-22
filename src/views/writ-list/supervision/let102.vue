@@ -202,6 +202,7 @@ export default {
       const orgInfo = db.table("orgInfo");
       const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
       let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {courtPrefix: '', organName: ''}
+      console.log('orgSysOfficeInfo', orgSysOfficeInfo)
       let paperNumber = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
       await db.close();
       this.letData = {
@@ -229,8 +230,8 @@ export default {
         cellIdx14: null,//执法证号
         cellIdx15: null, // 被检查单位负责人（签名)
         cellIdx16: null, // 日期
-        cellIdx17: null, //
-        cellIdx18: null, // 日期
+        cellIdx17: this.$store.state.user.userGroupName, //
+        cellIdx18: this.todayDate, // 日期
         dangerItemObject: let1DataPapaerContent.dangerItemObject, // 隐患项大表
       };
     },

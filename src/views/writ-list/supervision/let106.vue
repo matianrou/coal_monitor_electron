@@ -320,8 +320,8 @@ export default {
         cellIdx26: null, //被检查单位负责人意见
         cellIdx27: null, // 签名
         cellIdx28: null, // 日期
-        cellIdx29: null, //
-        cellIdx30: null, // 日期
+        cellIdx29: this.$store.state.user.userGroupName, //
+        cellIdx30: this.todayDate, // 日期
         dangerItemObject: let1DataPapaerContent.dangerItemObject
       };
     },

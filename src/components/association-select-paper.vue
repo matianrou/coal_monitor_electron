@@ -3,6 +3,7 @@
 import GoDB from "@/utils/godb.min.js";
 import letMain from "@/views/make-law-writ/components/let-main.vue";
 import selectPaper from '@/components/select-paper'
+import { getNowDate } from '@/utils/date.js'
 export default {
   name: "AssociationSelectPaper",
   props: {
@@ -36,7 +37,8 @@ export default {
       paperList: [],
       selectedIndex: 0, // 需要选择多个类型的文书时，当前选择第几个文书
       selectFlowList: [], // 需要选择多个类型的文书流程，对象包括文书key及文书列表
-      selectedPaper: {}
+      selectedPaper: {},
+      todayDate: getNowDate()
     };
   },
   async created() {

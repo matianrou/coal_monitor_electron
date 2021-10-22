@@ -257,8 +257,8 @@ export default {
         cellIdx15: null, // 被检查单位意见
         cellIdx16: null, // 单位负责人（签名)
         cellIdx17: null, // 日期
-        cellIdx18: null, //
-        cellIdx19: null, // 日期
+        cellIdx18: this.$store.state.user.userGroupName, //
+        cellIdx19: this.todayDate, // 日期
       };
     },
     goBack({ page }) {

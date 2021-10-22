@@ -17,7 +17,7 @@
               煤矿安全监管行政执法文书
               <br />
             </div>
-            <div class="textAlignCenter formHeader1">询 问 通 知 书</div>
+            <div class="textAlignCenter formHeader1">询问通知书</div>
             <div class="docTextLine paper-number-div">
               <div>
                 <span
@@ -282,8 +282,8 @@ export default {
         cellIdx17TypeTextItem: orgSysOfficeInfo.master, // 联系人
         cellIdx18: orgSysOfficeInfo.phone, // 联系电话
         cellIdx18TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
-        cellIdx19: null, //
-        cellIdx20: null, // 日期
+        cellIdx19: this.$store.state.user.userGroupName, //
+        cellIdx20: this.todayDate, // 日期
       };
     },
     goBack({ page }) {

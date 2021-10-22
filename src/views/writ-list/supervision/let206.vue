@@ -97,10 +97,6 @@
               <span
                 @click="commandFill('cellIdx15', '地址', 'TextItem')"
               >{{ letData.cellIdx15 ? letData.cellIdx15 : '（点击编辑）' }}</span>
-              支行（分理处），账户名称：
-              <span
-                @click="commandFill('cellIdx13', '支行（分理处），账户名称', 'TextItem')"
-              >{{ letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）' }}</span>
               。到期不缴纳罚款的，每日按罚款数额的百分之三加处罚款。
             </div>
             <div class="docTextarea">
@@ -267,8 +263,8 @@ export default {
         cellIdx17TypeTextItem: orgSysOfficeInfo.organName, // 煤监机构
         cellIdx18: orgSysOfficeInfo.courtPrefix, // 人民法院
         cellIdx18TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
-        cellIdx19: null, //
-        cellIdx20: null, // 日期
+        cellIdx19: this.$store.state.user.userGroupName, //
+        cellIdx20: this.todayDate, // 日期
         cellIdx21: cellIdx4String, // 单位/个人
         cellIdx21TypeTextItem: cellIdx4String, // 单位/个人
         dangerItemObject: let6DataPaperContent.dangerItemObject,

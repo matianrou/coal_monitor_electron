@@ -295,8 +295,8 @@ export default {
         cellIdx23: null, // 日期
         cellIdx24: null, // 收件人（签名）
         cellIdx25: null, // 日期
-        cellIdx26: null, //
-        cellIdx27: null, // 日期
+        cellIdx26: this.$store.state.user.userGroupName, //
+        cellIdx27: this.todayDate, // 日期
       };
     },
     goBack({ page }) {

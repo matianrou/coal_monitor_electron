@@ -331,8 +331,8 @@ export default {
         cellIdx26: null, // 日期
         cellIdx27: null, // 联系人
         cellIdx28: null, // 联系电话
-        cellIdx29: null, //
-        cellIdx30: null, // 日期
+        cellIdx29: this.$store.state.user.userGroupName, //
+        cellIdx30: this.todayDate, // 日期
       };
     },
     goBack({ page }) {

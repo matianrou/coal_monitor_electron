@@ -240,8 +240,8 @@ export default {
         cellIdx9: null, // 日期
         cellIdx10: null, // 送达人（签名）
         cellIdx11: null, // 日期
-        cellIdx12: null, //
-        cellIdx13: null, // 日期
+        cellIdx12: this.$store.state.user.userGroupName, //
+        cellIdx13: this.todayDate, // 日期
         selectedString: selectedString
       };
     },

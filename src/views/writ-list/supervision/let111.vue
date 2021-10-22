@@ -294,8 +294,8 @@ export default {
         cellIdx18TypeTextItem: orgSysOfficeInfo.organName, //
         cellIdx19: orgSysOfficeInfo.courtPrefix, // 人民法院
         cellIdx19TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
-        cellIdx20: null, //
-        cellIdx21: null, // 日期
+        cellIdx20: this.$store.state.user.userGroupName, //
+        cellIdx21: this.todayDate, // 日期
       };
     },
     goBack({ page }) {

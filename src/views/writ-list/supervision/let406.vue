@@ -220,8 +220,8 @@ export default {
         cellIdx9: null, //日
         cellIdx10: null, // 联系人
         cellIdx11: null, // 联系电话
-        cellIdx12: null, //
-        cellIdx13: null, // 日期
+        cellIdx12: this.$store.state.user.userGroupName, //
+        cellIdx13: this.todayDate, // 日期
         SamplingForensicsTable: {
           tableData: [],
           signature: null,

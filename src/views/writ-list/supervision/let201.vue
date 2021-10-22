@@ -266,8 +266,8 @@ export default {
         cellIdx11: null, // 审批人（签名）
         cellIdx12: null, // 日期
         // cellIdx13: null, //
-        cellIdx14: null, //
-        cellIdx15: null, // 日期
+        cellIdx14: this.$store.state.user.userGroupName, //
+        cellIdx15: this.todayDate, // 日期
         dangerItemObject: let1DataPapaerContent.dangerItemObject,
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
