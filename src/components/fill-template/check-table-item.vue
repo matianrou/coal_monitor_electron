@@ -67,6 +67,20 @@
           </template>
         </el-table-column>
         <el-table-column
+          header-align="center"
+          align="left"
+          label="调整情况">
+          <template slot-scope="scope">
+            <el-input
+              v-if="options.canEdit"
+              v-model="scope.row.situation"
+              type="textarea"
+              :autosize="{ minRows: 4, maxRows: 6}">
+            </el-input>
+            <span v-else>{{ scope.row.situation }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
           v-if="options.canEdit"
           header-align="center"
           align="left"
@@ -226,6 +240,7 @@ export default {
               personList: [], // 检查人员所有数据
               positions: null, // 检查地点文字描述
               positionData: {}, // 检查地点所有数据
+              situation: null, // 调整情况
             })
             tableData.push(itemObject)
           }

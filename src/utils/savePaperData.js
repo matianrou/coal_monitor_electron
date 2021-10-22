@@ -190,7 +190,8 @@ export async function saveToUpload(paperId, userSessId) {
           paperId: workPaper.paperId,
           groupName: workPaper.groupName,
           personId: JSON.stringify(personIdList),
-          Address: item.positions
+          Address: item.positions,
+          Situation: item.situation
         };
         CheckItemRecords.push(CheckItemRecord);
       });

@@ -1,4 +1,4 @@
-<!-- 现场检查 一般检查 检查方案 -->
+<!-- 现场检查 一般检查 检查方案 22 -->
 <template>
   <div style="width: 100%; height: 100%">
     <let-main
@@ -258,6 +258,13 @@
                   header-align="center"
                   align="left"
                   label="检查人员"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="situation"
+                  header-align="center"
+                  align="left"
+                  label="调整情况"
                 >
                 </el-table-column>
               </el-table>

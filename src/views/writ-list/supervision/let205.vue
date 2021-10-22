@@ -89,14 +89,14 @@
                 <div
                   class="line-div"
                   @click="commandFill('cellIdx9', '性别', 'TextItem')"
-                >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）' }}</div>
+                >{{ letData.cellIdx9 ? letData.cellIdx9 : '（编辑）' }}</div>
               </div>
               <div style="flex: 1; display: flex;">
                 <label>年龄：</label>
                 <div
                   class="line-div"
                   @click="commandFill('cellIdx10', '年龄', 'TextItem')"
-                >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）' }}</div>
+                >{{ letData.cellIdx10 ? letData.cellIdx10 : '（编辑）' }}</div>
               </div>
             </div>
             <div class="docTextLine">
@@ -112,7 +112,7 @@
                 <div
                   class="line-div"
                   @click="commandFill('cellIdx12', '职务（职业）', 'TextItem')"
-                >{{ letData.cellIdx12 ? letData.cellIdx12 : '（点击编辑）' }}</div>
+                >{{ letData.cellIdx12 ? letData.cellIdx12 : '（编辑）' }}</div>
               </div>
             </div>
             <div class="docTextLine">
@@ -187,12 +187,8 @@
                 </div>
               </div>
               <div v-else>
-                <p
-                  v-for="(item, index) in 2"
-                  :key="index"
-                  class="show-area-item-p">
-                  &nbsp;
-                </p>
+                <p class="show-area-item-p">&nbsp;</p>
+                <p class="show-area-item-p">&nbsp;</p>
               </div>
             </div>
             <div class="docTextarea">
@@ -305,7 +301,7 @@ export default {
       let cellIdx19String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`
       // 5.单位/个人：从行政处罚告知书(paperType === '6')中获取
       let let6DataPaperContent = JSON.parse(selectedPaper.let6Data.paperContent)
-      let cellIdx20String = let6DataPaperContent.selectedType
+      let cellIdx20String = let6DataPaperContent.selectedType ? let6DataPaperContent.selectedType : ''
       await db.close();
       this.letData = {
         cellIdx0: cellIdx0Year, // 年
@@ -348,7 +344,7 @@ export default {
           corpName: corp.corpName,
           userGroupName: this.$store.state.user.userGroupName,
         },
-        selectedType: selectedType
+        selectedType: cellIdx20String
       };
     },
     goBack({ page }) {
