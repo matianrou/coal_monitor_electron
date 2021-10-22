@@ -7,6 +7,10 @@
     :visible="visible"
     @close="close">
     <div v-loading="loading" class="select-danger">
+      <div style="margin-bottom: 10px;">
+        <el-input v-model="filter.name" placeholder="请输入隐患关键字" style="width: 200px;" size="small"></el-input>
+        <el-button type="primary" size="small" @click="selectFilter">搜索</el-button>
+      </div>
       <div class="select-danger-col">
         <div class="select-danger-col-title">
           <span>选择隐患内容</span>
@@ -19,6 +23,7 @@
             node-key="treeId"
             show-checkbox
             :default-checked-keys="defaultCheckedKeys"
+            :filter-node-method="filterNode"
             @check="checkFunctionAuthorization">
             <span class="span-ellipsis" slot-scope="{ node }">
               <span :title="node.label">{{ node.label }}</span>
@@ -86,7 +91,10 @@
         },
         tempKey: -666666, // 临时key, 用于解决tree半选中状态项不能传给后台接口问题.
         defaultCheckedKeys: null,
-        DBName: this.$store.state.DBName
+        DBName: this.$store.state.DBName,
+        filter: {
+          name: ''
+        }
       }
     },
     created() {
@@ -173,6 +181,13 @@
         })
         this.close()
       },
+      selectFilter () {
+        this.$refs.dangerListTree.filter(this.filter.name)
+      },
+      filterNode (value, data) {
+        if (!value) return true;
+        return data.treeName.indexOf(value) !== -1;
+      }
     }
   }
 ;
@@ -182,6 +197,7 @@
 .select-danger {
   display: flex;
   height: 300px;
+  flex-direction: column;
   .select-danger-col {
     flex: 1;
     display: flex;
@@ -208,5 +224,8 @@
       }
     }
   }
+}
+/deep/ .el-dialog__body {
+  padding: 10px 30px;
 }
 </style>

@@ -93,7 +93,6 @@
             return item.delFlag == "0" && item.officeId === userGroupId && item.no !== userId;
           });
         }
-        console.log('personList', personList)
         personList.forEach(item => {
           // 默认为都不选中
           item.active = false
