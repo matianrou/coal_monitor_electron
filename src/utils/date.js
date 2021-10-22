@@ -131,5 +131,8 @@ export function handleDate(date, spliteKey) {
   if (string0List[2] !== string1List[2]) {
     dateString += string1List[2] + '日'
   }
+  if (string0List[0] === string1List[0] && string0List[1] === string1List[1] && string0List[2] === string1List[2]) {
+    dateString = dateString.substring(0, dateString.length - 1)
+  }
   return dateString
 }

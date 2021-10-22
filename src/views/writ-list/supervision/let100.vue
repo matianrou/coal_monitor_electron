@@ -379,29 +379,29 @@ export default {
           corp.cityName +
           corp.countryName +
           "境内，隶属于" +
-          corp.parentTypeName +
+          (corp.parentTypeName ? corp.parentTypeName : 'XX') +
           "煤矿。 ";
         if (zzInfo1 && zzInfo1.expireTime)
           sSummary += "采矿许可证有效日期至" + zzInfo1.expireTime + "、";
-        else sSummary += "采矿许可证有效日期至    ";
+        else sSummary += "采矿许可证有效日期至XX";
         if (zzInfo2 && zzInfo2.expireTime)
           sSummary += "、安全生产许可证有效期至" + zzInfo2.expireTime + "，";
-        else sSummary += "、安全生产许可证有效期至    ，";
+        else sSummary += "、安全生产许可证有效期至XX，";
         if (corp.provedOutput)
           sSummary += "矿井核定生产能力为" + corp.provedOutput + "万吨/年，";
-        else sSummary += "矿井核定生产能力为   万吨/年，";
+        else sSummary += "矿井核定生产能力为XX万吨/年，";
         sSummary +=
-          corp.mineWsGradeName +
+          (corp.mineWsGradeName ? corp.mineWsGradeName : 'XX') +
           "、水文地质类型为中等，煤层自燃倾向性为" +
-          corp.mineFireName +
+          (corp.mineFireName ? corp.mineFireName : 'XX') +
           "，煤尘" +
-          corp.grimeExplosiveName +
+          (corp.grimeExplosiveName ? corp.grimeExplosiveName : 'XX') +
           "，";
         sSummary +=
           "矿井状况为" +
-          corp.mineStatusZsName +
+          (corp.mineStatusZsName ? corp.mineStatusZsName : 'XX') +
           "，开拓方式为" +
-          corp.mineMinestyleName +
+          (corp.mineMinestyleName ? corp.mineMinestyleName : 'XX') +
           "开拓。";
         sSummary +=
           "采煤方式为综采。通风方式为中央分列抽出，采掘作业地点有71003综采工作面采煤工作面、 71007综采工作面风巷、71007综采工作面机巷掘进工作面。";

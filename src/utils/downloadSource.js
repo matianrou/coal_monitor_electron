@@ -67,15 +67,35 @@ async function doPersonDb(resId, data) {
   let arrPerson = [];
   const schema = {
     person: {
+			admin: Boolean,
+			company: String,
+			createBy: String,
+			createDate: String,
+			delFlag: String,
+			email: String,
       no: {
         type: String,
         unique: true
       },
-      name: String,
+			loginDate: String,
+			loginFlag: String,
+			loginIp: String,
       loginName: String,
+			mobile: String,
+      name: String,
+			office: String,
+			oldLoginDate: String,
+			oldLoginIp: String,
+			qylxmc: String,
+			remarks: String,
+			roleNames: String,
+			updateBy: String,
+			updateDate: String,
+      userNumber: String,
+			userType: String,
+			zfLogin: Boolean,
       officeId: String,
       officeName: String,
-      userNumber: String
     }
   };
   const db = new GoDB(store.state.DBName, schema);
@@ -84,7 +104,34 @@ async function doPersonDb(resId, data) {
   for (let i = 0; i < data.length; i++) {
     let obj = data[i];
     const item = await person.get({ no: obj.id });
-    if (!item) arrPerson.push({ no: obj.id, name: obj.name, loginName: obj.loginName, officeId: obj.office.id, officeName: obj.office.name, userNumber: obj.userNumber });
+    if (!item) arrPerson.push({ 
+			admin: obj.admin,
+			company: obj.company ? JSON.stringify(obj.company) : '',
+			createBy: obj.createBy ? JSON.stringify(obj.createBy) : '',
+			createDate: obj.createDate,
+			delFlag: obj.delFlag,
+			email: obj.email,
+			no: obj.id, 
+			loginDate: obj.loginDate,
+			loginFlag: obj.loginFlag,
+			loginIp: obj.loginIp,
+			loginName: obj.loginName,
+			mobile: obj.mobile,
+			name: obj.name, 
+			office: obj.office ? JSON.stringify(obj.office) : '',
+			oldLoginDate: obj.oldLoginDate,
+			oldLoginIp: obj.oldLoginIp,
+			qylxmc: obj.qylxmc,
+			remarks: obj.remarks,
+			roleNames: obj.roleNames,
+			updateBy: obj.updateBy ? JSON.stringify(obj.updateBy) : '',
+			updateDate: obj.updateDate,
+			userNumber: obj.userNumber,
+			userType: obj.userType,
+			zfLogin: obj.zfLogin,
+			officeId: obj.office.id, 
+			officeName: obj.office.name, 
+		});
   }
 
   // 增:

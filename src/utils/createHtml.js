@@ -129,7 +129,7 @@ export function createHtml(paperDiv, corpData) {
           text-align: center;
         }
         .paper-number-div {
-          justify-content: right;
+          justify-content: flex-end;
         }
         .paper-number-div span {
           word-break: break-all;

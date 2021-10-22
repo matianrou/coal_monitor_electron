@@ -124,6 +124,7 @@
         :is="showTemp"
         :corp-data="corpData"
         :doc-data="docData"
+        :paper-data="selectedPaper"
         @go-back="changePage">
       </component>
     </div>
