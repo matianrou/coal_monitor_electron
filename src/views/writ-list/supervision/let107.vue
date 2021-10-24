@@ -304,7 +304,7 @@ export default {
         // cellIdx20: null, // 联系人
         cellIdx21: cellIdx21String, // 联系电话
         cellIdx21TypeTextItem: cellIdx21String, // 联系电话
-        cellIdx22: this.$store.state.user.userGroupName, //
+        cellIdx22: this.$store.state.curCase.groupName, //
         cellIdx23: this.todayDate, // 日期
         dangerItemObject: let1DataPapaerContent.dangerItemObject,
         SamplingForensicsTable: {

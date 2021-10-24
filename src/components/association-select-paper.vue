@@ -1,4 +1,5 @@
 <!-- 关联选择文书（新建文书时，关联的文书有多个时选择使用的文书） -->
+<!-- 同时放置所有文书复用性高的组件、变量及方法 -->
 <script>
 import GoDB from "@/utils/godb.min.js";
 import letMain from "@/views/make-law-writ/components/let-main.vue";

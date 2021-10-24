@@ -307,7 +307,7 @@ export default {
         cellIdx17TypeTextItem: orgSysOfficeInfo.master, // 执法机关联系人
         cellIdx18: orgSysOfficeInfo.phone, // 联系电话
         cellIdx18TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
-        cellIdx19: this.$store.state.user.userGroupName, //
+        cellIdx19: this.$store.state.curCase.groupName, //
         cellIdx20: this.todayDate, // 日期
         cellIdx21: null, // 单位或个人
         dangerItemObject: let1DataPapaerContent.dangerItemObject,

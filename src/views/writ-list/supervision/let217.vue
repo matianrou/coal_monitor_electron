@@ -282,7 +282,7 @@ export default {
         cellIdx17TypeTextItem: orgSysOfficeInfo.master, // 联系人
         cellIdx18: orgSysOfficeInfo.phone, // 联系电话
         cellIdx18TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
-        cellIdx19: this.$store.state.user.userGroupName, //
+        cellIdx19: this.$store.state.curCase.groupNamee, //
         cellIdx20: this.todayDate, // 日期
       };
     },

@@ -356,7 +356,7 @@ export default {
         cellIdx23TypeTextItem: orgSysOfficeInfo.organName, // organName
         cellIdx24: orgSysOfficeInfo.depAddress, // courtPrefix人民法院
         cellIdx24TypeTextItem: orgSysOfficeInfo.depAddress, // courtPrefix人民法院
-        cellIdx25: this.$store.state.user.userGroupName, //
+        cellIdx25: this.$store.state.curCase.groupName, //
         cellIdx26: this.todayDate, // 日期
         cellIdx27: selectedType, // 查封/扣押
         cellIdx27TypeTextItem: selectedType, // 查封/扣押

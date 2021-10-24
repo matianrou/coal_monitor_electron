@@ -289,7 +289,7 @@ export default {
         cellIdx13TypeTextItem: orgSysOfficeInfo.master, // 执法机关联系人
         cellIdx14: orgSysOfficeInfo.phone, // 联系电话
         cellIdx14TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
-        cellIdx15: this.$store.state.user.userGroupName, //
+        cellIdx15: this.$store.state.curCase.groupName, //
         cellIdx16: this.todayDate, // 日期
         cellIdx17: null, // 一份交XXX
       };

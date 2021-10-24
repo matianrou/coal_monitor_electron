@@ -295,7 +295,7 @@ export default {
         cellIdx23: null, // 日期
         cellIdx24: null, // 收件人（签名）
         cellIdx25: null, // 日期
-        cellIdx26: this.$store.state.user.userGroupName, //
+        cellIdx26: this.$store.state.curCase.groupName, //
         cellIdx27: this.todayDate, // 日期
       };
     },

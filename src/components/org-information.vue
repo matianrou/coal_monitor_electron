@@ -94,6 +94,10 @@ export default {
       }
       caseData = Object.assign({}, caseData, { planDate })
       this.caseData = caseData
+      this.$store.commit('changeState', {
+        key: 'curCase',
+        val: caseData
+      })
       await db.close()
     }
   },

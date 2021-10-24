@@ -45,7 +45,7 @@
                 @click="commandFill('cellIdx4', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx4 ? letData.cellIdx4 : '（点击编辑）'}}</span>
               <span
-                @click="commandFill('cellIdx5', '被处罚单位', 'TextItem')"
+                @click="commandFill('cellIdx5', `被处罚${letData.cellIdx4}`, 'TextItem')"
               >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</span>
               地址：
               <span
@@ -263,7 +263,7 @@ export default {
         cellIdx17TypeTextItem: orgSysOfficeInfo.organName, // 煤监机构
         cellIdx18: orgSysOfficeInfo.courtPrefix, // 人民法院
         cellIdx18TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
-        cellIdx19: this.$store.state.user.userGroupName, //
+        cellIdx19: this.$store.state.curCase.groupName, //
         cellIdx20: this.todayDate, // 日期
         cellIdx21: cellIdx4String, // 单位/个人
         cellIdx21TypeTextItem: cellIdx4String, // 单位/个人

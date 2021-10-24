@@ -11,6 +11,7 @@ export default new Vuex.Store({
   state: {
     activeTab: null, // 当前激活的总体tab页签
     DBName: null, // 当前使用的数据库名称
+    curCase: null, // 当前检查活动的活动数据
   },
   modules: {
     user,

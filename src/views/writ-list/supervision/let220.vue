@@ -357,7 +357,7 @@ export default {
         cellIdx32TypeTextItem: orgSysOfficeInfo.organName, //
         cellIdx33: orgSysOfficeInfo.courtPrefix, // 人民法院
         cellIdx33TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
-        cellIdx34: this.$store.state.user.userGroupName, //
+        cellIdx34: this.$store.state.curCase.groupName, //
         cellIdx35: this.todayDate, // 日期
         cellIdx36: let8DataPapaerContent.selectedType, // 单位
         selectedType: let8DataPapaerContent.selectedType, // 单位

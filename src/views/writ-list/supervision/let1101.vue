@@ -356,7 +356,7 @@ export default {
         cellIdx25: let32DataPapaerContent.cellIdx0, // 查封/扣押
         cellIdx25TypeTextItem: let32DataPapaerContent.cellIdx0, // 查封/扣押
         cellIdx26: null, // 暂不用
-        cellIdx27: this.$store.state.user.userGroupName, //
+        cellIdx27: this.$store.state.curCase.groupName, //
         cellIdx28: this.todayDate, // 日期
         cellIdx29: let32DataPapaerContent.cellIdx0, // 查封/扣押
         cellIdx29TypeTextItem: let32DataPapaerContent.cellIdx0, // 查封/扣押

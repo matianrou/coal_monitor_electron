@@ -288,7 +288,7 @@ export default {
         cellIdx24: null, // 日期
         cellIdx19: null, // 收件人（签名）
         cellIdx20: null, // 日期
-        cellIdx21: this.$store.state.user.userGroupName, //
+        cellIdx21: this.$store.state.curCase.groupName, //
         cellIdx22: this.todayDate, // 日期
       };
     },

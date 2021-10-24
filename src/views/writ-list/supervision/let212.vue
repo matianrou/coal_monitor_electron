@@ -314,7 +314,7 @@ export default {
         cellIdx22: null, // 邮政编码
         cellIdx23: null, // 执法机关联系人
         cellIdx24: null, // 联系电话
-        cellIdx25: this.$store.state.user.userGroupName, //
+        cellIdx25: this.$store.state.curCase.groupNamee, //
         cellIdx26: this.todayDate, //日期
         cellIdx27: let8DataPapaerContent.selectedType, //单位
         cellIdx27TypeSelectItem: let8DataPapaerContent.selectedType, // 单位
