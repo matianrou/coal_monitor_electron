@@ -167,8 +167,8 @@ export default {
       string2 += (await corpInformation(db, corp)) + "。\r\n";
       // 3，	案发时间：检查笔录中时间
       let string3 = `    三、案发时间：${let1DataPapaerContent.cellIdx1}。\r\n`;
-      // 4，	主要违法事实：检查笔录中时间+机构名称+登录人员名称+“等监察员按照监察执法计划，依法对”+煤矿名称+“进行现场检查时,发现该矿”+隐患描述
-      let string4 = `    四、主要违法事实：${let1DataPapaerContent.cellIdx1}${this.$store.state.user.userGroupName}${this.$store.state.user.userName}等监察员按照监察执法计划，依法对${corp.corpName}进行现场检查时,发现该矿${dangerObject.dangerString}。\r\n`;
+      // 4，	主要违法事实：检查笔录中时间+机构名称+登录人员名称+“等监管员按照监管执法计划，依法对”+煤矿名称+“进行现场检查时,发现该矿”+隐患描述
+      let string4 = `    四、主要违法事实：${let1DataPapaerContent.cellIdx1}${this.$store.state.user.userGroupName}${this.$store.state.user.userName}等监管员按照监管执法计划，依法对${corp.corpName}进行现场检查时,发现该矿${dangerObject.dangerString}。\r\n`;
       // 5，	立案调查及审理情况：
       // 立案时间+“经”+机构名称+“负责人批准，决定对该涉嫌违法行为进行立案调查，并指定由、两名执法人员承办。案件承办人对进行调查取证，制作了调查取证笔录，收集了该矿违法违规行为的其他证据材料。
       // 经调查取证，案件承办人认定违法事实清楚，分别违反了”+违法认定法条+“建议分别依据”+行政处罚依据+“拟分别给予”+行政处罚决定+呈报书制作时间+“，经法制审核，认为案件事实清楚、证据确凿充分、定性准确、处罚适当、程序合法，同意处罚意见。案件承办人将处罚建议呈报给分管副局长XXX、局长张晓彤审批，经分局局长办公会集体研究，同意案件承办人处罚意见。”

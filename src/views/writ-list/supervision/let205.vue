@@ -292,7 +292,7 @@ export default {
       let cellIdx4Minu = now.getMinutes()
       // 2.工作单位：煤矿名称
       let cellIdx11String = corp.corpName
-      // 3.监察单位
+      // 3.单位
       let cellIdx18String = this.$store.state.user.userGroupName
       // 获取笔录文书中
       let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
@@ -328,8 +328,8 @@ export default {
         cellIdx15: null, // 承办人（签名）
         cellIdx16: null, // 承办人（签名）
         cellIdx17: null, // 记录人（签名）
-        cellIdx18: cellIdx18String, // 监察员
-        cellIdx18TypeTextItem: cellIdx18String, // 监察员
+        cellIdx18: cellIdx18String, // 监管员
+        cellIdx18TypeTextItem: cellIdx18String, // 监管员
         cellIdx19: cellIdx19String, // 违法行为
         cellIdx20: cellIdx20String, // 单位/个人
         cellIdx20TypeTextItem: cellIdx20String, // 单位/个人

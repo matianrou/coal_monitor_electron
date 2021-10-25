@@ -36,7 +36,7 @@
           </el-form-item>
           <el-form-item label="请选择：" prop="checkStatus">
             <el-radio-group v-model="dataForm.checkStatus">
-              <el-radio :label="0">监察</el-radio>
+              <el-radio :label="0">{{ userType === 'supervision' ? '监管' : '监察' }}</el-radio>
               <el-radio :label="1">事故</el-radio>
             </el-radio-group>
           </el-form-item>
@@ -113,7 +113,8 @@ export default {
           { required: true, message: "请选择类别", trigger: "change" },
         ],
       },
-      DBName: this.$store.state.DBName
+      DBName: this.$store.state.DBName,
+      userType: this.$store.state.user.userType
     };
   },
   created() {

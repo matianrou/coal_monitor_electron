@@ -240,7 +240,7 @@ export default {
         cellIdx4: num4, // 文书号
         cellIdx4TypeTextItem: num4, // 文书号
         cellIdx5: null, // 单位
-        cellIdx6: corp.corpName, // 本机关在对XXX进行安全监察中发现
+        cellIdx6: corp.corpName, // 本机关在对XXX进行安全检查中发现
         cellIdx6TypeTextItem: corp.corpName, // 单位
         cellIdx7: null, // 依法作出XXX的决定
         cellIdx8: null, // 请贵单位对其采取XXX的措施。

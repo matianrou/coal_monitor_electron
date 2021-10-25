@@ -123,7 +123,7 @@ function setDangerTableItem (data, selectedData, options) {
       if (options.key === 'cellIdx8') {
         string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString}案。`
       } else if (options.key === 'cellIdx21') {
-        string = `我们是${options.spellString.userGroupName}监察员，这是我们的执法证件（出示行政执法证件），现就你${options.spellString.corpName}涉嫌${dangerObject.dangerString}违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？`
+        string = `我们是${options.spellString.userGroupName}${store.state.user.userType === 'supervision' ? '监管' : '监察'}员，这是我们的执法证件（出示行政执法证件），现就你${options.spellString.corpName}涉嫌${dangerObject.dangerString}违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？`
       }
       break
     case '36': // 案件处理呈报书
