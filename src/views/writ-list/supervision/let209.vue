@@ -58,7 +58,6 @@
               本机关根据你
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx6', '单位', 'TextItem')"
               >{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）' }}</span>
               申请，关于
               <span
@@ -96,7 +95,6 @@
               ）举行听证会议，请你
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx14', '单位', 'TextItem')"
               >{{ letData.cellIdx14 ? letData.cellIdx14 : '（点击编辑）'}}</span>
               准时参加。
             </div>
@@ -173,7 +171,6 @@
               根据《中华人民共和国行政处罚法》第六十四条规定，你
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx23', '单位', 'TextItem')"
               >{{ letData.cellIdx23 ? letData.cellIdx23 : '（点击编辑）'}}</span>
               可以申请听证主持人回避。有关事项告知如下：
             </div>
@@ -452,8 +449,6 @@ export default {
       this.letData.cellIdx14TypeTextItem = this.selectedType
       this.letData.cellIdx23 = this.selectedType
       this.letData.cellIdx23TypeTextItem = this.selectedType
-      this.letData.cellIdx39 = this.selectedType
-      this.letData.cellIdx39TypeTextItem = this.selectedType
       this.letData.selectedType = this.selectedType
     }
   },

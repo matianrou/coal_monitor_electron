@@ -56,7 +56,6 @@
               本机关对
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx6', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）'}}</span>
               作出的
               <span
@@ -65,12 +64,10 @@
               尚未履行，且
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx8', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
               在法定期限内未申请行政复议或者提起行政诉讼。依据《中华人民共和国行政强制法》第五十三条、第五十四条的规定，请
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx9', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</span>
               ：
             </div>
@@ -127,7 +124,6 @@
               如
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx20', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx20 ? letData.cellIdx20 : '（点击编辑）'}}</span>
               不履行上述义务，本机关将依据《中华人民共和国行政强制法》第五十三条、第五十四条的规定，申请人民法院强制执行。
             </div>
@@ -209,7 +205,6 @@
               备注：本文书一式两份，一份送被催告
               <span
                 style="borderBottom:none"
-                @click="commandFill('cellIdx29', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx29 ? letData.cellIdx29 : '（点击编辑）'}}</span>
               ，一份存档。 
             </div>

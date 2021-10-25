@@ -39,7 +39,24 @@ export default {
       selectedIndex: 0, // 需要选择多个类型的文书时，当前选择第几个文书
       selectFlowList: [], // 需要选择多个类型的文书流程，对象包括文书key及文书列表
       selectedPaper: {},
-      todayDate: getNowDate()
+      todayDate: getNowDate(),
+      colList: [
+        {
+          label: '文书类型',
+          prop: 'name',
+        },
+        {
+          label: '制作人',
+          width: '100',
+          prop: 'personName',
+        },
+        {
+          label: '制作日期',
+          prop: 'createDate',
+          align: 'left',
+          width: '180'
+        },
+      ]
     };
   },
   async created() {
@@ -106,6 +123,34 @@ export default {
     },
     handleSelectPaper () {
       this.paperList = this.selectFlowList[this.selectedIndex].paperList
+      if (this.paperList[0].paperType === '6' || this.paperList[0].paperType === '32') {
+        this.paperList.forEach(item => {
+          item.selectedType = JSON.parse(item.paperContent).selectedType
+        })
+        this.colList.splice(1, 0, {
+          label: '类别',
+          width: '80',
+          prop: 'selectedType'
+        })
+      } else {
+        this.colList = [
+          {
+            label: '文书类型',
+            prop: 'name',
+          },
+          {
+            label: '制作人',
+            width: '100',
+            prop: 'personName',
+          },
+          {
+            label: '制作日期',
+            prop: 'createDate',
+            align: 'left',
+            width: '120'
+          },
+        ]
+      }
       this.visible.selectPaper = true
     },
     closeDialog ({page, refresh}) {

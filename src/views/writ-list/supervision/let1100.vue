@@ -26,7 +26,6 @@
                     data-title="查封(扣押)"
                     data-type="text"
                     data-src
-                    @click="commandFill('cellIdx0', '查封(扣押)', 'TextItem')"
                   >
                     {{ letData.cellIdx0 }}
                   </td>
@@ -45,7 +44,6 @@
                 >{{ letData.cellIdx2 ? letData.cellIdx2 : '（编辑）' }}</span>
                 <label>）煤安延</label>
                 <span
-                  @click="commandFill('cellIdx3', '文书号', 'TextItem')"
                 >{{ letData.cellIdx3 ? letData.cellIdx3 : '（编辑）' }}</span>
                 <label>〔</label>
                 <span
@@ -99,7 +97,6 @@
               予以
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx11', '', 'TextItem')"
                 >{{
                   letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）"
                 }}</span
@@ -149,7 +146,7 @@
                 letData.cellIdx17 ? letData.cellIdx17 : "（点击编辑）"
               }}</span>
               ，依据《中华人民共和国行政强制法》第二十五条规定，第一、二款规定，将以上
-              <span class="no-underline" @click="commandFill('cellIdx18', '', 'TextItem')">{{
+              <span class="no-underline">{{
                 letData.cellIdx18 ? letData.cellIdx18 : "（点击编辑）"
               }}</span>
               的期限延长至
@@ -213,7 +210,6 @@
               备注：本文书一式两份，一份交被
               <span
                 style="borderBottom:none"
-                @click="commandFill('cellIdx27', '查封/扣押', 'TextItem')"
               >{{ letData.cellIdx27 ? letData.cellIdx27 : '（点击编辑）'}}</span>
               单位，一份存档。 
             </div>
@@ -226,6 +222,7 @@
       :visible="visible.selectPaper"
       title="关联文书选择"
       :paper-list="paperList"
+      :col-list="colList"
       @close="closeDialog"
       @confirm-paper="confirmPaper"
     ></select-paper>

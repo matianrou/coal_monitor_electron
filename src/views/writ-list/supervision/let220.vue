@@ -210,7 +210,6 @@
               备注：本文书一式三份；一份交银行，一份交被处罚
               <span
                 style="borderBottom:none"
-                @click="commandFill('cellIdx36', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx36 ? letData.cellIdx36 : '（点击编辑）'}}</span>
               ，一份存档。 
             </div>

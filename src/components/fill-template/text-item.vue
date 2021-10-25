@@ -19,6 +19,10 @@ export default {
     placeholder: {
       type: String,
       default: ''
+    },
+    options: {
+      type: Object,
+      default: () => {}
     }
   },
   data() {

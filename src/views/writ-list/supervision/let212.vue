@@ -89,7 +89,6 @@
               号），要求
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx12', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx12 ? letData.cellIdx12 : '（点击编辑）'}}</span>
               于
               <span
@@ -110,7 +109,6 @@
               。因你单位逾期未履行该处罚决定，依据《中华人民共和国行政强制法》第三十五条规定，现催告
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx17', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx17 ? letData.cellIdx17 : '（点击编辑）'}}</span>
               履行以上决定，本机关将依据《中华人民共和国行政处罚法》第七十二条第一款第一项规定，每日按罚款数额的3%加处罚款。
             </div>
@@ -119,7 +117,6 @@
               如有异议，依据《中华人民共和国行政强制法》第三十六条规定，
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx18', '单位/个人', 'TextItem')"
               >{{ letData.cellIdx18 ? letData.cellIdx18 : '（点击编辑）'}}</span>
               有权在收到本催告书之日起3日内向本机关提出陈述和申辩，逾期未提出的，视为放弃此权利。
             </div>
@@ -198,7 +195,6 @@
               备注：本文书一式两份：一份交被处罚
               <span
                 style="borderBottom:none"
-                @click="commandFill('cellIdx27', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx27 ? letData.cellIdx27 : '（点击编辑）'}}</span>
               ，一份存档。 
             </div>

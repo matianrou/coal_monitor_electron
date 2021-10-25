@@ -166,7 +166,6 @@
               听取你
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx20', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx20 ? letData.cellIdx20 : '（点击编辑）'}}</span>
               的陈述申辩。
             </div>
@@ -241,6 +240,7 @@
       :visible="visible.selectPaper"
       title="关联文书选择"
       :paper-list="paperList"
+      :col-list="colList"
       @close="closeDialog"
       @confirm-paper="confirmPaper"
     ></select-paper>

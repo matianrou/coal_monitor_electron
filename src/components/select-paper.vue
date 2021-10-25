@@ -6,7 +6,7 @@
     append-to-body
     :visible="visible"
     top="5vh"
-    width="600px"
+    width="650px"
     @close="close"
   >
     <div style="height: 70vh;">
@@ -22,7 +22,7 @@
         @current-change="handleCurrentChange">
         <el-table-column
           type="index"
-          width="80"
+          width="60"
           header-align="center"
           align="center">
         </el-table-column>

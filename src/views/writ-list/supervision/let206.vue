@@ -42,7 +42,6 @@
               <label>被处罚</label>
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx4', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx4 ? letData.cellIdx4 : '（点击编辑）'}}</span>
               <span
                 @click="commandFill('cellIdx5', `被处罚${letData.cellIdx4}`, 'TextItem')"

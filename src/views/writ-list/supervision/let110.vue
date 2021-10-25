@@ -26,7 +26,6 @@
                     data-title="查封(扣押)"
                     data-type="text"
                     data-src
-                    @click="commandFill('cellIdx0', '查封(扣押)', 'TextItem')"
                   >{{ letData.cellIdx0 }}</td>
                   <td class="textAlignLeft">决定书</td>
                 </tr>
@@ -43,7 +42,6 @@
                 >{{ letData.cellIdx2 ? letData.cellIdx2 : '（编辑）' }}</span>
                 <label>）煤安</label>
                 <span
-                  @click="commandFill('cellIdx3', '文书号', 'TextItem')"
                 >{{ letData.cellIdx3 ? letData.cellIdx3 : '（编辑）' }}</span>
                 <label>〔</label>
                 <span
@@ -88,12 +86,10 @@
               予以
               <span
                 style="borderBottom:none"
-                @click="commandFill('cellIdx10', '', 'TextItem')"
               >{{ letData.cellIdx10? letData.cellIdx10 : '（点击编辑）' }}</span>
               ,（详见《
               <span
                 style="borderBottom:none"
-                @click="commandFill('cellIdx11', '', 'TextItem')"
               >{{ letData.cellIdx11? letData.cellIdx11 : '（点击编辑）' }}</span>
               <span
                 style="borderBottom:none"
@@ -105,7 +101,6 @@
               本机关将于三十日内（不包括检测、检验或者技术鉴定期限）对上述被
               <span
                 style="borderBottom:none"
-                @click="commandFill('cellIdx13', '查封/扣押', 'TextItem')"
               >{{ letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）'}}</span>
               的
               <span
@@ -140,7 +135,6 @@
               附件：
               <span
                 style="borderBottom:none"
-                @click="commandFill('cellIdx19', '查封/扣押', 'TextItem')"
               >{{ letData.cellIdx19 ? letData.cellIdx19 : '（点击编辑）'}}</span>
               <span
                 style="borderBottom:none"
@@ -174,7 +168,6 @@
               备注：本文书一式两份，一份交被
               <span
                 style="borderBottom:none"
-                @click="commandFill('cellIdx23', '', 'TextItem')"
               >{{ letData.cellIdx23 ? letData.cellIdx23 : '（点击编辑）'}}</span>
               单位，一份存档。 
             </div>

@@ -81,7 +81,6 @@
               <label>受送达</label>
               <div
                 style="cursor: pointer;"
-                @click="commandFill('cellIdx14', '单位负责人/个人', 'SelectItem')"
               >{{ letData.cellIdx14 ? letData.cellIdx14 : '（编辑）' }}</div>
               <label>（签名）：</label>
               <div
@@ -242,7 +241,7 @@ export default {
         cellIdx11: null, // 日期
         cellIdx12: this.$store.state.curCase.groupName, //
         cellIdx13: this.todayDate, // 日期
-        selectedString: selectedString
+        selectedType: selectedType
       };
     },
     goBack({ page }) {

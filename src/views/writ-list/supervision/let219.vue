@@ -23,7 +23,6 @@
                     data-title="延期(分期)"
                     data-type="text"
                     data-src
-                    @click="commandFill('cellIdx0', '延期(分期)', 'TextItem')"
                   >{{ letData.cellIdx0 }}</td>
                   <td class="textAlignLeft">缴纳罚款决定书</td>
                 </tr>
@@ -81,7 +80,6 @@
               日向
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx9', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</span>
               作出《行政处罚决定书》（
               <span
@@ -106,7 +104,6 @@
               号），对
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx14', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx14 ? letData.cellIdx14 : '（点击编辑）'}}</span>
               作出罚款
               <span
@@ -115,7 +112,6 @@
               的行政处罚决定。现根据你
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx16', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx16 ? letData.cellIdx16 : '（点击编辑）'}}</span>
               的申请，本机关依据《中华人民共和国行政处罚法》第六十六条第二款规定，经研究，作出如下决定:
             </div>
@@ -137,7 +133,6 @@
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx18', '', 'TextItem')"
                 >{{ letData.cellIdx18 }}</td>
                 <td class="textAlignLeft">缴纳罚款。</td>
               </tr>
@@ -413,7 +408,6 @@
             备注：本文书一式三份，一份交银行，一份交被处
             <span
               style="borderBottom:none"
-              @click="commandFill('cellIdx39', '单位/个人', 'SelectItem')"
             >{{ letData.cellIdx39 ? letData.cellIdx39 : '（点击编辑）'}}</span>
             ，一份存档。 
           </div>

@@ -58,7 +58,6 @@
               经审查，你
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx5', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx5 ? letData.cellIdx5 : '（XX）'}}</span>
               关于
               <span
@@ -95,7 +94,6 @@
               根据《中华人民共和国行政处罚法》第六十三条、第六十四条规定，本机关决定不予受理你
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx8', '单位/个人', 'SelectItem')"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
               的听证申请。
             </div>

@@ -26,7 +26,6 @@
                     data-title="查封(扣押)"
                     data-type="text"
                     data-src
-                    @click="commandFill('cellIdx0', '查封(扣押)', 'TextItem')"
                   >
                     {{ letData.cellIdx0 }}
                   </td>
@@ -45,7 +44,6 @@
                 >{{ letData.cellIdx2 ? letData.cellIdx2 : '（编辑）' }}</span>
                 <label>）煤安</label>
                 <span
-                  @click="commandFill('cellIdx3', '文书号', 'TextItem')"
                 >{{ letData.cellIdx3 ? letData.cellIdx3 : '（编辑）' }}</span>
                 <label>处〔</label>
                 <span
@@ -75,7 +73,6 @@
               日向你单位作出《
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx10', '', 'TextItem')"
                 >{{
                   letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
                 }}</span
@@ -123,7 +120,6 @@
               号），对所附《
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx16', '', 'TextItem')"
                 >{{
                   letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）"
                 }}</span
@@ -137,7 +133,6 @@
               >
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx18', '', 'TextItem')"
                 >{{
                   letData.cellIdx18 ? letData.cellIdx18 : "（点击编辑）"
                 }}</span
@@ -155,7 +150,6 @@
               项的规定，作出处理决定：具体处理决定详见《
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx21', '查封/扣押', 'TextItem')"
                 >{{
                   letData.cellIdx21 ? letData.cellIdx21 : "（点击编辑）"
                 }}</span
@@ -183,7 +177,6 @@
               附件：
               <span 
                 style="borderBottom:none"
-                @click="commandFill('cellIdx25', '', 'TextItem')"
               >{{ letData.cellIdx25 ? letData.cellIdx25 : '（点击编辑）'}}</span>
               <span
                 style="borderBottom:none"
@@ -227,7 +220,6 @@
               备注：本文书一式两份，一份交被
               <span
                 style="borderBottom:none"
-                @click="commandFill('cellIdx29', '查封/扣押', 'TextItem')"
               >{{ letData.cellIdx29 ? letData.cellIdx29 : '（点击编辑）'}}</span>
               单位，一份存档。 
             </div>
@@ -240,6 +232,7 @@
       :visible="visible.selectPaper"
       title="关联文书选择"
       :paper-list="paperList"
+      :col-list="colList"
       @close="closeDialog"
       @confirm-paper="confirmPaper"
     ></select-paper>
@@ -326,8 +319,8 @@ export default {
         cellIdx7: let32Date[0], // 年
         cellIdx8: let32Date[1], // 月
         cellIdx9: let32Date[2], // 日
-        cellIdx10: let32DataPapaerContent.cellIdx0, // 查封(扣押)
-        cellIdx10TypeTextItem: let32DataPapaerContent.cellIdx0, // 查封(扣押)
+        cellIdx10: selectedType, // 查封(扣押)
+        cellIdx10TypeTextItem: selectedType, // 查封(扣押)
         cellIdx11: let32DataPapaerContent.cellIdx1, // 查封扣押文书号
         cellIdx11TypeTextItem: let32DataPapaerContent.cellIdx1, // 查封扣押文书号
         cellIdx12: let32DataPapaerContent.cellIdx2, // 查封扣押文书号
@@ -353,13 +346,13 @@ export default {
         cellIdx23TypeTextItem: orgSysOfficeInfo.organName, // organName
         cellIdx24: orgSysOfficeInfo.courtPrefix, // courtPrefix人民法院
         cellIdx24TypeTextItem: orgSysOfficeInfo.courtPrefix, // courtPrefix人民法院
-        cellIdx25: let32DataPapaerContent.cellIdx0, // 查封/扣押
-        cellIdx25TypeTextItem: let32DataPapaerContent.cellIdx0, // 查封/扣押
+        cellIdx25: selectedType, // 查封/扣押
+        cellIdx25TypeTextItem: selectedType, // 查封/扣押
         cellIdx26: null, // 暂不用
         cellIdx27: this.$store.state.curCase.groupName, //
         cellIdx28: this.todayDate, // 日期
-        cellIdx29: let32DataPapaerContent.cellIdx0, // 查封/扣押
-        cellIdx29TypeTextItem: let32DataPapaerContent.cellIdx0, // 查封/扣押
+        cellIdx29: selectedType, // 查封/扣押
+        cellIdx29TypeTextItem: selectedType, // 查封/扣押
         SamplingForensicsTable: let32DataPapaerContent.SamplingForensicsTable
           ? let32DataPapaerContent.SamplingForensicsTable
           : {

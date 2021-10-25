@@ -54,7 +54,6 @@
               经查，你
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx5', '单位', 'TextItem')"
               >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</span>
               的以下行为
               <span
@@ -71,7 +70,6 @@
               的规定，拟对你
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx9', '单位/个人', 'TextItem')"
               >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</span>
               作出
               <span
@@ -84,7 +82,6 @@
               根据《中华人民共和国行政处罚法》第四十五条规定，你
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx11', '单位或个人', 'TextItem')"
               >{{ letData.cellIdx11 ? letData.cellIdx11 : '（点击编辑）'}}</span>
               对上述拟作出的行政处罚有陈述、申辩的权利。如果有陈述、申辩意见，应当在收到本告知书之日起三日内提出。逾期未提出的，视为放弃此权利。
             </div>
@@ -167,7 +164,6 @@
               备注：本文书一式两份，一份送拟处罚
               <span
                 style="borderBottom:none"
-                @click="commandFill('cellIdx21', '单位或个人', 'TextItem')"
               >{{ letData.cellIdx21 ? letData.cellIdx21 : '（点击编辑）'}}</span>
               ，一份存档。 
             </div>

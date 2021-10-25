@@ -25,13 +25,6 @@
                     data-title="停供电(停供民用爆炸物品)"
                     data-type="text"
                     data-src
-                    @click="
-                      commandFill(
-                        'cellIdx0',
-                        '停供电(停供民用爆炸物品)',
-                        'TextItem'
-                      )
-                    "
                   >
                     {{ letData.cellIdx0 }}
                   </td>
@@ -49,7 +42,7 @@
                   letData.cellIdx2 ? letData.cellIdx2 : "（编辑）"
                 }}</span>
                 <label>）煤安停</label>
-                <span @click="commandFill('cellIdx3', '文书号', 'TextItem')">{{
+                <span>{{
                   letData.cellIdx3 ? letData.cellIdx3 : "（编辑）"
                 }}</span>
                 <label>决〔</label>
@@ -94,7 +87,7 @@
                 letData.cellIdx9 ? letData.cellIdx9 : "（XX）"
               }}</span>
               日依法对你单位作出
-              <span @click="commandFill('cellIdx10', '', 'TextItem')">{{
+              <span>{{
                 letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
               }}</span>
               的决定，但你单位未执行以上决定，未及时消除事故隐患，存在发生生产安全事故的危险。根据《中华人民共和国安全生产法》第六十七条第一款规定，本机关决定自
@@ -125,7 +118,6 @@
               分起，对你单位采取
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx16', '', 'TextItem')"
                 >{{
                   letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）"
                 }}</span
