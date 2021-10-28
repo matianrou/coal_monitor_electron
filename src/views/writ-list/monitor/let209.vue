@@ -363,7 +363,7 @@
             </table>
             <div class="docTextarea cellLine">
               <label style="width: 5%"></label>
-              &nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交申请听证
+              &nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份送被拟处罚
               <span
                 style="border-bottom: none"
                 @click="commandFill('cellIdx38', '单位/个人', 'TextItem')"
