@@ -11,8 +11,9 @@
       <div slot="left">
         <div class="page page-sizeA4">
           <div>
+            <div class="stdRowH"></div>
             <div class="textAlignCenter formHeader0">
-              国 家 煤 矿 安 全 监 察
+              国 家 矿 山 安 全 监 察
               <br />
             </div>
             <div class="textAlignCenter formHeader1">现 场 检 查 笔 录</div>
@@ -46,10 +47,10 @@
                 >{{ letData.cellIdx3 ? letData.cellIdx3 : '（点击编辑）' }}</div>
               </div>
               <div style="flex: 2; display: flex;">
-                <label>有效期：</label>
+                <label>安全生产许可证：</label>
                 <div
                   class="line-div"
-                  @click="commandFill('cellIdx4', '有效期：', 'TextItem')"
+                  @click="commandFill('cellIdx4', '安全生产许可证', 'TextItem')"
                 >{{ letData.cellIdx4 ? letData.cellIdx4 : '（点击编辑）' }}</div>
               </div>
             </div>
@@ -84,10 +85,10 @@
             </div>
             <div class="docTextLine">
               <div style="flex: 1; display: flex;">
-                <label>被检查单位意见：</label>
+                <label>被检查单位负责人意见：</label>
                 <div
                   class="line-div"
-                  @click="commandFill('cellIdx9', '被检查单位意见', 'TextItem')"
+                  @click="commandFill('cellIdx9', '被检查单位负责人意见', 'TextItem')"
                 >{{ letData.cellIdx9 ? letData.cellIdx9 : '（编辑）' }}</div>
               </div>
               <div style="flex: 1; display: flex;">

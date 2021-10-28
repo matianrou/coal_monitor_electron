@@ -14,7 +14,7 @@
           <div>
             <div class="stdRowH"></div>
             <div class="textAlignCenter formHeader0">
-              国 家 煤 矿 安 全 监 察
+              国 家 矿 山 安 全 监 察
               <br />
             </div>
             <div class="textAlignCenter formHeader3">强 制 执 行 申 请 书</div>
@@ -23,7 +23,7 @@
                 <span @click="commandFill('cellIdx0', '文书号', 'TextItem')">{{
                   letData.cellIdx0 ? letData.cellIdx0 : "（编辑）"
                 }}</span>
-                <label> 煤安监</label>
+                <label> 矿安监</label>
                 <span @click="commandFill('cellIdx1', '文书号', 'TextItem')">{{
                   letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
                 }}</span>
@@ -169,9 +169,9 @@
               ，我
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx17', '煤监机构', 'TextItem')"
+                @click="commandFill('cellIdx17', '局', 'TextItem')"
                 >{{
-                  letData.cellIdx17 ? letData.cellIdx17 : "（点击编辑）"
+                  letData.cellIdx17 ? letData.cellIdx17 : ""
                 }}</span
               >
               依法作出行政处罚决定，并于
@@ -194,7 +194,7 @@
                   letData.cellIdx21 ? letData.cellIdx21 : "（点击编辑）"
                 }}</span
               >
-              煤安监
+              矿安监
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx22', '文书号', 'TextItem')"
@@ -218,7 +218,7 @@
                   letData.cellIdx24 ? letData.cellIdx24 : "（点击编辑）"
                 }}</span
               >
-              号）。由于其在法定期限内未履行，根据《中华人民共和国行政处罚法》第五十一条、《中华人民共和国行政强制法》第五十三条规定、第五十四条规定，申请贵院强制执行下列项目：
+              号）。由于其在法定期限内未履行，根据《中华人民共和国行政处罚法》第五十一条、《中华人民共和国行政强制法》第五十三条、第五十四条规定，申请贵院强制执行下列项目：
               <span @click="commandFill('cellIdx25', '', 'TextareaItem')">{{
                 letData.cellIdx25 ? letData.cellIdx25 : "（点击编辑）"
               }}</span>
@@ -265,8 +265,8 @@
             <div class="docTextLine">
               <div style="flex: 2; display: flex">
                 <label>我</label>
-                <span @click="commandFill('cellIdx29', '单位', 'TextItem')">{{
-                  letData.cellIdx29 ? letData.cellIdx29 : "（点击编辑）"
+                <span @click="commandFill('cellIdx29', '局', 'TextItem')">{{
+                  letData.cellIdx29 ? letData.cellIdx29 : ""
                 }}</span>
                 <label>联系人：</label>
                 <div
@@ -485,7 +485,7 @@ export default {
           cellIdx14: null, // 性别
           cellIdx15: null, // 住址
           cellIdx16: cellIdx16String, // 对被申请人
-          cellIdx17: null, // 煤监机构
+          cellIdx17: null, // 局
           cellIdx18: null, // 年
           cellIdx19: null, // 月
           cellIdx20: null, // 日
@@ -503,7 +503,7 @@ export default {
           cellIdx26TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
           cellIdx27: null, // 收件人（签名）
           cellIdx28: null, // 日期
-          cellIdx29: null, // 单位
+          cellIdx29: null, // 局
           cellIdx30: orgSysOfficeInfo.master, // 联系人
           cellIdx30TypeTextItem: orgSysOfficeInfo.master, // 联系人
           cellIdx31: orgSysOfficeInfo.phone, // 联系电话

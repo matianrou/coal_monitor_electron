@@ -14,7 +14,7 @@
           <div>
             <div class="stdRowH"></div>
             <div class="textAlignCenter formHeader0">
-              国 家 煤 矿 安 全 监 察
+              国 家 矿 山 安 全 监 察
               <br />
             </div>
             <div class="textAlignCenter formHeader3">不 予 受 理 听 证 申 请 通 知 书</div>
@@ -23,7 +23,7 @@
                 <span
                   @click="commandFill('cellIdx0', '文书号', 'TextItem')"
                 >{{ letData.cellIdx0 ? letData.cellIdx0 : '（编辑）' }}</span>
-                <label>煤安监</label>
+                <label>矿安监</label>
                 <span
                   @click="commandFill('cellIdx1', '文书号', 'TextItem')"
                 >{{ letData.cellIdx1 ? letData.cellIdx1 : '（编辑）' }}</span>
@@ -92,11 +92,11 @@
             </table>
             <div class="docTextarea">
               <label style="width:5%"></label>
-              根据《中华人民共和国行政处罚法》第六十三条、六十四条规定，我
+              根据《中华人民共和国行政处罚法》第四十二条之规定，我
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx8', '单位/个人', 'SelectItem')"
-              >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
+                @click="commandFill('cellIdx8', '局', 'TextItem')"
+              >{{ letData.cellIdx8 ? letData.cellIdx8 : ''}}</span>
               决定不予受理你
               <span
                 class="no-underline"
@@ -124,8 +124,8 @@
             <div class="docTextLine">
               <div style="flex: 2; display: flex">
                 <label>我</label>
-                <span @click="commandFill('cellIdx12', '', 'TextItem')">{{
-                  letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）"
+                <span @click="commandFill('cellIdx12', '局', 'TextItem')">{{
+                  letData.cellIdx12 ? letData.cellIdx12 : ""
                 }}</span>
                 <label>地址：</label>
                 <div
@@ -148,8 +148,8 @@
             <div class="docTextLine">
               <div style="flex: 2; display: flex">
                 <label>我</label>
-                <span @click="commandFill('cellIdx15', '', 'TextItem')">{{
-                  letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）"
+                <span @click="commandFill('cellIdx15', '局', 'TextItem')">{{
+                  letData.cellIdx15 ? letData.cellIdx15 : ""
                 }}</span>
                 <label>联系人：</label>
                 <div
@@ -299,16 +299,6 @@ export default {
             name: '个人',
           },
         ],
-        cellIdx8: [
-          {
-            value: '单位',
-            name: '单位',
-          },
-          {
-            value: '个人',
-            name: '个人',
-          },
-        ]
       },
       // editData: {}, // 回显数据
       associationPaper: ['1'],
@@ -385,16 +375,16 @@ export default {
           cellIdx5: null, // 单位或个人
           cellIdx6: cellIdx6String, // 违法行为
           cellIdx7: null, // 编号
-          cellIdx8: null, // 单位
+          cellIdx8: null, // 局
           cellIdx9: null, // 单位或个人
           cellIdx10: null, // 签收人（签名）
           cellIdx11: null, // 日期
-          cellIdx12: null, // 单位
+          cellIdx12: null, // 局
           cellIdx13: cellIdx13String, // 地址
           cellIdx13TypeTextItem: cellIdx13String, // 地址
           cellIdx14: cellIdx14String, // 邮政编码
           cellIdx14TypeTextItem: cellIdx14String, // 邮政编码
-          cellIdx15: null, // 单位
+          cellIdx15: null, // 局
           cellIdx16: cellIdx16String, // 联系人
           cellIdx16TypeTextItem: cellIdx16String, // 联系人
           cellIdx17: cellIdx17String, // 联系电话

@@ -14,7 +14,7 @@
           <div>
             <div class="stdRowH"></div>
             <div class="textAlignCenter formHeader0">
-              国 家 煤 矿 安 全 监 察
+              国 家 矿 山 安 全 监 察
               <br />
             </div>
             <div class="textAlignCenter formHeader3">
@@ -25,7 +25,7 @@
                 <span @click="commandFill('cellIdx0', '', 'TextItem')">{{
                   letData.cellIdx0 ? letData.cellIdx0 : "（编辑）"
                 }}</span>
-                <label>煤安监</label>
+                <label>矿安监</label>
                 <span @click="commandFill('cellIdx1', '', 'TextItem')">{{
                   letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
                 }}</span>
@@ -61,9 +61,9 @@
               我
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx5', '单位', 'TextItem')"
+                @click="commandFill('cellIdx5', '局', 'TextItem')"
                 >{{
-                  letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
+                  letData.cellIdx5 ? letData.cellIdx5 : ""
                 }}</span
               >
               于
@@ -94,7 +94,7 @@
               <span @click="commandFill('cellIdx12', '违法行为', 'DangerTableItem')">{{
                 letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）"
               }}</span>
-              等威胁职工生命安全的紧急情况，根据《中华人民共和国安全生产法》第六十五条第一款第三项规定，现命令立即从
+              等威胁职工生命安全的紧急情况，现命令立即从
               <span @click="commandFill('cellIdx13', '', 'TextItem')">{{
                 letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）"
               }}</span>
@@ -170,12 +170,19 @@
               >
                 {{ letData.cellIdx24 ? letData.cellIdx24 : "（编辑）" }}
               </div>
+              <label style="width: 1%"></label>
+              <div
+                class="line-div"
+                @click="commandFill('cellIdx25', '执法人员（签名)', 'TextItem')"
+              >
+                {{ letData.cellIdx25 ? letData.cellIdx25 : "（编辑）" }}
+              </div>
               <label>日期：</label>
               <div
                 class="line-div"
-                @click="commandFill('cellIdx25', '日期:', 'DateItem')"
+                @click="commandFill('cellIdx26', '日期:', 'DateItem')"
               >
-                {{ letData.cellIdx25 ? letData.cellIdx25 : "（编辑）" }}
+                {{ letData.cellIdx26 ? letData.cellIdx26 : "（编辑）" }}
               </div>
             </div>
             <table height="30"></table>
@@ -187,52 +194,66 @@
                   id="cell_idx_26"
                   align="right"
                   style="width: 95%"
-                  @click="commandFill('cellIdx26', '', 'TextItem')"
+                  @click="commandFill('cellIdx27', '', 'TextItem')"
                 >
-                  {{ letData.cellIdx26 ? letData.cellIdx26 : "（点击编辑）" }}
+                  {{ letData.cellIdx27 ? letData.cellIdx27 : "（点击编辑）" }}
                 </td>
               </tr>
-              <tr>
+              <!-- <tr>
                 <td class="cellInput" style="width: 55%"></td>
-                <td
-                  class="cellInput"
-                  id="cell_idx_27"
-                  align="center"
-                  style="width: 10%"
-                  data-title="年"
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx27', '年', 'TextItem')"
-                >
-                  {{ letData.cellIdx27 }}
-                </td>
-                <td class="textAlignLeft">年</td>
                 <td
                   class="cellInput"
                   id="cell_idx_28"
                   align="center"
                   style="width: 10%"
-                  data-title="月"
+                  data-title="年"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx28', '月', 'TextItem')"
+                  @click="commandFill('cellIdx28', '年', 'TextItem')"
                 >
                   {{ letData.cellIdx28 }}
                 </td>
-                <td class="textAlignLeft">月</td>
+                <td class="textAlignLeft">年</td>
                 <td
                   class="cellInput"
                   id="cell_idx_29"
                   align="center"
                   style="width: 10%"
-                  data-title="日"
+                  data-title="月"
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx29', '日', 'TextItem')"
+                  @click="commandFill('cellIdx29', '月', 'TextItem')"
                 >
                   {{ letData.cellIdx29 }}
                 </td>
+                <td class="textAlignLeft">月</td>
+                <td
+                  class="cellInput"
+                  id="cell_idx_30"
+                  align="center"
+                  style="width: 10%"
+                  data-title="日"
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx30', '日', 'TextItem')"
+                >
+                  {{ letData.cellIdx30 }}
+                </td>
                 <td class="textAlignLeft">日</td>
+              </tr> -->
+                <tr>
+                <td
+                  class="cellInput"
+                  id="cell_idx_28"
+                  align="right"
+                  style="width: 95%"
+                  data-title
+                  data-type="date"
+                  data-src
+                  @click="commandFill('cellIdx28', '日期', 'DateItem')"
+                >
+                  {{ letData.cellIdx28 ? letData.cellIdx28 : "（点击编辑）" }}
+                </td>
               </tr>
             </table>
             <table class="cellLine">
@@ -372,7 +393,7 @@ export default {
           cellIdx3TypeTextItem: num4, // 文书号
           cellIdx4: corp.corpName ? corp.corpName : null, // corpname
           cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
-          cellIdx5: null, // 单位
+          cellIdx5: null, // 局
           cellIdx6: cellIdx6Year, // 年
           cellIdx6TypeTextItem: cellIdx6Year, // 年
           cellIdx7: cellIdx7Month, // 月
@@ -404,9 +425,13 @@ export default {
           cellIdx22: null, // 签名
           cellIdx23: null, // 日期
           cellIdx24: null, // 执法人员（签名)
-          cellIdx25: null, // 日期
-          cellIdx26: null, //
-          cellIdx27: null, // 日期
+          cellIdx25: null, // 执法人员（签名)
+          cellIdx26: null, //日期
+          cellIdx27: null, //
+          cellIdx28: null, // 日期
+          // cellIdx28: null, // 日年
+          // cellIdx29: null, // 月
+          // cellIdx30: null, // 日  暂不用
           dangerItemObject: let1DataPapaerContent.dangerItemObject,
         };
     },

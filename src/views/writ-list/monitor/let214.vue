@@ -13,7 +13,7 @@
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader0" style="font-size:30px">国 家 煤 矿 安 全 监 察</div>
+            <div class="textAlignCenter formHeader0" style="font-size:30px">国 家 矿 山 安 全 监 察</div>
             <div class="textAlignCenter formHeader3" style="font-size:30px">执 法 案 卷 首 页</div>
             <div class="halfRowH"></div>
             <table class="docBody" style="border:solid 1.5px #000;">

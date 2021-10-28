@@ -14,7 +14,7 @@
           <div>
             <div class="stdRowH"></div>
             <div class="textAlignCenter formHeader0">
-              国 家 煤 矿 安 全 监 察
+              国 家 矿 山 安 全 监 察
               <br />
             </div>
             <div class="textAlignCenter formHeader1">送达收执</div> 
@@ -23,7 +23,7 @@
               <span
                 @click="commandFill('cellIdx0', '文书号', 'TextItem')"
               >{{ letData.cellIdx0 ? letData.cellIdx0 : '（编辑）' }}</span>
-              <label>煤安监</label>
+              <label>矿安监</label>
               <span
                 @click="commandFill('cellIdx1', '文书号', 'TextItem')"
               >{{ letData.cellIdx1 ? letData.cellIdx1 : '（编辑）' }}</span>

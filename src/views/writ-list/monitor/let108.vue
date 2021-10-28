@@ -14,7 +14,7 @@
           <div>
             <div class="stdRowH"></div>
             <div class="textAlignCenter formHeader0">
-              国 家 煤 矿 安 全 监 察
+              国 家 矿 山 安 全 监 察
               <br />
             </div>
             <div class="textAlignCenter formHeader3">
@@ -25,7 +25,7 @@
                 <span @click="commandFill('cellIdx0', '', 'TextItem')">{{
                   letData.cellIdx0 ? letData.cellIdx0 : "（编辑）"
                 }}</span>
-                <label>煤安监</label>
+                <label>矿安监</label>
                 <span @click="commandFill('cellIdx1', '', 'TextItem')">{{
                   letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
                 }}</span>
@@ -64,8 +64,7 @@
                 @click="commandFill('cellIdx5', '单位', 'DangerTableItem')"
                 >{{
                   letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
-                }}</span
-              >
+                }}</span>
               <span
                 @click="commandFill('cellIdx6', '违法行为', 'DangerTableItem')"
                 >{{
@@ -73,11 +72,11 @@
                 }}</span
               >
               的行为涉嫌违法违规。根据《中华人民共和国行政处罚法》第三十七条第二款规定，我
-              <span @click="commandFill('cellIdx7', '', 'TextItem')">{{
-                letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
+              <span @click="commandFill('cellIdx7', '局', 'TextItem')">{{
+                letData.cellIdx7 ? letData.cellIdx7 : ""
               }}</span>
               决定对你
-              <span @click="commandFill('cellIdx8', '', 'TextItem')">{{
+              <span @click="commandFill('cellIdx8', '单位', 'TextItem')">{{
                 letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
               }}</span>
               的有关证据（详见《先行登记保存证据清单》）采取先行登记保存措施。先行登记保存的证据，存放在
@@ -93,8 +92,8 @@
             <div class="docTextarea">
               <label style="width: 5%"></label>
               我
-              <span @click="commandFill('cellIdx11', '', 'TextItem')">{{
-                letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）"
+              <span @click="commandFill('cellIdx11', '局', 'TextItem')">{{
+                letData.cellIdx11 ? letData.cellIdx11 : ""
               }}</span>
               将在七日内对先行登记保存的证据依法作出处理决定。逾期未作出处理决定的，先行登记保存措施自动解除。
             </div>
@@ -142,8 +141,8 @@
               <span style="width: 7%"></span>
               <div style="flex: 2; display: flex">
                 <label>我</label>
-                <span @click="commandFill('cellIdx15', '', 'TextItem')">{{
-                  letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）"
+                <span @click="commandFill('cellIdx15', '局', 'TextItem')">{{
+                  letData.cellIdx15 ? letData.cellIdx15 : ""
                 }}</span>
                 <label>地址：</label>
                 <div
@@ -167,8 +166,8 @@
               <span style="width: 7%"></span>
               <div style="flex: 2; display: flex">
                 <label>我</label>
-                <span @click="commandFill('cellIdx18', '', 'TextItem')">{{
-                  letData.cellIdx18 ? letData.cellIdx18 : "（点击编辑）"
+                <span @click="commandFill('cellIdx18', '局', 'TextItem')">{{
+                  letData.cellIdx18 ? letData.cellIdx18 : ""
                 }}</span>
                 <label>联系人：</label>
                 <div
@@ -352,20 +351,20 @@ export default {
           cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
           cellIdx5: null, // 单位/个人？
           cellIdx6: cellIdx6String, // 隐患描述
-          cellIdx7: null, // 单位
+          cellIdx7: null, // 局
           cellIdx8: null, // 单位/个人？
           cellIdx9: null, // 存放在...
           cellIdx10: null, // 由...负责保管
-          cellIdx11: null, // 单位
+          cellIdx11: null, // 局
           cellIdx12: null, // 附件：抽样取证清单
           cellIdx13: null, // 受送达人（签名）
           cellIdx14: null, // 日期
-          cellIdx15: null, // 单位
+          cellIdx15: null, // 局
           cellIdx16: cellIdx16String, // 地址
           cellIdx16ypeTextItem: cellIdx16String, // 地址
           cellIdx17: cellIdx17String, // 邮政编码
           cellIdx17ypeTextItem: cellIdx17String, // 邮政编码
-          cellIdx18: null, // 单位
+          cellIdx18: null, // 局
           cellIdx19: cellIdx19String, // 联系人
           cellIdx19ypeTextItem: cellIdx19String, // 联系人
           cellIdx20: cellIdx20String, // 联系电话

@@ -12,8 +12,9 @@
       <div slot="left">
         <div class="page page-sizeA4">
           <div>
+            <div class="stdRowH"></div>
             <div class="textAlignCenter formHeader0">
-              国 家 煤 矿 安 全 监 察
+              国 家 矿 山 安 全 监 察
               <br />
             </div>
             <div class="textAlignCenter formHeader3">现 场 处 理 决 定 书</div>
@@ -22,7 +23,7 @@
                 <span @click="commandFill('cellIdx0', '', 'TextItem')">{{
                   letData.cellIdx0 ? letData.cellIdx0 : "（编辑）"
                 }}</span>
-                <label>煤安监</label>
+                <label>矿安监</label>
                 <span @click="commandFill('cellIdx1', '', 'TextItem')">{{
                   letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
                 }}</span>
@@ -58,13 +59,13 @@
               我
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx5', '', 'TextItem')"
+                @click="commandFill('cellIdx5', '局', 'TextItem')"
                 >{{
-                  letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
+                  letData.cellIdx5 ? letData.cellIdx5 : ""
                 }}</span
               >
               于
-              <span @click="commandFill('cellIdx6', '', 'TextItem')">{{
+              <span @click="commandFill('cellIdx6', '', 'DateItem')">{{
                 letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
               }}</span>
               现场检查时，发现你单位有下列违法违规行为，现作出以下现场处理决定：
@@ -292,7 +293,7 @@ export default {
           cellIdx3TypeTextItem: paperNumber.num4, // 文书号
           cellIdx4: corp.corpName ? corp.corpName : null, // 被检查单位
           cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // 被检查单位
-          cellIdx5: null, //
+          cellIdx5: null, //局
           cellIdx6: null, //
           cellIdx7: dangerObject.contentOnsiteDesc, // 现场处理决定
           cellIdx8: orgSysOfficeInfo.organName, //

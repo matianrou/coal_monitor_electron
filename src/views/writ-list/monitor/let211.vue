@@ -14,7 +14,7 @@
           <div>
             <div class="stdRowH"></div>
             <div class="textAlignCenter formHeader0">
-              国 家 煤 矿 安 全 监 察
+              国 家 矿 山 安 全 监 察
               <br />
             </div>
             <div class="textAlignCenter formHeader1">听 证 笔 录</div>
@@ -85,9 +85,9 @@
               </div>
             </div>
             <div class="docTextarea">
-              <span class="no-line">地&nbsp;&nbsp;&nbsp; 点：</span>
+              <span class="no-line">听证地点：</span>
               <span
-                @click="commandFill('cellIdx7', '地点', 'TextItem')"
+                @click="commandFill('cellIdx7', '听证地点', 'TextItem')"
               >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
               <div class="line"></div>
             </div>

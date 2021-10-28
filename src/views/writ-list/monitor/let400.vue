@@ -14,7 +14,7 @@
           <div>
             <div class="stdRowH"></div>
             <div class="textAlignCenter formHeader0">
-              国 家 煤 矿 安 全 监 察
+              国 家 矿 山 安 全 监 察
               <br />
             </div>
             <div class="textAlignCenter formHeader3">移 送 案 件 呈 报 书</div>
@@ -50,7 +50,6 @@
               <div class="line"></div>
             </div>
             <div class="docTextarea">
-              <label style="width: 5%"></label>
               根据《中华人民共和国安全生产法》第六十六条规定，建议将该案件移送
               <span
                 @click="commandFill('cellIdx4', '人民法院', 'TextItem')"

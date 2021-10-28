@@ -14,7 +14,7 @@
           <div>
             <div class="stdRowH"></div>
             <div class="textAlignCenter formHeader0">
-              国 家 煤 矿 安 全 监 察
+              国 家 矿 山 安 全 监 察
               <br />
             </div>
             <div class="textAlignCenter formHeader3">案 件 处 理 呈 报 书</div>
@@ -74,10 +74,10 @@
               <div class="line"></div>
             </div>
             <div class="docTextarea">
-              <span class="no-line">违法事实及依据：</span>
+              <span class="no-line">违法事实及处理依据：</span>
               <span
                 @click="
-                  commandFill('cellIdx6', '违法事实及依据', 'DangerTableItem')
+                  commandFill('cellIdx6', '违法事实及处理依据', 'DangerTableItem')
                 "
                 >{{
                   letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"

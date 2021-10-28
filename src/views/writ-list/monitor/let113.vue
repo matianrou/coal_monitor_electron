@@ -14,7 +14,7 @@
           <div>
             <div class="stdRowH"></div>
             <div class="textAlignCenter formHeader0">
-              国 家 煤 矿 安 全 监 察
+              国 家 矿 山 安 全 监 察
             </div>
             <div class="textAlignLeft formHeader3">
               <table class="docBody">
@@ -47,7 +47,7 @@
                 <span @click="commandFill('cellIdx1', '', 'TextItem')">{{
                   letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
                 }}</span>
-                <label>煤安监</label>
+                <label>矿安监</label>
                 <span @click="commandFill('cellIdx2', '', 'TextItem')">{{
                   letData.cellIdx2 ? letData.cellIdx2 : "（编辑）"
                 }}</span>
@@ -83,7 +83,7 @@
               <span @click="commandFill('cellIdx6', '违法行为', 'TextItem')">{{
                 letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
               }}</span>
-              已依法履行行政决定，采取相应措施消除了安全隐患，发生生产安全事故的现实危险已不存在，根据《中华人民共和国安全生产法》第六十七
+              已依法履行行政决定，采取相应措施消除了安全隐患，发生生产安全事故的现实危险已不存在，根据《中华人民共和国安全生产法》第七十条第二款规定，请贵单位解除对其采取的
               <span
                 @click="
                   commandFill(
@@ -100,7 +100,7 @@
               <span @click="commandFill('cellIdx8', '', 'TextItem')">{{
                 letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
               }}</span>
-              的决定，但该单位拒不执行该决定，未及时消除安全隐患，现有发生生产安全事故的危险。根据《中华人民共和国安全生产法》第六十七条第一款规定，请贵单位对其采取条第二款规定，请贵单位解除对其采取的
+              已依法履行行政决定，采取相应措施消除了安全隐患，发生生产安全事故的现实危险已不存在，根据《中华人民共和国安全生产法》第六十七条第二款规定，请贵单位解除对其采取的
               <span @click="commandFill('cellIdx9', '', 'TextItem')">{{
                 letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
               }}</span>
@@ -132,8 +132,8 @@
               <label style="width: 5%"></label>
               <div style="flex: 2; display: flex">
                 <label>我</label>
-                <span @click="commandFill('cellIdx10', '', 'TextItem')">{{
-                  letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
+                <span @click="commandFill('cellIdx10', '局', 'TextItem')">{{
+                  letData.cellIdx10 ? letData.cellIdx10 : ""
                 }}</span>
                 <label>地址：</label>
                 <div
@@ -157,8 +157,8 @@
               <label style="width: 5%"></label>
               <div style="flex: 2; display: flex">
                 <label>我</label>
-                <span @click="commandFill('cellIdx13', '', 'TextItem')">{{
-                  letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）"
+                <span @click="commandFill('cellIdx13', '局', 'TextItem')">{{
+                  letData.cellIdx13 ? letData.cellIdx13 : ""
                 }}</span>
                 <label>联系人：</label>
                 <div
@@ -354,12 +354,12 @@ export default {
         cellIdx7: null, // 解除停供电(解除停供民用爆炸物品)
         cellIdx8: null, // 受送达人（签名）
         cellIdx9: null, // 日期
-        cellIdx10: null, // 单位
+        cellIdx10: null, // 局
         cellIdx11: cellIdx11String, // 地址
         cellIdx11TypeTextItem: cellIdx11String, // 地址
         cellIdx12: cellIdx12String, // 邮政编码
         cellIdx12TypeTextItem: cellIdx12String, // 邮政编码
-        cellIdx13: null, // 单位
+        cellIdx13: null, // 局
         cellIdx14: cellIdx14String, // 联系人
         cellIdx14TypeTextItem: cellIdx14String, // 联系人
         cellIdx15: cellIdx15String, // 联系电话

@@ -14,7 +14,7 @@
           <div>
             <div class="stdRowH"></div>
             <div class="textAlignCenter formHeader0">
-              国 家 煤 矿 安 全 监 察
+              国 家 矿 山 安 全 监 察
               <br />
             </div>
             <div class="textAlignCenter formHeader3">
@@ -40,11 +40,14 @@
                 <span @click="commandFill('cellIdx1', '', 'TextItem')">{{
                   letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
                 }}</span>
-                <label>（</label>
+                <label>矿安监</label>
                 <span @click="commandFill('cellIdx2', '', 'TextItem')">{{
                   letData.cellIdx2 ? letData.cellIdx2 : "（编辑）"
                 }}</span>
-                <label>）煤安撤〔</label>
+                <span @click="commandFill('cellIdx24', '', 'TextItem')">{{
+                  letData.cellIdx24 ? letData.cellIdx24 : "（编辑）"
+                }}</span>
+                <label>〔</label>
                 <span @click="commandFill('cellIdx3', '', 'TextItem')">{{
                   letData.cellIdx3 ? letData.cellIdx3 : "（编辑）"
                 }}</span>
@@ -84,31 +87,41 @@
               <span @click="commandFill('cellIdx7', '', 'DangerTableItem')">{{
                 letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
               }}</span>
-              的规定，根据《中华人民共和国安全生产法》第六十五条第一款第四项规定，我
-              <span @click="commandFill('cellIdx8', '', 'TextItem')">{{
-                letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
+              的规定，根据《中华人民共和国安全生产法》第六十二条第一款第四项规定，我
+              <span @click="commandFill('cellIdx8', '局', 'TextItem')">{{
+                letData.cellIdx8 ? letData.cellIdx8 : ""
               }}</span>
               决定对你单位涉案
-              <span @click="commandFill('cellIdx9', '', 'TextItem')">{{
-                letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
+              <span 
+                class="no-underline"
+              @click="commandFill('cellIdx9', '', 'TextItem')">{{
+                letData.cellIdx9 ? letData.cellIdx9 : ""
               }}</span>
               予以
               <span
-                @click="commandFill('cellIdx10', '', 'SamplingForensicsTable')"
+                class="no-underline"
+                @click="commandFill('cellIdx24', '', 'TextItem')"
                 >{{
-                  letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
+                  letData.cellIdx24 ? letData.cellIdx24 : "（点击编辑）"
                 }}</span
               >
-              （详见《物品清单》）。
+              <span
+                class="no-underline"
+                @click="commandFill('cellIdx10', '', 'SamplingForensicsTable')"
+                >{{
+                  letData.cellIdx10 
+                }}（详见《物品清单》）。</span
+              >
+              
             </div>
             <div class="docTextarea">
               <label style="width: 5%"></label>
               我
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx11', '', 'TextItem')"
+                @click="commandFill('cellIdx11', '局', 'TextItem')"
                 >{{
-                  letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）"
+                  letData.cellIdx11 ? letData.cellIdx11 : ""
                 }}</span
               >
               将于三十日内（不包括检测、检验或者技术鉴定期限）对上述被
@@ -171,8 +184,22 @@
                   {{ letData.cellIdx18 ? letData.cellIdx18 : "（点击编辑）" }}
                 </td>
               </tr>
+              <tr>
+                <td
+                  class="cellInput"
+                  id="cell_idx_19"
+                  align="right"
+                  style="width: 95%"
+                  data-title
+                  data-type="date"
+                  data-src
+                  @click="commandFill('cellIdx19', '日期', 'DateItem')"
+                >
+                  {{ letData.cellIdx19 ? letData.cellIdx19 : "（点击编辑）" }}
+                </td>
+              </tr>
             </table>
-            <table class="docBody">
+            <!-- <table class="docBody">
               <td class="cellInput" style="width: 55%"></td>
               <td
                 class="cellInput"
@@ -213,7 +240,7 @@
                 {{ letData.cellIdx22 }}
               </td>
               <td class="textAlignLeft">日</td>
-            </table>
+            </table> -->
             <table height="60"></table>
             <div class="docTextarea cellLine">
               <label style="width: 5%"></label>
@@ -414,6 +441,8 @@ export default {
         cellIdx1TypeTextItem: num0, // 文书号
         cellIdx2: num1, // 文书号
         cellIdx2TypeTextItem: num1, // 文书号
+        cellIdx24: null, // 查/扣
+        cellIdx24TypeTextItem: null, // 查/扣
         cellIdx3: num3, // 文书号
         cellIdx3TypeTextItem: num3, // 文书号
         cellIdx4: num4, // 文书号
@@ -422,23 +451,24 @@ export default {
         cellIdx5TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
         cellIdx6: cellIdx6String, // 违法行为
         cellIdx7: cellIdx7String, // 涉嫌违法...规定
-        cellIdx8: null,
-        cellIdx9: null, // 单位
+        cellIdx8: null,//局
+        cellIdx9: null, // 对你单位涉案....
+        cellIdx24: null, //查封/扣押
         cellIdx10: null, // 检查物品场所码表
-        cellIdx11: null, // 查封/扣押
-        cellIdx12: null, // 单位
-        cellIdx13: null, // 查封/扣押
-        cellIdx14: null, // 检查物品场所码表
-        cellIdx15: null, // 检查物品场所码表
-        cellIdx16: cellIdx16String, // organName
-        cellIdx16TypeTextItem: cellIdx16String, // organName
-        cellIdx17: cellIdx17String, // courtPrefix人民法院
-        cellIdx17TypeTextItem: cellIdx17String, // courtPrefix人民法院
-        cellIdx18: null, // 附件
-        cellIdx19: null, //
-        cellIdx20: null, // 年
-        cellIdx21: null, //月
-        cellIdx22: null, // 日
+        cellIdx11: null, // 局
+        cellIdx12: null, // 查封/扣押
+        cellIdx13: null, // 
+        cellIdx14: null, // 
+        cellIdx15: cellIdx15String, // organName
+        cellIdx15TypeTextItem: cellIdx15String, // organName
+        cellIdx16: cellIdx16String, // courtPrefix人民法院
+        cellIdx16TypeTextItem: cellIdx16String, // courtPrefix人民法院
+        cellIdx17: null, // 附件
+        cellIdx18: null, //
+        cellIdx19: null, //日期
+        // cellIdx20: null, // 年
+        // cellIdx21: null, //月 
+        // cellIdx22: null, // 日 暂不用
         cellIdx23: null, //
         // dangerItemObject: let101DataPapaerContent.dangerItemObject,
         dangerItemObject: let1DataPapaerContent.dangerItemObject,
@@ -487,10 +517,12 @@ export default {
       this.visibleSelectDialog = false;
       this.letData.cellIdx0 = this.selectedType;
       this.letData.cellIdx0TypeTextItem = this.selectedType;
-      this.letData.cellIdx11 = this.selectedType;
-      this.letData.cellIdx11TypeTextItem = this.selectedType;
+      this.letData.cellIdx12 = this.selectedType;
+      this.letData.cellIdx12TypeTextItem = this.selectedType;
       this.letData.cellIdx13 = this.selectedType;
-      this.letData.cellIdx13TypeTextItem = this.selectedType;
+      this.letData.cellIdx13TypeTextItem = this.selectedType
+      this.letData.cellIdx24 = this.selectedType;
+      this.letData.cellIdx24TypeTextItem = this.selectedType;
       this.letData.selectedType = this.selectedType;
     },
   },

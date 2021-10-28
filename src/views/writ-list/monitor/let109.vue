@@ -14,7 +14,7 @@
           <div>
             <div class="stdRowH"></div>
             <div class="textAlignCenter formHeader0">
-              国 家 煤 矿 安 全 监 察
+              国 家 矿 山 安 全 监 察
               <br />
             </div>
             <div class="textAlignCenter formHeader3">
@@ -25,7 +25,7 @@
                 <span @click="commandFill('cellIdx0', '', 'TextItem')">{{
                   letData.cellIdx0 ? letData.cellIdx0 : "（编辑）"
                 }}</span>
-                <label>煤安监</label>
+                <label>矿安监</label>
                 <span @click="commandFill('cellIdx1', '', 'TextItem')">{{
                   letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
                 }}</span>
@@ -61,9 +61,9 @@
               我
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx5', '单位', 'TextItem')"
+                @click="commandFill('cellIdx5', '局', 'TextItem')"
                 >{{
-                  letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
+                  letData.cellIdx5 ? letData.cellIdx5 : ""
                 }}</span
               >
               于
@@ -86,7 +86,7 @@
               <span @click="commandFill('cellIdx10', '', 'TextItem')">{{
                 letData.cellIdx10 ? letData.cellIdx10 : "（编辑）"
               }}</span>
-              煤安监
+              矿安监
               <span @click="commandFill('cellIdx11', '', 'TextItem')">{{
                 letData.cellIdx11 ? letData.cellIdx11 : "（编辑）"
               }}</span>
@@ -98,7 +98,7 @@
               <span @click="commandFill('cellIdx13', '', 'TextItem')">{{
                 letData.cellIdx13 ? letData.cellIdx13 : "（编辑）"
               }}</span>
-              号）。现根据《中华人民共和国行政处罚法》第三十七条第二款规定，对上述物品作出以下处理决定:
+              号）。现根据《中华人民共和国行政处罚法》第三十七条第二款规定，对上述物品作出以下处理决定：
               <span @click="commandFill('cellIdx14', '处理决定', 'TextItem')">{{
                 letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）"
               }}</span>
@@ -318,7 +318,7 @@ export default {
         cellIdx3TypeTextItem: num4, // 文书号
         cellIdx4: corp.corpName ? corp.corpName : null, // corpname
         cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
-        cellIdx5: null, // 单位
+        cellIdx5: null, // 局
         cellIdx6: cellIdx6String, // 年
         cellIdx6TypeTextItem: cellIdx6String, // 年
         cellIdx7: cellIdx7String, // 月

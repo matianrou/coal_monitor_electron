@@ -14,7 +14,7 @@
           <div>
             <div class="stdRowH"></div>
             <div class="textAlignCenter formHeader0">
-              国 家 煤 矿 安 全 监 察
+              国 家 矿 山 安 全 监 察
             </div>
             <div class="textAlignLeft formHeader3">
               <table class="docBody">
@@ -46,7 +46,7 @@
                 <span @click="commandFill('cellIdx1', '', 'TextItem')">{{
                   letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
                 }}</span>
-                <label>煤安监</label>
+                <label>矿安监</label>
                 <span @click="commandFill('cellIdx2', '', 'TextItem')">{{
                   letData.cellIdx2 ? letData.cellIdx2 : "（编辑）"
                 }}</span>
@@ -80,8 +80,8 @@
             <div class="docTextarea">
               <label style="width: 5%"></label>
               我
-              <span @click="commandFill('cellIdx6', '违法行为', 'TextItem')">{{
-                letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
+              <span class="no-underline"  @click="commandFill('cellIdx6', '局', 'TextItem')">{{
+                letData.cellIdx6 ? letData.cellIdx6 : ""
               }}</span>
               在对
               <span @click="commandFill('cellIdx7', '', 'TextItem')">{{
@@ -92,7 +92,7 @@
                 letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
               }}</span>
               的决定，但该单位拒不执行该决定，未及时消除安全隐患，现有发生生产安全事故的危险。根据《中华人民共和国安全生产法》第六十七条第一款规定，请贵单位对其采取
-              <span @click="commandFill('cellIdx9', '', 'TextItem')">{{
+              <span class="no-underline" @click="commandFill('cellIdx9', '', 'TextItem')">{{
                 letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
               }}</span>
               的措施。
@@ -105,17 +105,17 @@
                 <div
                   class="line-div"
                   @click="
-                    commandFill('cellIdx10', '受送达人（签名）', 'TextItem')
+                    commandFill('cellIdx11', '受送达人（签名）', 'TextItem')
                   "
                 >
-                  {{ letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）" }}
+                  {{ letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）" }}
                 </div>
                 <label>日期：</label>
                 <div
                   class="line-div"
-                  @click="commandFill('cellIdx11', '日期', 'DateItem')"
+                  @click="commandFill('cellIdx12', '日期', 'DateItem')"
                 >
-                  {{ letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）" }}
+                  {{ letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）" }}
                 </div>
               </div>
             </div>
@@ -123,24 +123,24 @@
               <label style="width: 5%"></label>
               <div style="flex: 2; display: flex">
                 <label>我</label>
-                <span @click="commandFill('cellIdx12', '', 'TextItem')">{{
-                  letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）"
+                <span @click="commandFill('cellIdx13', '局', 'TextItem')">{{
+                  letData.cellIdx13 ? letData.cellIdx13 : ""
                 }}</span>
                 <label>地址：</label>
                 <div
                   class="line-div"
-                  @click="commandFill('cellIdx13', '地址', 'TextItem')"
+                  @click="commandFill('cellIdx14', '地址', 'TextItem')"
                 >
-                  {{ letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）" }}
+                  {{ letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）" }}
                 </div>
               </div>
               <div style="flex: 2; display: flex">
                 <label>邮政编码：</label>
                 <div
                   class="line-div"
-                  @click="commandFill('cellIdx14', '邮政编码', 'TextItem')"
+                  @click="commandFill('cellIdx15', '邮政编码', 'TextItem')"
                 >
-                  {{ letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）" }}
+                  {{ letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）" }}
                 </div>
               </div>
             </div>
@@ -148,24 +148,24 @@
               <label style="width: 5%"></label>
               <div style="flex: 2; display: flex">
                 <label>我</label>
-                <span @click="commandFill('cellIdx15', '', 'TextItem')">{{
-                  letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）"
+                <span @click="commandFill('cellIdx16', '局', 'TextItem')">{{
+                  letData.cellIdx16 ? letData.cellIdx16 : ""
                 }}</span>
                 <label>联系人：</label>
                 <div
                   class="line-div"
-                  @click="commandFill('cellIdx16', '联系人', 'TextItem')"
+                  @click="commandFill('cellIdx17', '联系人', 'TextItem')"
                 >
-                  {{ letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）" }}
+                  {{ letData.cellIdx17 ? letData.cellIdx17 : "（点击编辑）" }}
                 </div>
               </div>
               <div style="flex: 2; display: flex">
                 <label>联系电话：</label>
                 <div
                   class="line-div"
-                  @click="commandFill('cellIdx17', '联系电话', 'TextItem')"
+                  @click="commandFill('cellIdx18', '联系电话', 'TextItem')"
                 >
-                  {{ letData.cellIdx17 ? letData.cellIdx17 : "（点击编辑）" }}
+                  {{ letData.cellIdx18 ? letData.cellIdx18 : "（点击编辑）" }}
                 </div>
               </div>
             </div>
@@ -174,26 +174,26 @@
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_18"
+                  id="cell_idx_19"
                   align="right"
                   style="width: 95%"
-                  @click="commandFill('cellIdx18', '', 'TextItem')"
+                  @click="commandFill('cellIdx19', '', 'TextItem')"
                 >
-                  {{ letData.cellIdx18 ? letData.cellIdx18 : "（点击编辑）" }}
+                  {{ letData.cellIdx19 ? letData.cellIdx19 : "（点击编辑）" }}
                 </td>
               </tr>
               <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_19"
+                  id="cell_idx_20"
                   align="right"
                   style="width: 95%"
                   data-title
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx19', '日期', 'DateItem')"
+                  @click="commandFill('cellIdx20', '日期', 'DateItem')"
                 >
-                  {{ letData.cellIdx19 ? letData.cellIdx19 : "（点击编辑）" }}
+                  {{ letData.cellIdx20 ? letData.cellIdx20 : "（点击编辑）" }}
                 </td>
               </tr>
             </table>
@@ -203,9 +203,9 @@
               &nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式三份，一份交
               <span
                 style="border-bottom: none"
-                @click="commandFill('cellIdx20', '', 'TextItem')"
+                @click="commandFill('cellIdx21', '', 'TextItem')"
                 >{{
-                  letData.cellIdx20 ? letData.cellIdx20 : "（点击编辑）"
+                  letData.cellIdx21 ? letData.cellIdx21 : "（点击编辑）"
                 }}</span
               >
               ，一份交煤矿，一份存档。
@@ -345,7 +345,7 @@ export default {
         cellIdx4TypeTextItem: num4, // 文书号
         cellIdx5: null, // 单位
         cellIdx5TypeTextItem: null, // 单位
-        cellIdx6: null, // 单位
+        cellIdx6: null, // 局
         cellIdx7: corp.corpName ? corp.corpName : null, // corpname
         cellIdx7TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
         cellIdx8: null, // 依法作出X的决定
@@ -353,12 +353,12 @@ export default {
         cellIdx10: null, // 附件？页面已注释
         cellIdx11: null, // 受送达人（签名）
         cellIdx12: null, // 日期
-        cellIdx13: null, // 单位
+        cellIdx13: null, // 局
         cellIdx14: cellIdx14String, // 地址
         cellIdx14TypeTextItem: cellIdx14String, // 地址
         cellIdx15: cellIdx15String, // 邮政编码
         cellIdx15TypeTextItem: cellIdx15String, // 邮政编码
-        cellIdx16: null, // 单位
+        cellIdx16: null, // 局
         cellIdx17: cellIdx17String, // 联系人
         cellIdx17TypeTextItem: cellIdx17String, // 联系人
         cellIdx18: cellIdx18String, // 联系电话

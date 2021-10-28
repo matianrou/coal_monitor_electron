@@ -14,7 +14,7 @@
           <div>
             <div class="stdRowH"></div>
             <div class="textAlignCenter formHeader0">
-              国 家 煤 矿 安 全 监 察
+              国 家 矿 山 安 全 监 察
               <br />
             </div>
             <div class="textAlignCenter formHeader1">检 查 方 案</div>
@@ -27,10 +27,10 @@
             </div>
             <div class="docTextarea">
               <span class="no-line"
-                >&nbsp;&nbsp;&nbsp;&nbsp;二、监管类型或方式：</span
+                >&nbsp;&nbsp;&nbsp;&nbsp;二、监察类型或方式：</span
               >
               <span
-                @click="commandFill('cellIdx1', '监管类型或方式', 'CheckItem')"
+                @click="commandFill('cellIdx1', '监察类型或方式', 'CheckItem')"
                 >{{
                   letData.cellIdx1 ? letData.cellIdx1 : "（点击编辑）"
                 }}</span
@@ -39,7 +39,7 @@
             </div>
             <div class="docTextLine">
               <label style="width: 2em"></label>
-              <label>三、计划检查时间：</label>
+              <label>三、检查时间：</label>
               <div
                 class="line-div"
                 @click="commandFill('cellIdx2', '检查时间', 'DaterangeItem')"
@@ -49,10 +49,10 @@
             </div>
             <div class="docTextarea">
               <span class="no-line"
-                >&nbsp;&nbsp;&nbsp;&nbsp;四、煤矿企业概况：</span
+                >&nbsp;&nbsp;&nbsp;&nbsp;四、矿山概况：</span
               >
               <span
-                @click="commandFill('cellIdx3', '煤矿概况', 'TextareaItem')"
+                @click="commandFill('cellIdx3', '矿山概况', 'TextareaItem')"
                 >{{
                   letData.cellIdx3 ? letData.cellIdx3 : "（点击编辑）"
                 }}</span
@@ -85,7 +85,7 @@
                   )
                 "
               >
-                六、检查的主要内容和分工见明细表（详见《检查分工明细表》）
+                六、检查的主要内容和分工见明细表（附件：《XX矿山安全监察局检查分工明细表》）
               </div>
               <div></div>
             </div>
@@ -111,7 +111,7 @@
                   )
                 "
               >
-                检查分工明细表
+                《XX矿山安全监察局检查分工明细表》
               </div>
             </div>
             <div class="docTextLine">
@@ -164,6 +164,7 @@
         <!-- 但页面不展示 -->
         <div style="height: 0px; overflow: hidden">
           <div ref="checkTable" class="page page-sizeA4">
+            <div style="padding:10px 0;text-align:center">XX矿山安全监察局检查分工明细表</div>
             <div style="width: 19.5cm">
               <el-table
                 :data="letData.checkTable && letData.checkTable.tableData"
@@ -190,6 +191,27 @@
                   header-align="center"
                   align="left"
                   label="检查主要资料及方法"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="positions"
+                  label="检查地点"
+                  header-align="center"
+                  align="left"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="labor"
+                  label="检查分工"
+                  header-align="center"
+                  align="left"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="condition"
+                  label="调整情况"
+                  header-align="center"
+                  align="left"
                 >
                 </el-table-column>
               </el-table>
