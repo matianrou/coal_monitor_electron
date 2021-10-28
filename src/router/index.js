@@ -46,6 +46,12 @@ export default new Router({
           name: 'WritManagement',
           component: () => import('@/views/writ-management/writ-management')
         },
+        // 意见建议书
+        {
+          path: '/main/opinionSuggestion',
+          name: 'opinionSuggestion',
+          component: () => import('@/views/opinion-suggestion/opinion-suggestion')
+        },
       ]
     }
   ]

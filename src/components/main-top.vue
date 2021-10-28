@@ -26,6 +26,12 @@
           @click="changeTab('WritManagement')">
           <span>文书管理</span>
         </div>
+        <div
+          class="navTd"
+          :style="activeTab === 'opinionSuggestion' ? 'background: #224f7d;' : ''"
+          @click="changeTab('opinionSuggestion')">
+          <span>意见建议书</span>
+        </div>
       </div>
       <div class="main-top-operation">
         <!-- 操作 -->

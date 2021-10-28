@@ -34,8 +34,8 @@
           </td>
         </tr>
       </table>
-      <h3 class="uk-card-title" style="padding:10px;">执法对象</h3>
-      <table style="border-collapse:collapse;margin:0 auto;margin:0px 10px;width: 90%;" id="rightSideCorp">
+      <h3 v-if="corpData" class="uk-card-title" style="padding:10px;">执法对象</h3>
+      <table v-if="corpData" style="border-collapse:collapse;margin:0 auto;margin:0px 10px;width: 90%;" id="rightSideCorp">
         <tr style="height:32px;">
           <td style="border-bottom: 1px solid #666;" colspan="2">{{ corpData.corpName }}</td>
         </tr>
