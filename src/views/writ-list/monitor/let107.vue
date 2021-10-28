@@ -14,7 +14,7 @@
           <div>
             <div class="stdRowH"></div>
             <div class="textAlignCenter formHeader0">
-              国 家 煤 矿 安 全 监 察
+              国 家 矿 山 安 全 监 察
               <br />
             </div>
             <div class="textAlignCenter formHeader3">抽 样 取 证 通 知 书</div>
@@ -23,7 +23,7 @@
                 <span @click="commandFill('cellIdx0', '', 'TextItem')">{{
                   letData.cellIdx0 ? letData.cellIdx0 : "（编辑）"
                 }}</span>
-                <label>煤安监</label>
+                <label>矿安监</label>
                 <span @click="commandFill('cellIdx1', '', 'TextItem')">{{
                   letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
                 }}</span>
@@ -64,8 +64,8 @@
                 }}</span
               >
               涉嫌违法违规。根据《中华人民共和国行政处罚法》第三十七条第二款规定，我
-              <span @click="commandFill('cellIdx6', '单位', 'TextItem')">{{
-                letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
+              <span @click="commandFill('cellIdx6', '局', 'TextItem')">{{
+                letData.cellIdx6 ? letData.cellIdx6 : ""
               }}</span>
               决定对你单位的有关证据（详见《抽样取证清单》）采取抽样取证。
             </div>
@@ -192,8 +192,8 @@
               <label style="width: 5%"></label>
               <div style="flex: 2; display: flex">
                 <label>我</label>
-                <span @click="commandFill('cellIdx16', '', 'TextItem')">{{
-                  letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）"
+                <span @click="commandFill('cellIdx16', '局', 'TextItem')">{{
+                  letData.cellIdx16 ? letData.cellIdx16 : ""
                 }}</span>
                 <label>地址：</label>
                 <div
@@ -217,8 +217,8 @@
               <label style="width: 5%"></label>
               <div style="flex: 2; display: flex">
                 <label>我</label>
-                <span @click="commandFill('cellIdx19', '', 'TextItem')">{{
-                  letData.cellIdx19 ? letData.cellIdx19 : "（点击编辑）"
+                <span @click="commandFill('cellIdx19', '局', 'TextItem')">{{
+                  letData.cellIdx19 ? letData.cellIdx19 : ""
                 }}</span>
                 <label>联系人：</label>
                 <div
@@ -410,7 +410,7 @@ export default {
           cellIdx4: corp.corpName ? corp.corpName : null, // corpname
           cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
           cellIdx5: cellIdx5String, // 隐患描述
-          cellIdx6: null, // 单位
+          cellIdx6: null, // 局
           cellIdx7: null, // 抽样取证清单
           cellIdx8: null, // 抽样承办人：（签名）
           cellIdx9: cellIdx9Year, // 年
@@ -424,12 +424,12 @@ export default {
           cellIdx13: null, // 抽样地点
           cellIdx14: null, // 受送达人（签名）
           cellIdx15: null, // 日期
-          cellIdx16: null, // 单位
+          cellIdx16: null, // 局
           cellIdx17: cellIdx17String, // 地址
           cellIdx17TypeTextItem: cellIdx17String, // 地址
           cellIdx18: cellIdx18String, // 邮政编码
           cellIdx18TypeTextItem: cellIdx18String, // 邮政编码
-          cellIdx19: null, // 单位
+          cellIdx19: null, // 局
           cellIdx20: cellIdx20String, // 联系人
           cellIdx20TypeTextItem: cellIdx20String, // 联系人
           cellIdx21: cellIdx21String, // 联系电话

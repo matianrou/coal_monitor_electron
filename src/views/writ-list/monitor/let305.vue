@@ -14,7 +14,7 @@
           <div>
             <div class="stdRowH"></div>
             <div class="textAlignCenter formHeader0">
-              国 家 煤 矿 安 全 监 察
+              国 家 矿 山 安 全 监 察
               <br />
             </div>
             <div class="textAlignCenter formHeader3">行 政 复 议 决 定 书</div>
@@ -23,7 +23,7 @@
                 <span @click="commandFill('cellIdx0', '文书号', 'TextItem')">{{
                   letData.cellIdx0 ? letData.cellIdx0 : "（编辑）"
                 }}</span>
-                <label>煤安监</label>
+                <label>矿安监</label>
                 <span @click="commandFill('cellIdx1', '文书号', 'TextItem')">{{
                   letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
                 }}</span>
@@ -38,7 +38,22 @@
                 <label>号</label>
               </div>
             </div>
-
+            <table class="docBody">
+              <tr>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_16"
+                  style="width: 62%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx16', '', 'TextItem')"
+                >
+                  {{ letData.cellIdx16 }}
+                </td>
+                <td class="textAlignLeft">:</td>
+              </tr>
+            </table>
             <div class="docTextarea">
               <label style="width: 5%"></label>
               我局经对你
@@ -62,14 +77,14 @@
                 letData.cellIdx7 ? letData.cellIdx7 : "（XX）"
               }}</span>
               日
-              <span @click="commandFill('cellIdx8', '时', 'TextItem')">{{
+              <!-- <span @click="commandFill('cellIdx8', '时', 'TextItem')">{{
                 letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
               }}</span>
               时
               <span @click="commandFill('cellIdx9', '分', 'TextItem')">{{
                 letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
-              }}</span>
-              分申请的行政复议事项进行审查，现作出以下行政复议决定：
+              }}</span> -->
+              申请的行政复议事项进行审查，现作出以下行政复议决定：
               <span
                 @click="
                   commandFill('cellIdx10', '行政复议决定', 'TextareaItem')
@@ -90,6 +105,33 @@
             </div>
             <table height="20"></table>
             <table class="docBody">
+              <tr>
+                <td
+                  class="cellInput"
+                  id="cell_idx_12"
+                  align="right"
+                  style="width: 95%"
+                  @click="commandFill('cellIdx12', '', 'TextItem')"
+                >
+                  {{ letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）" }}
+                </td>
+              </tr>
+              <tr>
+                <td
+                  class="cellInput"
+                  id="cell_idx_13"
+                  align="right"
+                  style="width: 95%"
+                  data-title
+                  data-type="date"
+                  data-src
+                  @click="commandFill('cellIdx13', '日期', 'DateItem')"
+                >
+                  {{ letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）" }}
+                </td>
+              </tr>
+            </table>
+            <!-- <table class="docBody">
               <td class="cellInput" style="width: 55%"></td>
               <td
                 class="cellInput cellBottomLine"
@@ -130,10 +172,18 @@
                 {{ letData.cellIdx14 }}
               </td>
               <td class="textAlignLeft">日</td>
-            </table>
+            </table> -->
             <div class="docTextarea cellLine">
               <label style="width: 5%"></label>
-              &nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式三份，一份交申请复议，一份交被申请复议单位；一份存档。
+              &nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式三份，一份交申请复议
+              <span
+                style="border-bottom: none"
+                @click="commandFill('cellIdx15', '', 'TextItem')"
+                >{{
+                  letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）"
+                }}</span
+              >
+              ，一份交被申请复议单位，一份存档。
             </div>
           </div>
         </div>
@@ -304,6 +354,8 @@ export default {
           cellIdx2TypeTextItem: paperNumber.num3, // 文书号
           cellIdx3: paperNumber.num4, // 文书号
           cellIdx3TypeTextItem: paperNumber.num4, // 文书号
+          cellIdx16: corp.corpName ? corp.corpName : null, // 被检查单位
+          cellIdx16TypeTextItem: corp.corpName ? corp.corpName : null, // 被检查单位
           cellIdx4: null, // 单位/个人
           cellIdx5: cellIdx5String, // 年
           cellIdx5TypeTextItem: cellIdx5String, // 年
@@ -311,17 +363,20 @@ export default {
           cellIdx6TypeTextItem: cellIdx6String, // 月
           cellIdx7: cellIdx7String, // 日
           cellIdx7TypeTextItem: cellIdx7String, // 日
-          cellIdx8: cellIdx8String, // 时
-          cellIdx8TypeTextItem: cellIdx8String, // 时
-          cellIdx9: cellIdx9String, // 分
-          cellIdx9TypeTextItem: cellIdx9String, // 分
+          // cellIdx8: cellIdx8String, // 时    暂不用
+          // cellIdx8TypeTextItem: cellIdx8String, // 时 
+          // cellIdx9: cellIdx9String, // 分   暂不用
+          // cellIdx9TypeTextItem: cellIdx9String, // 分
           cellIdx10: cellIdx10String, // 行政复议决定
           cellIdx10TypeTextareaItem: cellIdx10String, // 行政复议决定
           cellIdx11: cellIdx11String, // 人民法院
           cellIdx11TypeTextItem: cellIdx11String, // 人民法院
-          cellIdx12: null, // 年
+          cellIdx12: null, // 
+          cellIdx13: null, // 日期
+          /* cellIdx12: null, // 年
           cellIdx13: null, // 月
-          cellIdx14: null, // 日
+          cellIdx14: null, // 日   暂不用*/
+          cellIdx15: null, // 单位/个人
         };
     },
     goBack({ page }) {
@@ -348,6 +403,8 @@ export default {
       this.visibleSelectDialog = false;
       this.letData.cellIdx4 = this.selectedType;
       this.letData.cellIdx4TypeTextItem = this.selectedType;
+      this.letData.cellIdx15 = this.selectedType;
+      this.letData.cellIdx15TypeTextItem = this.selectedType;
       this.letData.selectedType = this.selectedType;
     },
   },

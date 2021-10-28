@@ -14,7 +14,7 @@
           <div>
             <div class="stdRowH"></div>
             <div class="textAlignCenter formHeader0">
-              国 家 煤 矿 安 全 监 察
+              国 家 矿 山 安 全 监 察
               <br />
             </div>
             <div class="textAlignCenter formHeader3">
@@ -25,7 +25,7 @@
                 <span @click="commandFill('cellIdx0', '文书号', 'TextItem')">{{
                   letData.cellIdx0 ? letData.cellIdx0 : "（编辑）"
                 }}</span>
-                <label>煤安监</label>
+                <label>矿安监</label>
                 <span @click="commandFill('cellIdx1', '文书号', 'TextItem')">{{
                   letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
                 }}</span>
@@ -63,7 +63,7 @@
               <span @click="commandFill('cellIdx8', '日', 'TextItem')">{{
                 letData.cellIdx8 ? letData.cellIdx8 : "（XX）"
               }}</span>
-              日 向我局提出行政复议申请，经审查不符合以下第
+              日 向我局提出行政复议申请，经审查，不符合以下第
               <span @click="commandFill('cellIdx9', '', 'SelectItem')">{{
                 letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
               }}</span>
@@ -116,7 +116,7 @@
             </table>
             <div class="docTextarea">
               <label style="width: 5%"></label>
-              根据《中华人民共和国行政复议法》第十七条第一款的规定，我局决定不予
+              根据《中华人民共和国行政复议法》第十七条第一款的规定，我局决定不予受理你
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx10', '单位/个人', 'TextItem')"
@@ -181,50 +181,85 @@
             </div>
             <table height="20"></table>
             <table class="docBody">
+              <tr>
+                <td
+                  class="cellInput"
+                  id="cell_idx_18"
+                  align="right"
+                  style="width: 95%"
+                  @click="commandFill('cellIdx18', '', 'TextItem')"
+                >
+                  {{ letData.cellIdx18 ? letData.cellIdx18 : "（点击编辑）" }}
+                </td>
+              </tr>
+              <tr>
+                <td
+                  class="cellInput"
+                  id="cell_idx_19"
+                  align="right"
+                  style="width: 95%"
+                  data-title
+                  data-type="date"
+                  data-src
+                  @click="commandFill('cellIdx19', '日期', 'DateItem')"
+                >
+                  {{ letData.cellIdx19 ? letData.cellIdx19 : "（点击编辑）" }}
+                </td>
+              </tr>
+            </table>
+           <!--  <table class="docBody">
               <td class="cellInput" style="width: 55%"></td>
-              <td
-                class="cellInput cellBottomLine"
-                id="cell_idx_18"
-                align="center"
-                style="width: 10%"
-                data-title="年"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx18', '年', 'TextItem')"
-              >
-                {{ letData.cellIdx18 }}
-              </td>
-              <td class="textAlignLeft">年</td>
               <td
                 class="cellInput cellBottomLine"
                 id="cell_idx_19"
                 align="center"
                 style="width: 10%"
-                data-title="月"
+                data-title="年"
                 data-type="text"
                 data-src
-                @click="commandFill('cellIdx19', '月', 'TextItem')"
+                @click="commandFill('cellIdx19', '年', 'TextItem')"
               >
                 {{ letData.cellIdx19 }}
               </td>
-              <td class="textAlignLeft">月</td>
+              <td class="textAlignLeft">年</td>
               <td
                 class="cellInput cellBottomLine"
                 id="cell_idx_20"
                 align="center"
                 style="width: 10%"
-                data-title="日"
+                data-title="月"
                 data-type="text"
                 data-src
-                @click="commandFill('cellIdx20', '日', 'TextItem')"
+                @click="commandFill('cellIdx20', '月', 'TextItem')"
               >
                 {{ letData.cellIdx20 }}
               </td>
+              <td class="textAlignLeft">月</td>
+              <td
+                class="cellInput cellBottomLine"
+                id="cell_idx_21"
+                align="center"
+                style="width: 10%"
+                data-title="日"
+                data-type="text"
+                data-src
+                @click="commandFill('cellIdx21', '日', 'TextItem')"
+              >
+                {{ letData.cellIdx21 }}
+              </td>
               <td class="textAlignLeft">日</td>
-            </table>
+            </table> -->
             <div class="docTextarea cellLine">
               <label style="width: 5%"></label>
-              &nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交申请行政复议，一份存档。
+              &nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交申请行政复议
+              <span
+                style="border-bottom: none"
+                @click="commandFill('cellIdx22', '', 'TextItem')"
+                >{{
+                  letData.cellIdx22 ? letData.cellIdx22 : "（点击编辑）"
+                }}</span
+              >
+              ，一份存档。
             </div>
           </div>
         </div>
@@ -419,12 +454,15 @@ export default {
           cellIdx16TypeTextItem: orgSysOfficeInfo.master, // 我局联系人
           cellIdx17: orgSysOfficeInfo.phone, // 联系电话
           cellIdx17TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
-          cellIdx18: now.getFullYear(), // 年
-          cellIdx18TypeTextItem: now.getFullYear(), // 年
-          cellIdx19: now.getMonth() + 1, // 月
-          cellIdx19TypeTextItem: now.getMonth() + 1, // 月
-          cellIdx20: now.getDate(), // 日
-          cellIdx20TypeTextItem: now.getDate(), // 日
+          cellIdx18:null,//
+          cellIdx19:null,//日期
+       /*    cellIdx19: now.getFullYear(), // 年
+          cellIdx19TypeTextItem: now.getFullYear(), // 年
+          cellIdx20: now.getMonth() + 1, // 月
+          cellIdx20TypeTextItem: now.getMonth() + 1, // 月
+          cellIdx21: now.getDate(), // 日
+          cellIdx21TypeTextItem: now.getDate(), // 日 */  //暂不用
+          cellIdx22:null//单位/个人
         };
     },
     goBack({ page }) {

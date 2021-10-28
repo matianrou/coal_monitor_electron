@@ -14,7 +14,7 @@
           <div>
             <div class="stdRowH"></div>
             <div class="textAlignCenter formHeader0">
-              国 家 煤 矿 安 全 监 察
+              国 家 矿 山 安 全 监 察
               <br />
             </div>
             <div class="textAlignCenter formHeader3">听 证 通 知 书</div>
@@ -23,7 +23,7 @@
                 <span @click="commandFill('cellIdx0', '文书号', 'TextItem')">{{
                   letData.cellIdx0 ? letData.cellIdx0 : "（编辑）"
                 }}</span>
-                <label>煤安监</label>
+                <label>矿安监</label>
                 <span @click="commandFill('cellIdx1', '文书号', 'TextItem')">{{
                   letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
                 }}</span>
@@ -60,9 +60,9 @@
               我
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx5', '单位', 'TextItem')"
+                @click="commandFill('cellIdx5', '局', 'TextItem')"
                 >{{
-                  letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
+                  letData.cellIdx5 ? letData.cellIdx5 : ""
                 }}</span
               >
               根据你
@@ -205,7 +205,7 @@
             </div>
             <div class="docTextarea">
               <label style="width: 5%"></label>
-              根据《中华人民共和国行政处罚法》第六十四条规定，你
+              根据《中华人民共和国行政处罚法》第四十二条规定，你
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx23', '单位/个人', 'TextItem')"
@@ -217,26 +217,24 @@
             </div>
             <div class="docTextarea">
               <label style="width: 5%"></label>
-              1.
-              请事先准备相关证据，通知证人或委托代理人准时参加；无正当理由拒不出席或者未经许可中途退出听证的，视为放弃听证权力，我局（
-              <span
+              1. 请事先准备相关证据，通知证人或委托代理人准时参加；不按时参加听证会且未事先说明理由的，视为放弃听证权利。
+             <!--  <span
                 class="no-underline"
                 @click="commandFill('cellIdx24', '单位', 'TextItem')"
                 >{{
                   letData.cellIdx24 ? letData.cellIdx24 : "（点击编辑）"
                 }}</span
               >
-              ）将终止听证。
+              ）将终止听证。 -->
             </div>
-
             <div class="docTextarea">
               <label style="width: 5%"></label>
               2. 委托代理人参加听证的，应当在听证会前向我
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx25', '单位', 'TextItem')"
+                @click="commandFill('cellIdx25', '局', 'TextItem')"
                 >{{
-                  letData.cellIdx25 ? letData.cellIdx25 : "（点击编辑）"
+                  letData.cellIdx25 ? letData.cellIdx25 : ""
                 }}</span
               >
               提交授权委托书等有关证明。
@@ -246,17 +244,17 @@
               3. 申请延期举行的，应当在举行听证会前向我
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx26', '单位', 'TextItem')"
+                @click="commandFill('cellIdx26', '局', 'TextItem')"
                 >{{
-                  letData.cellIdx26 ? letData.cellIdx26 : "（点击编辑）"
+                  letData.cellIdx26 ? letData.cellIdx26 : ""
                 }}</span
               >
               提出，由我
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx27', '单位', 'TextItem')"
+                @click="commandFill('cellIdx27', '局', 'TextItem')"
                 >{{
-                  letData.cellIdx27 ? letData.cellIdx27 : "（点击编辑）"
+                  letData.cellIdx27 ? letData.cellIdx27 : ""
                 }}</span
               >
               决定是否延期。
@@ -289,8 +287,8 @@
               <label style="width: 5%"></label>
               <div style="flex: 2; display: flex">
                 <label>我</label>
-                <span @click="commandFill('cellIdx30', '', 'TextItem')">{{
-                  letData.cellIdx30 ? letData.cellIdx30 : "（点击编辑）"
+                <span @click="commandFill('cellIdx30', '局', 'TextItem')">{{
+                  letData.cellIdx30 ? letData.cellIdx30 : ""
                 }}</span>
                 <label>地址：</label>
                 <div
@@ -314,8 +312,8 @@
               <label style="width: 5%"></label>
               <div style="flex: 2; display: flex">
                 <label>我</label>
-                <span @click="commandFill('cellIdx33', '', 'TextItem')">{{
-                  letData.cellIdx33 ? letData.cellIdx33 : "（点击编辑）"
+                <span @click="commandFill('cellIdx33', '局', 'TextItem')">{{
+                  letData.cellIdx33 ? letData.cellIdx33 : ""
                 }}</span>
                 <label>联系人：</label>
                 <div
@@ -533,7 +531,7 @@ export default {
           cellIdx3TypeTextItem: num4, // 文书号
           cellIdx4: corp.corpName, // 单位
           cellIdx4TypeTextItem: corp.corpName, // 单位
-          cellIdx5: null, // 单位
+          cellIdx5: null, // 局
           cellIdx6: null, // 单位/个人
           cellIdx7: cellIdx7String, // 违法行为
           cellIdx8: null, // 年
@@ -553,18 +551,18 @@ export default {
           cellIdx21: null, // 录人姓名
           cellIdx22: null, // 职务
           cellIdx23: null, // 单位/个人
-          cellIdx24: null, // 单位
-          cellIdx25: null, // 单位
-          cellIdx26: null, // 单位
-          cellIdx27: null, // 单位
+          // cellIdx24: null, // 单位  暂不用
+          cellIdx25: null, // 局
+          cellIdx26: null, // 局
+          cellIdx27: null, // 局
           cellIdx28: null, // 签收人（签名）
           cellIdx29: null, // 日期
-          cellIdx30: null, // 单位
+          cellIdx30: null, // 局
           cellIdx31: cellIdx31String, // 地址
           cellIdx31TypeTextItem: cellIdx31String, // 地址
           cellIdx32: cellIdx32String, // 邮政编码
           cellIdx32TypeTextItem: cellIdx32String, // 邮政编码
-          cellIdx33: null, // 单位
+          cellIdx33: null, // 局
           cellIdx34: cellIdx34String, // 联系人
           cellIdx34TypeTextItem: cellIdx34String, // 联系人
           cellIdx35: cellIdx35String, // 联系电话

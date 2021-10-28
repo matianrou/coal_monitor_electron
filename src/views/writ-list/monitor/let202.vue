@@ -14,7 +14,7 @@
           <div>
             <div class="stdRowH"></div>
             <div class="textAlignCenter formHeader0">
-              国 家 煤 矿 安 全 监 察
+              国 家 矿 山 安 全 监 察
               <br />
             </div>
             <div class="textAlignCenter formHeader1">调 查 取 证 笔 录</div>

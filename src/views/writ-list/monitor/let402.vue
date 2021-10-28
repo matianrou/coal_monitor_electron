@@ -14,7 +14,7 @@
           <div>
             <div class="stdRowH"></div>
             <div class="textAlignCenter formHeader0">
-              国 家 煤 矿 安 全 监 察
+              国 家 矿 山 安 全 监 察
               <br />
             </div>
             <div class="textAlignCenter formHeader3">
@@ -25,7 +25,7 @@
                 <span @click="commandFill('cellIdx0', '文书号', 'TextItem')">{{
                   letData.cellIdx0 ? letData.cellIdx0 : "(编辑)"
                 }}</span>
-                <label>煤安监</label>
+                <label>矿安监</label>
                 <span @click="commandFill('cellIdx1', '文书号', 'TextItem')">{{
                   letData.cellIdx1 ? letData.cellIdx1 : "(编辑)"
                 }}</span>
@@ -64,8 +64,8 @@
               我
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx6', '单位', 'TextItem')"
-                >{{ letData.cellIdx6 ? letData.cellIdx6 : "（编辑）" }}</span
+                @click="commandFill('cellIdx6', '局', 'TextItem')"
+                >{{ letData.cellIdx6 ? letData.cellIdx6 : "" }}</span
               >
               于
               <span @click="commandFill('cellIdx7', '年', 'TextItem')">{{
@@ -132,8 +132,8 @@
               <label style="width: 5%"></label>
               <div style="flex: 2; display: flex">
                 <label>我</label>
-                <span @click="commandFill('cellIdx14', '签发人', 'TextItem')">{{
-                  letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）"
+                <span @click="commandFill('cellIdx14', '局', 'TextItem')">{{
+                  letData.cellIdx14 ? letData.cellIdx14 : ""
                 }}</span>
                 <label>地址：</label>
                 <div
@@ -157,8 +157,8 @@
               <label style="width: 5%"></label>
               <div style="flex: 2; display: flex">
                 <label>我</label>
-                <span @click="commandFill('cellIdx17', '', 'TextItem')">{{
-                  letData.cellIdx17 ? letData.cellIdx17 : "（点击编辑）"
+                <span @click="commandFill('cellIdx17', '局', 'TextItem')">{{
+                  letData.cellIdx17 ? letData.cellIdx17 : ""
                 }}</span>
                 <label>联系人：</label>
                 <div
@@ -235,8 +235,22 @@
                   {{ letData.cellIdx24 }}
                 </td>
               </tr>
+               <tr>
+                <td
+                  class="cellInput"
+                  id="cell_idx_25"
+                  align="right"
+                  style="width: 95%"
+                  data-title
+                  data-type="date"
+                  data-src
+                  @click="commandFill('cellIdx25', '日期', 'DateItem')"
+                >
+                  {{ letData.cellIdx25 ? letData.cellIdx25 : "（点击编辑）" }}
+                </td>
+              </tr>
             </table>
-            <table class="docBody">
+            <!-- <table class="docBody">
               <td class="cellInput" style="width: 55%"></td>
               <td
                 class="cellInput"
@@ -277,7 +291,7 @@
                 {{ letData.cellIdx27 }}
               </td>
               <td class="textAlignLeft">日</td>
-            </table>
+            </table> -->
             <div class="docTextarea cellLine">
               <label style="width: 5%"></label>
               &nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交移送公安机关，一份存档。
@@ -400,7 +414,7 @@ export default {
           cellIdx4: null, // 签发人
           cellIdx5String: null, // 调查事由
           cellIdx5StringTypeTextItem: null, // 调查事由
-          cellIdx6: null, // 单位
+          cellIdx6: null, // 局
           cellIdx7: null, // 年
           cellIdx8: null, // 月
           cellIdx9: null, // 日
@@ -408,12 +422,12 @@ export default {
           cellIdx11: null, // 法律规定
           cellIdx12: null, // 份数
           cellIdx13: null, // 页数
-          cellIdx14: null, // 签发人
+          cellIdx14: null, // 局
           cellIdx15: cellIdx15String, // 地址
           cellIdx15TypeTextItem: cellIdx15String, // 地址
           cellIdx16: cellIdx16String, // 邮政编码
           cellIdx16TypeTextItem: cellIdx16String, // 地址
-          cellIdx17: null, // 单位
+          cellIdx17: null, // 局
           cellIdx18: cellIdx18String, // 联系人
           cellIdx18TypeTextItem: cellIdx18String, // 地址
           cellIdx19: cellIdx19String, // 电话
@@ -423,9 +437,10 @@ export default {
           cellIdx22: null, // 送件人（签名）
           cellIdx23: null, // 日期
           cellIdx24: null, //
-          cellIdx25: null, // 年
-          cellIdx26: null, // 月
-          cellIdx27: null, // 日
+          cellIdx25: null, // 日期
+          // cellIdx25: null, // 年
+          // cellIdx26: null, // 月
+          // cellIdx27: null, // 日  暂不用
         };
     },
     goBack({ page }) {

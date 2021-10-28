@@ -14,7 +14,7 @@
           <div>
             <div class="stdRowH"></div>
             <div class="textAlignCenter formHeader0">
-              国 家 煤 矿 安 全 监 察
+              国 家 矿 山 安 全 监 察
               <br />
             </div>
             <div class="textAlignCenter formHeader1">案 件 结 案 报 告</div>
@@ -241,12 +241,12 @@ export default {
          let let6Date = selectedPaper.let6Data.createTime.split(" ");
       let6Date = let6Date[0].split("-");
       let let6DataPapaerContent = JSON.parse(selectedPaper.let6Data.paperContent);
-        string5 += `${let6Date[0]}年${let6Date[1]}月${let6Date[2]}日案件承办人分别向${corp.corpName}及其负责人XXX下达了《行政处罚告知书》（${let6DataPapaerContent.cellIdx0}煤安监${let6DataPapaerContent.cellIdx1}告〔${let6DataPapaerContent.cellIdx2}〕${let6DataPapaerContent.cellIdx3}号）。该矿负责人签收文书后，未进行陈述、申辩，未要求举行听证。`
+        string5 += `${let6Date[0]}年${let6Date[1]}月${let6Date[2]}日案件承办人分别向${corp.corpName}及其负责人XXX下达了《行政处罚告知书》（${let6DataPapaerContent.cellIdx0}矿安监${let6DataPapaerContent.cellIdx1}告〔${let6DataPapaerContent.cellIdx2}〕${let6DataPapaerContent.cellIdx3}号）。该矿负责人签收文书后，未进行陈述、申辩，未要求举行听证。`
         // 行政处罚决定书8制作时间、文书编号
         let let8Date = selectedPaper.let8Data.createTime.split(" ");
       let8Date = let8Date[0].split("-");
       let let8DataPapaerContent = JSON.parse(selectedPaper.let8Data.paperContent);
-        let let206PaperNum = `${let8DataPapaerContent.cellIdx0}煤安监${let8DataPapaerContent.cellIdx1}罚〔${let8DataPapaerContent.cellIdx2}〕${let8DataPapaerContent.cellIdx3}号`;
+        let let206PaperNum = `${let8DataPapaerContent.cellIdx0}矿安监${let8DataPapaerContent.cellIdx1}罚〔${let8DataPapaerContent.cellIdx2}〕${let8DataPapaerContent.cellIdx3}号`;
         string5 += `${let8Date[0]}年${let8Date[1]}月${let8Date[2]}日案件承办人员向${corp.corpName}及其负责人XXX分别送达了《行政处罚决定书》${let206PaperNum}。\r\n`
         // 6，	行政处罚执行情况：固定模板
         // ”行政处罚执行情况：“+煤矿名称+ “接到我分局送达的行政处罚决定书后，该矿及其负责人XXX未申请行政复议和提起行政诉讼。将罚款已划转至指定罚款账户。”

@@ -14,7 +14,7 @@
           <div>
             <div class="stdRowH"></div>
             <div class="textAlignCenter formHeader0">
-              国 家 煤 矿 安 全 监 察
+              国 家 矿 山 安 全 监 察
               <br />
             </div>
             <div class="textAlignCenter formHeader3">立 案 决 定 书</div>
@@ -23,7 +23,7 @@
                 <span @click="commandFill('cellIdx0', '文书号', 'TextItem')">{{
                   letData.cellIdx0 ? letData.cellIdx0 : "（编辑）"
                 }}</span>
-                <label>煤安监</label>
+                <label>矿安监</label>
                 <span @click="commandFill('cellIdx1', '文书号', 'TextItem')">{{
                   letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
                 }}</span>
@@ -121,8 +121,22 @@
                   {{ letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）" }}
                 </td>
               </tr>
+              <tr>
+                <td
+                  class="cellInput"
+                  id="cell_idx_14"
+                  align="right"
+                  style="width: 95%"
+                  data-title
+                  data-type="date"
+                  data-src
+                  @click="commandFill('cellIdx14', '日期', 'DateItem')"
+                >
+                  {{ letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）" }}
+                </td>
+              </tr>
             </table>
-            <table class="docBody">
+            <!-- <table class="docBody">
               <td class="cellInput" style="width:55%"></td>
               <td
                 class="cellInput"
@@ -157,7 +171,7 @@
                 @click="commandFill('cellIdx16', '日', 'TextItem')"
               >{{letData.cellIdx16}}</td>
               <td class="textAlignLeft">日</td>
-            </table>
+            </table> -->
           </div>
         </div>
       </div>
@@ -312,9 +326,10 @@ export default {
           cellIdx11: null, // 审批人（签名）
           cellIdx12: null, // 日期
           cellIdx13: null, //
-          cellIdx14: null, // 年
+          cellIdx14: null, // 日期
+          /* cellIdx14: null, // 年
           cellIdx15: null, // 月
-          cellIdx16: null, // 日
+          cellIdx16: null, // 日   暂不用*/
           // dangerItemObject: let101DataPapaerContent.dangerItemObject
           dangerItemObject: let1DataPapaerContent.dangerItemObject,
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用

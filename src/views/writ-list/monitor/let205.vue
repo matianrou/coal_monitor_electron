@@ -14,7 +14,7 @@
           <div>
             <div class="stdRowH"></div>
             <div class="textAlignCenter formHeader0">
-              国 家 煤 矿 安 全 监 察
+              国 家 矿 山 安 全 监 察
               <br />
             </div>
             <div class="textAlignCenter formHeader1">陈 述 申 辩 笔 录</div>
@@ -145,7 +145,7 @@
                   {{ letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）" }}
                 </div>
               </div>
-              <div style="flex: 3; display: flex">
+              <!-- <div style="flex: 3; display: flex">
                 <label>&nbsp;&nbsp;</label>
                 <div
                   class="line-div"
@@ -155,7 +155,7 @@
                 >
                   {{ letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）" }}
                 </div>
-              </div>
+              </div> -->
               <div style="flex: 5; display: flex">
                 <label>记录人（签名）：</label>
                 <div
@@ -177,7 +177,7 @@
                   letData.cellIdx18 ? letData.cellIdx18 : "（点击编辑）"
                 }}</span
               >
-              的监察员，这是我们的证件（出示证件）。现对
+              监察员，这是我们的证件（出示证件）。现对
               <span
                 @click="commandFill('cellIdx19', '违法行为', 'DangerTableItem')"
                 >{{
@@ -393,7 +393,7 @@ export default {
           cellIdx13: null, // 邮政编码
           cellIdx14: null, // 电话
           cellIdx15: null, // 承办人（签名）
-          cellIdx16: null, // 承办人（签名）
+          // cellIdx16: null, // 承办人（签名）   暂不用
           cellIdx17: null, // 记录人（签名）
           cellIdx18: cellIdx18String, // 监察员
           cellIdx18TypeTextItem: cellIdx18String, // 监察员

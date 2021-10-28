@@ -13,14 +13,14 @@
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader0">国 家 煤 矿 安 全 监 察</div>
+            <div class="textAlignCenter formHeader0">国 家 矿 山 安 全 监 察</div>
             <div class="textAlignCenter formHeader3">行 政 处 罚 告 知 书</div>
             <div class="docTextLine paper-number-div">
               <div>
                 <span
                   @click="commandFill('cellIdx0', '文书号', 'TextItem')"
                 >{{ letData.cellIdx0 ? letData.cellIdx0 : '（编辑）' }}</span>
-                <label> 煤安监</label>
+                <label>矿安监</label>
                 <span
                   @click="commandFill('cellIdx1', '文书号', 'TextItem')"
                 >{{ letData.cellIdx1 ? letData.cellIdx1 : '（编辑）' }}</span>
@@ -54,12 +54,13 @@
               经查，你
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx5', '单位', 'TextItem')"
+                @click="commandFill('cellIdx5', '单位或个人', 'TextItem')"
               >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</span>
               的以下行为
               <span
                 @click="commandFill('cellIdx6', '违法行为', 'DangerTableItem')"
               >{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）'}}</span>
+              违反了
               <span
                 @click="commandFill('cellIdx7', '违法行为', 'DangerTableItem')"
               >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
@@ -72,6 +73,7 @@
                 class="no-underline"
                 @click="commandFill('cellIdx9', '单位/个人', 'TextItem')"
               >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</span>
+              作出
               <span
                 @click="commandFill('cellIdx10', '法律规定', 'DangerTableItem')"
               >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）'}}</span>
@@ -79,15 +81,15 @@
             </div>
             <div class="docTextarea">
               <label style="width:5%"></label>
-              根据《中华人民共和国行政处罚法》第四十五条规定，你
+              根据《中华人民共和国行政处罚法》第三十二条规定，你
               <span class="no-underline"
                 @click="commandFill('cellIdx11', '单位或个人', 'TextItem')"
               >{{ letData.cellIdx11 ? letData.cellIdx11 : '（点击编辑）'}}</span>
-              对上述拟作出的行政处罚有陈述、申辩的权利。
+              对上述拟作出的行政处罚有陈述、申辩的权利。如果有陈述、申辩意见，应当在收到本告知书之日起三日内提出。逾期未提出的，视为放弃此权利。
             </div>
             <div class="docTextarea">
               <label style="width:5%"></label>
-              根据《中华人民共和国行政处罚法》第六十三条、第六十四条规定，你单位对上述拟作出的行政处罚有要求举行听证的权利。要求举行听证的，应当在收到本告知书之日起五个工作日内提出。逾期未提出的，视为放弃此权利。
+              根据《中华人民共和国行政处罚法》第四十二条规定，你单位（个人）对上述拟作出的行政处罚有要求举行听证的权利。要求举行听证的，应当在收到本告知书之日起三日内提出。逾期未提出的，视为放弃此权利。
             </div>
             <table height="30"></table>
             <div class="docTextLine">
@@ -108,10 +110,10 @@
             </div>
             <div class="docTextLine">
               <div style="flex: 1; display: flex;">
-                <label>我分局地址</label>
+                <label>我局地址</label>
                 <div
                   class="line-div"
-                  @click="commandFill('cellIdx15', '我分局地址', 'TextItem')"
+                  @click="commandFill('cellIdx15', '我局地址', 'TextItem')"
                 >{{ letData.cellIdx15 ? letData.cellIdx15 : '（点击编辑）' }}</div>
               </div>
               <div style="flex: 1; display: flex;">
@@ -124,10 +126,10 @@
             </div>
             <div class="docTextLine">
               <div style="flex: 1; display: flex;">
-                <label>我分局联系人</label>
+                <label>我局联系人</label>
                 <div
                   class="line-div"
-                  @click="commandFill('cellIdx17', '我分局联系人', 'TextItem')"
+                  @click="commandFill('cellIdx17', '我局联系人', 'TextItem')"
                 >{{ letData.cellIdx17 ? letData.cellIdx17 : '（点击编辑）' }}</div>
               </div>
               <div style="flex: 1; display: flex;">
@@ -301,9 +303,9 @@ export default {
         const orgInfo = db.table("orgInfo");
         const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
         let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: ''}
-        // depAddress：我分局地址、
+        // depAddress：我局地址、
         // depPost：邮政编码、
-        // master：我分局联系人、
+        // master：我局联系人、
         // phone：联系电话
       await db.close();
         this.letData = {
@@ -316,7 +318,7 @@ export default {
           cellIdx3: paperNumber.num4, // 文书号
           cellIdx3TypeTextItem: paperNumber.num4, // 文书号
           cellIdx4: null, // 煤矿名称
-          cellIdx5: null, // 单位
+          cellIdx5: null, // 单位或个人
           cellIdx6: `${dangerObject.dangerString}`, // 违法行为
           cellIdx7: `${dangerObject.illegalString}`, // 违法行为
           cellIdx8: dangerObject.penaltyBasisString, // 法律依据
@@ -325,12 +327,12 @@ export default {
           cellIdx11: null, // 单位或个人
           cellIdx12: null, // 签名
           cellIdx13: null, // 日期
-          cellIdx14: orgSysOfficeInfo.depAddress, // 我分局地址
-          cellIdx14TypeTextItem: orgSysOfficeInfo.depAddress, //我分局地址
+          cellIdx14: orgSysOfficeInfo.depAddress, // 我局地址
+          cellIdx14TypeTextItem: orgSysOfficeInfo.depAddress, //我局地址
           cellIdx15: orgSysOfficeInfo.depPost, // 邮政编码
           cellIdx15TypeTextItem: orgSysOfficeInfo.depPost, // 邮政编码
-          cellIdx16: orgSysOfficeInfo.master, // 我分局联系人
-          cellIdx16TypeTextItem: orgSysOfficeInfo.master, // 我分局联系人
+          cellIdx16: orgSysOfficeInfo.master, // 我局联系人
+          cellIdx16TypeTextItem: orgSysOfficeInfo.master, // 我局联系人
           cellIdx17: orgSysOfficeInfo.phone, // 联系电话
           cellIdx17TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
           cellIdx18: null, // 年

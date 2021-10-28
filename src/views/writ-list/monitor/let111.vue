@@ -14,7 +14,7 @@
           <div>
             <div class="stdRowH"></div>
             <div class="textAlignCenter formHeader0">
-              国 家 煤 矿 安 全 监 察
+              国 家 矿 山 安 全 监 察
             </div>
             <div class="textAlignCenter formHeader3">
               <table class="docBody">
@@ -40,7 +40,7 @@
                 <span @click="commandFill('cellIdx1', '', 'TextItem')">{{
                   letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
                 }}</span>
-                <label>煤安监</label>
+                <label>矿安监</label>
                 <span @click="commandFill('cellIdx2', '', 'TextItem')">{{
                   letData.cellIdx2 ? letData.cellIdx2 : "（编辑）"
                 }}</span>
@@ -81,9 +81,9 @@
               我
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx7', '', 'TextItem')"
+                @click="commandFill('cellIdx7', '局', 'TextItem')"
                 >{{
-                  letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
+                  letData.cellIdx7 ? letData.cellIdx7 : ""
                 }}</span
               >
               于
@@ -101,7 +101,7 @@
               日向你
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx11', '', 'TextItem')"
+                @click="commandFill('cellIdx11', '单位', 'TextItem')"
                 >{{
                   letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）"
                 }}</span
@@ -118,7 +118,7 @@
                 @click="commandFill('cellIdx13', '', 'TextItem')"
                 >{{ letData.cellIdx13 ? letData.cellIdx13 : "（编辑）" }}</span
               >
-              煤安监
+              矿安监
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx14', '', 'TextItem')"
@@ -189,7 +189,7 @@
                   )
                 "
               >
-                物品清单
+                《物品清单》
               </div>
             </div>
             <table height="30"></table>
@@ -387,7 +387,7 @@ export default {
         cellIdx5TypeTextItem: num4, // 文书号
         cellIdx6: corp.corpName ? corp.corpName : null, // corpname
         cellIdx6TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
-        cellIdx7: null, // 单位
+        cellIdx7: null, // 局
         cellIdx8: cellIdx8Year, // 年
         cellIdx8TypeTextItem: cellIdx8Year, // 年
         cellIdx9: cellIdx9Month, // 月
