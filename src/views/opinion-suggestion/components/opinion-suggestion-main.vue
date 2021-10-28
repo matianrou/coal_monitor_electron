@@ -50,12 +50,14 @@ export default {
       if (this.selectPaperType === '16') {
         docData = {
           docTypeNo: '16',
-          docTypeName: '加强和改善安全监管建议书'
+          docTypeName: '加强和改善安全监管建议书',
+          page: 'let501'
         }
       } else if (this.selectPaperType === '17') {
         docData = {
           docTypeNo: '17',
-          docTypeName: '加强和改善安全管理意见书'
+          docTypeName: '加强和改善安全管理意见书',
+          page: 'let502'
         }
       }
        else if (this.selectPaperType === '15') {

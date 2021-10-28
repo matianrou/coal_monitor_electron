@@ -199,109 +199,42 @@
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
+import associationSelectPaper from "@/components/association-select-paper";
 export default {
-  name: "Let106",
-  props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-  },
+  name: "Let502",
+  mixins: [associationSelectPaper],
   data() {
     return {
       letData: {},
-      options: {
-        cellIdx12: {
-          page: "3",
-          key: "cellIdx12",
-        },
-      },
-      editData: {}, // 回显数据
+      options: {},
     };
   },
-  created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-  },
   methods: {
-    async initData() {
-      const db = new GoDB(this.$store.state.DBName);
-      const corpBase = db.table("corpBase");
-      //查询符合条件的记录
-      const corp = await corpBase.find((item) => {
-        return item.corpId == this.corpData.corpId;
-      });
-      const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId &&
-          item.paperType === this.docData.docTypeNo &&
-          item.delFlag !== "1"
-        );
-      });
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本
-        // 1.生成文书编号
-        let { num0, num1, num3, num4 } = await getDocNumber(
-          db,
-          this.docData.docTypeNo,
-          caseId,
-          this.$store.state.user
-        );
-        this.letData = {
-          cellIdx0: num0, // 文书号
-          cellIdx0TypeTextItem: num0, // 文书号
-          cellIdx1: num1, // 文书号
-          cellIdx1TypeTextItem: num1, // 文书号
-          cellIdx2: num3, // 文书号
-          cellIdx2TypeTextItem: num3, // 文书号
-          cellIdx3: num4, // 文书号
-          cellIdx3TypeTextItem: num4, // 文书号
-          cellIdx4: corp.corpName ? corp.corpName : null, // corpname
-          cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
-          cellIdx5: null, // 签发人
-          cellIdx6: null, // 局
-          cellIdx7: null, // 年
-          cellIdx8: null, // 月
-          cellIdx9: null, // 日
-          cellIdx10: null, // 局
-          cellIdx11: null, // 送件人（签名)
-          cellIdx12: null, //日期
-          cellIdx13: null, // 收件人（签名)
-          cellIdx14: null, // 日期
-          cellIdx15: null, // 报送
-          cellIdx16: null, // 
-          cellIdx17: null, // 日期
-          cellIdx18: null, // 附件
-        };
-      }
-      await db.close();
+    async initLetData(selectedPaper) {
+      this.letData = {
+        cellIdx0: null, // 文书号
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 文书号
+        cellIdx4: null, // 签发人
+        cellIdx5: null, // 单位
+        cellIdx6: null, // 经我XX检查，
+        cellIdx7: null, // XX在矿山安全监督管理工作中
+        cellIdx8: null, // 年
+        cellIdx9: null, // 月
+        cellIdx10: null, // 日
+        cellIdx11: null, // 局
+        cellIdx12: null, // 月
+        cellIdx13: null, // 日
+        cellIdx14: null, // 承办人（签名）
+        cellIdx15: null, // 档号
+        cellIdx16: null, // 保管期限
+        cellIdx17: [], // 编辑目录
+        volumesMenuTable: {
+          tableData: [],
+        },
+      };
     },
     goBack({ page }) {
       // 返回选择企业
@@ -312,12 +245,12 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}Type${type}`;
-        if (key === "cellIdx12") {
+        if (key === "cellIdx17") {
           this.options[key] = {
-            page: "3",
-            key: key,
+            canEdit: true,
+            page: "15",
           };
-          dataKey = "dangerItemObject";
+          dataKey = "volumesMenuTable";
         }
         this.$refs.letMain.commandFill(
           key,

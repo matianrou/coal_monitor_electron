@@ -378,7 +378,6 @@
 </template>
 
 <script>
-// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
