@@ -116,7 +116,7 @@
                     :src="require(flowStatus.paper === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
                     :title="flowStatus.paper === 'save' ? '已保存' : '已归档'"
                     alt="" />
-                  <span @click="cmdEditDoc('let105','隐患整改?','')" class="flow-span">隐患整改</span>
+                  <span @click="cmdEditDoc('let105','隐患整改','44')" class="flow-span">隐患整改</span>
                 </td>
                 <td style="width:12px;">
                   <img src="../assets/image/doc-flow_r1_c7.png" style="height: 65px;" />
@@ -416,7 +416,7 @@
                     :src="require(flowStatus.paper === 'save' ? '../assets/image/save.png' : '../assets/image/file.png')"
                     :title="flowStatus.paper === 'save' ? '已保存' : '已归档'"
                     alt="" />
-                  <span @click="cmdEditDoc('let212','罚款收缴?', '')" class="flow-span">罚款收缴</span>
+                  <span @click="cmdEditDoc('let212','罚款收缴', '43')" class="flow-span">罚款收缴</span>
                 </td>
                 <td style="width:28px;">
                   <img src="../assets/image/doc-flow_r1_c3.png" style="height: 65px;" />

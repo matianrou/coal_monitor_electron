@@ -1,4 +1,4 @@
-<!-- 现场检查 复查 隐患整改 询问通知书 有问题-->
+<!-- 现场检查 复查 隐患整改 -->
 <template>
   <div style="width: 100%; height: 100%">
     <let-main

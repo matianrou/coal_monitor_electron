@@ -8,7 +8,7 @@
     width="800px"
     top="5vh"
     @close="close">
-    <div class="user-tree" v-loading="loading">
+    <div class="user-tree" v-loading="loading.main">
       <div class="selected-all-users">
         <!-- 是否显示全省用户 -->
         <el-checkbox v-model="allUser" @change="handleChangeUser">是否显示全省用户</el-checkbox>
@@ -20,7 +20,7 @@
             v-for="(item, index) in userList"
             :key="index"
             class="user-list-row-main">
-            <div @click="handleSelectUser(item)" :class="item.active ? 'active-item' : ''">
+            <div :class="item.active ? 'active-item user-list-row' : 'user-list-row'" @click="handleSelectUser(item)">
               <img src="@/components/assets/image/customer_list_fill.png" />
               <span>{{ `[${item.officeName}] ` }}</span>
               <span style="color: #303133;">{{ item.name }}</span>
@@ -31,7 +31,7 @@
         <adjustable-div
           @width-change="widthChange">
         </adjustable-div>
-        <div class="content-div-right">
+        <div class="content-div-right" v-loading="loading.right">
           <!-- 右侧 用户的检查列表 -->
         </div>
       </div>
@@ -59,7 +59,10 @@
     },
     data () {
       return {
-        loading: false,
+        loading: {
+          main: false,
+          right: false
+        },
         DBName: this.$store.state.DBName,
         allUser: false, // 是否显示全省用户
         divWidth: 300, // 用户部分div基础宽度
@@ -76,7 +79,7 @@
         await this.getUsers()
       },
       async getUsers () {
-        this.loading = true
+        this.loading.main = true
         const db = new GoDB(this.DBName)
         const person = db.table("person") // 用户
         let personList = []
@@ -99,7 +102,7 @@
         })
         this.userList = personList
         await db.close();
-        this.loading = false
+        this.loading.main = false
       },
       widthChange (width) {
         this.divWidth -= width;
@@ -115,8 +118,34 @@
       },
       handleSelectUser (item) {
         // 点击选择用户
-        console.log('item', item)
+        this.userList.forEach(item => {
+          // 取消所有用户选中状态
+          item.active = false
+        })
+        // 选中点击的用户
         item.active = true
+        // 根据当前选中的用户拉取其所有文书
+        console.log('item', item)
+        this.getUserPaper(item.no)
+      },
+      getUserPaper(userId) {
+        let userSessId = this.$store.state.user.userSessId
+        let params = {
+          userId
+        }
+        this.$http.post(`/local/jczf/uploadJczfCasePull?__sid=${userSessId}`, {sendJson: true, data: params})
+        .then(async (response) => {
+          if (response.status != 200) {
+            this.$message.error("远程请求异常，可能是认证信息超时，请重新登录。");
+            this.loading.right = false
+          } else {
+            this.loading.right = false
+          }
+          }).catch(err => {
+            this.$message.error("远程请求异常，可能是认证信息超时，请重新登录。");
+            console.log("拉取用户文书失败：", err);
+            this.loading.right = false
+          })
       },
       close (refresh) {
         // 关闭选择弹窗
@@ -168,28 +197,31 @@
     margin-bottom: 10px;
     .content-div-left {
       height: 100%;
-      padding: 10px 10px;
       overflow: auto;
       white-space: nowrap;
       .user-list-row-main {
-        height: 30px;
         display: flex;
         align-items: center;
         cursor: pointer;
-        img {
-          height: 20px;
-          width: 20px;
-          vertical-align: bottom;
+        .user-list-row {
+          display: flex;
+          align-items: center;
+          padding: 7px 10px;
+          img {
+            height: 20px;
+            width: 20px;
+            vertical-align: bottom;
+          }
+          span {
+            color: #909399;
+            font-size: 16px;
+          }
         }
-        span {
-          color: #909399;
-          font-size: 16px;
-        }
-      }
-      .user-list-row-main:hover {
-        background: rgba(83, 168, 255, 0.7);
-        span {
-          color: #fff !important;
+        .user-list-row:hover {
+          background: rgba(83, 168, 255, 0.7);
+          span {
+            color: #fff !important;
+          }
         }
       }
     }
