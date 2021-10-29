@@ -63,7 +63,7 @@
               <label style="width: 5%"></label>
               经我
               <span class="no-underline" @click="commandFill('cellIdx6', '局', 'TextItem')">{{
-                letData.cellIdx6 ? letData.cellIdx6 : ""
+                letData.cellIdx6 ? letData.cellIdx6 : "局"
               }}</span>
               检查，
               <span @click="commandFill('cellIdx7', '市', 'TextItem')">{{
