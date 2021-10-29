@@ -198,7 +198,7 @@ export default {
         page: 'let406'
       }
     ],
-    monitorPaperType: [
+    monitorPaperType: [//监察文书编号及页面对应
       {
         id: '22',
         name: '检查方案',
@@ -388,6 +388,16 @@ export default {
         id: '21',
         name: '影音证据',
         page: 'let406'
+      },
+      {
+        id: '16',
+        name: '加强和改善安全监管建议书',
+        page: 'let501'
+      },
+      {
+        id: '17',
+        name: '加强和改善安全管理意见书',
+        page: 'let502'
       },
     ]
   }
