@@ -35,19 +35,10 @@
                 <span @click="commandFill('cellIdx3', '文书号', 'TextItem')">{{
                   letData.cellIdx3 ? letData.cellIdx3 : "（编辑）"
                 }}</span>
-                <label>号</label>
-              </div>
-            </div>
-            <div class="docTextLine paper-number-div">
-              <div>
-                <label>签发人：</label>
-                <span
-                  class="line"
-                  @click="commandFill('cellIdx4', '签发人', 'TextItem')"
-                  >{{
-                    letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）"
-                  }}</span
-                >
+                <label>号&nbsp;&nbsp;&nbsp;签发人：</label>
+                <span @click="commandFill('cellIdx4', '签发人', 'TextItem')">{{
+                  letData.cellIdx4 ? letData.cellIdx4 : "（编辑）"
+                }}</span>
               </div>
             </div>
             <div class="docTextarea">

@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -22,34 +22,25 @@
             </div>
             <div class="docTextLine paper-number-div">
               <div>
-                <span @click="commandFill('cellIdx0', '', 'TextItem')">{{
+                <span @click="commandFill('cellIdx0', '文书号', 'TextItem')">{{
                   letData.cellIdx0 ? letData.cellIdx0 : "（编辑）"
                 }}</span>
                 <label>矿安监</label>
-                <span @click="commandFill('cellIdx1', '', 'TextItem')">{{
+                <span @click="commandFill('cellIdx1', '文书号', 'TextItem')">{{
                   letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
                 }}</span>
                 <label>监建〔</label>
-                <span @click="commandFill('cellIdx2', '', 'TextItem')">{{
+                <span @click="commandFill('cellIdx2', '文书号', 'TextItem')">{{
                   letData.cellIdx2 ? letData.cellIdx2 : "（编辑）"
                 }}</span>
                 <label>〕</label>
-                <span @click="commandFill('cellIdx3', '', 'TextItem')">{{
+                <span @click="commandFill('cellIdx3', '文书号', 'TextItem')">{{
                   letData.cellIdx3 ? letData.cellIdx3 : "（编辑）"
                 }}</span>
-                <label>号</label>
-              </div>
-            </div>
-            <div class="docTextLine paper-number-div">
-              <div>
-                <label>签发人：</label>
-                <span
-                  class="line"
-                  @click="commandFill('cellIdx4', '签发人', 'TextItem')"
-                  >{{
-                    letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）"
-                  }}</span
-                >
+                <label>号&nbsp;&nbsp;&nbsp;签发人：</label>
+                <span @click="commandFill('cellIdx4', '签发人', 'TextItem')">{{
+                  letData.cellIdx4 ? letData.cellIdx4 : "（编辑）"
+                }}</span>
               </div>
             </div>
             <table class="docBody">
@@ -61,7 +52,7 @@
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx5', '', 'TextItem')"
+                  @click="commandFill('cellIdx5', '局', 'TextItem')"
                 >
                   {{ letData.cellIdx5 }}
                 </td>
@@ -99,24 +90,23 @@
                 letData.cellIdx11 ? letData.cellIdx11 : ""
               }}</span>
             </div>
-            <div class="docTextLine">
+            <table height="20"></table>
+            <div class="docTextarea">
               <label style="width: 5%"></label>
               <label>附件：</label>
-              <div
-                class="no-line-div"
+              <span
+                class="no-line-div no-underline"
                 @click="
                   commandFill(
                     'cellIdx19',
                     '加强和改善安全监管建议',
                     'CheckTableItem'
-                  )
-                "
-              >
-                加强和改善安全监管建议
-              </div>
+                  )">加强和改善安全监管建议
+              </span>
             </div>
-            <table height="60"></table>
+            <table height="30"></table>
             <div class="docTextLine">
+              <label style="width: 5%"></label>
               <label>送件人（签名)：</label>
               <div
                 class="line-div"
@@ -135,6 +125,7 @@
               </div>
             </div>
             <div class="docTextLine">
+              <label style="width: 5%"></label>
               <label>收件人（签名)：</label>
               <div
                 class="line-div"
@@ -222,19 +213,21 @@ export default {
         cellIdx2: null, // 文书号
         cellIdx3: null, // 文书号
         cellIdx4: null, // 签发人
-        cellIdx5: null, // 单位
+        cellIdx5: null, // 局
         cellIdx6: null, // 经我XX检查，
         cellIdx7: null, // XX在矿山安全监督管理工作中
         cellIdx8: null, // 年
         cellIdx9: null, // 月
         cellIdx10: null, // 日
         cellIdx11: null, // 局
-        cellIdx12: null, // 月
-        cellIdx13: null, // 日
-        cellIdx14: null, // 承办人（签名）
-        cellIdx15: null, // 档号
-        cellIdx16: null, // 保管期限
-        cellIdx17: [], // 编辑目录
+        cellIdx12: null, // 送件人（签名)
+        cellIdx13: null, // 日期
+        cellIdx14: null, // 收件人（签名)
+        cellIdx15: null, // 日期
+        cellIdx16: null, // 报送
+        cellIdx17: null, // 
+        cellIdx18: null, // 日期
+        cellIdx19: [], // 附件
         volumesMenuTable: {
           tableData: [],
         },
@@ -249,7 +242,7 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}Type${type}`;
-        if (key === "cellIdx17") {
+        if (key === "cellIdx19") {
           this.options[key] = {
             canEdit: true,
             page: "15",

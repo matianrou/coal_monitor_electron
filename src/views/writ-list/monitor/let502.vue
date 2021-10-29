@@ -1,4 +1,4 @@
-<!-- 意见建议书 加强和改善安全管理意见书议书  -->
+<!-- 意见建议书 加强和改善安全管理意见书  -->
 <template>
   <div style="width: 100%; height: 100%">
     <let-main
@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :edit-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -37,19 +37,10 @@
                 <span @click="commandFill('cellIdx3', '', 'TextItem')">{{
                   letData.cellIdx3 ? letData.cellIdx3 : "（编辑）"
                 }}</span>
-                <label>号</label>
-              </div>
-            </div>
-            <div class="docTextLine paper-number-div">
-              <div>
-                <label>签发人：</label>
-                <span
-                  class="line"
-                  @click="commandFill('cellIdx4', '签发人', 'TextItem')"
-                  >{{
-                    letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）"
-                  }}</span
-                >
+                <label>号&nbsp;&nbsp;&nbsp;签发人：</label>
+                <span @click="commandFill('cellIdx4', '签发人', 'TextItem')">{{
+                  letData.cellIdx4 ? letData.cellIdx4 : "（编辑）"
+                }}</span>
               </div>
             </div>
             <table class="docBody">
@@ -95,24 +86,23 @@
                 letData.cellIdx10 ? letData.cellIdx10 : ""
               }}</span>
             </div>
-            <div class="docTextLine">
+            <table height="20"></table>
+            <div class="docTextarea">
               <label style="width: 5%"></label>
               <label>附件：</label>
-              <div
-                class="no-line-div"
+              <span
+                class="no-line-div no-underline"
                 @click="
                   commandFill(
                     'cellIdx18',
                     '加强和改善安全管理意见',
                     'CheckTableItem'
-                  )
-                "
-              >
-                加强和改善安全管理意见
-              </div>
+                  )">加强和改善安全管理意见
+              </span>
             </div>
             <table height="60"></table>
             <div class="docTextLine">
+              <label style="width: 5%"></label>
               <label>送件人（签名)：</label>
               <div
                 class="line-div"
@@ -131,6 +121,7 @@
               </div>
             </div>
             <div class="docTextLine">
+              <label style="width: 5%"></label>
               <label>收件人（签名)：</label>
               <div
                 class="line-div"
@@ -174,13 +165,13 @@
                 <tr>
                 <td
                   class="cellInput"
-                  id="cell_idx_18"
+                  id="cell_idx_17"
                   align="right"
                   style="width: 95%"
                   data-title
                   data-type="date"
                   data-src
-                  @click="commandFill('cellIdx18', '日期', 'DateItem')"
+                  @click="commandFill('cellIdx17', '日期', 'DateItem')"
                 >
                   {{ letData.cellIdx17 ? letData.cellIdx17 : "（点击编辑）" }}
                 </td>
@@ -220,17 +211,18 @@ export default {
         cellIdx4: null, // 签发人
         cellIdx5: null, // 单位
         cellIdx6: null, // 经我XX检查，
-        cellIdx7: null, // XX在矿山安全监督管理工作中
-        cellIdx8: null, // 年
-        cellIdx9: null, // 月
-        cellIdx10: null, // 日
-        cellIdx11: null, // 局
-        cellIdx12: null, // 月
-        cellIdx13: null, // 日
-        cellIdx14: null, // 承办人（签名）
-        cellIdx15: null, // 档号
-        cellIdx16: null, // 保管期限
-        cellIdx17: [], // 编辑目录
+        cellIdx7: null, //年
+        cellIdx8: null, // 月
+        cellIdx9: null, // 日
+        cellIdx10: null, // 局
+        cellIdx11: null, // 送件人（签名)
+        cellIdx12: null, // 日期
+        cellIdx13: null, // 收件人（签名)
+        cellIdx14: null, // 日期
+        cellIdx15: null, // 报送
+        cellIdx16: null, // 
+        cellIdx17: null, // 日期
+        cellIdx18: [], // 附件
         volumesMenuTable: {
           tableData: [],
         },
@@ -245,7 +237,7 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}Type${type}`;
-        if (key === "cellIdx17") {
+        if (key === "cellIdx18") {
           this.options[key] = {
             canEdit: true,
             page: "15",
