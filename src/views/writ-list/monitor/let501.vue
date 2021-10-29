@@ -52,7 +52,7 @@
                   data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx5', '局', 'TextItem')"
+                  @click="commandFill('cellIdx5', '', 'TextItem')"
                 >
                   {{ letData.cellIdx5 }}
                 </td>
@@ -192,7 +192,6 @@
     </let-main>
   </div>
 </template>
-
 <script>
 import GoDB from "@/utils/godb.min.js";
 import associationSelectPaper from "@/components/association-select-paper";
@@ -205,6 +204,8 @@ export default {
       options: {},
     };
   },
+  created() {
+  },
   methods: {
     async initLetData(selectedPaper) {
       this.letData = {
@@ -213,7 +214,7 @@ export default {
         cellIdx2: null, // 文书号
         cellIdx3: null, // 文书号
         cellIdx4: null, // 签发人
-        cellIdx5: null, // 局
+        cellIdx5: null, // 
         cellIdx6: null, // 经我XX检查，
         cellIdx7: null, // XX在矿山安全监督管理工作中
         cellIdx8: null, // 年

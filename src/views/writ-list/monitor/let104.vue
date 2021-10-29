@@ -373,7 +373,6 @@ export default {
         this.corpData.caseId,
         this.$store.state.user
       );
-      await db.close();
       let let1DataPapaerContent = JSON.parse(
         selectedPaper.let1Data.paperContent
       );
