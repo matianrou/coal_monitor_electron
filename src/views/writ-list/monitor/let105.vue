@@ -67,7 +67,7 @@
               <div>
                 <span>委托地方复查文书上传</span>
               </div>
-              <div style="flex: 1; display: flex; align-items: center; justify-content: flex-end;">
+              <div style="flex: 1; display: flex; align-items: center; justify-content: flex-end; line-height: 0px;">
                 <el-upload
                   :action="upload.action"
                   :headers="upload.headers"

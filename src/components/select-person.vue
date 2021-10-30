@@ -9,13 +9,14 @@
     top="10vh"
     @close="close"
   >
-    <div v-loading="loading">
+    <div v-loading="loading" class="dialog-max">
       <el-table
         ref="personList"
         :data="personList"
         stripe
         border
-        style="width: 100%; height: 100%;"
+        style="width: 100%;"
+        height="100%"
         :header-cell-style="{background: '#f5f7fa'}"
         :highlight-current-row="!multiSelect"
         @current-change="handleCurrentChange"
@@ -148,5 +149,12 @@ export default {
     background: rgb(83, 168, 255) !important;
     color: #fff;
   }
+}
+/deep/ .el-dialog__body {
+  padding: 10px 30px;
+  border-top: 1px solid #DCDFE6;
+}
+.dialog-max {
+  height: calc(100vh - 10vh - 200px);
 }
 </style>

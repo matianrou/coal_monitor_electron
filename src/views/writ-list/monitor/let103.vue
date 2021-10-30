@@ -1,4 +1,4 @@
-<!-- 现场检查 复查 检查方案(复查) -->
+<!-- 现场检查 复查 检查方案(复查) 42 -->
 <template>
   <div style="width: 100%; height: 100%">
     <let-main
@@ -13,11 +13,11 @@
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader0">
+            <div class="textAlignCenter formHeader2">
               国 家 矿 山 安 全 监 察
               <br />
             </div>
-            <div class="textAlignCenter formHeader1">检 查 方 案</div>
+            <div class="textAlignCenter formHeader3">检 查 方 案</div>
             <div class="docTextarea">
               <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;一、被检查单位：</span>
               <span

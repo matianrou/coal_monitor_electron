@@ -9,7 +9,7 @@
     top="10vh"
     @close="close"
   >
-    <div v-loading="loading">
+    <div v-loading="loading" class="dialog-max">
       <check-position-item
         ref="checkPositionItem"
         :corp-data="corpData"
@@ -70,4 +70,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+/deep/ .el-dialog__body {
+  padding: 10px 30px;
+  border-top: 1px solid #DCDFE6;
+}
+.dialog-max {
+  height: calc(100vh - 10vh - 200px);
+  overflow: auto;
+}
 </style>

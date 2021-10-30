@@ -1,4 +1,4 @@
-<!-- 现场检查 复查 复查意见书 -->
+<!-- 现场检查 复查 复查意见书 13 -->
 <template>
   <div style="width: 100%; height: 100%">
     <let-main
@@ -13,12 +13,12 @@
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader0">
+            <div class="textAlignCenter formHeader2">
               国 家 矿 山 安 全 监 察
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">复 查 意 见 书</div>
-            <div class="docTextLine paper-number-div">
+            <div class="textAlignCenter formHeader4">复 查 意 见 书</div>
+            <div class="formHeader5 paper-number-div">
               <div>
                 <span @click="commandFill('cellIdx0', '', 'TextItem')">{{
                   letData.cellIdx0 ? letData.cellIdx0 : "（编辑）"
@@ -141,14 +141,15 @@
             </div>
             <div class="docTextarea">
               <label style="width: 5%"></label>
-              <span @click="commandFill('cellIdx15', '', 'SelectItem')">{{
+              <span 
+                style="borderBottom:none"
+                @click="commandFill('cellIdx15', '', 'SelectItem')">{{
                 letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）"
               }}</span>
               ，经复查，意见如下：
               <span @click="commandFill('cellIdx16', '意见', 'TextareaItem')">{{
                 letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）"
               }}</span>
-              <div class="line"></div>
             </div>
             <table height="30"></table>
             <div class="docTextLine">
@@ -230,11 +231,9 @@
                 </td>
               </tr>
             </table>
-            <table class="cellLine">
-              <td class="textAlignLeft">
-                &nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被复查单位，一份存档。
-              </td>
-            </table>
+            <div class="docTextarea" style="border-top: 2px solid #000;">
+              备注：本文书一式两份，一份交被复查单位，一份存档。
+            </div>
           </div>
         </div>
       </div>
@@ -251,35 +250,12 @@
 </template>
 
 <script>
-// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let104",
   mixins: [associationSelectPaper],
-  /*   props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-    paperData: {
-      type: Object,
-      default: () => {},
-    },
-  },
-  components: {
-    letMain,
-  }, */
   data() {
     return {
       letData: {},
@@ -306,19 +282,6 @@ export default {
       associationPaper: ["1", "2"],
     };
   },
-  /*   created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-    "paperData.paperId"(val) {
-      this.initData();
-    },
-  }, */
   methods: {
     async initLetData(selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
@@ -326,47 +289,6 @@ export default {
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      /* const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId &&
-          item.paperType === this.docData.docTypeNo &&
-          item.delFlag !== "1"
-        );
-      });
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本 
-        // 1.生成文书编号
-        let { num0, num1, num3, num4 } = await getDocNumber(
-          db,
-          this.docData.docTypeNo,
-          this.corpData.caseId,
-          this.$store.state.user
-        );
-        // // 2.发现你矿存在：隐患描述
-        // // 获取笔录文书中的隐患数据
-        const let101Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === "1";
-        });
-        let let101DataPapaerContent = JSON.parse(let101Data.paperContent);
-        let dangerObject = getDangerObject(
-          let101DataPapaerContent.dangerItemObject.tableData,
-          { danger: true }
-        );
-        let cellIdx9String = dangerObject.dangerString;
-        let cellIdx10String = dangerObject.onsiteDescString;
-        // // 3.现场处理决定2的文书号：11-14
-        let paperNum2 = await getDocNumber(
-          db,
-          "2",
-          caseId,
-          this.$store.state.user
-        );*/
       let { num0, num1, num3, num4 } = await getDocNumber(
         db,
         this.docData.docTypeNo,
@@ -397,7 +319,8 @@ export default {
         cellIdx3TypeTextItem: num4, // 文书号
         cellIdx4: corp.corpName ? corp.corpName : null, //
         cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, //
-        cellIdx5: null, // 局
+        cellIdx5: '局', // 局
+        cellIdx5TypeTextItem: '局', // 局
         cellIdx6: null, // 年
         cellIdx7: null, // 月
         cellIdx8: null, // 日
@@ -411,15 +334,16 @@ export default {
         cellIdx13TypeTextItem: let2DataPapaerContent.cellIdx2, // 现场处理决定书 文书号
         cellIdx14: let2DataPapaerContent.cellIdx3, // 现场处理决定书 文书号
         cellIdx14TypeTextItem: let2DataPapaerContent.cellIdx3, // 现场处理决定书 文书号
-        cellIdx15: null, //
+        cellIdx15: '应你单位申请', //
+        cellIdx15TypeSelectItem: '应你单位申请', //
         cellIdx16: null, // 意见
         cellIdx17: null, // 被复查单位意见
         cellIdx18: null, // 单位负责人（签名）
         cellIdx19: null, // 日期
         cellIdx20: null, // 复查人员（签名）
         cellIdx21: null, // 日期
-        cellIdx22: null, //
-        cellIdx23: null, // 日期
+        cellIdx22: this.$store.state.curCase.groupName, //
+        cellIdx23: this.todayDate, // 日期
         dangerItemObject: let1DataPapaerContent.dangerItemObject,
       };
     },
@@ -447,21 +371,6 @@ export default {
           this.letData[dataKey],
           this.options[key]
         );
-      } else {
-        if (key === "cellIdx5") {
-          let dataKey = "checkTable";
-          this.options[key] = {
-            canEdit: false,
-          };
-          this.$refs.letMain.commandFill(
-            key,
-            dataKey,
-            title,
-            type,
-            this.letData[dataKey],
-            this.options[key]
-          );
-        }
       }
     },
   },

@@ -399,8 +399,9 @@ export default {
       for (let key in this.$parent.letData) {
         exportData[key] = this.$parent.letData[key] ? this.$parent.letData[key] : ''
       }
-      if (this.docData.docTypeNo === '22') {
+      if (this.docData.docTypeNo === '22' || this.docData.docTypeNo === '42') {
         // 检查方案导出时增加检查人员分工明细表
+        console.log('this.$parent.letData.checkTable', this.$parent.letData.checkTable)
         if (this.$parent.letData.checkTable && this.$parent.letData.checkTable.tableData) {
           let {tableData} = this.$parent.letData.checkTable
           // 遍历tableData数据，处理undefined情况
