@@ -56,9 +56,9 @@ export function createHtml(paperDiv, corpData) {
           border-bottom: 1px solid #000;
         }
         .formHeader1 {
-          margin: 0 auto 37px;
+          margin: 0 auto 30px;
           width: 15.6cm;
-          font-size: 27px;
+          font-size: 29.3px;
           font-family: 黑体;
           font-weight: bold;
           height: 1.5cm;
@@ -70,19 +70,39 @@ export function createHtml(paperDiv, corpData) {
           margin: 0 auto;
           width: 15.6cm;
           margin-top: 2px;
-          border-top: solid 2px #000;
-          font-size: 27px;
-          font-family: 华文中宋,SimSun;
+          font-size: 29.3px;
+          font-family: 隶书;
           font-weight: bold;
-          height: 1.4cm;
-          line-height: 1.4cm;
+          height: 1.0cm;
+          line-height: 1.0cm;
         }
         .formHeader3 {
-          font-size: 27px;
-          font-family: 华文中宋,SimSun;
+          margin: 0 auto 20px;
+          width: 15.6cm;
+          font-size: 29.3px;
+          font-family: 黑体;
           font-weight: bold;
-          height: 1.4cm;
-          line-height: 1.4cm;
+          height: 1.5cm;
+          line-height: 1.5cm;
+          border-bottom: solid 2px #000;
+        }
+        .formHeader4 {
+          margin: 0 auto 20px;
+          width: 15.6cm;
+          font-size: 29.3px;
+          font-family: 黑体;
+          font-weight: bold;
+          height: 1.5cm;
+          line-height: 1.5cm;
+        }
+        .formHeader5 {
+          margin: 0 auto 20px;
+          width: 15.6cm;
+          font-size: 18px;
+          font-family: 宋体;
+          font-weight: bold;
+          border-bottom: solid 2px #000;
+          display: flex;
         }
         .docTop {
           border-collapse: collapse;

@@ -1,27 +1,31 @@
 <!-- 现场检查 一般检查 现场检查笔录 -->
 <template>
-  <div style="width: 100%; height: 100%;">
+  <div style="width: 100%; height: 100%">
     <let-main
       ref="letMain"
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
       :edit-data="editData"
-      @go-back="goBack">
+      @go-back="goBack"
+    >
       <div slot="left">
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader0">
+            <div class="textAlignCenter formHeader2">
               国 家 矿 山 安 全 监 察
               <br />
             </div>
-            <div class="textAlignCenter formHeader1">现 场 检 查 笔 录</div>
+            <div class="textAlignCenter formHeader3">现 场 检 查 笔 录</div>
             <div class="docTextarea">
               <span class="no-line">被检查单位：</span>
               <span
-                @click="commandFill('cellIdx0', '被检查单位', 'TextItem')">{{
-                  letData.cellIdx0 ? letData.cellIdx0 : "（点击编辑）"}}</span>
+                @click="commandFill('cellIdx0', '被检查单位', 'TextItem')"
+                >{{
+                  letData.cellIdx0 ? letData.cellIdx0 : "（点击编辑）"
+                }}</span
+              >
               <div class="line"></div>
             </div>
             <div class="docTextLine">
@@ -29,85 +33,110 @@
               <div
                 class="line-div"
                 @click="commandFill('cellIdx1', '检查时间：', 'DaterangeItem')"
-              >{{ letData.cellIdx1 ? letData.cellIdx1 : '（点击编辑）' }}</div>
+              >
+                {{ letData.cellIdx1 ? letData.cellIdx1 : "（点击编辑）" }}
+              </div>
             </div>
             <div class="docTextarea">
               <span class="no-line">检查地点（路线）：</span>
               <span
-                @click="commandFill('cellIdx2', '检查地点（路线）', 'TextItem')">{{
-                  letData.cellIdx2 ? letData.cellIdx2 : "（点击编辑）"}}</span>
+                @click="commandFill('cellIdx2', '检查地点（路线）', 'TextItem')"
+                >{{
+                  letData.cellIdx2 ? letData.cellIdx2 : "（点击编辑）"
+                }}</span
+              >
               <div class="line"></div>
             </div>
             <div class="docTextLine">
-              <div style="flex: 3; display: flex;">
+              <div style="flex: 1; display: flex">
                 <label>采矿许可证：</label>
                 <div
                   class="line-div"
                   @click="commandFill('cellIdx3', '采矿许可证', 'TextItem')"
-                >{{ letData.cellIdx3 ? letData.cellIdx3 : '（点击编辑）' }}</div>
+                >
+                  {{ letData.cellIdx3 ? letData.cellIdx3 : "（点击编辑）" }}
+                </div>
               </div>
-              <div style="flex: 2; display: flex;">
+              <div style="flex: 1; display: flex">
                 <label>安全生产许可证：</label>
                 <div
                   class="line-div"
                   @click="commandFill('cellIdx4', '安全生产许可证', 'TextItem')"
-                >{{ letData.cellIdx4 ? letData.cellIdx4 : '（点击编辑）' }}</div>
+                >
+                  {{ letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）" }}
+                </div>
               </div>
             </div>
             <div class="docTextarea">
               <span class="no-line">检查人（签名）：</span>
               <span
-                @click="commandFill('cellIdx5', '检查人（签名）', 'TextItem')">{{
-                  letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"}}</span>
+                @click="commandFill('cellIdx5', '检查人（签名）', 'TextItem')"
+                >{{
+                  letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
+                }}</span
+              >
               <div class="line"></div>
             </div>
-            </div>
-            <div class="docTextLine">
-              <div style="flex: 2; display: flex;">
-                <label>记录人（签名）：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx6', '记录人（签名）', 'TextItem')"
-                >{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）' }}</div>
-                <label>陪同检察人员：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx7', '陪同检察人员', 'TextItem')"
-                >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）' }}</div>
+          </div>
+          <div class="docTextLine">
+            <div style="flex: 2; display: flex">
+              <label>记录人（签名）：</label>
+              <div
+                class="line-div"
+                @click="commandFill('cellIdx6', '记录人（签名）', 'TextItem')"
+              >
+                {{ letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）" }}
+              </div>
+              <label>陪同检察人员：</label>
+              <div
+                class="line-div"
+                @click="commandFill('cellIdx7', '陪同检察人员', 'TextItem')"
+              >
+                {{ letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）" }}
               </div>
             </div>
-            <div class="docTextarea">
-              <span class="no-line">检查情况：</span>
-              <span
-                @click="commandFill('cellIdx8', '检查情况', 'DangerTableItem')"
-              >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）' }}</span>
-              <div class="line"></div>
+          </div>
+          <div class="docTextarea">
+            <span class="no-line">检查情况：</span>
+            <span
+              @click="commandFill('cellIdx8', '检查情况', 'DangerTableItem')"
+              >{{ letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）" }}</span
+            >
+            <div class="line"></div>
+          </div>
+          <div class="docTextLine">
+            <div style="flex: 6; display: flex">
+              <label>被检查单位负责人意见：</label>
+              <div
+                class="line-div"
+                @click="
+                  commandFill('cellIdx9', '被检查单位负责人意见', 'TextItem')
+                "
+              >
+                {{ letData.cellIdx9 ? letData.cellIdx9 : "（编辑）" }}
+              </div>
             </div>
-            <div class="docTextLine">
-              <div style="flex: 1; display: flex;">
-                <label>被检查单位负责人意见：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx9', '被检查单位负责人意见', 'TextItem')"
-                >{{ letData.cellIdx9 ? letData.cellIdx9 : '（编辑）' }}</div>
+            <div style="flex: 3; display: flex">
+              <label>签名：</label>
+              <div
+                class="line-div"
+                @click="commandFill('cellIdx10', '签名:', 'TextItem')"
+              >
+                {{ letData.cellIdx10 ? letData.cellIdx10 : "（编辑）" }}
               </div>
-              <div style="flex: 1; display: flex;">
-                <label>签名：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx10', '签名:', 'TextItem')"
-                >{{ letData.cellIdx10 ? letData.cellIdx10 : '（编辑）' }}</div>
-              </div>
-              <div style="flex: 1; display: flex;">
-                <label>日期：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx11', '日期:', 'DateItem')"
-                >{{ letData.cellIdx11 ? letData.cellIdx11 : '（编辑）' }}</div>
+            </div>
+            <div style="flex: 4; display: flex">
+              <label>日期：</label>
+              <div
+                class="line-div"
+                @click="commandFill('cellIdx11', '日期:', 'DateItem')"
+              >
+                {{ letData.cellIdx11 ? letData.cellIdx11 : "（编辑）" }}
               </div>
             </div>
           </div>
         </div>
+      </div>
     </let-main>
   </div>
 </template>
@@ -128,7 +157,7 @@ export default {
         return {
           docTypeNo: null,
           docTypeName: null,
-        }
+        };
       },
     },
     paperData: {
@@ -144,10 +173,10 @@ export default {
       letData: {},
       options: {
         cellIdx8: {
-          page: '1', // 用于在隐患项保存，做数据处理
+          page: "1", // 用于在隐患项保存，做数据处理
           showBaseInfor: true, // 用于区分是否展示基本情况大文本输入
-          showSelectDangerBtn: true // 用于区分是否可以选择隐患项
-        }
+          showSelectDangerBtn: true, // 用于区分是否可以选择隐患项
+        },
       },
       editData: {}, // 回显数据
     };
@@ -156,9 +185,9 @@ export default {
     this.initData();
   },
   watch: {
-    'corpData.corpId' (val) {
+    "corpData.corpId"(val) {
       if (val) {
-        this.initData()
+        this.initData();
       }
     },
     "paperData.paperId"(val) {
@@ -167,32 +196,19 @@ export default {
   },
   methods: {
     async initData() {
-       // 初始化文书内容
+      // 初始化文书内容
       if (this.paperData && this.paperData.paperId) {
         this.letData = JSON.parse(this.paperData.paperContent);
         this.editData = this.paperData;
       } else {
         // 创建初始版本
-      const db = new GoDB(this.$store.state.DBName);
-      const corpBase = db.table("corpBase");
-      //查询符合条件的记录
-      const corp = await corpBase.find((item) => {
-        return item.corpId == this.corpData.corpId;
-      });
-      // const wkPaper = db.table("wkPaper");
-      // const caseId = this.corpData.caseId;
-      // //查询当前计划是否已做现场检查笔录
-      // const checkPaper = await wkPaper.findAll((item) => {
-      //   return item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1';
-      // });
-      // // await wkPaper.delete(checkPaper[0].id)
-      // if (checkPaper.length > 0) {
-      //   // 回显
-      //   this.letData = JSON.parse(checkPaper[0].paperContent);
-      //   this.editData = checkPaper[0];
-      // } else {
-      //   // 创建初始版本
-      await db.close();
+        const db = new GoDB(this.$store.state.DBName);
+        const corpBase = db.table("corpBase");
+        //查询符合条件的记录
+        const corp = await corpBase.find((item) => {
+          return item.corpId == this.corpData.corpId;
+        });
+        await db.close();
         this.letData = {
           cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
           cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null,
@@ -226,26 +242,32 @@ export default {
               isSerious: false, // 是否重大隐患
               isReview: false, // 是否复查
               reviewDate: null, // 复查日期
-            }
+            },
           }, // 隐患项大表
         };
       }
-      
     },
-    goBack({page}) {
+    goBack({ page }) {
       // 返回选择企业
-      this.$emit("go-back", {page});
+      this.$emit("go-back", { page });
     },
     commandFill(key, title, type) {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 打开编辑
-        let dataKey = `${key}Type${type}`
-        if (key === 'cellIdx8') {
+        let dataKey = `${key}Type${type}`;
+        if (key === "cellIdx8") {
           // 隐患项时对应letData中的dangerItemObject
-          dataKey = 'dangerItemObject'
+          dataKey = "dangerItemObject";
         }
-        this.$refs.letMain.commandFill(key, dataKey, title, type, this.letData[dataKey], this.options[key])
+        this.$refs.letMain.commandFill(
+          key,
+          dataKey,
+          title,
+          type,
+          this.letData[dataKey],
+          this.options[key]
+        );
       }
     },
   },

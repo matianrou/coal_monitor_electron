@@ -286,6 +286,7 @@ export default {
         const corp = await corpBase.find((item) => {
           return item.corpId == this.corpData.corpId;
         });
+        await db.close();
         this.letData = {
           cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
           cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null,
@@ -327,7 +328,6 @@ export default {
             },
           }, // 隐患项大表
         };
-        await db.close();
       }
     },
     goBack({ page }) {

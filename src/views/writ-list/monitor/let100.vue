@@ -1,4 +1,4 @@
-<!-- 现场检查 一般检查 检查方案 -->
+<!-- 现场检查 一般检查 检查方案 22 -->
 <template>
   <div style="width: 100%; height: 100%">
     <let-main
@@ -13,16 +13,21 @@
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader0">
+            <div class="textAlignCenter formHeader2">
               国 家 矿 山 安 全 监 察
               <br />
             </div>
-            <div class="textAlignCenter formHeader1">检 查 方 案</div>
+            <div class="textAlignCenter formHeader3">检 查 方 案</div>
             <div class="docTextarea">
-              <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;一、被检查单位：</span>
+              <span class="no-line"
+                >&nbsp;&nbsp;&nbsp;&nbsp;一、被检查单位：</span
+              >
               <span
-                @click="commandFill('cellIdx0', '被检查单位', 'TextItem')">{{
-                  letData.cellIdx0 ? letData.cellIdx0 : "（点击编辑）"}}</span>
+                @click="commandFill('cellIdx0', '被检查单位', 'TextItem')"
+                >{{
+                  letData.cellIdx0 ? letData.cellIdx0 : "（点击编辑）"
+                }}</span
+              >
               <div class="line"></div>
             </div>
             <div class="docTextarea">
@@ -105,7 +110,7 @@
                 class="no-line-div"
                 @click="
                   commandFill(
-                    'cellIdx7',
+                    'cellIdx5',
                     '检查的主要内容和分工见明细表',
                     'CheckTableItem'
                   )
@@ -164,7 +169,9 @@
         <!-- 但页面不展示 -->
         <div style="height: 0px; overflow: hidden">
           <div ref="checkTable" class="page page-sizeA4">
-            <div style="padding:10px 0;text-align:center">XX矿山安全监察局检查分工明细表</div>
+            <div style="padding: 10px 0; text-align: center">
+              XX矿山安全监察局检查分工明细表
+            </div>
             <div style="width: 19.5cm">
               <el-table
                 :data="letData.checkTable && letData.checkTable.tableData"
@@ -246,10 +253,6 @@ export default {
       type: Object,
       default: () => {},
     },
-    isCreated: {
-      type: Boolean,
-      default: false,
-    },
   },
   components: {
     letMain,
@@ -289,7 +292,6 @@ export default {
           { value: "6", name: "其他" },
         ],
       },
-      // editData: {}, // 回显数据
     };
   },
   created() {
@@ -312,28 +314,12 @@ export default {
         this.letData = JSON.parse(this.paperData.paperContent);
       } else {
         // 创建初始版本
-      const db = new GoDB(this.$store.state.DBName);
-      const corpBase = db.table("corpBase");
-      //查询符合条件的记录
-      const corp = await corpBase.find((item) => {
-        return item.corpId == this.corpData.corpId;
-      });
-      /*const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-       //查询当前计划是否已做文书
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId &&
-          item.paperType === this.docData.docTypeNo &&
-          item.delFlag !== "1"
-        );
-      });
-      // 已做文书则展示文书内容，否则创建初始版本
-      if (checkPaper.length > 0 && !this.isCreated) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
+        const db = new GoDB(this.$store.state.DBName);
+        const corpBase = db.table("corpBase");
+        //查询符合条件的记录
+        const corp = await corpBase.find((item) => {
+          return item.corpId == this.corpData.corpId;
+        });
         // 创建初始版本 */
         const zfZzInfo = db.table("zfZzInfo");
         const zzInfo1 = await zfZzInfo.find((item) => {
@@ -355,34 +341,34 @@ export default {
           corp.cityName +
           corp.countryName +
           "境内，隶属于" +
-          corp.parentTypeName +
+          (corp.parentTypeName ? corp.parentTypeName : 'XX') +
           "煤矿。 ";
         if (zzInfo1 && zzInfo1.expireTime)
           sSummary += "采矿许可证有效日期至" + zzInfo1.expireTime + "、";
-        else sSummary += "采矿许可证有效日期至    ";
+        else sSummary += "采矿许可证有效日期至XX";
         if (zzInfo2 && zzInfo2.expireTime)
           sSummary += "、安全生产许可证有效期至" + zzInfo2.expireTime + "，";
-        else sSummary += "、安全生产许可证有效期至    ，";
+        else sSummary += "、安全生产许可证有效期至XX，";
         if (corp.provedOutput)
           sSummary += "矿井核定生产能力为" + corp.provedOutput + "万吨/年，";
-        else sSummary += "矿井核定生产能力为   万吨/年，";
+        else sSummary += "矿井核定生产能力为XX万吨/年，";
         sSummary +=
-          corp.mineWsGradeName +
+          (corp.mineWsGradeName ? corp.mineWsGradeName : 'XX') +
           "、水文地质类型为中等，煤层自燃倾向性为" +
-          corp.mineFireName +
+          (corp.mineFireName ? corp.mineFireName : 'XX') +
           "，煤尘" +
-          corp.grimeExplosiveName +
+          (corp.grimeExplosiveName ? corp.grimeExplosiveName : 'XX') +
           "，";
         sSummary +=
           "矿井状况为" +
-          corp.mineStatusZsName +
+          (corp.mineStatusZsName ? corp.mineStatusZsName : 'XX') +
           "，开拓方式为" +
-          corp.mineMinestyleName +
+          (corp.mineMinestyleName ? corp.mineMinestyleName : 'XX') +
           "开拓。";
         sSummary +=
           "采煤方式为综采。通风方式为中央分列抽出，采掘作业地点有71003综采工作面采煤工作面、 71007综采工作面风巷、71007综采工作面机巷掘进工作面。";
         let corpOther = "检查的内容和分工变化时，应及时调整。";
-      await db.close();
+        await db.close();
         this.letData = {
           cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
           cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null,
@@ -398,7 +384,10 @@ export default {
           cellIdx9: null, // 编制日期
           cellIdx10: null, // 审批人
           cellIdx11: null, // 审批日期
-          checkTable: {}, // 检查分工明细表
+          checkTable: {
+            tableData: [],
+            selectedIdList: [],
+          }, // 检查表
         };
       }
     },
@@ -423,12 +412,19 @@ export default {
           this.options[key]
         );
       } else {
-        if (key === 'cellIdx5') {
-          dataKey = 'checkTable';
+        if (key === "cellIdx5") {
+          let dataKey = "checkTable";
           this.options[key] = {
             canEdit: false,
           };
-          this.$refs.letMain.commandFill(key, dataKey, title, type, this.letData[dataKey], this.options[key])
+          this.$refs.letMain.commandFill(
+            key,
+            dataKey,
+            title,
+            type,
+            this.letData[dataKey],
+            this.options[key]
+          );
         }
       }
     },

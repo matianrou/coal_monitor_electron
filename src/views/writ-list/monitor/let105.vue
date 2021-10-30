@@ -52,14 +52,10 @@
                   label="复查单位"
                   width="180">
                   <template slot-scope="scope">
-                    <el-select v-model="scope.row.orgId" filterable placeholder="请选择">
-                      <el-option
-                        v-for="item in orgOptions"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                      </el-option>
-                    </el-select>
+                    <el-button
+                      size="small"
+                      @click="selectOrg(scope.$index)"
+                    >{{ scope.row.orgName ? scope.row.orgName : '(点击选择)' }}</el-button>
                   </template>
                 </el-table-column>
               </el-table>
@@ -67,8 +63,20 @@
           </div>
           <div class="file-table-main">
             <!-- 文件上传 -->
-            <div class="paper-title">
-              <span>委托地方复查文书上传</span>
+            <div class="paper-title" style="display: flex; padding: 0 20px; align-items: center; justify-content: flex-end;">
+              <div>
+                <span>委托地方复查文书上传</span>
+              </div>
+              <div style="flex: 1; display: flex; align-items: center; justify-content: flex-end;">
+                <el-upload
+                  :action="upload.action"
+                  :headers="upload.headers"
+                  :data="upload.data"
+                  :show-file-list="false"
+                  :file-list="upload.fileList">
+                  <el-button size="small">上传文件</el-button>
+                </el-upload>
+              </div>
             </div>
             <div class="table-main">
               <el-table
@@ -112,16 +120,23 @@
       @close="closeDialog"
       @confirm-paper="confirmPaper"
     ></select-paper>
+    <select-org
+      :visible="selectOrgVisible"
+      @confirm-org="confirmOrg"
+      @close="closeSelectOrg"
+    ></select-org>
   </div>
 </template>
 
 <script>
 import GoDB from "@/utils/godb.min.js";
 import associationSelectPaper from "@/components/association-select-paper";
+import selectOrg from '@/components/select-org'
 export default {
   name: "Let105",
   mixins: [associationSelectPaper],
   components: {
+    selectOrg
   },
   data() {
     return {
@@ -130,16 +145,20 @@ export default {
       dangerTableData: [], // 隐患表
       fileTableData: [], // 上传文件表
       associationPaper: ['1'],
-      orgList: [], // 复查单位列表
+      selectOrgVisible: false, // 选择复查单位
+      selectedRowIndex: null, // 选中的复查单位的行索引
+      upload: {
+        action: '',
+        headers: {},
+        data: {},
+        fileList: []
+      },
     };
-  },
-  created() {
-    this.getOrgList()
   },
   methods: {
     async initLetData(selectedPaper) {
       // 创建初始版本
-      const db = new GoDB(this.$store.state.DBName);
+      let db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
       //查询符合条件的记录
       const corp = await corpBase.find((item) => {
@@ -156,11 +175,25 @@ export default {
       // 返回选择企业
       this.$emit("go-back", { page });
     },
-    getOrgList () {
-      // 获取复查单位列表
-    },
-    selectOrg () {
+    selectOrg (index) {
       // 选择复查单位
+      this.selectedRowIndex = index
+      this.selectOrgVisible = true
+    },
+    closeSelectOrg () {
+      this.selectOrgVisible = false
+    },
+    confirmOrg (data) {
+      let orgName = data.name
+      let orgId = data.id
+      this.$set(this.dangerTableData, this.selectedRowIndex, Object.assign(this.dangerTableData[this.selectedRowIndex], {
+        orgName,
+        orgId
+      }))
+      this.selectOrgVisible = false
+    },
+    addFile () {
+
     }
   },
 };
@@ -181,7 +214,7 @@ export default {
     height: 35px;
     background: rgb(33, 150, 243);
     line-height: 35px;
-    padding-left: 30px;
+    padding: 0px 30px;
     color: #fff;
     font-family: '宋体';
     font-weight: bold;

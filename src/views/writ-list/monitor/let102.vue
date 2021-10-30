@@ -13,12 +13,12 @@
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader0">
+            <div class="textAlignCenter formHeader2">
               国 家 矿 山 安 全 监 察
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">现 场 处 理 决 定 书</div>
-            <div class="docTextLine paper-number-div">
+            <div class="textAlignCenter formHeader4">现 场 处 理 决 定 书</div>
+            <div class="paper-number-div formHeader5">
               <div>
                 <span @click="commandFill('cellIdx0', '', 'TextItem')">{{
                   letData.cellIdx0 ? letData.cellIdx0 : "（编辑）"
@@ -60,9 +60,7 @@
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx5', '局', 'TextItem')"
-                >{{
-                  letData.cellIdx5 ? letData.cellIdx5 : ""
-                }}</span
+                >{{ letData.cellIdx5 ? letData.cellIdx5 : "局" }}</span
               >
               于
               <span @click="commandFill('cellIdx6', '', 'DateItem')">{{
@@ -166,11 +164,9 @@
                 </td>
               </tr>
             </table>
-            <table class="cellLine">
-              <td class="textAlignLeft">
-                &nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被检查单位，一份存档。
-              </td>
-            </table>
+            <div class="docTextarea" style="border-top: 2px solid #000">
+              备注：本文书一式两份，一份交被检查单位，一份存档。
+            </div>
           </div>
         </div>
       </div>
@@ -190,28 +186,10 @@
 // import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
-import associationSelectPaper from '@/components/association-select-paper'
+import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let102",
   mixins: [associationSelectPaper],
-  // props: {
-  //   corpData: {
-  //     type: Object,
-  //     default: () => {},
-  //   },
-  //   docData: {
-  //     type: Object,
-  //     default: () => {
-  //       return {
-  //         docTypeNo: null,
-  //         docTypeName: null,
-  //       };
-  //     },
-  //   },
-  // },
-  // components: {
-  //   letMain,
-  // },
   data() {
     return {
       letData: {},
@@ -222,92 +200,65 @@ export default {
           showSelectDangerBtn: false, // 用于区分是否可以选择隐患项
         },
       },
-      associationPaper: ['1']
+      associationPaper: ["1"],
     };
   },
-  // async created() {
-  //   await this.initData();
-  // },
-  // watch: {
-  //   async "corpData.corpId"(val) {
-  //     if (val) {
-  //       await this.initData();
-  //     }
-  //   },
-  // },
   methods: {
     async initLetData(selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
-      //查询符合条件的记录
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      /* const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      //查询当前计划是否已做现场处理决定
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId &&
-          item.paperType === this.docData.docTypeNo &&
-          item.delFlag !== "1"
-        );
-      });
-      // await wkPaper.delete(checkPaper[0].id)
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本
-        // 获取现场检查笔录中的隐患选择
-        const let101Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === "1";
-        }); */
-        let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
-        // 通过机构接口中的sysOfficeInfo中获取的organName和courtPrefix字段分别填充cellIdx8和cellIdx9字段
-        const orgInfo = db.table("orgInfo");
-        const orgData = await orgInfo.find(
-          (item) => item.no === this.$store.state.user.userGroupId
-        );
-        let orgSysOfficeInfo =
-          orgData && orgData.sysOfficeInfo
-            ? JSON.parse(orgData.sysOfficeInfo)
-            : { organName: "", courtPrefix: "" };
-        let paperNumber = await getDocNumber(
-          db,
-          this.docData.docTypeNo,
-          this.corpData.caseId,
-          this.$store.state.user
-        );
-        await db.close();
-        this.letData = {
-          cellIdx0: paperNumber.num0, // 文书号
-          cellIdx0TypeTextItem: paperNumber.num0, // 文书号
-          cellIdx1: paperNumber.num1, // 文书号
-          cellIdx1TypeTextItem: paperNumber.num1, // 文书号
-          cellIdx2: paperNumber.num3, // 文书号
-          cellIdx2TypeTextItem: paperNumber.num3, // 文书号
-          cellIdx3: paperNumber.num4, // 文书号
-          cellIdx3TypeTextItem: paperNumber.num4, // 文书号
-          cellIdx4: corp.corpName ? corp.corpName : null, // 被检查单位
-          cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // 被检查单位
-          cellIdx5: null, //局
-          cellIdx6: null, //
-          cellIdx7: dangerObject.contentOnsiteDesc, // 现场处理决定
-          cellIdx8: orgSysOfficeInfo.organName, //
-          cellIdx8TypeTextItem: orgSysOfficeInfo.organName, //
-          cellIdx9: orgSysOfficeInfo.courtPrefix, //
-          cellIdx9TypeTextItem: orgSysOfficeInfo.courtPrefix, //
-          cellIdx10: null, // 现场执法人员（签名)
-          cellIdx11: null, // 日期
-          cellIdx12: null, // 被检查单位负责人（签名)
-          cellIdx13: null, // 日期
-          cellIdx14: null, //
-          cellIdx15: null, //
-          dangerItemObject: let1DataPapaerContent.dangerItemObject, // 隐患项大表
-        };
+      let let1DataPapaerContent = JSON.parse(
+        selectedPaper.let1Data.paperContent
+      );
+      let dangerObject = getDangerObject(
+        let1DataPapaerContent.dangerItemObject.tableData
+      );
+      // 通过机构接口中的sysOfficeInfo中获取的organName和courtPrefix字段分别填充cellIdx8和cellIdx9字段
+      const orgInfo = db.table("orgInfo");
+      const orgData = await orgInfo.find(
+        (item) => item.no === this.$store.state.user.userGroupId
+      );
+      let orgSysOfficeInfo =
+        orgData && orgData.sysOfficeInfo
+          ? JSON.parse(orgData.sysOfficeInfo)
+          : { organName: "", courtPrefix: "" };
+      let paperNumber = await getDocNumber(
+        db,
+        this.docData.docTypeNo,
+        this.corpData.caseId,
+        this.$store.state.user
+      );
+      await db.close();
+      this.letData = {
+        cellIdx0: paperNumber.num0, // 文书号
+        cellIdx0TypeTextItem: paperNumber.num0, // 文书号
+        cellIdx1: paperNumber.num1, // 文书号
+        cellIdx1TypeTextItem: paperNumber.num1, // 文书号
+        cellIdx2: paperNumber.num3, // 文书号
+        cellIdx2TypeTextItem: paperNumber.num3, // 文书号
+        cellIdx3: paperNumber.num4, // 文书号
+        cellIdx3TypeTextItem: paperNumber.num4, // 文书号
+        cellIdx4: corp.corpName ? corp.corpName : null, // 被检查单位
+        cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // 被检查单位
+        cellIdx5: "局", //局
+        cellIdx5TypeTextItem: "局", //局
+        cellIdx6: null, //
+        cellIdx7: dangerObject.contentOnsiteDesc, // 现场处理决定
+        cellIdx8: orgSysOfficeInfo.organName, //
+        cellIdx8TypeTextItem: orgSysOfficeInfo.organName, //
+        cellIdx9: orgSysOfficeInfo.courtPrefix, //
+        cellIdx9TypeTextItem: orgSysOfficeInfo.courtPrefix, //
+        cellIdx10: null, // 现场执法人员（签名)
+        cellIdx11: null, // 日期
+        cellIdx12: null, // 被检查单位负责人（签名)
+        cellIdx13: null, // 日期
+        cellIdx14: this.$store.state.curCase.groupName, //
+        cellIdx15: this.todayDate, //
+        dangerItemObject: let1DataPapaerContent.dangerItemObject, // 隐患项大表
+      };
     },
     goBack({ page }) {
       // 返回选择企业
