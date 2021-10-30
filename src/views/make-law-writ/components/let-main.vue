@@ -414,8 +414,8 @@ export default {
             tableData: tableData
           }) 
         }
-      } else if (this.docData.docTypeNo === '23' || this.docData.docTypeNo === '25' || this.docData.docTypeNo === '32') {
-        // 抽样取证通知书导出时增加抽样取证清单||先行登记保存证据通知书 || 查封（扣押）决定书
+      } else if (this.docData.docTypeNo === '23' || this.docData.docTypeNo === '25' || this.docData.docTypeNo === '32' || this.docData.docTypeNo === '34') {
+        // 抽样取证通知书导出时增加抽样取证清单||先行登记保存证据通知书 || 查封（扣押）决定书 || 解除查封（扣押）决定书
         let {tableData, signature, signDate, otherEvidence, lawSignature, lawSignDate, places} = this.$parent.letData.SamplingForensicsTable
         // 遍历tableData数据，处理undefined情况
         tableData && tableData.forEach(item => {

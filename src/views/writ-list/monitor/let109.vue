@@ -13,14 +13,14 @@
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader0">
+            <div class="textAlignCenter formHeader2">
               国 家 矿 山 安 全 监 察
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">
-              先行登记保存证据处理决定书
+            <div class="textAlignCenter formHeader4">
+              先 行 登 记 保 存 证 据 处 理 决 定 书
             </div>
-            <div class="docTextLine paper-number-div">
+            <div class="formHeader5 paper-number-div">
               <div>
                 <span @click="commandFill('cellIdx0', '', 'TextItem')">{{
                   letData.cellIdx0 ? letData.cellIdx0 : "（编辑）"
@@ -83,19 +83,19 @@
                 letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
               }}</span>
               等物品进行了先行登记保存（
-              <span @click="commandFill('cellIdx10', '', 'TextItem')">{{
+              <span class="no-underline" @click="commandFill('cellIdx10', '', 'TextItem')">{{
                 letData.cellIdx10 ? letData.cellIdx10 : "（编辑）"
               }}</span>
               矿安监
-              <span @click="commandFill('cellIdx11', '', 'TextItem')">{{
+              <span class="no-underline" @click="commandFill('cellIdx11', '', 'TextItem')">{{
                 letData.cellIdx11 ? letData.cellIdx11 : "（编辑）"
               }}</span>
               先保〔
-              <span @click="commandFill('cellIdx12', '', 'TextItem')">{{
+              <span class="no-underline" @click="commandFill('cellIdx12', '', 'TextItem')">{{
                 letData.cellIdx12 ? letData.cellIdx12 : "（编辑）"
               }}</span>
               〕
-              <span @click="commandFill('cellIdx13', '', 'TextItem')">{{
+              <span class="no-underline" @click="commandFill('cellIdx13', '', 'TextItem')">{{
                 letData.cellIdx13 ? letData.cellIdx13 : "（编辑）"
               }}</span>
               号）。现根据《中华人民共和国行政处罚法》第三十七条第二款规定，对上述物品作出以下处理决定：
@@ -143,11 +143,9 @@
                 </td>
               </tr>
             </table>
-            <table class="cellLine">
-              <td class="textAlignLeft">
-                &nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被检查单位，一份存档。
-              </td>
-            </table>
+            <div class="docTextarea" style="border-top: 2px solid #000;">
+              备注：本文书一式两份，一份交被检查单位，一份存档。
+            </div>
           </div>
         </div>
       </div>
@@ -164,49 +162,19 @@
 </template>
 
 <script>
-// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDocNumber } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let109",
   mixins: [associationSelectPaper],
-  /*  props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-  }, */
   data() {
     return {
       letData: {},
       options: {},
       associationPaper: ["25"],
-      // editData: {}, // 回显数据
     };
   },
-  /*  created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-  }, */
   methods: {
     async initLetData(selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
@@ -214,21 +182,6 @@ export default {
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      /*  const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId &&
-          item.paperType === this.docData.docTypeNo &&
-          item.delFlag !== "1"
-        );
-      });
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本 */
       // 1.生成文书编号
       let { num0, num1, num3, num4 } = await getDocNumber(
         db,
@@ -236,42 +189,12 @@ export default {
         this.corpData.caseId,
         this.$store.state.user
       );
-      /* // 2.获取先行登记保存证据通知书中的日期、物品清单和编号字段
-        const let108Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === "25";
-        });
-        let let108DataPapaerContent = JSON.parse(let108Data.paperContent);
-        // 日期
-        let let108Date = let108DataPapaerContent.cellIdx14;
-        let108Date = let108Date
-          .replace("年", "-")
-          .replace("月", "-")
-          .replace("日", "-");
-        let dateList = let108Date.split("-");
-        let cellIdx6String = dateList[0];
-        let cellIdx7String = dateList[0];
-        let cellIdx8String = dateList[0];
-        // 物品名称：
-        let let108Article =
-          let108DataPapaerContent.SamplingForensicsTable.tableData;
-        let articleName = "";
-        if (let108Article.length > 0) {
-          let108Article.map((item) => {
-            articleName += item.name + "、";
-          });
-          articleName = articleName.substring(0, articleName.length - 1);
-        }
-        let cellIdx9String = articleName;
-        // 文书号：
-        let num1080 = let108DataPapaerContent.cellIdx0;
-        let num1081 = let108DataPapaerContent.cellIdx1;
-        let num1083 = let108DataPapaerContent.cellIdx2;
-        let num1084 = let108DataPapaerContent.cellIdx3; */
+      // 2.获取先行登记保存证据通知书中的日期、物品清单和编号字段
       let let25DataPapaerContent = JSON.parse(
         selectedPaper.let25Data.paperContent
       );
       // 日期
-      let let25Date = let25DataPapaerContent.cellIdx14;
+      let let25Date = let25DataPapaerContent.cellIdx22;
       let25Date = let25Date
         ? let25Date.replace("年", "-").replace("月", "-").replace("日", "-")
         : " - - ";
@@ -318,7 +241,8 @@ export default {
         cellIdx3TypeTextItem: num4, // 文书号
         cellIdx4: corp.corpName ? corp.corpName : null, // corpname
         cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
-        cellIdx5: null, // 局
+        cellIdx5: '局', // 局
+        cellIdx5TypeTextItem: '局', // 局
         cellIdx6: cellIdx6String, // 年
         cellIdx6TypeTextItem: cellIdx6String, // 年
         cellIdx7: cellIdx7String, // 月
@@ -340,8 +264,8 @@ export default {
         cellIdx15TypeTextItem: cellIdx15String, // 可在接到本决定书之日起60日内向。。。申请行政复议或6个月内向
         cellIdx16: cellIdx16String, // 人民法院
         cellIdx16TypeTextItem: cellIdx16String, // 人民法院
-        cellIdx17: null, //
-        cellIdx18: null, // 日期
+        cellIdx17: this.$store.state.curCase.groupName, //
+        cellIdx18: this.todayDate, // 日期
       };
     },
     goBack({ page }) {

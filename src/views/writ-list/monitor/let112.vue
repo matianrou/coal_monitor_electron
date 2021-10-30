@@ -1,4 +1,4 @@
-<!-- 现场检查 实施检查 停供电(停供民用爆炸物品)通知书 -->
+<!-- 现场检查 实施检查 停供电(停供民用爆炸物品)通知书 37 -->
 <template>
   <div style="width: 100%; height: 100%">
     <let-main
@@ -13,10 +13,10 @@
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader0">
+            <div class="textAlignCenter formHeader2">
               国 家 矿 山 安 全 监 察
             </div>
-            <div class="textAlignLeft formHeader3">
+            <div class="textAlignLeft formHeader4">
               <table class="docBody">
                 <tr>
                   <td
@@ -27,21 +27,14 @@
                     data-title="停供电(停供民用爆炸物品)"
                     data-type="text"
                     data-src
-                    @click="
-                      commandFill(
-                        'cellIdx0',
-                        '停供电(停供民用爆炸物品)',
-                        'TextItem'
-                      )
-                    "
                   >
                     {{ letData.cellIdx0 }}
                   </td>
-                  <td class="textAlignLeft">&nbsp;通知书</td>
+                  <td class="textAlignLeft">通知书</td>
                 </tr>
               </table>
             </div>
-            <div class="docTextLine paper-number-div">
+            <div class="formHeader5 paper-number-div">
               <div>
                 <span @click="commandFill('cellIdx1', '', 'TextItem')">{{
                   letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
@@ -50,7 +43,9 @@
                 <span @click="commandFill('cellIdx2', '', 'TextItem')">{{
                   letData.cellIdx2 ? letData.cellIdx2 : "（编辑）"
                 }}</span>
-                <label>停〔</label>
+                <label>停</label>
+                <span>{{ letData.cellIdx22 }}</span>
+                <label>〔</label>
                 <span @click="commandFill('cellIdx3', '', 'TextItem')">{{
                   letData.cellIdx3 ? letData.cellIdx3 : "（编辑）"
                 }}</span>
@@ -92,7 +87,7 @@
                 letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
               }}</span>
               的决定，但该单位拒不执行该决定，未及时消除安全隐患，现有发生生产安全事故的危险。根据《中华人民共和国安全生产法》第六十七条第一款规定，请贵单位对其采取
-              <span class="no-underline" @click="commandFill('cellIdx9', '', 'TextItem')">{{
+              <span class="no-underline">{{
                 letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
               }}</span>
               的措施。
@@ -197,18 +192,12 @@
                 </td>
               </tr>
             </table>
-            <table height="60"></table>
-            <div class="docTextarea cellLine">
-              <label style="width: 5%"></label>
-              &nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式三份，一份交
+            <div class="docTextarea" style="border-top: 2px solid #000;">
+              备注：本文书一式三份，一份交
               <span
-                style="border-bottom: none"
-                @click="commandFill('cellIdx21', '', 'TextItem')"
-                >{{
-                  letData.cellIdx21 ? letData.cellIdx21 : "（点击编辑）"
-                }}</span
-              >
-              ，一份交煤矿，一份存档。
+                style="borderBottom:none"
+              >{{ letData.cellIdx21 ? letData.cellIdx21 : '（点击编辑）'}}</span>
+              ，一份交煤矿，一份存档。 
             </div>
           </div>
         </div>
@@ -243,51 +232,21 @@
 </template>
 
 <script>
-// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDocNumber } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let112",
   mixins: [associationSelectPaper],
-  /*  props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-  }, */
   data() {
     return {
       letData: {},
       options: {},
-      editData: {}, // 回显数据
       visibleSelectDialog: false,
       selectedType: "停供电", // 初始化时选择的停供电
       associationPaper: ["1"],
     };
   },
-  /*   created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-  }, */
   methods: {
     async initLetData(selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
@@ -295,21 +254,6 @@ export default {
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      /* const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId &&
-          item.paperType === this.docData.docTypeNo &&
-          item.delFlag !== "1"
-        );
-      });
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本 */
       // 1.弹出提示框，选择停供电或停供民用爆炸物品
       this.visibleSelectDialog = true;
       // 2.生成文书编号
@@ -339,13 +283,15 @@ export default {
         cellIdx1TypeTextItem: num0, // 文书号
         cellIdx2: num1, // 文书号
         cellIdx2TypeTextItem: num1, // 文书号
+        cellIdx22: null, // 停供电(停供民用爆炸物品)
         cellIdx3: num3, // 文书号
         cellIdx3TypeTextItem: num3, // 文书号
         cellIdx4: num4, // 文书号
         cellIdx4TypeTextItem: num4, // 文书号
         cellIdx5: null, // 单位
         cellIdx5TypeTextItem: null, // 单位
-        cellIdx6: null, // 局
+        cellIdx6: '局', // 局
+        cellIdx6TypeTextItem: '局', // 局
         cellIdx7: corp.corpName ? corp.corpName : null, // corpname
         cellIdx7TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
         cellIdx8: null, // 依法作出X的决定
@@ -363,9 +309,9 @@ export default {
         cellIdx17TypeTextItem: cellIdx17String, // 联系人
         cellIdx18: cellIdx18String, // 联系电话
         cellIdx18TypeTextItem: cellIdx18String, // 联系电话
-        cellIdx19: null, //
-        cellIdx20: null, // 日期
-        cellIdx21: null, // 单位/个人
+        cellIdx19: this.$store.state.curCase.groupName, //
+        cellIdx20: this.todayDate, // 日期
+        cellIdx21: null, // 停供电(停供民用爆炸物品)
       };
     },
     goBack({ page }) {
@@ -391,7 +337,9 @@ export default {
       // 选择停供电或停供民用爆炸物品
       this.visibleSelectDialog = false;
       this.letData.cellIdx0 = this.selectedType;
-      this.letData.cellIdx0TypeTextItem = this.selectedType;
+      this.letData.cellIdx22 = this.selectedType === '停供电' ? '电' : '爆'
+      this.letData.cellIdx9 = this.selectedType === '停供电' ? '停供生产性用电' : '停供民用爆炸物品'
+      this.letData.cellIdx21 = this.selectedType === '停供电' ? '供电部门' : '公安机关'
       this.letData.selectedType = this.selectedType;
     },
   },

@@ -1,4 +1,4 @@
-<!-- 现场检查 实施检查 解除查封(扣押决定书) -->
+<!-- 现场检查 实施检查 解除查封(扣押决定书) 34 -->
 <template>
   <div style="width: 100%; height: 100%">
     <let-main
@@ -13,10 +13,10 @@
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader0">
+            <div class="textAlignCenter formHeader2">
               国 家 矿 山 安 全 监 察
             </div>
-            <div class="textAlignCenter formHeader3">
+            <div class="textAlignCenter formHeader4">
               <table class="docBody">
                 <tr>
                   <td class="textAlignLeft">解除</td>
@@ -27,7 +27,6 @@
                     data-title="查封(扣押)"
                     data-type="text"
                     data-src
-                    @click="commandFill('cellIdx0', '查封(扣押)', 'TextItem')"
                   >
                     {{ letData.cellIdx0 }}
                   </td>
@@ -35,7 +34,7 @@
                 </tr>
               </table>
             </div>
-            <div class="docTextLine paper-number-div">
+            <div class="formHeader5 paper-number-div">
               <div>
                 <span @click="commandFill('cellIdx1', '', 'TextItem')">{{
                   letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
@@ -45,7 +44,7 @@
                   letData.cellIdx2 ? letData.cellIdx2 : "（编辑）"
                 }}</span>
                 <label>解</label>
-                <span @click="commandFill('cellIdx3', '', 'TextItem')">{{
+                <span>{{
                   letData.cellIdx3 ? letData.cellIdx3 : "（编辑）"
                 }}</span>
                 <label>〔</label>
@@ -82,9 +81,7 @@
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx7', '局', 'TextItem')"
-                >{{
-                  letData.cellIdx7 ? letData.cellIdx7 : ""
-                }}</span
+                >{{ letData.cellIdx7 ? letData.cellIdx7 : "" }}</span
               >
               于
               <span @click="commandFill('cellIdx8', '年', 'TextItem')">{{
@@ -101,7 +98,6 @@
               日向你
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx11', '单位', 'TextItem')"
                 >{{
                   letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）"
                 }}</span
@@ -115,24 +111,23 @@
               决定书》（
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx13', '', 'TextItem')"
+                @click="commandFill('cellIdx13', '文书号', 'TextItem')"
                 >{{ letData.cellIdx13 ? letData.cellIdx13 : "（编辑）" }}</span
               >
               矿安监
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx14', '', 'TextItem')"
+                @click="commandFill('cellIdx14', '文书号', 'TextItem')"
                 >{{ letData.cellIdx14 ? letData.cellIdx14 : "（编辑）" }}</span
               >
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx15', '', 'TextItem')"
                 >{{ letData.cellIdx15 ? letData.cellIdx15 : "（编辑）" }}</span
               >
               〔
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx16', '', 'TextItem')"
+                @click="commandFill('cellIdx16', '文书号', 'TextItem')"
                 >{{
                   letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）"
                 }}</span
@@ -140,7 +135,7 @@
               〕
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx17', '', 'TextItem')"
+                @click="commandFill('cellIdx17', '文书号', 'TextItem')"
                 >{{
                   letData.cellIdx17 ? letData.cellIdx17 : "（点击编辑）"
                 }}</span
@@ -148,7 +143,6 @@
               号），对所附《物品清单》所列物品予以
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx18', '', 'TextItem')"
                 >{{
                   letData.cellIdx18 ? letData.cellIdx18 : "（点击编辑）"
                 }}</span
@@ -160,7 +154,7 @@
               项的规定，予以
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx20', '', 'TextItem')"
+                @click="commandFill('cellIdx20', '全部/部分', 'SelectItem')"
                 >{{
                   letData.cellIdx20 ? letData.cellIdx20 : "（点击编辑）"
                 }}</span
@@ -168,7 +162,6 @@
               解除
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx21', '', 'TextItem')"
                 >{{
                   letData.cellIdx21 ? letData.cellIdx21 : "（点击编辑）"
                 }}</span
@@ -226,7 +219,6 @@
               &nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被解除
               <span
                 style="border-bottom: none"
-                @click="commandFill('cellIdx25', '', 'TextItem')"
                 >{{
                   letData.cellIdx25 ? letData.cellIdx25 : "（点击编辑）"
                 }}</span
@@ -237,23 +229,6 @@
         </div>
       </div>
     </let-main>
-    <el-dialog
-      title="文书信息选择"
-      :close-on-click-modal="false"
-      append-to-body
-      :visible="visibleSelectDialog"
-      width="400px"
-      :show-close="false"
-    >
-      <span>请选择：</span>
-      <el-radio-group v-model="selectedType">
-        <el-radio label="查封">查封</el-radio>
-        <el-radio label="扣押">扣押</el-radio>
-      </el-radio-group>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="confirm">确定</el-button>
-      </span>
-    </el-dialog>
     <!-- 关联文书选择 -->
     <select-paper
       :visible="visible.selectPaper"
@@ -266,31 +241,12 @@
 </template>
 
 <script>
-// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let111",
   mixins: [associationSelectPaper],
-  /*   props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-  }, */
   data() {
     return {
       letData: {},
@@ -306,22 +262,9 @@ export default {
           },
         ],
       },
-      // editData: {}, // 回显数据
-      visibleSelectDialog: false,
-      selectedType: "查封",
-      associationPaper: ["1"],
+      associationPaper: ["32"],
     };
   },
-  /*   created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-  }, */
   methods: {
     async initLetData(selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
@@ -329,23 +272,6 @@ export default {
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      /* const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId &&
-          item.paperType === this.docData.docTypeNo &&
-          item.delFlag !== "1"
-        );
-      });
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本 */
-      // 1.弹出提示框，选择查封或扣押
-      this.visibleSelectDialog = true;
       // 2.生成文书编号
       let { num0, num1, num3, num4 } = await getDocNumber(
         db,
@@ -354,71 +280,61 @@ export default {
         this.$store.state.user
       );
       // 3.获取查封（扣押）决定书的日期和编号
-      /*   const let110Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === "32";
-        });
-        let let110DataPapaerContent = JSON.parse(let110Data.paperContent);
-        let date = let110DataPapaerContent.cellIdx20;
-        date = date.replace("年", "-").replace("月", "-").replace("日", "-");
-        let dateList = date.split("-"); */
-             let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      let let32DataPapaerContent = JSON.parse(
+        selectedPaper.let32Data.paperContent
+      );
       // 2.时间
-        let now = new Date();
-        let cellIdx8Year = now.getFullYear();
-        let cellIdx9Month = now.getMonth() + 1;
-        let cellIdx10Date = now.getDate();
+      let date = let32DataPapaerContent.cellIdx19
+      date = date.replace("年", "-").replace("月", "-").replace("日", "-");
+      let dateList = date.split("-"); 
       // 文书编号：
-      let cellIdx13String = let1DataPapaerContent.cellIdx1;
-      let cellIdx14String = let1DataPapaerContent.cellIdx2;
-      let cellIdx16String = let1DataPapaerContent.cellIdx3;
-      let cellIdx17String = let1DataPapaerContent.cellIdx4;
+      let cellIdx13String = let32DataPapaerContent.cellIdx1;
+      let cellIdx14String = let32DataPapaerContent.cellIdx2;
+      let cellIdx16String = let32DataPapaerContent.cellIdx3;
+      let cellIdx17String = let32DataPapaerContent.cellIdx4;
       await db.close();
       this.letData = {
-        cellIdx0: null, // 查封(扣押)
+        cellIdx0: let32DataPapaerContent.selectedType, // 查封(扣押)
         cellIdx1: num0, // 文书号
         cellIdx1TypeTextItem: num0, // 文书号
         cellIdx2: num1, // 文书号
         cellIdx2TypeTextItem: num1, // 文书号
-        cellIdx3: null, // 查/扣
-        cellIdx3TypeTextItem: null, // 查/扣
+        cellIdx3: let32DataPapaerContent.selectedType.substring(0, 1), // 查/扣
         cellIdx4: num3, // 文书号
         cellIdx4TypeTextItem: num3, // 文书号
         cellIdx5: num4, // 文书号
         cellIdx5TypeTextItem: num4, // 文书号
         cellIdx6: corp.corpName ? corp.corpName : null, // corpname
         cellIdx6TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
-        cellIdx7: null, // 局
-        cellIdx8: cellIdx8Year, // 年
-        cellIdx8TypeTextItem: cellIdx8Year, // 年
-        cellIdx9: cellIdx9Month, // 月
-        cellIdx9TypeTextItem: cellIdx9Month, // 月
-        cellIdx10: cellIdx10Date, // 日
-        cellIdx10TypeTextItem: cellIdx10Date, // 日
-        cellIdx11: null, // 单位/个人
-        cellIdx12: null, // 查封(扣押)
+        cellIdx7: '局', // 局
+        cellIdx7TypeTextItem: '局', // 局
+        cellIdx8: dateList[0], // 年
+        cellIdx8TypeTextItem: dateList[0], // 年
+        cellIdx9: dateList[1], // 月
+        cellIdx9TypeTextItem: dateList[1], // 月
+        cellIdx10: dateList[2], // 日
+        cellIdx10TypeTextItem: dateList[2], // 日
+        cellIdx11: '单位', // 单位/个人
+        cellIdx12: let32DataPapaerContent.selectedType, // 查封(扣押)
         cellIdx13: cellIdx13String, // 文书号
         cellIdx13TypeTextItem: cellIdx13String, // 文书号
         cellIdx14: cellIdx14String, // 文书号
         cellIdx14TypeTextItem: cellIdx14String, // 文书号
-        cellIdx15: null, // 查/扣
+        cellIdx15: let32DataPapaerContent.selectedType.substring(0, 1), // 查/扣
         cellIdx16: cellIdx16String, // 文书号
         cellIdx16TypeTextItem: cellIdx16String, // 文书号
         cellIdx17: cellIdx17String, // 文书号
         cellIdx17TypeTextItem: cellIdx17String, // 文书号
-        cellIdx18: null, // 查封(扣押)
+        cellIdx18: let32DataPapaerContent.selectedType, // 查封(扣押)
         cellIdx19: null, // 第X项的规定
         cellIdx20: null, // 全部/部分
-        cellIdx21: null, // 查封(扣押)
-        cellIdx22: null, // 附件
-        cellIdx23: null, //
-        cellIdx24: null, // 日期
-        cellIdx25: null, //
-        dangerItemObject: let1DataPapaerContent.dangerItemObject,
-        SamplingForensicsTable: {
-          tableData: [],
-          signature: null,
-          signDate: "",
-        },
+        cellIdx21: let32DataPapaerContent.selectedType, // 查封(扣押)
+        cellIdx22: let32DataPapaerContent.SamplingForensicsTable, // 附件
+        cellIdx23: this.$store.state.curCase.groupName, //
+        cellIdx24: this.todayDate, // 日期
+        cellIdx25: let32DataPapaerContent.selectedType, // 查封(扣押)
+        SamplingForensicsTable: let32DataPapaerContent.SamplingForensicsTable,
+        selectedType: let32DataPapaerContent.selectedType
       };
     },
     goBack({ page }) {
@@ -446,24 +362,24 @@ export default {
           this.letData[dataKey],
           this.options[key]
         );
+      } else {
+        if (key === "cellIdx22") {
+          this.options[key] = {
+            canEdit: false,
+            page: "34", // 物品清单
+            name: this.letData.selectedType,
+          };
+          let dataKey = "SamplingForensicsTable";
+          this.$refs.letMain.commandFill(
+            key,
+            dataKey,
+            title,
+            type,
+            this.letData[dataKey],
+            this.options[key]
+          );
+        }
       }
-    },
-    confirm() {
-      // 选择单位或个人
-      this.visibleSelectDialog = false;
-      this.letData.cellIdx0 = this.selectedType;
-      this.letData.cellIdx0TypeTextItem = this.selectedType;
-      this.letData.cellIdx3 = this.selectedType.substring(0, 1);
-      this.letData.cellIdx3TypeTextItem = this.selectedType.substring(0, 1);
-      this.letData.cellIdx12 = this.selectedType;
-      this.letData.cellIdx12TypeTextItem = this.selectedType;
-      this.letData.cellIdx15 = this.selectedType.substring(0, 1);
-      this.letData.cellIdx15TypeTextItem = this.selectedType.substring(0, 1);
-      this.letData.cellIdx18 = this.selectedType;
-      this.letData.cellIdx18TypeTextItem = this.selectedType;
-      this.letData.cellIdx21 = this.selectedType;
-      this.letData.cellIdx21TypeTextItem = this.selectedType;
-      this.letData.selectedType = this.selectedType;
     },
   },
 };

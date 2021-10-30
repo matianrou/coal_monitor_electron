@@ -105,13 +105,13 @@
               的
               <span
                 style="borderBottom:none"
-                @click="commandFill('cellIdx14', '', 'SelectItem')"
-              >{{ letData.cellIdx14? letData.cellIdx14 : '（点击编辑）' }}</span>
+                @click="commandFill('cellIdx9', '', 'SelectItem')"
+              >{{ letData.cellIdx9? letData.cellIdx9 : '（点击编辑）' }}</span>
               作出处理决定。此前，你单位不得使用、销毁或转移上述
               <span
                 style="borderBottom:none"
-                @click="commandFill('cellIdx15', '', 'SelectItem')"
-              >{{ letData.cellIdx15? letData.cellIdx15 : '（点击编辑）' }}</span>
+                @click="commandFill('cellIdx9', '', 'SelectItem')"
+              >{{ letData.cellIdx9? letData.cellIdx9 : '（点击编辑）' }}</span>
               ，并负有安全保障责任。
             </div>
             <div class="docTextarea">
@@ -253,8 +253,6 @@ export default {
           key: "cellIdx8",
         },
         cellIdx9: dictionary,
-        cellIdx14: dictionary,
-        cellIdx15: dictionary,
       },
       selectedType: "查封",
       visibleSelectDialog: false,
@@ -314,8 +312,8 @@ export default {
         cellIdx11: null, // 查封(扣押)
         cellIdx12: null, // 物品清单
         cellIdx13: null, // XX的
-        cellIdx14: null, // XX作出处理决定
-        cellIdx15: null, // 此前，你单位不得使用、销毁或转移上述XX
+        // cellIdx14: null, // XX作出处理决定 暂不用
+        // cellIdx15: null, // 此前，你单位不得使用、销毁或转移上述XX 暂不用
         cellIdx16: cellIdx15String, // 人民政府
         cellIdx16TypeTextItem: cellIdx15String, // 人民政府
         cellIdx17: cellIdx16String, // organName

@@ -92,7 +92,7 @@ export default {
               console.log('paperDataList', paperDataList)
               if (paperDataList.length === 0) {
                 // 如果未查到关联的文书，则提示：
-                let paperName = this.$store.state.dictionary.supervisionPaperType.filter(item => item.id === paper)
+                let paperName = this.$store.state.dictionary[`${this.$store.state.user.userType}PaperType`].filter(item => item.id === paper)
                 this.$message.error(`请先填写并保存${paperName[0].name}中内容！`)
                 // 同时break退出循环，isReturn停止程序继续运行
                 isReturn = true
