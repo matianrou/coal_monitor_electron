@@ -213,16 +213,12 @@
                 </td>
               </tr>
             </table>
-            <table height="60"></table>
-            <div class="docTextarea cellLine">
-              <label style="width: 5%"></label>
-              &nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被解除
+            <div class="docTextarea" style="border-top: 2px solid #000;">
+              备注：本文书一式两份，一份交被解除
               <span
-                style="border-bottom: none"
-                >{{
-                  letData.cellIdx25 ? letData.cellIdx25 : "（点击编辑）"
-                }}</span
-              >
+                style="borderBottom:none">
+                {{ letData.cellIdx25 ? letData.cellIdx25 : "（点击编辑）" }}
+              </span>
               单位，一份存档。
             </div>
           </div>

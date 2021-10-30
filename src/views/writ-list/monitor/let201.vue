@@ -1,6 +1,6 @@
-<!-- 行政处罚 一般程序 立案决定书 -->
+<!-- 行政处罚 一般程序 立案决定书 4 -->
 <template>
-  <div style="width: 100%; height: 100%;">
+  <div style="width: 100%; height: 100%">
     <let-main
       ref="letMain"
       :corp-data="corpData"
@@ -13,12 +13,12 @@
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader0">
+            <div class="textAlignCenter formHeader2">
               国 家 矿 山 安 全 监 察
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">立 案 决 定 书</div>
-            <div class="docTextLine paper-number-div">
+            <div class="textAlignCenter formHeader4">立 案 决 定 书</div>
+            <div class="formHeader5 paper-number-div">
               <div>
                 <span @click="commandFill('cellIdx0', '文书号', 'TextItem')">{{
                   letData.cellIdx0 ? letData.cellIdx0 : "（编辑）"
@@ -38,22 +38,24 @@
                 <label>号</label>
               </div>
             </div>
-            <div class="docTextLine">
-              <label>案&nbsp;&nbsp;&nbsp; 由：</label>
-              <div
-                class="line-div"
-                @click="
-                  commandFill('cellIdx4', '案由', 'DangerTableItem')
-                "
+            <div class="docTextarea">
+              案&nbsp;&nbsp;&nbsp; 由：
+              <span
+                @click="commandFill('cellIdx4', '案由', 'DangerTableItem')"
+                >{{
+                  letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）"
+                }}</span
               >
-                {{ letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）" }}
-              </div>
+              <div class="line"></div>
             </div>
             <div class="docTextarea">
               案情摘要：
               <span
                 @click="commandFill('cellIdx5', '案情摘要', 'DangerTableItem')"
-              >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</span>
+                >{{
+                  letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
+                }}</span
+              >
               <div class="line"></div>
             </div>
             <div class="docTextarea">
@@ -82,9 +84,7 @@
                 <label>审批人意见：</label>
                 <div
                   class="line-div"
-                  @click="
-                    commandFill('cellIdx10', '审批人意见', 'TextItem')
-                  "
+                  @click="commandFill('cellIdx10', '审批人意见', 'TextItem')"
                 >
                   {{ letData.cellIdx10 ? letData.cellIdx10 : "（编辑）" }}
                 </div>
@@ -136,42 +136,6 @@
                 </td>
               </tr>
             </table>
-            <!-- <table class="docBody">
-              <td class="cellInput" style="width:55%"></td>
-              <td
-                class="cellInput"
-                id="cell_idx_14"
-                align="center"
-                style="width:10%"
-                data-title="年"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx14', '年', 'TextItem')"
-              >{{letData.cellIdx14}}</td>
-              <td class="textAlignLeft">年</td>
-              <td
-                class="cellInput"
-                id="cell_idx_15"
-                align="center"
-                style="width:10%"
-                data-title="月"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx15', '月', 'TextItem')"
-              >{{letData.cellIdx15}}</td>
-              <td class="textAlignLeft">月</td>
-              <td
-                class="cellInput"
-                id="cell_idx_16"
-                align="center"
-                style="width:10%"
-                data-title="日"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx16', '日', 'TextItem')"
-              >{{letData.cellIdx16}}</td>
-              <td class="textAlignLeft">日</td>
-            </table> -->
           </div>
         </div>
       </div>
@@ -188,183 +152,128 @@
 </template>
 
 <script>
-// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
-import { handleDate } from '@/utils/date'
-import { getDangerObject, getDocNumber } from '@/utils/setInitPaperData'
-import associationSelectPaper from '@/components/association-select-paper'
+import { handleDate } from "@/utils/date";
+import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
+import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let201",
   mixins: [associationSelectPaper],
-/*   props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-  }, */
   data() {
     return {
       letData: {},
       options: {
         cellIdx4: {
-          page: '4',
-          key: 'cellIdx4' // 用来区分一个页面多个地方调用隐患大表，最后返回值
+          page: "4",
+          key: "cellIdx4", // 用来区分一个页面多个地方调用隐患大表，最后返回值
         },
         cellIdx5: {
-          page: '4',
-          key: 'cellIdx5'
-        }
+          page: "4",
+          key: "cellIdx5",
+        },
       },
-      associationPaper: ['1']
-      // editData: {}, // 回显数据
-      // extraData: {}, // 用于拼写隐患内容的字符集合
+      associationPaper: ["1"],
     };
   },
-/*   created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-  }, */
   methods: {
-    async initLetData (selectedPaper) {
+    async initLetData(selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      /* const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
-        );
-      });
-      // await wkPaper.delete(checkPaper[0].id)
-      // 保存额外拼写的数据内容，用于修改隐患项时回显使用
+      // 创建初始版本
       // 获取检查时间
-      const let100Data = await wkPaper.find((item) => {
-        return item.caseId === caseId && item.paperType === '22';
-      }); */
-      /* let let100DataPapaerContent = JSON.parse(let100Data.paperContent)
-      // 整合检查时间日期文本：
-      let dateString = handleDate(let100DataPapaerContent.cellIdx2, '-')
-      this.extraData = {
-        corpName: corp.corpName,
-        dateString,
-        userGroupName: this.$store.state.user.userGroupName,
-      }
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else { */
-        // 创建初始版本
-        // 获取检查时间
-      let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      let let1DataPapaerContent = JSON.parse(
+        selectedPaper.let1Data.paperContent
+      );
       // 检查时间日期：
-      let dateString = let1DataPapaerContent.cellIdx1 ? let1DataPapaerContent.cellIdx1 : 'X年X月X日-X年X月X日'
+      let dateString = let1DataPapaerContent.cellIdx1
+        ? let1DataPapaerContent.cellIdx1
+        : "X年X月X日-X年X月X日";
       // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
-      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
-      let cellIdx4String = `${corp.corpName}${dangerObject.dangerString}案。`
+      let dangerObject = getDangerObject(
+        let1DataPapaerContent.dangerItemObject.tableData
+      );
+      let cellIdx4String = `${corp.corpName}${dangerObject.dangerString}案。`;
       // 2.案情摘要：检查时间+当前机构名称+“对”+煤矿名称+“进行现场检查时发现”+隐患描述+"以上行为分别涉嫌违反了"+违法认定法条+“依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。”
-      dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData, {danger: true})
-      let cellIdx5String = `${dateString}，${this.$store.state.user.userGroupName}对${corp.corpName}进行现场检查时发现：${dangerObject.dangerString}以上行为分别涉嫌违反了${dangerObject.illegalString}的规定。依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`
-      let paperNumber = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
+      dangerObject = getDangerObject(
+        let1DataPapaerContent.dangerItemObject.tableData,
+        { danger: true }
+      );
+      let cellIdx5String = `${dateString}，${this.$store.state.user.userGroupName}对${corp.corpName}进行现场检查时发现：${dangerObject.dangerString}以上行为分别涉嫌违反了${dangerObject.illegalString}的规定。依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`;
+      let paperNumber = await getDocNumber(
+        db,
+        this.docData.docTypeNo,
+        this.corpData.caseId,
+        this.$store.state.user
+      );
       await db.close();
-      /*   // 获取检查时间
-      let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      // 检查时间日期：
-      let dateString = let1DataPapaerContent.cellIdx1 ? let1DataPapaerContent.cellIdx1 : 'X年X月X日-X年X月X日'
-        // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
-        // 获取笔录文书中的隐患数据
-        const let101Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === '1';
-        });
-        let let101DataPapaerContent = JSON.parse(let101Data.paperContent)
-        let dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData)
-        let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
-        let cellIdx4String = `${corp.corpName}${dangerObject.dangerString}案。`
-        // 2.案情摘要：检查时间+当前机构名称+“对”+煤矿名称+“进行现场检查时发现”+隐患描述+"以上行为分别涉嫌违反了"+违法认定法条+“依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。”
-        // dangerObject = getDangerObject(let101DataPapaerContent.dangerItemObject.tableData, {danger: true})
-        dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData, {danger: true})
-        let cellIdx5String = `${dateString}，${this.$store.state.user.userGroupName}对${corp.corpName}进行现场检查时发现：${dangerObject.dangerString}以上行为分别涉嫌违反了${dangerObject.illegalString}的规定。依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`
-        let paperNumber = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
-        await db.close(); */
-        this.letData = {
-          cellIdx0: paperNumber.num0, // 文书号
-          cellIdx0TypeTextItem: paperNumber.num0, // 文书号
-          cellIdx1: paperNumber.num1, // 文书号
-          cellIdx1TypeTextItem: paperNumber.num1, // 文书号
-          cellIdx2: paperNumber.num3, // 文书号
-          cellIdx2TypeTextItem: paperNumber.num3, // 文书号
-          cellIdx3: paperNumber.num4, // 文书号
-          cellIdx3TypeTextItem: paperNumber.num4, // 文书号
-          cellIdx4: cellIdx4String, // 案由
-          cellIdx5: cellIdx5String, // 案情摘要
-          cellIdx6: null, // 年
-          cellIdx7: null, // 月
-          cellIdx8: null, // 日
-          cellIdx9: null, // 本案承办人
-          cellIdx10: null, // 审批人意见
-          cellIdx11: null, // 审批人（签名）
-          cellIdx12: null, // 日期
-          cellIdx13: null, //
-          cellIdx14: null, // 日期
-          /* cellIdx14: null, // 年
+      this.letData = {
+        cellIdx0: paperNumber.num0, // 文书号
+        cellIdx0TypeTextItem: paperNumber.num0, // 文书号
+        cellIdx1: paperNumber.num1, // 文书号
+        cellIdx1TypeTextItem: paperNumber.num1, // 文书号
+        cellIdx2: paperNumber.num3, // 文书号
+        cellIdx2TypeTextItem: paperNumber.num3, // 文书号
+        cellIdx3: paperNumber.num4, // 文书号
+        cellIdx3TypeTextItem: paperNumber.num4, // 文书号
+        cellIdx4: cellIdx4String, // 案由
+        cellIdx5: cellIdx5String, // 案情摘要
+        cellIdx6: null, // 年
+        cellIdx7: null, // 月
+        cellIdx8: null, // 日
+        cellIdx9: null, // 本案承办人
+        cellIdx10: null, // 审批人意见
+        cellIdx11: null, // 审批人（签名）
+        cellIdx12: null, // 日期
+        cellIdx13: this.$store.state.curCase.groupName, //
+        cellIdx14: this.todayDate, // 日期
+        /* cellIdx14: null, // 年
           cellIdx15: null, // 月
           cellIdx16: null, // 日   暂不用*/
-          // dangerItemObject: let101DataPapaerContent.dangerItemObject
-          dangerItemObject: let1DataPapaerContent.dangerItemObject,
-        extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
+        dangerItemObject: let1DataPapaerContent.dangerItemObject,
+        extraData: {
+          // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
           dateString,
           userGroupName: this.$store.state.user.userGroupName,
-        }
-        };
+        },
+      };
     },
     goBack({ page }) {
       // 返回选择企业
       this.$emit("go-back", { page });
     },
-    commandFill (key, title, type) {
+    commandFill(key, title, type) {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`
-        let spellString = {}
-        if (key === 'cellIdx4' || key === 'cellIdx5') {
-          if (key === 'cellIdx4') {
+        let dataKey = `${key}Type${type}`;
+        let spellString = {};
+        if (key === "cellIdx4" || key === "cellIdx5") {
+          if (key === "cellIdx4") {
             spellString = {
               corpName: this.letData.extraData.corpName,
-            }
-          } else if (key === 'cellIdx5') {
-            spellString = this.letData.extraData
+            };
+          } else if (key === "cellIdx5") {
+            spellString = this.letData.extraData;
           }
           this.options[key] = {
-            page: '4',
+            page: "4",
             key: key,
-            spellString
-          }
-          dataKey = 'dangerItemObject'
+            spellString,
+          };
+          dataKey = "dangerItemObject";
         }
-        this.$refs.letMain.commandFill(key, dataKey, title, type, this.letData[dataKey], this.options[key])
+        this.$refs.letMain.commandFill(
+          key,
+          dataKey,
+          title,
+          type,
+          this.letData[dataKey],
+          this.options[key]
+        );
       }
     },
   },

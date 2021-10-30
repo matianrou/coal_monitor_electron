@@ -88,7 +88,7 @@
                 <label>性别：</label>
                 <div
                   class="line-div"
-                  @click="commandFill('cellIdx9', '性别', 'TextItem')"
+                  @click="commandFill('cellIdx9', '性别', 'SelectItem')"
                 >{{ letData.cellIdx9 ? letData.cellIdx9 : '（编辑）' }}</div>
               </div>
               <div style="flex: 1; display: flex;">
@@ -258,6 +258,16 @@ export default {
     return {
       letData: {},
       options: {
+        cellIdx9: [
+          {
+            value: '男',
+            name: '男'
+          },
+          {
+            value: '女',
+            name: '女'
+          },
+        ],
         cellIdx19: {
           page: '30',
           key: 'cellIdx19' // 用来区分一个页面多个地方调用隐患大表，最后返回值

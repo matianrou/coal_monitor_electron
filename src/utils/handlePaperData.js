@@ -132,7 +132,7 @@ function setDangerTableItem (data, selectedData, options) {
       } else if (options.key === 'cellIdx3') {
         string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString}案。`
       } else if (options.key === 'cellIdx6') {
-        string = `${dangerObjectIndex.dangerString}。经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString}的规定。`
+        string = `${dangerObjectIndex.dangerString}经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString}的规定。`
       } else if (options.key === 'cellIdx7') {
         if (store.state.user.userType === 'supervision') {
           string = `${dangerObject.dangerString}经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString}的规定。`

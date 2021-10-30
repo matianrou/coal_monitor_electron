@@ -234,7 +234,6 @@
               </td>
               <td class="textAlignLeft">日</td>
             </table> -->
-            <table height="60"></table>
             <div class="docTextarea" style="border-top: 2px solid #000;">
               备注：本文书一式两份，一份交被
               <span
