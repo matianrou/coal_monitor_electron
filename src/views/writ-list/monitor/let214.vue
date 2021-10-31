@@ -13,7 +13,7 @@
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader0" style="font-size: 30px">
+            <div class="textAlignCenter formHeader2" style="font-size: 30px">
               国 家 矿 山 安 全 监 察
             </div>
             <div class="textAlignCenter formHeader3" style="font-size: 30px">
