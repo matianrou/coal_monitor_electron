@@ -1,4 +1,4 @@
-<!-- 意见建议书 加强和改善安全监管建议书  -->
+<!-- 意见建议书 加强和改善安全监管建议书 16 -->
 <template>
   <div style="width: 100%; height: 100%">
     <let-main
@@ -13,14 +13,14 @@
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader0">
+            <div class="textAlignCenter formHeader2">
               国 家 矿 山 安 全 监 察
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">
+            <div class="textAlignCenter formHeader4">
               加强和改善安全监管建议书
             </div>
-            <div class="docTextLine paper-number-div">
+            <div class="formHeader5 paper-number-div">
               <div>
                 <span @click="commandFill('cellIdx0', '文书号', 'TextItem')">{{
                   letData.cellIdx0 ? letData.cellIdx0 : "（编辑）"
@@ -66,7 +66,7 @@
                 letData.cellIdx6 ? letData.cellIdx6 : "局"
               }}</span>
               检查，
-              <span @click="commandFill('cellIdx7', '市', 'TextItem')">{{
+              <span class="no-underline" @click="commandFill('cellIdx7', '', 'TextItem')">{{
                 letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
               }}</span>
               在矿山安全监督管理工作中，存在下列问题（见附件），现提出加强和改善矿山安全监管的如下建议（见附件）。
@@ -86,7 +86,7 @@
                 letData.cellIdx10 ? letData.cellIdx10 : "（XX）"
               }}</span>
               日前函告我
-              <span @click="commandFill('cellIdx11', '局', 'TextItem')">{{
+              <span class="no-underline" @click="commandFill('cellIdx11', '局', 'TextItem')">{{
                 letData.cellIdx11 ? letData.cellIdx11 : ""
               }}</span>
             </div>
@@ -101,7 +101,8 @@
                     'cellIdx19',
                     '加强和改善安全监管建议',
                     'CheckTable'
-                  )">加强和改善安全监管建议
+                  )">
+                  加强和改善安全监管建议
               </span>
             </div>
             <table height="30"></table>
@@ -181,11 +182,16 @@
                 </td>
               </tr>
             </table>
-            <table class="cellLine">
-              <td class="textAlignLeft">
-                &nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式三份，一份主送当地人民政府（矿山安全监管部门），一份报送国家矿山安全监察局，一份存档。
-              </td>
-            </table>
+            <div
+              class="docTextarea"
+              style="
+                border-top: 2px solid #000;
+                margin-top: 30px;
+                line-height: normal;
+              "
+            >
+              备注：本文书一式三份，一份主送当地人民政府（矿山安全监管部门），一份报送国家矿山安全监察局，一份存档。
+            </div>
           </div>
         </div>
       </div>
@@ -195,6 +201,7 @@
 <script>
 import GoDB from "@/utils/godb.min.js";
 import associationSelectPaper from "@/components/association-select-paper";
+import { getDocNumber } from "@/utils/setInitPaperData";
 export default {
   name: "Let501",
   mixins: [associationSelectPaper],
@@ -207,27 +214,35 @@ export default {
   created() {
   },
   methods: {
-    async initLetData(selectedPaper) {
+    async initLetData() {
+      const db = new GoDB(this.$store.state.DBName);
+      // 1.文书编号
+      let paperNumber = await getDocNumber(
+        db,
+        this.docData.docTypeNo,
+        '',
+        this.$store.state.user
+      );
       this.letData = {
-        cellIdx0: null, // 文书号
-        cellIdx1: null, // 文书号
-        cellIdx2: null, // 文书号
-        cellIdx3: null, // 文书号
+        cellIdx0: paperNumber.num0, // 文书号
+        cellIdx1: paperNumber.num1, // 文书号
+        cellIdx2: paperNumber.num3, // 文书号
+        cellIdx3: paperNumber.num4, // 文书号
         cellIdx4: null, // 签发人
-        cellIdx5: null, // 
-        cellIdx6: null, // 经我XX检查，
-        cellIdx7: null, // XX在矿山安全监督管理工作中
+        cellIdx5: null, // 单位
+        cellIdx6: '局', // 经我XX检查，
+        cellIdx7: '你单位', // XX在矿山安全监督管理工作中
         cellIdx8: null, // 年
         cellIdx9: null, // 月
         cellIdx10: null, // 日
-        cellIdx11: null, // 局
+        cellIdx11: '局', // 局
         cellIdx12: null, // 送件人（签名)
         cellIdx13: null, // 日期
         cellIdx14: null, // 收件人（签名)
         cellIdx15: null, // 日期
         cellIdx16: null, // 报送
-        cellIdx17: null, // 
-        cellIdx18: null, // 日期
+        cellIdx17: this.$store.state.user.userGroupName, // 
+        cellIdx18: this.todayDate, // 日期
         cellIdx19: [], // 附件
         volumesMenuTable: {
           tableData: [],

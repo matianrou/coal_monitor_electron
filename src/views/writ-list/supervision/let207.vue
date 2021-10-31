@@ -206,8 +206,6 @@ export default {
       // 1.送达文书：国家煤矿安全监管行政处罚决定书
       let cellIdx4String = '国家煤矿安全监管行政处罚决定书'
       // 2.文书字号：使用行政处罚决定书的文书编号
-      // let { numString } = await getDocNumber(db, '8', this.corpData.caseId, this.$store.state.user)
-      // let cellIdx5String = numString
       let let8DataPapaerContent = JSON.parse(selectedPaper.let8Data.paperContent);
       let cellIdx5String = `${let8DataPapaerContent.cellIdx0}（${let8DataPapaerContent.cellIdx1}）煤安罚〔${let8DataPapaerContent.cellIdx2}〕${let8DataPapaerContent.cellIdx3}号`
       // 3.送达地点：煤矿名称

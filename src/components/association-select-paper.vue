@@ -120,6 +120,9 @@ export default {
             // 如果不需要选择文书，则直接开始进行初始化
             this.initLetData && this.initLetData(this.selectedPaper)
           }
+        } else if (this.docData.docTypeNo === '16' || this.docData.docTypeNo === '17' || this.docData.docTypeNo === '15') {
+          // 从意见建议书中引入的文书没有选择煤矿也没有监察活动
+          this.initLetData && this.initLetData()
         }
       }
     },

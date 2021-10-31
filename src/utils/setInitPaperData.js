@@ -14,7 +14,6 @@ import store from "@/store"
 // 3.num2: 文书号3（立、告、罚、送、催）
 // 4.num3: 文书号4（curYear）
 // 5.num4: 文书号5（个人执法编号+自增三位数字）
-// 6.numString: 整体文书编号
 export async function getDocNumber(db, docTypeNo, caseId, user) {
   // 获取当前机构
   const orgInfo = db.table("orgInfo");
@@ -102,8 +101,7 @@ export async function getDocNumber(db, docTypeNo, caseId, user) {
     num1: orgSysOfficeInfo.docRiseDepa,
     num2: docString,
     num3: curYear + '',
-    num4: caseInfo.caseSn,
-    numString: `${orgSysOfficeInfo.docRiseSafe}（${orgSysOfficeInfo.docRiseDepa}）${paperTypeName}${docString}〔${curYear}〕${caseInfo.caseSn}号`
+    num4: caseInfo ? caseInfo.caseSn : '',
   }
 }
 

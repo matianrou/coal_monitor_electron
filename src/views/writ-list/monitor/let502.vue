@@ -1,4 +1,4 @@
-<!-- 意见建议书 加强和改善安全管理意见书  -->
+<!-- 意见建议书 加强和改善安全管理意见书 17 -->
 <template>
   <div style="width: 100%; height: 100%">
     <let-main
@@ -13,14 +13,14 @@
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader0">
+            <div class="textAlignCenter formHeader2">
               国 家 矿 山 安 全 监 察
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">
+            <div class="textAlignCenter formHeader4">
               加强和改善安全管理意见书
             </div>
-            <div class="docTextLine paper-number-div">
+            <div class="formHeader5 paper-number-div">
               <div>
                 <span @click="commandFill('cellIdx0', '', 'TextItem')">{{
                   letData.cellIdx0 ? letData.cellIdx0 : "（编辑）"
@@ -177,11 +177,16 @@
                 </td>
               </tr>
             </table>
-            <table class="cellLine">
-              <td class="textAlignLeft">
-                &nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式三份，一份主送煤矿上级企业，一份报送国家矿山安全监察局，一份存档。
-              </td>
-            </table>
+            <div
+              class="docTextarea"
+              style="
+                border-top: 2px solid #000;
+                margin-top: 30px;
+                line-height: normal;
+              "
+            >
+              备注：本文书一式三份，一份主送煤矿上级企业，一份报送国家矿山安全监察局，一份存档。
+            </div>
           </div>
         </div>
       </div>
@@ -192,6 +197,7 @@
 <script>
 import GoDB from "@/utils/godb.min.js";
 import associationSelectPaper from "@/components/association-select-paper";
+import { getDocNumber } from "@/utils/setInitPaperData";
 export default {
   name: "Let502",
   mixins: [associationSelectPaper],
@@ -202,26 +208,34 @@ export default {
     };
   },
   methods: {
-    async initLetData(selectedPaper) {
+    async initLetData() {
+      const db = new GoDB(this.$store.state.DBName);
+      // 1.文书编号
+      let paperNumber = await getDocNumber(
+        db,
+        this.docData.docTypeNo,
+        '',
+        this.$store.state.user
+      );
       this.letData = {
-        cellIdx0: null, // 文书号
-        cellIdx1: null, // 文书号
-        cellIdx2: null, // 文书号
-        cellIdx3: null, // 文书号
+        cellIdx0: paperNumber.num0, // 文书号
+        cellIdx1: paperNumber.num1, // 文书号
+        cellIdx2: paperNumber.num3, // 文书号
+        cellIdx3: paperNumber.num4, // 文书号
         cellIdx4: null, // 签发人
         cellIdx5: null, // 单位
-        cellIdx6: null, // 经我XX检查，
+        cellIdx6: '局', // 经我XX检查，
         cellIdx7: null, //年
         cellIdx8: null, // 月
         cellIdx9: null, // 日
-        cellIdx10: null, // 局
+        cellIdx10: '局', // 局
         cellIdx11: null, // 送件人（签名)
         cellIdx12: null, // 日期
         cellIdx13: null, // 收件人（签名)
         cellIdx14: null, // 日期
         cellIdx15: null, // 报送
-        cellIdx16: null, // 
-        cellIdx17: null, // 日期
+        cellIdx16: this.$store.state.user.userGroupName, // 
+        cellIdx17: this.todayDate, // 日期
         cellIdx18: [], // 附件
         volumesMenuTable: {
           tableData: [],

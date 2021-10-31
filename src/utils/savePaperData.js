@@ -17,7 +17,22 @@ export async function saveToUpload(paperId, userSessId) {
   });
   const wkDangerList = await wkDanger.findAll(item => item.paperId === paperId)
   await db.close();
-  // 整理上传数据
+  // 没有监察活动和煤矿信息时的容错
+  let caseNo = null, caseType = null, corpId = null, corpName = null
+  let meikuangType = null, meikuangPlanfrom = null, planId = null
+  let checkReason = null, checkStatus = null, planBeginDate = null
+  let planEndDate = null, createDate = null, pcMonth = null
+  let workCaseObj = workCase 
+    ? Object.assign({ caseNo, caseType, corpId, corpName, 
+      meikuangType, meikuangPlanfrom, planId,
+      checkReason, checkStatus, planBeginDate,
+      planEndDate, createDate, pcMonth}, workCase)
+    : { caseNo, caseType, corpId, corpName, 
+      meikuangType, meikuangPlanfrom, planId,
+      checkReason, checkStatus, planBeginDate,
+      planEndDate, createDate, pcMonth }
+      console.log('workCaseObj', workCaseObj)
+      // 整理上传数据
   // 整理网页端展示的html
   let submitData = {
     paper: [
@@ -43,10 +58,10 @@ export async function saveToUpload(paperId, userSessId) {
         createTime: workPaper.createTime,
         fileTime: null,
         caseId: workPaper.caseId,
-        caseNo: workCase.caseNo,
-        caseType: workCase.caseType,
-        corpId: workCase.corpId,
-        corpName: workCase.corpName,
+        caseNo: workCaseObj.caseNo,
+        caseType: workCaseObj.caseType,
+        corpId: workCaseObj.corpId,
+        corpName: workCaseObj.corpName,
         personId: workPaper.personId,
         personName: workPaper.personName,
         verNo: null,
@@ -57,9 +72,9 @@ export async function saveToUpload(paperId, userSessId) {
           name: workPaper.groupName,
         },
         affiliate: workPaper.groupId,
-        meikuangType: workCase.meikuangType,
-        meikuangPlanfrom: workCase.meikuangPlanfrom,
-        planId: workCase.planId,
+        meikuangType: workCaseObj.meikuangType,
+        meikuangPlanfrom: workCaseObj.meikuangPlanfrom,
+        planId: workCaseObj.planId,
         pcVersion: "版本v1.2.15",
         clericalVersion: "2",
         p1PersonId: null,
@@ -96,10 +111,10 @@ export async function saveToUpload(paperId, userSessId) {
           id: workPaper.personId,
         },
         sourceFlag: "0",
-        caseSn: workCase.caseSn,
+        caseSn: workCaseObj.caseSn,
         caseId: workPaper.caseId,
-        caseNo: workCase.caseNo,
-        caseType: workCase.caseType,
+        caseNo: workCaseObj.caseNo,
+        caseType: workCaseObj.caseType,
         caseStatus: null,
         penaltyType: null,
         title: null,
@@ -112,8 +127,8 @@ export async function saveToUpload(paperId, userSessId) {
         savePeriod: null,
         accidentId: null,
         accuseId: null,
-        corpId: workCase.corpId,
-        corpName: workCase.corpName,
+        corpId: workCaseObj.corpId,
+        corpName: workCaseObj.corpName,
         personId: workPaper.personId,
         personName: workPaper.personName,
         groupId: workPaper.groupId,
@@ -124,16 +139,16 @@ export async function saveToUpload(paperId, userSessId) {
         corpType2: "",
         corpInfo: "",
         corpDataType: "",
-        checkReason: workCase.checkReason,
-        checkStatus: workCase.checkStatus,
-        planBeginDate: workCase.planBeginDate + " 00:00:00",
-        planEndDate: workCase.planEndDate + " 00:00:00",
-        createTime: workCase.createDate,
+        checkReason: workCaseObj.checkReason,
+        checkStatus: workCaseObj.checkStatus,
+        planBeginDate: workCaseObj.planBeginDate + " 00:00:00",
+        planEndDate: workCaseObj.planEndDate + " 00:00:00",
+        createTime: workCaseObj.createDate,
         affiliate: workPaper.groupId,
-        meikuangType: workCase.meikuangType,
-        meikuangPlanfrom: workCase.meikuangPlanfrom,
-        planId: workCase.planId,
-        pcMonth: workCase.pcMonth,
+        meikuangType: workCaseObj.meikuangType,
+        meikuangPlanfrom: workCaseObj.meikuangPlanfrom,
+        planId: workCaseObj.planId,
+        pcMonth: workCaseObj.pcMonth,
       },
     ],
     danger: [],

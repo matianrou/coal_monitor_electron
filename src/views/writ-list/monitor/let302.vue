@@ -224,7 +224,7 @@ export default {
           },
         ]
       },
-      associationPaper: ["1"],
+      associationPaper: ["8"],
     };
   },
   methods: {
@@ -240,22 +240,14 @@ export default {
       // 1.时间
       // 2.申请人单位
       // 3.申请记录：“我代表”+煤矿名称+“对”+机构名称+“做出的行政处罚决定”+文书编号（行政处罚决定）+“申请行政复议，对处罚的”+隐患描述+“违法行为进行复议。我矿认为......。请求从轻或者免于处罚。”
-      let let1DataPapaerContent = JSON.parse(
-        selectedPaper.let1Data.paperContent
+      let let8DataPapaerContent = JSON.parse(
+        selectedPaper.let8Data.paperContent
       );
       let dangerObject = getDangerObject(
-        let1DataPapaerContent.DangerTable.tableData
+        let8DataPapaerContent.DangerTable.tableData
       );
-      let { numString } = await getDocNumber(
-        db,
-        "8",
-        this.corpData.caseId,
-        this.$store.state.user
-      );
-      // let dangerObject = getDangerObject(
-      //   let101DataPapaerContent.DangerTable.tableData
-      // );
-      let cellIdx14String = `我代表${corp.corpName}对${this.$store.state.user.userGroupName}做出的行政处罚决定${numString}申请行政复议，对处罚的${dangerObject.dangerString}违法行为进行复议。我矿认为......。请求从轻或者免于处罚。`;
+      let paper8number = `${let8DataPapaerContent.cellIdx0}矿安监${let8DataPapaerContent.cellIdx1}罚〔${let8DataPapaerContent.cellIdx2}〕${let8DataPapaerContent.cellIdx3}号`
+      let cellIdx14String = `我代表${corp.corpName}对${this.$store.state.user.userGroupName}做出的行政处罚决定${paper8number}申请行政复议，对处罚的${dangerObject.dangerString}违法行为进行复议。我矿认为......。请求从轻或者免于处罚。`;
       await db.close();
       this.letData = {
         cellIdx0: now.getFullYear().toString(), // 年
@@ -280,7 +272,7 @@ export default {
         cellIdx13: null, // 记录人（签名）
         cellIdx14: cellIdx14String, // 申请记录
         cellIdx14TypeTextareaItem: cellIdx14String, // 申请记录
-        DangerTable: let1DataPapaerContent.DangerTable,
+        DangerTable: let8DataPapaerContent.DangerTable,
         extraData: {
           // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,

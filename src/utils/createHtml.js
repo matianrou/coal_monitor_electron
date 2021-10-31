@@ -379,7 +379,7 @@ export function createHtml(paperDiv, corpData) {
                 }
               }
             }
-            pdf.save('${corpData.corpName ? corpData.corpName : ''}.pdf');
+            pdf.save('${corpData && corpData.corpName ? corpData.corpName : ''}.pdf');
           })
         }
       </script>

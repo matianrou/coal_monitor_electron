@@ -188,13 +188,13 @@ export default {
       }
     },
     async savePaper (saveFlag) {
-      let paperId = this.editData.paperId
+      let paperId = this.editData && this.editData.paperId
         ? this.editData.paperId
         : getNowTime() + randomString(18);
-      let createDate = this.editData.createDate
+      let createDate = this.editData && this.editData.createDate
         ? this.editData.createDate
         : getNowFormatTime();
-      let createTime = this.editData.createTime
+      let createTime = this.editData && this.editData.createTime
         ? this.editData.createTime
         : getNowFormatTime();
       let htmlPage = this.$slots.left[0].elm.innerHTML
@@ -221,11 +221,11 @@ export default {
         paperType: this.docData.docTypeNo,
         paperHtml: page,
         name: this.docData.docTypeName,
-        caseId: this.corpData.caseId,
+        caseId: this.corpData && this.corpData.caseId ? this.corpData.caseId : '',
         caseType: "",
-        corpId: this.corpData.corpId,
-        corpName: this.corpData.corpName,
-        planId: this.corpData.planId,
+        corpId: this.corpData && this.corpData.corpId ? this.corpData.corpId : '',
+        corpName: this.corpData && this.corpData.corpName ? this.corpData.corpName : '',
+        planId: this.corpData && this.corpData.planId ? this.corpData.planId : '',
       };
       const db = new GoDB(this.DBName);
       const wkPaper = db.table("wkPaper");
