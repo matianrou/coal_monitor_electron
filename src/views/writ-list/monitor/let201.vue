@@ -228,7 +228,9 @@ export default {
         cellIdx11: null, // 审批人（签名）
         cellIdx12: null, // 日期
         cellIdx13: this.$store.state.curCase.groupName, //
+        cellIdx13TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx14: this.todayDate, // 日期
+        cellIdx14TypeDateItem: this.todayDate, // 日期
         /* cellIdx14: null, // 年
           cellIdx15: null, // 月
           cellIdx16: null, // 日   暂不用*/

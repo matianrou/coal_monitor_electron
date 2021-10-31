@@ -326,7 +326,9 @@ export default {
         cellIdx20: cellIdx20String, // 联系电话
         cellIdx20ypeTextItem: cellIdx20String, // 联系电话
         cellIdx21: this.$store.state.curCase.groupName, //
+        cellIdx21TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx22: this.todayDate, //
+        cellIdx22TypeDateItem: this.todayDate, // 日期
         dangerItemObject: let1DataPapaerContent.dangerItemObject,
         SamplingForensicsTable: {
           tableData: [],

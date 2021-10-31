@@ -256,7 +256,9 @@ export default {
         cellIdx12: null, // 被检查单位负责人（签名)
         cellIdx13: null, // 日期
         cellIdx14: this.$store.state.curCase.groupName, //
+        cellIdx14TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx15: this.todayDate, //
+        cellIdx15TypeDateItem: this.todayDate, //
         dangerItemObject: let1DataPapaerContent.dangerItemObject, // 隐患项大表
       };
     },

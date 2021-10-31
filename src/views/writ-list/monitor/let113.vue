@@ -282,7 +282,9 @@ export default {
         cellIdx15: cellIdx15String, // 联系电话
         cellIdx15TypeTextItem: cellIdx15String, // 联系电话
         cellIdx16: this.$store.state.curCase.groupName, //
+        cellIdx16TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx17: this.todayDate, // 日期
+        cellIdx17TypeDateItem: this.todayDate, // 日期
         cellIdx18: let37DataPapaerContent.selectedType === '停供电' ? '供电部门' : '公安机关', // 单位/个人
         selectedType: let37DataPapaerContent.selectedType
       };

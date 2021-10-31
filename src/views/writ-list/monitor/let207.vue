@@ -263,7 +263,9 @@ export default {
         cellIdx10: null, // 送达人（签名）
         cellIdx11: null, // 日期
         cellIdx12: this.$store.state.curCase.groupName, //
+        cellIdx12TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx13: this.todayDate, // 日期
+        cellIdx13TypeDateItem: this.todayDate, // 日期
         selectedType: selectedType,
       };
     },

@@ -296,7 +296,9 @@ export default {
         cellIdx24: null, // 收件人（签名）
         cellIdx25: null, // 日期
         cellIdx26: this.$store.state.curCase.groupName, //
+        cellIdx26TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx27: this.todayDate, // 日期
+        cellIdx27TypeDateItem: this.todayDate, // 日期
       };
     },
     goBack({ page }) {

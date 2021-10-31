@@ -338,7 +338,9 @@ export default {
         cellIdx26: phone, // 联系电话
         cellIdx26TypeTextItem: phone, // 联系电话
         cellIdx27: this.$store.state.curCase.groupName, //
+        cellIdx27TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx28: this.todayDate, //日期
+        cellIdx28TypeDateItem: this.todayDate, // 日期
         cellIdx29: selectedType, // 单位/个人
         cellIdx29TypeSelectItem: selectedType, // 单位/个人
         selectedType: selectedType, // 单位/个人

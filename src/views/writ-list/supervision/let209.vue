@@ -405,7 +405,9 @@ export default {
         cellIdx30: orgSysOfficeInfo.phone, // 联系电话
         cellIdx30TypeTextItem: orgSysOfficeInfo.phone, // 地址
         cellIdx31: this.$store.state.curCase.groupName, //
+        cellIdx31TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx32: this.todayDate, // 日期
+        cellIdx32TypeDateItem: this.todayDate, // 日期
         dangerItemObject: let1DataPapaerContent.dangerItemObject,
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,

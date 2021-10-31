@@ -258,7 +258,9 @@ export default {
         cellIdx16: null, // 单位负责人（签名)
         cellIdx17: null, // 日期
         cellIdx18: this.$store.state.curCase.groupName, //
+        cellIdx18TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx19: this.todayDate, // 日期
+        cellIdx19TypeDateItem: this.todayDate, // 日期
       };
     },
     goBack({ page }) {

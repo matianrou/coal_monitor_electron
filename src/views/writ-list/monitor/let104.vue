@@ -343,7 +343,9 @@ export default {
         cellIdx20: null, // 复查人员（签名）
         cellIdx21: null, // 日期
         cellIdx22: this.$store.state.curCase.groupName, //
+        cellIdx22TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx23: this.todayDate, // 日期
+        cellIdx23TypeDateItem: this.todayDate, // 日期
         dangerItemObject: let1DataPapaerContent.dangerItemObject,
       };
     },

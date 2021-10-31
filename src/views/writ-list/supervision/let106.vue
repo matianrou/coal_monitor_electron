@@ -321,7 +321,9 @@ export default {
         cellIdx27: null, // 签名
         cellIdx28: null, // 日期
         cellIdx29: this.$store.state.curCase.groupName, //
+        cellIdx29TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx30: this.todayDate, // 日期
+        cellIdx30TypeDateItem: this.todayDate, // 日期
         dangerItemObject: let1DataPapaerContent.dangerItemObject
       };
     },

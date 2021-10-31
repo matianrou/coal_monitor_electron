@@ -265,7 +265,9 @@ export default {
         cellIdx16: cellIdx16String, // 人民法院
         cellIdx16TypeTextItem: cellIdx16String, // 人民法院
         cellIdx17: this.$store.state.curCase.groupName, //
+        cellIdx17TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx18: this.todayDate, // 日期
+        cellIdx18TypeDateItem: this.todayDate, // 日期
       };
     },
     goBack({ page }) {

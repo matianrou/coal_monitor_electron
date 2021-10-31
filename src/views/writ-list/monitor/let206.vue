@@ -313,7 +313,9 @@ export default {
         cellIdx17TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
         cellIdx18: null, // 暂不用
         cellIdx19: this.$store.state.curCase.groupName, // 
+        cellIdx19TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx20: this.todayDate, // 日期
+        cellIdx20TypeDateItem: this.todayDate, // 日期
         cellIdx21: cellIdx4String, // 单位/个人
         dangerItemObject: let6DataPaperContent.dangerItemObject,
         selectedType: let6DataPaperContent.selectedType,

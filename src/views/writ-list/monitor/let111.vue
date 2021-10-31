@@ -327,7 +327,9 @@ export default {
         cellIdx21: let32DataPapaerContent.selectedType, // 查封(扣押)
         cellIdx22: let32DataPapaerContent.SamplingForensicsTable, // 附件
         cellIdx23: this.$store.state.curCase.groupName, //
+        cellIdx23TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx24: this.todayDate, // 日期
+        cellIdx24TypeDateItem: this.todayDate, // 日期
         cellIdx25: let32DataPapaerContent.selectedType, // 查封(扣押)
         SamplingForensicsTable: let32DataPapaerContent.SamplingForensicsTable,
         selectedType: let32DataPapaerContent.selectedType

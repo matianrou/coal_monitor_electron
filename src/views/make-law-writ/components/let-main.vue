@@ -490,7 +490,7 @@ export default {
       if(this.docData.docTypeNo === '32' || this.docData.docTypeNo === '37' || this.docData.docTypeNo === '38'
         || this.docData.docTypeNo === '45' || this.docData.docTypeNo === '46' || this.docData.docTypeNo === '6'
         || this.docData.docTypeNo === '8' || this.docData.docTypeNo === '50' || this.docData.docTypeNo === '51'
-        || this.docData.docTypeNo === '53'|| this.docData.docTypeNo === '39') {
+        || this.docData.docTypeNo === '53'|| this.docData.docTypeNo === '39' || (this.docData.docTypeNo === '28' && this.$store.state.user.userType !== 'supervision')) {
         // 需要分别替换的模板为：查封（扣押）决定书;停供电(停供民用爆炸物品)函告书;解除停供电(停供民用爆炸物品)函告书;
         // 需要分别替换的模板为：延长查封（扣押）期限决定书；查封（扣押）处理决定书;
         // 需要分别替换的模板为：行政处罚告知书；行政处罚决定书；罚款缴纳催告书；加处罚款决定书；

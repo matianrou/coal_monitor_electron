@@ -267,7 +267,9 @@ export default {
         cellIdx12: null, // 日期
         // cellIdx13: null, //
         cellIdx14: this.$store.state.curCase.groupName, //
+        cellIdx14TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx15: this.todayDate, // 日期
+        cellIdx15TypeDateItem: this.todayDate, // 日期
         dangerItemObject: let1DataPapaerContent.dangerItemObject,
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,

@@ -287,7 +287,9 @@ export default {
         cellIdx19: orgSysOfficeInfo.courtPrefix, // 人民法院
         cellIdx19TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
         cellIdx20: this.$store.state.curCase.groupName, //
+        cellIdx20TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx21: this.todayDate, // 日期
+        cellIdx21TypeDateItem: this.todayDate, // 日期
       };
     },
     goBack({ page }) {

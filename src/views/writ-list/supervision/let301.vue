@@ -332,7 +332,9 @@ export default {
         cellIdx27: null, // 联系人
         cellIdx28: null, // 联系电话
         cellIdx29: this.$store.state.curCase.groupName, //
+        cellIdx29TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx30: this.todayDate, // 日期
+        cellIdx30TypeDateItem: this.todayDate, // 日期
       };
     },
     goBack({ page }) {

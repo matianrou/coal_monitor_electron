@@ -230,7 +230,9 @@ export default {
         cellIdx15: null, // 被检查单位负责人（签名)
         cellIdx16: null, // 日期
         cellIdx17: this.$store.state.curCase.groupName, //
+        cellIdx17TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx18: this.todayDate, // 日期
+        cellIdx18TypeDateItem: this.todayDate, // 日期
         dangerItemObject: let1DataPapaerContent.dangerItemObject, // 隐患项大表
       };
     },

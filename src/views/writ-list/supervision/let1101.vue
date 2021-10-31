@@ -350,7 +350,9 @@ export default {
         cellIdx25TypeTextItem: selectedType, // 查封/扣押
         cellIdx26: null, // 暂不用
         cellIdx27: this.$store.state.curCase.groupName, //
+        cellIdx27TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx28: this.todayDate, // 日期
+        cellIdx28TypeDateItem: this.todayDate, // 日期
         cellIdx29: selectedType, // 查封/扣押
         cellIdx29TypeTextItem: selectedType, // 查封/扣押
         SamplingForensicsTable: let32DataPapaerContent.SamplingForensicsTable

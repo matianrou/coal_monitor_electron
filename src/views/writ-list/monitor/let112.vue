@@ -310,7 +310,9 @@ export default {
         cellIdx18: cellIdx18String, // 联系电话
         cellIdx18TypeTextItem: cellIdx18String, // 联系电话
         cellIdx19: this.$store.state.curCase.groupName, //
+        cellIdx19TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx20: this.todayDate, // 日期
+        cellIdx20TypeDateItem: this.todayDate, // 日期
         cellIdx21: null, // 停供电(停供民用爆炸物品)
       };
     },

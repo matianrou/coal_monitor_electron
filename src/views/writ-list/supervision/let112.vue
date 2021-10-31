@@ -251,7 +251,9 @@ export default {
         cellIdx14: orgSysOfficeInfo.phone, // 联系电话
         cellIdx14TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
         cellIdx15: this.$store.state.curCase.groupName, //
+        cellIdx15TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx16: this.todayDate, // 日期
+        cellIdx16TypeDateItem: this.todayDate, // 日期
         cellIdx17: null, // 一份交XXX
       };
     },
