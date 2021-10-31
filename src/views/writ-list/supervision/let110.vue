@@ -72,11 +72,11 @@
               <label style="width:5%"></label>
               经查，你单位
               <span
-                @click="commandFill('cellIdx7', '违法行为', 'DangerTableItem')"
+                @click="commandFill('cellIdx7', '违法行为', 'DangerTable')"
               >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
               的行为涉嫌违反
               <span
-                @click="commandFill('cellIdx8', '', 'DangerTableItem')"
+                @click="commandFill('cellIdx8', '', 'DangerTable')"
               >{{ letData.cellIdx8? letData.cellIdx8 : '（点击编辑）' }}</span>
               的规定，根据《中华人民共和国安全生产法》第六十二条第一款第四项和《中华人民共和国行政强制法》第二十四条规定，本机关决定对你单位涉案
               <span
@@ -277,7 +277,7 @@ export default {
       );
       // 3.违法行为：获取笔录文书中的隐患数据
       let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
+      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
       let cellIdx7String = `${dangerObject.dangerString}`;
       let cellIdx8String = `${dangerObject.illegalString}`;
       // 4.地点：sysOfficeInfo实体中organName字段+ courtPrefix字段
@@ -327,7 +327,7 @@ export default {
         cellIdx22: this.todayDate, // 日期
         cellIdx22TypeDateItem: this.todayDate, // 日期
         cellIdx23: null, // 查封(扣押)
-        dangerItemObject: let1DataPapaerContent.dangerItemObject,
+        DangerTable: let1DataPapaerContent.DangerTable,
         SamplingForensicsTable: {
           tableData: [],
           signature: null,
@@ -343,13 +343,13 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         if (key === "cellIdx7" || key === "cellIdx8") {
           this.options[key] = {
             page: "32",
             key: key,
           };
-          dataKey = "dangerItemObject";
+          dataKey = "DangerTable";
         } else if (key === "cellIdx12") {
           this.options[key] = {
             canEdit: true,

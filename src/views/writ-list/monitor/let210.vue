@@ -45,7 +45,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_4"
-                  align="center"
                   style="width: 60%"
                   data-title=""
                   data-type="text"
@@ -62,7 +61,6 @@
               经审查，你
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx5', '单位/个人', 'TextItem')"
                 >{{ letData.cellIdx5 ? letData.cellIdx5 : "" }}</span
               >
               关于
@@ -107,7 +105,6 @@
               决定不予受理你
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx9', '单位/个人', 'TextItem')"
                 >{{
                   letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
                 }}</span
@@ -246,10 +243,6 @@ export default {
     return {
       letData: {},
       options: {
-        cellIdx6: {
-          page: "29",
-          key: "cellIdx6",
-        },
         cellIdx7: [
           {
             value: "（一）",
@@ -301,7 +294,7 @@ export default {
         selectedPaper.let28Data.paperContent
       );
       let dangerObject = getDangerObject(
-        let28DataPapaerContent.dangerItemObject.tableData
+        let28DataPapaerContent.DangerTable.tableData
       );
       let cellIdx6String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
       // 5.地点：sysOfficeInfo实体中depAddress字段+ deparFullname字段
@@ -333,7 +326,6 @@ export default {
         cellIdx5: let28DataPapaerContent.selectedType, // 单位或个人
         cellIdx5TypeTextItem: let28DataPapaerContent.selectedType, // 单位或个人
         cellIdx6: cellIdx6String, // 违法行为
-        cellIdx6TypeTextareaItem: cellIdx6String, // 违法行为
         cellIdx7: null, // 第X项情形
         cellIdx8: '局', // 局
         cellIdx8TypeTextItem: '局', // 局
@@ -373,15 +365,7 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
-        if (key === "cellIdx6") {
-          this.options[key] = {
-            page: "29",
-            key: key,
-            spellString: this.letData.extraData,
-          };
-          dataKey = "dangerItemObject";
-        }
+        let dataKey = `${key}`;
         this.$refs.letMain.commandFill(
           key,
           dataKey,

@@ -180,7 +180,7 @@ export default {
       // 获取笔录文书中的隐患数据
       let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent);
       let dangerObject = getDangerObject(
-        let1DataPapaerContent.dangerItemObject.tableData
+        let1DataPapaerContent.DangerTable.tableData
       );
       // 案由：煤矿名称 + '涉嫌' + 隐患描述 + '案。'
       let cellIdx2String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
@@ -208,7 +208,7 @@ export default {
         cellIdx10: null, // 负责人审核意见
         cellIdx11: null, // 负责人（签名）
         cellIdx12: null, // 日期
-        dangerItemObject: let1DataPapaerContent.dangerItemObject,
+        DangerTable: let1DataPapaerContent.DangerTable,
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
           userGroupName: this.$store.state.user.userGroupName,
@@ -223,7 +223,7 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         this.$refs.letMain.commandFill(
           key,
           dataKey,

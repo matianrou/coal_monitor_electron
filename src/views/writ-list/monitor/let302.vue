@@ -248,7 +248,7 @@ export default {
         // 2.申请人单位
         // 3.申请记录：“我代表”+煤矿名称+“对”+机构名称+“做出的行政处罚决定”+文书编号（行政处罚决定）+“申请行政复议，对处罚的”+隐患描述+“违法行为进行复议。我矿认为......。请求从轻或者免于处罚。”
         let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
+      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
         let { numString } = await getDocNumber(
           db,
           "8",
@@ -256,21 +256,21 @@ export default {
           this.$store.state.user
         );
         // let dangerObject = getDangerObject(
-        //   let101DataPapaerContent.dangerItemObject.tableData
+        //   let101DataPapaerContent.DangerTable.tableData
         // );
         let cellIdx14String = `我代表${corp.corpName}对${this.$store.state.user.userGroupName}做出的行政处罚决定${numString}申请行政复议，对处罚的${dangerObject.dangerString}违法行为进行复议。我矿认为......。请求从轻或者免于处罚。`;
             await db.close();
         this.letData = {
-          cellIdx0: now.getFullYear(), // 年
-          cellIdx0TypeTextItem: now.getFullYear(), // 年
-          cellIdx1: now.getMonth() + 1, // 月
-          cellIdx1TypeTextItem: now.getMonth() + 1, // 月
-          cellIdx2: now.getDate(), // 日
-          cellIdx2TypeTextItem: now.getDate(), // 日
-          cellIdx3: now.getHours(), // 时
-          cellIdx3TypeTextItem: now.getHours(), // 时
-          cellIdx4: now.getMinutes(), // 分
-          cellIdx4TypeTextItem: now.getMinutes(), // 分
+          cellIdx0: now.getFullYear().toString(), // 年
+          cellIdx0TypeTextItem: now.getFullYear().toString(), // 年
+          cellIdx1: (now.getMonth() + 1).toString(), // 月
+          cellIdx1TypeTextItem: (now.getMonth() + 1).toString(), // 月
+          cellIdx2: now.getDate().toString(), // 日
+          cellIdx2TypeTextItem: now.getDate().toString(), // 日
+          cellIdx3: now.getHours().toString(), // 时
+          cellIdx3TypeTextItem: now.getHours().toString(), // 时
+          cellIdx4: now.getMinutes().toString(), // 分
+          cellIdx4TypeTextItem: now.getMinutes().toString(), // 分
           cellIdx5: null, // 申请地点
           cellIdx6: null, // 申请人姓名
           cellIdx7: null, // 性别
@@ -283,7 +283,7 @@ export default {
           cellIdx13: null, // 记录人（签名）
           cellIdx14: cellIdx14String, // 申请记录
           cellIdx14TypeTextareaItem: cellIdx14String, // 申请记录
-          dangerItemObject: let1DataPapaerContent.dangerItemObject,
+          DangerTable: let1DataPapaerContent.DangerTable,
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
           userGroupName: this.$store.state.user.userGroupName,
@@ -298,7 +298,7 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         this.$refs.letMain.commandFill(
           key,
           dataKey,

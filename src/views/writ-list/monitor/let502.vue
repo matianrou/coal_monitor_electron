@@ -96,7 +96,7 @@
                   commandFill(
                     'cellIdx18',
                     '加强和改善安全管理意见',
-                    'CheckTableItem'
+                    'CheckTable'
                   )">加强和改善安全管理意见
               </span>
             </div>
@@ -236,7 +236,7 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         if (key === "cellIdx18") {
           this.options[key] = {
             canEdit: true,

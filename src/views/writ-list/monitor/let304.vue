@@ -303,11 +303,11 @@ export default {
         // 创建初始版本 */
         // 1.时间：当前年、月、日、时、分
         let now = new Date();
-        let cellIdx0Year = now.getFullYear();
-        let cellIdx1Month = now.getMonth() + 1;
-        let cellIdx2Date = now.getDate();
-        let cellIdx3Hour = now.getHours();
-        let cellIdx4Minu = now.getMinutes();
+        let cellIdx0Year = now.getFullYear().toString();
+        let cellIdx1Month = (now.getMonth() + 1).toString();
+        let cellIdx2Date = now.getDate().toString();
+        let cellIdx3Hour = now.getHours().toString();
+        let cellIdx4Minu = now.getMinutes().toString();
         // 2.单位名称
         // 3.调查笔录：“我们是”+机构名称+“执法监督处工作人员，这是我们的执法证件（出示行政执法证件），现就你矿涉嫌”+隐患描述+“案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？答：听清楚了。”
         // 获取笔录文书中的隐患数据
@@ -316,10 +316,10 @@ export default {
         });
         let let101DataPapaerContent = JSON.parse(let101Data.paperContent);
         let dangerObject = getDangerObject(
-          let101DataPapaerContent.dangerItemObject.tableData
+          let101DataPapaerContent.DangerTable.tableData
         ); */
         let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-        let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
+        let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
         let cellIdx18 = `我们是${this.$store.state.user.userGroupName}执法监督处工作人员，这是我们的执法证件（出示行政执法证件），现就你矿涉嫌${dangerObject.dangerString}案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？\r\n      答：听清楚了。`;
         await db.close();
         this.letData = {
@@ -349,7 +349,7 @@ export default {
           cellIdx17: null, // 住址
           cellIdx18: cellIdx18, // 调查笔录
           cellIdx18TypeTextareaItem: cellIdx18, // 调查笔录
-          dangerItemObject: let1DataPapaerContent.dangerItemObject,
+          DangerTable: let1DataPapaerContent.DangerTable,
         };
     },
     goBack({ page }) {
@@ -360,7 +360,7 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         this.$refs.letMain.commandFill(
           key,
           dataKey,

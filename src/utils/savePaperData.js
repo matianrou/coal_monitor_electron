@@ -292,8 +292,8 @@ export async function saveToUpload(paperId, userSessId) {
     //   // 行政处罚决定书保存时除添加隐患项数据以外还需保存以下数据
     //   let penaltyTotle = 0
     //   let   = JSON.parse(workPaper.paperContent);
-    //   if (paperContent.dangerItemObject.tableData.length > 0) {
-    //     paperContent.dangerItemObject.tableData.map(item => {
+    //   if (paperContent.DangerTable.tableData.length > 0) {
+    //     paperContent.DangerTable.tableData.map(item => {
     //       penaltyTotle += item.penaltyDescFine ? Number(item.penaltyDescFine) : 0
     //     })
     //   }

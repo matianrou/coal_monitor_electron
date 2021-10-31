@@ -268,7 +268,7 @@ export default {
       // 3.企业煤矿名称
       // 4.违法行为：获取笔录文书中的隐患数据
       let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
+      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
       let cellIdx6String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`
       // 5.地点：sysOfficeInfo实体中depAddress字段+ deparFullname字段
       // 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
@@ -320,7 +320,7 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         this.$refs.letMain.commandFill(
           key,
           dataKey,

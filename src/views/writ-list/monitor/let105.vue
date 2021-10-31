@@ -167,7 +167,7 @@ export default {
       // 创建初始版本
       await db.close();
       let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      this.dangerTableData = let1DataPapaerContent.dangerItemObject.tableData
+      this.dangerTableData = let1DataPapaerContent.DangerTable.tableData
       this.letData = {
       };
     },

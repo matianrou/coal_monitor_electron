@@ -61,12 +61,12 @@
               你单位
               <!-- <span
                 class="no-underline"
-                @click="commandFill('cellIdx5', '单位', 'DangerTableItem')"
+                @click="commandFill('cellIdx5', '单位', 'DangerTable')"
                 >{{
                   letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
                 }}</span> -->
               <span
-                @click="commandFill('cellIdx6', '违法行为', 'DangerTableItem')"
+                @click="commandFill('cellIdx6', '违法行为', 'DangerTable')"
                 >{{
                   letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
                 }}</span
@@ -158,7 +158,7 @@
                 <label>邮政编码：</label>
                 <div
                   class="line-div"
-                  @click="commandFill('cellIdx17', '邮政编码', 'DateItem')"
+                  @click="commandFill('cellIdx17', '邮政编码', 'TextItem')"
                 >
                   {{ letData.cellIdx17 ? letData.cellIdx17 : "（点击编辑）" }}
                 </div>
@@ -183,7 +183,7 @@
                 <label>联系电话：</label>
                 <div
                   class="line-div"
-                  @click="commandFill('cellIdx20', '联系电话', 'DateItem')"
+                  @click="commandFill('cellIdx20', '联系电话', 'TextItem')"
                 >
                   {{ letData.cellIdx20 ? letData.cellIdx20 : "（点击编辑）" }}
                 </div>
@@ -273,7 +273,7 @@ export default {
         selectedPaper.let1Data.paperContent
       );
       let dangerObject = getDangerObject(
-        let1DataPapaerContent.dangerItemObject.tableData
+        let1DataPapaerContent.DangerTable.tableData
       );
       let cellIdx6String = `${dangerObject.dangerString}`;
       // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
@@ -329,7 +329,7 @@ export default {
         cellIdx21TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx22: this.todayDate, //
         cellIdx22TypeDateItem: this.todayDate, // 日期
-        dangerItemObject: let1DataPapaerContent.dangerItemObject,
+        DangerTable: let1DataPapaerContent.DangerTable,
         SamplingForensicsTable: {
           tableData: [],
           signature: null,
@@ -345,13 +345,13 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         if (key === "cellIdx6") {
           this.options[key] = {
             page: "25",
             key: key,
           };
-          dataKey = "dangerItemObject";
+          dataKey = "DangerTable";
         } else if (key === "cellIdx12") {
           this.options[key] = {
             canEdit: true,

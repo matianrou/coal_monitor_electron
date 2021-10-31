@@ -32,7 +32,6 @@
                   style="width: 124mm; height: 30mm"
                   class="cellInput cellBottomLine textPaddingLeft"
                   id="cell_idx_0"
-                  align="center"
                   data-title="执法单位"
                   data-type="text"
                   data-src
@@ -53,7 +52,6 @@
                   style="width: 124mm; height: 50mm"
                   class="cellInput cellBottomLine textPaddingLeft"
                   id="cell_idx_1"
-                  align="center"
                   data-title="案卷类别"
                   data-type="text"
                   data-src
@@ -77,7 +75,6 @@
                   style="width: 124mm; height: 120mm"
                   class="cellInput textPaddingLeft"
                   id="cell_idx_2"
-                  align="center"
                   data-title="案卷题名"
                   data-type="text"
                   data-src
@@ -422,7 +419,7 @@ export default {
           selectedPaper.let1Data.paperContent
         );
         let dangerObject = getDangerObject(
-          let1DataPapaerContent.dangerItemObject.tableData
+          let1DataPapaerContent.DangerTable.tableData
         );
         cellIdx2String = `${corp.corpName}${dangerObject.dangerString}案。`;
         await db.close();
@@ -460,7 +457,7 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         if (key === "cellIdx17") {
           this.options[key] = {
             canEdit: true,

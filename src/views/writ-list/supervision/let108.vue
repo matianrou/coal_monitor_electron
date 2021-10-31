@@ -56,7 +56,7 @@
               <label style="width:5%"></label>
               你单位
               <span
-                @click="commandFill('cellIdx6', '违法行为', 'DangerTableItem')"
+                @click="commandFill('cellIdx6', '违法行为', 'DangerTable')"
               >{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）'}}</span>
               的行为涉嫌违法违规。依据《中华人民共和国行政处罚法》第五十六条规定，本机关决定对你单位的有关证据（详见《先行登记保存证据清单》）采取先行登记保存措施。先行登记保存的证据，存放在
               <span
@@ -220,7 +220,7 @@ export default {
       let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
       // 2.获取笔录文书中的隐患数据
       let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
+      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
       let cellIdx6String = `${dangerObject.dangerString}`
       // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
       const orgInfo = db.table("orgInfo");
@@ -266,7 +266,7 @@ export default {
         cellIdx21TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx22: this.todayDate, // 日期
         cellIdx22TypeDateItem: this.todayDate, // 日期
-        dangerItemObject: let1DataPapaerContent.dangerItemObject,
+        DangerTable: let1DataPapaerContent.DangerTable,
         SamplingForensicsTable: {
           tableData: [],
           signature: null,
@@ -282,13 +282,13 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         if (key === 'cellIdx6') {
           this.options[key] = {
             page: '25',
             key: key,
           }
-          dataKey = 'dangerItemObject'
+          dataKey = 'DangerTable'
         } else if (key === 'cellIdx12') {
           this.options[key] = {
             canEdit: true,

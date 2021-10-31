@@ -337,7 +337,7 @@ export default {
       // 1.案卷题名: 煤矿名称+隐患描述+案
       // 获取笔录文书中的隐患数据
       let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
+      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
       let cellIdx2String = `${corp.corpName}${dangerObject.dangerString}案。`
       await db.close();
       this.letData = {
@@ -373,7 +373,7 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         if (key === 'cellIdx17') {
           this.options[key] = {
             canEdit: true,

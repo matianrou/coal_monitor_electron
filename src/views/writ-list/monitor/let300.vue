@@ -96,7 +96,7 @@
             <div class="docTextarea">
               <span class="no-line">裁定事项：</span>
               <span
-                @click="commandFill('cellIdx8', '裁定事项', 'DangerTableItem')"
+                @click="commandFill('cellIdx8', '裁定事项', 'DangerTable')"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
               <div class="line"></div>
             </div>
@@ -220,9 +220,6 @@ export default {
       });
       // await wkPaper.delete(checkPaper[0].id)
       // 保存额外拼写的数据内容，用于修改隐患项时回显使用
-      this.extraData = {
-        corpName: corp.corpName,
-      };
       if (checkPaper.length > 0) {
         // 回显
         this.letData = JSON.parse(checkPaper[0].paperContent);
@@ -235,13 +232,13 @@ export default {
         // 3.裁定事项：煤矿名称+“涉嫌”+隐患描述+“案”
         // 获取笔录文书中的隐患数据
         let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-        let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
+        let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
         /* const let101Data = await wkPaper.find((item) => {
           return item.caseId === caseId && item.paperType === "1";
         });
         let let101DataPapaerContent = JSON.parse(let101Data.paperContent);
         let dangerObject = getDangerObject(
-          let101DataPapaerContent.dangerItemObject.tableData
+          let101DataPapaerContent.DangerTable.tableData
         ); */
         let cellIdx13String = `主持人：现在公开裁定开始，首先我先介绍裁定小组成员，我是主持人XXX，记录人是XXX，裁定小组成员有监察分局XXX、XXX。
       主持人：XX煤矿矿长XXX，参加公开裁定的人员是否与你矿有利害关系人员，是否申请回避？
@@ -279,8 +276,8 @@ export default {
           cellIdx12: null, // 其他单位参加人员（签名）
           cellIdx13: cellIdx13String, // 裁定记录
           cellIdx13TypeTextareaItem: cellIdx13String, // 裁定记录
-          // dangerItemObject: let101DataPapaerContent.dangerItemObject,
-          dangerItemObject: let1DataPapaerContent.dangerItemObject,
+          // DangerTable: let101DataPapaerContent.DangerTable,
+          DangerTable: let1DataPapaerContent.DangerTable,
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
           userGroupName: this.$store.state.user.userGroupName,
@@ -295,14 +292,14 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         if (key === "cellIdx8") {
           this.options[key] = {
             page: "31",
             key: key,
             spellString: this.letData.extraData,
           };
-          dataKey = "dangerItemObject";
+          dataKey = "DangerTable";
         }
         this.$refs.letMain.commandFill(
           key,

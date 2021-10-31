@@ -36,7 +36,7 @@
             <div class="docTextarea">
               <span class="no-line">案&nbsp;&nbsp;由：</span>
               <span
-                @click="commandFill('cellIdx2', '案由', 'DangerTableItem')"
+                @click="commandFill('cellIdx2', '案由', 'DangerTable')"
                 >{{
                   letData.cellIdx2 ? letData.cellIdx2 : "（点击编辑）"
                 }}</span
@@ -77,7 +77,7 @@
                   commandFill(
                     'cellIdx6',
                     '违法事实及处理依据',
-                    'DangerTableItem'
+                    'DangerTable'
                   )
                 "
                 >{{
@@ -90,7 +90,7 @@
               <span class="no-line">建议案件处理意见：</span>
               <span
                 @click="
-                  commandFill('cellIdx7', '建议案件处理意见', 'DangerTableItem')
+                  commandFill('cellIdx7', '建议案件处理意见', 'DangerTable')
                 "
                 >{{
                   letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
@@ -130,7 +130,7 @@
                   {{ letData.cellIdx10 ? letData.cellIdx10 : "（编辑）" }}
                 </div>
               </div>
-              <div style="flex: 3; display: flex">
+              <div style="flex: 4; display: flex">
                 <label>&nbsp;日期：</label>
                 <div
                   class="line-div"
@@ -161,7 +161,7 @@
                   {{ letData.cellIdx13 ? letData.cellIdx13 : "（编辑）" }}
                 </div>
               </div>
-              <div style="flex: 3; display: flex">
+              <div style="flex: 4; display: flex">
                 <label>&nbsp;日期：</label>
                 <div
                   class="line-div"
@@ -231,14 +231,14 @@ export default {
         selectedPaper.let1Data.paperContent
       );
       let dangerObject = getDangerObject(
-        let1DataPapaerContent.dangerItemObject.tableData
+        let1DataPapaerContent.DangerTable.tableData
       );
       // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
       // 获取笔录文书中的隐患数据
       let cellIdx2String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
       // 2.违法事实及依据：隐患描述+“经调查取证以上违法违规行为属实，分别违反了”+违法认定发条
       dangerObject = getDangerObject(
-        let1DataPapaerContent.dangerItemObject.tableData,
+        let1DataPapaerContent.DangerTable.tableData,
         { danger: true }
       );
       let cellIdx6String = `${dangerObject.dangerString}经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString}的规定。`;
@@ -301,7 +301,7 @@ export default {
         cellIdx12: null, // 主要负责人意见
         cellIdx13: null, // 签名
         cellIdx14: null, // 日期
-        dangerItemObject: let1DataPapaerContent.dangerItemObject,
+        DangerTable: let1DataPapaerContent.DangerTable,
         extraData: {
           // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
@@ -317,7 +317,7 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         let spellString = {};
         if (key === "cellIdx2" || key === "cellIdx6" || key === "cellIdx7") {
           if (key === "cellIdx2") {
@@ -332,7 +332,9 @@ export default {
             key: key,
             spellString,
           };
-          dataKey = "dangerItemObject";
+          dataKey = "DangerTable";
+        } else if (key === 'cellIdx8') {
+          dataKey = `${key}Type${type}`;
         }
         this.$refs.letMain.commandFill(
           key,

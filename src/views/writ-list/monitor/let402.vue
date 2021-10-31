@@ -390,7 +390,7 @@ export default {
         // });
         // let let101DataPapaerContent = JSON.parse(let101Data.paperContent);
         // let dangerObject = getDangerObject(
-        //   let101DataPapaerContent.dangerItemObject.tableData
+        //   let101DataPapaerContent.DangerTable.tableData
         // );
         // let cellIdx5String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
         // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
@@ -451,7 +451,7 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         this.$refs.letMain.commandFill(
           key,
           dataKey,

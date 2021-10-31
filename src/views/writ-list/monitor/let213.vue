@@ -191,7 +191,7 @@ export default {
         selectedPaper.let1Data.paperContent
       );
       let dangerObject = getDangerObject(
-        let1DataPapaerContent.dangerItemObject.tableData
+        let1DataPapaerContent.DangerTable.tableData
       );
       // 1.案由
       let string1 = `一、案由：${corp.corpName}${dangerObject.dangerString}案。\r\n`;
@@ -263,7 +263,7 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         this.$refs.letMain.commandFill(
           key,
           dataKey,

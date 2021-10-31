@@ -33,9 +33,21 @@ export default {
     };
   },
   created() {
-    this.dataForm.tempValue = this.value
+    this.init()
   },
   methods: {
+    init () {
+      // 根据options将name比对value赋值
+      if (this.value) {
+        this.options.map(item => {
+          if (item.name === this.value) {
+            this.dataForm.tempValue = item.value
+          }
+        })
+      } else {
+        this.dataForm.tempValue = null
+      }
+    }
   },
 };
 </script>

@@ -4,7 +4,7 @@
     <el-input
       v-model="dataForm.tempValue"
       type="textarea"
-      :autosize="{ minRows: 25, maxRows: 35}"
+      :autosize="{ minRows: 25, maxRows: 30}"
       :placeholder="placeholder">
     </el-input>
   </div>

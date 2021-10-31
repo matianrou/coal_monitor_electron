@@ -150,7 +150,7 @@
             <div class="docTextarea">
               <span class="no-line">检查情况：</span>
               <span
-                @click="commandFill('cellIdx13', '检查情况', 'DangerTableItem')"
+                @click="commandFill('cellIdx13', '检查情况', 'DangerTable')"
                 >{{
                   letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）"
                 }}</span
@@ -164,7 +164,7 @@
               data-title="检查情况"
               data-type="textarea"
               data-src
-              @click="commandFill('cellIdx13', '检查情况', 'DangerTableItem')"
+              @click="commandFill('cellIdx13', '检查情况', 'DangerTable')"
             >
               <div v-if="letData.cellIdx13 && letData.cellIdx13.length > 0">
                 <p class="show-area-item-p">
@@ -306,7 +306,7 @@ export default {
           cellIdx14: null, // 被检查单位意见
           cellIdx15: null, // 单位负责人签名
           cellIdx16: null, // 日期
-          dangerItemObject: {
+          DangerTable: {
             baseInfor: null,
             tableData: [],
             selectedIdList: [],
@@ -338,10 +338,10 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         if (key === "cellIdx13") {
           // 隐患项时对应letData中的dangerItemObject
-          dataKey = "dangerItemObject";
+          dataKey = "DangerTable";
         }
         this.$refs.letMain.commandFill(
           key,

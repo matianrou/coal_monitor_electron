@@ -128,7 +128,7 @@ import selectPerson from '@/components/select-person'
 import selectCheckPosition from '@/components/select-check-position'
 import { setCheckPositionItem } from '@/utils/handlePaperData'
 export default {
-  name: "CheckTableItem",
+  name: "CheckTable",
   components: {
     selectCheckContent,
     selectPerson,

@@ -263,7 +263,7 @@ export default {
       // 4.对被申请人：企业名称+'涉嫌'+隐患描述+'案'
       // 获取笔录文书中的隐患数据
       let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
+      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
       let cellIdx9String = `${corp.corpName}涉嫌${dangerObject.dangerString}案`
       // 从sysOfficeInfo中获取：
       const orgInfo = db.table("orgInfo");
@@ -345,7 +345,7 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         this.$refs.letMain.commandFill(
           key,
           dataKey,

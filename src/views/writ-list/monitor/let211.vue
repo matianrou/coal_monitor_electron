@@ -207,11 +207,11 @@ export default {
       let cellIdx7String = `${orgSysOfficeInfo.depAddress}${orgSysOfficeInfo.deparFullname}`;
       // 1.时间
       let now = new Date();
-      let cellIdx0Year = now.getFullYear();
-      let cellIdx1Month = now.getMonth() + 1;
-      let cellIdx2Date = now.getDate();
-      let cellIdx3Hour = now.getHours();
-      let cellIdx4Minu = now.getMinutes();
+      let cellIdx0Year = now.getFullYear().toString();
+      let cellIdx1Month = (now.getMonth() + 1).toString();
+      let cellIdx2Date = now.getDate().toString();
+      let cellIdx3Hour = now.getHours().toString();
+      let cellIdx4Minu = now.getMinutes().toString();
       // 2.听证记录：固定模板
       let cellIdx10String = `主持人：今天，就淮北矿业股份有限公司许疃煤矿申请对安徽煤矿安全监管局淮北监管分局拟对其使用违法违规行为作出\r
     根据《安全生产违法行为行政处罚办法》第三十九条规定，请记录人先查明听证各方参加人员到会情况，宣布听证会场纪律、当事人的权利和义务。\r
@@ -297,7 +297,7 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         this.$refs.letMain.commandFill(
           key,
           dataKey,

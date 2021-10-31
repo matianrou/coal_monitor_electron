@@ -41,7 +41,7 @@
             <div class="docTextarea">
               案&nbsp;&nbsp;&nbsp; 由：
               <span
-                @click="commandFill('cellIdx4', '案由', 'DangerTableItem')"
+                @click="commandFill('cellIdx4', '案由', 'DangerTable')"
                 >{{
                   letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）"
                 }}</span
@@ -51,7 +51,7 @@
             <div class="docTextarea">
               案情摘要：
               <span
-                @click="commandFill('cellIdx5', '案情摘要', 'DangerTableItem')"
+                @click="commandFill('cellIdx5', '案情摘要', 'DangerTable')"
                 >{{
                   letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
                 }}</span
@@ -80,7 +80,7 @@
             </div>
             <table height="30"></table>
             <div class="docTextLine">
-              <div style="flex: 2; display: flex">
+              <div style="flex: 4; display: flex">
                 <label>审批人意见：</label>
                 <div
                   class="line-div"
@@ -89,7 +89,7 @@
                   {{ letData.cellIdx10 ? letData.cellIdx10 : "（编辑）" }}
                 </div>
               </div>
-              <div style="flex: 2; display: flex">
+              <div style="flex: 4; display: flex">
                 <label>审批人（签名）:</label>
                 <div
                   class="line-div"
@@ -100,15 +100,17 @@
                   {{ letData.cellIdx11 ? letData.cellIdx11 : "（编辑）" }}
                 </div>
               </div>
-              <label>日期：</label>
-              <div
-                class="line-div"
-                @click="commandFill('cellIdx12', '日期:', 'DateItem')"
-              >
-                {{ letData.cellIdx12 ? letData.cellIdx12 : "（编辑）" }}
+              <div style="flex: 3; display: flex">
+                <label>日期：</label>
+                <div
+                  class="line-div"
+                  @click="commandFill('cellIdx12', '日期:', 'DateItem')"
+                >
+                  {{ letData.cellIdx12 ? letData.cellIdx12 : "（编辑）" }}
+                </div>
               </div>
             </div>
-            <table height="60"></table>
+            <table height="30"></table>
             <table class="docBody">
               <tr>
                 <td
@@ -193,12 +195,12 @@ export default {
         : "X年X月X日-X年X月X日";
       // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
       let dangerObject = getDangerObject(
-        let1DataPapaerContent.dangerItemObject.tableData
+        let1DataPapaerContent.DangerTable.tableData
       );
       let cellIdx4String = `${corp.corpName}${dangerObject.dangerString}案。`;
       // 2.案情摘要：检查时间+当前机构名称+“对”+煤矿名称+“进行现场检查时发现”+隐患描述+"以上行为分别涉嫌违反了"+违法认定法条+“依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。”
       dangerObject = getDangerObject(
-        let1DataPapaerContent.dangerItemObject.tableData,
+        let1DataPapaerContent.DangerTable.tableData,
         { danger: true }
       );
       let cellIdx5String = `${dateString}，${this.$store.state.user.userGroupName}对${corp.corpName}进行现场检查时发现：${dangerObject.dangerString}以上行为分别涉嫌违反了${dangerObject.illegalString}的规定。依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`;
@@ -234,7 +236,7 @@ export default {
         /* cellIdx14: null, // 年
           cellIdx15: null, // 月
           cellIdx16: null, // 日   暂不用*/
-        dangerItemObject: let1DataPapaerContent.dangerItemObject,
+        DangerTable: let1DataPapaerContent.DangerTable,
         extraData: {
           // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
@@ -251,7 +253,7 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         let spellString = {};
         if (key === "cellIdx4" || key === "cellIdx5") {
           if (key === "cellIdx4") {
@@ -266,7 +268,7 @@ export default {
             key: key,
             spellString,
           };
-          dataKey = "dangerItemObject";
+          dataKey = "DangerTable";
         }
         this.$refs.letMain.commandFill(
           key,

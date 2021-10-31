@@ -21,7 +21,7 @@
             <div class="docTextarea">
              <span class="no-line">案由：</span>
               <span
-                @click="commandFill('cellIdx0', '案由', 'DangerTableItem')"
+                @click="commandFill('cellIdx0', '案由', 'DangerTable')"
               >{{ letData.cellIdx0 ? letData.cellIdx0 : '（点击编辑）'}}</span>
               <div class="line"></div>
             </div>
@@ -185,7 +185,7 @@ export default {
       });
       // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
       let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
+      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
       let cellIdx4String = `${corp.corpName}${dangerObject.dangerString}案。`
       await db.close();
       this.letData = {
@@ -206,7 +206,7 @@ export default {
         cellIdx14: null, // 讨论记录
         cellIdx15: null, // 结论性意见
         cellIdx16: null, // 出席人员签名
-        dangerItemObject: let1DataPapaerContent.dangerItemObject,
+        DangerTable: let1DataPapaerContent.DangerTable,
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
           userGroupName: this.$store.state.user.userGroupName,
@@ -221,7 +221,7 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         if (key === 'cellIdx0') {
           this.options[key] = {
             page: '48',
@@ -230,7 +230,7 @@ export default {
               corpName: this.letData.extraData
             }
           }
-          dataKey = 'dangerItemObject'
+          dataKey = 'DangerTable'
         }
         this.$refs.letMain.commandFill(
           key,

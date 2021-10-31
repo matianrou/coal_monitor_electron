@@ -71,7 +71,7 @@
               >{{ letData.cellIdx8 ? letData.cellIdx8 : 'XX'}}</span>
               日发现
               <span
-                @click="commandFill('cellIdx9', '违法行为', 'DangerTableItem')"
+                @click="commandFill('cellIdx9', '违法行为', 'DangerTable')"
               >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）' }}</span>
               的违法违规行为，下达了《现场处理决定书》（
               <span style="borderBottom:none"
@@ -92,7 +92,7 @@
 
               号），依法作出了
               <span
-                @click="commandFill('cellIdx14', '现场处理决定', 'DangerTableItem')"
+                @click="commandFill('cellIdx14', '现场处理决定', 'DangerTable')"
               >{{ letData.cellIdx14 ? letData.cellIdx14 : '（点击编辑）' }}</span>
               的决定。
             </div>
@@ -253,7 +253,7 @@ export default {
       let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
       await db.close();
       let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData, {danger: true})
+      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData, {danger: true})
       let cellIdx9String = dangerObject.dangerString
       let cellIdx10String = dangerObject.onsiteDescString
       let let2DataPapaerContent = JSON.parse(selectedPaper.let2Data.paperContent)
@@ -295,7 +295,7 @@ export default {
         cellIdx23TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx24: this.todayDate, //日期
         cellIdx24TypeDateItem: this.todayDate, // 日期
-        dangerItemObject: let1DataPapaerContent.dangerItemObject
+        DangerTable: let1DataPapaerContent.DangerTable
       };
     },
     goBack({ page }) {
@@ -306,13 +306,13 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         if (key === 'cellIdx9' || key === 'cellIdx14') {
           this.options[key] = {
             page: '13',
             key: key,
           }
-          dataKey = 'dangerItemObject'
+          dataKey = 'DangerTable'
         }
         this.$refs.letMain.commandFill(
           key,

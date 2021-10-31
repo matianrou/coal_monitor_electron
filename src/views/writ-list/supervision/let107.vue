@@ -56,7 +56,7 @@
               <label style="width:5%"></label>
               你单位
               <span
-                @click="commandFill('cellIdx5', '违法行为', 'DangerTableItem')"
+                @click="commandFill('cellIdx5', '违法行为', 'DangerTable')"
               >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</span>
               的行为涉嫌违法违规。根据《中华人民共和国行政处罚法》第五十六条规定，本机关决定对你单位的有关证据（详见《抽样取证清单》）采取抽样取证。
             </div>
@@ -251,14 +251,14 @@ export default {
       let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
       // 2.隐患描述
       let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
+      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
       let cellIdx5String = `${dangerObject.dangerString}`
       // 3.抽样时间9-12
       let now = new Date()
-      let cellIdx9Year = now.getFullYear()
-      let cellIdx10Month = now.getMonth() + 1
-      let cellIdx11Date = now.getDate()
-      let cellIdx12Hour = now.getHours()
+      let cellIdx9Year = now.getFullYear().toString()
+      let cellIdx10Month = (now.getMonth() + 1).toString()
+      let cellIdx11Date = now.getDate().toString()
+      let cellIdx12Hour = now.getHours().toString()
       // 4.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
       const orgInfo = db.table("orgInfo");
       const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
@@ -308,7 +308,7 @@ export default {
         cellIdx22TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx23: this.todayDate, // 日期
         cellIdx23TypeDateItem: this.todayDate, // 日期
-        dangerItemObject: let1DataPapaerContent.dangerItemObject,
+        DangerTable: let1DataPapaerContent.DangerTable,
         SamplingForensicsTable: {
           tableData: [],
           signature: null,
@@ -324,13 +324,13 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         if (key === 'cellIdx5') {
           this.options[key] = {
             page: '23',
             key: key,
           }
-          dataKey = 'dangerItemObject'
+          dataKey = 'DangerTable'
         } else if (key === 'cellIdx7') {
           this.options[key] = {
             canEdit: true,

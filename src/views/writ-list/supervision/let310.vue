@@ -229,7 +229,7 @@ export default {
       // 获取笔录文书中的隐患数据 调整为立案决定书中的案由字段cellIdx4
       // let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent);
       // let dangerObject = getDangerObject(
-      //   let1DataPapaerContent.dangerItemObject.tableData,
+      //   let1DataPapaerContent.DangerTable.tableData,
       //   { danger: true }
       // );
       // let cellIdx2String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
@@ -271,7 +271,7 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         this.$refs.letMain.commandFill(
           key,
           dataKey,

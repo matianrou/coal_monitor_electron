@@ -21,43 +21,43 @@
             <div class="docTextLine">
               <label>时&nbsp;&nbsp;&nbsp; 间：</label>
               <span
-                class="line-div"
+                class="line-div center"
                 @click="commandFill('cellIdx0', '年', 'TextItem')"
                 >{{ letData.cellIdx0 ? letData.cellIdx0 : "（XX）" }}</span
               >
               <label>年</label>
               <span
-                class="line-div"
+                class="line-div center"
                 @click="commandFill('cellIdx1', '月', 'TextItem')"
                 >{{ letData.cellIdx1 ? letData.cellIdx1 : "（XX）" }}</span
               >
               <label>月</label>
               <span
-                class="line-div"
+                class="line-div center"
                 @click="commandFill('cellIdx2', '日', 'TextItem')"
                 >{{ letData.cellIdx2 ? letData.cellIdx2 : "（XX）" }}</span
               >
               <label>日</label>
               <span
-                class="line-div"
+                class="line-div center"
                 @click="commandFill('cellIdx3', '时', 'TextItem')"
                 >{{ letData.cellIdx3 ? letData.cellIdx3 : "（XX）" }}</span
               >
               <label>时</label>
               <span
-                class="line-div"
+                class="line-div center"
                 @click="commandFill('cellIdx4', '分', 'TextItem')"
                 >{{ letData.cellIdx4 ? letData.cellIdx4 : "（XX）" }}</span
               >
               分至
               <span
-                class="line-div"
+                class="line-div center"
                 @click="commandFill('cellIdx5', '时', 'TextItem')"
                 >{{ letData.cellIdx5 ? letData.cellIdx5 : "（XX）" }}</span
               >
               时
               <span
-                class="line-div"
+                class="line-div center"
                 @click="commandFill('cellIdx6', '分', 'TextItem')"
                 >{{ letData.cellIdx6 ? letData.cellIdx6 : "（XX）" }}</span
               >
@@ -73,7 +73,7 @@
             <div class="docTextarea">
               调查事由：
               <span
-                @click="commandFill('cellIdx8', '调查事由', 'DangerTableItem')"
+                @click="commandFill('cellIdx8', '调查事由', 'DangerTable')"
                 >{{
                   letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
                 }}</span
@@ -372,22 +372,29 @@ export default {
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
+      // 1.时间
+      let now = new Date();
+      let cellIdx0Year = now.getFullYear().toString();
+      let cellIdx1Month = (now.getMonth() + 1).toString();
+      let cellIdx2Date = now.getDate().toString();
+      let cellIdx3Hour = now.getHours().toString();
+      let cellIdx4Minu = now.getMinutes().toString();
       let let1DataPapaerContent = JSON.parse(
         selectedPaper.let1Data.paperContent
       );
       let dangerObject = getDangerObject(
-        let1DataPapaerContent.dangerItemObject.tableData
+        let1DataPapaerContent.DangerTable.tableData
       );
       let cellIdx8String = `${corp.corpName}涉嫌${dangerObject.dangerString}。`;
       // 2.组成： “我们是”+当前机构+“监察员，这是我们的执法证件（出示行政执法证件），现就你”+煤矿名称+“涉嫌”+隐患描述+“违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？”
       let cellIdx21String = `我们是${this.$store.state.user.userGroupName}监察员，这是我们的执法证件（出示行政执法证件），现就你${corp.corpName}涉嫌${dangerObject.dangerString}违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？`;
       await db.close();
       this.letData = {
-        cellIdx0: null, // 年
-        cellIdx1: null, // 月
-        cellIdx2: null, // 日
-        cellIdx3: null, // 时
-        cellIdx4: null, // 分
+        cellIdx0: cellIdx0Year, // 年
+        cellIdx1: cellIdx1Month, // 月
+        cellIdx2: cellIdx2Date, // 日
+        cellIdx3: cellIdx3Hour, // 时
+        cellIdx4: cellIdx4Minu, // 分
         cellIdx5: null, // 时
         cellIdx6: null, // 分
         cellIdx7: null, // 地点
@@ -417,7 +424,7 @@ export default {
         cellIdx30: null,
         cellIdx31: null,
         cellIdx32: null,
-        dangerItemObject: let1DataPapaerContent.dangerItemObject,
+        DangerTable: let1DataPapaerContent.DangerTable,
         extraData: {
           // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
@@ -433,7 +440,7 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         let spellString = {};
         if (key === "cellIdx8") {
           spellString = {
@@ -444,7 +451,7 @@ export default {
             key: key,
             spellString,
           };
-          dataKey = "dangerItemObject";
+          dataKey = "DangerTable";
         }
         this.$refs.letMain.commandFill(
           key,

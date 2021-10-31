@@ -254,7 +254,7 @@ import selectDangerContent from '../select-danger-content'
 import receiveDanger from '@/components/receive-danger'
 import GoDB from "@/utils/godb.min.js";
 export default {
-  name: "DangerTableItem",
+  name: "DangerTable",
   components: {
     selectDangerContent,
     receiveDanger

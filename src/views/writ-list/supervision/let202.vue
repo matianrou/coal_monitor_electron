@@ -80,7 +80,7 @@
             <div class="docTextarea">
               <span class="no-line">调查事由：</span>
               <span
-                @click="commandFill('cellIdx8', '调查事由', 'DangerTableItem')"
+                @click="commandFill('cellIdx8', '调查事由', 'DangerTable')"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
               <div class="line"></div>
             </div>
@@ -96,7 +96,7 @@
               data-title="调查事由"
               data-type="textarea"
               data-src
-              @click="commandFill('cellIdx8', '调查事由', 'DangerTableItem')">
+              @click="commandFill('cellIdx8', '调查事由', 'DangerTable')">
               <div v-if="letData.cellIdx8 && letData.cellIdx8.length > 0">
                 <p class="show-area-item-p">
                   <span style="padding: 7px;">{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
@@ -397,7 +397,7 @@ export default {
       // 隐患描述
         // 获取笔录文书中的隐患数据
       let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
+      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
       let cellIdx8String = `${corp.corpName}涉嫌${dangerObject.dangerString}。`
       // 2.组成： “我们是”+当前机构+“监管员，这是我们的执法证件（出示行政执法证件），现就你”+煤矿名称+“涉嫌”+隐患描述+“违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？”
       let cellIdx21String = `我们是${this.$store.state.user.userGroupName}监管员，这是我们的执法证件（出示行政执法证件），现就你${corp.corpName}涉嫌${dangerObject.dangerString}违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？`
@@ -426,7 +426,7 @@ export default {
         cellIdx20: null, // 记录人（签名）
         cellIdx21: cellIdx21String,
         cellIdx21TypeTextareaItem: cellIdx21String,
-        dangerItemObject: let1DataPapaerContent.dangerItemObject,
+        DangerTable: let1DataPapaerContent.DangerTable,
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
           userGroupName: this.$store.state.user.userGroupName,
@@ -441,7 +441,7 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         let spellString = {}
         if (key === 'cellIdx8') {
           spellString = {
@@ -452,7 +452,7 @@ export default {
             key: key,
             spellString
           }
-          dataKey = 'dangerItemObject'
+          dataKey = 'DangerTable'
         }
         this.$refs.letMain.commandFill(
           key,

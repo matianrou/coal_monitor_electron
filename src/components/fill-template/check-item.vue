@@ -17,8 +17,8 @@ export default {
   name: "CheckItem",
   props: {
     value: {
-      type: Array,
-      default: () => []
+      type: String,
+      default: null
     },
     options: {
       type: Array,
@@ -28,14 +28,30 @@ export default {
   data() {
     return {
       dataForm: {
-        tempValue: null
+        tempValue: []
       }
     };
   },
   created() {
-    this.dataForm.tempValue = this.value
+    this.init()
   },
   methods: {
+    init () {
+      if (this.value) {
+        // 获取name的选项
+        let stringList = this.value.split(',')
+        // 通过options换取value数组
+        stringList.map(string => {
+          this.options.map(option => {
+            if (option.name === string) {
+              this.dataForm.tempValue.push(option.value)
+            }
+          })
+        })
+      } else {
+        this.dataForm.tempValue = []
+      }
+    }
   },
 };
 </script>

@@ -57,15 +57,15 @@
               >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</span>
               的以下行为
               <span
-                @click="commandFill('cellIdx6', '违法行为', 'DangerTableItem')"
+                @click="commandFill('cellIdx6', '违法行为', 'DangerTable')"
               >{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）'}}</span>
               违反了
               <span
-                @click="commandFill('cellIdx7', '违法行为', 'DangerTableItem')"
+                @click="commandFill('cellIdx7', '违法行为', 'DangerTable')"
               >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
               的规定，依据
               <span
-                @click="commandFill('cellIdx8', '法律依据', 'DangerTableItem')"
+                @click="commandFill('cellIdx8', '法律依据', 'DangerTable')"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
               的规定，拟对你
               <span
@@ -73,7 +73,7 @@
               >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</span>
               作出
               <span
-                @click="commandFill('cellIdx10', '法律规定', 'DangerTableItem')"
+                @click="commandFill('cellIdx10', '法律规定', 'DangerTable')"
               >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）'}}</span>
               的行政处罚。
             </div>
@@ -250,7 +250,7 @@ export default {
       // 获取笔录文书中的隐患数据
       let let1DataPapaerContent =JSON.parse(selectedPaper.let1Data.paperContent);
       let dangerObject = getDangerObject(
-        let1DataPapaerContent.dangerItemObject.tableData,
+        let1DataPapaerContent.DangerTable.tableData,
         { danger: true, penaltyDesc: true }
       );
       // 3.隐患描述
@@ -308,7 +308,7 @@ export default {
         cellIdx20: this.todayDate, // 日期
         cellIdx20TypeDateItem: this.todayDate, // 日期
         cellIdx21: null, // 单位或个人
-        dangerItemObject: let1DataPapaerContent.dangerItemObject,
+        DangerTable: let1DataPapaerContent.DangerTable,
       };
     },
     goBack({ page }) {
@@ -319,7 +319,7 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         if (
           key === "cellIdx6" ||
           key === "cellIdx7" ||
@@ -330,7 +330,7 @@ export default {
             page: "6",
             key: key,
           };
-          dataKey = "dangerItemObject";
+          dataKey = "DangerTable";
         }
         this.$refs.letMain.commandFill(
           key,

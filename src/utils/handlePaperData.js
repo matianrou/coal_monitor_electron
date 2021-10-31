@@ -63,7 +63,7 @@ function setCheckPositionItem (data, selectedData) {
   return string.substring(0, string.length - 1)
 }
 
-function setCheckTableItem (data) {
+function setCheckTable (data) {
   // 检查项数据
   return data.tableData
 }
@@ -73,7 +73,7 @@ function setDateItem (data) {
   return data
 }
 
-function setDangerTableItem (data, selectedData, options) {
+function setDangerTable (data, selectedData, options) {
   // 隐患项数据
   let string = ''
   // 根据不同的文书，返回不同形式的文本
@@ -92,6 +92,8 @@ function setDangerTableItem (data, selectedData, options) {
     case '13': // 复查意见书
       if (options.key === 'cellIdx9') {
         string = `${dangerObjectIndex.dangerString}`
+      } else if (options.key === 'cellIdx10') {
+        string = `${dangerObject.onsiteDescString}`
       } else if (options.key === 'cellIdx14') {
         string = `${dangerObject.onsiteDescString}`
       }
@@ -106,10 +108,20 @@ function setDangerTableItem (data, selectedData, options) {
       string = `${dangerObject.dangerString}`
       break
     case '32': // 查封（扣押）决定书
-      if (options.key === 'cellIdx7') {
-        string = `${dangerObject.dangerString}`
-      } else if (options.key === 'cellIdx8') {
-        string = `${dangerObject.illegalString}`
+      if (store.state.user.userType === 'supervision') {
+        // 监管
+        if (options.key === 'cellIdx7') {
+          string = `${dangerObject.dangerString}`
+        } else if (options.key === 'cellIdx8') {
+          string = `${dangerObject.illegalString}`
+        }
+      } else {
+        // 监察
+        if (options.key === 'cellIdx6') {
+          string = `${dangerObject.dangerString}`
+        } else if (options.key === 'cellIdx7') {
+          string = `${dangerObject.illegalString}`
+        }
       }
       break
     case '4': // 立案决定书
@@ -249,9 +261,9 @@ export {
   setDaterangeItem,
   setTextareaItem,
   setCheckPositionItem,
-  setCheckTableItem,
+  setCheckTable,
   setDateItem,
-  setDangerTableItem,
+  setDangerTable,
   setDatetimeItem,
   setSelectItem,
   setSelectInputItem,

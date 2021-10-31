@@ -1,4 +1,12 @@
 <!-- 弹窗检查项修改组件 -->
+<!-- 当前用来修改的子组件中： -->
+<!-- checkPostionItem、SelectInputItem用的value为${key}Type${type} -->
+<!-- CheckTable: CheckTable -->
+<!-- DangerTable: DangerTable -->
+<!-- SamplingForensicsTable: SamplingForensicsTable -->
+<!-- volumesMenuTable: volumesMenuTable -->
+<!-- 其他组件均用自身key为value值 -->
+
 <template>
   <el-drawer
     :title="selectedData.title"
@@ -6,7 +14,7 @@
     direction="rtl"
     :before-close="handleClose"
     :wrapperClosable="false"
-    :size="selectedData.type === 'CheckTableItem' || selectedData.type === 'DangerTableItem' || selectedData.type === 'SamplingForensicsTable' || selectedData.type === 'VolumesMenuTable' ? '80%' : '400px'">
+    :size="selectedData.type === 'CheckTable' || selectedData.type === 'DangerTable' || selectedData.type === 'SamplingForensicsTable' || selectedData.type === 'VolumesMenuTable' ? '80%' : '400px'">
     <div class="let-drawer-main">
       <div class="let-drawer-component">
         <component
@@ -45,8 +53,8 @@ export default {
     TextareaItem: resolve => { require(["./fill-template/textarea-item"], function(TextareaItem) { resolve(TextareaItem);});},
     DateItem: resolve => { require(["./fill-template/date-item"], function(DateItem) { resolve(DateItem);});},
     CheckPositionItem: resolve => { require(["./fill-template/check-position-item"], function(CheckPositionItem) { resolve(CheckPositionItem);});},
-    CheckTableItem: resolve => { require(["./fill-template/check-table-item"], function(CheckTableItem) { resolve(CheckTableItem);});},
-    DangerTableItem: resolve => { require(["./fill-template/danger-table-item"], function(DangerTableItem) { resolve(DangerTableItem);});},
+    CheckTable: resolve => { require(["./fill-template/check-table"], function(CheckTable) { resolve(CheckTable);});},
+    DangerTable: resolve => { require(["./fill-template/danger-table"], function(DangerTable) { resolve(DangerTable);});},
     DatetimeItem: resolve => { require(["./fill-template/datetime-item"], function(DatetimeItem) { resolve(DatetimeItem);});},
     SelectItem: resolve => { require(["./fill-template/select-item"], function(SelectItem) { resolve(SelectItem);});},
     SelectInputItem: resolve => { require(["./fill-template/select-input-item"], function(SelectInputItem) { resolve(SelectInputItem);});},

@@ -243,20 +243,23 @@
                 </td>
               </tr>
             </table>
-            <table height="60"></table>
-            <div class="docTextarea cellLine">
-              <label style="width: 5%"></label>
+            <div
+              class="docTextarea"
+              style="
+                border-top: 2px solid #000;
+                margin-top: 30px;
+                line-height: normal;
+              "
+            >
               备注：本文书一式两份，一份送被催告
               <span
                 style="border-bottom: none"
-                @click="commandFill('cellIdx30', '单位/个人', 'SelectItem')"
                 >{{
                   letData.cellIdx30 ? letData.cellIdx30 : "（点击编辑）"
                 }}</span
               >
               ，一份存档。
             </div>
-            <table height="50"></table>
           </div>
         </div>
       </div>
@@ -388,7 +391,7 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         this.$refs.letMain.commandFill(
           key,
           dataKey,

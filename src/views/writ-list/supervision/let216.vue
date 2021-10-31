@@ -46,7 +46,7 @@
              <div class="docTextarea">
               <span class="no-line">案&nbsp;&nbsp;由：</span>
               <span
-                @click="commandFill('cellIdx3', '案由', 'DangerTableItem')"
+                @click="commandFill('cellIdx3', '案由', 'DangerTable')"
               >{{ letData.cellIdx3 ? letData.cellIdx3 : '（点击编辑）'}}</span>
               <div class="line"></div>
             </div>
@@ -76,7 +76,7 @@
              <div class="docTextarea">
               <span class="no-line">违法事实及依据：</span>
               <span
-                @click="commandFill('cellIdx7', '违法事实及依据', 'DangerTableItem')"
+                @click="commandFill('cellIdx7', '违法事实及依据', 'DangerTable')"
               >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
               <div class="line"></div>
             </div>
@@ -162,14 +162,14 @@ export default {
       // 获取笔录文书中的隐患数据
       let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent);
       let dangerObject = getDangerObject(
-        let1DataPapaerContent.dangerItemObject.tableData
+        let1DataPapaerContent.DangerTable.tableData
       );
       // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
       // 获取笔录文书中的隐患数据
       let cellIdx2String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
       // 2.违法事实及依据：隐患描述+“经调查取证以上违法违规行为属实，分别违反了”+违法认定发条
       dangerObject = getDangerObject(
-        let1DataPapaerContent.dangerItemObject.tableData,
+        let1DataPapaerContent.DangerTable.tableData,
         { danger: true }
       );
       let cellIdx6String = `${dangerObject.dangerString}经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString}的规定。`;
@@ -204,7 +204,7 @@ export default {
         cellIdx10: null, // 执法机关负责人意见
         cellIdx11: null, // 签名
         cellIdx12: null, // 日期
-        dangerItemObject: let1DataPapaerContent.dangerItemObject,
+        DangerTable: let1DataPapaerContent.DangerTable,
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
           userGroupName: this.$store.state.user.userGroupName,
@@ -219,7 +219,7 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         let spellString = {};
         if (key === "cellIdx3" || key === "cellIdx7") {
           if (key === "cellIdx3") {
@@ -232,7 +232,7 @@ export default {
             key: key,
             spellString,
           };
-          dataKey = "dangerItemObject";
+          dataKey = "DangerTable";
         }
         this.$refs.letMain.commandFill(
           key,

@@ -207,7 +207,7 @@
                 </td>
               </tr>
             </table>
-           <!--  <table class="docBody">
+            <!--  <table class="docBody">
               <td class="cellInput" style="width: 55%"></td>
               <td
                 class="cellInput cellBottomLine"
@@ -297,11 +297,11 @@
 // import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
-import associationSelectPaper from '@/components/association-select-paper'
+import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let303",
   mixins: [associationSelectPaper],
-/*   props: {
+  /*   props: {
     corpData: {
       type: Object,
       default: () => {},
@@ -323,44 +323,44 @@ export default {
     return {
       letData: {},
       options: {
-        cellIdx9:[
+        cellIdx9: [
           {
-            value:"（一）",
-            name:"（一）"
+            value: "（一）",
+            name: "（一）",
           },
           {
-            value:"（二）",
-            name:"（二）"
+            value: "（二）",
+            name: "（二）",
           },
           {
-            value:"（三）",
-            name:"（三）"
+            value: "（三）",
+            name: "（三）",
           },
           {
-            value:"（四）",
-            name:"（四）"
+            value: "（四）",
+            name: "（四）",
           },
           {
-            value:"（五）",
-            name:"（五）"
+            value: "（五）",
+            name: "（五）",
           },
           {
-            value:"（六）",
-            name:"（六）"
+            value: "（六）",
+            name: "（六）",
           },
           {
-            value:"（七）",
-            name:"（七）"
+            value: "（七）",
+            name: "（七）",
           },
-        ]
+        ],
       },
       // editData: {}, // 回显数据
-      associationPaper: ['1'],
+      associationPaper: ["1"],
       visibleSelectDialog: false,
       selectedType: "单位", // 初始化时选择的单位或个人
     };
   },
-/*   created() {
+  /*   created() {
     this.initData();
   },
   watch: {
@@ -371,7 +371,7 @@ export default {
     },
   }, */
   methods: {
-    async initLetData (selectedPaper) {
+    async initLetData(selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
       const corp = await corpBase.find((item) => {
@@ -393,77 +393,77 @@ export default {
         this.editData = checkPaper[0];
       } else {
         // 创建初始版本 */
-        // 1.弹出提示框，选择单位或个人
-        this.visibleSelectDialog = true;
-        // 2.生成文书编号
-        let paperNumber = await getDocNumber(
-          db,
-          this.docData.docTypeNo,
-          this.corpData.caseId,
-          this.$store.state.user
-        );
-        // 3.企业煤矿名称
-        // 4.获取当前时间：年、月、日
-        let now = new Date();
-        // 5.通过sysOfficeInfo获取人民法院courtPrefix、我局地址：depAddress、
-        //   邮政编码：depPost、我局联系人：master、联系电话：phone
-        const orgInfo = db.table("orgInfo");
-        const orgData = await orgInfo.find(
-          (item) => item.no === this.$store.state.user.userGroupId
-        );
-        let orgSysOfficeInfo =
-          orgData && orgData.sysOfficeInfo
-            ? JSON.parse(orgData.sysOfficeInfo)
-            : {
-                courtPrefix: "",
-                depAddress: "",
-                depPost: "",
-                master: "",
-                phone: "",
-              };
+      // 1.弹出提示框，选择单位或个人
+      this.visibleSelectDialog = true;
+      // 2.生成文书编号
+      let paperNumber = await getDocNumber(
+        db,
+        this.docData.docTypeNo,
+        this.corpData.caseId,
+        this.$store.state.user
+      );
+      // 3.企业煤矿名称
+      // 4.获取当前时间：年、月、日
+      let now = new Date();
+      // 5.通过sysOfficeInfo获取人民法院courtPrefix、我局地址：depAddress、
+      //   邮政编码：depPost、我局联系人：master、联系电话：phone
+      const orgInfo = db.table("orgInfo");
+      const orgData = await orgInfo.find(
+        (item) => item.no === this.$store.state.user.userGroupId
+      );
+      let orgSysOfficeInfo =
+        orgData && orgData.sysOfficeInfo
+          ? JSON.parse(orgData.sysOfficeInfo)
+          : {
+              courtPrefix: "",
+              depAddress: "",
+              depPost: "",
+              master: "",
+              phone: "",
+            };
       await db.close();
-        this.letData = {
-          cellIdx0: paperNumber.num0, // 文书号
-          cellIdx0TypeTextItem: paperNumber.num0, // 文书号
-          cellIdx1: paperNumber.num1, // 文书号
-          cellIdx1TypeTextItem: paperNumber.num1, // 文书号
-          cellIdx2: paperNumber.num3, // 文书号
-          cellIdx2TypeTextItem: paperNumber.num3, // 文书号
-          cellIdx3: paperNumber.num4, // 文书号
-          cellIdx3TypeTextItem: paperNumber.num4, // 文书号
-          cellIdx4: corp.corpName, //
-          cellIdx4TypeTextItem: corp.corpName, //
-          cellIdx5: null, // 单位/个人
-          cellIdx6: now.getFullYear(), // 年
-          cellIdx6TypeTextItem: now.getFullYear(), // 年
-          cellIdx7: now.getMonth() + 1, // 月
-          cellIdx7TypeTextItem: now.getMonth() + 1, // 月
-          cellIdx8: now.getDate(), // 日
-          cellIdx8TypeTextItem: now.getDate(), // 日
-          cellIdx9: null, //
-          cellIdx10: null, // 单位/个人
-          cellIdx11: orgSysOfficeInfo.courtPrefix, // 人民法院
-          cellIdx11TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
-          cellIdx12: null, // 签收人（签名）
-          cellIdx13: null, // 日期
-          cellIdx14: orgSysOfficeInfo.depAddress, // 我局地址
-          cellIdx14TypeTextItem: orgSysOfficeInfo.depAddress, // 我局地址
-          cellIdx15: orgSysOfficeInfo.depPost, // 邮政编码
-          cellIdx15TypeTextItem: orgSysOfficeInfo.depPost, // 邮政编码
-          cellIdx16: orgSysOfficeInfo.master, // 我局联系人
-          cellIdx16TypeTextItem: orgSysOfficeInfo.master, // 我局联系人
-          cellIdx17: orgSysOfficeInfo.phone, // 联系电话
-          cellIdx17TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
-          cellIdx18:null,//
-          cellIdx19:null,//日期
-       /*    cellIdx19: now.getFullYear(), // 年
+      this.letData = {
+        cellIdx0: paperNumber.num0, // 文书号
+        cellIdx0TypeTextItem: paperNumber.num0, // 文书号
+        cellIdx1: paperNumber.num1, // 文书号
+        cellIdx1TypeTextItem: paperNumber.num1, // 文书号
+        cellIdx2: paperNumber.num3, // 文书号
+        cellIdx2TypeTextItem: paperNumber.num3, // 文书号
+        cellIdx3: paperNumber.num4, // 文书号
+        cellIdx3TypeTextItem: paperNumber.num4, // 文书号
+        cellIdx4: corp.corpName, //
+        cellIdx4TypeTextItem: corp.corpName, //
+        cellIdx5: null, // 单位/个人
+        cellIdx6: now.getFullYear().toString(), // 年
+        cellIdx6TypeTextItem: now.getFullYear().toString(), // 年
+        cellIdx7: (now.getMonth() + 1).toString(), // 月
+        cellIdx7TypeTextItem: (now.getMonth() + 1).toString(), // 月
+        cellIdx8: now.getDate().toString(), // 日
+        cellIdx8TypeTextItem: now.getDate().toString(), // 日
+        cellIdx9: null, //
+        cellIdx10: null, // 单位/个人
+        cellIdx11: orgSysOfficeInfo.courtPrefix, // 人民法院
+        cellIdx11TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
+        cellIdx12: null, // 签收人（签名）
+        cellIdx13: null, // 日期
+        cellIdx14: orgSysOfficeInfo.depAddress, // 我局地址
+        cellIdx14TypeTextItem: orgSysOfficeInfo.depAddress, // 我局地址
+        cellIdx15: orgSysOfficeInfo.depPost, // 邮政编码
+        cellIdx15TypeTextItem: orgSysOfficeInfo.depPost, // 邮政编码
+        cellIdx16: orgSysOfficeInfo.master, // 我局联系人
+        cellIdx16TypeTextItem: orgSysOfficeInfo.master, // 我局联系人
+        cellIdx17: orgSysOfficeInfo.phone, // 联系电话
+        cellIdx17TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
+        cellIdx18: null, //
+        cellIdx19: null, //日期
+        /*    cellIdx19: now.getFullYear(), // 年
           cellIdx19TypeTextItem: now.getFullYear(), // 年
           cellIdx20: now.getMonth() + 1, // 月
           cellIdx20TypeTextItem: now.getMonth() + 1, // 月
           cellIdx21: now.getDate(), // 日
-          cellIdx21TypeTextItem: now.getDate(), // 日 */  //暂不用
-          cellIdx22:null//单位/个人
-        };
+          cellIdx21TypeTextItem: now.getDate(), // 日 */ //暂不用
+        cellIdx22: null, //单位/个人
+      };
     },
     goBack({ page }) {
       // 返回选择企业
@@ -473,7 +473,7 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         this.$refs.letMain.commandFill(
           key,
           dataKey,

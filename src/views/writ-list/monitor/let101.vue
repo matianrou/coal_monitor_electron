@@ -99,7 +99,7 @@
           <div class="docTextarea">
             <span class="no-line">检查情况：</span>
             <span
-              @click="commandFill('cellIdx8', '检查情况', 'DangerTableItem')"
+              @click="commandFill('cellIdx8', '检查情况', 'DangerTable')"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）" }}</span
             >
             <div class="line"></div>
@@ -223,7 +223,7 @@ export default {
           cellIdx9: null, // 被检查单位负责人意见
           cellIdx10: null, // 签名
           cellIdx11: null, // 日期
-          dangerItemObject: {
+          DangerTable: {
             baseInfor: null,
             tableData: [],
             selectedIdList: [],
@@ -255,10 +255,10 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 打开编辑
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         if (key === "cellIdx8") {
           // 隐患项时对应letData中的dangerItemObject
-          dataKey = "dangerItemObject";
+          dataKey = "DangerTable";
         }
         this.$refs.letMain.commandFill(
           key,

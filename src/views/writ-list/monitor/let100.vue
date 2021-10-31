@@ -86,7 +86,7 @@
                   commandFill(
                     'cellIdx5',
                     '检查的主要内容和分工见明细表',
-                    'CheckTableItem'
+                    'CheckTable'
                   )
                 "
               >
@@ -112,7 +112,7 @@
                   commandFill(
                     'cellIdx5',
                     '检查的主要内容和分工见明细表',
-                    'CheckTableItem'
+                    'CheckTable'
                   )
                 "
               >
@@ -384,7 +384,7 @@ export default {
           cellIdx9: null, // 编制日期
           cellIdx10: null, // 审批人
           cellIdx11: null, // 审批日期
-          checkTable: {
+          CheckTable: {
             tableData: [],
             selectedIdList: [],
           }, // 检查表
@@ -399,9 +399,11 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         if (key === "cellIdx5") {
-          dataKey = "checkTable";
+          dataKey = `${type}`;
+        } else if (key === 'cellIdx4') {
+          dataKey = `${key}Type${type}`;
         }
         this.$refs.letMain.commandFill(
           key,
@@ -413,7 +415,7 @@ export default {
         );
       } else {
         if (key === "cellIdx5") {
-          let dataKey = "checkTable";
+          let dataKey = `${type}`;
           this.options[key] = {
             canEdit: false,
           };

@@ -80,7 +80,7 @@
               >{{ letData.cellIdx11? letData.cellIdx11 : '（点击编辑）' }}</span>
               有
               <span
-                @click="commandFill('cellIdx12', '违法行为', 'DangerTableItem')"
+                @click="commandFill('cellIdx12', '违法行为', 'DangerTable')"
               >{{ letData.cellIdx12 ? letData.cellIdx12 : '（点击编辑）'}}</span>
               等威胁作业人员生命安全的紧急情况，现责令立即从
               <span
@@ -257,13 +257,13 @@ export default {
       let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
       // 2.时间
       let now = new Date()
-      let cellIdx6Year = now.getFullYear()
-      let cellIdx7Month = now.getMonth() + 1
-      let cellIdx8Date = now.getDate()
-      let cellIdx9Hour = now.getHours()
-      let cellIdx10Minu = now.getMinutes()
+      let cellIdx6Year = now.getFullYear().toString()
+      let cellIdx7Month = (now.getMonth() + 1).toString()
+      let cellIdx8Date = now.getDate().toString()
+      let cellIdx9Hour = now.getHours().toString()
+      let cellIdx10Minu = now.getMinutes().toString()
       let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
+      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
       let cellIdx12String = dangerObject.dangerString
       // 4.sysOfficeInfo中organName和courtPrefix
       const orgInfo = db.table("orgInfo");
@@ -324,7 +324,7 @@ export default {
         cellIdx29TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx30: this.todayDate, // 日期
         cellIdx30TypeDateItem: this.todayDate, // 日期
-        dangerItemObject: let1DataPapaerContent.dangerItemObject
+        DangerTable: let1DataPapaerContent.DangerTable
       };
     },
     goBack({ page }) {
@@ -335,13 +335,13 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         if (key === 'cellIdx12') {
           this.options[key] = {
             page: '3',
             key: key,
           }
-          dataKey = 'dangerItemObject'
+          dataKey = 'DangerTable'
         }
         this.$refs.letMain.commandFill(
           key,

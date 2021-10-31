@@ -54,19 +54,19 @@
             <div class="docTextarea">
               违法事实：
               <span
-                @click="commandFill('cellIdx7', '违法事实', 'DangerTableItem')"
+                @click="commandFill('cellIdx7', '违法事实', 'DangerTable')"
               >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
               以上事实违反了
               <span
-                @click="commandFill('cellIdx8', '法律规定', 'DangerTableItem')"
+                @click="commandFill('cellIdx8', '法律规定', 'DangerTable')"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
               的规定，依据
               <span
-                @click="commandFill('cellIdx9', '法律依据', 'DangerTableItem')"
+                @click="commandFill('cellIdx9', '法律依据', 'DangerTable')"
               >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</span>
               的规定，决定给予以下行政处罚：
               <span
-                @click="commandFill('cellIdx10', '行政处罚', 'DangerTableItem')"
+                @click="commandFill('cellIdx10', '行政处罚', 'DangerTable')"
               >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）'}}</span>
               。
             </div>
@@ -215,7 +215,7 @@ export default {
       // 3.被处罚：如果为单位时赋值煤矿名称coprName
       // 4.地址：如果为单位时赋值煤矿地址address
       // 5.违法事实：行政处罚告知书中的cellIdx6
-      let dangerObject = getDangerObject(let6DataPaperContent.dangerItemObject.tableData, {danger: true})
+      let dangerObject = getDangerObject(let6DataPaperContent.DangerTable.tableData, {danger: true})
       // 6.法律规定 :行政处罚告知书中的cellIdx7
       // 7.法律依据 :行政处罚告知书中的cellIdx8
       // 8.行政处罚 :行政处罚告知书中的cellIdx9
@@ -268,7 +268,7 @@ export default {
         cellIdx20TypeDateItem: this.todayDate, // 日期
         cellIdx21: cellIdx4String, // 单位/个人
         cellIdx21TypeTextItem: cellIdx4String, // 单位/个人
-        dangerItemObject: let6DataPaperContent.dangerItemObject,
+        DangerTable: let6DataPaperContent.DangerTable,
         selectedType: let6DataPaperContent.selectedType
       };
     },
@@ -280,13 +280,13 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         if (key === 'cellIdx7' || key === 'cellIdx8' || key === 'cellIdx9' || key === 'cellIdx10') {
            this.options[key] = {
             page: '8',
             key: key,
           }
-          dataKey = 'dangerItemObject'
+          dataKey = 'DangerTable'
         }
         this.$refs.letMain.commandFill(
           key,

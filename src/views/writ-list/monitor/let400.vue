@@ -35,7 +35,7 @@
             </div>
             <div class="docTextarea">
               <span class="no-line">案&nbsp;&nbsp;由：</span>
-              <span @click="commandFill('cellIdx2', '案由', 'DangerTableItem')">{{
+              <span @click="commandFill('cellIdx2', '案由', 'DangerTable')">{{
                 letData.cellIdx2 ? letData.cellIdx2 : "（点击编辑）"
               }}</span>
               <div class="line"></div>
@@ -43,7 +43,7 @@
             <div class="docTextarea">
               <span class="no-line">移送案件的理由和依据：</span>
               <span
-                @click="commandFill('cellIdx3', '理由和依据', 'DangerTableItem')"
+                @click="commandFill('cellIdx3', '理由和依据', 'DangerTable')"
               >
                 {{ letData.cellIdx3 ? letData.cellIdx3 : "（点击编辑）" }}
               </span>
@@ -243,7 +243,7 @@ export default {
         });
         let let101DataPapaerContent = JSON.parse(let101Data.paperContent);
         let dangerObject = getDangerObject(
-          let101DataPapaerContent.dangerItemObject.tableData
+          let101DataPapaerContent.DangerTable.tableData
         );
         let cellIdx2String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
         // 2.理由和依据
@@ -254,7 +254,7 @@ export default {
         });
         let let201DataPapaerContent = JSON.parse(let201Data.paperContent);
         let dangerObjectIndex = getDangerObject(
-          let101DataPapaerContent.dangerItemObject.tableData,
+          let101DataPapaerContent.DangerTable.tableData,
           { danger: true }
         );
         let cellIdx3String = `${let201DataPapaerContent.cellIdx6}年${let201DataPapaerContent.cellIdx7}月${let201DataPapaerContent.cellIdx8}日我分局对${corp.corpName}进行安全监察时，发现该矿${dangerObjectIndex.dangerString}。经分局执法人员初步调查取证，认定该行为涉嫌违反了《矿产资源法》第十七条规定。`; */
@@ -263,11 +263,11 @@ export default {
       // 检查时间日期：
       let dateString = let1DataPapaerContent.cellIdx1 ? let1DataPapaerContent.cellIdx1 : 'X年X月X日-X年X月X日'
       // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
-      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
+      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
       let cellIdx2String = `${corp.corpName}${dangerObject.dangerString}案。`
        // 2.理由和依据
         // 1，移送案件的理由和依据：立案时间+“我分局对”+煤矿名称+“进行安全监察时，发现该矿”+隐患描述+“经分局执法人员初步调查取证，认定该行为涉嫌违反了《矿产资源法》第十七条规定。” 
-        dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData, {danger: true})
+        dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData, {danger: true})
       let cellIdx3String = `${dateString}我分局对${corp.corpName}进行安全监察时，发现该矿${dangerObject.dangerString}。经分局执法人员初步调查取证，认定该行为涉嫌违反了《矿产资源法》第十七条规定。`
       await db.close();
         // XXX国土资源局
@@ -290,7 +290,7 @@ export default {
           cellIdx11: null, // 主要负责人意见
           cellIdx12: null, // 签名
           cellIdx13: null, // 日期
-          dangerItemObject: let1DataPapaerContent.dangerItemObject,
+          DangerTable: let1DataPapaerContent.DangerTable,
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
           dateString,
@@ -306,7 +306,7 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         let spellString = {}
         if (key === 'cellIdx4' || key === 'cellIdx5') {
           if (key === 'cellIdx4') {
@@ -321,7 +321,7 @@ export default {
             key: key,
             spellString
           }
-          dataKey = 'dangerItemObject'
+          dataKey = 'DangerTable'
         }
         this.$refs.letMain.commandFill(
           key,

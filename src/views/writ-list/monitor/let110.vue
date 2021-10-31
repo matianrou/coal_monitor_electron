@@ -77,13 +77,13 @@
               <label style="width: 5%"></label>
               经查，你单位
               <span
-                @click="commandFill('cellIdx6', '违法行为', 'DangerTableItem')"
+                @click="commandFill('cellIdx6', '违法行为', 'DangerTable')"
                 >{{
                   letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
                 }}</span
               >
               行为涉嫌违反
-              <span @click="commandFill('cellIdx7', '', 'DangerTableItem')">{{
+              <span @click="commandFill('cellIdx7', '', 'DangerTable')">{{
                 letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
               }}</span>
               的规定，根据《中华人民共和国安全生产法》第六十二条第一款第四项规定，我
@@ -130,7 +130,7 @@
                 }}</span
               >
               作出处理决定。此前，你单位不得使用、销毁或转移上述
-              <span class="no-underline" @click="commandFill('cellIdx9', '', 'TextItem')">{{
+              <span class="no-underline" @click="commandFill('cellIdx9', '', 'SelectItem')">{{
                 letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
               }}</span>
               ，并负有安全保障责任。
@@ -192,48 +192,6 @@
                 </td>
               </tr>
             </table>
-            <!-- <table class="docBody">
-              <td class="cellInput" style="width: 55%"></td>
-              <td
-                class="cellInput"
-                id="cell_idx_20"
-                align="center"
-                style="width: 10%"
-                data-title="年"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx20', '年', 'TextItem')"
-              >
-                {{ letData.cellIdx20 }}
-              </td>
-              <td class="textAlignLeft">年</td>
-              <td
-                class="cellInput"
-                id="cell_idx_21"
-                align="center"
-                style="width: 10%"
-                data-title="月"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx21', '月', 'TextItem')"
-              >
-                {{ letData.cellIdx21 }}
-              </td>
-              <td class="textAlignLeft">月</td>
-              <td
-                class="cellInput"
-                id="cell_idx_22"
-                align="center"
-                style="width: 10%"
-                data-title="日"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx22', '日', 'TextItem')"
-              >
-                {{ letData.cellIdx22 }}
-              </td>
-              <td class="textAlignLeft">日</td>
-            </table> -->
             <div class="docTextarea" style="border-top: 2px solid #000;">
               备注：本文书一式两份，一份交被
               <span
@@ -350,7 +308,7 @@ export default {
         selectedPaper.let1Data.paperContent
       );
       let dangerObject = getDangerObject(
-        let1DataPapaerContent.dangerItemObject.tableData
+        let1DataPapaerContent.DangerTable.tableData
       );
       let cellIdx6String = `${dangerObject.dangerString}`;
       let cellIdx7String = `${dangerObject.illegalString}`;
@@ -405,8 +363,8 @@ export default {
         // cellIdx21: null, //月
         // cellIdx22: null, // 日 暂不用
         cellIdx23: null, // 查封/扣押
-        // dangerItemObject: let101DataPapaerContent.dangerItemObject,
-        dangerItemObject: let1DataPapaerContent.dangerItemObject,
+        // DangerTable: let101DataPapaerContent.DangerTable,
+        DangerTable: let1DataPapaerContent.DangerTable,
         SamplingForensicsTable: {
           tableData: [],
           signature: null,
@@ -422,13 +380,13 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         if (key === "cellIdx6" || key === "cellIdx7") {
           this.options[key] = {
             page: "32",
             key: key,
           };
-          dataKey = "dangerItemObject";
+          dataKey = "DangerTable";
         } else if (key === "cellIdx10") {
           this.options[key] = {
             canEdit: true,

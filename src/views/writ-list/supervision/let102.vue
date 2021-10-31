@@ -60,7 +60,7 @@
               >{{ letData.cellIdx6 ? letData.cellIdx6 : '（时间）'}}</span>
               现场检查时，发现你单位有下列违法违规行为，现作出以下现场处理决定：
               <span
-                @click="commandFill('cellIdx7', '现场处理决定', 'DangerTableItem')"
+                @click="commandFill('cellIdx7', '现场处理决定', 'DangerTable')"
               >{{ letData.cellIdx7 }}</span>
               <div class="line"></div>
             </div>
@@ -197,7 +197,7 @@ export default {
         return item.corpId == this.corpData.corpId;
       });
       let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
+      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
       // 通过机构接口中的sysOfficeInfo中获取的organName和courtPrefix字段分别填充cellIdx8和cellIdx9字段
       const orgInfo = db.table("orgInfo");
       const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
@@ -233,7 +233,7 @@ export default {
         cellIdx17TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx18: this.todayDate, // 日期
         cellIdx18TypeDateItem: this.todayDate, // 日期
-        dangerItemObject: let1DataPapaerContent.dangerItemObject, // 隐患项大表
+        DangerTable: let1DataPapaerContent.DangerTable, // 隐患项大表
       };
     },
     goBack({ page }) {
@@ -244,10 +244,10 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         if (key === 'cellIdx7') {
           // 隐患项时对应letData中的dangerItemObject
-          dataKey = 'dangerItemObject'
+          dataKey = 'DangerTable'
         }
         this.$refs.letMain.commandFill(
           key,

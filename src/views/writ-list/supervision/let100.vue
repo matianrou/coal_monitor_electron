@@ -78,14 +78,6 @@
               >
               <div class="line"></div>
             </div>
-            <!-- <div class="docTextLine">
-              <label style="width: 2em;"></label>
-              <label>五、检查地点：</label>
-              <div
-                class="line-div"
-                @click="commandFill('cellIdx4', '检查地点', 'CheckPositionItem')"
-              >{{ letData.cellIdx4 ? letData.cellIdx4 : '（点击编辑）' }}</div>
-            </div> -->
             <div class="docTextLine">
               <label style="width: 2em"></label>
               <div
@@ -94,7 +86,7 @@
                   commandFill(
                     'cellIdx5',
                     '检查的主要内容和分工见明细表',
-                    'CheckTableItem'
+                    'CheckTable'
                   )
                 "
               >
@@ -123,7 +115,7 @@
                   commandFill(
                     'cellIdx5',
                     '检查的主要内容和分工见明细表',
-                    'CheckTableItem'
+                    'CheckTable'
                   )
                 "
               >
@@ -430,7 +422,7 @@ export default {
           cellIdx11: null, // 审批日期
           cellIdx12: null, // 审批人
           cellIdx13: null, // 审批日期
-          checkTable: {
+          CheckTable: {
             tableData: [],
             selectedIdList: [],
           }, // 检查表
@@ -446,9 +438,11 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         if (key === "cellIdx5") {
-          dataKey = "checkTable";
+          dataKey = `${key}`;
+        } else if (key === 'cellIdx4') {
+          dataKey = `${key}Type${type}`;
         }
         this.$refs.letMain.commandFill(
           key,
@@ -460,7 +454,7 @@ export default {
         );
       } else {
         if (key === "cellIdx5") {
-          let dataKey = "checkTable";
+          let dataKey = `${key}`;
           this.options[key] = {
             canEdit: false,
           };

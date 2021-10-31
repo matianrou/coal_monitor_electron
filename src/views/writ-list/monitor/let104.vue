@@ -78,7 +78,7 @@
               }}</span>
               日发现
               <span
-                @click="commandFill('cellIdx9', '违法行为', 'DangerTableItem')"
+                @click="commandFill('cellIdx9', '违法行为', 'DangerTable')"
                 >{{
                   letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
                 }}</span
@@ -87,7 +87,7 @@
               <span
                 style="borderbottom: none"
                 @click="
-                  commandFill('cellIdx10', '现场处理决定', 'DangerTableItem')
+                  commandFill('cellIdx10', '现场处理决定', 'DangerTable')
                 "
                 >{{
                   letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
@@ -153,34 +153,26 @@
             </div>
             <table height="30"></table>
             <div class="docTextLine">
-              <div style="flex: 2; display: flex">
-                <label>被检查单位意见：</label>
+              <div style="flex: 5; display: flex;">
+                <label>被检查单位负责人意见：</label>
                 <div
                   class="line-div"
-                  @click="
-                    commandFill('cellIdx17', '被检查单位意见', 'TextItem')
-                  "
-                >
-                  {{ letData.cellIdx17 ? letData.cellIdx17 : "（编辑）" }}
-                </div>
+                  @click="commandFill('cellIdx17', '被检查单位意见', 'TextItem')"
+                >{{ letData.cellIdx17 ? letData.cellIdx17 : '（编辑）' }}</div>
               </div>
-              <div style="flex: 2; display: flex">
-                <label >单位负责人（签名）:</label>
+              <div style="flex: 5; display: flex;">
+                <label>单位负责人（签名）：</label>
                 <div
                   class="line-div"
-                  @click="
-                    commandFill('cellIdx18', '单位负责人（签名）:', 'TextItem')
-                  "
-                >
-                  {{ letData.cellIdx18 ? letData.cellIdx18 : "（编辑）" }}
-                </div>
+                  @click="commandFill('cellIdx18', '单位负责人（签名）:', 'TextItem')"
+                >{{ letData.cellIdx18 ? letData.cellIdx18 : '（编辑）' }}</div>
               </div>
-              <label>日期：</label>
-              <div
-                class="line-div"
-                @click="commandFill('cellIdx19', '日期:', 'DateItem')"
-              >
-                {{ letData.cellIdx19 ? letData.cellIdx19 : "（编辑）" }}
+              <div style="flex: 4; display: flex;">
+                <label>日期：</label>
+                <div
+                  class="line-div"
+                  @click="commandFill('cellIdx19', '日期:', 'DateItem')"
+                >{{ letData.cellIdx19 ? letData.cellIdx19 : '（编辑）' }}</div>
               </div>
             </div>
             <div class="docTextLine">
@@ -299,7 +291,7 @@ export default {
         selectedPaper.let1Data.paperContent
       );
       let dangerObject = getDangerObject(
-        let1DataPapaerContent.dangerItemObject.tableData,
+        let1DataPapaerContent.DangerTable.tableData,
         { danger: true }
       );
       let cellIdx9String = dangerObject.dangerString;
@@ -346,7 +338,7 @@ export default {
         cellIdx22TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx23: this.todayDate, // 日期
         cellIdx23TypeDateItem: this.todayDate, // 日期
-        dangerItemObject: let1DataPapaerContent.dangerItemObject,
+        DangerTable: let1DataPapaerContent.DangerTable,
       };
     },
     goBack({ page }) {
@@ -357,13 +349,13 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         if (key === "cellIdx9" || key === "cellIdx10") {
           this.options[key] = {
             page: "13",
             key: key,
           };
-          dataKey = "dangerItemObject";
+          dataKey = "DangerTable";
         }
         this.$refs.letMain.commandFill(
           key,

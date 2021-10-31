@@ -43,7 +43,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_4"
-                  align="center"
                   style="width: 60%"
                   data-title=""
                   data-type="text"
@@ -72,7 +71,7 @@
               >
               申请，关于
               <span
-                @click="commandFill('cellIdx7', '违法行为', 'DangerTableItem')"
+                @click="commandFill('cellIdx7', '违法行为', 'DangerTable')"
                 >{{
                   letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
                 }}</span
@@ -414,7 +413,7 @@ export default {
         selectedPaper.let6Data.paperContent
       );
       let dangerObject = getDangerObject(
-        let6DataPapaerContent.dangerItemObject.tableData
+        let6DataPapaerContent.DangerTable.tableData
       );
       let cellIdx7String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
       // 5.地点：sysOfficeInfo实体中depAddress字段+ deparFullname字段
@@ -497,7 +496,7 @@ export default {
         cellIdx37: this.todayDate, // 日期
         cellIdx37TypeDateItem: this.todayDate, // 日期
         cellIdx38: let6DataPapaerContent.selectedType, // 单位/个人
-        dangerItemObject: let6DataPapaerContent.dangerItemObject,
+        DangerTable: let6DataPapaerContent.DangerTable,
         extraData: {
           // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
@@ -514,14 +513,14 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         if (key === "cellIdx7") {
           this.options[key] = {
             page: "28",
             key: key,
-            spellString: this.extraData,
+            spellString: this.letData.extraData,
           };
-          dataKey = "dangerItemObject";
+          dataKey = "DangerTable";
         }
         this.$refs.letMain.commandFill(
           key,

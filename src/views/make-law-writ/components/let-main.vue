@@ -88,9 +88,9 @@ import {
   setDaterangeItem,
   setTextareaItem,
   setCheckPositionItem,
-  setCheckTableItem,
+  setCheckTable,
   setDateItem,
-  setDangerTableItem,
+  setDangerTable,
   setDatetimeItem,
   setSelectItem,
   setSelectInputItem,
@@ -136,9 +136,9 @@ export default {
         setDaterangeItem,
         setTextareaItem,
         setCheckPositionItem,
-        setCheckTableItem,
+        setCheckTable,
         setDateItem,
-        setDangerTableItem,
+        setDangerTable,
         setDatetimeItem,
         setSelectItem,
         setSelectInputItem,
@@ -260,7 +260,7 @@ export default {
         if (docTypeNo === '8') {
           companyOrPerson = this.$parent.letData.cellIdx4
         }
-        let dangerList = this.$parent.letData.dangerItemObject.tableData
+        let dangerList = this.$parent.letData.DangerTable.tableData
         // 遍历隐患项，
         let arrDocDanger = []
         dangerList.map(item => {

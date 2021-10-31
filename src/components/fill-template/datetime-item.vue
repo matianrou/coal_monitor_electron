@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: "DateItem",
+  name: "DatetimeItem",
   props: {
     value: {
       type: String,

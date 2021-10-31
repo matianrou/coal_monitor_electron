@@ -41,7 +41,7 @@
             <div class="docTextarea">
               <span class="no-line">案&nbsp;&nbsp;&nbsp;&nbsp;由：</span>
               <span
-                @click="commandFill('cellIdx4', '案由', 'DangerTableItem')"
+                @click="commandFill('cellIdx4', '案由', 'DangerTable')"
               >{{ letData.cellIdx4 ? letData.cellIdx4 : '（点击编辑）'}}</span>
               <div class="line"></div>
             </div>
@@ -57,7 +57,7 @@
               data-title="案由"
               data-type="textarea"
               data-src
-              @click="commandFill('cellIdx4', '案由', 'DangerTableItem')">
+              @click="commandFill('cellIdx4', '案由', 'DangerTable')">
               <div v-if="letData.cellIdx4 && letData.cellIdx4.length > 0">
                 <p class="show-area-item-p">
                   <span style="padding: 7px;">{{ letData.cellIdx4? letData.cellIdx4 : '（点击编辑）' }}</span>
@@ -76,7 +76,7 @@
              <div class="docTextarea">
               案情摘要：
               <span
-                @click="commandFill('cellIdx5', '案情摘要', 'DangerTableItem')"
+                @click="commandFill('cellIdx5', '案情摘要', 'DangerTable')"
               >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</span>
               <div class="line"></div>
             </div>
@@ -92,7 +92,7 @@
               data-title="案情摘要"
               data-type="textarea"
               data-src
-              @click="commandFill('cellIdx5', '案情摘要', 'DangerTableItem')">
+              @click="commandFill('cellIdx5', '案情摘要', 'DangerTable')">
               <div v-if="letData.cellIdx5 && letData.cellIdx5.length > 0">
                 <p class="show-area-item-p">
                   <span style="padding: 7px;">{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</span>
@@ -240,10 +240,10 @@ export default {
       // 检查时间日期：
       let dateString = let1DataPapaerContent.cellIdx1 ? let1DataPapaerContent.cellIdx1 : 'X年X月X日-X年X月X日'
       // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
-      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
+      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
       let cellIdx4String = `${corp.corpName}${dangerObject.dangerString}案。`
       // 2.案情摘要：检查时间+当前机构名称+“对”+煤矿名称+“进行现场检查时发现”+隐患描述+"以上行为分别涉嫌违反了"+违法认定法条+“依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。”
-      dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData, {danger: true})
+      dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData, {danger: true})
       let cellIdx5String = `${dateString}，${this.$store.state.user.userGroupName}对${corp.corpName}进行现场检查时发现：${dangerObject.dangerString}以上行为分别涉嫌违反了${dangerObject.illegalString}的规定。依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`
       let paperNumber = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
       await db.close();
@@ -270,7 +270,7 @@ export default {
         cellIdx14TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx15: this.todayDate, // 日期
         cellIdx15TypeDateItem: this.todayDate, // 日期
-        dangerItemObject: let1DataPapaerContent.dangerItemObject,
+        DangerTable: let1DataPapaerContent.DangerTable,
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
           dateString,
@@ -286,7 +286,7 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         let spellString = {}
         if (key === 'cellIdx4' || key === 'cellIdx5') {
           if (key === 'cellIdx4') {
@@ -301,7 +301,7 @@ export default {
             key: key,
             spellString
           }
-          dataKey = 'dangerItemObject'
+          dataKey = 'DangerTable'
         }
         this.$refs.letMain.commandFill(
           key,

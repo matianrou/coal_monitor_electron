@@ -269,9 +269,9 @@ export default {
       );
       // 2.时间
       let now = new Date();
-      let cellIdx6Year = now.getFullYear();
-      let cellIdx7Month = now.getMonth() + 1;
-      let cellIdx8Date = now.getDate();
+      let cellIdx6Year = now.getFullYear().toString();
+      let cellIdx7Month = (now.getMonth() + 1).toString();
+      let cellIdx8Date = now.getDate().toString();
       // 3.行政处罚决定书 日期、编号、
       let let8DataPapaerContent = JSON.parse(selectedPaper.let8Data.paperContent);
       let date206 = let8DataPapaerContent.cellIdx20
@@ -372,7 +372,7 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         this.$refs.letMain.commandFill(
           key,
           dataKey,

@@ -61,7 +61,7 @@
               >{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）' }}</span>
               申请，关于
               <span
-                @click="commandFill('cellIdx7', '违法行为', 'DangerTableItem')"
+                @click="commandFill('cellIdx7', '违法行为', 'DangerTable')"
               >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
               ，现定于
               <span
@@ -353,7 +353,7 @@ export default {
       // 3.企业煤矿名称
       // 4.违法行为：获取笔录文书中的隐患数据
       let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
+      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
       let cellIdx7String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`
       // 5.地点：sysOfficeInfo实体中depAddress字段+ deparFullname字段
       // 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
@@ -408,7 +408,7 @@ export default {
         cellIdx31TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx32: this.todayDate, // 日期
         cellIdx32TypeDateItem: this.todayDate, // 日期
-        dangerItemObject: let1DataPapaerContent.dangerItemObject,
+        DangerTable: let1DataPapaerContent.DangerTable,
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
           userGroupName: this.$store.state.user.userGroupName,
@@ -423,14 +423,14 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         if (key === 'cellIdx7') {
           this.options[key] = {
             page: '28',
             key: key,
             spellString: this.letData.extraData
           }
-          dataKey = 'dangerItemObject'
+          dataKey = 'DangerTable'
         }
         this.$refs.letMain.commandFill(
           key,

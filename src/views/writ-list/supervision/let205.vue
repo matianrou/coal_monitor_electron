@@ -161,7 +161,7 @@
               >{{ letData.cellIdx18 ? letData.cellIdx18 : '（点击编辑）' }}</span>
               的行政执法人员，这是我们的执法证件（出示证件），现就
               <span
-                @click="commandFill('cellIdx19', '违法行为', 'DangerTableItem')"
+                @click="commandFill('cellIdx19', '违法行为', 'DangerTable')"
               >{{ letData.cellIdx19 ? letData.cellIdx19 : '（点击编辑）'}}</span>
               听取你
               <span
@@ -295,18 +295,18 @@ export default {
       });
        // 1.时间：当前年、月、日、时、分
       let now = new Date()
-      let cellIdx0Year = now.getFullYear()
-      let cellIdx1Month = now.getMonth() + 1
-      let cellIdx2Date = now.getDate()
-      let cellIdx3Hour = now.getHours()
-      let cellIdx4Minu = now.getMinutes()
+      let cellIdx0Year = now.getFullYear().toString()
+      let cellIdx1Month = (now.getMonth() + 1).toString()
+      let cellIdx2Date = now.getDate().toString()
+      let cellIdx3Hour = now.getHours().toString()
+      let cellIdx4Minu = now.getMinutes().toString()
       // 2.工作单位：煤矿名称
       let cellIdx11String = corp.corpName
       // 3.单位
       let cellIdx18String = this.$store.state.user.userGroupName
       // 获取笔录文书中
       let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPapaerContent.dangerItemObject.tableData)
+      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
       // 4.陈述申辩：煤矿名称 + '涉嫌' + 隐患描述 + '案。'
       let cellIdx19String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`
       // 5.单位/个人：从行政处罚告知书(paperType === '6')中获取
@@ -349,7 +349,7 @@ export default {
         cellIdx24: null, // 年
         cellIdx25: null, // 月
         cellIdx26: null, // 日
-        dangerItemObject: let1DataPapaerContent.dangerItemObject,
+        DangerTable: let1DataPapaerContent.DangerTable,
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
           userGroupName: this.$store.state.user.userGroupName,
@@ -365,14 +365,14 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         if (key === 'cellIdx19') {
           this.options[key] = {
             page: '30',
             key: key,
             spellString: this.letData.extraData
           }
-          dataKey = 'dangerItemObject'
+          dataKey = 'DangerTable'
         }
         this.$refs.letMain.commandFill(
           key,

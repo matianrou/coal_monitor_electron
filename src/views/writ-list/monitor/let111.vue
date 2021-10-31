@@ -105,7 +105,6 @@
               作出《
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx12', '', 'TextItem')"
                 >{{ letData.cellIdx12 ? letData.cellIdx12 : "（编辑）" }}</span
               >
               决定书》（
@@ -343,7 +342,7 @@ export default {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
-        let dataKey = `${key}Type${type}`;
+        let dataKey = `${key}`;
         if (key === "cellIdx22") {
           this.options[key] = {
             canEdit: true,
