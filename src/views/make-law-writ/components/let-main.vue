@@ -401,7 +401,6 @@ export default {
       }
       if (this.docData.docTypeNo === '22' || this.docData.docTypeNo === '42') {
         // 检查方案导出时增加检查人员分工明细表
-        console.log('this.$parent.letData.checkTable', this.$parent.letData.checkTable)
         if (this.$parent.letData.checkTable && this.$parent.letData.checkTable.tableData) {
           let {tableData} = this.$parent.letData.checkTable
           // 遍历tableData数据，处理undefined情况
@@ -447,7 +446,8 @@ export default {
       }
       if (this.docData.docTypeNo === '5' || this.docData.docTypeNo === '13' || this.docData.docTypeNo === '27'
         || this.docData.docTypeNo === '30' || this.docData.docTypeNo === '7' || this.docData.docTypeNo === '14'
-        || this.docData.docTypeNo === '55') {
+        || this.docData.docTypeNo === '55' || this.docData.docTypeNo === '31' || this.docData.docTypeNo === '10'
+        || this.docData.docTypeNo === '11' || this.docData.docTypeNo === '12') {
         // 大文本换行问题解决：通过获取大文本中的\n换行符，截取字符串形成数组，将数组转换为doc文本实现换行效果
         // 需要处理的文书：调查询问笔录cellIdx21;复查意见书cellIdx15;先行登记保存证据处理决定书cellIdx14;
         // 需要处理的文书：陈述申辩笔录cellIdx21;听证笔录cellIdx10;案件结案报告cellIdx0;鉴定委托书cellIdx6
@@ -475,6 +475,18 @@ export default {
           case '55':
             key = 'cellIdx6'
             break;
+          case '31':
+            key = 'cellIdx13'
+            break;
+          case '10':
+            key = 'cellIdx14'
+            break;
+          case '11':
+            key = 'cellIdx18'
+            break;
+          case '12':
+            key = 'cellIdx10'
+            break;
         }
         exportData[key].split('\n').map(item => {
           cellIdxExtraTextarea.push({
@@ -490,7 +502,8 @@ export default {
       if(this.docData.docTypeNo === '32' || this.docData.docTypeNo === '37' || this.docData.docTypeNo === '38'
         || this.docData.docTypeNo === '45' || this.docData.docTypeNo === '46' || this.docData.docTypeNo === '6'
         || this.docData.docTypeNo === '8' || this.docData.docTypeNo === '50' || this.docData.docTypeNo === '51'
-        || this.docData.docTypeNo === '53'|| this.docData.docTypeNo === '39' || (this.docData.docTypeNo === '28' && this.$store.state.user.userType !== 'supervision')) {
+        || this.docData.docTypeNo === '53'|| this.docData.docTypeNo === '39' || (this.docData.docTypeNo === '28' && this.$store.state.user.userType !== 'supervision')
+        || this.docData.docTypeNo === '41'|| this.docData.docTypeNo === '12') {
         // 需要分别替换的模板为：查封（扣押）决定书;停供电(停供民用爆炸物品)函告书;解除停供电(停供民用爆炸物品)函告书;
         // 需要分别替换的模板为：延长查封（扣押）期限决定书；查封（扣押）处理决定书;
         // 需要分别替换的模板为：行政处罚告知书；行政处罚决定书；罚款缴纳催告书；加处罚款决定书；
@@ -511,7 +524,6 @@ export default {
       } else {
         docName = this.docData.docTypeNo
       }
-      console.log('docName', docName)
       JSZipUtils.getBinaryContent(`./static/docxtemplate/${this.$store.state.user.userType}/doc${docName}.docx`, (error, content) => {
         console.log('error = ', error, content)
         const zip = new pizzip(content)

@@ -1,4 +1,4 @@
-<!-- 行政强制 行政复议 不予受理行政复议申请决定书 -->
+<!-- 行政强制 行政复议 不予受理行政复议申请决定书 41 -->
 <template>
   <div style="width: 100%; height: 100%">
     <let-main
@@ -13,14 +13,14 @@
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader0">
+            <div class="textAlignCenter formHeader2">
               国 家 矿 山 安 全 监 察
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">
+            <div class="textAlignCenter formHeader4">
               不 予 受 理 行 政 复 议 申 请 决 定 书
             </div>
-            <div class="docTextLine paper-number-div">
+            <div class="formHeader5 paper-number-div">
               <div>
                 <span @click="commandFill('cellIdx0', '文书号', 'TextItem')">{{
                   letData.cellIdx0 ? letData.cellIdx0 : "（编辑）"
@@ -40,17 +40,12 @@
                 <label>号</label>
               </div>
             </div>
-
             <div class="docTextarea">
               <label style="width: 5%"></label>
               你
-              <span
-                class="no-underline"
-                @click="commandFill('cellIdx5', '单位', 'TextItem')"
-                >{{
-                  letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
-                }}</span
-              >
+              <span class="no-underline">{{
+                letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
+              }}</span>
               于
               <span @click="commandFill('cellIdx6', '年', 'TextItem')">{{
                 letData.cellIdx6 ? letData.cellIdx6 : "（XX）"
@@ -117,13 +112,9 @@
             <div class="docTextarea">
               <label style="width: 5%"></label>
               根据《中华人民共和国行政复议法》第十七条第一款的规定，我局决定不予受理你
-              <span
-                class="no-underline"
-                @click="commandFill('cellIdx10', '单位/个人', 'TextItem')"
-                >{{
-                  letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
-                }}</span
-              >
+              <span class="no-underline">{{
+                letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
+              }}</span>
               的行政复议申请。
             </div>
             <div class="docTextarea">
@@ -207,58 +198,18 @@
                 </td>
               </tr>
             </table>
-            <!--  <table class="docBody">
-              <td class="cellInput" style="width: 55%"></td>
-              <td
-                class="cellInput cellBottomLine"
-                id="cell_idx_19"
-                align="center"
-                style="width: 10%"
-                data-title="年"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx19', '年', 'TextItem')"
-              >
-                {{ letData.cellIdx19 }}
-              </td>
-              <td class="textAlignLeft">年</td>
-              <td
-                class="cellInput cellBottomLine"
-                id="cell_idx_20"
-                align="center"
-                style="width: 10%"
-                data-title="月"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx20', '月', 'TextItem')"
-              >
-                {{ letData.cellIdx20 }}
-              </td>
-              <td class="textAlignLeft">月</td>
-              <td
-                class="cellInput cellBottomLine"
-                id="cell_idx_21"
-                align="center"
-                style="width: 10%"
-                data-title="日"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx21', '日', 'TextItem')"
-              >
-                {{ letData.cellIdx21 }}
-              </td>
-              <td class="textAlignLeft">日</td>
-            </table> -->
-            <div class="docTextarea cellLine">
-              <label style="width: 5%"></label>
+            <div
+              class="docTextarea"
+              style="
+                border-top: 2px solid #000;
+                margin-top: 30px;
+                line-height: normal;
+              "
+            >
               &nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交申请行政复议
-              <span
-                style="border-bottom: none"
-                @click="commandFill('cellIdx22', '', 'TextItem')"
-                >{{
-                  letData.cellIdx22 ? letData.cellIdx22 : "（点击编辑）"
-                }}</span
-              >
+              <span style="border-bottom: none">{{
+                letData.cellIdx22 ? letData.cellIdx22 : "（点击编辑）"
+              }}</span>
               ，一份存档。
             </div>
           </div>
@@ -294,31 +245,12 @@
 </template>
 
 <script>
-// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let303",
   mixins: [associationSelectPaper],
-  /*   props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-  }, */
   data() {
     return {
       letData: {},
@@ -354,22 +286,11 @@ export default {
           },
         ],
       },
-      // editData: {}, // 回显数据
-      associationPaper: ["1"],
+      associationPaper: ["10"],
       visibleSelectDialog: false,
       selectedType: "单位", // 初始化时选择的单位或个人
     };
   },
-  /*   created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-  }, */
   methods: {
     async initLetData(selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
@@ -377,22 +298,6 @@ export default {
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      /* const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId &&
-          item.paperType === this.docData.docTypeNo &&
-          item.delFlag !== "1"
-        );
-      });
-      // await wkPaper.delete(checkPaper[0].id)
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本 */
       // 1.弹出提示框，选择单位或个人
       this.visibleSelectDialog = true;
       // 2.生成文书编号
@@ -403,8 +308,10 @@ export default {
         this.$store.state.user
       );
       // 3.企业煤矿名称
-      // 4.获取当前时间：年、月、日
-      let now = new Date();
+      // 4.日期，行政复议申请时间
+      let let10DataPapaerContent = JSON.parse(
+        selectedPaper.let10Data.paperContent
+      );
       // 5.通过sysOfficeInfo获取人民法院courtPrefix、我局地址：depAddress、
       //   邮政编码：depPost、我局联系人：master、联系电话：phone
       const orgInfo = db.table("orgInfo");
@@ -434,12 +341,9 @@ export default {
         cellIdx4: corp.corpName, //
         cellIdx4TypeTextItem: corp.corpName, //
         cellIdx5: null, // 单位/个人
-        cellIdx6: now.getFullYear().toString(), // 年
-        cellIdx6TypeTextItem: now.getFullYear().toString(), // 年
-        cellIdx7: (now.getMonth() + 1).toString(), // 月
-        cellIdx7TypeTextItem: (now.getMonth() + 1).toString(), // 月
-        cellIdx8: now.getDate().toString(), // 日
-        cellIdx8TypeTextItem: now.getDate().toString(), // 日
+        cellIdx6: let10DataPapaerContent.cellIdx0, // 年
+        cellIdx7: let10DataPapaerContent.cellIdx1, // 月
+        cellIdx8: let10DataPapaerContent.cellIdx2, // 日
         cellIdx9: null, //
         cellIdx10: null, // 单位/个人
         cellIdx11: orgSysOfficeInfo.courtPrefix, // 人民法院
@@ -454,14 +358,8 @@ export default {
         cellIdx16TypeTextItem: orgSysOfficeInfo.master, // 我局联系人
         cellIdx17: orgSysOfficeInfo.phone, // 联系电话
         cellIdx17TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
-        cellIdx18: null, //
-        cellIdx19: null, //日期
-        /*    cellIdx19: now.getFullYear(), // 年
-          cellIdx19TypeTextItem: now.getFullYear(), // 年
-          cellIdx20: now.getMonth() + 1, // 月
-          cellIdx20TypeTextItem: now.getMonth() + 1, // 月
-          cellIdx21: now.getDate(), // 日
-          cellIdx21TypeTextItem: now.getDate(), // 日 */ //暂不用
+        cellIdx18: this.$store.state.curCase.groupName, //
+        cellIdx19: this.todayDate, //日期
         cellIdx22: null, //单位/个人
       };
     },
@@ -488,9 +386,8 @@ export default {
       // 选择单位或个人
       this.visibleSelectDialog = false;
       this.letData.cellIdx5 = this.selectedType;
-      this.letData.cellIdx5TypeTextItem = this.selectedType;
       this.letData.cellIdx10 = this.selectedType;
-      this.letData.cellIdx10TypeTextItem = this.selectedType;
+      this.letData.cellIdx22 = this.selectedType;
       this.letData.selectedType = this.selectedType;
     },
   },

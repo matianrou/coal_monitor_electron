@@ -1,4 +1,4 @@
-<!-- 行政强制 行政强制执行 强制执行申请书 -->
+<!-- 行政强制 行政强制执行 强制执行申请书 18 -->
 <template>
   <div style="width: 100%; height: 100%">
     <let-main
@@ -13,12 +13,12 @@
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader0">
+            <div class="textAlignCenter formHeader2">
               国 家 矿 山 安 全 监 察
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">强 制 执 行 申 请 书</div>
-            <div class="docTextLine paper-number-div">
+            <div class="textAlignCenter formHeader4">强 制 执 行 申 请 书</div>
+            <div class="formHeader5 paper-number-div">
               <div>
                 <span @click="commandFill('cellIdx0', '文书号', 'TextItem')">{{
                   letData.cellIdx0 ? letData.cellIdx0 : "（编辑）"
@@ -35,7 +35,7 @@
                 <span @click="commandFill('cellIdx3', '文书号', 'TextItem')">{{
                   letData.cellIdx3 ? letData.cellIdx3 : "（编辑）"
                 }}</span>
-                <label>号&nbsp;&nbsp;&nbsp;签发人：</label>
+                <label>号&nbsp;签发人：</label>
                 <span @click="commandFill('cellIdx4', '签发人', 'TextItem')">{{
                   letData.cellIdx4 ? letData.cellIdx4 : "（编辑）"
                 }}</span>
@@ -133,7 +133,7 @@
                 <label>性别</label>
                 <div
                   class="line-div"
-                  @click="commandFill('cellIdx14', '性别', 'TextItem')"
+                  @click="commandFill('cellIdx14', '性别', 'SelectItem')"
                 >
                   {{ letData.cellIdx14 ? letData.cellIdx14 : "（编辑）" }}
                 </div>
@@ -150,7 +150,7 @@
               <label style="width: 5%"></label>
               对被申请人
               <span
-                @click="commandFill('cellIdx16', '对被申请人', 'DangerTable')"
+                @click="commandFill('cellIdx16', '对被申请人', 'TextareaItem')"
                 >{{
                   letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）"
                 }}</span
@@ -301,12 +301,16 @@
                 </td>
               </tr>
             </table>
-            <table height="60"></table>
-            <div class="docTextarea cellLine">
-              <label style="width: 5%"></label>
+            <div
+              class="docTextarea"
+              style="
+                border-top: 2px solid #000;
+                margin-top: 30px;
+                line-height: normal;
+              "
+            >
               备注：本文书一式两份，一份送人民法院，一份存档。
             </div>
-            <table height="50"></table>
           </div>
         </div>
       </div>
@@ -323,41 +327,28 @@
 </template>
 
 <script>
-// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDocNumber, getDangerObject } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let301",
   mixins: [associationSelectPaper],
-  /*  props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-  }, */
   data() {
     return {
       letData: {},
       options: {
-        cellIdx16: {
-          page: "18",
-          key: "cellIdx16",
-        },
+        cellIdx14: [
+          {
+            value: '男',
+            name: '男'
+          },
+          {
+            value: '女',
+            name: '女'
+          },
+        ],
       },
-      associationPaper: ["1", "8"],
+      associationPaper: ["8", '39'],
     };
   },
   methods: {
@@ -368,7 +359,6 @@ export default {
         return item.corpId == this.corpData.corpId;
       });
       // 创建初始版本 */
-      let caseId = this.corpData.caseId;
       // 1.文书编号：送达收执文书编号
       let paperNumber = await getDocNumber(
         db,
@@ -380,28 +370,20 @@ export default {
       let cellIdx5String = this.$store.state.user.userGroupName;
       // 3.被申请人：企业煤矿名称
       let cellIdx11String = corp.corpName;
-      // 4.对被申请人：企业名称+'涉嫌'+隐患描述+'案'
-      // 获取笔录文书中的隐患数据
-      /*  const let101Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === "1";
-        });
-        let let101DataPapaerContent = JSON.parse(let101Data.paperContent);
-        let dangerObject = getDangerObject(
-          let101DataPapaerContent.DangerTable.tableData
-        ); */
-      let let1DataPapaerContent = JSON.parse(
-        selectedPaper.let1Data.paperContent
-      );
-      let dangerObject = getDangerObject(
-        let1DataPapaerContent.DangerTable.tableData
-      );
-      let cellIdx16String = `${corp.corpName}涉嫌${dangerObject.dangerString}案`;
-      // 5.文书号2：催告书编号
       let let8DataPapaerContent = JSON.parse(
         selectedPaper.let8Data.paperContent
       );
-      let paperDate206 = let8DataPapaerContent.cellIdx20
-        ? let8DataPapaerContent.cellIdx20
+      let dangerObject = getDangerObject(
+        let8DataPapaerContent.DangerTable.tableData
+      );
+      // 4.对被申请人：企业名称+'涉嫌'+隐患描述+'案'
+      let cellIdx16String = `${corp.corpName}涉嫌${dangerObject.dangerString}案`;
+      // 5.文书号2：催告书编号
+      let let39DataPapaerContent = JSON.parse(
+        selectedPaper.let39Data.paperContent
+      );
+      let let39Date = let39DataPapaerContent.cellIdx29
+        ? let39DataPapaerContent.cellIdx29
             .replace("年", "-")
             .replace("月", "-")
             .replace("日", "-")
@@ -454,34 +436,28 @@ export default {
         cellIdx14: null, // 性别
         cellIdx15: null, // 住址
         cellIdx16: cellIdx16String, // 对被申请人
-        cellIdx17: null, // 局
-        cellIdx18: null, // 年
-        cellIdx19: null, // 月
-        cellIdx20: null, // 日
-        cellIdx21: let8DataPapaerContent.num0, // 文书号
-        cellIdx21TypeTextItem: let8DataPapaerContent.num0, // 文书号
-        cellIdx22: let8DataPapaerContent.num1, // 文书号
-        cellIdx22TypeTextItem: let8DataPapaerContent.num1, // 文书号
-        cellIdx23: let8DataPapaerContent.num3, // 文书号
-        cellIdx23TypeTextItem: let8DataPapaerContent.num3, // 文书号
-        cellIdx24: let8DataPapaerContent.num4, // 文书号
-        cellIdx24TypeTextItem: let8DataPapaerContent.num4, // 文书号
+        cellIdx17: '局', // 局
+        cellIdx18: let39Date[0], // 年
+        cellIdx19: let39Date[1], // 月
+        cellIdx20: let39Date[2], // 日
+        cellIdx21: let39DataPapaerContent.cellIdx0, // 文书号
+        cellIdx22: let39DataPapaerContent.cellIdx1, // 文书号
+        cellIdx23: let39DataPapaerContent.cellIdx2, // 文书号
+        cellIdx24: let39DataPapaerContent.cellIdx3, // 文书号
         cellIdx25: cellIdx25String, //
         cellIdx25TypeTextareaItem: cellIdx25String, //
         cellIdx26: orgSysOfficeInfo.courtPrefix, // 人民法院
         cellIdx26TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
         cellIdx27: null, // 收件人（签名）
         cellIdx28: null, // 日期
-        cellIdx29: null, // 局
+        cellIdx29: '局', // 局
         cellIdx30: orgSysOfficeInfo.master, // 联系人
         cellIdx30TypeTextItem: orgSysOfficeInfo.master, // 联系人
         cellIdx31: orgSysOfficeInfo.phone, // 联系电话
         cellIdx31TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
-        cellIdx32: null, //
-        cellIdx33: null, // 年
-        cellIdx34: null, // 月
-        cellIdx35: null, // 日
-        DangerTable: let1DataPapaerContent.DangerTable,
+        cellIdx32: this.$store.state.curCase.groupName, //
+        cellIdx33: this.todayDate, // 日期
+        DangerTable: let8DataPapaerContent.DangerTable,
       };
     },
     goBack({ page }) {
@@ -493,13 +469,6 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
-        if (key === "cellIdx16") {
-          this.options[key] = {
-            page: "18",
-            key: key,
-          };
-          dataKey = "DangerTable";
-        }
         this.$refs.letMain.commandFill(
           key,
           dataKey,

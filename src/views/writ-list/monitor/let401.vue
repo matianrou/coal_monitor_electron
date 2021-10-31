@@ -1,4 +1,4 @@
-<!-- 其他 其他 移送书 -->
+<!-- 其他 其他 移送书 19 -->
 <template>
   <div style="width: 100%; height: 100%">
     <let-main
@@ -13,12 +13,12 @@
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader0">
+            <div class="textAlignCenter formHeader2">
               国 家 矿 山 安 全 监 察
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">移 送 书</div>
-            <div class="docTextLine paper-number-div">
+            <div class="textAlignCenter formHeader4">移 送 书</div>
+            <div class="formHeader5 paper-number-div">
               <div>
                 <span @click="commandFill('cellIdx0', '文书号', 'TextItem')">{{ 
                   letData.cellIdx0 ? letData.cellIdx0 : "（编辑）"
@@ -46,7 +46,6 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_5"
-                  align="center"
                   style="width: 60%"
                   data-title=""
                   data-type="text"
@@ -235,51 +234,8 @@
                 </td>
               </tr>
             </table>
-            <!-- <table class="docBody">
-              <td class="cellInput" style="width: 55%"></td>
-              <td
-                class="cellInput"
-                id="cell_idx_22"
-                align="center"
-                style="width: 10%"
-                data-title="年"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx22', '年', 'TextItem')"
-              >
-                {{ letData.cellIdx22 }}
-              </td>
-              <td class="textAlignLeft">年</td>
-              <td
-                class="cellInput"
-                id="cell_idx_23"
-                align="center"
-                style="width: 10%"
-                data-title="月"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx23', '月', 'TextItem')"
-              >
-                {{ letData.cellIdx23 }}
-              </td>
-              <td class="textAlignLeft">月</td>
-              <td
-                class="cellInput"
-                id="cell_idx_24"
-                align="center"
-                style="width: 10%"
-                data-title="日"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx24', '日', 'TextItem')"
-              >
-                {{ letData.cellIdx24 }}
-              </td>
-              <td class="textAlignLeft">日</td>
-            </table> -->
-            <div class="docTextarea cellLine">
-              <label style="width: 5%"></label>
-              &nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份移送有关单位，一份存档。
+            <div class="docTextarea" style="border-top: 2px solid #000;">
+              备注：本文书一式两份，一份移送有关单位，一份存档。
             </div>
           </div>
         </div>
@@ -297,49 +253,19 @@
 </template>
 
 <script>
-// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
 import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let401",
   mixins: [associationSelectPaper],
-  /* props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-  }, */
   data() {
     return {
       letData: {},
       options: {},
       associationPaper: ['1']
-      // editData: {}, // 回显数据
     };
   },
-  /* created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-  }, */
   methods: {
     async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
@@ -347,21 +273,6 @@ export default {
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      /* const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId &&
-          item.paperType === this.docData.docTypeNo &&
-          item.delFlag !== "1"
-        );
-      });
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本 */
         // 1.生成文书编号
         let { num0, num1, num3, num4 } = await getDocNumber(
           db,
@@ -373,14 +284,6 @@ export default {
          let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
         let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
         let cellIdx8String = `${dangerObject.dangerString}`
-        // const let101Data = await wkPaper.find((item) => {
-        //   return item.caseId === caseId && item.paperType === "1";
-        // });
-        // let let101DataPapaerContent = JSON.parse(let101Data.paperContent);
-        // let dangerObject = getDangerObject(
-        //   let101DataPapaerContent.DangerTable.tableData
-        // );
-        // let cellIdx8String = `${dangerObject.dangerString}`;
         // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
         const orgInfo = db.table("orgInfo");
       const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
@@ -401,19 +304,19 @@ export default {
           cellIdx3TypeTextItem: num4, // 文书号
           cellIdx4: null, // 签发人
           cellIdx5: null, //
-          cellIdx6: null, // 局
+          cellIdx6: '局', // 局
           cellIdx7: corp.corpName, //
           cellIdx7TypeTextItem: corp.corpName, //
           cellIdx8: cellIdx8String, // 违法行为
           cellIdx8TypeTextareaItem: cellIdx8String, // 违法行为
           cellIdx9: null, // X份
           cellIdx10: null, // X页
-          cellIdx11: null, // 局
+          cellIdx11: '局', // 局
           cellIdx12: cellIdx12String, // 地址
           cellIdx12TypeTextItem: cellIdx12String, // 地址
           cellIdx13: cellIdx13String, // 邮政编码
           cellIdx13TypeTextItem: cellIdx13String, // 邮政编码
-          cellIdx14: null, // 局
+          cellIdx14: '局', // 局
           cellIdx15: cellIdx15String, // 联系人
           cellIdx15TypeTextItem: cellIdx15String, // 联系人
           cellIdx16: cellIdx16String, // 电话
@@ -422,8 +325,8 @@ export default {
           cellIdx18: null, // 日期
           cellIdx19: null, // 收件人（签名）
           cellIdx20: null, // 日期
-          cellIdx21: null, //
-          cellIdx22: null, // 日期
+          cellIdx21: this.$store.state.curCase.groupName, //
+          cellIdx22: this.todayDate, // 日期
           // cellIdx22: null, // 年
           // cellIdx23: null, // 月
           // cellIdx24: null, // 日  暂不用

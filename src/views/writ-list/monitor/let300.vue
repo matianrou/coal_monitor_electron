@@ -1,4 +1,4 @@
-<!-- 行政强制 公开裁定 执法案件公开裁定记录 -->
+<!-- 行政强制 公开裁定 执法案件公开裁定记录 31 -->
 <template>
   <div style="width: 100%; height: 100%">
     <let-main
@@ -13,11 +13,11 @@
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader0">
+            <div class="textAlignCenter formHeader2">
               国 家 矿 山 安 全 监 察
               <br />
             </div>
-            <div class="textAlignCenter formHeader1">
+            <div class="textAlignCenter formHeader3">
               执 法 案 件 公 开 裁 定 记 录
             </div>
             <div class="docTextLine">
@@ -88,16 +88,19 @@
             </div>
             <div class="docTextarea">
               <span class="no-line">裁定地点：</span>
-              <span
-                @click="commandFill('cellIdx7', '裁定地点', 'TextItem')"
-              >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
+              <span @click="commandFill('cellIdx7', '裁定地点', 'TextItem')">{{
+                letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
+              }}</span>
               <div class="line"></div>
             </div>
             <div class="docTextarea">
               <span class="no-line">裁定事项：</span>
               <span
                 @click="commandFill('cellIdx8', '裁定事项', 'DangerTable')"
-              >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
+                >{{
+                  letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
+                }}</span
+              >
               <div class="line"></div>
             </div>
             <div class="docTextLine">
@@ -127,57 +130,90 @@
             <div class="docTextarea">
               <span class="no-line">被裁定单位负责人（签名）：</span>
               <span
-                @click="commandFill('cellIdx11', '被裁定单位负责人（签名）', 'TextItem')"
-              >{{ letData.cellIdx11 ? letData.cellIdx11 : '（点击编辑）'}}</span>
+                @click="
+                  commandFill(
+                    'cellIdx11',
+                    '被裁定单位负责人（签名）',
+                    'TextItem'
+                  )
+                "
+                >{{
+                  letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）"
+                }}</span
+              >
               <div class="line"></div>
             </div>
             <div class="docTextarea">
               <span class="no-line">其他单位参加人员（签名）：</span>
               <span
-                @click="commandFill('cellIdx12', '其他单位参加人员（签名）', 'TextItem')"
-              >{{ letData.cellIdx12 ? letData.cellIdx12 : '（点击编辑）'}}</span>
+                @click="
+                  commandFill(
+                    'cellIdx12',
+                    '其他单位参加人员（签名）',
+                    'TextItem'
+                  )
+                "
+                >{{
+                  letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）"
+                }}</span
+              >
               <div class="line"></div>
             </div>
             <div class="docTextarea">
               <span class="no-line">裁定记录：</span>
-              <span
-                @click="commandFill('cellIdx13', '裁定记录', 'TextItem')"
-              >{{ letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）'}}</span>
-              <div class="line"></div>
+            </div>
+            <div
+              style="
+                word-wrap: break-word;
+                word-break: break-all;
+                overflow: hidden;
+              "
+              class="cellInput mutiLineArea"
+              @click="commandFill('cellIdx13', '裁定记录', 'TextareaItem')"
+            >
+              <div
+                v-if="letData.cellIdx13 && letData.cellIdx13.length > 0"
+                style="position: relative"
+              >
+                <p class="show-area-item-p">
+                  <span style="padding: 7px">{{
+                    letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）"
+                  }}</span>
+                </p>
+                <div
+                  v-for="(item, index) in 100"
+                  :key="index"
+                  class="cellLine"
+                  :style="`top: ${(index + 1) * 9.54}mm;`"
+                ></div>
+              </div>
+              <div v-else>
+                <p class="show-area-item-p">&nbsp;</p>
+                <p class="show-area-item-p">&nbsp;</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </let-main>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
 <script>
-// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject } from '@/utils/setInitPaperData'
-import associationSelectPaper from '@/components/association-select-paper'
+import { getDangerObject } from "@/utils/setInitPaperData";
+import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let300",
   mixins: [associationSelectPaper],
-/*   props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-  }, */
   data() {
     return {
       letData: {},
@@ -187,60 +223,34 @@ export default {
           key: "cellIdx8", // 用来区分一个页面多个地方调用隐患大表，最后返回值
         },
       },
-      associationPaper: []
-      // editData: {}, // 回显数据
-      // extraData: {}, // 用于拼写隐患内容的字符集合
+      associationPaper: ['1'],
     };
   },
-/*   created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-  }, */
   methods: {
-    async initLetData (selectedPaper) {
+    async initLetData(selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      /* const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId &&
-          item.paperType === this.docData.docTypeNo &&
-          item.delFlag !== "1"
-        );
-      });
-      // await wkPaper.delete(checkPaper[0].id)
-      // 保存额外拼写的数据内容，用于修改隐患项时回显使用
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本
-        // 1.裁定事件：
-        let now = new Date(); */
-        // 2.裁定地点：企业名称
-        // 3.裁定事项：煤矿名称+“涉嫌”+隐患描述+“案”
-        // 获取笔录文书中的隐患数据
-        let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-        let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
-        /* const let101Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === "1";
-        });
-        let let101DataPapaerContent = JSON.parse(let101Data.paperContent);
-        let dangerObject = getDangerObject(
-          let101DataPapaerContent.DangerTable.tableData
-        ); */
-        let cellIdx13String = `主持人：现在公开裁定开始，首先我先介绍裁定小组成员，我是主持人XXX，记录人是XXX，裁定小组成员有监察分局XXX、XXX。
+      // 创建初始版本
+      // 1.裁定时间：
+      let now = new Date();
+      let cellIdx0Year = now.getFullYear().toString();
+      let cellIdx1Month = (now.getMonth() + 1).toString();
+      let cellIdx2Date = now.getDate().toString();
+      let cellIdx3Hour = now.getHours().toString();
+      let cellIdx4Minu = now.getMinutes().toString();
+      // 2.裁定地点：企业名称
+      // 3.裁定事项：煤矿名称+“涉嫌”+隐患描述+“案”
+      // 获取笔录文书中的隐患数据
+      let let1DataPapaerContent = JSON.parse(
+        selectedPaper.let1Data.paperContent
+      );
+      let dangerObject = getDangerObject(
+        let1DataPapaerContent.DangerTable.tableData
+      );
+      let cellIdx13String = `主持人：现在公开裁定开始，首先我先介绍裁定小组成员，我是主持人XXX，记录人是XXX，裁定小组成员有监察分局XXX、XXX。
       主持人：XX煤矿矿长XXX，参加公开裁定的人员是否与你矿有利害关系人员，是否申请回避？
       XX煤矿矿长XXX：不申请回避。
       主持人：现在宣布会场纪律、当事人享有的权利和义务（内容略）。
@@ -254,34 +264,30 @@ export default {
       主持人：经过我们裁定小组集体研究，现宣布裁定结果： XX煤矿涉嫌瓦斯超限作业违法违规行为事实清楚，证据确凿充分，违反了《国务院关于预防煤矿生产安全事故的特别规定》第八条第二款第（二）项的规定，依据《国务院关于预防煤矿生产安全事故的特别贵的》第十条第一款、第十一条第一款的规定，并根据违法违规情节的轻重，拟给予责令停产整顿X日，罚款八十万元整，暂扣安全生产许可证；对煤矿企业负责人罚款四万元以整。
       `;
       await db.close();
-        this.letData = {
-          cellIdx0: now.getFullYear(), // 年
-          cellIdx0TypeTextItem: now.getFullYear(), // 年
-          cellIdx1: now.getMonth() + 1, // 月
-          cellIdx1TypeTextItem: now.getMonth() + 1, // 月
-          cellIdx2: now.getDate(), // 日
-          cellIdx2TypeTextItem: now.getDate(), // 日
-          cellIdx3: now.getHours(), // 时
-          cellIdx3TypeTextItem: now.getHours(), // 时
-          cellIdx4: now.getMinutes(), // 分
-          cellIdx4TypeTextItem: now.getMinutes(), // 分
-          cellIdx5: null, // 时
-          cellIdx6: null, // 分
-          cellIdx7: corp.corpName, // 裁定地点
-          cellIdx7TypeTextItem: corp.corpName, // 裁定地点
-          cellIdx8: `${corp.corpName}涉嫌${dangerObject.dangerString}案。`, // 裁定事项
-          cellIdx9: null, // 裁定主持人（签名）
-          cellIdx10: null, // 记录人（签名）
-          cellIdx11: null, // 被裁定单位负责人（签名）
-          cellIdx12: null, // 其他单位参加人员（签名）
-          cellIdx13: cellIdx13String, // 裁定记录
-          cellIdx13TypeTextareaItem: cellIdx13String, // 裁定记录
-          // DangerTable: let101DataPapaerContent.DangerTable,
-          DangerTable: let1DataPapaerContent.DangerTable,
-        extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
+      this.letData = {
+        cellIdx0: cellIdx0Year, // 年
+        cellIdx1: cellIdx1Month, // 月
+        cellIdx2: cellIdx2Date, // 日
+        cellIdx3: cellIdx3Hour, // 时
+        cellIdx4: cellIdx4Minu, // 分
+        cellIdx5: null, // 时
+        cellIdx6: null, // 分
+        cellIdx7: corp.corpName, // 裁定地点
+        cellIdx7TypeTextItem: corp.corpName, // 裁定地点
+        cellIdx8: `${corp.corpName}涉嫌${dangerObject.dangerString}案。`, // 裁定事项
+        cellIdx9: null, // 裁定主持人（签名）
+        cellIdx10: null, // 记录人（签名）
+        cellIdx11: null, // 被裁定单位负责人（签名）
+        cellIdx12: null, // 其他单位参加人员（签名）
+        cellIdx13: cellIdx13String, // 裁定记录
+        cellIdx13TypeTextareaItem: cellIdx13String, // 裁定记录
+        // DangerTable: let101DataPapaerContent.DangerTable,
+        DangerTable: let1DataPapaerContent.DangerTable,
+        extraData: {
+          // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
           userGroupName: this.$store.state.user.userGroupName,
-        }
+        },
       };
     },
     goBack({ page }) {

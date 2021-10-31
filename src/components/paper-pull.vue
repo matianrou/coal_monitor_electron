@@ -125,7 +125,6 @@
         // 选中点击的用户
         item.active = true
         // 根据当前选中的用户拉取其所有文书
-        console.log('item', item)
         this.getUserPaper(item.no)
       },
       getUserPaper(userId) {

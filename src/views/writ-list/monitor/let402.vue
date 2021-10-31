@@ -1,4 +1,4 @@
-<!-- 其他 其他 涉嫌犯罪案件移送书 -->
+<!-- 其他 其他 涉嫌犯罪案件移送书 20 -->
 <template>
   <div style="width: 100%; height: 100%">
     <let-main
@@ -13,14 +13,14 @@
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader0">
+            <div class="textAlignCenter formHeader2">
               国 家 矿 山 安 全 监 察
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">
+            <div class="textAlignCenter formHeader4">
               涉 嫌 犯 罪 案 件 移 送 书
             </div>
-            <div class="docTextLine paper-number-div">
+            <div class="formHeader5 paper-number-div">
               <div>
                 <span @click="commandFill('cellIdx0', '文书号', 'TextItem')">{{
                   letData.cellIdx0 ? letData.cellIdx0 : "(编辑)"
@@ -49,10 +49,10 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_5"
                   style="width: 50%"
-                  data-title="调查事由"
+                  data-title=""
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx5', '调查事由', 'TextItem')"
+                  @click="commandFill('cellIdx5', '', 'TextItem')"
                 >
                   {{ letData.cellIdx5 }}
                 </td>
@@ -80,12 +80,9 @@
                 letData.cellIdx9 ? letData.cellIdx9 : "（XX）"
               }}</span>
               日对
-              <span
-                @click="commandFill('cellIdx10', '违法行为', 'TextItem')"
-                >{{
-                  letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
-                }}</span
-              >
+              <span @click="commandFill('cellIdx10', '违法行为', 'TextareaItem')">{{
+                letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
+              }}</span>
               立案调查，在调查中发现其违法事实涉嫌构成犯罪，根据《行政执法机关移送涉嫌犯罪案件的规定》第三条以及
               <span
                 @click="commandFill('cellIdx11', '法律规定', 'TextareaItem')"
@@ -138,18 +135,18 @@
                 <label>地址：</label>
                 <div
                   class="line-div"
-                  @click="commandFill('cellIdx16', '地址', 'TextItem')"
+                  @click="commandFill('cellIdx15', '地址', 'TextItem')"
                 >
-                  {{ letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）" }}
+                  {{ letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）" }}
                 </div>
               </div>
               <div style="flex: 2; display: flex">
                 <label>邮政编码：</label>
                 <div
                   class="line-div"
-                  @click="commandFill('cellIdx13', '邮政编码', 'TextItem')"
+                  @click="commandFill('cellIdx16', '邮政编码', 'TextItem')"
                 >
-                  {{ letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）" }}
+                  {{ letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）" }}
                 </div>
               </div>
             </div>
@@ -224,18 +221,19 @@
                 </div>
               </div>
             </div>
-            <table class="docBody" style="margin-top: 30px;">
+            <table class="docBody" style="margin-top: 30px">
               <tr>
                 <td
                   class="cellInput"
                   id="cell_idx_24"
                   align="right"
                   style="width: 95%"
+                  @click="commandFill('cellIdx24', '', 'TextItem')"
                 >
                   {{ letData.cellIdx24 }}
                 </td>
               </tr>
-               <tr>
+              <tr>
                 <td
                   class="cellInput"
                   id="cell_idx_25"
@@ -250,51 +248,8 @@
                 </td>
               </tr>
             </table>
-            <!-- <table class="docBody">
-              <td class="cellInput" style="width: 55%"></td>
-              <td
-                class="cellInput"
-                id="cell_idx_25"
-                align="center"
-                style="width: 10%"
-                data-title="年"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx25', '年', 'TextItem')"
-              >
-                {{ letData.cellIdx25 }}
-              </td>
-              <td class="textAlignLeft">年</td>
-              <td
-                class="cellInput"
-                id="cell_idx_26"
-                align="center"
-                style="width: 10%"
-                data-title="月"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx26', '月', 'TextItem')"
-              >
-                {{ letData.cellIdx26 }}
-              </td>
-              <td class="textAlignLeft">月</td>
-              <td
-                class="cellInput"
-                id="cell_idx_27"
-                align="center"
-                style="width: 10%"
-                data-title="日"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx27', '日', 'TextItem')"
-              >
-                {{ letData.cellIdx27 }}
-              </td>
-              <td class="textAlignLeft">日</td>
-            </table> -->
-            <div class="docTextarea cellLine">
-              <label style="width: 5%"></label>
-              &nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交移送公安机关，一份存档。
+            <div class="docTextarea" style="border-top: 2px solid #000">
+              备注：本文书一式两份，一份交移送公安机关，一份存档。
             </div>
           </div>
         </div>
@@ -312,136 +267,93 @@
 </template>
 
 <script>
-// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, getDocNumber } from '@/utils/setInitPaperData'
-import associationSelectPaper from '@/components/association-select-paper'
+import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
+import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let402",
   mixins: [associationSelectPaper],
- /*  props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-  }, */
   data() {
     return {
       letData: {},
       options: {},
-      associationPaper: []
-      // editData: {}, // 回显数据
+      associationPaper: ['4'],
     };
   },
-/*   created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-  }, */
   methods: {
-      async initLetData (selectedPaper) {
+    async initLetData(selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-     /*  const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId &&
-          item.paperType === this.docData.docTypeNo &&
-          item.delFlag !== "1"
-        );
-      });
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本 */
-        // 1.生成文书编号
-        let { num0, num1, num3, num4 } = await getDocNumber(
-          db,
-          this.docData.docTypeNo,
-          this.corpData.caseId,
-          this.$store.state.user
-        );
-        // 2.违法行为：获取笔录文书中的隐患数据
-        // const let101Data = await wkPaper.find((item) => {
-        //   return item.caseId === caseId && item.paperType === "1";
-        // });
-        // let let101DataPapaerContent = JSON.parse(let101Data.paperContent);
-        // let dangerObject = getDangerObject(
-        //   let101DataPapaerContent.DangerTable.tableData
-        // );
-        // let cellIdx5String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
-        // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
-        const orgInfo = db.table("orgInfo");
-      const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
-      let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: ''}
+      // 1.生成文书编号
+      let { num0, num1, num3, num4 } = await getDocNumber(
+        db,
+        this.docData.docTypeNo,
+        this.corpData.caseId,
+        this.$store.state.user
+      );
+      // 2.违法行为：获取立案决定书的隐患数据
+      // 煤矿名称+隐患描述+“案”组成
+      let let4DataPapaerContent = JSON.parse(
+        selectedPaper.let4Data.paperContent
+      );
+      let dangerObject = getDangerObject(
+        let4DataPapaerContent.DangerTable.tableData
+      );
+      let cellIdx10String = `${corp.corpName}${dangerObject.dangerString}案。`;
+      // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
+      const orgInfo = db.table("orgInfo");
+      const orgData = await orgInfo.find(
+        (item) => item.no === this.$store.state.user.userGroupId
+      );
+      let orgSysOfficeInfo =
+        orgData && orgData.sysOfficeInfo
+          ? JSON.parse(orgData.sysOfficeInfo)
+          : { depAddress: "", depPost: "", master: "", phone: "" };
       await db.close();
-        let cellIdx15String = orgSysOfficeInfo.depAddress;
-        let cellIdx16String = orgSysOfficeInfo.depPost;
-        let cellIdx18String = orgSysOfficeInfo.master;
-        let cellIdx19String = orgSysOfficeInfo.phone;
-        this.letData = {
-          cellIdx0: num0, // 文书号
-          cellIdx0TypeTextItem: num0, // 文书号
-          cellIdx1: num1, // 文书号
-          cellIdx1TypeTextItem: num1, // 文书号
-          cellIdx2: num3, // 文书号
-          cellIdx2TypeTextItem: num3, // 文书号
-          cellIdx3: num4, // 文书号
-          cellIdx3TypeTextItem: num4, // 文书号
-          cellIdx4: null, // 签发人
-          cellIdx5String: null, // 调查事由
-          cellIdx5StringTypeTextItem: null, // 调查事由
-          cellIdx6: null, // 局
-          cellIdx7: null, // 年
-          cellIdx8: null, // 月
-          cellIdx9: null, // 日
-          cellIdx10: null, // 违法行为
-          cellIdx11: null, // 法律规定
-          cellIdx12: null, // 份数
-          cellIdx13: null, // 页数
-          cellIdx14: null, // 局
-          cellIdx15: cellIdx15String, // 地址
-          cellIdx15TypeTextItem: cellIdx15String, // 地址
-          cellIdx16: cellIdx16String, // 邮政编码
-          cellIdx16TypeTextItem: cellIdx16String, // 地址
-          cellIdx17: null, // 局
-          cellIdx18: cellIdx18String, // 联系人
-          cellIdx18TypeTextItem: cellIdx18String, // 地址
-          cellIdx19: cellIdx19String, // 电话
-          cellIdx19TypeTextItem: cellIdx19String, // 地址
-          cellIdx20: null, // 签发人
-          cellIdx21: null, // 签发人
-          cellIdx22: null, // 送件人（签名）
-          cellIdx23: null, // 日期
-          cellIdx24: null, //
-          cellIdx25: null, // 日期
-          // cellIdx25: null, // 年
-          // cellIdx26: null, // 月
-          // cellIdx27: null, // 日  暂不用
-        };
+      let cellIdx15String = orgSysOfficeInfo.depAddress;
+      let cellIdx16String = orgSysOfficeInfo.depPost;
+      let cellIdx18String = orgSysOfficeInfo.master;
+      let cellIdx19String = orgSysOfficeInfo.phone;
+      this.letData = {
+        cellIdx0: num0, // 文书号
+        cellIdx0TypeTextItem: num0, // 文书号
+        cellIdx1: num1, // 文书号
+        cellIdx1TypeTextItem: num1, // 文书号
+        cellIdx2: num3, // 文书号
+        cellIdx2TypeTextItem: num3, // 文书号
+        cellIdx3: num4, // 文书号
+        cellIdx3TypeTextItem: num4, // 文书号
+        cellIdx4: null, // 签发人
+        cellIdx5: null,  // 单位
+        cellIdx6: '局', // 局
+        cellIdx7: let4DataPapaerContent.cellIdx6, // 年
+        cellIdx8: let4DataPapaerContent.cellIdx7, // 月
+        cellIdx9: let4DataPapaerContent.cellIdx8, // 日
+        cellIdx10: cellIdx10String, // 违法行为
+        cellIdx11: null, // 法律规定
+        cellIdx12: null, // 份数
+        cellIdx13: null, // 页数
+        cellIdx14: '局', // 局
+        cellIdx15: cellIdx15String, // 地址
+        cellIdx16: cellIdx16String, // 邮政编码
+        cellIdx17: '局', // 局
+        cellIdx18: cellIdx18String, // 联系人
+        cellIdx18TypeTextItem: cellIdx18String, // 地址
+        cellIdx19: cellIdx19String, // 电话
+        cellIdx19TypeTextItem: cellIdx19String, // 地址
+        cellIdx20: null, // 签发人
+        cellIdx21: null, // 签发人
+        cellIdx22: null, // 送件人（签名）
+        cellIdx23: null, // 日期
+        cellIdx24: this.$store.state.curCase.groupName, //
+        cellIdx25: this.todayDate, // 日期
+        // cellIdx25: null, // 年
+        // cellIdx26: null, // 月
+        // cellIdx27: null, // 日  暂不用
+      };
     },
     goBack({ page }) {
       // 返回选择企业

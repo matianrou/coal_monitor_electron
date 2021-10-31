@@ -13,11 +13,11 @@
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader0">
+            <div class="textAlignCenter formHeader2">
               国 家 矿 山 安 全 监 察
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">移 送 案 件 呈 报 书</div>
+            <div class="textAlignCenter formHeader4">移 送 案 件 呈 报 书</div>
             <div class="docTextLine paper-number-div">
               <div>
                 <!-- <span
@@ -35,7 +35,7 @@
             </div>
             <div class="docTextarea">
               <span class="no-line">案&nbsp;&nbsp;由：</span>
-              <span @click="commandFill('cellIdx2', '案由', 'DangerTable')">{{
+              <span @click="commandFill('cellIdx2', '案由', 'TextareaItem')">{{
                 letData.cellIdx2 ? letData.cellIdx2 : "（点击编辑）"
               }}</span>
               <div class="line"></div>
@@ -43,7 +43,7 @@
             <div class="docTextarea">
               <span class="no-line">移送案件的理由和依据：</span>
               <span
-                @click="commandFill('cellIdx3', '理由和依据', 'DangerTable')"
+                @click="commandFill('cellIdx3', '理由和依据', 'TextareaItem')"
               >
                 {{ letData.cellIdx3 ? letData.cellIdx3 : "（点击编辑）" }}
               </span>
@@ -105,7 +105,7 @@
                   {{ letData.cellIdx9 ? letData.cellIdx9 : "（编辑）" }}
                 </div>
               </div>
-              <div style="flex: 3; display: flex">
+              <div style="flex: 4; display: flex">
                 <label>&nbsp;日期：</label>
                 <div
                   class="line-div"
@@ -136,7 +136,7 @@
                   {{ letData.cellIdx12 ? letData.cellIdx12 : "（编辑）" }}
                 </div>
               </div>
-              <div style="flex: 3; display: flex">
+              <div style="flex: 4; display: flex">
                 <label>&nbsp;日期：</label>
                 <div
                   class="line-div"
@@ -163,58 +163,19 @@
 </template>
 
 <script>
-// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
 import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let400",
   mixins: [associationSelectPaper],
-/*   props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-  }, */
   data() {
     return {
       letData: {},
-      options: {
-        cellIdx4: {
-          page: '4',
-          key: 'cellIdx4' // 用来区分一个页面多个地方调用隐患大表，最后返回值
-        },
-        cellIdx5: {
-          page: '4',
-          key: 'cellIdx5'
-        }
-      },
+      options: {},
       associationPaper: ['1']
-      // editData: {}, // 回显数据
     };
   },
-/*   created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-  }, */
   methods: {
     async initLetData (selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
@@ -222,42 +183,6 @@ export default {
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      /* const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId &&
-          item.paperType === this.docData.docTypeNo &&
-          item.delFlag !== "1"
-        );
-      });
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本
-        // 1.案由：煤矿名称+隐患描述+“案”组成
-        const let101Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === "1";
-        });
-        let let101DataPapaerContent = JSON.parse(let101Data.paperContent);
-        let dangerObject = getDangerObject(
-          let101DataPapaerContent.DangerTable.tableData
-        );
-        let cellIdx2String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
-        // 2.理由和依据
-        // 1，移送案件的理由和依据：立案时间+“我分局对”+煤矿名称+“进行安全监察时，发现该矿”+隐患描述+“经分局执法人员初步调查取证，认定该行为涉嫌违反了《矿产资源法》第十七条规定。”
-        // 立案时间：
-        const let201Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === "4";
-        });
-        let let201DataPapaerContent = JSON.parse(let201Data.paperContent);
-        let dangerObjectIndex = getDangerObject(
-          let101DataPapaerContent.DangerTable.tableData,
-          { danger: true }
-        );
-        let cellIdx3String = `${let201DataPapaerContent.cellIdx6}年${let201DataPapaerContent.cellIdx7}月${let201DataPapaerContent.cellIdx8}日我分局对${corp.corpName}进行安全监察时，发现该矿${dangerObjectIndex.dangerString}。经分局执法人员初步调查取证，认定该行为涉嫌违反了《矿产资源法》第十七条规定。`; */
          // 获取检查时间
       let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
       // 检查时间日期：
@@ -307,22 +232,6 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
-        let spellString = {}
-        if (key === 'cellIdx4' || key === 'cellIdx5') {
-          if (key === 'cellIdx4') {
-            spellString = {
-              corpName: this.letData.extraData.corpName,
-            }
-          } else if (key === 'cellIdx5') {
-            spellString = this.letData.extraData
-          }
-          this.options[key] = {
-            page: '4',
-            key: key,
-            spellString
-          }
-          dataKey = 'DangerTable'
-        }
         this.$refs.letMain.commandFill(
           key,
           dataKey,

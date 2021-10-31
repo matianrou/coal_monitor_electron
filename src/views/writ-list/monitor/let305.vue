@@ -1,4 +1,4 @@
-<!-- 行政强制 行政复议 行政复议决定书 -->
+<!-- 行政强制 行政复议 行政复议决定书 12 -->
 <template>
   <div style="width: 100%; height: 100%">
     <let-main
@@ -13,12 +13,12 @@
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader0">
+            <div class="textAlignCenter formHeader2">
               国 家 矿 山 安 全 监 察
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">行 政 复 议 决 定 书</div>
-            <div class="docTextLine paper-number-div">
+            <div class="textAlignCenter formHeader4">行 政 复 议 决 定 书</div>
+            <div class="formHeader5 paper-number-div">
               <div>
                 <span @click="commandFill('cellIdx0', '文书号', 'TextItem')">{{
                   letData.cellIdx0 ? letData.cellIdx0 : "（编辑）"
@@ -57,13 +57,9 @@
             <div class="docTextarea">
               <label style="width: 5%"></label>
               我局经对你
-              <span
-                class="no-underline"
-                @click="commandFill('cellIdx4', '单位/个人', 'TextItem')"
-                >{{
-                  letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）"
-                }}</span
-              >
+              <span class="no-underline">{{
+                letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）"
+              }}</span>
               于
               <span @click="commandFill('cellIdx5', '年', 'TextItem')">{{
                 letData.cellIdx5 ? letData.cellIdx5 : "（XX）"
@@ -76,24 +72,37 @@
               <span @click="commandFill('cellIdx7', '日', 'TextItem')">{{
                 letData.cellIdx7 ? letData.cellIdx7 : "（XX）"
               }}</span>
-              日
-              <!-- <span @click="commandFill('cellIdx8', '时', 'TextItem')">{{
-                letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
-              }}</span>
-              时
-              <span @click="commandFill('cellIdx9', '分', 'TextItem')">{{
-                letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
-              }}</span> -->
-              申请的行政复议事项进行审查，现作出以下行政复议决定：
-              <span
-                @click="
-                  commandFill('cellIdx10', '行政复议决定', 'TextareaItem')
-                "
-                >{{
-                  letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
-                }}</span
+              日申请的行政复议事项进行审查，现作出以下行政复议决定：
+            </div>
+            <div
+              style="
+                word-wrap: break-word;
+                word-break: break-all;
+                overflow: hidden;
+              "
+              class="cellInput mutiLineArea"
+              @click="commandFill('cellIdx10', '行政复议决定', 'TextareaItem')"
+            >
+              <div
+                v-if="letData.cellIdx10 && letData.cellIdx10.length > 0"
+                style="position: relative"
               >
-              <div class="line"></div>
+                <p class="show-area-item-p">
+                  <span style="padding: 7px">{{
+                    letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
+                  }}</span>
+                </p>
+                <div
+                  v-for="(item, index) in 100"
+                  :key="index"
+                  class="cellLine"
+                  :style="`top: ${(index + 1) * 9.54}mm;`"
+                ></div>
+              </div>
+              <div v-else>
+                <p class="show-area-item-p">&nbsp;</p>
+                <p class="show-area-item-p">&nbsp;</p>
+              </div>
             </div>
             <div class="docTextarea">
               <label style="width: 5%"></label>
@@ -103,7 +112,7 @@
               }}</span>
               人民法院提起行政诉讼。
             </div>
-            <table height="20"></table>
+            <table height="30"></table>
             <table class="docBody">
               <tr>
                 <td
@@ -131,58 +140,11 @@
                 </td>
               </tr>
             </table>
-            <!-- <table class="docBody">
-              <td class="cellInput" style="width: 55%"></td>
-              <td
-                class="cellInput cellBottomLine"
-                id="cell_idx_12"
-                align="center"
-                style="width: 10%"
-                data-title="年"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx12', '年', 'TextItem')"
-              >
-                {{ letData.cellIdx12 }}
-              </td>
-              <td class="textAlignLeft">年</td>
-              <td
-                class="cellInput cellBottomLine"
-                id="cell_idx_13"
-                align="center"
-                style="width: 10%"
-                data-title="月"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx13', '月', 'TextItem')"
-              >
-                {{ letData.cellIdx13 }}
-              </td>
-              <td class="textAlignLeft">月</td>
-              <td
-                class="cellInput cellBottomLine"
-                id="cell_idx_14"
-                align="center"
-                style="width: 10%"
-                data-title="日"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx14', '日', 'TextItem')"
-              >
-                {{ letData.cellIdx14 }}
-              </td>
-              <td class="textAlignLeft">日</td>
-            </table> -->
-            <div class="docTextarea cellLine">
-              <label style="width: 5%"></label>
-              &nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式三份，一份交申请复议
+            <div class="docTextarea" style="border-top: 2px solid #000;">
+              备注：本文书一式三份，一份交申请复议
               <span
-                style="border-bottom: none"
-                @click="commandFill('cellIdx15', '', 'TextItem')"
-                >{{
-                  letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）"
-                }}</span
-              >
+                style="borderBottom:none"
+              >{{ letData.cellIdx15 ? letData.cellIdx15 : '（点击编辑）'}}</span>
               ，一份交被申请复议单位，一份存档。
             </div>
           </div>
@@ -218,7 +180,6 @@
 </template>
 
 <script>
-// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import {
   getDangerObject,
@@ -229,155 +190,101 @@ import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let305",
   mixins: [associationSelectPaper],
-/*   props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-  }, */
   data() {
     return {
       letData: {},
       options: {},
-      // editData: {}, // 回显数据
       visibleSelectDialog: false,
       selectedType: "单位", // 初始化时选择的单位或个人
-      associationPaper: ["1","10"],
+      associationPaper: ['6', '8', '10'],
     };
   },
-  created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-  },
   methods: {
-    async initLetData (selectedPaper) {
+    async initLetData(selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
-      /* //查询符合条件的记录
-      const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId &&
-          item.paperType === this.docData.docTypeNo &&
-          item.delFlag !== "1"
-        );
+      const corpBase = db.table("corpBase");
+      const corp = await corpBase.find((item) => {
+        return item.corpId == this.corpData.corpId;
       });
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本 */
-        // 1.弹出提示框，选择单位或个人
-        this.visibleSelectDialog = true;
-        // 2.文书号：
-        let paperNumber = await getDocNumber(
-          db,
-          this.docData.docTypeNo,
-          this.corpData.caseId,
-          this.$store.state.user
-        );
-        // 3.获取行政复议申请笔录中的申请时间
-        let let10DataPapaerContent = JSON.parse(selectedPaper.let10Data.paperContent)
-     /*    const let302Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === "10";
-        });
-        let let302DataPapaerContent = JSON.parse(let302Data.paperContent); */
-        let cellIdx5String = let10DataPapaerContent.cellIdx0 + "";
-        let cellIdx6String = let10DataPapaerContent.cellIdx1 + "";
-        let cellIdx7String = let10DataPapaerContent.cellIdx2 + "";
-        let cellIdx8String = let10DataPapaerContent.cellIdx2 + "";
-        let cellIdx9String = let10DataPapaerContent.cellIdx2 + "";
-        // 4.固定模板：
-        // 获取文书编号：
-        // 行政处罚决定书：
-        let paperNum8 = await getDocNumber(
-          db,
-          "8",
-          this.corpData.caseId,
-          this.$store.state.user
-        );
-        // 行政处罚告知书：
-        let paperNum6 = await getDocNumber(
-          db,
-          "6",
-          this.corpData.caseId,
-          this.$store.state.user
-        );
-        let cellIdx10String = `申请人于 20XX 年 XX 月 XX 日对 XX 煤矿安全监察局 XX 监察分局《行政处罚决定书》（${paperNum8.numString}）作出的行政处罚决定不服，向本局提出行政复议申请，我局受理后依法采取书面审理的方式，被申请人在法定期限内提交了行政复议答辩意见。通过对有关行政执法审查和对有关人员调查询问，现已审理终结。
-      申请人请求：撤销被申请人作出的《行政处罚决定书》（${paperNum8.numString}），减轻或免于行政处罚。
+      // 1.弹出提示框，选择单位或个人
+      this.visibleSelectDialog = true;
+      // 2.文书号：
+      let paperNumber = await getDocNumber(
+        db,
+        this.docData.docTypeNo,
+        this.corpData.caseId,
+        this.$store.state.user
+      );
+      // 3.获取行政复议申请笔录中的申请时间
+      let let10DataPapaerContent = JSON.parse(
+        selectedPaper.let10Data.paperContent
+      );
+      let cellIdx5String = let10DataPapaerContent.cellIdx0 + "";
+      let cellIdx6String = let10DataPapaerContent.cellIdx1 + "";
+      let cellIdx7String = let10DataPapaerContent.cellIdx2 + "";
+      // 4.固定模板：
+      // 获取文书编号：
+      // 行政处罚决定书：
+      let let8DataPapaerContent = JSON.parse(
+        selectedPaper.let8Data.paperContent
+      );
+      let paper8number = `${let8DataPapaerContent.cellIdx0}矿安监${let8DataPapaerContent.cellIdx1}罚〔${let8DataPapaerContent.cellIdx2}〕${let8DataPapaerContent.cellIdx3}号`
+      // 行政处罚告知书：
+      let let6DataPapaerContent = JSON.parse(
+        selectedPaper.let6Data.paperContent
+      );
+      let paper6number = `${let6DataPapaerContent.cellIdx0}矿安监${let6DataPapaerContent.cellIdx1}告〔${let6DataPapaerContent.cellIdx2}〕${let6DataPapaerContent.cellIdx3}号`
+      let cellIdx10String = `申请人于 20XX 年 XX 月 XX 日对 XX 煤矿安全监察局 XX 监察分局《行政处罚决定书》（${paper8number}）作出的行政处罚决定不服，向本局提出行政复议申请，我局受理后依法采取书面审理的方式，被申请人在法定期限内提交了行政复议答辩意见。通过对有关行政执法审查和对有关人员调查询问，现已审理终结。
+      申请人请求：撤销被申请人作出的《行政处罚决定书》（${paper8number}），减轻或免于行政处罚。
       申请人称：淮北监察分局对我矿安全检查时发现特种作业人员无证上岗作业问题，在行政处罚法律适用上，不应适用《中华人民共和国安全生产法》进行处罚,应依据《煤矿安全监察条例》第二十九条第（四）项“特种作业人员未取得资格证书上岗作业的”应当责令限期改正的规定。《煤矿安全监察条例》是确立煤矿安全监察机构执法地位的专门法规，应优先执行。既使适用《中华人民共和国安全生产法》第九十四条“责令限期改正，可以处五万元以下的罚款”的规定，也应当遵守《安全生产行政处罚自由裁量适用规则（试行）》(国家安全生产监督管理总局令第 31 号)第十二条第一款“法律、行政法规或者部门规章规定的多种处罚应当并处的，不得选择适用；规定可以并处的，可以选择适用”的规定。我矿积极主动改正，在案件调查前已将爆破工 XXX、瓦斯检查工 XXX 调离工作岗位，对于已培训未持证上岗作业的特种作业人员，是因有关机构未及时发证，培训机构业已出具培训合格证明。基于上述事实，安全隐患已消除，对安全生产不构成威胁，未产生严重后果。按照《安全生产违法行为行政处罚办法》第五十六条第（二）项“主动消除或者减轻安全生产违法行为危害后果的”应当依法从轻或者减轻行政处罚的规定，应当减轻或免于行政处罚。
-      被申请人辩称：我局对 XX 煤矿作出的《行政处罚决定书》（${paperNum8.numString}） ，事实清楚、程序合法、处罚依据充分。根据《中华人民共和国立法法》规定，法律的效力高于行政法规，《中华人民共和国安全生产法》是国家法律，《煤矿安全监察条例》是国务院行政法规，应优先选择适用国家法律。在程序上，我局依法履行了告知义务，告知了申请人陈述、申辩和申请听证的权利，《行政处罚决定书》（${paperNum8.numString}）已经送达给申请人。申请人主张从轻或免于行政处罚理由不成立。爆破工 XXX、瓦斯检查工 XXX 无证上岗作业经调查长时间存在，申请人也知道特种作业人员无证不得上岗作业的规定，是违法行为的主观故意。根据《安全生产行政处罚自由裁量适用规则（试行）》(国家安全生产监督管理总局令第 31 号)第十五条第（八）项“故意实施违法行为的”应当依法从重处罚，不适用从轻或免于行政处罚情形，所以选择给予责令停产整顿，罚款肆万伍仟元的行政处罚。综上所述，我局对违法事实认定清楚，证据确凿，程序合法，请复议机关依法维持《行政处罚决定书》（${paperNum8.numString}）的处罚决定。
-      经审理查明：申请人长时间安排爆破工 XXX、瓦斯检查工 XXX 无证上岗作业，被申请人于 20XX 年 XX 月 XX 日，在对申请人进行安全监察时根据发现的线索进行立案调查。20XX 年 XX 月 XX 日，被申请人作出（${paperNum6.numString}）《行政处罚告知书》，告知了申请人有陈述、申辩和申请听证的权利。20XX 年 XX 月 XX日，听取了申请人的陈述、申辩。20XX 年 XX 月 XX 日，组织进行了听证。20XX 年XX 月 XX 日，被申请人根据《中华人民共和国安全生产法》第九十四条第（七）项的规定，依法作出《行政处罚决定书》（${paperNum8.numString}），分别没收违法所得，并处十万元以上五十万元以下的罚款，注销其安全生产许可证、责令停止生产，限期办理变更手续，处1万元以上3万元以下罚款。合并罚款人民币伍拾叁万元整（¥530,000.00）罚款、没收违法所得。
-      本局认为：申请人安排爆破工 XXX、瓦斯检查工 XXX 无证上岗作业的违法行为，不存在从轻或免于行政处罚情形。被申请人在作出行政处罚决定前，依法进行了立案调查、处罚告知，处罚程序符合法律规定。对违法事实认定清楚，证据确凿，适用法律正确、行政处罚适当。根据《中华人民共和国行政复议法》第二十八条第一款第（一）项规定，经集体讨论，决定维持淮北监察分局《行政处罚决定书》（${paperNum8.numString}）的处罚决定。`;
-        // 5.人民法院
-        const orgInfo = db.table("orgInfo");
-        const orgData = await orgInfo.find(
-          (item) => item.no === this.$store.state.user.userGroupId
-        );
-        let orgSysOfficeInfo =
-          orgData && orgData.sysOfficeInfo
-            ? JSON.parse(orgData.sysOfficeInfo)
-            : {
-                courtPrefix: "",
-                depAddress: "",
-                depPost: "",
-                master: "",
-                phone: "",
-              };
-        let cellIdx11String = orgSysOfficeInfo.courtPrefix;
-        await db.close();
-        this.letData = {
-          cellIdx0: paperNumber.num0, // 文书号
-          cellIdx0TypeTextItem: paperNumber.num0, // 文书号
-          cellIdx1: paperNumber.num1, // 文书号
-          cellIdx1TypeTextItem: paperNumber.num1, // 文书号
-          cellIdx2: paperNumber.num3, // 文书号
-          cellIdx2TypeTextItem: paperNumber.num3, // 文书号
-          cellIdx3: paperNumber.num4, // 文书号
-          cellIdx3TypeTextItem: paperNumber.num4, // 文书号
-          cellIdx16: corp.corpName ? corp.corpName : null, // 被检查单位
-          cellIdx16TypeTextItem: corp.corpName ? corp.corpName : null, // 被检查单位
-          cellIdx4: null, // 单位/个人
-          cellIdx5: cellIdx5String, // 年
-          cellIdx5TypeTextItem: cellIdx5String, // 年
-          cellIdx6: cellIdx6String, // 月
-          cellIdx6TypeTextItem: cellIdx6String, // 月
-          cellIdx7: cellIdx7String, // 日
-          cellIdx7TypeTextItem: cellIdx7String, // 日
-          // cellIdx8: cellIdx8String, // 时    暂不用
-          // cellIdx8TypeTextItem: cellIdx8String, // 时 
-          // cellIdx9: cellIdx9String, // 分   暂不用
-          // cellIdx9TypeTextItem: cellIdx9String, // 分
-          cellIdx10: cellIdx10String, // 行政复议决定
-          cellIdx10TypeTextareaItem: cellIdx10String, // 行政复议决定
-          cellIdx11: cellIdx11String, // 人民法院
-          cellIdx11TypeTextItem: cellIdx11String, // 人民法院
-          cellIdx12: null, // 
-          cellIdx13: null, // 日期
-          /* cellIdx12: null, // 年
+      被申请人辩称：我局对 XX 煤矿作出的《行政处罚决定书》（${paper8number}） ，事实清楚、程序合法、处罚依据充分。根据《中华人民共和国立法法》规定，法律的效力高于行政法规，《中华人民共和国安全生产法》是国家法律，《煤矿安全监察条例》是国务院行政法规，应优先选择适用国家法律。在程序上，我局依法履行了告知义务，告知了申请人陈述、申辩和申请听证的权利，《行政处罚决定书》（${paper8number}）已经送达给申请人。申请人主张从轻或免于行政处罚理由不成立。爆破工 XXX、瓦斯检查工 XXX 无证上岗作业经调查长时间存在，申请人也知道特种作业人员无证不得上岗作业的规定，是违法行为的主观故意。根据《安全生产行政处罚自由裁量适用规则（试行）》(国家安全生产监督管理总局令第 31 号)第十五条第（八）项“故意实施违法行为的”应当依法从重处罚，不适用从轻或免于行政处罚情形，所以选择给予责令停产整顿，罚款肆万伍仟元的行政处罚。综上所述，我局对违法事实认定清楚，证据确凿，程序合法，请复议机关依法维持《行政处罚决定书》（${paper8number}）的处罚决定。
+      经审理查明：申请人长时间安排爆破工 XXX、瓦斯检查工 XXX 无证上岗作业，被申请人于 20XX 年 XX 月 XX 日，在对申请人进行安全监察时根据发现的线索进行立案调查。20XX 年 XX 月 XX 日，被申请人作出（${paper6number}）《行政处罚告知书》，告知了申请人有陈述、申辩和申请听证的权利。20XX 年 XX 月 XX日，听取了申请人的陈述、申辩。20XX 年 XX 月 XX 日，组织进行了听证。20XX 年XX 月 XX 日，被申请人根据《中华人民共和国安全生产法》第九十四条第（七）项的规定，依法作出《行政处罚决定书》（${paper8number}），分别没收违法所得，并处十万元以上五十万元以下的罚款，注销其安全生产许可证、责令停止生产，限期办理变更手续，处1万元以上3万元以下罚款。合并罚款人民币伍拾叁万元整（¥530,000.00）罚款、没收违法所得。
+      本局认为：申请人安排爆破工 XXX、瓦斯检查工 XXX 无证上岗作业的违法行为，不存在从轻或免于行政处罚情形。被申请人在作出行政处罚决定前，依法进行了立案调查、处罚告知，处罚程序符合法律规定。对违法事实认定清楚，证据确凿，适用法律正确、行政处罚适当。根据《中华人民共和国行政复议法》第二十八条第一款第（一）项规定，经集体讨论，决定维持淮北监察分局《行政处罚决定书》（${paper8number}）的处罚决定。`;
+      // 5.人民法院
+      const orgInfo = db.table("orgInfo");
+      const orgData = await orgInfo.find(
+        (item) => item.no === this.$store.state.user.userGroupId
+      );
+      let orgSysOfficeInfo =
+        orgData && orgData.sysOfficeInfo
+          ? JSON.parse(orgData.sysOfficeInfo)
+          : {
+              courtPrefix: "",
+              depAddress: "",
+              depPost: "",
+              master: "",
+              phone: "",
+            };
+      let cellIdx11String = orgSysOfficeInfo.courtPrefix;
+      await db.close();
+      this.letData = {
+        cellIdx0: paperNumber.num0, // 文书号
+        cellIdx0TypeTextItem: paperNumber.num0, // 文书号
+        cellIdx1: paperNumber.num1, // 文书号
+        cellIdx1TypeTextItem: paperNumber.num1, // 文书号
+        cellIdx2: paperNumber.num3, // 文书号
+        cellIdx2TypeTextItem: paperNumber.num3, // 文书号
+        cellIdx3: paperNumber.num4, // 文书号
+        cellIdx3TypeTextItem: paperNumber.num4, // 文书号
+        cellIdx16: corp.corpName ? corp.corpName : null, // 被检查单位
+        cellIdx16TypeTextItem: corp.corpName ? corp.corpName : null, // 被检查单位
+        cellIdx4: null, // 单位/个人
+        cellIdx5: cellIdx5String, // 年
+        cellIdx6: cellIdx6String, // 月
+        cellIdx7: cellIdx7String, // 日
+        // cellIdx8: cellIdx8String, // 时    暂不用
+        // cellIdx9: cellIdx9String, // 分   暂不用
+        cellIdx10: cellIdx10String, // 行政复议决定
+        cellIdx10TypeTextareaItem: cellIdx10String, // 行政复议决定
+        cellIdx11: cellIdx11String, // 人民法院
+        cellIdx11TypeTextItem: cellIdx11String, // 人民法院
+        cellIdx12: this.$store.state.curCase.groupName, //
+        cellIdx13: this.todayDate, // 日期
+        /* cellIdx12: null, // 年
           cellIdx13: null, // 月
           cellIdx14: null, // 日   暂不用*/
-          cellIdx15: null, // 单位/个人
-        };
+        cellIdx15: null, // 单位/个人
+      };
     },
     goBack({ page }) {
       // 返回选择企业
@@ -402,9 +309,7 @@ export default {
       // 选择单位或个人
       this.visibleSelectDialog = false;
       this.letData.cellIdx4 = this.selectedType;
-      this.letData.cellIdx4TypeTextItem = this.selectedType;
       this.letData.cellIdx15 = this.selectedType;
-      this.letData.cellIdx15TypeTextItem = this.selectedType;
       this.letData.selectedType = this.selectedType;
     },
   },

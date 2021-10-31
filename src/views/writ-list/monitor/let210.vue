@@ -345,8 +345,7 @@ export default {
         cellIdx16TypeTextItem: cellIdx16String, // 联系人
         cellIdx17: cellIdx17String, // 联系电话
         cellIdx17TypeTextItem: cellIdx17String, // 联系电话
-        cellIdx18: this.$store.state.user.userGroupName, // 
-        cellIdx18TypeTextItem: this.$store.state.user.userGroupName, // 单位
+        cellIdx18: this.$store.state.curCase.groupName, // 
         cellIdx19: this.todayDate, // 日期
         cellIdx19TypeDateItem: this.todayDate, // 日期
         cellIdx20: let28DataPapaerContent.selectedType, // 单位或个人

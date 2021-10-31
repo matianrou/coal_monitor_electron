@@ -1,4 +1,4 @@
-<!-- 行政强制 行政复议 行政复议申请笔录 -->
+<!-- 行政强制 行政复议 行政复议申请笔录 10 -->
 <template>
   <div style="width: 100%; height: 100%">
     <let-main
@@ -13,11 +13,11 @@
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader0">
+            <div class="textAlignCenter formHeader2">
               国 家 矿 山 安 全 监 察
               <br />
             </div>
-            <div class="textAlignCenter formHeader1">
+            <div class="textAlignCenter formHeader3">
               行 政 复 议 申 请 笔 录
             </div>
             <div class="docTextLine">
@@ -70,9 +70,9 @@
             </div>
             <div class="docTextarea">
               <span class="no-line">申请地点：</span>
-              <span
-                @click="commandFill('cellIdx5', '申请地点', 'TextItem')"
-              >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</span>
+              <span @click="commandFill('cellIdx5', '申请地点', 'TextItem')">{{
+                letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
+              }}</span>
               <div class="line"></div>
             </div>
             <div class="docTextLine">
@@ -89,7 +89,7 @@
                 <label>性别：</label>
                 <div
                   class="line-div"
-                  @click="commandFill('cellIdx7', '性别', 'TextItem')"
+                  @click="commandFill('cellIdx7', '性别', 'SelectItem')"
                 >
                   {{ letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）" }}
                 </div>
@@ -106,9 +106,12 @@
             </div>
             <div class="docTextarea">
               <span class="no-line">申请人单位：</span>
-              <span @click="commandFill('cellIdx9', '申请人单位', 'TextItem')">{{
-                letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
-              }}</span>
+              <span
+                @click="commandFill('cellIdx9', '申请人单位', 'TextItem')"
+                >{{
+                  letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
+                }}</span
+              >
               <div class="line"></div>
             </div>
             <div class="docTextLine">
@@ -133,24 +136,56 @@
             </div>
             <div class="docTextarea">
               <span class="no-line">申请人住址：</span>
-              <span @click="commandFill('cellIdx12', '申请人住址', 'TextItem')">{{
-                letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）"
-              }}</span>
+              <span
+                @click="commandFill('cellIdx12', '申请人住址', 'TextItem')"
+                >{{
+                  letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）"
+                }}</span
+              >
               <div class="line"></div>
             </div>
             <div class="docTextarea">
               <span class="no-line">记录人（签名）：</span>
-              <span @click="commandFill('cellIdx13', '记录人（签名）', 'TextItem')">{{
-                letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）"
-              }}</span>
+              <span
+                @click="commandFill('cellIdx13', '记录人（签名）', 'TextItem')"
+                >{{
+                  letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）"
+                }}</span
+              >
               <div class="line"></div>
             </div>
             <div class="docTextarea">
               <span class="no-line">申请记录：</span>
-              <span @click="commandFill('cellIdx14', '申请记录', 'TextItem')">{{
-                letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）"
-              }}</span>
-              <div class="line"></div>
+            </div>
+            <div
+              style="
+                word-wrap: break-word;
+                word-break: break-all;
+                overflow: hidden;
+              "
+              class="cellInput mutiLineArea"
+               @click="commandFill('cellIdx14', '申请记录', 'TextareaItem')"
+            >
+              <div
+                v-if="letData.cellIdx14 && letData.cellIdx14.length > 0"
+                style="position: relative"
+              >
+                <p class="show-area-item-p">
+                  <span style="padding: 7px">{{
+                    letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）"
+                  }}</span>
+                </p>
+                <div
+                  v-for="(item, index) in 100"
+                  :key="index"
+                  class="cellLine"
+                  :style="`top: ${(index + 1) * 9.54}mm;`"
+                ></div>
+              </div>
+              <div v-else>
+                <p class="show-area-item-p">&nbsp;</p>
+                <p class="show-area-item-p">&nbsp;</p>
+              </div>
             </div>
           </div>
         </div>
@@ -168,127 +203,90 @@
 </template>
 
 <script>
-// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber, getDangerObject } from '@/utils/setInitPaperData'
-import associationSelectPaper from '@/components/association-select-paper'
+import { getDocNumber, getDangerObject } from "@/utils/setInitPaperData";
+import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let302",
   mixins: [associationSelectPaper],
-  // props: {
-  //   corpData: {
-  //     type: Object,
-  //     default: () => {},
-  //   },
-  //   docData: {
-  //     type: Object,
-  //     default: () => {
-  //       return {
-  //         docTypeNo: null,
-  //         docTypeName: null,
-  //       };
-  //     },
-  //   },
-  //    paperData: {
-  //     type: Object,
-  //     default: () => {},
-  //   },
-  // },
-  // components: {
-  //   letMain,
-  // },
   data() {
     return {
       letData: {},
-      options: {},
-      associationPaper: ['1']
-      // editData: {}, // 回显数据
+      options: {
+        cellIdx7: [
+          {
+            value: '男',
+            name: '男'
+          },
+          {
+            value: '女',
+            name: '女'
+          },
+        ]
+      },
+      associationPaper: ["1"],
     };
   },
-  // created() {
-  //   this.initData();
-  // },
-  // watch: {
-  //   "corpData.corpId"(val) {
-  //     if (val) {
-  //       this.initData();
-  //     }
-  //   },
-  //   "paperData.paperId"(val) {
-  //     this.initData();
-  //   },
-  // },
   methods: {
-    async initLetData (selectedPaper) {
+    async initLetData(selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      /* const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId &&
-          item.paperType === this.docData.docTypeNo &&
-          item.delFlag !== "1"
-        );
-      });
-      // await wkPaper.delete(checkPaper[0].id)
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本
-        // 1.时间：当前年、月、日、时、分
-         */
-        let now = new Date();
-        // 1.时间
-        // 2.申请人单位
-        // 3.申请记录：“我代表”+煤矿名称+“对”+机构名称+“做出的行政处罚决定”+文书编号（行政处罚决定）+“申请行政复议，对处罚的”+隐患描述+“违法行为进行复议。我矿认为......。请求从轻或者免于处罚。”
-        let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
-        let { numString } = await getDocNumber(
-          db,
-          "8",
-          this.corpData.caseId,
-          this.$store.state.user
-        );
-        // let dangerObject = getDangerObject(
-        //   let101DataPapaerContent.DangerTable.tableData
-        // );
-        let cellIdx14String = `我代表${corp.corpName}对${this.$store.state.user.userGroupName}做出的行政处罚决定${numString}申请行政复议，对处罚的${dangerObject.dangerString}违法行为进行复议。我矿认为......。请求从轻或者免于处罚。`;
-            await db.close();
-        this.letData = {
-          cellIdx0: now.getFullYear().toString(), // 年
-          cellIdx0TypeTextItem: now.getFullYear().toString(), // 年
-          cellIdx1: (now.getMonth() + 1).toString(), // 月
-          cellIdx1TypeTextItem: (now.getMonth() + 1).toString(), // 月
-          cellIdx2: now.getDate().toString(), // 日
-          cellIdx2TypeTextItem: now.getDate().toString(), // 日
-          cellIdx3: now.getHours().toString(), // 时
-          cellIdx3TypeTextItem: now.getHours().toString(), // 时
-          cellIdx4: now.getMinutes().toString(), // 分
-          cellIdx4TypeTextItem: now.getMinutes().toString(), // 分
-          cellIdx5: null, // 申请地点
-          cellIdx6: null, // 申请人姓名
-          cellIdx7: null, // 性别
-          cellIdx8: null, // 年龄
-          cellIdx9: corp.corpName, // 申请人单位
-          cellIdx9TypeTextItem: corp.corpName, // 申请人单位
-          cellIdx10: null, // 职务（职业）
-          cellIdx11: null, // 电话
-          cellIdx12: null, // 申请人住址
-          cellIdx13: null, // 记录人（签名）
-          cellIdx14: cellIdx14String, // 申请记录
-          cellIdx14TypeTextareaItem: cellIdx14String, // 申请记录
-          DangerTable: let1DataPapaerContent.DangerTable,
-        extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
+      // 创建初始版本
+      // 1.时间：当前年、月、日、时、分
+      let now = new Date();
+      // 1.时间
+      // 2.申请人单位
+      // 3.申请记录：“我代表”+煤矿名称+“对”+机构名称+“做出的行政处罚决定”+文书编号（行政处罚决定）+“申请行政复议，对处罚的”+隐患描述+“违法行为进行复议。我矿认为......。请求从轻或者免于处罚。”
+      let let1DataPapaerContent = JSON.parse(
+        selectedPaper.let1Data.paperContent
+      );
+      let dangerObject = getDangerObject(
+        let1DataPapaerContent.DangerTable.tableData
+      );
+      let { numString } = await getDocNumber(
+        db,
+        "8",
+        this.corpData.caseId,
+        this.$store.state.user
+      );
+      // let dangerObject = getDangerObject(
+      //   let101DataPapaerContent.DangerTable.tableData
+      // );
+      let cellIdx14String = `我代表${corp.corpName}对${this.$store.state.user.userGroupName}做出的行政处罚决定${numString}申请行政复议，对处罚的${dangerObject.dangerString}违法行为进行复议。我矿认为......。请求从轻或者免于处罚。`;
+      await db.close();
+      this.letData = {
+        cellIdx0: now.getFullYear().toString(), // 年
+        cellIdx0TypeTextItem: now.getFullYear().toString(), // 年
+        cellIdx1: (now.getMonth() + 1).toString(), // 月
+        cellIdx1TypeTextItem: (now.getMonth() + 1).toString(), // 月
+        cellIdx2: now.getDate().toString(), // 日
+        cellIdx2TypeTextItem: now.getDate().toString(), // 日
+        cellIdx3: now.getHours().toString(), // 时
+        cellIdx3TypeTextItem: now.getHours().toString(), // 时
+        cellIdx4: now.getMinutes().toString(), // 分
+        cellIdx4TypeTextItem: now.getMinutes().toString(), // 分
+        cellIdx5: null, // 申请地点
+        cellIdx6: null, // 申请人姓名
+        cellIdx7: null, // 性别
+        cellIdx8: null, // 年龄
+        cellIdx9: corp.corpName, // 申请人单位
+        cellIdx9TypeTextItem: corp.corpName, // 申请人单位
+        cellIdx10: null, // 职务（职业）
+        cellIdx11: null, // 电话
+        cellIdx12: null, // 申请人住址
+        cellIdx13: null, // 记录人（签名）
+        cellIdx14: cellIdx14String, // 申请记录
+        cellIdx14TypeTextareaItem: cellIdx14String, // 申请记录
+        DangerTable: let1DataPapaerContent.DangerTable,
+        extraData: {
+          // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
           userGroupName: this.$store.state.user.userGroupName,
-        }
-        };
+        },
+      };
     },
     goBack({ page }) {
       // 返回选择企业

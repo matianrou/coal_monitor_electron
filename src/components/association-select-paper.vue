@@ -89,7 +89,6 @@ export default {
               let paperDataList = await wkPaper.findAll((item) => {
                 return item.caseId === this.corpData.caseId && item.paperType === paper && item.delFlag !== '1';
               })
-              console.log('paperDataList', paperDataList)
               if (paperDataList.length === 0) {
                 // 如果未查到关联的文书，则提示：
                 let paperName = this.$store.state.dictionary[`${this.$store.state.user.userType}PaperType`].filter(item => item.id === paper)

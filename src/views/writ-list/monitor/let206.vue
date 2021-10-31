@@ -87,10 +87,6 @@
                 }}</span
               >
             </div>
-            <!-- <div class="docTextarea">
-              
-              <div class="line"></div>
-            </div> -->
             <div class="docTextarea">
               <label style="width: 5%"></label>
               接到本处罚决定书之日起15日内将罚款缴至

@@ -13,11 +13,11 @@
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader0">
+            <div class="textAlignCenter formHeader2">
               国 家 矿 山 安 全 监 察
               <br />
             </div>
-            <div class="textAlignCenter formHeader1">
+            <div class="textAlignCenter formHeader3">
               行 政 复 议 调 查 笔 录
             </div>
             <div class="docTextLine">
@@ -88,9 +88,9 @@
             </div>
             <div class="docTextarea">
               <span class="no-line">地&nbsp;&nbsp;&nbsp; 点：</span>
-              <span
-                @click="commandFill('cellIdx7', '地点', 'TextItem')"
-              >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
+              <span @click="commandFill('cellIdx7', '地点', 'TextItem')">{{
+                letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
+              }}</span>
               <div class="line"></div>
             </div>
             <div class="docTextLine">
@@ -124,7 +124,7 @@
               <label>性别</label>
               <span
                 class="line-div"
-                @click="commandFill('cellIdx11', '性别', 'TextItem')"
+                @click="commandFill('cellIdx11', '性别', 'SelectItem')"
                 >{{ letData.cellIdx11 ? letData.cellIdx11 : "" }}</span
               >
               <label>年龄</label>
@@ -210,12 +210,16 @@
                 <p class="show-area-item-p">&nbsp;</p>
               </div>
             </div>
-            <table height="60"></table>
-            <div class="docTextarea cellLine">
-              <label style="width: 5%"></label>
+            <div
+              class="docTextarea"
+              style="
+                border-top: 2px solid #000;
+                margin-top: 30px;
+                line-height: normal;
+              "
+            >
               备注：被调查人员应在过目笔录后，签署意见，并签名押印。
             </div>
-            <table height="50"></table>
           </div>
         </div>
       </div>
@@ -232,7 +236,6 @@
 </template>
 
 <script>
-// import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
 import {
   getDangerObject,
@@ -243,42 +246,25 @@ import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let304",
   mixins: [associationSelectPaper],
- /*  props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-  },
-  components: {
-    letMain,
-  }, */
   data() {
     return {
       letData: {},
-      options: {},
+      options: {
+        cellIdx11: [
+          {
+            value: '男',
+            name: '男'
+          },
+          {
+            value: '女',
+            name: '女'
+          },
+        ]
+      },
       editData: {}, // 回显数据
       associationPaper: ["1"],
     };
   },
-/*   created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-  }, */
   methods: {
     async initLetData(selectedPaper) {
       const db = new GoDB(this.$store.state.DBName);
@@ -286,71 +272,53 @@ export default {
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      /* const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      const checkPaper = await wkPaper.findAll((item) => {
-        return (
-          item.caseId === caseId &&
-          item.paperType === this.docData.docTypeNo &&
-          item.delFlag !== "1"
-        );
-      });
-      if (checkPaper.length > 0) {
-        // 回显
-        this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
-      } else {
-        // 创建初始版本 */
-        // 1.时间：当前年、月、日、时、分
-        let now = new Date();
-        let cellIdx0Year = now.getFullYear().toString();
-        let cellIdx1Month = (now.getMonth() + 1).toString();
-        let cellIdx2Date = now.getDate().toString();
-        let cellIdx3Hour = now.getHours().toString();
-        let cellIdx4Minu = now.getMinutes().toString();
-        // 2.单位名称
-        // 3.调查笔录：“我们是”+机构名称+“执法监督处工作人员，这是我们的执法证件（出示行政执法证件），现就你矿涉嫌”+隐患描述+“案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？答：听清楚了。”
-        // 获取笔录文书中的隐患数据
-        /* const let101Data = await wkPaper.find((item) => {
-          return item.caseId === caseId && item.paperType === "1";
-        });
-        let let101DataPapaerContent = JSON.parse(let101Data.paperContent);
-        let dangerObject = getDangerObject(
-          let101DataPapaerContent.DangerTable.tableData
-        ); */
-        let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-        let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
-        let cellIdx18 = `我们是${this.$store.state.user.userGroupName}执法监督处工作人员，这是我们的执法证件（出示行政执法证件），现就你矿涉嫌${dangerObject.dangerString}案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？\r\n      答：听清楚了。`;
-        await db.close();
-        this.letData = {
-          cellIdx0: cellIdx0Year, // 年
-          cellIdx0TypeTextItem: cellIdx0Year, // 年
-          cellIdx1: cellIdx1Month, // 月
-          cellIdx1TypeTextItem: cellIdx1Month, // 月
-          cellIdx2: cellIdx2Date, // 日
-          cellIdx2TypeTextItem: cellIdx2Date, // 日
-          cellIdx3: cellIdx3Hour, // 时
-          cellIdx3TypeTextItem: cellIdx3Hour, // 时
-          cellIdx4: cellIdx4Minu, // 分
-          cellIdx4TypeTextItem: cellIdx4Minu, // 分
-          cellIdx5: null, // 时
-          cellIdx6: null, // 分
-          cellIdx7: null, // 地点
-          cellIdx8: null, // 调查人（签名）
-          cellIdx9: null, // 记录人（签名）
-          cellIdx10: null, // 被调查人
-          cellIdx11: null, // 性别
-          cellIdx12: null, // 年龄
-          cellIdx13: null, // 身份证号
-          cellIdx14: corp.corpName, // 单位
-          cellIdx14TypeTextItem: corp.corpName, // 单位
-          cellIdx15: null, // 职务（职业）
-          cellIdx16: null, // 电话
-          cellIdx17: null, // 住址
-          cellIdx18: cellIdx18, // 调查笔录
-          cellIdx18TypeTextareaItem: cellIdx18, // 调查笔录
-          DangerTable: let1DataPapaerContent.DangerTable,
-        };
+      // 1.时间：当前年、月、日、时、分
+      let now = new Date();
+      let cellIdx0Year = now.getFullYear().toString();
+      let cellIdx1Month = (now.getMonth() + 1).toString();
+      let cellIdx2Date = now.getDate().toString();
+      let cellIdx3Hour = now.getHours().toString();
+      let cellIdx4Minu = now.getMinutes().toString();
+      // 2.单位名称
+      // 3.调查笔录：“我们是”+机构名称+“执法监督处工作人员，这是我们的执法证件（出示行政执法证件），现就你矿涉嫌”+隐患描述+“案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？答：听清楚了。”
+      // 获取笔录文书中的隐患数据
+      let let1DataPapaerContent = JSON.parse(
+        selectedPaper.let1Data.paperContent
+      );
+      let dangerObject = getDangerObject(
+        let1DataPapaerContent.DangerTable.tableData
+      );
+      let cellIdx18 = `我们是${this.$store.state.user.userGroupName}执法监督处工作人员，这是我们的执法证件（出示行政执法证件），现就你矿涉嫌${dangerObject.dangerString}案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？\r\n      答：听清楚了。`;
+      await db.close();
+      this.letData = {
+        cellIdx0: cellIdx0Year, // 年
+        cellIdx0TypeTextItem: cellIdx0Year, // 年
+        cellIdx1: cellIdx1Month, // 月
+        cellIdx1TypeTextItem: cellIdx1Month, // 月
+        cellIdx2: cellIdx2Date, // 日
+        cellIdx2TypeTextItem: cellIdx2Date, // 日
+        cellIdx3: cellIdx3Hour, // 时
+        cellIdx3TypeTextItem: cellIdx3Hour, // 时
+        cellIdx4: cellIdx4Minu, // 分
+        cellIdx4TypeTextItem: cellIdx4Minu, // 分
+        cellIdx5: null, // 时
+        cellIdx6: null, // 分
+        cellIdx7: null, // 地点
+        cellIdx8: null, // 调查人（签名）
+        cellIdx9: null, // 记录人（签名）
+        cellIdx10: null, // 被调查人
+        cellIdx11: null, // 性别
+        cellIdx12: null, // 年龄
+        cellIdx13: null, // 身份证号
+        cellIdx14: corp.corpName, // 单位
+        cellIdx14TypeTextItem: corp.corpName, // 单位
+        cellIdx15: null, // 职务（职业）
+        cellIdx16: null, // 电话
+        cellIdx17: null, // 住址
+        cellIdx18: cellIdx18, // 调查笔录
+        cellIdx18TypeTextareaItem: cellIdx18, // 调查笔录
+        DangerTable: let1DataPapaerContent.DangerTable,
+      };
     },
     goBack({ page }) {
       // 返回选择企业

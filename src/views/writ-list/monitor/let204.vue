@@ -26,7 +26,7 @@
                 <span @click="commandFill('cellIdx1', '文书号', 'TextItem')">{{
                   letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
                 }}</span>
-                <label>〔</label>
+                <label>告〔</label>
                 <span @click="commandFill('cellIdx2', '文书号', 'TextItem')">{{
                   letData.cellIdx2 ? letData.cellIdx2 : "（编辑）"
                 }}</span>
