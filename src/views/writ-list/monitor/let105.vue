@@ -1,4 +1,4 @@
-<!-- 现场检查 复查 隐患整改 -->
+<!-- 现场检查 复查 隐患整改 44 -->
 <template>
   <div style="width: 100%; height: 100%">
     <let-main
@@ -74,7 +74,7 @@
                   :data="upload.data"
                   :show-file-list="false"
                   :file-list="upload.fileList">
-                  <el-button size="small">上传文件</el-button>
+                  <el-button size="small" :loading="loading.btn">上传文件</el-button>
                 </el-upload>
               </div>
             </div>
@@ -105,6 +105,13 @@
                   align="center"
                   label="操作"
                   width="120">
+                  <template slot-scope="scope">
+                    <el-button
+                      :loading="loading.btn"
+                      type="text"
+                      @click="deleteFile(scope.$index, scope.row)"
+                    >删除</el-button>
+                  </template>
                 </el-table-column>
               </el-table>
             </div>
@@ -153,6 +160,10 @@ export default {
         data: {},
         fileList: []
       },
+      loading: {
+        main: false,
+        btn: false
+      }
     };
   },
   methods: {
@@ -193,7 +204,20 @@ export default {
       this.selectOrgVisible = false
     },
     addFile () {
-
+      // 添加文件
+    },
+    deleteFile (index, row) {
+      // 删除文件
+      this.$confirm(`是否确定删除文件“${row.fileName}”？`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          dangerouslyUseHTMLString: true,
+          type: 'warning'
+        }).then(async () => {
+          this.loading.btn = false
+        }).catch(() => {
+          this.loading.btn = false
+        })
     }
   },
 };

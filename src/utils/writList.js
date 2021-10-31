@@ -42,6 +42,7 @@ const monitorWritList = {
   let401: resolve => { require(["@/views/writ-list/monitor/let401"], function(let401) { resolve(let401);});},
   let402: resolve => { require(["@/views/writ-list/monitor/let402"], function(let402) { resolve(let402);});},
   let404: resolve => { require(["@/views/writ-list/monitor/let404"], function(let404) { resolve(let404);});},
+  let406: resolve => { require(["@/views/writ-list/monitor/let406"], function(let406) { resolve(let406);});},
   let501: resolve => { require(["@/views/writ-list/monitor/let501"], function(let501) { resolve(let501);});},
   let502: resolve => { require(["@/views/writ-list/monitor/let502"], function(let502) { resolve(let502);});},
 }
