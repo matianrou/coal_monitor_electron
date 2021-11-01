@@ -54,6 +54,8 @@
                   <template slot-scope="scope">
                     <el-button
                       size="small"
+                      type="text"
+                      title="点击选择复查单位"
                       @click="selectOrg(scope.$index)"
                     >{{ scope.row.reviewUnitName ? scope.row.reviewUnitName : '(点击选择)' }}</el-button>
                   </template>
@@ -69,11 +71,10 @@
               </div>
               <div style="flex: 1; display: flex; align-items: center; justify-content: flex-end; line-height: 0px;">
                 <el-upload
-                  :action="upload.action"
-                  :headers="upload.headers"
-                  :data="upload.data"
+                  action=""
+                  :auto-upload="true"
                   :show-file-list="false"
-                  :file-list="upload.fileList">
+                  :http-request="addFile">
                   <el-button size="small" :loading="loading.btn">上传文件</el-button>
                 </el-upload>
               </div>
@@ -139,6 +140,8 @@
 import GoDB from "@/utils/godb.min.js";
 import associationSelectPaper from "@/components/association-select-paper";
 import selectOrg from '@/components/select-org'
+import { getNowFormatTime, getNowTime } from '@/utils/date'
+import { randomString } from "@/utils/index";
 export default {
   name: "Let105",
   mixins: [associationSelectPaper],
@@ -154,9 +157,20 @@ export default {
       selectOrgVisible: false, // 选择复查单位
       selectedRowIndex: null, // 选中的复查单位的行索引
       upload: {
-        action: '',
-        headers: {},
-        data: {},
+        action: `${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/api-review/uploadReview`,
+        data: {
+            __sid: this.$store.state.user.userSessId,
+            paperId: this.paperData.paperId,
+            caseId: this.corpData.caseId,
+            createTime: getNowFormatTime(),
+            reviewId: null,
+            createBy: JSON.stringify({
+              id: this.$store.state.user.userId
+            }) ,
+            updateBy: JSON.stringify({
+              id: this.$store.state.user.userId
+            }),
+        },
         fileList: []
       },
       loading: {
@@ -174,6 +188,10 @@ export default {
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
+      this.paperData.paperId = getNowTime() + randomString(18)
+      this.upload.data.paperId = this.paperData.paperId
+      console.log('upload', this.upload)
+      console.log('paperData', this.paperData)
       // 创建初始版本
       await db.close();
       let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
@@ -202,8 +220,37 @@ export default {
       }))
       this.selectOrgVisible = false
     },
-    addFile () {
+    addFile (param) {
       // 添加文件
+      console.log('param', param)
+      let submitData = {
+        paperId: this.paperData.paperId,
+        caseId: this.corpData.caseId,
+        createTime: getNowFormatTime(),
+        reviewId: null,
+        createBy: JSON.stringify({
+          id: this.$store.state.user.userId
+        }) ,
+        updateBy: JSON.stringify({
+          id: this.$store.state.user.userId
+        }),
+      }
+      return this.$http.post(
+          `${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/api-review/uploadReview?__sid=${this.$store.state.user.userSessId}`,
+          {
+            sendJson: true,
+            data: JSON.stringify(submitData),
+          }
+        )
+        .then(({ data }) => {
+          if (data.status === "200") {
+            console.log('data', data)
+          } else {
+          }
+        })
+        .catch((err) => {
+          console.log("上传至服务器请求失败：", err);
+        });
     },
     deleteFile (index, row) {
       // 删除文件

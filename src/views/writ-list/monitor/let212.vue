@@ -95,6 +95,15 @@
               <div>
                 <span>回执单</span>
               </div>
+              <div style="flex: 1; display: flex; align-items: center; justify-content: flex-end; line-height: 0px;">
+                <el-upload
+                  action=""
+                  :auto-upload="true"
+                  :show-file-list="false"
+                  :http-request="addFile">
+                  <el-button size="small" :loading="loading.btn">上传回执单</el-button>
+                </el-upload>
+              </div>
             </div>
             <div class="table-main">
               <el-table
@@ -182,6 +191,20 @@ export default {
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
+      // 通过用户id获取罚款收缴
+      let {userSessId, userId} = this.$store.state.user
+      let path = this.$store.state.user.userType === 'supervision' ? '/sv' : ''
+      this.$http.get(
+          `${path}/local/api-fine/getFineCollection?userId=${userId}&__sid=${userSessId}`)
+        .then(({ data }) => {
+          if (data.status === "200") {
+            console.log('data', data)
+          } else {
+          }
+        })
+        .catch((err) => {
+          console.log("上传至服务器请求失败：", err);
+        });
       // 创建初始版本
       await db.close();
       this.letData = {
