@@ -3,11 +3,11 @@
   <el-dialog
     :title="title ? title : '选择文书'"
     :close-on-click-modal="false"
+    :show-close="false"
     append-to-body
     :visible="visible"
     top="5vh"
     width="650px"
-    @close="close"
   >
     <div style="height: 70vh;">
       <el-table

@@ -161,6 +161,8 @@ export default {
     closeDialog ({page, refresh}) {
       // 关闭选择文书弹窗
       this.visible[page] = false
+      this.$message.error('必须选择需要关联的文书')
+      this.$refs.letMain.cmdDocBack()
     },
     confirmPaper (currentRow) {
       // 选择的文书
