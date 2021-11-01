@@ -18,7 +18,7 @@
             </div>
             <div class="table-main">
               <el-table
-                :data="dangerTableData"
+                :data="letData.DangerTable && letData.DangerTable.tableData"
                 stripe
                 border
                 style="width: 100%;"
@@ -43,7 +43,7 @@
                   label="是否完成"
                   width="100">
                   <template slot-scope="scope">
-                    <el-checkbox v-model="scope.row.isComplate">{{scope.row.isComplate ? '已完成' : '未完成' }}</el-checkbox>
+                    <el-checkbox v-model="scope.row.dangerCorrected" true-label="1" false-label="0">{{scope.row.dangerCorrected ? '已完成' : '未完成' }}</el-checkbox>
                   </template>
                 </el-table-column>
                 <el-table-column
@@ -55,7 +55,7 @@
                     <el-button
                       size="small"
                       @click="selectOrg(scope.$index)"
-                    >{{ scope.row.orgName ? scope.row.orgName : '(点击选择)' }}</el-button>
+                    >{{ scope.row.reviewUnitName ? scope.row.reviewUnitName : '(点击选择)' }}</el-button>
                   </template>
                 </el-table-column>
               </el-table>
@@ -149,7 +149,6 @@ export default {
     return {
       letData: {},
       options: {},
-      dangerTableData: [], // 隐患表
       fileTableData: [], // 上传文件表
       associationPaper: ['1'],
       selectOrgVisible: false, // 选择复查单位
@@ -178,9 +177,9 @@ export default {
       // 创建初始版本
       await db.close();
       let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      this.dangerTableData = let1DataPapaerContent.DangerTable.tableData
-      this.letData = {
-      };
+      console.log('let1DataPapaerContent', let1DataPapaerContent)
+      this.letData = let1DataPapaerContent;
+      
     },
     goBack({ page }) {
       // 返回选择企业
@@ -195,11 +194,11 @@ export default {
       this.selectOrgVisible = false
     },
     confirmOrg (data) {
-      let orgName = data.name
-      let orgId = data.id
-      this.$set(this.dangerTableData, this.selectedRowIndex, Object.assign(this.dangerTableData[this.selectedRowIndex], {
-        orgName,
-        orgId
+      let reviewUnitName = data.name
+      let reviewUnitId = data.id
+      this.$set(this.letData.DangerTable.tableData, this.selectedRowIndex, Object.assign(this.letData.DangerTable.tableData[this.selectedRowIndex], {
+        reviewUnitName,
+        reviewUnitId
       }))
       this.selectOrgVisible = false
     },

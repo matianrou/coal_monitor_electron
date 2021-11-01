@@ -203,6 +203,10 @@ export default {
         htmlPage = this.$slots.left[0].elm.innerHTML.replace('style="height: 0px; overflow: hidden;"', '')
       }
       let page = createHtml(htmlPage, this.corpData);
+      // 处理隐患整改特殊文书逻辑
+      if (this.docData.docTypeNo === '44') {
+        console.log ('this', this.$parent.letData)
+      }
       let jsonPaper = {
         paperId: paperId,
         remoteId: "",
@@ -242,10 +246,11 @@ export default {
         // await wkPaper.put(paperData);
       }
       // 1.需保存隐患项的文书：现场检查笔录1、现场处理决定书2、立案决定书4、
-      // 调查取证笔录5、案件处理呈报书36、行政处罚告知书6、行政处罚决定书8
+      // 调查取证笔录5、案件处理呈报书36、行政处罚告知书6、行政处罚决定书8、
+      // 隐患整改44
       let docTypeNo = this.$parent.docData.docTypeNo
       if (docTypeNo === '1' || docTypeNo === '2' || docTypeNo === '4' || docTypeNo === '5'
-        || docTypeNo === '36' || docTypeNo === '6' || docTypeNo === '8') {
+        || docTypeNo === '36' || docTypeNo === '6' || docTypeNo === '8' || docTypeNo === '44') {
         // 2.根据paperData.paperId检索wkDanger中的隐患项，如果已存在则删除重新添加，如果未存在则直接添加
         // 删除原隐患项
         let wkDanger = db.table("wkDanger")
@@ -310,9 +315,9 @@ export default {
             deviceNum: item.deviceNum, //"设备台数：默认为空",
             coalingFace: item.coalingFace, //"采煤工作面：3",
             headingFace: item.headingFace, //"掘进工作面：6",
-            dangerCorrected: null, //"隐患整改情况(0未整改，1已整改）：null",
-            reviewUnitId: null, //"复查单位id：null",
-            reviewUnitName: null, //"复查单位名称：null",
+            dangerCorrected: item.dangerCorrected ? item.dangerCorrected : null, //"隐患整改情况(0未整改，1已整改）：null",
+            reviewUnitId: item.reviewUnitId ? item.reviewUnitId : null, //"复查单位id：null",
+            reviewUnitName: item.reviewUnitName ? item.reviewUnitName : null, //"复查单位名称：null",
           })
         })
         await wkDanger.addMany(arrDocDanger)

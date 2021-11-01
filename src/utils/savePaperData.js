@@ -31,13 +31,12 @@ export async function saveToUpload(paperId, userSessId) {
       meikuangType, meikuangPlanfrom, planId,
       checkReason, checkStatus, planBeginDate,
       planEndDate, createDate, pcMonth }
-      console.log('workCaseObj', workCaseObj)
       // 整理上传数据
   // 整理网页端展示的html
   let submitData = {
     paper: [
       {
-        id: null,
+        id: workPaper.paperId,
         isNewRecord: null,
         remarks: null,
         delFlag: workPaper.delFlag,
@@ -231,13 +230,15 @@ export async function saveToUpload(paperId, userSessId) {
       locationRemarks: paperContent.cellIdx1,
     };
     Object.assign(submitData.paper[0], p22PaperData);
-  } else if (workPaper.paperType === "1" || workPaper.paperType  === "2" || workPaper.paperType === "8") {
+  } else if (workPaper.paperType === "1" || workPaper.paperType  === "2" || workPaper.paperType  === "4"
+    || workPaper.paperType  === "5" || workPaper.paperType === "6"|| workPaper.paperType  === "8"
+    || workPaper.paperType  === "36" || workPaper.paperType  === "44") {
     // 现场检查笔录或现场处理决定书增加上传隐患项数据
     let danger = [];
     if (wkDangerList && wkDangerList.length > 0) {
       wkDangerList.map((item) => {
         let dangerData = {
-          id: null,
+          id: item.dangerId,
           isNewRecord: null,
           remarks: null,
           delFlag: workPaper.delFlag,
@@ -296,9 +297,9 @@ export async function saveToUpload(paperId, userSessId) {
           deviceNum: item.deviceNum,
           coalingFace: item.coalingFace,
           headingFace: item.headingFace,
-          dangerCorrected: null,
-          reviewUnitId: null,
-          reviewUnitName: null,
+          dangerCorrected: item.dangerCorrected ? item.dangerCorrected : null,
+          reviewUnitId: item.reviewUnitId ? item.reviewUnitId : null,
+          reviewUnitName: item.reviewUnitName ? item.reviewUnitName : null,
         };
         danger.push(dangerData);
       });
