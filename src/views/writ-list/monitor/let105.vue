@@ -199,9 +199,9 @@ export default {
       this.letData = let1DataPapaerContent;
       
     },
-    goBack({ page }) {
+    goBack({ page, data }) {
       // 返回选择企业
-      this.$emit("go-back", { page });
+      this.$emit("go-back", { page, data });
     },
     selectOrg (index) {
       // 选择复查单位

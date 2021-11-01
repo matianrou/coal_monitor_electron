@@ -379,9 +379,9 @@ export default {
         };
       }
     },
-    goBack({ page }) {
+    goBack({ page, data }) {
       // 返回选择企业
-      this.$emit("go-back", { page });
+      this.$emit("go-back", { page, data });
     },
     commandFill(key, title, type) {
       // 判断是否可编辑

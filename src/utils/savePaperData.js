@@ -36,7 +36,7 @@ export async function saveToUpload(paperId, userSessId) {
   let submitData = {
     paper: [
       {
-        id: workPaper.paperId,
+        id: null, // 不添加paperId，后台自动生成，传输会报错
         isNewRecord: null,
         remarks: null,
         delFlag: workPaper.delFlag,
@@ -238,7 +238,7 @@ export async function saveToUpload(paperId, userSessId) {
     if (wkDangerList && wkDangerList.length > 0) {
       wkDangerList.map((item) => {
         let dangerData = {
-          id: item.dangerId,
+          id: null,  // 不添加dangerId，后台自动生成，传输会报错
           isNewRecord: null,
           remarks: null,
           delFlag: workPaper.delFlag,

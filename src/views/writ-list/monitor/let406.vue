@@ -126,9 +126,9 @@ export default {
       this.letData = {
       };
     },
-    goBack({ page }) {
+    goBack({ page, data }) {
       // 返回选择企业
-      this.$emit("go-back", { page });
+      this.$emit("go-back", { page, data });
     },
     addFile () {
       // 上传文件

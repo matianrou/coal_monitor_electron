@@ -165,7 +165,8 @@ export default {
   },
   methods: {
     cmdDocBack() {
-      this.$emit("go-back", { page: "writFlow" });
+      console.log('curCase', this.$store.state.curCase)
+      this.$emit("go-back", { page: "writFlow", data: this.$store.state.curCase });
     },
     async cmdDocSave(saveFlag = "2") {
       // 保存或归档文书
