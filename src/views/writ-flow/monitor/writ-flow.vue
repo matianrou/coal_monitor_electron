@@ -133,11 +133,11 @@
                 <td class="arrows">  
                   →
                 </td>
-                <td :class="flowStatus.paper ? 'writ-flow-spantd-ex writ-flow-td' : 'writ-flow-spantd writ-flow-td' ">
+                <td :class="flowStatus.paper44 ? 'writ-flow-spantd-ex writ-flow-td' : 'writ-flow-spantd writ-flow-td' ">
                   <img
-                    v-if="flowStatus.paper"
-                    :src="flowStatus.paper === 'save' ? '' : require('../assets/image/file.png')"
-                    :title="flowStatus.paper === 'save' ? '已保存' : '已归档'"
+                    v-if="flowStatus.paper44"
+                    :src="flowStatus.paper44 === 'save' ? '' : require('../assets/image/file.png')"
+                    :title="flowStatus.paper44 === 'save' ? '已保存' : '已归档'"
                     alt="" />
                   <span @click="cmdEditDoc('let105','隐患整改','44')" class="flow-span">隐患整改</span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let105','隐患整改','44')"></i>

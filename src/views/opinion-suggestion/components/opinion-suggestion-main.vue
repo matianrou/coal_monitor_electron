@@ -77,7 +77,7 @@
           fixed="right"
           header-align="center"
           align="center"
-          width="150"
+          width="200"
           label="操作">
           <template slot-scope="scope">
             <div>
@@ -108,12 +108,13 @@
           </template>
         </el-table-column>
       </el-table>
-    </div>
+      </div>
   </div>
 </template>
 <script>
 import GoDB from "@/utils/godb.min.js";
 import { sortbyDes } from '@/utils/index'
+import { saveToUpload } from '@/utils/savePaperData'
 export default {
   name: "OpinionSuggestion",
   data() {
@@ -187,6 +188,91 @@ export default {
       await db.close()
       this.loading.list = false
     },
+    async handleEdit (row) {
+      // 编辑，打开编辑页面
+      // 根据paperType打开相应页面
+      let page = ''
+      let dictName = this.$store.state.user.userType === 'supervision' ? 'supervisionPaperType' : 'monitorPaperType'
+      this.$store.state.dictionary[dictName].map(item => {
+        if (item.id === row.paperType) page = item.page
+      })
+      let docData={
+            docTypeNo: row.paperType,
+            docTypeName: row.name,
+            page
+      }
+      this.changePage(docData)
+    },
+    async handleDelete (row) {
+      // 删除文书 判断是否已归档，如果已归档则不可删除
+      this.loading.btn = true
+      this.$confirm(`是否确认删除${row.name}?`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          dangerouslyUseHTMLString: true,
+          type: 'warning'
+        }).then(async () => {
+          await this.$http.get(`/sv/local/jczf/delPaperByPaperId?__sid=${this.$store.state.user.userSessId}&paperId=${row.paperId}`)
+            .then(async ({ data }) => {
+              if (data.status === "200") {
+                // 删除成功后，从本地数据库中删除
+                const db = new GoDB(this.$store.state.DBName)
+                // 删除文书
+                const wkPaper = db.table('wkPaper')
+                let paperData = await wkPaper.find(item => item.paperId === row.paperId)
+                let data = paperData
+                data.delFlag = '1'
+                await wkPaper.put(data)
+                // 删除对应隐患
+                const wkDanger = db.table('wkDanger')
+                let dangerList = await wkDanger.findAll(item => item.paperId === row.paperId)
+                if (dangerList && dangerList.length > 0) {
+                  dangerList.map(async (danger) => {
+                    let dangerData = danger
+                    dangerData.delFlag = '1'
+                    await wkDanger.put(dangerData)
+                  })
+                }
+                await db.close()
+                this.$message.success('文书删除成功！')
+                this.getData()
+              } else {
+                this.$message.error('删除文书失败，请再次尝试')
+              }
+            })
+            .catch((err) => {
+              this.$message.error('删除文书失败，请再次尝试')
+              console.log('删除文书失败:', err)
+            });
+          this.loading.btn = false
+        }).catch(() => {
+          this.loading.btn = false
+        })
+    },
+    async handleFile (row) {
+      // 归档: 更新delFlag = '0'字段（本地及上传）
+      // 拉取已经保存的文书，修改delFlag = '0',调用saveToUpload上传
+      this.$confirm(`是否确认归档${row.name}?`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          dangerouslyUseHTMLString: true,
+          type: 'warning'
+        }).then(async () => {
+          const db = new GoDB(this.$store.state.DBName)
+          const wkPaper = db.table('wkPaper')
+          let curPaper = await wkPaper.find(item => item.paperId === row.paperId && item.delFlag !== '1')
+          let paperData = curPaper
+          paperData.delFlag = '0'
+          await wkPaper.put(paperData)
+          await db.close()
+          this.$message.success(`${row.name}归档成功！`)
+          await saveToUpload(row.paperId, this.$store.state.user.userSessId)
+          this.loading.btn = false
+          this.getData()
+        }).catch(() => {
+          this.loading.btn = false
+        })
+    }
   },
 };
 </script>
