@@ -1114,6 +1114,278 @@ async function doDocDb(resId, data){
 	await db.close();
 }
 
+// “委托复查,罚款收缴,回执单,影音证据,意见建议书附件”下载。
+async function docFileListDb(resId, data){
+	const schema = {
+		// 委托复查
+		localReview: {
+			"id": {
+				type: String,
+				unique: true
+			},
+			"reviewId": String,
+			"name": String,
+			"createBy": String,
+			"createDate": String,
+			"updateBy": String,
+			"updateDate": String,
+			"delFlag": String,
+			"remark": String,
+			"caseId": String,
+			"fileName": String,
+			"filePath": String,
+			"createTime": String,
+			"fileSize": Number,
+			"hashCode": String,
+			"paperId": String,
+		},
+		// 罚款收缴
+		fineCollection: {
+			"id": {
+				type: String,
+				unique: true
+			},
+			"fineId": String,
+			"name": String,
+			"createBy": String,
+			"createDate": String,
+			"updateBy": String,
+			"updateDate": String,
+			"delFlag": String,
+			"remark": String,
+			"caseId": String,
+			"paperId": String,
+			"punishType": String,
+			"P8Penalty": String,
+			"collectionFine": String,
+			"P8Id": String,
+			"paperNo": String,
+			"createTime": String,
+			"lateFee": String,
+			"collectionDate": String,
+		},
+		// 回执单
+		singleReceipt: {
+			"id": {
+				type: String,
+				unique: true
+			},
+			"singleId": String,
+			"name": String,
+			"createBy": String,
+			"createDate": String,
+			"updateBy": String,
+			"updateDate": String,
+			"delFlag": String,
+			"remark": String,
+			"caseId": String,
+			"fileName": String,
+			"filePath": String,
+			"createTime": String,
+			"fileSize": Number,
+			"hashCode": String,
+			"paperId": String,
+			"P8Id": String,
+		},
+		// 影音证据
+		imageEvidence: {
+			"id": {
+				type: String,
+				unique: true
+			},
+			"evidenceId": String,
+			"name": String,
+			"createBy": String,
+			"createDate": String,
+			"updateBy": String,
+			"updateDate": String,
+			"delFlag": String,
+			"remark": String,
+			"filePath": String,
+			"caseId": String,
+			"caseNo": String,
+			"evidenceType": String,
+			"groupId": String,
+			"groupName": String,
+			"corpId": String,
+			"corpName": String,
+			"paperId": String,
+			"evidenceDesc": String,
+			"createTime": String,
+			"fileName": String,
+			"fileSize": String,
+			"hashCode": String,
+		},
+		// 附件
+		paperAttachment: {
+			"id": {
+				type: String,
+				unique: true
+			},
+			"attachmentId": String,
+			"paperId": String,
+			"fileSize": String,
+			"fileType": String,
+			"fileHash": String,
+			"fileName": String,
+			"filePath": String,
+			"groupId": String,
+			"groupName": String,
+			"createBy": String,
+			"createDate": String,
+			"updateBy": String,
+			"updateDate": String,
+			"remark": String,
+			"delFlag": String,
+		}
+	};
+	const db = new GoDB(store.state.DBName, schema);
+	const localReview = db.table('localReview');
+	const fineCollection = db.table('fineCollection');
+	const singleReceipt = db.table('singleReceipt');
+	const imageEvidence = db.table('imageEvidence');
+	const paperAttachment = db.table('paperAttachment');
+	let localReviewList = [], fineCollectionList = [], singleReceiptList = [], imageEvidenceList = [], paperAttachmentList = [];
+	//1-localReview
+	for (let i = 0; i < data.localReview.length; i++) {
+		let obj = data.localReview[i];
+		const item = await localReview.get({ reviewId: obj.reviewId });
+		if (item) await localReview.delete({ reviewId: obj.reviewId }); //删除
+		localReviewList.push({
+			"id": obj.id,
+			"reviewId": obj.reviewId,
+			"name": obj.name,
+			"createBy": obj.createBy.id,
+			"createDate": obj.createDate,
+			"updateBy": obj.updateBy.id,
+			"updateDate": obj.updateDate,
+			"delFlag": obj.delFlag,
+			"remark": obj.remark,
+			"caseId": obj.caseId,
+			"fileName": obj.fileName,
+			"filePath": obj.filePath,
+			"createTime": obj.createTime,
+			"fileSize": obj.fileSize,
+			"hashCode": obj.hashCode,
+			"paperId": obj.paperId,
+		});
+	}
+	//2-fineCollection
+	for (let i = 0; i < data.fineCollection.length; i++) {
+		let obj = data.fineCollection[i];
+		const item = await fineCollection.get({ fineId: obj.fineId });
+		if (item) await fineCollection.delete({ fineId: obj.fineId }); //删除
+		fineCollectionList.push({
+			"id": obj.id,
+			"fineId": obj.fineId,
+			"name": obj.name,
+			"createBy": obj.createBy.id,
+			"createDate": obj.createDate,
+			"updateBy": obj.updateBy.id,
+			"updateDate": obj.updateDate,
+			"delFlag": obj.delFlag,
+			"remark": obj.remark,
+			"caseId": obj.caseId,
+			"paperId": obj.paperId,
+			"punishType": obj.punishType,
+			"P8Penalty": obj.P8Penalty,
+			"collectionFine": obj.collectionFine,
+			"P8Id": obj.P8Id,
+			"paperNo": obj.paperNo,
+			"createTime": obj.createTime,
+			"lateFee": obj.lateFee,
+			"collectionDate": obj.collectionDate,
+		});
+	}
+	//3-singleReceipt
+	for (let i = 0; i < data.singleReceipt.length; i++) {
+		let obj = data.singleReceipt[i];
+		const item = await singleReceipt.get({ singleId: obj.singleId });
+		if (item) await singleReceipt.delete({ singleId: obj.singleId }); //删除
+		singleReceiptList.push({
+			"id": obj.id,
+			"singleId": obj.singleId,
+			"name": obj.name,
+			"createBy": obj.createBy.id,
+			"createDate": obj.createDate,
+			"updateBy": obj.updateBy.id,
+			"updateDate": obj.updateDate,
+			"delFlag": obj.delFlag,
+			"remark": obj.remark,
+			"caseId": obj.caseId,
+			"fileName": obj.fileName,
+			"filePath": obj.filePath,
+			"createTime": obj.createTime,
+			"fileSize": obj.fileSize,
+			"hashCode": obj.hashCode,
+			"paperId": obj.paperId,
+			"P8Id": obj.P8Id,
+		});
+	}
+	//4-imageEvidence
+	for (let i = 0; i < data.imageEvidence.length; i++) {
+		let obj = data.imageEvidence[i];
+		const item = await imageEvidence.get({ evidenceId: obj.evidenceId });
+		if (item) await imageEvidence.delete({ evidenceId: obj.evidenceId }); //删除
+		imageEvidenceList.push({
+			"id": obj.id,
+			"evidenceId": obj.evidenceId,
+			"name": obj.name,
+			"createBy": obj.createBy.id,
+			"createDate": obj.createDate,
+			"updateBy": obj.updateBy.id,
+			"updateDate": obj.updateDate,
+			"delFlag": obj.delFlag,
+			"remark": obj.remark,
+			"filePath": obj.filePath,
+			"caseId": obj.caseId,
+			"caseNo": obj.caseNo,
+			"evidenceType": obj.evidenceType,
+			"groupId": obj.groupId,
+			"groupName": obj.groupName,
+			"corpId": obj.corpId,
+			"corpName": obj.corpName,
+			"paperId": obj.paperId,
+			"evidenceDesc": obj.evidenceDesc,
+			"createTime": obj.createTime,
+			"fileName": obj.fileName,
+			"fileSize": obj.fileSize,
+			"hashCode": obj.hashCode,
+		});
+	}
+	//5-paperAttachment
+	for (let i = 0; i < data.paperAttachment.length; i++) {
+		let obj = data.paperAttachment[i];
+		const item = await paperAttachment.get({ attachmentId: obj.attachmentId });
+		if (item) await paperAttachment.delete({ attachmentId: obj.attachmentId }); //删除
+		paperAttachmentList.push({
+			"id": obj.id,
+			"attachmentId": obj.attachmentId,
+			"paperId": obj.paperId,
+			"fileSize": obj.fileSize,
+			"fileType": obj.fileType,
+			"fileHash": obj.fileHash,
+			"fileName": obj.fileName,
+			"filePath": obj.filePath,
+			"groupId": obj.groupId,
+			"groupName": obj.groupName,
+			"createBy": obj.createBy.id,
+			"createDate": obj.createDate,
+			"updateBy": obj.updateBy.id,
+			"updateDate": obj.updateDate,
+			"remark": obj.remark,
+			"delFlag": obj.delFlag,
+		});
+	}
+	// 增:
+	await localReview.addMany(localReviewList);
+	await fineCollection.addMany(fineCollectionList);
+	await singleReceipt.addMany(singleReceiptList);
+	await imageEvidence.addMany(imageEvidenceList);
+	await paperAttachment.addMany(paperAttachmentList);
+	await db.close();
+}
+
 export {
   doOrgDb,
   doPersonDb,
@@ -1124,5 +1396,6 @@ export {
   doCheckListDb,
   doDangerCateDb,
   doDangerListDb,
-  doDocDb
+  doDocDb,
+	docFileListDb
 }

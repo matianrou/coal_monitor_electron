@@ -200,7 +200,7 @@
 </template>
 
 <script>
-import { doOrgDb, doPersonDb, doPlanDb, doCorpDb, doEnterpriseList, doCheckCateDb, doCheckListDb, doDangerCateDb, doDangerListDb, doDocDb } from "@/utils/downloadSource"
+import { doOrgDb, doPersonDb, doPlanDb, doCorpDb, doEnterpriseList, doCheckCateDb, doCheckListDb, doDangerCateDb, doDangerListDb, doDocDb, docFileListDb } from "@/utils/downloadSource"
 import GoDB from "@/utils/godb.min.js";
 import { getUUID } from '@/utils/index'
 import { getNowFormatTime } from '@/utils/date'
@@ -242,6 +242,13 @@ export default {
         dangerCate: null,
         dangerList: null,
         doc: null,
+      },
+      fileData: {
+        localReview: [],
+        fineCollection: [],
+        singleReceipt: [],
+        imageEvidence: [],
+        paperAttachment: []
       }
     };
   },
@@ -277,7 +284,7 @@ export default {
     /*! *****************************************************************************
     资源下载、任务/活动创建、文书保存及归档
     ***************************************************************************** */
-    resDownload(resId) {
+    async resDownload(resId) {
       let objLink = document.getElementById("btn-" + resId + "-down");
       objLink.disabled = true;
       let userId = this.$store.state.user.userId;
@@ -356,7 +363,7 @@ export default {
         //下载机构所有文书，
       }
       this.loading.download = true
-      this.$http
+      await this.$http
         .get(`${uri}`)
         .then(async (response) => {
           if (response.status != 200) {
@@ -423,6 +430,104 @@ export default {
           console.log("下载失败：", err);
           objLink.disabled = false;
           this.loading.download = false
+        });
+      if (resId === 'doc') {
+        // 后加逻辑：当下载个人账号文书资源时，额外请求接口获取：
+        // 获取委托复查，
+        // 获取罚款收缴，
+        // 获取回执单，
+        // 获取影音证据，
+        // 获取意见建议书中的附件
+        let {userId, userSessId} = this.$store.state.user
+        await Promise.all([
+          this.getLocalReview(userId, userSessId),
+          this.getFineCollection(userId, userSessId),
+          this.getSingleReceipt(userId, userSessId),
+          this.getImageEvidencePC(userId, userSessId),
+          this.getPaperAttachment(userId, userSessId),
+        ]).then(async () => {
+          await docFileListDb(resId, this.fileData)
+        })
+      }
+    },
+    getLocalReview (userId, userSessId) {
+      // 获取委托复查
+      return this.$http.get(
+          `/local/api-review/getLocalReview?userId=${userId}&__sid=${userSessId}`)
+        .then(({ data }) => {
+          if (data.status === "200") {
+            this.fileData.localReview = data.data || []
+          } else {
+            this.fileData.localReview = []
+          }
+        })
+        .catch((err) => {
+          this.fileData.localReview = []
+          console.log("获取文件列表失败：", err);
+        });
+    },
+    getFineCollection (userId, userSessId) {
+      // 获取罚款收缴
+      return this.$http.get(
+          `/local/api-fine/getFineCollection?userId=${userId}&__sid=${userSessId}`)
+        .then(({ data }) => {
+          if (data.status === "200") {
+            this.fileData.fineCollection = data.data || []
+          } else {
+            this.fileData.fineCollection = []
+          }
+        })
+        .catch((err) => {
+          this.fileData.fineCollection = []
+          console.log("获取文件列表失败：", err);
+        });
+    },
+    getSingleReceipt (userId, userSessId) {
+      // 获取回执单
+      return this.$http.get(
+          `/local/api-fine/getSingleReceipt?userId=${userId}&__sid=${userSessId}`)
+        .then(({ data }) => {
+          if (data.status === "200") {
+            this.fileData.singleReceipt = data.data || []
+          } else {
+            this.fileData.singleReceipt = []
+          }
+        })
+        .catch((err) => {
+          this.fileData.singleReceipt = []
+          console.log("获取文件列表失败：", err);
+        });
+    },
+    getImageEvidencePC (userId, userSessId) {
+      // 获取影音证据
+      return this.$http.get(
+          `/local/jczf/getImageEvidencePC?userId=${userId}&__sid=${userSessId}`)
+        .then(({ data }) => {
+          if (data.status === "200") {
+            this.fileData.imageEvidence = data.data || []
+          } else {
+            this.fileData.imageEvidence = []
+          }
+        })
+        .catch((err) => {
+          this.fileData.imageEvidence = []
+          console.log("获取文件列表失败：", err);
+        });
+    },
+    getPaperAttachment (userId, userSessId) {
+      // 获取附件
+      return this.$http.get(
+          `/local/api-attachment/getPaperAttachment?userId=${userId}&__sid=${userSessId}`)
+        .then(({ data }) => {
+          if (data.status === "200") {
+            this.fileData.paperAttachment = data.data || []
+          } else {
+            this.fileData.paperAttachment = []
+          }
+        })
+        .catch((err) => {
+          this.fileData.paperAttachment = []
+          console.log("获取文件列表失败：", err);
         });
     },
     async handleUpdateTime(resId) {
