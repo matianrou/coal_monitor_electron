@@ -30,6 +30,7 @@
                   :headers="{'content-type': 'application/x-www-form-urlencoded;charset=UTF-8'}"
                   :auto-upload="true"
                   :show-file-list="false"
+                  :on-success="handleSuccess"
                   :http-request="addFile">
                   <el-button size="small" :loading="loading.btn">上传证据</el-button>
                 </el-upload>
@@ -72,6 +73,11 @@
                     <el-button
                       :loading="loading.btn"
                       type="text"
+                      @click="downloadFile(scope.$index, scope.row)"
+                    >下载</el-button>
+                    <el-button
+                      :loading="loading.btn"
+                      type="text"
                       @click="deleteFile(scope.$index, scope.row)"
                     >删除</el-button>
                   </template>
@@ -110,9 +116,7 @@ export default {
   methods: {
     async initLetData(selectedPaper) {
       // 创建初始版本
-      let db = new GoDB(this.$store.state.DBName);
       this.paperData.paperId = getNowTime() + randomString(18)
-      await db.close();
     },
     goBack({ page, data }) {
       // 返回选择企业
@@ -120,21 +124,62 @@ export default {
     },
     async getFileList () {
       // 获取文件列表
+      let db = new GoDB(this.$store.state.DBName);
+	    let imageEvidence = db.table('imageEvidence');
+      this.fileList = await imageEvidence.findAll(item => item.paperId === this.paperData.paperId && item.delFlag !== '1')
+      await db.close()
+    },
+    async updateFileList () {
+      // 上传文件或删除文件时更新本地库
       let {userId, userSessId} = this.$store.state.user
-      if (this.paperData.paperId) {
-        await this.$http.get(
-            `/local/jczf/getImageEvidencePC?userId=${userId}&__sid=${userSessId}`)
-          .then(({ data }) => {
-            if (data.status === "200") {
-              this.fileList = data.data.filter(item => item.paperId === this.paperData.paperId && item.delFlag !== '1')
-            } else {
-              this.fileList = []
-            }
-          })
-          .catch((err) => {
-            console.log("获取文件列表失败：", err);
-          });
+      let newFileList = []
+      // 通过接口获取最新数据
+      await this.$http.get(
+          `/local/jczf/getImageEvidencePC?userId=${userId}&__sid=${userSessId}`)
+        .then(({ data }) => {
+          if (data.status === "200") {
+            newFileList = data.data || []
+          }
+        })
+        .catch((err) => {
+          console.log("获取文件列表失败：", err);
+        });
+      // 更新本地库
+      let addFileList = []
+      let db = new GoDB(this.$store.state.DBName);
+	    let imageEvidence = db.table('imageEvidence');
+      for (let i = 0; i < newFileList.length; i++) {
+        let obj = newFileList[i];
+        let item = await imageEvidence.get({ id: obj.id });
+        if (item) await imageEvidence.delete({ id: obj.id }); //删除
+        addFileList.push({
+          "id": obj.id,
+          "evidenceId": obj.evidenceId,
+          "name": obj.name,
+          "createBy": obj.createBy.id,
+          "createDate": obj.createDate,
+          "updateBy": obj.updateBy.id,
+          "updateDate": obj.updateDate,
+          "delFlag": obj.delFlag,
+          "remark": obj.remark,
+          "filePath": obj.filePath,
+          "caseId": obj.caseId,
+          "caseNo": obj.caseNo,
+          "evidenceType": obj.evidenceType,
+          "groupId": obj.groupId,
+          "groupName": obj.groupName,
+          "corpId": obj.corpId,
+          "corpName": obj.corpName,
+          "paperId": obj.paperId,
+          "evidenceDesc": obj.evidenceDesc,
+          "createTime": obj.createTime,
+          "fileName": obj.fileName,
+          "fileSize": obj.fileSize,
+          "hashCode": obj.hashCode,
+        });
       }
+	    await imageEvidence.addMany(addFileList);
+	    await db.close();
     },
     addFile (param) {
       // 上传文件
@@ -191,10 +236,16 @@ export default {
           this.loading.btn = true
           await this.$http.get(
               `/local/jczf/deleteByEvidenceId?evidenceId=${row.evidenceId}&__sid=${userSessId}`)
-            .then(({ data }) => {
+            .then(async ({ data }) => {
               if (data.status === "200") {
                 this.$message.success('文件删除成功')
-                this.getFileList()
+                // 因后台数据库不再传输删除的文件，所以本地库也要相应删除
+                let db = new GoDB(this.$store.state.DBName);
+	              let imageEvidence = db.table('imageEvidence');
+                await imageEvidence.delete({ id: row.id }); //删除
+	              await db.close();
+                await this.updateFileList()
+                await this.getFileList()
               } else {
                 this.$message.error('文件删除失败！')
               }
@@ -207,6 +258,17 @@ export default {
         }).catch(() => {
           this.loading.btn = false
         })
+    },
+    downloadFile (index, row) {
+      const link = document.createElement('a')
+      link.style.display = 'none'
+      link.href = `${process.env.FILE_URL}${row.filePath}`
+      document.body.appendChild(link)
+      link.click()
+    },
+    async handleSuccess(res, file, fileList) {
+      await this.updateFileList()
+      await this.getFileList()
     }
   },
 };

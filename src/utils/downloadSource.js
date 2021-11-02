@@ -1249,8 +1249,8 @@ async function docFileListDb(resId, data){
 	//1-localReview
 	for (let i = 0; i < data.localReview.length; i++) {
 		let obj = data.localReview[i];
-		const item = await localReview.get({ reviewId: obj.reviewId });
-		if (item) await localReview.delete({ reviewId: obj.reviewId }); //删除
+		const item = await localReview.get({ id: obj.id });
+		if (item) await localReview.delete({ id: obj.id }); //删除
 		localReviewList.push({
 			"id": obj.id,
 			"reviewId": obj.reviewId,
@@ -1273,8 +1273,8 @@ async function docFileListDb(resId, data){
 	//2-fineCollection
 	for (let i = 0; i < data.fineCollection.length; i++) {
 		let obj = data.fineCollection[i];
-		const item = await fineCollection.get({ fineId: obj.fineId });
-		if (item) await fineCollection.delete({ fineId: obj.fineId }); //删除
+		const item = await fineCollection.get({ id: obj.id });
+		if (item) await fineCollection.delete({ id: obj.id }); //删除
 		fineCollectionList.push({
 			"id": obj.id,
 			"fineId": obj.fineId,
@@ -1300,8 +1300,8 @@ async function docFileListDb(resId, data){
 	//3-singleReceipt
 	for (let i = 0; i < data.singleReceipt.length; i++) {
 		let obj = data.singleReceipt[i];
-		const item = await singleReceipt.get({ singleId: obj.singleId });
-		if (item) await singleReceipt.delete({ singleId: obj.singleId }); //删除
+		const item = await singleReceipt.get({ id: obj.id });
+		if (item) await singleReceipt.delete({ id: obj.id }); //删除
 		singleReceiptList.push({
 			"id": obj.id,
 			"singleId": obj.singleId,
@@ -1325,8 +1325,8 @@ async function docFileListDb(resId, data){
 	//4-imageEvidence
 	for (let i = 0; i < data.imageEvidence.length; i++) {
 		let obj = data.imageEvidence[i];
-		const item = await imageEvidence.get({ evidenceId: obj.evidenceId });
-		if (item) await imageEvidence.delete({ evidenceId: obj.evidenceId }); //删除
+		const item = await imageEvidence.get({ id: obj.id });
+		if (item) await imageEvidence.delete({ id: obj.id }); //删除
 		imageEvidenceList.push({
 			"id": obj.id,
 			"evidenceId": obj.evidenceId,
@@ -1356,8 +1356,8 @@ async function docFileListDb(resId, data){
 	//5-paperAttachment
 	for (let i = 0; i < data.paperAttachment.length; i++) {
 		let obj = data.paperAttachment[i];
-		const item = await paperAttachment.get({ attachmentId: obj.attachmentId });
-		if (item) await paperAttachment.delete({ attachmentId: obj.attachmentId }); //删除
+		const item = await paperAttachment.get({ id: obj.id });
+		if (item) await paperAttachment.delete({ id: obj.id }); //删除
 		paperAttachmentList.push({
 			"id": obj.id,
 			"attachmentId": obj.attachmentId,

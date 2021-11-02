@@ -75,7 +75,7 @@
                   :headers="{'content-type': 'application/x-www-form-urlencoded;charset=UTF-8'}"
                   :auto-upload="true"
                   :show-file-list="false"
-                  :before-upload="beforeUpload"
+                  :on-success="handleSuccess"
                   :http-request="addFile">
                   <el-button size="small" :loading="loading.btn">上传文件</el-button>
                 </el-upload>
@@ -171,9 +171,7 @@ export default {
   methods: {
     async initLetData(selectedPaper) {
       // 创建初始版本
-      let db = new GoDB(this.$store.state.DBName);
       this.paperData.paperId = getNowTime() + randomString(18)
-      await db.close();
       let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
       this.letData = let1DataPapaerContent;
     },
@@ -200,29 +198,55 @@ export default {
     },
     async getFileList () {
       // 获取文件列表
-      let {userId, userSessId} = this.$store.state.user
-      if (this.paperData.paperId) {
-        await this.$http.get(
-            `/local/api-review/getLocalReview?userId=${userId}&__sid=${userSessId}`)
-          .then(({ data }) => {
-            if (data.status === "200") {
-              this.fileList = data.data.filter(item => item.paperId === this.paperData.paperId && item.delFlag !== '1')
-            } else {
-              this.fileList = []
-            }
-          })
-          .catch((err) => {
-            console.log("获取文件列表失败：", err);
-          });
-      }
+      let db = new GoDB(this.$store.state.DBName);
+	    let localReview = db.table('localReview');
+      this.fileList = await localReview.findAll(item => item.paperId === this.paperData.paperId && item.delFlag !== '1')
+      await db.close()
     },
-    beforeUpload () {
-      let upload = true
-      if (!this.paperData.paperId) {
-        this.$message.error('上传失败，请先保存隐患整改内容后再上传文件！')
-        upload = false
+    async updateFileList () {
+      // 上传文件或删除文件时更新本地库
+      let {userId, userSessId} = this.$store.state.user
+      let newFileList = []
+      // 通过接口获取最新数据
+      await this.$http.get(
+          `/local/api-review/getLocalReview?userId=${userId}&__sid=${userSessId}`)
+        .then(({ data }) => {
+          if (data.status === "200") {
+            newFileList = data.data || []
+          }
+        })
+        .catch((err) => {
+          console.log("获取文件列表失败：", err);
+        });
+      // 更新本地库
+      let addFileList = []
+      let db = new GoDB(this.$store.state.DBName);
+	    let localReview = db.table('localReview');
+      for (let i = 0; i < newFileList.length; i++) {
+        let obj = newFileList[i];
+        let item = await localReview.get({ id: obj.id });
+        if (item) await localReview.delete({ id: obj.id }); //删除
+        addFileList.push({
+          "id": obj.id,
+          "reviewId": obj.reviewId,
+          "name": obj.name,
+          "createBy": obj.createBy.id,
+          "createDate": obj.createDate,
+          "updateBy": obj.updateBy.id,
+          "updateDate": obj.updateDate,
+          "delFlag": obj.delFlag,
+          "remark": obj.remark,
+          "caseId": obj.caseId,
+          "fileName": obj.fileName,
+          "filePath": obj.filePath,
+          "createTime": obj.createTime,
+          "fileSize": obj.fileSize,
+          "hashCode": obj.hashCode,
+          "paperId": obj.paperId,
+        });
       }
-      return upload
+	    await localReview.addMany(addFileList);
+	    await db.close();
     },
     addFile (param) {
       // 添加文件
@@ -273,10 +297,16 @@ export default {
           this.loading.btn = true
           await this.$http.get(
               `/local/api-review/deleteById?reviewId=${row.reviewId}&__sid=${userSessId}`)
-            .then(({ data }) => {
+            .then(async ({ data }) => {
               if (data.status === "200") {
                 this.$message.success('文件删除成功')
-                this.getFileList()
+                // 因后台数据库不再传输删除的文件，所以本地库也要相应删除
+                let db = new GoDB(this.$store.state.DBName);
+	              let localReview = db.table('localReview');
+                await localReview.delete({ id: row.id }); //删除
+	              await db.close();
+                await this.updateFileList()
+                await this.getFileList()
               } else {
                 this.$message.error('文件删除失败！')
               }
@@ -296,6 +326,10 @@ export default {
       link.href = `${process.env.FILE_URL}${row.filePath}`
       document.body.appendChild(link)
       link.click()
+    },
+    async handleSuccess(res, file, fileList) {
+      await this.updateFileList()
+      await this.getFileList()
     }
   },
 };
