@@ -61,6 +61,7 @@ export default {
   },
   async created() {
     await this.initData();
+    await this.initFileData();
   },
   watch: {
     "corpData.corpId"(val) {
@@ -124,6 +125,12 @@ export default {
           // 从意见建议书中引入的文书没有选择煤矿也没有监察活动
           this.initLetData && this.initLetData()
         }
+      }
+    },
+    async initFileData() {
+      if (this.paperData && (this.docData.docTypeNo === '44' || this.docData.docTypeNo === '21')) {
+        // 隐患整改, 影音证据拉取上传的文件列表
+        await this.getFileList()
       }
     },
     handleSelectPaper () {

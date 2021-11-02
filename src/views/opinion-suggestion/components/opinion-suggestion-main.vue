@@ -281,7 +281,8 @@ export default {
   height: calc(100% - 40px);
   width: calc(100% - 40px);
   margin: 20px auto;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
   .opinion-suggestion-operation {
     display: flex;
     align-items: center;

@@ -18,52 +18,52 @@
                 <span>影音证据</span>
               </div>
               <div style="flex: 1; display: flex; align-items: center; justify-content: flex-end; line-height: 0px;">
-                <span>摘要：</span>
+                <!-- <span>摘要：</span>
                 <el-input 
                   v-model="summary"
                   style="width: 200px; margin-right: 10px;"
                   size="small"
-                ></el-input>
+                ></el-input> -->
                 <el-upload
-                  :action="upload.action"
-                  :headers="upload.headers"
-                  :data="upload.data"
+                  ref="upload"
+                  action=""
+                  :headers="{'content-type': 'application/x-www-form-urlencoded;charset=UTF-8'}"
+                  :auto-upload="true"
                   :show-file-list="false"
-                  :file-list="upload.fileList">
+                  :http-request="addFile">
                   <el-button size="small" :loading="loading.btn">上传证据</el-button>
                 </el-upload>
               </div>
             </div>
             <div class="table-main">
               <el-table
-                :data="fileTableData"
+                :data="fileList"
                 stripe
                 border
                 style="width: 100%;"
                 height="100%"
                 :header-cell-style="{background: '#f5f7fa'}">
                 <el-table-column
-                  prop="noItemContent"
+                  prop="fileName"
                   label="文件名称"
                   header-align="center"
                   align="center">
                 </el-table-column>
                 <el-table-column
-                  prop="onsiteBasis"
+                  prop="createDate"
                   header-align="center"
                   align="center"
                   label="添加日期"
                   width="180">
                 </el-table-column>
-                <el-table-column
-                  prop="onsiteBasis"
+                <!-- <el-table-column
+                  prop="fileSize"
                   header-align="center"
                   align="center"
                   label="大小"
                   width="120">
-                </el-table-column>
+                </el-table-column> -->
                 <el-table-column
-                  prop="onsiteDesc"
                   header-align="center"
                   align="center"
                   label="操作"
@@ -88,6 +88,8 @@
 <script>
 import GoDB from "@/utils/godb.min.js";
 import associationSelectPaper from "@/components/association-select-paper";
+import { getNowFormatTime, getNowTime } from '@/utils/date'
+import { randomString } from "@/utils/index";
 export default {
   name: "Let406",
   mixins: [associationSelectPaper],
@@ -97,15 +99,8 @@ export default {
     return {
       letData: {},
       options: {},
-      fileTableData: [], // 上传文件表
+      fileList: [], // 上传文件表
       associationPaper: [],
-      summary: null,
-      upload: {
-        action: '',
-        headers: {},
-        data: {},
-        fileList: []
-      },
       loading: {
         main: false,
         btn: false
@@ -116,22 +111,72 @@ export default {
     async initLetData(selectedPaper) {
       // 创建初始版本
       let db = new GoDB(this.$store.state.DBName);
-      const corpBase = db.table("corpBase");
-      //查询符合条件的记录
-      const corp = await corpBase.find((item) => {
-        return item.corpId == this.corpData.corpId;
-      });
-      // 创建初始版本
+      this.paperData.paperId = getNowTime() + randomString(18)
       await db.close();
-      this.letData = {
-      };
     },
     goBack({ page, data }) {
       // 返回选择企业
       this.$emit("go-back", { page, data });
     },
-    addFile () {
+    async getFileList () {
+      // 获取文件列表
+      let {userId, userSessId} = this.$store.state.user
+      if (this.paperData.paperId) {
+        await this.$http.get(
+            `/local/jczf/getImageEvidencePC?userId=${userId}&__sid=${userSessId}`)
+          .then(({ data }) => {
+            if (data.status === "200") {
+              this.fileList = data.data.filter(item => item.paperId === this.paperData.paperId && item.delFlag !== '1')
+            } else {
+              this.fileList = []
+            }
+          })
+          .catch((err) => {
+            console.log("获取文件列表失败：", err);
+          });
+      }
+    },
+    addFile (param) {
       // 上传文件
+      let formData = new FormData()
+      let submitData = {
+        paperId: this.paperData.paperId,
+        caseId: this.corpData.caseId,
+        fileName: param.file.name,
+        fileSize: param.file.size,
+        groupId: this.$store.state.user.userGroupId,
+        groupName: this.$store.state.user.userGroupName,
+        corpId: this.corpData.corpId,
+        corpName: this.corpData.corpName,
+        createTime: getNowFormatTime(),
+        createDate: getNowFormatTime(),
+        evidenceId: getNowTime() + randomString(18),
+        createBy: JSON.stringify({
+          id: this.$store.state.user.userId
+        }) ,
+        updateBy: JSON.stringify({
+          id: this.$store.state.user.userId
+        }),
+      }
+      formData.append('file', param.file)
+      formData.append('imageEv', JSON.stringify(submitData))
+      return this.$http.post(
+          `/local/jczf/imageUploadPC?__sid=${this.$store.state.user.userSessId}`,
+          {
+            sendJson: true,
+            data: formData
+          }
+        )
+        .then(({ data }) => {
+          if (data.status === "200") {
+            this.$message.success('文件上传成功！')
+            this.getFileList()
+          } else {
+          }
+        })
+        .catch((err) => {
+          console.log("上传至服务器请求失败：", err);
+        });
     },
     deleteFile (index, row) {
       // 删除文件
@@ -142,6 +187,22 @@ export default {
           dangerouslyUseHTMLString: true,
           type: 'warning'
         }).then(async () => {
+          let {userSessId} = this.$store.state.user
+          this.loading.btn = true
+          await this.$http.get(
+              `/local/jczf/deleteByEvidenceId?evidenceId=${row.evidenceId}&__sid=${userSessId}`)
+            .then(({ data }) => {
+              if (data.status === "200") {
+                this.$message.success('文件删除成功')
+                this.getFileList()
+              } else {
+                this.$message.error('文件删除失败！')
+              }
+            })
+            .catch((err) => {
+              this.$message.error('文件删除失败')
+              console.log("获取文件列表失败：", err);
+            });
           this.loading.btn = false
         }).catch(() => {
           this.loading.btn = false

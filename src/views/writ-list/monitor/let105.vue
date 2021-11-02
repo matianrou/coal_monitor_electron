@@ -72,8 +72,10 @@
               <div style="flex: 1; display: flex; align-items: center; justify-content: flex-end; line-height: 0px;">
                 <el-upload
                   action=""
+                  :headers="{'content-type': 'application/x-www-form-urlencoded;charset=UTF-8'}"
                   :auto-upload="true"
                   :show-file-list="false"
+                  :before-upload="beforeUpload"
                   :http-request="addFile">
                   <el-button size="small" :loading="loading.btn">上传文件</el-button>
                 </el-upload>
@@ -81,32 +83,36 @@
             </div>
             <div class="table-main">
               <el-table
-                :data="fileTableData"
+                :data="fileList"
                 stripe
                 border
                 style="width: 100%;"
                 height="100%"
                 :header-cell-style="{background: '#f5f7fa'}">
                 <el-table-column
-                  prop="noItemContent"
+                  prop="fileName"
                   label="文件名称"
                   header-align="center"
                   align="center">
                 </el-table-column>
                 <el-table-column
-                  prop="onsiteBasis"
+                  prop="createDate"
                   header-align="center"
                   align="center"
                   label="添加日期"
                   width="180">
                 </el-table-column>
                 <el-table-column
-                  prop="onsiteDesc"
                   header-align="center"
                   align="center"
                   label="操作"
                   width="120">
                   <template slot-scope="scope">
+                    <el-button
+                      :loading="loading.btn"
+                      type="text"
+                      @click="downloadFile(scope.$index, scope.row)"
+                    >下载</el-button>
                     <el-button
                       :loading="loading.btn"
                       type="text"
@@ -152,27 +158,10 @@ export default {
     return {
       letData: {},
       options: {},
-      fileTableData: [], // 上传文件表
+      fileList: [], // 上传文件表
       associationPaper: ['1'],
       selectOrgVisible: false, // 选择复查单位
       selectedRowIndex: null, // 选中的复查单位的行索引
-      upload: {
-        action: `${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/api-review/uploadReview`,
-        data: {
-            __sid: this.$store.state.user.userSessId,
-            paperId: this.paperData.paperId,
-            caseId: this.corpData.caseId,
-            createTime: getNowFormatTime(),
-            reviewId: null,
-            createBy: JSON.stringify({
-              id: this.$store.state.user.userId
-            }) ,
-            updateBy: JSON.stringify({
-              id: this.$store.state.user.userId
-            }),
-        },
-        fileList: []
-      },
       loading: {
         main: false,
         btn: false
@@ -183,21 +172,10 @@ export default {
     async initLetData(selectedPaper) {
       // 创建初始版本
       let db = new GoDB(this.$store.state.DBName);
-      const corpBase = db.table("corpBase");
-      //查询符合条件的记录
-      const corp = await corpBase.find((item) => {
-        return item.corpId == this.corpData.corpId;
-      });
       this.paperData.paperId = getNowTime() + randomString(18)
-      this.upload.data.paperId = this.paperData.paperId
-      console.log('upload', this.upload)
-      console.log('paperData', this.paperData)
-      // 创建初始版本
       await db.close();
       let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      console.log('let1DataPapaerContent', let1DataPapaerContent)
       this.letData = let1DataPapaerContent;
-      
     },
     goBack({ page, data }) {
       // 返回选择企业
@@ -220,14 +198,42 @@ export default {
       }))
       this.selectOrgVisible = false
     },
+    async getFileList () {
+      // 获取文件列表
+      let {userId, userSessId} = this.$store.state.user
+      if (this.paperData.paperId) {
+        await this.$http.get(
+            `/local/api-review/getLocalReview?userId=${userId}&__sid=${userSessId}`)
+          .then(({ data }) => {
+            if (data.status === "200") {
+              this.fileList = data.data.filter(item => item.paperId === this.paperData.paperId && item.delFlag !== '1')
+            } else {
+              this.fileList = []
+            }
+          })
+          .catch((err) => {
+            console.log("获取文件列表失败：", err);
+          });
+      }
+    },
+    beforeUpload () {
+      let upload = true
+      if (!this.paperData.paperId) {
+        this.$message.error('上传失败，请先保存隐患整改内容后再上传文件！')
+        upload = false
+      }
+      return upload
+    },
     addFile (param) {
       // 添加文件
-      console.log('param', param)
+      let formData = new FormData()
       let submitData = {
         paperId: this.paperData.paperId,
         caseId: this.corpData.caseId,
+        fileName: param.file.name,
+        fileSize: param.file.size,
         createTime: getNowFormatTime(),
-        reviewId: null,
+        reviewId: getNowTime() + randomString(18),
         createBy: JSON.stringify({
           id: this.$store.state.user.userId
         }) ,
@@ -235,16 +241,19 @@ export default {
           id: this.$store.state.user.userId
         }),
       }
+      formData.append('file', param.file)
+      formData.append('localReview', JSON.stringify(submitData))
       return this.$http.post(
-          `${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/api-review/uploadReview?__sid=${this.$store.state.user.userSessId}`,
+          `/local/api-review/uploadReview?__sid=${this.$store.state.user.userSessId}`,
           {
             sendJson: true,
-            data: JSON.stringify(submitData),
+            data: formData
           }
         )
         .then(({ data }) => {
           if (data.status === "200") {
-            console.log('data', data)
+            this.$message.success('文件上传成功！')
+            this.getFileList()
           } else {
           }
         })
@@ -254,16 +263,39 @@ export default {
     },
     deleteFile (index, row) {
       // 删除文件
-      this.$confirm(`是否确定删除文件“${row.fileName}”？`, '提示', {
+      this.$confirm(`是否确定删除文件${row.fileName ? row.fileName : ''}？`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           dangerouslyUseHTMLString: true,
           type: 'warning'
         }).then(async () => {
+          let {userSessId} = this.$store.state.user
+          this.loading.btn = true
+          await this.$http.get(
+              `/local/api-review/deleteById?reviewId=${row.reviewId}&__sid=${userSessId}`)
+            .then(({ data }) => {
+              if (data.status === "200") {
+                this.$message.success('文件删除成功')
+                this.getFileList()
+              } else {
+                this.$message.error('文件删除失败！')
+              }
+            })
+            .catch((err) => {
+              this.$message.error('文件删除失败')
+              console.log("获取文件列表失败：", err);
+            });
           this.loading.btn = false
         }).catch(() => {
           this.loading.btn = false
         })
+    },
+    downloadFile (index, row) {
+      const link = document.createElement('a')
+      link.style.display = 'none'
+      link.href = `${process.env.FILE_URL}${row.filePath}`
+      document.body.appendChild(link)
+      link.click()
     }
   },
 };

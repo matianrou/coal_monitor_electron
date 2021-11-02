@@ -66,8 +66,7 @@ export default {
 .opinion-suggestion-main {
   height: calc(100% - 40px);
   width: calc(100% - 40px);
-  margin: 20px auto;
-  background: rgba(255, 255, 255, 0.7);
+  margin: 10px auto;
   .opinion-suggestion-operation {
     display: flex;
     align-items: center;

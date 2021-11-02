@@ -164,9 +164,30 @@ export default {
   created() {
   },
   methods: {
-    cmdDocBack() {
-      console.log('curCase', this.$store.state.curCase)
-      this.$emit("go-back", { page: "writFlow", data: this.$store.state.curCase });
+    async cmdDocBack() {
+      // 增加逻辑判断：
+      // 当文书为影音证据时，判断当前文书表中是否有此文书id，如果没有则提示需要先点击保存，否则已上传文件会丢失
+      if ((this.docData.docTypeNo === '21' || this.docData.docTypeNo === '44') && this.$parent.fileList.length > 0) {
+        const db = new GoDB(this.DBName);
+        const wkPaper = db.table("wkPaper");
+        let paperList = await wkPaper.findAll(item => item.paperId === this.$parent.paperData.paperId && item.delFlag !== '1')
+        if (paperList.length < 1) {
+          this.$confirm(`当前已上传文件，但未保存文书，如果返回主页面则无法保存已上传的文件，需要先点击“保存”按钮后才能保存已上传的文件！`, '注意!', {
+              confirmButtonText: '去保存文书',
+              cancelButtonText: '仍返回主页面',
+              dangerouslyUseHTMLString: true,
+              type: 'warning'
+            }).then(() => {
+            }).catch(() => {
+              this.$emit("go-back", { page: "writFlow", data: this.$store.state.curCase });
+            })
+        } else {
+          this.$emit("go-back", { page: "writFlow", data: this.$store.state.curCase });
+        }
+        await db.close();
+      } else {
+        this.$emit("go-back", { page: "writFlow", data: this.$store.state.curCase });
+      }
     },
     async cmdDocSave(saveFlag = "2") {
       // 保存或归档文书
@@ -204,10 +225,6 @@ export default {
         htmlPage = this.$slots.left[0].elm.innerHTML.replace('style="height: 0px; overflow: hidden;"', '')
       }
       let page = createHtml(htmlPage, this.corpData);
-      // 处理隐患整改特殊文书逻辑
-      if (this.docData.docTypeNo === '44') {
-        console.log ('this', this.$parent.letData)
-      }
       let jsonPaper = {
         paperId: paperId,
         remoteId: "",

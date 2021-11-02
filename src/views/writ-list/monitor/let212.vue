@@ -98,6 +98,7 @@
               <div style="flex: 1; display: flex; align-items: center; justify-content: flex-end; line-height: 0px;">
                 <el-upload
                   action=""
+                  :headers="{'content-type': 'application/x-www-form-urlencoded;charset=UTF-8'}"
                   :auto-upload="true"
                   :show-file-list="false"
                   :http-request="addFile">
@@ -107,7 +108,7 @@
             </div>
             <div class="table-main">
               <el-table
-                :data="fileTableData"
+                :data="fileList"
                 stripe
                 border
                 style="width: 100%;"
@@ -163,8 +164,9 @@
 </template>
 
 <script>
-import GoDB from "@/utils/godb.min.js";
 import associationSelectPaper from "@/components/association-select-paper";
+import { getNowFormatTime, getNowTime } from '@/utils/date'
+import { randomString } from "@/utils/index";
 export default {
   name: "Let212",
   mixins: [associationSelectPaper],
@@ -174,27 +176,26 @@ export default {
     return {
       letData: {},
       options: {},
+      associationPaper: [],
       tableData: [], // 罚款收缴表
-      fileTableData: [], // 上传文件表
+      fileList: [], // 上传文件表
       loading: {
         main: false,
         btn: false
-      }
+      },
+      selectedP8PaperId: ''
     };
   },
   methods: {
     async initLetData(selectedPaper) {
       // 创建初始版本
-      let db = new GoDB(this.$store.state.DBName);
-      const corpBase = db.table("corpBase");
-      //查询符合条件的记录
-      const corp = await corpBase.find((item) => {
-        return item.corpId == this.corpData.corpId;
-      });
       // 通过用户id获取罚款收缴
+      // let let8DataPapaerContent = JSON.parse(selectedPaper.let8Data.paperContent)
+      // this.letData = let8DataPapaerContent;
+      // this.p8PaperId = selectedPaper.let8Data.paperId
       let {userSessId, userId} = this.$store.state.user
       let path = this.$store.state.user.userType === 'supervision' ? '/sv' : ''
-      this.$http.get(
+      await this.$http.get(
           `${path}/local/api-fine/getFineCollection?userId=${userId}&__sid=${userSessId}`)
         .then(({ data }) => {
           if (data.status === "200") {
@@ -206,7 +207,6 @@ export default {
           console.log("上传至服务器请求失败：", err);
         });
       // 创建初始版本
-      await db.close();
       this.letData = {
       };
     },
@@ -217,6 +217,63 @@ export default {
     handleOperation() {
 
     },
+    async getFileList () {
+      // 获取文件列表
+      let {userId, userSessId} = this.$store.state.user
+      await this.$http.get(
+          `/local/api-fine/getSingleReceipt?userId=${userId}&__sid=${userSessId}`)
+        .then(({ data }) => {
+          if (data.status === "200") {
+            this.fileList = data.data.filter(item => item.paperId === this.paperData.paperId && item.delFlag !== '1')
+            console.log('fileList', this.fileList)
+          } else {
+            this.fileList = []
+          }
+        })
+        .catch((err) => {
+          console.log("获取文件列表失败：", err);
+        });
+    },
+    addFile (param) {
+      // 上传文件
+      let formData = new FormData()
+      let submitData = {
+        paperId: this.paperData.paperId,
+        caseId: this.corpData.caseId,
+        fileName: param.file.name,
+        fileSize: param.file.size,
+        createTime: getNowFormatTime(),
+        singleId: getNowTime() + randomString(18),
+        p8Id: this.p8PaperId,
+        createBy: JSON.stringify({
+          id: this.$store.state.user.userId
+        }) ,
+        updateBy: JSON.stringify({
+          id: this.$store.state.user.userId
+        }),
+      }
+      console.log('submitData', submitData)
+      formData.append('file', param.file)
+      formData.append('singleRece', JSON.stringify(submitData))
+      console.log('formData', formData)
+      return this.$http.post(
+          `/local/api-fine/uploadSingle?__sid=${this.$store.state.user.userSessId}`,
+          {
+            sendJson: true,
+            data: formData
+          }
+        )
+        .then(({ data }) => {
+          if (data.status === "200") {
+            this.$message.success('文件上传成功！')
+            this.getFileList()
+          } else {
+          }
+        })
+        .catch((err) => {
+          console.log("上传至服务器请求失败：", err);
+        });
+    },
     deleteFile (index, row) {
       // 删除文件
       this.$confirm(`是否确定删除文件“${row.fileName}”？`, '提示', {
@@ -225,6 +282,22 @@ export default {
           dangerouslyUseHTMLString: true,
           type: 'warning'
         }).then(async () => {
+          let {userSessId} = this.$store.state.user
+          this.loading.btn = true
+          await this.$http.get(
+              `/local/api-fine/deleteById?singleId=${row.id}&__sid=${userSessId}`)
+            .then(({ data }) => {
+              if (data.status === "200") {
+                this.$message.success('文件删除成功')
+                console.log('fileList', this.fileList)
+              } else {
+                this.$message.error('文件删除失败！')
+              }
+            })
+            .catch((err) => {
+              this.$message.error('文件删除失败')
+              console.log("获取文件列表失败：", err);
+            });
           this.loading.btn = false
         }).catch(() => {
           this.loading.btn = false
