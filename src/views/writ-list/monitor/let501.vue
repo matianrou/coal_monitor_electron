@@ -100,7 +100,7 @@
                   commandFill(
                     'cellIdx19',
                     '加强和改善安全监管建议',
-                    'CheckTable'
+                    'UploadFile'
                   )">
                   加强和改善安全监管建议
               </span>
@@ -223,6 +223,7 @@ export default {
         '',
         this.$store.state.user
       );
+      await db.close()
       this.letData = {
         cellIdx0: paperNumber.num0, // 文书号
         cellIdx1: paperNumber.num1, // 文书号
@@ -244,7 +245,7 @@ export default {
         cellIdx17: this.$store.state.user.userGroupName, // 
         cellIdx18: this.todayDate, // 日期
         cellIdx19: [], // 附件
-        volumesMenuTable: {
+        UploadFile: {
           tableData: [],
         },
       };
@@ -261,9 +262,9 @@ export default {
         if (key === "cellIdx19") {
           this.options[key] = {
             canEdit: true,
-            page: "15",
+            page: "16",
           };
-          dataKey = "volumesMenuTable";
+          dataKey = "UploadFile";
         }
         this.$refs.letMain.commandFill(
           key,

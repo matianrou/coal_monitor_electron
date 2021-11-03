@@ -4,7 +4,8 @@
 <!-- CheckTable: CheckTable -->
 <!-- DangerTable: DangerTable -->
 <!-- SamplingForensicsTable: SamplingForensicsTable -->
-<!-- volumesMenuTable: volumesMenuTable -->
+<!-- VolumesMenuTable: VolumesMenuTable -->
+<!-- UploadFile: UploadFile -->
 <!-- 其他组件均用自身key为value值 -->
 
 <template>
@@ -14,7 +15,11 @@
     direction="rtl"
     :before-close="handleClose"
     :wrapperClosable="false"
-    :size="selectedData.type === 'CheckTable' || selectedData.type === 'DangerTable' || selectedData.type === 'SamplingForensicsTable' || selectedData.type === 'VolumesMenuTable' ? '80%' : '400px'">
+    :size="selectedData.type === 'CheckTable' || selectedData.type === 'DangerTable' 
+      || selectedData.type === 'SamplingForensicsTable' 
+      || selectedData.type === 'VolumesMenuTable' 
+      || selectedData.type === 'UploadFile'
+      ? '80%' : '400px'">
     <div class="let-drawer-main">
       <div class="let-drawer-component">
         <component
@@ -60,6 +65,7 @@ export default {
     SelectInputItem: resolve => { require(["./fill-template/select-input-item"], function(SelectInputItem) { resolve(SelectInputItem);});},
     SamplingForensicsTable: resolve => { require(["./fill-template/sampling-forensics-table"], function(SamplingForensicsTable) { resolve(SamplingForensicsTable);});},
     VolumesMenuTable: resolve => { require(["./fill-template/volumes-menu-table"], function(VolumesMenuTable) { resolve(VolumesMenuTable);});},
+    UploadFile: resolve => { require(["./fill-template/upload-file"], function(UploadFile) { resolve(UploadFile);});},
   },
   data() {
     return {

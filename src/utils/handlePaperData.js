@@ -255,6 +255,11 @@ function setVolumesMenuTable (data, selectedData, options) {
   return data.tableData
 }
 
+function setUploadFile(data, selectedData, options) {
+  // 保存档案卷内目录
+  return data.tableData
+}
+
 export {
   setTextItem,
   setCheckItem,
@@ -268,5 +273,6 @@ export {
   setSelectItem,
   setSelectInputItem,
   setSamplingForensicsTable,
-  setVolumesMenuTable
+  setVolumesMenuTable,
+  setUploadFile
 }

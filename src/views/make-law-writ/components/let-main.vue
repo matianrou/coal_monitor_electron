@@ -95,7 +95,8 @@ import {
   setSelectItem,
   setSelectInputItem,
   setSamplingForensicsTable,
-  setVolumesMenuTable
+  setVolumesMenuTable,
+  setUploadFile
 } from "@/utils/handlePaperData";
 
 export default {
@@ -143,7 +144,8 @@ export default {
         setSelectItem,
         setSelectInputItem,
         setSamplingForensicsTable,
-        setVolumesMenuTable
+        setVolumesMenuTable,
+        setUploadFile
       },
       DBName: this.$store.state.DBName,
       loading: {
