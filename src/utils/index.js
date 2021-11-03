@@ -157,7 +157,7 @@ export function sortbyAsc(name, order) {
 }
 
 // 数组排序：降序
-export function sortbyDes (name, order) {
+export function sortbyDes(name, order) {
   if (order) {
     return function (o, p) {
       if (typeof o === "object" && typeof p === "object" && o && p) {
@@ -192,4 +192,23 @@ export function sortbyDes (name, order) {
       }
     }
   }
+}
+
+//强制保留2位小数，如：2，会在2后面补上00.即2.00
+export function toDecimal2(x) {
+  let f1 = parseFloat(x);
+  if (isNaN(f1)) {
+    return false;
+  }
+  let f2 = Math.round(x * 100) / 100;
+  let s = f2.toString();
+  let rs = s.indexOf('.');
+  if (rs < 0) {
+    rs = s.length;
+    s += '.';
+  }
+  while (s.length <= rs + 2) {
+    s += '0';
+  }
+  return s;
 }

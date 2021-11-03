@@ -277,7 +277,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber } from "@/utils/setInitPaperData";
+import { getDocNumber, transformNumToChinese } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let208",
@@ -323,6 +323,19 @@ export default {
       // depPost：邮政编码、
       // master：我局联系人、
       // phone：联系电话
+      // 1.计算缴纳罚款：
+      let totleFine = 0
+      if (let8DataPaperContent.DangerTable) {
+        let dangerList = let8DataPaperContent.DangerTable.tableData || []
+        if (dangerList.length > 0) {
+          dangerList.map(danger => {
+            if (danger.penaltyDescFine) {
+              totleFine += Number(danger.penaltyDescFine) 
+            }
+          })
+        }
+      }
+      let cellIdx16String = `缴纳罚款${transformNumToChinese(totleFine)}`
       await db.close();
       this.letData = {
         cellIdx0: num0, // 文书号
@@ -356,7 +369,7 @@ export default {
         cellIdx13TypeTextItem: let8DataPaperContent.cellIdx3, // 文书号
         cellIdx14: let8DataPaperContent.selectedType, // 单位/个人
         cellIdx15: let8DataPaperContent.selectedType, // 单位/个人
-        cellIdx16: null, // 缴纳罚款
+        cellIdx16: cellIdx16String, // 缴纳罚款
         cellIdx17: let8DataPaperContent.selectedType, //  单位/个人
         cellIdx18: "局", // 局
         cellIdx18TypeTextItem: "局", // 局
@@ -381,6 +394,7 @@ export default {
         cellIdx29TypeDateItem: this.todayDate, // 日期
         cellIdx30: let8DataPaperContent.selectedType, // 单位/个人
         selectedType: let8DataPaperContent.selectedType,
+        p8PaperId: selectedPaper.let8Data.paperId
       };
     },
     goBack({ page, data }) {

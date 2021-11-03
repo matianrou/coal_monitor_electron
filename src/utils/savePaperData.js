@@ -2,7 +2,7 @@ import GoDB from "@/utils/godb.min.js";
 import http from '@/utils/http'
 import { Message } from 'element-ui'
 import store from "@/store"
-export async function saveToUpload(paperId, userSessId) {
+export async function saveToUpload(paperId) {
   // 保存文书至服务器
   const db = new GoDB(store.state.DBName);
   const wkPaper = db.table("wkPaper");
@@ -13,7 +13,7 @@ export async function saveToUpload(paperId, userSessId) {
     return item.paperId == paperId && item.delFlag !== '1';
   });
   const workCase = await wkCase.find((item) => {
-    return item.caseId == workPaper.caseId;
+    return item.caseId == workPaper.caseId && item.delFlag !== '1';
   });
   const wkDangerList = await wkDanger.findAll(item => item.paperId === paperId)
   await db.close();
@@ -304,31 +304,31 @@ export async function saveToUpload(paperId, userSessId) {
         danger.push(dangerData);
       });
     }
-    // if (workPaper.paperType === "8") {
-    //   // 行政处罚决定书保存时除添加隐患项数据以外还需保存以下数据
-    //   let penaltyTotle = 0
-    //   let   = JSON.parse(workPaper.paperContent);
-    //   if (paperContent.DangerTable.tableData.length > 0) {
-    //     paperContent.DangerTable.tableData.map(item => {
-    //       penaltyTotle += item.penaltyDescFine ? Number(item.penaltyDescFine) : 0
-    //     })
-    //   }
-    //   submitData.paper.p8Penalty = penaltyTotle // 罚款总额
-    //   submitData.paper.p8PersonPenalty = paperContent.cellIdx4 === '个人' ? penaltyTotle : '', // 个人罚款总额
-    //   submitData.paper.p8OrgPenalty = paperContent.cellIdx4 === '单位' ? penaltyTotle : '' // 企业罚款总额
-    //   if (danger.length > 0) {
-    //     danger.forEach(item => {
-    //       item.penaltyType = paperContent.cellIdx4 // 行政处罚类型
-    //       item.penaltyOrgFine = paperContent.cellIdx4 === '单位' ? item.penaltyDescFine: '' // 单位罚金
-    //       item.penaltyPersonFine = paperContent.cellIdx4 === '个人' ? item.penaltyDescFine: '' // 个人罚金
-    //     })
-    //   }
-    // }
+    if (workPaper.paperType === "8") {
+      // 行政处罚决定书保存时除添加隐患项数据以外还需保存以下数据
+      let penaltyTotle = 0
+      let paperContent = JSON.parse(workPaper.paperContent);
+      if (paperContent.DangerTable.tableData.length > 0) {
+        paperContent.DangerTable.tableData.map(item => {
+          penaltyTotle += item.penaltyDescFine ? Number(item.penaltyDescFine) : 0
+        })
+      }
+      submitData.paper.p8Penalty = penaltyTotle // 罚款总额
+      submitData.paper.p8PersonPenalty = paperContent.cellIdx4 === '个人' ? penaltyTotle : '', // 个人罚款总额
+      submitData.paper.p8OrgPenalty = paperContent.cellIdx4 === '单位' ? penaltyTotle : '' // 企业罚款总额
+      if (danger.length > 0) {
+        danger.forEach(item => {
+          item.penaltyType = paperContent.cellIdx4 // 行政处罚类型
+          item.penaltyOrgFine = paperContent.cellIdx4 === '单位' ? item.penaltyDescFine: '' // 单位罚金
+          item.penaltyPersonFine = paperContent.cellIdx4 === '个人' ? item.penaltyDescFine: '' // 个人罚金
+        })
+      }
+    }
     submitData.danger = danger;
   }
   let path = store.state.user.userType === 'supervision' ? '/sv' : ''
   http.post(
-      `${path}/local/jczf/uploadJczf?__sid=${userSessId}`,
+      `${path}/local/jczf/uploadJczf?__sid=${store.state.user.userSessId}`,
       {
         sendJson: true,
         data: JSON.stringify(submitData),
@@ -338,6 +338,70 @@ export async function saveToUpload(paperId, userSessId) {
       if (data.status === "200") {
         Message.success(
           `“${workPaper.name}”文书已经上传至服务器。`
+        );
+      } else {
+        Message.error("上传至服务器请求失败，请重新保存！");
+      }
+    })
+    .catch((err) => {
+      Message.error("上传至服务器请求失败，请重新保存！");
+      console.log("上传至服务器请求失败：", err);
+    });
+}
+
+export async function saveFineCollection(paperId) {
+  // 上传罚款收缴
+  // 整理上传数据：
+  let db = new GoDB(store.state.DBName);
+  let wkPaper = db.table("wkPaper");
+  let wkCase = db.table("wkCase");
+    //查询符合条件的记录
+  let paperData = await wkPaper.find((item) => {
+    return item.paperId == paperId && item.delFlag !== '1';
+  });
+  let caseData = await wkCase.find((item) => {
+    return item.caseId == paperData.caseId && item.delFlag !== '1';
+  });
+  await db.close()
+  console.log('paperData', paperData)
+  let paperContent = JSON.parse(paperData.paperContent)
+  let submitData  = []
+  if (paperContent && paperContent.tableData && paperContent.tableData.length > 0) {
+    paperContent.tableData.map(item => {
+      submitData.push({
+        fineId: item.fineId,
+        paperId: paperData.paperId,
+        p8Id: item.p8Id,
+        caseId: caseData.caseId,
+        paperNo: item.paperNo,
+        punishType: item.punishType,
+        p8Penalty: item.p8Penalty,
+        collectionFine: item.collectionFine,
+        lateFee: item.lateFee,
+        collectionDate: item.collectionDate.replace("年", "-").replace("月", "-").replace("日", "") + " 00:00:00",
+        createTime: paperData.createTime,
+        createDate: paperData.createDate,
+        createBy: {
+          id: paperData.personId,
+        },
+        updateBy: {
+          id: paperData.personId,
+        },
+      })
+    })
+  }
+  let path = store.state.user.userType === 'supervision' ? '/sv' : ''
+  http.post(
+      `${path}/local/api-fine/uploadFine?__sid=${store.state.user.userSessId}`,
+      {
+        sendJson: true,
+        data: JSON.stringify(submitData),
+      }
+    )
+    .then(({ data }) => {
+      if (data.status === "200") {
+        Message.success(
+          `“罚款收缴”信息已上传至服务器`
         );
       } else {
         Message.error("上传至服务器请求失败，请重新保存！");

@@ -507,11 +507,11 @@
                 <!-- <td style="width:12px;">
                   <img src="../assets/image/doc-flow_r1_c1.png" style="height: 65px;" />
                 </td> -->
-                <td :class="flowStatus.paper ? 'writ-flow-spantd-ex writ-flow-td' : 'writ-flow-spantd writ-flow-td' ">
+                <td :class="flowStatus.paper43 ? 'writ-flow-spantd-ex writ-flow-td' : 'writ-flow-spantd writ-flow-td' ">
                   <img
-                    v-if="flowStatus.paper5555"
-                    :src="flowStatus.paper === 'save' ? '' : require('../assets/image/file.png')"
-                    :title="flowStatus.paper === 'save' ? '已保存' : '已归档'"
+                    v-if="flowStatus.paper43"
+                    :src="flowStatus.paper43 === 'save' ? '' : require('../assets/image/file.png')"
+                    :title="flowStatus.paper43 === 'save' ? '已保存' : '已归档'"
                     alt="" />
                   <span @click="cmdEditDoc('let212','罚款收缴', '43')" class="flow-span">罚款收缴</span>
                    <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let212','罚款收缴', '43')"></i>

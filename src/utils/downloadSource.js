@@ -1158,7 +1158,7 @@ async function docFileListDb(resId, data){
 			"punishType": String,
 			"P8Penalty": String,
 			"collectionFine": String,
-			"P8Id": String,
+			"p8Id": String,
 			"paperNo": String,
 			"createTime": String,
 			"lateFee": String,
@@ -1185,7 +1185,7 @@ async function docFileListDb(resId, data){
 			"fileSize": Number,
 			"hashCode": String,
 			"paperId": String,
-			"P8Id": String,
+			"p8Id": String,
 		},
 		// 影音证据
 		imageEvidence: {
@@ -1290,7 +1290,7 @@ async function docFileListDb(resId, data){
 			"punishType": obj.punishType,
 			"P8Penalty": obj.P8Penalty,
 			"collectionFine": obj.collectionFine,
-			"P8Id": obj.P8Id,
+			"p8Id": obj.p8Id,
 			"paperNo": obj.paperNo,
 			"createTime": obj.createTime,
 			"lateFee": obj.lateFee,
@@ -1319,7 +1319,7 @@ async function docFileListDb(resId, data){
 			"fileSize": obj.fileSize,
 			"hashCode": obj.hashCode,
 			"paperId": obj.paperId,
-			"P8Id": obj.P8Id,
+			"p8Id": obj.p8Id,
 		});
 	}
 	//4-imageEvidence

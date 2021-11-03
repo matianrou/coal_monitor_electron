@@ -77,7 +77,7 @@ import { randomString } from "@/utils/index";
 import GoDB from "@/utils/godb.min.js";
 import { createHtml } from "@/utils/createHtml";
 import letDrawer from "@/components/let-drawer";
-import { saveToUpload } from '@/utils/savePaperData'
+import { saveToUpload, saveFineCollection } from '@/utils/savePaperData'
 import docxtemplater from 'docxtemplater'
 import JSZipUtils from 'jszip-utils'
 import { saveAs } from 'file-saver'
@@ -146,6 +146,9 @@ export default {
         setVolumesMenuTable
       },
       DBName: this.$store.state.DBName,
+      loading: {
+        btn: false,
+      }
     };
   },
   computed: {
@@ -166,13 +169,14 @@ export default {
   methods: {
     async cmdDocBack() {
       // 增加逻辑判断：
-      // 当文书为影音证据时，判断当前文书表中是否有此文书id，如果没有则提示需要先点击保存，否则已上传文件会丢失
-      if ((this.docData.docTypeNo === '21' || this.docData.docTypeNo === '44') && this.$parent.fileList.length > 0) {
+      // 当文书为隐患整改、影音证据且已上传文件时，判断当前文书表中是否有此文书id，如果没有则提示需要先点击保存，否则已上传文件会丢失
+      // 当文书为罚款收缴时，判断当前文书表中是否有此文书id，如果没有则提示需要先点击保存，否则已上传文件会丢失
+      if (((this.docData.docTypeNo === '21' || this.docData.docTypeNo === '44') && this.$parent.fileList.length > 0) || this.docData.docTypeNo === '43') {
         const db = new GoDB(this.DBName);
         const wkPaper = db.table("wkPaper");
         let paperList = await wkPaper.findAll(item => item.paperId === this.$parent.paperData.paperId && item.delFlag !== '1')
         if (paperList.length < 1) {
-          this.$confirm(`当前已上传文件，但未保存文书，如果返回主页面则无法保存已上传的文件，需要先点击“保存”按钮后才能保存已上传的文件！`, '注意!', {
+          this.$confirm(`${this.docData.docTypeNo === '43' ? '当前未保存文书，如已上传文件，' : '当前已上传文件，但未保存文书，如果'}返回主页面则无法保存已上传的文件，需要先点击“保存”按钮后才能保存已上传的文件！`, '注意!', {
               confirmButtonText: '去保存文书',
               cancelButtonText: '仍返回主页面',
               dangerouslyUseHTMLString: true,
@@ -194,6 +198,7 @@ export default {
       // 判断当前文书是否已经归档，如已归档则不可保存或归档
       if (this.canEdit) {
         // 如果是归档时增加确认逻辑：
+        this.loading.btn = true
         if (saveFlag === '0') {
           await this.$confirm('是否确认已经完成文书的填写，归档后将不能再次编辑或者保存', '提示', {
             confirmButtonText: '确定',
@@ -205,6 +210,7 @@ export default {
         } else {
           await this.savePaper(saveFlag)
         }
+        this.loading.btn = false
       } else {
         this.$message.error('文书已经完成归档，不能再次保存或回档！')
       }
@@ -345,7 +351,11 @@ export default {
       this.$message.success(
         `“${this.docData.docTypeName}”文书已经${mes}完毕。`
       );
-      await saveToUpload(paperId, this.$store.state.user.userSessId);
+      await saveToUpload(paperId);
+      if (this.docData.docTypeNo === '43') {
+        // 罚款收缴时，额外发送罚款收缴数据存储
+        await saveFineCollection(paperId)
+      }
       // 返回列表并刷新
       this.cmdDocBack();
     },
@@ -415,9 +425,10 @@ export default {
       }
       this.handleClose();
     },
-    exportTemplate () {
+    async exportTemplate () {
       // 导出模板
       // 遍历导出的数据，处理undefined情况
+      this.loading.btn = true
       let exportData = {}
       for (let key in this.$parent.letData) {
         exportData[key] = this.$parent.letData[key] ? this.$parent.letData[key] : ''
@@ -547,7 +558,7 @@ export default {
       } else {
         docName = this.docData.docTypeNo
       }
-      JSZipUtils.getBinaryContent(`./static/docxtemplate/${this.$store.state.user.userType}/doc${docName}.docx`, (error, content) => {
+      await JSZipUtils.getBinaryContent(`./static/docxtemplate/${this.$store.state.user.userType}/doc${docName}.docx`, (error, content) => {
         console.log('error = ', error, content)
         const zip = new pizzip(content)
         const doc = new docxtemplater()
@@ -571,6 +582,7 @@ export default {
         })
         saveAs(out, `${this.docData.docTypeName}.docx`)
       })
+      this.loading.btn = false
     }
   },
 };

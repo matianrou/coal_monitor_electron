@@ -277,8 +277,8 @@ export default {
         .then(({ data }) => {
           if (data.status === "200") {
             this.$message.success('文件上传成功！')
-            this.getFileList()
           } else {
+            this.$message.error('文件上传失败，请重新尝试！')
           }
         })
         .catch((err) => {
