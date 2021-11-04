@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="paperData"
+      :paper-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">

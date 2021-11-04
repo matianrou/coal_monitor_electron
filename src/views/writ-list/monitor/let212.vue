@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="paperData"
+      :paper-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -234,7 +234,6 @@ export default {
     async initLetData(selectedPaper) {
       // 创建初始版本
       // 初始创建时拉取行政处罚决定书，列表展示
-      this.paperData.paperId = getNowTime() + randomString(18)
       let db = new GoDB(this.$store.state.DBName);
 	    let wkPaper = db.table('wkPaper');
       let p8PaperList = await wkPaper.findAll(item => item.caseId === this.corpData.caseId && item.paperType === '8' && item.delFlag !== '1') || []
@@ -305,7 +304,7 @@ export default {
       let db = new GoDB(this.$store.state.DBName);
 	    let singleReceipt = db.table('singleReceipt');
       let fileList = await singleReceipt.findAll(item => 
-        item.paperId === this.paperData.paperId 
+        item.paperId === this.paperId 
         && item.p8Id === this.selectedP8Paper.paperId
         && item.delFlag !== '1') || []
       await db.close()
@@ -377,7 +376,7 @@ export default {
       let submitData = {
         fileName: param.file.name,
         singleId: getNowTime() + randomString(18),
-        paperId: this.paperData.paperId,
+        paperId: this.paperId,
         p8Id: this.selectedP8Paper.paperId,
         fileSize: param.file.size,
         caseId: this.corpData.caseId,

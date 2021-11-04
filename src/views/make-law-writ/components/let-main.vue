@@ -115,7 +115,7 @@ export default {
       type: Object,
       default: () => {},
     },
-    editData: {
+    paperData: {
       // 编辑回显数据
       type: Object,
       default: () => {},
@@ -158,7 +158,7 @@ export default {
       // 是否可编辑或保存归档
       let edit = false
       // 判断当前是否为编辑，如果编辑时则调取paperData中的delFlag字段，如果为归档，则不可编辑
-      if (this.$parent.paperData && this.$parent.paperData.paperId && this.$parent.paperData.delFlag === '0') {
+      if (this.paperData && this.paperData.paperId && this.paperData.delFlag === '0') {
         edit = false
       } else {
         edit = true
@@ -173,10 +173,12 @@ export default {
       // 增加逻辑判断：
       // 当文书为隐患整改、影音证据且已上传文件时，判断当前文书表中是否有此文书id，如果没有则提示需要先点击保存，否则已上传文件会丢失
       // 当文书为罚款收缴时，判断当前文书表中是否有此文书id，如果没有则提示需要先点击保存，否则已上传文件会丢失
-      if (((this.docData.docTypeNo === '21' || this.docData.docTypeNo === '44') && this.$parent.fileList.length > 0) || this.docData.docTypeNo === '43') {
+      // 当文书为意见建议书时，判断文件为this.$parent.letData.UploadFile.tableData
+      if (((this.docData.docTypeNo === '21' || this.docData.docTypeNo === '44') && this.$parent.fileList.length > 0) || this.docData.docTypeNo === '43'
+       || ((this.docData.docTypeNo === '16' || this.docData.docTypeNo === '17') && this.$parent.letData.UploadFile.tableData.length > 0)) {
         const db = new GoDB(this.DBName);
         const wkPaper = db.table("wkPaper");
-        let paperList = await wkPaper.findAll(item => item.paperId === this.$parent.paperData.paperId && item.delFlag !== '1')
+        let paperList = await wkPaper.findAll(item => item.paperId === this.$parent.paperId && item.delFlag !== '1')
         if (paperList.length < 1) {
           this.$confirm(`${this.docData.docTypeNo === '43' ? '当前未保存文书，如已上传文件，' : '当前已上传文件，但未保存文书，如果'}返回主页面则无法保存已上传的文件，需要先点击“保存”按钮后才能保存已上传的文件！`, '注意!', {
               confirmButtonText: '去保存文书',
@@ -218,14 +220,12 @@ export default {
       }
     },
     async savePaper (saveFlag) {
-      let paperId = this.editData && this.editData.paperId
-        ? this.editData.paperId
-        : getNowTime() + randomString(18);
-      let createDate = this.editData && this.editData.createDate
-        ? this.editData.createDate
+      let paperId = this.$parent.paperId
+      let createDate = this.paperData && this.paperData.createDate
+        ? this.paperData.createDate
         : getNowFormatTime();
-      let createTime = this.editData && this.editData.createTime
-        ? this.editData.createTime
+      let createTime = this.paperData && this.paperData.createTime
+        ? this.paperData.createTime
         : getNowFormatTime();
       let htmlPage = this.$slots.left[0].elm.innerHTML
       if (this.docData.docTypeNo === '22') {
@@ -260,16 +260,14 @@ export default {
       const db = new GoDB(this.DBName);
       const wkPaper = db.table("wkPaper");
       // 如果保存的是已编辑的 那么保存的同时要把上一条重复的数据删除（修改为直接更新数据库）
-      const paperData = await wkPaper.find((item) => {
+      let hasPaperData = await wkPaper.find((item) => {
         return item.paperId === paperId && item.delFlag !== '1';
       });
-      if (paperData == null) {
+      if (hasPaperData == null) {
         await wkPaper.add(jsonPaper);
       } else {
-        await wkPaper.delete({ paperId: paperData.paperId });
+        await wkPaper.delete({ paperId: hasPaperData.paperId });
         await wkPaper.add(jsonPaper);
-        // Object.assign(paperData, jsonPaper)
-        // await wkPaper.put(paperData);
       }
       // 1.需保存隐患项的文书：现场检查笔录1、现场处理决定书2、立案决定书4、
       // 调查取证笔录5、案件处理呈报书36、行政处罚告知书6、行政处罚决定书8、

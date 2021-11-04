@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="paperData"
+      :paper-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -269,32 +269,11 @@
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
+import associationSelectPaper from "@/components/association-select-paper";
 import GoDB from "@/utils/godb.min.js";
 export default {
   name: "Let100",
-  props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-    paperData: {
-      type: Object,
-      default: () => {},
-    },
-  },
-  components: {
-    letMain,
-  },
+  mixins: [associationSelectPaper],
   data() {
     return {
       letData: {},
@@ -332,103 +311,85 @@ export default {
       },
     };
   },
-  created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-    "paperData.paperId"(val) {
-      this.initData();
-    },
-  },
   methods: {
-    async initData() {
-      // 初始化文书内容
-      if (this.paperData && this.paperData.paperId) {
-        this.letData = JSON.parse(this.paperData.paperContent);
-      } else {
-        // 创建初始版本
-        const db = new GoDB(this.$store.state.DBName);
-        const corpBase = db.table("corpBase");
-        //查询符合条件的记录
-        const corp = await corpBase.find((item) => {
-          return item.corpId == this.corpData.corpId;
-        });
-        const zfZzInfo = db.table("zfZzInfo");
-        const zzInfo1 = await zfZzInfo.find((item) => {
-          return (
-            item.corpId == this.corpData.corpId &&
-            item.credTypeName == "采矿许可证"
-          );
-        });
-        const zzInfo2 = await zfZzInfo.find((item) => {
-          return (
-            item.corpId == this.corpData.corpId &&
-            item.credTypeName == "安全生产许可证"
-          );
-        });
-        let sSummary =
-          corp.corpName +
-          "位于" +
-          corp.provinceName +
-          corp.cityName +
-          corp.countryName +
-          "境内，隶属于" +
-          (corp.parentTypeName ? corp.parentTypeName : 'XX') +
-          "煤矿。 ";
-        if (zzInfo1 && zzInfo1.expireTime)
-          sSummary += "采矿许可证有效日期至" + zzInfo1.expireTime + "、";
-        else sSummary += "采矿许可证有效日期至XX";
-        if (zzInfo2 && zzInfo2.expireTime)
-          sSummary += "、安全生产许可证有效期至" + zzInfo2.expireTime + "，";
-        else sSummary += "、安全生产许可证有效期至XX，";
-        if (corp.provedOutput)
-          sSummary += "矿井核定生产能力为" + corp.provedOutput + "万吨/年，";
-        else sSummary += "矿井核定生产能力为XX万吨/年，";
-        sSummary +=
-          (corp.mineWsGradeName ? corp.mineWsGradeName : 'XX') +
-          "、水文地质类型为中等，煤层自燃倾向性为" +
-          (corp.mineFireName ? corp.mineFireName : 'XX') +
-          "，煤尘" +
-          (corp.grimeExplosiveName ? corp.grimeExplosiveName : 'XX') +
-          "，";
-        sSummary +=
-          "矿井状况为" +
-          (corp.mineStatusZsName ? corp.mineStatusZsName : 'XX') +
-          "，开拓方式为" +
-          (corp.mineMinestyleName ? corp.mineMinestyleName : 'XX') +
-          "开拓。";
-        sSummary +=
-          "采煤方式为综采。通风方式为中央分列抽出，采掘作业地点有71003综采工作面采煤工作面、 71007综采工作面风巷、71007综采工作面机巷掘进工作面。";
-        let corpOther = "检查的内容和分工变化时，应及时调整。";
-        this.letData = {
-          cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
-          cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null,
-          cellIdx1: null, // 监管类型或方式
-          cellIdx2: null, // 检查时间
-          cellIdx3: sSummary ? sSummary : null, // 煤矿概况
-          cellIdx3TypeTextareaItem: sSummary ? sSummary : null, // 煤矿概况
-          cellIdx4: null, // 检查地点
-          cellIdx5: null, // 检查分工明细表
-          cellIdx6: corpOther, // 其他事项
-          cellIdx6TypeTextItem: corpOther, // 其他事项
-          cellIdx8: null, // 编制人
-          cellIdx9: null, // 编制日期
-          cellIdx10: null, // 带队人
-          cellIdx11: null, // 审批日期
-          cellIdx12: null, // 审批人
-          cellIdx13: null, // 审批日期
-          CheckTable: {
-            tableData: [],
-            selectedIdList: [],
-          }, // 检查表
-        };
-        await db.close();
-      }
+    async initLetData() {
+      // 创建初始版本
+      const db = new GoDB(this.$store.state.DBName);
+      const corpBase = db.table("corpBase");
+      //查询符合条件的记录
+      const corp = await corpBase.find((item) => {
+        return item.corpId == this.corpData.corpId;
+      });
+      const zfZzInfo = db.table("zfZzInfo");
+      const zzInfo1 = await zfZzInfo.find((item) => {
+        return (
+          item.corpId == this.corpData.corpId &&
+          item.credTypeName == "采矿许可证"
+        );
+      });
+      const zzInfo2 = await zfZzInfo.find((item) => {
+        return (
+          item.corpId == this.corpData.corpId &&
+          item.credTypeName == "安全生产许可证"
+        );
+      });
+      let sSummary =
+        corp.corpName +
+        "位于" +
+        corp.provinceName +
+        corp.cityName +
+        corp.countryName +
+        "境内，隶属于" +
+        (corp.parentTypeName ? corp.parentTypeName : 'XX') +
+        "煤矿。 ";
+      if (zzInfo1 && zzInfo1.expireTime)
+        sSummary += "采矿许可证有效日期至" + zzInfo1.expireTime + "、";
+      else sSummary += "采矿许可证有效日期至XX";
+      if (zzInfo2 && zzInfo2.expireTime)
+        sSummary += "、安全生产许可证有效期至" + zzInfo2.expireTime + "，";
+      else sSummary += "、安全生产许可证有效期至XX，";
+      if (corp.provedOutput)
+        sSummary += "矿井核定生产能力为" + corp.provedOutput + "万吨/年，";
+      else sSummary += "矿井核定生产能力为XX万吨/年，";
+      sSummary +=
+        (corp.mineWsGradeName ? corp.mineWsGradeName : 'XX') +
+        "、水文地质类型为中等，煤层自燃倾向性为" +
+        (corp.mineFireName ? corp.mineFireName : 'XX') +
+        "，煤尘" +
+        (corp.grimeExplosiveName ? corp.grimeExplosiveName : 'XX') +
+        "，";
+      sSummary +=
+        "矿井状况为" +
+        (corp.mineStatusZsName ? corp.mineStatusZsName : 'XX') +
+        "，开拓方式为" +
+        (corp.mineMinestyleName ? corp.mineMinestyleName : 'XX') +
+        "开拓。";
+      sSummary +=
+        "采煤方式为综采。通风方式为中央分列抽出，采掘作业地点有71003综采工作面采煤工作面、 71007综采工作面风巷、71007综采工作面机巷掘进工作面。";
+      let corpOther = "检查的内容和分工变化时，应及时调整。";
+      await db.close();
+      this.letData = {
+        cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
+        cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null,
+        cellIdx1: null, // 监管类型或方式
+        cellIdx2: null, // 检查时间
+        cellIdx3: sSummary ? sSummary : null, // 煤矿概况
+        cellIdx3TypeTextareaItem: sSummary ? sSummary : null, // 煤矿概况
+        cellIdx4: null, // 检查地点
+        cellIdx5: null, // 检查分工明细表
+        cellIdx6: corpOther, // 其他事项
+        cellIdx6TypeTextItem: corpOther, // 其他事项
+        cellIdx8: null, // 编制人
+        cellIdx9: null, // 编制日期
+        cellIdx10: null, // 带队人
+        cellIdx11: null, // 审批日期
+        cellIdx12: null, // 审批人
+        cellIdx13: null, // 审批日期
+        CheckTable: {
+          tableData: [],
+          selectedIdList: [],
+        }, // 检查表
+      };
     },
     goBack({ page, data }) {
       // 返回选择企业

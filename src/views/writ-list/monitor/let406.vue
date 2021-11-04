@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="paperData"
+      :paper-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -116,7 +116,6 @@ export default {
   methods: {
     async initLetData(selectedPaper) {
       // 创建初始版本
-      this.paperData.paperId = getNowTime() + randomString(18)
     },
     goBack({ page, data }) {
       // 返回选择企业
@@ -126,7 +125,7 @@ export default {
       // 获取文件列表
       let db = new GoDB(this.$store.state.DBName);
 	    let imageEvidence = db.table('imageEvidence');
-      this.fileList = await imageEvidence.findAll(item => item.paperId === this.paperData.paperId && item.delFlag !== '1')
+      this.fileList = await imageEvidence.findAll(item => item.paperId === this.paperId && item.delFlag !== '1')
       await db.close()
     },
     async updateFileList () {
@@ -185,7 +184,7 @@ export default {
       // 上传文件
       let formData = new FormData()
       let submitData = {
-        paperId: this.paperData.paperId,
+        paperId: this.paperId,
         caseId: this.corpData.caseId,
         fileName: param.file.name,
         fileSize: param.file.size,

@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="paperData"
+      :paper-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -217,7 +217,7 @@ export default {
     return {
       letData: {},
       options: {},
-      editData: {}, // 回显数据
+      paperData: {}, // 回显数据
       visibleSelectDialog: false,
       selectedType: "停供电",
       associationPaper: [],

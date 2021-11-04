@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="paperData"
+      :paper-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -146,8 +146,9 @@
 import GoDB from "@/utils/godb.min.js";
 import associationSelectPaper from "@/components/association-select-paper";
 import selectOrg from '@/components/select-org'
-import { getNowFormatTime, getNowTime } from '@/utils/date'
+import { getNowFormatTime, getNowTime} from '@/utils/date'
 import { randomString } from "@/utils/index";
+
 export default {
   name: "Let105",
   mixins: [associationSelectPaper],
@@ -171,7 +172,6 @@ export default {
   methods: {
     async initLetData(selectedPaper) {
       // 创建初始版本
-      this.paperData.paperId = getNowTime() + randomString(18)
       let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
       this.letData = let1DataPapaerContent;
     },
@@ -200,7 +200,7 @@ export default {
       // 获取文件列表
       let db = new GoDB(this.$store.state.DBName);
 	    let localReview = db.table('localReview');
-      this.fileList = await localReview.findAll(item => item.paperId === this.paperData.paperId && item.delFlag !== '1')
+      this.fileList = await localReview.findAll(item => item.paperId === this.paperId && item.delFlag !== '1')
       await db.close()
     },
     async updateFileList () {
@@ -252,7 +252,7 @@ export default {
       // 添加文件
       let formData = new FormData()
       let submitData = {
-        paperId: this.paperData.paperId,
+        paperId: this.paperId,
         caseId: this.corpData.caseId,
         fileName: param.file.name,
         fileSize: param.file.size,

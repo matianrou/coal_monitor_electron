@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :paper-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -142,32 +142,11 @@
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
+import associationSelectPaper from "@/components/association-select-paper";
 import GoDB from "@/utils/godb.min.js";
 export default {
   name: "Let101",
-  props: {
-    corpData: {
-      type: Object,
-      default: () => {},
-    },
-    docData: {
-      type: Object,
-      default: () => {
-        return {
-          docTypeNo: null,
-          docTypeName: null,
-        };
-      },
-    },
-    paperData: {
-      type: Object,
-      default: () => {},
-    },
-  },
-  components: {
-    letMain,
-  },
+  mixins: [associationSelectPaper],
   data() {
     return {
       letData: {},
@@ -178,74 +157,54 @@ export default {
           showSelectDangerBtn: true, // 用于区分是否可以选择隐患项
         },
       },
-      editData: {}, // 回显数据
     };
   },
-  created() {
-    this.initData();
-  },
-  watch: {
-    "corpData.corpId"(val) {
-      if (val) {
-        this.initData();
-      }
-    },
-    "paperData.paperId"(val) {
-      this.initData();
-    },
-  },
   methods: {
-    async initData() {
-      // 初始化文书内容
-      if (this.paperData && this.paperData.paperId) {
-        this.letData = JSON.parse(this.paperData.paperContent);
-        this.editData = this.paperData;
-      } else {
-        // 创建初始版本
-        const db = new GoDB(this.$store.state.DBName);
-        const corpBase = db.table("corpBase");
-        //查询符合条件的记录
-        const corp = await corpBase.find((item) => {
-          return item.corpId == this.corpData.corpId;
-        });
-        await db.close();
-        this.letData = {
-          cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
-          cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null,
-          cellIdx1: null, // 检查时间
-          cellIdx2: null, // 检查地点（路线）
-          cellIdx3: null, // 采矿许可证
-          cellIdx4: null, // 安全生产许可证
-          cellIdx5: null, // 检查人（签名）
-          cellIdx6: null, // 记录人（签名）
-          cellIdx7: null, // 陪同检察人员
-          cellIdx8: null, // 检查情况
-          cellIdx9: null, // 被检查单位负责人意见
-          cellIdx10: null, // 签名
-          cellIdx11: null, // 日期
-          DangerTable: {
-            baseInfor: null,
-            tableData: [],
-            selectedIdList: [],
-            dangerItemDetail: {
-              itemContent: null, // 违法行为描述
-              confirmClause: null, // 违法认定法条
-              onsiteDesc: null, // 现场处理决定
-              onsiteBasis: null, // 现场处理依据
-              onsiteType: null, // 现场处理决定类型
-              headingFace: null, // 掘进工作面
-              deviceNum: null, // 设备台数
-              coalingFace: null, // 采煤工作面
-              penaltyDesc: null, // 行政处罚决定
-              penaltyDescFine: null, // 行政处罚决定罚金
-              penaltyBasis: null, // 行政处罚依据
-              isSerious: false, // 是否重大隐患
-              isReview: false, // 是否复查
-              reviewDate: null, // 复查日期
-            },
-          }, // 隐患项大表
-        };
-      }
+    async initLetData() {
+      // 创建初始版本
+      const db = new GoDB(this.$store.state.DBName);
+      const corpBase = db.table("corpBase");
+      //查询符合条件的记录
+      const corp = await corpBase.find((item) => {
+        return item.corpId == this.corpData.corpId;
+      });
+      await db.close();
+      this.letData = {
+        cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
+        cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null,
+        cellIdx1: null, // 检查时间
+        cellIdx2: null, // 检查地点（路线）
+        cellIdx3: null, // 采矿许可证
+        cellIdx4: null, // 安全生产许可证
+        cellIdx5: null, // 检查人（签名）
+        cellIdx6: null, // 记录人（签名）
+        cellIdx7: null, // 陪同检察人员
+        cellIdx8: null, // 检查情况
+        cellIdx9: null, // 被检查单位负责人意见
+        cellIdx10: null, // 签名
+        cellIdx11: null, // 日期
+        DangerTable: {
+          baseInfor: null,
+          tableData: [],
+          selectedIdList: [],
+          dangerItemDetail: {
+            itemContent: null, // 违法行为描述
+            confirmClause: null, // 违法认定法条
+            onsiteDesc: null, // 现场处理决定
+            onsiteBasis: null, // 现场处理依据
+            onsiteType: null, // 现场处理决定类型
+            headingFace: null, // 掘进工作面
+            deviceNum: null, // 设备台数
+            coalingFace: null, // 采煤工作面
+            penaltyDesc: null, // 行政处罚决定
+            penaltyDescFine: null, // 行政处罚决定罚金
+            penaltyBasis: null, // 行政处罚依据
+            isSerious: false, // 是否重大隐患
+            isReview: false, // 是否复查
+            reviewDate: null, // 复查日期
+          },
+        }, // 隐患项大表
+      };
     },
     goBack({ page, data }) {
       // 返回选择企业

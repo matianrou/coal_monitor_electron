@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="paperData"
+      :paper-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -202,6 +202,8 @@
 import GoDB from "@/utils/godb.min.js";
 import associationSelectPaper from "@/components/association-select-paper";
 import { getDocNumber } from "@/utils/setInitPaperData";
+import { getNowFormatTime, getNowTime } from '@/utils/date'
+import { randomString } from "@/utils/index";
 export default {
   name: "Let501",
   mixins: [associationSelectPaper],
@@ -209,12 +211,14 @@ export default {
     return {
       letData: {},
       options: {},
+      paperId: null,
     };
   },
   created() {
   },
   methods: {
     async initLetData() {
+      this.paperId = getNowTime() + randomString(18)
       const db = new GoDB(this.$store.state.DBName);
       // 1.文书编号
       let paperNumber = await getDocNumber(
@@ -263,6 +267,7 @@ export default {
           this.options[key] = {
             canEdit: true,
             page: "16",
+            paperId: this.paperId
           };
           dataKey = "UploadFile";
         }

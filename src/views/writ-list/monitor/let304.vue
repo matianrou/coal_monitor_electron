@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="paperData"
+      :paper-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -261,7 +261,6 @@ export default {
           },
         ]
       },
-      editData: {}, // 回显数据
       associationPaper: ["1"],
     };
   },

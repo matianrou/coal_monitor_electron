@@ -4,7 +4,8 @@
 import GoDB from "@/utils/godb.min.js";
 import letMain from "@/views/make-law-writ/components/let-main.vue";
 import selectPaper from '@/components/select-paper'
-import { getNowDate } from '@/utils/date.js'
+import { getNowDate, getNowTime } from '@/utils/date'
+import { randomString } from "@/utils/index";
 export default {
   name: "AssociationSelectPaper",
   props: {
@@ -56,7 +57,8 @@ export default {
           align: 'left',
           width: '180'
         },
-      ]
+      ],
+      paperId: null
     };
   },
   async created() {
@@ -77,8 +79,11 @@ export default {
     async initData() {
       // 初始化文书内容
       if (this.paperData && this.paperData.paperId) {
+        this.paperId = this.paperData.paperId
         this.letData = JSON.parse(this.paperData.paperContent);
       } else {
+        // 生成默认PaperId
+        this.paperId = getNowTime() + randomString(18)
         // 创建初始版本
         if (this.corpData && this.corpData.caseId) {
           const db = new GoDB(this.$store.state.DBName);
@@ -128,14 +133,14 @@ export default {
       }
     },
     async initFileData() {
-      if (this.paperData && (this.docData.docTypeNo === '44' || this.docData.docTypeNo === '21')) {
-        // 隐患整改, 影音证据拉取上传的文件列表
+      if (this.paperData && (this.docData.docTypeNo === '44' || this.docData.docTypeNo === '21' || this.docData.docTypeNo === '16' || this.docData.docTypeNo === '17')) {
+        // 隐患整改, 影音证据,意见建议书拉取上传的文件列表
         await this.getFileList()
       }
     },
     handleSelectPaper () {
       this.paperList = this.selectFlowList[this.selectedIndex].paperList
-      if (this.paperList[0].paperType === '6' || this.paperList[0].paperType === '32') {
+      if (this.paperList[0].paperType === '6' || this.paperList[0].paperType === '32' || this.paperList[0].paperType === '8') {
         this.paperList.forEach(item => {
           item.selectedType = JSON.parse(item.paperContent).selectedType
         })

@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="editData"
+      :paper-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -177,7 +177,7 @@ export default {
     return {
       letData: {},
       options: {},
-      editData: {}, // 回显数据
+      paperData: {}, // 回显数据
     };
   },
   created() {
@@ -211,7 +211,7 @@ export default {
       if (checkPaper.length > 0) {
         // 回显
         this.letData = JSON.parse(checkPaper[0].paperContent);
-        this.editData = checkPaper[0];
+        this.paperData = checkPaper[0];
       } else {
         // 创建初始版本
         this.letData = {

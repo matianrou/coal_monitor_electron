@@ -73,6 +73,9 @@
 </template>
 
 <script>
+import GoDB from "@/utils/godb.min.js";
+import { getNowFormatTime, getNowTime } from '@/utils/date'
+import { randomString } from "@/utils/index";
 export default {
   name: "UploadFile",
   props: {
@@ -89,6 +92,7 @@ export default {
       default: () => {
         return {
           canEdit: false,
+          paperId: null
         }
       }
     }
@@ -129,6 +133,16 @@ export default {
     init () {
       this.dataForm.tempValue = this.value
     },
+    async getFileList () {
+      // 获取文件列表
+      let db = new GoDB(this.$store.state.DBName);
+	    let paperAttachment = db.table('paperAttachment');
+      let list = await paperAttachment.findAll(item => item.delFlag !== '1')
+      console.log('list', list)
+      this.dataForm.tempValue.tableData = await paperAttachment.findAll(item => item.paperId === this.options.paperId && item.delFlag !== '1')
+      console.log('tableData', this.dataForm.tempValue.tableData)
+      await db.close()
+    },
     async updateFileList () {
       // 上传文件或删除文件时更新本地库
       let {userId, userSessId} = this.$store.state.user
@@ -139,6 +153,7 @@ export default {
         .then(({ data }) => {
           if (data.status === "200") {
             newFileList = data.data || []
+      console.log('newFileList', newFileList)
           }
         })
         .catch((err) => {
@@ -178,23 +193,13 @@ export default {
       // 上传文件
       let formData = new FormData()
       let submitData = {
-        paperId: this.paperData.paperId,
-        caseId: this.corpData.caseId,
+        attachmentId: getNowTime() + randomString(18),
+        paperId: this.options.paperId,
         fileName: param.file.name,
         fileSize: param.file.size,
+        createDate: getNowFormatTime(),
         groupId: this.$store.state.user.userGroupId,
         groupName: this.$store.state.user.userGroupName,
-        corpId: this.corpData.corpId,
-        corpName: this.corpData.corpName,
-        createTime: getNowFormatTime(),
-        createDate: getNowFormatTime(),
-        attachmentId: getNowTime() + randomString(18),
-        createBy: JSON.stringify({
-          id: this.$store.state.user.userId
-        }) ,
-        updateBy: JSON.stringify({
-          id: this.$store.state.user.userId
-        }),
       }
       formData.append('file', param.file)
       formData.append('paperAttach', JSON.stringify(submitData))
@@ -260,6 +265,7 @@ export default {
       link.click()
     },
     async handleSuccess(res, file, fileList) {
+      console.log('1')
       await this.updateFileList()
       await this.getFileList()
     }

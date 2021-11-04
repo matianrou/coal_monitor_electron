@@ -6,7 +6,7 @@
       :corp-data="corpData"
       :doc-data="docData"
       :let-data="letData"
-      :edit-data="paperData"
+      :paper-data="paperData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -225,6 +225,7 @@
       :visible="visible.selectPaper"
       title="关联文书选择"
       :paper-list="paperList"
+      :col-list="colList"
       @close="closeDialog"
       @confirm-paper="confirmPaper"
     ></select-paper>
