@@ -59,6 +59,11 @@
           width="100"
           label="操作">
           <template slot-scope="scope">
+            <el-button
+              :loading="loading.btn"
+              type="text"
+              @click="downloadFile(scope.$index, scope.row)"
+            >下载</el-button>
             <el-button 
               v-if="options.canEdit"
               type="text" 
@@ -131,16 +136,15 @@ export default {
   },
   methods: {
     init () {
-      this.dataForm.tempValue = this.value
+      // this.dataForm.tempValue = this.value
+      this.getFileList()
     },
     async getFileList () {
       // 获取文件列表
       let db = new GoDB(this.$store.state.DBName);
 	    let paperAttachment = db.table('paperAttachment');
       let list = await paperAttachment.findAll(item => item.delFlag !== '1')
-      console.log('list', list)
       this.dataForm.tempValue.tableData = await paperAttachment.findAll(item => item.paperId === this.options.paperId && item.delFlag !== '1')
-      console.log('tableData', this.dataForm.tempValue.tableData)
       await db.close()
     },
     async updateFileList () {
@@ -153,7 +157,6 @@ export default {
         .then(({ data }) => {
           if (data.status === "200") {
             newFileList = data.data || []
-      console.log('newFileList', newFileList)
           }
         })
         .catch((err) => {
@@ -265,7 +268,6 @@ export default {
       link.click()
     },
     async handleSuccess(res, file, fileList) {
-      console.log('1')
       await this.updateFileList()
       await this.getFileList()
     }

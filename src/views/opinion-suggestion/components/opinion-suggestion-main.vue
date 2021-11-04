@@ -163,12 +163,12 @@ export default {
       this.changePage(docData)
     },
     changePage (docData = null, paperData = null) {
+      console.log('paperData1', paperData)
       this.$emit('change-page', {
         status: 'opinionSuggestionPaper',
         docData,
         paperData
       })
-      this.getData()
     },
     async getData () {
       this.loading.list = true
@@ -197,11 +197,11 @@ export default {
         if (item.id === row.paperType) page = item.page
       })
       let docData={
-            docTypeNo: row.paperType,
-            docTypeName: row.name,
-            page
+        docTypeNo: row.paperType,
+        docTypeName: row.name,
+        page
       }
-      this.changePage(docData)
+      this.changePage(docData, row)
     },
     async handleDelete (row) {
       // 删除文书 判断是否已归档，如果已归档则不可删除

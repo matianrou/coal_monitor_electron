@@ -5,6 +5,7 @@
     <component
       :is="showStatus"
       :doc-data="docData"
+      :paper-data="paperData"
       @change-page="changePage"
     ></component>
   </div>
@@ -34,6 +35,7 @@ export default {
     },
     changePage (data) {
       // 切换展示或制作
+      console.log('data2', data)
       this.showStatus = data.status
       this.docData = data.docData
       this.paperData = data.paperData
