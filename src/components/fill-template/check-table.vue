@@ -282,7 +282,21 @@ export default {
     confirmCheckPosition (positionData) {
       // 保存检查地点数据
       let positions = setCheckPositionItem(positionData)
-      let saveData = Object.assign({}, this.dataForm.tempValue.tableData[this.selectedIndex], {positions, positionData})
+      // 检查项增加addressType数据传输保存
+      // 逻辑为按地面1、井下2、其他3回传多个逗号分割
+      let {isAddress, isUnder, isOther} = positionData
+      let addressType = ''
+      if (isAddress) {
+        addressType += '1,'
+      }
+      if (isUnder) {
+        addressType += '2,'
+      }
+      if (isOther) {
+        addressType += '3,'
+      }
+      addressType = addressType.substring(0, addressType.length - 1) 
+      let saveData = Object.assign({}, this.dataForm.tempValue.tableData[this.selectedIndex], {positions, positionData, addressType})
       this.$set(this.dataForm.tempValue.tableData, this.selectedIndex, saveData)
     },
     deleteItem (scope) {

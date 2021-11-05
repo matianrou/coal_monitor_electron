@@ -97,11 +97,11 @@
     </div>
     <div v-if="usePage === 'MakeLawWrit'" class="case-list-select-operation">
       <div class="extra-btn">
-        <!-- <img 
+        <img 
           src="@/components/assets/image/user-group.png" 
-          title="文书拉取" 
-          @click="paperPull"
-        /> -->
+          title="检查活动拉取" 
+          @click="casePull"
+        />
       </div>
       <div class="add-delete-btn">
         <el-button
@@ -125,24 +125,24 @@
       @close="close"
       @confirm-company="confirmCompany"
     ></select-company>
-    <paper-pull
-      v-if="visible.paperPull"
-      :visible="visible.paperPull"
+    <case-pull
+      v-if="visible.casePull"
+      :visible="visible.casePull"
       @close="close"
-      @confirm="confirmPaperPull"
-    ></paper-pull>
+      @confirm="confirmCasePull"
+    ></case-pull>
   </div>
 </template>
 
 <script>
 import GoDB from '@/utils/godb.min.js'
 import selectCompany from '@/components/select-company'
-import paperPull from '@/components/paper-pull'
+import casePull from '@/components/case-pull'
 export default {
   name: "CaseList",
   components: {
     selectCompany,
-    paperPull
+    casePull
   },
   props: {
     selectPlanData: {
@@ -174,7 +174,7 @@ export default {
       },
       visible: {
         selectCompany: false, // 添加选择企业
-        paperPull: false, // 文书拉取
+        casePull: false, // 文书拉取
       },
       selectedCase: {}, // 已选中的检查活动（或计划）
       DBName: this.$store.state.DBName,
@@ -493,10 +493,10 @@ export default {
         this.$message.error('请选择检查活动后点击删除！')
       }
     },
-    paperPull () {
-      this.visible.paperPull = true
+    casePull () {
+      this.visible.casePull = true
     },
-    confirmPaperPull () {
+    confirmCasePull () {
       // 确定拉取文书
     }
   },

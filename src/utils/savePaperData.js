@@ -201,6 +201,7 @@ export async function saveToUpload(paperId) {
           groupName: workPaper.groupName,
           personId: JSON.stringify(personIdList),
           Address: item.positions,
+          addressType: item.addressType,
           Situation: item.situation
         };
         CheckItemRecords.push(CheckItemRecord);

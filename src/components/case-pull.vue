@@ -47,7 +47,7 @@
   import GoDB from "@/utils/godb.min.js";
   import adjustableDiv from '@/components/adjustable-div'
   export default {
-    name: 'PaperPull',
+    name: 'CasePull',
     props: {
       visible: {
         type: Boolean,
@@ -125,9 +125,9 @@
         // 选中点击的用户
         item.active = true
         // 根据当前选中的用户拉取其所有文书
-        this.getUserPaper(item.no)
+        this.getUserCase(item.no)
       },
-      getUserPaper(userId) {
+      getUserCase(userId) {
         let userSessId = this.$store.state.user.userSessId
         let params = {
           userId
@@ -149,7 +149,7 @@
       close (refresh) {
         // 关闭选择弹窗
         this.selectedUser = null
-        this.$emit('close', {page: 'paperPull', refresh})
+        this.$emit('close', {page: 'casePull', refresh})
       },
       selectCompany (user, index) {
         // 选中用户
