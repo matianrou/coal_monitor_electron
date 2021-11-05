@@ -2,12 +2,14 @@
 <template>
   <div class="opinion-suggestion">
     <!-- 切换展示意见建议书制作及列表opinionSuggestionMain或意见建议书文书制作opinionSuggestionPaper -->
-    <component
-      :is="showStatus"
-      :doc-data="docData"
-      :paper-data="paperData"
-      @change-page="changePage"
-    ></component>
+    <keep-alive>
+      <component
+        :is="showStatus"
+        :doc-data="docData"
+        :paper-data="paperData"
+        @change-page="changePage"
+      ></component>
+    </keep-alive>
   </div>
 </template>
 
@@ -35,7 +37,6 @@ export default {
     },
     changePage (data) {
       // 切换展示或制作
-      console.log('data2', data)
       this.showStatus = data.status
       this.docData = data.docData
       this.paperData = data.paperData

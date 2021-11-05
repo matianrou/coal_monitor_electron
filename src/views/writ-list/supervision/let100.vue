@@ -193,8 +193,8 @@
         <div class="page-break"></div>
         <!-- 但页面不展示 -->
         <div style="height: 0; overflow: hidden">
-          <!-- <div class="page-sizeA4-rorate" ref="checkTable"> -->
-          <div class="page-sizeA4" ref="checkTable">
+          <!-- <div class="page-sizeA4-rorate" ref="CheckTable"> -->
+          <div class="page-sizeA4" ref="CheckTable">
             <div style="height: 90px">
               <span style="display: block; height: 30px; font-size: 16px"
                 >附件：</span
@@ -211,7 +211,7 @@
             </div>
             <div class="checkTable">
               <el-table
-                :data="letData.checkTable && letData.checkTable.tableData"
+                :data="letData.CheckTable && letData.CheckTable.tableData"
                 width="100%"
                 border
               >

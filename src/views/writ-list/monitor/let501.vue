@@ -279,6 +279,21 @@ export default {
           this.letData[dataKey],
           this.options[key]
         );
+      } else {
+        if (key === "cellIdx19") {
+          let dataKey = `${type}`;
+          this.options[key] = {
+            canEdit: false,
+          };
+          this.$refs.letMain.commandFill(
+            key,
+            dataKey,
+            title,
+            type,
+            this.letData[dataKey],
+            this.options[key]
+          );
+        }
       }
     },
   },

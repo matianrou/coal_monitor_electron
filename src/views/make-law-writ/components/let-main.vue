@@ -435,8 +435,8 @@ export default {
       }
       if (this.docData.docTypeNo === '22' || this.docData.docTypeNo === '42') {
         // 检查方案导出时增加检查人员分工明细表
-        if (this.$parent.letData.checkTable && this.$parent.letData.checkTable.tableData) {
-          let {tableData} = this.$parent.letData.checkTable
+        if (this.$parent.letData.CheckTable && this.$parent.letData.CheckTable.tableData) {
+          let {tableData} = this.$parent.letData.CheckTable
           // 遍历tableData数据，处理undefined情况
           tableData && tableData.forEach(item => {
             for (let key in item) {

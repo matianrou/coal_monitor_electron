@@ -163,10 +163,10 @@
         <div class="page-break"></div>
         <!-- 但页面不展示 -->
         <div style="height: 0px; overflow: hidden">
-          <div ref="checkTable" class="page page-sizeA4">
+          <div ref="CheckTable" class="page page-sizeA4">
             <div style="width: 19.5cm">
               <el-table
-                :data="letData.checkTable && letData.checkTable.tableData"
+                :data="letData.CheckTable && letData.CheckTable.tableData"
                 width="100%"
                 border
               >

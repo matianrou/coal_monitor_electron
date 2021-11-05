@@ -71,18 +71,18 @@
               <label style="width: 5%"></label>
              请将处理意见于
               <span @click="commandFill('cellIdx7', '年', 'TextItem')">{{
-                letData.cellIdx8 ? letData.cellIdx8 : "（XX）"
+                letData.cellIdx7 ? letData.cellIdx7 : "（XX）"
               }}</span>
               年
               <span @click="commandFill('cellIdx8', '月', 'TextItem')">{{
                 letData.cellIdx8 ? letData.cellIdx8 : "（XX）"
               }}</span>
               月
-              <span @click="commandFill('cellIsdx9', '日', 'TextItem')">{{
+              <span @click="commandFill('cellIdx9', '日', 'TextItem')">{{
                 letData.cellIdx9 ? letData.cellIdx9 : "（XX）"
               }}</span>
               日前函告我
-              <span @click="commandFill('cellIdx10', '局', 'TextItem')">{{
+              <span class="no-underline" @click="commandFill('cellIdx10', '局', 'TextItem')">{{
                 letData.cellIdx10 ? letData.cellIdx10 : ""
               }}</span>
             </div>
@@ -267,6 +267,21 @@ export default {
           this.letData[dataKey],
           this.options[key]
         );
+      } else {
+        if (key === "cellIdx18") {
+          let dataKey = `${type}`;
+          this.options[key] = {
+            canEdit: false,
+          };
+          this.$refs.letMain.commandFill(
+            key,
+            dataKey,
+            title,
+            type,
+            this.letData[dataKey],
+            this.options[key]
+          );
+        }
       }
     },
   },

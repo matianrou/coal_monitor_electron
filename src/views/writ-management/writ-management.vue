@@ -135,7 +135,7 @@
 import caseList from "@/components/case-list";
 import orgInformation from '@/components/org-information' // 企业信息
 import GoDB from '@/utils/godb.min.js'
-import { sortbyAsc } from '@/utils/index'
+import { sortbyDes } from '@/utils/index'
 import { saveToUpload } from '@/utils/savePaperData'
 import { writList } from '@/utils/writList'
 export default {
@@ -218,7 +218,7 @@ export default {
         const wkPaper = db.table('wkPaper')
         let paperList = await wkPaper.findAll(item => item.caseId === this.caseData.caseId && item.delFlag !== '1')
         // 按创建时间排序
-        // paperList.length > 0 && paperList.sort(sortbyAsc('createTime'))
+        paperList.length > 0 && paperList.sort(sortbyDes('createTime'))
         // 遍历设置归档时间：如果delFlag='0'则代表已归档，将updateTiem设置为归档时间，其他则为未归档
         paperList.length > 0 && paperList.map(item => {
           item.fileTime = item.delFlag === '0' ? item.updateDate : '未归档'

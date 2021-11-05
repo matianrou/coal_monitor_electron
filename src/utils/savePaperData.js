@@ -18,15 +18,21 @@ export async function saveToUpload(paperId) {
   const wkDangerList = await wkDanger.findAll(item => item.paperId === paperId)
   await db.close();
   // 没有监察活动和煤矿信息时的容错
-  let caseNo = null, caseType = null, corpId = null, corpName = null
+  let caseNo = null, caseType = null, corpId = null
   let meikuangType = null, meikuangPlanfrom = null, planId = null
   let checkReason = null, checkStatus = null, planBeginDate = null
   let planEndDate = null, createDate = null, pcMonth = null
-  let workCaseObj = workCase 
-    ? Object.assign({ caseNo, caseType, corpId, corpName, 
-      meikuangType, meikuangPlanfrom, planId,
-      checkReason, checkStatus, planBeginDate,
-      planEndDate, createDate, pcMonth}, workCase)
+  let corpName = null
+  // 当文书选择为意见建议书或执法案卷（首页）及目录时，corpName赋值：
+  if (workPaper.paperType === "16" || workPaper.paperType === "17" || (workPaper.paperType === "15" && !workPaper.caseId)) {
+    let paperContent = JSON.parse(workPaper.paperContent);
+    if (workPaper.paperType === "15") {
+      corpName = paperContent.cellIdx0
+    } else {
+      corpName = paperContent.cellIdx5
+    }
+  }
+  let workCaseObj = workCase ? workCase
     : { caseNo, caseType, corpId, corpName, 
       meikuangType, meikuangPlanfrom, planId,
       checkReason, checkStatus, planBeginDate,
@@ -140,8 +146,8 @@ export async function saveToUpload(paperId) {
         corpDataType: "",
         checkReason: workCaseObj.checkReason,
         checkStatus: workCaseObj.checkStatus,
-        planBeginDate: workCaseObj.planBeginDate + " 00:00:00",
-        planEndDate: workCaseObj.planEndDate + " 00:00:00",
+        planBeginDate: workCaseObj.planBeginDate ? workCaseObj.planBeginDate + " 00:00:00" : null,
+        planEndDate: workCaseObj.planEndDate ? workCaseObj.planEndDate + " 00:00:00" : null,
         createTime: workCaseObj.createDate,
         affiliate: workPaper.groupId,
         meikuangType: workCaseObj.meikuangType,
@@ -156,24 +162,14 @@ export async function saveToUpload(paperId) {
     // 检查方案上传数据
     let paperContent = JSON.parse(workPaper.paperContent);
     // 监察方式（字典值，多个用逗号隔开）
-    let p22inspection = "";
-    if (
-      paperContent.cellIdx1TypeCheckItem &&
-      paperContent.cellIdx1TypeCheckItem.length > 0
-    ) {
-      paperContent.cellIdx1TypeCheckItem.map((item) => {
-        p22inspection += item + ",";
-      });
-    }
-    p22inspection = p22inspection.substring(0, p22inspection.length - 1);
     // 检查项附件
     let CheckItemRecords = [];
     if (
-      paperContent.checkTable &&
-      paperContent.checkTable.tableData &&
-      paperContent.checkTable.tableData.length > 0
+      paperContent.CheckTable &&
+      paperContent.CheckTable.tableData &&
+      paperContent.CheckTable.tableData.length > 0
     ) {
-      paperContent.checkTable.tableData.map((item) => {
+      paperContent.CheckTable.tableData.map((item) => {
         let personIdList = []
         if (item.personList && item.personList.length > 0) {
           item.personList.map(item => {
@@ -225,7 +221,7 @@ export async function saveToUpload(paperId) {
           .replace("月", "-")
           .replace("日", "") + " 00:00:00" : null,
       p22location: paperContent.cellIdx4,
-      p22inspection,
+      p22inspection: paperContent.cellIdx1,
       p22JczfCheck: JSON.stringify(p22JczfCheck),
       locationRemarks: paperContent.cellIdx1,
     };
@@ -325,6 +321,8 @@ export async function saveToUpload(paperId) {
       }
     }
     submitData.danger = danger;
+  } else if (workPaper.paperType === "16" || workPaper.paperType === "17" || (workPaper.paperType === "15" && !workPaper.caseId)) {
+    submitData.jczfCase = []
   }
   let path = store.state.user.userType === 'supervision' ? '/sv' : ''
   http.post(
@@ -363,7 +361,6 @@ export async function saveFineCollection(paperId) {
     return item.caseId == paperData.caseId && item.delFlag !== '1';
   });
   await db.close()
-  console.log('paperData', paperData)
   let paperContent = JSON.parse(paperData.paperContent)
   let submitData  = []
   if (paperContent && paperContent.tableData && paperContent.tableData.length > 0) {
@@ -378,7 +375,7 @@ export async function saveFineCollection(paperId) {
         p8Penalty: item.p8Penalty,
         collectionFine: item.collectionFine,
         lateFee: item.lateFee,
-        collectionDate: item.collectionDate.replace("年", "-").replace("月", "-").replace("日", "") + " 00:00:00",
+        collectionDate: item.collectionDate ? item.collectionDate.replace("年", "-").replace("月", "-").replace("日", "") + " 00:00:00" : null,
         createTime: paperData.createTime,
         createDate: paperData.createDate,
         createBy: {

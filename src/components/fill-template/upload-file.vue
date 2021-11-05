@@ -5,7 +5,7 @@
     <div class="menu-title">
       <span>附件上传</span>
     </div>
-    <div style="margin-bottom: 10px; text-align: right;">
+    <div v-if="options.canEdit" style="margin-bottom: 10px; text-align: right;">
       <el-upload
         ref="upload"
         action=""
@@ -66,9 +66,10 @@
             >下载</el-button>
             <el-button 
               v-if="options.canEdit"
+              :loading="loading.btn"
               type="text" 
               size="small" 
-              @click="deleteFile(scope, 'delelte')"
+              @click="deleteFile(scope.$index, scope.row)"
             >删除</el-button>
           </template>
         </el-table-column>

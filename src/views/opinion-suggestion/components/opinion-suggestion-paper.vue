@@ -37,7 +37,7 @@ export default {
       showTemp: ''
     };
   },
-  async created() {
+  async activated() {
     this.init()
   },
   watch: {
