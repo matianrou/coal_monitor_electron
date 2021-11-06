@@ -213,9 +213,9 @@ export default {
       let let1DataPapaerContent = JSON.parse(
         selectedPaper.let1Data.paperContent
       );
-      let dangerObject = getDangerObject(
+      let dangerObject = let1DataPapaerContent.DangerTable ? getDangerObject(
         let1DataPapaerContent.DangerTable.tableData
-      );
+      ) : {contentOnsiteDesc: ''};
       // 通过机构接口中的sysOfficeInfo中获取的organName和courtPrefix字段分别填充cellIdx8和cellIdx9字段
       const orgInfo = db.table("orgInfo");
       const orgData = await orgInfo.find(
@@ -259,7 +259,7 @@ export default {
         cellIdx14TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx15: this.todayDate, //
         cellIdx15TypeDateItem: this.todayDate, //
-        DangerTable: let1DataPapaerContent.DangerTable, // 隐患项大表
+        DangerTable: let1DataPapaerContent.DangerTable || [], // 隐患项大表
       };
     },
     goBack({ page, data }) {

@@ -208,8 +208,6 @@
               this.loading.main = true
               // 关闭弹窗，并赋值
               // 将临时保存数据结果赋值到数据中
-              console.log('selectedUser', this.selectedUser)
-              console.log('selcetedCaseList', this.selcetedCaseList)
               // 通过选定的selcetedCaseList检查活动，获取相应的检查活动数据jczfCase
               let jczfCase = []
               this.selcetedCaseList.map(item => {
@@ -244,7 +242,6 @@
               let sutmitData = {
                 jczfCase, paper, danger
               }
-              console.log('sutmitData', sutmitData)
               // 通过doDoc方法存入本地数据库中
               await doDocDb('doc', sutmitData)
               // 更新检查活动侧边栏

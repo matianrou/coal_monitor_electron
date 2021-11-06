@@ -149,7 +149,29 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        DangerTable: {
+          baseInfor: null,
+          tableData: [],
+          selectedIdList: [],
+          dangerItemDetail: {
+            itemContent: null, // 违法行为描述
+            confirmClause: null, // 违法认定法条
+            onsiteDesc: null, // 现场处理决定
+            onsiteBasis: null, // 现场处理依据
+            onsiteType: null, // 现场处理决定类型
+            headingFace: null, // 掘进工作面
+            deviceNum: null, // 设备台数
+            coalingFace: null, // 采煤工作面
+            penaltyDesc: null, // 行政处罚决定
+            penaltyDescFine: null, // 行政处罚决定罚金
+            penaltyBasis: null, // 行政处罚依据
+            isSerious: false, // 是否重大隐患
+            isReview: false, // 是否复查
+            reviewDate: null, // 复查日期
+          },
+        }, // 隐患项大表
+      },
       options: {
         cellIdx8: {
           page: "1", // 用于在隐患项保存，做数据处理
@@ -183,27 +205,6 @@ export default {
         cellIdx9: null, // 被检查单位负责人意见
         cellIdx10: null, // 签名
         cellIdx11: null, // 日期
-        DangerTable: {
-          baseInfor: null,
-          tableData: [],
-          selectedIdList: [],
-          dangerItemDetail: {
-            itemContent: null, // 违法行为描述
-            confirmClause: null, // 违法认定法条
-            onsiteDesc: null, // 现场处理决定
-            onsiteBasis: null, // 现场处理依据
-            onsiteType: null, // 现场处理决定类型
-            headingFace: null, // 掘进工作面
-            deviceNum: null, // 设备台数
-            coalingFace: null, // 采煤工作面
-            penaltyDesc: null, // 行政处罚决定
-            penaltyDescFine: null, // 行政处罚决定罚金
-            penaltyBasis: null, // 行政处罚依据
-            isSerious: false, // 是否重大隐患
-            isReview: false, // 是否复查
-            reviewDate: null, // 复查日期
-          },
-        }, // 隐患项大表
       };
     },
     goBack({ page, data }) {
