@@ -33,12 +33,30 @@
         </adjustable-div>
         <div class="content-div-right" v-loading="loading.right">
           <!-- 右侧 用户的检查列表 -->
+          <el-checkbox-group 
+            v-if="caseList.length > 0"
+            v-model="selcetedCaseList">
+            <div
+              v-for="(item, index) in caseList"
+              :key="index"
+              class="case-list-item"
+            >
+              <el-checkbox 
+                style="font-size: 18px;"
+                :value="index"
+                :label="`${item.corpName} [${item.createDate.split(' ')[0]}]`">
+              </el-checkbox>
+            </div>
+          </el-checkbox-group>
+          <div v-else style="text-align: center;">
+            <span>暂无数据</span>
+          </div>
         </div>
       </div>
     </div>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="close">取消</el-button>
-      <el-button type="primary" @click="confirm">拉取</el-button>
+      <el-button :loading="loading.main" @click="close">取消</el-button>
+      <el-button :loading="loading.main" type="primary" @click="confirm">拉取</el-button>
     </span>
   </el-dialog>
 </template>
@@ -46,6 +64,7 @@
 <script>
   import GoDB from "@/utils/godb.min.js";
   import adjustableDiv from '@/components/adjustable-div'
+  import { doDocDb } from "@/utils/downloadSource"
   export default {
     name: 'CasePull',
     props: {
@@ -68,6 +87,9 @@
         divWidth: 300, // 用户部分div基础宽度
         userList: [],
         selectedUser: {}, // 点击用户列表选择的用户
+        caseList: [], // 选择的用户的检查活动列表
+        allPaperData: {}, // 选择的用户的全部文书数据：检查活动jczfCase，文书paperk,隐患项danger
+        selcetedCaseList: [], // 多选的需要拉取的个人的检查活动
       }
     },
     created () {
@@ -124,20 +146,27 @@
         })
         // 选中点击的用户
         item.active = true
+        // 清空已选择的检查活动
+        this.selcetedCaseList = []
         // 根据当前选中的用户拉取其所有文书
         this.getUserCase(item.no)
       },
       getUserCase(userId) {
+        this.loading.right = true
+        this.caseList = []
+        this.allPaperData = {}
         let userSessId = this.$store.state.user.userSessId
-        let params = {
-          userId
-        }
-        this.$http.post(`/local/jczf/uploadJczfCasePull?__sid=${userSessId}`, {sendJson: true, data: params})
+        this.$http.get(`/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&officeId=&caseId=&flag=false&pageNo=0&pageSize=1000`)
         .then(async (response) => {
-          if (response.status != 200) {
-            this.$message.error("远程请求异常，可能是认证信息超时，请重新登录。");
+          if (response.status === 200) {
+            if (response.data.data) {
+              // 如果有检查活动及文书数据则放入当前用户数据中
+              this.caseList = response.data.data.jczfCase
+              this.allPaperData = response.data.data
+            }
             this.loading.right = false
           } else {
+            this.$message.error("远程请求异常，可能是认证信息超时，请重新登录。");
             this.loading.right = false
           }
           }).catch(err => {
@@ -165,10 +194,67 @@
         this.selectedUser = companyObj
       },
       confirm() {
-        // 关闭弹窗，并赋值
-        // 将临时保存数据结果赋值到数据中
-        this.$emit('confirm', this.selectedUser)
-        this.close()
+        if (this.selcetedCaseList.length > 0) {
+          let msg = ''
+          this.selcetedCaseList.map(item => {
+            msg += item + '，'
+          })
+          msg = msg.substr(0, msg.length - 1)
+          this.$confirm(`是否确认拉取“${msg}”的检查活动？`, '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(async () => {
+              this.loading.main = true
+              // 关闭弹窗，并赋值
+              // 将临时保存数据结果赋值到数据中
+              console.log('selectedUser', this.selectedUser)
+              console.log('selcetedCaseList', this.selcetedCaseList)
+              // 通过选定的selcetedCaseList检查活动，获取相应的检查活动数据jczfCase
+              let jczfCase = []
+              this.selcetedCaseList.map(item => {
+                this.allPaperData.jczfCase.map(jcItem => {
+                  if (`${jcItem.corpName} [${jcItem.createDate.split(' ')[0]}]` === item && jcItem.delFlag !== '1') {
+                    jczfCase.push(jcItem)
+                  }
+                })
+              })
+              // 根据监察活动数据jczfCase再获取相应的paper数据
+              let paper = []
+              if (jczfCase.length > 0) {
+                jczfCase.map(jcItem => {
+                  this.allPaperData.paper.map(paperItem => {
+                    if (jcItem.caseId === paperItem.caseId && paperItem.delFlag !== '1') {
+                      paper.push(paperItem)
+                    }
+                  })
+                })
+              }
+              // 根据paperid获取相应的隐患项danger数据
+              let danger = []
+              if (paper.length > 0) {
+                paper.map(paperItem => {
+                  this.allPaperData.danger.map(dangerItem => {
+                    if (paperItem.paperId === dangerItem.paperId && dangerItem.delFlag !== '1') {
+                      danger.push(dangerItem)
+                    }
+                  })
+                })
+              }
+              let sutmitData = {
+                jczfCase, paper, danger
+              }
+              console.log('sutmitData', sutmitData)
+              // 通过doDoc方法存入本地数据库中
+              await doDocDb('doc', sutmitData)
+              // 更新检查活动侧边栏
+              this.$emit('confirm')
+              this.loading.main = false
+              this.close()
+            }).catch(() => {})
+        } else {
+          this.$message.error('当前未选定需要拉取的检查活动，请勾选需要拉取的检查活动后再点击拉取！')
+        }
       },
     }
   }
@@ -225,9 +311,22 @@
       }
     }
     .content-div-right {
-      height: 100%;
       overflow: auto;
       white-space: nowrap;
+      padding: 20px;
+      flex: 1;
+      .case-list-item {
+        display: flex;
+        align-items: center;
+        margin: 3px 0px;
+      }
+      /deep/ .el-checkbox__label {
+        font-size: 16px;
+        margin: 0 5px;
+        &:hover {
+          color: rgba(83, 168, 255, 0.7);
+        }
+      }
     }
     .active-item {
       background: rgb(83, 168, 255);

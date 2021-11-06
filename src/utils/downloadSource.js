@@ -206,11 +206,11 @@ async function doPlanDb(resId, data) {
 
 // “企业资源”下载。
 async function doCorpDb(resId, data) {
-	let arrBaseInfo = data.baseInfo;
-	let arrZfZzInfo = data.zfZzInfo;
-	let arrZfJjgzmInfo = data.zfJjgzmInfo;
-	let arrZfCyrytjInfo = data.zfCyrytjInfo;
-	let arrZfCmgzmInfo = data.zfCmgzmInfo;
+	let arrBaseInfo = data.baseInfo || [];
+	let arrZfZzInfo = data.zfZzInfo || [];
+	let arrZfJjgzmInfo = data.zfJjgzmInfo || [];
+	let arrZfCyrytjInfo = data.zfCyrytjInfo || [];
+	let arrZfCmgzmInfo = data.zfCmgzmInfo || [];
 	/*console.log("arrBaseInfo=" + arrBaseInfo.length);
 	console.log("arrZfZzInfo=" + arrZfZzInfo.length);
 	console.log("arrZfJjgzmInfo=" + arrZfJjgzmInfo.length);

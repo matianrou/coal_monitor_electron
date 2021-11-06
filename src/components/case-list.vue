@@ -496,8 +496,9 @@ export default {
     casePull () {
       this.visible.casePull = true
     },
-    confirmCasePull () {
-      // 确定拉取文书
+    async confirmCasePull () {
+      // 拉取检查活动后更新检查列表
+      await this.getData()
     }
   },
 };
