@@ -329,6 +329,13 @@
                   →
                 </td>
                 <td :class="flowStatus.paper5 ? 'writ-flow-spantd-ex writ-flow-td' : 'writ-flow-spantd writ-flow-td' ">
+                  <img 
+                    v-if="unreceivedStatus.unreceived5"
+                    src="@/views/writ-flow/assets/image/paper-send-icon.png" 
+                    class="send-paper-img" 
+                    title="有未接收的文书，请点击接收"
+                    @click="receivePaper('5')"
+                  />
                   <img
                     v-if="flowStatus.paper5"
                     :src="flowStatus.paper5 === 'save' ? '' : require('../assets/image/file.png')"
@@ -779,13 +786,22 @@
         </td>
       </tr>
     </table>
+    <receive-paper
+      :visible="visible.receivePaper"
+      :corp-data="corpData"
+      @close="closeDialog"
+    ></receive-paper>
   </div>
 </template>
 
 
 <script>
+import receivePaper from '@/views/writ-flow/components/receive-paper'
 export default {
   name: "WritFlow",
+  components: {
+    receivePaper
+  },
   props: {
     corpData: {
       type: Object,
@@ -799,9 +815,31 @@ export default {
   data() {
     return {
       activeFlowTab: "flow-1",
+      visible: {
+        receivePaper: false
+      },
     };
   },
-  created() {},
+  created() {
+  },
+  computed: {
+    unreceivedStatus() {
+      let status = {}
+      if (this.$store.state.unreceivedPaper.length > 0) {
+        this.$store.state.unreceivedPaper.map(paper => {
+          if (paper.companyId === this.corpData.corpId) {
+            let paperContentString = paper.paperContent
+            let paperContent = JSON.parse(paperContentString)
+            let key = `unreceived${paperContent.paperType}`
+            if (!status[key]) {
+              status[key] = true
+            }
+          }
+        })
+      }
+      return status
+    }
+  },
   methods: {
     doTabSwitch(tab) {
       // 切换现场检查、行政处罚、行政强制和其他的tab切换
@@ -838,6 +876,12 @@ export default {
           this.cmdEditDoc(letId, docTypeName, docTypeNo, true)
         }).catch(() => {
         })
+    },
+    receivePaper (paperType) {
+      this.visible.receivePaper = true
+    },
+    closeDialog({page}) {
+      this.visible[page] = false
     }
   },
 };
@@ -871,6 +915,13 @@ export default {
   text-align: center;
   color: #000;
   position: relative;
+  .send-paper-img {
+    position: absolute;
+    width: 18px;
+    top: 8px;
+    left: 8px;
+    cursor: pointer;
+  }
   img {
     position: absolute;
     width: 20px;

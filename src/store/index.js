@@ -12,6 +12,9 @@ export default new Vuex.Store({
     activeTab: null, // 当前激活的总体tab页签
     DBName: null, // 当前使用的数据库名称
     curCase: null, // 当前检查活动的活动数据
+    unreceivedPaper: [], // 当前未接收的文书信息
+  },
+  getters: {
   },
   modules: {
     user,

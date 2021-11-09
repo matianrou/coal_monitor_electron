@@ -23,15 +23,38 @@ export default {
     return {
     }
   },
-  created (){
+  async created (){
     console.log(`已进入${this.$store.state.user.userType === 'supervision' ? '监管' : '监察'}系统`)
+    await this.getSendPaperData()
+    window.setInterval(() => {
+      setTimeout(async () => {
+        ///调取接口 十分钟600000
+        // 获取是否有未接收的发送文书信息
+        await this.getSendPaperData()
+        }, 0)
+      }, 600000)
   },
   methods: {
     changeTab (tab) {
       this.$router.replace({
         name: `${tab}`
       })
-    }
+    },
+    async getSendPaperData () {
+      let {userId, userSessId} = this.$store.state.user
+      await this.$http.get(`${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/api-postPaper/findAllByUserId?userId=${userId}&__sid=${userSessId}`)
+        .then(async ({ data }) => {
+          if (data.status === "200") {
+            this.$store.commit('changeState', {
+              key: 'unreceivedPaper',
+              val: data.data
+            })
+          }
+        })
+        .catch((err) => {
+          console.log('获取未接收的文书失败！', err)
+        });
+    },
   },
 }
 </script>

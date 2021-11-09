@@ -169,7 +169,7 @@ export default {
       let edit = false
       // 判断当前是否为编辑，如果编辑时则调取paperData中的delFlag字段，如果为归档，则不可编辑
       // 当文书发送时，如果isReceive为已发送1时则不可再编辑
-      if (this.paperData && this.paperData.paperId && this.paperData.delFlag === '0' || (this.sendData && this.sendData.isReceive === '1')) {
+      if (this.paperData && this.paperData.paperId && this.paperData.delFlag === '0') {
         edit = false
       } else {
         edit = true
@@ -233,7 +233,7 @@ export default {
         }
         this.loading.btn = false
       } else {
-        if (this.sendData && this.sendData.isReceive === '1') {
+        if (this.sendData) {
           this.$message.error('文书已发送，不可再编辑！')
         } else {
           this.$message.error('文书已经完成归档，不能再次保存或回档！')

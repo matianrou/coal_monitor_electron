@@ -261,9 +261,9 @@ export default {
       this.loading.list = true
       let db = new GoDB(this.$store.state.DBName);
       let sendPaper = db.table('sendPaper')
-      // 根据当前需要查询调查笔录发送列表或者历史记录分别搜索
-      let receive = this.activeTab === 'sendPaper' ? '0' : '1'
-      let paperList = await sendPaper.findAll(item => item.delFlag !== '1' && item.isReceive === receive)
+      // 根据当前需要查询调查笔录发送列表或者历史记录分别搜索,通过delFlag进行分辨，如果为2则为保存，0为发送
+      let delFlag = this.activeTab === 'sendPaper' ? '2' : '0'
+      let paperList = await sendPaper.findAll(item => item.delFlag === delFlag)
       await db.close()
       if (paperList.length > 0) {
         paperList.forEach(item => {
@@ -283,23 +283,31 @@ export default {
         dangerouslyUseHTMLString: true,
         type: "warning",
       })
-        .then(() => {
+        .then(async () => {
           // 发送文书数据
-          let sendData = JSON.parse(JSON.stringify(row))
-          sendData.paperContent = JSON.stringify(sendData.paperContent)
+          this.loading.btn = true
+          row.delFlag = '0' // 发送时相当于归档
+          row.paperContent.delFlag = '0'
+          row.paperContent = JSON.stringify(row.paperContent)
           // 调用接口发送文书数据
-          this.$http.post(
+          await this.$http.post(
               `${this.userType === 'supervision' ? '/sv' : ''}/local/api-postPaper/save?__sid=${this.$store.state.user.userSessId}`,
               {
                 sendJson: true,
-                data: sendData
+                data: row
               }
             )
             .then(async ({ data }) => {
               if (data.status === "200") {
                 this.$message.success('发送文书成功！')
-                // 发送成功后标记已发送的数据
-                await this.operationData(row, 'isReceive')
+                // 发送成功后更新本地库
+                let db = new GoDB(this.$store.state.DBName);
+                let sendPaper = db.table('sendPaper')
+                // let paperData = await sendPaper.find(item => JSON.parse(item.paperContent).paperId === row.paperContent.paperId && item.delFlag !== '1')
+                await sendPaper.put(row)
+                await db.close()
+                // 更新列表
+                await this.getData()
               } else {
                 this.$message.error('发送文书失败，请重新发送！')
               }
@@ -310,6 +318,7 @@ export default {
         })
         .catch(() => {
         });
+        this.loading.btn = false
     },
     async handleEdit(row) {
       // 编辑，打开编辑页面
@@ -336,7 +345,6 @@ export default {
       let sendData = {
         receiveId: row.receiveId,
         receiveName: row.receiveName,
-        isReceive: row.isReceive
       }
       this.changePage({docData, corpData, sendData, paperData: row.paperContent});
     },
@@ -348,24 +356,22 @@ export default {
         type: "warning",
       })
         .then(async () => {
-          await this.operationData(row, 'delFlag')
+          // 从本地数据库中删除数据
+          this.loading.btn = true
+          row.delFlag = '1'
+          row.paperContent.delFlag = '1'
+          row.paperContent = JSON.stringify(row.paperContent)
+          let db = new GoDB(this.$store.state.DBName);
+          let sendPaper = db.table('sendPaper')
+          await sendPaper.put(row)
+          await db.close()
+          this.loading.btn = false
+          // 更新列表
+          await this.getData()
         })
         .catch(() => {
         });
     },
-    async operationData (row, type) {
-      // 从本地数据库中删除数据或置为已发送
-      this.loading.btn = true
-      let db = new GoDB(this.$store.state.DBName);
-      let sendPaper = db.table('sendPaper')
-      let paperData = await sendPaper.find(item => JSON.parse(item.paperContent).paperId === row.paperContent.paperId && item.delFlag !== '1')
-      paperData[type] = '1'
-      await sendPaper.put(paperData)
-      await db.close()
-      this.loading.btn = false
-      // 更新列表
-      await this.getData()
-    }
   },
 };
 </script>

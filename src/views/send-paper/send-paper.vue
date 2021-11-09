@@ -31,13 +31,11 @@
 <script>
 import sendPaperMain from '@/views/send-paper/components/send-paper-main'
 import sendPaperPaper from '@/views/send-paper/components/send-paper-paper'
-import sendPaperHistory from '@/views/send-paper/components/send-paper-history'
 export default {
   name: "SendPaper",
   components: {
     sendPaperMain,
     sendPaperPaper,
-    sendPaperHistory
   },
   data() {
     return {
