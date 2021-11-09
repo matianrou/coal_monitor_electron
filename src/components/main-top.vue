@@ -36,6 +36,7 @@
       <div class="main-top-operation">
         <!-- 操作 -->
         <!-- <el-button type="text" @click="logoutHandle">退出</el-button> -->
+        <img :src="activeTab === 'sendPaper' ? require('@/components/assets/image/paper-send-actived.png') : require('@/components/assets/image/paper-send.png')" class="btn-icon" title="调查笔录发送" @click="changeTab('sendPaper')" />&nbsp;
         <i class="el-icon-s-promotion btn-icon" title="隐患发送" @click="sendDanger"></i>
         <div class="split-line"></div>
         <img src="@/components/assets/image/minus.png" class="btn-icon" id="minbt"  title="最小化" @click="handleWindow('window-min')" />&nbsp;
@@ -123,7 +124,7 @@ export default {
     sendDanger () {
       // 隐患发送
       this.visible.sendDanger = true
-    }
+    },
   },
 };
 </script>

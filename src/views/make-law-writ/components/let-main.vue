@@ -23,7 +23,7 @@
             <svg t="1632967972260" class="icon" viewBox="0 0 1152 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4406" width="38" height="38"><path d="M768 243.8c0-12.6-5-24.8-14-33.8L558.2 14c-9-9-21.2-14-34-14H512v256h256v-12.2zM384 672v-64c0-17.68 14.32-32 32-32h352V320H496c-26.4 0-48-21.6-48-48V0H48C21.4 0 0 21.4 0 48v928c0 26.6 21.4 48 48 48h672c26.6 0 48-21.4 48-48V704H416c-17.68 0-32-14.32-32-32z m758.1-56.04l-191.4-192.86c-20.12-20.28-54.72-6.02-54.72 22.54V576H768v128h127.98v130.36c0 28.56 34.58 42.82 54.72 22.54l191.4-192.84c13.2-13.32 13.2-34.8 0-48.1z" fill="#1890FF" p-id="4407"></path></svg>
             <span style="color: #409EFF; display:block;font-size:14px;font-weight: bold;"> 导 出</span>
           </td>
-          <td style="width:100px;text-align:center;cursor: pointer;" @click="cmdDocSave('0')">
+          <td v-if="fromPage === 'send-page'" style="width:100px;text-align:center;cursor: pointer;" @click="cmdDocSave('0')">
             <svg t="1631780752712" class="icon" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10822" width="40" height="40"><path d="M59.6 513.2h166l44.6 93.8c17.8 37.4 55.6 61.2 97 61.2h300.6c41.6 0 79.4-24 97.2-61.4l44-93.4h162.8c14.2 0 27.8 5.6 38 15.8 10 10 15.8 23.8 15.8 38v268.2c0 28.4-11.4 55.8-31.4 75.8a107.016 107.016 0 0 1-75.8 31.4H113.2c-28.4 0-55.8-11.4-75.8-31.4C17.4 890.8 6 863.6 6 835V566.8c0-29.6 24-53.6 53.6-53.6z m0 0" fill="#1890FF" p-id="10823"></path><path d="M864.4 464h-88.2l-21 77.2c-12.8 46.8-55.2 79.2-103.6 79.2H387.2c-51 0-95-36-105.2-86L267.8 464H167V137.6c0-14.2 5.6-27.8 15.8-38 10-10 23.8-15.8 38-15.8H811c29.6 0 53.6 24 53.6 53.6V464zM442 362.8c-10.6 0-20.2 6.2-24.6 16-4.2 9.8-2.4 21 4.6 28.8l93.4 103 93.4-103c7.2-7.8 9-19.2 4.6-28.8-4.2-9.8-14-16-24.6-16h-40V178.2h-67V363H442z" fill="#1890FF" p-id="10824"></path></svg>
             <span style="color: #409EFF; display:block;font-size:14px;font-weight: bold;"> 归 档</span>
           </td>
@@ -119,6 +119,16 @@ export default {
       // 编辑回显数据
       type: Object,
       default: () => {},
+    },
+    fromPage: {
+      // 来自功能模块：当前用于文书发送时，不展示归档按钮
+      type: String,
+      default: null
+    },
+    sendData: {
+      // 发送文书时接收用户信息
+      type: Object,
+      default: () => {}
     }
   },
   data() {
@@ -158,7 +168,8 @@ export default {
       // 是否可编辑或保存归档
       let edit = false
       // 判断当前是否为编辑，如果编辑时则调取paperData中的delFlag字段，如果为归档，则不可编辑
-      if (this.paperData && this.paperData.paperId && this.paperData.delFlag === '0') {
+      // 当文书发送时，如果isReceive为已发送1时则不可再编辑
+      if (this.paperData && this.paperData.paperId && this.paperData.delFlag === '0' || (this.sendData && this.sendData.isReceive === '1')) {
         edit = false
       } else {
         edit = true
@@ -176,8 +187,8 @@ export default {
       // 当文书为意见建议书时，判断文件为this.$parent.letData.UploadFile.tableData
       if (((this.docData.docTypeNo === '21' || this.docData.docTypeNo === '44') && this.$parent.fileList.length > 0) || this.docData.docTypeNo === '43'
        || ((this.docData.docTypeNo === '16' || this.docData.docTypeNo === '17') && this.$parent.letData.UploadFile.tableData.length > 0)) {
-        const db = new GoDB(this.DBName);
-        const wkPaper = db.table("wkPaper");
+        let db = new GoDB(this.DBName);
+        let wkPaper = db.table("wkPaper");
         let paperList = await wkPaper.findAll(item => item.paperId === this.$parent.paperId && item.delFlag !== '1')
         if (paperList.length < 1) {
           this.$confirm(`${this.docData.docTypeNo === '43' ? '当前未保存文书，如已上传文件，' : '当前已上传文件，但未保存文书，如果'}返回主页面则无法保存已上传的文件，需要先点击“保存”按钮后才能保存已上传的文件！`, '注意!', {
@@ -212,11 +223,21 @@ export default {
             await this.savePaper(saveFlag)
           }).catch(() => {})
         } else {
-          await this.savePaper(saveFlag)
+          if (this.fromPage === 'send-paper') {
+            // 保存发送文书数据
+            this.saveSendPaper()
+          } else {
+            // 一般执法工作台中的文书保存
+            await this.savePaper(saveFlag)
+          }
         }
         this.loading.btn = false
       } else {
-        this.$message.error('文书已经完成归档，不能再次保存或回档！')
+        if (this.sendData && this.sendData.isReceive === '1') {
+          this.$message.error('文书已发送，不可再编辑！')
+        } else {
+          this.$message.error('文书已经完成归档，不能再次保存或回档！')
+        }
       }
     },
     async savePaper (saveFlag) {
@@ -257,8 +278,8 @@ export default {
         corpName: this.corpData && this.corpData.corpName ? this.corpData.corpName : '',
         planId: this.corpData && this.corpData.planId ? this.corpData.planId : '',
       };
-      const db = new GoDB(this.DBName);
-      const wkPaper = db.table("wkPaper");
+      let db = new GoDB(this.DBName);
+      let wkPaper = db.table("wkPaper");
       // 如果保存的是已编辑的 那么保存的同时要把上一条重复的数据删除（修改为直接更新数据库）
       let hasPaperData = await wkPaper.find((item) => {
         return item.paperId === paperId && item.delFlag !== '1';
@@ -357,6 +378,67 @@ export default {
         await saveFineCollection(paperId)
       }
       // 返回列表并刷新
+      this.cmdDocBack();
+    },
+    async saveSendPaper () {
+      // 保存发送文书数据
+      let createDate = this.paperData && this.paperData.createDate
+        ? this.paperData.createDate
+        : getNowFormatTime();
+      let createTime = this.paperData && this.paperData.createTime
+        ? this.paperData.createTime
+        : getNowFormatTime();
+      let jsonPaper = {
+        paperId: this.$parent.paperId,
+        remoteId: "",
+        delFlag: '2',
+        createDate,
+        updateDate: getNowFormatTime(),
+        createById: this.$store.state.user.userId,
+        updateById: this.$store.state.user.userId,
+        createTime,
+        personId: this.$store.state.user.userId,
+        personName: this.$store.state.user.userName,
+        p0FloorTime: "",
+        groupId: this.$store.state.user.userGroupId, //机构id
+        groupName: this.$store.state.user.userGroupName, //机构名称
+        paperContent: JSON.stringify(this.$parent.letData),
+        paperType: this.docData.docTypeNo,
+        name: this.docData.docTypeName,
+        caseId: '',
+        caseType: "",
+        corpId: this.corpData.corpId,
+        corpName: this.corpData.corpName,
+        planId: '',
+      };
+      let saveData = {
+        postId: this.$store.state.user.userId,
+        receiveId: this.sendData.receiveId,
+        receiveName: this.sendData.receiveName,
+        paperContent: JSON.stringify(jsonPaper),
+        companyId: this.corpData.corpId,
+        companyName: this.corpData.corpName,
+        isReceive: '0',
+        id: getNowTime() + randomString(18),
+        delFlag: '2',
+        createDate,
+        updateDate: getNowFormatTime(),
+        createById: this.$store.state.user.userId,
+        updateById: this.$store.state.user.userId,
+      }
+      // 保存至本地数据库
+      let db = new GoDB(this.DBName);
+      let sendPaper = db.table('sendPaper')
+      let hasPaperData = await sendPaper.find(item => JSON.parse(item.paperContent).paperId === this.$parent.paperId)
+      // 判断当前是否已经保存此id的数据，如果已经保存则·删除重新添加
+      if (hasPaperData) {
+        await sendPaper.delete({ id: hasPaperData.id });
+        await sendPaper.add(saveData);
+      } else {
+        await sendPaper.add(saveData);
+      }
+      await db.close()
+      this.$message.success(`“${this.docData.docTypeName}”文书已经保存完毕。`);
       this.cmdDocBack();
     },
     cmdDocView() {
@@ -560,14 +642,14 @@ export default {
       }
       await JSZipUtils.getBinaryContent(`./static/docxtemplate/${this.$store.state.user.userType}/doc${docName}.docx`, (error, content) => {
         console.log('error = ', error, content)
-        const zip = new pizzip(content)
-        const doc = new docxtemplater()
+        let zip = new pizzip(content)
+        let doc = new docxtemplater()
         doc.loadZip(zip)
         doc.setData(exportData)
         try {
           doc.render()
         } catch (error) {
-          const e = {
+          let e = {
             message: error.message,
             name: error.name,
             stack: error.stack,
@@ -575,7 +657,7 @@ export default {
           }
           throw error
         }
-        const out = doc.getZip().generate({
+        let out = doc.getZip().generate({
           type: 'blob',
           mimeType:
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document'

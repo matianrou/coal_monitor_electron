@@ -9,6 +9,10 @@ import { randomString } from "@/utils/index";
 export default {
   name: "AssociationSelectPaper",
   props: {
+    fromPage: {
+      type: String,
+      default: null
+    },
     corpData: {
       type: Object,
       default: () => {},
@@ -23,6 +27,11 @@ export default {
       },
     },
     paperData: {
+      type: Object,
+      default: () => {}
+    },
+    sendData: {
+      // 发送文书时接收用户信息
       type: Object,
       default: () => {}
     }
@@ -128,6 +137,9 @@ export default {
           }
         } else if (this.docData.docTypeNo === '16' || this.docData.docTypeNo === '17' || this.docData.docTypeNo === '15') {
           // 从意见建议书中引入的文书没有选择煤矿也没有监察活动
+          this.initLetData && this.initLetData()
+        } else if (this.docData.docTypeNo === '5') {
+          // 文书发送：调查取证笔录
           this.initLetData && this.initLetData()
         }
       }

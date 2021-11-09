@@ -178,7 +178,7 @@ import { treeDataTranslate } from '@/utils/index'
             this.curAreaLevel = 4
           }
         }
-        this.dataForm.areaId = data.code
+        this.dataForm.areaId = data ? data.code : null
         this.getCompanyList()
       },
       close (refresh) {

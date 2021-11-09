@@ -174,7 +174,7 @@ export default {
       },
       visible: {
         selectCompany: false, // 添加选择企业
-        casePull: false, // 文书拉取
+        casePull: false, // 检查活动拉取
       },
       selectedCase: {}, // 已选中的检查活动（或计划）
       DBName: this.$store.state.DBName,

@@ -7,6 +7,8 @@
       :doc-data="docData"
       :let-data="letData"
       :paper-data="paperData"
+      :from-page="fromPage"
+      :send-data="sendData"
       @go-back="goBack"
     >
       <div slot="left">
@@ -71,13 +73,10 @@
               <div class="line"></div>
             </div>
             <div class="docTextarea">
-              调查事由：
-              <span
-                @click="commandFill('cellIdx8', '调查事由', 'DangerTable')"
-                >{{
-                  letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
-                }}</span
-              >
+              <span class="no-line">调查事由：</span>
+              <span @click="commandFill('cellIdx8', '调查事由', 'TextareaItem')">{{
+                letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
+              }}</span>
               <div class="line"></div>
             </div>
             <div class="docTextLine">
@@ -105,7 +104,7 @@
                 <span
                   class="line-div"
                   @click="commandFill('cellIdx12', '身份证号', 'TextItem')"
-                  >{{ letData.cellIdx12 ? letData.cellIdx12 : "（XX）" }}</span
+                  >{{ letData.cellIdx12 ? letData.cellIdx12 : "" }}</span
                 >
               </div>
             </div>
@@ -379,15 +378,15 @@ export default {
       let cellIdx2Date = now.getDate().toString();
       let cellIdx3Hour = now.getHours().toString();
       let cellIdx4Minu = now.getMinutes().toString();
-      let let1DataPapaerContent = JSON.parse(
+      let let1DataPapaerContent = selectedPaper ? JSON.parse(
         selectedPaper.let1Data.paperContent
-      );
-      let dangerObject = getDangerObject(
+      ) : null;
+      let dangerObject = let1DataPapaerContent ? getDangerObject(
         let1DataPapaerContent.DangerTable.tableData
-      );
-      let cellIdx8String = `${corp.corpName}涉嫌${dangerObject.dangerString}。`;
+      ) : null;
+      let cellIdx8String = `${corp.corpName}涉嫌${dangerObject ? dangerObject.dangerString : 'XXX案'}。`;
       // 2.组成： “我们是”+当前机构+“监察员，这是我们的执法证件（出示行政执法证件），现就你”+煤矿名称+“涉嫌”+隐患描述+“违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？”
-      let cellIdx21String = `我们是${this.$store.state.user.userGroupName}监察员，这是我们的执法证件（出示行政执法证件），现就你${corp.corpName}涉嫌${dangerObject.dangerString}违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？`;
+      let cellIdx21String = `我们是${this.$store.state.user.userGroupName}监察员，这是我们的执法证件（出示行政执法证件），现就你${corp.corpName}涉嫌${dangerObject ? dangerObject.dangerString : 'XXX'}违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？`;
       await db.close();
       this.letData = {
         cellIdx0: cellIdx0Year, // 年
@@ -424,7 +423,6 @@ export default {
         cellIdx30: null,
         cellIdx31: null,
         cellIdx32: null,
-        DangerTable: let1DataPapaerContent.DangerTable,
         extraData: {
           // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
@@ -441,18 +439,6 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
-        let spellString = {};
-        if (key === "cellIdx8") {
-          spellString = {
-            corpName: this.letData.extraData.corpName,
-          };
-          this.options[key] = {
-            page: "5",
-            key: key,
-            spellString,
-          };
-          dataKey = "DangerTable";
-        }
         this.$refs.letMain.commandFill(
           key,
           dataKey,

@@ -381,12 +381,6 @@ import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let214",
   mixins: [associationSelectPaper],
-  props: {
-    fromPage: {
-      type: String,
-      default: null
-    }
-  },
   data() {
     return {
       letData: {},

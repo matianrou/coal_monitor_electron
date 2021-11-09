@@ -52,6 +52,12 @@ export default new Router({
           name: 'opinionSuggestion',
           component: () => import('@/views/opinion-suggestion/opinion-suggestion')
         },
+        // 发送文书
+        {
+          path: '/main/sendPaper',
+          name: 'sendPaper',
+          component: () => import('@/views/send-paper/send-paper')
+        },
       ]
     }
   ]

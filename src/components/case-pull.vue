@@ -1,7 +1,7 @@
-<!-- 文书拉取 弹窗 -->
+<!-- 检查活动 弹窗 -->
 <template>
   <el-dialog
-    title="文书拉取"
+    title="检查活动拉取"
     :close-on-click-modal="false"
     append-to-body
     :visible="visible"
@@ -271,7 +271,7 @@
     justify-content: right;
   }
   .content-div-main {
-    height: calc(100vh - 5vh - 5vh - 140px - 30px);
+    height: calc(100vh - 5vh - 5vh - 140px - 50px);
     display: flex;
     border: 1px solid #DCDFE6;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);

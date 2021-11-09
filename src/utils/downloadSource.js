@@ -974,6 +974,25 @@ async function doDocDb(resId, data){
 			"reviewUnitId": String,     //复查单位id：null
 			"reviewUnitName": String,   //复查单位名称：null
     },
+		// 创建发送文书数据库
+		sendPaper: {
+			"id": {     
+				type: String,
+				unique: true
+			},
+			"postId": String,  // 发送人id
+			"receiveId": String, // 接收人id,
+			"receiveName": String, // 接收人姓名,
+			"paperContent": String, // 文书大JSON字符串,/
+			"companyId": String, // 煤矿id
+			"companyName": String, // 煤矿名称,
+			"isReceive": String, // 是否发送,'0'未发送，'1'是发送
+			"delFlag": String, // 2保存 1删除 0归档
+			"createDate": String,
+			"updateDate": String,
+			"createById": String,
+			"updateById": String,
+		},
 	};
 	const db = new GoDB(store.state.DBName, schema);
 	const wkPaper = db.table('wkPaper');

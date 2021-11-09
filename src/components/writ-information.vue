@@ -191,12 +191,12 @@ export default {
       // 生成文书编号的最后三位自增数字：存储在LocalStorage中，根据userId获取对应数据
       let num = 0
       let userNumber = this.$store.state.user.userNumber
-      if(localStorage.getItem(`addSelfNum-${userNumber}`)) {
-        num = Number(localStorage.getItem(`addSelfNum-${userNumber}`)) + 1
-        localStorage.setItem(`addSelfNum-${userNumber}`, num)
+      if(localStorage.getItem(`addSelfNum-${this.$store.state.user.userId}-${userNumber}`)) {
+        num = Number(localStorage.getItem(`addSelfNum-${this.$store.state.user.userId}-${userNumber}`)) + 1
+        localStorage.setItem(`addSelfNum-${this.$store.state.user.userId}-${userNumber}`, num)
       } else {
         num = 1
-        localStorage.setItem(`addSelfNum-${userNumber}`, 1)
+        localStorage.setItem(`addSelfNum-${this.$store.state.user.userId}-${userNumber}`, 1)
       }
       // numString三位数字存储进wkCase表中，文书编号生成时抓取
       let numString = (Array(3).join(0) + num).slice(-3)

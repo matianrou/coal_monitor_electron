@@ -39,13 +39,10 @@
               </div>
             </div>
             <div class="docTextarea">
-              案&nbsp;&nbsp;&nbsp; 由：
-              <span
-                @click="commandFill('cellIdx4', '案由', 'DangerTable')"
-                >{{
-                  letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）"
-                }}</span
-              >
+              <span class="no-line">案&nbsp;&nbsp;&nbsp; 由：</span>
+              <span  @click="commandFill('cellIdx4', '案由', 'DangerTable')">{{
+                letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）"
+              }}</span>
               <div class="line"></div>
             </div>
             <div class="docTextarea">
