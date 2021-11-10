@@ -287,7 +287,8 @@ export default {
           // 发送文书数据
           this.loading.btn = true
           row.delFlag = '0' // 发送时相当于归档
-          row.paperContent.delFlag = '0'
+          row.paperContent.delFlag = '2' // 文书依旧可以修改编辑
+          row.paperContent.isSelected = false // 未接收标记
           row.paperContent = JSON.stringify(row.paperContent)
           // 调用接口发送文书数据
           await this.$http.post(

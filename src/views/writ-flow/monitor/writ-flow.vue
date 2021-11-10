@@ -332,8 +332,8 @@
                   <img 
                     v-if="unreceivedStatus.unreceived5"
                     src="@/views/writ-flow/assets/image/paper-send-icon.png" 
-                    class="send-paper-img" 
                     title="有未接收的文书，请点击接收"
+                    style="top: 42px; left: 8px;"
                     @click="receivePaper('5')"
                   />
                   <img
@@ -790,6 +790,7 @@
       :visible="visible.receivePaper"
       :corp-data="corpData"
       @close="closeDialog"
+      @recevice-paper="recevicePaper"
     ></receive-paper>
   </div>
 </template>
@@ -830,9 +831,12 @@ export default {
           if (paper.companyId === this.corpData.corpId) {
             let paperContentString = paper.paperContent
             let paperContent = JSON.parse(paperContentString)
-            let key = `unreceived${paperContent.paperType}`
-            if (!status[key]) {
-              status[key] = true
+            // 根据isSelected区分是否已经接收完毕，如果有未接收则加入状态中
+            if (!paperContent.isSelected) {
+              let key = `unreceived${paperContent.paperType}`
+              if (!status[key]) {
+                status[key] = true
+              }
             }
           }
         })
@@ -846,7 +850,7 @@ export default {
       if (this.activeFlowTab !== `flow-${tab}`)
         this.activeFlowTab = `flow-${tab}`;
     },
-    async cmdEditDoc(letId, docTypeName, docTypeNo, isCreated = false) {
+    async cmdEditDoc(letId, docTypeName, docTypeNo, isCreated = false, isCurPaper = null) {
       if (this.corpData.caseId) {
         //显示文书模板（制作文书）
         this.$emit("change-page", {
@@ -857,7 +861,8 @@ export default {
               docTypeNo: docTypeNo,
               docTypeName: docTypeName,
             },
-            isCreated
+            isCreated,
+            isCurPaper
           },
         });
       } else {
@@ -882,6 +887,15 @@ export default {
     },
     closeDialog({page}) {
       this.visible[page] = false
+    },
+    recevicePaper({data}) {
+      // 接收文书后：或查看文书时
+      // 关闭弹窗
+      this.visible.receivePaper = false
+      // 进入接收的文书中
+      let page = this.$store.state.dictionary.monitorPaperType.filter(item => item.id === data.paperContent.paperType)
+      let isCurPaper = data.paperContent
+      this.cmdEditDoc(page[0].page, data.paperContent.name, data.paperContent.paperType, false, isCurPaper)
     }
   },
 };
@@ -915,13 +929,6 @@ export default {
   text-align: center;
   color: #000;
   position: relative;
-  .send-paper-img {
-    position: absolute;
-    width: 18px;
-    top: 8px;
-    left: 8px;
-    cursor: pointer;
-  }
   img {
     position: absolute;
     width: 20px;

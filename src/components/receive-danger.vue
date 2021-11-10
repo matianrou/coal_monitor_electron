@@ -147,7 +147,7 @@ export default {
   },
   methods: {
     async getDangerList () {
-      // 根绝当前企业及登录用户获取隐患列表
+      // 根据当前企业及登录用户获取隐患列表
       this.loading = true
       await this.$http.get(`${this.userType === 'supervision' ? '/sv' : ''}/local/postdanger/findAllByUserId?__sid=${this.$store.state.user.userSessId}&userId=${this.$store.state.user.userId}&corpId=${this.corpData.corpId}`)
         .then(async ({ data }) => {

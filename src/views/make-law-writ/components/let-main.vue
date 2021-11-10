@@ -168,8 +168,8 @@ export default {
       // 是否可编辑或保存归档
       let edit = false
       // 判断当前是否为编辑，如果编辑时则调取paperData中的delFlag字段，如果为归档，则不可编辑
-      // 当文书发送时，如果isReceive为已发送1时则不可再编辑
-      if (this.paperData && this.paperData.paperId && this.paperData.delFlag === '0') {
+      // 当文书发送时，如果isSelected为已发送false时则不可再编辑（文书发送保存时无此字段，发送后为false,接收后为true,所以必须判定为===false）
+      if (this.paperData && (this.paperData.paperId && this.paperData.delFlag === '0' || this.paperData.isSelected === false)) {
         edit = false
       } else {
         edit = true
@@ -294,7 +294,7 @@ export default {
       // 调查取证笔录5、案件处理呈报书36、行政处罚告知书6、行政处罚决定书8、
       // 隐患整改44
       let docTypeNo = this.$parent.docData.docTypeNo
-      if (docTypeNo === '1' || docTypeNo === '2' || docTypeNo === '4' || docTypeNo === '5'
+      if (docTypeNo === '1' || docTypeNo === '2' || docTypeNo === '4' 
         || docTypeNo === '36' || docTypeNo === '6' || docTypeNo === '8' || docTypeNo === '44') {
         // 2.根据paperData.paperId检索wkDanger中的隐患项，如果已存在则删除重新添加，如果未存在则直接添加
         // 删除原隐患项

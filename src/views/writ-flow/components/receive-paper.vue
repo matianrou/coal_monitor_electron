@@ -106,6 +106,7 @@
 </template>
 
 <script>
+import GoDB from "@/utils/godb.min.js";
 export default {
   name: "ReceivePaper",
   props: {
@@ -140,12 +141,16 @@ export default {
     dataList() {
       let list = []
       if (this.$store.state.unreceivedPaper.length > 0) {
+        // 当页签选择为接收文书时，筛选isSelected为false即未接收的文书，当页签为历史记录时筛选isSelected为true即已接收的文书
+        let isSelected = this.activeTab === 'receive' ? false : true
         this.$store.state.unreceivedPaper.map(paper => {
           if (paper.companyId === this.corpData.corpId) {
             let paperContentString = paper.paperContent
-            list.push(Object.assign({}, paper, {
-              paperContent: JSON.parse(paperContentString)
-            }))
+            if (JSON.parse(paperContentString).isSelected === isSelected) {
+              list.push(Object.assign({}, paper, {
+                paperContent: JSON.parse(paperContentString)
+              }))
+            }
           }
         })
       }
@@ -163,11 +168,69 @@ export default {
       // 关闭
       this.$emit('close', {page: 'receivePaper'})
     },
-    handleRecevice () {
-
+    async handleRecevice (row) {
+      // 接收文书
+      // 置发送的文书中isSelected为true
+      row.paperContent.isSelected = true
+      row.paperContent.caseId = this.corpData.caseId
+      row.paperContent.caseType = this.corpData.caseType
+      row.paperContent.planId = this.corpData.planId
+      row.paperContent = JSON.stringify(row.paperContent)
+      // 发送请求确认接收
+      await this.$http.post(
+          `${this.userType === 'supervision' ? '/sv' : ''}/local/api-postPaper/save?__sid=${this.$store.state.user.userSessId}`,
+          {
+            sendJson: true,
+            data: row
+          }
+        )
+        .then(async ({ data }) => {
+          if (data.status === "200") {
+            this.$message.success('接收文书成功！')
+            // 接收成功后
+            // 将文书数据放入本地数据库中
+            let db = new GoDB(this.$store.state.DBName);
+            let wkPaper = db.table('wkPaper')
+            let hasPaperData = await wkPaper.find((item) => {
+              return item.paperId === row.paperContent.paperId && item.delFlag !== '1';
+            });
+            row.paperContent = JSON.parse(row.paperContent)
+            if (hasPaperData == null) {
+              await wkPaper.add(row.paperContent);
+            } else {
+              await wkPaper.delete({ paperId: hasPaperData.paperId });
+              await wkPaper.add(row.paperContent);
+            }
+            await db.close()
+            // 更新列表
+            await this.getData()
+            // 关闭当前接收窗口
+            this.$emit('recevice-paper', {data: row})
+          } else {
+            this.$message.error('发送文书失败，请重新发送！')
+          }
+        })
+        .catch((err) => {
+          console.log("发送文书失败：", err);
+        });
     },
-    handleShow () {
-
+    async getData() {
+      let {userId, userSessId} = this.$store.state.user
+      await this.$http.get(`${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/api-postPaper/findAllByUserId?userId=${userId}&__sid=${userSessId}`)
+        .then(async ({ data }) => {
+          if (data.status === "200") {
+            this.$store.commit('changeState', {
+              key: 'unreceivedPaper',
+              val: data.data
+            })
+          }
+        })
+        .catch((err) => {
+          console.log('获取未接收的文书失败！', err)
+        });
+    },
+    handleShow (row) {
+      this.$emit('recevice-paper', {data: row})
     }
   },
 };

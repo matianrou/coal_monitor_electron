@@ -139,6 +139,10 @@ export default {
         if (data.isCreated) {
           // 新增时进入填写页面时，data为展示模板page
           this.gotoWritFill(data)
+        } else if (data.isCurPaper && data.isCurPaper.paperId) {
+          // 判断当指定进入某个文书时，当前用于接收文书后直接进入展示文书内容
+          this.paperData = data.isCurPaper
+          this.gotoWritFill(data)
         } else {
           // 如果为编辑则调取wkPaper文书表，如果为多条则弹窗选择文书，选择后的文书id传入组件中以拉取历史数据做为回显
           const db = new GoDB(this.$store.state.DBName);
