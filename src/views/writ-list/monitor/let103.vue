@@ -80,12 +80,12 @@
                 @click="
                   commandFill(
                     'cellIdx5',
-                    '检查的主要内容和分工见明细表',
+                    `国家矿山安全监察局${userGroupName}检查分工明细表`,
                     'CheckTable'
                   )
                 "
               >
-                六、检查的主要内容和分工见明细表（附件：《XX矿山安全监察局检查分工明细表》）
+                六、检查的主要内容和分工见明细表（附件：《国家矿山安全监察局{{userGroupName}}检查分工明细表》）
               </div>
               <div></div>
             </div>
@@ -106,12 +106,12 @@
                 @click="
                   commandFill(
                     'cellIdx7',
-                    '检查的主要内容和分工见明细表',
+                    `国家矿山安全监察局${userGroupName}检查分工明细表`,
                     'CheckTable'
                   )
                 "
               >
-                《XX矿山安全监察局检查分工明细表》
+                《国家矿山安全监察局{{userGroupName}}检查分工明细表》
               </div>
             </div>
             <div class="docTextLine">
@@ -224,38 +224,8 @@ export default {
   data() {
     return {
       letData: {},
-      options: {
-        cellIdx1: [
-          { value: "1", name: "重点监察" },
-          { value: "2", name: "专项监察" },
-          { value: "3", name: "随机抽查" },
-          { value: "4", name: "会诊" },
-          { value: "5", name: "体检" },
-          { value: "7", name: "煤矿安全集中整治" },
-          { value: "8", name: "“一通三防”全覆盖专项监察" },
-          { value: "9", name: "水害防治专项监察" },
-          { value: "10", name: "机电设备专项监察" },
-          { value: "11", name: "安全培训专项监察" },
-          { value: "12", name: "提升运输专项监察" },
-          { value: "13", name: "顶板管理专项监察" },
-          { value: "14", name: "采掘接续专项监察" },
-          { value: "15", name: "建设项目专项监察" },
-          { value: "16", name: "冲击地压防治专项监察" },
-          { value: "17", name: "超能力生产专项监察" },
-          { value: "18", name: "安全投入专项监察" },
-          { value: "19", name: "安全生产主体责任专项监察" },
-          { value: "20", name: "矿领导带班下井专项监察" },
-          { value: "21", name: "安全生产许可证专项监察" },
-          { value: "22", name: "安全监控系统专项监察" },
-          { value: "23", name: "应急救援专项监察" },
-          { value: "25", name: "“互联网+ 监管” 远程监察" },
-          { value: "30", name: "异地监察" },
-          { value: "32", name: "全系统各环节监察" },
-          { value: "33", name: "停产停工安全巡查" },
-          { value: "26", name: "其他专项监察" },
-          { value: "6", name: "其他" },
-        ],
-      },
+      options: {},
+      userGroupName: this.$store.state.user.userGroupName
     };
   },
   methods: {

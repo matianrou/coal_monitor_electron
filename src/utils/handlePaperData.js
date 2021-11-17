@@ -9,12 +9,16 @@ function setTextItem (data) {
 }
 
 function setCheckItem (data, selectedData, options) {
-  // 处理多选展示内容
+  // 处理检查方案中监察或监管类型或方式展示内容
   let string = ''
   options.map(option => {
-    data.map(val => {
+    data.checkList.map(val => {
       if (option.value === val) {
-        string += option.name + ','
+        if (val === '26') {
+          string += option.label + '：' + data.detailValue + ','
+        } else {
+          string += option.label + ','
+        }
       }
     })
   })

@@ -5,7 +5,7 @@ import GoDB from "@/utils/godb.min.js";
 import letMain from "@/views/make-law-writ/components/let-main.vue";
 import selectPaper from '@/components/select-paper'
 import { getNowDate, getNowTime } from '@/utils/date'
-import { randomString } from "@/utils/index";
+import { randomString, sortbyAsc } from "@/utils/index";
 export default {
   name: "AssociationSelectPaper",
   props: {
@@ -88,6 +88,7 @@ export default {
     async initData() {
       // 初始化文书内容
       // 案件处理呈报书需初始化法制审核意见
+      const db = new GoDB(this.$store.state.DBName);
       if (this.docData.docTypeNo === '36') {
         // 4.法制审核意见初始化码表
         let nowDate = getNowDate();
@@ -103,6 +104,11 @@ export default {
             value: `经${nowDate}法制审核，${item}`,
           });
         });
+      } else if (this.docData.docTypeNo === '22' || this.docData.docTypeNo === '42') {
+        let programmeType = db.table('programmeType')
+        let programmeTypeList = await programmeType.findAll(item => item)
+        programmeTypeList.sort(sortbyAsc('createDate'))
+        this.options.cellIdx1 = programmeTypeList
       }
       if (this.paperData && this.paperData.paperId) {
         this.paperId = this.paperData.paperId
@@ -112,7 +118,6 @@ export default {
         this.paperId = getNowTime() + randomString(18)
         // 创建初始版本
         if (this.corpData && this.corpData.caseId) {
-          const db = new GoDB(this.$store.state.DBName);
           const wkPaper = db.table('wkPaper')
           // 按组件中定义的associationPaper关联文书
           let isReturn = false

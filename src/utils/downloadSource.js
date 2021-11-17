@@ -1407,6 +1407,58 @@ async function docFileListDb(resId, data){
 	await db.close();
 }
 
+// “监察或监管类型或方式码表”下载。
+async function doProgrammeTypeDb(resId, data) {
+  let schema = {
+    programmeType: {
+      "id": {
+        type: String,
+        unique: true
+      },
+			"label": String, // "防溃水溃砂专项检查"
+			"value": String, // "34"
+			"delFlag": String, // "0"
+			"description": String, // "检查方案中的监察类型"
+			"parent": String, // json
+			"parentId": String, //  "0"
+			"parentIds": String, // "0,"
+			"sort": String, // 10
+			"type": String, // "programme_jczf_type"
+			"createBy": String, // "1"
+			"createDate": String, // "2021-08-20 17:50:03"
+			"updateBy": String, // "1"
+			"updateDate": String, // "2021-08-20 17:50:03"
+    }
+  };
+  let db = new GoDB(store.state.DBName, schema);
+  let programmeType = db.table('programmeType');
+  let arr = [];
+  for (let i = 0; i < data.length; i++) {
+		let obj = data[i];
+		let item = await programmeType.get({ id: obj.id });
+		if (item) await programmeType.delete({id: obj.id}) // 删除已有
+		arr.push({ 
+			id: obj.id,
+			label: obj.label,
+			value: obj.value,
+			delFlag: obj.delFlag,
+			description: obj.description,
+			parent: JSON.stringify(obj.parent),
+			parentId: obj.parentId,
+			parentIds: obj.parentIds,
+			sort: obj.sort,
+			type: obj.type,
+			createBy: obj.createBy.id,
+			createDate: obj.createDate,
+			updateBy: obj.updateBy.id,
+			updateDate: obj.updateDate,
+		});
+  }
+  // 增:
+  await programmeType.addMany(arr);
+  await db.close();
+}
+
 export {
   doOrgDb,
   doPersonDb,
@@ -1418,5 +1470,6 @@ export {
   doDangerCateDb,
   doDangerListDb,
   doDocDb,
-	docFileListDb
+	docFileListDb,
+	doProgrammeTypeDb
 }

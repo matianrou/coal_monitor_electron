@@ -141,6 +141,19 @@
         </tr>
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
+          <td>{{userType === 'supervision' ? '监管' : '监察'}}类型或方式</td>
+          <td>{{updateTime.programmeType}}</td>
+          <td style="text-align:center;" id="cell-programmeType-down">
+            <el-button
+              type="text"
+              :loading="loading.download"
+              id="btn-programmeType-down"
+              @click="resDownload('programmeType')"
+            >下载</el-button>
+          </td>
+        </tr>
+        <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
+          <td style="text-align:center;">&nbsp;</td>
           <td>隐患类别</td>
           <td>{{updateTime.dangerCate}}</td>
           <td style="text-align:center;" id="cell-dangerCate-down">
@@ -200,7 +213,7 @@
 </template>
 
 <script>
-import { doOrgDb, doPersonDb, doPlanDb, doCorpDb, doEnterpriseList, doCheckCateDb, doCheckListDb, doDangerCateDb, doDangerListDb, doDocDb, docFileListDb } from "@/utils/downloadSource"
+import { doOrgDb, doPersonDb, doPlanDb, doCorpDb, doEnterpriseList, doCheckCateDb, doCheckListDb, doDangerCateDb, doDangerListDb, doDocDb, docFileListDb, doProgrammeTypeDb } from "@/utils/downloadSource"
 import GoDB from "@/utils/godb.min.js";
 import { getUUID } from '@/utils/index'
 import { getNowFormatTime } from '@/utils/date'
@@ -232,16 +245,17 @@ export default {
       DBName: this.$store.state.DBName,
       updateTime: {
         id: null,
-        org: null,
-        person: null,
-        plan: null,
-        corp: null,
-        enterpriseList: null,
-        checkCate: null,
-        checkList: null,
-        dangerCate: null,
-        dangerList: null,
-        doc: null,
+        org: '未下载',
+        person: '未下载',
+        plan: '未下载',
+        corp: '未下载',
+        enterpriseList: '未下载',
+        checkCate: '未下载',
+        checkList: '未下载',
+        programmeType: '未下载',
+        dangerCate: '未下载',
+        dangerList: '未下载',
+        doc: '未下载',
       },
       fileData: {
         localReview: [],
@@ -249,7 +263,8 @@ export default {
         singleReceipt: [],
         imageEvidence: [],
         paperAttachment: []
-      }
+      },
+      userType: this.$store.state.user.userType
     };
   },
   computed: {
@@ -267,7 +282,7 @@ export default {
       const sourceDownload = db.table('sourceDownload')
       let downloadData = await sourceDownload.find(item => item)
       if (downloadData) {
-        this.updateTime = downloadData
+        this.updateTime = Object.assign({}, this.updateTime, downloadData)
       } else {
         this.updateTime = {
           id: getUUID(),
@@ -278,6 +293,7 @@ export default {
           enterpriseList: '未下载',
           checkCate: '未下载',
           checkList: '未下载',
+          programmeType: '未下载',
           dangerCate: '未下载',
           dangerList: '未下载',
           doc: '未下载',
@@ -335,6 +351,14 @@ export default {
             userSessId +
             "&officeId=" +
             userGroupId;
+          break;
+        case "programmeType": //获取监管或监察类型或方式码表
+          // 公共接口，地址不需要带上path变量
+          uri =
+            "/local/dict/listData?type=" +
+            (this.userType === 'supervision' ? 'programme_sv_type' : 'programme_jczf_type') +
+            "&__sid=" +
+            userSessId;
           break;
         case "dangerCate":
           //根据机构id获取全部隐患类别
@@ -409,6 +433,10 @@ export default {
                 case "checkList":
                   await doCheckListDb(resId, response.data.data);
                   this.$message.success('“检查项内容”已经下载完毕。');
+                  break;
+                case "programmeType":
+                  await doProgrammeTypeDb(resId, response.data.data);
+                  this.$message.success(`“${this.userType === 'supervision' ? '监管' : '监察'}类型或方式”已经下载完毕。`);
                   break;
                 case "dangerCate":
                   await doDangerCateDb(resId, response.data.data);
