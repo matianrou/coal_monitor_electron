@@ -4,8 +4,9 @@
     <el-input
       v-model="dataForm.tempValue"
       type="textarea"
-      :autosize="{ minRows: 25, maxRows: 30}"
-      :placeholder="placeholder">
+      :placeholder="placeholder"
+      :rows="13"
+      @change="changeValue">
     </el-input>
   </div>
 </template>
@@ -34,6 +35,9 @@ export default {
     this.dataForm.tempValue = this.value
   },
   methods: {
+    changeValue(val) {
+      this.$parent.handleSave(true)
+    }
   },
 };
 </script>

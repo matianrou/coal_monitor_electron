@@ -230,17 +230,17 @@ export default {
       let let1DataPapaerContent = JSON.parse(
         selectedPaper.let1Data.paperContent
       );
-      let dangerObject = getDangerObject(
+      let dangerObject = let1DataPapaerContent.DangerTable ? getDangerObject(
         let1DataPapaerContent.DangerTable.tableData
-      );
+      ): {dangerString: ''};
       // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
       // 获取笔录文书中的隐患数据
       let cellIdx2String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
       // 2.违法事实及依据：隐患描述+“经调查取证以上违法违规行为属实，分别违反了”+违法认定发条
-      dangerObject = getDangerObject(
+      dangerObject = let1DataPapaerContent.DangerTable ? getDangerObject(
         let1DataPapaerContent.DangerTable.tableData,
         { danger: true }
-      );
+      ) : {dangerString: '', illegalString: '', treatmentSuggestion: '', penaltyDescFineTotle: '', penaltyDescFineTotle: 0};
       let cellIdx6String = `${dangerObject.dangerString}经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString}的规定。`;
       // 3.建议案件处理意见：行政处罚依据+行政处罚决定（分条）
       let cellIdx7String = `分别依据${
@@ -248,20 +248,6 @@ export default {
       }。合并罚款人民币${transformNumToChinese(
         dangerObject.penaltyDescFineTotle
       )}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`;
-      // 4.法制审核意见初始化码表
-      let nowDate = getNowDate();
-      let optionList = [
-        "认为案件事实清楚，证据确凿充分，定性准确，处罚适当，程序合法，同意处罚意见。",
-        "认为案件主要事实不清，证据不足，建议继续调查或不予作出行政执法决定的建议。",
-        "认为案件定性不准，使用法律不准确，执行裁量基准不当的，建议给予XXX的行政处罚。",
-        "认为案件程序不合法的，建议进行纠正。",
-      ];
-      optionList.map((item) => {
-        this.options.cellIdx8.push({
-          name: `经${nowDate}法制审核，${item}`,
-          value: `经${nowDate}法制审核，${item}`,
-        });
-      });
       // 5.获取立案决定书编号及立案日期,承办人
       let let4DataPapaerContent = JSON.parse(
         selectedPaper.let4Data.paperContent

@@ -401,7 +401,7 @@ export default {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
         if (key === "cellIdx5") {
-          dataKey = `${key}`;
+          dataKey = `${type}`;
         } else if (key === 'cellIdx4') {
           dataKey = `${key}Type${type}`;
         }

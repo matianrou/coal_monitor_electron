@@ -1,7 +1,7 @@
 <!-- 填写组件 简单单选框 -->
 <template>
   <div style="width: 100%;">
-    <el-select v-model="dataForm.tempValue">
+    <el-select v-model="dataForm.tempValue" @change="changeValue">
       <el-option
         v-for="(item, index) in options"
         :key="index"
@@ -35,6 +35,11 @@ export default {
   created() {
     this.init()
   },
+  watch: {
+    value(val) {
+      this.init()
+    }
+  },
   methods: {
     init () {
       // 根据options将name比对value赋值
@@ -47,6 +52,9 @@ export default {
       } else {
         this.dataForm.tempValue = null
       }
+    },
+    changeValue(val) {
+      this.$parent.handleSave(true)
     }
   },
 };

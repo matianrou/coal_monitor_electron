@@ -20,12 +20,13 @@
           label="检查事项"
           header-align="center"
           align="left"
-          width="110">
+          width="100">
         </el-table-column>
         <el-table-column
           header-align="center"
           align="left"
-          label="检查内容">
+          label="检查内容"
+          width="300">
           <template slot-scope="scope">
             <el-input
               v-if="options.canEdit"
@@ -39,15 +40,16 @@
         <el-table-column
           header-align="center"
           align="left"
-          label="检查主要资料及方法">
+          label="检查主要资料及方法"
+          width="180">
           <template slot-scope="scope">
             <el-input
               v-if="options.canEdit"
-              v-model="scope.row.basis"
+              v-model="scope.row.method"
               type="textarea"
               :autosize="{ minRows: 4, maxRows: 6}">
             </el-input>
-            <span v-else>{{ scope.row.basis }}</span>
+            <span v-else>{{ scope.row.method }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -83,15 +85,13 @@
         <el-table-column
           v-if="options.canEdit"
           header-align="center"
-          align="left"
-          width="160"
+          align="center"
+          width="100"
           label="操作">
           <template slot-scope="scope">
-            <div>
-              <el-button type="text" size="small" @click="operation(scope, 'selectCheckPosition')">检查地点</el-button>
-              <el-button type="text" size="small" @click="operation(scope, 'selectPerson')">检查人员</el-button>
-              <el-button type="text" size="small" @click="deleteItem(scope)">删除</el-button>
-            </div>
+            <el-button type="text" size="small" @click="operation(scope, 'selectCheckPosition')">检查地点</el-button>
+            <el-button type="text" size="small" @click="operation(scope, 'selectPerson')">检查人员</el-button>
+            <el-button type="text" size="small" @click="deleteItem(scope)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -188,6 +188,7 @@ export default {
   },
   methods: {
     initData () {
+      console.log('value', this.value)
       this.dataForm.tempValue = this.value
     },
     handleDialog (key) {
@@ -224,6 +225,7 @@ export default {
       tableData.length > 0 && tableData.map(item => {
         selectedId.push(item.treeId)
       })
+      console.log('tableData', tableData)
       this.dataForm.tempValue.selectedIdList = selectedId
       this.dataForm.tempValue.selectedAllIdList = params.data.selectedAllIdList
     },

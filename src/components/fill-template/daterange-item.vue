@@ -12,6 +12,8 @@
           :start-placeholder="options && options.startPlaceholder ? options.startPlaceholder  : ''"
           :end-placeholder="options && options.endPlaceholder ? options.endPlaceholder  : ''"
           :unlink-panels="true"
+          style="width: 300px;"
+          @change="changeValue"
         ></el-date-picker>
       <!-- </el-form-item> -->
     <!-- </el-form> -->
@@ -64,6 +66,11 @@ export default {
   created() {
     this.init()
   },
+  watch: {
+    value(val) {
+      this.init()
+    }
+  },
   methods: {
     init() {
       // 初始化数据
@@ -100,6 +107,9 @@ export default {
       } else {
         this.dataForm.tempValue = []
       }
+    },
+    changeValue(val) {
+      this.$parent.handleSave(true)
     }
   },
 };

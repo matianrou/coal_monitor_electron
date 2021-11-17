@@ -190,7 +190,7 @@ export async function saveToUpload(paperId) {
           id: item.itemCode,
           itemCode: item.itemCode,
           itemContent: item.itemContent,
-          method: item.basis,
+          method: item.method,
           souFlag: item.souFlag,
           status: item.status,
           updateBy: {

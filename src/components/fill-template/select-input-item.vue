@@ -14,7 +14,8 @@
       type="textarea"
       :autosize="{ minRows: 6, maxRows: 20}"
       :placeholder="placeholder"
-      style="margin-top: 20px;">
+      style="margin-top: 20px;"
+      @change="changeValue">
     </el-input>
   </div>
 </template>
@@ -47,13 +48,22 @@ export default {
   created() {
     this.dataForm.tempValue = this.value
   },
+  watch: {
+    value(val) {
+      this.dataForm.tempValue = this.value
+    }
+  },
   methods: {
     changeSelect(val) {
       this.options.map(item => {
         if (item.value === val) {
           this.dataForm.tempValue = item.name
+          this.changeValue()
         }
       })
+    },
+    changeValue(val) {
+      this.$parent.handleSave(true)
     }
   },
 };

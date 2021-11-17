@@ -87,6 +87,23 @@ export default {
   methods: {
     async initData() {
       // 初始化文书内容
+      // 案件处理呈报书需初始化法制审核意见
+      if (this.docData.docTypeNo === '36') {
+        // 4.法制审核意见初始化码表
+        let nowDate = getNowDate();
+        let optionList = [
+          "认为案件事实清楚，证据确凿充分，定性准确，处罚适当，程序合法，同意处罚意见。",
+          "认为案件主要事实不清，证据不足，建议继续调查或不予作出行政执法决定的建议。",
+          "认为案件定性不准，使用法律不准确，执行裁量基准不当的，建议给予XXX的行政处罚。",
+          "认为案件程序不合法的，建议进行纠正。",
+        ];
+        optionList.map((item) => {
+          this.options.cellIdx8.push({
+            name: `经${nowDate}法制审核，${item}`,
+            value: `经${nowDate}法制审核，${item}`,
+          });
+        });
+      }
       if (this.paperData && this.paperData.paperId) {
         this.paperId = this.paperData.paperId
         this.letData = JSON.parse(this.paperData.paperContent);

@@ -9,33 +9,52 @@
 <!-- 其他组件均用自身key为value值 -->
 
 <template>
-  <el-drawer
-    :title="selectedData.title"
-    :visible.sync="visible"
-    direction="rtl"
-    :before-close="handleClose"
-    :wrapperClosable="false"
-    :size="selectedData.type === 'CheckTable' || selectedData.type === 'DangerTable' 
-      || selectedData.type === 'SamplingForensicsTable' 
-      || selectedData.type === 'VolumesMenuTable' 
-      || selectedData.type === 'UploadFile'
-      ? '80%' : '400px'">
-    <div class="let-drawer-main">
-      <div class="let-drawer-component">
-        <component
-          :is="selectedData.type"
-          :ref="selectedData.type"
-          :value="selectedData.value"
-          :options="selectedData.options"
-          :corp-data="selectedData.corpData"
-        ></component>
+  <div>
+    <el-drawer
+      v-if="showDrawer"
+      :title="selectedData.title"
+      :visible.sync="visible"
+      direction="rtl"
+      :before-close="handleClose"
+      :wrapperClosable="false"
+      :size="selectedData.type === 'CheckTable' || selectedData.type === 'DangerTable' 
+        || selectedData.type === 'SamplingForensicsTable' 
+        || selectedData.type === 'VolumesMenuTable' 
+        || selectedData.type === 'UploadFile'
+        ? '80%' : '400px'">
+      <div class="let-drawer-main">
+        <div class="let-drawer-component">
+          <component
+            :is="selectedData.type"
+            :ref="selectedData.type"
+            :value="selectedData.value"
+            :options="selectedData.options"
+            :corp-data="selectedData.corpData"
+          ></component>
+        </div>
+        <div class="let-drawer-operation">
+          <el-button @click="handleClose">返回</el-button>
+          <el-button type="primary" @click="handleSave(false)">确定</el-button>
+        </div>
       </div>
-      <div class="let-drawer-operation">
-        <el-button @click="handleClose">返回</el-button>
-        <el-button type="primary" @click="handleSave">确定</el-button>
+    </el-drawer>
+    <div class="let-drawer-direct">
+      <div class="let-drawer-direct-title">
+        <span>编辑区域</span>
       </div>
+      <div style="font-size: 18px; margin-bottom: 10px;">
+        <span>{{selectedData.title}}</span>
+      </div>
+      <component
+        v-if="visible"
+        :is="selectedData.type"
+        :ref="selectedData.type"
+        :value="selectedData.value"
+        :options="selectedData.options"
+        :corp-data="selectedData.corpData"
+      ></component>
     </div>
-  </el-drawer>
+  </div>
 </template>
 
 <script>
@@ -71,6 +90,24 @@ export default {
     return {
     };
   },
+  computed: {
+    showDrawer() {
+      let show = false
+      let type = this.selectedData.type
+      if (type === 'CheckTable' 
+      || type === 'DangerTable' 
+      || type === 'SamplingForensicsTable' 
+      || type === 'VolumesMenuTable' 
+      || type === 'UploadFile'
+      || type === 'CheckItem'
+      || type === 'CheckPositionItem') {
+        // 修改子组件为检查项CheckTable、隐患项DangerTable、抽样调查SamplingForensicsTable、卷宗管理VolumesMenuTable或文件上传UploadFile时，弹窗
+        // 多选框CheckItem、检查地点CheckPositionItem
+        show = true
+      }
+      return show
+    }
+  },
   created() {
   },
   methods: {
@@ -78,11 +115,13 @@ export default {
       // 关闭编辑
       this.$emit('handle-close')
     },
-    handleSave () {
+    handleSave (direct = false) {
+      // *direct是否直接保存，不关闭（主要处理普通文本框直接在编辑区域修改）
       // 保存数据
       // this.$refs[this.selectedData.type].$refs.dataForm.validate(validate => {
         // if (validate) {
-          this.$emit('handle-save', {value: this.$refs[this.selectedData.type].dataForm.tempValue})
+          console.log('direct', direct)
+          this.$emit('handle-save', {value: this.$refs[this.selectedData.type].dataForm.tempValue, direct})
         // }
       // })
     }
@@ -111,6 +150,16 @@ export default {
     display: flex;
     align-items: center;
     justify-content: flex-end;
+  }
+}
+.let-drawer-direct {
+  margin-top: 10px;
+  padding: 10px;
+  border-top: 1px solid #DCDFE6;
+  .let-drawer-direct-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
   }
 }
 </style>

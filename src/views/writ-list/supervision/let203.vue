@@ -211,20 +211,6 @@ export default {
       // 3.建议案件处理意见：行政处罚依据+行政处罚决定（分条）
       let cellIdx6String = `${dangerObject.penaltyBasisString}`;
       let cellIdx7String = `${dangerObject.penaltyDesc}`;
-      // 4.法制审核意见初始化码表
-      let nowDate = getNowDate();
-      let optionList = [
-        "认为案件事实清楚，证据确凿充分，定性准确，处罚适当，程序合法，同意处罚意见。",
-        "认为案件主要事实不清，证据不足，建议继续调查或不予作出行政执法决定的建议。",
-        "认为案件定性不准，使用法律不准确，执行裁量基准不当的，建议给予XXX的行政处罚。",
-        "认为案件程序不合法的，建议进行纠正。",
-      ];
-      optionList.map((item) => {
-        this.options.cellIdx8.push({
-          name: `经${nowDate}法制审核，${item}`,
-          value: `经${nowDate}法制审核，${item}`,
-        });
-      });
       //5.行政相对人基本情况：煤矿名称+（煤矿基本信息字段uscCode）+（煤矿基本信息字段？）+（煤矿基本信息字段？）
       let cellIdx4String = `${corp.corpName}社会统一信用代码是${corp.useCode ? corp.useCode : 'XX'}采矿许可证号是${corp.uscCode ? corp.uscCode : 'XX'}安全生产许可证号是${corp.uscCode ? corp.uscCode : 'XX'} `;
       await db.close();

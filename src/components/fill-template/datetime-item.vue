@@ -6,7 +6,8 @@
       type="datetime"
       format="yyyy年M月d日H时m分s秒"
       value-format="yyyy年M月d日H时m分s秒"
-      :placeholder="placeholder">
+      :placeholder="placeholder"
+      @change="changeValue">
     </el-date-picker>
   </div>
 </template>
@@ -34,7 +35,15 @@ export default {
   created() {
     this.dataForm.tempValue = this.value
   },
+  watch: {
+    value(val) {
+      this.dataForm.tempValue = val
+    }
+  },
   methods: {
+    changeValue(val) {
+      this.$parent.handleSave(true)
+    }
   },
 };
 </script>

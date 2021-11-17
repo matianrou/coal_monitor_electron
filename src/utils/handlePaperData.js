@@ -43,22 +43,22 @@ function setCheckPositionItem (data, selectedData) {
   let underlist = [...coalList, ...tunnellingList, ...addList]
   let string = ''
   if (isAddress) {
-    string += '地面：' + addressContent + '，'
+    string += '地面：' + (addressContent ? addressContent : '') + '，'
   }
   if (isUnder && underlist.length > 0) {
     string += '井下：'
     coalList.length > 0 && coalList.map(coal => {
-      string += coal + '采煤工作面，'
+      string += (coal ? coal : '') + '采煤工作面，'
     })
     tunnellingList.length > 0 && tunnellingList.map(tunnelling => {
-      string += tunnelling ? tunnelling : '' + '掘进工作面，'
+      string += (tunnelling ? tunnelling : '') + '掘进工作面，'
     })
     addList.length > 0 && addList.map(add => {
-      string += add + '，'
+      string += (add ? add : '') + '，'
     })
   }
   if (isOther) {
-    string += '其他：' + otherContent + '，'
+    string += '其他：' + (otherContent ? otherContent : '') + '，'
   }
   return string.substring(0, string.length - 1)
 }

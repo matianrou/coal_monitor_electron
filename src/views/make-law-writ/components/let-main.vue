@@ -6,6 +6,7 @@
       <slot name="left" ref="letLeft"></slot>
     </div>
     <div class="let-main-right" id="toolContainer">
+      <!-- 保存、打印、归档等操作 -->
       <table
         style="width:100%;height:110px;background-color:#CBE6FF;border-top-left-radius: 10px;border-top-right-radius: 10px; "
       >
@@ -23,7 +24,7 @@
             <svg t="1632967972260" class="icon" viewBox="0 0 1152 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4406" width="38" height="38"><path d="M768 243.8c0-12.6-5-24.8-14-33.8L558.2 14c-9-9-21.2-14-34-14H512v256h256v-12.2zM384 672v-64c0-17.68 14.32-32 32-32h352V320H496c-26.4 0-48-21.6-48-48V0H48C21.4 0 0 21.4 0 48v928c0 26.6 21.4 48 48 48h672c26.6 0 48-21.4 48-48V704H416c-17.68 0-32-14.32-32-32z m758.1-56.04l-191.4-192.86c-20.12-20.28-54.72-6.02-54.72 22.54V576H768v128h127.98v130.36c0 28.56 34.58 42.82 54.72 22.54l191.4-192.84c13.2-13.32 13.2-34.8 0-48.1z" fill="#1890FF" p-id="4407"></path></svg>
             <span style="color: #409EFF; display:block;font-size:14px;font-weight: bold;"> 导 出</span>
           </td>
-          <td v-if="fromPage === 'send-page'" style="width:100px;text-align:center;cursor: pointer;" @click="cmdDocSave('0')">
+          <td v-if="fromPage !== 'send-paper'" style="width:100px;text-align:center;cursor: pointer;" @click="cmdDocSave('0')">
             <svg t="1631780752712" class="icon" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10822" width="40" height="40"><path d="M59.6 513.2h166l44.6 93.8c17.8 37.4 55.6 61.2 97 61.2h300.6c41.6 0 79.4-24 97.2-61.4l44-93.4h162.8c14.2 0 27.8 5.6 38 15.8 10 10 15.8 23.8 15.8 38v268.2c0 28.4-11.4 55.8-31.4 75.8a107.016 107.016 0 0 1-75.8 31.4H113.2c-28.4 0-55.8-11.4-75.8-31.4C17.4 890.8 6 863.6 6 835V566.8c0-29.6 24-53.6 53.6-53.6z m0 0" fill="#1890FF" p-id="10823"></path><path d="M864.4 464h-88.2l-21 77.2c-12.8 46.8-55.2 79.2-103.6 79.2H387.2c-51 0-95-36-105.2-86L267.8 464H167V137.6c0-14.2 5.6-27.8 15.8-38 10-10 23.8-15.8 38-15.8H811c29.6 0 53.6 24 53.6 53.6V464zM442 362.8c-10.6 0-20.2 6.2-24.6 16-4.2 9.8-2.4 21 4.6 28.8l93.4 103 93.4-103c7.2-7.8 9-19.2 4.6-28.8-4.2-9.8-14-16-24.6-16h-40V178.2h-67V363H442z" fill="#1890FF" p-id="10824"></path></svg>
             <span style="color: #409EFF; display:block;font-size:14px;font-weight: bold;"> 归 档</span>
           </td>
@@ -34,40 +35,46 @@
           </td>
         </tr>
       </table>
-      <h3 v-if="corpData" class="uk-card-title" style="padding:10px;">执法对象</h3>
-      <table v-if="corpData" style="border-collapse:collapse;margin:0 auto;margin:0px 10px;width: 90%;" id="rightSideCorp">
-        <tr style="height:32px;">
-          <td style="border-bottom: 1px solid #666;" colspan="2">{{ corpData.corpName }}</td>
-        </tr>
-        <tr style="height:32px;">
-          <td style="width:80px;border-bottom:1px solid #666;">企业类型：</td>
-          <td style="border-bottom: 1px solid #666;">{{ corpData.corpTypeName }}</td>
-        </tr>
-        <tr style="height:32px;">
-          <td style="width:80px;border-bottom:1px solid #666;">所在区域：</td>
-          <td style="border-bottom:1px solid #666;">{{ corpData.corpCountryName }}</td>
-        </tr>
-        <tr style="height:32px;">
-          <td style="width:80px;border-bottom:1px solid #666;">经营地址：</td>
-          <td style="border-bottom:1px solid #666;">{{ corpData.address }}</td>
-        </tr>
-        <tr style="height:32px;">
-          <td style="width:80px;border-bottom:1px solid #666;">负&nbsp;&nbsp;责&nbsp;&nbsp;人：</td>
-          <td style="border-bottom:1px solid #666;">{{ corpData.legalName }}</td>
-        </tr>
-        <tr style="height:32px;">
-          <td style="width:80px;border-bottom:1px solid #666;">联系电话：</td>
-          <td style="border-bottom:1px solid #666;">{{ corpData.tel }}</td>
-        </tr>
-      </table>
+      <!-- 执法对象信息 -->
+      <div v-if="corpData" class="corp-info-main">
+        <div class="corp-info-title">
+          <span>执法对象</span>
+        </div>
+        <table style="border-collapse:collapse;margin:0 auto;width: 100%;" id="rightSideCorp">
+          <tr style="height:32px;">
+            <td style="border-bottom: 1px solid #666;" colspan="2">{{ corpData.corpName }}</td>
+          </tr>
+          <tr style="height:32px;">
+            <td style="width:80px;border-bottom:1px solid #666;">企业类型：</td>
+            <td style="border-bottom: 1px solid #666;">{{ corpData.corpTypeName }}</td>
+          </tr>
+          <tr style="height:32px;">
+            <td style="width:80px;border-bottom:1px solid #666;">所在区域：</td>
+            <td style="border-bottom:1px solid #666;">{{ corpData.corpCountryName }}</td>
+          </tr>
+          <tr style="height:32px;">
+            <td style="width:80px;border-bottom:1px solid #666;">经营地址：</td>
+            <td style="border-bottom:1px solid #666;">{{ corpData.address }}</td>
+          </tr>
+          <tr style="height:32px;">
+            <td style="width:80px;border-bottom:1px solid #666;">负&nbsp;&nbsp;责&nbsp;&nbsp;人：</td>
+            <td style="border-bottom:1px solid #666;">{{ corpData.legalName }}</td>
+          </tr>
+          <tr style="height:32px;">
+            <td style="width:80px;border-bottom:1px solid #666;">联系电话：</td>
+            <td style="border-bottom:1px solid #666;">{{ corpData.tel }}</td>
+          </tr>
+        </table>
+      </div>
+      <!-- 修改数据区域 -->
+      <let-drawer
+        ref="letDrawer"
+        :visible="visible"
+        :selectedData="selectedData"
+        @handle-close="handleClose"
+        @handle-save="handleSave"
+      ></let-drawer>
     </div>
-    <let-drawer
-      ref="letDrawer"
-      :visible="visible"
-      :selectedData="selectedData"
-      @handle-close="handleClose"
-      @handle-save="handleSave"
-    ></let-drawer>
   </div>
 </template>
 
@@ -482,6 +489,8 @@ export default {
       // 点击确定，保存左侧弹出窗口中的数据至文书数据中
       // params为保存的数据
       let { key, dataKey, type, options } = this.selectedData;
+      // 增加赋值已选择的数据值，因子组件调用此数据，如果此数据不变更则会导致重复的component不更新数据
+      this.selectedData.value = params.value
       if (options && options.saveDataKey) {
         // 特殊保存（不保存在letData中，而是保存在letData的cellIdx中，比如let219 延期（分期）缴纳罚款决定书）
         let {saveDataKey, saveDataIndex} = options
@@ -505,7 +514,10 @@ export default {
           )
         );
       }
-      this.handleClose();
+      if (!params.direct) {
+        // 不是直接在编辑区域保存的则关闭弹窗
+        this.handleClose();
+      }
     },
     async exportTemplate () {
       // 导出模板
@@ -687,6 +699,15 @@ export default {
     background-color: #ffffff;
     border: solid 1px #093a83;
     border-radius: 10px;
+    .corp-info-main {
+      margin-top: 20px;
+      padding: 10px;
+      .corp-info-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+    }
   }
 
   .btnTool {
