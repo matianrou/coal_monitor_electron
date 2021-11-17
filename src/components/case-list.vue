@@ -222,9 +222,13 @@ export default {
         // 回显已选择内容
         this.dataForm = this.selectPlanData
       } else {
-        // 设置最后一个选项
-        this.dataForm.selGovUnit = this.orgList.length > 0 ? this.orgList[0].value : null
-        this.dataForm.selGovUnitName = this.orgList.length > 0 ? this.orgList[0].label : null
+        // 设置为当前机构的选项
+        if (this.orgList.length > 0) {
+          let { userGroupId } = this.$store.state.user
+          let curUserGroup = this.orgList.filter(item => item.value === userGroupId)
+          this.dataForm.selGovUnit = curUserGroup.length > 0 ? curUserGroup[0].value : null
+          this.dataForm.selGovUnitName = curUserGroup.length > 0 ? curUserGroup[0].label : null
+        }
       }
     },
     getPlanDateList () {

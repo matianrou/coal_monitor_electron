@@ -252,6 +252,11 @@ export default {
       }
     };
   },
+  computed: {
+    downloadPath() {
+      return this.$store.state.user.userType === 'supervision' ? '/sv' : ''
+    }
+  },
   async created() {
     await this.init()
   },
@@ -290,15 +295,16 @@ export default {
       let userId = this.$store.state.user.userId;
       let userSessId = this.$store.state.user.userSessId;
       let userGroupId = this.$store.state.user.userGroupId;
-      let path = this.$store.state.user.userType === 'supervision' ? '/sv' : ''
+      let path = this.downloadPath
       let uri = `${path}`;
       switch (resId) {
         case "org":
+          let provinceGroupId = await this.getProvinceGroupId(userGroupId, userSessId)
           uri +=
             "/local/office/list?__sid=" +
             userSessId +
             "&officeId=" +
-            userGroupId +
+            provinceGroupId +
             "&allOffice=true";
           break;
         case "person":
@@ -450,10 +456,24 @@ export default {
         })
       }
     },
+    async getProvinceGroupId (userGroupId, userSessId) {
+      let provinceGroupId = ''
+      await this.$http.get(
+          `${this.downloadPath}/local/office/getProvinceByOfficeId?officeId=${userGroupId}&__sid=${userSessId}`)
+        .then(({ data }) => {
+          if (data.status === "200") {
+            provinceGroupId = data.data.id
+          }
+        })
+        .catch((err) => {
+          console.log("获取省级机构id失败：", err);
+        });
+      return provinceGroupId
+    },
     getLocalReview (userId, userSessId) {
       // 获取委托复查
       return this.$http.get(
-          `/local/api-review/getLocalReview?userId=${userId}&__sid=${userSessId}`)
+          `${this.downloadPath}/local/api-review/getLocalReview?userId=${userId}&__sid=${userSessId}`)
         .then(({ data }) => {
           if (data.status === "200") {
             this.fileData.localReview = data.data || []
@@ -469,7 +489,7 @@ export default {
     getFineCollection (userId, userSessId) {
       // 获取罚款收缴
       return this.$http.get(
-          `/local/api-fine/getFineCollection?userId=${userId}&__sid=${userSessId}`)
+          `${this.downloadPath}/local/api-fine/getFineCollection?userId=${userId}&__sid=${userSessId}`)
         .then(({ data }) => {
           if (data.status === "200") {
             this.fileData.fineCollection = data.data || []
@@ -485,7 +505,7 @@ export default {
     getSingleReceipt (userId, userSessId) {
       // 获取回执单
       return this.$http.get(
-          `/local/api-fine/getSingleReceipt?userId=${userId}&__sid=${userSessId}`)
+          `${this.downloadPath}/local/api-fine/getSingleReceipt?userId=${userId}&__sid=${userSessId}`)
         .then(({ data }) => {
           if (data.status === "200") {
             this.fileData.singleReceipt = data.data || []
@@ -501,7 +521,7 @@ export default {
     getImageEvidencePC (userId, userSessId) {
       // 获取影音证据
       return this.$http.get(
-          `/local/jczf/getImageEvidencePC?userId=${userId}&__sid=${userSessId}`)
+          `${this.downloadPath}/local/jczf/getImageEvidencePC?userId=${userId}&__sid=${userSessId}`)
         .then(({ data }) => {
           if (data.status === "200") {
             this.fileData.imageEvidence = data.data || []
@@ -517,7 +537,7 @@ export default {
     getPaperAttachment (userId, userSessId) {
       // 获取附件
       return this.$http.get(
-          `/local/api-attachment/getPaperAttachment?userId=${userId}&__sid=${userSessId}`)
+          `${this.downloadPath}/local/api-attachment/getPaperAttachment?userId=${userId}&__sid=${userSessId}`)
         .then(({ data }) => {
           if (data.status === "200") {
             this.fileData.paperAttachment = data.data || []
