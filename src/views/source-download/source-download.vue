@@ -315,20 +315,18 @@ export default {
       let uri = `${path}`;
       switch (resId) {
         case "org":
-          let provinceGroupId = await this.getProvinceGroupId(userGroupId, userSessId)
+          // 调整为下载全国机构
           uri +=
             "/local/office/list?__sid=" +
             userSessId +
-            "&officeId=" +
-            provinceGroupId +
-            "&allOffice=true";
+            "&officeId=000000110001&allOffice=true";
           break;
         case "person":
+          // 调整为下载全国用户
           uri +=
             "/local/user/getUserByOfficeId?__sid=" +
             userSessId +
-            "&officeId=" +
-            userGroupId;
+            "&officeId=000000110001";
           break;
         case "plan":
           uri +=
@@ -483,20 +481,6 @@ export default {
           await docFileListDb(resId, this.fileData)
         })
       }
-    },
-    async getProvinceGroupId (userGroupId, userSessId) {
-      let provinceGroupId = ''
-      await this.$http.get(
-          `${this.downloadPath}/local/office/getProvinceByOfficeId?officeId=${userGroupId}&__sid=${userSessId}`)
-        .then(({ data }) => {
-          if (data.status === "200") {
-            provinceGroupId = data.data.id
-          }
-        })
-        .catch((err) => {
-          console.log("获取省级机构id失败：", err);
-        });
-      return provinceGroupId
     },
     getLocalReview (userId, userSessId) {
       // 获取委托复查

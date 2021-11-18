@@ -188,7 +188,6 @@ export default {
   },
   methods: {
     initData () {
-      console.log('value', this.value)
       this.dataForm.tempValue = this.value
     },
     handleDialog (key) {
@@ -225,7 +224,6 @@ export default {
       tableData.length > 0 && tableData.map(item => {
         selectedId.push(item.treeId)
       })
-      console.log('tableData', tableData)
       this.dataForm.tempValue.selectedIdList = selectedId
       this.dataForm.tempValue.selectedAllIdList = params.data.selectedAllIdList
     },

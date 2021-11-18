@@ -9,24 +9,54 @@
     top="10vh"
     @close="close"
   >
-    <div v-loading="loading" class="dialog-max">
-      <el-table
-        ref="personList"
-        :data="personList"
-        stripe
-        border
-        style="width: 100%;"
-        height="100%"
-        :header-cell-style="{background: '#f5f7fa'}"
-        :highlight-current-row="!multiSelect"
-        @current-change="handleCurrentChange"
-        @selection-change="handleSelectionChange"
-      >
-        <el-table-column v-if="multiSelect" type="selection" width="55"></el-table-column>
-        <el-table-column type="index" width="50"></el-table-column>
-        <el-table-column prop="name" label="姓名" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="officeName" label="所属机构" header-align="center" align="center"></el-table-column>
-      </el-table>
+    <div v-loading="loading">
+      <div class="dialog-filter">
+        <div class="filter-name">
+          <el-input
+            v-model="dataForm.name"
+            placeholder="请输入姓名检索"
+            style="width: 150px;"
+            size="small"
+            clearable
+            @change="getPersonList"
+          ></el-input>
+        </div>
+        <div class="filter-province">
+          <el-select
+            v-model="dataForm.provinceId"
+            style="width: 180px;"
+            size="small"
+            clearable
+            @change="getPersonList">
+            <el-option
+              v-for="(item, index) in allProvinceList"
+              :key="index"
+              :label="item.name"
+              :value="item.no">
+            </el-option>
+          </el-select>
+          <el-checkbox v-model="dataForm.allPerson" @change="getPersonList">是否显示全省用户</el-checkbox>
+        </div>
+      </div>
+      <div class="dialog-max">
+        <el-table
+          ref="personList"
+          :data="personList"
+          stripe
+          border
+          style="width: 100%;"
+          height="100%"
+          :header-cell-style="{background: '#f5f7fa'}"
+          :highlight-current-row="!multiSelect"
+          @current-change="handleCurrentChange"
+          @selection-change="handleSelectionChange"
+        >
+          <el-table-column v-if="multiSelect" type="selection" width="55"></el-table-column>
+          <el-table-column type="index" width="50"></el-table-column>
+          <el-table-column prop="name" label="姓名" header-align="center" align="center"></el-table-column>
+          <el-table-column prop="officeName" label="所属机构" header-align="center" align="center"></el-table-column>
+        </el-table>
+      </div>
     </div>
     <span slot="footer" class="dialog-footer">
       <el-button @click="close">取消</el-button>
@@ -37,6 +67,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
+import { getAllProvinceOrg, sortbyAsc } from '@/utils/index'
 export default {
   name: "selectPersonDialog",
   props: {
@@ -67,9 +98,16 @@ export default {
       personList: [], // 人员列表
       currentRow: {}, // 单选时使用选中人员
       currentRows: [], // 多选时选中人员
+      dataForm: {
+        name: null,
+        provinceId: null,
+        allPerson: false,
+      },
+      allProvinceList: []
     };
   },
   async created() {
+    await this.getOrgList()
     await this.init();
   },
   watch: {
@@ -96,11 +134,49 @@ export default {
   methods: {
     async init() {
       // 初始化选择列表
+      this.getPersonList()
+    },
+    async getOrgList() {
+      let db = new GoDB(this.DBName);
+      let orgInfo = db.table("orgInfo"); // 机构
+      // 查询全省机构
+      let groupList = await orgInfo.findAll(item => {
+        return item.delFlag === "0" && item.grade === '2'
+      })
+      groupList.sort(sortbyAsc('createDate'))
+      this.allProvinceList = groupList
+      await db.close();
+    },
+    async getPersonList () {
+      // 获取用户数据
       this.loading = true;
-      const db = new GoDB(this.DBName);
-      const person = db.table("person");
-      this.personList = await person.findAll((item) => item);
+      let db = new GoDB(this.DBName);
+      let person = db.table("person");
+      let personList = await person.findAll(item => item);
       // let curPerson = await person.find(item => item.no === this.$store.state.user.userId)
+      if (this.dataForm.name) {
+        personList = personList.filter(item => item.name === this.dataForm.name)
+      }
+      if (this.dataForm.allPerson) {
+        // 显示全省用户
+        // 获取全省的机构id
+        let provinceIds = []
+        let provinceId = this.dataForm.provinceId ? this.dataForm.provinceId : this.$store.state.user.userGroupId
+        let orgList = await getAllProvinceOrg(provinceId)
+        if (orgList.length > 0) {
+          orgList.map(item => {
+            provinceIds.push(item.no)
+          })
+        }
+        personList = personList.filter(item => provinceIds.includes(item.officeId)) 
+        personList.sort(sortbyAsc('officeId'))
+      } else {
+        // 不显示全省用户
+        let provinceId = this.dataForm.provinceId ? this.dataForm.provinceId : this.$store.state.user.userGroupId
+        personList = personList.filter(item => item.officeId === provinceId)
+        personList.sort(sortbyAsc('officeId'))
+      }
+      this.personList = personList
       await db.close();
       this.loading = false;
     },
@@ -154,7 +230,18 @@ export default {
   padding: 10px 30px;
   border-top: 1px solid #DCDFE6;
 }
+.dialog-filter {
+  margin-bottom: 10px;
+  display: flex;
+  .filter-name {
+    flex: 1;
+  }
+  .filter-province {
+    text-align: right;
+    flex: 2;
+  }
+}
 .dialog-max {
-  height: calc(100vh - 10vh - 200px);
+  height: calc(100vh - 10vh - 250px);
 }
 </style>

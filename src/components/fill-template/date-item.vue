@@ -33,12 +33,10 @@ export default {
     };
   },
   created() {
-    console.log('value', this.value)
     this.dataForm.tempValue = this.value
   },
   watch: {
     value(val) {
-    console.log('val', val)
       this.dataForm.tempValue = val
     }
   },

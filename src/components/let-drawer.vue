@@ -120,7 +120,6 @@ export default {
       // 保存数据
       // this.$refs[this.selectedData.type].$refs.dataForm.validate(validate => {
         // if (validate) {
-          console.log('direct', direct)
           this.$emit('handle-save', {value: this.$refs[this.selectedData.type].dataForm.tempValue, direct})
         // }
       // })

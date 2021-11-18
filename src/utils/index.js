@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie';
 import store from '@/store';
+import GoDB from '@/utils/godb.min.js'
 
 /**
  * 获取uuid
@@ -211,4 +212,34 @@ export function toDecimal2(x) {
     s += '0';
   }
   return s;
+}
+
+// 通过本地数据库拉取当前用的全省机构
+export async function getAllProvinceOrg (userGroupId) {
+  let db = new GoDB(store.state.DBName);
+  let orgInfo = db.table("orgInfo"); // 机构
+  // 查询当前用户及全省机构信息
+  let userGroup = await orgInfo.find(item => {
+    return item.delFlag === "0" && item.no === userGroupId
+  })
+  let arrOrg = []
+  if (userGroup && userGroup.no) {
+    if (userGroup.grade === '1' || userGroup.grade === '2') {
+      // 当前机构为国家级或省级时
+      arrOrg = await orgInfo.findAll((item) => {
+        return item.delFlag == "0" && (item.no === userGroupId || item.parentIds.includes(userGroupId))
+      });
+    } else if (userGroup.grade === '3') {
+      // 当前机构为处室时，首先获取上一级省级机构，然后获取下属所有机构
+      let upGroup = await orgInfo.find(item => {
+        return item.delFlag === "0" && item.no === userGroup.parentId
+      })
+      arrOrg = await orgInfo.findAll((item) => {
+        return item.delFlag == "0" && (item.no === upGroup.no || item.parentIds.includes(upGroup.no))
+      });
+    }
+  }
+  await db.close();
+  // arrOrg.sort(sortbyAsc('grade'))
+  return arrOrg
 }

@@ -136,6 +136,7 @@
 
 <script>
 import GoDB from '@/utils/godb.min.js'
+import { getAllProvinceOrg } from '@/utils/index'
 import selectCompany from '@/components/select-company'
 import casePull from '@/components/case-pull'
 export default {
@@ -197,14 +198,9 @@ export default {
       await this.getData()
     },
     async getOrgList () {
-      // 获取全部机构列表
-      const db = new GoDB(this.DBName);
-      const orgInfo = db.table("orgInfo"); // 机构
-      // 查询全部机构信息
-      const arrOrg = await orgInfo.findAll((item) => {
-        return item.delFlag == "0";
-      });
-      await db.close();
+      // 获取当前机构全省机构列表
+      let userGroupId = this.$store.state.user.userGroupId
+      let arrOrg = await getAllProvinceOrg(userGroupId)
       let orgList = []
       for (let i = 0; i < arrOrg.length; i++) {
         let obj = arrOrg[i];

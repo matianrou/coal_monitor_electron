@@ -3,6 +3,27 @@ import store from "@/store"
 
 // “机构资源”下载。
 async function doOrgDb(resId, data) {
+	// 当前获取的机构资源有重复的数据，导致第一次下载时会报错，故加上以下去重逻辑
+	let obj = {}
+	let arrData = JSON.parse(JSON.stringify(data))
+	arrData = arrData.reduce((cur, next) => {
+		obj[next.id] ? "" : obj[next.id] = true && cur.push(next);
+		return cur
+	}, [])
+	// 检验数据是否仍有重复
+	// let id = []
+	// for (let i = 0; i < (arrData.length / 2); i++ ) {
+	// 	let del = arrData.splice(i, 1)
+	// 	arrData.map(item => {
+	// 		if (del[0].id === item.id) {
+	// 			console.log('del', del)
+	// 			console.log('item', item)
+	// 			id.push(del)
+	// 		}
+	// 	})
+	// 	i--
+	// }
+	// console.log('id', id)
   const schema = {
     orgInfo: {
       "no": {
