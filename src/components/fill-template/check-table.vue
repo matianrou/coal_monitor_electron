@@ -2,7 +2,11 @@
 <template>
   <div style="width: 100%;">
     <div>
-      <el-button v-if="options.canEdit" type="primary" @click="handleDialog('checkSelect')">选择检查内容</el-button>
+      <el-button v-if="options.canEdit" type="primary" @click="handleDialog('checkSelect')">新增检查项</el-button>
+      <el-button v-if="options.canEdit" type="primary" @click="batchOperation('delete')">删除检查项</el-button>
+      <el-button v-if="options.canEdit" type="primary" @click="batchOperation('selectPerson')">设置检查人员</el-button>
+      <el-button v-if="options.canEdit" type="primary" @click="batchOperation('selectCheckPosition')">设置检查地点</el-button>
+      <el-button v-if="options.canEdit" type="primary" @click="batchOperation('send')">发送检查任务</el-button>
     </div>
     <div>
       <div class="title">
@@ -10,11 +14,17 @@
       </div>
       <el-table
         v-if="dataForm.tempValue.tableData"
+        ref="checkTable"
         :data="dataForm.tempValue.tableData"
         style="width: 100%"
         row-key="treeId"
         border
-        :header-cell-style="{background: '#f5f7fa'}">
+        :header-cell-style="{background: '#f5f7fa'}"
+        @selection-change="handleSelectionChange">
+        <el-table-column
+          type="selection"
+          width="55">
+        </el-table-column>
         <el-table-column
           prop="categoryName"
           label="检查事项"
@@ -90,8 +100,8 @@
           label="操作">
           <template slot-scope="scope">
             <el-button type="text" size="small" @click="operation(scope, 'selectCheckPosition')">检查地点</el-button>
-            <el-button type="text" size="small" @click="operation(scope, 'selectPerson')">检查人员</el-button>
-            <el-button type="text" size="small" @click="deleteItem(scope)">删除</el-button>
+            <el-button type="text" size="small" @click="operation(scope, 'selectPerson')" style="margin-left: 0px;">检查人员</el-button>
+            <el-button type="text" size="small" @click="deleteItem(scope)" style="margin-left: 0px;">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -183,6 +193,8 @@ export default {
       selectedIndex: null, // 选择的检查人员及选择地点的检查项index
       selectedRowPersonList: [], // 选择的检查人员列表，用于回显
       selectedCheckPosition: null, // 选择的检查检查人员数据，用于回显
+      multiSelectedIndexs: [], // 多选的检查项
+      multiOperationTag: false, // 是否为多选操作，区分多选或单个设置人员或地点时使用
     };
   },
   created() {
@@ -250,7 +262,7 @@ export default {
       }
     },
     operation (scope, type) {
-      // 打开选择人员或者地点的弹窗
+      // 单选选择人员或者地点的弹窗
       this.selectedIndex = scope.$index
       if (type === 'selectPerson') {
         this.selectedRowPersonList = scope.row.personList
@@ -258,6 +270,31 @@ export default {
         this.selectedCheckPosition = scope.row.positionData
       }
       this.visible[type] = true
+      this.multiOperationTag = false
+    },
+    batchOperation (type) {
+      // 判断是否选中检查项，如果没有选中则提示
+      if (this.multiSelectedIndexs.length > 0) {
+        if (type === 'delete') {
+          // 删除检查项
+          this.deleteItems()
+        } else if (type === 'selectPerson') {
+          // 设置检查人员
+          this.selectedRowPersonList = this.multiSelectedIndexs[0].personList
+          this.visible[type] = true
+          this.multiOperationTag = true
+        } else if (type === 'selectCheckPosition') {
+          // 设置检查地点
+          this.selectedCheckPosition = this.multiSelectedIndexs[0].positionData
+          this.visible[type] = true
+          this.multiOperationTag = true
+        } else if (type === 'send') {
+          // 发送检查任务
+          this.sendCheckItems()
+        }
+      } else {
+        this.$message.error('请先选择检查项！')
+      }
     },
     closeSelect ({page, refresh}) {
       // 关闭选择人员或者检查地点弹窗
@@ -271,6 +308,7 @@ export default {
     },
     confirmPerson (personList) {
       // 保存人员
+      // 判断是多个操作还是单项操作
       let personNames = ''
       if (personList.length > 0) {
         personList.map(item => {
@@ -278,8 +316,26 @@ export default {
         })
         personNames = personNames.substring(0, personNames.length - 1)
       }
-      let saveData = Object.assign({}, this.dataForm.tempValue.tableData[this.selectedIndex], {personNames, personList})
-      this.$set(this.dataForm.tempValue.tableData, this.selectedIndex, saveData)
+      if (this.multiOperationTag) {
+        this.multiSelectedIndexs.map(selectedItem => {
+          let selectedIndex = this.dataForm.tempValue.tableData.findIndex(tableItem => tableItem.no === selectedItem.no)
+          let saveData = Object.assign({}, this.dataForm.tempValue.tableData[selectedIndex], {personNames, personList})
+          this.$set(this.dataForm.tempValue.tableData, selectedIndex, saveData)
+        })
+        // 操作完成后重新再选中
+        let selected = JSON.parse(JSON.stringify(this.multiSelectedIndexs)) 
+        // 先清空
+        this.$refs.checkTable.clearSelection()
+        // 再选中
+        selected.forEach(row => {
+          this.$refs.checkTable.toggleRowSelection(this.dataForm.tempValue.tableData.find(item => {
+            return row.no === item.no
+          }));
+        })
+      } else {
+        let saveData = Object.assign({}, this.dataForm.tempValue.tableData[this.selectedIndex], {personNames, personList})
+        this.$set(this.dataForm.tempValue.tableData, this.selectedIndex, saveData)
+      }
     },
     confirmCheckPosition (positionData) {
       // 保存检查地点数据
@@ -298,8 +354,28 @@ export default {
         addressType += '3,'
       }
       addressType = addressType.substring(0, addressType.length - 1) 
-      let saveData = Object.assign({}, this.dataForm.tempValue.tableData[this.selectedIndex], {positions, positionData, addressType})
-      this.$set(this.dataForm.tempValue.tableData, this.selectedIndex, saveData)
+      if (this.multiOperationTag) {
+        // 多选设置时
+        this.multiSelectedIndexs.map(selectedItem => {
+          let selectedIndex = this.dataForm.tempValue.tableData.findIndex(tableItem => tableItem.no === selectedItem.no)
+          let saveData = Object.assign({}, this.dataForm.tempValue.tableData[selectedIndex], {positions, positionData, addressType})
+          this.$set(this.dataForm.tempValue.tableData, selectedIndex, saveData)
+        })
+        // 操作完成后重新再选中
+        let selected = JSON.parse(JSON.stringify(this.multiSelectedIndexs)) 
+        // 先清空
+        this.$refs.checkTable.clearSelection()
+        // 再选中
+        selected.forEach(row => {
+          this.$refs.checkTable.toggleRowSelection(this.dataForm.tempValue.tableData.find(item => {
+            return row.no === item.no
+          }));
+        })
+      } else {
+        // 单个设置时
+        let saveData = Object.assign({}, this.dataForm.tempValue.tableData[this.selectedIndex], {positions, positionData, addressType})
+        this.$set(this.dataForm.tempValue.tableData, this.selectedIndex, saveData)
+      }
     },
     deleteItem (scope) {
       // 删除检查项
@@ -314,8 +390,42 @@ export default {
           // 删除选择检查项中的idList中数据
           let delIndex = this.dataForm.tempValue.selectedIdList.findIndex(item => item === scope.row.treeId)
           this.dataForm.tempValue.selectedIdList.splice(delIndex, 1)
+          // 清空选中
+          this.$refs.checkTable.clearSelection()
         }).catch(() => {
         })
+    },
+    handleSelectionChange (val) {
+      this.multiSelectedIndexs = val
+    },
+    deleteItems () {
+      // 多选删除
+      let mesName = ''
+      this.multiSelectedIndexs.map(item => {
+        mesName += item.categoryName + ','
+      })
+      mesName = mesName.substring(0, mesName.length - 1)
+      this.$confirm(`是否确定删除检查事项：‘${mesName}’？`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          dangerouslyUseHTMLString: true,
+          type: 'warning'
+        }).then(() => {
+          this.multiSelectedIndexs.map(selectedItem => {
+            // 删除检查项列表tableData中数据
+            let index = this.dataForm.tempValue.tableData.findIndex(tableItem => tableItem.no === selectedItem.no)
+            this.dataForm.tempValue.tableData.splice(index, 1)
+            // 删除选择检查项中的idList中数据
+            let delIndex = this.dataForm.tempValue.selectedIdList.findIndex(item => item === selectedItem.no)
+            this.dataForm.tempValue.selectedIdList.splice(delIndex, 1)
+          })
+        }).catch(() => {
+        })
+    },
+    sendCheckItems () {
+      // 发送检查任务
+      console.log('multiSelectedIndexs', this.multiSelectedIndexs)
+      // 调用接口发送检查任务
     }
   },
 };
