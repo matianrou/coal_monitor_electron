@@ -108,6 +108,8 @@
       :visible="visible.selectPerson"
       :multi-select="true"
       :selected-data-list="selectedRowPersonList"
+      :has-add="true"
+      :corp-data="corpData"
       @confirm-person="confirmPerson"
       @close="closeSelect"
     ></select-person>

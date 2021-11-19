@@ -5,7 +5,7 @@
     :close-on-click-modal="false"
     append-to-body
     :visible="visible"
-    width="600px"
+    width="700px"
     top="10vh"
     @close="close"
   >
@@ -37,6 +37,13 @@
           </el-select>
           <el-checkbox v-model="dataForm.allPerson" @change="getPersonList">是否显示全省用户</el-checkbox>
         </div>
+        <div v-if="hasAdd" class="filter-operation">
+          <el-button
+            type="primary"
+            size="small"
+            @click="addPerson"
+          >添加人员</el-button>
+        </div>
       </div>
       <div class="dialog-max">
         <el-table
@@ -52,12 +59,41 @@
           @selection-change="handleSelectionChange"
         >
           <el-table-column v-if="multiSelect" type="selection" width="55"></el-table-column>
-          <el-table-column type="index" width="50"></el-table-column>
+          <el-table-column type="index" width="50" align="center"></el-table-column>
           <el-table-column prop="name" label="姓名" header-align="center" align="center"></el-table-column>
           <el-table-column prop="officeName" label="所属机构" header-align="center" align="center"></el-table-column>
         </el-table>
       </div>
     </div>
+    <el-dialog
+      title="添加人员"
+      :close-on-click-modal="false"
+      append-to-body
+      :visible="addPersonVisible"
+      width="400px"
+      :show-close="false"
+    >
+      <div>
+        <el-form
+          ref="addDataForm"
+          label-position="right"
+          label-width="100px"
+          :model="addDataForm"
+          :rules="addRules"
+          size="small">
+          <el-form-item label="人员姓名：" prop="name">
+            <el-input v-model="addDataForm.name" placeholder="请输入人员姓名" style="width: 200px;"></el-input>
+          </el-form-item>
+          <el-form-item label="工作单位：" prop="officeName">
+            <el-input v-model="addDataForm.officeName" placeholder="请输入工作单位" style="width: 200px;"></el-input>
+          </el-form-item>
+        </el-form>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="addClose">取消</el-button>
+        <el-button type="primary" @click="saveAddPerson">确定</el-button>
+      </span>
+    </el-dialog>
     <span slot="footer" class="dialog-footer">
       <el-button @click="close">取消</el-button>
       <el-button type="primary" @click="confirm">确定</el-button>
@@ -67,7 +103,8 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getAllProvinceOrg, sortbyAsc } from '@/utils/index'
+import { getAllProvinceOrg, sortbyAsc, randomString } from '@/utils/index'
+import { getNowTime, getNowFormatTime } from '@/utils/date'
 export default {
   name: "selectPersonDialog",
   props: {
@@ -90,6 +127,16 @@ export default {
       type: Array,
       default: () => [],
     },
+    hasAdd: {
+      // 是否可以新增人员
+      type: Boolean,
+      default: false
+    },
+    corpData: {
+      // 煤矿及检查活动信息
+      type: Object,
+      default: () => {}
+    }
   },
   data() {
     return {
@@ -103,7 +150,20 @@ export default {
         provinceId: null,
         allPerson: false,
       },
-      allProvinceList: []
+      allProvinceList: [],
+      addPersonVisible: false, // 添加人员
+      addDataForm: {
+        name: null,
+        officeName: null
+      },
+      addRules: {
+        name: [
+          { required: true, message: '请输入人员姓名', trigger: 'blur' }
+        ],
+        officeName: [
+          { required: true, message: '请输入工作单位', trigger: 'blur' }
+        ],
+      }
     };
   },
   async created() {
@@ -152,8 +212,11 @@ export default {
       this.loading = true;
       let db = new GoDB(this.DBName);
       let person = db.table("person");
+      let addPerson = db.table("addPerson");
       let personList = await person.findAll(item => item);
+      let addPersonList = await addPerson.findAll(item => item.caseId === this.corpData.caseId && item.delFlag === '0')
       // let curPerson = await person.find(item => item.no === this.$store.state.user.userId)
+      await db.close();
       if (this.dataForm.name) {
         personList = personList.filter(item => item.name === this.dataForm.name)
       }
@@ -176,8 +239,8 @@ export default {
         personList = personList.filter(item => item.officeId === provinceId)
         personList.sort(sortbyAsc('officeId'))
       }
-      this.personList = personList
-      await db.close();
+      // 获取当前检查活动中已添加的人员
+      this.personList = [...personList, ...addPersonList]
       this.loading = false;
     },
     close(refresh) {
@@ -215,6 +278,38 @@ export default {
         this.currentRows = val;
       }
     },
+    addPerson () {
+      // 添加人员
+      this.addPersonVisible = true
+    },
+    addClose () {
+      // 关闭添加人员弹窗
+      this.$refs.addDataForm.resetFields()
+      this.addPersonVisible = false
+    },
+    saveAddPerson () {
+      // 保存添加人员
+      this.$refs.addDataForm.validate(async (validate) => {
+        if (validate) {
+          let db = new GoDB(this.DBName);
+          let addPerson = db.table("addPerson"); // 添加人员的表
+          let person = {
+            no: getNowTime() + randomString(18),
+            name: this.addDataForm.name,
+            officeName: this.addDataForm.officeName,
+            caseId: this.corpData.caseId,
+            corpId: this.corpData.corpId,
+            delFlag: '0',
+            createBy: this.$store.state.user.userId,
+            createDate: getNowFormatTime(),
+          }
+          await addPerson.add(person);
+          await db.close();
+          this.addClose()
+          this.getPersonList()
+        }
+      })
+    }
   },
 };
 </script>
@@ -233,12 +328,11 @@ export default {
 .dialog-filter {
   margin-bottom: 10px;
   display: flex;
+  justify-content: space-between;
   .filter-name {
-    flex: 1;
   }
   .filter-province {
     text-align: right;
-    flex: 2;
   }
 }
 .dialog-max {

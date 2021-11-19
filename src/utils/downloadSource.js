@@ -117,7 +117,20 @@ async function doPersonDb(resId, data) {
 			zfLogin: Boolean,
       officeId: String,
       officeName: String,
-    }
+    },
+		addPerson: { // 检查分工中添加的人员
+			no: {
+        type: String,
+        unique: true
+      },
+			name: String,
+			officeName: String,
+			caseId: String,
+			corpId: String,
+			delFlag: String,
+			createBy: String,
+			createDate: String
+		}
   };
   const db = new GoDB(store.state.DBName, schema);
   const person = db.table('person');

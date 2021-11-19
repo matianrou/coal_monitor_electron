@@ -87,10 +87,10 @@
               >
                 {{ letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）" }}
               </div>
-              <label>陪同检察人员：</label>
+              <label>陪同检查人员：</label>
               <div
                 class="line-div"
-                @click="commandFill('cellIdx7', '陪同检察人员', 'TextItem')"
+                @click="commandFill('cellIdx7', '陪同检查人员', 'TextItem')"
               >
                 {{ letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）" }}
               </div>
@@ -138,6 +138,14 @@
         </div>
       </div>
     </let-main>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
@@ -179,10 +187,11 @@ export default {
           showSelectDangerBtn: true, // 用于区分是否可以选择隐患项
         },
       },
+      associationPaper: ["22"],
     };
   },
   methods: {
-    async initLetData() {
+    async initLetData(selectedPaper) {
       // 创建初始版本
       const db = new GoDB(this.$store.state.DBName);
       const corpBase = db.table("corpBase");
@@ -190,17 +199,27 @@ export default {
       const corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
+      let let22DataPapaerContent = JSON.parse(
+        selectedPaper.let22Data.paperContent
+      );
+      const zfZzInfo = db.table("zfZzInfo");
+      const zzInfo1 = await zfZzInfo.find((item) => {
+        return item.corpId == this.corpData.corpId && item.credTypeName == "采矿许可证";
+      });
+      const zzInfo2 = await zfZzInfo.find((item) => {
+        return item.corpId == this.corpData.corpId && item.credTypeName == "安全生产许可证";
+      });
       await db.close();
       this.letData = {
         cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
         cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null,
-        cellIdx1: null, // 检查时间
-        cellIdx2: null, // 检查地点（路线）
-        cellIdx3: null, // 采矿许可证
-        cellIdx4: null, // 安全生产许可证
+        cellIdx1: let22DataPapaerContent.cellIdx2, // 检查时间
+        cellIdx2: let22DataPapaerContent.cellIdx4, // 检查地点（路线）
+        cellIdx3: zzInfo1.credId, // 采矿许可证
+        cellIdx4: zzInfo2.credId, // 安全生产许可证
         cellIdx5: null, // 检查人（签名）
         cellIdx6: null, // 记录人（签名）
-        cellIdx7: null, // 陪同检察人员
+        cellIdx7: null, // 陪同检查人员
         cellIdx8: null, // 检查情况
         cellIdx9: null, // 被检查单位负责人意见
         cellIdx10: null, // 签名
