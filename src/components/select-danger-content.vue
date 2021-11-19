@@ -120,7 +120,7 @@
         if (corpBaseData.mineMinetypeName === '井工') {
           // 井工检查内容
           corpTypeIndex = list.findIndex(item => item.categoryCode === '000001')
-        } else {
+        } else if (corpBaseData.mineMinetypeName === '露天') {
           // 露天检查内容
           corpTypeIndex = list.findIndex(item => item.categoryCode === '000002')
         }
@@ -137,7 +137,7 @@
             this.getSelecteddangerList(selectedIdList)
           })
         }
-        this.dangerList = list[corpTypeIndex].children
+        this.dangerList = corpTypeIndex === null ? list : [list[corpTypeIndex]]
         this.loading = false
       },
       // 移除tree临时key和半选中状态项

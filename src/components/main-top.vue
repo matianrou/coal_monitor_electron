@@ -38,6 +38,15 @@
         <!-- <el-button type="text" @click="logoutHandle">退出</el-button> -->
         <img :src="activeTab === 'sendPaper' ? require('@/components/assets/image/paper-send-actived.png') : require('@/components/assets/image/paper-send.png')" class="btn-icon" title="调查笔录发送" @click="changeTab('sendPaper')" />&nbsp;
         <i class="el-icon-s-promotion btn-icon" title="隐患发送" @click="sendDanger"></i>
+        <!-- 消息提醒 -->
+        <el-dropdown :hide-on-click="false" @command="handleCommand">
+          <span class="el-dropdown-link">
+            <img src="@/components/assets/image/message.png" class="btn-icon" title="消息通知"/>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item command="checkItem">检查任务</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
         <div class="split-line"></div>
         <img src="@/components/assets/image/minus.png" class="btn-icon" id="minbt"  title="最小化" @click="handleWindow('window-min')" />&nbsp;
         <img src="@/components/assets/image/maximize.png" v-show="maxSrc" class="btn-icon" title="最大化" id="maxbt" @click="handleWindow('window-max')" />
@@ -125,6 +134,9 @@ export default {
       // 隐患发送
       this.visible.sendDanger = true
     },
+    handleCommand (command) {
+      console.log('command', command)
+    }
   },
 };
 </script>
