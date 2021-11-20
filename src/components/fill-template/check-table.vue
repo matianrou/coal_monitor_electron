@@ -7,6 +7,7 @@
       <el-button v-if="options.canEdit" type="primary" @click="batchOperation('selectPerson')">设置检查人员</el-button>
       <el-button v-if="options.canEdit" type="primary" @click="batchOperation('selectCheckPosition')">设置检查地点</el-button>
       <el-button v-if="options.canEdit" type="primary" @click="batchOperation('send')">发送检查任务</el-button>
+      <el-button v-if="options.canEdit" type="primary" @click="handleDialog('exportCheck')">导入</el-button>
     </div>
     <div>
       <div class="title">
@@ -131,6 +132,11 @@
       @confirm-check-position="confirmCheckPosition"
       @close="closeSelect"
     ></select-check-position>
+    <export-check-items
+      :visible="visible.exportCheck"
+      @close="handleClose"
+      @save="confirmExportItems"
+    ></export-check-items>
   </div>
 </template>
 
@@ -139,12 +145,14 @@ import selectCheckContent from '../select-check-content'
 import selectPerson from '@/components/select-person'
 import selectCheckPosition from '@/components/select-check-position'
 import { setCheckPositionItem } from '@/utils/handlePaperData'
+import exportCheckItems from '@/components/export-check-items'
 export default {
   name: "CheckTable",
   components: {
     selectCheckContent,
     selectPerson,
-    selectCheckPosition
+    selectCheckPosition,
+    exportCheckItems
   },
   props: {
     value: {
@@ -180,7 +188,8 @@ export default {
       visible: {
         checkSelect: false,
         selectPerson: false,
-        selectCheckPosition: false
+        selectCheckPosition: false,
+        exportCheck: false, // 导入检查项
       },
       checkListTreeProps: {
         label: 'treeName',
@@ -426,6 +435,29 @@ export default {
       // 发送检查任务
       console.log('multiSelectedIndexs', this.multiSelectedIndexs)
       // 调用接口发送检查任务
+    },
+    confirmExportItems ({data}) {
+      // 确定导入检查项
+      // 判断当前时候已经有数据，如果有则删除，再添加
+      data.map(item => {
+        let alreadHave = false
+        this.dataForm.tempValue.selectedIdList.map(selectedId => {
+          if (selectedId === item.treeId) {
+            alreadHave = true
+          }
+        })
+        if (alreadHave) {
+          // 如果有则删除对应tableData中的数据，并添加当前导入的数据
+          let delIndex = this.dataForm.tempValue.tableData.findIndex(table => table.treeId === item.treeId)
+          this.dataForm.tempValue.tableData.splice(delIndex, 1)
+          this.dataForm.tempValue.tableData.push(item)
+        } else {
+          // 如果没有则添加进入tableData和selectedIdList
+          this.dataForm.tempValue.tableData.push(item)
+          this.dataForm.tempValue.selectedIdList.push(item.treeId)
+        }
+      })
+      this.visible.exportCheck = false
     }
   },
 };
