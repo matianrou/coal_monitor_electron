@@ -268,6 +268,7 @@ export default {
         cellIdx16: null, // 日期
         DangerTable: {
           baseInfor: null,
+          dangerInfor: null,
           tableData: [],
           selectedIdList: [],
           dangerItemDetail: {

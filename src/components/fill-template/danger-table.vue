@@ -8,7 +8,7 @@
       <el-input
         v-model="dataForm.tempValue.baseInfor"
         type="textarea"
-        :autosize="{ minRows: 3, maxRows: 6}"
+        :rows="3"
         placeholder="请填写基本信息">
       </el-input>
     </div>
@@ -16,6 +16,12 @@
       <div class="title">
         <span>隐患情况：</span>
       </div>
+      <el-input
+        v-model="dataForm.tempValue.dangerInfor"
+        type="textarea"
+        :rows="1"
+        placeholder="请填写隐患情况">
+      </el-input>
       <div style="margin-top: 10px;" v-if="options.showSelectDangerBtn">
         <el-button type="primary" @click="handleDialog('dangerSelect')">选择隐患内容</el-button>
         <el-button type="primary" @click="handleDialog('receiveDanger')">隐患接收</el-button>
@@ -265,6 +271,7 @@ export default {
       default: () => {
         return {
           baseInfor: null,
+          dangerInfor: null,
           tableData: [],
           selectedIdList: [],
           dangerItemDetail: {
