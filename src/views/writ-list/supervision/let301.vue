@@ -248,9 +248,9 @@ export default {
   },
   methods: {
     async initLetData (selectedPaper) {
-      const db = new GoDB(this.$store.state.DBName);
-      const corpBase = db.table("corpBase");
-      const corp = await corpBase.find((item) => {
+      let db = new GoDB(this.$store.state.DBName);
+      let corpBase = db.table("corpBase");
+      let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       let caseId = this.corpData.caseId
@@ -266,8 +266,8 @@ export default {
       let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
       let cellIdx9String = `${corp.corpName}涉嫌${dangerObject.dangerString}案`
       // 从sysOfficeInfo中获取：
-      const orgInfo = db.table("orgInfo");
-      const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+      let orgInfo = db.table("orgInfo");
+      let orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
       let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {accountName: '', accountBank: '', billName: '', account: ''}
       // 6.强制执行下列项目：‘划转罚款至’accountName+accountBank‘账户名称：’+billName+‘待结算财政款项账号：’+account
       let cellIdx25String = `划转罚款至${orgSysOfficeInfo.accountName}${orgSysOfficeInfo.accountBank}。账户名称：${orgSysOfficeInfo.billName}。待结算财政款项账号：${orgSysOfficeInfo.account}`

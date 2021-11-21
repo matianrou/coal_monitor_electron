@@ -147,15 +147,29 @@
                 </div>
               </div>
             </div>
-            <div class="docTextarea">
-              <span class="no-line">检查情况：</span>
-              <span
-                @click="commandFill('cellIdx13', '检查情况', 'DangerTable')"
-                >{{
-                  letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）"
-                }}</span
-              >
-              <div class="line"></div>
+            <table style="border:solid 0 #000;" class="docBody">
+              <tr>
+                <td class="textAlignLeft">检查情况：</td>
+              </tr>
+            </table>
+            <div
+              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+              class="cellInput mutiLineArea"
+              @click="commandFill('cellIdx13', '检查情况', 'DangerTable')">
+              <div v-if="letData.cellIdx13 && letData.cellIdx13.length > 0">
+                <p class="show-area-item-p">
+                  <span style="padding: 7px;">{{ letData.cellIdx13 }}</span>
+                </p>
+                <cell-line :line-num="300"></cell-line>
+              </div>
+              <div v-else>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+              </div>
             </div>
             <!-- <div
               style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
@@ -240,20 +254,53 @@ export default {
   methods: {
     async initLetData() {
       // 创建初始版本
-      const db = new GoDB(this.$store.state.DBName);
-      const corpBase = db.table("corpBase");
+      let db = new GoDB(this.$store.state.DBName);
+      let corpBase = db.table("corpBase");
       //查询符合条件的记录
-      const corp = await corpBase.find((item) => {
+      let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
+      let let22DataPapaerContent = JSON.parse(
+        selectedPaper.let22Data.paperContent
+      );
+      let zfZzInfo = db.table("zfZzInfo");
+      let zzInfo1 = await zfZzInfo.find((item) => {
+        return item.corpId == this.corpData.corpId && item.credTypeName == "采矿许可证";
+      });
+      let zzInfo2 = await zfZzInfo.find((item) => {
+        return item.corpId == this.corpData.corpId && item.credTypeName == "安全生产许可证";
+      });
       await db.close();
+      // "检查方案检查时间"，"落款机构名称"的煤矿安全监察员"分工明细表中的所有人员"按照月度监察执法计划对“煤矿名称”进行检查，检查前制定了检查方案。依据执法程序当场向被检查单位出示了执法证件，表明身份，向其告知了检查内容和依法享有的权利、义务。检查时矿井处于“正常生产煤矿”状态。
+      let nameList = []
+      if (let22DataPapaerContent.CheckTable && let22DataPapaerContent.CheckTable.tableData) {
+        // 遍历检查分工明细表中的检查人员列表
+        let22DataPapaerContent.CheckTable.tableData.map(item => {
+          if (item.personList && item.personList.length > 0) {
+            item.personList.map(person => {
+              // 如果已存在此人名则不再添加，如果未存在则添加人名
+              if (!nameList.includes(person.name)) {
+                nameList.push(person.name)
+              }
+            })
+          }
+        })
+      }
+      let names = ''
+      if (nameList.length > 0) {
+        nameList.map(name => {
+          names += name + '、'
+        })
+      }
+      names = names.substring(0, names.length - 1)
+      let baseInfor = `${let22DataPapaerContent.cellIdx2 ? let22DataPapaerContent.cellIdx2 : ''}，${this.$store.state.curCase.groupName}的煤矿安全监察员${names}按照月度监察执法计划对${corp.corpName}进行检查，检查前制定了检查方案。依据执法程序当场向被检查单位出示了执法证件，表明身份，向其告知了检查内容和依法享有的权利、义务。检查时矿井处于${corp.mineStatusZsName}状态。`
+      let dangerInfor = `    发现违法违规行为如下：`
       this.letData = {
         cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
-        cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null,
-        cellIdx1: null, // 检查时间
-        cellIdx2: null, // 采矿许可证
+        cellIdx1: let22DataPapaerContent.cellIdx2, // 检查时间
+        cellIdx2: zzInfo1.credId, // 采矿许可证
         cellIdx3: null, // 有效期
-        cellIdx4: null, // 安全生产许可证
+        cellIdx4: zzInfo2.credId, // 安全生产许可证
         cellIdx5: null, // 有效期
         cellIdx6: null, // 统一社会信用代码
         cellIdx7: null, // 主要负责人
@@ -262,13 +309,13 @@ export default {
         cellIdx10: null, // 检查人
         cellIdx11: null, // 记录人
         cellIdx12: null, // 陪同检查人员
-        cellIdx13: null, // 检查情况
+        cellIdx13: `${baseInfor}\r\n${dangerInfor}`, // 检查情况
         cellIdx14: null, // 被检查单位意见
         cellIdx15: null, // 单位负责人签名
         cellIdx16: null, // 日期
         DangerTable: {
-          baseInfor: null,
-          dangerInfor: null,
+          baseInfor: baseInfor,
+          dangerInfor: dangerInfor,
           tableData: [],
           selectedIdList: [],
           dangerItemDetail: {

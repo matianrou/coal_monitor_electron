@@ -362,11 +362,11 @@ export default {
   },
   methods: {
     async initData() {
-      const db = new GoDB(this.$store.state.DBName);
+      let db = new GoDB(this.$store.state.DBName);
       //查询符合条件的记录
-      const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      const checkPaper = await wkPaper.findAll((item) => {
+      let wkPaper = db.table("wkPaper");
+      let caseId = this.corpData.caseId;
+      let checkPaper = await wkPaper.findAll((item) => {
         return (
           item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
         );

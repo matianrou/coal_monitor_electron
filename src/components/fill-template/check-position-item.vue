@@ -145,13 +145,13 @@ export default {
     async getdbserve () {
       // 获取采煤和掘进工作面
       let db = new GoDB(this.DBName);
-      const zfCserve = db.table("zfCmgzmInfo");
-      const zfJserve = db.table("zfJjgzmInfo");
-      const caimei = await zfCserve.findAll((item) => {
+      let zfCserve = db.table("zfCmgzmInfo");
+      let zfJserve = db.table("zfJjgzmInfo");
+      let caimei = await zfCserve.findAll((item) => {
         item.select = false;
         return item.corpId == this.corpData.corpId;
       });
-      const juejin = await zfJserve.findAll((item) => {
+      let juejin = await zfJserve.findAll((item) => {
         item.select = false;
         return item.corpId == this.corpData.corpId;
       });

@@ -260,8 +260,10 @@ export async function saveToUpload(paperId) {
           dangerStatus: null,
           detectTime: item.detectTime,
           isHigh: item.isHigh,
-          personId: workPaper.personId,
-          personName: workPaper.personName,
+          personId: item.personId, // 发现人
+          personName: item.personName,
+          personIds: item.personIds, // 发现人多选
+          personNames: item.personNames,
           rectifyTerm: null,
           solveTime: null,
           solveMethod: null,

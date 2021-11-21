@@ -172,7 +172,7 @@ export default {
       })
         // 获取个人执法编号
       // 当前没有网络的情况下，从本地库中获取：
-      // const db = new GoDB(this.$store.state.DBName);
+      // let db = new GoDB(this.$store.state.DBName);
       // let person = db.table("person")
       // let userInfo = await person.find(item => item.no === userId)
       // this.$store.state.user.userNumber = userInfo ? userInfo.userNumber : ''

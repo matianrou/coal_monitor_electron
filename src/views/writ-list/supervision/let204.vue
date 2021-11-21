@@ -238,7 +238,7 @@ export default {
   },
   methods: {
     async initLetData (selectedPaper) {
-      const db = new GoDB(this.$store.state.DBName);
+      let db = new GoDB(this.$store.state.DBName);
       // 1.弹出提示框，选择单位或个人
       this.visibleSelectDialog = true;
       let paperNumber = await getDocNumber(
@@ -263,8 +263,8 @@ export default {
         dangerObject.penaltyDescFineTotle
       )}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`;
       // 9.机构接口中获取sysOfficeInfo实体中
-      const orgInfo = db.table("orgInfo");
-      const orgData = await orgInfo.find(
+      let orgInfo = db.table("orgInfo");
+      let orgData = await orgInfo.find(
         (item) => item.no === this.$store.state.user.userGroupId
       );
       let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo

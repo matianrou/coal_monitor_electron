@@ -64,6 +64,16 @@
             size="small"
             :rules="rules">
             <el-form-item
+              label="检查人："
+              prop="personIds">
+              <el-input
+                v-model.trim="dangerItemDetail.personNames"
+                placeholder="请选择隐患发现人"
+                readonly
+                @focus="selectPerson">
+              </el-input>
+            </el-form-item>
+            <el-form-item
               label="违法行为描述（可追加细节）："
               prop="itemContent">
               <el-input
@@ -172,6 +182,22 @@
               </el-input>
             </el-form-item>
             <el-form-item
+              label="更改隐患从属类别："
+              prop="changeDangerType"
+              style="width: 100%;"
+              @change="changeDangerCate">
+              <el-cascader
+                v-model="dangerItemDetail.changeDangerTypeList"
+                placeholder="请选择隐患从属类别"
+                :options="dangerCateList"
+                filterable
+                :props="{
+                  value: 'categoryCode',
+                  label: 'categoryName'
+                }"
+              ></el-cascader>
+            </el-form-item>
+            <el-form-item
               label="是否重大隐患："
               prop="isSerious"
               class="special-form-item">
@@ -237,6 +263,14 @@
         </div>
       </div>
     </div>
+    <select-person
+      :visible="visible.selectPerson"
+      :multi-select="true"
+      :selected-data-list="selectedRowPersonList"
+      :corp-data="corpData"
+      @confirm-person="handleSavePerson"
+      @close="closeSelect"
+    ></select-person>
     <select-danger-content
       v-if="visible.dangerSelect"
       :visible="visible.dangerSelect"
@@ -259,11 +293,15 @@
 import selectDangerContent from '../select-danger-content'
 import receiveDanger from '@/components/receive-danger'
 import GoDB from "@/utils/godb.min.js";
+import { severalDaysLater } from "@/utils/date";
+import selectPerson from '@/components/select-person'
+import { treeDataTranslate } from '@/utils'
 export default {
   name: "DangerTable",
   components: {
     selectDangerContent,
-    receiveDanger
+    receiveDanger,
+    selectPerson,
   },
   props: {
     value: {
@@ -317,6 +355,8 @@ export default {
         }
       },
       dangerItemDetail: {
+        personIds: null, // 隐患发现人
+        personNames: null, // 隐患发现人
         itemContent: null, // 违法行为描述
         confirmClause: null, // 违法认定法条
         onsiteDesc: null, // 现场处理决定
@@ -328,6 +368,8 @@ export default {
         penaltyDesc: null, // 行政处罚决定
         penaltyDescFine: null, // 行政处罚决定罚金
         penaltyBasis: null, // 行政处罚依据
+        changeDangerType: null, // 更改的隐患类别
+        changeDangerTypeList: [],
         isSerious: false, // 是否重大隐患
         isReview: false, // 是否复查
         reviewDate: null, // 复查日期
@@ -335,6 +377,7 @@ export default {
       visible: {
         dangerSelect: false, // 选择隐患
         receiveDanger: false, // 接收隐患
+        selectPerson: false, // 选择隐患发现人
       },
       dangerListTreeProps: {
         label: 'treeName',
@@ -343,7 +386,10 @@ export default {
       rules: {
         itemContent: [
           { required: true, message: '请填写违法行为描述', tirgger: 'blur' }
-        ]
+        ],
+        onsiteDesc: [
+          { required: true, message: '请填写现场处理决定', tirgger: 'blur' }
+        ],
       },
       dangerIndex: 0, // 计算隐患排序位置字段
       onsiteTypeOptions: [ // 现场处理类型码表
@@ -401,7 +447,9 @@ export default {
         coalingFace: false,
         headingFace: false,
       },
-      DBName: this.$store.state.DBName
+      DBName: this.$store.state.DBName,
+      selectedRowPersonList: [], // 选择的检查人员列表，用于回显
+      dangerCateList: [], // 隐患类别码表，用于修改从属类别
     };
   },
   created() {
@@ -448,7 +496,7 @@ export default {
     },
   },
   methods: {
-    initData () {
+    async initData () {
       this.dataForm.tempValue = this.value
       if (this.value.tableData.length > 0) {
         this.selectedItem({
@@ -456,6 +504,7 @@ export default {
           row: this.value.tableData[0]
         })
       }
+      await this.getDangerCate()
     },
     handleDialog (key) {
       // 展示选择检查内容弹窗
@@ -549,6 +598,14 @@ export default {
     changeValue (val, field) {
       let index = this.dangerItemDetail.order
       this.$set(this.dataForm.tempValue.tableData, index, this.dangerItemDetail)
+      console.log('val', val)
+      if (field === 'isReview' && val === '1') {
+        // 如果是隐患复查，并且为是的时候，设置reviewDate复查日期为顺延一个月
+        let reviewDate = severalDaysLater(30)
+        let reviewDateList = reviewDate.split('-')
+        this.dangerItemDetail.reviewDate = `${reviewDateList[0]}年${reviewDateList[1]}月${reviewDateList[2]}日`
+        this.$set(this.dataForm.tempValue.tableData, index, this.dangerItemDetail)
+      }
     },
     async handleSaveReceiveDanger (dangerList) {
       // 保存接收的隐患项: 放入隐患列表
@@ -580,8 +637,8 @@ export default {
         if (isAdd) {
           // 添加
           // 送数据库中匹配相应隐患项
-          const db = new GoDB(this.DBName);
-          const dangerList = db.table("dangerList");
+          let db = new GoDB(this.DBName);
+          let dangerList = db.table("dangerList");
           let dangerItem = await dangerList.find(item => item.itemCode === receiveDanger.itemCode)
           this.dataForm.tempValue.tableData.push({
             active: false,
@@ -634,6 +691,61 @@ export default {
           }
         }).catch(() => {
         })
+    },
+    selectPerson () {
+      // 选择检察人员
+      let selectedRowPersonList = []
+      if (this.dangerItemDetail.personIds) {
+        let persons = this.dangerItemDetail.personIds.split(',')
+        persons.map(person => {
+          selectedRowPersonList.push({
+            no: person
+          })
+        })
+      }
+      this.selectedRowPersonList = selectedRowPersonList
+      this.visible.selectPerson = true
+    },
+    closeSelect ({page, refresh}) {
+      // 关闭选择人员弹窗
+      // this.selectedIndex = null
+      // this.selectedRowPersonList = []
+      this.visible[page] = false
+    },
+    handleSavePerson (personList) {
+      // 确认选择监察人员
+      if (personList.length > 0) {
+        let ids = ''
+        let names = ''
+        personList.map(item => {
+          ids += item.no + ','
+          names += item.name + ','
+        })
+        ids = ids.substring(0, ids.length - 1)
+        names = names.substring(0, names.length - 1)
+        this.dangerItemDetail.personIds = ids
+        this.dangerItemDetail.personNames = names
+      } else {
+        this.dangerItemDetail.personIds = null
+        this.dangerItemDetail.personNames = null
+      }
+      this.visible.selectPerson = false
+    },
+    async getDangerCate () {
+      // 获取隐患从属类别三级码表
+      let db = new GoDB(this.DBName);
+      let dangerCate = db.table('dangerCate')
+      let dangerCateData = await dangerCate.findAll((item) => item.delFlag !== '1');
+      let list = treeDataTranslate([...dangerCateData] || [], 'treeId', 'treeParentId')
+      this.dangerCateList = list
+      console.log('list', list)
+      await db.close()
+      // 设置默认值
+    },
+    changeDangerCate (val) {
+      // 修改隐患从属类别
+      console.log('dangerItemDetail', this.dangerItemDetail)
+      console.log('val', val)
     }
   },
 };
@@ -684,5 +796,8 @@ export default {
   /deep/ .el-form--label-top .el-form-item__label {
     padding: 0px;
   }
+}
+/deep/ .el-cascader {
+  width: 100%;
 }
 </style>

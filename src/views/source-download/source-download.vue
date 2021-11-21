@@ -278,8 +278,8 @@ export default {
   methods: {
     async init () {
       // 初始化更新时间
-      const db = new GoDB(this.DBName);
-      const sourceDownload = db.table('sourceDownload')
+      let db = new GoDB(this.DBName);
+      let sourceDownload = db.table('sourceDownload')
       let downloadData = await sourceDownload.find(item => item)
       if (downloadData) {
         this.updateTime = Object.assign({}, this.updateTime, downloadData)
@@ -564,8 +564,8 @@ export default {
     },
     async handleUpdateTime(resId) {
       // 根据更新的resId为key更新updateTime为当前时间
-      const db = new GoDB(this.DBName);
-      const sourceDownload = db.table('sourceDownload')
+      let db = new GoDB(this.DBName);
+      let sourceDownload = db.table('sourceDownload')
       this.updateTime[resId] = getNowFormatTime()
       await sourceDownload.put(this.updateTime)
       await db.close()

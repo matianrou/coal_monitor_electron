@@ -24,7 +24,7 @@ async function doOrgDb(resId, data) {
 	// 	i--
 	// }
 	// console.log('id', id)
-  const schema = {
+  let schema = {
     orgInfo: {
       "no": {
         type: String,
@@ -47,14 +47,14 @@ async function doOrgDb(resId, data) {
       "sysOfficeInfo": String
     }
   };
-  const db = new GoDB(store.state.DBName, schema);
-  const orgInfo = db.table('orgInfo');
+  let db = new GoDB(store.state.DBName, schema);
+  let orgInfo = db.table('orgInfo');
 
   //1-add baseInfo(煤矿基本信息)
   let arrOrg = [];
   for (let i = 0; i < data.length; i++) {
     let obj = data[i];
-    const item = await orgInfo.get({ no: obj.id });
+    let item = await orgInfo.get({ no: obj.id });
     if (!item) {
       arrOrg.push({
         "no": obj.id,
@@ -86,7 +86,7 @@ async function doOrgDb(resId, data) {
 // “用户资源”下载。
 async function doPersonDb(resId, data) {
   let arrPerson = [];
-  const schema = {
+  let schema = {
     person: {
 			admin: Boolean,
 			company: String,
@@ -132,12 +132,12 @@ async function doPersonDb(resId, data) {
 			createDate: String
 		}
   };
-  const db = new GoDB(store.state.DBName, schema);
-  const person = db.table('person');
+  let db = new GoDB(store.state.DBName, schema);
+  let person = db.table('person');
 
   for (let i = 0; i < data.length; i++) {
     let obj = data[i];
-    const item = await person.get({ no: obj.id });
+    let item = await person.get({ no: obj.id });
     if (!item) arrPerson.push({ 
 			admin: obj.admin,
 			company: obj.company ? JSON.stringify(obj.company) : '',
@@ -177,7 +177,7 @@ async function doPersonDb(resId, data) {
 
 // “其他资源”下载。
 async function doPlanDb(resId, data) {
-	const schema = {
+	let schema = {
 		docPlan: {
 			"no": {
 				type: String,
@@ -201,14 +201,14 @@ async function doPlanDb(resId, data) {
 			"dbplanId":String,
 		}
 	};
-	const db = new GoDB(store.state.DBName, schema);
-	const docPlan = db.table('docPlan');
+	let db = new GoDB(store.state.DBName, schema);
+	let docPlan = db.table('docPlan');
 
 	let arrPlan = [];
 	if (data) {
 		for (let i = 0; i < data.length; i++) {
 			let obj = data[i];
-			const item = await docPlan.get({ no: obj.id });
+			let item = await docPlan.get({ no: obj.id });
 			if (!item) {
 				arrPlan.push({
           "no": obj.id,
@@ -251,7 +251,7 @@ async function doCorpDb(resId, data) {
 	console.log("arrZfCyrytjInfo=" + arrZfCyrytjInfo.length);
 	console.log("arrZfCmgzmInfo=" + arrZfCmgzmInfo.length);
 	console.log(data);*/
-	const schema = {
+	let schema = {
 		corpBase: {
 			"corpId": {
 				type: String,
@@ -353,18 +353,18 @@ async function doCorpDb(resId, data) {
 			"workfaceName": String, // "3085"
 		}
 	};
-	const db = new GoDB(store.state.DBName, schema);
-	const corpBase = db.table('corpBase');
-	const zfZzInfo = db.table('zfZzInfo');
-	const zfJjgzmInfo = db.table('zfJjgzmInfo');
-	const zfCyrytjInfo = db.table('zfCyrytjInfo');
-	const zfCmgzmInfo = db.table('zfCmgzmInfo');
+	let db = new GoDB(store.state.DBName, schema);
+	let corpBase = db.table('corpBase');
+	let zfZzInfo = db.table('zfZzInfo');
+	let zfJjgzmInfo = db.table('zfJjgzmInfo');
+	let zfCyrytjInfo = db.table('zfCyrytjInfo');
+	let zfCmgzmInfo = db.table('zfCmgzmInfo');
 
 	//1-add baseInfo(煤矿基本信息)
 	let arrOrg = [];
 	for (let i = 0; i < arrBaseInfo.length; i++) {
 		let obj = arrBaseInfo[i];
-		const item = await corpBase.get({ corpId: obj.corpId });
+		let item = await corpBase.get({ corpId: obj.corpId });
 		if (!item) {
 			arrOrg.push({
 				"corpId": obj.corpId,
@@ -415,7 +415,7 @@ async function doCorpDb(resId, data) {
 	arrOrg = [];
 	for (let i = 0; i < arrZfZzInfo.length; i++) {
 		let obj = arrZfZzInfo[i];
-		const item = await zfZzInfo.get({ corpId: obj.corpId });
+		let item = await zfZzInfo.get({ corpId: obj.corpId });
 		if (!item) {
 			arrOrg.push({
 				"corpId": obj.corpId,
@@ -443,7 +443,7 @@ async function doCorpDb(resId, data) {
 	arrOrg = [];
 	for (let i = 0; i < arrZfJjgzmInfo.length; i++) {
 		let obj = arrZfJjgzmInfo[i];
-		const item = await zfJjgzmInfo.get({ corpId: obj.corpId });
+		let item = await zfJjgzmInfo.get({ corpId: obj.corpId });
 		if (!item) {
 			arrOrg.push({
 				"corpId": obj.corpId,
@@ -471,7 +471,7 @@ async function doCorpDb(resId, data) {
 	arrOrg = [];
 	for (let i = 0; i < arrZfCyrytjInfo.length; i++) {
 		let obj = arrZfCyrytjInfo[i];
-		const item = await zfCyrytjInfo.get({ corpId: obj.corpId });
+		let item = await zfCyrytjInfo.get({ corpId: obj.corpId });
 		if (!item) {
 			arrOrg.push({
 				"corpId": obj.corpId,
@@ -502,7 +502,7 @@ async function doCorpDb(resId, data) {
 	arrOrg = [];
 	for (let i = 0; i < arrZfCmgzmInfo.length; i++) {
 		let obj = arrZfCmgzmInfo[i];
-		const item = await zfCmgzmInfo.get({ corpId: obj.corpId });
+		let item = await zfCmgzmInfo.get({ corpId: obj.corpId });
 		if (!item) {
 			arrOrg.push({
 				"corpId": obj.corpId,
@@ -531,7 +531,7 @@ async function doCorpDb(resId, data) {
 // “行政区域”下载。
 async function doEnterpriseList(resId, data){
 	let EnterpriseList = [];
-	const schema = {
+	let schema = {
 		doEnterpriseList: {
 			"no": {
 				type: String,
@@ -552,13 +552,13 @@ async function doEnterpriseList(resId, data){
 			"updateDate": String,
 		}
 	};
-	const db = new GoDB(store.state.DBName, schema);
-	const doEnterpriseList = db.table('doEnterpriseList');
+	let db = new GoDB(store.state.DBName, schema);
+	let doEnterpriseList = db.table('doEnterpriseList');
 
 	for (let i = 0; i < data.length; i++) {
 		let obj = data[i];
 		//
-		const item = await doEnterpriseList.get({ no: obj.id });
+		let item = await doEnterpriseList.get({ no: obj.id });
 		if (!item) EnterpriseList.push({
 			no: obj.id,
 			code: obj.code,
@@ -584,7 +584,7 @@ async function doEnterpriseList(resId, data){
 // “检查项类别”下载。
 async function doCheckCateDb(resId, data) {
 	let arrCheck = [];
-	const schema = {
+	let schema = {
 		checkCate: {
 			"no": {
 				type: String,
@@ -604,12 +604,12 @@ async function doCheckCateDb(resId, data) {
 			"treeParentId": String
 		}
 	};
-	const db = new GoDB(store.state.DBName, schema);
-	const checkCate = db.table('checkCate');
+	let db = new GoDB(store.state.DBName, schema);
+	let checkCate = db.table('checkCate');
 
 	for (let i = 0; i < data.length; i++) {
 		let obj = data[i];
-		const item = await checkCate.get({ no: obj.id });
+		let item = await checkCate.get({ no: obj.id });
 		if (!item) arrCheck.push({
       no: obj.id,
       delFlag: obj.delFlag,
@@ -657,7 +657,7 @@ async function doCheckListDb(resId, data) {
 	// 	i--
 	// }
 	// console.log('id', id)
-	const schema = {
+	let schema = {
 		checkList: {
 			"no": {
 				type: String,
@@ -680,12 +680,12 @@ async function doCheckListDb(resId, data) {
 			"treeParentId": String
 		}
 	};
-	const db = new GoDB(store.state.DBName, schema);
-	const checkList = db.table('checkList');
+	let db = new GoDB(store.state.DBName, schema);
+	let checkList = db.table('checkList');
 
 	for (let i = 0; i < arrData.length; i++) {
 		let obj = arrData[i];
-		const item = await checkList.get({ no: obj.id });
+		let item = await checkList.get({ no: obj.id });
 		if (!item) arrCheck.push({
 			no: obj.id,
       delFlag: obj.delFlag,
@@ -715,7 +715,7 @@ async function doCheckListDb(resId, data) {
 // “隐患类别”下载。
 async function doDangerCateDb(resId, data) {
 	let arrDanger = [];
-	const schema = {
+	let schema = {
 		dangerCate: {
 			"no": {
 				type: String,
@@ -727,6 +727,12 @@ async function doDangerCateDb(resId, data) {
 			"categoryName": String, //"露天煤矿",
 			"groupId": String, //"000000110001",
 			"categoryCode": String, //"000002",
+			"categoryLevel": String,
+			"createBy": String, 
+			"createDate": String,
+			"updateBy": String, 
+			"updateDate": String,
+			"industryId": String,
 			"souFlag": String, // "1",
 			"parentCode": String, // "000000",
 			"parentId": String, // "0"
@@ -736,12 +742,12 @@ async function doDangerCateDb(resId, data) {
 			"treeParentId": String
 		}
 	};
-	const db = new GoDB(store.state.DBName, schema);
-	const dangerCate = db.table('dangerCate');
+	let db = new GoDB(store.state.DBName, schema);
+	let dangerCate = db.table('dangerCate');
 	if (data) {
 		for (let i = 0; i < data.length; i++) {
 			let obj = data[i];
-			const item = await dangerCate.get({ no: obj.id });
+			let item = await dangerCate.get({ no: obj.id });
 			if (!item) arrDanger.push({
         no: obj.id,
         delFlag: obj.delFlag,
@@ -749,6 +755,12 @@ async function doDangerCateDb(resId, data) {
         categoryName: obj.categoryName,
         groupId: obj.groupId,
         categoryCode: obj.categoryCode,
+        categoryLevel: obj.categoryLevel,
+        createBy: obj.createBy ? JSON.stringify(obj.createBy) : '',
+        createDate: obj.createDate,
+        updateBy: obj.updateBy ? JSON.stringify(obj.updateBy) : '',
+        updateDate: obj.updateDate,
+        industryId: obj.industryId,
         souFlag: obj.souFlag,
         parentCode: obj.parentCode,
         parentId: obj.parentId,
@@ -768,7 +780,7 @@ async function doDangerCateDb(resId, data) {
 // “隐患内容”下载。
 async function doDangerListDb(resId, data) {
 	let arrDanger = [];
-	const schema = {
+	let schema = {
 		dangerList: {
 			"no": {
 				type: String,
@@ -795,11 +807,11 @@ async function doDangerListDb(resId, data) {
 			"treeParentId": String
 		}
 	};
-	const db = new GoDB(store.state.DBName, schema);
-	const dangerList = db.table('dangerList');
+	let db = new GoDB(store.state.DBName, schema);
+	let dangerList = db.table('dangerList');
 	for (let i = 0; i < data.length; i++) {
 		let obj = data[i];
-		const item = await dangerList.get({ no: obj.id });
+		let item = await dangerList.get({ no: obj.id });
 		if (!item) arrDanger.push({
 			no: obj.id,
       delFlag: obj.delFlag,
@@ -834,7 +846,7 @@ async function doDocDb(resId, data){
 	let arrPaper = data && data.paper ? data.paper : [];
 	let arrCase = data && data.jczfCase ? data.jczfCase : [];
 	let arrDanger = data && data.danger ? data.danger : [];
-	const schema = {
+	let schema = {
 		wkPaper: {
 			"paperId": {     //客户端生产的文书唯一id
 				type: String,
@@ -1030,16 +1042,16 @@ async function doDocDb(resId, data){
 			"updateById": String,
 		},
 	};
-	const db = new GoDB(store.state.DBName, schema);
-	const wkPaper = db.table('wkPaper');
-	const wkCase = db.table('wkCase');
-	const wkDanger = db.table('wkDanger');
+	let db = new GoDB(store.state.DBName, schema);
+	let wkPaper = db.table('wkPaper');
+	let wkCase = db.table('wkCase');
+	let wkDanger = db.table('wkDanger');
 	let arrDocPaper = [], arrDocCase = [], arrDocDanger = [];
 
 	//1-paper
 	for (let i = 0; i < arrPaper.length; i++) {
 		let obj = arrPaper[i];
-		const item = await wkPaper.get({ paperId: obj.paperId });
+		let item = await wkPaper.get({ paperId: obj.paperId });
 		if (item) await wkPaper.delete({ paperId: obj.paperId }); //删除
 		arrDocPaper.push({
 			"paperId": obj.paperId,
@@ -1071,7 +1083,7 @@ async function doDocDb(resId, data){
 	//2-case
 	for (let i = 0; i < arrCase.length; i++) {
 		let obj = arrCase[i];
-		const item = await wkCase.get({ caseId: obj.caseId });
+		let item = await wkCase.get({ caseId: obj.caseId });
 		if (!item) {
 			arrDocCase.push({
 				"caseId": obj.caseId,
@@ -1105,7 +1117,7 @@ async function doDocDb(resId, data){
 	//3-danger
 	for (let i = 0; i < arrDanger.length; i++) {
 		let obj = arrDanger[i];
-		const item = await wkDanger.get({ dangerId: obj.dangerId });
+		let item = await wkDanger.get({ dangerId: obj.dangerId });
 		if (item) await wkDanger.delete({ dangerId: obj.dangerId }); //删除
 		arrDocDanger.push({
 			"dangerId": obj.dangerId,
@@ -1171,7 +1183,7 @@ async function doDocDb(resId, data){
 
 // “委托复查,罚款收缴,回执单,影音证据,意见建议书附件”下载。
 async function docFileListDb(resId, data){
-	const schema = {
+	let schema = {
 		// 委托复查
 		localReview: {
 			"id": {
@@ -1294,17 +1306,17 @@ async function docFileListDb(resId, data){
 			"delFlag": String,
 		}
 	};
-	const db = new GoDB(store.state.DBName, schema);
-	const localReview = db.table('localReview');
-	const fineCollection = db.table('fineCollection');
-	const singleReceipt = db.table('singleReceipt');
-	const imageEvidence = db.table('imageEvidence');
-	const paperAttachment = db.table('paperAttachment');
+	let db = new GoDB(store.state.DBName, schema);
+	let localReview = db.table('localReview');
+	let fineCollection = db.table('fineCollection');
+	let singleReceipt = db.table('singleReceipt');
+	let imageEvidence = db.table('imageEvidence');
+	let paperAttachment = db.table('paperAttachment');
 	let localReviewList = [], fineCollectionList = [], singleReceiptList = [], imageEvidenceList = [], paperAttachmentList = [];
 	//1-localReview
 	for (let i = 0; i < data.localReview.length; i++) {
 		let obj = data.localReview[i];
-		const item = await localReview.get({ id: obj.id });
+		let item = await localReview.get({ id: obj.id });
 		if (item) await localReview.delete({ id: obj.id }); //删除
 		localReviewList.push({
 			"id": obj.id,
@@ -1328,7 +1340,7 @@ async function docFileListDb(resId, data){
 	//2-fineCollection
 	for (let i = 0; i < data.fineCollection.length; i++) {
 		let obj = data.fineCollection[i];
-		const item = await fineCollection.get({ id: obj.id });
+		let item = await fineCollection.get({ id: obj.id });
 		if (item) await fineCollection.delete({ id: obj.id }); //删除
 		fineCollectionList.push({
 			"id": obj.id,
@@ -1355,7 +1367,7 @@ async function docFileListDb(resId, data){
 	//3-singleReceipt
 	for (let i = 0; i < data.singleReceipt.length; i++) {
 		let obj = data.singleReceipt[i];
-		const item = await singleReceipt.get({ id: obj.id });
+		let item = await singleReceipt.get({ id: obj.id });
 		if (item) await singleReceipt.delete({ id: obj.id }); //删除
 		singleReceiptList.push({
 			"id": obj.id,
@@ -1380,7 +1392,7 @@ async function docFileListDb(resId, data){
 	//4-imageEvidence
 	for (let i = 0; i < data.imageEvidence.length; i++) {
 		let obj = data.imageEvidence[i];
-		const item = await imageEvidence.get({ id: obj.id });
+		let item = await imageEvidence.get({ id: obj.id });
 		if (item) await imageEvidence.delete({ id: obj.id }); //删除
 		imageEvidenceList.push({
 			"id": obj.id,
@@ -1411,7 +1423,7 @@ async function docFileListDb(resId, data){
 	//5-paperAttachment
 	for (let i = 0; i < data.paperAttachment.length; i++) {
 		let obj = data.paperAttachment[i];
-		const item = await paperAttachment.get({ id: obj.id });
+		let item = await paperAttachment.get({ id: obj.id });
 		if (item) await paperAttachment.delete({ id: obj.id }); //删除
 		paperAttachmentList.push({
 			"id": obj.id,

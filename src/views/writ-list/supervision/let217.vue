@@ -241,16 +241,16 @@ export default {
   },
   methods: {
     async initLetData (selectedPaper) {
-      const db = new GoDB(this.$store.state.DBName);
-      const corpBase = db.table("corpBase");
-      const corp = await corpBase.find((item) => {
+      let db = new GoDB(this.$store.state.DBName);
+      let corpBase = db.table("corpBase");
+      let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       let paperNumber = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
       // sysOfficeInfo实体中depAddress字段+ deparFullname字段
       // 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
-      const orgInfo = db.table("orgInfo");
-      const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+      let orgInfo = db.table("orgInfo");
+      let orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
       let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', master: '', phone: ''}
       await db.close();
       this.letData = {

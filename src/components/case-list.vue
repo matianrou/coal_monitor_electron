@@ -261,11 +261,11 @@ export default {
     },
     async getData() {
       // 根据计划年月和机构获取计划和活动，组合成选择列表
-      const userGroupId = this.dataForm.selGovUnit;
-      const selectPlanDate = this.dataForm.selPlanDate
-      const db = new GoDB(this.DBName);
-      const docPlan = db.table("docPlan"); // 计划
-      const wkCaseInfo = db.table("wkCase"); // 检查活动
+      let userGroupId = this.dataForm.selGovUnit;
+      let selectPlanDate = this.dataForm.selPlanDate
+      let db = new GoDB(this.DBName);
+      let docPlan = db.table("docPlan"); // 计划
+      let wkCaseInfo = db.table("wkCase"); // 检查活动
       // 判断检查活动类型选择为计划或者其他，计划则为由网页端创建的计划再创建的检查活动，
       // 其他则为未从网页端创建，直接从客户端创建的检查活动，无planId，归档时归入其他类
       let corpList = []
@@ -428,8 +428,8 @@ export default {
         }).then(async () => {
           // 删除检查活动
           // 首先遍历检查活动中的文书时候已经有归档的文书
-          const db = new GoDB(this.DBName);
-          const wkPaper = db.table('wkPaper')
+          let db = new GoDB(this.DBName);
+          let wkPaper = db.table('wkPaper')
           // 获取所有此检查活动caseId的文书
           let paperList = await wkPaper.findAll(item => item.caseId === this.selectedCase.caseId)
           let canDelete = true
@@ -441,7 +441,7 @@ export default {
           })
           if (canDelete) {
             // 调用接口删除检查活动，接口删除成功后进行本地删除
-            const wkCase = db.table('wkCase')
+            let wkCase = db.table('wkCase')
             let curCase = await wkCase.find(item => item.caseId === this.selectedCase.caseId)
             await this.$http.get(`${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/jczf/deleteCaseByCaseId?__sid=${this.$store.state.user.userSessId}&caseId=${curCase.caseId}`)
               .then(async ({ data }) => {
@@ -452,7 +452,7 @@ export default {
                   await wkCase.put(curCase)
                   // 本地删除：文书
                   // 遍历所有已经保存的文书，进行修改保存（本地），delFlag为1，即删除
-                  const wkDanger = db.table('wkDanger')
+                  let wkDanger = db.table('wkDanger')
                   paperList.map(async (paper) => {
                     let data = paper
                     data.delFlag = '1'

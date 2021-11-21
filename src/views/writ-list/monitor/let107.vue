@@ -285,10 +285,10 @@ export default {
   },
   methods: {
     async initLetData(selectedPaper) {
-      const db = new GoDB(this.$store.state.DBName);
-      const corpBase = db.table("corpBase");
+      let db = new GoDB(this.$store.state.DBName);
+      let corpBase = db.table("corpBase");
       //查询符合条件的记录
-      const corp = await corpBase.find((item) => {
+      let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       // 1.生成文书编号
@@ -314,8 +314,8 @@ export default {
       let cellIdx11Date = now.getDate().toString();
       let cellIdx12Hour = now.getHours().toString();
       // 4.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
-      const orgInfo = db.table("orgInfo");
-      const orgData = await orgInfo.find(
+      let orgInfo = db.table("orgInfo");
+      let orgData = await orgInfo.find(
         (item) => item.no === this.$store.state.user.userGroupId
       );
       let orgSysOfficeInfo =

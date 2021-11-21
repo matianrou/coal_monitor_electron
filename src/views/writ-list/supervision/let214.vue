@@ -329,9 +329,9 @@ export default {
   },
   methods: {
     async initLetData (selectedPaper) {
-      const db = new GoDB(this.$store.state.DBName);
-      const corpBase = db.table("corpBase");
-      const corp = await corpBase.find((item) => {
+      let db = new GoDB(this.$store.state.DBName);
+      let corpBase = db.table("corpBase");
+      let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       // 1.案卷题名: 煤矿名称+隐患描述+案

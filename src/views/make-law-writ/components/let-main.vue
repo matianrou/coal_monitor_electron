@@ -333,10 +333,10 @@ export default {
             detectTime: getNowFormatTime(),  //发现时间：2021-06-24 15:48:54
             delFlag: saveFlag,
             isHigh: item.isSerious, //是否重大隐患：[0|1]
-            personId: this.$store.state.user.userId, //"7101000033",
-            personName: '', //"发现人编号：beba494c4b67435f93e5fdfbe440e18e",
-            personIds: '', //"发现人编号多选：以逗号分隔",
-            personNames: '', //"隐患发现人多选：以逗号分隔",
+            personId: item.personId, //"7101000033",
+            personName: item.personName, //"发现人编号：beba494c4b67435f93e5fdfbe440e18e",
+            personIds: item.personIds, //"发现人编号多选：以逗号分隔",
+            personNames: item.personNames, //"隐患发现人多选：以逗号分隔",
             rectifyTerm: '', //"整改期限",
             solveTime: '', //"隐患消解时间",
             solveMethod: '', //"整改落实措施",
@@ -359,7 +359,7 @@ export default {
             name: null,
             onsiteType: item.onsiteType, //"现场处理类型",
             penaltyType: companyOrPerson, //"行政处罚类型：单位、个人",
-            changeDangerType: item.categoryCode, //"更改后隐患类别：710100",
+            changeDangerType: item.changeDangerType, //"更改后隐患类别：710100",
             showIndex: item.order, //"隐患顺序：1",
             isCheck: item.isReview, //"是否需要复查0不需要1需要",
             dangerParentId: null, //"隐患父id：null",

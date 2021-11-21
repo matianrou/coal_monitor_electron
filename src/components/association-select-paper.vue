@@ -88,7 +88,7 @@ export default {
     async initData() {
       // 初始化文书内容
       // 案件处理呈报书需初始化法制审核意见
-      const db = new GoDB(this.$store.state.DBName);
+      let db = new GoDB(this.$store.state.DBName);
       if (this.docData.docTypeNo === '36') {
         // 4.法制审核意见初始化码表
         let nowDate = getNowDate();
@@ -118,7 +118,7 @@ export default {
         this.paperId = getNowTime() + randomString(18)
         // 创建初始版本
         if (this.corpData && this.corpData.caseId) {
-          const wkPaper = db.table('wkPaper')
+          let wkPaper = db.table('wkPaper')
           // 按组件中定义的associationPaper关联文书
           let isReturn = false
           if (this.associationPaper && this.associationPaper.length > 0) {

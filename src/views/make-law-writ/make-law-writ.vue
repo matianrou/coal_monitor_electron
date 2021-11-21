@@ -145,9 +145,9 @@ export default {
           this.gotoWritFill(data)
         } else {
           // 如果为编辑则调取wkPaper文书表，如果为多条则弹窗选择文书，选择后的文书id传入组件中以拉取历史数据做为回显
-          const db = new GoDB(this.$store.state.DBName);
-          const wkPaper = db.table("wkPaper");
-          const checkPaper = await wkPaper.findAll(item => item.caseId === this.corpData.caseId && item.paperType === data.docData.docTypeNo && item.delFlag !== '1');
+          let db = new GoDB(this.$store.state.DBName);
+          let wkPaper = db.table("wkPaper");
+          let checkPaper = await wkPaper.findAll(item => item.caseId === this.corpData.caseId && item.paperType === data.docData.docTypeNo && item.delFlag !== '1');
           // console.log('checkPaper', checkPaper)
           // await wkPaper.delete(checkPaper[0].id) // 删除文书
           if (checkPaper.length === 0) {
@@ -185,11 +185,11 @@ export default {
     },
     async showDocTemplet() {
       //读取当前点击的计划或检查活动的数据
-      const db = new GoDB(this.DBName);
-      const corpBase = db.table("corpBase");
-      const wkPaper = db.table("wkPaper");
+      let db = new GoDB(this.DBName);
+      let corpBase = db.table("corpBase");
+      let wkPaper = db.table("wkPaper");
       //查询符合条件的记录
-      const corp = await corpBase.find((item) => {
+      let corp = await corpBase.find((item) => {
         return item.corpId === this.caseData.corpId;
       });
       // 如果本地库如果没有此数据则提示
@@ -207,7 +207,7 @@ export default {
           caseType: this.caseData.caseType,
         }
         // 查询当前检查流程中已保存或归档的所有文书，即wkPaper中已有文书
-        const checkLetList = await wkPaper.findAll((item) => {
+        let checkLetList = await wkPaper.findAll((item) => {
           return item.caseId === this.caseData.caseId && item.delFlag !== '1'
         });
         this.flowStatus = {}

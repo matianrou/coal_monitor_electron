@@ -82,8 +82,8 @@ export default {
   methods: {
     async init () {
       // 获取检查活动相关信息
-      const db = new GoDB(this.DBName)
-      const wkCase = db.table('wkCase')
+      let db = new GoDB(this.DBName)
+      let wkCase = db.table('wkCase')
       let caseData = await wkCase.find(item => item.caseId === this.corpData.caseId)
       let planDate = ''
       if (caseData && caseData.planBeginDate && caseData.planEndDate) {

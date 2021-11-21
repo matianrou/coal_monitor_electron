@@ -291,9 +291,9 @@ export default {
   },
   methods: {
     async initLetData(selectedPaper) {
-      const db = new GoDB(this.$store.state.DBName);
-      const corpBase = db.table("corpBase");
-      const corp = await corpBase.find((item) => {
+      let db = new GoDB(this.$store.state.DBName);
+      let corpBase = db.table("corpBase");
+      let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       let { num0, num1, num3, num4 } = await getDocNumber(
@@ -311,8 +311,8 @@ export default {
         .replace("日", "-")
         .split("-");
       // 9.机构接口中获取sysOfficeInfo实体中
-      const orgInfo = db.table("orgInfo");
-      const orgData = await orgInfo.find(
+      let orgInfo = db.table("orgInfo");
+      let orgData = await orgInfo.find(
         (item) => item.no === this.$store.state.user.userGroupId
       );
       let orgSysOfficeInfo =

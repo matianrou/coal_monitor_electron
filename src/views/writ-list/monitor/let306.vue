@@ -206,15 +206,15 @@ export default {
   },
   methods: {
     async initData() {
-      const db = new GoDB(this.$store.state.DBName);
-      const corpBase = db.table("corpBase");
+      let db = new GoDB(this.$store.state.DBName);
+      let corpBase = db.table("corpBase");
       //查询符合条件的记录
-      const corp = await corpBase.find((item) => {
+      let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
-      const checkPaper = await wkPaper.findAll((item) => {
+      let wkPaper = db.table("wkPaper");
+      let caseId = this.corpData.caseId;
+      let checkPaper = await wkPaper.findAll((item) => {
         return (
           item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
         );

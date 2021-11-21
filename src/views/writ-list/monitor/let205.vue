@@ -268,9 +268,9 @@ export default {
   },
   methods: {
     async initLetData(selectedPaper) {
-      const db = new GoDB(this.$store.state.DBName);
-      const corpBase = db.table("corpBase");
-      const corp = await corpBase.find((item) => {
+      let db = new GoDB(this.$store.state.DBName);
+      let corpBase = db.table("corpBase");
+      let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       // 1.时间：当前年、月、日、时、分
@@ -298,7 +298,7 @@ export default {
         selectedPaper.let6Data.paperContent
       );
       await db.close();
-      /* const let204Data = await wkPaper.find(
+      /* let let204Data = await wkPaper.find(
           (item) => item.caseId === caseId && item.paperType === "6"
         );
         let let204DataPaperContent = JSON.parse(let204Data.paperContent);

@@ -255,9 +255,9 @@ export default {
   },
   methods: {
     async initLetData (selectedPaper) {
-      const db = new GoDB(this.$store.state.DBName);
-      const corpBase = db.table("corpBase");
-      const corp = await corpBase.find((item) => {
+      let db = new GoDB(this.$store.state.DBName);
+      let corpBase = db.table("corpBase");
+      let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       // 1.生成文书编号
@@ -265,8 +265,8 @@ export default {
       // 2.行政处罚决定书 日期、编号
       let let8DataPapaerContent = JSON.parse(selectedPaper.let8Data.paperContent)
       let date206 = let8DataPapaerContent.cellIdx20 ? let8DataPapaerContent.cellIdx20.replace('年', '-').replace('月', '-').replace('日', '-').split('-') : ['', '', '']
-      const orgInfo = db.table("orgInfo");
-      const orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+      let orgInfo = db.table("orgInfo");
+      let orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
       let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {accountName: '', accountBank: '', billName: '', account: '', accountAddress: '', organName: '', courtPrefix: ''}
       await db.close();
       this.letData = {

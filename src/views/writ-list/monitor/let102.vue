@@ -205,9 +205,9 @@ export default {
   },
   methods: {
     async initLetData(selectedPaper) {
-      const db = new GoDB(this.$store.state.DBName);
-      const corpBase = db.table("corpBase");
-      const corp = await corpBase.find((item) => {
+      let db = new GoDB(this.$store.state.DBName);
+      let corpBase = db.table("corpBase");
+      let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       let let1DataPapaerContent = JSON.parse(
@@ -217,8 +217,8 @@ export default {
         let1DataPapaerContent.DangerTable.tableData
       ) : {contentOnsiteDesc: ''};
       // 通过机构接口中的sysOfficeInfo中获取的organName和courtPrefix字段分别填充cellIdx8和cellIdx9字段
-      const orgInfo = db.table("orgInfo");
-      const orgData = await orgInfo.find(
+      let orgInfo = db.table("orgInfo");
+      let orgData = await orgInfo.find(
         (item) => item.no === this.$store.state.user.userGroupId
       );
       let orgSysOfficeInfo =

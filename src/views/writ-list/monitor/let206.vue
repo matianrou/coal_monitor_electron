@@ -223,9 +223,9 @@ export default {
   },
   methods: {
     async initLetData(selectedPaper) {
-      const db = new GoDB(this.$store.state.DBName);
-      const corpBase = db.table("corpBase");
-      const corp = await corpBase.find((item) => {
+      let db = new GoDB(this.$store.state.DBName);
+      let corpBase = db.table("corpBase");
+      let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       // 1.关联行政处罚告知书
@@ -247,8 +247,8 @@ export default {
       // 9.机构接口中sysOfficeInfo实体中对应：
       // accountName；银行：accountBank；账户名称：billName；账号：account；
       // 地址：accountAddress；组织机构名：organName；法院：courtPrefix
-      const orgInfo = db.table("orgInfo");
-      const orgData = await orgInfo.find(
+      let orgInfo = db.table("orgInfo");
+      let orgData = await orgInfo.find(
         (item) => item.no === this.$store.state.user.userGroupId
       );
       let orgSysOfficeInfo =

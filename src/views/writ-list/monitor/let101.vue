@@ -96,13 +96,29 @@
               </div>
             </div>
           </div>
-          <div class="docTextarea">
-            <span class="no-line">检查情况：</span>
-            <span
-              @click="commandFill('cellIdx8', '检查情况', 'DangerTable')"
-              >{{ letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）" }}</span
-            >
-            <div class="line"></div>
+          <table style="border:solid 0 #000;" class="docBody">
+            <tr>
+              <td class="textAlignLeft">检查情况：</td>
+            </tr>
+          </table>
+          <div
+            style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+            class="cellInput mutiLineArea"
+            @click="commandFill('cellIdx8', '检查情况', 'DangerTable')">
+            <div v-if="letData.cellIdx8 && letData.cellIdx8.length > 0">
+              <p class="show-area-item-p">
+                <span style="padding: 7px;">{{ letData.cellIdx8 }}</span>
+              </p>
+              <cell-line :line-num="300"></cell-line>
+            </div>
+            <div v-else>
+              <p class="show-area-item-p">
+                &nbsp;
+              </p>
+              <p class="show-area-item-p">
+                &nbsp;
+              </p>
+            </div>
           </div>
           <div class="docTextLine">
             <div style="flex: 6; display: flex">
@@ -171,20 +187,20 @@ export default {
   methods: {
     async initLetData(selectedPaper) {
       // 创建初始版本
-      const db = new GoDB(this.$store.state.DBName);
-      const corpBase = db.table("corpBase");
+      let db = new GoDB(this.$store.state.DBName);
+      let corpBase = db.table("corpBase");
       //查询符合条件的记录
-      const corp = await corpBase.find((item) => {
+      let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       let let22DataPapaerContent = JSON.parse(
         selectedPaper.let22Data.paperContent
       );
-      const zfZzInfo = db.table("zfZzInfo");
-      const zzInfo1 = await zfZzInfo.find((item) => {
+      let zfZzInfo = db.table("zfZzInfo");
+      let zzInfo1 = await zfZzInfo.find((item) => {
         return item.corpId == this.corpData.corpId && item.credTypeName == "采矿许可证";
       });
-      const zzInfo2 = await zfZzInfo.find((item) => {
+      let zzInfo2 = await zfZzInfo.find((item) => {
         return item.corpId == this.corpData.corpId && item.credTypeName == "安全生产许可证";
       });
       await db.close();
@@ -214,7 +230,6 @@ export default {
       let dangerInfor = `    发现违法违规行为如下：`
       this.letData = {
         cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
-        cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null,
         cellIdx1: let22DataPapaerContent.cellIdx2, // 检查时间
         cellIdx2: let22DataPapaerContent.cellIdx4, // 检查地点（路线）
         cellIdx3: zzInfo1.credId, // 采矿许可证
@@ -222,7 +237,7 @@ export default {
         cellIdx5: null, // 检查人（签名）
         cellIdx6: null, // 记录人（签名）
         cellIdx7: null, // 陪同检查人员
-        cellIdx8: `${baseInfor}\r${dangerInfor}`, // 检查情况
+        cellIdx8: `${baseInfor}\r\n${dangerInfor}`, // 检查情况
         cellIdx9: null, // 被检查单位负责人意见
         cellIdx10: null, // 签名
         cellIdx11: null, // 日期

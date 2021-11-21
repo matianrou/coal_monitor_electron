@@ -88,7 +88,11 @@ function setDangerTable (data, selectedData, options) {
   })
   switch(options.page) {
     case '1':  // 现场检查记录/现场检查笔录
-      string = dangerObjectIndex.dangerString
+      let dangerString = ''
+      data.tableData.map((item, index) => {
+        dangerString += `    ${(index + 1)}. ${item.itemContent}\r\n`
+      })
+      string = `${data.baseInfor}\r\n${data.dangerInfor}\r\n${dangerString}`
       break
     case '2': // 现场处理决定书
       string = dangerObjectIndex.contentOnsiteDesc

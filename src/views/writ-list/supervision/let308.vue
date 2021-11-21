@@ -193,16 +193,16 @@ export default {
   methods: {
     async initData() {
       // 初始化文书内容
-      const db = new GoDB(this.$store.state.DBName);
-      const corpBase = db.table("corpBase");
+      let db = new GoDB(this.$store.state.DBName);
+      let corpBase = db.table("corpBase");
       //查询符合条件的记录
-      const corp = await corpBase.find((item) => {
+      let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const wkPaper = db.table("wkPaper");
-      const caseId = this.corpData.caseId;
+      let wkPaper = db.table("wkPaper");
+      let caseId = this.corpData.caseId;
       //查询当前计划是否已做文书
-      const checkPaper = await wkPaper.findAll((item) => {
+      let checkPaper = await wkPaper.findAll((item) => {
         return (
           item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
         );

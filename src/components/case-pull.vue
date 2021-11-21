@@ -102,8 +102,8 @@
       },
       async getUsers () {
         this.loading.main = true
-        const db = new GoDB(this.DBName)
-        const person = db.table("person") // 用户
+        let db = new GoDB(this.DBName)
+        let person = db.table("person") // 用户
         let personList = []
         let userId = this.$store.state.user.userId
         let userGroupId = this.$store.state.user.userGroupId

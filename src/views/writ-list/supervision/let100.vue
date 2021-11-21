@@ -283,20 +283,20 @@ export default {
   methods: {
     async initLetData() {
       // 创建初始版本
-      const db = new GoDB(this.$store.state.DBName);
-      const corpBase = db.table("corpBase");
+      let db = new GoDB(this.$store.state.DBName);
+      let corpBase = db.table("corpBase");
       //查询符合条件的记录
-      const corp = await corpBase.find((item) => {
+      let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      const zfZzInfo = db.table("zfZzInfo");
-      const zzInfo1 = await zfZzInfo.find((item) => {
+      let zfZzInfo = db.table("zfZzInfo");
+      let zzInfo1 = await zfZzInfo.find((item) => {
         return (
           item.corpId == this.corpData.corpId &&
           item.credTypeName == "采矿许可证"
         );
       });
-      const zzInfo2 = await zfZzInfo.find((item) => {
+      let zzInfo2 = await zfZzInfo.find((item) => {
         return (
           item.corpId == this.corpData.corpId &&
           item.credTypeName == "安全生产许可证"

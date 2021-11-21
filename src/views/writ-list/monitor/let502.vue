@@ -209,7 +209,7 @@ export default {
   },
   methods: {
     async initLetData() {
-      const db = new GoDB(this.$store.state.DBName);
+      let db = new GoDB(this.$store.state.DBName);
       // 1.文书编号
       let paperNumber = await getDocNumber(
         db,

@@ -98,8 +98,8 @@ export function getYearFirstDate() {
   return currentdate;
 }
 
-// 获取七天后日期
-export function sevenafter(dayNums) {
+// 获取dayNums天后日期
+export function severalDaysLater(dayNums) {
   let date1 = new Date(),
     time1 = date1.getFullYear() + "-" + (date1.getMonth() + 1) + "-" + date1.getDate();//time1表示当前时间
   let date2 = new Date(date1);

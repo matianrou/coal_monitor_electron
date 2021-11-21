@@ -99,10 +99,10 @@
     methods: {
       async getCheckList () {
         this.loading = true
-        const db = new GoDB(this.DBName);
-        const checkCate = db.table('checkCate');
-        const checkList = db.table('checkList');
-        const corpBase = db.table('corpBase');
+        let db = new GoDB(this.DBName);
+        let checkCate = db.table('checkCate');
+        let checkList = db.table('checkList');
+        let corpBase = db.table('corpBase');
         let checkCateData = await checkCate.findAll((item) => item);
         let checkListData = await checkList.findAll((item) => item);
         let corpBaseData = await corpBase.findAll((item) => {

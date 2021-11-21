@@ -103,12 +103,12 @@
     methods: {
       async getDangerList () {
         this.loading = true
-        const db = new GoDB(this.DBName);
-        const dangerCate = db.table('dangerCate');
-        const dangerList = db.table('dangerList');
-        const corpBase = db.table('corpBase');
-        let dangerCateData = await dangerCate.findAll((item) => item);
-        let dangerListData = await dangerList.findAll((item) => item);
+        let db = new GoDB(this.DBName);
+        let dangerCate = db.table('dangerCate');
+        let dangerList = db.table('dangerList');
+        let corpBase = db.table('corpBase');
+        let dangerCateData = await dangerCate.findAll((item) => item.delFlag !== '1');
+        let dangerListData = await dangerList.findAll((item) => item.delFlag !== '1');
         let corpBaseData = await corpBase.find((item) => {
           return item.corpId === this.corpData.corpId
         });

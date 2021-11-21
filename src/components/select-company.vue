@@ -125,10 +125,10 @@ import { treeDataTranslate } from '@/utils/index'
         this.loading = false
       },
       async getAreaTree() {
-        const db = new GoDB(this.DBName);
-        const doEnterpriseList = db.table('doEnterpriseList');
+        let db = new GoDB(this.DBName);
+        let doEnterpriseList = db.table('doEnterpriseList');
         let areaId = this.$store.state.user.userAreaId
-        const areaList = await doEnterpriseList.findAll((item) => {
+        let areaList = await doEnterpriseList.findAll((item) => {
           return item.parentId === areaId || item.no === areaId;
         })
         this.areaTree = treeDataTranslate(areaList, 'code', 'parentId')
@@ -140,8 +140,8 @@ import { treeDataTranslate } from '@/utils/index'
         // 获取企业数据
         // 整理筛选项内容：
         let {companyStatus, companyName, areaId} = this.dataForm
-        const db = new GoDB(this.DBName);
-        const corpBase = db.table("corpBase"); // 煤矿企业
+        let db = new GoDB(this.DBName);
+        let corpBase = db.table("corpBase"); // 煤矿企业
         let corpList = await corpBase.findAll(item => {
           if (companyStatus === '11')  {
             return item.constructType == companyStatus &&

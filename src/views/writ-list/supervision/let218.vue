@@ -172,9 +172,9 @@ export default {
   },
   methods: {
     async initLetData (selectedPaper) {
-      const db = new GoDB(this.$store.state.DBName);
-      const corpBase = db.table("corpBase");
-      const corp = await corpBase.find((item) => {
+      let db = new GoDB(this.$store.state.DBName);
+      let corpBase = db.table("corpBase");
+      let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       // 获取笔录文书中的隐患数据
@@ -185,8 +185,8 @@ export default {
       // 案由：煤矿名称 + '涉嫌' + 隐患描述 + '案。'
       let cellIdx2String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
       // 获取听证笔录中的听证主持人和记录人
-      const wkPaper = db.table('wkPaper');
-      const let211Data = await wkPaper.find((item) => {
+      let wkPaper = db.table('wkPaper');
+      let let211Data = await wkPaper.find((item) => {
         return item.caseId === this.corpData.caseId && item.paperType === "7" && item.delFlag !== '1';
       });
       let let211DataPapaerContent = let211Data ? JSON.parse(let211Data.paperContent) : {cellIdx8: '', cellIdx9: ''};

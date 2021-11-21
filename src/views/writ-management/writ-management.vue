@@ -195,10 +195,10 @@ export default {
     },
     async getData () {
       this.loading.list = true
-      const db = new GoDB(this.DBName)
+      let db = new GoDB(this.DBName)
       // 获取煤矿信息
       if (this.caseData.corpId) {
-        const corpBase = db.table('corpBase')
+        let corpBase = db.table('corpBase')
         let corp = await corpBase.find(item => item.corpId === this.caseData.corpId)
         this.corpData = {
           corpName: corp.corpName,
@@ -215,7 +215,7 @@ export default {
       }
       // 获取文书列表
       if (this.caseData.caseId) {
-        const wkPaper = db.table('wkPaper')
+        let wkPaper = db.table('wkPaper')
         let paperList = await wkPaper.findAll(item => item.caseId === this.caseData.caseId && item.delFlag !== '1')
         // 按创建时间排序
         paperList.length > 0 && paperList.sort(sortbyDes('createTime'))
@@ -247,8 +247,8 @@ export default {
         }
       })
       this.selectedPaper = row
-      // const db = new GoDB(this.DBName)
-      // const wkPaper = db.table('wkPaper')
+      // let db = new GoDB(this.DBName)
+      // let wkPaper = db.table('wkPaper')
       // row.delFlag = '2'
       // await wkPaper.put(row)
       // await db.close()
@@ -266,15 +266,15 @@ export default {
             .then(async ({ data }) => {
               if (data.status === "200") {
                 // 删除成功后，从本地数据库中删除
-                const db = new GoDB(this.$store.state.DBName)
+                let db = new GoDB(this.$store.state.DBName)
                 // 删除文书
-                const wkPaper = db.table('wkPaper')
+                let wkPaper = db.table('wkPaper')
                 let paperData = await wkPaper.find(item => item.paperId === row.paperId)
                 let data = paperData
                 data.delFlag = '1'
                 await wkPaper.put(data)
                 // 删除对应隐患
-                const wkDanger = db.table('wkDanger')
+                let wkDanger = db.table('wkDanger')
                 let dangerList = await wkDanger.findAll(item => item.paperId === row.paperId)
                 if (dangerList && dangerList.length > 0) {
                   dangerList.map(async (danger) => {
@@ -308,8 +308,8 @@ export default {
           dangerouslyUseHTMLString: true,
           type: 'warning'
         }).then(async () => {
-          const db = new GoDB(this.$store.state.DBName)
-          const wkPaper = db.table('wkPaper')
+          let db = new GoDB(this.$store.state.DBName)
+          let wkPaper = db.table('wkPaper')
           let curPaper = await wkPaper.find(item => item.paperId === row.paperId && item.delFlag !== '1')
           let paperData = curPaper
           paperData.delFlag = '0'

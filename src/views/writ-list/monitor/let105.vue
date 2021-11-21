@@ -321,7 +321,7 @@ export default {
         })
     },
     downloadFile (index, row) {
-      const link = document.createElement('a')
+      let link = document.createElement('a')
       link.style.display = 'none'
       link.href = `${process.env.FILE_URL}${row.filePath}`
       document.body.appendChild(link)

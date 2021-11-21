@@ -55,7 +55,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { sevenafter, getNowFormatDate, getNowFormatTime, getNowTime  } from "@/utils/date";
+import { severalDaysLater, getNowFormatDate, getNowFormatTime, getNowTime  } from "@/utils/date";
 import { getRandom, randomString } from "@/utils/index";
 export default {
   name: "WritInformation",
@@ -129,7 +129,7 @@ export default {
     initData() {
       //初始化日期范围
       this.dataForm.startDate = getNowFormatDate();
-      this.dataForm.endDate = sevenafter(7);
+      this.dataForm.endDate = severalDaysLater(7);
       this.dataForm.searchDate = [
         this.dataForm.startDate,
         this.dataForm.endDate,
@@ -152,17 +152,17 @@ export default {
     async submit() {
       // 提交
       // 调取 doc.js 文件 doSaveCase() 方法
-      const db = new GoDB(this.DBName);
-      const corpId = this.corpData.corpId;
-      const corpInfo = db.table("corpBase");
+      let db = new GoDB(this.DBName);
+      let corpId = this.corpData.corpId;
+      let corpInfo = db.table("corpBase");
       // 获取煤矿基本信息
-      const corpBase = await corpInfo.findAll((item) => {
+      let corpBase = await corpInfo.findAll((item) => {
         return item.corpId === corpId;
       });
       // 获取计划
-      const {selPlanDate, selGovUnit} = this.selectPlanData
-      const docPlan = db.table("docPlan");
-      const corpPlan = await docPlan.findAll(item =>
+      let {selPlanDate, selGovUnit} = this.selectPlanData
+      let docPlan = db.table("docPlan");
+      let corpPlan = await docPlan.findAll(item =>
       item.corpId === corpId && item.groupId === selGovUnit
       && (`${item.planYear}-${item.planMonth}` === selPlanDate))
       await db.close();
@@ -226,9 +226,9 @@ export default {
         planId: corpPlan ? corpPlan.dbplanId : '',
         pcMonth: this.selectPlanData.selPlanDate,
       };
-      const db = new GoDB(this.DBName);
+      let db = new GoDB(this.DBName);
       // 保存case 表
-      const wkCase = db.table("wkCase");
+      let wkCase = db.table("wkCase");
       await wkCase.add(jsonCase);
       await db.close();
       // 回调 渲染方法
