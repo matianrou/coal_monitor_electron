@@ -243,3 +243,12 @@ export async function getAllProvinceOrg (userGroupId) {
   // arrOrg.sort(sortbyAsc('grade'))
   return arrOrg
 }
+
+// 模糊查询
+// word为用户输入
+// key为校验对象
+export function fuzzyearch (word, key) {
+  let str = ['',...word,''].join('.*'); //转化成正则格式的字符串
+  let reg = new RegExp(str) //正则
+  return reg.test(key) //去匹配待查询的字符串
+}

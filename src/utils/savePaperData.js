@@ -244,8 +244,6 @@ export async function saveToUpload(paperId) {
           createBy: {
             id: workPaper.personId,
           },
-          personIds: workPaper.personId,
-          personNames: workPaper.personName,
           updateBy: {
             id: workPaper.personId,
           },
@@ -260,10 +258,10 @@ export async function saveToUpload(paperId) {
           dangerStatus: null,
           detectTime: item.detectTime,
           isHigh: item.isHigh,
-          personId: item.personId, // 发现人
-          personName: item.personName,
-          personIds: item.personIds, // 发现人多选
-          personNames: item.personNames,
+          personId: workPaper.personId, // 发现人
+          personName: workPaper.personName,
+          personIds: item.personIds ? item.personIds : workPaper.personId, // 发现人多选
+          personNames: item.personNames ? item.personNames : workPaper.personName,
           rectifyTerm: null,
           solveTime: null,
           solveMethod: null,
@@ -292,7 +290,7 @@ export async function saveToUpload(paperId) {
           showIndex: item.showIndex,
           isCheck: item.isCheck,
           dangerParentId: null,
-          isCommon: null,
+          isCommon: item.isCommon ? item.isCommon : null,
           deviceNum: item.deviceNum,
           coalingFace: item.coalingFace,
           headingFace: item.headingFace,

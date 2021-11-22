@@ -1,4 +1,4 @@
-<!-- 填写组件 隐患 -->
+<!-- 填写组件 隐患 去重，暂不用，pc逻辑为不去重-->
 <template>
   <div style="width: 100%;">
     <div v-if="options.showBaseInfor">
@@ -35,7 +35,7 @@
             v-if="dataForm.tempValue.tableData"
             :data="dataForm.tempValue.tableData"
             style="width: 100%;"
-            row-key="order"
+            row-key="treeId"
             border
             :default-sort = "{prop: 'order', order: 'descending'}">
             <el-table-column
@@ -189,12 +189,12 @@
             <el-form-item
               label="更改隐患从属类别："
               prop="changeDangerType"
-              style="width: 100%;"
-              ref="changeDangerType">
+              style="width: 100%;">
               <el-select 
                 v-model="dangerItemDetail.firstDangerType"
                 placeholder="请选择从属类别"
-                @change="val => changeDangerCate(val, '0')">
+                @change="val => changeDangerCate(val, '0')"
+                :disabled="changeDangerTypeDisabled">
                 <el-option
                   v-for="item in dangerCateOptions.dangerCateList"
                   :key="item.categoryCode"
@@ -339,6 +339,7 @@ export default {
           baseInfor: null,
           dangerInfor: null,
           tableData: [],
+          selectedIdList: [],
           dangerItemDetail: {
             personIds: null, // 隐患发现人
             personNames: null, // 隐患发现人
@@ -356,8 +357,8 @@ export default {
             firstDangerType: null, // 第一级隐患类别
             secDangerType: null, // 第二级隐患类别
             changeDangerType: null, // 更改的隐患类别
-            isSerious: '0', // 是否重大隐患
-            isReview: '0', // 是否复查
+            isSerious: false, // 是否重大隐患
+            isReview: false, // 是否复查
             reviewDate: null, // 复查日期
           },
         }
@@ -391,6 +392,7 @@ export default {
         tempValue: {
           baseInfor: null,
           tableData: [],
+          selectedIdList: [],
         }
       },
       dangerItemDetail: {
@@ -410,8 +412,8 @@ export default {
         firstDangerType: null, // 第一级隐患类别
         secDangerType: null, // 第二级隐患类别
         changeDangerType: null, // 更改的隐患类别
-        isSerious: '0', // 是否重大隐患
-        isReview: '0', // 是否复查
+        isSerious: false, // 是否重大隐患
+        isReview: false, // 是否复查
         reviewDate: null, // 复查日期
       },
       visible: {
@@ -498,6 +500,7 @@ export default {
         dangerCateSecList: [],
         dangerCateThirdList: []
       },
+      changeDangerTypeDisabled: false // 是否可以修改隐患从属类别第一级
     };
   },
   created() {
@@ -544,7 +547,7 @@ export default {
     },
   },
   methods: {
-    initData () {
+    async initData () {
       this.dataForm.tempValue = this.value
       if (this.value.tableData.length > 0) {
         this.selectedItem({
@@ -552,6 +555,7 @@ export default {
           row: this.value.tableData[0]
         })
       }
+      await this.getDangerCate()
     },
     handleDialog (key) {
       // 展示选择检查内容弹窗
@@ -567,26 +571,17 @@ export default {
       this.handleData(params.data.selecteddangerList, tableData)
       // 清空隐患排序为0，已便下一次继续递归遍历赋值
       this.dangerIndex = 0
+      this.dataForm.tempValue.tableData = tableData
+      // 遍历table获取treeId作为后续回显
+      let selectedId = []
+      tableData.length > 0 && tableData.map(item => {
+        selectedId.push(item.treeId)
+      })
+      this.dataForm.tempValue.selectedIdList = selectedId
       if (tableData.length > 0) {
-        console.log('tableData', tableData)
-        tableData.forEach((item, index) => {
-          let addItem = Object.assign({}, item, {
-            personIds: null, // 隐患发现人
-            personNames: null, // 隐患发现人
-            onsiteType: null, // 现场处理决定类型
-            headingFace: null, // 掘进工作面
-            deviceNum: null, // 设备台数
-            coalingFace: null, // 采煤工作面
-            penaltyDescFine: null, // 行政处罚决定罚金
-            firstDangerType: null, // 第一级隐患类别
-            secDangerType: null, // 第二级隐患类别
-            changeDangerType: null, // 更改的隐患类别
-            isSerious: '0', // 是否重大隐患
-            isReview: '0', // 是否复查
-            reviewDate: null, // 复查日期
-            order: this.dataForm.tempValue.tableData.length + index,
-          })
-          this.dataForm.tempValue.tableData.push(addItem)
+        this.selectedItem({
+          $index: 0,
+          row: tableData[0]
         })
       }
     },
@@ -613,7 +608,7 @@ export default {
         })
       }
     },
-    async selectedItem(scope) {
+    selectedItem(scope) {
       // 选择隐患
       this.dataForm.tempValue.tableData.forEach(item => {
         item.active = false
@@ -625,7 +620,7 @@ export default {
       // 将选中的隐患项内容赋值进form中
       // this.$set(this, 'dangerItemDetail', scope.row)
       this.dangerItemDetail = scope.row
-      await this.getDangerCate()
+      console.log('this.dangerItemDetail', this.dangerItemDetail)
     },
     changeOrder(type) {
       // 修改排序
@@ -663,34 +658,61 @@ export default {
         this.$set(this.dataForm.tempValue.tableData, index, this.dangerItemDetail)
       }
     },
-    handleSaveReceiveDanger (dangerList) {
+    async handleSaveReceiveDanger (dangerList) {
       // 保存接收的隐患项: 放入隐患列表
-      dangerList.map(receiveDanger => {
-        // 添加
-        this.dataForm.tempValue.tableData.push({
-          active: false,
-          personIds: null, // 隐患发现人
-          personNames: null, // 隐患发现人
-          itemContent: receiveDanger.itemContent, // 违法行为描述
-          confirmBasis: receiveDanger.confirmBasis, // 违法认定法条
-          onsiteDesc: receiveDanger.onsiteDesc, // 现场处理决定
-          onsiteBasis: receiveDanger.confirmBasis, // 现场处理依据
-          onsiteType: null, // 现场处理决定类型
-          headingFace: null, // 掘进工作面
-          deviceNum: null, // 设备台数
-          coalingFace: null, // 采煤工作面
-          penaltyDesc: receiveDanger.penaltyDesc, // 行政处罚决定
-          penaltyDescFine: null, // 行政处罚决定罚金
-          penaltyBasis: receiveDanger.penaltyBasis, // 行政处罚依据
-          firstDangerType: null, // 第一级隐患类别
-          secDangerType: null, // 第二级隐患类别
-          changeDangerType: null, // 更改的隐患类别
-          isSerious: '0', // 是否重大隐患
-          isReview: '0', // 是否复查
-          reviewDate: null, // 复查日期
-          order: this.dataForm.tempValue.tableData.length,
-        })
-      })
+      // 遍历当前隐患项，如果有已存在的隐患项则提示：是否需要覆盖，如果选择是则删除原隐患项，如果选择否则不删除原隐患项
+      await Promise.all(dangerList.map(async (receiveDanger) => {
+        let isAdd = true // 是否可以添加
+        let delIndex = null // 需要删除的index值
+        await Promise.all(this.dataForm.tempValue.tableData.map(async (danger, index) => {
+          if (receiveDanger.itemCode === danger.itemCode) {
+            await this.$confirm(`当前隐患项中已选择“${receiveDanger.noItemContent}”的相关隐患，是否覆盖原有隐患项？`, '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                dangerouslyUseHTMLString: true,
+                type: 'warning'
+              }).then(() => {
+                isAdd = true // 添加
+                // 删除当前已有隐患
+                delIndex = index
+              }).catch(() => {
+                isAdd = false // 不再添加
+              })
+          }
+        }))
+        if (delIndex) {
+          // 删除重复数据
+          this.dataForm.tempValue.selectedIdList = this.dataForm.tempValue.selectedIdList.filter(item => item !== this.dataForm.tempValue.tableData[delIndex].itemCode)
+          this.dataForm.tempValue.tableData.splice(delIndex, 1)
+        }
+        if (isAdd) {
+          // 添加
+          // 送数据库中匹配相应隐患项
+          let db = new GoDB(this.DBName);
+          let dangerList = db.table("dangerList");
+          let dangerItem = await dangerList.find(item => item.itemCode === receiveDanger.itemCode)
+          this.dataForm.tempValue.tableData.push({
+            active: false,
+            children: [],
+            coalingFace: '',
+            deviceNum: '',
+            headingFace: '',
+            isReview: '0',
+            isSerious: '0',
+            onsiteType: '',
+            reviewDate: null,
+            order: this.dataForm.tempValue.tableData.length,
+            penaltyDescFine: null,
+            treeId: dangerItem.itemCode,
+            treeName: dangerItem.itemContent,
+            treeParentId: dangerItem.categoryCode,
+            ...dangerItem
+          })
+          await db.close()
+          // 同时添加已选择的selectedIdList，已便回显
+          this.dataForm.tempValue.selectedIdList.push(receiveDanger.itemCode)
+        }
+      }))
     },
     deleteDangerItem (scope) {
       // 删除单条隐患项
@@ -706,6 +728,9 @@ export default {
           this.dataForm.tempValue.tableData.forEach((item, index) => {
             item.order = index
           })
+          // 删除选择隐患项中的idList中数据
+          let delIndex = this.dataForm.tempValue.selectedIdList.findIndex(item => item === scope.row.treeId)
+          this.dataForm.tempValue.selectedIdList.splice(delIndex, 1)
           // 删除后重新选定index数据（默认逻辑：统一重新选择第一个隐患项）
           if (this.dataForm.tempValue.tableData.length > 0) {
             this.selectedItem({
@@ -768,23 +793,11 @@ export default {
       });
       await db.close()
       let list = treeDataTranslate([...dangerCateData] || [], 'treeId', 'treeParentId')
-      if (corpBaseData.mineMinetypeName === '井工') {
-        this.dangerCateOptions.dangerCateList = [list[0]]
-      } else if (corpBaseData.mineMinetypeName === '露天') {
-        this.dangerCateOptions.dangerCateList = [list[1]]
-      } else {
-        this.dangerCateOptions.dangerCateList = list
-      }
-      let categoryCode = ''
-      if (this.dangerItemDetail.changeDangerType) {
-        categoryCode = this.dangerItemDetail.changeDangerType
-      } else if (this.dangerItemDetail.categoryCode) {
-        categoryCode = this.dangerItemDetail.categoryCode
-      }
-      if (categoryCode) {
+      this.dangerCateOptions.dangerCateList = list
+      if (this.dangerItemDetail.categoryCode) {
         // 获取当前隐患项的从属类别，设置为默认值
         // 首先获取最末层类别
-        let curDangerThird = dangerCateData.filter(item => item.categoryCode === categoryCode)
+        let curDangerThird = dangerCateData.filter(item => item.categoryCode === this.dangerItemDetail.categoryCode)
         let curDangerSec = dangerCateData.filter(item => item.categoryCode === curDangerThird[0].pid)
         let curDangerFirst = dangerCateData.filter(item => item.categoryCode === curDangerSec[0].pid)
         // 设置默认值
@@ -794,16 +807,13 @@ export default {
         this.changeDangerCate(curDangerSec[0].categoryCode, '1')
         this.dangerItemDetail.changeDangerType = curDangerThird[0].categoryCode
         this.changeDangerCate(curDangerThird[0].categoryCode, '2')
-      } else {
-        this.dangerItemDetail.firstDangerType = null
-        this.dangerItemDetail.secDangerType = null
-        this.dangerCateOptions.dangerCateSecList = []
-        this.dangerItemDetail.changeDangerType = null
-        this.dangerCateOptions.dangerCateThirdList = []
+        // 设置是否可以修改第一级从属类别
+        if (corpBaseData.mineMinetypeName === '井工' || corpBaseData.mineMinetypeName === '露天') {
+          this.changeDangerTypeDisabled = true
+        } else {
+          this.changeDangerTypeDisabled = false
+        }
       }
-      this.$nextTick(() => {
-        this.$refs.dataForm.clearValidate()
-      })
     },
     changeDangerCate (val, level = '0') {
       // 修改隐患从属类别
@@ -821,9 +831,6 @@ export default {
         // 第三级从属类别
         this.dangerItemDetail.changeDangerType = null
       } else if (level === '2') {
-        if (this.dangerItemDetail.isCommon === '1') {
-          this.dangerItemDetail.categoryCode = val
-        }
       }
     },
     changeOnsiteDesc (val) {
@@ -862,8 +869,8 @@ export default {
         firstDangerType: '', // 第一级隐患类别
         secDangerType: '', // 第二级隐患类别
         changeDangerType: '', // 更改的隐患类别
-        isSerious: '0', // 是否重大隐患
-        isReview: '0', // 是否复查
+        isSerious: false, // 是否重大隐患
+        isReview: false, // 是否复查
         reviewDate: '', // 复查日期
         createDate: '', // 创建日期
         itemCode: getNowTime() + randomString(18), //
@@ -876,7 +883,6 @@ export default {
         row: this.dataForm.tempValue.tableData[this.dataForm.tempValue.tableData.length - 1],
         $index: this.dataForm.tempValue.tableData.length - 1
       }
-      // 选中新建的隐患项
       this.selectedItem(scope)
     }
   },
