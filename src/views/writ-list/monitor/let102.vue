@@ -88,53 +88,31 @@
               人民法院提起行政诉讼，但不停止执行本决定。
             </div>
             <table height="30"></table>
-            <div class="docTextLine">
-              <div style="flex: 1; display: flex">
-                <label>现场执法人员（签名):</label>
-                <div
-                  class="line-div"
-                  @click="
-                    commandFill('cellIdx10', '现场执法人员（签名)', 'TextItem')
-                  "
-                >
-                  {{ letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）" }}
-                </div>
+            <div class="docTextarea">
+              <div style="display:inline-block;min-width:60%">
+                <span class="no-line">现场执法人员（签名):</span>
+                <span @click="commandFill('cellIdx10', '现场执法人员（签名)', 'TextItem')"
+                  >{{ letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）" }}
+                </span>
               </div>
-              <div style="flex: 1; display: flex">
-                <label>&nbsp;日&nbsp; &nbsp; 期：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx11', '日 期', 'DateItem')"
-                >
-                  {{ letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）" }}
-                </div>
-              </div>
+                <span class="no-line">日期</span>
+                <span @click="commandFill('cellIdx11', '日期', 'DateItem')">{{
+                  letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）"
+                }}</span>
+                <div class="line"></div>
             </div>
-            <div class="docTextLine">
-              <div style="flex: 1; display: flex">
-                <label>被检查单位负责人（签名):</label>
-                <div
-                  class="line-div"
-                  @click="
-                    commandFill(
-                      'cellIdx12',
-                      '被检查单位负责人（签名)',
-                      'TextItem'
-                    )
-                  "
-                >
-                  {{ letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）" }}
-                </div>
+            <div class="docTextarea">
+              <div style="display:inline-block;min-width:60%">
+                <span class="no-line">被检查单位负责人（签名):</span>
+                <span @click="commandFill('cellIdx12', '被检查单位负责人（签名)', 'TextItem')"
+                  >{{ letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）" }}
+                </span>
               </div>
-              <div style="flex: 1; display: flex">
-                <label>&nbsp;日&nbsp; &nbsp; 期：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx13', '日期：', 'DateItem')"
-                >
-                  {{ letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）" }}
-                </div>
-              </div>
+                <span class="no-line">日期</span>
+                <span @click="commandFill('cellIdx13', '日期', 'DateItem')">{{
+                  letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）"
+                }}</span>
+                <div class="line"></div>
             </div>
             <table height="30"></table>
             <table class="docBody">
