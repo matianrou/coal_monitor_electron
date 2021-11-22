@@ -103,29 +103,18 @@
               >
               <div class="line"></div>
             </div>
-            <div class="docTextLine">
-              <div style="flex: 1; display: flex">
-                <label>裁定主持人（签名）：</label>
-                <div
-                  class="line-div"
-                  @click="
-                    commandFill('cellIdx9', '裁定主持人（签名）', 'TextItem')
-                  "
-                >
-                  {{ letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）" }}
-                </div>
+            <div class="docTextarea">
+              <div style="display:inline-block;min-width:50%">
+                <span class="no-line">裁定主持人（签名）：</span>
+                <span @click="commandFill('cellIdx9', '裁定主持人（签名）', 'TextItem')"
+                  >{{ letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）" }}
+                </span>
               </div>
-              <div style="flex: 1; display: flex">
-                <label>记录人（签名）：</label>
-                <div
-                  class="line-div"
-                  @click="
-                    commandFill('cellIdx10', '记录人（签名）', 'TextItem')
-                  "
-                >
-                  {{ letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）" }}
-                </div>
-              </div>
+                <span class="no-line">记录人（签名）：</span>
+                <span @click="commandFill('cellIdx10', '记录人（签名）', 'TextItem')">{{
+                  letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
+                }}</span>
+                <div class="line"></div>
             </div>
             <div class="docTextarea">
               <span class="no-line">被裁定单位负责人（签名）：</span>
