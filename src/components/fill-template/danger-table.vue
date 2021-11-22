@@ -98,23 +98,26 @@
             <el-form-item
               label="b.现场处理决定："
               prop="onsiteDesc">
-              <el-input
-                v-model.trim="dangerItemDetail.onsiteDesc"
-                placeholder="请填写现场处理决定"
-                :maxlength="300"
-                style="width: calc(100% - 210px);">
-              </el-input>
-              <!-- 现场处理类型 -->
-              <el-select
-                v-model="dangerItemDetail.onsiteType"
-                @change="val => changeValue(val, 'onsiteType')">
-                <el-option
-                  v-for="(item, index) in onsiteTypeOptions"
-                  :key="index"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
+              <div style="display: flex;">
+                <el-input
+                  v-model.trim="dangerItemDetail.onsiteDesc"
+                  placeholder="请填写现场处理决定"
+                  :maxlength="300"
+                  style="width: calc(100% - 210px); margin-right: 10px;">
+                </el-input>
+                <!-- 现场处理类型 -->
+                <el-select
+                  v-model="dangerItemDetail.onsiteType"
+                  @change="val => changeValue(val, 'onsiteType')"
+                  style="flex: 1;">
+                  <el-option
+                    v-for="(item, index) in onsiteTypeOptions"
+                    :key="index"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </div>
               <div style="margin-top: 10px; display:flex;">
                 <div v-show="showOnsiteDesc.deviceNum" style="margin-left: 10px;">
                   <span class="el-form-item__label">台/台套：</span>
@@ -184,18 +187,41 @@
             <el-form-item
               label="更改隐患从属类别："
               prop="changeDangerType"
-              style="width: 100%;"
-              @change="changeDangerCate">
-              <el-cascader
-                v-model="dangerItemDetail.changeDangerTypeList"
-                placeholder="请选择隐患从属类别"
-                :options="dangerCateList"
-                filterable
-                :props="{
-                  value: 'categoryCode',
-                  label: 'categoryName'
-                }"
-              ></el-cascader>
+              style="width: 100%;">
+              <el-select 
+                v-model="dangerItemDetail.firstDangerType"
+                placeholder="请选择从属类别"
+                @change="val => changeDangerCate(val, '0')"
+                :disabled="changeDangerTypeDisabled">
+                <el-option
+                  v-for="item in dangerCateOptions.dangerCateList"
+                  :key="item.categoryCode"
+                  :label="item.categoryName"
+                  :value="item.categoryCode">
+                </el-option>
+              </el-select>
+              <el-select 
+                v-model="dangerItemDetail.secDangerType"
+                placeholder="请选择从属类别"
+                @change="val => changeDangerCate(val, '1')">
+                <el-option
+                  v-for="item in dangerCateOptions.dangerCateSecList"
+                  :key="item.categoryCode"
+                  :label="item.categoryName"
+                  :value="item.categoryCode">
+                </el-option>
+              </el-select>
+              <el-select 
+                v-model="dangerItemDetail.changeDangerType"
+                placeholder="请选择从属类别"
+                @change="val => changeDangerCate(val, '2')">
+                <el-option
+                  v-for="item in dangerCateOptions.dangerCateThirdList"
+                  :key="item.categoryCode"
+                  :label="item.categoryName"
+                  :value="item.categoryCode">
+                </el-option>
+              </el-select>
             </el-form-item>
             <el-form-item
               label="是否重大隐患："
@@ -313,6 +339,8 @@ export default {
           tableData: [],
           selectedIdList: [],
           dangerItemDetail: {
+            personIds: null, // 隐患发现人
+            personNames: null, // 隐患发现人
             itemContent: null, // 违法行为描述
             confirmClause: null, // 违法认定法条
             onsiteDesc: null, // 现场处理决定
@@ -324,6 +352,9 @@ export default {
             penaltyDesc: null, // 行政处罚决定
             penaltyDescFine: null, // 行政处罚决定罚金
             penaltyBasis: null, // 行政处罚依据
+            firstDangerType: null, // 第一级隐患类别
+            secDangerType: null, // 第二级隐患类别
+            changeDangerType: null, // 更改的隐患类别
             isSerious: false, // 是否重大隐患
             isReview: false, // 是否复查
             reviewDate: null, // 复查日期
@@ -346,6 +377,14 @@ export default {
     }
   },
   data() {
+    var validateCate = (rule, value, callback) => {
+      let {firstDangerType, secDangerType, changeDangerType} = this.dangerItemDetail
+      if (!firstDangerType || !secDangerType || !changeDangerType) {
+        callback('请选择隐患从属类别！')
+      } else {
+        callback()
+      }
+    }
     return {
       dataForm: {
         tempValue: {
@@ -368,8 +407,9 @@ export default {
         penaltyDesc: null, // 行政处罚决定
         penaltyDescFine: null, // 行政处罚决定罚金
         penaltyBasis: null, // 行政处罚依据
+        firstDangerType: null, // 第一级隐患类别
+        secDangerType: null, // 第二级隐患类别
         changeDangerType: null, // 更改的隐患类别
-        changeDangerTypeList: [],
         isSerious: false, // 是否重大隐患
         isReview: false, // 是否复查
         reviewDate: null, // 复查日期
@@ -390,6 +430,10 @@ export default {
         onsiteDesc: [
           { required: true, message: '请填写现场处理决定', tirgger: 'blur' }
         ],
+        changeDangerType: [
+          {required: true, message: '请选择隐患从属类别', trigger: 'change'},
+          { validator: validateCate, trigger: 'change' }
+        ]
       },
       dangerIndex: 0, // 计算隐患排序位置字段
       onsiteTypeOptions: [ // 现场处理类型码表
@@ -449,7 +493,12 @@ export default {
       },
       DBName: this.$store.state.DBName,
       selectedRowPersonList: [], // 选择的检查人员列表，用于回显
-      dangerCateList: [], // 隐患类别码表，用于修改从属类别
+      dangerCateOptions: { // 隐患类别码表，用于修改从属类别
+        dangerCateList: [],
+        dangerCateSecList: [],
+        dangerCateThirdList: []
+      },
+      changeDangerTypeDisabled: false // 是否可以修改隐患从属类别第一级
     };
   },
   created() {
@@ -598,7 +647,6 @@ export default {
     changeValue (val, field) {
       let index = this.dangerItemDetail.order
       this.$set(this.dataForm.tempValue.tableData, index, this.dangerItemDetail)
-      console.log('val', val)
       if (field === 'isReview' && val === '1') {
         // 如果是隐患复查，并且为是的时候，设置reviewDate复查日期为顺延一个月
         let reviewDate = severalDaysLater(30)
@@ -735,17 +783,50 @@ export default {
       // 获取隐患从属类别三级码表
       let db = new GoDB(this.DBName);
       let dangerCate = db.table('dangerCate')
+      let corpBase = db.table('corpBase');
       let dangerCateData = await dangerCate.findAll((item) => item.delFlag !== '1');
-      let list = treeDataTranslate([...dangerCateData] || [], 'treeId', 'treeParentId')
-      this.dangerCateList = list
-      console.log('list', list)
+      let corpBaseData = await corpBase.find((item) => {
+        return item.corpId === this.corpData.corpId
+      });
       await db.close()
+      let list = treeDataTranslate([...dangerCateData] || [], 'treeId', 'treeParentId')
+      this.dangerCateOptions.dangerCateList = list
+      // 获取当前隐患项的从属类别，设置为默认值
+      // 首先获取最末层类别
+      let curDangerThird = dangerCateData.filter(item => item.categoryCode === this.dangerItemDetail.categoryCode)
+      let curDangerSec = dangerCateData.filter(item => item.categoryCode === curDangerThird[0].pid)
+      let curDangerFirst = dangerCateData.filter(item => item.categoryCode === curDangerSec[0].pid)
       // 设置默认值
+      this.dangerItemDetail.firstDangerType = curDangerFirst[0].categoryCode
+      this.changeDangerCate(curDangerFirst[0].categoryCode, '0')
+      this.dangerItemDetail.secDangerType = curDangerSec[0].categoryCode
+      this.changeDangerCate(curDangerSec[0].categoryCode, '1')
+      this.dangerItemDetail.changeDangerType = curDangerThird[0].categoryCode
+      this.changeDangerCate(curDangerThird[0].categoryCode, '2')
+      // 设置是否可以修改第一级从属类别
+      if (corpBaseData.mineMinetypeName === '井工' || corpBaseData.mineMinetypeName === '露天') {
+        this.changeDangerTypeDisabled = true
+      } else {
+        this.changeDangerTypeDisabled = false
+      }
     },
-    changeDangerCate (val) {
+    changeDangerCate (val, level = '0') {
       // 修改隐患从属类别
-      console.log('dangerItemDetail', this.dangerItemDetail)
-      console.log('val', val)
+      // 赋值，同时赋值码表
+      if (level === '0') {
+        let cur = this.dangerCateOptions.dangerCateList.filter(item => item.categoryCode === val)
+        this.dangerCateOptions.dangerCateSecList = cur[0].children
+        // 清空第二级和第三级从属类别
+        this.dangerItemDetail.secDangerType = null
+        this.dangerItemDetail.changeDangerType = null
+        this.dangerCateOptions.dangerCateThirdList = []
+      } else if (level === '1') {
+        let cur = this.dangerCateOptions.dangerCateSecList.filter(item => item.categoryCode === val)
+        this.dangerCateOptions.dangerCateThirdList = cur[0].children
+        // 第三级从属类别
+        this.dangerItemDetail.changeDangerType = null
+      } else if (level === '2') {
+      }
     }
   },
 };
@@ -796,8 +877,5 @@ export default {
   /deep/ .el-form--label-top .el-form-item__label {
     padding: 0px;
   }
-}
-/deep/ .el-cascader {
-  width: 100%;
 }
 </style>
