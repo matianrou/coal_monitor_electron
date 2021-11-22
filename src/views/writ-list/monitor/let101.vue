@@ -263,7 +263,7 @@ export default {
           selectedIdList: [],
           dangerItemDetail: {
             itemContent: null, // 违法行为描述
-            confirmClause: null, // 违法认定法条
+            confirmBasis: null, // 违法认定法条
             onsiteDesc: null, // 现场处理决定
             onsiteBasis: null, // 现场处理依据
             onsiteType: null, // 现场处理决定类型

@@ -252,3 +252,19 @@ export function fuzzyearch (word, key) {
   let reg = new RegExp(str) //正则
   return reg.test(key) //去匹配待查询的字符串
 }
+
+// 判断是否为json
+export function isJSON (str) {
+  str = str.replace(/\s/g, '').replace(/\n|\r/, '');
+  if (/^\{(.*?)\}$/.test(str))
+    return /"(.*?)":(.*?)/g.test(str);
+  if (/^\[(.*?)\]$/.test(str)) {
+    return str.replace(/^\[/, '')
+      .replace(/\]$/, '')
+      .replace(/},{/g, '}\n{')
+      .split(/\n/)
+      .map(function (s) { return isJSON(s); })
+      .reduce(function (prev, curr) { return !!curr; });
+  }
+  return false;
+}

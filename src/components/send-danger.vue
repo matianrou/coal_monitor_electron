@@ -6,7 +6,7 @@
       :close-on-click-modal="false"
       append-to-body
       :visible="visible"
-      width="1000px"
+      width="1200px"
       top="5vh"
       @close="close">
       <div>
@@ -30,7 +30,7 @@
                   </el-form-item>
                   <el-form-item label="编写隐患：" prop="dangerContent">
                     <el-button type="primary" @click="selectData('dangerSelect')">添加违法违规行为</el-button>
-                    <el-button @click="deleteDanger">删除违法违规行为</el-button>
+                    <el-button @click="deleteDanger('multi')">删除违法违规行为</el-button>
                   </el-form-item>
                 </el-form>
               </div>
@@ -48,71 +48,151 @@
                     width="55">
                   </el-table-column>
                   <el-table-column
-                    prop="itemContent"
                     label="违法违规行为"
                     header-align="center"
                     align="center">
+                    <template slot-scope="scope">
+                      <span v-if="!scope.row.isEdit">{{ scope.row.itemContent }}</span>
+                      <el-input
+                        v-else
+                        v-model.trim="scope.row.itemContent"
+                        placeholder="请填写违法违规行为"
+                        type="textarea"
+                        :autosize="{ minRows: 2, maxRows: 4}"
+                        :maxlength="200">
+                      </el-input>
+                    </template>
                   </el-table-column>
                   <el-table-column
-                    prop="confirmClause"
                     label="违法认定法条"
                     header-align="center"
                     align="center">
+                    <template slot-scope="scope">
+                      <span v-if="!scope.row.isEdit">{{ scope.row.confirmBasis }}</span>
+                      <el-input
+                        v-else
+                        v-model.trim="scope.row.confirmBasis"
+                        placeholder="请填写违法认定法条"
+                        type="textarea"
+                        :autosize="{ minRows: 2, maxRows: 4}"
+                        :maxlength="200">
+                      </el-input>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     prop="onsiteBasis"
                     header-align="center"
                     align="center"
                     label="现场处理依据">
+                    <template slot-scope="scope">
+                      <span v-if="!scope.row.isEdit">{{ scope.row.onsiteBasis }}</span>
+                      <el-input
+                        v-else
+                        v-model.trim="scope.row.onsiteBasis"
+                        placeholder="请填写现场处理依据"
+                        type="textarea"
+                        :autosize="{ minRows: 2, maxRows: 4}"
+                        :maxlength="200">
+                      </el-input>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     prop="onsiteDesc"
                     header-align="center"
                     align="center"
                     label="现场处理措施">
+                    <template slot-scope="scope">
+                      <span v-if="!scope.row.isEdit">{{ scope.row.onsiteDesc }}</span>
+                      <el-input
+                        v-else
+                        v-model.trim="scope.row.onsiteDesc"
+                        placeholder="请填写现场处理措施"
+                        type="textarea"
+                        :autosize="{ minRows: 2, maxRows: 4}"
+                        :maxlength="200">
+                      </el-input>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     prop="penaltyBasis"
                     header-align="center"
                     align="center"
                     label="行政处罚依据">
+                    <template slot-scope="scope">
+                      <span v-if="!scope.row.isEdit">{{ scope.row.penaltyBasis }}</span>
+                      <el-input
+                        v-else
+                        v-model.trim="scope.row.penaltyBasis"
+                        placeholder="请填写行政处罚依据"
+                        type="textarea"
+                        :autosize="{ minRows: 2, maxRows: 4}"
+                        :maxlength="200">
+                      </el-input>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     prop="penaltyDesc"
                     header-align="center"
                     align="center"
                     label="行政处罚决定">
+                    <template slot-scope="scope">
+                      <span v-if="!scope.row.isEdit">{{ scope.row.penaltyDesc }}</span>
+                      <el-input
+                        v-else
+                        v-model.trim="scope.row.penaltyDesc"
+                        placeholder="请填写行政处罚决定"
+                        type="textarea"
+                        :autosize="{ minRows: 2, maxRows: 4}"
+                        :maxlength="200">
+                      </el-input>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    header-align="center"
+                    align="center"
+                    label="操作"
+                    width="100">
+                    <template slot-scope="scope">
+                      <el-button v-if="!scope.row.isEdit" type="text" @click="changeStatus(scope, 'edit')">编辑</el-button>
+                      <el-button v-else type="text" @click="changeStatus(scope, 'save')">保存</el-button>
+                      <el-button type="text" @click="deleteDanger('single', scope)">删除</el-button>
+                    </template>
                   </el-table-column>
                 </el-table>
               </div>
             </div>
           </el-tab-pane>
           <el-tab-pane label="历史记录" name="historyList">
-            <el-table
-              :data="sendDangerListHistory"
-              stripe
-              border
-              style="width: 100%"
-              :header-row-style="{fontSize: '16px', fontWeight: 600, color: '#303133'}">
-              <el-table-column
-                prop="receiveName"
-                label="接收人"
-                header-align="center"
-                align="center">
-              </el-table-column>
-              <el-table-column
-                prop="companyName"
-                label="煤矿"
-                header-align="center"
-                align="center">
-              </el-table-column>
-              <el-table-column
-                prop="sendTime"
-                header-align="center"
-                align="center"
-                label="发送时间">
-              </el-table-column>
-            </el-table>
+            <div class="send-danger-main">
+              <el-table
+                :data="dataForm.dangerContent.tableData"
+                stripe
+                border
+                style="width: 100%"
+                height="calc(100% - 200px)"
+                :header-row-style="{fontSize: '16px', fontWeight: 600, color: '#303133'}">
+                <el-table-column
+                  prop="name"
+                  label="接收人"
+                  header-align="center"
+                  align="center"
+                  width="180">
+                </el-table-column>
+                <el-table-column
+                  prop="companyName"
+                  label="煤矿"
+                  header-align="center"
+                  align="center">
+                </el-table-column>
+                <el-table-column
+                  prop="sendTime"
+                  header-align="center"
+                  align="center"
+                  label="发送时间"
+                  width="200">
+                </el-table-column>
+              </el-table>
+            </div>
           </el-tab-pane>
         </el-tabs>
         <select-person
@@ -130,7 +210,6 @@
           v-if="showDialog.dangerSelect"
           :visible="showDialog.dangerSelect"
           :value="dataForm.dangerContent"
-          :corp-data="{corpId: dataForm.companyId}"
           @save="confirmDangerContent"
           @close="closeDangerDialog"
         ></select-danger-content>
@@ -147,8 +226,9 @@
 import selectPerson from '@/components/select-person'
 import selectCompany from '@/components/select-company'
 import selectDangerContent from '@/components/select-danger-content'
-import {getNowFormatTime} from '@/utils/date'
-import {getUUID} from '@/utils/index'
+import {getNowFormatTime, getNowTime} from '@/utils/date'
+import {getUUID, randomString, sortbyAsc} from '@/utils/index'
+import GoDB from '@/utils/godb.min.js'
 export default {
   name: "SendDanger",
   components: {
@@ -165,6 +245,7 @@ export default {
   data () {
     return {
       activeName: 'sendDanger',
+      DBName: this.$store.state.DBName,
       dataForm: { // 隐患发送Form
         receiveId: null, // 接收人
         receiveName: null, // 接收人
@@ -186,76 +267,220 @@ export default {
       userType: this.$store.state.user.userType,
     };
   },
-  created () {
+  async created () {
+    await this.getDangerList()
   },
   methods: {
     close (refresh) {
       this.$emit('close', refresh)
     },
-    save () {
-      // 确定：发送隐患
-      let dangerContent = []
-      if (this.selectedDangerList.length > 0) {
-        this.selectedDangerList.map(item => {
-          let danger = {
-            HistoryId: getUUID(),
-            categoryCode: item.categoryCode,
-            confirmClause: item.confirmClause,
+    async getDangerList (isSend = '0') {
+	    let db = new GoDB(this.DBName)
+      let sendDanger = db.table('sendDanger')
+      let dangerlist = await sendDanger.findAll(item => item.delFlag !== '1' && item.isSend === isSend)
+      console.log('dangerlist', dangerlist)
+      dangerlist.sort(sortbyAsc('createDate'))
+      this.dataForm.dangerContent.tableData = dangerlist
+    },
+    async confirmDangerContent ({data}) {
+      // 选定隐患项
+      // 保存选择的检查项
+      let tableData = []
+      // 抽取选择的检查项最底一层，作为table展示
+      this.handleData(data.selecteddangerList, tableData)
+      if (tableData.length > 0) {
+        // 添加入隐患发送列表中
+        let db = new GoDB(this.DBName)
+        let sendDanger = db.table('sendDanger')
+        let addDangerList = []
+        console.log('tableData', tableData)
+        for(let i = 0; i < tableData.length; i++) {
+          let obj = {
+            HistoryId: getNowTime() + randomString(18),
+            categoryCode: tableData[i].categoryCode,
+            no: tableData[i].no,
+            confirmBasis: tableData[i].confirmBasis,
             createDate: getNowFormatTime(),
-            id: item.id,
+            itemId: tableData[i].id,
             isNewRecord: false,
             isOther: false,
             isSelected: false,
-            itemCode: item.itemCode,
-            noItemContent: item.noItemContent,
-            onsiteBasis: item.onsiteBasis,
-            onsiteDesc: item.onsiteDesc,
-            penaltyBasis: item.penaltyBasis,
-            penaltyDesc: item.penaltyDesc,
-            updateDate: getNowFormatTime()
+            itemCode: tableData[i].itemCode,
+            itemContent: tableData[i].itemContent,
+            onsiteBasis: tableData[i].onsiteBasis,
+            onsiteDesc: tableData[i].onsiteDesc,
+            penaltyBasis: tableData[i].penaltyBasis,
+            penaltyDesc: tableData[i].penaltyDesc,
+            updateDate: getNowFormatTime(),
+            delFlag: '0',
+            isSend: '0',
+            isCommon: null
           }
-          dangerContent.push(danger)
-        })
-      } else {
-        this.$message.error('请选择需要发送的隐患项！')
-        return
+          addDangerList.push(obj)
+        }
+        console.log('addDangerList', addDangerList)
+	      await sendDanger.addMany(addDangerList);
+        await db.close()
+        this.getDangerList()
       }
-      let params = {
-        id: getUUID(),
-        postId: this.$store.state.user.userId,		// 发送人id
-        receiveId: this.dataForm.receiveId,		// 接收人id
-        name: this.dataForm.receiveName,		// name
-        companyId: this.dataForm.companyId,		// 企业id
-        companyName: this.dataForm.companyName,		// 企业名称
-        isReceive: '0',		// 0为未接收，1为已接收
-        dangerContent: JSON.stringify(dangerContent)		// 隐患内容
-      }
-      this.$http.post(`${this.userType === 'supervision' ? '/sv' : ''}/local/postdanger/save?__sid=${this.$store.state.user.userSessId}`, {sendJson: true, data: params})
-        .then(async ({ data }) => {
-          if (data.status === "200") {
-            this.$message.success('发送隐患成功！')
-            this.close()
+    },
+    handleData (data, tableData) {
+      // 递归遍历获取最底层数据
+      if (data.length > 0) {
+        data.map((item) => {
+          if (item.children && item.children.length > 0) {
+            this.handleData(item.children, tableData)
           } else {
-            this.$message.error('发送隐患失败，请再次尝试')
+            tableData.push(item)
           }
         })
-        .catch((err) => {
-          this.$message.error('发送隐患失败，请再次尝试')
-          console.log('发送隐患失败:', err)
-        });
+      }
+    },
+    handleSelectionChange (val) {
+      this.selectedDangerList = val
+    },
+    deleteDanger(type, scope = {}) {
+      if (type === 'single') {
+        // 单个删除隐患项
+        this.$confirm(`是否确定删除违法违规行为：${scope.row.itemContent}?`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          dangerouslyUseHTMLString: true,
+          type: 'warning'
+        }).then(async () => {
+          let db = new GoDB(this.DBName)
+          let sendDanger = db.table('sendDanger')
+          await sendDanger.delete({ HistoryId: scope.row.HistoryId })
+          await db.close()
+          this.getDangerList()
+        }).catch(() => {})
+      } else if (type === 'multi') {
+        // 多选删除已选中的隐患
+        if (this.selectedDangerList.length === 0) {
+          this.$message.error('请先从下表中选择需要删除的违法违规行为！')
+          return
+        }
+        let itemContents = ''
+        console.log('selectedDangerList', this.selectedDangerList)
+        this.selectedDangerList.map(item => {
+          itemContents += item.itemContent + '；'
+        })
+        itemContents = itemContents.substring(0, itemContents.length - 1)
+        this.$confirm(`是否确定删除违法违规行为：${itemContents}?`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          dangerouslyUseHTMLString: true,
+          type: 'warning'
+        }).then(async () => {
+          let db = new GoDB(this.DBName)
+          let sendDanger = db.table('sendDanger')
+          for (let i = 0; i < this.selectedDangerList.length; i++) {
+            await sendDanger.delete({ HistoryId: this.selectedDangerList[i].HistoryId })
+          }
+          await db.close()
+          this.getDangerList()
+        }).catch(() => {})
+        
+      }
+    },
+    async changeStatus (scope, operation) {
+      // 切换编辑或保存
+      let newData = Object.assign({}, scope.row, {
+        isEdit: !scope.row.isEdit
+      })
+      this.$set(this.dataForm.dangerContent.tableData, scope.$index, newData)
+      if (operation === 'save') {
+        let db = new GoDB(this.DBName)
+        let sendDanger = db.table('sendDanger')
+        console.log('newData', newData)
+        await sendDanger.put(newData)
+        await db.close()
+        await this.getDangerList()
+      }
+    },
+    save () {
+      // 确定：发送隐患
+      if (this.dataForm.receiveId && this.dataForm.companyId) {
+        let dangerContent = []
+        if (this.selectedDangerList.length > 0) {
+          this.selectedDangerList.map(item => {
+            let danger = {
+              HistoryId: item.HistoryId,
+              categoryCode: item.categoryCode,
+              no: item.no,
+              confirmBasis: item.confirmBasis,
+              createDate: item.createDate,
+              id: item.itemId,
+              isNewRecord: item.isNewRecord,
+              isOther: item.isOther,
+              isSelected: item.isSelected,
+              itemCode: item.itemCode,
+              itemContent: item.itemContent,
+              onsiteBasis: item.onsiteBasis,
+              onsiteDesc: item.onsiteDesc,
+              penaltyBasis: item.penaltyBasis,
+              penaltyDesc: item.penaltyDesc,
+              updateDate: item.updateDate,
+              delFlag: '0',
+              isSend: '1'
+            }
+            dangerContent.push(danger)
+          })
+        } else {
+          this.$message.error('请选择需要发送的隐患项！')
+          return
+        }
+        let params = {
+          id: getUUID(),
+          postId: this.$store.state.user.userId,		// 发送人id
+          receiveId: this.dataForm.receiveId,		// 接收人id
+          name: this.dataForm.receiveName,		// name
+          companyId: this.dataForm.companyId,		// 企业id
+          companyName: this.dataForm.companyName,		// 企业名称
+          isReceive: '0',		// 0为未接收，1为已接收
+          dangerContent: JSON.stringify(dangerContent)		// 隐患内容
+        }
+        this.$http.post(`${this.userType === 'supervision' ? '/sv' : ''}/local/postdanger/save?__sid=${this.$store.state.user.userSessId}`, {sendJson: true, data: params})
+          .then(async ({ data }) => {
+            if (data.status === "200") {
+              this.$message.success('发送隐患成功！')
+              // 发送成功后更新本地数据库
+	            let db = new GoDB(this.DBName)
+              let sendDanger = db.table('sendDanger')
+              for (let i = 0; i < this.selectedDangerList.length; i++) {
+                let updateData = Object.assign({}, this.selectedDangerList[i], {
+                  isSend: '1',
+                  postId: this.$store.state.user.userId,		// 发送人id
+                  receiveId: this.dataForm.receiveId,		// 接收人id
+                  name: this.dataForm.receiveName,		// name
+                  companyId: this.dataForm.companyId,		// 企业id
+                  companyName: this.dataForm.companyName,		// 企业名称
+                  sendTime: getNowFormatTime(),
+                })
+                await sendDanger.put(updateData)
+              }
+              await db.close()
+              this.getDangerList()
+              // this.close()
+            } else {
+              this.$message.error('发送隐患失败，请再次尝试')
+            }
+          })
+          .catch((err) => {
+            this.$message.error('发送隐患失败，请再次尝试')
+            console.log('发送隐患失败:', err)
+          });
+      } else {
+        this.$message.error('请先选择接收人和煤矿后发送隐患！')
+      }
     },
     handleClick () {
       // 切换tab
+      let isSend = this.activeName === 'sendDanger' ? '0' : '1'
+      this.getDangerList(isSend)
     },
     selectData (type) {
       // 打开选择用户、选择企业或选择隐患项弹窗
-      if (type === 'dangerSelect') {
-        // 当选择隐患项的时候判断是否已经选择企业，如果没有则提示先选择企业
-        if (!this.dataForm.companyId) {
-          this.$message.error('请先选择煤矿再选择违法违规行为！')
-          return
-        }
-      }
       this.showDialog[type] = true
     },
     closeDialog ({page, refresh}) {
@@ -280,46 +505,6 @@ export default {
         this.dataForm.companyName = selectedCompany.corpName
       }
     },
-    confirmDangerContent ({data}) {
-      // 选定隐患项
-      // 保存选择的检查项
-      let tableData = []
-      // 抽取选择的检查项最底一层，作为table展示
-      this.handleData(data.selecteddangerList, tableData)
-      this.dataForm.dangerContent.tableData = tableData
-      // 遍历table获取treeId作为后续回显
-      let selectedId = []
-      tableData.length > 0 && tableData.map(item => {
-        selectedId.push(item.treeId)
-      })
-      this.dataForm.dangerContent.selectedIdList = selectedId
-    },
-    handleData (data, tableData) {
-      // 递归遍历获取最底层数据
-      if (data.length > 0) {
-        data.map((item) => {
-          if (item.children && item.children.length > 0) {
-            this.handleData(item.children, tableData)
-          } else {
-            tableData.push(item)
-          }
-        })
-      }
-    },
-    handleSelectionChange (val) {
-      this.selectedDangerList = val
-    },
-    deleteDanger() {
-      // 删除已选中的隐患项
-      if (this.selectedDangerList.length === 0) {
-        this.$message.error('请先从下表中选择需要删除的违法违规行为！')
-        return
-      }
-      this.selectedDangerList.map(select => {
-        let index = this.dataForm.dangerContent.tableData.findIndex(danger => danger.itemCode === select.itemCode)
-        this.dataForm.dangerContent.tableData.splice(index, 1)
-      })
-    }
   },
 };
 </script>

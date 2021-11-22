@@ -32,7 +32,7 @@
                   width="80">
                 </el-table-column>
                 <el-table-column
-                  prop="noItemContent"
+                  prop="itemContent"
                   label="违法行为描述"
                   header-align="center"
                   align="center">

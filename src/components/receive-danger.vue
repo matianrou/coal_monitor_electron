@@ -28,13 +28,13 @@
                     width="55">
                   </el-table-column>
                   <el-table-column
-                    prop="noItemContent"
+                    prop="itemContent"
                     label="违法违规行为"
                     header-align="center"
                     align="center">
                   </el-table-column>
                   <el-table-column
-                    prop="confirmClause"
+                    prop="confirmBasis"
                     label="违法认定法条"
                     header-align="center"
                     align="center">
@@ -82,31 +82,36 @@
             </div>
           </el-tab-pane>
           <el-tab-pane label="历史记录" name="historyList">
-            <el-table
-              :data="receiveDangerListHistory"
-              stripe
-              border
-              style="width: 100%"
-              :header-row-style="{fontSize: '16px', fontWeight: 600, color: '#303133'}">
-              <el-table-column
-                prop="receiveName"
-                label="接收人"
-                header-align="center"
-                align="center">
-              </el-table-column>
-              <el-table-column
-                prop="companyName"
-                label="煤矿"
-                header-align="center"
-                align="center">
-              </el-table-column>
-              <el-table-column
-                prop="sendTime"
-                header-align="center"
-                align="center"
-                label="发送时间">
-              </el-table-column>
-            </el-table>
+            <div class="send-danger-main">
+              <el-table
+                :data="receiveDangerListHistory"
+                stripe
+                border
+                style="width: 100%"
+                height="calc(100% - 200px)"
+                :header-row-style="{fontSize: '16px', fontWeight: 600, color: '#303133'}">
+                <el-table-column
+                  prop="name"
+                  label="接收人"
+                  header-align="center"
+                  align="center"
+                  width="180">
+                </el-table-column>
+                <el-table-column
+                  prop="companyName"
+                  label="煤矿"
+                  header-align="center"
+                  align="center">
+                </el-table-column>
+                <el-table-column
+                  prop="sendTime"
+                  header-align="center"
+                  align="center"
+                  label="发送时间"
+                  width="200">
+                </el-table-column>
+              </el-table>
+            </div>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -119,6 +124,7 @@
 </template>
 
 <script>
+import {isJSON} from '@/utils/index'
 export default {
   name: "ReceiveDanger",
   props: {
@@ -156,7 +162,7 @@ export default {
             let dangerHistoryList = []
             if (data.data && data.data.length > 0) {
               data.data.map(item => {
-                let dangerContent = item.dangerContent ? JSON.parse(item.dangerContent) : []
+                let dangerContent = item.dangerContent && isJSON(item.dangerContent) ? JSON.parse(item.dangerContent) : []
                 if (dangerContent.length > 0) {
                   dangerContent.map(danger => {
                     // 根据隐患项中的isSelected字段判断是否为已接收字段 true为已接收，false为未接收
@@ -176,6 +182,7 @@ export default {
             }
             this.tableData = dangerList
             this.receiveDangerList = data.data
+            console.log('dangerHistoryList', dangerHistoryList)
             this.receiveDangerListHistory = dangerHistoryList
           } else {
             this.$message.error('接收隐患失败，请再次尝试')
@@ -197,8 +204,9 @@ export default {
       // 确定：接收隐患，将隐患放入隐患列表中
       if (this.selectedDangerList.length > 0) {
         // 根据已选择的隐患遍历当前所有隐患，置已选择的隐患isSelected为true
+        console.log('')
         this.receiveDangerList.length > 0 && this.receiveDangerList.forEach(receiveDanger => {
-          let dangerContent = receiveDanger.dangerContent ? JSON.parse(receiveDanger.dangerContent) : []
+          let dangerContent = receiveDanger.dangerContent && isJSON(receiveDanger.dangerContent) ? JSON.parse(receiveDanger.dangerContent) : []
           dangerContent.length > 0 && dangerContent.forEach(danger => {
             this.selectedDangerList.map(selectedDanger => {
               if (danger.HistoryId === selectedDanger.HistoryId) {

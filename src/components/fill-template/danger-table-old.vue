@@ -666,7 +666,7 @@ export default {
         let delIndex = null // 需要删除的index值
         await Promise.all(this.dataForm.tempValue.tableData.map(async (danger, index) => {
           if (receiveDanger.itemCode === danger.itemCode) {
-            await this.$confirm(`当前隐患项中已选择“${receiveDanger.noItemContent}”的相关隐患，是否覆盖原有隐患项？`, '提示', {
+            await this.$confirm(`当前隐患项中已选择“${receiveDanger.itemContent}”的相关隐患，是否覆盖原有隐患项？`, '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 dangerouslyUseHTMLString: true,

@@ -1041,6 +1041,37 @@ async function doDocDb(resId, data){
 			"createById": String,
 			"updateById": String,
 		},
+		// 创建发送隐患数据库
+		sendDanger: {
+			"HistoryId": {     
+				type: String,
+				unique: true
+			},
+			"categoryCode": String,
+			"confirmBasis": String,
+			"createDate": String, 
+			"itemId": String, 
+			"isNewRecord": Boolean, 
+			"isOther": Boolean, 
+			"isSelected": Boolean, 
+			"itemCode": String, 
+			"itemContent": String, 
+			"onsiteBasis": String, 
+			"onsiteDesc": String, 
+			"penaltyBasis": String, 
+			"penaltyDesc": String, 
+			"updateDate": String, 
+			"delFlag": String,
+			"isSend": String, // 0为未发送，1为发送
+			"postId": String,
+			"receiveId": String,
+			"name": String,
+			"companyId": String,
+			"companyName": String,
+			"no": String,
+			"isCommon": String,
+			"sendTime": String,
+		},
 	};
 	let db = new GoDB(store.state.DBName, schema);
 	let wkPaper = db.table('wkPaper');

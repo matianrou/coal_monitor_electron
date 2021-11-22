@@ -625,6 +625,7 @@ export default {
       // 将选中的隐患项内容赋值进form中
       // this.$set(this, 'dangerItemDetail', scope.row)
       this.dangerItemDetail = scope.row
+      console.log('this.dangerItemDetail', this.dangerItemDetail)
       await this.getDangerCate()
     },
     changeOrder(type) {
@@ -665,10 +666,13 @@ export default {
     },
     handleSaveReceiveDanger (dangerList) {
       // 保存接收的隐患项: 放入隐患列表
-      dangerList.map(receiveDanger => {
+      dangerList.map((receiveDanger, index) => {
         // 添加
         this.dataForm.tempValue.tableData.push({
           active: false,
+          itemCode: receiveDanger.itemCode,
+          no: receiveDanger.no,
+          categoryCode: receiveDanger.categoryCode,
           personIds: null, // 隐患发现人
           personNames: null, // 隐患发现人
           itemContent: receiveDanger.itemContent, // 违法行为描述
@@ -688,7 +692,9 @@ export default {
           isSerious: '0', // 是否重大隐患
           isReview: '0', // 是否复查
           reviewDate: null, // 复查日期
-          order: this.dataForm.tempValue.tableData.length,
+          order: this.dataForm.tempValue.tableData.length + index,
+          delFlag: '0',
+          isCommon: receiveDanger.isCommon,
         })
       })
     },
@@ -802,7 +808,7 @@ export default {
         this.dangerCateOptions.dangerCateThirdList = []
       }
       this.$nextTick(() => {
-        this.$refs.dataForm.clearValidate()
+        this.$refs.dataForm && this.$refs.dataForm.clearValidate()
       })
     },
     changeDangerCate (val, level = '0') {
