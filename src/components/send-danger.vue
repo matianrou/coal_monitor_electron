@@ -31,6 +31,7 @@
                   <el-form-item label="编写隐患：" prop="dangerContent">
                     <el-button type="primary" @click="selectData('dangerSelect')">添加违法违规行为</el-button>
                     <el-button @click="deleteDanger('multi')">删除违法违规行为</el-button>
+                    <el-button type="primary" @click="selectData('addDanger')">新建违法违规行为</el-button>
                   </el-form-item>
                 </el-form>
               </div>
@@ -213,6 +214,11 @@
           @save="confirmDangerContent"
           @close="closeDangerDialog"
         ></select-danger-content>
+        <add-danger
+          :visible="showDialog.addDanger"
+          @close="closeDialog"
+          @confirm="confirmAddDanger"
+        ></add-danger>
       </div>
       <span slot="footer">
         <el-button @click="close">取消</el-button>
@@ -226,6 +232,7 @@
 import selectPerson from '@/components/select-person'
 import selectCompany from '@/components/select-company'
 import selectDangerContent from '@/components/select-danger-content'
+import addDanger from '@/components/add-danger'
 import {getNowFormatTime, getNowTime} from '@/utils/date'
 import {getUUID, randomString, sortbyAsc} from '@/utils/index'
 import GoDB from '@/utils/godb.min.js'
@@ -234,7 +241,8 @@ export default {
   components: {
     selectPerson,
     selectCompany,
-    selectDangerContent
+    selectDangerContent,
+    addDanger
   },
   props: {
     visible: {
@@ -261,7 +269,8 @@ export default {
       showDialog: {
         selectPerson: false, // 展示选择用户弹窗
         selectCompany: false, // 展示选择企业弹窗
-        dangerSelect: false // 展示选择隐患项弹窗
+        dangerSelect: false, // 展示选择隐患项弹窗
+        addDanger: false, // 新建违法违规行为
       },
       selectedDangerList: [], // 选中的需要删除的隐患项列表
       userType: this.$store.state.user.userType,
@@ -278,7 +287,6 @@ export default {
 	    let db = new GoDB(this.DBName)
       let sendDanger = db.table('sendDanger')
       let dangerlist = await sendDanger.findAll(item => item.delFlag !== '1' && item.isSend === isSend)
-      console.log('dangerlist', dangerlist)
       dangerlist.sort(sortbyAsc('createDate'))
       this.dataForm.dangerContent.tableData = dangerlist
     },
@@ -293,7 +301,6 @@ export default {
         let db = new GoDB(this.DBName)
         let sendDanger = db.table('sendDanger')
         let addDangerList = []
-        console.log('tableData', tableData)
         for(let i = 0; i < tableData.length; i++) {
           let obj = {
             HistoryId: getNowTime() + randomString(18),
@@ -318,7 +325,6 @@ export default {
           }
           addDangerList.push(obj)
         }
-        console.log('addDangerList', addDangerList)
 	      await sendDanger.addMany(addDangerList);
         await db.close()
         this.getDangerList()
@@ -339,7 +345,9 @@ export default {
     handleSelectionChange (val) {
       this.selectedDangerList = val
     },
-    deleteDanger(type, scope = {}) {
+    async deleteDanger(type, scope = {}) {
+      // 首先遍历保存当前正在编辑项
+      await this.saveEditItem()
       if (type === 'single') {
         // 单个删除隐患项
         this.$confirm(`是否确定删除违法违规行为：${scope.row.itemContent}?`, '提示', {
@@ -385,21 +393,33 @@ export default {
     },
     async changeStatus (scope, operation) {
       // 切换编辑或保存
-      let newData = Object.assign({}, scope.row, {
-        isEdit: !scope.row.isEdit
-      })
-      this.$set(this.dataForm.dangerContent.tableData, scope.$index, newData)
-      if (operation === 'save') {
-        let db = new GoDB(this.DBName)
-        let sendDanger = db.table('sendDanger')
-        console.log('newData', newData)
-        await sendDanger.put(newData)
-        await db.close()
-        await this.getDangerList()
+      // 保存当前编辑的数据，并刷新页面
+      await this.saveEditItem()
+      await this.getDangerList()
+      if (operation === 'edit') {
+        // 需要编辑的单条设置为编辑状态
+        let newData = Object.assign({}, scope.row, {
+          isEdit: !scope.row.isEdit
+        })
+        this.$set(this.dataForm.dangerContent.tableData, scope.$index, newData)
       }
     },
-    save () {
+    async saveEditItem () {
+      // 遍历当前为编辑状态的数据，设置为非编辑状态并且保存此条数据
+      for (let i = 0; i < this.dataForm.dangerContent.tableData.length; i++) {
+        if (this.dataForm.dangerContent.tableData[i].isEdit) {
+          this.dataForm.dangerContent.tableData[i].isEdit = false
+          let db = new GoDB(this.DBName)
+          let sendDanger = db.table('sendDanger')
+          await sendDanger.put(this.dataForm.dangerContent.tableData[i])
+          await db.close()
+        }
+      }
+    },
+    async save () {
       // 确定：发送隐患
+      // 先保存当前正在编辑内容
+      await this.saveEditItem()
       if (this.dataForm.receiveId && this.dataForm.companyId) {
         let dangerContent = []
         if (this.selectedDangerList.length > 0) {
@@ -422,7 +442,8 @@ export default {
               penaltyDesc: item.penaltyDesc,
               updateDate: item.updateDate,
               delFlag: '0',
-              isSend: '1'
+              isSend: '1',
+              isCommon: item.isCommon
             }
             dangerContent.push(danger)
           })
@@ -486,6 +507,9 @@ export default {
     closeDialog ({page, refresh}) {
       // 关闭选择用户、选择企业弹窗
       this.showDialog[page] = false
+      if (refresh) {
+        this.getDangerList()
+      }
     },
     closeDangerDialog (page) {
       // 关闭选择隐患项弹窗
@@ -505,6 +529,37 @@ export default {
         this.dataForm.companyName = selectedCompany.corpName
       }
     },
+    async confirmAddDanger (data) {
+      // 确定新建隐患项
+      let danger = {
+        HistoryId: getNowTime() + randomString(18),
+        categoryCode: data.categoryCode,
+        no: data.categoryCode,
+        confirmBasis: data.confirmBasis,
+        createDate: getNowFormatTime(),
+        itemId: data.id,
+        isNewRecord: false,
+        isOther: false,
+        isSelected: false,
+        itemCode: data.itemCode,
+        itemContent: data.itemContent,
+        onsiteBasis: data.onsiteBasis,
+        onsiteDesc: data.onsiteDesc,
+        penaltyBasis: data.penaltyBasis,
+        penaltyDesc: data.penaltyDesc,
+        updateDate: getNowFormatTime(),
+        delFlag: '0',
+        isSend: '0',
+        isCommon: '1'
+      }
+      // 添加至数据库
+      let db = new GoDB(this.DBName)
+      let sendDanger = db.table('sendDanger')
+      await sendDanger.add(danger)
+      await db.close()
+      // 刷新表格
+      await this.getDangerList()
+    }
   },
 };
 </script>

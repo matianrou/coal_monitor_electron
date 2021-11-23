@@ -743,6 +743,8 @@ async function doDangerCateDb(resId, data) {
 		}
 	};
 	let db = new GoDB(store.state.DBName, schema);
+	console.log('store.state.DBName', store.state.DBName)
+	console.log('store.state.DBName', store.state.user.userId)
 	let dangerCate = db.table('dangerCate');
 	if (data) {
 		for (let i = 0; i < data.length; i++) {
@@ -771,6 +773,7 @@ async function doDangerCateDb(resId, data) {
       });
 		}
 	}
+	console.log('arrDanger', arrDanger)
 	// 增:
 	await dangerCate.addMany(arrDanger);
 	//await dangerCate.consoleTable();
@@ -804,7 +807,8 @@ async function doDangerListDb(resId, data) {
 			"souFlag": String,//  "1"
 			"treeName": String,
       "treeId": String,
-			"treeParentId": String
+			"treeParentId": String,
+			"qdId": String, // 清单标记
 		}
 	};
 	let db = new GoDB(store.state.DBName, schema);
@@ -833,6 +837,7 @@ async function doDangerListDb(resId, data) {
       treeName: obj.itemContent,
       treeId: obj.itemCode,
       treeParentId: obj.categoryCode,
+			qdId: obj.qdId
 		});
 	}
 	// 增:

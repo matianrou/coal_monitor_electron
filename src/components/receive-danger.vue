@@ -168,6 +168,7 @@ export default {
                     // 根据隐患项中的isSelected字段判断是否为已接收字段 true为已接收，false为未接收
                     let showData = {
                       ...danger,
+                      companyName: item.companyName,
                       name: item.name,
                       sendTime: item.createDate
                     }
@@ -182,7 +183,6 @@ export default {
             }
             this.tableData = dangerList
             this.receiveDangerList = data.data
-            console.log('dangerHistoryList', dangerHistoryList)
             this.receiveDangerListHistory = dangerHistoryList
           } else {
             this.$message.error('接收隐患失败，请再次尝试')
@@ -204,7 +204,6 @@ export default {
       // 确定：接收隐患，将隐患放入隐患列表中
       if (this.selectedDangerList.length > 0) {
         // 根据已选择的隐患遍历当前所有隐患，置已选择的隐患isSelected为true
-        console.log('')
         this.receiveDangerList.length > 0 && this.receiveDangerList.forEach(receiveDanger => {
           let dangerContent = receiveDanger.dangerContent && isJSON(receiveDanger.dangerContent) ? JSON.parse(receiveDanger.dangerContent) : []
           dangerContent.length > 0 && dangerContent.forEach(danger => {

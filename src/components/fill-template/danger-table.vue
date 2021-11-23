@@ -568,7 +568,6 @@ export default {
       // 清空隐患排序为0，已便下一次继续递归遍历赋值
       this.dangerIndex = 0
       if (tableData.length > 0) {
-        console.log('tableData', tableData)
         tableData.forEach((item, index) => {
           let addItem = Object.assign({}, item, {
             personIds: null, // 隐患发现人
@@ -584,7 +583,7 @@ export default {
             isSerious: '0', // 是否重大隐患
             isReview: '0', // 是否复查
             reviewDate: null, // 复查日期
-            order: this.dataForm.tempValue.tableData.length + index,
+            order: this.dataForm.tempValue.tableData.length,
           })
           this.dataForm.tempValue.tableData.push(addItem)
         })
@@ -625,7 +624,6 @@ export default {
       // 将选中的隐患项内容赋值进form中
       // this.$set(this, 'dangerItemDetail', scope.row)
       this.dangerItemDetail = scope.row
-      console.log('this.dangerItemDetail', this.dangerItemDetail)
       await this.getDangerCate()
     },
     changeOrder(type) {
@@ -678,7 +676,7 @@ export default {
           itemContent: receiveDanger.itemContent, // 违法行为描述
           confirmBasis: receiveDanger.confirmBasis, // 违法认定法条
           onsiteDesc: receiveDanger.onsiteDesc, // 现场处理决定
-          onsiteBasis: receiveDanger.confirmBasis, // 现场处理依据
+          onsiteBasis: receiveDanger.onsiteBasis, // 现场处理依据
           onsiteType: null, // 现场处理决定类型
           headingFace: null, // 掘进工作面
           deviceNum: null, // 设备台数
@@ -692,7 +690,7 @@ export default {
           isSerious: '0', // 是否重大隐患
           isReview: '0', // 是否复查
           reviewDate: null, // 复查日期
-          order: this.dataForm.tempValue.tableData.length + index,
+          order: this.dataForm.tempValue.tableData.length,
           delFlag: '0',
           isCommon: receiveDanger.isCommon,
         })

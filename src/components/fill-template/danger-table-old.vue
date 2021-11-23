@@ -620,7 +620,6 @@ export default {
       // 将选中的隐患项内容赋值进form中
       // this.$set(this, 'dangerItemDetail', scope.row)
       this.dangerItemDetail = scope.row
-      console.log('this.dangerItemDetail', this.dangerItemDetail)
     },
     changeOrder(type) {
       // 修改排序

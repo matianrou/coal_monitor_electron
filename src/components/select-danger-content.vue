@@ -108,7 +108,7 @@
         let dangerList = db.table('dangerList');
         let corpBase = db.table('corpBase');
         let dangerCateData = await dangerCate.findAll((item) => item.delFlag !== '1');
-        let dangerListData = await dangerList.findAll((item) => item.delFlag !== '1');
+        let dangerListData = await dangerList.findAll((item) => item.delFlag !== '1' && !item.qdId);
         let corpBaseData = this.corpData && this.corpData.corpId ? await corpBase.find((item) => {
           return item.corpId === this.corpData.corpId
         }) : {mineMinetypeName: null};
@@ -116,7 +116,6 @@
         // 设置为树状结构
         this.dangerListOriginal = [...dangerCateData, ...dangerListData]
         let list = treeDataTranslate([...dangerCateData, ...dangerListData] || [], 'treeId', 'treeParentId')
-        console.log('list', list)
         let corpTypeIndex = null
         if (corpBaseData.mineMinetypeName === '井工') {
           // 井工检查内容

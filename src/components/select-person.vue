@@ -326,6 +326,7 @@ export default {
   border-top: 1px solid #DCDFE6;
 }
 .dialog-filter {
+  margin-top: 10px;
   margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
