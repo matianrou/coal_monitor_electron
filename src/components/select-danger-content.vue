@@ -7,15 +7,38 @@
     :visible="visible"
     @close="close">
     <div v-loading="loading" class="select-danger">
-      <div style="margin-bottom: 10px;">
-        <el-input v-model="filter.name" placeholder="请输入隐患关键字" style="width: 200px;" size="small"></el-input>
-        <el-button type="primary" size="small" @click="selectFilter">搜索</el-button>
+      <div class="select-danger-filter">
+        <div>
+          <el-input 
+            v-model="filter.name" 
+            placeholder="请输入隐患关键字" 
+            style="width: 200px;" 
+            size="small"
+            clearable
+          ></el-input>
+          <el-button type="primary" size="small" @click="selectFilter">搜索</el-button>
+        </div>
+        <div>
+          <el-select 
+            v-model="filter.qdId"
+            placeholder="请选择自定义列表"
+            size="small"
+            clearable
+            @change="changeQdList">
+            <el-option
+              v-for="item in qdList"
+              :key="item.qdId"
+              :label="item.qdName"
+              :value="item.qdId">
+            </el-option>
+          </el-select>
+        </div>
       </div>
       <div class="select-danger-col">
         <div class="select-danger-col-title">
           <span>选择隐患内容</span>
         </div>
-        <div class="select-danger-col-tree">
+        <div v-if="selectedQdList.length === 0" class="select-danger-col-tree">
           <el-tree
             ref="dangerListTree"
             :data="dangerList"
@@ -25,6 +48,20 @@
             :default-checked-keys="defaultCheckedKeys"
             :filter-node-method="filterNode"
             @check="checkFunctionAuthorization">
+            <span class="span-ellipsis" slot-scope="{ node }">
+              <span :title="node.label">{{ node.label }}</span>
+            </span>
+          </el-tree>
+        </div>
+        <div v-else class="select-danger-col-tree">
+          <el-tree
+            ref="dangerListTree"
+            :data="selectedQdList"
+            :props="dangerListTreeProps"
+            node-key="treeId"
+            show-checkbox
+            :filter-node-method="filterNode"
+            @check="checkQdList">
             <span class="span-ellipsis" slot-scope="{ node }">
               <span :title="node.label">{{ node.label }}</span>
             </span>
@@ -93,8 +130,12 @@
         defaultCheckedKeys: null,
         DBName: this.$store.state.DBName,
         filter: {
-          name: ''
-        }
+          name: '',
+          qdId: null,
+          qdName: null,
+        },
+        qdList: [], // 隐患项自定义列表
+        selectedQdList: [], // 选中的自定义列表
       }
     },
     created() {
@@ -107,12 +148,16 @@
         let dangerCate = db.table('dangerCate');
         let dangerList = db.table('dangerList');
         let corpBase = db.table('corpBase');
+        // 获取隐患类别和内容
         let dangerCateData = await dangerCate.findAll((item) => item.delFlag !== '1');
         let dangerListData = await dangerList.findAll((item) => item.delFlag !== '1' && !item.qdId);
+        // 获取所有隐患列表内容
+        let qdListAllItem = await dangerList.findAll(item => item.delFlag !== '1' && item.qdId)
         let corpBaseData = this.corpData && this.corpData.corpId ? await corpBase.find((item) => {
           return item.corpId === this.corpData.corpId
         }) : {mineMinetypeName: null};
         await db.close()
+        // 操作隐患类别及隐患内容为树形结构展示
         // 设置为树状结构
         this.dangerListOriginal = [...dangerCateData, ...dangerListData]
         let list = treeDataTranslate([...dangerCateData, ...dangerListData] || [], 'treeId', 'treeParentId')
@@ -124,20 +169,50 @@
           // 露天检查内容
           corpTypeIndex = list.findIndex(item => item.categoryCode === '000002')
         }
-        if (this.value.selectedIdList && this.value.selectedIdList.length > 0) {
-          this.defaultCheckedKeys = this.value.selectedIdList
-          let selectedList = this.removeTreeTempKeyHandle(this.value.selectedIdList)
-          this.$nextTick(() => {
-            // this.$refs.dangerListTree.setChecked(selectedList, true, false);
-            this.$refs.dangerListTree.setCheckedKeys(selectedList)
-            let selectedIdList = [
-              ...this.$refs.dangerListTree.getCheckedKeys(),
-              ...this.$refs.dangerListTree.getHalfCheckedKeys()
-            ]
-            this.getSelecteddangerList(selectedIdList)
-          })
-        }
+        // 回显已选中状态逻辑，其实暂时无用
+        // if (this.value.selectedIdList && this.value.selectedIdList.length > 0) {
+        //   this.defaultCheckedKeys = this.value.selectedIdList
+        //   let selectedList = this.removeTreeTempKeyHandle(this.value.selectedIdList)
+        //   this.$nextTick(() => {
+        //     // this.$refs.dangerListTree.setChecked(selectedList, true, false);
+        //     this.$refs.dangerListTree.setCheckedKeys(selectedList)
+        //     let selectedIdList = [
+        //       ...this.$refs.dangerListTree.getCheckedKeys(),
+        //       ...this.$refs.dangerListTree.getHalfCheckedKeys()
+        //     ]
+        //     this.getSelecteddangerList(selectedIdList)
+        //   })
+        // }
         this.dangerList = corpTypeIndex === null ? list : [list[corpTypeIndex]]
+        // 操作隐患自定义列表选择
+        let qdList = [] // 列表选项，其中包括qdId,qdName,及列表list
+        if (qdListAllItem && qdListAllItem.length > 0) {
+          // 如果有列表则先将第一个赋值
+          qdList.push({
+            qdId: qdListAllItem[0].qdId,
+            qdName: qdListAllItem[0].name,
+            list: [qdListAllItem[0]]
+          })
+          // 开始遍历循环全部列表qdListAllItem，对比已存入的qdList，如果有则赋值进入list，如果没有则创建新的列表
+          for (let i = 1; i < qdListAllItem.length; i++) {
+            let isNewQd = true
+            for (let j = 0; j < qdList.length; j++) {
+              if (qdListAllItem[i].qdId === qdList[j].qdId) {
+                isNewQd = false
+                qdList[j].list.push(qdListAllItem[i])
+                break
+              }
+            }
+            if (isNewQd) {
+              qdList.push({
+                qdId: qdListAllItem[i].qdId,
+                qdName: qdListAllItem[i].name,
+                list: [qdListAllItem[i]]
+              })
+            }
+          }
+        }
+        this.qdList = qdList
         this.loading = false
       },
       // 移除tree临时key和半选中状态项
@@ -171,6 +246,9 @@
         let list = treeDataTranslate(dangerList || [], 'treeId', 'treeParentId')
         this.selecteddangerList = list
       },
+      checkQdList (objectItem, selectedObjectItem) {
+        this.selecteddangerList = selectedObjectItem.checkedNodes
+      },
       close () {
         this.$emit('close', 'dangerSelect')
       },
@@ -187,6 +265,15 @@
       filterNode (value, data) {
         if (!value) return true;
         return data.treeName.indexOf(value) !== -1;
+      },
+      changeQdList (val) {
+        // 切换自定义列表
+        if (val) {
+          let qd = this.qdList.filter(item => item.qdId === val)
+          this.selectedQdList = qd[0].list
+        } else {
+          this.selectedQdList = []
+        }
       }
     }
   }
@@ -198,6 +285,11 @@
   display: flex;
   height: 300px;
   flex-direction: column;
+  .select-danger-filter {
+    display: flex;
+    margin-bottom: 10px;
+    justify-content: space-between;
+  }
   .select-danger-col {
     flex: 1;
     display: flex;
@@ -224,6 +316,9 @@
       }
     }
   }
+}
+/deep/ .el-dialog__header {
+  border-bottom: 1px solid #DCDFE6;
 }
 /deep/ .el-dialog__body {
   padding: 10px 30px;

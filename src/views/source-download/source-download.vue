@@ -141,19 +141,6 @@
         </tr>
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
-          <td>{{userType === 'supervision' ? '监管' : '监察'}}类型或方式</td>
-          <td>{{updateTime.programmeType}}</td>
-          <td style="text-align:center;" id="cell-programmeType-down">
-            <el-button
-              type="text"
-              :loading="loading.download"
-              id="btn-programmeType-down"
-              @click="resDownload('programmeType')"
-            >下载</el-button>
-          </td>
-        </tr>
-        <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
-          <td style="text-align:center;">&nbsp;</td>
           <td>隐患类别</td>
           <td>{{updateTime.dangerCate}}</td>
           <td style="text-align:center;" id="cell-dangerCate-down">
@@ -213,7 +200,7 @@
 </template>
 
 <script>
-import { doOrgDb, doPersonDb, doPlanDb, doCorpDb, doEnterpriseList, doCheckCateDb, doCheckListDb, doDangerCateDb, doDangerListDb, doDocDb, docFileListDb, doProgrammeTypeDb } from "@/utils/downloadSource"
+import { doOrgDb, doPersonDb, doPlanDb, doCorpDb, doEnterpriseList, doCheckCateDb, doCheckListDb, doDangerCateDb, doDangerListDb, doDocDb, docFileListDb, docDictionaryDb } from "@/utils/downloadSource"
 import GoDB from "@/utils/godb.min.js";
 import { getUUID } from '@/utils/index'
 import { getNowFormatTime } from '@/utils/date'
@@ -252,7 +239,6 @@ export default {
         enterpriseList: '未下载',
         checkCate: '未下载',
         checkList: '未下载',
-        programmeType: '未下载',
         dangerCate: '未下载',
         dangerList: '未下载',
         doc: '未下载',
@@ -262,7 +248,12 @@ export default {
         fineCollection: [],
         singleReceipt: [],
         imageEvidence: [],
-        paperAttachment: []
+        paperAttachment: [],
+        jczfReport: []
+      },
+      dictionary: {
+        programmeType: [],
+        caseClassify: []
       },
       userType: this.$store.state.user.userType
     };
@@ -293,7 +284,6 @@ export default {
           enterpriseList: '未下载',
           checkCate: '未下载',
           checkList: '未下载',
-          programmeType: '未下载',
           dangerCate: '未下载',
           dangerList: '未下载',
           doc: '未下载',
@@ -349,14 +339,6 @@ export default {
             userSessId +
             "&officeId=" +
             userGroupId;
-          break;
-        case "programmeType": //获取监管或监察类型或方式码表
-          // 公共接口，地址不需要带上path变量
-          uri =
-            "/local/dict/listData?type=" +
-            (this.userType === 'supervision' ? 'programme_sv_type' : 'programme_jczf_type') +
-            "&__sid=" +
-            userSessId;
           break;
         case "dangerCate":
           //根据机构id获取全部隐患类别
@@ -432,10 +414,6 @@ export default {
                   await doCheckListDb(resId, response.data.data);
                   this.$message.success('“检查项内容”已经下载完毕。');
                   break;
-                case "programmeType":
-                  await doProgrammeTypeDb(resId, response.data.data);
-                  this.$message.success(`“${this.userType === 'supervision' ? '监管' : '监察'}类型或方式”已经下载完毕。`);
-                  break;
                 case "dangerCate":
                   await doDangerCateDb(resId, response.data.data);
                   this.$message.success('“隐患类别”已经下载完毕。');
@@ -470,6 +448,7 @@ export default {
         // 获取回执单，
         // 获取影音证据，
         // 获取意见建议书中的附件
+        // 获取监察执法报告
         let {userId, userSessId} = this.$store.state.user
         await Promise.all([
           this.getLocalReview(userId, userSessId),
@@ -477,8 +456,18 @@ export default {
           this.getSingleReceipt(userId, userSessId),
           this.getImageEvidencePC(userId, userSessId),
           this.getPaperAttachment(userId, userSessId),
+          this.getJczfReport(userId, userSessId)
         ]).then(async () => {
           await docFileListDb(resId, this.fileData)
+        })
+      } else if (resId === 'plan') {
+        // 下载其他资源时，同时下载码表
+        let {userSessId} = this.$store.state.user
+        await Promise.all([
+          this.getProgrammeType(userSessId),
+          this.getCaseClassify(userSessId),
+        ]).then(async () => {
+          await docDictionaryDb(resId, this.dictionary)
         })
       }
     },
@@ -560,6 +549,46 @@ export default {
         .catch((err) => {
           this.fileData.paperAttachment = []
           console.log("获取文件列表失败：", err);
+        });
+    },
+    getJczfReport (userId, userSessId) {
+      // 获取监察执法报告?
+      return this.$http.get(
+          `${this.downloadPath}/local/jczf/getJczfReport?userId=${userId}&__sid=${userSessId}`)
+        .then(({ data }) => {
+          if (data.status === "200") {
+            this.fileData.jczfReport = data.data || []
+          } else {
+            this.fileData.jczfReport = []
+          }
+        })
+        .catch((err) => {
+          this.fileData.jczfReport = []
+          console.log("获取监察执法报告文件列表失败：", err);
+        });
+    },
+    getProgrammeType (userSessId) {
+      return this.$http.get(
+          `/local/dict/listData?type=${(this.userType === 'supervision' ? 'programme_sv_type' : 'programme_jczf_type')}&__sid=${userSessId}`)
+        .then(async ({ data }) => {
+          if (data.status === "200") {
+            this.dictionary.programmeType = data.data
+          }
+        })
+        .catch((err) => {
+          console.log("获取监察监管类型或方式码表失败：", err);
+        });
+    },
+    getCaseClassify (userSessId) {
+      return this.$http.get(
+          `/local/dict/listData?type=${(this.userType === 'supervision' ? 'caseClassify' : 'caseClassify')}&__sid=${userSessId}`)
+        .then(async ({ data }) => {
+          if (data.status === "200") {
+            this.dictionary.caseClassify = data.data
+          }
+        })
+        .catch((err) => {
+          console.log("获取监察活动类别码表失败：", err);
         });
     },
     async handleUpdateTime(resId) {

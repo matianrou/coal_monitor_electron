@@ -25,11 +25,13 @@
       <div class="let-drawer-main">
         <div class="let-drawer-component">
           <component
+            v-if="visible"
             :is="selectedData.type"
             :ref="selectedData.type"
             :value="selectedData.value"
             :options="selectedData.options"
             :corp-data="selectedData.corpData"
+            :paper-data="paperData"
           ></component>
         </div>
         <div class="let-drawer-operation">
@@ -38,7 +40,7 @@
         </div>
       </div>
     </el-drawer>
-    <div class="let-drawer-direct">
+    <div v-else class="let-drawer-direct">
       <div class="let-drawer-direct-title">
         <span>编辑区域</span>
       </div>
@@ -52,6 +54,7 @@
         :value="selectedData.value"
         :options="selectedData.options"
         :corp-data="selectedData.corpData"
+        :paper-data="paperData"
       ></component>
     </div>
   </div>
@@ -69,6 +72,10 @@ export default {
       type: Object,
       default: () => {},
     },
+    paperData: {
+      type: Object,
+      default: () => {}
+    }
   },
   components: {
     TextItem: resolve => { require(["./fill-template/text-item"], function(TextItem) { resolve(TextItem);});},
@@ -118,11 +125,31 @@ export default {
     handleSave (direct = false) {
       // *direct是否直接保存，不关闭（主要处理普通文本框直接在编辑区域修改）
       // 保存数据
-      // this.$refs[this.selectedData.type].$refs.dataForm.validate(validate => {
-        // if (validate) {
-          this.$emit('handle-save', {value: this.$refs[this.selectedData.type].dataForm.tempValue, direct})
-        // }
-      // })
+      if (this.selectedData.type === 'DangerTable') {
+        this.$refs[this.selectedData.type].$refs.dataForm.validate(validate => {
+          if (validate) {
+            let value = this.$refs[this.selectedData.type].dataForm.tempValue
+            let isSave = true
+            let indexString = ''
+            if (value.tableData && value.tableData.length > 0) {
+              value.tableData.map((item, index) => {
+                if (!item.itemContent || !item.onsiteDesc || !item.changeDangerType) {
+                  isSave = false
+                  indexString += (index + 1) + ','
+                }
+              })
+            }
+            if (indexString.length > 0 ) indexString = indexString.substring(0, indexString.length -1)
+            if (isSave) {
+              this.$emit('handle-save', {value: this.$refs[this.selectedData.type].dataForm.tempValue, direct})
+            } else {
+              this.$message.error(`隐患项${indexString}中有必填的项目未填写，如：违法行为描述,现场处理决定或更改隐患从属类别`)
+            }
+          }
+        })
+      } else {
+        this.$emit('handle-save', {value: this.$refs[this.selectedData.type].dataForm.tempValue, direct})
+      }
     }
   },
 };

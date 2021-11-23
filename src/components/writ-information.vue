@@ -21,7 +21,7 @@
           :model="dataForm"
           :rules="rules"
         >
-          <el-form-item label="日期范围：" prop="searchDate">
+          <el-form-item label="检查时间：" prop="searchDate">
             <el-date-picker
               v-model="dataForm.searchDate"
               type="daterange"
@@ -43,6 +43,19 @@
           <el-form-item label="归档至：" prop="address">
             <el-tag>{{ dataForm.address }}</el-tag>
           </el-form-item>
+          <el-form-item label="监察类型：" prop="address">
+            <el-select>
+              <el-option
+                v-for="(item, index) in dictionary.caseClassify"
+                :key="index"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="归档至：" prop="address">
+            <el-tag>{{ dataForm.address }}</el-tag>
+          </el-form-item>
         </el-form>
       </div>
       <span slot="footer" class="dialog-footer">
@@ -56,7 +69,7 @@
 <script>
 import GoDB from "@/utils/godb.min.js";
 import { severalDaysLater, getNowFormatDate, getNowFormatTime, getNowTime  } from "@/utils/date";
-import { getRandom, randomString } from "@/utils/index";
+import { sortbyAsc, randomString } from "@/utils/index";
 export default {
   name: "WritInformation",
   components: {},
@@ -114,7 +127,10 @@ export default {
         ],
       },
       DBName: this.$store.state.DBName,
-      userType: this.$store.state.user.userType
+      userType: this.$store.state.user.userType,
+      dictionary: {
+        caseClassify: []
+      }
     };
   },
   created() {
@@ -126,7 +142,7 @@ export default {
     }
   },
   methods: {
-    initData() {
+    async initData() {
       //初始化日期范围
       this.dataForm.startDate = getNowFormatDate();
       this.dataForm.endDate = severalDaysLater(7);
@@ -138,6 +154,17 @@ export default {
       this.dataForm.groupId = this.selectPlanData.selGovUnit
       this.dataForm.address = this.selectPlanData.selGovUnitName
       this.dataForm.planId = this.corpData.dbplanId
+      // 初始化码表
+      let db = new GoDB(this.DBName);
+      let dictionary = db.table('dictionary')
+      let caseClassifyListJson = await dictionary.find(item => item.type === 'caseClassify')
+      let caseClassifyList = JSON.parse(caseClassifyListJson.list)
+      caseClassifyList.sort(sortbyAsc('createDate'))
+      // 根据登录用户筛选，如果省级用户展示3个，去掉分局的两个，其他为展示5个
+      this.dictionary.caseClassify = caseClassifyList
+      console.log('user', this.$store.state.user)
+      console.log('caseClassify', this.dictionary.caseClassify)
+      await db.close()
     },
     changeDate(val) {
       this.dataForm.startDate = val && val.length > 0 ? val[0] : null;

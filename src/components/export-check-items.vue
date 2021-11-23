@@ -31,7 +31,7 @@
           :data="checkList"
           style="width: 100%;"
           height="100%"
-          row-key="treeId"
+          row-key="order"
           border
           :header-cell-style="{background: '#f5f7fa'}"
           @selection-change="handleSelectionChange">

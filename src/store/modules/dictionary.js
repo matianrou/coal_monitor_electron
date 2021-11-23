@@ -390,6 +390,11 @@ export default {
         page: 'let406'
       },
       {
+        id: '45',
+        name: '监察执法报告',
+        page: 'let407'
+      },
+      {
         id: '16',
         name: '加强和改善安全监管建议书',
         page: 'let501'

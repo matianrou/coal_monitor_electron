@@ -545,7 +545,7 @@ export default {
   },
   methods: {
     initData () {
-      this.dataForm.tempValue = this.value
+      this.dataForm.tempValue = JSON.parse(JSON.stringify(this.value)) 
       if (this.value.tableData.length > 0) {
         this.selectedItem({
           $index: 0,
@@ -791,13 +791,29 @@ export default {
         let curDangerThird = dangerCateData.filter(item => item.categoryCode === categoryCode)
         let curDangerSec = dangerCateData.filter(item => item.categoryCode === curDangerThird[0].pid)
         let curDangerFirst = dangerCateData.filter(item => item.categoryCode === curDangerSec[0].pid)
-        // 设置默认值
-        this.dangerItemDetail.firstDangerType = curDangerFirst[0].categoryCode
-        this.changeDangerCate(curDangerFirst[0].categoryCode, '0')
-        this.dangerItemDetail.secDangerType = curDangerSec[0].categoryCode
-        this.changeDangerCate(curDangerSec[0].categoryCode, '1')
-        this.dangerItemDetail.changeDangerType = curDangerThird[0].categoryCode
-        this.changeDangerCate(curDangerThird[0].categoryCode, '2')
+        let setDefault = false
+        if (corpBaseData.mineMinetypeName === '井工' || corpBaseData.mineMinetypeName === '露天') {
+          if (curDangerFirst[0].categoryCode === this.dangerCateOptions.dangerCateList[0].categoryCode) {
+            setDefault = true
+          }
+        } else {
+          setDefault = true
+        }
+        if (setDefault) {
+          // 设置默认值
+          this.dangerItemDetail.firstDangerType = curDangerFirst[0].categoryCode
+          this.changeDangerCate(curDangerFirst[0].categoryCode, '0')
+          this.dangerItemDetail.secDangerType = curDangerSec[0].categoryCode
+          this.changeDangerCate(curDangerSec[0].categoryCode, '1')
+          this.dangerItemDetail.changeDangerType = curDangerThird[0].categoryCode
+          this.changeDangerCate(curDangerThird[0].categoryCode, '2')
+        } else {
+          this.dangerItemDetail.firstDangerType = null
+          this.dangerItemDetail.secDangerType = null
+          this.dangerCateOptions.dangerCateSecList = []
+          this.dangerItemDetail.changeDangerType = null
+          this.dangerCateOptions.dangerCateThirdList = []
+        }
       } else {
         this.dangerItemDetail.firstDangerType = null
         this.dangerItemDetail.secDangerType = null
@@ -814,14 +830,14 @@ export default {
       // 赋值，同时赋值码表
       if (level === '0') {
         let cur = this.dangerCateOptions.dangerCateList.filter(item => item.categoryCode === val)
-        this.dangerCateOptions.dangerCateSecList = cur[0].children
+        this.dangerCateOptions.dangerCateSecList = cur.length > 0 ? cur[0].children : this.dangerCateOptions.dangerCateList[0]
         // 清空第二级和第三级从属类别
         this.dangerItemDetail.secDangerType = null
         this.dangerItemDetail.changeDangerType = null
         this.dangerCateOptions.dangerCateThirdList = []
       } else if (level === '1') {
-        let cur = this.dangerCateOptions.dangerCateSecList.filter(item => item.categoryCode === val)
-        this.dangerCateOptions.dangerCateThirdList = cur[0].children
+        let cur = this.dangerCateOptions.dangerCateSecList.length > 0 ? this.dangerCateOptions.dangerCateSecList.filter(item => item.categoryCode === val) : []
+        this.dangerCateOptions.dangerCateThirdList = cur.length > 0 ? cur[0].children : this.dangerCateOptions.dangerCateSecList[0]
         // 第三级从属类别
         this.dangerItemDetail.changeDangerType = null
       } else if (level === '2') {

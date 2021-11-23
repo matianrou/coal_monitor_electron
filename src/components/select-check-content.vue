@@ -7,19 +7,61 @@
     :visible="visible"
     @close="close">
     <div v-loading="loading" class="select-check">
+      <div class="select-check-filter">
+        <div>
+          <el-input 
+            v-model="filter.name" 
+            placeholder="请输入检查内容关键字" 
+            style="width: 200px;" 
+            size="small"
+            clearable
+          ></el-input>
+          <el-button type="primary" size="small" @click="selectFilter">搜索</el-button>
+        </div>
+        <div>
+          <el-select 
+            v-model="filter.qdId"
+            placeholder="请选择自定义列表"
+            size="small"
+            clearable
+            @change="changeQdList">
+            <el-option
+              v-for="item in qdList"
+              :key="item.qdId"
+              :label="item.qdName"
+              :value="item.qdId">
+            </el-option>
+          </el-select>
+        </div>
+      </div>
       <div class="select-check-col">
         <div class="select-check-col-title">
           <span>选择检查内容</span>
         </div>
-        <div class="select-check-col-tree">
+        <div v-if="selectedQdList.length === 0" class="select-check-col-tree">
           <el-tree
             ref="checkListTree"
             :data="checkList"
             :props="checkListTreeProps"
             node-key="treeId"
             show-checkbox
+            :filter-node-method="filterNode"
             :default-checked-keys="defaultCheckedKeys"
             @check="checkFunctionAuthorization">
+            <span class="span-ellipsis" slot-scope="{ node }">
+              <span :title="node.label">{{ node.label }}</span>
+            </span>
+          </el-tree>
+        </div>
+        <div v-else class="select-danger-col-tree">
+          <el-tree
+            ref="checkListTree"
+            :data="selectedQdList"
+            :props="checkListTreeProps"
+            node-key="treeId"
+            show-checkbox
+            :filter-node-method="filterNode"
+            @check="checkQdList">
             <span class="span-ellipsis" slot-scope="{ node }">
               <span :title="node.label">{{ node.label }}</span>
             </span>
@@ -65,7 +107,7 @@
         type: Object,
         default: () => {
           return {
-            selectedIdList: []
+            // selectedIdList: []
           }
         }
       },
@@ -90,7 +132,14 @@
         },
         tempKey: -666666, // 临时key, 用于解决tree半选中状态项不能传给后台接口问题.
         defaultCheckedKeys: null,
-        DBName: this.$store.state.DBName
+        DBName: this.$store.state.DBName,
+        filter: {
+          name: '',
+          qdId: null,
+          qdName: null,
+        },
+        qdList: [], // 检查项自定义列表
+        selectedQdList: [], // 选中的自定义列表
       }
     },
     created() {
@@ -103,12 +152,17 @@
         let checkCate = db.table('checkCate');
         let checkList = db.table('checkList');
         let corpBase = db.table('corpBase');
-        let checkCateData = await checkCate.findAll((item) => item);
-        let checkListData = await checkList.findAll((item) => item);
+        // 获取检查项类别和内容
+        let checkCateData = await checkCate.findAll((item) => item.delFlag !== '1');
+        let checkListData = await checkList.findAll((item) => item.delFlag !== '1' && !item.qdId);
         let corpBaseData = await corpBase.findAll((item) => {
           return item.corpId === this.corpData.corpId
         });
+        // 获取所有检查项列表内容
+        let qdListAllItem = await checkList.findAll(item => item.delFlag !== '1' && item.qdId)
+        console.log('qdListAllItem', qdListAllItem)
         await db.close()
+        // 操作检查项类别及隐患内容为树形结构展示
         // 设置为树状结构
         this.checkListOriginal = [...checkCateData, ...checkListData]
         let list = treeDataTranslate([...checkCateData, ...checkListData] || [], 'treeId', 'treeParentId')
@@ -120,20 +174,45 @@
           // 露天检查内容
           corpTypeIndex = list.findIndex(item => item.categoryCode === '000002')
         }
-        if (this.value.selectedIdList && this.value.selectedIdList.length > 0) {
-          this.defaultCheckedKeys = this.value.selectedIdList
-          this.$refs.checkListTree.setCheckedKeys(this.defaultCheckedKeys);
-          let selectedList = this.removeTreeTempKeyHandle(this.value.selectedIdList)
-          this.$nextTick(() => {
-            this.$refs.checkListTree.setCheckedKeys(selectedList)
-            let selectedIdList = [
-              ...this.$refs.checkListTree.getCheckedKeys(),
-              ...this.$refs.checkListTree.getHalfCheckedKeys()
-            ]
-            this.getSelectedcheckList(selectedIdList)
-          })
-        }
+        // if (this.value.selectedIdList && this.value.selectedIdList.length > 0) {
+        //   this.defaultCheckedKeys = this.value.selectedIdList
+        //   this.$refs.checkListTree.setCheckedKeys(this.defaultCheckedKeys);
+        //   let selectedList = this.removeTreeTempKeyHandle(this.value.selectedIdList)
+        //   this.$nextTick(() => {
+        //     this.$refs.checkListTree.setCheckedKeys(selectedList)
+        //     let selectedIdList = [
+        //       ...this.$refs.checkListTree.getCheckedKeys(),
+        //       ...this.$refs.checkListTree.getHalfCheckedKeys()
+        //     ]
+        //     this.getSelectedcheckList(selectedIdList)
+        //   })
+        // }
         this.checkList = corpTypeIndex === null ? list : [list[corpTypeIndex]]
+        // 操作检查项自定义列表选择
+        let qdList = [] // 列表选项，其中包括qdId,qdName,及列表list
+        if (qdListAllItem && qdListAllItem.length > 0) {
+          // 如果有列表则先将第一个赋值
+          qdList.push({
+            qdId: qdListAllItem[0].qdId,
+            qdName: qdListAllItem[0].name,
+            list: [qdListAllItem[0]]
+          })
+          // 开始遍历循环全部列表qdListAllItem，对比已存入的qdList，如果有则赋值进入list，如果没有则创建新的列表
+          for (let i = 1; i < qdListAllItem.length; i++) {
+            for (let j = 0; j < qdList.length; j++) {
+              if (qdListAllItem[i].qdId === qdList[j].qdId) {
+                qdList[j].list.push(qdListAllItem[i])
+              } else {
+                qdList.push({
+                  qdId: qdListAllItem[i].qdId,
+                  qdName: qdListAllItem[i].name,
+                  list: [qdListAllItem[i]]
+                })
+              }
+            }
+          }
+        }
+        this.qdList = qdList
         this.loading = false
       },
       // 移除tree临时key和半选中状态项
@@ -167,6 +246,9 @@
         let list = treeDataTranslate(checkList || [], 'treeId', 'treeParentId')
         this.selectedcheckList = list
       },
+      checkQdList (objectItem, selectedObjectItem) {
+        this.selectedcheckList = selectedObjectItem.checkedNodes
+      },
       close () {
         this.$emit('close', 'checkSelect')
       },
@@ -177,6 +259,22 @@
         })
         this.close()
       },
+      selectFilter () {
+        this.$refs.checkListTree.filter(this.filter.name)
+      },
+      filterNode (value, data) {
+        if (!value) return true;
+        return data.treeName.indexOf(value) !== -1;
+      },
+      changeQdList (val) {
+        // 切换自定义列表
+        if (val) {
+          let qd = this.qdList.filter(item => item.qdId === val)
+          this.selectedQdList = qd[0].list
+        } else {
+          this.selectedQdList = []
+        }
+      }
     }
   }
 ;
@@ -186,6 +284,12 @@
 .select-check {
   display: flex;
   height: 300px;
+  flex-direction: column;
+  .select-check-filter {
+    display: flex;
+    margin-bottom: 10px;
+    justify-content: space-between;
+  }
   .select-check-col {
     flex: 1;
     display: flex;
@@ -212,5 +316,11 @@
       }
     }
   }
+}
+/deep/ .el-dialog__header {
+  border-bottom: 1px solid #DCDFE6;
+}
+/deep/ .el-dialog__body {
+  padding: 10px 30px;
 }
 </style>

@@ -1,4 +1,4 @@
-<!-- 填写组件 检查分工明细表 -->
+<!-- 填写组件 检查分工明细表 有回显已经选择的检查项的功能,暂不需要,去掉-->
 <template>
   <div style="width: 100%;">
     <div>
@@ -18,7 +18,7 @@
         ref="checkTable"
         :data="dataForm.tempValue.tableData"
         style="width: 100%"
-        row-key="order"
+        row-key="treeId"
         border
         :header-cell-style="{background: '#f5f7fa'}"
         @selection-change="handleSelectionChange">
@@ -171,6 +171,7 @@ export default {
       default: () => {
         return {
           tableData: [],
+          selectedIdList: [],
         }
       }
     },
@@ -196,6 +197,7 @@ export default {
       dataForm: {
         tempValue: {
           tableData: [],
+          selectedIdList: [],
         }
       },
       visible: {
@@ -224,7 +226,7 @@ export default {
   },
   methods: {
     initData () {
-      this.dataForm.tempValue = JSON.parse(JSON.stringify(this.value)) 
+      this.dataForm.tempValue = this.value
     },
     handleDialog (key) {
       // 展示选择检查内容弹窗
@@ -239,12 +241,29 @@ export default {
       // 抽取选择的检查项最底一层，作为table展示
       this.handleData(params.data.selectedcheckList, tableData)
       // 设置saveTableData保存数据，过滤已有数据不做处理，新增的数据相应增加
+      let saveTableData = []
       if (tableData.length > 0) {
         tableData.map(item => {
-          item.order = this.dataForm.tempValue.tableData.length
-          this.dataForm.tempValue.tableData.push(item)
+          let add = true
+          this.dataForm.tempValue.tableData.map(oldItem => {
+            if (oldItem.treeId === item.treeId) {
+              add = false
+              saveTableData.push(oldItem)
+            }
+          })
+          if (add) {
+            saveTableData.push(item)
+          }
         })
       }
+      this.dataForm.tempValue.tableData = saveTableData
+      // 遍历table获取treeId作为后续回显
+      let selectedId = []
+      tableData.length > 0 && tableData.map(item => {
+        selectedId.push(item.treeId)
+      })
+      this.dataForm.tempValue.selectedIdList = selectedId
+      this.dataForm.tempValue.selectedAllIdList = params.data.selectedAllIdList
     },
     handleData (data, tableData) {
       // 递归遍历获取最底层数据
@@ -254,6 +273,7 @@ export default {
             this.handleData(item.children, tableData)
           } else {
             let itemObject = Object.assign({}, item, {
+              order: this.dangerIndex,
               personNames: null, // 检查人员文字
               personList: [], // 检查人员所有数据
               positions: null, // 检查地点文字描述
@@ -339,8 +359,6 @@ export default {
       } else {
         let saveData = Object.assign({}, this.dataForm.tempValue.tableData[this.selectedIndex], {personNames, personList})
         this.$set(this.dataForm.tempValue.tableData, this.selectedIndex, saveData)
-        // 清空选中
-        this.$refs.checkTable.clearSelection()
       }
     },
     confirmCheckPosition (positionData) {
@@ -381,8 +399,6 @@ export default {
         // 单个设置时
         let saveData = Object.assign({}, this.dataForm.tempValue.tableData[this.selectedIndex], {positions, positionData, addressType})
         this.$set(this.dataForm.tempValue.tableData, this.selectedIndex, saveData)
-        // 清空选中
-        this.$refs.checkTable.clearSelection()
       }
     },
     deleteItem (scope) {
@@ -395,6 +411,9 @@ export default {
         }).then(() => {
           // 删除检查项列表tableData中数据
           this.dataForm.tempValue.tableData.splice(scope.$index, 1)
+          // 删除选择检查项中的idList中数据
+          let delIndex = this.dataForm.tempValue.selectedIdList.findIndex(item => item === scope.row.treeId)
+          this.dataForm.tempValue.selectedIdList.splice(delIndex, 1)
           // 清空选中
           this.$refs.checkTable.clearSelection()
         }).catch(() => {
@@ -420,6 +439,9 @@ export default {
             // 删除检查项列表tableData中数据
             let index = this.dataForm.tempValue.tableData.findIndex(tableItem => tableItem.no === selectedItem.no)
             this.dataForm.tempValue.tableData.splice(index, 1)
+            // 删除选择检查项中的idList中数据
+            let delIndex = this.dataForm.tempValue.selectedIdList.findIndex(item => item === selectedItem.no)
+            this.dataForm.tempValue.selectedIdList.splice(delIndex, 1)
           })
         }).catch(() => {
         })
@@ -487,27 +509,28 @@ export default {
             })
           }
         }
-        console.log('sendDataList', sendDataList)
-        this.$http.post(`${this.userType === 'supervision' ? '/sv' : ''}/local/api-checkwarn/savetask?__sid=${this.$store.state.user.userSessId}`, {sendJson: true, data: sendDataList})
-          .then(async ({ data }) => {
-            if (data.status === "200") {
-              this.$message.success('发送检查任务成功！')
-              this.close()
-            } else {
-              this.$message.error('发送检查任务失败，请再次尝试')
-            }
-          })
-          .catch((err) => {
-            this.$message.error('发送检查任务失败，请再次尝试')
-            console.log('发送检查任务失败:', err)
-          });
       }
     },
     confirmExportItems ({data}) {
       // 确定导入检查项
+      // 判断当前时候已经有数据，如果有则删除，再添加
       data.map(item => {
-        item.order = this.dataForm.tempValue.tableData.length
-        this.dataForm.tempValue.tableData.push(item)
+        let alreadHave = false
+        this.dataForm.tempValue.selectedIdList.map(selectedId => {
+          if (selectedId === item.treeId) {
+            alreadHave = true
+          }
+        })
+        if (alreadHave) {
+          // 如果有则删除对应tableData中的数据，并添加当前导入的数据
+          let delIndex = this.dataForm.tempValue.tableData.findIndex(table => table.treeId === item.treeId)
+          this.dataForm.tempValue.tableData.splice(delIndex, 1)
+          this.dataForm.tempValue.tableData.push(item)
+        } else {
+          // 如果没有则添加进入tableData和selectedIdList
+          this.dataForm.tempValue.tableData.push(item)
+          this.dataForm.tempValue.selectedIdList.push(item.treeId)
+        }
       })
       this.visible.exportCheck = false
     }

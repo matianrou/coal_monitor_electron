@@ -299,7 +299,7 @@ export default {
   },
   methods: {
     init () {
-      this.dataForm.tempValue = this.value
+      this.dataForm.tempValue = JSON.parse(JSON.stringify(this.value)) 
       if (this.options.canEdit) {
         // 如果value.tableData无数据则自动添加一条
         if (this.dataForm.tempValue.tableData.length === 0) {

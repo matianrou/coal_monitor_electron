@@ -44,7 +44,7 @@
             <img src="@/components/assets/image/message.png" class="btn-icon" title="消息通知"/>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="checkItem">检查任务</el-dropdown-item>
+            <el-dropdown-item command="checkList">您有{{notice.checkList.length}}条检查项任务待接收</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         <div class="split-line"></div>
@@ -59,6 +59,10 @@
       :visible="visible.sendDanger"
       @close="visible.sendDanger = false"
     ></send-danger>
+    <check-list-show
+      :visible="visible.checkList"
+      @close="visible.checkList = false"
+    ></check-list-show>
   </div>
 </template>
 
@@ -66,10 +70,12 @@
 import { electronRequest } from '@/utils/electronRequest'
 import { clearLoginInfo } from '@/utils'
 import sendDanger from '@/components/send-danger'
+import checkListShow from '@/components/notice-show/check-list-show'
 export default {
   name: "MainTop",
   components: {
-    sendDanger
+    sendDanger,
+    checkListShow
   },
   data() {
     return {
@@ -77,13 +83,18 @@ export default {
       electronRequest: electronRequest,
       maxSrc: false, // 最大化和标准窗口中间切换图标
       visible: {
-        sendDanger: false
+        sendDanger: false,
+        checkList: false
       },
-      userType: this.$store.state.user.userType
+      userType: this.$store.state.user.userType,
+      notice: {
+        checkList: []
+      }
     };
   },
   created() {
     this.getTab();
+    this.getNotice()
   },
   methods: {
     getTab () {
@@ -136,6 +147,27 @@ export default {
     },
     handleCommand (command) {
       console.log('command', command)
+      this.visible[command] = true
+    },
+    async getNotice () {
+      await Promise.all([
+        this.getCheckList(),
+      ]).then(() => {
+      }).catch()
+    },
+    async getCheckList () {
+      // 获取检查任务
+      let {userId, userSessId} = this.$store.state.user
+      await this.$http.get(
+          `${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/api-checkwarn/getTaskAll?userId==${userId}&__sid=${userSessId}`)
+        .then(({ data }) => {
+          if (data.status === "200") {
+            this.notice.checkList = data.data || []
+          }
+        })
+        .catch((err) => {
+          console.log("获取检查任务列表失败：", err);
+        });
     }
   },
 };

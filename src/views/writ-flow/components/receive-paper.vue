@@ -140,7 +140,7 @@ export default {
   computed: {
     dataList() {
       let list = []
-      if (this.$store.state.unreceivedPaper.length > 0) {
+      if (this.$store.state.unreceivedPaper && this.$store.state.unreceivedPaper.length > 0) {
         // 当页签选择为接收文书时，筛选isSelected为false即未接收的文书，当页签为历史记录时筛选isSelected为true即已接收的文书
         let isSelected = this.activeTab === 'receive' ? false : true
         this.$store.state.unreceivedPaper.map(paper => {

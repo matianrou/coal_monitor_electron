@@ -659,10 +659,7 @@ async function doCheckListDb(resId, data) {
 	// console.log('id', id)
 	let schema = {
 		checkList: {
-			"no": {
-				type: String,
-				unique: true
-			},
+			"no": String,
 			"createDate": String,
 			"updateDate": String,
 			"delFlag": String,
@@ -677,7 +674,9 @@ async function doCheckListDb(resId, data) {
 			"categoryName": String,
 			"treeName": String,
 			"treeId": String,
-			"treeParentId": String
+			"treeParentId": String,
+			"qdId": String, // 清单标记
+			"name": String, // 清单名称
 		}
 	};
 	let db = new GoDB(store.state.DBName, schema);
@@ -703,6 +702,8 @@ async function doCheckListDb(resId, data) {
       treeName: obj.itemContent,
       treeId: obj.itemCode,
       treeParentId: obj.categoryCode,
+			qdId: obj.qdId,
+			name: obj.name
 		});
 	}
 
@@ -743,8 +744,6 @@ async function doDangerCateDb(resId, data) {
 		}
 	};
 	let db = new GoDB(store.state.DBName, schema);
-	console.log('store.state.DBName', store.state.DBName)
-	console.log('store.state.DBName', store.state.user.userId)
 	let dangerCate = db.table('dangerCate');
 	if (data) {
 		for (let i = 0; i < data.length; i++) {
@@ -773,7 +772,6 @@ async function doDangerCateDb(resId, data) {
       });
 		}
 	}
-	console.log('arrDanger', arrDanger)
 	// 增:
 	await dangerCate.addMany(arrDanger);
 	//await dangerCate.consoleTable();
@@ -785,10 +783,7 @@ async function doDangerListDb(resId, data) {
 	let arrDanger = [];
 	let schema = {
 		dangerList: {
-			"no": {
-				type: String,
-				unique: true
-			},
+			"no": String,
 			"createDate": String,
 			"updateDate": String,
 			"delFlag": String,
@@ -809,6 +804,7 @@ async function doDangerListDb(resId, data) {
       "treeId": String,
 			"treeParentId": String,
 			"qdId": String, // 清单标记
+			"name": String, // 清单名称
 		}
 	};
 	let db = new GoDB(store.state.DBName, schema);
@@ -837,7 +833,8 @@ async function doDangerListDb(resId, data) {
       treeName: obj.itemContent,
       treeId: obj.itemCode,
       treeParentId: obj.categoryCode,
-			qdId: obj.qdId
+			qdId: obj.qdId,
+			name: obj.name
 		});
 	}
 	// 增:
@@ -1340,7 +1337,33 @@ async function docFileListDb(resId, data){
 			"updateDate": String,
 			"remark": String,
 			"delFlag": String,
-		}
+		},
+		// 监察执法报告
+		jczfReport: {
+			"id": {
+				type: String,
+				unique: true
+			},
+			"evidenceId": String,
+			"fileName": String,
+			"filePath": String,
+			"fileSize": String,
+			"hashCode": String,
+			"caseId": String,
+			"caseNo": String,
+			"groupId": String,
+			"groupName": String,
+			"corpId": String,
+			"corpName": String,
+			"createTime": String,
+			"createDate": String,
+			"createBy": String,
+			"updateBy": String,
+			"updateDate": String,
+			"delFlag": String,
+			"remark": String,
+			"paperId": String,
+		},
 	};
 	let db = new GoDB(store.state.DBName, schema);
 	let localReview = db.table('localReview');
@@ -1348,7 +1371,8 @@ async function docFileListDb(resId, data){
 	let singleReceipt = db.table('singleReceipt');
 	let imageEvidence = db.table('imageEvidence');
 	let paperAttachment = db.table('paperAttachment');
-	let localReviewList = [], fineCollectionList = [], singleReceiptList = [], imageEvidenceList = [], paperAttachmentList = [];
+	let jczfReport = db.table('jczfReport');
+	let localReviewList = [], fineCollectionList = [], singleReceiptList = [], imageEvidenceList = [], paperAttachmentList = []; jczfReportList = []
 	//1-localReview
 	for (let i = 0; i < data.localReview.length; i++) {
 		let obj = data.localReview[i];
@@ -1480,64 +1504,68 @@ async function docFileListDb(resId, data){
 			"delFlag": obj.delFlag,
 		});
 	}
+	//6-jczfReport
+	for (let i = 0; i < data.jczfReport.length; i++) {
+		let obj = data.jczfReport[i];
+		let item = await jczfReport.get({ id: obj.id });
+		if (item) await jczfReport.delete({ id: obj.id }); //删除
+		jczfReportList.push({
+			"id": obj.id,
+			"evidenceId": obj.evidenceId,
+			"fileName": obj.fileName,
+			"filePath": obj.filePath,
+			"fileSize": obj.fileSize,
+			"hashCode": obj.hashCode,
+			"caseId": obj.caseId,
+			"caseNo": obj.caseNo,
+			"groupId": obj.groupId,
+			"groupName": obj.groupName,
+			"corpId": obj.corpId,
+			"corpName": obj.corpName,
+			"createTime": obj.createTime,
+			"createDate": obj.createDate,
+			"createBy": obj.createBy.id,
+			"updateDate": obj.updateDate,
+			"updateBy": obj.updateBy.id,
+			"delFlag": obj.delFlag,
+			"remark": obj.remark,
+			"paperId": obj.paperId,
+		});
+	}
 	// 增:
 	await localReview.addMany(localReviewList);
 	await fineCollection.addMany(fineCollectionList);
 	await singleReceipt.addMany(singleReceiptList);
 	await imageEvidence.addMany(imageEvidenceList);
 	await paperAttachment.addMany(paperAttachmentList);
+	await jczfReport.addMany(jczfReportList);
 	await db.close();
 }
 
-// “监察或监管类型或方式码表”下载。
-async function doProgrammeTypeDb(resId, data) {
+// “码表”下载。
+async function docDictionaryDb(resId, data) {
   let schema = {
-    programmeType: {
-      "id": {
-        type: String,
-        unique: true
-      },
-			"label": String, // "防溃水溃砂专项检查"
-			"value": String, // "34"
-			"delFlag": String, // "0"
-			"description": String, // "检查方案中的监察类型"
-			"parent": String, // json
-			"parentId": String, //  "0"
-			"parentIds": String, // "0,"
-			"sort": String, // 10
-			"type": String, // "programme_jczf_type"
-			"createBy": String, // "1"
-			"createDate": String, // "2021-08-20 17:50:03"
-			"updateBy": String, // "1"
-			"updateDate": String, // "2021-08-20 17:50:03"
-    }
+		dictionary: {
+			"type": {
+				type: String,
+				unique: true
+			},
+			"list": String,
+		}
   };
   let db = new GoDB(store.state.DBName, schema);
-  let programmeType = db.table('programmeType');
-  let arr = [];
-  for (let i = 0; i < data.length; i++) {
-		let obj = data[i];
-		let item = await programmeType.get({ id: obj.id });
-		if (item) await programmeType.delete({id: obj.id}) // 删除已有
-		arr.push({ 
-			id: obj.id,
-			label: obj.label,
-			value: obj.value,
-			delFlag: obj.delFlag,
-			description: obj.description,
-			parent: JSON.stringify(obj.parent),
-			parentId: obj.parentId,
-			parentIds: obj.parentIds,
-			sort: obj.sort,
-			type: obj.type,
-			createBy: obj.createBy.id,
-			createDate: obj.createDate,
-			updateBy: obj.updateBy.id,
-			updateDate: obj.updateDate,
-		});
-  }
+  let dictionary = db.table('dictionary');
+	let arr = []
+	for (let key in data) {
+		let item = await dictionary.get({type: key})
+		if(item) await dictionary.delete({type: key}) //删除
+		arr.push({
+			type: key,
+			list: JSON.stringify(data[key])
+		})
+	}
   // 增:
-  await programmeType.addMany(arr);
+  await dictionary.addMany(arr);
   await db.close();
 }
 
@@ -1553,5 +1581,5 @@ export {
   doDangerListDb,
   doDocDb,
 	docFileListDb,
-	doProgrammeTypeDb
+	docDictionaryDb
 }

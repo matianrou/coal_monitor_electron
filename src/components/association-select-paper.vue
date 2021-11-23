@@ -105,8 +105,9 @@ export default {
           });
         });
       } else if (this.docData.docTypeNo === '22' || this.docData.docTypeNo === '42') {
-        let programmeType = db.table('programmeType')
-        let programmeTypeList = await programmeType.findAll(item => item)
+        let dictionary = db.table('dictionary')
+        let programmeTypeListJson = await dictionary.find(item => item.type === 'programmeType')
+        let programmeTypeList = JSON.parse(programmeTypeListJson.list)
         programmeTypeList.sort(sortbyAsc('createDate'))
         this.options.cellIdx1 = programmeTypeList
       }
