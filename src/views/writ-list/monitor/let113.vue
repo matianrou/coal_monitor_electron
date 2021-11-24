@@ -102,7 +102,7 @@
                 <span class="no-line">
                   <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;我</span>
                   <span class="no-line" @click="commandFill('cellIdx10', '局', 'TextItem')"
-                  >{{ letData.cellIdx10 ? letData.cellIdx10 : "" }}</span>
+                  >{{ letData.cellIdx10 ? letData.cellIdx10 : "(编辑)" }}</span>
                 地址：</span>
                 <span @click="commandFill('cellIdx11', '地址', 'TextItem')"
                   >{{ letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）" }}
@@ -119,7 +119,7 @@
                   <span class="no-line">
                     <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;我</span>
                     <span class="no-line" @click="commandFill('cellIdx13', '局', 'TextItem')"
-                    >{{ letData.cellIdx13 ? letData.cellIdx13 : "" }}</span>
+                    >{{ letData.cellIdx13 ? letData.cellIdx13 : "(编辑)" }}</span>
                   联系人：</span>
                   <span @click="commandFill('cellIdx14', '联系人', 'TextItem')"
                     >{{ letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）" }}

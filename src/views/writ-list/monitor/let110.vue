@@ -88,7 +88,7 @@
               }}</span>
               的规定，根据《中华人民共和国安全生产法》第六十二条第一款第四项规定，我
               <span class="no-underline" @click="commandFill('cellIdx8', '局', 'TextItem')">{{
-                letData.cellIdx8 ? letData.cellIdx8 : ""
+                letData.cellIdx8 ? letData.cellIdx8 : "(编辑)"
               }}</span>
               决定对你单位涉案
               <span
@@ -115,7 +115,7 @@
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx11', '局', 'TextItem')"
-                >{{ letData.cellIdx11 ? letData.cellIdx11 : "" }}</span
+                >{{ letData.cellIdx11 ? letData.cellIdx11 : "(编辑)" }}</span
               >
               将于三十日内（不包括检测、检验或者技术鉴定期限）对上述被
               <span class="no-underline">{{

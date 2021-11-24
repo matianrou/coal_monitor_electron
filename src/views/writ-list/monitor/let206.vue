@@ -39,21 +39,15 @@
               </div>
             </div>
             <div class="docTextarea">
-              <label>被处罚</label>
-              <span
-                class="no-line"
-                >{{
-                  letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）"
-                }}</span
-              >
-              <span
-                @click="commandFill('cellIdx5', '被处罚单位', 'TextItem')"
-                >{{
-                  letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
-                }}</span
-              >
-              地址：
-              <span @click="commandFill('cellIdx6', '地址', 'TextItem')">{{
+              <span class="no-line" style="width:9%">被处罚</span>
+              <span class="no-line" @click="commandFill('cellIdx4', '', 'SelectItem')"
+                  >{{ letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）" }}
+                </span>
+              <span style="display:inline-block;min-width:36%;line-height: normal;max-width:36%" @click="commandFill('cellIdx5', '被处罚单位', 'TextItem')"
+                >{{ letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）" }}
+              </span>
+              <span class="no-line" style="width:9%">地址：</span>
+              <span style="display:inline-block;min-width:35%;line-height: normal;max-width:35%" @click="commandFill('cellIdx6', '地址', 'TextItem')">{{
                 letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
               }}</span>
             </div>
