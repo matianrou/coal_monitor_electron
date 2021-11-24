@@ -5,6 +5,7 @@
     :close-on-click-modal="false"
     append-to-body
     :visible="visible"
+    width="600px"
     @close="close">
     <div v-loading="loading" class="select-danger">
       <div class="select-danger-filter">

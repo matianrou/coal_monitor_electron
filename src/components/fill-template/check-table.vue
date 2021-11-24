@@ -24,6 +24,8 @@
         @selection-change="handleSelectionChange">
         <el-table-column
           type="selection"
+          header-align="center"
+          align="center"
           width="55">
         </el-table-column>
         <el-table-column
@@ -335,7 +337,7 @@ export default {
       }
       if (this.multiOperationTag) {
         this.multiSelectedIndexs.map(selectedItem => {
-          let selectedIndex = this.dataForm.tempValue.tableData.findIndex(tableItem => tableItem.no === selectedItem.no)
+          let selectedIndex = this.dataForm.tempValue.tableData.findIndex(tableItem => tableItem.checkId === selectedItem.checkId)
           let saveData = Object.assign({}, this.dataForm.tempValue.tableData[selectedIndex], {personNames, personList})
           this.$set(this.dataForm.tempValue.tableData, selectedIndex, saveData)
         })
@@ -346,7 +348,7 @@ export default {
         // 再选中
         selected.forEach(row => {
           this.$refs.checkTable.toggleRowSelection(this.dataForm.tempValue.tableData.find(item => {
-            return row.no === item.no
+            return row.checkId === item.checkId
           }));
         })
       } else {
@@ -376,7 +378,7 @@ export default {
       if (this.multiOperationTag) {
         // 多选设置时
         this.multiSelectedIndexs.map(selectedItem => {
-          let selectedIndex = this.dataForm.tempValue.tableData.findIndex(tableItem => tableItem.no === selectedItem.no)
+          let selectedIndex = this.dataForm.tempValue.tableData.findIndex(tableItem => tableItem.checkId === selectedItem.checkId)
           let saveData = Object.assign({}, this.dataForm.tempValue.tableData[selectedIndex], {positions, positionData, addressType})
           this.$set(this.dataForm.tempValue.tableData, selectedIndex, saveData)
         })
@@ -387,7 +389,7 @@ export default {
         // 再选中
         selected.forEach(row => {
           this.$refs.checkTable.toggleRowSelection(this.dataForm.tempValue.tableData.find(item => {
-            return row.no === item.no
+            return row.checkId === item.checkId
           }));
         })
       } else {
@@ -431,9 +433,12 @@ export default {
         }).then(() => {
           this.multiSelectedIndexs.map(selectedItem => {
             // 删除检查项列表tableData中数据
-            let index = this.dataForm.tempValue.tableData.findIndex(tableItem => tableItem.no === selectedItem.no)
+            let index = this.dataForm.tempValue.tableData.findIndex(tableItem => tableItem.checkId === selectedItem.checkId)
             this.dataForm.tempValue.tableData.splice(index, 1)
+            // 清空选择
+            this.$refs.checkTable.clearSelection()
           })
+          this.orderTable(this.dataForm.tempValue.tableData)
         }).catch(() => {
         })
     },

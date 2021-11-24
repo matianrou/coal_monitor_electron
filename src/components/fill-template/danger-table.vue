@@ -26,6 +26,8 @@
         <el-button type="primary" @click="handleDialog('dangerSelect')">添加隐患</el-button>
         <el-button type="primary" @click="handleDialog('receiveDanger')">隐患接收</el-button>
         <el-button type="primary" @click="addNewDanger">其他隐患</el-button>
+        <el-button type="primary" @click="deleteDangerList()">隐患删除</el-button>
+        <el-button type="primary" @click="dangerMerge()">隐患合并</el-button>
       </div>
       <div class="danger-table-main">
         <!-- 隐患项展示，选择 -->
@@ -37,17 +39,24 @@
             :data="dataForm.tempValue.tableData"
             style="width: 100%;"
             row-key="dangerId"
-            border>
+            border
+            @selection-change="handleSelectionChange">
+            <el-table-column
+              type="selection"
+              header-align="center"
+              align="center"
+              width="55">
+            </el-table-column>
             <el-table-column
               label="隐患项"
               header-align="center"
               align="left">
               <template slot-scope="scope">
                 <span
-                  style="cursor: pointer;"
+                  style="cursor: pointer; display: block; width: 100%; min-height: 30px;"
                   :class="scope.row.active ? 'active' : ''"
                   @click="selectedItem(scope)">
-                  {{ `${scope.row.order + 1}.${scope.row.itemContent}` }}
+                  {{ scope.row.itemContent }}
                 </span>
                 <i class="el-icon-remove delete-icon" title="删除" @click="deleteDangerItem(scope)"></i>
               </template>
@@ -58,7 +67,7 @@
         <!-- 修改隐患项 -->
         <div class="danger-table-main-content">
           <el-form
-            v-if="dangerItemDetail.no"
+            v-if="dangerItemDetail.dangerId"
             :model="dangerItemDetail"
             ref="dataForm"
             label-position="top"
@@ -361,6 +370,8 @@ export default {
             isReview: '0', // 是否复查
             reviewDate: null, // 复查日期
           },
+          selectedDangerList: [],  // 多选隐患项
+          dangerContentMerge: false, // 是否合并隐患项
         }
       }
     },
@@ -414,6 +425,8 @@ export default {
             isReview: '0', // 是否复查
             reviewDate: null, // 复查日期
           },
+          selectedDangerList: [],  // 多选隐患项
+          dangerContentMerge: false, // 是否合并隐患项
         }
       },
       dangerItemDetail: {
@@ -581,6 +594,8 @@ export default {
   methods: {
     initData () {
       this.dataForm.tempValue = JSON.parse(JSON.stringify(this.value)) 
+      this.dataForm.tempValue.selectedDangerList = []
+      this.dataForm.tempValue.dangerContentMerge = false
       if (this.value.tableData.length > 0) {
         this.selectedItem({
           $index: 0,
@@ -735,7 +750,7 @@ export default {
     },
     deleteDangerItem (scope) {
       // 删除单条隐患项
-      this.$confirm(`是否确定删除第${scope.$index + 1}条隐患项？`, '提示', {
+      this.$confirm(`是否确定删除隐患项：${scope.row.itemContent}？`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           dangerouslyUseHTMLString: true,
@@ -758,6 +773,42 @@ export default {
           }
         }).catch(() => {
         })
+    },
+    deleteDangerList () {
+      if (this.dataForm.tempValue.selectedDangerList && this.dataForm.tempValue.selectedDangerList.length > 0) {
+        let delMsg = ''
+        this.dataForm.tempValue.selectedDangerList.map(item => {
+          delMsg += item.itemContent + '，'
+        })
+        delMsg = delMsg.substring(0, delMsg.length - 1)
+        this.$confirm(`是否确定删除隐患项：${delMsg}？`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          dangerouslyUseHTMLString: true,
+          type: 'warning'
+        }).then(() => {
+          let value = JSON.parse(JSON.stringify(this.dataForm.tempValue.tableData))
+            this.dataForm.tempValue.selectedDangerList.map(selectedItem => {
+              // 删除隐患项列表tableData中数据
+              let index = value.findIndex(tableItem => tableItem.dangerId === selectedItem.dangerId)
+              value.splice(index, 1)
+            })
+            this.orderTable(value)
+            this.dataForm.tempValue.tableData = value
+            // 删除后重新选定index数据（默认逻辑：统一重新选择第一个隐患项）
+            if (this.dataForm.tempValue.tableData.length > 0) {
+              this.selectedItem({
+                $index: 0,
+                row: this.dataForm.tempValue.tableData[0]
+              })
+            } else {
+              this.dangerItemDetail = {}
+            }
+          }).catch(() => {
+          })
+      } else {
+        this.$message.error('请选择删除的隐患！')
+      }
     },
     selectPerson () {
       // 选择检察人员
@@ -964,6 +1015,15 @@ export default {
           item.order = index
         })
       }
+    },
+    handleSelectionChange (val) {
+      this.dataForm.tempValue.selectedDangerList = val
+    },
+    dangerMerge () {
+      // 隐患合并
+      // 检索数据，合并相同字段数据，形成返回数据
+      this.dataForm.tempValue.dangerContentMerge = true
+      this.$parent.$parent.handleSave()
     }
   },
 };

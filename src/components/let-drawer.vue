@@ -126,13 +126,15 @@ export default {
       // *direct是否直接保存，不关闭（主要处理普通文本框直接在编辑区域修改）
       // 保存数据
       if (this.selectedData.type === 'DangerTable') {
-        this.$refs[this.selectedData.type].$refs.dataForm.validate(validate => {
-          if (validate) {
+        // this.$refs[this.selectedData.type].$refs.dataForm.validate(validate => { // 如果未选择隐患项就保存此处会报错，暂时去掉此校验，后期修改逻辑
+          // if (validate) {
+            // 如果是隐患项保存的话则获取当前选中隐患项进行数据总结提取
             let value = this.$refs[this.selectedData.type].dataForm.tempValue
             let isSave = true
             let indexString = ''
-            if (value.tableData && value.tableData.length > 0) {
-              value.tableData.map((item, index) => {
+            if (value.selectedDangerList && value.selectedDangerList.length > 0) {
+              value.selectedDangerList.map((item, index) => {
+                // 校验违法违规行为，行政处罚决定，更改从属类型必填
                 if (!item.itemContent || !item.onsiteDesc || !item.changeDangerType) {
                   isSave = false
                   indexString += (index + 1) + ','
@@ -143,10 +145,10 @@ export default {
             if (isSave) {
               this.$emit('handle-save', {value: this.$refs[this.selectedData.type].dataForm.tempValue, direct})
             } else {
-              this.$message.error(`隐患项${indexString}中有必填的项目未填写，如：违法行为描述,现场处理决定或更改隐患从属类别`)
+              this.$message.error(`选中的隐患项第${indexString}条中有必填的项目未填写，如：违法行为描述,现场处理决定或更改隐患从属类别`)
             }
-          }
-        })
+          // }
+        // })
       } else {
         this.$emit('handle-save', {value: this.$refs[this.selectedData.type].dataForm.tempValue, direct})
       }

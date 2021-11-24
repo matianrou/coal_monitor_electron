@@ -81,17 +81,63 @@ function setDangerTable (data, selectedData, options) {
   // 隐患项数据
   let string = ''
   // 根据不同的文书，返回不同形式的文本
-  let dangerObject = getDangerObject(data.tableData)
-  let dangerObjectIndex = getDangerObject(data.tableData, {
-    danger: true,
-    penaltyDesc: true
-  })
+  let dangerObject = {}
+  let dangerObjectIndex = {}
+  let newList = []
+  if (data.dangerContentMerge) {
+    // 隐患合并
+    // 合并数据，通过合并后的数组获取相应的检查描述
+    if (data.selectedDangerList.length > 0) {
+      data.selectedDangerList[0].penaltyDescFine = data.selectedDangerList[0].penaltyDescFine ? data.selectedDangerList[0].penaltyDescFine : 0
+      newList = [data.selectedDangerList[0]]
+      for (let i = 1; i < data.selectedDangerList.length; i++) {
+        let isAdd = true
+        for (let j = 0; j < newList.length; j++) {
+          if (newList[j].confirmBasis === data.selectedDangerList[i].confirmBasis &&
+            newList[j].penaltyBasis === data.selectedDangerList[i].penaltyBasis) {
+              // 如果相同的违法认定法条和相同的行政处罚依据 就可进行隐患合并
+              newList[j] = {
+                itemContent: getString(newList[j].itemContent, data.selectedDangerList[i].itemContent),
+                confirmBasis: newList[j].confirmBasis,
+                onsiteDesc: getString(newList[j].onsiteDesc, data.selectedDangerList[i].onsiteDesc),
+                penaltyBasis: newList[j].penaltyBasis,
+                penaltyDesc: getString(newList[j].penaltyDesc, data.selectedDangerList[i].penaltyDesc),
+                penaltyDescFine: data.selectedDangerList[i].penaltyDescFine ? newList[j].penaltyDescFine + data.selectedDangerList[i].penaltyDescFine : newList[j].penaltyDescFine,
+              }
+              isAdd = false
+              break
+            }
+        }
+        if (isAdd) {
+          newList.push(data.selectedDangerList[i])
+        }
+      }
+      dangerObject = getDangerObject(newList)
+      dangerObjectIndex = getDangerObject(newList, {
+        danger: true,
+        penaltyDesc: true
+      })
+    }
+  } else {
+    // 不合并
+    dangerObject = getDangerObject(data.selectedDangerList)
+    dangerObjectIndex = getDangerObject(data.selectedDangerList, {
+      danger: true,
+      penaltyDesc: true
+    })
+  }
   switch(options.page) {
     case '1':  // 现场检查记录/现场检查笔录
       let dangerString = ''
-      data.tableData.map((item, index) => {
-        dangerString += `    ${(index + 1)}. ${item.itemContent}\r\n`
-      })
+      if (data.dangerContentMerge) {
+        newList.map((item, index) => {
+          dangerString += `    ${(index + 1)}. ${item.itemContent}\r\n`
+        })
+      } else {
+        data.selectedDangerList.map((item, index) => {
+          dangerString += `    ${(index + 1)}. ${item.itemContent}\r\n`
+        })
+      }
       string = `${data.baseInfor}\r\n${data.dangerInfor}\r\n${dangerString}`
       break
     case '2': // 现场处理决定书
@@ -222,6 +268,33 @@ function setDangerTable (data, selectedData, options) {
       break
   }
   return string
+}
+
+function getString (longString, string) {
+  // 获取对比后的字符串集合
+  // longString为长字符串，可通过逗号分解单字符，分解后再与string对比，如果相同则不再添加，如果不同则添加
+  let finString = ''
+  if (longString.includes('，')) {
+    let stringList = longString.split('，')
+    let isAdd = true
+    stringList.map(item => {
+      if (item === string) {
+        isAdd = false
+      }
+    })
+    if (isAdd) {
+      finString = `${longString}，${string}`
+    } else {
+      finString = longString
+    }
+  } else {
+    if (longString === string) {
+      finString = longString
+    } else {
+      finString = `${longString}，${string}`
+    }
+  }
+  return finString
 }
 
 function setDatetimeItem (data) {
