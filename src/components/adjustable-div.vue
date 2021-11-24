@@ -38,7 +38,7 @@ export default {
 
 <style lang="scss" scoped>
 .adjustable-div {
-  width: 2px;
+  width: 3px;
   cursor: ew-resize;
   z-index: 10;
   background: #ccc;

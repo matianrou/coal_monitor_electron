@@ -18,7 +18,7 @@
         ref="checkTable"
         :data="dataForm.tempValue.tableData"
         style="width: 100%"
-        row-key="order"
+        row-key="checkId"
         border
         :header-cell-style="{background: '#f5f7fa'}"
         @selection-change="handleSelectionChange">
@@ -157,6 +157,7 @@ import { setCheckPositionItem } from '@/utils/handlePaperData'
 import exportCheckItems from '@/components/export-check-items'
 import { randomString } from '@/utils'
 import { getNowTime, getNowFormatTime } from "@/utils/date";
+import Sortable from 'sortablejs'
 export default {
   name: "CheckTable",
   components: {
@@ -208,19 +209,30 @@ export default {
         label: 'treeName',
         children: 'children',
       },
-      dataForm: {
-        checkContent: null
-      },
       editText: null, // 编辑内容
       selectedIndex: null, // 选择的检查人员及选择地点的检查项index
       selectedRowPersonList: [], // 选择的检查人员列表，用于回显
       selectedCheckPosition: null, // 选择的检查检查人员数据，用于回显
       multiSelectedIndexs: [], // 多选的检查项
       multiOperationTag: false, // 是否为多选操作，区分多选或单个设置人员或地点时使用
+      sortableItem: null, // 拖拽实例
     };
   },
   created() {
     this.initData()
+  },
+  mounted() {
+    this.rowDrop()
+  },
+  watch: {
+    'dataForm.tempValue.tableData.length'(val) {
+      // 列表中有两个以上的值时才能排序
+      if (val > 1) {
+        this.sortableItem.options.disabled = false
+      } else {
+        this.sortableItem.options.disabled = true
+      }
+    }
   },
   methods: {
     initData () {
@@ -241,6 +253,7 @@ export default {
       // 设置saveTableData保存数据，过滤已有数据不做处理，新增的数据相应增加
       if (tableData.length > 0) {
         tableData.map(item => {
+          item.checkId = getNowTime() + randomString(18)
           item.order = this.dataForm.tempValue.tableData.length
           this.dataForm.tempValue.tableData.push(item)
         })
@@ -507,10 +520,42 @@ export default {
     confirmExportItems ({data}) {
       // 确定导入检查项
       data.map(item => {
+        item.checkId = getNowTime() + randomString(18)
         item.order = this.dataForm.tempValue.tableData.length
         this.dataForm.tempValue.tableData.push(item)
       })
       this.visible.exportCheck = false
+    },
+    // 行拖拽
+    rowDrop () {
+      // 此时找到的元素是要拖拽元素的父容器
+      const tbody = this.$refs.checkTable.$el.querySelectorAll(
+        '.el-table__body-wrapper > table > tbody'
+      )[0]
+      const that = this;
+      this.sortableItem = new Sortable(tbody, {
+        //  指定父元素下可被拖拽的子元素
+        draggable: ".el-table__row",
+        disabled: that.dataForm.tempValue.tableData.length < 2,
+        onEnd ({ newIndex, oldIndex }) {
+          let value = JSON.parse(JSON.stringify(that.dataForm.tempValue.tableData))
+          let currRow = value.splice(oldIndex, 1)[0];
+          value.splice(newIndex, 0, currRow);
+          // 重新设置排序
+          that.orderTable(value)
+          that.dataForm.tempValue.tableData = value
+          // 清空选择
+          that.$refs.checkTable.clearSelection()
+        }
+      });
+      console.log('sortableItem', this.sortableItem)
+    },
+    orderTable (val) {
+      if (val.length > 0) {
+        val.forEach((item, index) => {
+          item.order = index
+        })
+      }
     }
   },
 };
