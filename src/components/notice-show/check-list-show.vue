@@ -11,7 +11,7 @@
     <div class="check-list-show-main">
       <div v-if="checkList.length > 0" style="height: 100%; width: 100%; display: flex;">
         <!-- 企业列表 -->
-        <div class="check-list-company-list">
+        <div class="check-list-company-list" :style="{ width: divWidth + 'px' }">
           <div
             v-for="(item, index) in checkList"
             :key="index"
@@ -24,6 +24,9 @@
             </span>
           </div>
         </div>
+        <adjustable-div
+          @width-change="widthChange">
+        </adjustable-div>
         <div class="check-list-company-main">
           <div class="company-info">
             <!-- 企业信息 -->
@@ -87,8 +90,12 @@
 </template>
 
 <script>
+import adjustableDiv from '@/components/adjustable-div'
 export default {
   name: "CheckListShow",
+  components: {
+    adjustableDiv
+  },
   props: {
     visible: {
       type: Boolean,
@@ -102,6 +109,7 @@ export default {
   data() {
     return {
       DBName: this.$store.state.DBName,
+      divWidth: 200, // 企业部分div基础宽度
       selectedCompany: {}, // 选中的企业信息
       tableData: [],
     };
@@ -109,6 +117,15 @@ export default {
   created() {
   },
   methods: {
+    widthChange (width) {
+      this.divWidth -= width;
+      if (this.divWidth < 50) {
+        this.divWidth = 50;
+      }
+      if (this.divWidth > 800) {
+        this.divWidth = 800;
+      }
+    },
     close(refresh) {
       this.$emit("close", { page: "checkList", refresh });
     },
@@ -133,10 +150,8 @@ export default {
   display: flex;
   height: 60vh;
   .check-list-company-list {
-    width: 200px;
     height: 100%;
     overflow: auto;
-    border-right: 1px solid #DCDFE6;
     .company-item {
       span {
         display: block;

@@ -32,12 +32,12 @@
         <div class="danger-table-main-table">
           <!-- 展示已选隐患 -->
           <el-table
+            ref="dangerTable"
             v-if="dataForm.tempValue.tableData"
             :data="dataForm.tempValue.tableData"
             style="width: 100%;"
-            row-key="order"
-            border
-            :default-sort = "{prop: 'order', order: 'descending'}">
+            row-key="dangerId"
+            border>
             <el-table-column
               label="隐患项"
               header-align="center"
@@ -47,7 +47,7 @@
                   style="cursor: pointer;"
                   :class="scope.row.active ? 'active' : ''"
                   @click="selectedItem(scope)">
-                  {{ `${scope.$index + 1}.${scope.row.itemContent}` }}
+                  {{ `${scope.row.order + 1}.${scope.row.itemContent}` }}
                 </span>
                 <i class="el-icon-remove delete-icon" title="删除" @click="deleteDangerItem(scope)"></i>
               </template>
@@ -324,6 +324,7 @@ import GoDB from "@/utils/godb.min.js";
 import { severalDaysLater, getNowTime } from "@/utils/date";
 import selectPerson from '@/components/select-person'
 import { treeDataTranslate, fuzzyearch, randomString } from '@/utils'
+import Sortable from 'sortablejs'
 export default {
   name: "DangerTable",
   components: {
@@ -390,7 +391,29 @@ export default {
       dataForm: {
         tempValue: {
           baseInfor: null,
+          dangerInfor: null,
           tableData: [],
+          dangerItemDetail: {
+            personIds: null, // 隐患发现人
+            personNames: null, // 隐患发现人
+            itemContent: null, // 违法行为描述
+            confirmBasis: null, // 违法认定法条
+            onsiteDesc: null, // 现场处理决定
+            onsiteBasis: null, // 现场处理依据
+            onsiteType: null, // 现场处理决定类型
+            headingFace: null, // 掘进工作面
+            deviceNum: null, // 设备台数
+            coalingFace: null, // 采煤工作面
+            penaltyDesc: null, // 行政处罚决定
+            penaltyDescFine: null, // 行政处罚决定罚金
+            penaltyBasis: null, // 行政处罚依据
+            firstDangerType: null, // 第一级隐患类别
+            secDangerType: null, // 第二级隐患类别
+            changeDangerType: null, // 更改的隐患类别
+            isSerious: '0', // 是否重大隐患
+            isReview: '0', // 是否复查
+            reviewDate: null, // 复查日期
+          },
         }
       },
       dangerItemDetail: {
@@ -498,10 +521,14 @@ export default {
         dangerCateSecList: [],
         dangerCateThirdList: []
       },
+      sortableItem: null, // 拖拽实例
     };
   },
   created() {
     this.initData()
+  },
+  mounted() {
+    this.rowDrop()
   },
   watch: {
     'dangerItemDetail.onsiteType'(val) {
@@ -542,6 +569,14 @@ export default {
       }
       this.changeValue(val, 'onsiteType')
     },
+    'dataForm.tempValue.tableData.length'(val) {
+      // 列表中有两个以上的值时才能排序
+      if (val > 1) {
+        this.sortableItem.options.disabled = false
+      } else {
+        this.sortableItem.options.disabled = true
+      }
+    }
   },
   methods: {
     initData () {
@@ -570,6 +605,7 @@ export default {
       if (tableData.length > 0) {
         tableData.forEach((item, index) => {
           let addItem = Object.assign({}, item, {
+            dangerId: getNowTime() + randomString(18),
             personIds: null, // 隐患发现人
             personNames: null, // 隐患发现人
             onsiteType: null, // 现场处理决定类型
@@ -667,6 +703,7 @@ export default {
       dangerList.map((receiveDanger, index) => {
         // 添加
         this.dataForm.tempValue.tableData.push({
+          dangerId: getNowTime() + randomString(18),
           active: false,
           itemCode: receiveDanger.itemCode,
           no: receiveDanger.no,
@@ -864,6 +901,7 @@ export default {
     addNewDanger () {
       // 新建隐患项
       this.dataForm.tempValue.tableData.push({
+        dangerId: getNowTime() + randomString(18),
         active: true,
         categoryCode: '', // 新增的同changeDangerType
         personIds: '', // 隐患发现人
@@ -898,6 +936,34 @@ export default {
       }
       // 选中新建的隐患项
       this.selectedItem(scope)
+    },
+    // 行拖拽
+    rowDrop () {
+      // 此时找到的元素是要拖拽元素的父容器
+      const tbody = this.$refs.dangerTable.$el.querySelectorAll(
+        '.el-table__body-wrapper > table > tbody'
+      )[0]
+      const that = this;
+      this.sortableItem = new Sortable(tbody, {
+        //  指定父元素下可被拖拽的子元素
+        draggable: ".el-table__row",
+        disabled: that.dataForm.tempValue.tableData.length < 2,
+        onEnd ({ newIndex, oldIndex }) {
+          let value = JSON.parse(JSON.stringify(that.dataForm.tempValue.tableData))
+          let currRow = value.splice(oldIndex, 1)[0];
+          value.splice(newIndex, 0, currRow);
+          // 重新设置排序
+          that.orderTable(value)
+          that.dataForm.tempValue.tableData = value
+        }
+      });
+    },
+    orderTable (val) {
+      if (val.length > 0) {
+        val.forEach((item, index) => {
+          item.order = index
+        })
+      }
     }
   },
 };
