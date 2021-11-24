@@ -426,10 +426,6 @@ export default {
     },
     sendCheckItems () {
       // 发送检查任务
-      console.log('multiSelectedIndexs', this.multiSelectedIndexs)
-      console.log('corpData', this.corpData)
-      console.log('user', this.$store.state.user)
-      console.log('paperData', this.paperData)
       // 调用接口发送检查任务
       let sendDataList = []
       if (this.multiSelectedIndexs.length > 0) {
@@ -444,63 +440,68 @@ export default {
           }
         }
         if (!isSend) {
-          this.$message.error('当前选择发送的检查任务中有未选择检查人员的情况,请选择检查人员后再发送!')
+          this.$message.error('请选择检查人员!')
           return
         }
-        for (let i = 0; i < this.multiSelectedIndexs.length; i++) {
-          let obj = this.multiSelectedIndexs[i]
-          for (let j = 0; j < obj.personList.length; j++) {
-            let person = obj.personList[j]
-            sendDataList.push({
-              id: getNowTime() + randomString(18),
-              postId: this.$store.state.user.userId,
-              postName: this.$store.state.user.userName,
-              receiveId: person.no,
-              receiveName: person.name,
-              corpId: this.corpData.corpId,
-              corpName: this.corpData.corpName,
-              caseId: this.corpData.caseId,
-              paperId: this.paperData.paperId,
-              sameId: "",
-              audutingId: "",
-              audutingName: "",
-              name: obj.name,
-              itemCode: obj.itemCode,
-              itemContent: obj.itemContent,
-              method: obj.method,
-              basis: obj.method,
-              categoryCode: obj.categoryCode,
-              categoryName: obj.categoryName,
-              groupId: obj.groupId,
-              address: obj.positions,
-              taskTime: getNowFormatTime(),
-              remarks: "",
-              createDate: getNowFormatTime(),
-              updateDate: getNowFormatTime(),
-              delFlag: "0",
-              createBy: {
-                id: this.$store.state.user.userId,
-              },
-              updateBy: {
-                id: this.$store.state.user.userId,
+        this.$confirm('是否确定发送检查任务？', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            dangerouslyUseHTMLString: true,
+            type: 'warning'
+          }).then(() => {
+            for (let i = 0; i < this.multiSelectedIndexs.length; i++) {
+              let obj = this.multiSelectedIndexs[i]
+              for (let j = 0; j < obj.personList.length; j++) {
+                let person = obj.personList[j]
+                sendDataList.push({
+                  id: getNowTime() + randomString(18),
+                  postId: this.$store.state.user.userId,
+                  postName: this.$store.state.user.userName,
+                  receiveId: person.no,
+                  receiveName: person.name,
+                  corpId: this.corpData.corpId,
+                  corpName: this.corpData.corpName,
+                  caseId: this.corpData.caseId,
+                  paperId: this.paperData.paperId,
+                  sameId: "",
+                  audutingId: "",
+                  audutingName: "",
+                  name: obj.name,
+                  itemCode: obj.itemCode,
+                  itemContent: obj.itemContent,
+                  method: obj.method,
+                  basis: obj.method,
+                  categoryCode: obj.categoryCode,
+                  categoryName: obj.categoryName,
+                  groupId: obj.groupId,
+                  address: obj.positions,
+                  taskTime: getNowFormatTime(),
+                  remarks: "",
+                  createDate: getNowFormatTime(),
+                  updateDate: getNowFormatTime(),
+                  delFlag: "0",
+                  createBy: {
+                    id: this.$store.state.user.userId,
+                  },
+                  updateBy: {
+                    id: this.$store.state.user.userId,
+                  }
+                })
               }
-            })
-          }
-        }
-        console.log('sendDataList', sendDataList)
-        this.$http.post(`${this.userType === 'supervision' ? '/sv' : ''}/local/api-checkwarn/savetask?__sid=${this.$store.state.user.userSessId}`, {sendJson: true, data: sendDataList})
-          .then(async ({ data }) => {
-            if (data.status === "200") {
-              this.$message.success('发送检查任务成功！')
-              this.close()
-            } else {
-              this.$message.error('发送检查任务失败，请再次尝试')
             }
-          })
-          .catch((err) => {
-            this.$message.error('发送检查任务失败，请再次尝试')
-            console.log('发送检查任务失败:', err)
-          });
+            this.$http.post(`${this.userType === 'supervision' ? '/sv' : ''}/local/api-checkwarn/savetask?__sid=${this.$store.state.user.userSessId}`, {sendJson: true, data: sendDataList})
+              .then(async ({ data }) => {
+                if (data.status === "200") {
+                  this.$message.success('发送检查任务成功！')
+                } else {
+                  this.$message.error('发送检查任务失败，请再次尝试')
+                }
+              })
+              .catch((err) => {
+                this.$message.error('发送检查任务失败，请再次尝试')
+                console.log('发送检查任务失败:', err)
+              });
+          }).catch(() => {})
       }
     },
     confirmExportItems ({data}) {

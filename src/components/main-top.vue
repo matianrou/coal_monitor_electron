@@ -61,6 +61,7 @@
     ></send-danger>
     <check-list-show
       :visible="visible.checkList"
+      :check-list="notice.checkList"
       @close="visible.checkList = false"
     ></check-list-show>
   </div>
@@ -159,10 +160,44 @@ export default {
       // 获取检查任务
       let {userId, userSessId} = this.$store.state.user
       await this.$http.get(
-          `${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/api-checkwarn/getTaskAll?userId==${userId}&__sid=${userSessId}`)
+          `${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/api-checkwarn/getTaskAll?userId=${userId}&__sid=${userSessId}`)
         .then(({ data }) => {
           if (data.status === "200") {
-            this.notice.checkList = data.data || []
+            console.log('data', data.data)
+            // 根据企业归总数据,形成层级展示,左侧展示企业名称,右侧展示检查项
+            // 开始遍历循环全部列表data.data，对比已存入的corpId，如果有则赋值进入list，如果没有则创建新企业
+            let checkList = []
+            if (data.data && data.data.length > 0) {
+              // 如果有列表则先将第一个赋值
+              checkList.push({
+                corpId: data.data[0].corpId,
+                corpName: data.data[0].corpName,
+                active: false,
+                postName: data.data[0].postName,
+                list: [data.data[0]]
+              })
+              // 开始遍历循环全部列表qdListAllItem，对比已存入的qdList，如果有则赋值进入list，如果没有则创建新的列表
+              for (let i = 1; i < data.data.length; i++) {
+                let isNew = true
+                for (let j = 0; j < checkList.length; j++) {
+                  if (data.data[i].corpId === checkList[j].corpId) {
+                    isNew = false
+                    checkList[j].list.push(data.data[i])
+                    break
+                  }
+                }
+                if (isNew) {
+                  checkList.push({
+                    corpId: data.data[i].corpId,
+                    corpName: data.data[i].corpName,
+                    active: false,
+                    postName: data.data[i].postName,
+                    list: [data.data[i]]
+                  })
+                }
+              }
+            }
+            this.notice.checkList = checkList
           }
         })
         .catch((err) => {

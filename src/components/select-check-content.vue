@@ -199,16 +199,20 @@
           })
           // 开始遍历循环全部列表qdListAllItem，对比已存入的qdList，如果有则赋值进入list，如果没有则创建新的列表
           for (let i = 1; i < qdListAllItem.length; i++) {
+            let isNewQd = true
             for (let j = 0; j < qdList.length; j++) {
               if (qdListAllItem[i].qdId === qdList[j].qdId) {
+                isNewQd = false
                 qdList[j].list.push(qdListAllItem[i])
-              } else {
-                qdList.push({
-                  qdId: qdListAllItem[i].qdId,
-                  qdName: qdListAllItem[i].name,
-                  list: [qdListAllItem[i]]
-                })
+                break
               }
+            }
+            if (isNewQd) {
+              qdList.push({
+                qdId: qdListAllItem[i].qdId,
+                qdName: qdListAllItem[i].name,
+                list: [qdListAllItem[i]]
+              })
             }
           }
         }

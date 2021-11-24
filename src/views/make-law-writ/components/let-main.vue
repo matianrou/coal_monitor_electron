@@ -387,8 +387,7 @@ export default {
       }
       if (this.docData.docTypeNo === '22') {
         // 检查方案，增加逻辑判断，如果选择的全系统各环节监察，则需上传报告提示语
-        console.log('letData', this.$parent.letData)
-        if (this.$parent.letData.cellIdx1.includes('全系统各环节监察')) {
+        if (this.$parent.letData.cellIdx1 && this.$parent.letData.cellIdx1.includes('全系统各环节监察')) {
           this.$alert(`因为您选择的监察类型或方式为“全系统各环节监察”，请您在一个月内，完成“监察执法报告”的上传。
           请您通过以下路径完成报告的上传：执法工作台->执法检查->其他->报告上传。`, '提示', {
             confirmButtonText: '确定',

@@ -20,20 +20,20 @@
               style="cursor: pointer;"
               :class="item.active ? 'active' : ''"
               @click="selectedItem(item, index)">
-              {{ `${item.companyName}` }}
+              {{ `${item.corpName}` }}
             </span>
           </div>
         </div>
         <div class="check-list-company-main">
           <div class="company-info">
             <!-- 企业信息 -->
-            <span>123</span>
-            <span>456</span>
+            <span>发送人： {{selectedCompany.postName}}</span>
+            <span>企&nbsp;&nbsp;&nbsp;业： {{selectedCompany.corpName}}</span>
           </div>
-          <div style="margin-top: 10px; flex: 1;">
+          <div style="flex: 1;">
             <!-- 检查项列表 -->
             <el-table
-              :data="tableData"
+              :data="selectedCompany.list"
               style="width: 100%"
               height="100%"
               border
@@ -60,16 +60,17 @@
                 width="180">
               </el-table-column>
               <el-table-column
-                prop="positions"
+                prop="address"
                 header-align="center"
                 align="left"
                 label="检查地点">
               </el-table-column>
               <el-table-column
-                prop="situation"
+                prop="createDate"
                 header-align="center"
                 align="left"
-                label="调整情况">
+                label="时间"
+                width="100">
               </el-table-column>
             </el-table>
           </div>
@@ -95,11 +96,7 @@ export default {
     },
     checkList: {
       type: Array,
-      default: () => {
-        return [
-          {companyName: '121231231231231231231231233'}
-        ]
-      }
+      default: () => []
     }
   },
   data() {
@@ -160,7 +157,14 @@ export default {
       display: flex;
       flex-direction: column;
       border-bottom: 1px solid #DCDFE6;
+      font-size: 17px;
+      justify-content: space-around;
+      margin-bottom: 10px;
     }
+  }
+  .active {
+    // background: #4F83E9;
+    color: #4F83E9 !important;
   }
 }
 /deep/ .el-dialog__header {

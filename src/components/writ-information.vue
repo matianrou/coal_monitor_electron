@@ -158,7 +158,7 @@ export default {
       let db = new GoDB(this.DBName);
       let dictionary = db.table('dictionary')
       let caseClassifyListJson = await dictionary.find(item => item.type === 'caseClassify')
-      let caseClassifyList = JSON.parse(caseClassifyListJson.list)
+      let caseClassifyList = caseClassifyListJson ? JSON.parse(caseClassifyListJson.list) : []
       caseClassifyList.sort(sortbyAsc('createDate'))
       // 根据登录用户筛选，如果省级用户展示3个，去掉分局的两个，其他为展示5个
       this.dictionary.caseClassify = caseClassifyList
