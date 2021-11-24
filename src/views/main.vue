@@ -47,7 +47,7 @@ export default {
           if (data.status === "200") {
             this.$store.commit('changeState', {
               key: 'unreceivedPaper',
-              val: data.data
+              val: data.data||[]
             })
           }
         })

@@ -76,7 +76,7 @@
               <label style="width: 5%"></label>
               我
               <span class="no-underline"  @click="commandFill('cellIdx6', '局', 'TextItem')">{{
-                letData.cellIdx6 ? letData.cellIdx6 : ""
+                letData.cellIdx6 ? letData.cellIdx6 : "(编辑)"
               }}</span>
               在对
               <span @click="commandFill('cellIdx7', '', 'TextItem')">{{
@@ -111,7 +111,7 @@
                 <span class="no-line">
                   <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;我</span>
                   <span class="no-line" @click="commandFill('cellIdx13', '局', 'TextItem')"
-                  >{{ letData.cellIdx13 ? letData.cellIdx13 : "" }}</span>
+                  >{{ letData.cellIdx13 ? letData.cellIdx13 : "(编辑)" }}</span>
                 地址：</span>
                 <span @click="commandFill('cellIdx14', '地址', 'TextItem')"
                   >{{ letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）" }}
@@ -128,7 +128,7 @@
                   <span class="no-line">
                     <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;我</span>
                     <span class="no-line" @click="commandFill('cellIdx16', '局', 'TextItem')"
-                    >{{ letData.cellIdx16 ? letData.cellIdx16 : "" }}</span>
+                    >{{ letData.cellIdx16 ? letData.cellIdx16 : "(编辑)" }}</span>
                   联系人：</span>
                   <span @click="commandFill('cellIdx17', '联系人', 'TextItem')"
                     >{{ letData.cellIdx17 ? letData.cellIdx17 : "（点击编辑）" }}

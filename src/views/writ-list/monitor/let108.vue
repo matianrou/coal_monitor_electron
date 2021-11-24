@@ -73,7 +73,7 @@
               >
               的行为涉嫌违法违规。根据《中华人民共和国行政处罚法》第三十七条第二款规定，我
               <span class="no-underline" @click="commandFill('cellIdx7', '局', 'TextItem')">{{
-                letData.cellIdx7 ? letData.cellIdx7 : ""
+                letData.cellIdx7 ? letData.cellIdx7 : "(编辑)"
               }}</span>
               决定对你单位
               <!-- <span @click="commandFill('cellIdx8', '单位', 'TextItem')">{{
@@ -95,7 +95,7 @@
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx11', '局', 'TextItem')"
-                >{{ letData.cellIdx11 ? letData.cellIdx11 : "" }}</span
+                >{{ letData.cellIdx11 ? letData.cellIdx11 : "(编辑)" }}</span
               >
               将在七日内对先行登记保存的证据依法作出处理决定。逾期未作出处理决定的，先行登记保存措施自动解除。
             </div>
@@ -135,7 +135,7 @@
                 <span class="no-line">
                   <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我</span>
                   <span class="no-line" @click="commandFill('cellIdx15', '局', 'TextItem')"
-                  >{{ letData.cellIdx15 ? letData.cellIdx15 : "" }}</span>
+                  >{{ letData.cellIdx15 ? letData.cellIdx15 : "(编辑)" }}</span>
                 地址：</span>
                 <span @click="commandFill('cellIdx16', '地址', 'TextItem')"
                   >{{ letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）" }}
@@ -152,7 +152,7 @@
                   <span class="no-line">
                     <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我</span>
                     <span class="no-line" @click="commandFill('cellIdx18', '局', 'TextItem')"
-                    >{{ letData.cellIdx18 ? letData.cellIdx18 : "" }}</span>
+                    >{{ letData.cellIdx18 ? letData.cellIdx18 : "(编辑)" }}</span>
                   联系人：</span>
                   <span @click="commandFill('cellIdx19', '联系人', 'TextItem')"
                     >{{ letData.cellIdx19 ? letData.cellIdx19 : "（点击编辑）" }}

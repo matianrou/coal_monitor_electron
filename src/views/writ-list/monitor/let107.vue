@@ -65,7 +65,7 @@
               >
               涉嫌违法违规。根据《中华人民共和国行政处罚法》第三十七条第二款规定，我
               <span  class="no-underline" @click="commandFill('cellIdx6', '局', 'TextItem')">{{
-                letData.cellIdx6 ? letData.cellIdx6 : ""
+                letData.cellIdx6 ? letData.cellIdx6 : "(编辑)"
               }}</span>
               决定对你单位的有关证据（详见《抽样取证清单》）采取抽样取证。
             </div>
@@ -154,7 +154,7 @@
                 <span class="no-line">
                   <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;我</span>
                   <span class="no-line" @click="commandFill('cellIdx16', '局', 'TextItem')"
-                  >{{ letData.cellIdx16 ? letData.cellIdx16 : "" }}</span>
+                  >{{ letData.cellIdx16 ? letData.cellIdx16 : "(编辑)" }}</span>
                 地址：</span>
                 <span @click="commandFill('cellIdx17', '地址', 'TextItem')"
                   >{{ letData.cellIdx17 ? letData.cellIdx17 : "（点击编辑）" }}
@@ -171,7 +171,7 @@
                   <span class="no-line">
                     <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;我</span>
                     <span class="no-line" @click="commandFill('cellIdx19', '局', 'TextItem')"
-                    >{{ letData.cellIdx19 ? letData.cellIdx19 : "" }}</span>
+                    >{{ letData.cellIdx19 ? letData.cellIdx19 : "(编辑)" }}</span>
                   联系人：</span>
                   <span @click="commandFill('cellIdx20', '联系人', 'TextItem')"
                     >{{ letData.cellIdx20 ? letData.cellIdx20 : "（点击编辑）" }}

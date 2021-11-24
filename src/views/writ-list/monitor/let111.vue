@@ -81,7 +81,7 @@
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx7', '局', 'TextItem')"
-                >{{ letData.cellIdx7 ? letData.cellIdx7 : "" }}</span
+                >{{ letData.cellIdx7 ? letData.cellIdx7 : "(编辑)" }}</span
               >
               于
               <span @click="commandFill('cellIdx8', '年', 'TextItem')">{{
