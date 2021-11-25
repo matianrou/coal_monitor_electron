@@ -147,7 +147,6 @@ export default {
       this.visible.sendDanger = true
     },
     handleCommand (command) {
-      console.log('command', command)
       this.visible[command] = true
     },
     async getNotice () {
@@ -163,7 +162,6 @@ export default {
           `${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/api-checkwarn/getTaskAll?userId=${userId}&__sid=${userSessId}`)
         .then(({ data }) => {
           if (data.status === "200") {
-            console.log('data', data.data)
             // 根据企业归总数据,形成层级展示,左侧展示企业名称,右侧展示检查项
             // 开始遍历循环全部列表data.data，对比已存入的corpId，如果有则赋值进入list，如果没有则创建新企业
             let checkList = []

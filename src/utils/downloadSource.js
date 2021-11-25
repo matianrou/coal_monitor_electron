@@ -134,7 +134,6 @@ async function doPersonDb(resId, data) {
   };
   let db = new GoDB(store.state.DBName, schema);
   let person = db.table('person');
-
   for (let i = 0; i < data.length; i++) {
     let obj = data[i];
     let item = await person.get({ no: obj.id });
@@ -919,14 +918,6 @@ async function doDocDb(resId, data){
 			"groupId": String, //机构id
 			"groupName": String, //机构名称
 			/*
-			//"caseId": "185b15772fb746dfb3643a66aa192f86",
-			//"caseNo": "34060013074120210615110030",
-			//"corpId": "340603003619",
-			//"corpName": "新光集团淮北刘东煤矿有限公司",
-			//"personId": "3bb3963f02c34e22a7dc3cc3252c9664",
-			//"personName": "国产化测试",
-			//"groupId": "130000120001",
-			//"groupName": "河北煤监局",
 			*/
 			//"corpType": "QYK_ALLBUSINESS",
 			"checkReason": String, // "1",
@@ -937,15 +928,13 @@ async function doDocDb(resId, data){
 			"caseSn": String,
 			//"sourceFlag": "0",
 			//"affiliate": "130000120001",
-			//"meikuangType": "2",
-			//"meikuangPlanfrom": "1",
-			//"planId": "7d59ccba707440e488ce2a1693d9ac1f",
 			"meikuangType": String, //docPlan表-meikuangType字段
 			"meikuangPlanfrom": String, //docPlan表-meikuangPlanfrom字段
 			"planId": String, //docPlan表-no字段
-			"pcMonth": String //计划时间（年月）：2021-6
-			//"riskAssessment": "0101",
-			//"riskAssessmentContent": "矿井开拓、准备、回采比例失调（小） ",
+			"pcMonth": String, //计划时间（年月）：2021-6
+			"caseClassify": String, // 活动分类 "2"
+			"riskAssessment": String, // ""0100,0101,0102,0103,0104"
+			"riskAssessmentContent": String, // "生产接续计划方面 ,矿井开拓、准备、回采比例失调（小） ,上级企业超能力下达生产指标，煤矿超强度、超定员组织生产 ,采掘工作面数量超过规定 ,其他 "
 			//"mobile": false
 		},
 		wkDanger: {
@@ -1143,6 +1132,9 @@ async function doDocDb(resId, data){
 				"meikuangPlanfrom": obj.meikuangPlanfrom,
 				"planId": obj.planId,
 				"pcMonth": obj.pcMonth,
+				"caseClassify": obj.caseClassify,
+				"riskAssessment": obj.riskAssessment,
+				"riskAssessmentContent": obj.riskAssessmentContent, 
 			});
 		}
 	}
@@ -1533,7 +1525,6 @@ async function docFileListDb(resId, data){
 		});
 	}
 	// 增:
-	console.log('jczfReportList', jczfReportList)
 	await localReview.addMany(localReviewList);
 	await fineCollection.addMany(fineCollectionList);
 	await singleReceipt.addMany(singleReceiptList);

@@ -253,7 +253,8 @@ export default {
       },
       dictionary: {
         programmeType: [],
-        caseClassify: []
+        caseClassify: [],
+        riskAssessment: []
       },
       userType: this.$store.state.user.userType
     };
@@ -466,6 +467,7 @@ export default {
         await Promise.all([
           this.getProgrammeType(userSessId),
           this.getCaseClassify(userSessId),
+          this.getRiskAssessment(userSessId)
         ]).then(async () => {
           await docDictionaryDb(resId, this.dictionary)
         })
@@ -588,7 +590,22 @@ export default {
           }
         })
         .catch((err) => {
-          console.log("获取监察活动类别码表失败：", err);
+          console.log("获取执法活动分类码表失败：", err);
+        });
+    },
+    getRiskAssessment (userSessId) {
+      return this.$http.get(
+          `/local/riskStrict/getAll?__sid=${userSessId}`)
+        .then(async ({ data }) => {
+          if (data.status === "200") {
+            data.data.forEach(item => {
+              item.id = item.id.trim()
+            })
+            this.dictionary.riskAssessment = data.data
+          }
+        })
+        .catch((err) => {
+          console.log("获取风险研判码表失败：", err);
         });
     },
     async handleUpdateTime(resId) {

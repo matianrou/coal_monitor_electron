@@ -448,10 +448,6 @@ export default {
     },
     sendCheckItems () {
       // 发送检查任务
-      console.log('multiSelectedIndexs', this.multiSelectedIndexs)
-      console.log('corpData', this.corpData)
-      console.log('user', this.$store.state.user)
-      console.log('paperData', this.paperData)
       // 调用接口发送检查任务
       let sendDataList = []
       if (this.multiSelectedIndexs.length > 0) {

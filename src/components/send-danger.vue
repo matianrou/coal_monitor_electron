@@ -369,7 +369,6 @@ export default {
           return
         }
         let itemContents = ''
-        console.log('selectedDangerList', this.selectedDangerList)
         this.selectedDangerList.map(item => {
           itemContents += item.itemContent + '；'
         })

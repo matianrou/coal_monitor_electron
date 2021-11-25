@@ -553,7 +553,6 @@ export default {
           that.$refs.checkTable.clearSelection()
         }
       });
-      console.log('sortableItem', this.sortableItem)
     },
     orderTable (val) {
       if (val.length > 0) {

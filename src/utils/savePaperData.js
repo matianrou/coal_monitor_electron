@@ -22,7 +22,7 @@ export async function saveToUpload(paperId) {
   let meikuangType = null, meikuangPlanfrom = null, planId = null
   let checkReason = null, checkStatus = null, planBeginDate = null
   let planEndDate = null, createDate = null, pcMonth = null
-  let corpName = null
+  let corpName = null, caseClassify = null, riskAssessment = null, riskAssessmentContent = null
   // 当文书选择为意见建议书或执法案卷（首页）及目录时，corpName赋值：
   if (workPaper.paperType === "16" || workPaper.paperType === "17" || (workPaper.paperType === "15" && !workPaper.caseId)) {
     let paperContent = JSON.parse(workPaper.paperContent);
@@ -36,7 +36,8 @@ export async function saveToUpload(paperId) {
     : { caseNo, caseType, corpId, corpName, 
       meikuangType, meikuangPlanfrom, planId,
       checkReason, checkStatus, planBeginDate,
-      planEndDate, createDate, pcMonth }
+      planEndDate, createDate, pcMonth, 
+      caseClassify, riskAssessment, riskAssessmentContent }
       // 整理上传数据
   // 整理网页端展示的html
   let submitData = {
@@ -154,6 +155,9 @@ export async function saveToUpload(paperId) {
         meikuangPlanfrom: workCaseObj.meikuangPlanfrom,
         planId: workCaseObj.planId,
         pcMonth: workCaseObj.pcMonth,
+        caseClassify: workCaseObj.caseClassify,
+				riskAssessment: workCaseObj.riskAssessment,
+				riskAssessmentContent: workCaseObj.riskAssessmentContent, 
       },
     ],
     danger: [],

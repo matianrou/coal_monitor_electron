@@ -7,7 +7,7 @@
       append-to-body
       :visible="visible"
       :close-on-press-escape="false"
-      width="500px"
+      width="550px"
       @close="cancel"
     >
       <div class="writ-information-main">
@@ -17,7 +17,7 @@
         <el-form
           ref="dataForm"
           label-position="right"
-          label-width="100px"
+          label-width="150px"
           :model="dataForm"
           :rules="rules"
         >
@@ -43,20 +43,35 @@
           <el-form-item label="归档至：" prop="address">
             <el-tag>{{ dataForm.address }}</el-tag>
           </el-form-item>
-          <el-form-item label="监察类型：" prop="address">
-            <el-select>
+          <el-form-item label="执法活动分类：" prop="caseClassify">
+            <el-select
+              v-model="dataForm.caseClassify"
+              placeholder="请选择执法活动分类">
               <el-option
-                v-for="(item, index) in dictionary.caseClassify"
-                :key="index"
+                v-for="item in dictionary.caseClassify"
+                :key="item.value"
                 :label="item.label"
                 :value="item.value"
               ></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="归档至：" prop="address">
-            <el-tag>{{ dataForm.address }}</el-tag>
+          <el-form-item label="重大安全风险研判：" prop="riskAssessmentContent">
+            <el-input
+              v-model="dataForm.riskAssessmentContent"
+              readonly
+              type="textarea"
+              :rows="5"
+              :title="dataForm.riskAssessmentContent || ''"
+              placeholder="请选择重大安全风险研判"
+              @focus="openDialog('riskAssessment')"
+            ></el-input>
           </el-form-item>
         </el-form>
+        <select-risk-assessment
+          :visible="showDialog.riskAssessment"
+          @close="closeDialog"
+          @save="saveRisk"
+        ></select-risk-assessment>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="cancel">取消</el-button>
@@ -70,9 +85,12 @@
 import GoDB from "@/utils/godb.min.js";
 import { severalDaysLater, getNowFormatDate, getNowFormatTime, getNowTime  } from "@/utils/date";
 import { sortbyAsc, randomString } from "@/utils/index";
+import selectRiskAssessment from '@/components/select-risk-assessment'
 export default {
   name: "WritInformation",
-  components: {},
+  components: {
+    selectRiskAssessment
+  },
   props: {
     visible: {
       type: Boolean,
@@ -112,6 +130,9 @@ export default {
         endDate: "",
         checkStatus: 0,
         searchDate: [],
+        caseClassify: null, // 活动分类
+        riskAssessment: null, // 风险研判编码
+        riskAssessmentContent: null, // 风险研判内容
       },
       rules: {
         searchDate: [
@@ -125,11 +146,20 @@ export default {
         checkStatus: [
           { required: true, message: "请选择类别", trigger: "change" },
         ],
+        caseClassify: [
+          { required: true, message: "请选择执法活动分类", trigger: "change" },
+        ],
+        riskAssessmentContent: [
+          { required: true, message: "请选择重大安全风险研判", trigger: "change" },
+        ],
       },
       DBName: this.$store.state.DBName,
       userType: this.$store.state.user.userType,
       dictionary: {
         caseClassify: []
+      },
+      showDialog: {
+        riskAssessment: false, // 选择风险研判
       }
     };
   },
@@ -161,10 +191,15 @@ export default {
       let caseClassifyList = caseClassifyListJson ? JSON.parse(caseClassifyListJson.list) : []
       caseClassifyList.sort(sortbyAsc('createDate'))
       // 根据登录用户筛选，如果省级用户展示3个，去掉分局的两个，其他为展示5个
-      this.dictionary.caseClassify = caseClassifyList
-      console.log('user', this.$store.state.user)
-      console.log('caseClassify', this.dictionary.caseClassify)
+      let person = db.table('person')
+      let curPerson = await person.find(item => item.no === this.$store.state.user.userId && item.delFlag !== '1')
+      let curOffice = JSON.parse(curPerson.office)
       await db.close()
+      if (curOffice.grade === '2') {
+        this.dictionary.caseClassify = caseClassifyList.filter(item => !item.label.includes('分局'))
+      } else {
+        this.dictionary.caseClassify = caseClassifyList
+      }
     },
     changeDate(val) {
       this.dataForm.startDate = val && val.length > 0 ? val[0] : null;
@@ -179,33 +214,37 @@ export default {
     async submit() {
       // 提交
       // 调取 doc.js 文件 doSaveCase() 方法
-      let db = new GoDB(this.DBName);
-      let corpId = this.corpData.corpId;
-      let corpInfo = db.table("corpBase");
-      // 获取煤矿基本信息
-      let corpBase = await corpInfo.findAll((item) => {
-        return item.corpId === corpId;
-      });
-      // 获取计划
-      let {selPlanDate, selGovUnit} = this.selectPlanData
-      let docPlan = db.table("docPlan");
-      let corpPlan = await docPlan.findAll(item =>
-      item.corpId === corpId && item.groupId === selGovUnit
-      && (`${item.planYear}-${item.planMonth}` === selPlanDate))
-      await db.close();
-      // 创建检查活动
-      if (corpPlan.length > 0 && corpPlan[0].dbplanId) {
-        // 所选煤矿、检查日期年月、归档机构均符合时，直接创建检查活动
-        await this.doSaveCase(corpBase[0], corpPlan[0]);
-      } else {
-        // 无计划时，创建无planId的检查活动，放入其他类型中
-        await this.doSaveCase(corpBase[0]);
-        // 创建成功后进入其他选择页签
-        this.$parent.$refs.caseList.dataForm.caseType = '其他'
-        this.$parent.$refs.caseList.changeSelect('其他', 'caseType')
-      }
-      // 刷新页面
-      this.cancel(true);
+      await this.$refs.dataForm.validate(async (validate) => {
+        if (validate) {
+          let db = new GoDB(this.DBName);
+          let corpId = this.corpData.corpId;
+          let corpInfo = db.table("corpBase");
+          // 获取煤矿基本信息
+          let corpBase = await corpInfo.findAll((item) => {
+            return item.corpId === corpId;
+          });
+          // 获取计划
+          let {selPlanDate, selGovUnit} = this.selectPlanData
+          let docPlan = db.table("docPlan");
+          let corpPlan = await docPlan.findAll(item =>
+          item.corpId === corpId && item.groupId === selGovUnit
+          && (`${item.planYear}-${item.planMonth}` === selPlanDate))
+          await db.close();
+          // 创建检查活动
+          if (corpPlan.length > 0 && corpPlan[0].dbplanId) {
+            // 所选煤矿、检查日期年月、归档机构均符合时，直接创建检查活动
+            await this.doSaveCase(corpBase[0], corpPlan[0]);
+          } else {
+            // 无计划时，创建无planId的检查活动，放入其他类型中
+            await this.doSaveCase(corpBase[0]);
+            // 创建成功后进入其他选择页签
+            this.$parent.$refs.caseList.dataForm.caseType = '其他'
+            this.$parent.$refs.caseList.changeSelect('其他', 'caseType')
+          }
+          // 刷新页面
+          this.cancel(true);
+        }
+      })
     },
     async doSaveCase(corpBase, corpPlan) {
       let userId = this.$store.state.user.userId;
@@ -252,6 +291,9 @@ export default {
         meikuangPlanfrom: corpBase.meikuangPlanfrom ? corpBase.meikuangPlanfrom : "1",
         planId: corpPlan ? corpPlan.dbplanId : '',
         pcMonth: this.selectPlanData.selPlanDate,
+        caseClassify: this.dataForm.caseClassify,
+        riskAssessment: this.dataForm.riskAssessment,
+        riskAssessmentContent: this.dataForm.riskAssessmentContent,
       };
       let db = new GoDB(this.DBName);
       // 保存case 表
@@ -261,6 +303,35 @@ export default {
       // 回调 渲染方法
       this.$message.success("检查活动已经创建完毕");
     },
+    closeDialog ({page}) {
+      this.showDialog[page] = false
+    },
+    openDialog (page) {
+      // 打开选择弹窗
+      this.showDialog[page] = true
+    },
+    saveRisk ({data}) {
+      // 保存风险研判
+      let contents = ''
+      let ids = ''
+      data.map(item => {
+        ids += item.id + ','
+        if (item.name === '其他') {
+          if (item.content) {
+            contents += `${item.name}: ${item.content}，`
+          } else {
+            contents += item.name + ','
+          }
+        } else {
+          contents += item.name + ','
+        }
+      })
+      ids = ids.substring(0, ids.length - 1)
+      contents = contents.substring(0, contents.length - 1)
+      this.dataForm.riskAssessment = ids
+      this.dataForm.riskAssessmentContent = contents
+      this.showDialog.riskAssessment = false
+    }
   },
 };
 </script>

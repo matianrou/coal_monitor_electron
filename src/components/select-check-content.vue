@@ -160,7 +160,6 @@
         });
         // 获取所有检查项列表内容
         let qdListAllItem = await checkList.findAll(item => item.delFlag !== '1' && item.qdId)
-        console.log('qdListAllItem', qdListAllItem)
         await db.close()
         // 操作检查项类别及隐患内容为树形结构展示
         // 设置为树状结构
