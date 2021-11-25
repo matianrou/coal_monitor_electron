@@ -13,21 +13,42 @@
       </el-input>
     </div>
     <div>
-      <div class="title">
-        <span>隐患情况：</span>
+      <div v-if="options.showDangerInfor">
+        <div class="title">
+          <span>隐患情况：</span>
+        </div>
+        <el-input
+          v-model="dataForm.tempValue.dangerInfor"
+          type="textarea"
+          :rows="1"
+          placeholder="请填写隐患情况">
+        </el-input>
       </div>
-      <el-input
-        v-model="dataForm.tempValue.dangerInfor"
-        type="textarea"
-        :rows="1"
-        placeholder="请填写隐患情况">
-      </el-input>
-      <div style="margin-top: 10px;" v-if="options.showSelectDangerBtn">
-        <el-button type="primary" @click="handleDialog('dangerSelect')">添加隐患</el-button>
-        <el-button type="primary" @click="handleDialog('receiveDanger')">隐患接收</el-button>
-        <el-button type="primary" @click="addNewDanger">其他隐患</el-button>
-        <el-button type="primary" @click="deleteDangerList()">隐患删除</el-button>
-        <el-button type="primary" @click="dangerMerge()">隐患合并</el-button>
+      <div style="margin-top: 10px;">
+        <el-button
+          v-if="options.showSelectDangerBtn"
+          type="primary" 
+          @click="handleDialog('dangerSelect')"
+        >添加隐患</el-button>
+        <el-button 
+          v-if="options.showSelectDangerBtn"
+          type="primary" 
+          @click="handleDialog('receiveDanger')"
+        >隐患接收</el-button>
+        <el-button 
+          v-if="options.showSelectDangerBtn"
+          type="primary" 
+          @click="addNewDanger"
+        >其他隐患</el-button>
+        <el-button 
+          type="primary" 
+          @click="deleteDangerList()"
+        >隐患删除</el-button>
+        <el-button 
+          v-if="options.showSelectDangerBtn"
+          type="primary" 
+          @click="dangerMerge()"
+        >隐患合并</el-button>
       </div>
       <div class="danger-table-main">
         <!-- 隐患项展示，选择 -->
@@ -175,14 +196,14 @@
                 v-model.trim="dangerItemDetail.penaltyDesc"
                 placeholder="请填写行政处罚决定"
                 :maxlength="300"
-                style="width: calc(100% - 155px);">
+                @change="val => changeValue(val, 'penaltyDesc')">
               </el-input>
-              <el-input
+              <!-- <el-input
                 v-model.trim="dangerItemDetail.penaltyDescFine"
                 placeholder="罚金"
                 style="width: 150px;">
                 <template slot="append">万元</template>
-              </el-input>
+              </el-input> -->
             </el-form-item>
             <el-form-item
               label="c.行政处罚依据："
@@ -332,7 +353,7 @@ import receiveDanger from '@/components/receive-danger'
 import GoDB from "@/utils/godb.min.js";
 import { severalDaysLater, getNowTime } from "@/utils/date";
 import selectPerson from '@/components/select-person'
-import { treeDataTranslate, fuzzyearch, randomString } from '@/utils'
+import { treeDataTranslate, fuzzyearch, randomString, getMoney } from '@/utils'
 import Sortable from 'sortablejs'
 export default {
   name: "DangerTable",
@@ -384,7 +405,8 @@ export default {
       default: () => {
         return {
           showBaseInfor: false, // 用于区分是否展示基本情况大文本输入
-          showSelectDangerBtn: false // 用于区分是否可以选择隐患项
+          showSelectDangerBtn: false, // 用于区分是否可以选择隐患项
+          showDangerInfor: false, // 用于区分是否可以修改隐患情况
         }
       }
     }
@@ -711,6 +733,9 @@ export default {
         let reviewDateList = reviewDate.split('-')
         this.dangerItemDetail.reviewDate = `${reviewDateList[0]}年${reviewDateList[1]}月${reviewDateList[2]}日`
         this.$set(this.dataForm.tempValue.tableData, index, this.dangerItemDetail)
+      } else if (field === 'penaltyDesc') {
+        // 修改行政处罚决定时同步关联修改罚金字段penaltyDescFine
+        this.dataForm.tempValue.tableData[index].penaltyDescFine = getMoney(val)
       }
     },
     handleSaveReceiveDanger (dangerList) {

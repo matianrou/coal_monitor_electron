@@ -219,10 +219,15 @@ export default {
               status = 'file'
             } else if (item.delFlag === '2') {
               status = 'save'
-            } else {
             }
             this.$set(this.flowStatus, `paper${item.paperType}`, status)
           })
+          // 监察执法报告时，当有上传的文件时即为保存
+          let jczfReport = db.table('jczfReport');
+          let fileList = await jczfReport.findAll(item => item.caseId === this.caseData.caseId && item.delFlag !== '1')
+          if (fileList.length > 0) {
+            this.$set(this.flowStatus, `paper45`, 'save')
+          }
         }
       } else {
         this.$message.error('无此企业信息，请核实数据')

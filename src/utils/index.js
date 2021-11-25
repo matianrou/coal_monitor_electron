@@ -268,3 +268,221 @@ export function isJSON (str) {
   }
   return false;
 }
+
+// 通过传入字符串获取数值
+export function getMoney (str) {
+  let money = 0
+  if (str.includes('元')) {
+    // 如果字符串中有元字，则检索最后一个元字的位置
+    let yuanIndex = 0
+    for (let i = 0; i < str.length; i++) {
+      if (str[i] === '元') {
+        yuanIndex = i
+      }
+    }
+    // 从最后一个元字位置开始往前逐个递减寻找金额
+    // 对应金额码表
+    let numberdict = [
+      {
+        label: '1',
+        value: '1'
+      }, 
+      {
+        label: '2',
+        value: '2'
+      }, 
+      {
+        label: '3',
+        value: '3'
+      }, 
+      {
+        label: '4',
+        value: '4'
+      }, 
+      {
+        label: '5',
+        value: '5'
+      }, 
+      {
+        label: '6',
+        value: '6'
+      }, 
+      {
+        label: '7',
+        value: '7'
+      }, 
+      {
+        label: '8',
+        value: '8'
+      }, 
+      {
+        label: '9',
+        value: '9'
+      }, 
+      {
+        label: '0',
+        value: '0'
+      }, 
+      {
+        label: '一',
+        value: '1'
+      }, 
+      {
+        label: '二',
+        value: '2'
+      }, 
+      {
+        label: '三',
+        value: '3'
+      }, 
+      {
+        label: '四',
+        value: '4'
+      }, 
+      {
+        label: '五',
+        value: '5'
+      }, 
+      {
+        label: '六',
+        value: '6'
+      }, 
+      {
+        label: '七',
+        value: '7'
+      }, 
+      {
+        label: '八',
+        value: '8'
+      }, 
+      {
+        label: '九',
+        value: '9'
+      }, 
+      {
+        label: '零',
+        value: '0'
+      }, 
+      {
+        label: '壹',
+        value: '1'
+      }, 
+      {
+        label: '贰',
+        value: '2'
+      }, 
+      {
+        label: '叁',
+        value: '3'
+      }, 
+      {
+        label: '肆',
+        value: '4'
+      }, 
+      {
+        label: '伍',
+        value: '5'
+      }, 
+      {
+        label: '陆',
+        value: '6'
+      }, 
+      {
+        label: '柒',
+        value: '7'
+      }, 
+      {
+        label: '捌',
+        value: '8'
+      }, 
+      {
+        label: '玖',
+        value: '9'
+      }, 
+    ]
+    // 对应节权位单位码表
+    let unitDict1 = [
+      {
+        label: '万',
+        value: 10000
+      }, 
+      {
+        label: '亿',
+        value: 1000000000
+      },  
+    ]
+    // 对应节内位单位码表
+    let unitDict2 = [
+      {
+        label: '十',
+        value: 10
+      }, 
+      {
+        label: '百',
+        value: 100
+      }, 
+      {
+        label: '千',
+        value: 1000
+      }, 
+      {
+        label: '拾',
+        value: 10
+      }, 
+      {
+        label: '佰',
+        value: 100
+      }, 
+      {
+        label: '仟',
+        value: 1000
+      }, 
+    ]
+    let allMoneyStr = ''
+    // 获取整个金额字符串
+    for (let i = yuanIndex - 1; i >= 0; i--) {
+      // 判断是否对应金额码表，节权位码表和节内位码表，如果都不对应则退出循环查找
+      let curNumber = numberdict.findIndex(item => item.label === str[i])
+      let curdict1 = unitDict1.findIndex(item => item.label === str[i])
+      let curdict2 = unitDict2.findIndex(item => item.label === str[i])
+      if (curNumber === -1 && curdict1 === -1 && curdict2 === -1) {
+        // 如果不在码表中则表示已经完成金额转换，则完成遍历，跳出循环
+        break
+      } else {
+        allMoneyStr = str[i] + allMoneyStr
+      }
+    }
+    if (allMoneyStr) {
+      let moneyStr = ''
+      for (let i = 0;  i < allMoneyStr.length; i++) {
+        // 从正面遍历整个金额字符串
+        let curdict1 = unitDict1.findIndex(item => item.label === allMoneyStr[i]) 
+        if (curdict1 > -1) {
+          // 如果是节权位
+          let str1 = moneyStr ? Number(moneyStr) : 0
+          let str2 = money ? money : 0
+          money = ((str1 + str2) ? (str1 + str2) : 1) * unitDict1[curdict1].value
+          moneyStr = ''
+          continue
+        }
+        let curdict2 = unitDict2.findIndex(item => item.label === allMoneyStr[i]) 
+        if (curdict2 > -1) {
+          // 如果是节内位
+          money = (moneyStr ? Number(moneyStr) : 1) * unitDict2[curdict2].value + (money ? money : 0)
+          moneyStr = ''
+          continue
+        }
+        let curNumber = numberdict.findIndex(item => item.label === allMoneyStr[i])
+        if (curNumber > -1) {
+          // 如果数值
+          moneyStr += numberdict[curNumber].value
+          continue
+        }
+      }
+      if (moneyStr) {
+        money += Number(moneyStr)
+      }
+    }
+  }
+  return money
+}

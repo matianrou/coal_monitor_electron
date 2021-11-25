@@ -1731,7 +1731,7 @@
                           : require('../assets/image/file.png')
                       "
                       :title="
-                        flowStatus.paper21 === 'save' ? '已保存' : '已归档'
+                        flowStatus.paper45 === 'save' ? '已保存' : '已归档'
                       "
                       alt=""
                     />
@@ -1740,11 +1740,11 @@
                       class="flow-span"
                       >监察执法报告</span
                     >
-                    <i
+                    <!-- <i
                       class="el-icon-plus create-icon"
                       title="添加"
                       @click="addPaper('let407', '监察执法报告', '45')"
-                    ></i>
+                    ></i> -->
                   </td>
                   <!-- <td style="width:12px;">
                   <img src="../assets/image/doc-flow_r1_c7.png" style="height: 65px;" />

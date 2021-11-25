@@ -552,9 +552,9 @@ export default {
         });
     },
     getJczfReport (userId, userSessId) {
-      // 获取监察执法报告?
+      // 获取监察执法报告
       return this.$http.get(
-          `${this.downloadPath}/local/jczf/getJczfReport?userId=${userId}&__sid=${userSessId}`)
+          `${this.downloadPath}/local/jczf/getReportByUserId?userId=${userId}&__sid=${userSessId}`)
         .then(({ data }) => {
           if (data.status === "200") {
             this.fileData.jczfReport = data.data || []

@@ -1372,7 +1372,7 @@ async function docFileListDb(resId, data){
 	let imageEvidence = db.table('imageEvidence');
 	let paperAttachment = db.table('paperAttachment');
 	let jczfReport = db.table('jczfReport');
-	let localReviewList = [], fineCollectionList = [], singleReceiptList = [], imageEvidenceList = [], paperAttachmentList = []; jczfReportList = []
+	let localReviewList = [], fineCollectionList = [], singleReceiptList = [], imageEvidenceList = [], paperAttachmentList = [], jczfReportList = [];
 	//1-localReview
 	for (let i = 0; i < data.localReview.length; i++) {
 		let obj = data.localReview[i];
@@ -1510,29 +1510,30 @@ async function docFileListDb(resId, data){
 		let item = await jczfReport.get({ id: obj.id });
 		if (item) await jczfReport.delete({ id: obj.id }); //删除
 		jczfReportList.push({
-			"id": obj.id,
-			"evidenceId": obj.evidenceId,
-			"fileName": obj.fileName,
-			"filePath": obj.filePath,
-			"fileSize": obj.fileSize,
-			"hashCode": obj.hashCode,
-			"caseId": obj.caseId,
-			"caseNo": obj.caseNo,
-			"groupId": obj.groupId,
-			"groupName": obj.groupName,
-			"corpId": obj.corpId,
-			"corpName": obj.corpName,
+			"id": obj.id, //
+			"evidenceId": obj.evidenceId, // 接口无
+			"fileName": obj.fileName, // 
+			"filePath": obj.filePath, // 
+			"fileSize": obj.fileSize, // 接口无
+			"hashCode": obj.hashCode, // 接口无
+			"caseId": obj.caseId, //
+			"caseNo": obj.caseNo, // 接口无
+			"groupId": obj.groupId, // 
+			"groupName": obj.groupName, // 接口无
+			"corpId": obj.corpId, //
+			"corpName": obj.corpName, //
 			"createTime": obj.createTime,
 			"createDate": obj.createDate,
-			"createBy": obj.createBy.id,
-			"updateDate": obj.updateDate,
-			"updateBy": obj.updateBy.id,
-			"delFlag": obj.delFlag,
-			"remark": obj.remark,
-			"paperId": obj.paperId,
+			"createBy": obj.createBy.id, //
+			"updateDate": obj.updateDate, //
+			"updateBy": obj.updateBy.id, //
+			"delFlag": obj.delFlag, // 
+			"remark": obj.remark, // 接口无
+			"paperId": obj.paperId, // 接口无
 		});
 	}
 	// 增:
+	console.log('jczfReportList', jczfReportList)
 	await localReview.addMany(localReviewList);
 	await fineCollection.addMany(fineCollectionList);
 	await singleReceipt.addMany(singleReceiptList);

@@ -125,7 +125,7 @@ export default {
       // 获取文件列表
       let db = new GoDB(this.$store.state.DBName);
 	    let jczfReport = db.table('jczfReport');
-      this.fileList = await jczfReport.findAll(item => item.paperId === this.paperId && item.delFlag !== '1')
+      this.fileList = await jczfReport.findAll(item => item.caseId === this.corpData.caseId && item.delFlag !== '1')
       await db.close()
     },
     async updateFileList () {
@@ -134,7 +134,7 @@ export default {
       let newFileList = []
       // 通过接口获取最新数据
       await this.$http.get(
-          `/local/jczf/getJczfReport?userId=${userId}&__sid=${userSessId}`)
+          `/local/jczf/getReportByUserId?userId=${userId}&__sid=${userSessId}`)
         .then(({ data }) => {
           if (data.status === "200") {
             newFileList = data.data || []
@@ -214,6 +214,7 @@ export default {
         .then(({ data }) => {
           if (data.status === "200") {
             this.$message.success('文件上传成功！')
+            this.getFileList()
           } else {
             this.$message.error('文件上传失败，请重新尝试！')
           }
@@ -234,7 +235,7 @@ export default {
           let {userSessId} = this.$store.state.user
           this.loading.btn = true
           await this.$http.get(
-              `/local/jczf/deleteByEvidenceId?evidenceId=${row.evidenceId}&__sid=${userSessId}`)
+              `/local/jczf/deleteReportById?id=${row.id}&__sid=${userSessId}`)
             .then(async ({ data }) => {
               if (data.status === "200") {
                 this.$message.success('文件删除成功')

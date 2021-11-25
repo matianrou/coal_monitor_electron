@@ -68,7 +68,7 @@
               }}</span>
               现场检查时，发现你单位有下列违法违规行为，现作出以下现场处理决定：
               <span
-                @click="commandFill('cellIdx7', '人民法院', 'DangerTable')"
+                @click="commandFill('cellIdx7', '违法违规行为', 'DangerTable')"
                 >{{
                   letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
                 }}</span

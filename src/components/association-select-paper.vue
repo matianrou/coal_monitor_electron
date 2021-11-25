@@ -168,7 +168,7 @@ export default {
       }
     },
     async initFileData() {
-      if (this.paperData && (this.docData.docTypeNo === '44' || this.docData.docTypeNo === '21')) {
+      if (this.paperData && (this.docData.docTypeNo === '44' || this.docData.docTypeNo === '21' || this.docData.docTypeNo === '45')) {
         // 隐患整改, 影音证据,意见建议书拉取上传的文件列表
         await this.getFileList()
       }
