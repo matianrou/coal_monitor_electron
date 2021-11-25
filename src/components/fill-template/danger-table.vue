@@ -12,18 +12,29 @@
         placeholder="请填写基本信息">
       </el-input>
     </div>
-    <div>
-      <div v-if="options.showDangerInfor">
-        <div class="title">
-          <span>隐患情况：</span>
-        </div>
-        <el-input
-          v-model="dataForm.tempValue.dangerInfor"
-          type="textarea"
-          :rows="1"
-          placeholder="请填写隐患情况">
-        </el-input>
+    <div v-if="options.showDangerInfor">
+      <div class="title">
+        <span>隐患情况：</span>
       </div>
+      <el-input
+        v-model="dataForm.tempValue.dangerInfor"
+        type="textarea"
+        :rows="2"
+        placeholder="请填写隐患情况">
+      </el-input>
+    </div>
+    <div v-if="options.showPunishmentInfor">
+      <div class="title">
+        <span>行政处罚信息：</span>
+      </div>
+      <el-input
+        v-model="dataForm.tempValue.punishmentInfor"
+        type="textarea"
+        :rows="2"
+        placeholder="请填写行政处罚信息">
+      </el-input>
+    </div>
+    <div>
       <div style="margin-top: 10px;">
         <el-button
           v-if="options.showSelectDangerBtn"
@@ -45,7 +56,7 @@
           @click="deleteDangerList()"
         >隐患删除</el-button>
         <el-button 
-          v-if="options.showSelectDangerBtn"
+          v-if="options.showMergeBtn"
           type="primary" 
           @click="dangerMerge()"
         >隐患合并</el-button>
@@ -369,6 +380,7 @@ export default {
         return {
           baseInfor: null,
           dangerInfor: null,
+          punishmentInfor: null,
           tableData: [],
           dangerItemDetail: {
             personIds: null, // 隐患发现人
@@ -407,6 +419,8 @@ export default {
           showBaseInfor: false, // 用于区分是否展示基本情况大文本输入
           showSelectDangerBtn: false, // 用于区分是否可以选择隐患项
           showDangerInfor: false, // 用于区分是否可以修改隐患情况
+          showMergeBtn: false, // 用于区分是否展示隐患合并按钮
+          showPunishmentInfor: false, // 展示行政处罚信息
         }
       }
     }
@@ -425,6 +439,7 @@ export default {
         tempValue: {
           baseInfor: null,
           dangerInfor: null,
+          punishmentInfor: null,
           tableData: [],
           dangerItemDetail: {
             personIds: null, // 隐患发现人

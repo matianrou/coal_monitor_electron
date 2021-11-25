@@ -36,7 +36,8 @@
             <div class="docTextarea">
               <span class="no-line">案&nbsp;&nbsp;由：</span>
               <span
-                @click="commandFill('cellIdx2', '案由', 'DangerTable')"
+                @dblclick="commandFill('cellIdx2', '案由', 'DangerTable')"
+                @click="commandFill('cellIdx2', '案由', 'TextareaItem')"
                 >{{
                   letData.cellIdx2 ? letData.cellIdx2 : "（点击编辑）"
                 }}</span
@@ -66,11 +67,12 @@
             <div class="docTextarea">
               <span class="no-line">违法事实及处理依据：</span>
               <span
+                @dblclick="commandFill('cellIdx6', '违法事实及处理依据', 'DangerTable')"
                 @click="
                   commandFill(
                     'cellIdx6',
                     '违法事实及处理依据',
-                    'DangerTable'
+                    'TextareaItem'
                   )
                 "
                 >{{
@@ -82,8 +84,9 @@
             <div class="docTextarea">
               <span class="no-line">建议案件处理意见：</span>
               <span
+                @dblclick="commandFill('cellIdx7', '建议案件处理意见', 'DangerTable')"
                 @click="
-                  commandFill('cellIdx7', '建议案件处理意见', 'DangerTable')
+                  commandFill('cellIdx7', '建议案件处理意见', 'TextareaItem')
                 "
                 >{{
                   letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
@@ -272,7 +275,7 @@ export default {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
         let spellString = {};
-        if (key === "cellIdx2" || key === "cellIdx6" || key === "cellIdx7") {
+        if ((key === "cellIdx2" || key === "cellIdx6" || key === "cellIdx7") && type === 'DangerTable') {
           if (key === "cellIdx2") {
             spellString = {
               corpName: this.letData.extraData.corpName,
@@ -284,6 +287,8 @@ export default {
             page: "36",
             key: key,
             spellString,
+            showMergeBtn: true,
+            showPunishmentInfor: true
           };
           dataKey = "DangerTable";
         } else if (key === 'cellIdx8') {

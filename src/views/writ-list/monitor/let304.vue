@@ -293,7 +293,7 @@ export default {
         cellIdx17: null, // 住址
         cellIdx18: cellIdx18, // 调查笔录
         cellIdx18TypeTextareaItem: cellIdx18, // 调查笔录
-        DangerTable: let1DataPapaerContent.DangerTable,
+        // DangerTable: let1DataPapaerContent.DangerTable,
       };
     },
     goBack({ page, data }) {

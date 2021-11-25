@@ -40,7 +40,9 @@
             </div>
             <div class="docTextarea">
               <span class="no-line">案&nbsp;&nbsp;&nbsp; 由：</span>
-              <span  @click="commandFill('cellIdx4', '案由', 'DangerTable')">{{
+              <span  
+                @dblclick="commandFill('cellIdx4', '案由', 'DangerTable')"
+                @click="commandFill('cellIdx4', '案由', 'TextareaItem')">{{
                 letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）"
               }}</span>
               <div class="line"></div> 
@@ -48,7 +50,8 @@
             <div class="docTextarea">
               <span class="no-line">案情摘要：</span>
               <span
-                @click="commandFill('cellIdx5', '案情摘要', 'DangerTable')"
+                @dblclick="commandFill('cellIdx5', '案情摘要', 'DangerTable')"
+                @click="commandFill('cellIdx5', '案情摘要', 'TextareaItem')"
                 >{{
                   letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
                 }}</span
@@ -148,16 +151,7 @@ export default {
   data() {
     return {
       letData: {},
-      options: {
-        cellIdx4: {
-          page: "4",
-          key: "cellIdx4", // 用来区分一个页面多个地方调用隐患大表，最后返回值
-        },
-        cellIdx5: {
-          page: "4",
-          key: "cellIdx5",
-        },
-      },
+      options: {},
       associationPaper: ["1"],
     };
   },
@@ -239,7 +233,7 @@ export default {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
         let spellString = {};
-        if (key === "cellIdx4" || key === "cellIdx5") {
+        if ((key === "cellIdx4" || key === "cellIdx5") && type === 'DangerTable') {
           if (key === "cellIdx4") {
             spellString = {
               corpName: this.letData.extraData.corpName,
@@ -251,6 +245,7 @@ export default {
             page: "4",
             key: key,
             spellString,
+            showMergeBtn: true,
           };
           dataKey = "DangerTable";
         }

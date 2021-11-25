@@ -81,7 +81,8 @@
               >
               的规定，依据
               <span
-                @click="commandFill('cellIdx8', '法律依据', 'DangerTable')"
+                @dblclick="commandFill('cellIdx8', '法律依据', 'DangerTable')"
+                @click="commandFill('cellIdx8', '法律依据', 'TextareaItem')"
                 >{{
                   letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
                 }}</span
@@ -352,12 +353,14 @@ export default {
         if (
           key === "cellIdx6" ||
           key === "cellIdx7" ||
-          key === "cellIdx8" ||
+          (key === "cellIdx8" && type === 'DangerTable') ||
           key === "cellIdx10"
         ) {
           this.options[key] = {
             page: "6",
             key: key,
+            showMergeBtn: true,
+            showPunishmentInfor: true
           };
           dataKey = "DangerTable";
         }

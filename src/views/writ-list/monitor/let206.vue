@@ -61,14 +61,16 @@
               >
               以上事实违反了
               <span
-                @click="commandFill('cellIdx8', '法律规定', 'DangerTable')"
+                @dblclick="commandFill('cellIdx8', '法律规定', 'DangerTable')"
+                @click="commandFill('cellIdx8', '法律规定', 'TextareaItem')"
                 >{{
                   letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
                 }}</span
               >
               的规定，依据
               <span
-                @click="commandFill('cellIdx9', '法律依据', 'DangerTable')"
+                @dblclick="commandFill('cellIdx9', '法律依据', 'DangerTable')"
+                @click="commandFill('cellIdx9', '法律依据', 'TextareaItem')"
                 >{{
                   letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
                 }}</span
@@ -322,13 +324,15 @@ export default {
         let dataKey = `${key}`;
         if (
           key === "cellIdx7" ||
-          key === "cellIdx8" ||
-          key === "cellIdx9" ||
+          (key === "cellIdx8" && type === 'DangerTable') ||
+          (key === "cellIdx9" && type === 'DangerTable') ||
           key === "cellIdx10"
         ) {
           this.options[key] = {
             page: "8",
             key: key,
+            showMergeBtn: true,
+            showPunishmentInfor: true
           };
           dataKey = "DangerTable";
         }

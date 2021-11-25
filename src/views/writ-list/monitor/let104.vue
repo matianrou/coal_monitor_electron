@@ -78,7 +78,8 @@
               }}</span>
               日发现
               <span
-                @click="commandFill('cellIdx9', '违法行为', 'DangerTable')"
+                @dblclick="commandFill('cellIdx9', '违法违规行为', 'DangerTable')"
+                @click="commandFill('cellIdx9', '违法行为', 'TextareaItem')"
                 >{{
                   letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
                 }}</span
@@ -86,8 +87,9 @@
               的违法违规行为，依法作出了
               <span
                 style="borderbottom: none"
+                @dblclick="commandFill('cellIdx10', '违法违规行为', 'DangerTable')"
                 @click="
-                  commandFill('cellIdx10', '现场处理决定', 'DangerTable')
+                  commandFill('cellIdx10', '现场处理决定', 'TextareaItem')
                 "
                 >{{
                   letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
@@ -360,7 +362,7 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
-        if (key === "cellIdx9" || key === "cellIdx10") {
+        if ((key === "cellIdx9" || key === "cellIdx10") && type === 'DangerTable') {
           this.options[key] = {
             page: "13",
             key: key,

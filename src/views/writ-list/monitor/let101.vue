@@ -110,7 +110,6 @@
               </p>
             </div>
           </div>
-          
           <div class="docTextarea">
             <div style="display:inline-block;min-width:45%">
               <span class="no-line">被检查单位负责人意见：</span>
@@ -157,6 +156,7 @@ export default {
           showBaseInfor: true, // 用于区分是否展示基本情况大文本输入
           showSelectDangerBtn: true, // 用于区分是否可以选择隐患项
           showDangerInfor: true, // 
+          showMergeBtn: true
         },
       },
       associationPaper: ["22"],

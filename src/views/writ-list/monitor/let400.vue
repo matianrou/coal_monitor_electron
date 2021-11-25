@@ -182,12 +182,7 @@ export default {
           cellIdx11: null, // 主要负责人意见
           cellIdx12: null, // 签名
           cellIdx13: null, // 日期
-          DangerTable: let1DataPapaerContent.DangerTable,
-        extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
-          corpName: corp.corpName,
-          dateString,
-          userGroupName: this.$store.state.user.userGroupName,
-        }
+          // DangerTable: let1DataPapaerContent.DangerTable,
         };
     },
     goBack({ page, data }) {

@@ -34,6 +34,7 @@
             <writ-flow
               :corp-data="corpData"
               :flow-status="flowStatus"
+              :show-jczf-report="showJczfReport"
               @change-page="changePage"
             ></writ-flow>
           </div>
@@ -107,6 +108,7 @@ export default {
       selectPaperVisible: false, // 选择文书弹窗
       templatePaperData: {},  // 当选择文书时，临时保存的文书数据，用来选择后指定文书跳转及展示
       paperList: [], // 选择的文书列表
+      showJczfReport: false, // 是否展示监察执法报告环节
     }
   },
   created() {
@@ -211,6 +213,7 @@ export default {
           return item.caseId === this.caseData.caseId && item.delFlag !== '1'
         });
         this.flowStatus = {}
+        this.showJczfReport = false
         if (checkLetList.length > 0) {
           // 遍历所有保存的文书，设置paperType的文书文本为已保存或已归档
           checkLetList.map(item => {
@@ -221,6 +224,14 @@ export default {
               status = 'save'
             }
             this.$set(this.flowStatus, `paper${item.paperType}`, status)
+            // 判断是否需要展示监察执法报告环节
+            if (item.paperType === '22') {
+              console.log('item', item)
+              let paperContent = JSON.parse(item.paperContent) 
+              if (paperContent.cellIdx1 && paperContent.cellIdx1.includes('全系统各环节监察')) {
+                this.showJczfReport = true
+              }
+            }
           })
           // 监察执法报告时，当有上传的文件时即为保存
           let jczfReport = db.table('jczfReport');
