@@ -121,7 +121,6 @@
                 
               </tr>
             </table>
-
         </fieldset>
             
             <!-- <div style="height:32px;line-height:32px;font-weight:bold;color:#333;">
@@ -154,7 +153,7 @@
             <!-- <div style="height:32px;line-height:32px;font-weight:bold;color:#333;">
               <img src="@/components/assets/image/letTitle.png" style="vertical-align:middle;" />实施检查
             </div> -->
-            <fieldset class="borderColor" >
+            <fieldset class="borderColor" style="margin-bottom: 0px;">
           <legend >实施检查</legend>
             <table style="width: 1046px;height:65px;border-collapse: collapse; margin-left:20px">
               <tr class="writ-flow-row">
@@ -633,7 +632,7 @@
             <!-- <div style="height:32px;line-height:32px;font-weight:bold;color:#333;">
               <img src="@/components/assets/image/letTitle.png" style="vertical-align:middle;" />案件结案
             </div> -->
-            <fieldset class="borderColor" >
+            <fieldset class="borderColor" style="margin-bottom: 0px;">
           <legend >案件结案</legend>
             <table style="width: 1046px;height:65px;border-collapse: collapse;margin-left:20px">
               <tr class="writ-flow-row">
@@ -737,7 +736,7 @@
             <!-- <div style="height:32px;line-height:32px;font-weight:bold;color:#333;">
               <img src="@/components/assets/image/letTitle.png" style="vertical-align:middle;" />行政强制执行
             </div> -->
-            <fieldset class="borderColor" >
+            <fieldset class="borderColor" style="margin-bottom: 0px;">
           <legend >行政强制执行</legend>
             <table style="width: 626px;height:65px;border-collapse: collapse;margin-left:20px">
               <tr class="writ-flow-row">
@@ -805,7 +804,7 @@
             <!-- <div style="height:32px;line-height:32px;font-weight:bold;color:#333;">
               <img src="@/components/assets/image/letTitle.png" style="vertical-align:middle;" />其他
             </div> -->
-            <fieldset class="borderColor" >
+            <fieldset class="borderColor" style="margin-bottom: 0px;">
           <legend >其他</legend>
             <table style="width:626px;height:65px;border-collapse: collapse;margin-left:20px">
               <tr class="writ-flow-row">

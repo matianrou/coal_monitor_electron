@@ -80,7 +80,7 @@
             <!-- <div style="height:32px;line-height:32px;font-weight:bold;color:#333;">
               <img src="@/components/assets/image/letTitle.png" style="vertical-align:middle;" />一般检查
             </div> -->
-            <fieldset class="borderColor">
+            <fieldset class="borderColor" style="margin-bottom: 0px;">
               <legend>一般检查</legend>
               <table
                 style="
@@ -1119,7 +1119,7 @@
             <!-- <div style="height:32px;line-height:32px;font-weight:bold;color:#333;">
               <img src="@/components/assets/image/letTitle.png" style="vertical-align:middle;" />案件结案
             </div> -->
-            <fieldset class="borderColor">
+            <fieldset class="borderColor" style="margin-bottom: 0px;">
               <legend>案件结案</legend>
               <table
                 style="
@@ -1357,7 +1357,7 @@
             <!-- <div style="height:32px;line-height:32px;font-weight:bold;color:#333;">
               <img src="@/components/assets/image/letTitle.png" style="vertical-align:middle;" />行政复议
             </div> -->
-            <fieldset class="borderColor">
+            <fieldset class="borderColor" style="margin-bottom: 0px;">
               <legend>行政复议</legend>
               <table
                 style="
@@ -1652,7 +1652,7 @@
             <!-- <div style="height:32px;line-height:32px;font-weight:bold;color:#333;">
               <img src="@/components/assets/image/letTitle.png" style="vertical-align:middle;" />证据上传
             </div> -->
-            <fieldset class="borderColor">
+            <fieldset class="borderColor" style="margin-bottom: 0px;">
               <legend>证据上传</legend>
               <table
                 style="
