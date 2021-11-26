@@ -199,9 +199,9 @@ export default {
       let string2 = "    二、行政相对人基本情况：";
       string2 += (await corpInformation(db, corp)) + "。\r\n";
       // 3，	案发时间：检查笔录中时间
-      let string3 = `    三、案发时间：${let1DataPapaerContent.cellIdx1}。\r\n`;
+      let string3 = `    三、案发时间：${let1DataPapaerContent.cellIdx1 || 'XXXX年XX月XX日'}。\r\n`;
       // 4，	主要违法事实：检查笔录中时间+机构名称+登录人员名称+“等监察员按照监察执法计划，依法对”+煤矿名称+“进行现场检查时,发现该矿”+隐患描述
-      let string4 = `    四、主要违法事实：${let1DataPapaerContent.cellIdx1}${this.$store.state.user.userGroupName}${this.$store.state.user.userName}等监察员按照监察执法计划，依法对${corp.corpName}进行现场检查时,发现该矿${dangerObject.dangerString}。\r\n`;
+      let string4 = `    四、主要违法事实：${let1DataPapaerContent.cellIdx1 || 'XX'}${this.$store.state.user.userGroupName || 'XX'}${this.$store.state.user.userName || 'XX'}等监察员按照监察执法计划，依法对${corp.corpName || 'XX'}进行现场检查时,发现该矿${dangerObject.dangerString || 'XX'}。\r\n`;
       // 5，	立案调查及审理情况：
       // 立案时间+“经”+机构名称+“负责人批准，决定对该涉嫌违法行为进行立案调查，并指定由、两名执法人员承办。案件承办人对进行调查取证，制作了调查取证笔录，收集了该矿违法违规行为的其他证据材料。
       // 经调查取证，案件承办人认定违法事实清楚，分别违反了”+违法认定法条+“建议分别依据”+行政处罚依据+“拟分别给予”+行政处罚决定+呈报书制作时间+“，经法制审核，认为案件事实清楚、证据确凿充分、定性准确、处罚适当、程序合法，同意处罚意见。案件承办人将处罚建议呈报给分管副局长XXX、局长张晓彤审批，经分局局长办公会集体研究，同意案件承办人处罚意见。”
@@ -210,8 +210,8 @@ export default {
       let let4DataPapaerContent = JSON.parse(
         selectedPaper.let4Data.paperContent
       );
-      let string5 = `    五、	立案调查及审理情况：${let4DataPapaerContent.cellIdx6}年${let4DataPapaerContent.cellIdx7}月${let4DataPapaerContent.cellIdx8}日经${this.$store.state.user.userGroupName}负责人批准，决定对该涉嫌违法行为进行立案调查，并指定由、两名执法人员承办。案件承办人对进行调查取证，制作了调查取证笔录，收集了该矿违法违规行为的其他证据材料。`;
-      string5 += `经调查取证，案件承办人认定违法事实清楚，分别违反了${dangerObject.illegalString}。建议分别依据${dangerObject.penaltyBasisString}拟分别给予${dangerObject.penaltyDesc}。`;
+      let string5 = `    五、立案调查及审理情况：${let4DataPapaerContent.cellIdx6 || 'XXXX'}年${let4DataPapaerContent.cellIdx7 || 'XX'}月${let4DataPapaerContent.cellIdx8 || 'XX'}日经${this.$store.state.user.userGroupName || 'XX'}负责人批准，决定对该涉嫌违法行为进行立案调查，并指定由、两名执法人员承办。案件承办人对进行调查取证，制作了调查取证笔录，收集了该矿违法违规行为的其他证据材料。`;
+      string5 += `经调查取证，案件承办人认定违法事实清楚，分别违反了${dangerObject.illegalString || 'XX'}。建议分别依据${dangerObject.penaltyBasisString || 'XX'}拟分别给予${dangerObject.penaltyDesc || 'XX'}。`;
       // 案件处理呈报书36制作时间
       let let36Date = selectedPaper.let36Data.createTime.split(" ");
       let36Date = let36Date[0].split("-");

@@ -234,7 +234,7 @@ export default {
         cellIdx8,
         cellIdx9
       } = let4DataPapaerContent;
-      let let4PaperNumber = `${cellIdx0}（${cellIdx1}）煤安立〔${cellIdx2}〕${cellIdx3}号`;
+      let let4PaperNumber = `${cellIdx0}（${cellIdx1}）矿安立〔${cellIdx2}〕${cellIdx3}号`;
       let let4Date = `${cellIdx6 ? cellIdx6 : "XX"}年${
         cellIdx7 ? cellIdx7 : "XX"
       }月${cellIdx8 ? cellIdx8 : "XX"}日`;

@@ -2,7 +2,7 @@ import store from "@/store"
 // 初始化各文书数据
 
 // 初始化文书编号：
-// 文书编号规则：1.机构接口中sysOfficeInfo实体中docRiseSafe字段+“煤安监”
+// 文书编号规则：1.机构接口中sysOfficeInfo实体中docRiseSafe字段+“矿安监”
 //             2.机构接口中sysOfficeInfo实体中docRiseDepa字段 +
 //             3.根据不同文书 显示（立、告、罚、送、催）+
 //             4.{当前年份}+
@@ -95,7 +95,7 @@ export async function getDocNumber(db, docTypeNo, caseId, user) {
   // 3位数字
   let wkCase = db.table("wkCase")
   let caseInfo = await wkCase.find(item => item.caseId === caseId)
-  let paperTypeName = store.state.user.userType === 'supervision' ? '煤安' : '煤安监'
+  let paperTypeName = store.state.user.userType === 'supervision' ? '矿安' : '矿安监'
   return {
     num0: orgSysOfficeInfo.docRiseSafe,
     num1: orgSysOfficeInfo.docRiseDepa,

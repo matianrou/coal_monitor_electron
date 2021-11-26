@@ -349,6 +349,7 @@ export default {
         cellIdx19: this.todayDate, // 日期
         cellIdx19TypeDateItem: this.todayDate, // 日期
         cellIdx20: let28DataPapaerContent.selectedType, // 单位或个人
+        selectedType: let28DataPapaerContent.selectedType, // 单位或个人
         extraData: {
           // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,

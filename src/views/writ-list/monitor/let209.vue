@@ -343,7 +343,7 @@
               </tr>
             </table>
             <div class="docTextarea" style="border-top: 2px solid #000;">
-              备注：本文书一式两份，一份送被拟处罚
+              备注：本文书一式两份，一份交申请听证
               <span
                 style="borderBottom:none"
               >{{ letData.cellIdx38 ? letData.cellIdx38 : '（点击编辑）'}}</span>
@@ -496,7 +496,7 @@ export default {
         cellIdx37: this.todayDate, // 日期
         cellIdx37TypeDateItem: this.todayDate, // 日期
         cellIdx38: let6DataPapaerContent.selectedType, // 单位/个人
-        // DangerTable: let6DataPapaerContent.DangerTable,
+        DangerTable: let6DataPapaerContent.DangerTable, // 保留用于不予受理中使用
         extraData: {
           // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
