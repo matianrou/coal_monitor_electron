@@ -226,7 +226,6 @@ export default {
             this.$set(this.flowStatus, `paper${item.paperType}`, status)
             // 判断是否需要展示监察执法报告环节
             if (item.paperType === '22') {
-              console.log('item', item)
               let paperContent = JSON.parse(item.paperContent) 
               if (paperContent.cellIdx1 && paperContent.cellIdx1.includes('全系统各环节监察')) {
                 this.showJczfReport = true

@@ -138,9 +138,11 @@ import GoDB from "@/utils/godb.min.js";
 import { getNowDate } from "@/utils/date";
 import associationSelectPaper from '@/components/association-select-paper'
 import {
-  getDangerObject,
-  transformNumToChinese,
+  getDangerObject
 } from "@/utils/setInitPaperData";
+import {
+  transformNumToChinese,
+} from "@/utils";
 
 export default {
   name: "Let203",

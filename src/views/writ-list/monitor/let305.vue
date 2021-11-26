@@ -182,8 +182,6 @@
 <script>
 import GoDB from "@/utils/godb.min.js";
 import {
-  getDangerObject,
-  transformNumToChinese,
   getDocNumber,
 } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";

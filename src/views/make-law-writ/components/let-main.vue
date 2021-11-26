@@ -363,7 +363,7 @@ export default {
             changeDangerType: item.changeDangerType, //"更改后隐患类别：710100",
             showIndex: item.order, //"隐患顺序：1",
             isCheck: item.isReview, //"是否需要复查0不需要1需要",
-            dangerParentId: null, //"隐患父id：null",
+            dangerParentId: item.categoryCode, //"隐患父id：null",
             isCommon: item.isCommon ? item.isCommon : null, //"是否为其他隐患（自定义隐患传1）：null",
             deviceNum: item.deviceNum, //"设备台数：默认为空",
             coalingFace: item.coalingFace, //"采煤工作面：3",

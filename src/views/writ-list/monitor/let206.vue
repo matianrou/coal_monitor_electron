@@ -176,9 +176,11 @@
 import GoDB from "@/utils/godb.min.js";
 import {
   getDangerObject,
-  transformNumToChinese,
   getDocNumber,
 } from "@/utils/setInitPaperData";
+import {
+  transformNumToChinese,
+} from "@/utils";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let206",
@@ -331,6 +333,7 @@ export default {
           this.options[key] = {
             page: "8",
             key: key,
+            selectedType: this.letData.selectedType,
             showMergeBtn: true,
             showPunishmentInfor: true
           };

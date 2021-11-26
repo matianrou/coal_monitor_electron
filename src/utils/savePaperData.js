@@ -293,7 +293,7 @@ export async function saveToUpload(paperId) {
           changeDangerType: item.changeDangerType,
           showIndex: item.showIndex,
           isCheck: item.isCheck,
-          dangerParentId: null,
+          dangerParentId: item.dangerParentId,
           isCommon: item.isCommon ? item.isCommon : null,
           deviceNum: item.deviceNum,
           coalingFace: item.coalingFace,

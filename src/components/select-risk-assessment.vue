@@ -74,14 +74,10 @@
         // 遍历设置parentId
         riskAssessmentList.sort((sortbyAsc('id')))
         riskAssessmentList.forEach(item => {
-          if (item.id.substring(2, 4) === '00') {
-            item.parentId = '0000'
-          } else {
-            item.parentId = item.id.substring(0, 2) + '00'
-            if (item.name === '其他') {
-              item.content = ''
-            }
+          if (item.name === '其他') {
+            item.content = ''
           }
+          item.parentId = item.parent ? item.parent.id : ''
         })
         let list = treeDataTranslate(riskAssessmentList)
         this.riskAssessmentList = list

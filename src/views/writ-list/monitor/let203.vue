@@ -163,8 +163,10 @@ import { getNowDate } from "@/utils/date";
 import associationSelectPaper from "@/components/association-select-paper";
 import {
   getDangerObject,
-  transformNumToChinese,
 } from "@/utils/setInitPaperData";
+import {
+  transformNumToChinese,
+} from "@/utils";
 export default {
   name: "Let203",
   mixins: [associationSelectPaper],

@@ -244,15 +244,6 @@ export async function getAllProvinceOrg (userGroupId) {
   return arrOrg
 }
 
-// 模糊查询
-// word为用户输入
-// key为校验对象
-export function fuzzyearch (word, key) {
-  let str = ['',...word,''].join('.*'); //转化成正则格式的字符串
-  let reg = new RegExp(str) //正则
-  return reg.test(key) //去匹配待查询的字符串
-}
-
 // 判断是否为json
 export function isJSON (str) {
   str = str.replace(/\s/g, '').replace(/\n|\r/, '');
@@ -485,4 +476,63 @@ export function getMoney (str) {
     }
   }
   return money
+}
+
+// 模糊匹配：现场处理决定
+// 逻辑：拆分传入字符串，匹配每一个字，选定匹配上字最多的选项，同样多的选择第一个
+// str为传入的字符串
+// dict为需要匹配的码表
+export function fuzzyearch(str, dict, dictKey) {
+  let dictItem = {count: 0}
+  if (str) {
+    for (let i = 0; i < dict.length; i++) {
+      let count = 0
+      for (let j = 0; j < str.length; j++) {
+        if (dict[i][dictKey].includes(str[j])) count++
+      }
+      if (dictItem.count < count) {
+        dictItem = Object.assign({}, dict[i], { count })
+      }
+    }
+  }
+  return dictItem
+}
+
+// 数字转换为中文大写文字
+export function transformNumToChinese(data) {
+  let num = parseFloat(data);
+  let strOutput = "",
+    strUnit = '仟佰拾亿仟佰拾万仟佰拾元角分';
+  num += "00";
+  let intPos = num.indexOf('.');
+  if (intPos >= 0) {
+    num = num.substring(0, intPos) + num.substr(intPos + 1, 2);
+  }
+  strUnit = strUnit.substr(strUnit.length - num.length);
+  for (let i = 0; i < num.length; i++) {
+    strOutput += '零壹贰叁肆伍陆柒捌玖'.substr(num.substr(i, 1), 1) + strUnit.substr(i, 1);
+  }
+  return strOutput.replace(/零角零分$/, '整').replace(/零[仟佰拾]/g, '零').replace(/零{2,}/g, '零').replace(/零([亿|万])/g, '$1').replace(/零+元/, '元').replace(/亿零{0,3}万/, '亿').replace(/^元/, "零元")
+}
+
+/**
+ * 千分符转换
+ * @param {Number} num  我们希望传一个数字参数
+ * @param {Number} tofixed 这里是一个Number型参数，如果不传或者传null，我们不做保留小数处理
+ * @param {Boolean} complete 默认false，表示只对整数部分做千分符处理，true表示小数部分也做千分处理
+ */
+ export function thousands (num, tofixed, complete = false) {
+  if (num === null || num === undefined) {
+    return num
+  };
+  let str = parseFloat(num)
+  if (tofixed !== undefined && tofixed !== null) {
+    str = str.toFixed(tofixed)
+  }
+  str = str + ''
+  return complete
+    ? str.replace(/\d{1,3}(?=(\d{3})+(\.\d*)?$)/g, '$&,')
+    : /\./.test(str)
+      ? str.replace(/(\d)(?=(\d{3})+\.)/g, '$1,')
+      : str.replace(/(\d)(?=(\d{3})+$)/g, '$1,')
 }

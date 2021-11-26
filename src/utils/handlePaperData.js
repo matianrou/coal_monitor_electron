@@ -1,7 +1,10 @@
 // 各文书页面使用的保存各种类型填写数据公用方法
-import { getDangerObject, transformNumToChinese }from '@/utils/setInitPaperData'
+import { getDangerObject }from '@/utils/setInitPaperData'
 import store from '@/store'
 import { handleDate } from '@/utils/date'
+import {
+  transformNumToChinese,
+} from "@/utils";
 
 function setTextItem (data) {
   // 处理简单文本数据
