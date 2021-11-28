@@ -283,7 +283,7 @@ export default {
           },
         ],
       },
-      associationPaper: ["1", "2"],
+      associationPaper: ["2"],
     };
   },
   methods: {
@@ -299,18 +299,15 @@ export default {
         this.corpData.caseId,
         this.$store.state.user
       );
-      let let1DataPapaerContent = JSON.parse(
-        selectedPaper.let1Data.paperContent
+      let let2DataPapaerContent = JSON.parse(
+        selectedPaper.let2Data.paperContent
       );
       let dangerObject = getDangerObject(
-        let1DataPapaerContent.DangerTable.tableData,
+        let2DataPapaerContent.DangerTable.tableData,
         { danger: true }
       );
       let cellIdx9String = dangerObject.dangerString;
       let cellIdx10String = dangerObject.onsiteDescString;
-      let let2DataPapaerContent = JSON.parse(
-        selectedPaper.let2Data.paperContent
-      );
       await db.close();
       this.letData = {
         cellIdx0: num0, // 文书号
@@ -350,7 +347,11 @@ export default {
         cellIdx22TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx23: this.todayDate, // 日期
         cellIdx23TypeDateItem: this.todayDate, // 日期
-        DangerTable: let1DataPapaerContent.DangerTable,
+        DangerTable: let2DataPapaerContent.DangerTable,
+        associationPaperId: { // 关联的paperId
+          paper1Id: let2DataPapaerContent.associationPaperId.paper1Id,
+          paper2Id: selectedPaper.let2Data.paperId
+        }
       };
     },
     goBack({ page, data }) {

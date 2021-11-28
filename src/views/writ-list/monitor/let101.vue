@@ -258,7 +258,7 @@ export default {
             reviewDate: null, // 复查日期
           },
         }, // 隐患项大表
-        associationPaperId: {
+        associationPaperId: { // 关联的paperId
           paper22Id: selectedPaper.let22Data.paperId
         }
       };

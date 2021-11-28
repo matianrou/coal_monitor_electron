@@ -265,6 +265,10 @@ export default {
           corpName: corp.corpName,
           userGroupName: this.$store.state.user.userGroupName,
         },
+        associationPaperId: { // 关联的paperId
+          paper1Id: selectedPaper.let1Data.paperId,
+          paper4Id: selectedPaper.let4Data.paperId,
+        }
       };
     },
     goBack({ page, data }) {

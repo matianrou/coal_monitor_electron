@@ -239,6 +239,9 @@ export default {
         cellIdx15: this.todayDate, //
         cellIdx15TypeDateItem: this.todayDate, //
         DangerTable: let1DataPapaerContent.DangerTable || [], // 隐患项大表
+        associationPaperId: { // 关联的paperId
+          paper1Id: selectedPaper.let1Data.paperId
+        }
       };
     },
     goBack({ page, data }) {

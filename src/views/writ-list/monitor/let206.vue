@@ -270,19 +270,12 @@ export default {
       await db.close();
       this.letData = {
         cellIdx0: paperNumber.num0, // 文书号
-        cellIdx0TypeTextItem: paperNumber.num0, // 文书号
         cellIdx1: paperNumber.num1, // 文书号
-        cellIdx1TypeTextItem: paperNumber.num1, // 文书号
         cellIdx2: paperNumber.num3, // 文书号
-        cellIdx2TypeTextItem: paperNumber.num3, // 文书号
         cellIdx3: paperNumber.num4, // 文书号
-        cellIdx3TypeTextItem: paperNumber.num4, // 文书号
         cellIdx4: cellIdx4String, // 单位/个人
-        cellIdx4TypeTextItem: cellIdx4String, // 单位/个人
         cellIdx5: cellIdx4String === "单位" ? corp.corpName : "", // 被处罚
-        cellIdx5TypeTextItem: cellIdx4String === "单位" ? corp.corpName : "", // 被处罚
         cellIdx6: cellIdx4String === "单位" ? corp.address : "", // 地址
-        cellIdx6TypeTextItem: cellIdx4String === "单位" ? corp.address : "", // 地址
         cellIdx7: dangerObject.dangerString, // 违法事实
         cellIdx8: `分别违反了${dangerObject.illegalString}`, // 法律规定
         cellIdx9: dangerObject.penaltyBasisString, // 法律依据
@@ -292,27 +285,22 @@ export default {
           dangerObject.penaltyDescFineTotle
         )}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`, // 行政处罚
         cellIdx11: orgSysOfficeInfo.accountName, //
-        cellIdx11TypeTextItem: orgSysOfficeInfo.accountName, //
         cellIdx12: orgSysOfficeInfo.accountBank, // 银行
-        cellIdx12TypeTextItem: orgSysOfficeInfo.accountBank, // 银行
         cellIdx13: orgSysOfficeInfo.billName, // 支行（分理处），账户名称
-        cellIdx13TypeTextItem: orgSysOfficeInfo.billName, // 支行（分理处），账户名称
         cellIdx14: orgSysOfficeInfo.account, // 账号
-        cellIdx14TypeTextItem: orgSysOfficeInfo.account, // 账号
         cellIdx15: orgSysOfficeInfo.accountAddress, // 地址
-        cellIdx15TypeTextItem: orgSysOfficeInfo.accountAddress, // 地址
         cellIdx16: orgSysOfficeInfo.organName, // 煤监机构
-        cellIdx16TypeTextItem: orgSysOfficeInfo.organName, // 煤监机构
         cellIdx17: orgSysOfficeInfo.courtPrefix, // 人民法院
-        cellIdx17TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
         cellIdx18: null, // 暂不用
         cellIdx19: this.$store.state.curCase.groupName, // 
-        cellIdx19TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx20: this.todayDate, // 日期
-        cellIdx20TypeDateItem: this.todayDate, // 日期
         cellIdx21: cellIdx4String, // 单位/个人
         DangerTable: let6DataPaperContent.DangerTable,
         selectedType: let6DataPaperContent.selectedType,
+        associationPaperId: { // 关联的paperId
+          paper1Id: let6DataPaperContent.associationPaperId.paper1Id || '',
+          paper6Id: selectedPaper.let6Data.paperId,
+        }
       };
     },
     goBack({ page, data }) {
