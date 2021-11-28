@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import { getNowFormatTime, getNowTime } from "@/utils/date";
+import { getNowFormatTime, getNowTime, handleDateRetrun } from "@/utils/date";
 import { randomString } from "@/utils/index";
 import GoDB from "@/utils/godb.min.js";
 import { createHtml } from "@/utils/createHtml";
@@ -262,6 +262,119 @@ export default {
         htmlPage = this.$slots.left[0].elm.innerHTML.replace('style="height: 0px; overflow: hidden;"', '')
       }
       let page = createHtml(htmlPage, this.corpData);
+      // 额外保存数据
+      let extraSaveData = {}
+      if (this.docData.docTypeNo === "22") {
+        // 整理检查方案的分工明细表等数据
+        // let paperContent = JSON.parse(workPaper.paperContent);
+        // 监察方式（字典值，多个用逗号隔开）
+        // 检查项附件
+        let CheckItemRecords = [];
+        if (
+          this.$parent.letData.CheckTable &&
+          this.$parent.letData.CheckTable.tableData &&
+          this.$parent.letData.CheckTable.tableData.length > 0
+        ) {
+          this.$parent.letData.CheckTable.tableData.map((item) => {
+            let personIdList = []
+            if (item.personList && item.personList.length > 0) {
+              item.personList.map(item => {
+                // 去重
+                if(personIdList.indexOf(item.no) === -1)
+                personIdList.push(item.no)
+              })
+            }
+            let CheckItemRecord = {
+              name: item.categoryName,
+              basis: item.basis,
+              categoryCode: item.categoryCode,
+              categoryName: item.categoryName,
+              createBy: {
+                id: this.$store.state.user.userId,
+              },
+              createDate: item.createDate,
+              delFlag: item.delFlag,
+              groupId: item.groupId,
+              id: item.itemCode,
+              itemCode: item.itemCode,
+              itemContent: item.itemContent,
+              method: item.method,
+              souFlag: item.souFlag,
+              status: item.status,
+              updateBy: {
+                id: this.$store.state.user.userId,
+              },
+              updateDate: item.updateDate,
+              paperId: paperId,
+              groupName: this.$store.state.user.userGroupName,
+              personId: JSON.stringify(personIdList),
+              Address: item.positions,
+              addressType: item.addressType,
+              Situation: item.situation
+            };
+            CheckItemRecords.push(CheckItemRecord);
+          });
+        }
+        let p22JczfCheck = {
+          CheckItemRecords,
+        };
+        let dateRange = handleDateRetrun(this.$parent.letData.cellIdx2)
+        let p22PaperData = {
+          // 获取检查事件
+          p22BeginTime:dateRange.length > 0 ? dateRange[0]
+              .replace("年", "-")
+              .replace("月", "-")
+              .replace("日", "") + " 00:00:00" : null,
+          p22EndTime: dateRange.length > 1 ? dateRange[1]
+              .replace("年", "-")
+              .replace("月", "-")
+              .replace("日", "") + " 00:00:00" : null,
+          p22location: this.$parent.letData.cellIdx4,
+          p22inspection: this.$parent.letData.cellIdx1, // ?
+          p22JczfCheck: JSON.stringify(p22JczfCheck),
+          locationRemarks: this.$parent.letData.cellIdx1, // ?
+        };
+        Object.assign(extraSaveData, p22PaperData);
+      } else if (this.docData.docTypeNo === '1') {
+        extraSaveData = {
+          p1PersonId: this.$store.state.user.userId,
+          p1PersonName: this.$store.state.user.userName,
+        }
+      } else if (this.docData.docTypeNo === '5') {
+        let {cellIdx0, cellIdx1, cellIdx2, cellIdx3, cellIdx4} = this.$parent.letData
+        extraSaveData = {
+          p5EvidenceTime: `${cellIdx0}-${cellIdx1}-${cellIdx2} ${cellIdx3}:${cellIdx4}:00`
+        }
+      } else if (this.docData.docTypeNo === '8') {
+        let penaltyTotle = 0
+        if (this.$parent.letData.DangerTable && this.$parent.letData.DangerTable.tableData.length > 0) {
+          this.$parent.letData.DangerTable.tableData.map(item => {
+            penaltyTotle += item.penaltyDescFine ? Number(item.penaltyDescFine) : 0
+          })
+        }
+        extraSaveData = {
+          p8penaltyType: this.$parent.letData.selectedType || null,
+          p8Penalty: penaltyTotle || null,
+          p8PersonPenalty: this.$parent.letData.selectedType === '个人' ? penaltyTotle : '', // 个人罚款总额
+          p8OrgPenalty: this.$parent.letData.cellIdx4 === '单位' ? penaltyTotle : '' // 企业罚款总额
+        }
+      } else if (this.docData.docTypeNo === '13') {
+        extraSaveData = {
+          p13PersonId: this.$store.state.user.userId,
+          p13PersonName: this.$store.state.user.userName,
+        }
+      } else if (this.docData.docTypeNo === '31') {
+        let {cellIdx0, cellIdx1, cellIdx2, cellIdx3, cellIdx4} = this.$parent.letData
+        extraSaveData = {
+          p31JudgeTime: `${cellIdx0}-${cellIdx1}-${cellIdx2} ${cellIdx3}:${cellIdx4}:00`
+        }
+      } else if (this.docData.docTypeNo === '36') {
+        extraSaveData = {
+          p36JudgeTime: createDate,
+          p36PersonId: this.$store.state.user.userId,
+          p36PersonName: this.$store.state.user.userName,
+        }
+      } 
       let jsonPaper = {
         paperId: paperId,
         remoteId: "",
@@ -273,7 +386,6 @@ export default {
         createTime,
         personId: this.$store.state.user.userId,
         personName: this.$store.state.user.userName,
-        p0FloorTime: "",
         groupId: this.$store.state.user.userGroupId, //机构id
         groupName: this.$store.state.user.userGroupName, //机构名称
         paperContent: JSON.stringify(this.$parent.letData),
@@ -285,6 +397,26 @@ export default {
         corpId: this.corpData && this.corpData.corpId ? this.corpData.corpId : '',
         corpName: this.corpData && this.corpData.corpName ? this.corpData.corpName : '',
         planId: this.corpData && this.corpData.planId ? this.corpData.planId : '',
+        p0FloorTime: saveFlag === '0' ? getNowFormatTime() : '', // 归档时间
+        p22JczfCheck: extraSaveData.p22JczfCheck || null, // 检查项分工明细表
+        p22BeginTime: extraSaveData.p22BeginTime || null,
+        p22EndTime: extraSaveData.p22EndTime || null,
+        p22location: extraSaveData.p22location || null,
+        p22inspection: extraSaveData.p22inspection || null,
+        locationRemarks: extraSaveData.locationRemarks || null,
+        p1PersonId: extraSaveData.p1PersonId || null,
+        p1PersonName: extraSaveData.p1PersonName || null,
+        p5EvidenceTime: extraSaveData.p5EvidenceTime || null,
+        p8penaltyType: extraSaveData.p8penaltyType || null,
+        p8Penalty: extraSaveData.p8Penalty || null,
+        p8PersonPenalty: extraSaveData.p8PersonPenalty || null,
+        p8OrgPenalty: extraSaveData.p8OrgPenalty || null,
+        p13PersonId: extraSaveData.p1PersonId || null,
+        p13PersonName: extraSaveData.p1PersonName || null,
+        p31JudgeTime: extraSaveData.p31JudgeTime || null,
+        p36PersonId: extraSaveData.p36PersonId || null,
+        p36PersonName: extraSaveData.p36PersonName || null,
+        p36RegisterTime: extraSaveData.p36RegisterTime || null,
       };
       let db = new GoDB(this.DBName);
       let wkPaper = db.table("wkPaper");
@@ -298,12 +430,13 @@ export default {
         await wkPaper.delete({ paperId: hasPaperData.paperId });
         await wkPaper.add(jsonPaper);
       }
-      // 1.需保存隐患项的文书：现场检查笔录1、现场处理决定书2、立案决定书4、
-      // 调查取证笔录5、案件处理呈报书36、行政处罚告知书6、行政处罚决定书8、
-      // 隐患整改44
+      // 1.需保存隐患项的文书：现场检查笔录1、现场处理决定书2、立案决定书4、复查意见书13
+      // 调查取证笔录5、案件处理呈报书36、行政处罚告知书6、行政处罚决定书8、撤出作业人员命令书 3
+      // 隐患整改44 抽样取证通知书 23 先行登记保存证据通知书 25 查封(扣押)决定书 32
       let docTypeNo = this.$parent.docData.docTypeNo
-      if (docTypeNo === '1' || docTypeNo === '2' || docTypeNo === '4' 
-        || docTypeNo === '36' || docTypeNo === '6' || docTypeNo === '8' || docTypeNo === '44') {
+      if (docTypeNo === '1' || docTypeNo === '2' || docTypeNo === '4' || docTypeNo === '13'
+        || docTypeNo === '36' || docTypeNo === '6' || docTypeNo === '8' || docTypeNo === '44'
+        || docTypeNo === '3' || docTypeNo === '23' || docTypeNo === '25' || docTypeNo === '32') {
         // 2.根据paperData.paperId检索wkDanger中的隐患项，如果已存在则删除重新添加，如果未存在则直接添加
         // 删除原隐患项
         let wkDanger = db.table("wkDanger")
@@ -318,24 +451,37 @@ export default {
         if (docTypeNo === '8') {
           companyOrPerson = this.$parent.letData.cellIdx4
         }
-        let dangerList = this.$parent.letData.DangerTable.tableData
+        let dangerList = this.$parent.letData.DangerTable.selectedDangerList
         // 遍历隐患项，
         let arrDocDanger = []
         dangerList.map(item => {
           arrDocDanger.push({
-            dangerId: getNowTime() + randomString(18), // 客户端生产的隐患唯一id
+            dangerId: getNowTime() + randomString(22), // 客户端生产的隐患唯一id
             paperId: paperId,
             remoteId: '', //服务器端生成的id
+            createDate,
+            updateDate: getNowFormatTime(),
+            createBy: JSON.stringify({
+              id: this.$store.state.user.userId
+            }),
+            updateBy: JSON.stringify({
+              id: this.$store.state.user.userId
+            }),
+            caseId: this.corpData && this.corpData.caseId ? this.corpData.caseId : '',
+            dangerType: JSON.stringify({
+              categoryCode: item.categoryCode,
+            }),
+            sourceFlag: '0',
+            delFlag: saveFlag,
             dangerCate: item.categoryCode,
             dangerItemId: item.itemCode, //"7101000033",
             dangerContent: item.itemContent, // "煤矿建设项目未按规定进行安全预评价和安全验收评价，逾期未改正的。"
             dangerLocation: '', //违法违规及隐患位置
             dangerStatus: item.status, //违法违规及隐患状态
             detectTime: getNowFormatTime(),  //发现时间：2021-06-24 15:48:54
-            delFlag: saveFlag,
             isHigh: item.isSerious, //是否重大隐患：[0|1]
-            personId: item.personId, //"7101000033",
-            personName: item.personName, //"发现人编号：beba494c4b67435f93e5fdfbe440e18e",
+            personId: this.$store.state.user.userId, //"7101000033",
+            personName: this.$store.state.user.userName, //"发现人编号：beba494c4b67435f93e5fdfbe440e18e",
             personIds: item.personIds, //"发现人编号多选：以逗号分隔",
             personNames: item.personNames, //"隐患发现人多选：以逗号分隔",
             rectifyTerm: '', //"整改期限",
@@ -499,7 +645,7 @@ export default {
     handleSave(params) {
       // 点击确定，保存左侧弹出窗口中的数据至文书数据中
       // params为保存的数据
-      let { key, dataKey, type, options } = this.selectedData;
+      let { key, dataKey, title, type, value, options } = this.selectedData;
       // 增加赋值已选择的数据值，因子组件调用此数据，如果此数据不变更则会导致重复的component不更新数据
       this.selectedData.value = params.value
       if (options && options.saveDataKey) {
@@ -524,6 +670,7 @@ export default {
             options
           )
         );
+        this.commandFill(key, dataKey, title, type, value, options)
       }
       if (!params.direct) {
         // 不是直接在编辑区域保存的则关闭弹窗

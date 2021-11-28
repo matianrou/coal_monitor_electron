@@ -662,7 +662,7 @@ export default {
     },
     setSelection() {
       // 设置选中
-      if (this.dataForm.tempValue.selectedDangerList.length > 0) {
+      if (this.dataForm.tempValue.selectedDangerList && this.dataForm.tempValue.selectedDangerList.length > 0) {
         this.dataForm.tempValue.selectedDangerList.map(item => {
           let index = this.dataForm.tempValue.tableData.findIndex(tableItem => item.dangerId === tableItem.dangerId)
           this.$refs.dangerTable.toggleRowSelection(this.dataForm.tempValue.tableData[index])

@@ -1,4 +1,4 @@
-<!-- 现场检查 一般检查 现场检查笔录 -->
+<!-- 现场检查 一般检查 现场检查笔录 1 -->
 <template>
   <div style="width: 100%; height: 100%">
     <let-main
@@ -258,6 +258,9 @@ export default {
             reviewDate: null, // 复查日期
           },
         }, // 隐患项大表
+        associationPaperId: {
+          paper22Id: selectedPaper.let22Data.paperId
+        }
       };
     },
     goBack({ page, data }) {
