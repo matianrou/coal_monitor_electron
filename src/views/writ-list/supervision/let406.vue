@@ -111,17 +111,18 @@
               >{{ letData.cellIdx9 ? letData.cellIdx9 : '（XX）' }}</span>
               日前向本机关提交鉴定结果。
             </div>
-            <div class="docTextarea" style="margin-bottom: 30px;">
-              <label style="width: 2em;"></label>
-              联系人：
-              <span
-                @click="commandFill('cellIdx10', '联系人', 'TextItem')"
-              >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）' }}</span>
-              &nbsp;&nbsp;联系电话：
-              <span
-                @click="commandFill('cellIdx11', '联系电话', 'TextItem')"
-              >{{ letData.cellIdx11 ? letData.cellIdx11 : '（点击编辑）' }}</span>
-              。
+            <div class="docTextarea">
+              <div style="display:inline-block;min-width:55%">
+                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;联系人：</span>
+                <span @click="commandFill('cellIdx10', '编制人', 'TextItem')"
+                  >{{ letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）" }}
+                </span>
+              </div>
+                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;联系电话：</span>
+                <span @click="commandFill('cellIdx11', '联系电话', 'TextItem')">{{
+                  letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）"
+                }}</span>
+                <div class="line"></div>
             </div>
             <table class="docBody">
               <tr>

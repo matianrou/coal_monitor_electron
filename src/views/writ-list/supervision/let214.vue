@@ -225,21 +225,18 @@
                 >{{letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）"}}</span>
               <div class="line"></div>
             </div>
-            <div class="docTextLine">
-              <div style="flex: 1; display: flex;">
-                <label>档号：&nbsp;&nbsp;</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx15', '档号', 'TextItem')"
-                >{{ letData.cellIdx15 ? letData.cellIdx15 : '（点击编辑）' }}</div>
+            <div class="docTextarea">
+              <div style="display:inline-block;min-width:55%">
+                <span class="no-line">档号：&nbsp;&nbsp;</span>
+                <span @click="commandFill('cellIdx15', '档号', 'TextItem')"
+                  >{{ letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）" }}
+                </span>
               </div>
-              <div style="flex: 1; display: flex;">
-                <label>&nbsp;&nbsp;保管期限：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx16', '保管期限', 'TextItem')"
-                >{{ letData.cellIdx16 ? letData.cellIdx16 : '（点击编辑）' }}</div>
-              </div>
+                <span class="no-line">&nbsp;&nbsp;保管期限：</span>
+                <span @click="commandFill('cellIdx16', '保管期限', 'TextItem')">{{
+                  letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）"
+                }}</span>
+                <div class="line"></div>
             </div>
             <div
               style="word-wrap:break-word;word-break:break-all;overflow:hidden;"

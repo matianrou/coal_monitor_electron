@@ -70,30 +70,28 @@
                 <label>分</label>
               </div>
             </div>
-            <div class="docTextLine">
-              听证地点：
-              <div style="flex: 1; display: flex;">
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx7', '听证地点', 'TextItem')"
-                >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）' }}</div>
-              </div>
+            <div class="docTextarea">
+              <span class="no-line">听证地点：</span>
+              <span
+                @click="commandFill('cellIdx7', '听证地点：', 'TextItem')"
+                >{{
+                  letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
+                }}</span
+              >
+              <div class="line"></div>
             </div>
-            <div class="docTextLine">
-              <div style="flex: 1; display: flex;">
-                <label>听证主持人（签名）：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx8', '听证主持人（签名）', 'TextItem')"
-                >{{ letData.cellIdx8 ? letData.cellIdx8 : '(编辑)' }}</div>
+            <div class="docTextarea">
+              <div style="display:inline-block;min-width:55%">
+                <span class="no-line">听证主持人（签名）：</span>
+                <span @click="commandFill('cellIdx8', '听证主持人（签名）：', 'TextItem')"
+                  >{{ letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）" }}
+                </span>
               </div>
-              <div style="flex: 1; display: flex;">
-                <label>记录人（签名）：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx9', '记录人（签名）', 'TextItem')"
-                >{{ letData.cellIdx9 ? letData.cellIdx9 : '(编辑)' }}</div>
-              </div>
+                <span class="no-line">记录人（签名）：</span>
+                <span @click="commandFill('cellIdx9', '记录人（签名）', 'TextItem')">{{
+                  letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
+                }}</span>
+                <div class="line"></div>
             </div>
             <table style="border:solid 0 #000;" class="docBody">
               <tr>

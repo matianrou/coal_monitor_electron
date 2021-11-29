@@ -84,28 +84,23 @@
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
               <div class="line"></div>
             </div>
-            <div class="docTextLine">
-              <div style="flex: 1; display: flex;">
-                <label>主持人：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx9', '主持人', 'TextItem')"
-                >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）' }}</div>
+            <div class="docTextarea">
+              <div style="display:inline-block;min-width:35%">
+                <span class="no-line">主持人：</span>
+                <span @click="commandFill('cellIdx9', '主持人', 'TextItem')"
+                  >{{ letData.cellIdx9 ? letData.cellIdx9 : "（编辑）" }}
+                </span>
               </div>
-              <div style="flex: 1; display: flex;">
-                <label>汇报人：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx10', '汇报人', 'TextItem')"
-                >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）' }}</div>
-              </div>
-              <div style="flex: 1; display: flex;">
-                <label>记录人：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx11', '记录人', 'TextItem')"
-                >{{ letData.cellIdx11 ? letData.cellIdx11 : '（点击编辑）' }}</div>
-              </div>
+                <span class="no-line">汇报人：</span>
+                <span @click="commandFill('cellIdx10', '汇报人', 'TextItem')">{{
+                  letData.cellIdx10 ? letData.cellIdx10 : "（编辑）"
+                }}</span>
+                <span class="no-line">记录人：</span>
+                <span @click="commandFill('cellIdx11', '记录人', 'TextItem')">{{
+                  letData.cellIdx11 ? letData.cellIdx11 : "（编辑）"
+                }}</span>
+                <div class="line"></div>
+                <div class="line1"></div>
             </div>
             <div class="docTextarea">
               <span class="no-line">出席人员姓名以及职务：</span>
