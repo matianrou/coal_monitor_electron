@@ -84,11 +84,11 @@
               </div>
                 <span class="no-line">性别：</span>
                 <span @click="commandFill('cellIdx7', '性别', 'SelectItem')">{{
-                  letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
+                  letData.cellIdx7 ? letData.cellIdx7 : "（编辑）"
                 }}</span>
                 <span class="no-line">年龄：</span>
                 <span @click="commandFill('cellIdx8', '年龄', 'TextItem')">{{
-                  letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
+                  letData.cellIdx8 ? letData.cellIdx8 : "（编辑）"
                 }}</span>
                 <div class="line"></div>
                 <div class="line1"></div>

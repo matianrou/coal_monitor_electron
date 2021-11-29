@@ -85,32 +85,32 @@
               <label>姓&nbsp;&nbsp;&nbsp;&nbsp;名</label>
               <span
                 class="line-div"
-                @click="commandFill('cellIdx10', '姓名', 'TextItem')"
-                >{{ letData.cellIdx10 ? letData.cellIdx10 : "" }}</span
+                @click="commandFill('cellIdx9', '姓名', 'TextItem')"
+                >{{ letData.cellIdx9 ? letData.cellIdx9 : "" }}</span
               >
               </div>
               <div style="flex:1; display: flex">
               <label>性别</label>
               <span
                 class="line-div"
-                @click="commandFill('cellIdx11', '性别', 'SelectItem')"
-                >{{ letData.cellIdx11 ? letData.cellIdx11 : "" }}</span
+                @click="commandFill('cellIdx10', '性别', 'SelectItem')"
+                >{{ letData.cellIdx10 ? letData.cellIdx10 : "" }}</span
               >
               </div>
               <div style="flex: 1; display: flex">
               <label>年龄</label>
               <span
                 class="line-div"
-                @click="commandFill('cellIdx12', '年龄', 'TextItem')"
-                >{{ letData.cellIdx12 ? letData.cellIdx12 : "" }}</span
+                @click="commandFill('cellIdx11', '年龄', 'TextItem')"
+                >{{ letData.cellIdx11 ? letData.cellIdx11 : "" }}</span
               >
               </div>
               <div style="flex: 3.5; display: flex">
                 <label>身份证号</label>
                 <span
                   class="line-div"
-                  @click="commandFill('cellIdx13', '身份证号', 'TextItem')"
-                  >{{ letData.cellIdx13 ? letData.cellIdx13 : "" }}</span
+                  @click="commandFill('cellIdx12', '身份证号', 'TextItem')"
+                  >{{ letData.cellIdx12 ? letData.cellIdx12 : "" }}</span
                 >
               </div>
             </div>
@@ -140,7 +140,7 @@
             </div>
             <div class="docTextarea">
               <span class="no-line" style="width:25%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;住&nbsp;&nbsp;&nbsp;&nbsp;址</span>
-              <span style="display:inline-block;min-width:17%;line-height: normal;max-width:17%" @click="commandFill('cellIdx18', '电话', 'SelectItem')"
+              <span style="display:inline-block;min-width:73%;line-height: normal;max-width:73%" @click="commandFill('cellIdx18', '住址', 'TextItem')"
                 >{{ letData.cellIdx18 ? letData.cellIdx18 : "（编辑）" }}
               </span>
             </div>

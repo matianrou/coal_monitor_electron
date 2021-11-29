@@ -65,16 +65,16 @@
               <div style="display:inline-block;min-width:40%">
                 <span class="no-line">委托代理人：姓名</span>
                 <span @click="commandFill('cellIdx8', '委托代理人：姓名', 'TextItem')"
-                  >{{ letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）" }}
+                  >{{ letData.cellIdx8 ? letData.cellIdx8 : "（编辑）" }}
                 </span>
               </div>
                 <span class="no-line">工作单位</span>
                 <span @click="commandFill('cellIdx9', '工作单位', 'TextItem')">{{
-                  letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
+                  letData.cellIdx9 ? letData.cellIdx9 : "（编辑）"
                 }}</span>
                 <span class="no-line">职务（职业）</span>
                 <span @click="commandFill('cellIdx10', '职务（职业）', 'TextItem')">{{
-                  letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
+                  letData.cellIdx10 ? letData.cellIdx10 : "（编辑）"
                 }}</span>
                 <div class="line"></div>
                 <div class="line1"></div>
@@ -105,7 +105,7 @@
                 <div class="line1"></div>
             </div>
             <div class="docTextarea">
-              <span class="no-line">住&nbsp;&nbsp;址:</span>
+              <span class="no-line">住&nbsp;&nbsp;&nbsp;&nbsp;址:</span>
               <span @click="commandFill('cellIdx15', '住址', 'TextItem')">{{
                 letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）"
               }}</span>

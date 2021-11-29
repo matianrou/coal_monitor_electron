@@ -143,21 +143,18 @@
               >
               <div class="line"></div>
             </div>
-            <div class="docTextLine">
-              <div style="flex: 1; display: flex;">
-                <label>联系人：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx17', '联系人', 'TextItem')"
-                >{{ letData.cellIdx17 ? letData.cellIdx17 : '（编辑）' }}</div>
+            <div class="docTextarea">
+              <div style="display:inline-block;min-width:55%">
+                <span class="no-line">联系人：</span>
+                <span @click="commandFill('cellIdx17', '联系人', 'TextItem')"
+                  >{{ letData.cellIdx17 ? letData.cellIdx17 : "（点击编辑）" }}
+                </span>
               </div>
-              <div style="flex: 1; display: flex;">
-                <label>联系电话：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx18', '联系电话', 'TextItem')"
-                >{{ letData.cellIdx18 ? letData.cellIdx18 : '（编辑）' }}</div>
-              </div>
+                <span class="no-line">联系电话：</span>
+                <span @click="commandFill('cellIdx18', '联系电话', 'TextItem')">{{
+                  letData.cellIdx18 ? letData.cellIdx18 : "（点击编辑）"
+                }}</span>
+                <div class="line"></div>
             </div>
             <table class="docBody" style="margin-top: 30px;">
               <tr>
