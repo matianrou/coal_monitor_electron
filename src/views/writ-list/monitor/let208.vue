@@ -140,80 +140,56 @@
               将依法申请人民法院强制执行。
             </div>
             <table height="60"></table>
-            <div class="docTextLine">
-              <label style="width: 5%"></label>
-              <div style="flex: 1.5; display: flex">
-                <label>受送达</label>
-                <span>{{
-                  letData.cellIdx19 ? letData.cellIdx19 : "（点击编辑）"
+            <div class="docTextarea">
+              <div style="display:inline-block;min-width:60%">
+                <span class="no-line">
+                  <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;受送达</span>
+                  <span class="no-line" @click="commandFill('cellIdx19', '单位负责人/个人', 'TextItem')"
+                  >{{ letData.cellIdx19 ? letData.cellIdx19 : "(编辑)" }}</span>
+                （签名）:</span>
+                <span @click="commandFill('cellIdx20', '（签名）', 'TextItem')"
+                  >{{ letData.cellIdx20 ? letData.cellIdx20 : "（点击编辑）" }}
+                </span>
+              </div>
+                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;日期:</span>
+                <span @click="commandFill('cellIdx21', '日期', 'DateItem')">{{
+                  letData.cellIdx21 ? letData.cellIdx21 : "（点击编辑）"
                 }}</span>
-                <label>（签名）：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx20', '签名', 'TextItem')"
-                >
-                  {{ letData.cellIdx20 ? letData.cellIdx20 : "（点击编辑）" }}
-                </div>
-              </div>
-              <div style="flex: 1; display: flex">
-                <label>日&nbsp;&nbsp;&nbsp;期：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx21', '日期', 'DateItem')"
-                >
-                  {{ letData.cellIdx21 ? letData.cellIdx21 : "（点击编辑）" }}
-                </div>
-              </div>
+                <div class="line"></div>
             </div>
-            <div class="docTextLine">
-              <label style="width: 5%"></label>
-              <div style="flex: 2; display: flex">
-                <label>我</label>
-                <span @click="commandFill('cellIdx22', '局', 'TextItem')">{{
-                  letData.cellIdx22 ? letData.cellIdx22 : ""
+            <div class="docTextarea">
+              <div style="display:inline-block;min-width:60%">
+                <span class="no-line">
+                  <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;我</span>
+                  <span class="no-line" @click="commandFill('cellIdx22', '局/个人', 'TextItem')"
+                  >{{ letData.cellIdx22 ? letData.cellIdx22 : "(编辑)" }}</span>
+                地址：</span>
+                <span @click="commandFill('cellIdx23', '地址', 'TextItem')"
+                  >{{ letData.cellIdx23 ? letData.cellIdx23 : "（点击编辑）" }}
+                </span>
+              </div>
+                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;邮政编码：</span>
+                <span @click="commandFill('cellIdx24', '邮政编码', 'TextItem')">{{
+                  letData.cellIdx24 ? letData.cellIdx24 : "（点击编辑）"
                 }}</span>
-                <label>地址：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx23', '地址', 'TextItem')"
-                >
-                  {{ letData.cellIdx23 ? letData.cellIdx23 : "（点击编辑）" }}
-                </div>
-              </div>
-              <div style="flex: 2; display: flex">
-                <label>邮政编码：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx24', '邮政编码', 'TextItem')"
-                >
-                  {{ letData.cellIdx24 ? letData.cellIdx24 : "（点击编辑）" }}
-                </div>
-              </div>
+                <div class="line"></div>
             </div>
-            <div class="docTextLine">
-              <label style="width: 5%"></label>
-              <div style="flex: 2; display: flex">
-                <label>我</label>
-                <span @click="commandFill('cellIdx25', '局', 'TextItem')">{{
-                  letData.cellIdx25 ? letData.cellIdx25 : ""
+            <div class="docTextarea">
+              <div style="display:inline-block;min-width:60%">
+                <span class="no-line">
+                  <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;我</span>
+                  <span class="no-line" @click="commandFill('cellIdx25', '局', 'TextItem')"
+                  >{{ letData.cellIdx25 ? letData.cellIdx25 : "(编辑)" }}</span>
+                联系人：</span>
+                <span @click="commandFill('cellIdx26', '联系人', 'TextItem')"
+                  >{{ letData.cellIdx26 ? letData.cellIdx26 : "（点击编辑）" }}
+                </span>
+              </div>
+                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;联系电话：</span>
+                <span @click="commandFill('cellIdx27', '联系电话', 'TextItem')">{{
+                  letData.cellIdx27 ? letData.cellIdx27 : "（点击编辑）"
                 }}</span>
-                <label>联系人：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx26', '联系人', 'TextItem')"
-                >
-                  {{ letData.cellIdx26 ? letData.cellIdx26 : "（点击编辑）" }}
-                </div>
-              </div>
-              <div style="flex: 2; display: flex">
-                <label>联系电话：</label>
-                <div
-                  class="line-div"
-                  @click="commandFill('cellIdx27', '联系电话', 'TextItem')"
-                >
-                  {{ letData.cellIdx27 ? letData.cellIdx27 : "（点击编辑）" }}
-                </div>
-              </div>
+                <div class="line"></div>
             </div>
             <table height="30"></table>
             <table class="docBody">
