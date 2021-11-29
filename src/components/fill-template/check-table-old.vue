@@ -470,7 +470,7 @@ export default {
           for (let j = 0; j < obj.personList.length; j++) {
             let person = obj.personList[j]
             sendDataList.push({
-              id: getNowTime() + randomString(18),
+              id: getNowTime() + randomString(28),
               postId: this.$store.state.user.userId,
               postName: this.$store.state.user.userName,
               receiveId: person.no,

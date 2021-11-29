@@ -181,6 +181,7 @@ export default {
       updatePaper: {}, // 需要更新的文书
       selectUpdatePaperVisible: false, // 选择更新的文书组件
       curDangerTable: {}, // 当前需要更新的dangerTable
+      saveFlag: '0', // 临时保存存储标记,用于文书弹窗选择关联更新时使用
     };
   },
   computed: {
@@ -283,17 +284,15 @@ export default {
               // 遍历检索出的同检查活动下的检查类型文书，如果文书关联的paper1Id相同则保存
               for (let j = 0; j < paperList.length; j++) {
                 updatePaper[`paper${updatePaperType[i]}List`] = []
-                if (JSON.parse(this.paperData.paperContent).associationPaperId && JSON.parse(paperList[j].paperContent).associationPaperId) {
-                  if (this.docData.docTypeNo === '1') {
-                    // 笔录对比笔录的paperId
-                    if (JSON.parse(paperList[j].paperContent).associationPaperId.paper1Id === this.paperData.paperId) {
-                      updatePaper[`paper${updatePaperType[i]}List`].push(paperList[j])
-                    }
-                  } else {
-                    // 其他文书对比关联paperId中的paper1Id
-                    if (JSON.parse(paperList[j].paperContent).associationPaperId.paper1Id === JSON.parse(this.paperData.paperContent).associationPaperId.paper1Id) {
-                      updatePaper[`paper${updatePaperType[i]}List`].push(paperList[j])
-                    }
+                if (this.docData.docTypeNo === '1' && JSON.parse(paperList[j].paperContent).associationPaperId) {
+                  // 笔录对比笔录的paperId
+                  if (JSON.parse(paperList[j].paperContent).associationPaperId.paper1Id === this.paperData.paperId) {
+                    updatePaper[`paper${updatePaperType[i]}List`].push(paperList[j])
+                  }
+                } else if (JSON.parse(paperList[j].paperContent).associationPaperId && JSON.parse(this.paperData.paperContent).associationPaperId) {
+                  // 其他文书对比关联paperId中的paper1Id
+                  if (JSON.parse(paperList[j].paperContent).associationPaperId.paper1Id === JSON.parse(this.paperData.paperContent).associationPaperId.paper1Id) {
+                    updatePaper[`paper${updatePaperType[i]}List`].push(paperList[j])
                   }
                 }
               }
@@ -319,7 +318,19 @@ export default {
             this.updatePaper = updatePaper
             this.curDangerTable = this.$parent.letData.DangerTable
             await db.close()
-            this.selectUpdatePaperVisible = true
+            // 如果updatePaper中没有数据则无需再打开弹窗选择更新
+            let needSelect = false
+            for (let key in this.updatePaper) {
+              if (updatePaper[key].length > 0) {
+                needSelect = true
+              }
+            }
+            if (needSelect) {
+              this.selectUpdatePaperVisible = true
+              this.saveFlag = saveFlag
+            } else {
+              await this.savePaperFunction(saveFlag)
+            }
           } else {
             // 若未修改隐患项则直接进入保存
             await this.savePaperFunction(saveFlag)
@@ -528,7 +539,7 @@ export default {
         let wkDangerList = await wkDanger.findAll(item => item.paperId === paperId)
         if (wkDangerList.length > 0) {
           for (let i = 0; i < wkDangerList.length; i++) {
-            await wkDanger.delete({dangerId: item.dangerId})
+            await wkDanger.delete({dangerId: wkDangerList[i].dangerId})
           }
         }
         // 添加隐患项
@@ -536,12 +547,15 @@ export default {
         if (docTypeNo === '8') {
           companyOrPerson = this.$parent.letData.cellIdx4
         }
-        let dangerList = this.$parent.letData.DangerTable.selectedDangerList
+        let dangerList = this.$parent.letData.DangerTable.selectedDangerList || []
         // 遍历隐患项，
         let arrDocDanger = []
-        dangerList.map(item => {
+        for (let i = 0; i < dangerList.length; i++) {
+          let item = dangerList[i]
+          let danger = await wkDanger.find(wkDangerItem => wkDangerItem.dangerId === item.dangerId)
+          if (danger) await wkDanger.delete({dangerId: item.dangerId})
           arrDocDanger.push({
-            dangerId: getNowTime() + randomString(22), // 客户端生产的隐患唯一id
+            dangerId: item.dangerId, // 客户端生产的隐患唯一id
             paperId: paperId,
             remoteId: '', //服务器端生成的id
             createDate,
@@ -603,15 +617,15 @@ export default {
             reviewUnitId: item.reviewUnitId ? item.reviewUnitId : null, //"复查单位id：null",
             reviewUnitName: item.reviewUnitName ? item.reviewUnitName : null, //"复查单位名称：null",
           })
-        })
-        await wkDanger.addMany(arrDocDanger)
+        }
+        if (arrDocDanger.length > 0)  await wkDanger.addMany(arrDocDanger)
       }
       await db.close();
       let mes = saveFlag === "2" ? "保存" : "归档";
       this.$message.success(
         `“${this.docData.docTypeName}”文书已经${mes}完毕。`
       );
-      await saveToUpload(paperId);
+      await saveToUpload(paperId, true);
       if (this.docData.docTypeNo === '43') {
         // 罚款收缴时，额外发送罚款收缴数据存储
         await saveFineCollection(paperId)
@@ -668,7 +682,7 @@ export default {
         companyId: this.corpData.corpId,
         companyName: this.corpData.corpName,
         isReceive: '0',
-        id: getNowTime() + randomString(18),
+        id: getNowTime() + randomString(28),
         delFlag: '2',
         createDate,
         updateDate: getNowFormatTime(),
@@ -927,20 +941,122 @@ export default {
     },
     async confirmSelectUpdatePaper (selectedRows) {
       // 遍历选择需要更新的文书，更新保存数据
-      console.log('selectedRows', selectedRows)
-      console.log('curDangerTable', this.curDangerTable)
       for (let key in selectedRows) {
         for (let i = 0; i < selectedRows[key].length; i++) {
           await this.saveAssioPaper(selectedRows[key][i])
         }
       }
-      // 遍历保存选择的文书
+      // 关闭更新弹窗
       this.selectUpdatePaperVisible = false
+      // 保存当前文书数据
+      await this.savePaperFunction(this.saveFlag)
+
     },
     async saveAssioPaper (itemPaper) {
-      let paperContent = JSON.parse(itemPaper.paperContent)
-      paperContent.DangerTable = this.curDangerTable
-      itemPaper.paperContent = JSON.stringify(paperContent)
+      // 每一份文书itemPaper
+      // allDangerTableNew新的所有隐患项列表（包括选中和未选中）
+      // selectedDangerTableNew新的所有选中的隐患项列表（只有选中）
+      let allDangerTableNew = []
+      let selectedDangerTableNew = []
+      let paperContentOld = JSON.parse(itemPaper.paperContent)
+      let selectedType = paperContentOld.selectedType
+      // 遍历更新的隐患项
+      for (let i = 0; i < this.curDangerTable.tableData.length; i++) {
+        // 新的隐患项内容
+        let tableDataNewItem = this.curDangerTable.tableData[i]
+        // 新的隐患id
+        let newDangerId = getNowTime() + randomString(28)
+        let tableDataNewSave = {
+          dangerId: newDangerId,
+          itemContent: tableDataNewItem.itemContent,
+          confirmBasis: tableDataNewItem.confirmBasis,
+          onsiteDesc: tableDataNewItem.onsiteDesc,
+          onsiteBasis: tableDataNewItem.onsiteBasis,
+          penaltyDesc: tableDataNewItem.penaltyDesc,
+          penaltyBasis: tableDataNewItem.penaltyBasis,
+          isSerious: tableDataNewItem.isSerious,
+          isReview: tableDataNewItem.isReview,
+          reviewDate: tableDataNewItem.reviewDate,
+          order: tableDataNewItem.order,
+
+          basisContent: tableDataNewItem.confirmBasis, //"认定：《中华人民共和国安全生产法》第二十九条；《煤矿建设项目安全设施监察规定》第九条",
+          caseId: itemPaper.caseId,
+          changeDangerType: tableDataNewItem.changeDangerType, //"更改后隐患类别：710100",
+          checkPerson: '', //"整改核查人",
+          checkTime: '', //"整改核查时间",
+          coalingFace: tableDataNewItem.coalingFace, //"采煤工作面：3",
+          createBy: JSON.stringify({
+            id: this.$store.state.user.userId
+          }),
+          createDate: itemPaper.createDate,
+          dangerCate: tableDataNewItem.categoryCode,
+          dangerContent: tableDataNewItem.itemContent, // "煤矿建设项目未按规定进行安全预评价和安全验收评价，逾期未改正的。"
+          dangerCorrected: tableDataNewItem.dangerCorrected ? tableDataNewItem.dangerCorrected : null, //"隐患整改情况(0未整改，1已整改）：null",
+          dangerItemId: tableDataNewItem.itemCode, //"7101000033",
+          dangerLocation: '', //违法违规及隐患位置
+          dangerParentId: tableDataNewItem.categoryCode, //"隐患父id：null",
+          dangerStatus: tableDataNewItem.status, //违法违规及隐患状态
+          dangerType: JSON.stringify({
+            categoryCode: tableDataNewItem.categoryCode,
+          }),
+          delFlag: '0',
+          detectTime: getNowFormatTime(),  //发现时间：2021-06-24 15:48:54
+          deviceNum: tableDataNewItem.deviceNum, //"设备台数：默认为空",
+          headingFace: tableDataNewItem.headingFace, //"掘进工作面：6",
+          isCheck: tableDataNewItem.isReview, //"是否需要复查0不需要1需要",
+          isCommon: tableDataNewItem.isCommon ? tableDataNewItem.isCommon : null, //"是否为其他隐患（自定义隐患传1）：null",
+          isHigh: tableDataNewItem.isSerious, //是否重大隐患：[0|1]
+          itemOnsiteBasis: tableDataNewItem.onsiteBasis, //"现场决定依据：《中华人民共和国安全生产法》第九十五条第一项",
+          itemOnsiteType: tableDataNewItem.onsiteType, //"现场处理类型",
+          name: null,
+          onsiteContent: tableDataNewItem.onsiteDesc, //"现场处理内容：责令停止建设责令停止作业、限X日内改正",
+          onsiteType: tableDataNewItem.onsiteType, //"现场处理类型",
+          paperId: itemPaper.paperId,
+          penaltyDescFine: tableDataNewItem.penaltyDescFine, // 罚金
+          penaltyOrg: selectedType ? (selectedType === '单位') : null, //"对单位的处罚",
+          penaltyOrgFine: selectedType === '单位' ? tableDataNewItem.penaltyDescFine : null, //"单位罚金",
+          penaltyPerson: selectedType ? (selectedType === '个人') : null, //"对个人的处罚",
+          penaltyPersonFine: selectedType === '个人' ? tableDataNewItem.penaltyDescFine : null, //"个人罚金",
+          penaltyType: selectedType, //"行政处罚类型：单位、个人",
+          personId: this.$store.state.user.userId, //"7101000033",
+          personIds: tableDataNewItem.personIds, //"发现人编号多选：以逗号分隔",
+          personName: this.$store.state.user.userName, //"发现人编号：beba494c4b67435f93e5fdfbe440e18e",
+          personNames: tableDataNewItem.personNames, //"隐患发现人多选：以逗号分隔",
+          rectifyTerm: '', //"整改期限",
+          remoteId: '', //服务器端生成的id
+          reviewUnitId: tableDataNewItem.reviewUnitId ? tableDataNewItem.reviewUnitId : null, //"复查单位id：null",
+          reviewUnitName: tableDataNewItem.reviewUnitName ? tableDataNewItem.reviewUnitName : null, //"复查单位名称：null",
+          showIndex: tableDataNewItem.order, //"隐患顺序：1",
+          solveMethod: '', //"整改落实措施",
+          solveTime: '', //"隐患消解时间",
+          sourceFlag: '0',
+          subitemCode: '', //"违法违规自由裁量序号",
+          subitemContent: tableDataNewItem.itemContent, //"违法违规内容：煤矿建设项目未按规定进行安全预评价和安全验收评价，逾期未改正的。",
+          subitemPenalty: tableDataNewItem.penaltyDesc, //"违法违规行政处罚决定：逾期未改正的，处五十万元以上一百万元以下的罚款，对其直接负责的主管人员和其他直接责任人员处二万元以上五万元以下的罚款。",
+          subitemPenaltyBasis: tableDataNewItem.penaltyBasis, //"行政处罚依据：《中华人民共和国安全生产法》第二十九条，第九十五条第一项",
+           updateBy: JSON.stringify({
+            id: this.$store.state.user.userId
+          }),
+          updateDate: getNowFormatTime(),
+          verNo: null, //"版本号：null",
+        }
+        if (this.curDangerTable.selectedDangerList.indexOf(selectedItem => selectedItem.dangerId === tableDataNewItem.dangerId)) {
+          // 如果是选中的：修改为新的dangerId然后添加至新的选中selectedDangerTableNew中,如果未选中则无需添加
+          selectedDangerTableNew.push(tableDataNewSave)
+        }
+        // 无论是否选中统一添加入allDangerTableNew中
+        allDangerTableNew.push(tableDataNewSave)
+      }
+      // 将整理好的allDangerTableNew所有隐患数据和selectedDangerTableNew所有选择的隐患数据和其他数据更新至PaperContent中
+      let tableDataNew = Object.assign({}, this.curDangerTable, {
+        tableData: allDangerTableNew,
+        selectedDangerList: selectedDangerTableNew
+      })
+      // 更新隐患
+      paperContentOld.DangerTable = tableDataNew
+      // 按文书更新其他信息
+
+      itemPaper.paperContent = JSON.stringify(paperContentOld)
       let db = new GoDB(this.DBName);
       // 更新文书
       let wkPaper = db.table("wkPaper");
@@ -948,83 +1064,17 @@ export default {
       await wkPaper.add(itemPaper);
       // 更新隐患
       let wkDanger = db.table("wkDanger")
-      let wkDangerList = await wkDanger.findAll(item => item.paperId === paperId && item.delFlag === '0')
-      // 删除并添加
-      let dangerList = this.$parent.letData.DangerTable.selectedDangerList
+      // 获取当前文书所有隐患项
+      let wkDangerList = await wkDanger.findAll(item => item.paperId === itemPaper.paperId && item.delFlag === '0')
+      // 删除已有数据
       if (wkDangerList.length > 0) {
         for (let i = 0; i < wkDangerList.length; i++) {
-          let item = wkDangerList[i]
-          console.log('item', item)
-          if (item.docTypeNo === '8') {
-            companyOrPerson = this.$parent.letData.cellIdx4
-          }
-          let dangerData = {
-            dangerId: getNowTime() + randomString(22), // 客户端生产的隐患唯一id
-            paperId: paperId,
-            remoteId: '', //服务器端生成的id
-            createDate,
-            updateDate: getNowFormatTime(),
-            createBy: JSON.stringify({
-              id: this.$store.state.user.userId
-            }),
-            updateBy: JSON.stringify({
-              id: this.$store.state.user.userId
-            }),
-            caseId: this.corpData && this.corpData.caseId ? this.corpData.caseId : '',
-            dangerType: JSON.stringify({
-              categoryCode: item.categoryCode,
-            }),
-            sourceFlag: '0',
-            delFlag: saveFlag,
-            dangerCate: item.categoryCode,
-            dangerItemId: item.itemCode, //"7101000033",
-            dangerContent: item.itemContent, // "煤矿建设项目未按规定进行安全预评价和安全验收评价，逾期未改正的。"
-            dangerLocation: '', //违法违规及隐患位置
-            dangerStatus: item.status, //违法违规及隐患状态
-            detectTime: getNowFormatTime(),  //发现时间：2021-06-24 15:48:54
-            isHigh: item.isSerious, //是否重大隐患：[0|1]
-            personId: this.$store.state.user.userId, //"7101000033",
-            personName: this.$store.state.user.userName, //"发现人编号：beba494c4b67435f93e5fdfbe440e18e",
-            personIds: item.personIds, //"发现人编号多选：以逗号分隔",
-            personNames: item.personNames, //"隐患发现人多选：以逗号分隔",
-            rectifyTerm: '', //"整改期限",
-            solveTime: '', //"隐患消解时间",
-            solveMethod: '', //"整改落实措施",
-            checkTime: '', //"整改核查时间",
-            checkPerson: '', //"整改核查人",
-            subitemCode: '', //"违法违规自由裁量序号",
-            subitemContent: item.itemContent, //"违法违规内容：煤矿建设项目未按规定进行安全预评价和安全验收评价，逾期未改正的。",
-            subitemPenalty: item.penaltyDesc, //"违法违规行政处罚决定：逾期未改正的，处五十万元以上一百万元以下的罚款，对其直接负责的主管人员和其他直接责任人员处二万元以上五万元以下的罚款。",
-            subitemPenaltyBasis: item.penaltyBasis, //"行政处罚依据：《中华人民共和国安全生产法》第二十九条，第九十五条第一项",
-            penaltyDescFine: item.penaltyDescFine, // 罚金
-            penaltyOrg: companyOrPerson === '单位', //"对单位的处罚",
-            penaltyOrgFine: companyOrPerson === '单位' ? item.penaltyDescFine : null, //"单位罚金",
-            penaltyPerson: companyOrPerson === '个人', //"对个人的处罚",
-            penaltyPersonFine: companyOrPerson === '个人' ? item.penaltyDescFine : null, //"个人罚金",
-            itemOnsiteType: item.onsiteType, //"现场处理类型",
-            itemOnsiteBasis: item.onsiteBasis, //"现场决定依据：《中华人民共和国安全生产法》第九十五条第一项",
-            onsiteContent: item.onsiteDesc, //"现场处理内容：责令停止建设责令停止作业、限X日内改正",
-            verNo: null, //"版本号：null",
-            basisContent: item.confirmBasis, //"认定：《中华人民共和国安全生产法》第二十九条；《煤矿建设项目安全设施监察规定》第九条",
-            name: null,
-            onsiteType: item.onsiteType, //"现场处理类型",
-            penaltyType: companyOrPerson, //"行政处罚类型：单位、个人",
-            changeDangerType: item.changeDangerType, //"更改后隐患类别：710100",
-            showIndex: item.order, //"隐患顺序：1",
-            isCheck: item.isReview, //"是否需要复查0不需要1需要",
-            dangerParentId: item.categoryCode, //"隐患父id：null",
-            isCommon: item.isCommon ? item.isCommon : null, //"是否为其他隐患（自定义隐患传1）：null",
-            deviceNum: item.deviceNum, //"设备台数：默认为空",
-            coalingFace: item.coalingFace, //"采煤工作面：3",
-            headingFace: item.headingFace, //"掘进工作面：6",
-            dangerCorrected: item.dangerCorrected ? item.dangerCorrected : null, //"隐患整改情况(0未整改，1已整改）：null",
-            reviewUnitId: item.reviewUnitId ? item.reviewUnitId : null, //"复查单位id：null",
-            reviewUnitName: item.reviewUnitName ? item.reviewUnitName : null, //"复查单位名称：null",
-          }
-          await wkDanger.delete({dangerId: item.dangerId})
-          await wkPaper.add(dangerData);
+          await wkDanger.delete({dangerId: wkDangerList[i].dangerId})
         }
       }
+      // 添加所选数据
+      await wkDanger.addMany(selectedDangerTableNew)
+      await saveToUpload(itemPaper.paperId, false)
       await db.close()
     }
   },

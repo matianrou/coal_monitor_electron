@@ -294,7 +294,7 @@ export default {
           let db = new GoDB(this.DBName);
           let addPerson = db.table("addPerson"); // 添加人员的表
           let person = {
-            no: getNowTime() + randomString(18),
+            no: getNowTime() + randomString(28),
             name: this.addDataForm.name,
             officeName: this.addDataForm.officeName,
             caseId: this.corpData.caseId,

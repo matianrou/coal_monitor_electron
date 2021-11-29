@@ -10,7 +10,7 @@
     width="650px"
   >
     <div class="update-paper-main">
-      <div v-if="updatePaper.paper2List.length > 0">
+      <div v-if="updatePaper.paper2List && updatePaper.paper2List.length > 0">
         <div class="paper-title">
           现场处理决定书
         </div>
@@ -52,7 +52,7 @@
           </el-table>
         </div>
       </div>
-      <div v-if="updatePaper.paper13List.length > 0">
+      <div v-if="updatePaper.paper13List && updatePaper.paper13List.length > 0">
         <div class="paper-title">
           复查意见书
         </div>
@@ -94,7 +94,7 @@
           </el-table>
         </div>
       </div>
-      <div v-if="updatePaper.paper4List.length > 0">
+      <div v-if="updatePaper.paper4List && updatePaper.paper4List.length > 0">
         <div class="paper-title">
           立案决定书
         </div>
@@ -136,7 +136,7 @@
           </el-table>
         </div>
       </div>
-      <div v-if="updatePaper.paper36List.length > 0">
+      <div v-if="updatePaper.paper36List && updatePaper.paper36List.length > 0">
         <div class="paper-title">
           案件处理呈报书
         </div>
@@ -178,7 +178,7 @@
           </el-table>
         </div>
       </div>
-      <div v-if="updatePaper.paper6List.length > 0">
+      <div v-if="updatePaper.paper6List && updatePaper.paper6List.length > 0">
         <div class="paper-title">
           行政处罚告知书
         </div>
@@ -220,7 +220,7 @@
           </el-table>
         </div>
       </div>
-      <div v-if="updatePaper.paper8List.length > 0">
+      <div v-if="updatePaper.paper8List && updatePaper.paper8List.length > 0">
         <div class="paper-title">
           行政处罚决定书
         </div>
@@ -280,7 +280,16 @@ export default {
     },
     updatePaper: {
       type: Object,
-      default: () => {}
+      default: () => {
+        return {
+          paper2List: [],
+          paper13List: [],
+          paper4List: [],
+          paper36List: [],
+          paper6List: [],
+          paper8List: [],
+        }
+      }
     }
   },
   data() {

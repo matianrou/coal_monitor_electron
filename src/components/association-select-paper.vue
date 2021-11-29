@@ -119,7 +119,7 @@ export default {
         this.letDataOragin = JSON.stringify(this.letData)
       } else {
         // 生成默认PaperId
-        this.paperId = getNowTime() + randomString(18)
+        this.paperId = getNowTime() + randomString(28)
         // 创建初始版本
         if (this.corpData && this.corpData.caseId) {
           let wkPaper = db.table('wkPaper')

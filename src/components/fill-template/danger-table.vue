@@ -692,7 +692,7 @@ export default {
             onsiteType = matchOption.value
           }
           let addItem = Object.assign({}, item, {
-            dangerId: getNowTime() + randomString(18),
+            dangerId: getNowTime() + randomString(28),
             personIds: null, // 隐患发现人
             personNames: null, // 隐患发现人
             onsiteType, // 现场处理决定类型
@@ -799,7 +799,7 @@ export default {
           onsiteType = matchOption.value
         }
         this.dataForm.tempValue.tableData.push({
-          dangerId: getNowTime() + randomString(18),
+          dangerId: getNowTime() + randomString(28),
           active: false,
           itemCode: receiveDanger.itemCode,
           no: receiveDanger.no,
@@ -1026,7 +1026,7 @@ export default {
     addNewDanger () {
       // 新建隐患项
       this.dataForm.tempValue.tableData.push({
-        dangerId: getNowTime() + randomString(18),
+        dangerId: getNowTime() + randomString(28),
         active: true,
         categoryCode: '', // 新增的同changeDangerType
         personIds: '', // 隐患发现人
@@ -1049,8 +1049,8 @@ export default {
         isReview: '0', // 是否复查
         reviewDate: '', // 复查日期
         createDate: '', // 创建日期
-        itemCode: getNowTime() + randomString(18), //
-        no: getNowTime() + randomString(18), // 同itemCode
+        itemCode: getNowTime() + randomString(28), //
+        no: getNowTime() + randomString(28), // 同itemCode
         delFlag: '2',
         order: this.dataForm.tempValue.tableData.length, // 顺序向后顺延
         isCommon: '1',

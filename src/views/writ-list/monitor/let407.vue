@@ -181,8 +181,8 @@ export default {
       // 上传文件
       let formData = new FormData()
       let submitData = {
-        id: getNowTime() + randomString(18),
-        evidenceId: getNowTime() + randomString(18),
+        id: getNowTime() + randomString(28),
+        evidenceId: getNowTime() + randomString(28),
         fileName: param.file.name,
         fileSize: param.file.size,
         caseId: this.corpData.caseId,

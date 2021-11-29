@@ -2,7 +2,8 @@ import GoDB from "@/utils/godb.min.js";
 import http from '@/utils/http'
 import { Message } from 'element-ui'
 import store from "@/store"
-export async function saveToUpload(paperId) {
+export async function saveToUpload(paperId, messageShow) {
+  // messageShow是否展示保存成功提示
   // 保存文书至服务器
   const db = new GoDB(store.state.DBName);
   const wkPaper = db.table("wkPaper");
@@ -276,16 +277,20 @@ export async function saveToUpload(paperId) {
       }
     )
     .then(({ data }) => {
-      if (data.status === "200") {
-        Message.success(
-          `“${workPaper.name}”文书已经上传至服务器。`
-        );
-      } else {
-        Message.error("上传至服务器请求失败，请重新保存！");
+      if (messageShow) {
+        if (data.status === "200") {
+          Message.success(
+            `“${workPaper.name}”文书已经上传至服务器。`
+          );
+        } else {
+          Message.error("上传至服务器请求失败，请重新保存！");
+        }
       }
     })
     .catch((err) => {
-      Message.error("上传至服务器请求失败，请重新保存！");
+      if (messageShow) {
+        Message.error("上传至服务器请求失败，请重新保存！");
+      }
       console.log("上传至服务器请求失败：", err);
     });
 }

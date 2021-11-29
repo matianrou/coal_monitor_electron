@@ -127,8 +127,8 @@ function setDangerTable (data, selectedData, options) {
     }
   } else {
     // 不合并
-    dangerObject = data && data.selectedDangerList.length > 0 ? getDangerObject(data.selectedDangerList) : null
-    dangerObjectIndex = data && data.selectedDangerList.length > 0 ? getDangerObject(data.selectedDangerList, {
+    dangerObject = data && data.selectedDangerList && data.selectedDangerList.length > 0 ? getDangerObject(data.selectedDangerList) : null
+    dangerObjectIndex = data && data.selectedDangerList && data.selectedDangerList.length > 0 ? getDangerObject(data.selectedDangerList, {
       danger: true,
       penaltyDesc: true
     }) : null
@@ -141,9 +141,11 @@ function setDangerTable (data, selectedData, options) {
           dangerString += `    ${(index + 1)}. ${item.itemContent}\r\n`
         })
       } else {
-        data.selectedDangerList.map((item, index) => {
-          dangerString += `    ${(index + 1)}. ${item.itemContent}\r\n`
-        })
+        if (data.selectedDangerList) {
+          data.selectedDangerList.map((item, index) => {
+            dangerString += `    ${(index + 1)}. ${item.itemContent}\r\n`
+          })
+        }
       }
       string = `${data.baseInfor}\r\n${data.dangerInfor}\r\n${dangerString}`
       break

@@ -193,13 +193,17 @@ export default {
       // 根据登录用户筛选，如果省级用户展示3个，去掉分局的两个，其他为展示5个
       let person = db.table('person')
       let curPerson = await person.find(item => item.no === this.$store.state.user.userId && item.delFlag !== '1')
-      let curOffice = JSON.parse(curPerson.office)
-      await db.close()
-      if (curOffice.grade === '2') {
-        this.dictionary.caseClassify = caseClassifyList.filter(item => !item.label.includes('分局'))
+      if (curPerson) {
+        let curOffice = JSON.parse(curPerson.office)
+        if (curOffice.grade === '2') {
+          this.dictionary.caseClassify = caseClassifyList.filter(item => !item.label.includes('分局'))
+        } else {
+          this.dictionary.caseClassify = caseClassifyList
+        }
       } else {
-        this.dictionary.caseClassify = caseClassifyList
+        this.$message.error('用户信息查询失败，请重新下载“用户资源”！')
       }
+      await db.close()
     },
     changeDate(val) {
       this.dataForm.startDate = val && val.length > 0 ? val[0] : null;
@@ -252,7 +256,7 @@ export default {
       let groupId = this.selectPlanData.selGovUnit; // 企业选择的机构id
       let groupName = this.selectPlanData.selGovUnitName; // 企业选择的机构名称
       let sDate = getNowFormatTime();
-      let caseId = getNowTime() + randomString(18);
+      let caseId = getNowTime() + randomString(28);
       let caseNo = groupId + getNowTime();
       // 生成文书编号的最后三位自增数字：存储在LocalStorage中，根据userId获取对应数据
       let num = 0
