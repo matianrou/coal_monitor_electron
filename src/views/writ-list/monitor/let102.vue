@@ -67,14 +67,26 @@
                 letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
               }}</span>
               现场检查时，发现你单位有下列违法违规行为，现作出以下现场处理决定：
-              <span
-                @dblclick="commandFill('cellIdx7', '违法违规行为', 'DangerTable')"
-                @click="commandFill('cellIdx7', '违法违规行为', 'TextareaItem')"
-                >{{
-                  letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
-                }}</span
-              >
-              <div class="line"></div>
+            </div>
+            <div
+              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+              class="cellInput mutiLineArea"
+              @dblclick="commandFill('cellIdx7', '违法违规行为', 'DangerTable')"
+              @click="commandFill('cellIdx7', '违法违规行为', 'TextareaItem')">
+              <div v-if="letData.cellIdx7 && letData.cellIdx7.length > 0">
+                <p class="show-area-item-p">
+                  <span style="padding: 7px;">{{ letData.cellIdx7 }}</span>
+                </p>
+                <cell-line :line-num="300"></cell-line>
+              </div>
+              <div v-else>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+                <p class="show-area-item-p">
+                  &nbsp;
+                </p>
+              </div>
             </div>
             <div class="docTextarea">
               <label style="width: 5%"></label>

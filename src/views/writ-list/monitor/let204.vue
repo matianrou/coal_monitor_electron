@@ -42,7 +42,7 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_4"
-                  style="width: 50%"
+                  style="min-width: 50%"
                   data-title="煤矿名称"
                   data-type="text"
                   data-src
@@ -72,7 +72,7 @@
                   letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
                 }}</span
               >
-              违反了
+              分别违反了
               <span
                 @click="commandFill('cellIdx7', '违法行为', 'DangerTable')"
                 >{{
@@ -91,7 +91,7 @@
               <span class="no-underline">{{
                 letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
               }}</span>
-              作出
+              分别作出：
               <span
                 @click="commandFill('cellIdx10', '法律规定', 'DangerTable')"
                 >{{
@@ -239,6 +239,7 @@ import {
   transformNumToChinese,
 } from "@/utils";
 import associationSelectPaper from "@/components/association-select-paper";
+import { setDangerTable } from '@/utils/handlePaperData'
 export default {
   name: "Let204",
   mixins: [associationSelectPaper],
@@ -284,16 +285,15 @@ export default {
       let let1DataPapaerContent = JSON.parse(
         selectedPaper.let1Data.paperContent
       );
-      let dangerObject = getDangerObject(
-        let1DataPapaerContent.DangerTable.tableData,
-        { danger: true, penaltyDesc: true }
-      );
       // 7.行政处罚决定
-      let cellIdx10String = `${
-        dangerObject.penaltyDesc
-      }。合并罚款人民币${transformNumToChinese(
-        dangerObject.penaltyDescFineTotle
-      )}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`;
+      let cellIdx10String = setDangerTable(
+        let1DataPapaerContent.DangerTable,
+        {},
+        {
+          page: "6",
+          key: "cellIdx10",
+        }
+      );
       // 9.机构接口中获取sysOfficeInfo实体中
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(
@@ -307,6 +307,30 @@ export default {
       // depPost：邮政编码、
       // master：我局联系人、
       // phone：联系电话
+      let cellIdx6String = setDangerTable(
+        let1DataPapaerContent.DangerTable,
+        {},
+        {
+          page: "6",
+          key: "cellIdx6",
+        }
+      );
+      let cellIdx7String = setDangerTable(
+        let1DataPapaerContent.DangerTable,
+        {},
+        {
+          page: "6",
+          key: "cellIdx7",
+        }
+      );
+      let cellIdx8String = setDangerTable(
+        let1DataPapaerContent.DangerTable,
+        {},
+        {
+          page: "6",
+          key: "cellIdx8",
+        }
+      );
       await db.close();
       this.letData = {
         cellIdx0: paperNumber.num0, // 文书号
@@ -319,9 +343,9 @@ export default {
         cellIdx3TypeTextItem: paperNumber.num4, // 文书号
         cellIdx4: null, // 煤矿名称
         cellIdx5: null, // 单位或个人
-        cellIdx6: `${dangerObject.dangerString}`, // 违法行为
-        cellIdx7: `${dangerObject.illegalString}`, // 违法行为
-        cellIdx8: dangerObject.penaltyBasisString, // 法律依据
+        cellIdx6: cellIdx6String, // 违法行为
+        cellIdx7: cellIdx7String, // 违法行为
+        cellIdx8: cellIdx8String, // 法律依据
         cellIdx9: null, // 单位或个人
         cellIdx10: cellIdx10String, // 法律规定
         cellIdx11: null, // 单位或个人

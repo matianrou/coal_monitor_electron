@@ -160,6 +160,7 @@
 <script>
 import GoDB from "@/utils/godb.min.js";
 import { getNowDate } from "@/utils/date";
+import { setDangerTable } from '@/utils/handlePaperData'
 import associationSelectPaper from "@/components/association-select-paper";
 import {
   getDangerObject,
@@ -202,24 +203,34 @@ export default {
       let let1DataPapaerContent = JSON.parse(
         selectedPaper.let1Data.paperContent
       );
-      let dangerObject = let1DataPapaerContent.DangerTable ? getDangerObject(
-        let1DataPapaerContent.DangerTable.tableData
-      ): {dangerString: ''};
       // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
       // 获取笔录文书中的隐患数据
-      let cellIdx2String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
+      let cellIdx2String = setDangerTable(let1DataPapaerContent.DangerTable, {}, { 
+        page: '36', 
+        key: 'cellIdx2',
+        spellString: {
+          corpName: corp.corpName,
+          userGroupName: this.$store.state.user.userGroupName,
+        },
+      })
       // 2.违法事实及依据：隐患描述+“经调查取证以上违法违规行为属实，分别违反了”+违法认定发条
-      dangerObject = let1DataPapaerContent.DangerTable ? getDangerObject(
-        let1DataPapaerContent.DangerTable.tableData,
-        { danger: true }
-      ) : {dangerString: '', illegalString: '', treatmentSuggestion: '', penaltyDescFineTotle: '', penaltyDescFineTotle: 0};
-      let cellIdx6String = `${dangerObject.dangerString}经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString}的规定。`;
+      let cellIdx6String = setDangerTable(let1DataPapaerContent.DangerTable, {}, { 
+        page: '36', 
+        key: 'cellIdx6',
+        spellString: {
+          corpName: corp.corpName,
+          userGroupName: this.$store.state.user.userGroupName,
+        },
+      })
       // 3.建议案件处理意见：行政处罚依据+行政处罚决定（分条）
-      let cellIdx7String = `分别依据${
-        dangerObject.treatmentSuggestion
-      }。合并罚款人民币${transformNumToChinese(
-        dangerObject.penaltyDescFineTotle
-      )}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`;
+      let cellIdx7String = setDangerTable(let1DataPapaerContent.DangerTable, {}, { 
+        page: '36', 
+        key: 'cellIdx7',
+        spellString: {
+          corpName: corp.corpName,
+          userGroupName: this.$store.state.user.userGroupName,
+        },
+      })
       // 5.获取立案决定书编号及立案日期,承办人
       let let4DataPapaerContent = JSON.parse(
         selectedPaper.let4Data.paperContent

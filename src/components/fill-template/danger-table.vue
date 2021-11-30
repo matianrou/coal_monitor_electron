@@ -368,6 +368,7 @@ import GoDB from "@/utils/godb.min.js";
 import { severalDaysLater, getNowTime } from "@/utils/date";
 import selectPerson from '@/components/select-person'
 import { treeDataTranslate, fuzzyearch, randomString, getMoney, transformNumToChinese, thousands } from '@/utils'
+import { retrunGetMoney } from '@/utils/setInitPaperData'
 import Sortable from 'sortablejs'
 export default {
   name: "DangerTable",
@@ -399,6 +400,8 @@ export default {
             coalingFace: null, // 采煤工作面
             penaltyDesc: null, // 行政处罚决定
             penaltyDescFine: null, // 行政处罚决定罚金
+            penaltyDescTypeId: null, // 行政处罚决定类型的id
+            penaltyDescType: null, // 行政处罚决定类型
             penaltyBasis: null, // 行政处罚依据
             firstDangerType: null, // 第一级隐患类别
             secDangerType: null, // 第二级隐患类别
@@ -459,6 +462,8 @@ export default {
             coalingFace: null, // 采煤工作面
             penaltyDesc: null, // 行政处罚决定
             penaltyDescFine: null, // 行政处罚决定罚金
+            penaltyDescTypeId: null, // 行政处罚决定类型的id
+            penaltyDescType: null, // 行政处罚决定类型
             penaltyBasis: null, // 行政处罚依据
             firstDangerType: null, // 第一级隐患类别
             secDangerType: null, // 第二级隐患类别
@@ -484,6 +489,8 @@ export default {
         coalingFace: null, // 采煤工作面
         penaltyDesc: null, // 行政处罚决定
         penaltyDescFine: null, // 行政处罚决定罚金
+        penaltyDescTypeId: null, // 行政处罚决定类型的id
+        penaltyDescType: null, // 行政处罚决定类型
         penaltyBasis: null, // 行政处罚依据
         firstDangerType: null, // 第一级隐患类别
         secDangerType: null, // 第二级隐患类别
@@ -691,6 +698,15 @@ export default {
           if (matchOption) {
             onsiteType = matchOption.value
           }
+          // 获取罚款金额
+          let penaltyDescFine = 0
+          if (item.penaltyDesc) {
+            let {money, count} = retrunGetMoney(item.penaltyDesc)
+            if (count > 0 && count < 3) {
+              penaltyDescFine = money
+            }
+          }
+          let {id, type} = this.getPenaltyDescType(receiveDanger.penaltyDesc)
           let addItem = Object.assign({}, item, {
             dangerId: getNowTime() + randomString(28),
             personIds: null, // 隐患发现人
@@ -699,10 +715,12 @@ export default {
             headingFace: null, // 掘进工作面
             deviceNum: null, // 设备台数
             coalingFace: null, // 采煤工作面
-            penaltyDescFine: null, // 行政处罚决定罚金
+            penaltyDescFine, // 行政处罚决定罚金
+            penaltyDescTypeId: id, // 行政处罚决定类型的id
+            penaltyDescType: type, // 行政处罚决定类型
             firstDangerType: null, // 第一级隐患类别
             secDangerType: null, // 第二级隐患类别
-            changeDangerType: null, // 更改的隐患类别
+            changeDangerType: item.categoryCode, // 更改的隐患类别
             isSerious: '0', // 是否重大隐患
             isReview: '0', // 是否复查
             reviewDate: null, // 复查日期
@@ -785,7 +803,16 @@ export default {
         this.$set(this.dataForm.tempValue.tableData, index, this.dangerItemDetail)
       } else if (field === 'penaltyDesc') {
         // 修改行政处罚决定时同步关联修改罚金字段penaltyDescFine
-        this.dataForm.tempValue.tableData[index].penaltyDescFine = getMoney(val)
+        // 同步关联修改行政处罚决定类型
+        let {money, count} = retrunGetMoney(val)
+        let penaltyDescFine = 0
+        if (count > 0 && count < 3) {
+          penaltyDescFine = money
+        }
+        let {id, type} = this.getPenaltyDescType(val)
+        this.dataForm.tempValue.tableData[index].penaltyDescFine = penaltyDescFine
+        this.dataForm.tempValue.tableData[index].penaltyDescTypeId = id
+        this.dataForm.tempValue.tableData[index].penaltyDescType = type
       }
     },
     handleSaveReceiveDanger (dangerList) {
@@ -798,6 +825,15 @@ export default {
         if (matchOption) {
           onsiteType = matchOption.value
         }
+        // 获取罚款金额
+        let penaltyDescFine = 0
+        if (item.penaltyDesc) {
+          let {money, count} = retrunGetMoney(receiveDanger.penaltyDesc)
+          if (count > 0 && count < 3) {
+            penaltyDescFine = money
+          }
+        }
+        let {id, type} = this.getPenaltyDescType(receiveDanger.penaltyDesc)
         this.dataForm.tempValue.tableData.push({
           dangerId: getNowTime() + randomString(28),
           active: false,
@@ -815,11 +851,13 @@ export default {
           deviceNum: null, // 设备台数
           coalingFace: null, // 采煤工作面
           penaltyDesc: receiveDanger.penaltyDesc, // 行政处罚决定
-          penaltyDescFine: null, // 行政处罚决定罚金
+          penaltyDescFine, // 行政处罚决定罚金
+          penaltyDescTypeId: id, // 行政处罚决定类型的id
+          penaltyDescType: type, // 行政处罚决定类型
           penaltyBasis: receiveDanger.penaltyBasis, // 行政处罚依据
           firstDangerType: null, // 第一级隐患类别
           secDangerType: null, // 第二级隐患类别
-          changeDangerType: null, // 更改的隐患类别
+          changeDangerType: receiveDanger.categoryCode, // 更改的隐患类别
           isSerious: '0', // 是否重大隐患
           isReview: '0', // 是否复查
           reviewDate: null, // 复查日期
@@ -1041,6 +1079,8 @@ export default {
         coalingFace: '', // 采煤工作面
         penaltyDesc: '', // 行政处罚决定
         penaltyDescFine: '', // 行政处罚决定罚金
+        penaltyDescTypeId: '', // 行政处罚决定类型的id
+        penaltyDescType: '', // 行政处罚决定类型
         penaltyBasis: '', // 行政处罚依据
         firstDangerType: '', // 第一级隐患类别
         secDangerType: '', // 第二级隐患类别
@@ -1187,6 +1227,25 @@ export default {
           this.$set(this.dataForm.tempValue, 'punishmentList', [])
         }
       }
+    },
+    getPenaltyDescType (penaltyDescString) {
+      // 通过行政处罚说明获取行政处罚类型和id
+      let id = ''
+      let type = ''
+      let {count} = retrunGetMoney(penaltyDescString)
+      if (count > 0 && count < 3) {
+        type += '罚款,'
+        id += this.subitemTypeOptions.filter(item => item.label === '罚款')[0].value + ','
+      }
+      for (let i = 0; i < this.subitemTypeOptions.length; i++) {
+        if (this.subitemTypeOptions[i].searchLabel && penaltyDescString.includes(this.subitemTypeOptions[i].searchLabel)) {
+          id += this.subitemTypeOptions[i].value + ','
+          type += this.subitemTypeOptions[i].label + ','
+        }
+      }
+      if (id) id = id.substring(0, id.length - 1)
+      if (type) type = type.substring(0, type.length - 1)
+      return {id, type}
     }
   },
 };

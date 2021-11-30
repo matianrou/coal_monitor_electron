@@ -40,12 +40,14 @@
             </div>
             <div class="docTextarea">
               <span class="no-line">案&nbsp;&nbsp;&nbsp; 由：</span>
-              <span  
+              <span
                 @dblclick="commandFill('cellIdx4', '案由', 'DangerTable')"
-                @click="commandFill('cellIdx4', '案由', 'TextareaItem')">{{
-                letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）"
-              }}</span>
-              <div class="line"></div> 
+                @click="commandFill('cellIdx4', '案由', 'TextareaItem')"
+                >{{
+                  letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）"
+                }}</span
+              >
+              <div class="line"></div>
             </div>
             <div class="docTextarea">
               <span class="no-line">案情摘要：</span>
@@ -80,23 +82,25 @@
             </div>
             <table height="30"></table>
             <div class="docTextarea">
-            <div style="display:inline-block;min-width:35%">
-              <span class="no-line">审批人意见：</span>
-              <span @click="commandFill('cellIdx10', '审批人意见', 'TextItem')"
-                >{{ letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）" }}
-              </span>
-            </div>
+              <div style="display: inline-block; min-width: 35%">
+                <span class="no-line">审批人意见：</span>
+                <span
+                  @click="commandFill('cellIdx10', '审批人意见', 'TextItem')"
+                  >{{ letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）" }}
+                </span>
+              </div>
               <span class="no-line">审批人（签名）：</span>
-              <span @click="commandFill('cellIdx11', '审批人（签名）', 'TextItem')">{{
-                letData.cellIdx11 ? letData.cellIdx11 : "（编辑）"
-              }}</span>
+              <span
+                @click="commandFill('cellIdx11', '审批人（签名）', 'TextItem')"
+                >{{ letData.cellIdx11 ? letData.cellIdx11 : "（编辑）" }}</span
+              >
               <span class="no-line">日期：</span>
               <span @click="commandFill('cellIdx12', '日期', 'DateItem')">{{
                 letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）"
               }}</span>
               <div class="line"></div>
-              <div class="line1"></div>
-          </div>
+              <!-- <div class="line1"></div> -->
+            </div>
             <table height="30"></table>
             <table class="docBody">
               <tr>
@@ -143,7 +147,10 @@
 <script>
 import GoDB from "@/utils/godb.min.js";
 import { handleDate } from "@/utils/date";
-import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
+import {
+  getDocNumber,
+} from "@/utils/setInitPaperData";
+import { setDangerTable } from '@/utils/handlePaperData'
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let201",
@@ -172,16 +179,33 @@ export default {
         ? let1DataPapaerContent.cellIdx1
         : "X年X月X日-X年X月X日";
       // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
-      let dangerObject = getDangerObject(
-        let1DataPapaerContent.DangerTable.tableData
+      let cellIdx4String = setDangerTable(
+        let1DataPapaerContent.DangerTable,
+        {},
+        {
+          page: "4",
+          key: "cellIdx4",
+          spellString: {
+            corpName: corp.corpName,
+            dateString,
+            userGroupName: this.$store.state.user.userGroupName,
+          },
+        }
       );
-      let cellIdx4String = `${corp.corpName}${dangerObject.dangerString}案。`;
       // 2.案情摘要：检查时间+当前机构名称+“对”+煤矿名称+“进行现场检查时发现”+隐患描述+"以上行为分别涉嫌违反了"+违法认定法条+“依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。”
-      dangerObject = getDangerObject(
-        let1DataPapaerContent.DangerTable.tableData,
-        { danger: true }
+      let cellIdx5String = setDangerTable(
+        let1DataPapaerContent.DangerTable,
+        {},
+        {
+          page: "4",
+          key: "cellIdx5",
+          spellString: {
+            corpName: corp.corpName,
+            dateString,
+            userGroupName: this.$store.state.user.userGroupName,
+          },
+        }
       );
-      let cellIdx5String = `${dateString}，${this.$store.state.user.userGroupName}对${corp.corpName}进行现场检查时发现：${dangerObject.dangerString}以上行为分别涉嫌违反了${dangerObject.illegalString}的规定。依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`;
       let paperNumber = await getDocNumber(
         db,
         this.docData.docTypeNo,
@@ -221,9 +245,10 @@ export default {
           dateString,
           userGroupName: this.$store.state.user.userGroupName,
         },
-        associationPaperId: { // 关联的paperId
+        associationPaperId: {
+          // 关联的paperId
           paper1Id: selectedPaper.let1Data.paperId,
-        }
+        },
       };
     },
     goBack({ page, data }) {
@@ -236,7 +261,10 @@ export default {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
         let spellString = {};
-        if ((key === "cellIdx4" || key === "cellIdx5") && type === 'DangerTable') {
+        if (
+          (key === "cellIdx4" || key === "cellIdx5") &&
+          type === "DangerTable"
+        ) {
           if (key === "cellIdx4") {
             spellString = {
               corpName: this.letData.extraData.corpName,

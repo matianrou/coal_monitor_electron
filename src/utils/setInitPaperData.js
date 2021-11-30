@@ -1,4 +1,5 @@
 import store from "@/store"
+import { getMoney } from '@/utils'
 // 初始化各文书数据
 
 // 初始化文书编号：
@@ -137,7 +138,7 @@ export function getDangerObject(tableData, hasIndex = {
   // 行政处罚罚金总额
   let penaltyDescFineTotle = 0
   tableData.map((item, index) => {
-    contentOnsiteDesc += `${(index + 1)}. ${item.itemContent}${item.onsiteDesc}。`
+    contentOnsiteDesc += `    ${(index + 1)}. ${item.itemContent}${item.onsiteDesc}。\r\n`
     dangerString += hasIndex.danger ? `${(index + 1)}. ${item.itemContent}` : `${item.itemContent}`
     illegalString += hasIndex.illegal ? `${(index + 1)}. ${item.confirmBasis}、` : `${item.confirmBasis}、`
     onsiteDescString += hasIndex.onsiteDesc ? `${(index + 1)}. ${item.onsiteDesc}、` : `${item.onsiteDesc}、`
@@ -151,7 +152,7 @@ export function getDangerObject(tableData, hasIndex = {
   treatmentSuggestion = treatmentSuggestion.substring(0, treatmentSuggestion.length - 1) + '。'
   penaltyBasisString = penaltyBasisString.substring(0, penaltyBasisString.length - 1)
   penaltyDesc = penaltyDesc.substring(0, penaltyDesc.length - 1) + '。'
-  penaltyDescFineTotle = penaltyDescFineTotle * 10000
+  penaltyDescFineTotle = penaltyDescFineTotle
   return {
     contentOnsiteDesc,
     dangerString,
@@ -162,6 +163,146 @@ export function getDangerObject(tableData, hasIndex = {
     penaltyDesc,
     penaltyDescFineTotle
   }
+}
+
+// 去掉句号形式返回的违法违规行为字符串
+// tableData未隐患列表
+// replaceString为句号可替换成其他的字符，如、，；等
+export function getDangerContentWithoutPoint (tableData, replaceString = '') {
+  let dangerString = ''
+  for (let i = 0; i < tableData.length; i++) {
+    let item = tableData[i]
+    if (item.itemContent[item.itemContent.length - 1] === '。') {
+      // 如果有。句号则去掉句号
+      dangerString += item.itemContent.substring(0, item.itemContent.length - 1) + replaceString
+    } else {
+      dangerString += item.itemContent
+    }
+  }
+  if (dangerString[dangerString.length - 1] === replaceString) {
+    dangerString = dangerString.substring(0, dangerString.length - 1)
+  }
+  return dangerString
+}
+
+// 对上一个方法getDangerContentWithoutPoint的补充：有序号的
+export function getDangerContentWithoutPointHasIndex (tableData, replaceString = '') {
+  let dangerString = ''
+  for (let i = 0; i < tableData.length; i++) {
+    let item = tableData[i]
+    if (item.itemContent[item.itemContent.length - 1] === '。') {
+      // 如果有。句号则去掉句号
+      dangerString += (i + 1) + '.' + item.itemContent.substring(0, item.itemContent.length - 1) + replaceString
+    } else {
+      dangerString += (i + 1) + '.' + item.itemContent
+    }
+  }
+  if (dangerString[dangerString.length - 1] === replaceString) {
+    dangerString = dangerString.substring(0, dangerString.length - 1)
+  }
+  return dangerString
+}
+
+// 去掉句号形式返回的penaltyBasis行政处罚依据和行政处罚决定的字符串
+// replaceString为句号可替换成其他的字符，如、，；等
+export function getDangerPenaltyBasisWithoutPointHasIndex (tableData, replaceString = '') {
+  let dangerString = ''
+  for (let i = 0; i < tableData.length; i++) {
+    let item = tableData[i]
+    if (item.penaltyDesc[item.penaltyDesc.length - 1] === '。') {
+      // 如果有。句号则去掉句号
+      dangerString += (i + 1) + '.' + item.penaltyBasis + item.penaltyDesc.substring(0, item.penaltyDesc.length - 1) + replaceString
+    } else {
+      dangerString += (i + 1) + '.' + item.penaltyBasis + item.penaltyDesc
+    }
+  }
+  if (dangerString[dangerString.length - 1] === replaceString) {
+    dangerString = dangerString.substring(0, dangerString.length - 1)
+  }
+  return dangerString
+}
+
+// 去掉句号形式返回的penaltyDesc行政处罚决定的字符串
+// replaceString为句号可替换成其他的字符，如、，；等
+export function getDangerPenaltyDescWithoutPoint (tableData, replaceString = '') {
+  let dangerString = ''
+  for (let i = 0; i < tableData.length; i++) {
+    let item = tableData[i]
+    if (item.penaltyDesc[item.penaltyDesc.length - 1] === '。') {
+      // 如果有。句号则去掉句号
+      dangerString += item.penaltyDesc.substring(0, item.penaltyDesc.length - 1) + replaceString
+    } else {
+      dangerString += item.penaltyDesc
+    }
+  }
+  if (dangerString[dangerString.length - 1] === replaceString) {
+    dangerString = dangerString.substring(0, dangerString.length - 1)
+  }
+  return dangerString
+}
+
+// 去掉句号形式返回的penaltyDesc行政处罚决定的字符串
+// replaceString为句号可替换成其他的字符，如、，；等
+export function getDangerPenaltyDescWithoutPointHasIndex (tableData, replaceString = '') {
+  let dangerString = ''
+  for (let i = 0; i < tableData.length; i++) {
+    let item = tableData[i]
+    if (item.penaltyDesc[item.penaltyDesc.length - 1] === '。') {
+      // 如果有。句号则去掉句号
+      dangerString += (i + 1) + '.' + item.penaltyDesc.substring(0, item.penaltyDesc.length - 1) + replaceString
+    } else {
+      dangerString += (i + 1) + '.' + item.penaltyDesc
+    }
+  }
+  if (dangerString[dangerString.length - 1] === replaceString) {
+    dangerString = dangerString.substring(0, dangerString.length - 1)
+  }
+  return dangerString
+}
+
+// 获取总体行政决定说明
+export function getDangerDes (tableData) {
+  // 遍历隐患获取对应的行政处罚类型
+  let descTypeIds = ''
+  let descTypeStrings = ''
+  for (let i = 0; i < tableData.length; i++) {
+    let item = tableData[i]
+    if (item.penaltyDescTypeId) {
+      let idItemList = item.penaltyDescTypeId.split(',')
+      idItemList.map(idItem => {
+        if (!descTypeIds.includes(idItem)) {
+          descTypeIds += idItem + ','
+        }
+      })
+    }
+    if (item.penaltyDescType) {
+      let strItemList = item.penaltyDescType.split(',')
+      strItemList.map(strItem => {
+        if (!descTypeStrings.includes(strItem)) {
+          descTypeStrings += strItem + ','
+        }
+      })
+    }
+  }
+  if (descTypeIds) descTypeIds = descTypeIds.substring(0, descTypeIds.length - 1)
+  if (descTypeStrings) descTypeStrings = descTypeStrings.substring(0, descTypeStrings.length - 1)
+  return {descTypeIds, descTypeStrings}
+}
+
+// 判断是否可以获取金额，如果元字超过两个以上则金额为0，两个以下则获取金额
+// 当前同时回传count和money两个值，在使用时再判断是否需要保存金额
+export function retrunGetMoney(penaltyDescString) {
+  // 罚款金额money
+  // 元字统计count
+  let money = 0
+  let count = 0
+  if (penaltyDescString.includes('元')) {
+    for (let i = 0; i < penaltyDescString.length; i++) {
+      if (penaltyDescString[i] === '元') count ++  
+    }
+    money = getMoney(penaltyDescString) 
+  }
+  return {money, count}
 }
 
 // 生成煤矿描述信息

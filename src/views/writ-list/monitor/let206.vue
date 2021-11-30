@@ -59,7 +59,7 @@
                   letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
                 }}</span
               >
-              以上事实违反了
+              以上事实分别违反了
               <span
                 @dblclick="commandFill('cellIdx8', '法律规定', 'DangerTable')"
                 @click="commandFill('cellIdx8', '法律规定', 'TextareaItem')"
@@ -182,6 +182,7 @@ import {
   transformNumToChinese,
 } from "@/utils";
 import associationSelectPaper from "@/components/association-select-paper";
+import { setDangerTable } from '@/utils/handlePaperData'
 export default {
   name: "Let206",
   mixins: [associationSelectPaper],
@@ -235,13 +236,29 @@ export default {
       // 3.被处罚：如果为单位时赋值煤矿名称coprName
       // 4.地址：如果为单位时赋值煤矿地址address
       // 5.违法事实：行政处罚告知书中的cellIdx6
-      let dangerObject = getDangerObject(
-        let6DataPaperContent.DangerTable.tableData,
-        { danger: true }
-      );
       // 6.法律规定 :行政处罚告知书中的cellIdx7
+      let cellIdx7String = setDangerTable(let6DataPaperContent.DangerTable, {}, {
+          page: "8",
+          key: "cellIdx7",
+        }
+      );
       // 7.法律依据 :行政处罚告知书中的cellIdx8
+      let cellIdx8String = setDangerTable(let6DataPaperContent.DangerTable, {}, {
+          page: "8",
+          key: "cellIdx8",
+        }
+      );
       // 8.行政处罚 :行政处罚告知书中的cellIdx9
+      let cellIdx9String = setDangerTable(let6DataPaperContent.DangerTable, {}, {
+          page: "8",
+          key: "cellIdx9",
+        }
+      );
+      let cellIdx10String = setDangerTable(let6DataPaperContent.DangerTable, {}, {
+          page: "8",
+          key: "cellIdx10",
+        }
+      );
       // 9.机构接口中sysOfficeInfo实体中对应：
       // accountName；银行：accountBank；账户名称：billName；账号：account；
       // 地址：accountAddress；组织机构名：organName；法院：courtPrefix
@@ -276,14 +293,10 @@ export default {
         cellIdx4: cellIdx4String, // 单位/个人
         cellIdx5: cellIdx4String === "单位" ? corp.corpName : "", // 被处罚
         cellIdx6: cellIdx4String === "单位" ? corp.address : "", // 地址
-        cellIdx7: dangerObject.dangerString, // 违法事实
-        cellIdx8: `分别违反了${dangerObject.illegalString}`, // 法律规定
-        cellIdx9: dangerObject.penaltyBasisString, // 法律依据
-        cellIdx10: `分别${
-          dangerObject.penaltyDesc
-        }。合并罚款人民币${transformNumToChinese(
-          dangerObject.penaltyDescFineTotle
-        )}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`, // 行政处罚
+        cellIdx7: cellIdx7String, // 违法事实
+        cellIdx8: cellIdx8String, // 法律规定
+        cellIdx9: cellIdx9String, // 法律依据
+        cellIdx10: cellIdx10String, // 行政处罚
         cellIdx11: orgSysOfficeInfo.accountName, //
         cellIdx12: orgSysOfficeInfo.accountBank, // 银行
         cellIdx13: orgSysOfficeInfo.billName, // 支行（分理处），账户名称

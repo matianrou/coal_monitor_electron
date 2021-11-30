@@ -67,6 +67,12 @@ export default {
   created() {
     this.init()
   },
+  watch: {
+    value (val) {
+      let value = handleDateRetrun(val)
+      this.$set(this.dataForm, 'tempValue', value)
+    }
+  },
   methods: {
     init() {
       // 初始化数据

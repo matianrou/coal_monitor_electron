@@ -279,7 +279,7 @@ export default {
             let curIndex = updatePaperType.indexOf(this.docData.docTypeNo)
             let updatePaper = {}
             // 遍历文书类型updatePaperType，逐个拉取需要更新的数据,只拉取状态为保存的文书
-            for(let i = curIndex + 1; i < updatePaperType.length; i++) {
+            for(let i = curIndex + 1; 0 < i && i < updatePaperType.length; i++) {
               let paperList = await wkPaper.findAll(item => item.delFlag === '2' && item.caseId === this.paperData.caseId && item.paperType === updatePaperType[i]) || []
               // 遍历检索出的同检查活动下的检查类型文书，如果文书关联的paper1Id相同则保存
               for (let j = 0; j < paperList.length; j++) {
@@ -302,15 +302,13 @@ export default {
               let paper13List = await wkPaper.findAll(item => item.delFlag !== '1' && item.caseId === this.paperData.caseId && item.paperType === '13') || []
               updatePaper.paper13List = []
               for (let i = 0; i < paper13List.length; i++) {
-                if (JSON.parse(this.paperData.paperContent).associationPaperId && JSON.parse(paper13List[i].paperContent).associationPaperId) {
-                  if (this.docData.docTypeNo === '1') {
-                    if (JSON.parse(paper13List[i].paperContent).associationPaperId.paper1Id === this.paperData.paperId) {
-                      updatePaper.paper13List.push(paper13List[i])
-                    }
-                  } else {
-                    if (JSON.parse(paper13List[i].paperContent).associationPaperId.paper1Id === JSON.parse(this.paperData.paperContent).associationPaperId.paper1Id) {
-                      updatePaper.paper13List.push(paper13List[i])
-                    }
+                if (this.docData.docTypeNo === '1' && JSON.parse(paper13List[i].paperContent).associationPaperId) {
+                  if (JSON.parse(paper13List[i].paperContent).associationPaperId.paper1Id === this.paperData.paperId) {
+                    updatePaper.paper13List.push(paper13List[i])
+                  }
+                } else if (JSON.parse(paper13List[i].paperContent).associationPaperId && JSON.parse(this.paperData.paperContent).associationPaperId) {
+                  if (JSON.parse(paper13List[i].paperContent).associationPaperId.paper1Id === JSON.parse(this.paperData.paperContent).associationPaperId.paper1Id) {
+                    updatePaper.paper13List.push(paper13List[i])
                   }
                 }
               }
@@ -1013,6 +1011,8 @@ export default {
           onsiteType: tableDataNewItem.onsiteType, //"现场处理类型",
           paperId: itemPaper.paperId,
           penaltyDescFine: tableDataNewItem.penaltyDescFine, // 罚金
+          penaltyDescTypeId: tableDataNewItem.penaltyDescTypeId, // 行政处罚决定类型的id
+          penaltyDescType: tableDataNewItem.penaltyDescType, // 行政处罚决定类型
           penaltyOrg: selectedType ? (selectedType === '单位') : null, //"对单位的处罚",
           penaltyOrgFine: selectedType === '单位' ? tableDataNewItem.penaltyDescFine : null, //"单位罚金",
           penaltyPerson: selectedType ? (selectedType === '个人') : null, //"对个人的处罚",
@@ -1055,7 +1055,120 @@ export default {
       // 更新隐患
       paperContentOld.DangerTable = tableDataNew
       // 按文书更新其他信息
-
+      if (itemPaper.paperType === '2') {
+        // 如果是现场处理决定书：修改cellIdx7
+        let newcellIdx7 = setDangerTable(this.curDangerTable, {}, { page: '2' })
+        paperContentOld.cellIdx7 = newcellIdx7
+      } else if (itemPaper.paperType === '13') {
+        // 复查意见书时，修改cellIdx9和cellIdx10
+        let newcellIdx9 = setDangerTable(this.curDangerTable, {}, { page: '13', key: 'cellIdx9' })
+        let newcellIdx10 = setDangerTable(this.curDangerTable, {}, { page: '13', key: 'cellIdx10' })
+        paperContentOld.cellIdx9 = newcellIdx9
+        paperContentOld.cellIdx10 = newcellIdx10
+      } else if (itemPaper.paperType === '4') {
+        // 立案决定书时，修改cellIdx4，cellIdx5
+        let newcellIdx4 = setDangerTable(this.curDangerTable, {}, { 
+          page: '4', 
+          key: 'cellIdx4',
+          spellString: {
+            corpName: itemPaper.corpName,
+            dateString: paperContentOld.extraData.dateString,
+            userGroupName: this.$store.state.user.userGroupName,
+          },
+        })
+        let newcellIdx5 = setDangerTable(this.curDangerTable, {}, { 
+          page: '4', 
+          key: 'cellIdx5', 
+          spellString: {
+            corpName: itemPaper.corpName,
+            dateString: paperContentOld.extraData.dateString,
+            userGroupName: this.$store.state.user.userGroupName,
+          },
+        })
+        paperContentOld.cellIdx4 = newcellIdx4
+        paperContentOld.cellIdx5 = newcellIdx5
+      } else if (itemPaper.paperType === '36') {
+        // 案件处理呈报书时，修改cellIdx2，cellIdx6，cellIdx7
+        let cellIdx2String = setDangerTable(this.curDangerTable, {}, { 
+          page: '36', 
+          key: 'cellIdx2',
+          spellString: {
+            corpName: itemPaper.corpName,
+            userGroupName: this.$store.state.user.userGroupName,
+          },
+        })
+        let cellIdx6String = setDangerTable(this.curDangerTable, {}, { 
+          page: '36', 
+          key: 'cellIdx6',
+          spellString: {
+            corpName: itemPaper.corpName,
+            userGroupName: this.$store.state.user.userGroupName,
+          },
+        })
+        let cellIdx7String = setDangerTable(this.curDangerTable, {}, { 
+          page: '36', 
+          key: 'cellIdx7',
+          spellString: {
+            corpName: itemPaper.corpName,
+            userGroupName: this.$store.state.user.userGroupName,
+          },
+        })
+        paperContentOld.cellIdx2 = cellIdx2String
+        paperContentOld.cellIdx6 = cellIdx6String
+        paperContentOld.cellIdx7 = cellIdx7String
+      } else if (itemPaper.paperType === '6') {
+        // 行政处罚告知书时：修改cellIdx6，cellIdx7，cellIdx8，cellIdx10
+        let cellIdx6String = setDangerTable(this.curDangerTable, {}, {
+            page: "6",
+            key: "cellIdx6",
+          }
+        );
+        let cellIdx7String = setDangerTable(this.curDangerTable, {}, {
+            page: "6",
+            key: "cellIdx7",
+          }
+        );
+        let cellIdx8String = setDangerTable(this.curDangerTable, {}, {
+            page: "6",
+            key: "cellIdx8",
+          }
+        );
+        let cellIdx10String = setDangerTable(this.curDangerTable, {}, {
+            page: "6",
+            key: "cellIdx10",
+          }
+        );
+        paperContentOld.cellIdx6 = cellIdx6String
+        paperContentOld.cellIdx7 = cellIdx7String
+        paperContentOld.cellIdx8 = cellIdx8String
+        paperContentOld.cellIdx10 = cellIdx10String
+      } else if (itemPaper.paperType === '8') {
+        // 行政处罚决定书时，修改
+        let cellIdx7String = setDangerTable(this.curDangerTable, {}, {
+            page: "8",
+            key: "cellIdx7",
+          }
+        );
+        let cellIdx8String = setDangerTable(this.curDangerTable, {}, {
+            page: "8",
+            key: "cellIdx8",
+          }
+        );
+        let cellIdx9String = setDangerTable(this.curDangerTable, {}, {
+            page: "8",
+            key: "cellIdx9",
+          }
+        );
+        let cellIdx10String = setDangerTable(this.curDangerTable, {}, {
+            page: "8",
+            key: "cellIdx10",
+          }
+        );
+        paperContentOld.cellIdx7 = cellIdx7String
+        paperContentOld.cellIdx8 = cellIdx8String
+        paperContentOld.cellIdx9 = cellIdx9String
+        paperContentOld.cellIdx10 = cellIdx10String
+      }
       itemPaper.paperContent = JSON.stringify(paperContentOld)
       let db = new GoDB(this.DBName);
       // 更新文书

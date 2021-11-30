@@ -34,6 +34,11 @@ export default {
   created() {
     this.dataForm.tempValue = this.value
   },
+  watch: {
+    value (val) {
+      this.dataForm.tempValue = val
+    }
+  },
   methods: {
     changeValue(val) {
       this.$parent.handleSave(true)
