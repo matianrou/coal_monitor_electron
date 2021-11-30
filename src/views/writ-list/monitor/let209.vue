@@ -71,7 +71,7 @@
               >
               申请，关于
               <span
-                @click="commandFill('cellIdx7', '违法行为', 'DangerTable')"
+                @click="commandFill('cellIdx7', '违法行为', 'TextareaItem')"
                 >{{
                   letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
                 }}</span
@@ -284,7 +284,7 @@
               </tr>
             </table>
             <div class="docTextarea" style="border-top: 2px solid #000;">
-              备注：本文书一式两份，一份送被拟处罚
+              备注：本文书一式两份，一份交申请听证
               <span
                 style="borderBottom:none"
               >{{ letData.cellIdx38 ? letData.cellIdx38 : '（点击编辑）'}}</span>
@@ -437,7 +437,7 @@ export default {
         cellIdx37: this.todayDate, // 日期
         cellIdx37TypeDateItem: this.todayDate, // 日期
         cellIdx38: let6DataPapaerContent.selectedType, // 单位/个人
-        DangerTable: let6DataPapaerContent.DangerTable,
+        DangerTable: let6DataPapaerContent.DangerTable, // 保留用于不予受理中使用
         extraData: {
           // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
@@ -455,14 +455,14 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
-        if (key === "cellIdx7") {
-          this.options[key] = {
-            page: "28",
-            key: key,
-            spellString: this.letData.extraData,
-          };
-          dataKey = "DangerTable";
-        }
+        // if (key === "cellIdx7") {
+        //   this.options[key] = {
+        //     page: "28",
+        //     key: key,
+        //     spellString: this.letData.extraData,
+        //   };
+        //   dataKey = "DangerTable";
+        // }
         this.$refs.letMain.commandFill(
           key,
           dataKey,

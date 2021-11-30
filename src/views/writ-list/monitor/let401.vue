@@ -237,64 +237,64 @@ export default {
       let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-        // 1.生成文书编号
-        let { num0, num1, num3, num4 } = await getDocNumber(
-          db,
-          this.docData.docTypeNo,
-          this.corpData.caseId,
-          this.$store.state.user
-        );
-        // 2.违法行为：获取笔录文书中的隐患数据
-         let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-        let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
-        let cellIdx8String = `${dangerObject.dangerString}`
-        // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
-        let orgInfo = db.table("orgInfo");
+      // 1.生成文书编号
+      let { num0, num1, num3, num4 } = await getDocNumber(
+        db,
+        this.docData.docTypeNo,
+        this.corpData.caseId,
+        this.$store.state.user
+      );
+      // 2.违法行为：获取笔录文书中的隐患数据
+      let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
+      let cellIdx8String = `${dangerObject.dangerString}`
+      // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
+      let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
       let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: ''}
-        let cellIdx12String = orgSysOfficeInfo.depAddress;
-        let cellIdx13String = orgSysOfficeInfo.depPost;
-        let cellIdx15String = orgSysOfficeInfo.master;
-        let cellIdx16String = orgSysOfficeInfo.phone;
+      let cellIdx12String = orgSysOfficeInfo.depAddress;
+      let cellIdx13String = orgSysOfficeInfo.depPost;
+      let cellIdx15String = orgSysOfficeInfo.master;
+      let cellIdx16String = orgSysOfficeInfo.phone;
       await db.close();
-        this.letData = {
-          cellIdx0: num0, // 文书号
-          cellIdx0TypeTextItem: num0, // 文书号
-          cellIdx1: num1, // 文书号
-          cellIdx1TypeTextItem: num1, // 文书号
-          cellIdx2: num3, // 文书号
-          cellIdx2TypeTextItem: num3, // 文书号
-          cellIdx3: num4, // 文书号
-          cellIdx3TypeTextItem: num4, // 文书号
-          cellIdx4: null, // 签发人
-          cellIdx5: null, //
-          cellIdx6: '局', // 局
-          cellIdx7: corp.corpName, //
-          cellIdx7TypeTextItem: corp.corpName, //
-          cellIdx8: cellIdx8String, // 违法行为
-          cellIdx8TypeTextareaItem: cellIdx8String, // 违法行为
-          cellIdx9: null, // X份
-          cellIdx10: null, // X页
-          cellIdx11: '局', // 局
-          cellIdx12: cellIdx12String, // 地址
-          cellIdx12TypeTextItem: cellIdx12String, // 地址
-          cellIdx13: cellIdx13String, // 邮政编码
-          cellIdx13TypeTextItem: cellIdx13String, // 邮政编码
-          cellIdx14: '局', // 局
-          cellIdx15: cellIdx15String, // 联系人
-          cellIdx15TypeTextItem: cellIdx15String, // 联系人
-          cellIdx16: cellIdx16String, // 电话
-          cellIdx16TypeTextItem: cellIdx16String, // 电话
-          cellIdx17: null, // 送件人（签名）
-          cellIdx18: null, // 日期
-          cellIdx19: null, // 收件人（签名）
-          cellIdx20: null, // 日期
-          cellIdx21: this.$store.state.curCase.groupName, //
-          cellIdx22: this.todayDate, // 日期
-          // cellIdx22: null, // 年
-          // cellIdx23: null, // 月
-          // cellIdx24: null, // 日  暂不用
-        };
+      this.letData = {
+        cellIdx0: num0, // 文书号
+        cellIdx0TypeTextItem: num0, // 文书号
+        cellIdx1: num1, // 文书号
+        cellIdx1TypeTextItem: num1, // 文书号
+        cellIdx2: num3, // 文书号
+        cellIdx2TypeTextItem: num3, // 文书号
+        cellIdx3: num4, // 文书号
+        cellIdx3TypeTextItem: num4, // 文书号
+        cellIdx4: null, // 签发人
+        cellIdx5: null, //
+        cellIdx6: '局', // 局
+        cellIdx7: corp.corpName, //
+        cellIdx7TypeTextItem: corp.corpName, //
+        cellIdx8: cellIdx8String, // 违法行为
+        cellIdx8TypeTextareaItem: cellIdx8String, // 违法行为
+        cellIdx9: null, // X份
+        cellIdx10: null, // X页
+        cellIdx11: '局', // 局
+        cellIdx12: cellIdx12String, // 地址
+        cellIdx12TypeTextItem: cellIdx12String, // 地址
+        cellIdx13: cellIdx13String, // 邮政编码
+        cellIdx13TypeTextItem: cellIdx13String, // 邮政编码
+        cellIdx14: '局', // 局
+        cellIdx15: cellIdx15String, // 联系人
+        cellIdx15TypeTextItem: cellIdx15String, // 联系人
+        cellIdx16: cellIdx16String, // 电话
+        cellIdx16TypeTextItem: cellIdx16String, // 电话
+        cellIdx17: null, // 送件人（签名）
+        cellIdx18: null, // 日期
+        cellIdx19: null, // 收件人（签名）
+        cellIdx20: null, // 日期
+        cellIdx21: this.$store.state.curCase.groupName, //
+        cellIdx22: this.todayDate, // 日期
+        // cellIdx22: null, // 年
+        // cellIdx23: null, // 月
+        // cellIdx24: null, // 日  暂不用
+      };
     },
     goBack({ page, data }) {
       // 返回选择企业

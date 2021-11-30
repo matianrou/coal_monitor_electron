@@ -290,7 +290,7 @@ export default {
           // 收缴金额最大值：罚款金额 - 以往收缴的总和
           item.collectionFineMax = Number(item.p8Penalty) - alreadyFine[item.paperId]
           item.p8Id = item.paperId,
-          item.fineId = getNowTime() + randomString(18)
+          item.fineId = getNowTime() + randomString(28)
         })
       }
       this.letData.tableData = p8PaperList
@@ -375,7 +375,7 @@ export default {
       let formData = new FormData()
       let submitData = {
         fileName: param.file.name,
-        singleId: getNowTime() + randomString(18),
+        singleId: getNowTime() + randomString(28),
         paperId: this.paperId,
         p8Id: this.selectedP8Paper.paperId,
         fileSize: param.file.size,

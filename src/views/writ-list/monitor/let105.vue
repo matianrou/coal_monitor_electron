@@ -257,7 +257,7 @@ export default {
         fileName: param.file.name,
         fileSize: param.file.size,
         createTime: getNowFormatTime(),
-        reviewId: getNowTime() + randomString(18),
+        reviewId: getNowTime() + randomString(28),
         createBy: JSON.stringify({
           id: this.$store.state.user.userId
         }) ,

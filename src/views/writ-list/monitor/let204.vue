@@ -81,7 +81,8 @@
               >
               的规定，依据
               <span
-                @click="commandFill('cellIdx8', '法律依据', 'DangerTable')"
+                @dblclick="commandFill('cellIdx8', '法律依据', 'DangerTable')"
+                @click="commandFill('cellIdx8', '法律依据', 'TextareaItem')"
                 >{{
                   letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
                 }}</span
@@ -101,24 +102,24 @@
             </div>
             <div class="docTextarea">
               <label style="width: 5%"></label>
-              根据《中华人民共和国行政处罚法》第三十二条规定，你
+              根据《中华人民共和国行政处罚法》第四十五条规定，你
               <span
                 class="no-underline"
                 >{{
                   letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）"
                 }}</span
               >
-              对上述拟作出的行政处罚有陈述、申辩的权利。如果有陈述、申辩意见，应当在收到本告知书之日起三日内提出。逾期未提出的，视为放弃此权利。
+              对上述拟作出的行政处罚有陈述、申辩的权利。
             </div>
             <div class="docTextarea">
               <label style="width: 5%"></label>
-              根据《中华人民共和国行政处罚法》第四十二条规定，你
+              根据《中华人民共和国行政处罚法》第六十三条、第六十四条规定，你
               <span
                 class="no-underline"
                 >{{
                   letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）"
                 }}</span
-              >对上述拟作出的行政处罚有要求举行听证的权利。要求举行听证的，应当在收到本告知书之日起三日内提出。逾期未提出的，视为放弃此权利。
+              >对上述拟作出的行政处罚有要求举行听证的权利。要求举行听证的，应当在收到本告知书之日起五个工作日内提出。逾期未提出的，视为放弃此权利。
             </div>
             <table height="30"></table>
             <div class="docTextarea">
@@ -232,9 +233,11 @@
 import GoDB from "@/utils/godb.min.js";
 import {
   getDangerObject,
-  transformNumToChinese,
   getDocNumber,
 } from "@/utils/setInitPaperData";
+import {
+  transformNumToChinese,
+} from "@/utils";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let204",
@@ -338,6 +341,9 @@ export default {
         cellIdx20TypeDateItem: this.todayDate, // 日期
         cellIdx21: null, // 单位或个人
         DangerTable: let1DataPapaerContent.DangerTable,
+        associationPaperId: { // 关联的paperId
+          paper1Id: selectedPaper.let1Data.paperId,
+        }
       };
     },
     goBack({ page, data }) {
@@ -352,12 +358,15 @@ export default {
         if (
           key === "cellIdx6" ||
           key === "cellIdx7" ||
-          key === "cellIdx8" ||
+          (key === "cellIdx8" && type === 'DangerTable') ||
           key === "cellIdx10"
         ) {
           this.options[key] = {
             page: "6",
             key: key,
+            selectedType: this.letData.selectedType,
+            showMergeBtn: true,
+            showPunishmentInfor: true
           };
           dataKey = "DangerTable";
         }

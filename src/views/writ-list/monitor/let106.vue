@@ -90,7 +90,8 @@
               }}</span>
               有
               <span
-                @click="commandFill('cellIdx12', '违法行为', 'DangerTable')"
+                @dblclick="commandFill('cellIdx12', '违法违规行为', 'DangerTable')"
+                @click="commandFill('cellIdx12', '违法行为', 'TextareaItem')"
                 >{{
                   letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）"
                 }}</span
@@ -343,7 +344,7 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
-        if (key === "cellIdx12") {
+        if (key === "cellIdx12" && type === 'DangerTable') {
           this.options[key] = {
             page: "3",
             key: key,

@@ -194,7 +194,7 @@ export default {
         corpName: this.corpData.corpName,
         createTime: getNowFormatTime(),
         createDate: getNowFormatTime(),
-        evidenceId: getNowTime() + randomString(18),
+        evidenceId: getNowTime() + randomString(28),
         createBy: JSON.stringify({
           id: this.$store.state.user.userId
         }) ,

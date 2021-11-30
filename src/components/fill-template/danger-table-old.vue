@@ -872,8 +872,8 @@ export default {
         isReview: false, // 是否复查
         reviewDate: '', // 复查日期
         createDate: '', // 创建日期
-        itemCode: getNowTime() + randomString(18), //
-        no: getNowTime() + randomString(18), // 同itemCode
+        itemCode: getNowTime() + randomString(28), //
+        no: getNowTime() + randomString(28), // 同itemCode
         delFlag: '2',
         order: this.dataForm.tempValue.tableData.length, // 顺序向后顺延
         isCommon: '1',

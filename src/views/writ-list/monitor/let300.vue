@@ -96,7 +96,7 @@
             <div class="docTextarea">
               <span class="no-line">裁定事项：</span>
               <span
-                @click="commandFill('cellIdx8', '裁定事项', 'DangerTable')"
+                @click="commandFill('cellIdx8', '裁定事项', 'TextareaItem')"
                 >{{
                   letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
                 }}</span
@@ -270,8 +270,7 @@ export default {
         cellIdx12: null, // 其他单位参加人员（签名）
         cellIdx13: cellIdx13String, // 裁定记录
         cellIdx13TypeTextareaItem: cellIdx13String, // 裁定记录
-        // DangerTable: let101DataPapaerContent.DangerTable,
-        DangerTable: let1DataPapaerContent.DangerTable,
+        // DangerTable: let1DataPapaerContent.DangerTable,
         extraData: {
           // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
@@ -288,14 +287,14 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
-        if (key === "cellIdx8") {
-          this.options[key] = {
-            page: "31",
-            key: key,
-            spellString: this.letData.extraData,
-          };
-          dataKey = "DangerTable";
-        }
+        // if (key === "cellIdx8") {
+        //   this.options[key] = {
+        //     page: "31",
+        //     key: key,
+        //     spellString: this.letData.extraData,
+        //   };
+        //   dataKey = "DangerTable";
+        // }
         this.$refs.letMain.commandFill(
           key,
           dataKey,

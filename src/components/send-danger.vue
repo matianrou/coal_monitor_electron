@@ -303,7 +303,7 @@ export default {
         let addDangerList = []
         for(let i = 0; i < tableData.length; i++) {
           let obj = {
-            HistoryId: getNowTime() + randomString(18),
+            HistoryId: getNowTime() + randomString(28),
             categoryCode: tableData[i].categoryCode,
             no: tableData[i].no,
             confirmBasis: tableData[i].confirmBasis,
@@ -531,7 +531,7 @@ export default {
     async confirmAddDanger (data) {
       // 确定新建隐患项
       let danger = {
-        HistoryId: getNowTime() + randomString(18),
+        HistoryId: getNowTime() + randomString(28),
         categoryCode: data.categoryCode,
         no: data.categoryCode,
         confirmBasis: data.confirmBasis,

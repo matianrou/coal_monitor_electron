@@ -1,4 +1,4 @@
-<!-- 现场检查 一般检查 现场处理决定书 -->
+<!-- 现场检查 一般检查 现场处理决定书 2 -->
 <template>
   <div style="width: 100%; height: 100%">
     <let-main
@@ -68,7 +68,8 @@
               }}</span>
               现场检查时，发现你单位有下列违法违规行为，现作出以下现场处理决定：
               <span
-                @click="commandFill('cellIdx7', '违法违规行为', 'DangerTable')"
+                @dblclick="commandFill('cellIdx7', '违法违规行为', 'DangerTable')"
+                @click="commandFill('cellIdx7', '违法违规行为', 'TextareaItem')"
                 >{{
                   letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
                 }}</span
@@ -238,6 +239,9 @@ export default {
         cellIdx15: this.todayDate, //
         cellIdx15TypeDateItem: this.todayDate, //
         DangerTable: let1DataPapaerContent.DangerTable || [], // 隐患项大表
+        associationPaperId: { // 关联的paperId
+          paper1Id: selectedPaper.let1Data.paperId
+        }
       };
     },
     goBack({ page, data }) {
@@ -249,7 +253,7 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 打开编辑
         let dataKey = `${key}`;
-        if (key === "cellIdx7") {
+        if (key === "cellIdx7" && type === 'DangerTable') {
           // 隐患项时对应letData中的dangerItemObject
           dataKey = "DangerTable";
         }

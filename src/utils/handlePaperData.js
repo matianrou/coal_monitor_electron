@@ -1,7 +1,10 @@
 // 各文书页面使用的保存各种类型填写数据公用方法
-import { getDangerObject, transformNumToChinese }from '@/utils/setInitPaperData'
+import { getDangerObject }from '@/utils/setInitPaperData'
 import store from '@/store'
 import { handleDate } from '@/utils/date'
+import {
+  transformNumToChinese,
+} from "@/utils";
 
 function setTextItem (data) {
   // 处理简单文本数据
@@ -28,12 +31,16 @@ function setCheckItem (data, selectedData, options) {
 function setDaterangeItem (data, selectedData) {
   // 处理日期范围选择数据
   let string = ''
-  data.map(item => {
-    // let dateList = item.split('-')
-    // string += `${dateList[0]}年${dateList[1]}月${dateList[2]}日-`
-    string += item + '-'
-  })
-  return handleDate(string.substring(0, string.length - 1), '-')
+  let res = ''
+  if (data && data.length > 0) {
+    data.map(item => {
+      // let dateList = item.split('-')
+      // string += `${dateList[0]}年${dateList[1]}月${dateList[2]}日-`
+      string += item + '-'
+    })
+    res = handleDate(string.substring(0, string.length - 1), '-')
+  } 
+  return res
 }
 
 function setTextareaItem (data) {
@@ -87,7 +94,7 @@ function setDangerTable (data, selectedData, options) {
   if (data.dangerContentMerge) {
     // 隐患合并
     // 合并数据，通过合并后的数组获取相应的检查描述
-    if (data.selectedDangerList.length > 0) {
+    if (data.selectedDangerList && data.selectedDangerList.length > 0) {
       data.selectedDangerList[0].penaltyDescFine = data.selectedDangerList[0].penaltyDescFine ? data.selectedDangerList[0].penaltyDescFine : 0
       newList = [data.selectedDangerList[0]]
       for (let i = 1; i < data.selectedDangerList.length; i++) {
@@ -120,11 +127,11 @@ function setDangerTable (data, selectedData, options) {
     }
   } else {
     // 不合并
-    dangerObject = getDangerObject(data.selectedDangerList)
-    dangerObjectIndex = getDangerObject(data.selectedDangerList, {
+    dangerObject = data && data.selectedDangerList && data.selectedDangerList.length > 0 ? getDangerObject(data.selectedDangerList) : null
+    dangerObjectIndex = data && data.selectedDangerList && data.selectedDangerList.length > 0 ? getDangerObject(data.selectedDangerList, {
       danger: true,
       penaltyDesc: true
-    })
+    }) : null
   }
   switch(options.page) {
     case '1':  // 现场检查记录/现场检查笔录
@@ -134,9 +141,11 @@ function setDangerTable (data, selectedData, options) {
           dangerString += `    ${(index + 1)}. ${item.itemContent}\r\n`
         })
       } else {
-        data.selectedDangerList.map((item, index) => {
-          dangerString += `    ${(index + 1)}. ${item.itemContent}\r\n`
-        })
+        if (data.selectedDangerList) {
+          data.selectedDangerList.map((item, index) => {
+            dangerString += `    ${(index + 1)}. ${item.itemContent}\r\n`
+          })
+        }
       }
       string = `${data.baseInfor}\r\n${data.dangerInfor}\r\n${dangerString}`
       break
@@ -145,65 +154,65 @@ function setDangerTable (data, selectedData, options) {
       break
     case '13': // 复查意见书
       if (options.key === 'cellIdx9') {
-        string = `${dangerObjectIndex.dangerString}`
+        string = `${dangerObjectIndex.dangerString || ''}`
       } else if (options.key === 'cellIdx10') {
-        string = `${dangerObject.onsiteDescString}`
+        string = `${dangerObject.onsiteDescString || ''}`
       } else if (options.key === 'cellIdx14') {
-        string = `${dangerObject.onsiteDescString}`
+        string = `${dangerObject.onsiteDescString || ''}`
       }
       break
     case '3': // 撤出作业人员命令书
-      string = `${dangerObject.dangerString}`
+      string = `${dangerObject.dangerString || ''}`
       break
     case '23': // 抽样取证通知书
-      string = `${dangerObject.dangerString}`
+      string = `${dangerObject.dangerString || ''}`
       break
     case '25': // 先行登记保存证据通知书
-      string = `${dangerObject.dangerString}`
+      string = `${dangerObject.dangerString || ''}`
       break
     case '32': // 查封（扣押）决定书
       if (store.state.user.userType === 'supervision') {
         // 监管
         if (options.key === 'cellIdx7') {
-          string = `${dangerObject.dangerString}`
+          string = `${dangerObject.dangerString || ''}`
         } else if (options.key === 'cellIdx8') {
-          string = `${dangerObject.illegalString}`
+          string = `${dangerObject.illegalString || ''}`
         }
       } else {
         // 监察
         if (options.key === 'cellIdx6') {
-          string = `${dangerObject.dangerString}`
+          string = `${dangerObject.dangerString || ''}`
         } else if (options.key === 'cellIdx7') {
-          string = `${dangerObject.illegalString}`
+          string = `${dangerObject.illegalString || ''}`
         }
       }
       break
     case '4': // 立案决定书
       if (options.key === 'cellIdx4') {
-        string = `${options.spellString.corpName}${dangerObject.dangerString}案。`
+        string = `${options.spellString.corpName}${dangerObject.dangerString || ''}案。`
       } else if (options.key === 'cellIdx5') {
-        string = `${options.spellString.dateString}，${options.spellString.userGroupName}对${options.spellString.corpName}进行现场检查时发现：${dangerObjectIndex.dangerString}。以上行为分别涉嫌违反了${dangerObject.illegalString}的规定。依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`
+        string = `${options.spellString.dateString}，${options.spellString.userGroupName}对${options.spellString.corpName}进行现场检查时发现：${dangerObjectIndex.dangerString}。以上行为分别涉嫌违反了${dangerObject.illegalString || ''}的规定。依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`
       }
       break
     case '5': // 调查取证笔录
       if (options.key === 'cellIdx8') {
-        string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString}案。`
+        string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString || ''}案。`
       } else if (options.key === 'cellIdx21') {
-        string = `我们是${options.spellString.userGroupName}${store.state.user.userType === 'supervision' ? '监管' : '监察'}员，这是我们的执法证件（出示行政执法证件），现就你${options.spellString.corpName}涉嫌${dangerObject.dangerString}违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？`
+        string = `我们是${options.spellString.userGroupName}${store.state.user.userType === 'supervision' ? '监管' : '监察'}员，这是我们的执法证件（出示行政执法证件），现就你${options.spellString.corpName}涉嫌${dangerObject.dangerString || ''}违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？`
       }
       break
     case '36': // 案件处理呈报书
       if (options.key === 'cellIdx2') {
-        string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString}案。`
+        string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString || ''}案。`
       } else if (options.key === 'cellIdx3') {
-        string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString}案。`
+        string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString || ''}案。`
       } else if (options.key === 'cellIdx6') {
-        string = `${dangerObjectIndex.dangerString}经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString}的规定。`
+        string = `${dangerObjectIndex.dangerString}经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString || ''}的规定。`
       } else if (options.key === 'cellIdx7') {
         if (store.state.user.userType === 'supervision') {
-          string = `${dangerObject.dangerString}经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString}的规定。`
+          string = `${dangerObject.dangerString || ''}经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString || ''}的规定。`
         } else {
-          string = `分别依据${dangerObject.treatmentSuggestion}。合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle)}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`
+          string = `分别依据${dangerObject.treatmentSuggestion || ''}。合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle) || ''}（￥${dangerObject.penaltyDescFineTotle.toLocaleString() || ''}）罚款。`
         }
       }
       break
@@ -211,15 +220,15 @@ function setDangerTable (data, selectedData, options) {
       if (options.key === 'cellIdx6') {
         string = `${dangerObjectIndex.dangerString}`
       } else if (options.key === 'cellIdx7') {
-        string = `${dangerObject.illegalString}`
+        string = `${dangerObject.illegalString || ''}`
       } else if (options.key === 'cellIdx8') {
-        string = dangerObject.penaltyBasisString
+        string = dangerObject.penaltyBasisString || ''
       } else if (options.key === 'cellIdx10') {
-        string = `${dangerObjectIndex.penaltyDesc}。合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle)}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`
+        string = `${dangerObjectIndex.penaltyDesc}。合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle || '')}（￥${dangerObject.penaltyDescFineTotle.toLocaleString() || ''}）罚款。`
       }
       break
     case '30': // 陈述申辩笔录
-      string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString}案。`
+      string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString || ''}案。`
       break
     case '8': // 行政处罚决定书
       if (options.key === 'cellIdx7') {
@@ -227,44 +236,44 @@ function setDangerTable (data, selectedData, options) {
       } else if (options.key === 'cellIdx8') {
         if (store.state.userType === 'supervision') {
           // 监管时返回：
-          string = `${dangerObject.illegalString}`
+          string = `${dangerObject.illegalString || ''}`
         } else {
-          string = `分别违反了${dangerObject.illegalString}`
+          string = `分别违反了${dangerObject.illegalString || ''}`
         }
       } else if (options.key === 'cellIdx9') {
-        string = dangerObject.penaltyBasisString
+        string = dangerObject.penaltyBasisString || ''
       } else if (options.key === 'cellIdx10') {
-        string = `分别${dangerObject.penaltyDesc}。合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle)}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`
+        string = `分别${dangerObject.penaltyDesc || ''}。合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle || '')}（￥${dangerObject.penaltyDescFineTotle.toLocaleString() || ''}）罚款。`
       }
       break
     case '31': // 执法案件公开裁定记录
-      string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString}案。`
+      string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString || ''}案。`
       break
     case '18': // 强制执行申请书
-      string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString}案。`
+      string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString || ''}案。`
       break
     case '28': // 听证通知书
-      string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString}案。`
+      string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString || ''}案。`
       break
     case '29': // 不予受理听证申请通知书
-      string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString}案。`
+      string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString || ''}案。`
       break
     case '15': // 执法案卷（首页）及目录
-      string = `${options.spellString.corpName}${dangerObject.dangerString}案。`
+      string = `${options.spellString.corpName}${dangerObject.dangerString || ''}案。`
       break
     case '47': // 行政执法决定法制审核意见书
       if (options.key === 'cellIdx3') {
-        string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString}案。`
+        string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString || ''}案。`
       } else if (options.key === 'cellIdx5') {
-        string = `${options.spellString.let101Date}${options.spellString.userGroupName}对${options.spellString.corpName}进行现场检查时发现${dangerObjectIndex.dangerString}以上行为分别涉嫌${dangerObject.illegalString}依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`
+        string = `${options.spellString.let101Date}${options.spellString.userGroupName}对${options.spellString.corpName}进行现场检查时发现${dangerObjectIndex.dangerString}以上行为分别涉嫌${dangerObject.illegalString || ''}依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`
       } else if (options.key === 'cellIdx6') {
-        string = `${dangerObject.penaltyBasisString}`
+        string = `${dangerObject.penaltyBasisString || ''}`
       } else if (options.key === 'cellIdx7') {
-        string = `${dangerObject.penaltyDesc}`
+        string = `${dangerObject.penaltyDesc || ''}`
       }
       break
     case '48': // 集体讨论记录
-      string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString}案。`
+      string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString || ''}案。`
       break
   }
   return string

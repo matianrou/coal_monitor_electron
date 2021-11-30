@@ -136,3 +136,37 @@ export function handleDate(date, spliteKey) {
   }
   return dateString
 }
+
+// 基于上个方法，反向返回日期范围年月日-年月日
+export function handleDateRetrun(value) {
+  let dateRange = []
+  if (value && value.indexOf('至') !== -1) {
+    let stringList = value.split('至')
+    // 获取第一个年月日中的详细数据
+    let stringList0 = stringList[0].replace('年', '-').replace('月', '-').replace('日', '-').split('-')
+    // 临时赋值进第二个日期中
+    let year1 = stringList0[0]
+    let month1 = stringList0[1]
+    let date1 = stringList0[2]
+    // 判断是否有'年'，判断第一第二年是否相同
+    if (stringList[1].indexOf('年') !== -1) {
+      year1 = stringList[1].split('年')[0]
+      // 如果有年则去掉年份然后继续判断月
+      stringList[1] = stringList[1].split('年')[1]
+    }
+    // 判断是否有'月'，判断第一第二月是否相同
+    if (stringList[1].indexOf('月') !== -1) {
+      month1 = stringList[1].split('月')[0]
+      // 如果有年则去掉月份然后继续判断日
+      stringList[1] = stringList[1].split('月')[1]
+    }
+    if (stringList[1].indexOf('日') !== -1) {
+      date1 = stringList[1].split('日')[0]
+    }
+    dateRange = [stringList[0], `${year1}年${month1}月${date1}日`]
+    
+  } else {
+    dateRange = []
+  }
+  return dateRange
+}

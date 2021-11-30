@@ -2,7 +2,8 @@ import GoDB from "@/utils/godb.min.js";
 import http from '@/utils/http'
 import { Message } from 'element-ui'
 import store from "@/store"
-export async function saveToUpload(paperId) {
+export async function saveToUpload(paperId, messageShow) {
+  // messageShow是否展示保存成功提示
   // 保存文书至服务器
   const db = new GoDB(store.state.DBName);
   const wkPaper = db.table("wkPaper");
@@ -15,7 +16,7 @@ export async function saveToUpload(paperId) {
   const workCase = await wkCase.find((item) => {
     return item.caseId == workPaper.caseId && item.delFlag !== '1';
   });
-  const wkDangerList = await wkDanger.findAll(item => item.paperId === paperId)
+  const wkDangerList = await wkDanger.findAll(item => item.paperId === paperId && item.delFlag !== '1')
   await db.close();
   // 没有监察活动和煤矿信息时的容错
   let caseNo = null, caseType = null, corpId = null
@@ -46,6 +47,7 @@ export async function saveToUpload(paperId) {
         id: null, // 不添加paperId，后台自动生成，传输会报错
         isNewRecord: null,
         remarks: null,
+        paperId: workPaper.paperId,
         delFlag: workPaper.delFlag,
         createDate: workPaper.createDate,
         updateDate: workPaper.updateDate,
@@ -55,32 +57,39 @@ export async function saveToUpload(paperId) {
         updateBy: {
           id: workPaper.personId,
         },
-        sourceFlag: "0",
-        paperId: workPaper.paperId,
         paperType: workPaper.paperType,
         paperContent: workPaper.paperContent,
-        paperPath: null,
-        memo: null,
         createTime: workPaper.createTime,
-        fileTime: null,
         caseId: workPaper.caseId,
-        caseNo: workCaseObj.caseNo,
         caseType: workCaseObj.caseType,
-        corpId: workCaseObj.corpId,
-        corpName: workCaseObj.corpName,
+        name: workPaper.name,
         personId: workPaper.personId,
         personName: workPaper.personName,
-        verNo: null,
-        name: workPaper.name,
-        paperInfo: null,
+        corpId: workCaseObj.corpId,
+        corpName: workCaseObj.corpName,
+        planId: workCaseObj.planId,
         group: {
           id: workPaper.groupId,
           name: workPaper.groupName,
         },
+        p0FloorTime: workPaper.p0FloorTime,
+        p22JczfCheck: workPaper.p22JczfCheck || null,
+        p22BeginTime: workPaper.p22BeginTime || null,
+        p22EndTime: workPaper.p22EndTime || null,
+        p22location: workPaper.p22location || null,
+        p22inspection: workPaper.p22inspection || null,
+        locationRemarks: workPaper.locationRemarks || null,
+
+        sourceFlag: "0",
+        paperPath: null,
+        memo: null,
+        fileTime: null,
+        caseNo: workCaseObj.caseNo,
+        verNo: null,
+        paperInfo: null,
         affiliate: workPaper.groupId,
         meikuangType: workCaseObj.meikuangType,
         meikuangPlanfrom: workCaseObj.meikuangPlanfrom,
-        planId: workCaseObj.planId,
         pcVersion: "版本v1.2.15",
         clericalVersion: "2",
         p1PersonId: null,
@@ -96,7 +105,6 @@ export async function saveToUpload(paperId) {
         p36PersonName: null,
         p36RegisterTime: null,
         p0ParentId: null,
-        p0FloorTime: workPaper.p0FloorTime,
         p8penaltyType: null,
         paperHtml: workPaper.paperHtml,
         localizeFlag: "1",
@@ -162,75 +170,8 @@ export async function saveToUpload(paperId) {
     ],
     danger: [],
   };
-  if (workPaper.paperType === "22") {
-    // 检查方案上传数据
-    let paperContent = JSON.parse(workPaper.paperContent);
-    // 监察方式（字典值，多个用逗号隔开）
-    // 检查项附件
-    let CheckItemRecords = [];
-    if (
-      paperContent.CheckTable &&
-      paperContent.CheckTable.tableData &&
-      paperContent.CheckTable.tableData.length > 0
-    ) {
-      paperContent.CheckTable.tableData.map((item) => {
-        let personIdList = []
-        if (item.personList && item.personList.length > 0) {
-          item.personList.map(item => {
-            personIdList.push(item.no)
-          })
-        }
-        let CheckItemRecord = {
-          name: item.categoryName,
-          basis: item.basis,
-          categoryCode: item.categoryCode,
-          categoryName: item.categoryName,
-          createBy: {
-            id: workPaper.personId,
-          },
-          createDate: item.createDate,
-          delFlag: item.delFlag,
-          groupId: item.groupId,
-          id: item.itemCode,
-          itemCode: item.itemCode,
-          itemContent: item.itemContent,
-          method: item.method,
-          souFlag: item.souFlag,
-          status: item.status,
-          updateBy: {
-            id: workPaper.personId,
-          },
-          updateDate: item.updateDate,
-          paperId: workPaper.paperId,
-          groupName: workPaper.groupName,
-          personId: JSON.stringify(personIdList),
-          Address: item.positions,
-          addressType: item.addressType,
-          Situation: item.situation
-        };
-        CheckItemRecords.push(CheckItemRecord);
-      });
-    }
-    let p22JczfCheck = {
-      CheckItemRecords,
-    };
-    let p22PaperData = {
-      p22BeginTime:
-      paperContent.cellIdx2TypeDaterangeItem && paperContent.cellIdx2TypeDaterangeItem.length > 0 ? paperContent.cellIdx2TypeDaterangeItem[0]
-          .replace("年", "-")
-          .replace("月", "-")
-          .replace("日", "") + " 00:00:00" : null,
-      p22EndTime:
-      paperContent.cellIdx2TypeDaterangeItem && paperContent.cellIdx2TypeDaterangeItem.length > 1 ? paperContent.cellIdx2TypeDaterangeItem[1]
-          .replace("年", "-")
-          .replace("月", "-")
-          .replace("日", "") + " 00:00:00" : null,
-      p22location: paperContent.cellIdx4,
-      p22inspection: paperContent.cellIdx1,
-      p22JczfCheck: JSON.stringify(p22JczfCheck),
-      locationRemarks: paperContent.cellIdx1,
-    };
-    Object.assign(submitData.paper[0], p22PaperData);
+  if (workPaper.paperType === "16" || workPaper.paperType === "17" || (workPaper.paperType === "15" && !workPaper.caseId)) {
+    submitData.jczfCase = []
   } else if (workPaper.paperType === "1" || workPaper.paperType  === "2" || workPaper.paperType  === "4"
     || workPaper.paperType  === "5" || workPaper.paperType === "6"|| workPaper.paperType  === "8"
     || workPaper.paperType  === "36" || workPaper.paperType  === "44") {
@@ -242,9 +183,9 @@ export async function saveToUpload(paperId) {
           id: null,  // 不添加dangerId，后台自动生成，传输会报错
           isNewRecord: null,
           remarks: null,
-          delFlag: workPaper.delFlag,
-          createDate: workPaper.createDate,
-          updateDate: workPaper.updateDate,
+          paperId: item.paperId,
+          createDate: item.createDate,
+          updateDate: item.updateDate,
           createBy: {
             id: workPaper.personId,
           },
@@ -256,14 +197,15 @@ export async function saveToUpload(paperId) {
           dangerType: {
             categoryCode: item.dangerCate,
           },
+          delFlag: item.delFlag,
           dangerItemId: item.dangerItemId,
           dangerContent: item.dangerContent,
           dangerLocation: null,
-          dangerStatus: null,
+          dangerStatus: item.dangerStatus,
           detectTime: item.detectTime,
           isHigh: item.isHigh,
-          personId: workPaper.personId, // 发现人
-          personName: workPaper.personName,
+          personId: item.personId, // 发现人
+          personName: item.personName,
           personIds: item.personIds ? item.personIds : workPaper.personId, // 发现人多选
           personNames: item.personNames ? item.personNames : workPaper.personName,
           rectifyTerm: null,
@@ -284,7 +226,6 @@ export async function saveToUpload(paperId) {
           itemOnsiteBasis: item.onsiteBasis,
           onsiteContent: item.onsiteContent,
           verNo: null,
-          paperId: item.paperId,
           basisContent: item.basisContent,
           name: null,
           sourceFlag: "0",
@@ -293,7 +234,7 @@ export async function saveToUpload(paperId) {
           changeDangerType: item.changeDangerType,
           showIndex: item.showIndex,
           isCheck: item.isCheck,
-          dangerParentId: null,
+          dangerParentId: item.dangerParentId,
           isCommon: item.isCommon ? item.isCommon : null,
           deviceNum: item.deviceNum,
           coalingFace: item.coalingFace,
@@ -326,8 +267,6 @@ export async function saveToUpload(paperId) {
       }
     }
     submitData.danger = danger;
-  } else if (workPaper.paperType === "16" || workPaper.paperType === "17" || (workPaper.paperType === "15" && !workPaper.caseId)) {
-    submitData.jczfCase = []
   }
   let path = store.state.user.userType === 'supervision' ? '/sv' : ''
   http.post(
@@ -338,16 +277,20 @@ export async function saveToUpload(paperId) {
       }
     )
     .then(({ data }) => {
-      if (data.status === "200") {
-        Message.success(
-          `“${workPaper.name}”文书已经上传至服务器。`
-        );
-      } else {
-        Message.error("上传至服务器请求失败，请重新保存！");
+      if (messageShow) {
+        if (data.status === "200") {
+          Message.success(
+            `“${workPaper.name}”文书已经上传至服务器。`
+          );
+        } else {
+          Message.error("上传至服务器请求失败，请重新保存！");
+        }
       }
     })
     .catch((err) => {
-      Message.error("上传至服务器请求失败，请重新保存！");
+      if (messageShow) {
+        Message.error("上传至服务器请求失败，请重新保存！");
+      }
       console.log("上传至服务器请求失败：", err);
     });
 }

@@ -36,7 +36,8 @@
             <div class="docTextarea">
               <span class="no-line">案&nbsp;&nbsp;由：</span>
               <span
-                @click="commandFill('cellIdx2', '案由', 'DangerTable')"
+                @dblclick="commandFill('cellIdx2', '案由', 'DangerTable')"
+                @click="commandFill('cellIdx2', '案由', 'TextareaItem')"
                 >{{
                   letData.cellIdx2 ? letData.cellIdx2 : "（点击编辑）"
                 }}</span
@@ -66,11 +67,12 @@
             <div class="docTextarea">
               <span class="no-line">违法事实及处理依据：</span>
               <span
+                @dblclick="commandFill('cellIdx6', '违法事实及处理依据', 'DangerTable')"
                 @click="
                   commandFill(
                     'cellIdx6',
                     '违法事实及处理依据',
-                    'DangerTable'
+                    'TextareaItem'
                   )
                 "
                 >{{
@@ -82,8 +84,9 @@
             <div class="docTextarea">
               <span class="no-line">建议案件处理意见：</span>
               <span
+                @dblclick="commandFill('cellIdx7', '建议案件处理意见', 'DangerTable')"
                 @click="
-                  commandFill('cellIdx7', '建议案件处理意见', 'DangerTable')
+                  commandFill('cellIdx7', '建议案件处理意见', 'TextareaItem')
                 "
                 >{{
                   letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
@@ -160,8 +163,10 @@ import { getNowDate } from "@/utils/date";
 import associationSelectPaper from "@/components/association-select-paper";
 import {
   getDangerObject,
-  transformNumToChinese,
 } from "@/utils/setInitPaperData";
+import {
+  transformNumToChinese,
+} from "@/utils";
 export default {
   name: "Let203",
   mixins: [associationSelectPaper],
@@ -229,7 +234,7 @@ export default {
         cellIdx8,
         cellIdx9
       } = let4DataPapaerContent;
-      let let4PaperNumber = `${cellIdx0}（${cellIdx1}）煤安立〔${cellIdx2}〕${cellIdx3}号`;
+      let let4PaperNumber = `${cellIdx0}（${cellIdx1}）矿安立〔${cellIdx2}〕${cellIdx3}号`;
       let let4Date = `${cellIdx6 ? cellIdx6 : "XX"}年${
         cellIdx7 ? cellIdx7 : "XX"
       }月${cellIdx8 ? cellIdx8 : "XX"}日`;
@@ -260,6 +265,10 @@ export default {
           corpName: corp.corpName,
           userGroupName: this.$store.state.user.userGroupName,
         },
+        associationPaperId: { // 关联的paperId
+          paper1Id: selectedPaper.let1Data.paperId,
+          paper4Id: selectedPaper.let4Data.paperId,
+        }
       };
     },
     goBack({ page, data }) {
@@ -272,7 +281,7 @@ export default {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
         let spellString = {};
-        if (key === "cellIdx2" || key === "cellIdx6" || key === "cellIdx7") {
+        if ((key === "cellIdx2" || key === "cellIdx6" || key === "cellIdx7") && type === 'DangerTable') {
           if (key === "cellIdx2") {
             spellString = {
               corpName: this.letData.extraData.corpName,
@@ -284,6 +293,8 @@ export default {
             page: "36",
             key: key,
             spellString,
+            showMergeBtn: true,
+            showPunishmentInfor: true
           };
           dataKey = "DangerTable";
         } else if (key === 'cellIdx8') {

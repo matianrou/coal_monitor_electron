@@ -197,7 +197,7 @@ export default {
       // 上传文件
       let formData = new FormData()
       let submitData = {
-        attachmentId: getNowTime() + randomString(18),
+        attachmentId: getNowTime() + randomString(28),
         paperId: this.options.paperId,
         fileName: param.file.name,
         fileSize: param.file.size,

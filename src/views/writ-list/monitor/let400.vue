@@ -1,4 +1,4 @@
-<!-- 其他 其他 移送案件呈报书 -->
+<!-- 其他 其他 移送案件呈报书 35 -->
 <template>
   <div style="width: 100%; height: 100%">
     <let-main
@@ -50,7 +50,8 @@
               <div class="line"></div>
             </div>
             <div class="docTextarea">
-              根据《中华人民共和国安全生产法》第六十六条规定，建议将该案件移送
+              <span class="no-line">&nbsp;&nbsp;&nbsp;</span>
+              根据《中华人民共和国安全生产法》第六十九条规定，建议将该案件移送
               <span
                 @click="commandFill('cellIdx4', '人民法院', 'TextItem')"
                 >{{
@@ -182,12 +183,7 @@ export default {
           cellIdx11: null, // 主要负责人意见
           cellIdx12: null, // 签名
           cellIdx13: null, // 日期
-          DangerTable: let1DataPapaerContent.DangerTable,
-        extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
-          corpName: corp.corpName,
-          dateString,
-          userGroupName: this.$store.state.user.userGroupName,
-        }
+          // DangerTable: let1DataPapaerContent.DangerTable,
         };
     },
     goBack({ page, data }) {

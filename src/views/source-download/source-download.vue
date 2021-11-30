@@ -254,7 +254,9 @@ export default {
       dictionary: {
         programmeType: [],
         caseClassify: [],
-        riskAssessment: []
+        riskAssessment: [],
+        subitemType: [],
+        onsiteDesc: [],
       },
       userType: this.$store.state.user.userType
     };
@@ -467,7 +469,9 @@ export default {
         await Promise.all([
           this.getProgrammeType(userSessId),
           this.getCaseClassify(userSessId),
-          this.getRiskAssessment(userSessId)
+          this.getRiskAssessment(userSessId),
+          this.getSubitemType(userSessId), // 行政处罚类型 
+          this.getOnsiteDesc (userSessId) // 现场处理决定 
         ]).then(async () => {
           await docDictionaryDb(resId, this.dictionary)
         })
@@ -606,6 +610,36 @@ export default {
         })
         .catch((err) => {
           console.log("获取风险研判码表失败：", err);
+        });
+    },
+    getSubitemType (userSessId) {
+      return this.$http.get(
+          `/local/dict/listData?type=${(this.userType === 'supervision' ? 'subitem_type' : 'subitem_type')}&__sid=${userSessId}`)
+        .then(async ({ data }) => {
+          if (data.status === "200") {
+            data.data.forEach(item => {
+              item.id = item.id.trim()
+            })
+            this.dictionary.subitemType = data.data
+          }
+        })
+        .catch((err) => {
+          console.log("获取行政处罚类型码表失败：", err);
+        });
+    },
+    getOnsiteDesc (userSessId) {
+      return this.$http.get(
+          `/local/dict/listData?type=${(this.userType === 'supervision' ? 'onsite_desc' : 'onsite_desc')}&__sid=${userSessId}`)
+        .then(async ({ data }) => {
+          if (data.status === "200") {
+            data.data.forEach(item => {
+              item.id = item.id.trim()
+            })
+            this.dictionary.onsiteDesc = data.data
+          }
+        })
+        .catch((err) => {
+          console.log("获取现场处理决定码表失败：", err);
         });
     },
     async handleUpdateTime(resId) {

@@ -1,4 +1,4 @@
-<!-- 行政强制 行政复议 行政复议调查笔录 -->
+<!-- 行政强制 行政复议 行政复议调查笔录 11 -->
 <template>
   <div style="width: 100%; height: 100%">
     <let-main
@@ -216,7 +216,6 @@
 import GoDB from "@/utils/godb.min.js";
 import {
   getDangerObject,
-  transformNumToChinese,
   getDocNumber,
 } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
@@ -293,7 +292,7 @@ export default {
         cellIdx17: null, // 住址
         cellIdx18: cellIdx18, // 调查笔录
         cellIdx18TypeTextareaItem: cellIdx18, // 调查笔录
-        DangerTable: let1DataPapaerContent.DangerTable,
+        // DangerTable: let1DataPapaerContent.DangerTable,
       };
     },
     goBack({ page, data }) {

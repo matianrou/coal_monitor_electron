@@ -58,7 +58,8 @@
               <label style="width: 5%"></label>
               你单位
               <span
-                @click="commandFill('cellIdx5', '违法行为', 'DangerTable')"
+                @dblclick="commandFill('cellIdx5', '违法违规行为', 'DangerTable')"
+                @click="commandFill('cellIdx5', '违法违规行为', 'TextareaItem')"
                 >{{
                   letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
                 }}</span
@@ -351,7 +352,7 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
-        if (key === "cellIdx5") {
+        if (key === "cellIdx5" && type === 'DangerTable') {
           this.options[key] = {
             page: "23",
             key: key,

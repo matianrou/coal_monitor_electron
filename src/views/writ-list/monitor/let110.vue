@@ -77,13 +77,16 @@
               <label style="width: 5%"></label>
               经查，你单位
               <span
-                @click="commandFill('cellIdx6', '违法行为', 'DangerTable')"
+                @dblclick="commandFill('cellIdx6', '违法违规行为', 'DangerTable')"
+                @click="commandFill('cellIdx6', '违法违规行为', 'TextareaItem')"
                 >{{
                   letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
                 }}</span
               >
               行为涉嫌违反
-              <span @click="commandFill('cellIdx7', '', 'DangerTable')">{{
+              <span 
+                @dblclick="commandFill('cellIdx7', '违法违规行为', 'DangerTable')"
+                @click="commandFill('cellIdx7', '违法违规行为', 'TextareaItem')">{{
                 letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
               }}</span>
               的规定，根据《中华人民共和国安全生产法》第六十二条第一款第四项规定，我
@@ -364,7 +367,6 @@ export default {
         // cellIdx21: null, //月
         // cellIdx22: null, // 日 暂不用
         cellIdx23: null, // 查封/扣押
-        // DangerTable: let101DataPapaerContent.DangerTable,
         DangerTable: let1DataPapaerContent.DangerTable,
         SamplingForensicsTable: {
           tableData: [],
@@ -382,7 +384,7 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
-        if (key === "cellIdx6" || key === "cellIdx7") {
+        if ((key === "cellIdx6" || key === "cellIdx7") && type === 'DangerTable') {
           this.options[key] = {
             page: "32",
             key: key,

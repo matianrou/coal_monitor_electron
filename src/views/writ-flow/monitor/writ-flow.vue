@@ -80,7 +80,7 @@
             <!-- <div style="height:32px;line-height:32px;font-weight:bold;color:#333;">
               <img src="@/components/assets/image/letTitle.png" style="vertical-align:middle;" />一般检查
             </div> -->
-            <fieldset class="borderColor">
+            <fieldset class="borderColor" style="margin-bottom: 0px;">
               <legend>一般检查</legend>
               <table
                 style="
@@ -739,7 +739,7 @@
                       v-if="unreceivedStatus.unreceived5"
                       src="@/views/writ-flow/assets/image/paper-send-icon.png"
                       title="有未接收的文书，请点击接收"
-                      style="top: 42px; left: 8px"
+                      style="top: 42px; left: 8px; cursor: pointer;"
                       @click="receivePaper('5')"
                     />
                     <img
@@ -1119,7 +1119,7 @@
             <!-- <div style="height:32px;line-height:32px;font-weight:bold;color:#333;">
               <img src="@/components/assets/image/letTitle.png" style="vertical-align:middle;" />案件结案
             </div> -->
-            <fieldset class="borderColor">
+            <fieldset class="borderColor" style="margin-bottom: 0px;">
               <legend>案件结案</legend>
               <table
                 style="
@@ -1357,7 +1357,7 @@
             <!-- <div style="height:32px;line-height:32px;font-weight:bold;color:#333;">
               <img src="@/components/assets/image/letTitle.png" style="vertical-align:middle;" />行政复议
             </div> -->
-            <fieldset class="borderColor">
+            <fieldset class="borderColor" style="margin-bottom: 0px;">
               <legend>行政复议</legend>
               <table
                 style="
@@ -1652,7 +1652,7 @@
             <!-- <div style="height:32px;line-height:32px;font-weight:bold;color:#333;">
               <img src="@/components/assets/image/letTitle.png" style="vertical-align:middle;" />证据上传
             </div> -->
-            <fieldset class="borderColor">
+            <fieldset class="borderColor" style="margin-bottom: 0px;">
               <legend>证据上传</legend>
               <table
                 style="
@@ -1702,7 +1702,7 @@
                 </tr>
               </table>
             </fieldset>
-            <fieldset class="borderColor">
+            <fieldset v-if="showJczfReport" class="borderColor">
               <legend>报告上传</legend>
               <table
                 style="
@@ -1782,6 +1782,10 @@ export default {
       type: Object,
       default: () => {},
     },
+    showJczfReport: { // 是否展示监察执法报告环节
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
@@ -1804,7 +1808,7 @@ export default {
             let paperContentString = paper.paperContent;
             let paperContent = JSON.parse(paperContentString);
             // 根据isSelected区分是否已经接收完毕，如果有未接收则加入状态中
-            if (!paperContent.isSelected) {
+            if (!paperContent.isSelected === false) {
               let key = `unreceived${paperContent.paperType}`;
               if (!status[key]) {
                 status[key] = true;

@@ -82,7 +82,7 @@
             </div>
           </el-tab-pane>
           <el-tab-pane label="历史记录" name="historyList">
-            <div class="send-danger-main">
+            <div class="receive-danger-main">
               <el-table
                 :data="receiveDangerListHistory"
                 stripe

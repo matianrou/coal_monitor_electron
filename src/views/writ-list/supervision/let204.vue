@@ -194,9 +194,11 @@
 import GoDB from "@/utils/godb.min.js";
 import {
   getDangerObject,
-  transformNumToChinese,
   getDocNumber,
 } from "@/utils/setInitPaperData";
+import {
+  transformNumToChinese,
+} from "@/utils";
 import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let204",

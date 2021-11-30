@@ -1,29 +1,7 @@
 <!-- 填写组件 隐患 -->
 <template>
   <div style="width: 100%;">
-    <div v-if="options.showBaseInfor">
-      <div class="title">
-        <span>基本信息：</span>
-      </div>
-      <el-input
-        v-model="dataForm.tempValue.baseInfor"
-        type="textarea"
-        :rows="3"
-        placeholder="请填写基本信息">
-      </el-input>
-    </div>
     <div>
-      <div v-if="options.showDangerInfor">
-        <div class="title">
-          <span>隐患情况：</span>
-        </div>
-        <el-input
-          v-model="dataForm.tempValue.dangerInfor"
-          type="textarea"
-          :rows="1"
-          placeholder="请填写隐患情况">
-        </el-input>
-      </div>
       <div style="margin-top: 10px;">
         <el-button
           v-if="options.showSelectDangerBtn"
@@ -45,12 +23,36 @@
           @click="deleteDangerList()"
         >隐患删除</el-button>
         <el-button 
-          v-if="options.showSelectDangerBtn"
+          v-if="options.showMergeBtn"
           type="primary" 
           @click="dangerMerge()"
         >隐患合并</el-button>
       </div>
       <div class="danger-table-main">
+        <div v-if="options.showBaseInfor || options.showDangerInfor" class="col-main" style="margin-right: 10px;">
+          <div v-if="options.showBaseInfor">
+            <div class="title">
+              <span>基本信息：</span>
+            </div>
+            <el-input
+              v-model="dataForm.tempValue.baseInfor"
+              type="textarea"
+              :rows="20"
+              placeholder="请填写基本信息">
+            </el-input>
+          </div>
+          <div v-if="options.showDangerInfor">
+            <div class="title">
+              <span>隐患情况：</span>
+            </div>
+            <el-input
+              v-model="dataForm.tempValue.dangerInfor"
+              type="textarea"
+              :rows="8"
+              placeholder="请填写隐患情况">
+            </el-input>
+          </div>
+        </div>
         <!-- 隐患项展示，选择 -->
         <div class="danger-table-main-table">
           <!-- 展示已选隐患 -->
@@ -77,7 +79,7 @@
                   style="cursor: pointer; display: block; width: 100%; min-height: 30px;"
                   :class="scope.row.active ? 'active' : ''"
                   @click="selectedItem(scope)">
-                  {{ scope.row.itemContent }}
+                  {{ (scope.$index + 1)+ '.' + scope.row.itemContent }}
                 </span>
                 <i class="el-icon-remove delete-icon" title="删除" @click="deleteDangerItem(scope)"></i>
               </template>
@@ -111,7 +113,7 @@
                 v-model.trim="dangerItemDetail.itemContent"
                 placeholder="请填写违法行为描述"
                 type="textarea"
-                :autosize="{ minRows: 2, maxRows: 4}"
+                :autosize="{ minRows: 1, maxRows: 5}"
                 :maxlength="200">
               </el-input>
             </el-form-item>
@@ -122,7 +124,7 @@
                 v-model.trim="dangerItemDetail.confirmBasis"
                 type="textarea"
                 placeholder="请填写违法认定法条"
-                :autosize="{ minRows: 2, maxRows: 4}"
+                :autosize="{ minRows: 1, maxRows: 5}"
                 :maxlength="300">
               </el-input>
             </el-form-item>
@@ -139,6 +141,7 @@
                 </el-input>
                 <!-- 现场处理类型 -->
                 <el-select
+                  v-if="options.showSelectDangerBtn"
                   v-model="dangerItemDetail.onsiteType"
                   @change="val => changeValue(val, 'onsiteType')"
                   style="flex: 1;">
@@ -185,7 +188,7 @@
                 v-model.trim="dangerItemDetail.onsiteBasis"
                 type="textarea"
                 placeholder="请填写现场处理依据"
-                :autosize="{ minRows: 2, maxRows: 4}"
+                :autosize="{ minRows: 1, maxRows: 5}"
                 :maxlength="300">
               </el-input>
             </el-form-item>
@@ -198,12 +201,6 @@
                 :maxlength="300"
                 @change="val => changeValue(val, 'penaltyDesc')">
               </el-input>
-              <!-- <el-input
-                v-model.trim="dangerItemDetail.penaltyDescFine"
-                placeholder="罚金"
-                style="width: 150px;">
-                <template slot="append">万元</template>
-              </el-input> -->
             </el-form-item>
             <el-form-item
               label="c.行政处罚依据："
@@ -212,11 +209,12 @@
                 v-model.trim="dangerItemDetail.penaltyBasis"
                 type="textarea"
                 placeholder="请填写行政处罚依据"
-                :autosize="{ minRows: 2, maxRows: 4}"
+                :autosize="{ minRows: 1, maxRows: 5}"
                 :maxlength="300">
               </el-input>
             </el-form-item>
             <el-form-item
+              v-if="options.showSelectDangerBtn"
               label="更改隐患从属类别："
               prop="changeDangerType"
               style="width: 100%;"
@@ -256,6 +254,7 @@
               </el-select>
             </el-form-item>
             <el-form-item
+              v-if="options.showSelectDangerBtn"
               label="是否重大隐患："
               prop="isSerious"
               class="special-form-item">
@@ -268,6 +267,7 @@
               <span style="color: #F56C6C;">(请谨慎勾选)</span>
             </el-form-item>
             <el-form-item
+              v-if="options.showSelectDangerBtn"
               label="是否隐患复查："
               prop="isReview"
               class="special-form-item">
@@ -303,21 +303,35 @@
                 向后
               </el-button>
             </el-form-item>
-            <!-- <el-form-item
-              label="现场处理决定："
-              prop="reportFormType">
-              <el-select
-                v-model="dataForm.reportFormType"
-                placeholder="请选择现场处理决定">
-                <el-option
-                  v-for="item in $store.state.dictionary.reportFormTypeNoWeb"
-                  :key="item.code"
-                  :label="item.value"
-                  :value="item.code"
-                ></el-option>
-              </el-select>
-            </el-form-item> -->
           </el-form>
+        </div>
+        <div v-if="options.showPunishmentInfor" class="col-main">
+          <div class="title">
+            <span>行政处罚信息捕获</span>
+          </div>
+          <div class="puinshment-main">
+            <div
+              v-for="(item, index) in dataForm.tempValue.punishmentList"
+              :key="index"
+              class="puinshment-item-main"
+            >
+              <span class="puinshment-item-title"><i class="el-icon-tickets" /> 隐患{{index + 1}}：</span>
+              <span>{{ item.counterStr }}</span>
+              <span>{{ item.fineStr }}</span>
+              <span>{{ item.penaltyDesStr }}</span>
+            </div>
+          </div>
+          <div class="title">
+            <span>合并处罚文书用语</span>
+          </div>
+          <div>
+            <el-input
+              v-model="dataForm.tempValue.punishmentInfor"
+              type="textarea"
+              :rows="5"
+              placeholder="请填写合并处罚信息">
+            </el-input>
+          </div>
         </div>
       </div>
     </div>
@@ -353,7 +367,7 @@ import receiveDanger from '@/components/receive-danger'
 import GoDB from "@/utils/godb.min.js";
 import { severalDaysLater, getNowTime } from "@/utils/date";
 import selectPerson from '@/components/select-person'
-import { treeDataTranslate, fuzzyearch, randomString, getMoney } from '@/utils'
+import { treeDataTranslate, fuzzyearch, randomString, getMoney, transformNumToChinese, thousands } from '@/utils'
 import Sortable from 'sortablejs'
 export default {
   name: "DangerTable",
@@ -369,6 +383,8 @@ export default {
         return {
           baseInfor: null,
           dangerInfor: null,
+          punishmentInfor: null,
+          punishmentList: [],
           tableData: [],
           dangerItemDetail: {
             personIds: null, // 隐患发现人
@@ -407,6 +423,8 @@ export default {
           showBaseInfor: false, // 用于区分是否展示基本情况大文本输入
           showSelectDangerBtn: false, // 用于区分是否可以选择隐患项
           showDangerInfor: false, // 用于区分是否可以修改隐患情况
+          showMergeBtn: false, // 用于区分是否展示隐患合并按钮
+          showPunishmentInfor: false, // 展示行政处罚信息
         }
       }
     }
@@ -425,6 +443,8 @@ export default {
         tempValue: {
           baseInfor: null,
           dangerInfor: null,
+          punishmentInfor: null,
+          punishmentList: [],
           tableData: [],
           dangerItemDetail: {
             personIds: null, // 隐患发现人
@@ -494,56 +514,8 @@ export default {
         ]
       },
       dangerIndex: 0, // 计算隐患排序位置字段
-      onsiteTypeOptions: [ // 现场处理类型码表
-        {
-          label: '当场予以纠正',
-          value: '1'
-        },
-        {
-          label: '责令改正',
-          value: '2'
-        },
-        {
-          label: '责令限期改正',
-          value: '3'
-        },
-        {
-          label: '责令立即停止作业，限期改正',
-          value: '4'
-        },
-        {
-          label: '责令立即停止作业或者责令限期达到要求',
-          value: '5'
-        },
-        {
-          label: '责令停止作业或者停止使用相关设施、设备',
-          value: '6'
-        },
-        {
-          label: '责令立即停止作业',
-          value: '7'
-        },
-        {
-          label: '责令立即停止生产',
-          value: '8'
-        },
-        {
-          label: '责令限期改正或者责令立即停止使用',
-          value: '9'
-        },
-        {
-          label: '责令立即排除事故隐患',
-          value: '10'
-        },
-        {
-          label: '责令立即消除或者限期消除事故限制',
-          value: '11'
-        },
-        {
-          label: '责令从危险区域撤出作业人员',
-          value: '12'
-        },
-      ],
+      onsiteTypeOptions: [], // 现场处理类型码表
+      subitemTypeOptions: [], // 行政处罚类型码表
       showOnsiteDesc: {
         deviceNum: false,
         coalingFace: false,
@@ -559,11 +531,13 @@ export default {
       sortableItem: null, // 拖拽实例
     };
   },
-  created() {
+  async created() {
+    this.getDictionary()
     this.initData()
   },
   mounted() {
     this.rowDrop()
+    this.setSelection()
   },
   watch: {
     'dangerItemDetail.onsiteType'(val) {
@@ -611,17 +585,87 @@ export default {
       } else {
         this.sortableItem.options.disabled = true
       }
+    },
+    'dataForm.tempValue.selectedDangerList'(val) {
+      // 监听隐患列表中数据变动，根据变化的数据捕获处罚信息和合并处罚文书用语
+      // 当文书为案件处理呈报书、行政处罚告知书、行政处罚决定书时，同步结算行政处罚信息捕获及合并处罚文书
+      this.setPunishmentList()
     }
   },
   methods: {
     initData () {
       this.dataForm.tempValue = JSON.parse(JSON.stringify(this.value)) 
-      this.dataForm.tempValue.selectedDangerList = []
       this.dataForm.tempValue.dangerContentMerge = false
       if (this.value.tableData.length > 0) {
         this.selectedItem({
           $index: 0,
           row: this.value.tableData[0]
+        })
+      }
+    },
+    async getDictionary () {
+      // 获取码表
+      let db = new GoDB(this.DBName)
+      let dictionary = db.table('dictionary')
+      let onsiteType = await dictionary.findAll(item => item.type === 'onsiteDesc') 
+      this.onsiteTypeOptions = JSON.parse(onsiteType[0].list) 
+      let subitemType = await dictionary.findAll(item => item.type === 'subitemType')
+      let subitemTypeList = JSON.parse(subitemType[0].list)
+      subitemTypeList.forEach(item => {
+        // 设置检索词
+        switch (item.label) {
+          case '警告':
+            item.searchLabel = '警告'
+            break
+          case '责令停产整顿':
+            item.searchLabel = '整顿'
+            break
+          case '责令停产停业':
+            item.searchLabel = '停业'
+            break
+          case '责令停止建设':
+            item.searchLabel = '建设'
+            break
+          case '责令停止施工':
+            item.searchLabel = '施工'
+            break
+          case '暂停有关执业资格、岗位证书':
+            item.searchLabel = '暂停有关执业资格、岗位证书'
+            break
+          case '没收违法所得':
+            item.searchLabel = '所得'
+            break
+          case '没收非法开采的煤炭产品、采掘设备':
+            item.searchLabel = '开采'
+            break
+          case '撤销有关执业资格、岗位证书':
+            item.searchLabel = '撤销'
+            break
+          case '罚款':
+            item.searchLabel = ''
+            break
+          case '暂扣安全生产许可证':
+            item.searchLabel = ''
+            break
+          case '吊销安全生产许可证':
+            item.searchLabel = ''
+            break
+        }
+      })
+      this.subitemTypeOptions = subitemTypeList
+      await db.close()
+      // 当文书为案件处理呈报书、行政处罚告知书、行政处罚决定书时，同步结算行政处罚信息捕获及合并处罚文书
+      let page = this.options.page
+      if (page === '36' || page === '6' || page === '8') {
+        this.setPunishmentList()
+      }
+    },
+    setSelection() {
+      // 设置选中
+      if (this.dataForm.tempValue.selectedDangerList && this.dataForm.tempValue.selectedDangerList.length > 0) {
+        this.dataForm.tempValue.selectedDangerList.map(item => {
+          let index = this.dataForm.tempValue.tableData.findIndex(tableItem => item.dangerId === tableItem.dangerId)
+          this.$refs.dangerTable.toggleRowSelection(this.dataForm.tempValue.tableData[index])
         })
       }
     },
@@ -641,11 +685,17 @@ export default {
       this.dangerIndex = 0
       if (tableData.length > 0) {
         tableData.forEach((item, index) => {
+          // 通过模糊匹配onsiteType
+          let onsiteType = null
+          let matchOption = fuzzyearch(item.onsiteDesc, this.onsiteTypeOptions, 'label')
+          if (matchOption) {
+            onsiteType = matchOption.value
+          }
           let addItem = Object.assign({}, item, {
-            dangerId: getNowTime() + randomString(18),
+            dangerId: getNowTime() + randomString(28),
             personIds: null, // 隐患发现人
             personNames: null, // 隐患发现人
-            onsiteType: null, // 现场处理决定类型
+            onsiteType, // 现场处理决定类型
             headingFace: null, // 掘进工作面
             deviceNum: null, // 设备台数
             coalingFace: null, // 采煤工作面
@@ -742,8 +792,14 @@ export default {
       // 保存接收的隐患项: 放入隐患列表
       dangerList.map((receiveDanger, index) => {
         // 添加
+        // 通过模糊匹配onsiteType
+        let onsiteType = null
+        let matchOption = fuzzyearch(receiveDanger.onsiteDesc, this.onsiteTypeOptions, 'label')
+        if (matchOption) {
+          onsiteType = matchOption.value
+        }
         this.dataForm.tempValue.tableData.push({
-          dangerId: getNowTime() + randomString(18),
+          dangerId: getNowTime() + randomString(28),
           active: false,
           itemCode: receiveDanger.itemCode,
           no: receiveDanger.no,
@@ -754,7 +810,7 @@ export default {
           confirmBasis: receiveDanger.confirmBasis, // 违法认定法条
           onsiteDesc: receiveDanger.onsiteDesc, // 现场处理决定
           onsiteBasis: receiveDanger.onsiteBasis, // 现场处理依据
-          onsiteType: null, // 现场处理决定类型
+          onsiteType, // 现场处理决定类型
           headingFace: null, // 掘进工作面
           deviceNum: null, // 设备台数
           coalingFace: null, // 采煤工作面
@@ -856,7 +912,7 @@ export default {
       this.visible[page] = false
     },
     handleSavePerson (personList) {
-      // 确认选择监察人员
+      // 确认选择检查人员
       if (personList.length > 0) {
         let ids = ''
         let names = ''
@@ -961,14 +1017,7 @@ export default {
     },
     changeOnsiteDesc (val) {
       // 修改现场处理决定，关联现场处理决定选择
-      let matchOption = null
-      for (let i = 0, len = this.onsiteTypeOptions.length; i < len; i++) {
-        let isMatch = fuzzyearch(val, this.onsiteTypeOptions[i].label)
-        if (isMatch) {
-          matchOption = this.onsiteTypeOptions[i]
-          break;
-        }
-      }
+      let matchOption = fuzzyearch(val, this.onsiteTypeOptions, 'label')
       if (matchOption) {
         this.dangerItemDetail.onsiteType = matchOption.value
         this.changeValue(matchOption.value, 'onsiteType')
@@ -977,7 +1026,7 @@ export default {
     addNewDanger () {
       // 新建隐患项
       this.dataForm.tempValue.tableData.push({
-        dangerId: getNowTime() + randomString(18),
+        dangerId: getNowTime() + randomString(28),
         active: true,
         categoryCode: '', // 新增的同changeDangerType
         personIds: '', // 隐患发现人
@@ -1000,8 +1049,8 @@ export default {
         isReview: '0', // 是否复查
         reviewDate: '', // 复查日期
         createDate: '', // 创建日期
-        itemCode: getNowTime() + randomString(18), //
-        no: getNowTime() + randomString(18), // 同itemCode
+        itemCode: getNowTime() + randomString(28), //
+        no: getNowTime() + randomString(28), // 同itemCode
         delFlag: '2',
         order: this.dataForm.tempValue.tableData.length, // 顺序向后顺延
         isCommon: '1',
@@ -1049,6 +1098,95 @@ export default {
       // 检索数据，合并相同字段数据，形成返回数据
       this.dataForm.tempValue.dangerContentMerge = true
       this.$parent.$parent.handleSave()
+    },
+    setPunishmentList () {
+      // 获取行政处罚信息
+      if (this.subitemTypeOptions.length > 0) {
+        let punishmentList = []
+        let selectedDangerList = this.dataForm.tempValue.selectedDangerList
+        if (selectedDangerList.length > 0) {
+          for (let i = 0; i < selectedDangerList.length; i++) {
+            let item = selectedDangerList[i]
+            let punishmentObj = {
+              counterStr: '', // 针对个人或单位
+              fine: 0, // 罚款
+              fineStr: '', // 罚款
+              penaltyDesId: '', // 处罚决定
+              penaltyDesStr: '', // 处罚决定
+            }
+            // 获取针对个人或单位
+            if (this.options.selectedType) {
+              punishmentObj.counterStr = `针对“${this.options.selectedType}”`
+            }
+            // 获取罚款金额
+            if (item.penaltyDesc.includes('元')) {
+              let count = 0
+              for (let j = 0; j < item.penaltyDesc.length; j++) {
+                if (item.penaltyDesc[j] === '元') count ++  
+              }
+              if (count > 2) {
+                // 如果当前有2个以上的元字，则报错提示
+                punishmentObj.fineStr = '（发现本条隐患存在多个罚款金额，对于“行政处罚告知书、行政处罚决定书”只能一条隐患拥有一个罚款金额，请修正“行政处罚决定用语”!）'
+              } else {
+                // 提取罚款金额
+                punishmentObj.fine = getMoney(item.penaltyDesc) 
+                punishmentObj.fineStr = `罚款${getMoney(item.penaltyDesc)}元` 
+                punishmentObj.penaltyDesStr = '罚款,'
+                punishmentObj.penaltyDesId = this.subitemTypeOptions.filter(item => item.label === '罚款')[0].value + ','
+              }
+            }
+            // 获取处罚决定
+            // 通过行政处罚决定penaltyDesc获取行政处罚信息
+            for (let j = 0; j < this.subitemTypeOptions.length; j++) {
+              if (this.subitemTypeOptions[j].searchLabel && item.penaltyDesc.includes(this.subitemTypeOptions[j].searchLabel)) {
+                punishmentObj.penaltyDesId += this.subitemTypeOptions[j].value + ','
+                punishmentObj.penaltyDesStr += this.subitemTypeOptions[j].label + ','
+              }
+            }
+            if (punishmentObj.penaltyDesId) punishmentObj.penaltyDesId = punishmentObj.penaltyDesId.substring(0, punishmentObj.penaltyDesId.length - 1)
+            if (punishmentObj.penaltyDesStr) punishmentObj.penaltyDesStr = punishmentObj.penaltyDesStr.substring(0, punishmentObj.penaltyDesStr.length - 1)
+            punishmentList.push(punishmentObj)
+          }
+          this.$set(this.dataForm.tempValue, 'punishmentList', punishmentList)
+          if (selectedDangerList.length > 1) {
+            // 两条以上合并处罚
+            let total = 0
+            let penaltyId = ''
+            let penaltyStr = ''
+            for (let i = 0; i < punishmentList.length; i++) {
+              let item = punishmentList[i]
+              // 合计罚款
+              if (item.fine) {
+                total += item.fine
+              }
+              if (item.penaltyDesId) {
+                let idItemList = item.penaltyDesId.split(',')
+                idItemList.map(idItem => {
+                  if (!penaltyId.includes(idItem)) {
+                    penaltyId += idItem + ','
+                  }
+                })
+              }
+              if (item.penaltyDesStr) {
+                let strItemList = item.penaltyDesStr.split(',')
+                strItemList.map(strItem => {
+                  if (!penaltyStr.includes(strItem)) {
+                    penaltyStr += strItem + ','
+                  }
+                })
+              }
+            }
+            // 转换大写和人民币金额样式
+            let transTotal = transformNumToChinese(total)
+            let thousandsTotal = thousands(total)
+            if (penaltyId) penaltyId = penaltyId.substring(0, penaltyId.length - 1)
+            if (penaltyStr) penaltyStr = penaltyStr.substring(0, penaltyStr.length - 1)
+            this.$set(this.dataForm.tempValue, 'punishmentInfor', `合并罚款人民币${transTotal}（¥${thousandsTotal}）${penaltyStr}`)
+          }
+        } else {
+          this.$set(this.dataForm.tempValue, 'punishmentList', [])
+        }
+      }
     }
   },
 };
@@ -1067,8 +1205,13 @@ export default {
 .danger-table-main {
   display: flex;
   margin-top: 10px;
+  height: calc(100vh - 210px);
+  min-width: 900px;
+  overflow: hidden;
   .danger-table-main-table {
-    flex: 1;
+    flex: 2;
+    height: 100%;
+    overflow: auto;
     .active {
       color: #409EFF;
     }
@@ -1082,14 +1225,40 @@ export default {
     }
   }
   .danger-table-main-content {
-    flex: 2;
+    min-width: 500px;
+    flex: 4;
     border: 1px solid #EBEEF5;
     margin-left: 10px;
     padding: 0 7px;
+    overflow: auto;
     .special-form-item {
       /deep/ .el-form-item__content {
         display: inline-block;
         line-height: 0;
+      }
+    }
+  }
+  .col-main {
+    min-width: 200px;
+    flex: 1;
+    border: 1px solid #EBEEF5;
+    padding: 0 7px;
+    .puinshment-main {
+      height: calc(100% - 250px);
+      overflow: auto;
+      .puinshment-item-main {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 10px;
+        span {
+          line-height: 1.5;
+          font-size: 15px;
+          color: #606266;
+        }
+        .puinshment-item-title {
+          font-size: 16px;
+          color: #4F83E9;
+        }
       }
     }
   }

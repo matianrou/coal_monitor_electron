@@ -255,7 +255,7 @@ export default {
       // 设置saveTableData保存数据，过滤已有数据不做处理，新增的数据相应增加
       if (tableData.length > 0) {
         tableData.map(item => {
-          item.checkId = getNowTime() + randomString(18)
+          item.checkId = getNowTime() + randomString(28)
           item.order = this.dataForm.tempValue.tableData.length
           this.dataForm.tempValue.tableData.push(item)
         })
@@ -472,7 +472,7 @@ export default {
               for (let j = 0; j < obj.personList.length; j++) {
                 let person = obj.personList[j]
                 sendDataList.push({
-                  id: getNowTime() + randomString(18),
+                  id: getNowTime() + randomString(28),
                   postId: this.$store.state.user.userId,
                   postName: this.$store.state.user.userName,
                   receiveId: person.no,
@@ -525,7 +525,7 @@ export default {
     confirmExportItems ({data}) {
       // 确定导入检查项
       data.map(item => {
-        item.checkId = getNowTime() + randomString(18)
+        item.checkId = getNowTime() + randomString(28)
         item.order = this.dataForm.tempValue.tableData.length
         this.dataForm.tempValue.tableData.push(item)
       })

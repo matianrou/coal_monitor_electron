@@ -1,4 +1,4 @@
-<!-- 现场检查 一般检查 现场检查笔录 -->
+<!-- 现场检查 一般检查 现场检查笔录 1 -->
 <template>
   <div style="width: 100%; height: 100%">
     <let-main
@@ -110,7 +110,6 @@
               </p>
             </div>
           </div>
-          
           <div class="docTextarea">
             <div style="display:inline-block;min-width:45%">
               <span class="no-line">被检查单位负责人意见：</span>
@@ -157,6 +156,7 @@ export default {
           showBaseInfor: true, // 用于区分是否展示基本情况大文本输入
           showSelectDangerBtn: true, // 用于区分是否可以选择隐患项
           showDangerInfor: true, // 
+          showMergeBtn: true
         },
       },
       associationPaper: ["22"],
@@ -258,6 +258,9 @@ export default {
             reviewDate: null, // 复查日期
           },
         }, // 隐患项大表
+        associationPaperId: { // 关联的paperId
+          paper22Id: selectedPaper.let22Data.paperId
+        }
       };
     },
     goBack({ page, data }) {

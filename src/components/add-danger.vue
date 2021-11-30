@@ -131,7 +131,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { treeDataTranslate, fuzzyearch, randomString } from '@/utils'
+import { treeDataTranslate } from '@/utils'
 export default {
   name: "AddDanger",
   props: {

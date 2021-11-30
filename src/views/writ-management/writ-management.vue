@@ -354,6 +354,8 @@ export default {
         flex-direction: column;
         margin-left: 10px;
         height: 100%;
+        min-width: 1000px;
+        overflow: auto;
         .etail-org-information {
           height: 180px;
         }

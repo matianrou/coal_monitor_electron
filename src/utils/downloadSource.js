@@ -878,14 +878,13 @@ async function doDocDb(resId, data){
 			"checkSite":String,
 			"checkSiteArr":String,
 			"p0ParentId": String, // 文书与其他文书关联id
-			/*
-			"p1PersonId": String, //null,
-			"p1PersonName": String, //null,
 			"p22BeginTime": String, //"2021-06-15 00:00:00",
 			"p22EndTime": String, //"2021-06-22 00:00:00",
 			"p22location": String, //"检查地点",
 			"p22inspection": String, //"32",
 			"locationRemarks": String, //"%e5%85%a8%e7%b3%bb%e7%bb%9f%e5%90%84%e7%8e%af%e8%8a%82%e7%9b%91%e5%af%9f",
+			"p1PersonId": String, //null,
+			"p1PersonName": String, //null,
 			"p5EvidenceTime": String, //null,
 			"p8penaltyType": String, //null,
 			"p8Penalty": String, //null,
@@ -896,7 +895,7 @@ async function doDocDb(resId, data){
 			"p31JudgeTime": String, //null,
 			"p36PersonId": String, //null,
 			"p36PersonName": String, //null,
-			"p36RegisterTime": String, //null */
+			"p36RegisterTime": String, //null 
 		},
 		wkCase: {
 			"caseId": {     //第1次做文书时，活动的唯一id：185b15772fb746dfb3643a66aa192f86
@@ -948,23 +947,13 @@ async function doDocDb(resId, data){
 			"id": null,
 			"isNewRecord": null,
 			"remarks": null,
-			"delFlag": "2",
-			"createDate": "2021-06-24 15:48:54",
-			"updateDate": "2021-06-24 15:48:54",
-			"createBy": {
-				"id": "beba494c4b67435f93e5fdfbe440e18e"
-			},
-			"personIds": "beba494c4b67435f93e5fdfbe440e18e",
-			"personNames": "测试小柴",
-			"updateBy": {
-				"id": "beba494c4b67435f93e5fdfbe440e18e"
-			},
-			"caseId": "33853598dd45458cb487a825d75d7c7f",
-			"dangerId": "4860c107357a48ab9dc2c3f65d96cfc9",
-			"dangerType": {
-				"categoryCode": "710100"
-			},
 			*/
+			"createDate":String,
+			"updateDate": String,
+			"createBy": String,
+			"updateBy":String,
+			"caseId": String,
+			"dangerType": String,
       "delFlag": String,
 			"dangerCate": String,
 			"dangerItemId": String,   //"7101000033",
@@ -983,11 +972,9 @@ async function doDocDb(resId, data){
 			"checkTime": String,      //整改核查时间
 			"checkPerson": String,    //整改核查人
 			"subitemCode": String,    //违法违规自由裁量序号
-
 			"subitemContent": String,      //违法违规内容：煤矿建设项目未按规定进行安全预评价和安全验收评价，逾期未改正的。
 			"subitemPenalty": String,      //违法违规行政处罚决定：逾期未改正的，处五十万元以上一百万元以下的罚款，对其直接负责的主管人员和其他直接责任人员处二万元以上五万元以下的罚款。
 			"subitemPenaltyBasis": String, //行政处罚依据：《中华人民共和国安全生产法》第二十九条，第九十五条第一项
-
 			"penaltyOrg": String,       //对单位的处罚
 			"penaltyOrgFine": Number,   //单位罚金
 			"penaltyPerson": String,    //对个人的处罚
@@ -1098,7 +1085,25 @@ async function doDocDb(resId, data){
 			"groupName": obj.group.name,
 			"p0FloorTime": obj.p0FloorTime,
 			"p22JczfCheck": obj.p22JczfCheck,
-			"p0ParentId": obj.p0ParentId
+			"p0ParentId": obj.p0ParentId,
+			"p22BeginTime": obj.p22BeginTime, //"2021-06-15 00:00:00",
+			"p22EndTime": obj.p22EndTime, //"2021-06-22 00:00:00",
+			"p22location": obj.p22location, //"检查地点",
+			"p22inspection": obj.p22inspection, //"32",
+			"locationRemarks": obj.locationRemarks, //"%e5%85%a8%e7%b3%bb%e7%bb%9f%e5%90%84%e7%8e%af%e8%8a%82%e7%9b%91%e5%af%9f",
+			"p1PersonId": obj.p1PersonId, //null,
+			"p1PersonName": obj.p1PersonName,
+			"p5EvidenceTime": obj.p5EvidenceTime, //null,
+			"p8penaltyType": obj.p8penaltyType, //null,
+			"p8Penalty": obj.p8Penalty, //null,
+			"p8PersonPenalty": obj.p8PersonPenalty, //null,
+			"p8OrgPenalty": obj.p8OrgPenalty, //null,
+			"p13PersonId": obj.p13PersonId, // null,
+			"p13PersonName": obj.p13PersonName, // null,
+			"p31JudgeTime": obj.p31JudgeTime, //null,
+			"p36PersonId": obj.p36PersonId, //null,
+			"p36PersonName": obj.p36PersonName, //null,
+			"p36RegisterTime": obj.p36RegisterTime, //null 
 		});
 	}
 
@@ -1148,6 +1153,12 @@ async function doDocDb(resId, data){
 			"dangerId": obj.dangerId,
 			"paperId": obj.paperId,
 			"remoteId": obj.id,
+			"createDate": obj.createDate,
+			"updateDate": obj.updateDate,
+			"createBy": JSON.stringify(obj.createBy),
+			"updateBy": JSON.stringify(obj.updateBy),
+			"caseId": obj.caseId,
+			"dangerType": obj.dangerType,
       "delFlag": obj.delFlag,
 			"dangerCate": obj.dangerType.categoryCode,
 			"dangerItemId": obj.dangerItemId,
@@ -1166,7 +1177,6 @@ async function doDocDb(resId, data){
 			"checkTime": obj.checkTime,
 			"checkPerson": obj.checkPerson,
 			"subitemCode": obj.subitemCode,
-
 			"subitemContent": obj.subitemContent,
 			"subitemPenalty": obj.subitemPenalty,
 			"subitemPenaltyBasis": obj.subitemPenaltyBasis,

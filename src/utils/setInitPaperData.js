@@ -2,7 +2,7 @@ import store from "@/store"
 // 初始化各文书数据
 
 // 初始化文书编号：
-// 文书编号规则：1.机构接口中sysOfficeInfo实体中docRiseSafe字段+“煤安监”
+// 文书编号规则：1.机构接口中sysOfficeInfo实体中docRiseSafe字段+“矿安监”
 //             2.机构接口中sysOfficeInfo实体中docRiseDepa字段 +
 //             3.根据不同文书 显示（立、告、罚、送、催）+
 //             4.{当前年份}+
@@ -95,7 +95,7 @@ export async function getDocNumber(db, docTypeNo, caseId, user) {
   // 3位数字
   let wkCase = db.table("wkCase")
   let caseInfo = await wkCase.find(item => item.caseId === caseId)
-  let paperTypeName = store.state.user.userType === 'supervision' ? '煤安' : '煤安监'
+  let paperTypeName = store.state.user.userType === 'supervision' ? '矿安' : '矿安监'
   return {
     num0: orgSysOfficeInfo.docRiseSafe,
     num1: orgSysOfficeInfo.docRiseDepa,
@@ -162,23 +162,6 @@ export function getDangerObject(tableData, hasIndex = {
     penaltyDesc,
     penaltyDescFineTotle
   }
-}
-
-// 数字转换为文字
-export function transformNumToChinese(data) {
-  let num = parseFloat(data);
-  let strOutput = "",
-    strUnit = '仟佰拾亿仟佰拾万仟佰拾元角分';
-  num += "00";
-  let intPos = num.indexOf('.');
-  if (intPos >= 0) {
-    num = num.substring(0, intPos) + num.substr(intPos + 1, 2);
-  }
-  strUnit = strUnit.substr(strUnit.length - num.length);
-  for (let i = 0; i < num.length; i++) {
-    strOutput += '零壹贰叁肆伍陆柒捌玖'.substr(num.substr(i, 1), 1) + strUnit.substr(i, 1);
-  }
-  return strOutput.replace(/零角零分$/, '整').replace(/零[仟佰拾]/g, '零').replace(/零{2,}/g, '零').replace(/零([亿|万])/g, '$1').replace(/零+元/, '元').replace(/亿零{0,3}万/, '亿').replace(/^元/, "零元")
 }
 
 // 生成煤矿描述信息

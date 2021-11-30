@@ -422,7 +422,7 @@ export default {
         cellIdx31TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
         cellIdx32: this.$store.state.curCase.groupName, //
         cellIdx33: this.todayDate, // 日期
-        DangerTable: let8DataPapaerContent.DangerTable,
+        // DangerTable: let8DataPapaerContent.DangerTable,
       };
     },
     goBack({ page, data }) {
