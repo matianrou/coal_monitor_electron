@@ -126,7 +126,7 @@
             </div>
             <div class="docTextarea">
               <span class="no-line" style="width:25%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;政治面貌</span>
-              <span style="display:inline-block;min-width:17%;line-height: normal;max-width:17%" @click="commandFill('cellIdx15', '电话', 'SelectItem')"
+              <span style="display:inline-block;min-width:17%;line-height: normal;max-width:17%" @click="commandFill('cellIdx15', '政治面貌', 'SelectItem')"
                 >{{ letData.cellIdx15 ? letData.cellIdx15 : "（编辑）" }}
               </span>
               <span class="no-line" style="width:11%">文化程度</span>
@@ -134,7 +134,7 @@
                 letData.cellIdx16 ? letData.cellIdx16 : "（编辑）"
               }}</span>
               <span class="no-line" style="width:11%">电&nbsp;&nbsp;&nbsp;&nbsp;话</span>
-              <span style="display:inline-block;min-width:18%;line-height: normal;max-width:18%" @click="commandFill('cellIdx17', '住址', 'TextItem')">{{
+              <span style="display:inline-block;min-width:18%;line-height: normal;max-width:18%" @click="commandFill('cellIdx17', '电话', 'TextItem')">{{
                 letData.cellIdx17 ? letData.cellIdx17 : "（编辑）"
               }}</span>
             </div>
@@ -350,7 +350,7 @@ export default {
           },
         ],
       },
-      associationPaper: ["1"],
+      associationPaper: this.corpData.caseType === '0' ? ["1"] : [],
     };
   },
   methods: {
@@ -367,7 +367,7 @@ export default {
       let cellIdx2Date = now.getDate().toString();
       let cellIdx3Hour = now.getHours().toString();
       let cellIdx4Minu = now.getMinutes().toString();
-      let let1DataPapaerContent = selectedPaper ? JSON.parse(
+      let let1DataPapaerContent = selectedPaper.let1Data ? JSON.parse(
         selectedPaper.let1Data.paperContent
       ) : null;
       let dangerObject = let1DataPapaerContent ? getDangerObject(
@@ -375,7 +375,19 @@ export default {
       ) : null;
       let cellIdx8String = `${corp.corpName}涉嫌${dangerObject ? dangerObject.dangerString : 'XXX案'}。`;
       // 2.组成： “我们是”+当前机构+“监察员，这是我们的执法证件（出示行政执法证件），现就你”+煤矿名称+“涉嫌”+隐患描述+“违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？”
-      let cellIdx21String = `我们是${this.$store.state.user.userGroupName}监察员，这是我们的执法证件（出示行政执法证件），现就你${corp.corpName}涉嫌${dangerObject ? dangerObject.dangerString : 'XXX'}违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？`;
+      let cellIdx21String = `我们是${this.$store.state.user.userGroupName}监察员，这是我们的执法证件（出示行政执法证件），现就你${corp.corpName}涉嫌${dangerObject ? dangerObject.dangerString : 'XXX'}违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？
+    答：听清楚了。
+    问：你对我们调查人员申请回避吗？
+    答：不申请回避。
+    问：你的岗位安全生产职责主要是什么？
+    答：我主要负责XX掘进工作面等地点安全监控设备安装、维护、调校等工作
+    问：XXXXX问题是否属实？
+    答：属实。
+    问：为什么出现这个问题？
+    答：
+    问：你还有补充吗？
+    答： 没有了。
+    问： 请你看一下记录，是否如你所说一样，如无异议，请签字确认。`;
       await db.close();
       this.letData = {
         cellIdx0: cellIdx0Year, // 年

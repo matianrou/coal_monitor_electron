@@ -40,16 +40,6 @@
         <span>联系电话：</span>
         <span>{{corpData.tel}}</span>
       </li>
-      <!-- <li style="display: none;">
-        <tr>
-          <td colspan="4" style="height:20px;">
-            <input type="hidden" id="hid_curr_corp_id" value="{corpId}" />
-            <input type="hidden" id="hid_curr_plan_id" value="{planId}" />
-            <input type="hidden" id="hid_curr_case_id" value="{caseId}" />
-            <input type="hidden" id="hid_curr_case_type" value="{caseType}" />
-          </td>
-        </tr>
-      </li>-->
     </ul>
   </div>
 </template>
@@ -128,7 +118,6 @@ export default {
     text-indent: 0;
   }
   .enterprisedata-title {
-    width: 100%;
     height: 35px;
     line-height: 35px;
     color: #fff;

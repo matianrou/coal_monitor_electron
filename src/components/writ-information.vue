@@ -34,10 +34,10 @@
               @change="changeDate"
             ></el-date-picker>
           </el-form-item>
-          <el-form-item label="请选择：" prop="checkStatus">
-            <el-radio-group v-model="dataForm.checkStatus">
-              <el-radio :label="0">{{ userType === 'supervision' ? '监管' : '监察' }}</el-radio>
-              <el-radio :label="1">事故</el-radio>
+          <el-form-item label="请选择：" prop="caseType">
+            <el-radio-group v-model="dataForm.caseType">
+              <el-radio label="0">{{ userType === 'supervision' ? '监管' : '监察' }}</el-radio>
+              <el-radio label="1">事故</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="归档至：" prop="address">
@@ -128,7 +128,7 @@ export default {
         planId: null,
         startDate: "",
         endDate: "",
-        checkStatus: 0,
+        caseType: '0',
         searchDate: [],
         caseClassify: null, // 活动分类
         riskAssessment: null, // 风险研判编码
@@ -143,7 +143,7 @@ export default {
           },
           { validator: validateDate, trigger: "change" },
         ],
-        checkStatus: [
+        caseType: [
           { required: true, message: "请选择类别", trigger: "change" },
         ],
         caseClassify: [
@@ -242,8 +242,8 @@ export default {
             // 无计划时，创建无planId的检查活动，放入其他类型中
             await this.doSaveCase(corpBase[0]);
             // 创建成功后进入其他选择页签
-            this.$parent.$refs.caseList.dataForm.caseType = '其他'
-            this.$parent.$refs.caseList.changeSelect('其他', 'caseType')
+            this.$parent.$refs.caseList.dataForm.isPlan = '其他'
+            this.$parent.$refs.caseList.changeSelect('其他', 'isPlan')
           }
           // 刷新页面
           this.cancel(true);
@@ -286,7 +286,7 @@ export default {
         personName: userName,
         groupId: groupId,
         groupName: groupName,
-        caseType: this.dataForm.checkStatus,
+        caseType: this.dataForm.caseType,
         checkReason: "1",
         checkStatus: "0",
         planBeginDate: this.dataForm.startDate,

@@ -67,21 +67,21 @@
               }}</span>
               的以下行为
               <span
-                @click="commandFill('cellIdx6', '违法行为', 'DangerTable')"
+                @click="commandFill('cellIdx6', '违法行为', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
                 >{{
                   letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
                 }}</span
               >
               分别违反了
               <span
-                @click="commandFill('cellIdx7', '违法行为', 'DangerTable')"
+                @click="commandFill('cellIdx7', '违法行为', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
                 >{{
                   letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
                 }}</span
               >
               的规定，依据
               <span
-                @dblclick="commandFill('cellIdx8', '法律依据', 'DangerTable')"
+                @dblclick="commandFill('cellIdx8', '法律依据', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
                 @click="commandFill('cellIdx8', '法律依据', 'TextareaItem')"
                 >{{
                   letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
@@ -93,7 +93,7 @@
               }}</span>
               分别作出：
               <span
-                @click="commandFill('cellIdx10', '法律规定', 'DangerTable')"
+                @click="commandFill('cellIdx10', '法律规定', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
                 >{{
                   letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
                 }}</span
@@ -267,108 +267,151 @@ export default {
       visibleSelectDialog: false,
       selectedType: "单位", // 初始化时选择的单位或个人
       extraData: {}, // 用于拼写隐患内容的字符集合
-      associationPaper: ["1"],
+      associationPaper: this.corpData.caseType === '0' ? ["1"] : [],
     };
   },
   methods: {
     async initLetData(selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
       // 1.弹出提示框，选择单位或个人
       this.visibleSelectDialog = true;
-      let paperNumber = await getDocNumber(
-        db,
-        this.docData.docTypeNo,
-        this.corpData.caseId,
-        this.$store.state.user
-      );
-      // 获取笔录文书中的隐患数据
-      let let1DataPapaerContent = JSON.parse(
-        selectedPaper.let1Data.paperContent
-      );
-      // 7.行政处罚决定
-      let cellIdx10String = setDangerTable(
-        let1DataPapaerContent.DangerTable,
-        {},
-        {
-          page: "6",
-          key: "cellIdx10",
-        }
-      );
-      // 9.机构接口中获取sysOfficeInfo实体中
-      let orgInfo = db.table("orgInfo");
-      let orgData = await orgInfo.find(
-        (item) => item.no === this.$store.state.user.userGroupId
-      );
-      let orgSysOfficeInfo =
-        orgData && orgData.sysOfficeInfo
-          ? JSON.parse(orgData.sysOfficeInfo)
-          : { depAddress: "", depPost: "", master: "", phone: "" };
-      // depAddress：我局地址、
-      // depPost：邮政编码、
-      // master：我局联系人、
-      // phone：联系电话
-      let cellIdx6String = setDangerTable(
-        let1DataPapaerContent.DangerTable,
-        {},
-        {
-          page: "6",
-          key: "cellIdx6",
-        }
-      );
-      let cellIdx7String = setDangerTable(
-        let1DataPapaerContent.DangerTable,
-        {},
-        {
-          page: "6",
-          key: "cellIdx7",
-        }
-      );
-      let cellIdx8String = setDangerTable(
-        let1DataPapaerContent.DangerTable,
-        {},
-        {
-          page: "6",
-          key: "cellIdx8",
-        }
-      );
-      await db.close();
-      this.letData = {
-        cellIdx0: paperNumber.num0, // 文书号
-        cellIdx0TypeTextItem: paperNumber.num0, // 文书号
-        cellIdx1: paperNumber.num1, // 文书号
-        cellIdx1TypeTextItem: paperNumber.num1, // 文书号
-        cellIdx2: paperNumber.num3, // 文书号
-        cellIdx2TypeTextItem: paperNumber.num3, // 文书号
-        cellIdx3: paperNumber.num4, // 文书号
-        cellIdx3TypeTextItem: paperNumber.num4, // 文书号
-        cellIdx4: null, // 煤矿名称
-        cellIdx5: null, // 单位或个人
-        cellIdx6: cellIdx6String, // 违法行为
-        cellIdx7: cellIdx7String, // 违法行为
-        cellIdx8: cellIdx8String, // 法律依据
-        cellIdx9: null, // 单位或个人
-        cellIdx10: cellIdx10String, // 法律规定
-        cellIdx11: null, // 单位或个人
-        cellIdx13: null, // 收件人（签名）
-        cellIdx14: null, // 日期
-        cellIdx15: orgSysOfficeInfo.depAddress, // 邮政编码
-        cellIdx15TypeTextItem: orgSysOfficeInfo.depAddress, //我局地址
-        cellIdx16: orgSysOfficeInfo.depPost, // 邮政编码
-        cellIdx16TypeTextItem: orgSysOfficeInfo.depPost, // 邮政编码
-        cellIdx17: orgSysOfficeInfo.master, // 我局联系人
-        cellIdx17TypeTextItem: orgSysOfficeInfo.master, // 我局联系人
-        cellIdx18: orgSysOfficeInfo.phone, // 联系电话
-        cellIdx18TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
-        cellIdx19: this.$store.state.curCase.groupName, // 
-        cellIdx19TypeTextItem: this.$store.state.curCase.groupName, //
-        cellIdx20: this.todayDate, // 日期
-        cellIdx20TypeDateItem: this.todayDate, // 日期
-        cellIdx21: null, // 单位或个人
-        DangerTable: let1DataPapaerContent.DangerTable,
-        associationPaperId: { // 关联的paperId
-          paper1Id: selectedPaper.let1Data.paperId,
-        }
-      };
+      if (this.corpData.caseType === '0') {
+        let db = new GoDB(this.$store.state.DBName);
+        let paperNumber = await getDocNumber(
+          db,
+          this.docData.docTypeNo,
+          this.corpData.caseId,
+          this.$store.state.user
+        );
+        // 获取笔录文书中的隐患数据
+        let let1DataPapaerContent = JSON.parse(
+          selectedPaper.let1Data.paperContent
+        );
+        // 7.行政处罚决定
+        let cellIdx10String = setDangerTable(
+          let1DataPapaerContent.DangerTable,
+          {},
+          {
+            page: "6",
+            key: "cellIdx10",
+          }
+        );
+        // 9.机构接口中获取sysOfficeInfo实体中
+        let orgInfo = db.table("orgInfo");
+        let orgData = await orgInfo.find(
+          (item) => item.no === this.$store.state.user.userGroupId
+        );
+        let orgSysOfficeInfo =
+          orgData && orgData.sysOfficeInfo
+            ? JSON.parse(orgData.sysOfficeInfo)
+            : { depAddress: "", depPost: "", master: "", phone: "" };
+        // depAddress：我局地址、
+        // depPost：邮政编码、
+        // master：我局联系人、
+        // phone：联系电话
+        let cellIdx6String = setDangerTable(
+          let1DataPapaerContent.DangerTable,
+          {},
+          {
+            page: "6",
+            key: "cellIdx6",
+          }
+        );
+        let cellIdx7String = setDangerTable(
+          let1DataPapaerContent.DangerTable,
+          {},
+          {
+            page: "6",
+            key: "cellIdx7",
+          }
+        );
+        let cellIdx8String = setDangerTable(
+          let1DataPapaerContent.DangerTable,
+          {},
+          {
+            page: "6",
+            key: "cellIdx8",
+          }
+        );
+        await db.close();
+        this.letData = {
+          cellIdx0: paperNumber.num0, // 文书号
+          cellIdx0TypeTextItem: paperNumber.num0, // 文书号
+          cellIdx1: paperNumber.num1, // 文书号
+          cellIdx1TypeTextItem: paperNumber.num1, // 文书号
+          cellIdx2: paperNumber.num3, // 文书号
+          cellIdx2TypeTextItem: paperNumber.num3, // 文书号
+          cellIdx3: paperNumber.num4, // 文书号
+          cellIdx3TypeTextItem: paperNumber.num4, // 文书号
+          cellIdx4: null, // 煤矿名称
+          cellIdx5: null, // 单位或个人
+          cellIdx6: cellIdx6String, // 违法行为
+          cellIdx7: cellIdx7String, // 违法行为
+          cellIdx8: cellIdx8String, // 法律依据
+          cellIdx9: null, // 单位或个人
+          cellIdx10: cellIdx10String, // 法律规定
+          cellIdx11: null, // 单位或个人
+          cellIdx13: null, // 收件人（签名）
+          cellIdx14: null, // 日期
+          cellIdx15: orgSysOfficeInfo.depAddress, // 邮政编码
+          cellIdx15TypeTextItem: orgSysOfficeInfo.depAddress, //我局地址
+          cellIdx16: orgSysOfficeInfo.depPost, // 邮政编码
+          cellIdx16TypeTextItem: orgSysOfficeInfo.depPost, // 邮政编码
+          cellIdx17: orgSysOfficeInfo.master, // 我局联系人
+          cellIdx17TypeTextItem: orgSysOfficeInfo.master, // 我局联系人
+          cellIdx18: orgSysOfficeInfo.phone, // 联系电话
+          cellIdx18TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
+          cellIdx19: this.$store.state.curCase.groupName, // 
+          cellIdx19TypeTextItem: this.$store.state.curCase.groupName, //
+          cellIdx20: this.todayDate, // 日期
+          cellIdx20TypeDateItem: this.todayDate, // 日期
+          cellIdx21: null, // 单位或个人
+          DangerTable: let1DataPapaerContent.DangerTable,
+          associationPaperId: { // 关联的paperId
+            paper1Id: selectedPaper.let1Data.paperId,
+          }
+        };
+      } else {
+        let db = new GoDB(this.$store.state.DBName);
+        let paperNumber = await getDocNumber(
+          db,
+          this.docData.docTypeNo,
+          this.corpData.caseId,
+          this.$store.state.user
+        );
+        // 9.机构接口中获取sysOfficeInfo实体中
+        let orgInfo = db.table("orgInfo");
+        let orgData = await orgInfo.find(
+          (item) => item.no === this.$store.state.user.userGroupId
+        );
+        let orgSysOfficeInfo =
+          orgData && orgData.sysOfficeInfo
+            ? JSON.parse(orgData.sysOfficeInfo)
+            : { depAddress: "", depPost: "", master: "", phone: "" };
+        await db.close();
+        this.letData = {
+          cellIdx0: paperNumber.num0, // 文书号
+          cellIdx1: paperNumber.num1, // 文书号
+          cellIdx2: paperNumber.num3, // 文书号
+          cellIdx3: paperNumber.num4, // 文书号
+          cellIdx4: null, // 煤矿名称
+          cellIdx5: null, // 单位或个人
+          cellIdx6: null, // 违法行为
+          cellIdx7: null, // 违法行为
+          cellIdx8: null, // 法律依据
+          cellIdx9: null, // 单位或个人
+          cellIdx10: null, // 法律规定
+          cellIdx11: null, // 单位或个人
+          cellIdx13: null, // 收件人（签名）
+          cellIdx14: null, // 日期
+          cellIdx15: orgSysOfficeInfo.depAddress, // 邮政编码
+          cellIdx16: orgSysOfficeInfo.depPost, // 邮政编码
+          cellIdx17: orgSysOfficeInfo.master, // 我局联系人
+          cellIdx18: orgSysOfficeInfo.phone, // 联系电话
+          cellIdx19: this.$store.state.curCase.groupName, // 
+          cellIdx20: this.todayDate, // 日期
+          cellIdx21: null, // 单位或个人
+        };
+      }
     },
     goBack({ page, data }) {
       // 返回选择企业

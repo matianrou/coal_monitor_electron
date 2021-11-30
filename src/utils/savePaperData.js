@@ -171,10 +171,11 @@ export async function saveToUpload(paperId, messageShow) {
     danger: [],
   };
   if (workPaper.paperType === "16" || workPaper.paperType === "17" || (workPaper.paperType === "15" && !workPaper.caseId)) {
+    // 当文书为意见建议书中三个文书时，不传输检查活动
     submitData.jczfCase = []
-  } else if (workPaper.paperType === "1" || workPaper.paperType  === "2" || workPaper.paperType  === "4"
+  } else if (workCase.caseType === '0' && (workPaper.paperType === "1" || workPaper.paperType  === "2" || workPaper.paperType  === "4"
     || workPaper.paperType  === "5" || workPaper.paperType === "6"|| workPaper.paperType  === "8"
-    || workPaper.paperType  === "36" || workPaper.paperType  === "44") {
+    || workPaper.paperType  === "36" || workPaper.paperType  === "44")) {
     // 现场检查笔录或现场处理决定书增加上传隐患项数据
     let danger = [];
     if (wkDangerList && wkDangerList.length > 0) {

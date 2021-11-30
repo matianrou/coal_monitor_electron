@@ -44,10 +44,10 @@
           <!-- 选择计划或其他 -->
           <div style="width:30%;">
             <el-select
-              v-model="dataForm.caseType"
+              v-model="dataForm.isPlan"
               style="width:100%;height:32px;"
               size="small"
-              @change="val => changeSelect(val, 'caseType')">
+              @change="val => changeSelect(val, 'isPlan')">
               <el-option value="计划"></el-option>
               <el-option value="其他"></el-option>
             </el-select>
@@ -65,11 +65,7 @@
             <td
               v-if="item.dbplan"
               class="editaddbook"
-              :data-name="item.corpName"
-              :data-planId="item.dbplanId"
-              :data-corpId="item.corpId"
               @dblclick="editaddbook(item)"
-              :data-item="JSON.stringify(item)"
               style="display: inline-block;width: 318px;height:36px;padding-left:8px;cursor:pointer;line-height: 36px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"
               @click="showDocHome(item, index)">
               <i class="el-icon-s-flag" style="font-size:16px;color:red"></i>
@@ -78,13 +74,7 @@
             <td
               v-else
               class="editaddbookG"
-              :data-casetype="item.caseType"
-              :data-caseid="item.caseid"
-              :data-name="item.corpName"
-              :data-planId="item.planId"
-              :data-corpId="item.corpId"
               @dblclick="editaddbook(item)"
-              :data-item="JSON.stringify(item)"
               style="display: inline-block;width: 318px;height:36px;padding-left:8px;cursor:pointer;line-height: 36px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"
               @click="showDocHome(item, index)">
               <i class="el-icon-s-flag" style="font-size:16px;color:#53ff0c"></i>
@@ -171,7 +161,7 @@ export default {
         selPlanDate: null, // 检查计划或检查活动的年-月
         selGovUnit: null, // 归档机构单位
         selGovUnitName: null, // 归档机构单位名称
-        caseType: '计划', // 是否为计划内的检查活动
+        isPlan: '计划', // 是否为计划内的检查活动
       },
       visible: {
         selectCompany: false, // 添加选择企业
@@ -269,7 +259,7 @@ export default {
       // 判断检查活动类型选择为计划或者其他，计划则为由网页端创建的计划再创建的检查活动，
       // 其他则为未从网页端创建，直接从客户端创建的检查活动，无planId，归档时归入其他类
       let corpList = []
-      if (this.dataForm.caseType === '计划') {
+      if (this.dataForm.isPlan === '计划') {
         // 增加逻辑：先获取检查活动，按检查活动对比计划中的企业信息
         // 如果计划中的企业已有检查，则名称前增加”（已做）“
         // 检查活动
@@ -314,7 +304,7 @@ export default {
             corp = {
               index: index,
               plan: true,
-              casetype: k.caseType,
+              caseType: k.caseType,
               caseId: k.caseId,
               corpName: k.corpName,
               planId: k.planId,
@@ -325,13 +315,14 @@ export default {
           }
           corpList.push(corp)
         })
-      } else if (this.dataForm.caseType === '其他') {
+      } else if (this.dataForm.isPlan === '其他') {
         // 检查活动
         let wkCase = await wkCaseInfo.findAll((item) => {
           return item.groupId === userGroupId
           && item.pcMonth === selectPlanDate
           && !item.planId && item.delFlag !== '1';
         })
+        console.log('wkCase', wkCase)
         let listArr = [...wkCase]
         // 转换为列表所需要的值
         listArr.map((k, index) => {
@@ -340,7 +331,7 @@ export default {
             corp = {
               index: index,
               plan: true,
-              casetype: k.caseType,
+              caseType: k.caseType,
               caseId: k.caseId,
               corpName: k.corpName,
               planId: '',

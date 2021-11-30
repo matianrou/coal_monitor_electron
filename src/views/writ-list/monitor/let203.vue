@@ -36,7 +36,7 @@
             <div class="docTextarea">
               <span class="no-line">案&nbsp;&nbsp;由：</span>
               <span
-                @dblclick="commandFill('cellIdx2', '案由', 'DangerTable')"
+                @dblclick="commandFill('cellIdx2', '案由', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
                 @click="commandFill('cellIdx2', '案由', 'TextareaItem')"
                 >{{
                   letData.cellIdx2 ? letData.cellIdx2 : "（点击编辑）"
@@ -67,7 +67,7 @@
             <div class="docTextarea">
               <span class="no-line">违法事实及处理依据：</span>
               <span
-                @dblclick="commandFill('cellIdx6', '违法事实及处理依据', 'DangerTable')"
+                @dblclick="commandFill('cellIdx6', '违法事实及处理依据', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
                 @click="
                   commandFill(
                     'cellIdx6',
@@ -84,7 +84,7 @@
             <div class="docTextarea">
               <span class="no-line">建议案件处理意见：</span>
               <span
-                @dblclick="commandFill('cellIdx7', '建议案件处理意见', 'DangerTable')"
+                @dblclick="commandFill('cellIdx7', '建议案件处理意见', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
                 @click="
                   commandFill('cellIdx7', '建议案件处理意见', 'TextareaItem')
                 "
@@ -189,98 +189,136 @@ export default {
         },
         cellIdx8: [],
       },
-      associationPaper: ["1", "4"],
+      associationPaper: this.corpData.caseType === '0' ? ["1", "4"] : ["4"],
       extraData: {}, // 用于拼写隐患内容的字符集合 */
     };
   },
   methods: {
     async initLetData(selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
-        return item.corpId == this.corpData.corpId;
-      });
-      let let1DataPapaerContent = JSON.parse(
-        selectedPaper.let1Data.paperContent
-      );
-      // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
-      // 获取笔录文书中的隐患数据
-      let cellIdx2String = setDangerTable(let1DataPapaerContent.DangerTable, {}, { 
-        page: '36', 
-        key: 'cellIdx2',
-        spellString: {
-          corpName: corp.corpName,
-          userGroupName: this.$store.state.user.userGroupName,
-        },
-      })
-      // 2.违法事实及依据：隐患描述+“经调查取证以上违法违规行为属实，分别违反了”+违法认定发条
-      let cellIdx6String = setDangerTable(let1DataPapaerContent.DangerTable, {}, { 
-        page: '36', 
-        key: 'cellIdx6',
-        spellString: {
-          corpName: corp.corpName,
-          userGroupName: this.$store.state.user.userGroupName,
-        },
-      })
-      // 3.建议案件处理意见：行政处罚依据+行政处罚决定（分条）
-      let cellIdx7String = setDangerTable(let1DataPapaerContent.DangerTable, {}, { 
-        page: '36', 
-        key: 'cellIdx7',
-        spellString: {
-          corpName: corp.corpName,
-          userGroupName: this.$store.state.user.userGroupName,
-        },
-      })
-      // 5.获取立案决定书编号及立案日期,承办人
-      let let4DataPapaerContent = JSON.parse(
-        selectedPaper.let4Data.paperContent
-      );
-      let {
-        cellIdx0,
-        cellIdx1,
-        cellIdx2,
-        cellIdx3,
-        cellIdx6,
-        cellIdx7,
-        cellIdx8,
-        cellIdx9
-      } = let4DataPapaerContent;
-      let let4PaperNumber = `${cellIdx0}（${cellIdx1}）矿安立〔${cellIdx2}〕${cellIdx3}号`;
-      let let4Date = `${cellIdx6 ? cellIdx6 : "XX"}年${
-        cellIdx7 ? cellIdx7 : "XX"
-      }月${cellIdx8 ? cellIdx8 : "XX"}日`;
-      let let4Person = cellIdx9 ? cellIdx9 : 'XX'
-      await db.close();
-      this.letData = {
-        cellIdx0: null, //
-        cellIdx1: null, // 编号
-        cellIdx2: cellIdx2String, // 案由
-        cellIdx3: let4PaperNumber, // 立案决定书编号
-        cellIdx3TypeTextItem: let4PaperNumber, // 立案决定书编号
-        cellIdx4: let4Date, // 立案时间
-        cellIdx4TypeTextItem: let4Date, // 立案时间
-        cellIdx5: let4Person, // 承办人
-        cellIdx5TypeTextItem: let4Person, // 承办人
-        cellIdx6: cellIdx6String, // 违法事实及依据
-        cellIdx7: cellIdx7String, // 建议案件处理意见
-        cellIdx8: null, // 法制审核意见
-        cellIdx9: null, // 分管负责人意见
-        cellIdx10: null, // 签名
-        cellIdx11: null, // 日期
-        cellIdx12: null, // 主要负责人意见
-        cellIdx13: null, // 签名
-        cellIdx14: null, // 日期
-        DangerTable: let1DataPapaerContent.DangerTable,
-        extraData: {
-          // 保存额外拼写的数据内容，用于修改隐患项时回显使用
-          corpName: corp.corpName,
-          userGroupName: this.$store.state.user.userGroupName,
-        },
-        associationPaperId: { // 关联的paperId
-          paper1Id: selectedPaper.let1Data.paperId,
-          paper4Id: selectedPaper.let4Data.paperId,
-        }
-      };
+      if (this.corpData.caseType === '0') {
+        let db = new GoDB(this.$store.state.DBName);
+        let corpBase = db.table("corpBase");
+        let corp = await corpBase.find((item) => {
+          return item.corpId == this.corpData.corpId;
+        });
+        let let1DataPapaerContent = JSON.parse(
+          selectedPaper.let1Data.paperContent
+        );
+        // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
+        // 获取笔录文书中的隐患数据
+        let cellIdx2String = setDangerTable(let1DataPapaerContent.DangerTable, {}, { 
+          page: '36', 
+          key: 'cellIdx2',
+          spellString: {
+            corpName: corp.corpName,
+            userGroupName: this.$store.state.user.userGroupName,
+          },
+        })
+        // 2.违法事实及依据：隐患描述+“经调查取证以上违法违规行为属实，分别违反了”+违法认定发条
+        let cellIdx6String = setDangerTable(let1DataPapaerContent.DangerTable, {}, { 
+          page: '36', 
+          key: 'cellIdx6',
+          spellString: {
+            corpName: corp.corpName,
+            userGroupName: this.$store.state.user.userGroupName,
+          },
+        })
+        // 3.建议案件处理意见：行政处罚依据+行政处罚决定（分条）
+        let cellIdx7String = setDangerTable(let1DataPapaerContent.DangerTable, {}, { 
+          page: '36', 
+          key: 'cellIdx7',
+          spellString: {
+            corpName: corp.corpName,
+            userGroupName: this.$store.state.user.userGroupName,
+          },
+        })
+        // 5.获取立案决定书编号及立案日期,承办人
+        let let4DataPapaerContent = JSON.parse(
+          selectedPaper.let4Data.paperContent
+        );
+        let {
+          cellIdx0,
+          cellIdx1,
+          cellIdx2,
+          cellIdx3,
+          cellIdx6,
+          cellIdx7,
+          cellIdx8,
+          cellIdx9
+        } = let4DataPapaerContent;
+        let let4PaperNumber = `${cellIdx0}（${cellIdx1}）矿安立〔${cellIdx2}〕${cellIdx3}号`;
+        let let4Date = `${cellIdx6 ? cellIdx6 : "XX"}年${
+          cellIdx7 ? cellIdx7 : "XX"
+        }月${cellIdx8 ? cellIdx8 : "XX"}日`;
+        let let4Person = cellIdx9 ? cellIdx9 : 'XX'
+        await db.close();
+        this.letData = {
+          cellIdx0: null, //
+          cellIdx1: null, // 编号
+          cellIdx2: cellIdx2String, // 案由
+          cellIdx3: let4PaperNumber, // 立案决定书编号
+          cellIdx3TypeTextItem: let4PaperNumber, // 立案决定书编号
+          cellIdx4: let4Date, // 立案时间
+          cellIdx4TypeTextItem: let4Date, // 立案时间
+          cellIdx5: let4Person, // 承办人
+          cellIdx5TypeTextItem: let4Person, // 承办人
+          cellIdx6: cellIdx6String, // 违法事实及依据
+          cellIdx7: cellIdx7String, // 建议案件处理意见
+          cellIdx8: null, // 法制审核意见
+          cellIdx9: null, // 分管负责人意见
+          cellIdx10: null, // 签名
+          cellIdx11: null, // 日期
+          cellIdx12: null, // 主要负责人意见
+          cellIdx13: null, // 签名
+          cellIdx14: null, // 日期
+          DangerTable: let1DataPapaerContent.DangerTable,
+          extraData: {
+            // 保存额外拼写的数据内容，用于修改隐患项时回显使用
+            corpName: corp.corpName,
+            userGroupName: this.$store.state.user.userGroupName,
+          },
+          associationPaperId: { // 关联的paperId
+            paper1Id: selectedPaper.let1Data.paperId,
+            paper4Id: selectedPaper.let4Data.paperId,
+          }
+        };
+      } else {
+        let let4DataPapaerContent = JSON.parse(
+          selectedPaper.let4Data.paperContent
+        );
+        let {
+          cellIdx0,
+          cellIdx1,
+          cellIdx2,
+          cellIdx3,
+          cellIdx6,
+          cellIdx7,
+          cellIdx8,
+          cellIdx9
+        } = let4DataPapaerContent;
+        let let4PaperNumber = `${cellIdx0}（${cellIdx1}）矿安立〔${cellIdx2}〕${cellIdx3}号`;
+        let let4Date = `${cellIdx6 ? cellIdx6 : "XX"}年${
+          cellIdx7 ? cellIdx7 : "XX"
+        }月${cellIdx8 ? cellIdx8 : "XX"}日`;
+        let let4Person = cellIdx9 ? cellIdx9 : 'XX'
+        this.letData = {
+          cellIdx0: null, //
+          cellIdx1: null, // 编号
+          cellIdx2: null, // 案由
+          cellIdx3: let4PaperNumber, // 立案决定书编号
+          cellIdx4: let4Date, // 立案时间
+          cellIdx5: let4Person, // 承办人
+          cellIdx6: null, // 违法事实及依据
+          cellIdx7: null, // 建议案件处理意见
+          cellIdx8: null, // 法制审核意见
+          cellIdx9: null, // 分管负责人意见
+          cellIdx10: null, // 签名
+          cellIdx11: null, // 日期
+          cellIdx12: null, // 主要负责人意见
+          cellIdx13: null, // 签名
+          cellIdx14: null, // 日期
+        };
+      }
     },
     goBack({ page, data }) {
       // 返回选择企业

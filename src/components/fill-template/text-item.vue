@@ -38,7 +38,7 @@ export default {
   },
   watch: {
     value(val) {
-      this.dataForm.tempValue = val
+      this.dataForm.tempValue = val || ''
     }
   },
   methods: {

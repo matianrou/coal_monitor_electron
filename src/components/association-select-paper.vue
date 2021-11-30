@@ -149,11 +149,10 @@ export default {
               }
             }
           }
-          await db.close();
           if (isReturn) {
             return
           }
-          // 遍历循环选择文书
+          // 遍历循环选择文书:
           if (this.selectFlowList.length > 0) {
             // 如果需要选择文书，则从第一个开始选择
             this.handleSelectPaper()
@@ -169,6 +168,7 @@ export default {
           this.initLetData && this.initLetData()
         }
       }
+      await db.close();
     },
     async initFileData() {
       if (this.paperData && (this.docData.docTypeNo === '44' || this.docData.docTypeNo === '21' || this.docData.docTypeNo === '45')) {

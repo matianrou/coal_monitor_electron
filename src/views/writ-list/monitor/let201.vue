@@ -41,7 +41,7 @@
             <div class="docTextarea">
               <span class="no-line">案&nbsp;&nbsp;&nbsp; 由：</span>
               <span
-                @dblclick="commandFill('cellIdx4', '案由', 'DangerTable')"
+                @dblclick="commandFill('cellIdx4', '案由', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
                 @click="commandFill('cellIdx4', '案由', 'TextareaItem')"
                 >{{
                   letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）"
@@ -52,7 +52,7 @@
             <div class="docTextarea">
               <span class="no-line">案情摘要：</span>
               <span
-                @dblclick="commandFill('cellIdx5', '案情摘要', 'DangerTable')"
+                @dblclick="commandFill('cellIdx5', '案情摘要', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
                 @click="commandFill('cellIdx5', '案情摘要', 'TextareaItem')"
                 >{{
                   letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
@@ -159,97 +159,121 @@ export default {
     return {
       letData: {},
       options: {},
-      associationPaper: ["1"],
+      associationPaper: this.corpData.caseType === '0' ? ["1"] : [],
     };
   },
   methods: {
     async initLetData(selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
-        return item.corpId == this.corpData.corpId;
-      });
-      // 创建初始版本
-      // 获取检查时间
-      let let1DataPapaerContent = JSON.parse(
-        selectedPaper.let1Data.paperContent
-      );
-      // 检查时间日期：
-      let dateString = let1DataPapaerContent.cellIdx1
-        ? let1DataPapaerContent.cellIdx1
-        : "X年X月X日-X年X月X日";
-      // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
-      let cellIdx4String = setDangerTable(
-        let1DataPapaerContent.DangerTable,
-        {},
-        {
-          page: "4",
-          key: "cellIdx4",
-          spellString: {
+      if (this.corpData.caseType === '0') {
+        let db = new GoDB(this.$store.state.DBName);
+        let corpBase = db.table("corpBase");
+        let corp = await corpBase.find((item) => {
+          return item.corpId == this.corpData.corpId;
+        });
+        // 创建初始版本
+        // 获取检查时间
+        let let1DataPapaerContent = JSON.parse(
+          selectedPaper.let1Data.paperContent
+        );
+        // 检查时间日期：
+        let dateString = let1DataPapaerContent.cellIdx1
+          ? let1DataPapaerContent.cellIdx1
+          : "X年X月X日-X年X月X日";
+        // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
+        let cellIdx4String = setDangerTable(
+          let1DataPapaerContent.DangerTable,
+          {},
+          {
+            page: "4",
+            key: "cellIdx4",
+            spellString: {
+              corpName: corp.corpName,
+              dateString,
+              userGroupName: this.$store.state.user.userGroupName,
+            },
+          }
+        );
+        // 2.案情摘要：检查时间+当前机构名称+“对”+煤矿名称+“进行现场检查时发现”+隐患描述+"以上行为分别涉嫌违反了"+违法认定法条+“依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。”
+        let cellIdx5String = setDangerTable(
+          let1DataPapaerContent.DangerTable,
+          {},
+          {
+            page: "4",
+            key: "cellIdx5",
+            spellString: {
+              corpName: corp.corpName,
+              dateString,
+              userGroupName: this.$store.state.user.userGroupName,
+            },
+          }
+        );
+        let paperNumber = await getDocNumber(
+          db,
+          this.docData.docTypeNo,
+          this.corpData.caseId,
+          this.$store.state.user
+        );
+        await db.close();
+        let date = this.todayDate.replace('年', '-').replace('月', '-').replace('日', '-').split('-')
+        this.letData = {
+          cellIdx0: paperNumber.num0, // 文书号
+          cellIdx1: paperNumber.num1, // 文书号
+          cellIdx2: paperNumber.num3, // 文书号
+          cellIdx3: paperNumber.num4, // 文书号
+          cellIdx4: cellIdx4String, // 案由
+          cellIdx5: cellIdx5String, // 案情摘要
+          cellIdx6: date[0], // 年
+          cellIdx7: date[1], // 月
+          cellIdx8: date[2], // 日
+          cellIdx9: null, // 本案承办人
+          cellIdx10: null, // 审批人意见
+          cellIdx11: null, // 审批人（签名）
+          cellIdx12: null, // 日期
+          cellIdx13: this.$store.state.curCase.groupName, //
+          cellIdx14: this.todayDate, // 日期
+          /* cellIdx14: null, // 年
+            cellIdx15: null, // 月
+            cellIdx16: null, // 日   暂不用*/
+          DangerTable: let1DataPapaerContent.DangerTable,
+          extraData: {
+            // 保存额外拼写的数据内容，用于修改隐患项时回显使用
             corpName: corp.corpName,
             dateString,
             userGroupName: this.$store.state.user.userGroupName,
           },
-        }
-      );
-      // 2.案情摘要：检查时间+当前机构名称+“对”+煤矿名称+“进行现场检查时发现”+隐患描述+"以上行为分别涉嫌违反了"+违法认定法条+“依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。”
-      let cellIdx5String = setDangerTable(
-        let1DataPapaerContent.DangerTable,
-        {},
-        {
-          page: "4",
-          key: "cellIdx5",
-          spellString: {
-            corpName: corp.corpName,
-            dateString,
-            userGroupName: this.$store.state.user.userGroupName,
+          associationPaperId: {
+            // 关联的paperId
+            paper1Id: selectedPaper.let1Data.paperId,
           },
-        }
-      );
-      let paperNumber = await getDocNumber(
-        db,
-        this.docData.docTypeNo,
-        this.corpData.caseId,
-        this.$store.state.user
-      );
-      await db.close();
-      this.letData = {
-        cellIdx0: paperNumber.num0, // 文书号
-        cellIdx0TypeTextItem: paperNumber.num0, // 文书号
-        cellIdx1: paperNumber.num1, // 文书号
-        cellIdx1TypeTextItem: paperNumber.num1, // 文书号
-        cellIdx2: paperNumber.num3, // 文书号
-        cellIdx2TypeTextItem: paperNumber.num3, // 文书号
-        cellIdx3: paperNumber.num4, // 文书号
-        cellIdx3TypeTextItem: paperNumber.num4, // 文书号
-        cellIdx4: cellIdx4String, // 案由
-        cellIdx5: cellIdx5String, // 案情摘要
-        cellIdx6: null, // 年
-        cellIdx7: null, // 月
-        cellIdx8: null, // 日
-        cellIdx9: null, // 本案承办人
-        cellIdx10: null, // 审批人意见
-        cellIdx11: null, // 审批人（签名）
-        cellIdx12: null, // 日期
-        cellIdx13: this.$store.state.curCase.groupName, //
-        cellIdx13TypeTextItem: this.$store.state.curCase.groupName, //
-        cellIdx14: this.todayDate, // 日期
-        cellIdx14TypeDateItem: this.todayDate, // 日期
-        /* cellIdx14: null, // 年
-          cellIdx15: null, // 月
-          cellIdx16: null, // 日   暂不用*/
-        DangerTable: let1DataPapaerContent.DangerTable,
-        extraData: {
-          // 保存额外拼写的数据内容，用于修改隐患项时回显使用
-          corpName: corp.corpName,
-          dateString,
-          userGroupName: this.$store.state.user.userGroupName,
-        },
-        associationPaperId: {
-          // 关联的paperId
-          paper1Id: selectedPaper.let1Data.paperId,
-        },
-      };
+        };
+      } else {
+        let db = new GoDB(this.$store.state.DBName);
+        let paperNumber = await getDocNumber(
+          db,
+          this.docData.docTypeNo,
+          this.corpData.caseId,
+          this.$store.state.user
+        );
+        let date = this.todayDate.replace('年', '-').replace('月', '-').replace('日', '-').split('-')
+        await db.close();
+        this.letData = {
+          cellIdx0: paperNumber.num0, // 文书号
+          cellIdx1: paperNumber.num1, // 文书号
+          cellIdx2: paperNumber.num3, // 文书号
+          cellIdx3: paperNumber.num4, // 文书号
+          cellIdx4: null, // 案由
+          cellIdx5: null, // 案情摘要
+          cellIdx6: date[0], // 年
+          cellIdx7: date[1], // 月
+          cellIdx8: date[2], // 日
+          cellIdx9: null, // 本案承办人
+          cellIdx10: null, // 审批人意见
+          cellIdx11: null, // 审批人（签名）
+          cellIdx12: null, // 日期
+          cellIdx13: this.$store.state.curCase.groupName, //
+          cellIdx14: this.todayDate, // 日期
+        };
+      }
     },
     goBack({ page, data }) {
       // 返回选择企业
