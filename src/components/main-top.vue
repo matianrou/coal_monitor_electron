@@ -27,6 +27,7 @@
           <span>文书管理</span>
         </div>
         <div
+          v-if="userType !== 'supervision'"
           class="navTd"
           :style="activeTab === 'opinionSuggestion' ? 'background: #224f7d;' : ''"
           @click="changeTab('opinionSuggestion')">

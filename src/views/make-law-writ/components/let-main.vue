@@ -82,6 +82,13 @@
         @close="closeSelectUpdatePaper"
         @confirm="confirmSelectUpdatePaper"
       ></select-update-paper>
+      <punishment-info-fill
+        v-if="punishmentInfoFillVisible"
+        :visible="punishmentInfoFillVisible"
+        :let-data="$parent.letData"
+        @close="closePunishmentInfoFill"
+        @confirm="confirmPunishmentInfoFill"
+      ></punishment-info-fill>
     </div>
   </div>
 </template>
@@ -97,6 +104,7 @@ import docxtemplater from 'docxtemplater'
 import JSZipUtils from 'jszip-utils'
 import { saveAs } from 'file-saver'
 import pizzip from 'pizzip'
+import punishmentInfoFill from '@/components/punishment-info-fill'
 import {
   setTextItem,
   setCheckItem,
@@ -119,7 +127,8 @@ export default {
   name: "LetMain",
   components: {
     letDrawer,
-    selectUpdatePaper
+    selectUpdatePaper,
+    punishmentInfoFill
   },
   props: {
     corpData: {
@@ -182,6 +191,8 @@ export default {
       selectUpdatePaperVisible: false, // 选择更新的文书组件
       curDangerTable: {}, // 当前需要更新的dangerTable
       saveFlag: '0', // 临时保存存储标记,用于文书弹窗选择关联更新时使用
+      punishmentInfoFillVisible: false, // 是否展示行政处罚决定书补充填写信息弹窗
+      punishmentInfo: {}
     };
   },
   computed: {
@@ -262,10 +273,17 @@ export default {
       }
     },
     async savePaper (saveFlag) {
+      if (this.corpData.caseType === '1' && this.docData.docTypeNo === '8') {
+        // 事故类型检查活动时，行政处罚决定书弹窗补充行政罚款金额和行政处罚类型
+        this.punishmentInfoFillVisible = true
+        this.saveFlag = saveFlag
+        return
+      }
       // 判断是否有保存初始数据，如果有则需要对比隐患项是否有修改
       if (this.$parent.letDataOragin) {
         // 判断当前保存的是否为现场检查笔录1，现场处理决定书2，复查意见书13，立案决定书4，案件处理呈报书36，行政处罚告知书6，行政处罚决定书8
         let docTypeNo = this.docData.docTypeNo
+        
         if (docTypeNo === '1' || docTypeNo === '2' || docTypeNo === '13' || docTypeNo === '4' || docTypeNo === '36' || docTypeNo === '6' || docTypeNo === '8') {
           // 如果是以上文书则暂停保存，判断隐患项内容是否有修改,如果有更改则需要联动修改
           let letDataOraginDanger = JSON.parse(this.$parent.letDataOragin).DangerTable || {}
@@ -440,17 +458,49 @@ export default {
           p5EvidenceTime: `${cellIdx0}-${cellIdx1}-${cellIdx2} ${cellIdx3}:${cellIdx4}:00`
         }
       } else if (this.docData.docTypeNo === '8') {
-        let penaltyTotle = 0
-        if (this.$parent.letData.DangerTable && this.$parent.letData.DangerTable.tableData.length > 0) {
-          this.$parent.letData.DangerTable.tableData.map(item => {
-            penaltyTotle += item.penaltyDescFine ? Number(item.penaltyDescFine) : 0
-          })
-        }
-        extraSaveData = {
-          p8penaltyType: this.$parent.letData.selectedType || null,
-          p8Penalty: penaltyTotle || null,
-          p8PersonPenalty: this.$parent.letData.selectedType === '个人' ? penaltyTotle : '', // 个人罚款总额
-          p8OrgPenalty: this.$parent.letData.cellIdx4 === '单位' ? penaltyTotle : '' // 企业罚款总额
+        if (this.corpData.caseType === '0') {
+          // 监管监察类检查活动保存时
+          let penaltyTotle = 0
+          if (this.$parent.letData.DangerTable && this.$parent.letData.DangerTable.selectedDangerList.length > 0) {
+            this.$parent.letData.DangerTable.selectedDangerList.map(item => {
+              // 整理罚款总金额
+              penaltyTotle += item.penaltyDescFine ? Number(item.penaltyDescFine) : 0
+            })
+          }
+          // 整理行政处罚类型
+          let penaltyType = ''
+          if (this.$parent.letData.DangerTable && this.$parent.letData.DangerTable.punishmentList) {
+            this.$parent.letData.DangerTable.punishmentList.map(item => {
+              if (item.penaltyDesId) {
+                let penaltyDescList = item.penaltyDesId.split(',')
+                penaltyDescList.map(penalty => {
+                  if (!penaltyType.includes(penalty)) {
+                    penaltyType += penalty + ','
+                  }
+                })
+              }
+            })
+          }
+          if (penaltyType) penaltyType = penaltyType.substring(0, penaltyType.length - 1)
+          extraSaveData = {
+            p8penaltyType: penaltyType,
+            p8Penalty: penaltyTotle || null,
+            p8PersonPenalty: this.$parent.letData.selectedType === '个人' ? penaltyTotle : '', // 个人罚款总额
+            p8OrgPenalty: this.$parent.letData.selectedType === '单位' ? penaltyTotle : '' // 企业罚款总额
+          }
+        } else {
+          // 事故类检查活动保存时
+          let penaltyType = ''
+          for (let i = 0; i < this.punishmentInfo.penaltyType.length; i++) {
+            penaltyType += this.punishmentInfo.penaltyType[i] + ','
+          }
+          penaltyType = penaltyType.substring(0, penaltyType.length - 1)
+          extraSaveData = {
+            p8penaltyType: penaltyType,
+            p8Penalty: this.punishmentInfo.penaltyMoney,
+            p8PersonPenalty: this.punishmentInfo.selectedType === '个人' ? this.punishmentInfo.penaltyMoney : '', // 个人罚款总额
+            p8OrgPenalty: this.punishmentInfo.selectedType === '单位' ? this.punishmentInfo.penaltyMoney : '' // 企业罚款总额
+          }
         }
       } else if (this.docData.docTypeNo === '13') {
         extraSaveData = {
@@ -567,9 +617,7 @@ export default {
                 id: this.$store.state.user.userId
               }),
               caseId: this.corpData && this.corpData.caseId ? this.corpData.caseId : '',
-              dangerType: JSON.stringify({
-                categoryCode: item.categoryCode,
-              }),
+              dangerType: item.categoryCode,
               sourceFlag: '0',
               delFlag: saveFlag,
               dangerCate: item.categoryCode,
@@ -604,7 +652,7 @@ export default {
               basisContent: item.confirmBasis, //"认定：《中华人民共和国安全生产法》第二十九条；《煤矿建设项目安全设施监察规定》第九条",
               name: null,
               onsiteType: item.onsiteType, //"现场处理类型",
-              penaltyType: companyOrPerson, //"行政处罚类型：单位、个人",
+              penaltyType: item.penaltyDescTypeId, //"行政处罚类型：3,7",
               changeDangerType: item.changeDangerType, //"更改后隐患类别：710100",
               showIndex: item.order, //"隐患顺序：1",
               isCheck: item.isReview, //"是否需要复查0不需要1需要",
@@ -939,6 +987,7 @@ export default {
     closeSelectUpdatePaper () {
       // 关闭选择更新文书弹窗
       this.selectUpdatePaperVisible = false
+      this.saveFlag = '0'
     },
     async confirmSelectUpdatePaper (selectedRows) {
       // 遍历选择需要更新的文书，更新保存数据
@@ -951,7 +1000,7 @@ export default {
       this.selectUpdatePaperVisible = false
       // 保存当前文书数据
       await this.savePaperFunction(this.saveFlag)
-
+      this.saveFlag = '0'
     },
     async saveAssioPaper (itemPaper) {
       // 每一份文书itemPaper
@@ -997,9 +1046,7 @@ export default {
           dangerLocation: '', //违法违规及隐患位置
           dangerParentId: tableDataNewItem.categoryCode, //"隐患父id：null",
           dangerStatus: tableDataNewItem.status, //违法违规及隐患状态
-          dangerType: JSON.stringify({
-            categoryCode: tableDataNewItem.categoryCode,
-          }),
+          dangerType: tableDataNewItem.categoryCode,
           delFlag: '0',
           detectTime: getNowFormatTime(),  //发现时间：2021-06-24 15:48:54
           deviceNum: tableDataNewItem.deviceNum, //"设备台数：默认为空",
@@ -1020,7 +1067,7 @@ export default {
           penaltyOrgFine: selectedType === '单位' ? tableDataNewItem.penaltyDescFine : null, //"单位罚金",
           penaltyPerson: selectedType ? (selectedType === '个人') : null, //"对个人的处罚",
           penaltyPersonFine: selectedType === '个人' ? tableDataNewItem.penaltyDescFine : null, //"个人罚金",
-          penaltyType: selectedType, //"行政处罚类型：单位、个人",
+          penaltyType: tableDataNewItem.penaltyDescTypeId, //"行政处罚类型3,7",
           personId: this.$store.state.user.userId, //"7101000033",
           personIds: tableDataNewItem.personIds, //"发现人编号多选：以逗号分隔",
           personName: this.$store.state.user.userName, //"发现人编号：beba494c4b67435f93e5fdfbe440e18e",
@@ -1192,6 +1239,18 @@ export default {
       await wkDanger.addMany(selectedDangerTableNew)
       await saveToUpload(itemPaper.paperId, false)
       await db.close()
+    },
+    closePunishmentInfoFill ({page, refresh}) {
+      this.punishmentInfoFillVisible = false
+      this.saveFlag = '0'
+    },
+    async confirmPunishmentInfoFill (data) {
+      // 确认输入的行政处罚决定书信息
+      // 继续保存文书
+      this.punishmentInfo = data
+      this.punishmentInfoFillVisible = false
+      await this.savePaperFunction(this.saveFlag)
+      this.saveFlag = '0'
     }
   },
 };

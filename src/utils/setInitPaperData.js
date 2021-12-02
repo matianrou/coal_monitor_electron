@@ -296,13 +296,33 @@ export function retrunGetMoney(penaltyDescString) {
   // 元字统计count
   let money = 0
   let count = 0
-  if (penaltyDescString.includes('元')) {
+  if (penaltyDescString && penaltyDescString.includes('元')) {
     for (let i = 0; i < penaltyDescString.length; i++) {
       if (penaltyDescString[i] === '元') count ++  
     }
     money = getMoney(penaltyDescString) 
   }
   return {money, count}
+}
+
+export function getPenaltyDescType (penaltyDescString, subitemTypeOptions) {
+  // 通过行政处罚说明获取行政处罚类型和id
+  let id = ''
+  let type = ''
+  let {count} = retrunGetMoney(penaltyDescString)
+  if (count > 0 && count < 3) {
+    type += '罚款,'
+    id += subitemTypeOptions.filter(item => item.label === '罚款')[0].value + ','
+  }
+  for (let i = 0; i < subitemTypeOptions.length; i++) {
+    if (subitemTypeOptions[i].searchLabel && penaltyDescString && penaltyDescString.includes(subitemTypeOptions[i].searchLabel)) {
+      id += subitemTypeOptions[i].value + ','
+      type += subitemTypeOptions[i].label + ','
+    }
+  }
+  if (id) id = id.substring(0, id.length - 1)
+  if (type) type = type.substring(0, type.length - 1)
+  return {id, type}
 }
 
 // 生成煤矿描述信息

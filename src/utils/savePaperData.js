@@ -9,7 +9,8 @@ export async function saveToUpload(paperId, messageShow) {
   const wkPaper = db.table("wkPaper");
   const wkCase = db.table("wkCase");
   const wkDanger = db.table("wkDanger")
-    //查询符合条件的记录
+  const corpBase = db.table("corpBase")
+  //查询符合条件的记录
   const workPaper = await wkPaper.find((item) => {
     return item.paperId == paperId && item.delFlag !== '1';
   });
@@ -17,7 +18,6 @@ export async function saveToUpload(paperId, messageShow) {
     return item.caseId == workPaper.caseId && item.delFlag !== '1';
   });
   const wkDangerList = await wkDanger.findAll(item => item.paperId === paperId && item.delFlag !== '1')
-  await db.close();
   // 没有监察活动和煤矿信息时的容错
   let caseNo = null, caseType = null, corpId = null
   let meikuangType = null, meikuangPlanfrom = null, planId = null
@@ -40,7 +40,9 @@ export async function saveToUpload(paperId, messageShow) {
       planEndDate, createDate, pcMonth, 
       caseClassify, riskAssessment, riskAssessmentContent }
       // 整理上传数据
+  let corpData = await corpBase.find(item => item.corpId === workCaseObj.corpId) 
   // 整理网页端展示的html
+  await db.close();
   let submitData = {
     paper: [
       {
@@ -61,6 +63,7 @@ export async function saveToUpload(paperId, messageShow) {
         paperContent: workPaper.paperContent,
         createTime: workPaper.createTime,
         caseId: workPaper.caseId,
+        caseNo: workCaseObj.caseNo,
         caseType: workCaseObj.caseType,
         name: workPaper.name,
         personId: workPaper.personId,
@@ -84,28 +87,27 @@ export async function saveToUpload(paperId, messageShow) {
         paperPath: null,
         memo: null,
         fileTime: null,
-        caseNo: workCaseObj.caseNo,
         verNo: null,
         paperInfo: null,
-        affiliate: workPaper.groupId,
+        affiliate: workCaseObj.affiliate,
         meikuangType: workCaseObj.meikuangType,
         meikuangPlanfrom: workCaseObj.meikuangPlanfrom,
         pcVersion: "版本v1.2.15",
         clericalVersion: "2",
-        p1PersonId: null,
-        p1PersonName: null,
-        p5EvidenceTime: null,
-        p8Penalty: null,
-        p8PersonPenalty: null,
-        p8OrgPenalty: null,
-        p13PersonId: null,
-        p13PersonName: null,
-        p31JudgeTime: null,
-        p36PersonId: null,
-        p36PersonName: null,
-        p36RegisterTime: null,
-        p0ParentId: null,
-        p8penaltyType: null,
+        p1PersonId: workPaper.p1PersonId,
+        p1PersonName: workPaper.p1PersonName,
+        p5EvidenceTime: workPaper.p5EvidenceTime,
+        p8Penalty: workPaper.p8Penalty,
+        p8PersonPenalty: workPaper.p8PersonPenalty,
+        p8OrgPenalty: workPaper.p8OrgPenalty,
+        p13PersonId: workPaper.p13PersonId,
+        p13PersonName: workPaper.p13PersonName,
+        p31JudgeTime: workPaper.p31JudgeTime,
+        p36PersonId: workPaper.p36PersonId,
+        p36PersonName: workPaper.p36PersonName,
+        p36RegisterTime: workPaper.p36RegisterTime,
+        p0ParentId: workPaper.p0ParentId,
+        p8penaltyType: workPaper.p8penaltyType,
         paperHtml: workPaper.paperHtml,
         localizeFlag: "1",
       },
@@ -129,7 +131,6 @@ export async function saveToUpload(paperId, messageShow) {
         caseId: workPaper.caseId,
         caseNo: workCaseObj.caseNo,
         caseType: workCaseObj.caseType,
-        caseStatus: null,
         penaltyType: null,
         title: null,
         summary: null,
@@ -149,23 +150,23 @@ export async function saveToUpload(paperId, messageShow) {
         groupName: workPaper.groupName,
         verNo: null,
         name: null,
-        corpType: "QYK_ALLBUSINESS",
+        corpType: "",
         corpType2: "",
-        corpInfo: "",
+        corpInfo: JSON.stringify(corpData),
         corpDataType: "",
         checkReason: workCaseObj.checkReason,
         checkStatus: workCaseObj.checkStatus,
         planBeginDate: workCaseObj.planBeginDate ? workCaseObj.planBeginDate + " 00:00:00" : null,
         planEndDate: workCaseObj.planEndDate ? workCaseObj.planEndDate + " 00:00:00" : null,
         createTime: workCaseObj.createDate,
-        affiliate: workPaper.groupId,
+        affiliate: workCaseObj.affiliate,
         meikuangType: workCaseObj.meikuangType,
-        meikuangPlanfrom: workCaseObj.meikuangPlanfrom,
+        meikuangPlanfrom: workCaseObj.meikuangPlanfrom, // 是否计划内
         planId: workCaseObj.planId,
-        pcMonth: workCaseObj.pcMonth,
-        caseClassify: workCaseObj.caseClassify,
-				riskAssessment: workCaseObj.riskAssessment,
-				riskAssessmentContent: workCaseObj.riskAssessmentContent, 
+        pcMonth: '',
+        caseClassify: workCaseObj.caseClassify || '',
+				riskAssessment: workCaseObj.riskAssessment || '',
+				riskAssessmentContent: workCaseObj.riskAssessmentContent || '', 
       },
     ],
     danger: [],
@@ -195,9 +196,8 @@ export async function saveToUpload(paperId, messageShow) {
           },
           caseId: workPaper.caseId,
           dangerId: item.dangerId,
-          dangerType: {
-            categoryCode: item.dangerCate,
-          },
+          dangerCate: item.dangerCate,
+          dangerType: item.dangerCate,
           delFlag: item.delFlag,
           dangerItemId: item.dangerItemId,
           dangerContent: item.dangerContent,

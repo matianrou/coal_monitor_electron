@@ -617,8 +617,47 @@ export default {
           `/local/dict/listData?type=${(this.userType === 'supervision' ? 'subitem_type' : 'subitem_type')}&__sid=${userSessId}`)
         .then(async ({ data }) => {
           if (data.status === "200") {
+            // 码表数据，增加比对校验字符串
             data.data.forEach(item => {
-              item.id = item.id.trim()
+              // 设置检索词
+              switch (item.label) {
+                case '警告':
+                  item.searchLabel = '警告'
+                  break
+                case '责令停产整顿':
+                  item.searchLabel = '整顿'
+                  break
+                case '责令停产停业':
+                  item.searchLabel = '停业'
+                  break
+                case '责令停止建设':
+                  item.searchLabel = '建设'
+                  break
+                case '责令停止施工':
+                  item.searchLabel = '施工'
+                  break
+                case '暂停有关执业资格、岗位证书':
+                  item.searchLabel = '暂停有关执业资格、岗位证书'
+                  break
+                case '没收违法所得':
+                  item.searchLabel = '所得'
+                  break
+                case '没收非法开采的煤炭产品、采掘设备':
+                  item.searchLabel = '开采'
+                  break
+                case '撤销有关执业资格、岗位证书':
+                  item.searchLabel = '撤销'
+                  break
+                case '罚款':
+                  item.searchLabel = ''
+                  break
+                case '暂扣安全生产许可证':
+                  item.searchLabel = ''
+                  break
+                case '吊销安全生产许可证':
+                  item.searchLabel = ''
+                  break
+              }
             })
             this.dictionary.subitemType = data.data
           }

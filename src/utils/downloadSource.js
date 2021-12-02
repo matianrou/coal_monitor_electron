@@ -918,7 +918,7 @@ async function doDocDb(resId, data){
 			"groupName": String, //机构名称
 			/*
 			*/
-			//"corpType": "QYK_ALLBUSINESS",
+			"corpType": String,
 			"checkReason": String, // "1",
 			"checkStatus": String, // "0",
 			"planBeginDate": String, //检查开始日期：2021-06-15 00:00:00
@@ -926,7 +926,7 @@ async function doDocDb(resId, data){
 			//"createTime": "2021-06-15 11:00:25",
 			"caseSn": String,
 			//"sourceFlag": "0",
-			//"affiliate": "130000120001",
+			"affiliate": String,
 			"meikuangType": String, //docPlan表-meikuangType字段
 			"meikuangPlanfrom": String, //docPlan表-meikuangPlanfrom字段
 			"planId": String, //docPlan表-no字段
@@ -1140,6 +1140,8 @@ async function doDocDb(resId, data){
 				"caseClassify": obj.caseClassify,
 				"riskAssessment": obj.riskAssessment,
 				"riskAssessmentContent": obj.riskAssessmentContent, 
+				"affiliate": obj.affiliate,
+				"corpType": obj.corpType
 			});
 		}
 	}

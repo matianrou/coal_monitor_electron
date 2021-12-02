@@ -50,6 +50,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.el-input {
-}
 </style>

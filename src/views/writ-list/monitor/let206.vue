@@ -54,14 +54,14 @@
             <div class="docTextarea">
               违法事实：
               <span
-                @click="commandFill('cellIdx7', '违法事实', 'DangerTable')"
+                @click="commandFill('cellIdx7', '违法事实', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
                 >{{
                   letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
                 }}</span
               >
               以上事实分别违反了
               <span
-                @dblclick="commandFill('cellIdx8', '法律规定', 'DangerTable')"
+                @dblclick="commandFill('cellIdx8', '法律规定', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
                 @click="commandFill('cellIdx8', '法律规定', 'TextareaItem')"
                 >{{
                   letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
@@ -69,7 +69,7 @@
               >
               的规定，依据
               <span
-                @dblclick="commandFill('cellIdx9', '法律依据', 'DangerTable')"
+                @dblclick="commandFill('cellIdx9', '法律依据', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
                 @click="commandFill('cellIdx9', '法律依据', 'TextareaItem')"
                 >{{
                   letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
@@ -77,7 +77,7 @@
               >
               的规定，决定给予以下行政处罚：
               <span
-                @click="commandFill('cellIdx10', '行政处罚', 'DangerTable')"
+                @click="commandFill('cellIdx10', '行政处罚', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
                 >{{
                   letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
                 }}</span
@@ -224,41 +224,52 @@ export default {
     async initLetData(selectedPaper) {
       let db = new GoDB(this.$store.state.DBName);
       let corpBase = db.table("corpBase");
+      // 3.被处罚：如果为单位时赋值煤矿名称coprName
+      // 4.地址：如果为单位时赋值煤矿地址address
       let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       // 1.关联行政处罚告知书
-      // 2.单位/个人：行政处罚告知书中的单位/个人cellIdx5
       let let6DataPaperContent = JSON.parse(
         selectedPaper.let6Data.paperContent
       );
+      // 2.单位/个人：行政处罚告知书中的单位/个人selectedType
       let cellIdx4String = let6DataPaperContent.selectedType;
-      // 3.被处罚：如果为单位时赋值煤矿名称coprName
-      // 4.地址：如果为单位时赋值煤矿地址address
-      // 5.违法事实：行政处罚告知书中的cellIdx6
-      // 6.法律规定 :行政处罚告知书中的cellIdx7
-      let cellIdx7String = setDangerTable(let6DataPaperContent.DangerTable, {}, {
-          page: "8",
-          key: "cellIdx7",
-        }
-      );
-      // 7.法律依据 :行政处罚告知书中的cellIdx8
-      let cellIdx8String = setDangerTable(let6DataPaperContent.DangerTable, {}, {
-          page: "8",
-          key: "cellIdx8",
-        }
-      );
-      // 8.行政处罚 :行政处罚告知书中的cellIdx9
-      let cellIdx9String = setDangerTable(let6DataPaperContent.DangerTable, {}, {
-          page: "8",
-          key: "cellIdx9",
-        }
-      );
-      let cellIdx10String = setDangerTable(let6DataPaperContent.DangerTable, {}, {
-          page: "8",
-          key: "cellIdx10",
-        }
-      );
+      let cellIdx7String = ''
+      let cellIdx8String = ''
+      let cellIdx9String = ''
+      let cellIdx10String = ''
+      if (this.corpData.caseType === '0') {
+        // 5.违法事实：行政处罚告知书中的cellIdx6
+        cellIdx7String = setDangerTable(let6DataPaperContent.DangerTable, {}, {
+            page: "8",
+            key: "cellIdx7",
+          }
+        );
+        // 6.法律规定 :行政处罚告知书中的cellIdx7
+        cellIdx8String = setDangerTable(let6DataPaperContent.DangerTable, {}, {
+            page: "8",
+            key: "cellIdx8",
+          }
+        );
+        // 7.法律依据 :行政处罚告知书中的cellIdx8
+        cellIdx9String = setDangerTable(let6DataPaperContent.DangerTable, {}, {
+            page: "8",
+            key: "cellIdx9",
+          }
+        );
+        // 8.行政处罚 :行政处罚告知书中的cellIdx9
+        cellIdx10String = setDangerTable(let6DataPaperContent.DangerTable, {}, {
+            page: "8",
+            key: "cellIdx10",
+          }
+        );
+      } else {
+        cellIdx7String = let6DataPaperContent.cellIdx6
+        cellIdx8String = let6DataPaperContent.cellIdx7
+        cellIdx9String = let6DataPaperContent.cellIdx8
+        cellIdx10String = let6DataPaperContent.cellIdx10
+      }
       // 9.机构接口中sysOfficeInfo实体中对应：
       // accountName；银行：accountBank；账户名称：billName；账号：account；
       // 地址：accountAddress；组织机构名：organName；法院：courtPrefix
@@ -308,12 +319,12 @@ export default {
         cellIdx19: this.$store.state.curCase.groupName, // 
         cellIdx20: this.todayDate, // 日期
         cellIdx21: cellIdx4String, // 单位/个人
-        DangerTable: let6DataPaperContent.DangerTable,
+        DangerTable: let6DataPaperContent.DangerTable || null,
         selectedType: let6DataPaperContent.selectedType,
-        associationPaperId: { // 关联的paperId
-          paper1Id: let6DataPaperContent.associationPaperId.paper1Id || '',
+        associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
+          paper1Id: let6DataPaperContent.associationPaperId.paper1Id,
           paper6Id: selectedPaper.let6Data.paperId,
-        }
+        } : null
       };
     },
     goBack({ page, data }) {
@@ -326,11 +337,11 @@ export default {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
         if (
-          key === "cellIdx7" ||
-          (key === "cellIdx8" && type === 'DangerTable') ||
-          (key === "cellIdx9" && type === 'DangerTable') ||
+          (key === "cellIdx7" ||
+          key === "cellIdx8" ||
+          key === "cellIdx9" ||
           key === "cellIdx10"
-        ) {
+          ) && type === 'DangerTable') {
           this.options[key] = {
             page: "8",
             key: key,

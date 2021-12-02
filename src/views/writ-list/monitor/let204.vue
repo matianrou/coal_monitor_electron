@@ -74,7 +74,7 @@
               >
               分别违反了
               <span
-                @click="commandFill('cellIdx7', '违法行为', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @click="commandFill('cellIdx7', '规定', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
                 >{{
                   letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
                 }}</span
@@ -93,7 +93,7 @@
               }}</span>
               分别作出：
               <span
-                @click="commandFill('cellIdx10', '法律规定', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @click="commandFill('cellIdx10', '行政处罚', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
                 >{{
                   letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
                 }}</span
@@ -396,7 +396,7 @@ export default {
           cellIdx4: null, // 煤矿名称
           cellIdx5: null, // 单位或个人
           cellIdx6: null, // 违法行为
-          cellIdx7: null, // 违法行为
+          cellIdx7: null, // 规定
           cellIdx8: null, // 法律依据
           cellIdx9: null, // 单位或个人
           cellIdx10: null, // 法律规定
@@ -423,11 +423,11 @@ export default {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
         if (
-          key === "cellIdx6" ||
+          (key === "cellIdx6" ||
           key === "cellIdx7" ||
-          (key === "cellIdx8" && type === 'DangerTable') ||
+          key === "cellIdx8" ||
           key === "cellIdx10"
-        ) {
+        ) && dataKey === 'DangerTable') {
           this.options[key] = {
             page: "6",
             key: key,

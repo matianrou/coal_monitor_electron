@@ -313,8 +313,6 @@ function setDangerTable (data, selectedData, options) {
 //   // 获取对比后的字符串集合
 //   // longString为长字符串，可通过逗号分解单字符，分解后再与string对比，如果相同则不再添加，如果不同则添加
 //   let finString = ''
-//   console.log('longString', longString)
-//   console.log('string', string)
 //   if (longString.includes('，')) {
 //     let stringList = longString.split('，')
 //     let isAdd = true

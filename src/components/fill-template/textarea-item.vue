@@ -36,7 +36,7 @@ export default {
   },
   watch: {
     value (val) {
-      this.dataForm.tempValue = val
+      this.dataForm.tempValue = val || ''
     }
   },
   methods: {
@@ -48,6 +48,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.el-input {
-}
 </style>

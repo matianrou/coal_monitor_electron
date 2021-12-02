@@ -274,8 +274,10 @@ export default {
         caseId: caseId,
         caseNo: caseNo,
         caseSn: `${userNumber}${numString}`, // 文书编号后五位：用户userNumber+自增三位数字
+        caseType: this.dataForm.caseType,
         remoteId: "",
         delFlag: "0",
+        affiliate: this.$store.state.curCase.groupName, // 归档机构
         createDate: sDate,
         updateDate: sDate,
         createById: userId,
@@ -286,13 +288,12 @@ export default {
         personName: userName,
         groupId: groupId,
         groupName: groupName,
-        caseType: this.dataForm.caseType,
         checkReason: "1",
-        checkStatus: "0",
+        checkStatus: this.dataForm.caseType,
         planBeginDate: this.dataForm.startDate,
         planEndDate: this.dataForm.endDate,
         meikuangType: corpBase.meikuangType,
-        meikuangPlanfrom: corpBase.meikuangPlanfrom ? corpBase.meikuangPlanfrom : "1",
+        meikuangPlanfrom: "3", // 是否计划内的，此处创建不是检查计划中的所以写死'3'其他
         planId: corpPlan ? corpPlan.dbplanId : '',
         pcMonth: this.selectPlanData.selPlanDate,
         caseClassify: this.dataForm.caseClassify,

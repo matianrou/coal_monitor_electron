@@ -284,11 +284,11 @@ export default {
               })
             }
           }
-          item.p8Penalty = toDecimal2(p8Penalty)
+          item.p8Penalty = toDecimal2(p8Penalty / 10000)
           item.collectionDate = getNowDate()
           item.collectionFine = 0
           // 收缴金额最大值：罚款金额 - 以往收缴的总和
-          item.collectionFineMax = Number(item.p8Penalty) - alreadyFine[item.paperId]
+          item.collectionFineMax = Number(item.p8Penalty) - ((alreadyFine[item.paperId] / 10000) || 0)
           item.p8Id = item.paperId,
           item.fineId = getNowTime() + randomString(28)
         })

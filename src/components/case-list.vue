@@ -251,7 +251,7 @@ export default {
     },
     async getData() {
       // 根据计划年月和机构获取计划和活动，组合成选择列表
-      let userGroupId = this.dataForm.selGovUnit;
+      let selGovUnit = this.dataForm.selGovUnit;
       let selectPlanDate = this.dataForm.selPlanDate
       let db = new GoDB(this.DBName);
       let docPlan = db.table("docPlan"); // 计划
@@ -264,13 +264,13 @@ export default {
         // 如果计划中的企业已有检查，则名称前增加”（已做）“
         // 检查活动
         let wkCase = await wkCaseInfo.findAll((item) => {
-          return item.groupId === userGroupId
+          return item.groupId === selGovUnit
           && item.pcMonth === selectPlanDate
           && item.planId && item.delFlag !== '1';
         });
         // 计划
         let arrPlan = await docPlan.findAll((item) => {
-          return item.groupId === userGroupId
+          return item.groupId === selGovUnit
           && (`${item.planYear}-${item.planMonth}`) === selectPlanDate
           && item.delFlag !== '1';
         });
@@ -318,11 +318,10 @@ export default {
       } else if (this.dataForm.isPlan === '其他') {
         // 检查活动
         let wkCase = await wkCaseInfo.findAll((item) => {
-          return item.groupId === userGroupId
+          return item.groupId === selGovUnit
           && item.pcMonth === selectPlanDate
           && !item.planId && item.delFlag !== '1';
         })
-        console.log('wkCase', wkCase)
         let listArr = [...wkCase]
         // 转换为列表所需要的值
         listArr.map((k, index) => {

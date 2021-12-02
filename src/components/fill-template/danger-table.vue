@@ -368,7 +368,7 @@ import GoDB from "@/utils/godb.min.js";
 import { severalDaysLater, getNowTime } from "@/utils/date";
 import selectPerson from '@/components/select-person'
 import { treeDataTranslate, fuzzyearch, randomString, getMoney, transformNumToChinese, thousands } from '@/utils'
-import { retrunGetMoney } from '@/utils/setInitPaperData'
+import { retrunGetMoney, getPenaltyDescType } from '@/utils/setInitPaperData'
 import Sortable from 'sortablejs'
 export default {
   name: "DangerTable",
@@ -618,47 +618,6 @@ export default {
       this.onsiteTypeOptions = JSON.parse(onsiteType[0].list) 
       let subitemType = await dictionary.findAll(item => item.type === 'subitemType')
       let subitemTypeList = JSON.parse(subitemType[0].list)
-      subitemTypeList.forEach(item => {
-        // 设置检索词
-        switch (item.label) {
-          case '警告':
-            item.searchLabel = '警告'
-            break
-          case '责令停产整顿':
-            item.searchLabel = '整顿'
-            break
-          case '责令停产停业':
-            item.searchLabel = '停业'
-            break
-          case '责令停止建设':
-            item.searchLabel = '建设'
-            break
-          case '责令停止施工':
-            item.searchLabel = '施工'
-            break
-          case '暂停有关执业资格、岗位证书':
-            item.searchLabel = '暂停有关执业资格、岗位证书'
-            break
-          case '没收违法所得':
-            item.searchLabel = '所得'
-            break
-          case '没收非法开采的煤炭产品、采掘设备':
-            item.searchLabel = '开采'
-            break
-          case '撤销有关执业资格、岗位证书':
-            item.searchLabel = '撤销'
-            break
-          case '罚款':
-            item.searchLabel = ''
-            break
-          case '暂扣安全生产许可证':
-            item.searchLabel = ''
-            break
-          case '吊销安全生产许可证':
-            item.searchLabel = ''
-            break
-        }
-      })
       this.subitemTypeOptions = subitemTypeList
       await db.close()
       // 当文书为案件处理呈报书、行政处罚告知书、行政处罚决定书时，同步结算行政处罚信息捕获及合并处罚文书
@@ -706,7 +665,7 @@ export default {
               penaltyDescFine = money
             }
           }
-          let {id, type} = this.getPenaltyDescType(receiveDanger.penaltyDesc)
+          let {id, type} = getPenaltyDescType(receiveDanger.penaltyDesc, this.subitemTypeOptions)
           let addItem = Object.assign({}, item, {
             dangerId: getNowTime() + randomString(28),
             personIds: null, // 隐患发现人
@@ -809,7 +768,7 @@ export default {
         if (count > 0 && count < 3) {
           penaltyDescFine = money
         }
-        let {id, type} = this.getPenaltyDescType(val)
+        let {id, type} = getPenaltyDescType(val, this.subitemTypeOptions)
         this.dataForm.tempValue.tableData[index].penaltyDescFine = penaltyDescFine
         this.dataForm.tempValue.tableData[index].penaltyDescTypeId = id
         this.dataForm.tempValue.tableData[index].penaltyDescType = type
@@ -833,7 +792,7 @@ export default {
             penaltyDescFine = money
           }
         }
-        let {id, type} = this.getPenaltyDescType(receiveDanger.penaltyDesc)
+        let {id, type} = getPenaltyDescType(receiveDanger.penaltyDesc, this.subitemTypeOptions)
         this.dataForm.tempValue.tableData.push({
           dangerId: getNowTime() + randomString(28),
           active: false,
@@ -1228,25 +1187,6 @@ export default {
         }
       }
     },
-    getPenaltyDescType (penaltyDescString) {
-      // 通过行政处罚说明获取行政处罚类型和id
-      let id = ''
-      let type = ''
-      let {count} = retrunGetMoney(penaltyDescString)
-      if (count > 0 && count < 3) {
-        type += '罚款,'
-        id += this.subitemTypeOptions.filter(item => item.label === '罚款')[0].value + ','
-      }
-      for (let i = 0; i < this.subitemTypeOptions.length; i++) {
-        if (this.subitemTypeOptions[i].searchLabel && penaltyDescString.includes(this.subitemTypeOptions[i].searchLabel)) {
-          id += this.subitemTypeOptions[i].value + ','
-          type += this.subitemTypeOptions[i].label + ','
-        }
-      }
-      if (id) id = id.substring(0, id.length - 1)
-      if (type) type = type.substring(0, type.length - 1)
-      return {id, type}
-    }
   },
 };
 </script>
