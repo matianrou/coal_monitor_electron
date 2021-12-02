@@ -307,7 +307,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
+import { getDangerObject, getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let209",
@@ -354,7 +354,7 @@ export default {
         selectedPaper.let6Data.paperContent
       );
       let dangerObject = getDangerObject(
-        let6DataPapaerContent.DangerTable.tableData
+        let6DataPapaerContent.DangerTable.selectedDangerList
       );
       let cellIdx7String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
       // 5.地点：sysOfficeInfo实体中depAddress字段+ deparFullname字段
@@ -378,6 +378,9 @@ export default {
       let cellIdx32String = orgSysOfficeInfo.depPost;
       let cellIdx34String = orgSysOfficeInfo.master;
       let cellIdx35String = orgSysOfficeInfo.phone;
+      let DangerTable = let6DataPapaerContent.DangerTable ? 
+      setNewDanger(selectedPaper.let6Data, let6DataPapaerContent.DangerTable)
+      : {}
       await db.close();
       this.letData = {
         cellIdx0: num0, // 文书号
@@ -437,7 +440,7 @@ export default {
         cellIdx37: this.todayDate, // 日期
         cellIdx37TypeDateItem: this.todayDate, // 日期
         cellIdx38: let6DataPapaerContent.selectedType, // 单位/个人
-        DangerTable: let6DataPapaerContent.DangerTable, // 保留用于不予受理中使用
+        DangerTable: DangerTable, // 保留用于不予受理中使用
         extraData: {
           // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,

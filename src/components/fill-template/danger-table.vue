@@ -114,7 +114,8 @@
                 placeholder="请填写违法行为描述"
                 type="textarea"
                 :autosize="{ minRows: 1, maxRows: 5}"
-                :maxlength="200">
+                :maxlength="200"
+                @change="val => changeValue(val, 'itemContent')">
               </el-input>
             </el-form-item>
             <el-form-item
@@ -125,7 +126,8 @@
                 type="textarea"
                 placeholder="请填写违法认定法条"
                 :autosize="{ minRows: 1, maxRows: 5}"
-                :maxlength="300">
+                :maxlength="300"
+                @change="val => changeValue(val, 'confirmBasis')">
               </el-input>
             </el-form-item>
             <el-form-item
@@ -189,7 +191,8 @@
                 type="textarea"
                 placeholder="请填写现场处理依据"
                 :autosize="{ minRows: 1, maxRows: 5}"
-                :maxlength="300">
+                :maxlength="300"
+                @change="val => changeValue(val, 'onsiteBasis')">
               </el-input>
             </el-form-item>
             <el-form-item
@@ -210,7 +213,8 @@
                 type="textarea"
                 placeholder="请填写行政处罚依据"
                 :autosize="{ minRows: 1, maxRows: 5}"
-                :maxlength="300">
+                :maxlength="300"
+                @change="val => changeValue(val, 'penaltyBasis')">
               </el-input>
             </el-form-item>
             <el-form-item
@@ -367,7 +371,7 @@ import receiveDanger from '@/components/receive-danger'
 import GoDB from "@/utils/godb.min.js";
 import { severalDaysLater, getNowTime } from "@/utils/date";
 import selectPerson from '@/components/select-person'
-import { treeDataTranslate, fuzzyearch, randomString, getMoney, transformNumToChinese, thousands } from '@/utils'
+import { treeDataTranslate, fuzzyearch, randomString, getMoney, transformNumToChinese, thousands, sortbyAsc } from '@/utils'
 import { retrunGetMoney, getPenaltyDescType } from '@/utils/setInitPaperData'
 import Sortable from 'sortablejs'
 export default {
@@ -615,15 +619,20 @@ export default {
       let db = new GoDB(this.DBName)
       let dictionary = db.table('dictionary')
       let onsiteType = await dictionary.findAll(item => item.type === 'onsiteDesc') 
-      this.onsiteTypeOptions = JSON.parse(onsiteType[0].list) 
+      let onsiteTypeList = JSON.parse(onsiteType[0].list) 
+      onsiteTypeList.sort(sortbyAsc('sort'))
+      this.onsiteTypeOptions = onsiteTypeList
       let subitemType = await dictionary.findAll(item => item.type === 'subitemType')
       let subitemTypeList = JSON.parse(subitemType[0].list)
+      subitemTypeList.sort(sortbyAsc('sort'))
       this.subitemTypeOptions = subitemTypeList
       await db.close()
       // 当文书为案件处理呈报书、行政处罚告知书、行政处罚决定书时，同步结算行政处罚信息捕获及合并处罚文书
       let page = this.options.page
       if (page === '36' || page === '6' || page === '8') {
-        this.setPunishmentList()
+        if (!this.dataForm.tempValue.punishmentInfor) {
+          this.setPunishmentList()
+        }
       }
     },
     setSelection() {
@@ -746,6 +755,11 @@ export default {
       // 重新排列order
       tableData.forEach((item, index) => {
         item.order = index
+        // 同步更新已选择列表中的order
+        let selectedItemIndex = this.dataForm.tempValue.selectedDangerList.findIndex(selectedItem => selectedItem.dangerId === item.dangerId)
+        if (selectedItemIndex !== -1) {
+          this.dataForm.tempValue.selectedDangerList[selectedItemIndex].order = index
+        }
       })
       // 赋值tableData
       this.dataForm.tempValue.tableData = tableData
@@ -772,6 +786,24 @@ export default {
         this.dataForm.tempValue.tableData[index].penaltyDescFine = penaltyDescFine
         this.dataForm.tempValue.tableData[index].penaltyDescTypeId = id
         this.dataForm.tempValue.tableData[index].penaltyDescType = type
+        // 同步修改已选择的数据
+        let selectedItemIndex = this.dataForm.tempValue.selectedDangerList.findIndex(item => item.dangerId === this.dataForm.tempValue.tableData[index].dangerId)
+        if (selectedItemIndex !== -1) {
+          let obj = Object.assign({}, this.dataForm.tempValue.selectedDangerList[selectedItemIndex], {
+            penaltyDescFine: penaltyDescFine,
+            penaltyDescTypeId: id,
+            penaltyDescType: type,
+          })
+          this.$set(this.dataForm.tempValue.selectedDangerList, selectedItemIndex, obj)
+          // this.dataForm.tempValue.selectedDangerList[selectedItemIndex].penaltyDescFine = penaltyDescFine
+          // this.dataForm.tempValue.selectedDangerList[selectedItemIndex].penaltyDescTypeId = id
+          // this.dataForm.tempValue.selectedDangerList[selectedItemIndex].penaltyDescType = type
+        }
+      }
+      // 同步修改已选择的数据
+      let selectedItemIndex = this.dataForm.tempValue.selectedDangerList.findIndex(item => item.dangerId === this.dataForm.tempValue.tableData[index].dangerId)
+      if (selectedItemIndex !== -1) {
+        this.dataForm.tempValue.selectedDangerList[selectedItemIndex][field] = val
       }
     },
     handleSaveReceiveDanger (dangerList) {
@@ -1181,6 +1213,8 @@ export default {
             if (penaltyId) penaltyId = penaltyId.substring(0, penaltyId.length - 1)
             if (penaltyStr) penaltyStr = penaltyStr.substring(0, penaltyStr.length - 1)
             this.$set(this.dataForm.tempValue, 'punishmentInfor', `合并罚款人民币${transTotal}（¥${thousandsTotal}）${penaltyStr}`)
+          } else {
+            this.$set(this.dataForm.tempValue, 'punishmentInfor', '')
           }
         } else {
           this.$set(this.dataForm.tempValue, 'punishmentList', [])

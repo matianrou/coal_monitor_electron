@@ -75,6 +75,7 @@ import orgInformation from '@/components/org-information' // 企业信息
 import writInformation from '@/components/writ-information' // 创建活动弹窗
 import { writList } from '@/utils/writList'
 import selectPaper from '@/components/select-paper'
+import { sortbyAsc } from "@/utils/index";
 
 export default {
   name: "MakeLawWrit",
@@ -161,6 +162,7 @@ export default {
             this.gotoWritFill(data)
           } else {
             // 如果查询的文书大于1个，则弹窗选择
+            checkPaper.sort(sortbyAsc('createDate'))
             this.paperList = checkPaper
             this.templatePaperData = data
             this.selectPaperVisible = true

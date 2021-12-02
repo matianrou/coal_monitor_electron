@@ -22,7 +22,7 @@
             row-key="paperId"
             border
             stripe
-            :default-sort = "{prop: 'createDate', order: 'descending'}"
+            :default-sort = "{prop: 'createDate', order: 'asc'}"
             :header-cell-style="{background: '#f5f7fa'}"
             @selection-change="val => handleSelectionChange(val, 'paper2List')">
             <el-table-column

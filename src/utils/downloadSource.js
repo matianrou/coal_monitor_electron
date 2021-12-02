@@ -40,17 +40,20 @@ async function doOrgDb(resId, data) {
       "grade": String,
       "address": String,
       "parentId": String,
+      "sort": Number,
       "areaId": String,
       "areaName": String,
       "areaShortName": String,
       "areaParentIds": String,
+			"areaDelFlag": String,
+			"areaSort": Number,
       "sysOfficeInfo": String
     }
   };
   let db = new GoDB(store.state.DBName, schema);
   let orgInfo = db.table('orgInfo');
 
-  //1-add baseInfo(煤矿基本信息)
+  //1-add baseInfo(机构基本信息)
   let arrOrg = [];
   for (let i = 0; i < data.length; i++) {
     let obj = data[i];
@@ -68,12 +71,15 @@ async function doOrgDb(resId, data) {
         "grade": obj.grade,
         "address": obj.address,
         "parentId": obj.parentId,
-        "areaId": obj.area.id,
+				"sort": obj.sort,
+				"areaId": obj.area.id,
         "areaName": obj.area.name,
         "areaShortName": obj.area.shortName,
         "areaParentIds": obj.area.parentIds,
         "areaParentId": obj.area.parentId,
-        "sysOfficeInfo": JSON.stringify(obj.sysOfficeInfo)
+				"areaDelFlag": obj.area.areaDelFlag,
+				"areaSort": obj.area.sort,
+				"sysOfficeInfo": JSON.stringify(obj.sysOfficeInfo)
     });
     }
   }
@@ -545,7 +551,7 @@ async function doEnterpriseList(resId, data){
 			"parentId": String,
 			"parentIds": String,
 			"shortName": String,
-			"sort": String,
+			"sort": Number,
 			"type": String,
 			"updateBy": String,
 			"updateDate": String,
@@ -887,7 +893,7 @@ async function doDocDb(resId, data){
 			"p1PersonName": String, //null,
 			"p5EvidenceTime": String, //null,
 			"p8penaltyType": String, //null,
-			"p8Penalty": String, //null,
+			"p8Penalty": Number, //null,
 			"p8PersonPenalty": String, //null,
 			"p8OrgPenalty": String, //null,
 			"p13PersonId": String, // null,
@@ -976,9 +982,9 @@ async function doDocDb(resId, data){
 			"subitemPenalty": String,      //违法违规行政处罚决定：逾期未改正的，处五十万元以上一百万元以下的罚款，对其直接负责的主管人员和其他直接责任人员处二万元以上五万元以下的罚款。
 			"subitemPenaltyBasis": String, //行政处罚依据：《中华人民共和国安全生产法》第二十九条，第九十五条第一项
 			"penaltyOrg": String,       //对单位的处罚
-			"penaltyOrgFine": Number,   //单位罚金
+			"penaltyOrgFine": String,   //单位罚金
 			"penaltyPerson": String,    //对个人的处罚
-			"penaltyPersonFine": Number,//个人罚金
+			"penaltyPersonFine": String,//个人罚金
 			"itemOnsiteType": String,   //现场处理类型
 			"itemOnsiteBasis": String,  //现场决定依据：《中华人民共和国安全生产法》第九十五条第一项
 			"onsiteContent": String,    //现场处理内容：责令停止建设责令停止作业、限X日内改正
@@ -1095,7 +1101,7 @@ async function doDocDb(resId, data){
 			"p1PersonName": obj.p1PersonName,
 			"p5EvidenceTime": obj.p5EvidenceTime, //null,
 			"p8penaltyType": obj.p8penaltyType, //null,
-			"p8Penalty": obj.p8Penalty, //null,
+			"p8Penalty": obj.p8Penalty ? Number(obj.p8Penalty) * 10000 : 0, // 因后台保存单位为万元，接收后转为元,
 			"p8PersonPenalty": obj.p8PersonPenalty, //null,
 			"p8OrgPenalty": obj.p8OrgPenalty, //null,
 			"p13PersonId": obj.p13PersonId, // null,
@@ -1146,6 +1152,24 @@ async function doDocDb(resId, data){
 		}
 	}
 
+	// 当前获取的检查项内容有重复的数据，导致第一次下载时会报错，故加上以下去重逻辑
+	// let obj = {}
+	// arrDanger = arrDanger.reduce((cur, next) => {
+	// 	obj[next.id] ? "" : obj[next.id] = true && cur.push(next);
+	// 	return cur
+	// }, [])
+	// 检验数据是否仍有重复
+	// let id = []
+	// for (let i = 0; i < arrDanger.length; i++ ) {
+	// 	let del = arrDanger.splice(i, 1)
+	// 	arrDanger.map(item => {
+	// 		if (del[0].dangerId === item.dangerId) {
+	// 			id.push(del)
+	// 		}
+	// 	})
+	// 	i--
+	// }
+	// console.log('id', id)
 	//3-danger
 	for (let i = 0; i < arrDanger.length; i++) {
 		let obj = arrDanger[i];
@@ -1160,7 +1184,7 @@ async function doDocDb(resId, data){
 			"createBy": JSON.stringify(obj.createBy),
 			"updateBy": JSON.stringify(obj.updateBy),
 			"caseId": obj.caseId,
-			"dangerType": obj.dangerType,
+			"dangerType": JSON.stringify(obj.dangerType),
       "delFlag": obj.delFlag,
 			"dangerCate": obj.dangerType.categoryCode,
 			"dangerItemId": obj.dangerItemId,
@@ -1182,11 +1206,10 @@ async function doDocDb(resId, data){
 			"subitemContent": obj.subitemContent,
 			"subitemPenalty": obj.subitemPenalty,
 			"subitemPenaltyBasis": obj.subitemPenaltyBasis,
-      "penaltyDescFine": obj.penaltyDescFine,
 			"penaltyOrg": obj.penaltyOrg,
-			"penaltyOrgFine": obj.penaltyOrgFine,
+			"penaltyOrgFine": Number(obj.penaltyOrgFine) * 10000,
 			"penaltyPerson": obj.penaltyPerson,
-			"penaltyPersonFine": obj.penaltyPersonFine,
+			"penaltyPersonFine": Number(obj.penaltyPersonFine) * 10000,
 			"itemOnsiteType": obj.itemOnsiteType,
 			"itemOnsiteBasis": obj.itemOnsiteBasis,
 			"onsiteContent": obj.onsiteContent,
@@ -1260,7 +1283,7 @@ async function docFileListDb(resId, data){
 			"caseId": String,
 			"paperId": String,
 			"punishType": String,
-			"P8Penalty": String,
+			"P8Penalty": Number,
 			"collectionFine": String,
 			"p8Id": String,
 			"paperNo": String,
@@ -1419,7 +1442,7 @@ async function docFileListDb(resId, data){
 			"caseId": obj.caseId,
 			"paperId": obj.paperId,
 			"punishType": obj.punishType,
-			"P8Penalty": obj.P8Penalty,
+			"P8Penalty": obj.P8Penalty ? Number(obj.P8Penalty) : 0,
 			"collectionFine": obj.collectionFine,
 			"p8Id": obj.p8Id,
 			"paperNo": obj.paperNo,

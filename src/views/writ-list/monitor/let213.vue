@@ -126,10 +126,10 @@ export default {
         selectedPaper.let1Data.paperContent
       );
       let dangerObject = getDangerObject(
-        let1DataPapaerContent.DangerTable.tableData
+        let1DataPapaerContent.DangerTable.selectedDangerList
       );
       // 1.案由
-      let string1 = `一、案由：${corp.corpName}${dangerObject.dangerString}案。\r\n`;
+      let string1 = `    一、案由：${corp.corpName}${dangerObject.dangerString}案。\r\n`;
       // 2.行政相对人基本情况
       let string2 = "    二、行政相对人基本情况：";
       string2 += (await corpInformation(db, corp)) + "。\r\n";

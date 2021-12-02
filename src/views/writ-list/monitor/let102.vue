@@ -176,7 +176,7 @@
 <script>
 // import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
+import { getDangerObject, getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let102",
@@ -222,6 +222,9 @@ export default {
         this.corpData.caseId,
         this.$store.state.user
       );
+      let DangerTable = let1DataPapaerContent.DangerTable ? 
+      setNewDanger(selectedPaper.let1Data, let1DataPapaerContent.DangerTable)
+      : {}
       await db.close();
       this.letData = {
         cellIdx0: paperNumber.num0, // 文书号
@@ -250,7 +253,7 @@ export default {
         cellIdx14TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx15: this.todayDate, //
         cellIdx15TypeDateItem: this.todayDate, //
-        DangerTable: let1DataPapaerContent.DangerTable || [], // 隐患项大表
+        DangerTable, // 隐患项大表
         associationPaperId: { // 关联的paperId
           paper1Id: selectedPaper.let1Data.paperId
         }

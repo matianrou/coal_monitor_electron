@@ -257,6 +257,7 @@
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
+import { setNewDanger } from '@/utils/setInitPaperData'
 export default {
   name: "Let104",
   mixins: [associationSelectPaper],
@@ -308,6 +309,9 @@ export default {
       );
       let cellIdx9String = dangerObject.dangerString;
       let cellIdx10String = dangerObject.onsiteDescString;
+      let DangerTable = let2DataPapaerContent.DangerTable ? 
+      setNewDanger(selectedPaper.let2Data, let2DataPapaerContent.DangerTable)
+      : {}
       await db.close();
       this.letData = {
         cellIdx0: num0, // 文书号
@@ -347,7 +351,7 @@ export default {
         cellIdx22TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx23: this.todayDate, // 日期
         cellIdx23TypeDateItem: this.todayDate, // 日期
-        DangerTable: let2DataPapaerContent.DangerTable,
+        DangerTable: DangerTable,
         associationPaperId: { // 关联的paperId
           paper1Id: let2DataPapaerContent.associationPaperId.paper1Id,
           paper2Id: selectedPaper.let2Data.paperId

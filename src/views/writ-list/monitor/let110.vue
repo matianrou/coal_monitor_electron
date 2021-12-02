@@ -237,7 +237,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
+import { getDangerObject, getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 const dictionary = [
   {
@@ -312,7 +312,7 @@ export default {
         selectedPaper.let1Data.paperContent
       );
       let dangerObject = getDangerObject(
-        let1DataPapaerContent.DangerTable.tableData
+        let1DataPapaerContent.DangerTable.selectedDangerList
       );
       let cellIdx6String = `${dangerObject.dangerString}`;
       let cellIdx7String = `${dangerObject.illegalString}`;
@@ -327,6 +327,9 @@ export default {
           : { organName: "", courtPrefix: "" };
       let cellIdx16String = orgSysOfficeInfo.organName;
       let cellIdx17String = orgSysOfficeInfo.courtPrefix;
+      let DangerTable = let1DataPapaerContent.DangerTable ? 
+      setNewDanger(selectedPaper.let1Data, let1DataPapaerContent.DangerTable)
+      : {}
       await db.close();
       this.letData = {
         cellIdx0: null, // 查封(扣押)
@@ -367,7 +370,7 @@ export default {
         // cellIdx21: null, //月
         // cellIdx22: null, // 日 暂不用
         cellIdx23: null, // 查封/扣押
-        DangerTable: let1DataPapaerContent.DangerTable,
+        DangerTable: DangerTable,
         SamplingForensicsTable: {
           tableData: [],
           signature: null,

@@ -4,7 +4,7 @@
     <!-- <el-form ref="dataForm" v-model="dataForm" :rules="dataRules"> -->
       <!-- <el-form-item label=" " prop="tempValue"> -->
         <el-date-picker
-          v-model="dataForm.tempValue"
+          v-model="dataForm.dateValue"
           type="daterange"
           format="yyyy年M月d日"
           value-format="yyyy年M月d日"
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { handleDateRetrun } from '@/utils/date'
+import { handleDateRetrun, handleDate } from '@/utils/date'
 export default {
   name: "DaterangeItem",
   props: {
@@ -54,7 +54,8 @@ export default {
     };
     return {
       dataForm: {
-        tempValue: [],
+        tempValue: '',
+        dateValue: []
       },
       dataRules: {
         'tempValue': [
@@ -69,17 +70,29 @@ export default {
   },
   watch: {
     value (val) {
-      let value = handleDateRetrun(val)
-      this.$set(this.dataForm, 'tempValue', value)
+      this.init()
     }
   },
   methods: {
     init() {
       // 初始化数据
+      this.$set(this.dataForm, 'tempValue', this.value)
       let value = handleDateRetrun(this.value)
-      this.$set(this.dataForm, 'tempValue', value)
+      this.$set(this.dataForm, 'dateValue', value)
     },
     changeValue(val) {
+      // 处理日期范围选择数据
+      let string = ''
+      let res = ''
+      if (val && val.length > 0) {
+        val.map(item => {
+          // let dateList = item.split('-')
+          // string += `${dateList[0]}年${dateList[1]}月${dateList[2]}日-`
+          string += item + '-'
+        })
+        res = handleDate(string.substring(0, string.length - 1), '-')
+      } 
+      this.$set(this.dataForm, 'tempValue', res)
       this.$parent.handleSave(true)
     }
   },

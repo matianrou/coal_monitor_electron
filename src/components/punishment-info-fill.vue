@@ -70,6 +70,7 @@
 <script>
 import GoDB from "@/utils/godb.min.js";
 import { retrunGetMoney, getPenaltyDescType } from '@/utils/setInitPaperData'
+import { sortbyAsc } from "@/utils/index";
 export default {
   name: "PunishmentInfoFill",
   props: {
@@ -112,6 +113,7 @@ export default {
       let dictionary = db.table('dictionary')
       let subitemType = await dictionary.findAll(item => item.type === 'subitemType')
       let subitemTypeList = JSON.parse(subitemType[0].list)
+      subitemTypeList.sort(sortbyAsc('sort'))
       this.subitemTypeOptions = subitemTypeList
       await db.close()
     },

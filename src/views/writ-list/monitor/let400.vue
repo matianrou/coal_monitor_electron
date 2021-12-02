@@ -156,11 +156,11 @@ export default {
       // 检查时间日期：
       let dateString = let1DataPapaerContent.cellIdx1 ? let1DataPapaerContent.cellIdx1 : 'X年X月X日-X年X月X日'
       // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
-      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
+      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.selectedDangerList)
       let cellIdx2String = `${corp.corpName}${dangerObject.dangerString}案。`
        // 2.理由和依据
         // 1，移送案件的理由和依据：立案时间+“我分局对”+煤矿名称+“进行安全监察时，发现该矿”+隐患描述+“经分局执法人员初步调查取证，认定该行为涉嫌违反了《矿产资源法》第十七条规定。” 
-        dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData, {danger: true})
+        dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.selectedDangerList, {danger: true})
       let cellIdx3String = `${dateString}我分局对${corp.corpName}进行安全监察时，发现该矿${dangerObject.dangerString}。经分局执法人员初步调查取证，认定该行为涉嫌违反了《矿产资源法》第十七条规定。`
       await db.close();
         // XXX国土资源局

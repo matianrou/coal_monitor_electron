@@ -19,7 +19,7 @@
     "axios": "^0.21.1",
     "babel-plugin-component": "^1.1.1",
     "better-scroll": "^1.12.6",
-    "crypto-js": "^3.2.1",
+    "crypto-js": "^3.3.0",
     "docxtemplater": "^3.25.3",
     "dompurify": "^2.0.15",
     "echarts": "^4.6.0",

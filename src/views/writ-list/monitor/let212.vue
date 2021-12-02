@@ -40,7 +40,7 @@
                   header-align="center"
                   align="center"
                   label="文书编号"
-                  width="210">
+                  width="270">
                 </el-table-column>
                 <el-table-column
                   prop="punishTypeName"
@@ -275,7 +275,7 @@ export default {
           // 整理罚款金额
           let p8Penalty = 0
           if (paperContent.DangerTable) {
-            let dangerList = paperContent.DangerTable.tableData || []
+            let dangerList = paperContent.DangerTable.selectedDangerList || []
             if (dangerList.length > 0) {
               dangerList.map(danger => {
                 if (danger.penaltyDescFine) {
@@ -284,11 +284,11 @@ export default {
               })
             }
           }
-          item.p8Penalty = toDecimal2(p8Penalty / 10000)
+          item.p8Penalty = p8Penalty / 10000
           item.collectionDate = getNowDate()
           item.collectionFine = 0
           // 收缴金额最大值：罚款金额 - 以往收缴的总和
-          item.collectionFineMax = Number(item.p8Penalty) - ((alreadyFine[item.paperId] / 10000) || 0)
+          item.collectionFineMax = Number(item.p8Penalty) - ((alreadyFine[item.paperId]) || 0)
           item.p8Id = item.paperId,
           item.fineId = getNowTime() + randomString(28)
         })

@@ -590,6 +590,27 @@ export default {
           `/local/dict/listData?type=${(this.userType === 'supervision' ? 'caseClassify' : 'caseClassify')}&__sid=${userSessId}`)
         .then(async ({ data }) => {
           if (data.status === "200") {
+            // 根据数据中增加说明字段
+            for (let i = 0; i < data.data.length; i++) {
+              data.data[i].description = ''
+              switch (data.data[i].label) {
+                case '本监察分局（站）':
+                  data.data[i].description = ''
+                  break
+                case '省局': 
+                  data.data[i].description = '“省局”是指省局机关对本分局（站）辖区煤矿开展的执法检查统计数据。'
+                  break
+                case '省内其他分局': 
+                  data.data[i].description = '“省内其他分局”是指省局组织的省内其他分局（站）对本分局（站）辖区煤矿开展的执法检查统计数据。'
+                  break
+                case '外省局异地执法': 
+                  data.data[i].description = '“外省局异地执法”是指国家局组织的外省局对本分局（站）辖区煤矿开展的异地执法检查统计数据。'
+                  break
+                case '国家局明察暗访': 
+                  data.data[i].description = '“国家局明查暗访”是指国家局机关组织的对本分局（站）辖区煤矿开展的明查暗访执法检查统计数据。'
+                  break
+              }
+            }
             this.dictionary.caseClassify = data.data
           }
         })

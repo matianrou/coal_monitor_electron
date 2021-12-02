@@ -197,7 +197,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject } from "@/utils/setInitPaperData";
+import { getDangerObject, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let205",
@@ -231,7 +231,7 @@ export default {
           },
         ],
       },
-      associationPaper: ["1", "6"],
+      associationPaper: ["6"],
     };
   },
   methods: {
@@ -253,18 +253,17 @@ export default {
       // 3.监察单位
       let cellIdx18String = this.$store.state.user.userGroupName;
       // 获取笔录文书中的隐患数据
-      let let1DataPapaerContent = JSON.parse(
-        selectedPaper.let1Data.paperContent
-      );
-      let dangerObject = getDangerObject(
-        let1DataPapaerContent.DangerTable.tableData
-      );
       // 4.陈述申辩：煤矿名称 + '涉嫌' + 隐患描述 + '案。'
-      let cellIdx19String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
       // 5.单位/个人：从行政处罚告知书(paperType === '6')中获取
       let let6DataPaperContent = JSON.parse(
         selectedPaper.let6Data.paperContent
       );
+      let dangerObject = getDangerObject(
+        let6DataPaperContent.DangerTable.selectedDangerList
+      );
+      let DangerTable = let6DataPaperContent.DangerTable ? 
+      setNewDanger(selectedPaper.let6Data, let6DataPaperContent.DangerTable)
+      : {}
       await db.close();
       /* let let204Data = await wkPaper.find(
           (item) => item.caseId === caseId && item.paperType === "6"
@@ -305,7 +304,7 @@ export default {
         cellIdx20: cellIdx20String, // 单位/个人
         cellIdx20TypeTextItem: cellIdx20String, // 单位/个人
         cellIdx21: null, // 法制审核意见
-        // DangerTable: let1DataPapaerContent.DangerTable,
+        // DangerTable: DangerTable,
         extraData: {
           // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,

@@ -109,7 +109,7 @@ export default {
         let dictionary = db.table('dictionary')
         let programmeTypeListJson = await dictionary.find(item => item.type === 'programmeType')
         let programmeTypeList = JSON.parse(programmeTypeListJson.list)
-        programmeTypeList.sort(sortbyAsc('createDate'))
+        programmeTypeList.sort(sortbyAsc('sort'))
         this.options.cellIdx1 = programmeTypeList
       }
       if (this.paperData && this.paperData.paperId) {
@@ -142,6 +142,7 @@ export default {
                 this.selectedPaper[`let${paper}Data`] = paperDataList[0]
               } else {
                 // 如果查到关联的文书有两条及以上，则保留关键字，同时保留多份文书列表，以便后面遍历选择
+                paperDataList.sort(sortbyAsc('createDate'))
                 this.selectFlowList.push({
                   key: `let${paper}Data`,
                   paperList: paperDataList

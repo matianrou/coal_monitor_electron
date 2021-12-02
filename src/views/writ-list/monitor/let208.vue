@@ -256,7 +256,7 @@ import GoDB from "@/utils/godb.min.js";
 import {
   transformNumToChinese,
 } from "@/utils";
-import { getDocNumber } from "@/utils/setInitPaperData";
+import { getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let208",
@@ -305,7 +305,7 @@ export default {
       // 1.计算缴纳罚款：
       let totleFine = 0
       if (let8DataPaperContent.DangerTable) {
-        let dangerList = let8DataPaperContent.DangerTable.tableData || []
+        let dangerList = let8DataPaperContent.DangerTable.selectedDangerList || []
         if (dangerList.length > 0) {
           dangerList.map(danger => {
             if (danger.penaltyDescFine) {
@@ -315,6 +315,9 @@ export default {
         }
       }
       let cellIdx16String = `缴纳罚款${transformNumToChinese(totleFine)}`
+      let DangerTable = let8DataPaperContent.DangerTable ? 
+      setNewDanger(selectedPaper.let8Data, let8DataPaperContent.DangerTable)
+      : {}
       await db.close();
       this.letData = {
         cellIdx0: num0, // 文书号

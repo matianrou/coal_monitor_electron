@@ -189,7 +189,7 @@ export default {
       let dictionary = db.table('dictionary')
       let caseClassifyListJson = await dictionary.find(item => item.type === 'caseClassify')
       let caseClassifyList = caseClassifyListJson ? JSON.parse(caseClassifyListJson.list) : []
-      caseClassifyList.sort(sortbyAsc('createDate'))
+      caseClassifyList.sort(sortbyAsc('sort'))
       // 根据登录用户筛选，如果省级用户展示3个，去掉分局的两个，其他为展示5个
       let person = db.table('person')
       let curPerson = await person.find(item => item.no === this.$store.state.user.userId && item.delFlag !== '1')

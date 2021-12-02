@@ -225,6 +225,7 @@
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
+import { setNewDanger } from '@/utils/setInitPaperData'
 export default {
   name: "Let106",
   mixins: [associationSelectPaper],
@@ -267,7 +268,7 @@ export default {
         selectedPaper.let1Data.paperContent
       );
       let dangerObject = getDangerObject(
-        let1DataPapaerContent.DangerTable.tableData
+        let1DataPapaerContent.DangerTable.selectedDangerList
       );
       let cellIdx12String = dangerObject.dangerString;
       // 4.sysOfficeInfo中organName和courtPrefix
@@ -281,6 +282,9 @@ export default {
           : { organName: "", courtPrefix: "" };
       let cellIdx19String = orgSysOfficeInfo.organName;
       let cellIdx20String = orgSysOfficeInfo.courtPrefix;
+      let DangerTable = let1DataPapaerContent.DangerTable ? 
+      setNewDanger(selectedPaper.let1Data, let1DataPapaerContent.DangerTable)
+      : {}
       await db.close();
       this.letData = {
         cellIdx0: num0, // 文书号
@@ -332,7 +336,7 @@ export default {
         cellIdx27TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx28: this.todayDate, // 日期
         cellIdx28TypeDateItem: this.todayDate, // 日期
-        DangerTable: let1DataPapaerContent.DangerTable,
+        DangerTable: DangerTable,
       };
     },
     goBack({ page, data }) {

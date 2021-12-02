@@ -146,7 +146,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { handleDate } from "@/utils/date";
+import { setNewDanger } from '@/utils/setInitPaperData'
 import {
   getDocNumber,
 } from "@/utils/setInitPaperData";
@@ -213,6 +213,9 @@ export default {
           this.corpData.caseId,
           this.$store.state.user
         );
+        let DangerTable = let1DataPapaerContent.DangerTable ? 
+        setNewDanger(selectedPaper.let1Data, let1DataPapaerContent.DangerTable)
+        : {}
         await db.close();
         let date = this.todayDate.replace('年', '-').replace('月', '-').replace('日', '-').split('-')
         this.letData = {
@@ -234,7 +237,7 @@ export default {
           /* cellIdx14: null, // 年
             cellIdx15: null, // 月
             cellIdx16: null, // 日   暂不用*/
-          DangerTable: let1DataPapaerContent.DangerTable,
+          DangerTable: DangerTable,
           extraData: {
             // 保存额外拼写的数据内容，用于修改隐患项时回显使用
             corpName: corp.corpName,

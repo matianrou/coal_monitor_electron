@@ -37,18 +37,7 @@ function setCheckItem (data, selectedData, options) {
 }
 
 function setDaterangeItem (data, selectedData) {
-  // 处理日期范围选择数据
-  let string = ''
-  let res = ''
-  if (data && data.length > 0) {
-    data.map(item => {
-      // let dateList = item.split('-')
-      // string += `${dateList[0]}年${dateList[1]}月${dateList[2]}日-`
-      string += item + '-'
-    })
-    res = handleDate(string.substring(0, string.length - 1), '-')
-  } 
-  return res
+  return data
 }
 
 function setTextareaItem (data) {
@@ -135,11 +124,29 @@ function setDangerTable (data, selectedData, options) {
     }
   } else {
     // 不合并
-    dangerObject = data && data.selectedDangerList && data.selectedDangerList.length > 0 ? getDangerObject(data.selectedDangerList) : null
+    dangerObject = data && data.selectedDangerList && data.selectedDangerList.length > 0 ? getDangerObject(data.selectedDangerList) : {
+      contentOnsiteDesc: '',
+      dangerString: '',
+      illegalString: '',
+      onsiteDescString: '',
+      treatmentSuggestion: '',
+      penaltyBasisString: '',
+      penaltyDesc: '',
+      penaltyDescFineTotle: 0
+    }
     dangerObjectIndex = data && data.selectedDangerList && data.selectedDangerList.length > 0 ? getDangerObject(data.selectedDangerList, {
       danger: true,
       penaltyDesc: true
-    }) : null
+    }) : {
+      contentOnsiteDesc: '',
+      dangerString: '',
+      illegalString: '',
+      onsiteDescString: '',
+      treatmentSuggestion: '',
+      penaltyBasisString: '',
+      penaltyDesc: '',
+      penaltyDescFineTotle: 0
+    }
   }
   switch(options.page) {
     case '1':  // 现场检查记录/现场检查笔录
@@ -162,36 +169,36 @@ function setDangerTable (data, selectedData, options) {
       break
     case '13': // 复查意见书
       if (options.key === 'cellIdx9') {
-        string = `${dangerObjectIndex.dangerString || ''}`
+        string = dangerObjectIndex.dangerString || ''
       } else if (options.key === 'cellIdx10') {
-        string = `${dangerObject.onsiteDescString || ''}`
+        string = dangerObject.onsiteDescString || ''
       } else if (options.key === 'cellIdx14') {
-        string = `${dangerObject.onsiteDescString || ''}`
+        string = dangerObject.onsiteDescString || ''
       }
       break
     case '3': // 撤出作业人员命令书
-      string = `${dangerObject.dangerString || ''}`
+      string = dangerObject.dangerString || ''
       break
     case '23': // 抽样取证通知书
-      string = `${dangerObject.dangerString || ''}`
+      string = dangerObject.dangerString || ''
       break
     case '25': // 先行登记保存证据通知书
-      string = `${dangerObject.dangerString || ''}`
+      string = dangerObject.dangerString || ''
       break
     case '32': // 查封（扣押）决定书
       if (store.state.user.userType === 'supervision') {
         // 监管
         if (options.key === 'cellIdx7') {
-          string = `${dangerObject.dangerString || ''}`
+          string = dangerObject.dangerString || ''
         } else if (options.key === 'cellIdx8') {
-          string = `${dangerObject.illegalString || ''}`
+          string = dangerObject.illegalString || ''
         }
       } else {
         // 监察
         if (options.key === 'cellIdx6') {
-          string = `${dangerObject.dangerString || ''}`
+          string = dangerObject.dangerString || ''
         } else if (options.key === 'cellIdx7') {
-          string = `${dangerObject.illegalString || ''}`
+          string = dangerObject.illegalString || ''
         }
       }
       break
@@ -249,7 +256,7 @@ function setDangerTable (data, selectedData, options) {
         let dangerString1 = getDangerContentWithoutPointHasIndex(list6 || [], '；')
         string = dangerString1
       } else if (options.key === 'cellIdx7') {
-        string = `${dangerObject.illegalString || ''}`
+        string = dangerObject.illegalString || ''
       } else if (options.key === 'cellIdx8') {
         string = dangerObject.penaltyBasisString || ''
       } else if (options.key === 'cellIdx10') {
@@ -267,7 +274,7 @@ function setDangerTable (data, selectedData, options) {
         let dangerString1 = getDangerContentWithoutPointHasIndex(list8 || [], '；')
         string = dangerString1
       } else if (options.key === 'cellIdx8') {
-        string = `${dangerObject.illegalString || ''}`
+        string = dangerObject.illegalString || ''
       } else if (options.key === 'cellIdx9') {
         string = dangerObject.penaltyBasisString || ''
       } else if (options.key === 'cellIdx10') {
@@ -297,9 +304,9 @@ function setDangerTable (data, selectedData, options) {
       } else if (options.key === 'cellIdx5') {
         string = `${options.spellString.let101Date}${options.spellString.userGroupName}对${options.spellString.corpName}进行现场检查时发现${dangerObjectIndex.dangerString}以上行为分别涉嫌${dangerObject.illegalString || ''}依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`
       } else if (options.key === 'cellIdx6') {
-        string = `${dangerObject.penaltyBasisString || ''}`
+        string = dangerObject.penaltyBasisString || ''
       } else if (options.key === 'cellIdx7') {
-        string = `${dangerObject.penaltyDesc || ''}`
+        string = dangerObject.penaltyDesc || ''
       }
       break
     case '48': // 集体讨论记录

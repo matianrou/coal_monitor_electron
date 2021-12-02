@@ -1,4 +1,61 @@
-// 加密
+/**
+ * 加密和解密 自身加密解密使用
+ */
+ import CryptoJS from 'crypto-js/crypto-js'
+
+ // 默认的 KEY 与 iv 如果没有给
+ const KEY = CryptoJS.enc.Utf8.parse("sdfjsdflskfwehwr");
+ const IV = CryptoJS.enc.Utf8.parse('eotuewpor^%^&&p*');
+ 
+ /**
+	* AES加密 ：字符串 key iv  返回base64
+	*/
+ export function Encrypt(word, keyStr, ivStr) {
+	 let key = KEY
+	 let iv = IV
+ 
+	 if (keyStr) {
+		 key = CryptoJS.enc.Utf8.parse(keyStr);
+		 iv = CryptoJS.enc.Utf8.parse(ivStr);
+	 }
+ 
+	 let srcs = CryptoJS.enc.Utf8.parse(word);
+	 var encrypted = CryptoJS.AES.encrypt(srcs, key, {
+		 iv: iv,
+		 mode: CryptoJS.mode.CBC,
+		 padding: CryptoJS.pad.ZeroPadding
+	 });
+	 return CryptoJS.enc.Base64.stringify(encrypted.ciphertext);
+ 
+ }
+ 
+ /**
+	* AES 解密 ：字符串 key iv  返回base64
+	*
+	*/
+ export function Decrypt(word, keyStr, ivStr) {
+	 let key  = KEY
+	 let iv = IV
+ 
+	 if (keyStr) {
+		 key = CryptoJS.enc.Utf8.parse(keyStr);
+		 iv = CryptoJS.enc.Utf8.parse(ivStr);
+	 }
+ 
+	 let base64 = CryptoJS.enc.Base64.parse(word);
+	 let src = CryptoJS.enc.Base64.stringify(base64);
+ 
+	 var decrypt = CryptoJS.AES.decrypt(src, key, {
+		 iv: iv,
+		 mode: CryptoJS.mode.CBC,
+		 padding: CryptoJS.pad.ZeroPadding
+	 });
+ 
+	 var decryptedStr = decrypt.toString(CryptoJS.enc.Utf8);
+	 return decryptedStr.toString();
+ }
+
+ // 加密 用于与后台交互加密使用
 export function encry(string) {
 	function md5_RotateLeft(lValue, iShiftBits) {
 		return (lValue << iShiftBits) | (lValue >>> (32 - iShiftBits));

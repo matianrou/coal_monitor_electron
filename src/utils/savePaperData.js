@@ -5,19 +5,20 @@ import store from "@/store"
 export async function saveToUpload(paperId, messageShow) {
   // messageShow是否展示保存成功提示
   // 保存文书至服务器
-  const db = new GoDB(store.state.DBName);
-  const wkPaper = db.table("wkPaper");
-  const wkCase = db.table("wkCase");
-  const wkDanger = db.table("wkDanger")
-  const corpBase = db.table("corpBase")
+  let db = new GoDB(store.state.DBName);
+  let wkPaper = db.table("wkPaper");
+  let wkCase = db.table("wkCase");
+  let wkDanger = db.table("wkDanger")
+  let corpBase = db.table("corpBase")
   //查询符合条件的记录
-  const workPaper = await wkPaper.find((item) => {
+  let workPaper = await wkPaper.find((item) => {
     return item.paperId == paperId && item.delFlag !== '1';
   });
-  const workCase = await wkCase.find((item) => {
+  let workCase = await wkCase.find((item) => {
     return item.caseId == workPaper.caseId && item.delFlag !== '1';
   });
-  const wkDangerList = await wkDanger.findAll(item => item.paperId === paperId && item.delFlag !== '1')
+  let wkDangerList = []
+  wkDangerList = await wkDanger.findAll(item => item.paperId === paperId && item.delFlag !== '1')
   // 没有监察活动和煤矿信息时的容错
   let caseNo = null, caseType = null, corpId = null
   let meikuangType = null, meikuangPlanfrom = null, planId = null
@@ -92,14 +93,14 @@ export async function saveToUpload(paperId, messageShow) {
         affiliate: workCaseObj.affiliate,
         meikuangType: workCaseObj.meikuangType,
         meikuangPlanfrom: workCaseObj.meikuangPlanfrom,
-        pcVersion: "版本v1.2.15",
+        pcVersion: "",
         clericalVersion: "2",
         p1PersonId: workPaper.p1PersonId,
         p1PersonName: workPaper.p1PersonName,
         p5EvidenceTime: workPaper.p5EvidenceTime,
-        p8Penalty: workPaper.p8Penalty,
-        p8PersonPenalty: workPaper.p8PersonPenalty,
-        p8OrgPenalty: workPaper.p8OrgPenalty,
+        p8Penalty: workPaper.p8Penalty ? (workPaper.p8Penalty / 10000) + '' : '', // 行政处罚金额，后台需要万元单位
+        p8PersonPenalty: workPaper.p8PersonPenalty ? (workPaper.p8PersonPenalty / 10000) + '' : '', // 个人处罚金额，后台需要万元单位
+        p8OrgPenalty: workPaper.p8OrgPenalty ? (workPaper.p8OrgPenalty / 10000) + '' : '', // 单位处罚金额，后台需要万元单位
         p13PersonId: workPaper.p13PersonId,
         p13PersonName: workPaper.p13PersonName,
         p31JudgeTime: workPaper.p31JudgeTime,
@@ -175,7 +176,7 @@ export async function saveToUpload(paperId, messageShow) {
     // 当文书为意见建议书中三个文书时，不传输检查活动
     submitData.jczfCase = []
   } else if (workCase.caseType === '0' && (workPaper.paperType === "1" || workPaper.paperType  === "2" || workPaper.paperType  === "4"
-    || workPaper.paperType  === "5" || workPaper.paperType === "6"|| workPaper.paperType  === "8"
+    || workPaper.paperType  === "5" || workPaper.paperType === "6"|| workPaper.paperType  === "8" || workPaper.paperType === '13'
     || workPaper.paperType  === "36" || workPaper.paperType  === "44")) {
     // 现场检查笔录或现场处理决定书增加上传隐患项数据
     let danger = [];
@@ -218,13 +219,13 @@ export async function saveToUpload(paperId, messageShow) {
           subitemContent: item.subitemContent,
           subitemPenalty: item.subitemPenalty,
           subitemPenaltyBasis: item.subitemPenaltyBasis,
-          penaltyDescFine: item.penaltyDescFine,
-          penaltyOrg: item.penaltyOrg,
-          penaltyOrgFine: item.penaltyOrgFine,
-          penaltyPerson: item.penaltyPerson,
-          penaltyPersonFine: item.penaltyPersonFine,
+          // penaltyDescFine: item.penaltyDescFine ? (item.penaltyDescFine / 10000) + '' : '', // 后台不需要此字段
+          penaltyOrg: '', // 后台不需要了21.12.2
+          penaltyOrgFine: item.penaltyOrgFine ? (item.penaltyOrgFine / 10000) + '' : '', // 后台需要万元单位
+          penaltyPerson: '',  // 后台不需要了21.12.2
+          penaltyPersonFine: item.penaltyPersonFine ? (item.penaltyPersonFine / 10000) + '' : '',
           itemOnsiteType: item.itemOnsiteType,
-          itemOnsiteBasis: item.onsiteBasis,
+          itemOnsiteBasis: item.itemOnsiteBasis,
           onsiteContent: item.onsiteContent,
           verNo: null,
           basisContent: item.basisContent,
@@ -247,26 +248,26 @@ export async function saveToUpload(paperId, messageShow) {
         danger.push(dangerData);
       });
     }
-    if (workPaper.paperType === "8") {
-      // 行政处罚决定书保存时除添加隐患项数据以外还需保存以下数据
-      let penaltyTotle = 0
-      let paperContent = JSON.parse(workPaper.paperContent);
-      if (paperContent.DangerTable.tableData.length > 0) {
-        paperContent.DangerTable.tableData.map(item => {
-          penaltyTotle += item.penaltyDescFine ? Number(item.penaltyDescFine) : 0
-        })
-      }
-      submitData.paper.p8Penalty = penaltyTotle // 罚款总额
-      submitData.paper.p8PersonPenalty = paperContent.cellIdx4 === '个人' ? penaltyTotle : '', // 个人罚款总额
-      submitData.paper.p8OrgPenalty = paperContent.cellIdx4 === '单位' ? penaltyTotle : '' // 企业罚款总额
-      if (danger.length > 0) {
-        danger.forEach(item => {
-          item.penaltyType = paperContent.cellIdx4 // 行政处罚类型
-          item.penaltyOrgFine = paperContent.cellIdx4 === '单位' ? item.penaltyDescFine: '' // 单位罚金
-          item.penaltyPersonFine = paperContent.cellIdx4 === '个人' ? item.penaltyDescFine: '' // 个人罚金
-        })
-      }
-    }
+    // if (workPaper.paperType === "8") { 已经在文书保存过程中已经做过处理，此处去掉再次处理逻辑
+    //   // 行政处罚决定书保存时除添加隐患项数据以外还需保存以下数据
+    //   let penaltyTotle = 0
+    //   let paperContent = JSON.parse(workPaper.paperContent);
+    //   if (paperContent.DangerTable.tableData.length > 0) {
+    //     paperContent.DangerTable.tableData.map(item => {
+    //       penaltyTotle += item.penaltyDescFine ? Number(item.penaltyDescFine) : 0
+    //     })
+    //   }
+    //   submitData.paper.p8Penalty = (penaltyTotle / 10000) + '' // 罚款总额
+    //   submitData.paper.p8PersonPenalty = paperContent.cellIdx4 === '个人' ? (penaltyTotle / 10000) + '' : '', // 个人罚款总额
+    //   submitData.paper.p8OrgPenalty = paperContent.cellIdx4 === '单位' ? (penaltyTotle / 10000) + '' : '' // 企业罚款总额
+    //   if (danger.length > 0) {
+    //     danger.forEach(item => {
+    //       item.penaltyType = paperContent.cellIdx4 // 行政处罚类型
+    //       item.penaltyOrgFine = paperContent.cellIdx4 === '单位' ? item.penaltyDescFine: '' // 单位罚金
+    //       item.penaltyPersonFine = paperContent.cellIdx4 === '个人' ? item.penaltyDescFine: '' // 个人罚金
+    //     })
+    //   }
+    // }
     submitData.danger = danger;
   }
   let path = store.state.user.userType === 'supervision' ? '/sv' : ''
@@ -321,7 +322,7 @@ export async function saveFineCollection(paperId) {
         caseId: caseData.caseId,
         paperNo: item.paperNo,
         punishType: item.punishType,
-        p8Penalty: item.p8Penalty,
+        p8Penalty: (item.p8Penalty) + '',
         collectionFine: item.collectionFine,
         lateFee: item.lateFee,
         collectionDate: item.collectionDate ? item.collectionDate.replace("年", "-").replace("月", "-").replace("日", "") + " 00:00:00" : null,

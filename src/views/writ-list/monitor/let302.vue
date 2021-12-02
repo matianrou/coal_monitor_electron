@@ -186,7 +186,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber, getDangerObject } from "@/utils/setInitPaperData";
+import { getDocNumber, getDangerObject, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let302",
@@ -226,10 +226,13 @@ export default {
         selectedPaper.let8Data.paperContent
       );
       let dangerObject = getDangerObject(
-        let8DataPapaerContent.DangerTable.tableData
+        let8DataPapaerContent.DangerTable.selectedDangerList
       );
       let paper8number = `${let8DataPapaerContent.cellIdx0}矿安监${let8DataPapaerContent.cellIdx1}罚〔${let8DataPapaerContent.cellIdx2}〕${let8DataPapaerContent.cellIdx3}号`
       let cellIdx14String = `我代表${corp.corpName}对${this.$store.state.user.userGroupName}做出的行政处罚决定${paper8number}申请行政复议，对处罚的${dangerObject.dangerString}违法行为进行复议。我矿认为......。请求从轻或者免于处罚。`;
+      let DangerTable = let8DataPapaerContent.DangerTable ? 
+      setNewDanger(selectedPaper.let8Data, let8DataPapaerContent.DangerTable)
+      : {}
       await db.close();
       this.letData = {
         cellIdx0: now.getFullYear().toString(), // 年
@@ -254,7 +257,7 @@ export default {
         cellIdx13: null, // 记录人（签名）
         cellIdx14: cellIdx14String, // 申请记录
         cellIdx14TypeTextareaItem: cellIdx14String, // 申请记录
-        DangerTable: let8DataPapaerContent.DangerTable,
+        DangerTable: DangerTable,
         extraData: {
           // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,

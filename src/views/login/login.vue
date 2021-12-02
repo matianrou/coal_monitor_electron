@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { encry } from '@/utils/AesEncryptUtil'
+import { encry, Encrypt, Decrypt } from '@/utils/AesEncryptUtil'
 import { electronRequest } from '@/utils/electronRequest'
 import GoDB from "@/utils/godb.min.js";
 export default {
@@ -66,7 +66,10 @@ export default {
     initAccount () {
       // 如果已记住登录账号则返回账号及密码
       if (localStorage.getItem('userAccount')) {
-        this.dataForm = JSON.parse(localStorage.getItem('userAccount'))
+        let {txtUserNo, txtPassword} = JSON.parse(localStorage.getItem('userAccount'))
+        txtUserNo = Decrypt(txtUserNo)
+        txtPassword = Decrypt(txtPassword)
+        this.dataForm = {txtUserNo, txtPassword}
         this.recordAccount = true
       } else {
         this.recordAccount = false
@@ -85,7 +88,10 @@ export default {
       // 如果已勾选记住登录账号：
       if (this.recordAccount) {
         // 保存当前账号至LocalStoreage
-        localStorage.setItem('userAccount', JSON.stringify(this.dataForm))
+        let {txtUserNo, txtPassword} = this.dataForm
+        txtUserNo = Encrypt(txtUserNo)
+        txtPassword = Encrypt(txtPassword)
+        localStorage.setItem('userAccount', JSON.stringify({txtUserNo, txtPassword}))
       } else {
         if (localStorage.getItem('userAccount')) {
           localStorage.removeItem('userAccount')

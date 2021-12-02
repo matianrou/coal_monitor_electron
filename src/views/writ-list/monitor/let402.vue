@@ -264,7 +264,7 @@ export default {
         selectedPaper.let4Data.paperContent
       );
       let dangerObject = getDangerObject(
-        let4DataPapaerContent.DangerTable.tableData
+        let4DataPapaerContent.DangerTable.selectedDangerList
       );
       let cellIdx10String = `${corp.corpName}${dangerObject.dangerString}案。`;
       // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone

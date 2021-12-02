@@ -235,6 +235,7 @@
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
+import { setNewDanger } from '@/utils/setInitPaperData'
 export default {
   name: "Let107",
   mixins: [associationSelectPaper],
@@ -271,7 +272,7 @@ export default {
         selectedPaper.let1Data.paperContent
       );
       let dangerObject = getDangerObject(
-        let1DataPapaerContent.DangerTable.tableData
+        let1DataPapaerContent.DangerTable.selectedDangerList
       );
       let cellIdx5String = `${dangerObject.dangerString}`;
       // 3.抽样时间9-12
@@ -293,6 +294,9 @@ export default {
       let cellIdx18String = orgSysOfficeInfo.depPost;
       let cellIdx20String = orgSysOfficeInfo.master;
       let cellIdx21String = orgSysOfficeInfo.phone;
+      let DangerTable = let1DataPapaerContent.DangerTable ? 
+      setNewDanger(selectedPaper.let1Data, let1DataPapaerContent.DangerTable)
+      : {}
       await db.close();
       this.letData = {
         cellIdx0: num0, // 文书号
@@ -335,7 +339,7 @@ export default {
         cellIdx22TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx23: this.todayDate, // 日期
         cellIdx23TypeDateItem: this.todayDate, // 日期
-        DangerTable: let1DataPapaerContent.DangerTable,
+        DangerTable: DangerTable,
         SamplingForensicsTable: {
           tableData: [],
           signature: null,

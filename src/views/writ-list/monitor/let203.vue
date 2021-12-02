@@ -159,15 +159,10 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getNowDate } from "@/utils/date";
 import { setDangerTable } from '@/utils/handlePaperData'
 import associationSelectPaper from "@/components/association-select-paper";
-import {
-  getDangerObject,
-} from "@/utils/setInitPaperData";
-import {
-  transformNumToChinese,
-} from "@/utils";
+import { setNewDanger } from '@/utils/setInitPaperData'
+
 export default {
   name: "Let203",
   mixins: [associationSelectPaper],
@@ -251,6 +246,9 @@ export default {
           cellIdx7 ? cellIdx7 : "XX"
         }月${cellIdx8 ? cellIdx8 : "XX"}日`;
         let let4Person = cellIdx9 ? cellIdx9 : 'XX'
+        let DangerTable = let1DataPapaerContent.DangerTable ? 
+          setNewDanger(selectedPaper.let1Data, let1DataPapaerContent.DangerTable)
+          : {}
         await db.close();
         this.letData = {
           cellIdx0: null, //
@@ -271,7 +269,7 @@ export default {
           cellIdx12: null, // 主要负责人意见
           cellIdx13: null, // 签名
           cellIdx14: null, // 日期
-          DangerTable: let1DataPapaerContent.DangerTable,
+          DangerTable: DangerTable,
           extraData: {
             // 保存额外拼写的数据内容，用于修改隐患项时回显使用
             corpName: corp.corpName,

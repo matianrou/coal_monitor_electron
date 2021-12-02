@@ -145,20 +145,19 @@ import { treeDataTranslate } from '@/utils/index'
         let corpList = await corpBase.findAll(item => {
           if (companyStatus === '11')  {
             return item.constructType == companyStatus &&
-                    item.delFlag === '0' &&
+                    item.delFlag !== '1' &&
                     item.corpName.indexOf(companyName) !== -1 &&
                     item.zoneCountyId.slice(0, this.curAreaLevel) === (areaId ? areaId.slice(0, this.curAreaLevel) : item.zoneCountyId)
           } else if (companyStatus === '') {
             return item.corpName.indexOf(companyName) !== -1 &&
-                    item.delFlag === '0' &&
+                    item.delFlag !== '1' &&
                     item.zoneCountyId.slice(0, this.curAreaLevel) === (areaId ? areaId.slice(0, this.curAreaLevel) : item.zoneCountyId)
           } else {
             return item.mineStatusZs == companyStatus &&
-                    item.delFlag === '0' &&
+                    item.delFlag !== '1' &&
                     item.corpName.indexOf(companyName) !== -1 &&
                     item.zoneCountyId.slice(0, this.curAreaLevel) === (areaId ? areaId.slice(0, this.curAreaLevel) : item.zoneCountyId)
           }
-          // return item.delFlag === '0'
         })
         if (corpList.length > 0) {
           corpList.forEach(item => {

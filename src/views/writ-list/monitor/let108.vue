@@ -213,7 +213,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
+import { getDangerObject, getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let108",
@@ -249,7 +249,7 @@ export default {
         selectedPaper.let1Data.paperContent
       );
       let dangerObject = getDangerObject(
-        let1DataPapaerContent.DangerTable.tableData
+        let1DataPapaerContent.DangerTable.selectedDangerList
       );
       let cellIdx6String = `${dangerObject.dangerString}`;
       // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
@@ -265,6 +265,9 @@ export default {
       let cellIdx17String = orgSysOfficeInfo.depPost;
       let cellIdx19String = orgSysOfficeInfo.master;
       let cellIdx20String = orgSysOfficeInfo.phone;
+      let DangerTable = let1DataPapaerContent.DangerTable ? 
+      setNewDanger(selectedPaper.let1Data, let1DataPapaerContent.DangerTable)
+      : {}
       await db.close();
       this.letData = {
         cellIdx0: num0, // 文书号
@@ -305,7 +308,7 @@ export default {
         cellIdx21TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx22: this.todayDate, //
         cellIdx22TypeDateItem: this.todayDate, // 日期
-        DangerTable: let1DataPapaerContent.DangerTable,
+        DangerTable: DangerTable,
         SamplingForensicsTable: {
           tableData: [],
           signature: null,

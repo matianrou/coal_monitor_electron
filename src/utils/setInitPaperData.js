@@ -1,5 +1,6 @@
 import store from "@/store"
-import { getMoney } from '@/utils'
+import { getMoney, randomString } from '@/utils'
+import { getNowFormatTime, getNowTime } from "@/utils/date";
 // 初始化各文书数据
 
 // 初始化文书编号：
@@ -147,11 +148,11 @@ export function getDangerObject(tableData, hasIndex = {
     penaltyDesc += hasIndex.penaltyDesc ? `${item.penaltyDesc ? `${(index + 1)}. ${item.penaltyDesc}` : ''}` : `${item.penaltyDesc ? `${item.penaltyDesc}` : ''}`
     penaltyDescFineTotle += item.penaltyDescFine ? Number(item.penaltyDescFine) : 0
   })
-  illegalString = illegalString.substring(0, illegalString.length - 1)
-  onsiteDescString = onsiteDescString.substring(0, onsiteDescString.length - 1)
-  treatmentSuggestion = treatmentSuggestion.substring(0, treatmentSuggestion.length - 1) + '。'
-  penaltyBasisString = penaltyBasisString.substring(0, penaltyBasisString.length - 1)
-  penaltyDesc = penaltyDesc.substring(0, penaltyDesc.length - 1) + '。'
+  illegalString = illegalString ? illegalString.substring(0, illegalString.length - 1) : ''
+  onsiteDescString = onsiteDescString ? onsiteDescString.substring(0, onsiteDescString.length - 1) : ''
+  treatmentSuggestion = treatmentSuggestion ? treatmentSuggestion.substring(0, treatmentSuggestion.length - 1) + '。' : ''
+  penaltyBasisString = penaltyBasisString ? penaltyBasisString.substring(0, penaltyBasisString.length - 1) : ''
+  penaltyDesc = penaltyDesc ? penaltyDesc.substring(0, penaltyDesc.length - 1) + '。' : ''
   penaltyDescFineTotle = penaltyDescFineTotle
   return {
     contentOnsiteDesc,
@@ -351,21 +352,128 @@ export async function corpInformation(db, corpData) {
   else sSummary += "、安全生产许可证有效期至    ，";
   if (corpData.provedOutput)
     sSummary += "矿井核定生产能力为" + corpData.provedOutput + "万吨/年，";
-  else sSummary += "矿井核定生产能力为   万吨/年，";
+  else sSummary += "矿井核定生产能力为X万吨/年，";
   sSummary +=
-    corpData.mineWsGradeName +
+    (corpData.mineWsGradeName || 'XXX')+
     "、水文地质类型为中等，煤层自燃倾向性为" +
-    corpData.mineFireName +
+    (corpData.mineFireName || 'XXX') +
     "，煤尘" +
-    corpData.grimeExplosiveName +
+    (corpData.grimeExplosiveName || 'XXX') +
     "，";
   sSummary +=
     "矿井状况为" +
-    corpData.mineStatusZsName +
+    (corpData.mineStatusZsName || 'XXX') +
     "，开拓方式为" +
-    corpData.mineMinestyleName +
+    (corpData.mineMinestyleName || 'XXX') +
     "开拓。";
   sSummary +=
     "采煤方式为综采。通风方式为中央分列抽出，采掘作业地点有71003综采工作面采煤工作面、 71007综采工作面风巷、71007综采工作面机巷掘进工作面。";
   return sSummary
+}
+
+// 创建新的dangerId的隐患表DangerTable
+// 现在用于关联隐患项时的创建隐患表和新增文书时自动关联的隐患项
+// paperData创建组合的文书数据，最后合并至此文书数据中的DangerTable中
+// DangerTable组合进来的隐患列表
+export function setNewDanger (paperData, DangerTable) {
+  // allDangerTableNew新的所有隐患项列表（包括选中和未选中）
+  // selectedDangerTableNew新的所有选中的隐患项列表（只有选中）
+  let allDangerTableNew = []
+  let selectedDangerTableNew = []
+  let paperContentOld = JSON.parse(paperData.paperContent)
+  let selectedType = paperContentOld.selectedType
+  // 遍历更新的隐患项
+  for (let i = 0; i < DangerTable.tableData.length; i++) {
+    // 新的隐患项内容
+    let tableDataNewItem = DangerTable.tableData[i]
+    // 新的隐患id
+    let newDangerId = getNowTime() + randomString(28)
+    let tableDataNewSave = {
+      dangerId: newDangerId,
+      itemContent: tableDataNewItem.itemContent,
+      confirmBasis: tableDataNewItem.confirmBasis,
+      onsiteDesc: tableDataNewItem.onsiteDesc,
+      onsiteBasis: tableDataNewItem.onsiteBasis,
+      penaltyDesc: tableDataNewItem.penaltyDesc,
+      penaltyBasis: tableDataNewItem.penaltyBasis,
+      isSerious: tableDataNewItem.isSerious,
+      isReview: tableDataNewItem.isReview,
+      reviewDate: tableDataNewItem.reviewDate,
+      order: tableDataNewItem.order,
+      categoryCode: tableDataNewItem.categoryCode,
+
+      basisContent: tableDataNewItem.confirmBasis, //"认定：《中华人民共和国安全生产法》第二十九条；《煤矿建设项目安全设施监察规定》第九条",
+      caseId: paperData.caseId,
+      changeDangerType: tableDataNewItem.changeDangerType, //"更改后隐患类别：710100",
+      checkPerson: '', //"整改核查人",
+      checkTime: '', //"整改核查时间",
+      coalingFace: tableDataNewItem.coalingFace, //"采煤工作面：3",
+      createBy: JSON.stringify({
+        id: store.state.user.userId
+      }),
+      createDate: paperData.createDate,
+      dangerCate: tableDataNewItem.categoryCode,
+      dangerContent: tableDataNewItem.itemContent, // "煤矿建设项目未按规定进行安全预评价和安全验收评价，逾期未改正的。"
+      dangerCorrected: tableDataNewItem.dangerCorrected ? tableDataNewItem.dangerCorrected : null, //"隐患整改情况(0未整改，1已整改）：null",
+      dangerItemId: tableDataNewItem.itemCode, //"7101000033",
+      dangerLocation: '', //违法违规及隐患位置
+      dangerParentId: tableDataNewItem.dangerId, //"隐患关联id：null",
+      dangerStatus: tableDataNewItem.status, //违法违规及隐患状态
+      dangerType: tableDataNewItem.categoryCode,
+      delFlag: '0',
+      detectTime: getNowFormatTime(),  //发现时间：2021-06-24 15:48:54
+      deviceNum: tableDataNewItem.deviceNum, //"设备台数：默认为空",
+      headingFace: tableDataNewItem.headingFace, //"掘进工作面：6",
+      isCheck: tableDataNewItem.isReview, //"是否需要复查0不需要1需要",
+      isCommon: tableDataNewItem.isCommon ? tableDataNewItem.isCommon : null, //"是否为其他隐患（自定义隐患传1）：null",
+      isHigh: tableDataNewItem.isSerious, //是否重大隐患：[0|1]
+      itemOnsiteBasis: tableDataNewItem.onsiteBasis, //"现场决定依据：《中华人民共和国安全生产法》第九十五条第一项",
+      itemOnsiteType: tableDataNewItem.onsiteType, //"现场处理类型",
+      name: null,
+      onsiteContent: tableDataNewItem.onsiteDesc, //"现场处理内容：责令停止建设责令停止作业、限X日内改正",
+      onsiteType: tableDataNewItem.onsiteType, //"现场处理类型",
+      paperId: paperData.paperId,
+      penaltyDescFine: tableDataNewItem.penaltyDescFine, // 罚金
+      penaltyDescTypeId: tableDataNewItem.penaltyDescTypeId, // 行政处罚决定类型的id
+      penaltyDescType: tableDataNewItem.penaltyDescType, // 行政处罚决定类型
+      penaltyOrg: '', //"对单位的处罚", // 后台不需要了21.12.2
+      penaltyOrgFine: selectedType === '单位' ? tableDataNewItem.penaltyDescFine : null, //"单位罚金",
+      penaltyPerson: '', //"对个人的处罚",  // 后台不需要了21.12.2
+      penaltyPersonFine: selectedType === '个人' ? tableDataNewItem.penaltyDescFine : null, //"个人罚金",
+      penaltyType: tableDataNewItem.penaltyDescTypeId, //"行政处罚类型3,7",
+      personId: store.state.user.userId, //"7101000033",
+      personIds: tableDataNewItem.personIds, //"发现人编号多选：以逗号分隔",
+      personName: store.state.user.userName, //"发现人编号：beba494c4b67435f93e5fdfbe440e18e",
+      personNames: tableDataNewItem.personNames, //"隐患发现人多选：以逗号分隔",
+      rectifyTerm: '', //"整改期限",
+      remoteId: '', //服务器端生成的id
+      reviewUnitId: tableDataNewItem.reviewUnitId ? tableDataNewItem.reviewUnitId : null, //"复查单位id：null",
+      reviewUnitName: tableDataNewItem.reviewUnitName ? tableDataNewItem.reviewUnitName : null, //"复查单位名称：null",
+      showIndex: tableDataNewItem.order + '', //"隐患顺序：1",
+      solveMethod: '', //"整改落实措施",
+      solveTime: '', //"隐患消解时间",
+      sourceFlag: '0',
+      subitemCode: '', //"违法违规自由裁量序号",
+      subitemContent: tableDataNewItem.itemContent, //"违法违规内容：煤矿建设项目未按规定进行安全预评价和安全验收评价，逾期未改正的。",
+      subitemPenalty: tableDataNewItem.penaltyDesc, //"违法违规行政处罚决定：逾期未改正的，处五十万元以上一百万元以下的罚款，对其直接负责的主管人员和其他直接责任人员处二万元以上五万元以下的罚款。",
+      subitemPenaltyBasis: tableDataNewItem.penaltyBasis, //"行政处罚依据：《中华人民共和国安全生产法》第二十九条，第九十五条第一项",
+      updateBy: JSON.stringify({
+        id: store.state.user.userId
+      }),
+      updateDate: getNowFormatTime(),
+      verNo: null, //"版本号：null",
+    }
+    let selectedIndex = DangerTable.selectedDangerList.findIndex(selectedItem => selectedItem.dangerId === tableDataNewItem.dangerId)
+    if (selectedIndex >= 0) {
+      // 如果是选中的：修改为新的dangerId然后添加至新的选中selectedDangerTableNew中,如果未选中则无需添加
+      selectedDangerTableNew.push(tableDataNewSave)
+    }
+    // 无论是否选中统一添加入allDangerTableNew中
+    allDangerTableNew.push(tableDataNewSave)
+  }
+  // 返回新的DangerTable
+  return Object.assign({}, DangerTable, {
+    tableData: allDangerTableNew,
+    selectedDangerList: selectedDangerTableNew,
+  })
 }

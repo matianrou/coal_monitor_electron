@@ -339,7 +339,7 @@ export default {
         selectedPaper.let8Data.paperContent
       );
       let dangerObject = getDangerObject(
-        let8DataPapaerContent.DangerTable.tableData
+        let8DataPapaerContent.DangerTable.selectedDangerList
       );
       // 4.对被申请人：企业名称+'涉嫌'+隐患描述+'案'
       let cellIdx16String = `${corp.corpName}涉嫌${dangerObject.dangerString}案`;

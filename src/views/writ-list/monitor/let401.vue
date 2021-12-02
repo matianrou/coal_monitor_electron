@@ -246,7 +246,7 @@ export default {
       );
       // 2.违法行为：获取笔录文书中的隐患数据
       let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
+      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.selectedDangerList)
       let cellIdx8String = `${dangerObject.dangerString}`
       // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
       let orgInfo = db.table("orgInfo");

@@ -406,7 +406,7 @@ export default {
           selectedPaper.let1Data.paperContent
         );
         let dangerObject = getDangerObject(
-          let1DataPapaerContent.DangerTable.tableData
+          let1DataPapaerContent.DangerTable.selectedDangerList
         );
         cellIdx2String = `${corp.corpName}${dangerObject.dangerString}案。`;
         await db.close();

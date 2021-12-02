@@ -175,12 +175,9 @@
 <script>
 import GoDB from "@/utils/godb.min.js";
 import {
-  getDangerObject,
   getDocNumber,
+  setNewDanger
 } from "@/utils/setInitPaperData";
-import {
-  transformNumToChinese,
-} from "@/utils";
 import associationSelectPaper from "@/components/association-select-paper";
 import { setDangerTable } from '@/utils/handlePaperData'
 export default {
@@ -295,6 +292,9 @@ export default {
         this.corpData.caseId,
         this.$store.state.user
       );
+      let DangerTable = let6DataPaperContent.DangerTable ? 
+      setNewDanger(selectedPaper.let6Data, let6DataPaperContent.DangerTable)
+      : {}
       await db.close();
       this.letData = {
         cellIdx0: paperNumber.num0, // 文书号
@@ -319,7 +319,7 @@ export default {
         cellIdx19: this.$store.state.curCase.groupName, // 
         cellIdx20: this.todayDate, // 日期
         cellIdx21: cellIdx4String, // 单位/个人
-        DangerTable: let6DataPaperContent.DangerTable || null,
+        DangerTable: DangerTable || null,
         selectedType: let6DataPaperContent.selectedType,
         associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
           paper1Id: let6DataPaperContent.associationPaperId.paper1Id,

@@ -18,7 +18,7 @@
             </div>
             <div class="table-main">
               <el-table
-                :data="letData.DangerTable && letData.DangerTable.tableData"
+                :data="letData.DangerTable && letData.DangerTable.selectedDangerList"
                 stripe
                 border
                 style="width: 100%;"
@@ -148,6 +148,7 @@ import associationSelectPaper from "@/components/association-select-paper";
 import selectOrg from '@/components/select-org'
 import { getNowFormatTime, getNowTime} from '@/utils/date'
 import { randomString } from "@/utils/index";
+import { setNewDanger } from '@/utils/setInitPaperData'
 
 export default {
   name: "Let105",
@@ -173,6 +174,9 @@ export default {
     async initLetData(selectedPaper) {
       // 创建初始版本
       let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      let1DataPapaerContent.DangerTable = let1DataPapaerContent.DangerTable ? 
+      setNewDanger(selectedPaper.let1Data, let1DataPapaerContent.DangerTable)
+      : {}
       this.letData = let1DataPapaerContent;
     },
     goBack({ page, data }) {
@@ -190,7 +194,7 @@ export default {
     confirmOrg (data) {
       let reviewUnitName = data.name
       let reviewUnitId = data.id
-      this.$set(this.letData.DangerTable.tableData, this.selectedRowIndex, Object.assign(this.letData.DangerTable.tableData[this.selectedRowIndex], {
+      this.$set(this.letData.DangerTable.selectedDangerList, this.selectedRowIndex, Object.assign(this.letData.DangerTable.selectedDangerList[this.selectedRowIndex], {
         reviewUnitName,
         reviewUnitId
       }))
