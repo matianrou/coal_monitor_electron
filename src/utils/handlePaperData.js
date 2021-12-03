@@ -239,7 +239,8 @@ function setDangerTable (data, selectedData, options) {
         string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString || ''}违法违规案。`
       } else if (options.key === 'cellIdx6') {
         let dangerString = getDangerContentWithoutPointHasIndex(list36 || [], ';')
-        string = `${dangerString}。经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString || ''}的规定。`
+        let isMultiString = list36.length > 1 ? '分别' : ''
+        string = `${dangerString}。经调查取证以上违法违规行为属实，${isMultiString}违反了${dangerObject.illegalString || ''}的规定。`
       } else if (options.key === 'cellIdx7') {
         if (store.state.user.userType === 'supervision') {
           string = `${dangerObject.dangerString || ''}经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString || ''}的规定。`

@@ -350,7 +350,7 @@ export default {
           },
         ],
       },
-      associationPaper: this.corpData.caseType === '0' ? ["1"] : [],
+      associationPaper: this.corpData.caseType === '0' ? ["4"] : [],
     };
   },
   methods: {
@@ -367,11 +367,11 @@ export default {
       let cellIdx2Date = now.getDate().toString();
       let cellIdx3Hour = now.getHours().toString();
       let cellIdx4Minu = now.getMinutes().toString();
-      let let1DataPaperContent = selectedPaper.let1Data ? JSON.parse(
-        selectedPaper.let1Data.paperContent
+      let let4DataPaperContent = selectedPaper.let4Data ? JSON.parse(
+        selectedPaper.let4Data.paperContent
       ) : null;
-      let dangerObject = let1DataPaperContent ? getDangerObject(
-        let1DataPaperContent.DangerTable.selectedDangerList
+      let dangerObject = let4DataPaperContent ? getDangerObject(
+        let4DataPaperContent.DangerTable.selectedDangerList
       ) : null;
       let cellIdx8String = `${corp.corpName}涉嫌${dangerObject ? dangerObject.dangerString : 'XXX案'}。`;
       // 2.组成： “我们是”+当前机构+“监察员，这是我们的执法证件（出示行政执法证件），现就你”+煤矿名称+“涉嫌”+隐患描述+“违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？”
@@ -388,8 +388,8 @@ export default {
     问：你还有补充吗？
     答： 没有了。
     问： 请你看一下记录，是否如你所说一样，如无异议，请签字确认。`;
-      let DangerTable = let1DataPaperContent.DangerTable ? 
-          setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
+      let DangerTable = let4DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let4Data, let4DataPaperContent.DangerTable)
           : {}
       await db.close();
       this.letData = {
@@ -434,10 +434,12 @@ export default {
         },
         DangerTable,
         associationPaperId: { // 关联的paperId
-          paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
-          paper1Id: selectedPaper.let1Data.paperId
+          paper22Id: let4DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: let4DataPaperContent.associationPaperId.paper1Id,
+          paper4Id: selectedPaper.let4Data.paperId
         }
       };
+      console.log('letData', this.letData)
     },
     goBack({ page, data }) {
       // 返回选择企业
