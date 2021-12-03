@@ -287,12 +287,13 @@ export default {
         display: flex;
         flex-direction: column;
         margin-left: 10px;
-        min-width: 1000px;
-        overflow: auto;
+        min-width: 800px;
+        // overflow: auto;
         // .detail-org-information {
           // height: 180px;
         // }
         .detail-writ-flow {
+          overflow: auto;
           // flex: 1;
           margin-top: 10px;
         }
