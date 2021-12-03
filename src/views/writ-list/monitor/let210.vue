@@ -267,11 +267,11 @@ export default {
       );
       // 3.企业煤矿名称
       // 4.违法行为：获取笔录文书中的隐患数据
-      let let28DataPapaerContent = JSON.parse(
+      let let28DataPaperContent = JSON.parse(
         selectedPaper.let28Data.paperContent
       );
       let dangerObject = getDangerObject(
-        let28DataPapaerContent.DangerTable.selectedDangerList
+        let28DataPaperContent.DangerTable.selectedDangerList
       );
       let cellIdx6String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
       // 5.地点：sysOfficeInfo实体中depAddress字段+ deparFullname字段
@@ -288,9 +288,9 @@ export default {
       let cellIdx14String = orgSysOfficeInfo.depPost;
       let cellIdx16String = orgSysOfficeInfo.master;
       let cellIdx17String = orgSysOfficeInfo.phone;
-      let DangerTable = let1DataPapaerContent.DangerTable ? 
-      setNewDanger(selectedPaper.let1Data, let1DataPapaerContent.DangerTable)
-      : {}
+      let DangerTable = let28DataPaperContent.DangerTable ? 
+        setNewDanger(selectedPaper.let28Data, let28DataPaperContent.DangerTable)
+        : {}
       await db.close();
       this.letData = {
         cellIdx0: num0, // 文书号
@@ -301,16 +301,16 @@ export default {
         cellIdx2TypeTextItem: num3, // 文书号
         cellIdx3: num4, // 文书号
         cellIdx3TypeTextItem: num4, // 文书号
-        cellIdx4: let28DataPapaerContent.selectedType === "单位" ? corp.corpName : "", // 企业煤矿名称
-        cellIdx4TypeTextItem: let28DataPapaerContent.selectedType === "单位" ? corp.corpName : "", //
-        cellIdx5: let28DataPapaerContent.selectedType, // 单位或个人
-        cellIdx5TypeTextItem: let28DataPapaerContent.selectedType, // 单位或个人
+        cellIdx4: let28DataPaperContent.selectedType === "单位" ? corp.corpName : "", // 企业煤矿名称
+        cellIdx4TypeTextItem: let28DataPaperContent.selectedType === "单位" ? corp.corpName : "", //
+        cellIdx5: let28DataPaperContent.selectedType, // 单位或个人
+        cellIdx5TypeTextItem: let28DataPaperContent.selectedType, // 单位或个人
         cellIdx6: cellIdx6String, // 违法行为
         cellIdx7: null, // 第X项情形
         cellIdx8: '局', // 局
         cellIdx8TypeTextItem: '局', // 局
-        cellIdx9: let28DataPapaerContent.selectedType, // 单位或个人
-        cellIdx9TypeTextItem: let28DataPapaerContent.selectedType, // 单位或个人
+        cellIdx9: let28DataPaperContent.selectedType, // 单位或个人
+        cellIdx9TypeTextItem: let28DataPaperContent.selectedType, // 单位或个人
         cellIdx10: null, // 签收人（签名）
         cellIdx11: null, // 日期
         cellIdx12: '局', // 局
@@ -328,13 +328,20 @@ export default {
         cellIdx18: this.$store.state.curCase.groupName, // 
         cellIdx19: this.todayDate, // 日期
         cellIdx19TypeDateItem: this.todayDate, // 日期
-        cellIdx20: let28DataPapaerContent.selectedType, // 单位或个人
-        selectedType: let28DataPapaerContent.selectedType, // 单位或个人
+        cellIdx20: let28DataPaperContent.selectedType, // 单位或个人
+        selectedType: let28DataPaperContent.selectedType, // 单位或个人
         extraData: {
           // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
           userGroupName: this.$store.state.user.userGroupName,
         },
+        DangerTable,
+        associationPaperId: { // 关联的paperId
+          paper22Id: let28DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: let28DataPaperContent.associationPaperId.paper1Id,
+          paper6Id: let28DataPaperContent.associationPaperId.paper6Id,
+          paper28Id: selectedPaper.let28Data.paperId
+        }
       };
     },
     goBack({ page, data }) {

@@ -183,6 +183,7 @@
 import GoDB from "@/utils/godb.min.js";
 import {
   getDocNumber,
+  setNewDanger
 } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
@@ -194,7 +195,7 @@ export default {
       options: {},
       visibleSelectDialog: false,
       selectedType: "单位", // 初始化时选择的单位或个人
-      associationPaper: ['6', '8', '10'],
+      associationPaper: ['10'],
     };
   },
   methods: {
@@ -214,24 +215,28 @@ export default {
         this.$store.state.user
       );
       // 3.获取行政复议申请笔录中的申请时间
-      let let10DataPapaerContent = JSON.parse(
+      let let10DataPaperContent = JSON.parse(
         selectedPaper.let10Data.paperContent
       );
-      let cellIdx5String = let10DataPapaerContent.cellIdx0 + "";
-      let cellIdx6String = let10DataPapaerContent.cellIdx1 + "";
-      let cellIdx7String = let10DataPapaerContent.cellIdx2 + "";
+      let cellIdx5String = let10DataPaperContent.cellIdx0 + "";
+      let cellIdx6String = let10DataPaperContent.cellIdx1 + "";
+      let cellIdx7String = let10DataPaperContent.cellIdx2 + "";
       // 4.固定模板：
       // 获取文书编号：
       // 行政处罚决定书：
-      let let8DataPapaerContent = JSON.parse(
-        selectedPaper.let8Data.paperContent
+      // 通过10行政复议申请笔录获取8行政处罚决定书中内容
+      let wkPaper = db.table('wkPaper')
+      let paper8 = await wkPaper.find(item => item.paperId === let10DataPaperContent.associationPaperId.paper8Id && item.delFlag !== '1')
+      let let8DataPaperContent = JSON.parse(
+        paper8.paperContent
       );
-      let paper8number = `${let8DataPapaerContent.cellIdx0}矿安监${let8DataPapaerContent.cellIdx1}罚〔${let8DataPapaerContent.cellIdx2}〕${let8DataPapaerContent.cellIdx3}号`
+      let paper8number = `${let8DataPaperContent.cellIdx0}矿安监${let8DataPaperContent.cellIdx1}罚〔${let8DataPaperContent.cellIdx2}〕${let8DataPaperContent.cellIdx3}号`
       // 行政处罚告知书：
-      let let6DataPapaerContent = JSON.parse(
-        selectedPaper.let6Data.paperContent
+      let paper6 = await wkPaper.find(item => item.paperId === let10DataPaperContent.associationPaperId.paper6Id && item.delFlag !== '1')
+      let let6DataPaperContent = JSON.parse(
+        paper6.paperContent
       );
-      let paper6number = `${let6DataPapaerContent.cellIdx0}矿安监${let6DataPapaerContent.cellIdx1}告〔${let6DataPapaerContent.cellIdx2}〕${let6DataPapaerContent.cellIdx3}号`
+      let paper6number = `${let6DataPaperContent.cellIdx0}矿安监${let6DataPaperContent.cellIdx1}告〔${let6DataPaperContent.cellIdx2}〕${let6DataPaperContent.cellIdx3}号`
       let cellIdx10String = `申请人于 20XX 年 XX 月 XX 日对 XX 煤矿安全监察局 XX 监察分局《行政处罚决定书》（${paper8number}）作出的行政处罚决定不服，向本局提出行政复议申请，我局受理后依法采取书面审理的方式，被申请人在法定期限内提交了行政复议答辩意见。通过对有关行政执法审查和对有关人员调查询问，现已审理终结。
       申请人请求：撤销被申请人作出的《行政处罚决定书》（${paper8number}），减轻或免于行政处罚。
       申请人称：淮北监察分局对我矿安全检查时发现特种作业人员无证上岗作业问题，在行政处罚法律适用上，不应适用《中华人民共和国安全生产法》进行处罚,应依据《煤矿安全监察条例》第二十九条第（四）项“特种作业人员未取得资格证书上岗作业的”应当责令限期改正的规定。《煤矿安全监察条例》是确立煤矿安全监察机构执法地位的专门法规，应优先执行。既使适用《中华人民共和国安全生产法》第九十四条“责令限期改正，可以处五万元以下的罚款”的规定，也应当遵守《安全生产行政处罚自由裁量适用规则（试行）》(国家安全生产监督管理总局令第 31 号)第十二条第一款“法律、行政法规或者部门规章规定的多种处罚应当并处的，不得选择适用；规定可以并处的，可以选择适用”的规定。我矿积极主动改正，在案件调查前已将爆破工 XXX、瓦斯检查工 XXX 调离工作岗位，对于已培训未持证上岗作业的特种作业人员，是因有关机构未及时发证，培训机构业已出具培训合格证明。基于上述事实，安全隐患已消除，对安全生产不构成威胁，未产生严重后果。按照《安全生产违法行为行政处罚办法》第五十六条第（二）项“主动消除或者减轻安全生产违法行为危害后果的”应当依法从轻或者减轻行政处罚的规定，应当减轻或免于行政处罚。
@@ -254,6 +259,9 @@ export default {
               phone: "",
             };
       let cellIdx11String = orgSysOfficeInfo.courtPrefix;
+      let DangerTable = let10DataPaperContent.DangerTable ? 
+        setNewDanger(selectedPaper.let10Data, let10DataPaperContent.DangerTable)
+        : {}
       await db.close();
       this.letData = {
         cellIdx0: paperNumber.num0, // 文书号
@@ -282,7 +290,16 @@ export default {
           cellIdx13: null, // 月
           cellIdx14: null, // 日   暂不用*/
         cellIdx15: null, // 单位/个人
+        DangerTable,
+        associationPaperId: { // 关联的paperId
+          paper22Id: let10DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: let10DataPaperContent.associationPaperId.paper1Id,
+          paper6Id: let10DataPaperContent.associationPaperId.paper6Id,
+          paper8Id: let10DataPaperContent.associationPaperId.paper8Id,
+          paper10Id: selectedPaper.let10Data.paperId
+        }
       };
+      console.log('letData', this.letData)
     },
     goBack({ page, data }) {
       // 返回选择企业

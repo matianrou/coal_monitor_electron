@@ -293,7 +293,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber, getDangerObject } from "@/utils/setInitPaperData";
+import { getDocNumber, getDangerObject, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let301",
@@ -313,7 +313,7 @@ export default {
           },
         ],
       },
-      associationPaper: ["8", '39'],
+      associationPaper: ['39'],
     };
   },
   methods: {
@@ -335,20 +335,17 @@ export default {
       let cellIdx5String = this.$store.state.user.userGroupName;
       // 3.被申请人：企业煤矿名称
       let cellIdx11String = corp.corpName;
-      let let8DataPapaerContent = JSON.parse(
-        selectedPaper.let8Data.paperContent
+      // 5.文书号2：催告书编号
+      let let39DataPaperContent = JSON.parse(
+        selectedPaper.let39Data.paperContent
       );
       let dangerObject = getDangerObject(
-        let8DataPapaerContent.DangerTable.selectedDangerList
+        let39DataPaperContent.DangerTable.selectedDangerList
       );
       // 4.对被申请人：企业名称+'涉嫌'+隐患描述+'案'
       let cellIdx16String = `${corp.corpName}涉嫌${dangerObject.dangerString}案`;
-      // 5.文书号2：催告书编号
-      let let39DataPapaerContent = JSON.parse(
-        selectedPaper.let39Data.paperContent
-      );
-      let let39Date = let39DataPapaerContent.cellIdx29
-        ? let39DataPapaerContent.cellIdx29
+      let let39Date = let39DataPaperContent.cellIdx29
+        ? let39DataPaperContent.cellIdx29
             .replace("年", "-")
             .replace("月", "-")
             .replace("日", "-")
@@ -375,6 +372,10 @@ export default {
       let cellIdx25String = `划转罚款至${orgSysOfficeInfo.accountName}${orgSysOfficeInfo.accountBank}。账户名称：${orgSysOfficeInfo.billName}。待结算财政款项账号：${orgSysOfficeInfo.account}`;
       // 7.人民法院：courtPrefix 联系人：master 联系电话：phone
       // 8.申请人的法定代表人legalPerson和职务post
+      let DangerTable = let39DataPaperContent.DangerTable ? 
+        setNewDanger(selectedPaper.let39Data, let39DataPaperContent.DangerTable)
+        : {}
+      await db.close()
       this.letData = {
         cellIdx0: paperNumber.num0, // 文书号
         cellIdx0TypeTextItem: paperNumber.num0, // 文书号
@@ -405,10 +406,10 @@ export default {
         cellIdx18: let39Date[0], // 年
         cellIdx19: let39Date[1], // 月
         cellIdx20: let39Date[2], // 日
-        cellIdx21: let39DataPapaerContent.cellIdx0, // 文书号
-        cellIdx22: let39DataPapaerContent.cellIdx1, // 文书号
-        cellIdx23: let39DataPapaerContent.cellIdx2, // 文书号
-        cellIdx24: let39DataPapaerContent.cellIdx3, // 文书号
+        cellIdx21: let39DataPaperContent.cellIdx0, // 文书号
+        cellIdx22: let39DataPaperContent.cellIdx1, // 文书号
+        cellIdx23: let39DataPaperContent.cellIdx2, // 文书号
+        cellIdx24: let39DataPaperContent.cellIdx3, // 文书号
         cellIdx25: cellIdx25String, //
         cellIdx25TypeTextareaItem: cellIdx25String, //
         cellIdx26: orgSysOfficeInfo.courtPrefix, // 人民法院
@@ -422,7 +423,14 @@ export default {
         cellIdx31TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
         cellIdx32: this.$store.state.curCase.groupName, //
         cellIdx33: this.todayDate, // 日期
-        // DangerTable: let8DataPapaerContent.DangerTable,
+        DangerTable,
+        associationPaperId: { // 关联的paperId
+          paper22Id: let39DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: let39DataPaperContent.associationPaperId.paper1Id,
+          paper6Id: let39DataPaperContent.associationPaperId.paper6Id,
+          paper8Id: let39DataPaperContent.associationPaperId.paper8Id,
+          paper39Id: selectedPaper.let39Data.paperId
+        }
       };
     },
     goBack({ page, data }) {

@@ -238,7 +238,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
+import { getDangerObject, getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let111",
@@ -276,26 +276,29 @@ export default {
         this.$store.state.user
       );
       // 3.获取查封（扣押）决定书的日期和编号
-      let let32DataPapaerContent = JSON.parse(
+      let let32DataPaperContent = JSON.parse(
         selectedPaper.let32Data.paperContent
       );
       // 2.时间
-      let date = let32DataPapaerContent.cellIdx19
+      let date = let32DataPaperContent.cellIdx19
       date = date.replace("年", "-").replace("月", "-").replace("日", "-");
       let dateList = date.split("-"); 
       // 文书编号：
-      let cellIdx13String = let32DataPapaerContent.cellIdx1;
-      let cellIdx14String = let32DataPapaerContent.cellIdx2;
-      let cellIdx16String = let32DataPapaerContent.cellIdx3;
-      let cellIdx17String = let32DataPapaerContent.cellIdx4;
+      let cellIdx13String = let32DataPaperContent.cellIdx1;
+      let cellIdx14String = let32DataPaperContent.cellIdx2;
+      let cellIdx16String = let32DataPaperContent.cellIdx3;
+      let cellIdx17String = let32DataPaperContent.cellIdx4;
+      let DangerTable = let32DataPaperContent.DangerTable ? 
+        setNewDanger(selectedPaper.let32Data, let32DataPaperContent.DangerTable)
+        : {}
       await db.close();
       this.letData = {
-        cellIdx0: let32DataPapaerContent.selectedType, // 查封(扣押)
+        cellIdx0: let32DataPaperContent.selectedType, // 查封(扣押)
         cellIdx1: num0, // 文书号
         cellIdx1TypeTextItem: num0, // 文书号
         cellIdx2: num1, // 文书号
         cellIdx2TypeTextItem: num1, // 文书号
-        cellIdx3: let32DataPapaerContent.selectedType.substring(0, 1), // 查/扣
+        cellIdx3: let32DataPaperContent.selectedType.substring(0, 1), // 查/扣
         cellIdx4: num3, // 文书号
         cellIdx4TypeTextItem: num3, // 文书号
         cellIdx5: num4, // 文书号
@@ -311,28 +314,34 @@ export default {
         cellIdx10: dateList[2], // 日
         cellIdx10TypeTextItem: dateList[2], // 日
         cellIdx11: '单位', // 单位/个人
-        cellIdx12: let32DataPapaerContent.selectedType, // 查封(扣押)
+        cellIdx12: let32DataPaperContent.selectedType, // 查封(扣押)
         cellIdx13: cellIdx13String, // 文书号
         cellIdx13TypeTextItem: cellIdx13String, // 文书号
         cellIdx14: cellIdx14String, // 文书号
         cellIdx14TypeTextItem: cellIdx14String, // 文书号
-        cellIdx15: let32DataPapaerContent.selectedType.substring(0, 1), // 查/扣
+        cellIdx15: let32DataPaperContent.selectedType.substring(0, 1), // 查/扣
         cellIdx16: cellIdx16String, // 文书号
         cellIdx16TypeTextItem: cellIdx16String, // 文书号
         cellIdx17: cellIdx17String, // 文书号
         cellIdx17TypeTextItem: cellIdx17String, // 文书号
-        cellIdx18: let32DataPapaerContent.selectedType, // 查封(扣押)
+        cellIdx18: let32DataPaperContent.selectedType, // 查封(扣押)
         cellIdx19: null, // 第X项的规定
         cellIdx20: null, // 全部/部分
-        cellIdx21: let32DataPapaerContent.selectedType, // 查封(扣押)
-        cellIdx22: let32DataPapaerContent.SamplingForensicsTable, // 附件
+        cellIdx21: let32DataPaperContent.selectedType, // 查封(扣押)
+        cellIdx22: let32DataPaperContent.SamplingForensicsTable, // 附件
         cellIdx23: this.$store.state.curCase.groupName, //
         cellIdx23TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx24: this.todayDate, // 日期
         cellIdx24TypeDateItem: this.todayDate, // 日期
-        cellIdx25: let32DataPapaerContent.selectedType, // 查封(扣押)
-        SamplingForensicsTable: let32DataPapaerContent.SamplingForensicsTable,
-        selectedType: let32DataPapaerContent.selectedType
+        cellIdx25: let32DataPaperContent.selectedType, // 查封(扣押)
+        SamplingForensicsTable: let32DataPaperContent.SamplingForensicsTable,
+        selectedType: let32DataPaperContent.selectedType,
+        DangerTable, // 隐患项大表
+        associationPaperId: { // 关联的paperId
+          paper22Id: let32DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: let32DataPaperContent.associationPaperId.paper1Id,
+          paper32Id: selectedPaper.let32Data.paperId
+        }
       };
     },
     goBack({ page, data }) {

@@ -1,4 +1,4 @@
-<!-- 现场检查 实施检查 先行登记保存证据处理决定书 -->
+<!-- 现场检查 实施检查 先行登记保存证据处理决定书 27 -->
 <template>
   <div style="width: 100%; height: 100%">
     <let-main
@@ -163,7 +163,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber } from "@/utils/setInitPaperData";
+import { getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let109",
@@ -190,11 +190,11 @@ export default {
         this.$store.state.user
       );
       // 2.获取先行登记保存证据通知书中的日期、物品清单和编号字段
-      let let25DataPapaerContent = JSON.parse(
+      let let25DataPaperContent = JSON.parse(
         selectedPaper.let25Data.paperContent
       );
       // 日期
-      let let25Date = let25DataPapaerContent.cellIdx22;
+      let let25Date = let25DataPaperContent.cellIdx22;
       let25Date = let25Date
         ? let25Date.replace("年", "-").replace("月", "-").replace("日", "-")
         : " - - ";
@@ -203,8 +203,8 @@ export default {
       let cellIdx7String = dateList[1];
       let cellIdx8String = dateList[2];
       // 物品名称：
-      let let25Article = let25DataPapaerContent.SamplingForensicsTable
-        ? let25DataPapaerContent.SamplingForensicsTable.tableData
+      let let25Article = let25DataPaperContent.SamplingForensicsTable
+        ? let25DataPaperContent.SamplingForensicsTable.tableData
         : [];
       let articleName = "";
       if (let25Article.length > 0) {
@@ -215,10 +215,10 @@ export default {
       }
       let cellIdx9String = articleName;
       // 文书号：
-      let num250 = let25DataPapaerContent.cellIdx0;
-      let num251 = let25DataPapaerContent.cellIdx1;
-      let num253 = let25DataPapaerContent.cellIdx2;
-      let num254 = let25DataPapaerContent.cellIdx3;
+      let num250 = let25DataPaperContent.cellIdx0;
+      let num251 = let25DataPaperContent.cellIdx1;
+      let num253 = let25DataPaperContent.cellIdx2;
+      let num254 = let25DataPaperContent.cellIdx3;
       // 3.sysOfficeInfo实体中 organName、人民法院：courtPrefix
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(
@@ -230,6 +230,9 @@ export default {
           : { organName: "", courtPrefix: "" };
       let cellIdx15String = orgSysOfficeInfo.organName;
       let cellIdx16String = orgSysOfficeInfo.courtPrefix;
+      let DangerTable = let25DataPaperContent.DangerTable ? 
+      setNewDanger(selectedPaper.let25Data, let25DataPaperContent.DangerTable)
+      : {}
       this.letData = {
         cellIdx0: num0, // 文书号
         cellIdx0TypeTextItem: num0, // 文书号
@@ -268,7 +271,14 @@ export default {
         cellIdx17TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx18: this.todayDate, // 日期
         cellIdx18TypeDateItem: this.todayDate, // 日期
+        DangerTable,
+        associationPaperId: { // 关联的paperId
+          paper22Id: let25DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: let25DataPaperContent.associationPaperId.paper1Id,
+          paper25Id: selectedPaper.let25Data.paperId
+        }
       };
+      console.log('letData', this.letData)
     },
     goBack({ page, data }) {
       // 返回选择企业

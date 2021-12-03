@@ -181,8 +181,8 @@ export default {
       let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
+      let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      let dangerObject = getDangerObject(let1DataPaperContent.DangerTable.tableData)
       // 通过机构接口中的sysOfficeInfo中获取的organName和courtPrefix字段分别填充cellIdx8和cellIdx9字段
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
@@ -218,7 +218,7 @@ export default {
         cellIdx17TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx18: this.todayDate, // 日期
         cellIdx18TypeDateItem: this.todayDate, // 日期
-        DangerTable: let1DataPapaerContent.DangerTable, // 隐患项大表
+        DangerTable: let1DataPaperContent.DangerTable, // 隐患项大表
       };
     },
     goBack({ page, data }) {

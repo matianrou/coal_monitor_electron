@@ -262,8 +262,8 @@ export default {
         let6DataPaperContent.DangerTable.selectedDangerList
       );
       let DangerTable = let6DataPaperContent.DangerTable ? 
-      setNewDanger(selectedPaper.let6Data, let6DataPaperContent.DangerTable)
-      : {}
+        setNewDanger(selectedPaper.let6Data, let6DataPaperContent.DangerTable)
+        : {}
       await db.close();
       /* let let204Data = await wkPaper.find(
           (item) => item.caseId === caseId && item.paperType === "6"
@@ -304,13 +304,18 @@ export default {
         cellIdx20: cellIdx20String, // 单位/个人
         cellIdx20TypeTextItem: cellIdx20String, // 单位/个人
         cellIdx21: null, // 法制审核意见
-        // DangerTable: DangerTable,
+        DangerTable: DangerTable,
         extraData: {
           // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
           userGroupName: this.$store.state.user.userGroupName,
         },
         selectedType: let6DataPaperContent.selectedType,
+        associationPaperId: { // 关联的paperId
+          paper22Id: let6DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: let6DataPaperContent.associationPaperId.paper1Id,
+          paper6Id: selectedPaper.let6Data.paperId
+        }
       };
     },
     goBack({ page, data }) {

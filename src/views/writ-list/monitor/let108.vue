@@ -245,11 +245,11 @@ export default {
         this.$store.state.user
       );
       // 2.获取笔录文书中的隐患数据
-      let let1DataPapaerContent = JSON.parse(
+      let let1DataPaperContent = JSON.parse(
         selectedPaper.let1Data.paperContent
       );
       let dangerObject = getDangerObject(
-        let1DataPapaerContent.DangerTable.selectedDangerList
+        let1DataPaperContent.DangerTable.selectedDangerList
       );
       let cellIdx6String = `${dangerObject.dangerString}`;
       // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
@@ -265,8 +265,8 @@ export default {
       let cellIdx17String = orgSysOfficeInfo.depPost;
       let cellIdx19String = orgSysOfficeInfo.master;
       let cellIdx20String = orgSysOfficeInfo.phone;
-      let DangerTable = let1DataPapaerContent.DangerTable ? 
-      setNewDanger(selectedPaper.let1Data, let1DataPapaerContent.DangerTable)
+      let DangerTable = let1DataPaperContent.DangerTable ? 
+      setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
       : {}
       await db.close();
       this.letData = {
@@ -314,7 +314,12 @@ export default {
           signature: null,
           signDate: "",
         },
+        associationPaperId: { // 关联的paperId
+          paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: selectedPaper.let1Data.paperId
+        }
       };
+      console.log('letData', this.letData)
     },
     goBack({ page, data }) {
       // 返回选择企业

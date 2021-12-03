@@ -200,21 +200,21 @@ export default {
       );
       // 2.发现你矿存在：隐患描述
       // 获取笔录文书中的隐患数据 调整为立案决定书中的案由字段cellIdx4
-      // let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent);
+      // let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent);
       // let dangerObject = getDangerObject(
-      //   let1DataPapaerContent.DangerTable.tableData,
+      //   let1DataPaperContent.DangerTable.tableData,
       //   { danger: true }
       // );
       // let cellIdx2String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
       // let cellIdx10String = dangerObject.onsiteDescString;
-      let let4DataPapaerContent = JSON.parse(selectedPaper.let4Data.paperContent);
+      let let4DataPaperContent = JSON.parse(selectedPaper.let4Data.paperContent);
 
       await db.close();
       this.letData = {
         cellIdx0: null, //
         cellIdx1: null, // 编号
-        cellIdx2: let4DataPapaerContent.cellIdx4, // 案由
-        cellIdx2TypeTextareaItem: let4DataPapaerContent.cellIdx4, // 案由
+        cellIdx2: let4DataPaperContent.cellIdx4, // 案由
+        cellIdx2TypeTextareaItem: let4DataPaperContent.cellIdx4, // 案由
         cellIdx3: null, // 审批事项
         cellIdx4: null, // 行政相对人基本情况
         cellIdx5: null, // 案情摘要

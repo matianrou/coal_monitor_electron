@@ -203,7 +203,7 @@ export default {
             label: '制作日期',
             prop: 'createDate',
             align: 'left',
-            width: '120'
+            width: '180'
           },
         ]
       }

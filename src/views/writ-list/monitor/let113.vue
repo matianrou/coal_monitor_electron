@@ -183,7 +183,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber } from "@/utils/setInitPaperData";
+import { getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let113",
@@ -203,7 +203,7 @@ export default {
         return item.corpId == this.corpData.corpId;
       });
       // 1.关联停供电通知书
-      let let37DataPapaerContent = JSON.parse(
+      let let37DataPaperContent = JSON.parse(
         selectedPaper.let37Data.paperContent
       );
       
@@ -227,14 +227,17 @@ export default {
       let cellIdx12String = orgSysOfficeInfo.depPost;
       let cellIdx14String = orgSysOfficeInfo.master;
       let cellIdx15String = orgSysOfficeInfo.phone;
+      let DangerTable = let37DataPaperContent.DangerTable ? 
+        setNewDanger(selectedPaper.let37Data, let37DataPaperContent.DangerTable)
+        : {}
       await db.close();
       this.letData = {
-        cellIdx0: let37DataPapaerContent.selectedType, // 解除停供电(解除停供民用爆炸物品)
+        cellIdx0: let37DataPaperContent.selectedType, // 解除停供电(解除停供民用爆炸物品)
         cellIdx1: num0, // 文书号
         cellIdx1TypeTextItem: num0, // 文书号
         cellIdx2: num1, // 文书号
         cellIdx2TypeTextItem: num1, // 文书号
-        cellIdx19: let37DataPapaerContent.selectedType === '停供电' ? '电' : '爆', // 电/爆
+        cellIdx19: let37DataPaperContent.selectedType === '停供电' ? '电' : '爆', // 电/爆
         cellIdx3: num3, // 文书号
         cellIdx3TypeTextItem: num3, // 文书号
         cellIdx4: num4, // 文书号
@@ -242,7 +245,7 @@ export default {
         cellIdx5: null, // 单位
         cellIdx6: corp.corpName ? corp.corpName : null, // corpname
         cellIdx6TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
-        cellIdx7: let37DataPapaerContent.selectedType === '停供电' ? '停供生产性用电' : '停供民用爆炸物品', // 解除停供电(解除停供民用爆炸物品)
+        cellIdx7: let37DataPaperContent.selectedType === '停供电' ? '停供生产性用电' : '停供民用爆炸物品', // 解除停供电(解除停供民用爆炸物品)
         cellIdx8: null, // 受送达人（签名）
         cellIdx9: null, // 日期
         cellIdx10: '局', // 局
@@ -261,9 +264,16 @@ export default {
         cellIdx16TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx17: this.todayDate, // 日期
         cellIdx17TypeDateItem: this.todayDate, // 日期
-        cellIdx18: let37DataPapaerContent.selectedType === '停供电' ? '供电部门' : '公安机关', // 单位/个人
-        selectedType: let37DataPapaerContent.selectedType
+        cellIdx18: let37DataPaperContent.selectedType === '停供电' ? '供电部门' : '公安机关', // 单位/个人
+        selectedType: let37DataPaperContent.selectedType,
+        DangerTable, // 隐患项大表
+        associationPaperId: { // 关联的paperId
+          paper22Id: let37DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: let37DataPaperContent.associationPaperId.paper1Id,
+          paper37Id: selectedPaper.let37Data.paperId
+        }
       };
+      console.log('letData', this.letData)
     },
     goBack({ page, data }) {
       // 返回选择企业

@@ -153,16 +153,16 @@ export default {
         return item.corpId == this.corpData.corpId;
       });
       // 获取笔录文书中的隐患数据
-      let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent);
+      let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent);
       let dangerObject = getDangerObject(
-        let1DataPapaerContent.DangerTable.tableData
+        let1DataPaperContent.DangerTable.tableData
       );
       // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
       // 获取笔录文书中的隐患数据
       let cellIdx2String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
       // 2.违法事实及依据：隐患描述+“经调查取证以上违法违规行为属实，分别违反了”+违法认定发条
       dangerObject = getDangerObject(
-        let1DataPapaerContent.DangerTable.tableData,
+        let1DataPaperContent.DangerTable.tableData,
         { danger: true }
       );
       let cellIdx6String = `${dangerObject.dangerString}经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString}的规定。`;
@@ -173,8 +173,8 @@ export default {
         dangerObject.penaltyDescFineTotle
       )}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`;
       // 5.获取立案决定书编号及立案日期
-      let let4DataPapaerContent = JSON.parse(selectedPaper.let4Data.paperContent);
-      let { cellIdx0, cellIdx1, cellIdx2, cellIdx3, cellIdx6, cellIdx7, cellIdx8} = let4DataPapaerContent
+      let let4DataPaperContent = JSON.parse(selectedPaper.let4Data.paperContent);
+      let { cellIdx0, cellIdx1, cellIdx2, cellIdx3, cellIdx6, cellIdx7, cellIdx8} = let4DataPaperContent
       let let4PaperNumber = `${cellIdx0}（${cellIdx1}）煤安立〔${cellIdx2}〕${cellIdx3}号`
       let let4Date = `${cellIdx6 ? cellIdx6 : 'XX'}年${cellIdx7 ? cellIdx7 : 'XX'}月${cellIdx8 ? cellIdx8 : 'XX'}日`
       // 6.法制审核意见：带入行政执法决定法制审核意见书中的
@@ -197,7 +197,7 @@ export default {
         cellIdx10: null, // 执法机关负责人意见
         cellIdx11: null, // 签名
         cellIdx12: null, // 日期
-        DangerTable: let1DataPapaerContent.DangerTable,
+        DangerTable: let1DataPaperContent.DangerTable,
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
           userGroupName: this.$store.state.user.userGroupName,

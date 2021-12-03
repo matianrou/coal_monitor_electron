@@ -216,7 +216,7 @@
 import GoDB from "@/utils/godb.min.js";
 import {
   getDangerObject,
-  getDocNumber,
+  setNewDanger,
 } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
@@ -237,7 +237,7 @@ export default {
           },
         ]
       },
-      associationPaper: ["1"],
+      associationPaper: ["10"],
     };
   },
   methods: {
@@ -257,13 +257,16 @@ export default {
       // 2.单位名称
       // 3.调查笔录：“我们是”+机构名称+“执法监督处工作人员，这是我们的执法证件（出示行政执法证件），现就你矿涉嫌”+隐患描述+“案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？答：听清楚了。”
       // 获取笔录文书中的隐患数据
-      let let1DataPapaerContent = JSON.parse(
+      let let10DataPaperContent = JSON.parse(
         selectedPaper.let1Data.paperContent
       );
       let dangerObject = getDangerObject(
-        let1DataPapaerContent.DangerTable.selectedDangerList
+        let10DataPaperContent.DangerTable.selectedDangerList
       );
       let cellIdx18 = `我们是${this.$store.state.user.userGroupName}执法监督处工作人员，这是我们的执法证件（出示行政执法证件），现就你矿涉嫌${dangerObject.dangerString}案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？\r\n      答：听清楚了。`;
+      let DangerTable = let10DataPaperContent.DangerTable ? 
+        setNewDanger(selectedPaper.let10Data, let10DataPaperContent.DangerTable)
+        : {}
       await db.close();
       this.letData = {
         cellIdx0: cellIdx0Year, // 年
@@ -292,7 +295,14 @@ export default {
         cellIdx17: null, // 住址
         cellIdx18: cellIdx18, // 调查笔录
         cellIdx18TypeTextareaItem: cellIdx18, // 调查笔录
-        // DangerTable: let1DataPapaerContent.DangerTable,
+        DangerTable: DangerTable,
+        associationPaperId: { // 关联的paperId
+          paper22Id: let10DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: let10DataPaperContent.associationPaperId.paper1Id,
+          paper6Id: let10DataPaperContent.associationPaperId.paper6Id,
+          paper8Id: let10DataPaperContent.associationPaperId.paper8Id,
+          paper10Id: selectedPaper.let10Data.paperId
+        }
       };
     },
     goBack({ page, data }) {

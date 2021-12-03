@@ -369,7 +369,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject } from "@/utils/setInitPaperData";
+import { getDangerObject, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let214",
@@ -386,6 +386,8 @@ export default {
       let cellIdx0String = ''
       let cellIdx1String = ''
       let cellIdx2String = ''
+      let DangerTable = {}
+      let associationPaperId = {}
       if (this.fromPage === 'opinion-suggestion') {
         // 从意见建议书进入执法案卷首页时
         cellIdx0String = ''
@@ -402,14 +404,21 @@ export default {
         // 创建初始版本 */
         // 1.案卷题名: 煤矿名称+隐患描述+案
         // 获取笔录文书中的隐患数据
-        let let1DataPapaerContent = JSON.parse(
+        let let1DataPaperContent = JSON.parse(
           selectedPaper.let1Data.paperContent
         );
         let dangerObject = getDangerObject(
-          let1DataPapaerContent.DangerTable.selectedDangerList
+          let1DataPaperContent.DangerTable.selectedDangerList
         );
         cellIdx2String = `${corp.corpName}${dangerObject.dangerString}案。`;
         await db.close();
+        DangerTable = let1DataPaperContent.DangerTable ? 
+        setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
+        : {}
+        associationPaperId = { // 关联的paperId
+          paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: selectedPaper.let1Data.paperId
+        }
       }
       this.letData = {
         cellIdx0: cellIdx0String, // 执法单位
@@ -434,6 +443,8 @@ export default {
         volumesMenuTable: {
           tableData: [],
         },
+        DangerTable,
+        associationPaperId,
       };
     },
     goBack({ page, data }) {

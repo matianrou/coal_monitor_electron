@@ -268,11 +268,11 @@ export default {
       );
       // 2.隐患描述
       // 获取笔录文书中的隐患数据
-      let let1DataPapaerContent = JSON.parse(
+      let let1DataPaperContent = JSON.parse(
         selectedPaper.let1Data.paperContent
       );
       let dangerObject = getDangerObject(
-        let1DataPapaerContent.DangerTable.selectedDangerList
+        let1DataPaperContent.DangerTable.selectedDangerList
       );
       let cellIdx5String = `${dangerObject.dangerString}`;
       // 3.抽样时间9-12
@@ -294,8 +294,8 @@ export default {
       let cellIdx18String = orgSysOfficeInfo.depPost;
       let cellIdx20String = orgSysOfficeInfo.master;
       let cellIdx21String = orgSysOfficeInfo.phone;
-      let DangerTable = let1DataPapaerContent.DangerTable ? 
-      setNewDanger(selectedPaper.let1Data, let1DataPapaerContent.DangerTable)
+      let DangerTable = let1DataPaperContent.DangerTable ? 
+      setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
       : {}
       await db.close();
       this.letData = {
@@ -345,6 +345,10 @@ export default {
           signature: null,
           signDate: "",
         },
+        associationPaperId: { // 关联的paperId
+          paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: selectedPaper.let1Data.paperId
+        }
       };
     },
     goBack({ page, data }) {

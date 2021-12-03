@@ -218,7 +218,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
+import { getDangerObject, getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let401",
@@ -245,8 +245,8 @@ export default {
         this.$store.state.user
       );
       // 2.违法行为：获取笔录文书中的隐患数据
-      let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.selectedDangerList)
+      let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      let dangerObject = getDangerObject(let1DataPaperContent.DangerTable.selectedDangerList)
       let cellIdx8String = `${dangerObject.dangerString}`
       // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
       let orgInfo = db.table("orgInfo");
@@ -256,6 +256,9 @@ export default {
       let cellIdx13String = orgSysOfficeInfo.depPost;
       let cellIdx15String = orgSysOfficeInfo.master;
       let cellIdx16String = orgSysOfficeInfo.phone;
+      let DangerTable = let1DataPaperContent.DangerTable ? 
+        setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
+        : {}
       await db.close();
       this.letData = {
         cellIdx0: num0, // 文书号
@@ -294,7 +297,13 @@ export default {
         // cellIdx22: null, // 年
         // cellIdx23: null, // 月
         // cellIdx24: null, // 日  暂不用
+        DangerTable,
+        associationPaperId: { // 关联的paperId
+          paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: selectedPaper.let1Data.paperId
+        }
       };
+      console.log('letData', this.letData)
     },
     goBack({ page, data }) {
       // 返回选择企业

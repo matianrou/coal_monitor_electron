@@ -298,16 +298,16 @@ export default {
         ? JSON.parse(orgData.sysOfficeInfo)
         : { organName: "", depAddress: "" };
       // 5.查封扣押文书号
-      let let32DataPapaerContent = JSON.parse(selectedPaper.let32Data.paperContent);
-      let let32Date = let32DataPapaerContent.cellIdx20
-        ? let32DataPapaerContent.cellIdx20
+      let let32DataPaperContent = JSON.parse(selectedPaper.let32Data.paperContent);
+      let let32Date = let32DataPaperContent.cellIdx20
+        ? let32DataPaperContent.cellIdx20
             .replace("年", "-")
             .replace("月", "-")
             .replace("日", "-")
             .split("-")
         : ["", "", ""];
       // 查封扣押决定书文书中是查封/扣押
-      let selectedType = let32DataPapaerContent.selectedType
+      let selectedType = let32DataPaperContent.selectedType
       await db.close();
       this.letData = {
         cellIdx0: `延长${selectedType}期限`, // 查封(扣押)
@@ -330,18 +330,18 @@ export default {
         cellIdx10: null, // 对你单位涉案场所XX
         cellIdx11: selectedType, // 予以XX 查封、扣押
         cellIdx11TypeTextItem: selectedType,
-        cellIdx12: let32DataPapaerContent.cellIdx1, // 查封扣押文书号
-        cellIdx12TypeTextItem: let32DataPapaerContent.cellIdx1, // 查封扣押文书号
-        cellIdx13: let32DataPapaerContent.cellIdx2, // 查封扣押文书号
-        cellIdx13TypeTextItem: let32DataPapaerContent.cellIdx2, // 查封扣押文书号
-        cellIdx14: let32DataPapaerContent.cellIdx3, // 查封扣押文书号 查、扣
-        cellIdx14TypeTextItem: let32DataPapaerContent.cellIdx3, // 查封扣押文书号 查、扣
-        cellIdx15: let32DataPapaerContent.cellIdx4, // 查封扣押文书号
-        cellIdx15TypeTextItem: let32DataPapaerContent.cellIdx4, // 查封扣押文书号
-        cellIdx16: let32DataPapaerContent.cellIdx5, // 查封扣押文书号
-        cellIdx16TypeTextItem: let32DataPapaerContent.cellIdx5, // 查封扣押文书号
-        cellIdx17: let32DataPapaerContent.cellIdx7, // 隐患描述
-        cellIdx17TypeTextareaItem: let32DataPapaerContent.cellIdx7, // 隐患描述
+        cellIdx12: let32DataPaperContent.cellIdx1, // 查封扣押文书号
+        cellIdx12TypeTextItem: let32DataPaperContent.cellIdx1, // 查封扣押文书号
+        cellIdx13: let32DataPaperContent.cellIdx2, // 查封扣押文书号
+        cellIdx13TypeTextItem: let32DataPaperContent.cellIdx2, // 查封扣押文书号
+        cellIdx14: let32DataPaperContent.cellIdx3, // 查封扣押文书号 查、扣
+        cellIdx14TypeTextItem: let32DataPaperContent.cellIdx3, // 查封扣押文书号 查、扣
+        cellIdx15: let32DataPaperContent.cellIdx4, // 查封扣押文书号
+        cellIdx15TypeTextItem: let32DataPaperContent.cellIdx4, // 查封扣押文书号
+        cellIdx16: let32DataPaperContent.cellIdx5, // 查封扣押文书号
+        cellIdx16TypeTextItem: let32DataPaperContent.cellIdx5, // 查封扣押文书号
+        cellIdx17: let32DataPaperContent.cellIdx7, // 隐患描述
+        cellIdx17TypeTextareaItem: let32DataPaperContent.cellIdx7, // 隐患描述
         cellIdx18: selectedType, // 将以上XX的期限延长
         cellIdx18TypeTextItem: selectedType, // 将以上XX的期限延长
         cellIdx19: null, // 年

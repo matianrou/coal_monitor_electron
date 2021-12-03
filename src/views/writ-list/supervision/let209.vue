@@ -324,8 +324,8 @@ export default {
       let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
       // 3.企业煤矿名称
       // 4.违法行为：获取笔录文书中的隐患数据
-      let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
+      let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      let dangerObject = getDangerObject(let1DataPaperContent.DangerTable.tableData)
       let cellIdx7String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`
       // 5.地点：sysOfficeInfo实体中depAddress字段+ deparFullname字段
       // 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
@@ -380,7 +380,7 @@ export default {
         cellIdx31TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx32: this.todayDate, // 日期
         cellIdx32TypeDateItem: this.todayDate, // 日期
-        DangerTable: let1DataPapaerContent.DangerTable,
+        DangerTable: let1DataPaperContent.DangerTable,
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
           userGroupName: this.$store.state.user.userGroupName,

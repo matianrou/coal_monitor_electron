@@ -280,12 +280,12 @@ export default {
           this.$store.state.user
         );
         // 获取笔录文书中的隐患数据
-        let let1DataPapaerContent = JSON.parse(
+        let let1DataPaperContent = JSON.parse(
           selectedPaper.let1Data.paperContent
         );
         // 7.行政处罚决定
         let cellIdx10String = setDangerTable(
-          let1DataPapaerContent.DangerTable,
+          let1DataPaperContent.DangerTable,
           {},
           {
             page: "6",
@@ -306,7 +306,7 @@ export default {
         // master：我局联系人、
         // phone：联系电话
         let cellIdx6String = setDangerTable(
-          let1DataPapaerContent.DangerTable,
+          let1DataPaperContent.DangerTable,
           {},
           {
             page: "6",
@@ -314,7 +314,7 @@ export default {
           }
         );
         let cellIdx7String = setDangerTable(
-          let1DataPapaerContent.DangerTable,
+          let1DataPaperContent.DangerTable,
           {},
           {
             page: "6",
@@ -322,15 +322,15 @@ export default {
           }
         );
         let cellIdx8String = setDangerTable(
-          let1DataPapaerContent.DangerTable,
+          let1DataPaperContent.DangerTable,
           {},
           {
             page: "6",
             key: "cellIdx8",
           }
         );
-        let DangerTable = let1DataPapaerContent.DangerTable ? 
-          setNewDanger(selectedPaper.let1Data, let1DataPapaerContent.DangerTable)
+        let DangerTable = let1DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
           : {}
         await db.close();
         this.letData = {
@@ -367,9 +367,11 @@ export default {
           cellIdx21: null, // 单位或个人
           DangerTable: DangerTable,
           associationPaperId: { // 关联的paperId
+            paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
             paper1Id: selectedPaper.let1Data.paperId,
           }
         };
+      console.log('letData', this.letData)
       } else {
         let db = new GoDB(this.$store.state.DBName);
         let paperNumber = await getDocNumber(

@@ -280,8 +280,8 @@ export default {
       let master = orgSysOfficeInfo.master
       let phone = orgSysOfficeInfo.phone
       // 3.带入处罚决定书的单位或个人
-      let let8DataPapaerContent = JSON.parse(selectedPaper.let8Data.paperContent)
-      let selectedType = let8DataPapaerContent.selectedType
+      let let8DataPaperContent = JSON.parse(selectedPaper.let8Data.paperContent)
+      let selectedType = let8DataPaperContent.selectedType
       let selectedString = selectedType === '个人' ? '你' : '单位'
       await db.close();
       this.letData = {

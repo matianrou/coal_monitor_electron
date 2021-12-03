@@ -264,11 +264,11 @@ export default {
       let cellIdx9Hour = now.getHours().toString();
       let cellIdx10Minu = now.getMinutes().toString();
       // 3.隐患描述
-      let let1DataPapaerContent = JSON.parse(
+      let let1DataPaperContent = JSON.parse(
         selectedPaper.let1Data.paperContent
       );
       let dangerObject = getDangerObject(
-        let1DataPapaerContent.DangerTable.selectedDangerList
+        let1DataPaperContent.DangerTable.selectedDangerList
       );
       let cellIdx12String = dangerObject.dangerString;
       // 4.sysOfficeInfo中organName和courtPrefix
@@ -282,23 +282,17 @@ export default {
           : { organName: "", courtPrefix: "" };
       let cellIdx19String = orgSysOfficeInfo.organName;
       let cellIdx20String = orgSysOfficeInfo.courtPrefix;
-      let DangerTable = let1DataPapaerContent.DangerTable ? 
-      setNewDanger(selectedPaper.let1Data, let1DataPapaerContent.DangerTable)
+      let DangerTable = let1DataPaperContent.DangerTable ? 
+      setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
       : {}
       await db.close();
       this.letData = {
         cellIdx0: num0, // 文书号
-        cellIdx0TypeTextItem: num0, // 文书号
         cellIdx1: num1, // 文书号
-        cellIdx1TypeTextItem: num1, // 文书号
         cellIdx2: num3, // 文书号
-        cellIdx2TypeTextItem: num3, // 文书号
         cellIdx3: num4, // 文书号
-        cellIdx3TypeTextItem: num4, // 文书号
         cellIdx4: corp.corpName ? corp.corpName : null, // corpname
-        cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
         cellIdx5: "局", // 局
-        cellIdx5TypeTextItem: "局", // 局
         cellIdx6: cellIdx6Year, // 年
         cellIdx6TypeTextItem: cellIdx6Year, // 年
         cellIdx7: cellIdx7Month, // 月
@@ -337,6 +331,10 @@ export default {
         cellIdx28: this.todayDate, // 日期
         cellIdx28TypeDateItem: this.todayDate, // 日期
         DangerTable: DangerTable,
+        associationPaperId: { // 关联的paperId
+          paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: selectedPaper.let1Data.paperId
+        }
       };
     },
     goBack({ page, data }) {

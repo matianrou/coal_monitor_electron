@@ -509,15 +509,15 @@ export default {
         this.$store.state.user
       );
       // 2.行政处罚决定书 日期、编号、
-      let let8DataPapaerContent = JSON.parse(selectedPaper.let8Data.paperContent);
-      let date206 = let8DataPapaerContent.cellIdx20
-        ? let8DataPapaerContent.cellIdx20
+      let let8DataPaperContent = JSON.parse(selectedPaper.let8Data.paperContent);
+      let date206 = let8DataPaperContent.cellIdx20
+        ? let8DataPaperContent.cellIdx20
             .replace("年", "-")
             .replace("月", "-")
             .replace("日", "-")
             .split("-")
         : ["", "", ""];
-      let selectedTypeExtra = let8DataPapaerContent.selectedType
+      let selectedTypeExtra = let8DataPaperContent.selectedType
       let selectedString = selectedTypeExtra === '单位' ? '单位' : '你'
       await db.close();
       this.visibleSelectDialog = true;
@@ -541,14 +541,14 @@ export default {
         cellIdx8TypeTextItem: date206[2], // 日
         cellIdx9: selectedString, // 单位/个人
         cellIdx9TypeSelectItem: selectedString, // 单位/个人
-        cellIdx10: let8DataPapaerContent.cellIdx0, // 行政处罚决定书 文书号
-        cellIdx10TypeTextItem: let8DataPapaerContent.cellIdx0, // 行政处罚决定书 文书号
-        cellIdx11: let8DataPapaerContent.cellIdx1, // 行政处罚决定书 文书号
-        cellIdx11TypeTextItem: let8DataPapaerContent.cellIdx1, // 行政处罚决定书 文书号
-        cellIdx12: let8DataPapaerContent.cellIdx2, // 行政处罚决定书 文书号
-        cellIdx12TypeTextItem: let8DataPapaerContent.cellIdx2, // 行政处罚决定书 文书号
-        cellIdx13: let8DataPapaerContent.cellIdx3, // 行政处罚决定书 文书号
-        cellIdx13TypeTextItem: let8DataPapaerContent.cellIdx3, // 行政处罚决定书 文书号
+        cellIdx10: let8DataPaperContent.cellIdx0, // 行政处罚决定书 文书号
+        cellIdx10TypeTextItem: let8DataPaperContent.cellIdx0, // 行政处罚决定书 文书号
+        cellIdx11: let8DataPaperContent.cellIdx1, // 行政处罚决定书 文书号
+        cellIdx11TypeTextItem: let8DataPaperContent.cellIdx1, // 行政处罚决定书 文书号
+        cellIdx12: let8DataPaperContent.cellIdx2, // 行政处罚决定书 文书号
+        cellIdx12TypeTextItem: let8DataPaperContent.cellIdx2, // 行政处罚决定书 文书号
+        cellIdx13: let8DataPaperContent.cellIdx3, // 行政处罚决定书 文书号
+        cellIdx13TypeTextItem: let8DataPaperContent.cellIdx3, // 行政处罚决定书 文书号
         cellIdx14: selectedString, // 单位/个人
         cellIdx14TypeSelectItem: selectedString, // 单位/个人
         cellIdx15: null, // 罚款

@@ -245,8 +245,8 @@ export default {
       let cellIdx8Date = now.getDate().toString()
       let cellIdx9Hour = now.getHours().toString()
       let cellIdx10Minu = now.getMinutes().toString()
-      let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
+      let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      let dangerObject = getDangerObject(let1DataPaperContent.DangerTable.tableData)
       let cellIdx12String = dangerObject.dangerString
       // 4.sysOfficeInfo中organName和courtPrefix
       let orgInfo = db.table("orgInfo");
@@ -307,7 +307,7 @@ export default {
         cellIdx29TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx30: this.todayDate, // 日期
         cellIdx30TypeDateItem: this.todayDate, // 日期
-        DangerTable: let1DataPapaerContent.DangerTable
+        DangerTable: let1DataPaperContent.DangerTable
       };
     },
     goBack({ page, data }) {

@@ -293,8 +293,8 @@ export default {
         this.$store.state.user
       );
       let DangerTable = let6DataPaperContent.DangerTable ? 
-      setNewDanger(selectedPaper.let6Data, let6DataPaperContent.DangerTable)
-      : {}
+        setNewDanger(selectedPaper.let6Data, let6DataPaperContent.DangerTable)
+        : {}
       await db.close();
       this.letData = {
         cellIdx0: paperNumber.num0, // 文书号
@@ -322,6 +322,7 @@ export default {
         DangerTable: DangerTable || null,
         selectedType: let6DataPaperContent.selectedType,
         associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
+          paper22Id: let6DataPaperContent.associationPaperId.paper22Id,
           paper1Id: let6DataPaperContent.associationPaperId.paper1Id,
           paper6Id: selectedPaper.let6Data.paperId,
         } : null

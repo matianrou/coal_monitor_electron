@@ -184,7 +184,7 @@ export default {
         },
         cellIdx8: [],
       },
-      associationPaper: this.corpData.caseType === '0' ? ["1", "4"] : ["4"],
+      associationPaper: ["4"],
       extraData: {}, // 用于拼写隐患内容的字符集合 */
     };
   },
@@ -196,12 +196,13 @@ export default {
         let corp = await corpBase.find((item) => {
           return item.corpId == this.corpData.corpId;
         });
-        let let1DataPapaerContent = JSON.parse(
-          selectedPaper.let1Data.paperContent
+        // 5.获取立案决定书编号及立案日期,承办人
+        let let4DataPaperContent = JSON.parse(
+          selectedPaper.let4Data.paperContent
         );
         // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
         // 获取笔录文书中的隐患数据
-        let cellIdx2String = setDangerTable(let1DataPapaerContent.DangerTable, {}, { 
+        let cellIdx2String = setDangerTable(let4DataPaperContent.DangerTable, {}, { 
           page: '36', 
           key: 'cellIdx2',
           spellString: {
@@ -210,7 +211,7 @@ export default {
           },
         })
         // 2.违法事实及依据：隐患描述+“经调查取证以上违法违规行为属实，分别违反了”+违法认定发条
-        let cellIdx6String = setDangerTable(let1DataPapaerContent.DangerTable, {}, { 
+        let cellIdx6String = setDangerTable(let4DataPaperContent.DangerTable, {}, { 
           page: '36', 
           key: 'cellIdx6',
           spellString: {
@@ -219,7 +220,7 @@ export default {
           },
         })
         // 3.建议案件处理意见：行政处罚依据+行政处罚决定（分条）
-        let cellIdx7String = setDangerTable(let1DataPapaerContent.DangerTable, {}, { 
+        let cellIdx7String = setDangerTable(let4DataPaperContent.DangerTable, {}, { 
           page: '36', 
           key: 'cellIdx7',
           spellString: {
@@ -227,10 +228,6 @@ export default {
             userGroupName: this.$store.state.user.userGroupName,
           },
         })
-        // 5.获取立案决定书编号及立案日期,承办人
-        let let4DataPapaerContent = JSON.parse(
-          selectedPaper.let4Data.paperContent
-        );
         let {
           cellIdx0,
           cellIdx1,
@@ -240,14 +237,14 @@ export default {
           cellIdx7,
           cellIdx8,
           cellIdx9
-        } = let4DataPapaerContent;
+        } = let4DataPaperContent;
         let let4PaperNumber = `${cellIdx0}（${cellIdx1}）矿安立〔${cellIdx2}〕${cellIdx3}号`;
         let let4Date = `${cellIdx6 ? cellIdx6 : "XX"}年${
           cellIdx7 ? cellIdx7 : "XX"
         }月${cellIdx8 ? cellIdx8 : "XX"}日`;
         let let4Person = cellIdx9 ? cellIdx9 : 'XX'
-        let DangerTable = let1DataPapaerContent.DangerTable ? 
-          setNewDanger(selectedPaper.let1Data, let1DataPapaerContent.DangerTable)
+        let DangerTable = let4DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let4Data, let4DataPaperContent.DangerTable)
           : {}
         await db.close();
         this.letData = {
@@ -276,12 +273,14 @@ export default {
             userGroupName: this.$store.state.user.userGroupName,
           },
           associationPaperId: { // 关联的paperId
-            paper1Id: selectedPaper.let1Data.paperId,
+            paper22Id: let4DataPaperContent.associationPaperId.paper22Id,
+            paper1Id: let4DataPaperContent.associationPaperId.paper1Id,
             paper4Id: selectedPaper.let4Data.paperId,
           }
         };
+      console.log('letData', this.letData)
       } else {
-        let let4DataPapaerContent = JSON.parse(
+        let let4DataPaperContent = JSON.parse(
           selectedPaper.let4Data.paperContent
         );
         let {
@@ -293,7 +292,7 @@ export default {
           cellIdx7,
           cellIdx8,
           cellIdx9
-        } = let4DataPapaerContent;
+        } = let4DataPaperContent;
         let let4PaperNumber = `${cellIdx0}（${cellIdx1}）矿安立〔${cellIdx2}〕${cellIdx3}号`;
         let let4Date = `${cellIdx6 ? cellIdx6 : "XX"}年${
           cellIdx7 ? cellIdx7 : "XX"
@@ -315,6 +314,10 @@ export default {
           cellIdx12: null, // 主要负责人意见
           cellIdx13: null, // 签名
           cellIdx14: null, // 日期
+          associationPaperId: { // 关联的paperId
+            paper1Id: let4DataPaperContent.associationPaperId.paper1Id,
+            paper4Id: selectedPaper.let4Data.paperId,
+          }
         };
       }
     },

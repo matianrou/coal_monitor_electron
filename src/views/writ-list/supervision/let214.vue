@@ -333,8 +333,8 @@ export default {
       });
       // 1.案卷题名: 煤矿名称+隐患描述+案
       // 获取笔录文书中的隐患数据
-      let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
+      let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      let dangerObject = getDangerObject(let1DataPaperContent.DangerTable.tableData)
       let cellIdx2String = `${corp.corpName}${dangerObject.dangerString}案。`
       await db.close();
       this.letData = {

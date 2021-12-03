@@ -232,7 +232,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
+import { getDangerObject, getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let402",
@@ -260,11 +260,11 @@ export default {
       );
       // 2.违法行为：获取立案决定书的隐患数据
       // 煤矿名称+隐患描述+“案”组成
-      let let4DataPapaerContent = JSON.parse(
+      let let4DataPaperContent = JSON.parse(
         selectedPaper.let4Data.paperContent
       );
       let dangerObject = getDangerObject(
-        let4DataPapaerContent.DangerTable.selectedDangerList
+        let4DataPaperContent.DangerTable.selectedDangerList
       );
       let cellIdx10String = `${corp.corpName}${dangerObject.dangerString}案。`;
       // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
@@ -276,6 +276,9 @@ export default {
         orgData && orgData.sysOfficeInfo
           ? JSON.parse(orgData.sysOfficeInfo)
           : { depAddress: "", depPost: "", master: "", phone: "" };
+      let DangerTable = let4DataPaperContent.DangerTable ? 
+        setNewDanger(selectedPaper.let4Data, let4DataPaperContent.DangerTable)
+        : {}
       await db.close();
       let cellIdx15String = orgSysOfficeInfo.depAddress;
       let cellIdx16String = orgSysOfficeInfo.depPost;
@@ -293,9 +296,9 @@ export default {
         cellIdx4: null, // 签发人
         cellIdx5: null,  // 单位
         cellIdx6: '局', // 局
-        cellIdx7: let4DataPapaerContent.cellIdx6, // 年
-        cellIdx8: let4DataPapaerContent.cellIdx7, // 月
-        cellIdx9: let4DataPapaerContent.cellIdx8, // 日
+        cellIdx7: let4DataPaperContent.cellIdx6, // 年
+        cellIdx8: let4DataPaperContent.cellIdx7, // 月
+        cellIdx9: let4DataPaperContent.cellIdx8, // 日
         cellIdx10: cellIdx10String, // 违法行为
         cellIdx11: null, // 法律规定
         cellIdx12: null, // 份数
@@ -317,6 +320,12 @@ export default {
         // cellIdx25: null, // 年
         // cellIdx26: null, // 月
         // cellIdx27: null, // 日  暂不用
+        DangerTable,
+        associationPaperId: { // 关联的paperId
+          paper22Id: let4DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: let4DataPaperContent.associationPaperId.paper1Id,
+          paper4Id: selectedPaper.let4Data.paperId
+        }
       };
     },
     goBack({ page, data }) {

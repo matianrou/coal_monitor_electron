@@ -209,7 +209,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber } from "@/utils/setInitPaperData";
+import { getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let112",
@@ -252,6 +252,12 @@ export default {
       let cellIdx15String = orgSysOfficeInfo.depPost;
       let cellIdx17String = orgSysOfficeInfo.master;
       let cellIdx18String = orgSysOfficeInfo.phone;
+      let let1DataPaperContent = JSON.parse(
+        selectedPaper.let1Data.paperContent
+      );
+      let DangerTable = let1DataPaperContent.DangerTable ? 
+        setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
+        : {}
       await db.close();
       this.letData = {
         cellIdx0: null, // 停供电(停供民用爆炸物品)
@@ -290,6 +296,11 @@ export default {
         cellIdx20: this.todayDate, // 日期
         cellIdx20TypeDateItem: this.todayDate, // 日期
         cellIdx21: null, // 停供电(停供民用爆炸物品)
+        DangerTable, // 隐患项大表
+        associationPaperId: { // 关联的paperId
+          paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: selectedPaper.let1Data.paperId
+        }
       };
     },
     goBack({ page, data }) {

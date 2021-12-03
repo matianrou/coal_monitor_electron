@@ -198,7 +198,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject } from "@/utils/setInitPaperData";
+import { getDangerObject, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let300",
@@ -233,11 +233,11 @@ export default {
       // 2.裁定地点：企业名称
       // 3.裁定事项：煤矿名称+“涉嫌”+隐患描述+“案”
       // 获取笔录文书中的隐患数据
-      let let1DataPapaerContent = JSON.parse(
+      let let1DataPaperContent = JSON.parse(
         selectedPaper.let1Data.paperContent
       );
       let dangerObject = getDangerObject(
-        let1DataPapaerContent.DangerTable.selectedDangerList
+        let1DataPaperContent.DangerTable.selectedDangerList
       );
       let cellIdx13String = `主持人：现在公开裁定开始，首先我先介绍裁定小组成员，我是主持人XXX，记录人是XXX，裁定小组成员有监察分局XXX、XXX。
       主持人：XX煤矿矿长XXX，参加公开裁定的人员是否与你矿有利害关系人员，是否申请回避？
@@ -253,6 +253,9 @@ export default {
       主持人：经过我们裁定小组集体研究，现宣布裁定结果： XX煤矿涉嫌瓦斯超限作业违法违规行为事实清楚，证据确凿充分，违反了《国务院关于预防煤矿生产安全事故的特别规定》第八条第二款第（二）项的规定，依据《国务院关于预防煤矿生产安全事故的特别贵的》第十条第一款、第十一条第一款的规定，并根据违法违规情节的轻重，拟给予责令停产整顿X日，罚款八十万元整，暂扣安全生产许可证；对煤矿企业负责人罚款四万元以整。
       `;
       await db.close();
+      let DangerTable = let1DataPaperContent.DangerTable ? 
+        setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
+        : {}
       this.letData = {
         cellIdx0: cellIdx0Year, // 年
         cellIdx1: cellIdx1Month, // 月
@@ -270,12 +273,16 @@ export default {
         cellIdx12: null, // 其他单位参加人员（签名）
         cellIdx13: cellIdx13String, // 裁定记录
         cellIdx13TypeTextareaItem: cellIdx13String, // 裁定记录
-        // DangerTable: let1DataPapaerContent.DangerTable,
         extraData: {
           // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
           userGroupName: this.$store.state.user.userGroupName,
         },
+        DangerTable, // 隐患项大表
+        associationPaperId: { // 关联的paperId
+          paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: selectedPaper.let1Data.paperId
+        }
       };
     },
     goBack({ page, data }) {

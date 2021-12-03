@@ -254,8 +254,8 @@ export default {
       let cellIdx11String = corp.corpName
       // 4.对被申请人：企业名称+'涉嫌'+隐患描述+'案'
       // 获取笔录文书中的隐患数据
-      let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
+      let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      let dangerObject = getDangerObject(let1DataPaperContent.DangerTable.tableData)
       let cellIdx9String = `${corp.corpName}涉嫌${dangerObject.dangerString}案`
       // 从sysOfficeInfo中获取：
       let orgInfo = db.table("orgInfo");
@@ -266,8 +266,8 @@ export default {
       // 7.人民法院：courtPrefix 联系人：master 联系电话：phone
       // 8.申请人的法定代表人legalPerson和职务post
       // 行政处罚文书编号：
-      let let8DataPapaerContent = JSON.parse(selectedPaper.let8Data.paperContent)
-      let paperDate206 = let8DataPapaerContent.cellIdx20 ? let8DataPapaerContent.cellIdx20.replace('年', '-').replace('月', '-').replace('日', '-').split('-') : ['', '', '']
+      let let8DataPaperContent = JSON.parse(selectedPaper.let8Data.paperContent)
+      let paperDate206 = let8DataPaperContent.cellIdx20 ? let8DataPaperContent.cellIdx20.replace('年', '-').replace('月', '-').replace('日', '-').split('-') : ['', '', '']
       // 行政强制执行事先催告书编号
       let let53DataPapaerContent = JSON.parse(selectedPaper.let53Data.paperContent)
       let paperDate309 = let53DataPapaerContent.cellIdx28 ? let53DataPapaerContent.cellIdx28.replace('年', '-').replace('月', '-').replace('日', '-').split('-') : ['', '', '']
@@ -294,14 +294,14 @@ export default {
         cellIdx9TypeTextareaItem: cellIdx9String, // 对被申请执行人
         cellIdx10: dangerObject.penaltyDesc, // 行政处罚决定
         cellIdx10TypeTextareaItem: dangerObject.penaltyDesc, // 行政处罚决定
-        cellIdx11: let8DataPapaerContent.cellIdx0, // 行政处罚决定 文书号
-        cellIdx11TypeTextItem: let8DataPapaerContent.cellIdx0, // 行政处罚决定 文书号
-        cellIdx12: let8DataPapaerContent.cellIdx1, // 行政处罚决定 文书号
-        cellIdx12TypeTextItem: let8DataPapaerContent.cellIdx1, // 行政处罚决定 文书号
-        cellIdx13: let8DataPapaerContent.cellIdx2, // 行政处罚决定 文书号
-        cellIdx13TypeTextItem: let8DataPapaerContent.cellIdx2, // 行政处罚决定 文书号
-        cellIdx14: let8DataPapaerContent.cellIdx3, // 行政处罚决定 文书号
-        cellIdx14TypeTextItem: let8DataPapaerContent.cellIdx3, // 行政处罚决定 文书号
+        cellIdx11: let8DataPaperContent.cellIdx0, // 行政处罚决定 文书号
+        cellIdx11TypeTextItem: let8DataPaperContent.cellIdx0, // 行政处罚决定 文书号
+        cellIdx12: let8DataPaperContent.cellIdx1, // 行政处罚决定 文书号
+        cellIdx12TypeTextItem: let8DataPaperContent.cellIdx1, // 行政处罚决定 文书号
+        cellIdx13: let8DataPaperContent.cellIdx2, // 行政处罚决定 文书号
+        cellIdx13TypeTextItem: let8DataPaperContent.cellIdx2, // 行政处罚决定 文书号
+        cellIdx14: let8DataPaperContent.cellIdx3, // 行政处罚决定 文书号
+        cellIdx14TypeTextItem: let8DataPaperContent.cellIdx3, // 行政处罚决定 文书号
         cellIdx15: paperDate309[0], // 年
         cellIdx15TypeTextItem: paperDate309[0], // 年
         cellIdx16: paperDate309[1], // 月

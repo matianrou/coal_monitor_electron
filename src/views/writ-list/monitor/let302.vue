@@ -222,17 +222,17 @@ export default {
       // 1.时间
       // 2.申请人单位
       // 3.申请记录：“我代表”+煤矿名称+“对”+机构名称+“做出的行政处罚决定”+文书编号（行政处罚决定）+“申请行政复议，对处罚的”+隐患描述+“违法行为进行复议。我矿认为......。请求从轻或者免于处罚。”
-      let let8DataPapaerContent = JSON.parse(
+      let let8DataPaperContent = JSON.parse(
         selectedPaper.let8Data.paperContent
       );
       let dangerObject = getDangerObject(
-        let8DataPapaerContent.DangerTable.selectedDangerList
+        let8DataPaperContent.DangerTable.selectedDangerList
       );
-      let paper8number = `${let8DataPapaerContent.cellIdx0}矿安监${let8DataPapaerContent.cellIdx1}罚〔${let8DataPapaerContent.cellIdx2}〕${let8DataPapaerContent.cellIdx3}号`
+      let paper8number = `${let8DataPaperContent.cellIdx0}矿安监${let8DataPaperContent.cellIdx1}罚〔${let8DataPaperContent.cellIdx2}〕${let8DataPaperContent.cellIdx3}号`
       let cellIdx14String = `我代表${corp.corpName}对${this.$store.state.user.userGroupName}做出的行政处罚决定${paper8number}申请行政复议，对处罚的${dangerObject.dangerString}违法行为进行复议。我矿认为......。请求从轻或者免于处罚。`;
-      let DangerTable = let8DataPapaerContent.DangerTable ? 
-      setNewDanger(selectedPaper.let8Data, let8DataPapaerContent.DangerTable)
-      : {}
+      let DangerTable = let8DataPaperContent.DangerTable ? 
+        setNewDanger(selectedPaper.let8Data, let8DataPaperContent.DangerTable)
+        : {}
       await db.close();
       this.letData = {
         cellIdx0: now.getFullYear().toString(), // 年
@@ -263,6 +263,12 @@ export default {
           corpName: corp.corpName,
           userGroupName: this.$store.state.user.userGroupName,
         },
+        associationPaperId: { // 关联的paperId
+          paper22Id: let8DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: let8DataPaperContent.associationPaperId.paper1Id,
+          paper6Id: let8DataPaperContent.associationPaperId.paper6Id,
+          paper8Id: selectedPaper.let8Data.paperId
+        }
       };
     },
     goBack({ page, data }) {

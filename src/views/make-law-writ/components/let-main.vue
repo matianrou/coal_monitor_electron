@@ -519,6 +519,16 @@ export default {
           p36PersonName: this.$store.state.user.userName,
         }
       } 
+      // 整理p0ParentId关联的上一级文书id
+      let p0ParentId = ''
+      if (this.$parent.letData.associationPaperId) {
+        // 遍历associationPaperId，获取页面不同的关联id放入p0ParentId中
+        // 当前为统一逻辑，获取最后一个key关联id
+        let associationPaperId = this.$parent.letData.associationPaperId
+        for (let key in associationPaperId) {
+          p0ParentId = associationPaperId[key]
+        }
+      }
       let jsonPaper = {
         paperId: paperId,
         remoteId: "",
@@ -542,6 +552,7 @@ export default {
         corpName: this.corpData && this.corpData.corpName ? this.corpData.corpName : '',
         planId: this.corpData && this.corpData.planId ? this.corpData.planId : '',
         p0FloorTime: saveFlag === '0' ? getNowFormatTime() : '', // 归档时间
+        p0ParentId: p0ParentId,
         p22JczfCheck: extraSaveData.p22JczfCheck || null, // 检查项分工明细表
         p22BeginTime: extraSaveData.p22BeginTime || null,
         p22EndTime: extraSaveData.p22EndTime || null,

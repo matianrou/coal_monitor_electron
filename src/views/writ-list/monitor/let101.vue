@@ -171,7 +171,7 @@ export default {
       let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      let let22DataPapaerContent = JSON.parse(
+      let let22DataPaperContent = JSON.parse(
         selectedPaper.let22Data.paperContent
       );
       let zfZzInfo = db.table("zfZzInfo");
@@ -191,11 +191,11 @@ export default {
       // "检查方案检查时间"，"落款机构名称"的煤矿安全监察员"分工明细表中的所有人员"按照月度监察执法计划对“煤矿名称”进行检查，检查前制定了检查方案。依据执法程序当场向被检查单位出示了执法证件，表明身份，向其告知了检查内容和依法享有的权利、义务。检查时矿井处于“正常生产煤矿”状态。
       let nameList = [];
       if (
-        let22DataPapaerContent.CheckTable &&
-        let22DataPapaerContent.CheckTable.tableData
+        let22DataPaperContent.CheckTable &&
+        let22DataPaperContent.CheckTable.tableData
       ) {
         // 遍历检查分工明细表中的检查人员列表
-        let22DataPapaerContent.CheckTable.tableData.map((item) => {
+        let22DataPaperContent.CheckTable.tableData.map((item) => {
           if (item.personList && item.personList.length > 0) {
             item.personList.map((person) => {
               // 如果已存在此人名则不再添加，如果未存在则添加人名
@@ -214,7 +214,7 @@ export default {
       }
       names = names.substring(0, names.length - 1);
       let baseInfor = `${
-        let22DataPapaerContent.cellIdx2 ? let22DataPapaerContent.cellIdx2 : ""
+        let22DataPaperContent.cellIdx2 ? let22DataPaperContent.cellIdx2 : ""
       }，${
         this.$store.state.curCase.groupName
       }的煤矿安全监察员${names}按照月度监察执法计划对${
@@ -225,8 +225,8 @@ export default {
       let dangerInfor = `    发现违法违规行为如下：`;
       this.letData = {
         cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
-        cellIdx1: let22DataPapaerContent.cellIdx2, // 检查时间
-        cellIdx2: let22DataPapaerContent.cellIdx4, // 检查地点（路线）
+        cellIdx1: let22DataPaperContent.cellIdx2, // 检查时间
+        cellIdx2: let22DataPaperContent.cellIdx4, // 检查地点（路线）
         cellIdx3: zzInfo1 && zzInfo1.credId ? zzInfo1.credId : '', // 采矿许可证
         cellIdx4: zzInfo2 && zzInfo2.credId ? zzInfo2.credId : '', // 安全生产许可证
         cellIdx5: null, // 检查人（签名）

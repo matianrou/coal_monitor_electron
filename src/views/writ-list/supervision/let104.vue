@@ -235,11 +235,11 @@ export default {
       // 1.生成文书编号
       let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
       await db.close();
-      let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData, {danger: true})
+      let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      let dangerObject = getDangerObject(let1DataPaperContent.DangerTable.tableData, {danger: true})
       let cellIdx9String = dangerObject.dangerString
       let cellIdx10String = dangerObject.onsiteDescString
-      let let2DataPapaerContent = JSON.parse(selectedPaper.let2Data.paperContent)
+      let let2DataPaperContent = JSON.parse(selectedPaper.let2Data.paperContent)
       this.letData = {
         cellIdx0: num0, // 文书号
         cellIdx0TypeTextItem: num0, // 文书号
@@ -256,14 +256,14 @@ export default {
         cellIdx7: null, // 月
         cellIdx8: null, // 日
         cellIdx9: cellIdx9String, // 违法违规行为：隐患描述
-        cellIdx10: let2DataPapaerContent.cellIdx0, // 现场处理决定书 文书号
-        cellIdx10TypeTextItem: let2DataPapaerContent.cellIdx0, // 现场处理决定书 文书号
-        cellIdx11: let2DataPapaerContent.cellIdx1, // 现场处理决定书 文书号
-        cellIdx11TypeTextItem: let2DataPapaerContent.cellIdx1, // 现场处理决定书 文书号
-        cellIdx12: let2DataPapaerContent.cellIdx2, // 现场处理决定书 文书号
-        cellIdx12TypeTextItem: let2DataPapaerContent.cellIdx2, // 现场处理决定书 文书号
-        cellIdx13: let2DataPapaerContent.cellIdx3, // 现场处理决定书 文书号
-        cellIdx13TypeTextItem: let2DataPapaerContent.cellIdx3, // 现场处理决定书 文书号
+        cellIdx10: let2DataPaperContent.cellIdx0, // 现场处理决定书 文书号
+        cellIdx10TypeTextItem: let2DataPaperContent.cellIdx0, // 现场处理决定书 文书号
+        cellIdx11: let2DataPaperContent.cellIdx1, // 现场处理决定书 文书号
+        cellIdx11TypeTextItem: let2DataPaperContent.cellIdx1, // 现场处理决定书 文书号
+        cellIdx12: let2DataPaperContent.cellIdx2, // 现场处理决定书 文书号
+        cellIdx12TypeTextItem: let2DataPaperContent.cellIdx2, // 现场处理决定书 文书号
+        cellIdx13: let2DataPaperContent.cellIdx3, // 现场处理决定书 文书号
+        cellIdx13TypeTextItem: let2DataPaperContent.cellIdx3, // 现场处理决定书 文书号
         cellIdx14: cellIdx10String, // 现场处理决定
         cellIdx25: '应你单位申请', //
         cellIdx15: null, // 意见
@@ -278,7 +278,7 @@ export default {
         cellIdx23TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx24: this.todayDate, //日期
         cellIdx24TypeDateItem: this.todayDate, // 日期
-        DangerTable: let1DataPapaerContent.DangerTable
+        DangerTable: let1DataPaperContent.DangerTable
       };
     },
     goBack({ page, data }) {

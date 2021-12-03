@@ -201,11 +201,11 @@ export default {
       let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      let let1DataPapaerContent = JSON.parse(
+      let let1DataPaperContent = JSON.parse(
         selectedPaper.let1Data.paperContent
       );
-      let dangerObject = let1DataPapaerContent.DangerTable ? getDangerObject(
-        let1DataPapaerContent.DangerTable.tableData
+      let dangerObject = let1DataPaperContent.DangerTable ? getDangerObject(
+        let1DataPaperContent.DangerTable.tableData
       ) : {contentOnsiteDesc: ''};
       // 通过机构接口中的sysOfficeInfo中获取的organName和courtPrefix字段分别填充cellIdx8和cellIdx9字段
       let orgInfo = db.table("orgInfo");
@@ -222,9 +222,9 @@ export default {
         this.corpData.caseId,
         this.$store.state.user
       );
-      let DangerTable = let1DataPapaerContent.DangerTable ? 
-      setNewDanger(selectedPaper.let1Data, let1DataPapaerContent.DangerTable)
-      : {}
+      let DangerTable = let1DataPaperContent.DangerTable ? 
+        setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
+        : {}
       await db.close();
       this.letData = {
         cellIdx0: paperNumber.num0, // 文书号
@@ -255,6 +255,7 @@ export default {
         cellIdx15TypeDateItem: this.todayDate, //
         DangerTable, // 隐患项大表
         associationPaperId: { // 关联的paperId
+          paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
           paper1Id: selectedPaper.let1Data.paperId
         }
       };

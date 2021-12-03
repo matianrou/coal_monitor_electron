@@ -182,9 +182,9 @@ export default {
         this.corpData.caseId,
         this.$store.state.user
       );
-      let let25DataPapaerContent = JSON.parse(selectedPaper.let25Data.paperContent);
+      let let25DataPaperContent = JSON.parse(selectedPaper.let25Data.paperContent);
       // 日期
-      let let25Date = let25DataPapaerContent.cellIdx14;
+      let let25Date = let25DataPaperContent.cellIdx14;
       let25Date = let25Date
         ? let25Date.replace("年", "-").replace("月", "-").replace("日", "-")
         : " - - ";
@@ -193,8 +193,8 @@ export default {
       let cellIdx7String = dateList[1];
       let cellIdx8String = dateList[2];
       // 物品名称：
-      let let25Article = let25DataPapaerContent.SamplingForensicsTable
-        ? let25DataPapaerContent.SamplingForensicsTable.tableData
+      let let25Article = let25DataPaperContent.SamplingForensicsTable
+        ? let25DataPaperContent.SamplingForensicsTable.tableData
         : [];
       let articleName = "";
       if (let25Article.length > 0) {
@@ -205,10 +205,10 @@ export default {
       }
       let cellIdx9String = articleName;
       // 文书号：
-      let num250 = let25DataPapaerContent.cellIdx0;
-      let num251 = let25DataPapaerContent.cellIdx1;
-      let num253 = let25DataPapaerContent.cellIdx2;
-      let num254 = let25DataPapaerContent.cellIdx3;
+      let num250 = let25DataPaperContent.cellIdx0;
+      let num251 = let25DataPaperContent.cellIdx1;
+      let num253 = let25DataPaperContent.cellIdx2;
+      let num254 = let25DataPaperContent.cellIdx3;
       // 3.sysOfficeInfo实体中 goverPrefix organName、人民法院：courtPrefix
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(

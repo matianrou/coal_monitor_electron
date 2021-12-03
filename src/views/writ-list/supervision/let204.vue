@@ -241,9 +241,9 @@ export default {
         this.$store.state.user
       );
       // 获取笔录文书中的隐患数据
-      let let1DataPapaerContent =JSON.parse(selectedPaper.let1Data.paperContent);
+      let let1DataPaperContent =JSON.parse(selectedPaper.let1Data.paperContent);
       let dangerObject = getDangerObject(
-        let1DataPapaerContent.DangerTable.tableData,
+        let1DataPaperContent.DangerTable.tableData,
         { danger: true, penaltyDesc: true }
       );
       // 3.隐患描述
@@ -301,7 +301,7 @@ export default {
         cellIdx20: this.todayDate, // 日期
         cellIdx20TypeDateItem: this.todayDate, // 日期
         cellIdx21: null, // 单位或个人
-        DangerTable: let1DataPapaerContent.DangerTable,
+        DangerTable: let1DataPaperContent.DangerTable,
       };
     },
     goBack({ page, data }) {

@@ -2078,9 +2078,7 @@ export default {
   },
   watch: {
     'corpData.caseType'(val) {
-      if (val) {
-        this.activeFlowTab = 'flow-1'
-      }
+      this.activeFlowTab = 'flow-1'
     }
   },
   computed: {

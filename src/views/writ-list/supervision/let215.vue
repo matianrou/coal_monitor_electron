@@ -179,8 +179,8 @@ export default {
         return item.corpId == this.corpData.corpId;
       });
       // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
-      let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
+      let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      let dangerObject = getDangerObject(let1DataPaperContent.DangerTable.tableData)
       let cellIdx4String = `${corp.corpName}${dangerObject.dangerString}案。`
       await db.close();
       this.letData = {
@@ -201,7 +201,7 @@ export default {
         cellIdx14: null, // 讨论记录
         cellIdx15: null, // 结论性意见
         cellIdx16: null, // 出席人员签名
-        DangerTable: let1DataPapaerContent.DangerTable,
+        DangerTable: let1DataPaperContent.DangerTable,
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
           userGroupName: this.$store.state.user.userGroupName,

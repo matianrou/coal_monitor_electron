@@ -230,14 +230,14 @@ export default {
         return item.corpId == this.corpData.corpId;
       });
       // 获取检查时间
-      let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
       // 检查时间日期：
-      let dateString = let1DataPapaerContent.cellIdx1 ? let1DataPapaerContent.cellIdx1 : 'X年X月X日-X年X月X日'
+      let dateString = let1DataPaperContent.cellIdx1 ? let1DataPaperContent.cellIdx1 : 'X年X月X日-X年X月X日'
       // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
-      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
+      let dangerObject = getDangerObject(let1DataPaperContent.DangerTable.tableData)
       let cellIdx4String = `${corp.corpName}${dangerObject.dangerString}案。`
       // 2.案情摘要：检查时间+当前机构名称+“对”+煤矿名称+“进行现场检查时发现”+隐患描述+"以上行为分别涉嫌违反了"+违法认定法条+“依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。”
-      dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData, {danger: true})
+      dangerObject = getDangerObject(let1DataPaperContent.DangerTable.tableData, {danger: true})
       let cellIdx5String = `${dateString}，${this.$store.state.user.userGroupName}对${corp.corpName}进行现场检查时发现：${dangerObject.dangerString}以上行为分别涉嫌违反了${dangerObject.illegalString}的规定。依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`
       let paperNumber = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
       await db.close();
@@ -264,7 +264,7 @@ export default {
         cellIdx14TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx15: this.todayDate, // 日期
         cellIdx15TypeDateItem: this.todayDate, // 日期
-        DangerTable: let1DataPapaerContent.DangerTable,
+        DangerTable: let1DataPaperContent.DangerTable,
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
           dateString,

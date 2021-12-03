@@ -173,11 +173,15 @@ export default {
   methods: {
     async initLetData(selectedPaper) {
       // 创建初始版本
-      let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let1DataPapaerContent.DangerTable = let1DataPapaerContent.DangerTable ? 
-      setNewDanger(selectedPaper.let1Data, let1DataPapaerContent.DangerTable)
+      let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      let1DataPaperContent.DangerTable = let1DataPaperContent.DangerTable ? 
+      setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
       : {}
-      this.letData = let1DataPapaerContent;
+      let1DataPaperContent.associationPaperId = {
+        paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
+        paper1Id: selectedPaper.let1Data.paperId
+      }
+      this.letData = let1DataPaperContent
     },
     goBack({ page, data }) {
       // 返回选择企业

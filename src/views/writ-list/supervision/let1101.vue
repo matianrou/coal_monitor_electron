@@ -288,18 +288,18 @@ export default {
         ? JSON.parse(orgData.sysOfficeInfo)
         : { organName: "", courtPrefix: "" };
       // 4.查封扣押文书号
-      let let32DataPapaerContent = JSON.parse(
+      let let32DataPaperContent = JSON.parse(
         selectedPaper.let32Data.paperContent
       );
-      let let32Date = let32DataPapaerContent.cellIdx20
-        ? let32DataPapaerContent.cellIdx20
+      let let32Date = let32DataPaperContent.cellIdx20
+        ? let32DataPaperContent.cellIdx20
             .replace("年", "-")
             .replace("月", "-")
             .replace("日", "-")
             .split("-")
         : ["", "", ""];
       // 获取查封/扣押
-      let selectedType = let32DataPapaerContent.selectedType
+      let selectedType = let32DataPaperContent.selectedType
       await db.close();
       this.letData = {
         cellIdx0: `${selectedType}处理`, // 查封(扣押)
@@ -321,16 +321,16 @@ export default {
         cellIdx9: let32Date[2], // 日
         cellIdx10: selectedType, // 查封(扣押)
         cellIdx10TypeTextItem: selectedType, // 查封(扣押)
-        cellIdx11: let32DataPapaerContent.cellIdx1, // 查封扣押文书号
-        cellIdx11TypeTextItem: let32DataPapaerContent.cellIdx1, // 查封扣押文书号
-        cellIdx12: let32DataPapaerContent.cellIdx2, // 查封扣押文书号
-        cellIdx12TypeTextItem: let32DataPapaerContent.cellIdx2, // 查封扣押文书号
-        cellIdx13: let32DataPapaerContent.cellIdx3, // 查封扣押文书号 查、扣
-        cellIdx13TypeTextItem: let32DataPapaerContent.cellIdx3, // 查封扣押文书号 查、扣
-        cellIdx14: let32DataPapaerContent.cellIdx4, // 查封扣押文书号
-        cellIdx14TypeTextItem: let32DataPapaerContent.cellIdx4, // 查封扣押文书号
-        cellIdx15: let32DataPapaerContent.cellIdx5, // 查封扣押文书号
-        cellIdx15TypeTextItem: let32DataPapaerContent.cellIdx5, // 查封扣押文书号
+        cellIdx11: let32DataPaperContent.cellIdx1, // 查封扣押文书号
+        cellIdx11TypeTextItem: let32DataPaperContent.cellIdx1, // 查封扣押文书号
+        cellIdx12: let32DataPaperContent.cellIdx2, // 查封扣押文书号
+        cellIdx12TypeTextItem: let32DataPaperContent.cellIdx2, // 查封扣押文书号
+        cellIdx13: let32DataPaperContent.cellIdx3, // 查封扣押文书号 查、扣
+        cellIdx13TypeTextItem: let32DataPaperContent.cellIdx3, // 查封扣押文书号 查、扣
+        cellIdx14: let32DataPaperContent.cellIdx4, // 查封扣押文书号
+        cellIdx14TypeTextItem: let32DataPaperContent.cellIdx4, // 查封扣押文书号
+        cellIdx15: let32DataPaperContent.cellIdx5, // 查封扣押文书号
+        cellIdx15TypeTextItem: let32DataPaperContent.cellIdx5, // 查封扣押文书号
         cellIdx16: selectedType, // 查封/扣押
         cellIdx16TypeTextItem: selectedType, // 查封/扣押
         cellIdx17: null, // 查封扣押中的物品清单
@@ -355,8 +355,8 @@ export default {
         cellIdx28TypeDateItem: this.todayDate, // 日期
         cellIdx29: selectedType, // 查封/扣押
         cellIdx29TypeTextItem: selectedType, // 查封/扣押
-        SamplingForensicsTable: let32DataPapaerContent.SamplingForensicsTable
-          ? let32DataPapaerContent.SamplingForensicsTable
+        SamplingForensicsTable: let32DataPaperContent.SamplingForensicsTable
+          ? let32DataPaperContent.SamplingForensicsTable
           : {
               tableData: [],
               signature: null,

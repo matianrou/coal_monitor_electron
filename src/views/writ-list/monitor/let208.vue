@@ -316,8 +316,8 @@ export default {
       }
       let cellIdx16String = `缴纳罚款${transformNumToChinese(totleFine)}`
       let DangerTable = let8DataPaperContent.DangerTable ? 
-      setNewDanger(selectedPaper.let8Data, let8DataPaperContent.DangerTable)
-      : {}
+        setNewDanger(selectedPaper.let8Data, let8DataPaperContent.DangerTable)
+        : {}
       await db.close();
       this.letData = {
         cellIdx0: num0, // 文书号
@@ -376,8 +376,16 @@ export default {
         cellIdx29TypeDateItem: this.todayDate, // 日期
         cellIdx30: let8DataPaperContent.selectedType, // 单位/个人
         selectedType: let8DataPaperContent.selectedType,
-        p8PaperId: selectedPaper.let8Data.paperId
+        p8PaperId: selectedPaper.let8Data.paperId,
+        DangerTable,
+        associationPaperId: { // 关联的paperId
+          paper22Id: let8DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: let8DataPaperContent.associationPaperId.paper1Id,
+          paper6Id: let8DataPaperContent.associationPaperId.paper6Id,
+          paper8Id: selectedPaper.let8Data.paperId
+        }
       };
+      console.log('letData', this.letData)
     },
     goBack({ page, data }) {
       // 返回选择企业

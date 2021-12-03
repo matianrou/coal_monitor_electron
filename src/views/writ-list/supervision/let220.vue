@@ -273,9 +273,9 @@ export default {
       let cellIdx7Month = (now.getMonth() + 1).toString();
       let cellIdx8Date = now.getDate().toString();
       // 3.行政处罚决定书 日期、编号、
-      let let8DataPapaerContent = JSON.parse(selectedPaper.let8Data.paperContent);
-      let date206 = let8DataPapaerContent.cellIdx20
-        ? let8DataPapaerContent.cellIdx20
+      let let8DataPaperContent = JSON.parse(selectedPaper.let8Data.paperContent);
+      let date206 = let8DataPaperContent.cellIdx20
+        ? let8DataPaperContent.cellIdx20
             .replace("年", "-")
             .replace("月", "-")
             .replace("日", "-")
@@ -316,14 +316,14 @@ export default {
         cellIdx7: date206[2], // 日
         cellIdx7TypeTextItem: date206[2], // 日
         cellIdx8: null, // 单位
-        cellIdx9: let8DataPapaerContent.cellIdx0, // 行政处罚决定书 文书号
-        cellIdx9TypeTextItem: let8DataPapaerContent.cellIdx0, // 行政处罚决定书 文书号
-        cellIdx10: let8DataPapaerContent.cellIdx1, // 行政处罚决定书 文书号
-        cellIdx10TypeTextItem: let8DataPapaerContent.cellIdx1, // 行政处罚决定书 文书号
-        cellIdx11: let8DataPapaerContent.cellIdx2, // 行政处罚决定书 文书号
-        cellIdx11TypeTextItem: let8DataPapaerContent.cellIdx2, // 行政处罚决定书 文书号
-        cellIdx12: let8DataPapaerContent.cellIdx3, // 行政处罚决定书 文书号
-        cellIdx12TypeTextItem: let8DataPapaerContent.cellIdx3, // 行政处罚决定书 文书号
+        cellIdx9: let8DataPaperContent.cellIdx0, // 行政处罚决定书 文书号
+        cellIdx9TypeTextItem: let8DataPaperContent.cellIdx0, // 行政处罚决定书 文书号
+        cellIdx10: let8DataPaperContent.cellIdx1, // 行政处罚决定书 文书号
+        cellIdx10TypeTextItem: let8DataPaperContent.cellIdx1, // 行政处罚决定书 文书号
+        cellIdx11: let8DataPaperContent.cellIdx2, // 行政处罚决定书 文书号
+        cellIdx11TypeTextItem: let8DataPaperContent.cellIdx2, // 行政处罚决定书 文书号
+        cellIdx12: let8DataPaperContent.cellIdx3, // 行政处罚决定书 文书号
+        cellIdx12TypeTextItem: let8DataPaperContent.cellIdx3, // 行政处罚决定书 文书号
         cellIdx13: null, // 单位
         cellIdx14: null, // 罚款
         cellIdx15: null, // 年
@@ -360,8 +360,8 @@ export default {
         cellIdx34TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx35: this.todayDate, // 日期
         cellIdx35TypeDateItem: this.todayDate, // 日期
-        cellIdx36: let8DataPapaerContent.selectedType, // 单位
-        selectedType: let8DataPapaerContent.selectedType, // 单位
+        cellIdx36: let8DataPaperContent.selectedType, // 单位
+        selectedType: let8DataPaperContent.selectedType, // 单位
       };
     },
     goBack({ page, data }) {

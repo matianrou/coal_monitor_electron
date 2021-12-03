@@ -279,8 +279,8 @@ export default {
       // 3.单位
       let cellIdx18String = this.$store.state.user.userGroupName
       // 获取笔录文书中
-      let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
+      let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      let dangerObject = getDangerObject(let1DataPaperContent.DangerTable.tableData)
       // 4.陈述申辩：煤矿名称 + '涉嫌' + 隐患描述 + '案。'
       let cellIdx19String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`
       // 5.单位/个人：从行政处罚告知书(paperType === '6')中获取
@@ -323,7 +323,7 @@ export default {
         cellIdx24: null, // 年
         cellIdx25: null, // 月
         cellIdx26: null, // 日
-        DangerTable: let1DataPapaerContent.DangerTable,
+        DangerTable: let1DataPaperContent.DangerTable,
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
           userGroupName: this.$store.state.user.userGroupName,

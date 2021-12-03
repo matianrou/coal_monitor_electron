@@ -191,20 +191,20 @@ export default {
         return item.corpId == this.corpData.corpId;
       });
       // 获取笔录文书中的隐患数据和  现场检查笔录时间
-      let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent);
+      let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent);
       let dangerObject = getDangerObject(
-        let1DataPapaerContent.DangerTable.tableData
+        let1DataPaperContent.DangerTable.tableData
       );
       // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
       // 获取笔录文书中的隐患数据
       let cellIdx3String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
       // 2.违法事实及依据：隐患描述+“经调查取证以上违法违规行为属实，分别违反了”+违法认定发条
       dangerObject = getDangerObject(
-        let1DataPapaerContent.DangerTable.tableData,
+        let1DataPaperContent.DangerTable.tableData,
         { danger: true }
       );
       // let cellIdx5String = `${dangerObject.dangerString}经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString}的规定。`
-      let cellIdx5String = `${let1DataPapaerContent.cellIdx1}${this.$store.state.user.userGroupName}对${corp.corpName}进行现场检查时发现${dangerObject.dangerString}以上行为分别涉嫌${dangerObject.illegalString}依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`;
+      let cellIdx5String = `${let1DataPaperContent.cellIdx1}${this.$store.state.user.userGroupName}对${corp.corpName}进行现场检查时发现${dangerObject.dangerString}以上行为分别涉嫌${dangerObject.illegalString}依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`;
       // 3.建议案件处理意见：行政处罚依据+行政处罚决定（分条）
       let cellIdx6String = `${dangerObject.penaltyBasisString}`;
       let cellIdx7String = `${dangerObject.penaltyDesc}`;
@@ -230,10 +230,10 @@ export default {
         cellIdx14: null, // 日期
         cellIdx15: '□', // 选项：一般行政执法决定法制审核
         cellIdx16: '□', // 选项：重大行政执法决定法制审核
-        DangerTable: let1DataPapaerContent.DangerTable,
+        DangerTable: let1DataPaperContent.DangerTable,
         extraData: {  // 用于拼写隐患内容的字符集合
           corpName: this.corpData.corpName,
-          let101Date: let1DataPapaerContent.cellIdx1,
+          let101Date: let1DataPaperContent.cellIdx1,
           userGroupName: this.$store.state.user.userGroupName
         }
       };

@@ -172,16 +172,16 @@ export default {
         });
         // 创建初始版本
         // 获取检查时间
-        let let1DataPapaerContent = JSON.parse(
+        let let1DataPaperContent = JSON.parse(
           selectedPaper.let1Data.paperContent
         );
         // 检查时间日期：
-        let dateString = let1DataPapaerContent.cellIdx1
-          ? let1DataPapaerContent.cellIdx1
+        let dateString = let1DataPaperContent.cellIdx1
+          ? let1DataPaperContent.cellIdx1
           : "X年X月X日-X年X月X日";
         // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
         let cellIdx4String = setDangerTable(
-          let1DataPapaerContent.DangerTable,
+          let1DataPaperContent.DangerTable,
           {},
           {
             page: "4",
@@ -195,7 +195,7 @@ export default {
         );
         // 2.案情摘要：检查时间+当前机构名称+“对”+煤矿名称+“进行现场检查时发现”+隐患描述+"以上行为分别涉嫌违反了"+违法认定法条+“依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。”
         let cellIdx5String = setDangerTable(
-          let1DataPapaerContent.DangerTable,
+          let1DataPaperContent.DangerTable,
           {},
           {
             page: "4",
@@ -213,9 +213,9 @@ export default {
           this.corpData.caseId,
           this.$store.state.user
         );
-        let DangerTable = let1DataPapaerContent.DangerTable ? 
-        setNewDanger(selectedPaper.let1Data, let1DataPapaerContent.DangerTable)
-        : {}
+        let DangerTable = let1DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
+          : {}
         await db.close();
         let date = this.todayDate.replace('年', '-').replace('月', '-').replace('日', '-').split('-')
         this.letData = {
@@ -246,6 +246,7 @@ export default {
           },
           associationPaperId: {
             // 关联的paperId
+            paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
             paper1Id: selectedPaper.let1Data.paperId,
           },
         };

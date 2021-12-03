@@ -276,8 +276,8 @@ export default {
         this.$store.state.user
       );
       // 3.违法行为：获取笔录文书中的隐患数据
-      let let1DataPapaerContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPapaerContent.DangerTable.tableData)
+      let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
+      let dangerObject = getDangerObject(let1DataPaperContent.DangerTable.tableData)
       let cellIdx7String = `${dangerObject.dangerString}`;
       let cellIdx8String = `${dangerObject.illegalString}`;
       // 4.地点：sysOfficeInfo实体中organName字段+ courtPrefix字段
@@ -327,7 +327,7 @@ export default {
         cellIdx22: this.todayDate, // 日期
         cellIdx22TypeDateItem: this.todayDate, // 日期
         cellIdx23: null, // 查封(扣押)
-        DangerTable: let1DataPapaerContent.DangerTable,
+        DangerTable: let1DataPaperContent.DangerTable,
         SamplingForensicsTable: {
           tableData: [],
           signature: null,

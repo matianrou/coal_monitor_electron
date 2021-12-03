@@ -300,17 +300,17 @@ export default {
         this.corpData.caseId,
         this.$store.state.user
       );
-      let let2DataPapaerContent = JSON.parse(
+      let let2DataPaperContent = JSON.parse(
         selectedPaper.let2Data.paperContent
       );
       let dangerObject = getDangerObject(
-        let2DataPapaerContent.DangerTable.tableData,
+        let2DataPaperContent.DangerTable.tableData,
         { danger: true }
       );
       let cellIdx9String = dangerObject.dangerString;
       let cellIdx10String = dangerObject.onsiteDescString;
-      let DangerTable = let2DataPapaerContent.DangerTable ? 
-      setNewDanger(selectedPaper.let2Data, let2DataPapaerContent.DangerTable)
+      let DangerTable = let2DataPaperContent.DangerTable ? 
+      setNewDanger(selectedPaper.let2Data, let2DataPaperContent.DangerTable)
       : {}
       await db.close();
       this.letData = {
@@ -331,14 +331,14 @@ export default {
         cellIdx8: null, // 日
         cellIdx9: cellIdx9String, // 违法违规行为：隐患描述
         cellIdx10: cellIdx10String, // 现场处理决定
-        cellIdx11: let2DataPapaerContent.cellIdx0, // 现场处理决定书 文书号
-        cellIdx11TypeTextItem: let2DataPapaerContent.cellIdx0, // 现场处理决定书 文书号
-        cellIdx12: let2DataPapaerContent.cellIdx1, // 现场处理决定书 文书号
-        cellIdx12TypeTextItem: let2DataPapaerContent.cellIdx1, // 现场处理决定书 文书号
-        cellIdx13: let2DataPapaerContent.cellIdx2, // 现场处理决定书 文书号
-        cellIdx13TypeTextItem: let2DataPapaerContent.cellIdx2, // 现场处理决定书 文书号
-        cellIdx14: let2DataPapaerContent.cellIdx3, // 现场处理决定书 文书号
-        cellIdx14TypeTextItem: let2DataPapaerContent.cellIdx3, // 现场处理决定书 文书号
+        cellIdx11: let2DataPaperContent.cellIdx0, // 现场处理决定书 文书号
+        cellIdx11TypeTextItem: let2DataPaperContent.cellIdx0, // 现场处理决定书 文书号
+        cellIdx12: let2DataPaperContent.cellIdx1, // 现场处理决定书 文书号
+        cellIdx12TypeTextItem: let2DataPaperContent.cellIdx1, // 现场处理决定书 文书号
+        cellIdx13: let2DataPaperContent.cellIdx2, // 现场处理决定书 文书号
+        cellIdx13TypeTextItem: let2DataPaperContent.cellIdx2, // 现场处理决定书 文书号
+        cellIdx14: let2DataPaperContent.cellIdx3, // 现场处理决定书 文书号
+        cellIdx14TypeTextItem: let2DataPaperContent.cellIdx3, // 现场处理决定书 文书号
         cellIdx15: '应你单位申请', //
         cellIdx15TypeSelectItem: '应你单位申请', //
         cellIdx16: null, // 意见
@@ -353,10 +353,12 @@ export default {
         cellIdx23TypeDateItem: this.todayDate, // 日期
         DangerTable: DangerTable,
         associationPaperId: { // 关联的paperId
-          paper1Id: let2DataPapaerContent.associationPaperId.paper1Id,
+          paper22Id: let2DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: let2DataPaperContent.associationPaperId.paper1Id,
           paper2Id: selectedPaper.let2Data.paperId
         }
       };
+      console.log('letData', this.letData)
     },
     goBack({ page, data }) {
       // 返回选择企业

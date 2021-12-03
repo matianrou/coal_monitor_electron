@@ -240,7 +240,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
+import { getDangerObject, getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let303",
@@ -303,7 +303,7 @@ export default {
       );
       // 3.企业煤矿名称
       // 4.日期，行政复议申请时间
-      let let10DataPapaerContent = JSON.parse(
+      let let10DataPaperContent = JSON.parse(
         selectedPaper.let10Data.paperContent
       );
       // 5.通过sysOfficeInfo获取人民法院courtPrefix、我局地址：depAddress、
@@ -322,6 +322,9 @@ export default {
               master: "",
               phone: "",
             };
+      let DangerTable = let10DataPaperContent.DangerTable ? 
+        setNewDanger(selectedPaper.let10Data, let10DataPaperContent.DangerTable)
+        : {}
       await db.close();
       this.letData = {
         cellIdx0: paperNumber.num0, // 文书号
@@ -335,9 +338,9 @@ export default {
         cellIdx4: corp.corpName, //
         cellIdx4TypeTextItem: corp.corpName, //
         cellIdx5: null, // 单位/个人
-        cellIdx6: let10DataPapaerContent.cellIdx0, // 年
-        cellIdx7: let10DataPapaerContent.cellIdx1, // 月
-        cellIdx8: let10DataPapaerContent.cellIdx2, // 日
+        cellIdx6: let10DataPaperContent.cellIdx0, // 年
+        cellIdx7: let10DataPaperContent.cellIdx1, // 月
+        cellIdx8: let10DataPaperContent.cellIdx2, // 日
         cellIdx9: null, //
         cellIdx10: null, // 单位/个人
         cellIdx11: orgSysOfficeInfo.courtPrefix, // 人民法院
@@ -355,6 +358,14 @@ export default {
         cellIdx18: this.$store.state.curCase.groupName, //
         cellIdx19: this.todayDate, //日期
         cellIdx22: null, //单位/个人
+        DangerTable, // 隐患项大表
+        associationPaperId: { // 关联的paperId
+          paper22Id: let10DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: let10DataPaperContent.associationPaperId.paper1Id,
+          paper6Id: let10DataPaperContent.associationPaperId.paper6Id,
+          paper8Id: let10DataPaperContent.associationPaperId.paper8Id,
+          paper10Id: selectedPaper.let10Data.paperId
+        }
       };
     },
     goBack({ page, data }) {

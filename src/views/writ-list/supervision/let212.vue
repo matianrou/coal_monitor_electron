@@ -254,8 +254,8 @@ export default {
       // 1.生成文书编号
       let {num0, num1, num3, num4} = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
       // 2.行政处罚决定书 日期、编号
-      let let8DataPapaerContent = JSON.parse(selectedPaper.let8Data.paperContent)
-      let date206 = let8DataPapaerContent.cellIdx20 ? let8DataPapaerContent.cellIdx20.replace('年', '-').replace('月', '-').replace('日', '-').split('-') : ['', '', '']
+      let let8DataPaperContent = JSON.parse(selectedPaper.let8Data.paperContent)
+      let date206 = let8DataPaperContent.cellIdx20 ? let8DataPaperContent.cellIdx20.replace('年', '-').replace('月', '-').replace('日', '-').split('-') : ['', '', '']
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
       let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {accountName: '', accountBank: '', billName: '', account: '', accountAddress: '', organName: '', courtPrefix: ''}
@@ -277,24 +277,24 @@ export default {
         cellIdx6TypeTextItem: date206[1], // 月
         cellIdx7: date206[2], // 日
         cellIdx7TypeTextItem: date206[2], // 日
-        cellIdx8: let8DataPapaerContent.cellIdx0, // 行政处罚决定书 文书号
-        cellIdx8TypeTextItem: let8DataPapaerContent.cellIdx0, // 行政处罚决定书 文书号
-        cellIdx9: let8DataPapaerContent.cellIdx1, // 行政处罚决定书 文书号
-        cellIdx9TypeTextItem: let8DataPapaerContent.cellIdx1, // 行政处罚决定书 文书号
-        cellIdx10: let8DataPapaerContent.cellIdx2, // 行政处罚决定书 文书号
-        cellIdx10TypeTextItem: let8DataPapaerContent.cellIdx2, // 行政处罚决定书 文书号
-        cellIdx11: let8DataPapaerContent.cellIdx3, // 行政处罚决定书 文书号
-        cellIdx11TypeTextItem: let8DataPapaerContent.cellIdx3, // 行政处罚决定书 文书号
-        cellIdx12: let8DataPapaerContent.selectedType, // 单位
-        cellIdx12TypeSelectItem: let8DataPapaerContent.selectedType, // 单位
+        cellIdx8: let8DataPaperContent.cellIdx0, // 行政处罚决定书 文书号
+        cellIdx8TypeTextItem: let8DataPaperContent.cellIdx0, // 行政处罚决定书 文书号
+        cellIdx9: let8DataPaperContent.cellIdx1, // 行政处罚决定书 文书号
+        cellIdx9TypeTextItem: let8DataPaperContent.cellIdx1, // 行政处罚决定书 文书号
+        cellIdx10: let8DataPaperContent.cellIdx2, // 行政处罚决定书 文书号
+        cellIdx10TypeTextItem: let8DataPaperContent.cellIdx2, // 行政处罚决定书 文书号
+        cellIdx11: let8DataPaperContent.cellIdx3, // 行政处罚决定书 文书号
+        cellIdx11TypeTextItem: let8DataPaperContent.cellIdx3, // 行政处罚决定书 文书号
+        cellIdx12: let8DataPaperContent.selectedType, // 单位
+        cellIdx12TypeSelectItem: let8DataPaperContent.selectedType, // 单位
         cellIdx13: null, // 年
         cellIdx14: null, // 月
         cellIdx15: null, // 日
         cellIdx16: null, // 罚款缴至
-        cellIdx17: let8DataPapaerContent.selectedType, // 单位
-        cellIdx17TypeSelectItem: let8DataPapaerContent.selectedType, // 单位
-        cellIdx18: let8DataPapaerContent.selectedType, // 单位
-        cellIdx18TypeSelectItem: let8DataPapaerContent.selectedType, // 单位
+        cellIdx17: let8DataPaperContent.selectedType, // 单位
+        cellIdx17TypeSelectItem: let8DataPaperContent.selectedType, // 单位
+        cellIdx18: let8DataPaperContent.selectedType, // 单位
+        cellIdx18TypeSelectItem: let8DataPaperContent.selectedType, // 单位
         cellIdx19: null, // 受送达人（签名）
         cellIdx20: null, // 日期
         cellIdx21: orgSysOfficeInfo.accountAddress, // 执法机关地址
@@ -305,9 +305,9 @@ export default {
         cellIdx25TypeTextItem: this.$store.state.curCase.groupName, //
         cellIdx26: this.todayDate, //日期
         cellIdx26TypeDateItem: this.todayDate, // 日期
-        cellIdx27: let8DataPapaerContent.selectedType, //单位
-        cellIdx27TypeSelectItem: let8DataPapaerContent.selectedType, // 单位
-        selectedType: let8DataPapaerContent.selectedType, // 单位
+        cellIdx27: let8DataPaperContent.selectedType, //单位
+        cellIdx27TypeSelectItem: let8DataPaperContent.selectedType, // 单位
+        selectedType: let8DataPaperContent.selectedType, // 单位
       };
     },
     goBack({ page, data }) {

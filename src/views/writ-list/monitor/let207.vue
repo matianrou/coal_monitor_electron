@@ -145,7 +145,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber } from "@/utils/setInitPaperData";
+import { getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let207",
@@ -201,10 +201,10 @@ export default {
       // 1.送达文书：国家煤矿安全监察行政处罚决定书
       let cellIdx4String = "国家矿山安全监察行政处罚决定书";
       // 2.文书字号：使用行政处罚决定书的文书编号
-      let let8DataPapaerContent = JSON.parse(
+      let let8DataPaperContent = JSON.parse(
         selectedPaper.let8Data.paperContent
       );
-      let cellIdx5String = `${let8DataPapaerContent.cellIdx0}矿安监${let8DataPapaerContent.cellIdx1}罚〔${let8DataPapaerContent.cellIdx2}〕${let8DataPapaerContent.cellIdx3}号`;
+      let cellIdx5String = `${let8DataPaperContent.cellIdx0}矿安监${let8DataPaperContent.cellIdx1}罚〔${let8DataPaperContent.cellIdx2}〕${let8DataPaperContent.cellIdx3}号`;
       // 3.送达地点：煤矿名称
       let cellIdx6String = corp.corpName;
       let paperNumber = await getDocNumber(
@@ -214,9 +214,12 @@ export default {
         this.$store.state.user
       );
       // 获取行政处罚决定书中选择的单位/个人
-      let selectedType = let8DataPapaerContent.selectedType;
+      let selectedType = let8DataPaperContent.selectedType;
       let selectedString = selectedType === "单位" ? "单位负责人" : "个人";
       await db.close();
+      let DangerTable = let8DataPaperContent.DangerTable ? 
+        setNewDanger(selectedPaper.let8Data, let8DataPaperContent.DangerTable)
+        : {}
       this.letData = {
         cellIdx0: paperNumber.num0, // 文书号
         cellIdx0TypeTextItem: paperNumber.num0, // 文书号
@@ -244,6 +247,13 @@ export default {
         cellIdx13: this.todayDate, // 日期
         cellIdx13TypeDateItem: this.todayDate, // 日期
         selectedType: selectedType,
+        DangerTable,
+        associationPaperId: { // 关联的paperId
+          paper22Id: let8DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: let8DataPaperContent.associationPaperId.paper1Id,
+          paper6Id: let8DataPaperContent.associationPaperId.paper6Id,
+          paper8Id: selectedPaper.let8Data.paperId
+        }
       };
     },
     goBack({ page, data }) {
