@@ -204,7 +204,7 @@ export default {
         { danger: true }
       );
       // let cellIdx5String = `${dangerObject.dangerString}经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString}的规定。`
-      let cellIdx5String = `${let1DataPaperContent.cellIdx1}${this.$store.state.user.userGroupName}对${corp.corpName}进行现场检查时发现${dangerObject.dangerString}以上行为分别涉嫌${dangerObject.illegalString}依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`;
+      let cellIdx5String = `${let1DataPaperContent.cellIdx1}${this.$store.state.curCase.groupName}对${corp.corpName}进行现场检查时发现${dangerObject.dangerString}以上行为分别涉嫌${dangerObject.illegalString}依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`;
       // 3.建议案件处理意见：行政处罚依据+行政处罚决定（分条）
       let cellIdx6String = `${dangerObject.penaltyBasisString}`;
       let cellIdx7String = `${dangerObject.penaltyDesc}`;
@@ -234,7 +234,7 @@ export default {
         extraData: {  // 用于拼写隐患内容的字符集合
           corpName: this.corpData.corpName,
           let101Date: let1DataPaperContent.cellIdx1,
-          userGroupName: this.$store.state.user.userGroupName
+          groupName: this.$store.state.curCase.groupName
         }
       };
     },

@@ -80,12 +80,12 @@
                 @click="
                   commandFill(
                     'cellIdx5',
-                    `国家矿山安全监察局${userGroupName}检查分工明细表`,
+                    `${fileGroupName}检查分工明细表`,
                     'CheckTable'
                   )
                 "
               >
-                六、检查的主要内容和分工见明细表（附件：《国家矿山安全监察局{{userGroupName}}检查分工明细表》）
+                六、检查的主要内容和分工见明细表（附件：《{{fileGroupName}}检查分工明细表》）
               </div>
               <div></div>
             </div>
@@ -106,12 +106,12 @@
                 @click="
                   commandFill(
                     'cellIdx7',
-                    `国家矿山安全监察局${userGroupName}检查分工明细表`,
+                    `${fileGroupName}检查分工明细表`,
                     'CheckTable'
                   )
                 "
               >
-                《国家矿山安全监察局{{userGroupName}}检查分工明细表》
+                《{{fileGroupName}}检查分工明细表》
               </div>
             </div>
             <div class="docTextarea">
@@ -207,7 +207,7 @@ export default {
     return {
       letData: {},
       options: {},
-      userGroupName: this.$store.state.user.userGroupName
+      fileGroupName: this.$store.state.curCase.groupName
     };
   },
   methods: {

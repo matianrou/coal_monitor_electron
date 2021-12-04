@@ -406,7 +406,7 @@ export default {
               },
               createDate: item.createDate,
               delFlag: item.delFlag,
-              groupId: item.groupId,
+              groupId: this.$store.state.curCase.groupId,
               id: item.itemCode,
               itemCode: item.itemCode,
               itemContent: item.itemContent,
@@ -418,7 +418,7 @@ export default {
               },
               updateDate: item.updateDate,
               paperId: paperId,
-              groupName: this.$store.state.user.userGroupName,
+              groupName: this.$store.state.curCase.groupName,
               personId: JSON.stringify(personIdList),
               Address: item.positions,
               addressType: item.addressType,
@@ -540,8 +540,8 @@ export default {
         createTime,
         personId: this.$store.state.user.userId,
         personName: this.$store.state.user.userName,
-        groupId: this.$store.state.user.userGroupId, //机构id
-        groupName: this.$store.state.user.userGroupName, //机构名称
+        groupId: this.$store.state.curCase.groupId, //归档机构id
+        groupName: this.$store.state.curCase.groupName, //归档机构名称
         paperContent: JSON.stringify(this.$parent.letData),
         paperType: this.docData.docTypeNo,
         paperHtml: page,
@@ -723,8 +723,8 @@ export default {
         personId: this.$store.state.user.userId,
         personName: this.$store.state.user.userName,
         p0FloorTime: "",
-        groupId: this.$store.state.user.userGroupId, //机构id
-        groupName: this.$store.state.user.userGroupName, //机构名称
+        groupId: this.$store.state.curCase.groupId, //归档机构id
+        groupName: this.$store.state.curCase.groupName, //归档机构名称
         paperContent: JSON.stringify(this.$parent.letData),
         paperType: this.docData.docTypeNo,
         name: this.docData.docTypeName,
@@ -1037,7 +1037,7 @@ export default {
           spellString: {
             corpName: itemPaper.corpName,
             dateString: paperContentOld.extraData.dateString,
-            userGroupName: this.$store.state.user.userGroupName,
+            groupName: this.$store.state.curCase.groupName,
           },
         })
         let newcellIdx5 = setDangerTable(this.curDangerTable, {}, { 
@@ -1046,7 +1046,7 @@ export default {
           spellString: {
             corpName: itemPaper.corpName,
             dateString: paperContentOld.extraData.dateString,
-            userGroupName: this.$store.state.user.userGroupName,
+            groupName: this.$store.state.curCase.groupName,
           },
         })
         paperContentOld.cellIdx4 = newcellIdx4
@@ -1058,7 +1058,7 @@ export default {
           key: 'cellIdx2',
           spellString: {
             corpName: itemPaper.corpName,
-            userGroupName: this.$store.state.user.userGroupName,
+            groupName: this.$store.state.curCase.groupName,
           },
         })
         let cellIdx6String = setDangerTable(this.curDangerTable, {}, { 
@@ -1066,7 +1066,7 @@ export default {
           key: 'cellIdx6',
           spellString: {
             corpName: itemPaper.corpName,
-            userGroupName: this.$store.state.user.userGroupName,
+            groupName: this.$store.state.curCase.groupName,
           },
         })
         let cellIdx7String = setDangerTable(this.curDangerTable, {}, { 
@@ -1074,7 +1074,7 @@ export default {
           key: 'cellIdx7',
           spellString: {
             corpName: itemPaper.corpName,
-            userGroupName: this.$store.state.user.userGroupName,
+            groupName: this.$store.state.curCase.groupName,
           },
         })
         paperContentOld.cellIdx2 = cellIdx2String

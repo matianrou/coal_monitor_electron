@@ -63,7 +63,7 @@
                 >{{ letData.cellIdx5 ? letData.cellIdx5 : "(编辑)" }}</span
               >
               于
-              <span @click="commandFill('cellIdx6', '', 'DateItem')">{{
+              <span @click="commandFill('cellIdx6', '', 'DaterangeItem')">{{
                 letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
               }}</span>
               现场检查时，发现你单位有下列违法违规行为，现作出以下现场处理决定：
@@ -239,7 +239,7 @@ export default {
         cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // 被检查单位
         cellIdx5: "局", //局
         cellIdx5TypeTextItem: "局", //局
-        cellIdx6: null, //
+        cellIdx6: let1DataPaperContent.cellIdx1, //
         cellIdx7: dangerObject.contentOnsiteDesc, // 现场处理决定
         cellIdx8: orgSysOfficeInfo.organName, //
         cellIdx8TypeTextItem: orgSysOfficeInfo.organName, //

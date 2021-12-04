@@ -82,7 +82,8 @@ export default {
         let endList = caseData.planEndDate.split(' ')[0].split('-')
         planDate = `${beginList[1]}月${beginList[2]}日-${endList[1]}月${endList[2]}日`
       }
-      caseData = Object.assign({}, caseData, { planDate })
+      let groupName = `国家矿山安全监察局${caseData.groupName}`
+      caseData = Object.assign({}, caseData, { planDate, groupName })
       this.caseData = caseData
       this.$store.commit('changeState', {
         key: 'curCase',

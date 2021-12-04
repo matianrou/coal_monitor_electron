@@ -52,7 +52,12 @@
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
-              ></el-option>
+              >
+                <div>
+                  <span style="color: #606266;">{{ item.label }}</span>
+                  <span style="color: #909399;">{{ item.description }}</span>
+                </div>
+              </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="重大安全风险研判：" prop="riskAssessmentContent">
@@ -203,6 +208,7 @@ export default {
       } else {
         this.$message.error('用户信息查询失败，请重新下载“用户资源”！')
       }
+      console.log('caseClassify', this.dictionary)
       await db.close()
     },
     changeDate(val) {
@@ -356,6 +362,11 @@ export default {
     font-size: 16px;
     background: #4f83e9;
     margin-bottom: 15px;
+  }
+  .case-classify-dictionary {
+    display: flex;
+    flex-direction: column;
+
   }
 }
 </style>

@@ -251,7 +251,7 @@ export default {
       // 2.工作单位：煤矿名称
       let cellIdx11String = corp.corpName;
       // 3.监察单位
-      let cellIdx18String = this.$store.state.user.userGroupName;
+      let cellIdx18String = this.$store.state.curCase.groupName;
       // 获取笔录文书中的隐患数据
       // 4.陈述申辩：煤矿名称 + '涉嫌' + 隐患描述 + '案。'
       // 5.单位/个人：从行政处罚告知书(paperType === '6')中获取
@@ -308,7 +308,7 @@ export default {
         extraData: {
           // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
-          userGroupName: this.$store.state.user.userGroupName,
+          groupName: this.$store.state.curCase.groupName,
         },
         selectedType: let6DataPaperContent.selectedType,
         associationPaperId: { // 关联的paperId

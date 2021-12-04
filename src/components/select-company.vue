@@ -225,6 +225,7 @@ import { treeDataTranslate } from '@/utils/index'
     .select-company-tree {
       flex: 2;
       border-right: 1px solid #DCDFE6;
+      overflow: auto;
     }
     .select-company-list {
       flex: 3;

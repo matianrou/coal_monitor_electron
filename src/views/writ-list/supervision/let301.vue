@@ -249,7 +249,7 @@ export default {
       // 1.文书编号：送达收执文书编号
       let paperNumber = await getDocNumber(db, '9', caseId, this.$store.state.user)
       // 2.申请人：机构名称
-      let cellIdx5String = this.$store.state.user.userGroupName
+      let cellIdx5String = this.$store.state.curCase.groupName
       // 3.被申请人：企业煤矿名称
       let cellIdx11String = corp.corpName
       // 4.对被申请人：企业名称+'涉嫌'+隐患描述+'案'

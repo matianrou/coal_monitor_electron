@@ -204,7 +204,7 @@ export default {
         DangerTable: let1DataPaperContent.DangerTable,
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
-          userGroupName: this.$store.state.user.userGroupName,
+          groupName: this.$store.state.curCase.groupName,
         }
       };
     },

@@ -207,7 +207,7 @@ export default {
           key: 'cellIdx2',
           spellString: {
             corpName: corp.corpName,
-            userGroupName: this.$store.state.user.userGroupName,
+            groupName: this.$store.state.curCase.groupName,
           },
         })
         // 2.违法事实及依据：隐患描述+“经调查取证以上违法违规行为属实，分别违反了”+违法认定发条
@@ -216,7 +216,7 @@ export default {
           key: 'cellIdx6',
           spellString: {
             corpName: corp.corpName,
-            userGroupName: this.$store.state.user.userGroupName,
+            groupName: this.$store.state.curCase.groupName,
           },
         })
         // 3.建议案件处理意见：行政处罚依据+行政处罚决定（分条）
@@ -225,7 +225,7 @@ export default {
           key: 'cellIdx7',
           spellString: {
             corpName: corp.corpName,
-            userGroupName: this.$store.state.user.userGroupName,
+            groupName: this.$store.state.curCase.groupName,
           },
         })
         let {
@@ -270,7 +270,7 @@ export default {
           extraData: {
             // 保存额外拼写的数据内容，用于修改隐患项时回显使用
             corpName: corp.corpName,
-            userGroupName: this.$store.state.user.userGroupName,
+            groupName: this.$store.state.curCase.groupName,
           },
           associationPaperId: { // 关联的paperId
             paper22Id: let4DataPaperContent.associationPaperId.paper22Id,

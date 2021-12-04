@@ -375,7 +375,7 @@ export default {
       ) : null;
       let cellIdx8String = `${corp.corpName}涉嫌${dangerObject ? dangerObject.dangerString : 'XXX案'}。`;
       // 2.组成： “我们是”+当前机构+“监察员，这是我们的执法证件（出示行政执法证件），现就你”+煤矿名称+“涉嫌”+隐患描述+“违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？”
-      let cellIdx21String = `我们是${this.$store.state.user.userGroupName}监察员，这是我们的执法证件（出示行政执法证件），现就你${corp.corpName}涉嫌${dangerObject ? dangerObject.dangerString : 'XXX'}违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？
+      let cellIdx21String = `我们是${this.$store.state.curCase.groupName}监察员，这是我们的执法证件（出示行政执法证件），现就你${corp.corpName}涉嫌${dangerObject ? dangerObject.dangerString : 'XXX'}违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？
     答：听清楚了。
     问：你对我们调查人员申请回避吗？
     答：不申请回避。
@@ -400,13 +400,13 @@ export default {
         cellIdx4: cellIdx4Minu, // 分
         cellIdx5: null, // 时
         cellIdx6: null, // 分
-        cellIdx7: null, // 地点
+        cellIdx7: corp.corpName, // 地点
         cellIdx8: cellIdx8String, // 调查事由
         cellIdx9: null, // 姓名
         cellIdx10: null, // 性别
         cellIdx11: null, // 年龄
         cellIdx12: null, // 身份证号
-        cellIdx13: null, // 工作单位
+        cellIdx13: corp.corpName, // 工作单位
         cellIdx14: null, // 职务（职业）
         cellIdx15: null, // 政治面貌
         cellIdx16: null, // 文化程度
@@ -430,7 +430,7 @@ export default {
         extraData: {
           // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
-          userGroupName: this.$store.state.user.userGroupName,
+          groupName: this.$store.state.curCase.groupName,
         },
         DangerTable,
         associationPaperId: { // 关联的paperId

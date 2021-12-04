@@ -235,7 +235,7 @@ export default {
         cellIdx13: null, // 收件人（签名)
         cellIdx14: null, // 日期
         cellIdx15: null, // 报送
-        cellIdx16: this.$store.state.user.userGroupName, // 
+        cellIdx16: this.$store.state.curCase.groupName, // 
         cellIdx17: this.todayDate, // 日期
         cellIdx18: [], // 附件
         UploadFile: {

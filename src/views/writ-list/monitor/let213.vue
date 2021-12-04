@@ -170,7 +170,7 @@ export default {
       let dangerObject = getDangerObject(
         paper1PaperContent.DangerTable.selectedDangerList
       );
-      let string5 = `    五、主要违法事实：${paper1PaperContent.cellIdx2 || '20XX年XX月XX日至XX月XX日'}，${this.$store.state.user.userGroupName || 'XX煤矿安全监察局XX监察分局'}监察员${p22checkName || 'XXX、XXX、XXX……'}按照监察执法计划，依法对${corp.corpName || 'XX公司XX煤矿'}进行现场检查时,发现该矿${dangerObject.dangerString || 'XX采煤工作面回风巷风流中瓦斯浓度达1.2%，未停止作业'}，涉嫌违法违规。\r\n`;
+      let string5 = `    五、主要违法事实：${paper1PaperContent.cellIdx2 || '20XX年XX月XX日至XX月XX日'}，${this.$store.state.curCase.groupName || '国家矿山安全监察局XX局'}监察员${p22checkName || 'XXX、XXX、XXX……'}按照监察执法计划，依法对${corp.corpName || 'XX公司XX煤矿'}进行现场检查时,发现该矿${dangerObject.dangerString || 'XX采煤工作面回风巷风流中瓦斯浓度达1.2%，未停止作业'}，涉嫌违法违规。\r\n`;
       // 6，	立案调查及审理情况：
       // 立案时间+“经”+机构名称+“负责人批准，决定对该涉嫌违法行为进行立案调查，并指定由、两名执法人员承办。案件承办人对进行调查取证，制作了调查取证笔录，收集了该矿违法违规行为的其他证据材料。
       // 经调查取证，案件承办人认定违法事实清楚，分别违反了”+违法认定法条+“建议分别依据”+行政处罚依据+“拟分别给予”+行政处罚决定+呈报书制作时间+“，经法制审核，认为案件事实清楚、证据确凿充分、定性准确、处罚适当、程序合法，同意处罚意见。案件承办人将处罚建议呈报给分管副局长XXX、局长张晓彤审批，经分局局长办公会集体研究，同意案件承办人处罚意见。”
@@ -193,7 +193,7 @@ export default {
         }
       }
       if (paper5CheckName) paper5CheckName = paper5CheckName.substring(0, paper5CheckName.length - 1)
-      let string6 = `    六、立案调查及审理情况：${p4DateString}，经${this.$store.state.user.userGroupName || 'XX煤矿安全监察局XX监察分局'}负责人批准，决定对该涉嫌违法行为进行立案调查，并指定由${let4DataPaperContent.cellIdx9 || 'XXX、XXX'}两名执法人员承办。案件承办人对${paper5CheckName || 'XXX、XXX……'}进行调查取证，制作了调查取证笔录，收集了该矿违法违规行为的其他证据材料。`;
+      let string6 = `    六、立案调查及审理情况：${p4DateString}，经${this.$store.state.curCase.groupName || '国家矿山安全监察局XX局'}负责人批准，决定对该涉嫌违法行为进行立案调查，并指定由${let4DataPaperContent.cellIdx9 || 'XXX、XXX'}两名执法人员承办。案件承办人对${paper5CheckName || 'XXX、XXX……'}进行调查取证，制作了调查取证笔录，收集了该矿违法违规行为的其他证据材料。`;
       // 获取案件处理呈报书的违法事实及处理依据
       
       let dangerString = getDangerContentWithoutPointHasIndex(let4DataPaperContent.DangerTable.selectedDangerList || [], ';')
