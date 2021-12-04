@@ -36,7 +36,7 @@
         </div>
         <div class="let-drawer-operation">
           <el-button @click="handleClose">返回</el-button>
-          <el-button type="primary" @click="handleSave(false)">确定</el-button>
+          <el-button type="primary" @click="handleSave(false)">保存</el-button>
         </div>
       </div>
     </el-drawer>
@@ -120,7 +120,26 @@ export default {
   methods: {
     handleClose () {
       // 关闭编辑
-      this.$emit('handle-close')
+      // 如果是隐患项编辑保存时增加校验是否有修改，如果有修改则提示是否确认返回
+      if (this.selectedData.type === 'DangerTable') {
+        let tempValue = this.$refs[this.selectedData.type].dataForm.tempValue
+        let originalValue = this.$refs[this.selectedData.type].originalValue
+        if (JSON.stringify(tempValue) === JSON.stringify(originalValue)) {
+          // 如果数据相同则表示未修改任何数据，直接执行返回
+          this.$emit('handle-close')
+        } else {
+          // 如果有修改
+          this.$confirm('当前有已修改的隐患，是否确定不保存修改直接返回？', '提示', {
+              confirmButtonText: '取消',
+              cancelButtonText: '确定',
+              dangerouslyUseHTMLString: true,
+              type: 'warning'
+            }).then(() => {
+            }).catch(() => {
+              this.$emit('handle-close')
+            })
+        }
+      }
     },
     handleSave (direct = false) {
       // *direct是否直接保存，不关闭（主要处理普通文本框直接在编辑区域修改）

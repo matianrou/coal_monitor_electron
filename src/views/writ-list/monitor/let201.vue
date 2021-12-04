@@ -180,7 +180,6 @@ export default {
           ? let1DataPaperContent.cellIdx1
           : "X年X月X日-X年X月X日";
         // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
-        console.log('curCase', this.$store.state.curCase)
         let cellIdx4String = setDangerTable(
           let1DataPaperContent.DangerTable,
           {},

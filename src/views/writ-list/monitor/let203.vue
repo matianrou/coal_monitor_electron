@@ -278,7 +278,6 @@ export default {
             paper4Id: selectedPaper.let4Data.paperId,
           }
         };
-      console.log('letData', this.letData)
       } else {
         let let4DataPaperContent = JSON.parse(
           selectedPaper.let4Data.paperContent

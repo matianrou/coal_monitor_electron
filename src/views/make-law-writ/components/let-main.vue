@@ -215,6 +215,29 @@ export default {
   methods: {
     async cmdDocBack() {
       // 增加逻辑判断：
+      // 判断当前文书内容是否有修改，如果有更改则提示是否确认不保存更改内容
+      if (this.$parent.letDataOragin) {
+        if (this.$parent.letDataOragin === JSON.stringify(this.$parent.letData)) {
+          // 相同则直接返回
+          await this.goBackFunc()
+        } else {
+          // 如果有修改
+          await this.$confirm('当前已修改文书，是否确定不保存修改直接返回？', '提示', {
+              confirmButtonText: '取消',
+              cancelButtonText: '确定',
+              dangerouslyUseHTMLString: true,
+              type: 'warning'
+            }).then(() => {
+            }).catch(async () => {
+              await this.goBackFunc()
+            })
+        }
+      } else {
+        await this.goBackFunc()
+      }
+    },
+    async goBackFunc () {
+      // 增加逻辑判断：
       // 当文书为隐患整改、影音证据且已上传文件时，判断当前文书表中是否有此文书id，如果没有则提示需要先点击保存，否则已上传文件会丢失
       // 当文书为罚款收缴时，判断当前文书表中是否有此文书id，如果没有则提示需要先点击保存，否则已上传文件会丢失
       // 当文书为意见建议书时，判断文件为this.$parent.letData.UploadFile.tableData
@@ -804,7 +827,7 @@ export default {
     handleSave(params) {
       // 点击确定，保存左侧弹出窗口中的数据至文书数据中
       // 增加赋值已选择的数据值，因子组件调用此数据，如果此数据不变更则会导致重复的component不更新数据
-      this.selectedData.value = params.value
+      this.selectedData.value = JSON.parse(JSON.stringify(params.value)) 
       // params为保存的数据
       let { key, dataKey, title, type, value, options } = this.selectedData;
       if (options && options.saveDataKey) {

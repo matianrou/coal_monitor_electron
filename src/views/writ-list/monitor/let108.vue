@@ -319,7 +319,6 @@ export default {
           paper1Id: selectedPaper.let1Data.paperId
         }
       };
-      console.log('letData', this.letData)
     },
     goBack({ page, data }) {
       // 返回选择企业

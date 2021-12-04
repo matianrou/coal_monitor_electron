@@ -371,7 +371,6 @@ export default {
             paper1Id: selectedPaper.let1Data.paperId,
           }
         };
-      console.log('letData', this.letData)
       } else {
         let db = new GoDB(this.$store.state.DBName);
         let paperNumber = await getDocNumber(

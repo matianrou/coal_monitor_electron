@@ -540,6 +540,7 @@ export default {
         dangerCateThirdList: []
       },
       sortableItem: null, // 拖拽实例
+      originalValue: null, // 原始数据，用来对比是否修改数据
     };
   },
   async created() {
@@ -606,11 +607,12 @@ export default {
   methods: {
     initData () {
       this.dataForm.tempValue = JSON.parse(JSON.stringify(this.value)) 
+      this.originalValue = JSON.parse(JSON.stringify(this.value)) 
       this.dataForm.tempValue.dangerContentMerge = false
-      if (this.value.tableData.length > 0) {
+      if (this.dataForm.tempValue.tableData.length > 0) {
         this.selectedItem({
           $index: 0,
-          row: this.value.tableData[0]
+          row: this.dataForm.tempValue.tableData[0]
         })
       }
     },

@@ -132,12 +132,10 @@ export default {
       // 获取检查方案Paper
       let paper22 = await wkPaper.find(paper => {
         if (paper.paperId === let4DataPaperContent.associationPaperId.paper22Id) {
-          console.log('paper.paperId', paper.paperId)
         }
         return paper.delFlag !== '1'
         && paper.paperId === let4DataPaperContent.associationPaperId.paper22Id
       })
-      console.log('paper22', paper22)
       let string2 = "    二、行政相对人基本情况：";
       let p22CorpInfo = JSON.parse(paper22.paperContent).cellIdx3 || {}
       string2 += p22CorpInfo + "\r\n";
