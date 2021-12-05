@@ -303,6 +303,8 @@ export default {
         let addDangerList = []
         for(let i = 0; i < tableData.length; i++) {
           let obj = {
+            personIds: this.$store.state.user.userId, // 隐患发现人
+            personNames: this.$store.state.user.userName, // 隐患发现人
             HistoryId: getNowTime() + randomString(28),
             categoryCode: tableData[i].categoryCode,
             no: tableData[i].no,

@@ -208,7 +208,6 @@ export default {
       } else {
         this.$message.error('用户信息查询失败，请重新下载“用户资源”！')
       }
-      console.log('caseClassify', this.dictionary)
       await db.close()
     },
     changeDate(val) {

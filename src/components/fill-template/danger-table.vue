@@ -607,14 +607,14 @@ export default {
   methods: {
     initData () {
       this.dataForm.tempValue = JSON.parse(JSON.stringify(this.value)) 
-      this.originalValue = JSON.parse(JSON.stringify(this.value)) 
-      this.dataForm.tempValue.dangerContentMerge = false
-      if (this.dataForm.tempValue.tableData.length > 0) {
-        this.selectedItem({
-          $index: 0,
-          row: this.dataForm.tempValue.tableData[0]
-        })
-      }
+      this.originalValue = JSON.stringify(this.value)
+      // this.dataForm.tempValue.dangerContentMerge = false
+      // if (this.dataForm.tempValue.tableData.length > 0) {
+      //   this.selectedItem({
+      //     $index: 0,
+      //     row: this.dataForm.tempValue.tableData[0]
+      //   })
+      // }
     },
     async getDictionary () {
       // 获取码表
@@ -679,8 +679,8 @@ export default {
           let {id, type} = getPenaltyDescType(receiveDanger.penaltyDesc, this.subitemTypeOptions)
           let addItem = Object.assign({}, item, {
             dangerId: getNowTime() + randomString(28),
-            personIds: null, // 隐患发现人
-            personNames: null, // 隐患发现人
+            personIds: this.$store.state.user.userId, // 隐患发现人
+            personNames: this.$store.state.user.userName, // 隐患发现人
             onsiteType, // 现场处理决定类型
             headingFace: null, // 掘进工作面
             deviceNum: null, // 设备台数
@@ -789,23 +789,27 @@ export default {
         this.dataForm.tempValue.tableData[index].penaltyDescTypeId = id
         this.dataForm.tempValue.tableData[index].penaltyDescType = type
         // 同步修改已选择的数据
-        let selectedItemIndex = this.dataForm.tempValue.selectedDangerList.findIndex(item => item.dangerId === this.dataForm.tempValue.tableData[index].dangerId)
-        if (selectedItemIndex !== -1) {
-          let obj = Object.assign({}, this.dataForm.tempValue.selectedDangerList[selectedItemIndex], {
-            penaltyDescFine: penaltyDescFine,
-            penaltyDescTypeId: id,
-            penaltyDescType: type,
-          })
-          this.$set(this.dataForm.tempValue.selectedDangerList, selectedItemIndex, obj)
-          // this.dataForm.tempValue.selectedDangerList[selectedItemIndex].penaltyDescFine = penaltyDescFine
-          // this.dataForm.tempValue.selectedDangerList[selectedItemIndex].penaltyDescTypeId = id
-          // this.dataForm.tempValue.selectedDangerList[selectedItemIndex].penaltyDescType = type
+        if (this.dataForm.tempValue.selecteddangerList && this.dataForm.tempValue.selecteddangerList.length > 0) {
+          let selectedItemIndex = this.dataForm.tempValue.selectedDangerList.findIndex(item => item.dangerId === this.dataForm.tempValue.tableData[index].dangerId)
+          if (selectedItemIndex !== -1) {
+            let obj = Object.assign({}, this.dataForm.tempValue.selectedDangerList[selectedItemIndex], {
+              penaltyDescFine: penaltyDescFine,
+              penaltyDescTypeId: id,
+              penaltyDescType: type,
+            })
+            this.$set(this.dataForm.tempValue.selectedDangerList, selectedItemIndex, obj)
+            // this.dataForm.tempValue.selectedDangerList[selectedItemIndex].penaltyDescFine = penaltyDescFine
+            // this.dataForm.tempValue.selectedDangerList[selectedItemIndex].penaltyDescTypeId = id
+            // this.dataForm.tempValue.selectedDangerList[selectedItemIndex].penaltyDescType = type
+          }
         }
       }
       // 同步修改已选择的数据
-      let selectedItemIndex = this.dataForm.tempValue.selectedDangerList.findIndex(item => item.dangerId === this.dataForm.tempValue.tableData[index].dangerId)
-      if (selectedItemIndex !== -1) {
-        this.dataForm.tempValue.selectedDangerList[selectedItemIndex][field] = val
+      if (this.dataForm.tempValue.selecteddangerList && this.dataForm.tempValue.selecteddangerList.length > 0) {
+        let selectedItemIndex = this.dataForm.tempValue.selectedDangerList.findIndex(item => item.dangerId === this.dataForm.tempValue.tableData[index].dangerId)
+        if (selectedItemIndex !== -1) {
+          this.dataForm.tempValue.selectedDangerList[selectedItemIndex][field] = val
+        }
       }
     },
     handleSaveReceiveDanger (dangerList) {
@@ -833,8 +837,8 @@ export default {
           itemCode: receiveDanger.itemCode,
           no: receiveDanger.no,
           categoryCode: receiveDanger.categoryCode,
-          personIds: null, // 隐患发现人
-          personNames: null, // 隐患发现人
+          personIds: receiveDanger.personIds, // 隐患发现人
+          personNames: receiveDanger.personNames, // 隐患发现人
           itemContent: receiveDanger.itemContent, // 违法行为描述
           confirmBasis: receiveDanger.confirmBasis, // 违法认定法条
           onsiteDesc: receiveDanger.onsiteDesc, // 现场处理决定
@@ -1060,8 +1064,8 @@ export default {
         dangerId: getNowTime() + randomString(28),
         active: true,
         categoryCode: '', // 新增的同changeDangerType
-        personIds: '', // 隐患发现人
-        personNames: '', // 隐患发现人
+        personIds: this.$store.state.user.userId, // 隐患发现人
+        personNames: this.$store.state.user.userName, // 隐患发现人
         itemContent: '', // 违法行为描述
         confirmBasis: '', // 违法认定法条
         onsiteDesc: '', // 现场处理决定

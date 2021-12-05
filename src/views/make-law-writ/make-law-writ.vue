@@ -35,6 +35,7 @@
               :corp-data="corpData"
               :flow-status="flowStatus"
               :show-jczf-report="showJczfReport"
+              :danger-status="dangerStatus"
               @change-page="changePage"
             ></writ-flow>
           </div>
@@ -103,6 +104,7 @@ export default {
       docData: {}, // 选择显示的文书基本信息编号及名称
       caseData: {}, // 选择的活动信息
       flowStatus: {}, // 检查活动流程各文书状态，'save'为保存，'file'为存档
+      dangerStatus: {}, // 各文书隐患情况
       DBName: this.$store.state.DBName,
       isCreated: false, // 是否新增文书
       paperData: {}, // 多个文书时选择的文书数据
@@ -214,8 +216,18 @@ export default {
         let checkLetList = await wkPaper.findAll((item) => {
           return item.caseId === this.caseData.caseId && item.delFlag !== '1'
         });
+        checkLetList.sort(sortbyAsc('updateDate'))
         this.flowStatus = {}
         this.showJczfReport = false
+        this.dangerStatus = {
+          danger1: [],
+          danger2: [],
+          danger13: [],
+          danger4: [],
+          danger36: [],
+          danger6: [],
+          danger8: [],
+        }
         if (checkLetList.length > 0) {
           // 遍历所有保存的文书，设置paperType的文书文本为已保存或已归档
           checkLetList.map(item => {
@@ -224,6 +236,21 @@ export default {
               status = 'file'
             } else if (item.delFlag === '2') {
               status = 'save'
+            }
+            // 当文书为现场检查笔录1，现场处理决定书2，复查意见书13，立案决定书4，
+            // 案件处理呈报书36，行政处罚告知书6，行政处罚决定书8时，累计所有隐患
+            if (item.paperType === '1' || item.paperType === '2' || item.paperType === '13'
+              || item.paperType === '4' || item.paperType === '36' || item.paperType === '6'
+              || item.paperType === '8') {
+              let paperContent = JSON.parse(item.paperContent)
+              if (paperContent.DangerTable && paperContent.DangerTable.selectedDangerList) {
+                for (let i = 0; i < paperContent.DangerTable.selectedDangerList.length; i++) {
+                  let dangerInfo = Object.assign({}, paperContent.DangerTable.selectedDangerList[i], {
+                    selectedType: paperContent.selectedType
+                  })
+                  this.dangerStatus[`danger${item.paperType}`].push(dangerInfo)
+                }
+              }
             }
             this.$set(this.flowStatus, `paper${item.paperType}`, status)
             // 判断是否需要展示监察执法报告环节

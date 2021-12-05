@@ -149,6 +149,12 @@
                       "
                       alt=""
                     />
+                    <i
+                      v-if="dangerStatus.danger1.length > 0"
+                      class="el-icon-warning-outline danger-info-icon"
+                      :title="`隐患数：${dangerStatus.danger1.length}`"
+                      @click="showDangerInfo('1')"
+                    ></i>
                     <span
                       @click="cmdEditDoc('let101', '现场检查笔录', '1')"
                       class="flow-span"
@@ -188,6 +194,12 @@
                       class="flow-span"
                       >现场处理 <br />决定书</span
                     >
+                    <i
+                      v-if="dangerStatus.danger2.length > 0"
+                      class="el-icon-warning-outline danger-info-icon"
+                      :title="`隐患数：${dangerStatus.danger2.length}`"
+                      @click="showDangerInfo('2')"
+                    ></i>
                     <i
                       class="el-icon-plus create-icon"
                       title="添加"
@@ -279,6 +291,12 @@
                       class="flow-span"
                       >复查意见书</span
                     >
+                    <i
+                      v-if="dangerStatus.danger13.length > 0"
+                      class="el-icon-warning-outline danger-info-icon"
+                      :title="`隐患数：${dangerStatus.danger13.length}`"
+                      @click="showDangerInfo('13')"
+                    ></i>
                     <i
                       class="el-icon-plus create-icon"
                       title="添加"
@@ -725,6 +743,12 @@
                       >立案决定书</span
                     >
                     <i
+                      v-if="dangerStatus.danger4.length > 0"
+                      class="el-icon-warning-outline danger-info-icon"
+                      :title="`隐患数：${dangerStatus.danger4.length}`"
+                      @click="showDangerInfo('4')"
+                    ></i>
+                    <i
                       class="el-icon-plus create-icon"
                       title="添加"
                       @click="addPaper('let201', '立案决定书', '4')"
@@ -800,6 +824,12 @@
                       >案件处理呈报书</span
                     >
                     <i
+                      v-if="dangerStatus.danger36.length > 0"
+                      class="el-icon-warning-outline danger-info-icon"
+                      :title="`隐患数：${dangerStatus.danger36.length}`"
+                      @click="showDangerInfo('36')"
+                    ></i>
+                    <i
                       class="el-icon-plus create-icon"
                       title="添加"
                       @click="addPaper('let203', '案件处理呈报书', '36')"
@@ -833,6 +863,12 @@
                       class="flow-span"
                       >行政处罚告知书</span
                     >
+                    <i
+                      v-if="dangerStatus.danger6.length > 0"
+                      class="el-icon-warning-outline danger-info-icon"
+                      :title="`隐患数：${dangerStatus.danger6.length}`"
+                      @click="showDangerInfo('6')"
+                    ></i>
                     <i
                       class="el-icon-plus create-icon"
                       title="添加"
@@ -916,6 +952,12 @@
                       class="flow-span"
                       >行政处罚决定书</span
                     >
+                    <i
+                      v-if="dangerStatus.danger8.length > 0"
+                      class="el-icon-warning-outline danger-info-icon"
+                      :title="`隐患数：${dangerStatus.danger8.length}`"
+                      @click="showDangerInfo('8')"
+                    ></i>
                     <i
                       class="el-icon-plus create-icon"
                       title="添加"
@@ -1730,6 +1772,7 @@
                   <!-- <td style="width:12px;">
                   <img src="../assets/image/doc-flow_r1_c1.png" style="height: 65px;" />
                 </td> -->
+                  <td class="arrows">➤</td>
                   <td
                     :class="
                       flowStatus.paper45
@@ -2040,16 +2083,24 @@
       @close="closeDialog"
       @recevice-paper="recevicePaper"
     ></receive-paper>
+    <!-- 隐患项列表详情展示 -->
+    <show-danger-items
+      :visible="visible.showDangerItems"
+      :danger-list="showDangerList"
+      @close="closeDialog"
+    ></show-danger-items>
   </div>
 </template>
 
 
 <script>
 import receivePaper from "@/views/writ-flow/components/receive-paper";
+import showDangerItems from '@/components/show-danger-items'
 export default {
   name: "WritFlow",
   components: {
     receivePaper,
+    showDangerItems
   },
   props: {
     corpData: {
@@ -2063,6 +2114,20 @@ export default {
     showJczfReport: { // 是否展示监察执法报告环节
       type: Boolean,
       default: false
+    },
+    dangerStatus: {
+      type: Object,
+      default: () => {
+        return {
+          danger1: [],
+          danger2: [],
+          danger13: [],
+          danger4: [],
+          danger36: [],
+          danger6: [],
+          danger8: [],
+        }
+      }
     }
   },
   data() {
@@ -2070,7 +2135,9 @@ export default {
       activeFlowTab: "flow-1",
       visible: {
         receivePaper: false,
+        showDangerItems: false
       },
+      showDangerList: []
     };
   },
   created() {
@@ -2173,6 +2240,19 @@ export default {
         isCurPaper
       );
     },
+    showDangerInfo (paperType) {
+      // 展示文书隐患信息
+      this.visible.showDangerItems = true;
+      let showDangerList = this.dangerStatus[`danger${paperType}`]
+      for (let i = 0; i < showDangerList.length; i++) {
+        let item = showDangerList[i]
+        item.isSeriousValue = item.isSerious === '1' ? '重大隐患' : '一般隐患'
+        item.isReviewValue = item.isReview === '1' ? '是' : '否'
+        item.personPenalty = item.selectedType === '个人' ? (item.penaltyDescFine ? item.penaltyDescFine / 10000 : 0) : ''
+        item.orgPenalty = item.selectedType === '单位' ? (item.penaltyDescFine ? item.penaltyDescFine / 10000 : 0) : ''
+      }
+      this.showDangerList = showDangerList
+    }
   },
 };
 </script>
@@ -2249,6 +2329,18 @@ export default {
   right: 3px;
   cursor: pointer;
   color: rgba(#4282e6, 1);
+  font-weight: bold;
+  font-size: 20px;
+  // &:hover {
+  //   color: rgba(#4282E6, 0.8);
+  // }
+}
+.danger-info-icon {
+  position: absolute;
+  top: 8px;
+  right: 3px;
+  cursor: pointer;
+  color: rgba(#E6A23C, 1);
   font-weight: bold;
   font-size: 20px;
   // &:hover {

@@ -129,7 +129,7 @@ export default {
       if (this.selectedData.type === 'DangerTable') {
         let tempValue = this.$refs[this.selectedData.type].dataForm.tempValue
         let originalValue = this.$refs[this.selectedData.type].originalValue
-        if (JSON.stringify(tempValue) === JSON.stringify(originalValue)) {
+        if (JSON.stringify(tempValue) === originalValue) {
           // 如果数据相同则表示未修改任何数据，直接执行返回
           this.$emit('handle-close')
         } else {
@@ -203,6 +203,8 @@ export default {
                 } else {
                   this.$emit('handle-save', {value: this.$refs[this.selectedData.type].dataForm.tempValue, direct})
                 }
+              } else {
+                this.$emit('handle-save', {value: this.$refs[this.selectedData.type].dataForm.tempValue, direct})
               }
             } else {
               this.$message.error(`选中的隐患项第${indexString}条中有必填的项目未填写，如：违法行为描述,现场处理决定或更改隐患从属类别`)
