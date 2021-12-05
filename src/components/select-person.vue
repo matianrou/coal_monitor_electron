@@ -168,18 +168,25 @@ export default {
   },
   async created() {
     await this.getOrgList()
-    await this.init();
+    await this.getPersonList()
+  },
+  computed: {
+    watchData() {
+      return {
+        selectedDataList: this.selectedDataList,
+        personList: this.personList
+      }
+    }
   },
   watch: {
-    selectedDataList: {
+    watchData: {
       // 回显数据，勾选上已选数据
       handler(val) {
-        this.currentRows = val;
-        if (this.$refs.personList) {}
+        this.currentRows = val.selectedDataList;
         this.$nextTick(() => {
           this.$refs.personList && this.$refs.personList.clearSelection();
-          if (this.$refs.personList && val.length > 0) {
-            val.map((row) => {
+          if (this.$refs.personList && val.selectedDataList.length > 0) {
+            val.selectedDataList.map((row) => {
               this.$refs.personList.toggleRowSelection(
                 this.personList.find((item) => item.no === row.no),
                 true
@@ -192,10 +199,6 @@ export default {
     },
   },
   methods: {
-    async init() {
-      // 初始化选择列表
-      this.getPersonList()
-    },
     async getOrgList() {
       let db = new GoDB(this.DBName);
       let orgInfo = db.table("orgInfo"); // 机构

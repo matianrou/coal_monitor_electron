@@ -410,6 +410,11 @@ function setUploadFile(data, selectedData, options) {
   return data.tableData
 }
 
+function setSelectPersonItem(data, selectedData, options) {
+  // 保存选择人员
+  return data.personNamesString
+}
+
 export {
   setTextItem,
   setCheckItem,
@@ -424,5 +429,6 @@ export {
   setSelectInputItem,
   setSamplingForensicsTable,
   setVolumesMenuTable,
-  setUploadFile
+  setUploadFile,
+  setSelectPersonItem
 }

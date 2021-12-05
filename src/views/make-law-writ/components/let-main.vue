@@ -72,6 +72,7 @@
         :visible="visible"
         :selected-data="selectedData"
         :paper-data="paperData"
+        :doc-data="docData"
         @handle-close="handleClose"
         @handle-save="handleSave"
       ></let-drawer>
@@ -120,7 +121,8 @@ import {
   setSelectInputItem,
   setSamplingForensicsTable,
   setVolumesMenuTable,
-  setUploadFile
+  setUploadFile,
+  setSelectPersonItem
 } from "@/utils/handlePaperData";
 import selectUpdatePaper from '@/components/select-update-paper'
 
@@ -182,7 +184,8 @@ export default {
         setSelectInputItem,
         setSamplingForensicsTable,
         setVolumesMenuTable,
-        setUploadFile
+        setUploadFile,
+        setSelectPersonItem
       },
       DBName: this.$store.state.DBName,
       loading: {
@@ -724,7 +727,7 @@ export default {
         }
       }
       // 返回列表并刷新
-      this.cmdDocBack();
+      this.$emit("go-back", { page: "writFlow", data: this.$store.state.curCase });
     },
     async saveSendPaper () {
       // 保存发送文书数据
@@ -785,7 +788,7 @@ export default {
       }
       await db.close()
       this.$message.success(`“${this.docData.docTypeName}”文书已经保存完毕。`);
-      this.cmdDocBack();
+      this.$emit("go-back", { page: "writFlow", data: this.$store.state.curCase });
     },
     cmdDocView() {
       // 打印预览

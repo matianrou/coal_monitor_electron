@@ -75,7 +75,7 @@
                 letData.cellIdx8 ? letData.cellIdx8 : "（XX）"
               }}</span>
               日起立案调查处理，并指定
-              <span @click="commandFill('cellIdx9', '', 'TextItem')">{{
+              <span @click="commandFill('cellIdx9', '', 'SelectPersonItem')">{{
                 letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
               }}</span>
               为本案承办人。
@@ -249,6 +249,10 @@ export default {
             paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
             paper1Id: selectedPaper.let1Data.paperId,
           },
+          SelectedPerson: {
+            personList: [],
+            personNamesString: ''
+          }
         };
       } else {
         let db = new GoDB(this.$store.state.DBName);
@@ -307,6 +311,12 @@ export default {
             showMergeBtn: true,
           };
           dataKey = "DangerTable";
+        } else if (key === 'cellIdx9') {
+          dataKey = "SelectedPerson";
+          this.options[key] = {
+            page: "4",
+            key: key
+          }
         }
         this.$refs.letMain.commandFill(
           key,

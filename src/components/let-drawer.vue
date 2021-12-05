@@ -75,6 +75,10 @@ export default {
     paperData: {
       type: Object,
       default: () => {}
+    },
+    docData: {
+      type: Object,
+      default: () => {}
     }
   },
   components: {
@@ -92,6 +96,7 @@ export default {
     SamplingForensicsTable: resolve => { require(["./fill-template/sampling-forensics-table"], function(SamplingForensicsTable) { resolve(SamplingForensicsTable);});},
     VolumesMenuTable: resolve => { require(["./fill-template/volumes-menu-table"], function(VolumesMenuTable) { resolve(VolumesMenuTable);});},
     UploadFile: resolve => { require(["./fill-template/upload-file"], function(UploadFile) { resolve(UploadFile);});},
+    SelectPersonItem: resolve => { require(["./fill-template/select-person-item"], function(SelectPersonItem) { resolve(SelectPersonItem);});},
   },
   data() {
     return {
@@ -139,9 +144,11 @@ export default {
               this.$emit('handle-close')
             })
         }
+      } else {
+        this.$emit('handle-close')
       }
     },
-    handleSave (direct = false) {
+    async handleSave (direct = false) {
       // *direct是否直接保存，不关闭（主要处理普通文本框直接在编辑区域修改）
       // 保存数据
       if (this.selectedData.type === 'DangerTable') {
@@ -162,7 +169,41 @@ export default {
             }
             if (indexString.length > 0 ) indexString = indexString.substring(0, indexString.length -1)
             if (isSave) {
-              this.$emit('handle-save', {value: this.$refs[this.selectedData.type].dataForm.tempValue, direct})
+              if (this.docData.docTypeNo === '1') {
+                // 现场检查记录时增加保存逻辑：如果所有隐患项均未勾选隐患复查和重大隐患项，则提示：
+                // 是否有复查
+                let hasReview = false
+                let hasSerious = false
+                for (let i = 0; i < value.tableData.length; i++) {
+                  if (value.tableData[i].isReview === '1') {
+                    hasReview = true
+                  }
+                  if (value.tableData[i].isSerious === '1') {
+                    hasSerious = true
+                  }
+                }
+                if (!hasReview || !hasSerious) {
+                  let msg  = `<div">
+                    ${!hasReview ? '<p>您当前所有隐患均未选“隐患复查”，是否真的不复查？</p>' : ''}
+                    ${!hasSerious ? '<p>您当前所有隐患均未选“重大隐患”，是否真的无重大隐患？</p>' : ''}
+                    <p style="color: #F56C6C;">点击“是”继续保存，点击“否”返回继续编辑</p>
+                  </div>`
+                  await this.$confirm(msg, '提示', {
+                      confirmButtonText: '是',
+                      cancelButtonText: '否',
+                      dangerouslyUseHTMLString: true,
+                      type: 'warning',
+                      showClose: false,
+                      closeOnClickModal: false,
+                      customClass: 'reviewSeriousMessageBox'
+                    }).then(() => {
+                      this.$emit('handle-save', {value: this.$refs[this.selectedData.type].dataForm.tempValue, direct})
+                    }).catch(() => {
+                    })
+                } else {
+                  this.$emit('handle-save', {value: this.$refs[this.selectedData.type].dataForm.tempValue, direct})
+                }
+              }
             } else {
               this.$message.error(`选中的隐患项第${indexString}条中有必填的项目未填写，如：违法行为描述,现场处理决定或更改隐患从属类别`)
             }
@@ -208,5 +249,10 @@ export default {
     font-weight: bold;
     margin-bottom: 10px;
   }
+}
+</style>
+<style>
+.reviewSeriousMessageBox {
+  width: 460px;
 }
 </style>
