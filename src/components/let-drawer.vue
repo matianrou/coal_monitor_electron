@@ -97,6 +97,7 @@ export default {
     VolumesMenuTable: resolve => { require(["./fill-template/volumes-menu-table"], function(VolumesMenuTable) { resolve(VolumesMenuTable);});},
     UploadFile: resolve => { require(["./fill-template/upload-file"], function(UploadFile) { resolve(UploadFile);});},
     SelectPersonItem: resolve => { require(["./fill-template/select-person-item"], function(SelectPersonItem) { resolve(SelectPersonItem);});},
+    DangerTextareaItem: resolve => { require(["./fill-template/danger-textarea-item"], function(DangerTextareaItem) { resolve(DangerTextareaItem);});},
   },
   data() {
     return {

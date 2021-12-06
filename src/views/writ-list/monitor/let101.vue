@@ -236,7 +236,7 @@ export default {
         cellIdx9: null, // 被检查单位负责人意见
         cellIdx10: null, // 签名
         cellIdx11: null, // 日期
-        DangerTable: {
+        DangerTable: this.corpData.caseType === '0' ? {
           baseInfor: baseInfor,
           dangerInfor: dangerInfor,
           tableData: [],
@@ -257,7 +257,7 @@ export default {
             isReview: false, // 是否复查
             reviewDate: null, // 复查日期
           },
-        }, // 隐患项大表
+        } : null, // 隐患项大表
         associationPaperId: { // 关联的paperId
           paper22Id: selectedPaper.let22Data.paperId
         }
@@ -272,7 +272,7 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 打开编辑
         let dataKey = `${key}`;
-        if (key === "cellIdx8") {
+        if (key === "cellIdx8" && type === 'DangerTable') {
           // 隐患项时对应letData中的dangerItemObject
           dataKey = "DangerTable";
         }

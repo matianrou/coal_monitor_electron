@@ -122,7 +122,8 @@ import {
   setSamplingForensicsTable,
   setVolumesMenuTable,
   setUploadFile,
-  setSelectPersonItem
+  setSelectPersonItem,
+  setDangerTextareaItem
 } from "@/utils/handlePaperData";
 import selectUpdatePaper from '@/components/select-update-paper'
 
@@ -185,7 +186,8 @@ export default {
         setSamplingForensicsTable,
         setVolumesMenuTable,
         setUploadFile,
-        setSelectPersonItem
+        setSelectPersonItem,
+        setDangerTextareaItem
       },
       DBName: this.$store.state.DBName,
       loading: {

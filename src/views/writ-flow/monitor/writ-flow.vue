@@ -6,6 +6,21 @@
         src="@/components/assets/image/letTitle.png"
         style="width: 32px"
       />执法检查
+      <div class="selected-paper">
+        <el-select 
+          v-model="createdSelectedPaper"
+          placeholder="请选择新建文书"
+          size="small"
+          clearable
+          @change="createPaper">
+          <el-option
+            v-for="item in $store.state.dictionary.monitorPaperType"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
+          </el-option>
+        </el-select>
+      </div>
     </div>
     <!-- 监察文书流程 -->
     <table v-if="corpData.caseType === '0'" style="width: 100%; border-collapse: collapse; margin: 0 auto">
@@ -150,7 +165,7 @@
                       alt=""
                     />
                     <i
-                      v-if="dangerStatus.danger1.length > 0"
+                      v-if="dangerStatus.danger1 && dangerStatus.danger1.length > 0"
                       class="el-icon-warning-outline danger-info-icon"
                       :title="`隐患数：${dangerStatus.danger1.length}`"
                       @click="showDangerInfo('1')"
@@ -195,7 +210,7 @@
                       >现场处理 <br />决定书</span
                     >
                     <i
-                      v-if="dangerStatus.danger2.length > 0"
+                      v-if="dangerStatus.danger2 && dangerStatus.danger2.length > 0"
                       class="el-icon-warning-outline danger-info-icon"
                       :title="`隐患数：${dangerStatus.danger2.length}`"
                       @click="showDangerInfo('2')"
@@ -292,7 +307,7 @@
                       >复查意见书</span
                     >
                     <i
-                      v-if="dangerStatus.danger13.length > 0"
+                      v-if="dangerStatus.danger13 && dangerStatus.danger13.length > 0"
                       class="el-icon-warning-outline danger-info-icon"
                       :title="`隐患数：${dangerStatus.danger13.length}`"
                       @click="showDangerInfo('13')"
@@ -743,7 +758,7 @@
                       >立案决定书</span
                     >
                     <i
-                      v-if="dangerStatus.danger4.length > 0"
+                      v-if="dangerStatus.danger4 && dangerStatus.danger4.length > 0"
                       class="el-icon-warning-outline danger-info-icon"
                       :title="`隐患数：${dangerStatus.danger4.length}`"
                       @click="showDangerInfo('4')"
@@ -824,7 +839,7 @@
                       >案件处理呈报书</span
                     >
                     <i
-                      v-if="dangerStatus.danger36.length > 0"
+                      v-if="dangerStatus.danger36 && dangerStatus.danger36.length > 0"
                       class="el-icon-warning-outline danger-info-icon"
                       :title="`隐患数：${dangerStatus.danger36.length}`"
                       @click="showDangerInfo('36')"
@@ -864,7 +879,7 @@
                       >行政处罚告知书</span
                     >
                     <i
-                      v-if="dangerStatus.danger6.length > 0"
+                      v-if="dangerStatus.danger6 && dangerStatus.danger6.length > 0"
                       class="el-icon-warning-outline danger-info-icon"
                       :title="`隐患数：${dangerStatus.danger6.length}`"
                       @click="showDangerInfo('6')"
@@ -953,7 +968,7 @@
                       >行政处罚决定书</span
                     >
                     <i
-                      v-if="dangerStatus.danger8.length > 0"
+                      v-if="dangerStatus.danger8 && dangerStatus.danger8.length > 0"
                       class="el-icon-warning-outline danger-info-icon"
                       :title="`隐患数：${dangerStatus.danger8.length}`"
                       @click="showDangerInfo('8')"
@@ -2137,7 +2152,8 @@ export default {
         receivePaper: false,
         showDangerItems: false
       },
-      showDangerList: []
+      showDangerList: [], // 展示隐患项列表详情的数据
+      createdSelectedPaper: null, // 选中的需要新建的文书Id
     };
   },
   created() {
@@ -2201,6 +2217,13 @@ export default {
         });
       } else {
         this.$message.error("请在左侧双击该企业,启动该企业的执法检查");
+      }
+    },
+    createPaper (val) {
+      if (val) {
+        let curPaper = this.$store.state.dictionary.monitorPaperType.filter(item => item.id === val)[0]
+        this.addPaper(curPaper.page, curPaper.name, curPaper.id)
+        // this.createdSelectedPaper = null
       }
     },
     addPaper(letId, docTypeName, docTypeNo) {
@@ -2273,13 +2296,17 @@ export default {
   font-size: 18px;
   margin: 0px;
   margin-bottom: 1px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
   background: rgba(#4f83e9, 1);
   display: flex;
   padding: 0 20px;
   align-items: center;
   border-bottom: 2px solid rgb(9, 58, 131);
+  .selected-paper {
+    flex: 1;
+    text-align: right;
+  }
 }
 .writ-flow-row {
   display: flex;

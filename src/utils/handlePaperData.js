@@ -415,6 +415,10 @@ function setSelectPersonItem(data, selectedData, options) {
   return data.personNamesString
 }
 
+function setDangerTextareaItem(data, selectedData, options) {
+  return data
+}
+
 export {
   setTextItem,
   setCheckItem,
@@ -430,5 +434,6 @@ export {
   setSamplingForensicsTable,
   setVolumesMenuTable,
   setUploadFile,
-  setSelectPersonItem
+  setSelectPersonItem,
+  setDangerTextareaItem
 }
