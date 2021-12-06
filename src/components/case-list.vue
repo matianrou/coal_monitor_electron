@@ -68,7 +68,7 @@
               @dblclick="editaddbook(item)"
               style="display: inline-block;width: 318px;height:36px;padding-left:8px;cursor:pointer;line-height: 36px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"
               @click="showDocHome(item, index)">
-              <i class="el-icon-s-flag" style="font-size:16px;color:red"></i>
+              <i class="el-icon-date" style="font-size:16px;color: #DCDFE6;"></i>
               {{ item.corpName}}
             </td>
             <td
@@ -77,7 +77,7 @@
               @dblclick="editaddbook(item)"
               style="display: inline-block;width: 318px;height:36px;padding-left:8px;cursor:pointer;line-height: 36px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"
               @click="showDocHome(item, index)">
-              <i class="el-icon-s-flag" style="font-size:16px;color:#53ff0c"></i>
+              <img src="@/components/assets/image/flash_on.png" alt="" style="vertical-align: middle;" />
               {{ item.corpName}}
             </td>
           </tr>

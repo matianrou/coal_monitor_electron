@@ -73,6 +73,7 @@
         :selected-data="selectedData"
         :paper-data="paperData"
         :doc-data="docData"
+        :let-data="$parent.letData"
         @handle-close="handleClose"
         @handle-save="handleSave"
       ></let-drawer>

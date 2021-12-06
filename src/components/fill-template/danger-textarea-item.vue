@@ -9,8 +9,22 @@
       :disabled="options.disabled"
       @change="changeValue">
     </el-input>
-    <div>
-      <span>隐患展示</span>
+    <div class="danger-info-main">
+      <div class="danger-info-title">
+        <div>
+          <span>发现隐患及处理情况</span>
+        </div>
+        <div style="text-align: right; flex: 1;">
+          <el-button
+            type="primary"
+            size="mini"
+            @click="showDangerEdit"
+          >编辑</el-button>
+        </div>
+      </div>
+      <div class="danger-info-content">
+        <span>已选隐患{{dangerInfo.selectedCount}}项，其中重大隐患{{dangerInfo.seriousCount}}项</span>
+      </div>
     </div>
   </div>
 </template>
@@ -34,6 +48,10 @@ export default {
           disabled: false
         }
       }
+    },
+    letData: {
+      type: Object,
+      default: () => {}
     }
   },
   data() {
@@ -42,6 +60,26 @@ export default {
         tempValue: null
       }
     };
+  },
+  computed: {
+    dangerInfo () {
+      let dangerInfo = {
+        selectedCount: 0, // 已选隐患数
+        seriousCount: 0 // 重大隐患数
+      }
+      if (this.letData && this.letData.DangerTable && this.letData.DangerTable.selectedDangerList) {
+        dangerInfo.selectedCount = this.letData.DangerTable.selectedDangerList.length
+        let count = 0
+        for (let i = 0; i < this.letData.DangerTable.selectedDangerList.length; i++) {
+          let item = this.letData.DangerTable.selectedDangerList[i]
+          if (item.isSerious === '1') {
+            count ++ 
+          }
+        }
+        dangerInfo.seriousCount = count
+      }
+      return dangerInfo
+    }
   },
   created() {
     this.dataForm.tempValue = this.value
@@ -54,10 +92,35 @@ export default {
   methods: {
     changeValue(val) {
       this.$parent.handleSave(true)
+    },
+    showDangerEdit () {
+      // 返回使用隐患项组件进行编辑
+      this.$parent.showDangerEdit()
     }
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.danger-info-main {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgb(64, 158, 255);
+  border-radius: 8px;
+  margin-top: 5px;
+  padding: 0;
+  .danger-info-title {
+    font-size: 16px;
+    background: rgb(203, 230, 255);
+    color: rgb(64, 158, 255);
+    padding: 3px 3px;
+    display: flex;
+    align-items: center;
+  }
+  .danger-info-content {
+    font-size: 14px;
+    color: #909399;
+    padding: 5px 3px;
+  }
+}
 </style>

@@ -44,18 +44,21 @@
       <div class="let-drawer-direct-title">
         <span>编辑区域</span>
       </div>
-      <div style="font-size: 18px; margin-bottom: 10px;">
-        <span>{{selectedData.title}}</span>
+      <div class="let-drawer-direct-main">
+        <div class="let-drawer-direct-main-title">
+          <span>{{selectedData.title}}</span>
+        </div>
+        <component
+          v-if="visible"
+          :is="selectedData.type"
+          :ref="selectedData.type"
+          :value="selectedData.value"
+          :options="selectedData.options"
+          :corp-data="selectedData.corpData"
+          :paper-data="paperData"
+          :let-data="letData"
+        ></component>
       </div>
-      <component
-        v-if="visible"
-        :is="selectedData.type"
-        :ref="selectedData.type"
-        :value="selectedData.value"
-        :options="selectedData.options"
-        :corp-data="selectedData.corpData"
-        :paper-data="paperData"
-      ></component>
     </div>
   </div>
 </template>
@@ -77,6 +80,10 @@ export default {
       default: () => {}
     },
     docData: {
+      type: Object,
+      default: () => {}
+    },
+    letData: {
       type: Object,
       default: () => {}
     }
@@ -215,6 +222,10 @@ export default {
       } else {
         this.$emit('handle-save', {value: this.$refs[this.selectedData.type].dataForm.tempValue, direct})
       }
+    },
+    showDangerEdit () {
+      let {key, title} = this.selectedData
+      this.$parent.$parent.commandFill(key, title, 'DangerTable')
     }
   },
 };
@@ -250,7 +261,15 @@ export default {
   .let-drawer-direct-title {
     font-size: 18px;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+  }
+  .let-drawer-direct-main {
+    display: flex;
+    flex-direction: column;
+    .let-drawer-direct-main-title {
+      font-size: 16px;
+      padding: 3px 3px;
+    }
   }
 }
 </style>
