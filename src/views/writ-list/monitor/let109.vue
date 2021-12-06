@@ -230,9 +230,12 @@ export default {
           : { organName: "", courtPrefix: "" };
       let cellIdx15String = orgSysOfficeInfo.organName;
       let cellIdx16String = orgSysOfficeInfo.courtPrefix;
-      let DangerTable = let25DataPaperContent.DangerTable ? 
-      setNewDanger(selectedPaper.let25Data, let25DataPaperContent.DangerTable)
-      : {}
+      let DangerTable = null
+      if (this.corpData.caseType === '0') {
+        DangerTable = let25DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let25Data, let25DataPaperContent.DangerTable)
+          : {}
+      }
       this.letData = {
         cellIdx0: num0, // 文书号
         cellIdx0TypeTextItem: num0, // 文书号
@@ -272,9 +275,11 @@ export default {
         cellIdx18: this.todayDate, // 日期
         cellIdx18TypeDateItem: this.todayDate, // 日期
         DangerTable,
-        associationPaperId: { // 关联的paperId
+        associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
           paper22Id: let25DataPaperContent.associationPaperId.paper22Id,
           paper1Id: let25DataPaperContent.associationPaperId.paper1Id,
+          paper25Id: selectedPaper.let25Data.paperId
+        } : {
           paper25Id: selectedPaper.let25Data.paperId
         }
       };

@@ -270,10 +270,10 @@ export default {
       let let28DataPaperContent = JSON.parse(
         selectedPaper.let28Data.paperContent
       );
-      let dangerObject = getDangerObject(
+      let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
         let28DataPaperContent.DangerTable.selectedDangerList
-      );
-      let cellIdx6String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
+      ) : null;
+      let cellIdx6String = this.corpData.caseType === '0' ? `${corp.corpName}涉嫌${dangerObject.dangerString}案。` : '';
       // 5.地点：sysOfficeInfo实体中depAddress字段+ deparFullname字段
       // 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
       let orgInfo = db.table("orgInfo");
@@ -288,9 +288,12 @@ export default {
       let cellIdx14String = orgSysOfficeInfo.depPost;
       let cellIdx16String = orgSysOfficeInfo.master;
       let cellIdx17String = orgSysOfficeInfo.phone;
-      let DangerTable = let28DataPaperContent.DangerTable ? 
-        setNewDanger(selectedPaper.let28Data, let28DataPaperContent.DangerTable)
-        : {}
+      let DangerTable = null
+      if (this.corpData.caseType === '0') {
+        DangerTable = let28DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let28Data, let28DataPaperContent.DangerTable)
+          : {}
+      }
       await db.close();
       this.letData = {
         cellIdx0: num0, // 文书号
@@ -336,9 +339,12 @@ export default {
           groupName: this.$store.state.curCase.groupName,
         },
         DangerTable,
-        associationPaperId: { // 关联的paperId
+        associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
           paper22Id: let28DataPaperContent.associationPaperId.paper22Id,
           paper1Id: let28DataPaperContent.associationPaperId.paper1Id,
+          paper6Id: let28DataPaperContent.associationPaperId.paper6Id,
+          paper28Id: selectedPaper.let28Data.paperId
+        } : {
           paper6Id: let28DataPaperContent.associationPaperId.paper6Id,
           paper28Id: selectedPaper.let28Data.paperId
         }

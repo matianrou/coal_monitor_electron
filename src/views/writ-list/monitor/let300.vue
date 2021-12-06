@@ -212,7 +212,7 @@ export default {
           key: "cellIdx8", // 用来区分一个页面多个地方调用隐患大表，最后返回值
         },
       },
-      associationPaper: ['1'],
+      associationPaper: this.corpData.caseType === '0' ? ['1'] : [],
     };
   },
   methods: {
@@ -233,12 +233,13 @@ export default {
       // 2.裁定地点：企业名称
       // 3.裁定事项：煤矿名称+“涉嫌”+隐患描述+“案”
       // 获取笔录文书中的隐患数据
-      let let1DataPaperContent = JSON.parse(
+      let let1DataPaperContent = this.corpData.caseType === '0' ? JSON.parse(
         selectedPaper.let1Data.paperContent
-      );
-      let dangerObject = getDangerObject(
+      ) : null;
+      let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
         let1DataPaperContent.DangerTable.selectedDangerList
-      );
+      ) : null;
+      let cellIdx8String = this.corpData.caseType === '0' ? `${corp.corpName}涉嫌${dangerObject.dangerString}案。` : `${corp.corpName}涉嫌XXX案。`
       let cellIdx13String = `主持人：现在公开裁定开始，首先我先介绍裁定小组成员，我是主持人XXX，记录人是XXX，裁定小组成员有监察分局XXX、XXX。
       主持人：XX煤矿矿长XXX，参加公开裁定的人员是否与你矿有利害关系人员，是否申请回避？
       XX煤矿矿长XXX：不申请回避。
@@ -253,9 +254,12 @@ export default {
       主持人：经过我们裁定小组集体研究，现宣布裁定结果： XX煤矿涉嫌瓦斯超限作业违法违规行为事实清楚，证据确凿充分，违反了《国务院关于预防煤矿生产安全事故的特别规定》第八条第二款第（二）项的规定，依据《国务院关于预防煤矿生产安全事故的特别贵的》第十条第一款、第十一条第一款的规定，并根据违法违规情节的轻重，拟给予责令停产整顿X日，罚款八十万元整，暂扣安全生产许可证；对煤矿企业负责人罚款四万元以整。
       `;
       await db.close();
-      let DangerTable = let1DataPaperContent.DangerTable ? 
-        setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
-        : {}
+      let DangerTable = null
+      if (this.corpData.caseType === '0') {
+        DangerTable = let1DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
+          : {}
+      }
       this.letData = {
         cellIdx0: cellIdx0Year, // 年
         cellIdx1: cellIdx1Month, // 月
@@ -266,7 +270,7 @@ export default {
         cellIdx6: null, // 分
         cellIdx7: corp.corpName, // 裁定地点
         cellIdx7TypeTextItem: corp.corpName, // 裁定地点
-        cellIdx8: `${corp.corpName}涉嫌${dangerObject.dangerString}案。`, // 裁定事项
+        cellIdx8: cellIdx8String, // 裁定事项
         cellIdx9: null, // 裁定主持人（签名）
         cellIdx10: null, // 记录人（签名）
         cellIdx11: null, // 被裁定单位负责人（签名）
@@ -279,10 +283,10 @@ export default {
           groupName: this.$store.state.curCase.groupName,
         },
         DangerTable, // 隐患项大表
-        associationPaperId: { // 关联的paperId
+        associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
           paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
           paper1Id: selectedPaper.let1Data.paperId
-        }
+        } : {}
       };
     },
     goBack({ page, data }) {

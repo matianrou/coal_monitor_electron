@@ -141,57 +141,81 @@ export default {
     return {
       letData: {},
       options: {},
-      associationPaper: ['1']
+      associationPaper: this.corpData.caseType === '0' ? ['1'] : []
     };
   },
   methods: {
     async initLetData (selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
-        return item.corpId == this.corpData.corpId;
-      });
-         // 获取检查时间
-      let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      // 检查时间日期：
-      let dateString = let1DataPaperContent.cellIdx1 ? let1DataPaperContent.cellIdx1 : 'X年X月X日-X年X月X日'
-      // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
-      let dangerObject = getDangerObject(let1DataPaperContent.DangerTable.selectedDangerList)
-      let cellIdx2String = `${corp.corpName}${dangerObject.dangerString}案。`
-       // 2.理由和依据
-        // 1，移送案件的理由和依据：立案时间+“我分局对”+煤矿名称+“进行安全监察时，发现该矿”+隐患描述+“经分局执法人员初步调查取证，认定该行为涉嫌违反了《矿产资源法》第十七条规定。” 
-        dangerObject = getDangerObject(let1DataPaperContent.DangerTable.selectedDangerList, {danger: true})
-      let cellIdx3String = `${dateString}我分局对${corp.corpName}进行安全监察时，发现该矿${dangerObject.dangerString}。经分局执法人员初步调查取证，认定该行为涉嫌违反了《矿产资源法》第十七条规定。`
-      await db.close();
-      let DangerTable = let1DataPaperContent.DangerTable ? 
-        setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
-        : {}
-      // XXX国土资源局
-      let cellIdx4String = "XXX国土资源局";
-      this.letData = {
-        cellIdx0: null, //
-        cellIdx1: null, // 编号
-        cellIdx2: cellIdx2String, // 案由
-        cellIdx2TypeTextareaItem: cellIdx2String, // 案由
-        cellIdx3: cellIdx3String, // 理由和依据
-        cellIdx3TypeTextareaItem: cellIdx3String, // 案由
-        cellIdx4: cellIdx4String, // 人民法院
-        cellIdx4TypeTextItem: cellIdx4String, // 人民法院
-        cellIdx5: null, //
-        cellIdx6: null, // 承办人（签名）
-        cellIdx7: null, // 日期
-        cellIdx8: null, // 分管负责人意见
-        cellIdx9: null, // 签名
-        cellIdx10: null, // 日期
-        cellIdx11: null, // 主要负责人意见
-        cellIdx12: null, // 签名
-        cellIdx13: null, // 日期
-        DangerTable: DangerTable,
-        associationPaperId: { // 关联的paperId
-          paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
-          paper1Id: selectedPaper.let1Data.paperId
-        }
-      };
+      if (this.corpData.caseType === '0') {
+        let db = new GoDB(this.$store.state.DBName);
+        let corpBase = db.table("corpBase");
+        let corp = await corpBase.find((item) => {
+          return item.corpId == this.corpData.corpId;
+        });
+        // 获取检查时间
+        let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
+        // 检查时间日期：
+        let dateString = let1DataPaperContent.cellIdx1 ? let1DataPaperContent.cellIdx1 : 'X年X月X日-X年X月X日'
+        // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
+        let dangerObject = getDangerObject(let1DataPaperContent.DangerTable.selectedDangerList)
+        let cellIdx2String = `${corp.corpName}${dangerObject.dangerString}案。`
+         // 2.理由和依据
+          // 1，移送案件的理由和依据：立案时间+“我分局对”+煤矿名称+“进行安全监察时，发现该矿”+隐患描述+“经分局执法人员初步调查取证，认定该行为涉嫌违反了《矿产资源法》第十七条规定。” 
+          dangerObject = getDangerObject(let1DataPaperContent.DangerTable.selectedDangerList, {danger: true})
+        let cellIdx3String = `${dateString}我分局对${corp.corpName}进行安全监察时，发现该矿${dangerObject.dangerString}。经分局执法人员初步调查取证，认定该行为涉嫌违反了《矿产资源法》第十七条规定。`
+        await db.close();
+        let DangerTable = let1DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
+          : {}
+        // XXX国土资源局
+        let cellIdx4String = "XXX国土资源局";
+        this.letData = {
+          cellIdx0: null, //
+          cellIdx1: null, // 编号
+          cellIdx2: cellIdx2String, // 案由
+          cellIdx2TypeTextareaItem: cellIdx2String, // 案由
+          cellIdx3: cellIdx3String, // 理由和依据
+          cellIdx3TypeTextareaItem: cellIdx3String, // 案由
+          cellIdx4: cellIdx4String, // 人民法院
+          cellIdx4TypeTextItem: cellIdx4String, // 人民法院
+          cellIdx5: null, //
+          cellIdx6: null, // 承办人（签名）
+          cellIdx7: null, // 日期
+          cellIdx8: null, // 分管负责人意见
+          cellIdx9: null, // 签名
+          cellIdx10: null, // 日期
+          cellIdx11: null, // 主要负责人意见
+          cellIdx12: null, // 签名
+          cellIdx13: null, // 日期
+          DangerTable: DangerTable,
+          associationPaperId: { // 关联的paperId
+            paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
+            paper1Id: selectedPaper.let1Data.paperId
+          }
+        };
+      } else {
+        let cellIdx2String = `${this.corpData.corpName}XXX案。`
+        let cellIdx3String = `20XX年XX月XX日我分局对${this.corpData.corpName}进行安全监察时，发现该矿XXX。经分局执法人员初步调查取证，认定该行为涉嫌违反了《矿产资源法》第十七条规定。`
+        let cellIdx4String = "XXX国土资源局";
+        this.letData = {
+          cellIdx0: null, //
+          cellIdx1: null, // 编号
+          cellIdx2: cellIdx2String, // 案由
+          cellIdx3: cellIdx3String, // 理由和依据
+          cellIdx4: cellIdx4String, // 人民法院
+          cellIdx5: null, //
+          cellIdx6: null, // 承办人（签名）
+          cellIdx7: null, // 日期
+          cellIdx8: null, // 分管负责人意见
+          cellIdx9: null, // 签名
+          cellIdx10: null, // 日期
+          cellIdx11: null, // 主要负责人意见
+          cellIdx12: null, // 签名
+          cellIdx13: null, // 日期
+          DangerTable: null,
+          associationPaperId: {}
+        };
+      }
     },
     goBack({ page, data }) {
       // 返回选择企业

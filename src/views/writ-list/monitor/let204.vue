@@ -67,22 +67,24 @@
               }}</span>
               的以下行为
               <span
-                @click="commandFill('cellIdx6', '违法行为', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @dblclick="commandFill('cellIdx6', '违法行为', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
+                @click="commandFill('cellIdx6', '违法行为', 'DangerTextareaItem')"
                 >{{
                   letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
                 }}</span
               >
               分别违反了
               <span
-                @click="commandFill('cellIdx7', '规定', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @dblclick="commandFill('cellIdx7', '规定', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
+                @click="commandFill('cellIdx7', '规定', 'DangerTextareaItem')"
                 >{{
                   letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
                 }}</span
               >
               的规定，依据
               <span
-                @dblclick="commandFill('cellIdx8', '法律依据', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
-                @click="commandFill('cellIdx8', '法律依据', 'TextareaItem')"
+                @dblclick="commandFill('cellIdx8', '法律依据', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
+                @click="commandFill('cellIdx8', '法律依据', 'DangerTextareaItem')"
                 >{{
                   letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
                 }}</span
@@ -93,7 +95,8 @@
               }}</span>
               分别作出：
               <span
-                @click="commandFill('cellIdx10', '行政处罚', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @dblclick="commandFill('cellIdx10', '行政处罚', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
+                @click="commandFill('cellIdx10', '行政处罚', 'DangerTextareaItem')"
                 >{{
                   letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
                 }}</span
@@ -423,20 +426,32 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
-        if (
-          (key === "cellIdx6" ||
+        if (key === "cellIdx6" ||
           key === "cellIdx7" ||
           key === "cellIdx8" ||
           key === "cellIdx10"
-        ) && type === 'DangerTable') {
-          this.options[key] = {
-            page: "6",
-            key: key,
-            selectedType: this.letData.selectedType,
-            showMergeBtn: true,
-            showPunishmentInfor: true
-          };
-          dataKey = "DangerTable";
+        ) {
+          if (type === 'DangerTable') {
+            this.options[key] = {
+              page: "6",
+              key: key,
+              selectedType: this.letData.selectedType,
+              showMergeBtn: true,
+              showPunishmentInfor: true
+            };
+            dataKey = "DangerTable";
+          } else {
+            if (this.corpData.caseType === '0' &&
+              (key === 'cellIdx6' || key === 'cellIdx7' || key === 'cellIdx10')) {
+              this.options[key] = {
+                disabled: true
+              };
+            } else {
+              this.options[key] = {
+                disabled: false
+              };
+            }
+          }
         }
         this.$refs.letMain.commandFill(
           key,

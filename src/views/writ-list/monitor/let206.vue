@@ -54,30 +54,32 @@
             <div class="docTextarea">
               违法事实：
               <span
-                @click="commandFill('cellIdx7', '违法事实', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @dblclick="commandFill('cellIdx7', '违法事实', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
+                @click="commandFill('cellIdx7', '违法事实', 'DangerTextareaItem')"
                 >{{
                   letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
                 }}</span
               >
               以上事实分别违反了
               <span
-                @dblclick="commandFill('cellIdx8', '法律规定', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
-                @click="commandFill('cellIdx8', '法律规定', 'TextareaItem')"
+                @dblclick="commandFill('cellIdx8', '法律规定', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
+                @click="commandFill('cellIdx8', '法律规定', 'DangerTextareaItem')"
                 >{{
                   letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
                 }}</span
               >
               的规定，依据
               <span
-                @dblclick="commandFill('cellIdx9', '法律依据', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
-                @click="commandFill('cellIdx9', '法律依据', 'TextareaItem')"
+                @dblclick="commandFill('cellIdx9', '法律依据', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
+                @click="commandFill('cellIdx9', '法律依据', 'DangerTextareaItem')"
                 >{{
                   letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
                 }}</span
               >
               的规定，决定给予以下行政处罚：
               <span
-                @click="commandFill('cellIdx10', '行政处罚', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @dblclick="commandFill('cellIdx10', '行政处罚', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
+                @click="commandFill('cellIdx10', '行政处罚', 'DangerTextareaItem')"
                 >{{
                   letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
                 }}</span
@@ -292,9 +294,9 @@ export default {
         this.corpData.caseId,
         this.$store.state.user
       );
-      let DangerTable = let6DataPaperContent.DangerTable ? 
+      let DangerTable = this.corpData.caseType === '0' ? 
         setNewDanger(selectedPaper.let6Data, let6DataPaperContent.DangerTable)
-        : {}
+        : null
       await db.close();
       this.letData = {
         cellIdx0: paperNumber.num0, // 文书号
@@ -325,7 +327,9 @@ export default {
           paper22Id: let6DataPaperContent.associationPaperId.paper22Id,
           paper1Id: let6DataPaperContent.associationPaperId.paper1Id,
           paper6Id: selectedPaper.let6Data.paperId,
-        } : null
+        } : {
+          paper6Id: selectedPaper.let6Data.paperId,
+        }
       };
     },
     goBack({ page, data }) {
@@ -337,20 +341,30 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
-        if (
-          (key === "cellIdx7" ||
+        if (key === "cellIdx7" ||
           key === "cellIdx8" ||
           key === "cellIdx9" ||
-          key === "cellIdx10"
-          ) && type === 'DangerTable') {
-          this.options[key] = {
-            page: "8",
-            key: key,
-            selectedType: this.letData.selectedType,
-            showMergeBtn: true,
-            showPunishmentInfor: true
-          };
-          dataKey = "DangerTable";
+          key === "cellIdx10") {
+          if (type === 'DangerTable') {
+            this.options[key] = {
+              page: "8",
+              key: key,
+              selectedType: this.letData.selectedType,
+              showMergeBtn: true,
+              showPunishmentInfor: true
+            };
+            dataKey = "DangerTable";
+          } else {
+            if (this.corpData.caseType === '0' && (key === "cellIdx7" || key === "cellIdx10")) {
+              this.options[key] = {
+                disabled: true
+              };
+            } else {
+              this.options[key] = {
+                disabled: false
+              };
+            }
+          }
         }
         this.$refs.letMain.commandFill(
           key,

@@ -353,10 +353,10 @@ export default {
       let let6DataPaperContent = JSON.parse(
         selectedPaper.let6Data.paperContent
       );
-      let dangerObject = getDangerObject(
+      let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
         let6DataPaperContent.DangerTable.selectedDangerList
-      );
-      let cellIdx7String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
+      ) : null;
+      let cellIdx7String = this.corpData.caseType === '0' ? `${corp.corpName}涉嫌${dangerObject.dangerString}案。` : '';
       // 5.地点：sysOfficeInfo实体中depAddress字段+ deparFullname字段
       // 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
       let orgInfo = db.table("orgInfo");
@@ -378,9 +378,9 @@ export default {
       let cellIdx32String = orgSysOfficeInfo.depPost;
       let cellIdx34String = orgSysOfficeInfo.master;
       let cellIdx35String = orgSysOfficeInfo.phone;
-      let DangerTable = let6DataPaperContent.DangerTable ? 
+      let DangerTable = this.corpData.caseType === '0' ? 
         setNewDanger(selectedPaper.let6Data, let6DataPaperContent.DangerTable)
-        : {}
+        : null
       await db.close();
       this.letData = {
         cellIdx0: num0, // 文书号
@@ -447,9 +447,11 @@ export default {
           groupName: this.$store.state.curCase.groupName,
         },
         selectedType: let6DataPaperContent.selectedType,
-        associationPaperId: { // 关联的paperId
+        associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
           paper22Id: let6DataPaperContent.associationPaperId.paper22Id,
           paper1Id: let6DataPaperContent.associationPaperId.paper1Id,
+          paper6Id: selectedPaper.let6Data.paperId
+        } : {
           paper6Id: selectedPaper.let6Data.paperId
         }
       };

@@ -258,12 +258,16 @@ export default {
       let let6DataPaperContent = JSON.parse(
         selectedPaper.let6Data.paperContent
       );
-      let dangerObject = getDangerObject(
+      let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
         let6DataPaperContent.DangerTable.selectedDangerList
-      );
-      let DangerTable = let6DataPaperContent.DangerTable ? 
-        setNewDanger(selectedPaper.let6Data, let6DataPaperContent.DangerTable)
-        : {}
+      ) : null;
+      let cellIdx19String = this.corpData.caseType === '0' ? `${corp.corpName}涉嫌${dangerObject.dangerString}案。` : ''
+      let DangerTable = null
+      if (this.corpData.caseType === '0') {
+        DangerTable = let6DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let6Data, let6DataPaperContent.DangerTable)
+          : {}
+      }
       await db.close();
       /* let let204Data = await wkPaper.find(
           (item) => item.caseId === caseId && item.paperType === "6"
@@ -300,7 +304,7 @@ export default {
         cellIdx17: null, // 记录人（签名）
         cellIdx18: cellIdx18String, // 监察员
         cellIdx18TypeTextItem: cellIdx18String, // 监察员
-        cellIdx19: `${corp.corpName}涉嫌${dangerObject.dangerString}案。`, // 违法行为
+        cellIdx19: cellIdx19String, // 违法行为
         cellIdx20: cellIdx20String, // 单位/个人
         cellIdx20TypeTextItem: cellIdx20String, // 单位/个人
         cellIdx21: null, // 法制审核意见
@@ -311,9 +315,11 @@ export default {
           groupName: this.$store.state.curCase.groupName,
         },
         selectedType: let6DataPaperContent.selectedType,
-        associationPaperId: { // 关联的paperId
+        associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
           paper22Id: let6DataPaperContent.associationPaperId.paper22Id,
           paper1Id: let6DataPaperContent.associationPaperId.paper1Id,
+          paper6Id: selectedPaper.let6Data.paperId
+        } : {
           paper6Id: selectedPaper.let6Data.paperId
         }
       };

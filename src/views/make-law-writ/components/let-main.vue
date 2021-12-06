@@ -87,6 +87,7 @@
         v-if="punishmentInfoFillVisible"
         :visible="punishmentInfoFillVisible"
         :let-data="$parent.letData"
+        :paper-data="paperData"
         @close="closePunishmentInfoFill"
         @confirm="confirmPunishmentInfoFill"
       ></punishment-info-fill>
@@ -525,9 +526,9 @@ export default {
           penaltyType = penaltyType.substring(0, penaltyType.length - 1)
           extraSaveData = {
             p8penaltyType: penaltyType,
-            p8Penalty: this.punishmentInfo.penaltyMoney,
-            p8PersonPenalty: this.punishmentInfo.selectedType === '个人' ? this.punishmentInfo.penaltyMoney : '', // 个人罚款总额
-            p8OrgPenalty: this.punishmentInfo.selectedType === '单位' ? this.punishmentInfo.penaltyMoney : '' // 企业罚款总额
+            p8Penalty: this.punishmentInfo.penaltyMoney * 10000,
+            p8PersonPenalty: this.punishmentInfo.selectedType === '个人' ? this.punishmentInfo.penaltyMoney * 10000 : '', // 个人罚款总额
+            p8OrgPenalty: this.punishmentInfo.selectedType === '单位' ? this.punishmentInfo.penaltyMoney * 10000 : '' // 企业罚款总额
           }
         }
       } else if (this.docData.docTypeNo === '13') {

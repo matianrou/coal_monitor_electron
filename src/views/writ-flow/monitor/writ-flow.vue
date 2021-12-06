@@ -2223,7 +2223,7 @@ export default {
       if (val) {
         let curPaper = this.$store.state.dictionary.monitorPaperType.filter(item => item.id === val)[0]
         this.addPaper(curPaper.page, curPaper.name, curPaper.id)
-        // this.createdSelectedPaper = null
+        this.createdSelectedPaper = null
       }
     },
     addPaper(letId, docTypeName, docTypeNo) {

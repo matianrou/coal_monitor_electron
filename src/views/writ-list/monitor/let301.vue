@@ -339,11 +339,11 @@ export default {
       let let39DataPaperContent = JSON.parse(
         selectedPaper.let39Data.paperContent
       );
-      let dangerObject = getDangerObject(
+      let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
         let39DataPaperContent.DangerTable.selectedDangerList
-      );
+      ) : null;
       // 4.对被申请人：企业名称+'涉嫌'+隐患描述+'案'
-      let cellIdx16String = `${corp.corpName}涉嫌${dangerObject.dangerString}案`;
+      let cellIdx16String = `${corp.corpName}涉嫌${ this.corpData.caseType === '0' ? dangerObject.dangerString : 'XXX'}案`;
       let let39Date = let39DataPaperContent.cellIdx29
         ? let39DataPaperContent.cellIdx29
             .replace("年", "-")
@@ -372,9 +372,12 @@ export default {
       let cellIdx25String = `划转罚款至${orgSysOfficeInfo.accountName}${orgSysOfficeInfo.accountBank}。账户名称：${orgSysOfficeInfo.billName}。待结算财政款项账号：${orgSysOfficeInfo.account}`;
       // 7.人民法院：courtPrefix 联系人：master 联系电话：phone
       // 8.申请人的法定代表人legalPerson和职务post
-      let DangerTable = let39DataPaperContent.DangerTable ? 
-        setNewDanger(selectedPaper.let39Data, let39DataPaperContent.DangerTable)
-        : {}
+      let DangerTable = null
+      if (this.corpData.caseType === '0') {
+        DangerTable = let39DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let39Data, let39DataPaperContent.DangerTable)
+          : {}
+      }
       await db.close()
       this.letData = {
         cellIdx0: paperNumber.num0, // 文书号
@@ -424,9 +427,13 @@ export default {
         cellIdx32: this.$store.state.curCase.groupName, //
         cellIdx33: this.todayDate, // 日期
         DangerTable,
-        associationPaperId: { // 关联的paperId
+        associationPaperId: this.corpData.caseType === '0' ?{ // 关联的paperId
           paper22Id: let39DataPaperContent.associationPaperId.paper22Id,
           paper1Id: let39DataPaperContent.associationPaperId.paper1Id,
+          paper6Id: let39DataPaperContent.associationPaperId.paper6Id,
+          paper8Id: let39DataPaperContent.associationPaperId.paper8Id,
+          paper39Id: selectedPaper.let39Data.paperId
+        } : {
           paper6Id: let39DataPaperContent.associationPaperId.paper6Id,
           paper8Id: let39DataPaperContent.associationPaperId.paper8Id,
           paper39Id: selectedPaper.let39Data.paperId

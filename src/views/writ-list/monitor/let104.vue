@@ -78,8 +78,8 @@
               }}</span>
               日发现
               <span
-                @dblclick="commandFill('cellIdx9', '违法违规行为', 'DangerTable')"
-                @click="commandFill('cellIdx9', '违法行为', 'TextareaItem')"
+                @dblclick="commandFill('cellIdx9', '违法违规行为', corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem')"
+                @click="commandFill('cellIdx9', '违法行为', 'DangerTextareaItem')"
                 >{{
                   letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
                 }}</span
@@ -87,9 +87,9 @@
               的违法违规行为，依法作出了
               <span
                 style="borderbottom: none"
-                @dblclick="commandFill('cellIdx10', '违法违规行为', 'DangerTable')"
+                @dblclick="commandFill('cellIdx10', '违法违规行为', corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem')"
                 @click="
-                  commandFill('cellIdx10', '现场处理决定', 'TextareaItem')
+                  commandFill('cellIdx10', '现场处理决定', 'DangerTextareaItem')
                 "
                 >{{
                   letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
@@ -176,19 +176,19 @@
                 <div class="line1"></div>
             </div> -->
             <div class="docTextarea">
-              <div style="display:inline-block;min-width:50%">
+              <div style="display:inline-block;min-width:48%">
                 <span class="no-line">被检查单位负责人意见：</span>
                 <span @click="commandFill('cellIdx17', '被检查单位负责人意见', 'TextItem')"
-                  >{{ letData.cellIdx17 ? letData.cellIdx17 : "（点击编辑）" }}
+                  >{{ letData.cellIdx17 ? letData.cellIdx17 : "（编辑）" }}
                 </span>
               </div>
                 <span class="no-line">签名：</span>
                 <span @click="commandFill('cellIdx18', '签名', 'TextItem')">{{
-                  letData.cellIdx18 ? letData.cellIdx18 : "（点击编辑）"
+                  letData.cellIdx18 ? letData.cellIdx18 : "（编辑）"
                 }}</span>
                 <span class="no-line">日期：</span>
                 <span @click="commandFill('cellIdx19', '日期', 'DateItem')">{{
-                  letData.cellIdx19 ? letData.cellIdx19 : "（点击编辑）"
+                  letData.cellIdx19 ? letData.cellIdx19 : "（编辑）"
                 }}</span>
                 <div class="line"></div>
                 <div class="line1"></div>
@@ -303,15 +303,18 @@ export default {
       let let2DataPaperContent = JSON.parse(
         selectedPaper.let2Data.paperContent
       );
-      let dangerObject = getDangerObject(
+      let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
         let2DataPaperContent.DangerTable.tableData,
         { danger: true }
-      );
-      let cellIdx9String = dangerObject.dangerString;
-      let cellIdx10String = dangerObject.onsiteDescString;
-      let DangerTable = let2DataPaperContent.DangerTable ? 
-      setNewDanger(selectedPaper.let2Data, let2DataPaperContent.DangerTable)
-      : {}
+      ) : {};
+      let cellIdx9String = this.corpData.caseType === '0' ? dangerObject.dangerString : '';
+      let cellIdx10String = this.corpData.caseType === '0' ? dangerObject.onsiteDescString : '';
+      let DangerTable = null
+      if (this.corpData.caseType === '0') {
+        DangerTable = let2DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let2Data, let2DataPaperContent.DangerTable)
+          : {} 
+      }
       await db.close();
       this.letData = {
         cellIdx0: num0, // 文书号
@@ -368,12 +371,18 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
-        if ((key === "cellIdx9" || key === "cellIdx10") && type === 'DangerTable') {
-          this.options[key] = {
-            page: "13",
-            key: key,
-          };
-          dataKey = "DangerTable";
+        if (key === "cellIdx9" || key === "cellIdx10") {
+          if (type === 'DangerTable') {
+            this.options[key] = {
+              page: "13",
+              key: key,
+            };
+            dataKey = "DangerTable";
+          } else {
+            this.options[key] = {
+              disabled: false
+            };
+          }
         }
         this.$refs.letMain.commandFill(
           key,

@@ -282,7 +282,7 @@ export default {
         caseType: this.dataForm.caseType,
         remoteId: "",
         delFlag: "0",
-        affiliate: this.$store.state.curCase.groupName, // 归档机构
+        affiliate: groupName, // 归档机构
         createDate: sDate,
         updateDate: sDate,
         createById: userId,

@@ -288,9 +288,12 @@ export default {
       let cellIdx14String = let32DataPaperContent.cellIdx2;
       let cellIdx16String = let32DataPaperContent.cellIdx3;
       let cellIdx17String = let32DataPaperContent.cellIdx4;
-      let DangerTable = let32DataPaperContent.DangerTable ? 
-        setNewDanger(selectedPaper.let32Data, let32DataPaperContent.DangerTable)
-        : {}
+      let DangerTable = null
+      if (this.corpData.caseType === '0') {
+        DangerTable = let32DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let32Data, let32DataPaperContent.DangerTable)
+          : {}
+      }
       await db.close();
       this.letData = {
         cellIdx0: let32DataPaperContent.selectedType, // 查封(扣押)
@@ -337,9 +340,11 @@ export default {
         SamplingForensicsTable: let32DataPaperContent.SamplingForensicsTable,
         selectedType: let32DataPaperContent.selectedType,
         DangerTable, // 隐患项大表
-        associationPaperId: { // 关联的paperId
+        associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
           paper22Id: let32DataPaperContent.associationPaperId.paper22Id,
           paper1Id: let32DataPaperContent.associationPaperId.paper1Id,
+          paper32Id: selectedPaper.let32Data.paperId
+        } : {
           paper32Id: selectedPaper.let32Data.paperId
         }
       };

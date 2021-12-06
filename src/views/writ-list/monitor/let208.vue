@@ -304,7 +304,7 @@ export default {
       // phone：联系电话
       // 1.计算缴纳罚款：
       let totleFine = 0
-      if (let8DataPaperContent.DangerTable) {
+      if (this.corpData.caseType === '0') {
         let dangerList = let8DataPaperContent.DangerTable.selectedDangerList || []
         if (dangerList.length > 0) {
           dangerList.map(danger => {
@@ -315,9 +315,9 @@ export default {
         }
       }
       let cellIdx16String = `缴纳罚款${transformNumToChinese(totleFine)}`
-      let DangerTable = let8DataPaperContent.DangerTable ? 
+      let DangerTable = this.corpData.caseType === '0' ? 
         setNewDanger(selectedPaper.let8Data, let8DataPaperContent.DangerTable)
-        : {}
+        : null
       await db.close();
       this.letData = {
         cellIdx0: num0, // 文书号
@@ -378,9 +378,12 @@ export default {
         selectedType: let8DataPaperContent.selectedType,
         p8PaperId: selectedPaper.let8Data.paperId,
         DangerTable,
-        associationPaperId: { // 关联的paperId
+        associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
           paper22Id: let8DataPaperContent.associationPaperId.paper22Id,
           paper1Id: let8DataPaperContent.associationPaperId.paper1Id,
+          paper6Id: let8DataPaperContent.associationPaperId.paper6Id,
+          paper8Id: selectedPaper.let8Data.paperId
+        } : {
           paper6Id: let8DataPaperContent.associationPaperId.paper6Id,
           paper8Id: selectedPaper.let8Data.paperId
         }

@@ -322,9 +322,12 @@ export default {
               master: "",
               phone: "",
             };
-      let DangerTable = let10DataPaperContent.DangerTable ? 
-        setNewDanger(selectedPaper.let10Data, let10DataPaperContent.DangerTable)
-        : {}
+      let DangerTable = null
+      if (this.corpData.caseType === '0') {
+        DangerTable = let10DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let10Data, let10DataPaperContent.DangerTable)
+          : {}
+      }
       await db.close();
       this.letData = {
         cellIdx0: paperNumber.num0, // 文书号
@@ -359,9 +362,13 @@ export default {
         cellIdx19: this.todayDate, //日期
         cellIdx22: null, //单位/个人
         DangerTable, // 隐患项大表
-        associationPaperId: { // 关联的paperId
+        associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
           paper22Id: let10DataPaperContent.associationPaperId.paper22Id,
           paper1Id: let10DataPaperContent.associationPaperId.paper1Id,
+          paper6Id: let10DataPaperContent.associationPaperId.paper6Id,
+          paper8Id: let10DataPaperContent.associationPaperId.paper8Id,
+          paper10Id: selectedPaper.let10Data.paperId
+        } : {
           paper6Id: let10DataPaperContent.associationPaperId.paper6Id,
           paper8Id: let10DataPaperContent.associationPaperId.paper8Id,
           paper10Id: selectedPaper.let10Data.paperId

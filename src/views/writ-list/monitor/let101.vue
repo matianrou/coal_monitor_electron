@@ -94,20 +94,13 @@
           <div
             style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
             class="cellInput mutiLineArea"
-            @click="commandFill('cellIdx8', '检查情况', 'DangerTable')">
-            <div v-if="letData.cellIdx8 && letData.cellIdx8.length > 0">
+            @dblclick="commandFill('cellIdx8', '检查情况', corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem')"
+            @click="commandFill('cellIdx8', '检查情况', 'DangerTextareaItem')">
+            <div>
               <p class="show-area-item-p">
-                <span style="padding: 7px;">{{ letData.cellIdx8 }}</span>
+                <span style="padding: 7px;">{{ letData.cellIdx8 || '' }}</span>
               </p>
               <cell-line :line-num="300"></cell-line>
-            </div>
-            <div v-else>
-              <p class="show-area-item-p">
-                &nbsp;
-              </p>
-              <p class="show-area-item-p">
-                &nbsp;
-              </p>
             </div>
           </div>
           <div class="docTextarea">
@@ -150,15 +143,7 @@ export default {
   data() {
     return {
       letData: {},
-      options: {
-        cellIdx8: {
-          page: "1", // 用于在隐患项保存，做数据处理
-          showBaseInfor: true, // 用于区分是否展示基本情况大文本输入
-          showSelectDangerBtn: true, // 用于区分是否可以选择隐患项
-          showDangerInfor: true, // 
-          showMergeBtn: true
-        },
-      },
+      options: {},
       associationPaper: ["22"],
     };
   },
@@ -214,13 +199,13 @@ export default {
       }
       names = names.substring(0, names.length - 1);
       let baseInfor = `${
-        let22DataPaperContent.cellIdx2 ? let22DataPaperContent.cellIdx2 : ""
+        let22DataPaperContent.cellIdx2 ? let22DataPaperContent.cellIdx2 : "20XX年XX月XX日"
       }，${
-        this.$store.state.curCase.groupName
-      }的煤矿安全监察员${names}按照月度监察执法计划对${
-        corp.corpName
+        this.$store.state.curCase.groupName || '国家矿山安全监察局XX局'
+      }的煤矿安全监察员${names || 'XXX'}按照月度监察执法计划对${
+        corp.corpName || 'XXX'
       }进行检查，检查前制定了检查方案。依据执法程序当场向被检查单位出示了执法证件，表明身份，向其告知了检查内容和依法享有的权利、义务。检查时矿井处于${
-        corp.mineStatusZsName ? corp.mineStatusZsName : ' '
+        corp.mineStatusZsName ? corp.mineStatusZsName : 'XX'
       }状态。`;
       let dangerInfor = `    发现违法违规行为如下：`;
       this.letData = {
@@ -232,7 +217,7 @@ export default {
         cellIdx5: null, // 检查人（签名）
         cellIdx6: null, // 记录人（签名）
         cellIdx7: null, // 陪同检查人员
-        cellIdx8: `${baseInfor}\r\n${dangerInfor}`, // 检查情况
+        cellIdx8: this.corpData.caseType === '0' ? `    ${baseInfor}\r\n${dangerInfor}` : null, // 检查情况
         cellIdx9: null, // 被检查单位负责人意见
         cellIdx10: null, // 签名
         cellIdx11: null, // 日期
@@ -272,9 +257,28 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 打开编辑
         let dataKey = `${key}`;
-        if (key === "cellIdx8" && type === 'DangerTable') {
-          // 隐患项时对应letData中的dangerItemObject
-          dataKey = "DangerTable";
+        if (key === "cellIdx8") {
+          if (type === 'DangerTable') {
+            // 隐患项时对应letData中的dangerItemObject
+            dataKey = "DangerTable"
+            this.options.cellIdx8 = {
+              page: "1", // 用于在隐患项保存，做数据处理
+              showBaseInfor: true, // 用于区分是否展示基本情况大文本输入
+              showSelectDangerBtn: true, // 用于区分是否可以选择隐患项
+              showDangerInfor: true, // 
+              showMergeBtn: true
+            }
+          } else {
+            if (this.corpData.caseType === '0') {
+              this.options.cellIdx8 = {
+                disabled: true
+              }
+            } else {
+              this.options.cellIdx8 = {
+                disabled: false
+              }
+            }
+          }
         }
         this.$refs.letMain.commandFill(
           key,

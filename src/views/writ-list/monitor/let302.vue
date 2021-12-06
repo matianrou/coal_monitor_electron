@@ -225,14 +225,17 @@ export default {
       let let8DataPaperContent = JSON.parse(
         selectedPaper.let8Data.paperContent
       );
-      let dangerObject = getDangerObject(
+      let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
         let8DataPaperContent.DangerTable.selectedDangerList
-      );
+      ) : null;
       let paper8number = `${let8DataPaperContent.cellIdx0}矿安监${let8DataPaperContent.cellIdx1}罚〔${let8DataPaperContent.cellIdx2}〕${let8DataPaperContent.cellIdx3}号`
-      let cellIdx14String = `我代表${corp.corpName}对${this.$store.state.curCase.groupName}做出的行政处罚决定${paper8number}申请行政复议，对处罚的${dangerObject.dangerString}违法行为进行复议。我矿认为......。请求从轻或者免于处罚。`;
-      let DangerTable = let8DataPaperContent.DangerTable ? 
-        setNewDanger(selectedPaper.let8Data, let8DataPaperContent.DangerTable)
-        : {}
+      let cellIdx14String = `我代表${corp.corpName}对${this.$store.state.curCase.groupName}做出的行政处罚决定${paper8number}申请行政复议，对处罚的${ this.corpData.caseType === '0' ? dangerObject.dangerString : 'XXX'}违法行为进行复议。我矿认为......。请求从轻或者免于处罚。`;
+      let DangerTable = null
+      if (this.corpData.caseType === '0') {
+        DangerTable = let8DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let8Data, let8DataPaperContent.DangerTable)
+          : {}
+      }
       await db.close();
       this.letData = {
         cellIdx0: now.getFullYear().toString(), // 年
@@ -263,9 +266,12 @@ export default {
           corpName: corp.corpName,
           groupName: this.$store.state.curCase.groupName,
         },
-        associationPaperId: { // 关联的paperId
+        associationPaperId:  this.corpData.caseType === '0' ?{ // 关联的paperId
           paper22Id: let8DataPaperContent.associationPaperId.paper22Id,
           paper1Id: let8DataPaperContent.associationPaperId.paper1Id,
+          paper6Id: let8DataPaperContent.associationPaperId.paper6Id,
+          paper8Id: selectedPaper.let8Data.paperId
+        } : {
           paper6Id: let8DataPaperContent.associationPaperId.paper6Id,
           paper8Id: selectedPaper.let8Data.paperId
         }

@@ -77,16 +77,16 @@
               <label style="width: 5%"></label>
               经查，你单位
               <span
-                @dblclick="commandFill('cellIdx6', '违法违规行为', 'DangerTable')"
-                @click="commandFill('cellIdx6', '违法违规行为', 'TextareaItem')"
+                @dblclick="commandFill('cellIdx6', '违法违规行为', corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem')"
+                @click="commandFill('cellIdx6', '违法违规行为', 'DangerTextareaItem')"
                 >{{
                   letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
                 }}</span
               >
               行为涉嫌违反
               <span 
-                @dblclick="commandFill('cellIdx7', '违法违规行为', 'DangerTable')"
-                @click="commandFill('cellIdx7', '违法违规行为', 'TextareaItem')">{{
+                @dblclick="commandFill('cellIdx7', '规定', corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem')"
+                @click="commandFill('cellIdx7', '规定', 'DangerTextareaItem')">{{
                 letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
               }}</span>
               的规定，根据《中华人民共和国安全生产法》第六十二条第一款第四项规定，我
@@ -286,7 +286,7 @@ export default {
         },
         cellIdx9: dictionary,
       },
-      associationPaper: ["1"],
+      associationPaper: this.corpData.caseType === '0' ? ["1"] : [],
       selectedType: "查封",
       visibleSelectDialog: false,
     };
@@ -308,14 +308,14 @@ export default {
         this.$store.state.user
       );
       // 3.违法行为：获取笔录文书中的隐患数据
-      let let1DataPaperContent = JSON.parse(
+      let let1DataPaperContent = this.corpData.caseType === '0' ? JSON.parse(
         selectedPaper.let1Data.paperContent
-      );
-      let dangerObject = getDangerObject(
+      ) : null;
+      let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
         let1DataPaperContent.DangerTable.selectedDangerList
-      );
-      let cellIdx6String = `${dangerObject.dangerString}`;
-      let cellIdx7String = `${dangerObject.illegalString}`;
+      ) : null;
+      let cellIdx6String = this.corpData.caseType === '0' ? `${dangerObject.dangerString}` : '';
+      let cellIdx7String = this.corpData.caseType === '0' ? `${dangerObject.illegalString}` : '';
       // 4.地点：sysOfficeInfo实体中organName字段+ courtPrefix字段
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(
@@ -327,9 +327,12 @@ export default {
           : { organName: "", courtPrefix: "" };
       let cellIdx16String = orgSysOfficeInfo.organName;
       let cellIdx17String = orgSysOfficeInfo.courtPrefix;
-      let DangerTable = let1DataPaperContent.DangerTable ? 
-      setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
-      : {}
+      let DangerTable = null
+      if (this.corpData.caseType === '0') {
+        DangerTable = let1DataPaperContent.DangerTable ? 
+        setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
+        : {}
+      }
       await db.close();
       this.letData = {
         cellIdx0: null, // 查封(扣押)
@@ -376,10 +379,10 @@ export default {
           signature: null,
           signDate: "",
         },
-        associationPaperId: { // 关联的paperId
+        associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
           paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
           paper1Id: selectedPaper.let1Data.paperId
-        }
+        } : null
       };
     },
     goBack({ page, data }) {
@@ -391,12 +394,18 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
-        if ((key === "cellIdx6" || key === "cellIdx7") && type === 'DangerTable') {
-          this.options[key] = {
-            page: "32",
-            key: key,
-          };
-          dataKey = "DangerTable";
+        if (key === "cellIdx6" || key === "cellIdx7") {
+          if (type === 'DangerTable') {
+            this.options[key] = {
+              page: "32",
+              key: key,
+            };
+            dataKey = "DangerTable";
+          } else {
+            this.options[key] = {
+              disabled: false
+            };
+          }
         } else if (key === "cellIdx10") {
           this.options[key] = {
             canEdit: true,

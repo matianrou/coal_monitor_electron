@@ -151,6 +151,8 @@ export default {
             }
           }
           if (isReturn) {
+            // 返回主页面
+            this.$refs.letMain.cmdDocBack()
             return
           }
           // 遍历循环选择文书:
@@ -217,7 +219,7 @@ export default {
     },
     confirmPaper (currentRow) {
       // 选择的文书
-      if (currentRow) {
+      if (currentRow && currentRow.paperId) {
         this.selectedPaper[this.selectFlowList[this.selectedIndex].key] = currentRow
         // 判断当前是否已经选择完文书，如果未选择完则继续进行文书选择，如果已经选择完则进入初始化
         if (this.selectedIndex === this.selectFlowList.length - 1) {
@@ -227,6 +229,8 @@ export default {
           this.selectedIndex = this.selectedIndex + 1
           this.handleSelectPaper()
         }
+      } else {
+        this.$message.error('必须选择需要关联的文书')
       }
     },
   },

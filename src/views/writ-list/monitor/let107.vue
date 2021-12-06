@@ -58,8 +58,8 @@
               <label style="width: 5%"></label>
               你单位
               <span
-                @dblclick="commandFill('cellIdx5', '违法违规行为', 'DangerTable')"
-                @click="commandFill('cellIdx5', '违法违规行为', 'TextareaItem')"
+                @dblclick="commandFill('cellIdx5', '违法违规行为', corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem')"
+                @click="commandFill('cellIdx5', '违法违规行为', 'DangerTextareaItem')"
                 >{{
                   letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
                 }}</span
@@ -242,13 +242,8 @@ export default {
   data() {
     return {
       letData: {},
-      options: {
-        cellIdx5: {
-          page: "23",
-          key: "cellIdx5",
-        },
-      },
-      associationPaper: ["1"],
+      options: {},
+      associationPaper: this.corpData.caseType === '0' ? ["1"] : [],
     };
   },
   methods: {
@@ -268,13 +263,13 @@ export default {
       );
       // 2.隐患描述
       // 获取笔录文书中的隐患数据
-      let let1DataPaperContent = JSON.parse(
+      let let1DataPaperContent = this.corpData.caseType === '0' ? JSON.parse(
         selectedPaper.let1Data.paperContent
-      );
-      let dangerObject = getDangerObject(
+      ) : null;
+      let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
         let1DataPaperContent.DangerTable.selectedDangerList
-      );
-      let cellIdx5String = `${dangerObject.dangerString}`;
+      ) : null;
+      let cellIdx5String = this.corpData.caseType === '0' ? `${dangerObject.dangerString}` : '';
       // 3.抽样时间9-12
       let now = new Date();
       let cellIdx9Year = now.getFullYear().toString();
@@ -294,9 +289,12 @@ export default {
       let cellIdx18String = orgSysOfficeInfo.depPost;
       let cellIdx20String = orgSysOfficeInfo.master;
       let cellIdx21String = orgSysOfficeInfo.phone;
-      let DangerTable = let1DataPaperContent.DangerTable ? 
-      setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
-      : {}
+      let DangerTable = null
+      if ( this.corpData.caseType === '0') {
+        DangerTable = let1DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
+          : {}
+      }
       await db.close();
       this.letData = {
         cellIdx0: num0, // 文书号
@@ -345,10 +343,10 @@ export default {
           signature: null,
           signDate: "",
         },
-        associationPaperId: { // 关联的paperId
+        associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
           paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
           paper1Id: selectedPaper.let1Data.paperId
-        }
+        } : null
       };
     },
     goBack({ page, data }) {
@@ -361,11 +359,17 @@ export default {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
         if (key === "cellIdx5" && type === 'DangerTable') {
-          this.options[key] = {
-            page: "23",
-            key: key,
-          };
-          dataKey = "DangerTable";
+          if (type === 'DangerTable') {
+            this.options[key] = {
+              page: "23",
+              key: key,
+            };
+            dataKey = "DangerTable";
+          } else {
+            this.options[key] = {
+              disabled: false
+            };
+          }
         } else if (key === "cellIdx7") {
           this.options[key] = {
             canEdit: true,

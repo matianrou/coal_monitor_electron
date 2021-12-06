@@ -36,8 +36,8 @@
             <div class="docTextarea">
               <span class="no-line">案&nbsp;&nbsp;由：</span>
               <span
-                @dblclick="commandFill('cellIdx2', '案由', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
-                @click="commandFill('cellIdx2', '案由', 'TextareaItem')"
+                @dblclick="commandFill('cellIdx2', '案由', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
+                @click="commandFill('cellIdx2', '案由', 'DangerTextareaItem')"
                 >{{
                   letData.cellIdx2 ? letData.cellIdx2 : "（点击编辑）"
                 }}</span
@@ -67,12 +67,12 @@
             <div class="docTextarea">
               <span class="no-line">违法事实及处理依据：</span>
               <span
-                @dblclick="commandFill('cellIdx6', '违法事实及处理依据', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @dblclick="commandFill('cellIdx6', '违法事实及处理依据', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
                 @click="
                   commandFill(
                     'cellIdx6',
                     '违法事实及处理依据',
-                    'TextareaItem'
+                    'DangerTextareaItem'
                   )
                 "
                 >{{
@@ -84,9 +84,9 @@
             <div class="docTextarea">
               <span class="no-line">建议案件处理意见：</span>
               <span
-                @dblclick="commandFill('cellIdx7', '建议案件处理意见', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @dblclick="commandFill('cellIdx7', '建议案件处理意见', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
                 @click="
-                  commandFill('cellIdx7', '建议案件处理意见', 'TextareaItem')
+                  commandFill('cellIdx7', '建议案件处理意见', 'DangerTextareaItem')
                 "
                 >{{
                   letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
@@ -314,7 +314,6 @@ export default {
           cellIdx13: null, // 签名
           cellIdx14: null, // 日期
           associationPaperId: { // 关联的paperId
-            paper1Id: let4DataPaperContent.associationPaperId.paper1Id,
             paper4Id: selectedPaper.let4Data.paperId,
           }
         };
@@ -330,22 +329,28 @@ export default {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
         let spellString = {};
-        if ((key === "cellIdx2" || key === "cellIdx6" || key === "cellIdx7") && type === 'DangerTable') {
-          if (key === "cellIdx2") {
-            spellString = {
-              corpName: this.letData.extraData.corpName,
+        if (key === "cellIdx2" || key === "cellIdx6" || key === "cellIdx7") {
+          if (type === 'DangerTable') {
+            if (key === "cellIdx2") {
+              spellString = {
+                corpName: this.letData.extraData.corpName,
+              };
+            } else if (key === "cellIdx6" || key === "cellIdx7") {
+              spellString = this.letData.extraData;
+            }
+            this.options[key] = {
+              page: "36",
+              key: key,
+              spellString,
+              showMergeBtn: true,
+              showPunishmentInfor: true
             };
-          } else if (key === "cellIdx6" || key === "cellIdx7") {
-            spellString = this.letData.extraData;
+            dataKey = "DangerTable";
+          } else {
+            this.options[key] = {
+              disabled: false
+            };
           }
-          this.options[key] = {
-            page: "36",
-            key: key,
-            spellString,
-            showMergeBtn: true,
-            showPunishmentInfor: true
-          };
-          dataKey = "DangerTable";
         } else if (key === 'cellIdx8') {
           dataKey = `${key}Type${type}`;
         }

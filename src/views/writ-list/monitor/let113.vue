@@ -227,9 +227,12 @@ export default {
       let cellIdx12String = orgSysOfficeInfo.depPost;
       let cellIdx14String = orgSysOfficeInfo.master;
       let cellIdx15String = orgSysOfficeInfo.phone;
-      let DangerTable = let37DataPaperContent.DangerTable ? 
-        setNewDanger(selectedPaper.let37Data, let37DataPaperContent.DangerTable)
-        : {}
+      let DangerTable = null
+      if (this.corpData.caseType === '0') {
+        DangerTable = let37DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let37Data, let37DataPaperContent.DangerTable)
+          : {}
+      }
       await db.close();
       this.letData = {
         cellIdx0: let37DataPaperContent.selectedType, // 解除停供电(解除停供民用爆炸物品)
@@ -267,9 +270,11 @@ export default {
         cellIdx18: let37DataPaperContent.selectedType === '停供电' ? '供电部门' : '公安机关', // 单位/个人
         selectedType: let37DataPaperContent.selectedType,
         DangerTable, // 隐患项大表
-        associationPaperId: { // 关联的paperId
+        associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
           paper22Id: let37DataPaperContent.associationPaperId.paper22Id,
           paper1Id: let37DataPaperContent.associationPaperId.paper1Id,
+          paper37Id: selectedPaper.let37Data.paperId
+        } : {
           paper37Id: selectedPaper.let37Data.paperId
         }
       };

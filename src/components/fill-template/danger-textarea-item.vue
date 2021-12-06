@@ -3,10 +3,15 @@
   <div style="width: 100%;">
     <el-input
       v-model="dataForm.tempValue"
+      type="textarea"
       :placeholder="placeholder"
+      :rows="10"
       :disabled="options.disabled"
       @change="changeValue">
     </el-input>
+    <div>
+      <span>隐患展示</span>
+    </div>
   </div>
 </template>
 
@@ -26,7 +31,7 @@ export default {
       type: Object,
       default: () => {
         return {
-
+          disabled: false
         }
       }
     }

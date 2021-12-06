@@ -81,6 +81,10 @@ export default {
     letData: {
       type: Object,
       default: () => {}
+    },
+    paperData: {
+      type: Object,
+      default: () => {}
     }
   },
   data() {
@@ -119,7 +123,15 @@ export default {
     },
     async init() {
       // 初始化选择
-      if (this.letData) {
+      if (this.paperData && this.paperData.paperId) {
+        // 修改已保存的文书时，带入已经保存的数据
+        this.dataForm.penaltyMoney = this.paperData.p8Penalty ? Number(this.paperData.p8Penalty) / 10000 : 0
+        if (this.paperData.p8penaltyType) {
+          let typeList = this.paperData.p8penaltyType.split(',')
+          this.dataForm.penaltyType = typeList
+        }
+      } else if (this.letData) {
+        // 新建的文书则从文书数据中获取
         this.dataForm.selectedType = this.letData.selectedType
         // 根据行政处罚获取罚金和类型
         let {money} = retrunGetMoney(this.letData.cellIdx10)

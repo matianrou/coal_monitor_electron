@@ -227,7 +227,7 @@ export default {
     return {
       letData: {},
       options: {},
-      associationPaper: ['1']
+      associationPaper: this.corpData.caseType === '0' ? ['1'] : []
     };
   },
   methods: {
@@ -245,9 +245,9 @@ export default {
         this.$store.state.user
       );
       // 2.违法行为：获取笔录文书中的隐患数据
-      let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPaperContent.DangerTable.selectedDangerList)
-      let cellIdx8String = `${dangerObject.dangerString}`
+      let let1DataPaperContent = this.corpData.caseType === '0' ? JSON.parse(selectedPaper.let1Data.paperContent) : null
+      let dangerObject = this.corpData.caseType === '0' ? getDangerObject(let1DataPaperContent.DangerTable.selectedDangerList) : null
+      let cellIdx8String = this.corpData.caseType === '0' ? `${dangerObject.dangerString}` : ''
       // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
@@ -256,9 +256,12 @@ export default {
       let cellIdx13String = orgSysOfficeInfo.depPost;
       let cellIdx15String = orgSysOfficeInfo.master;
       let cellIdx16String = orgSysOfficeInfo.phone;
-      let DangerTable = let1DataPaperContent.DangerTable ? 
-        setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
-        : {}
+      let DangerTable = null
+      if (this.corpData.caseType === '0') {
+        DangerTable = let1DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
+          : {}
+      }
       await db.close();
       this.letData = {
         cellIdx0: num0, // 文书号
@@ -298,10 +301,10 @@ export default {
         // cellIdx23: null, // 月
         // cellIdx24: null, // 日  暂不用
         DangerTable,
-        associationPaperId: { // 关联的paperId
+        associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
           paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
           paper1Id: selectedPaper.let1Data.paperId
-        }
+        } : {}
       };
     },
     goBack({ page, data }) {

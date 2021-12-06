@@ -71,21 +71,13 @@
             <div
               style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
               class="cellInput mutiLineArea"
-              @dblclick="commandFill('cellIdx7', '违法违规行为', 'DangerTable')"
-              @click="commandFill('cellIdx7', '违法违规行为', 'TextareaItem')">
-              <div v-if="letData.cellIdx7 && letData.cellIdx7.length > 0">
+              @dblclick="commandFill('cellIdx7', '违法违规行为', (corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'))"
+              @click="commandFill('cellIdx7', '违法违规行为', 'DangerTextareaItem')">
+              <div>
                 <p class="show-area-item-p">
                   <span style="padding: 7px;">{{ letData.cellIdx7 }}</span>
                 </p>
                 <cell-line :line-num="300"></cell-line>
-              </div>
-              <div v-else>
-                <p class="show-area-item-p">
-                  &nbsp;
-                </p>
-                <p class="show-area-item-p">
-                  &nbsp;
-                </p>
               </div>
             </div>
             <div class="docTextarea">
@@ -184,13 +176,7 @@ export default {
   data() {
     return {
       letData: {},
-      options: {
-        cellIdx7: {
-          page: "2", // 用于在隐患项保存，做数据处理时，判断是否增加现场处理决定字段描述
-          showBaseInfor: false, // 用于区分是否展示基本情况大文本输入
-          showSelectDangerBtn: false, // 用于区分是否可以选择隐患项
-        },
-      },
+      options: {},
       associationPaper: ["1"],
     };
   },
@@ -269,9 +255,20 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 打开编辑
         let dataKey = `${key}`;
-        if (key === "cellIdx7" && type === 'DangerTable') {
-          // 隐患项时对应letData中的dangerItemObject
-          dataKey = "DangerTable";
+        if (key === "cellIdx7") {
+          if (type === 'DangerTable') {
+            // 隐患项时对应letData中的dangerItemObject
+            dataKey = "DangerTable";
+            this.options.cellIdx7 = {
+              page: "2", // 用于在隐患项保存，做数据处理时，判断是否增加现场处理决定字段描述
+              showBaseInfor: false, // 用于区分是否展示基本情况大文本输入
+              showSelectDangerBtn: false, // 用于区分是否可以选择隐患项
+            }
+          } else {
+            this.options.cellIdx7 = {
+              disabled: false
+            }
+          }
         }
         this.$refs.letMain.commandFill(
           key,

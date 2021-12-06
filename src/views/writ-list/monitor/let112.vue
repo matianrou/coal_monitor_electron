@@ -220,7 +220,7 @@ export default {
       options: {},
       visibleSelectDialog: false,
       selectedType: "停供电", // 初始化时选择的停供电
-      associationPaper: ["1"],
+      associationPaper: this.corpData.caseType === '0' ? ["1"] : [],
     };
   },
   methods: {
@@ -252,12 +252,15 @@ export default {
       let cellIdx15String = orgSysOfficeInfo.depPost;
       let cellIdx17String = orgSysOfficeInfo.master;
       let cellIdx18String = orgSysOfficeInfo.phone;
-      let let1DataPaperContent = JSON.parse(
+      let let1DataPaperContent = this.corpData.caseType === '0' ? JSON.parse(
         selectedPaper.let1Data.paperContent
-      );
-      let DangerTable = let1DataPaperContent.DangerTable ? 
-        setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
-        : {}
+      ) : null;
+      let DangerTable = null
+      if (this.corpData.caseType === '0') {
+        DangerTable = let1DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
+          : {}
+      }
       await db.close();
       this.letData = {
         cellIdx0: null, // 停供电(停供民用爆炸物品)
@@ -297,10 +300,10 @@ export default {
         cellIdx20TypeDateItem: this.todayDate, // 日期
         cellIdx21: null, // 停供电(停供民用爆炸物品)
         DangerTable, // 隐患项大表
-        associationPaperId: { // 关联的paperId
+        associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
           paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
           paper1Id: selectedPaper.let1Data.paperId
-        }
+        } : null
       };
     },
     goBack({ page, data }) {

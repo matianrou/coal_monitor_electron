@@ -217,9 +217,12 @@ export default {
       let selectedType = let8DataPaperContent.selectedType;
       let selectedString = selectedType === "单位" ? "单位负责人" : "个人";
       await db.close();
-      let DangerTable = let8DataPaperContent.DangerTable ? 
-        setNewDanger(selectedPaper.let8Data, let8DataPaperContent.DangerTable)
-        : {}
+      let DangerTable = null
+      if (this.corpData.caseType === '0') {
+        DangerTable = let8DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let8Data, let8DataPaperContent.DangerTable)
+          : {}
+      }
       this.letData = {
         cellIdx0: paperNumber.num0, // 文书号
         cellIdx0TypeTextItem: paperNumber.num0, // 文书号
@@ -248,9 +251,12 @@ export default {
         cellIdx13TypeDateItem: this.todayDate, // 日期
         selectedType: selectedType,
         DangerTable,
-        associationPaperId: { // 关联的paperId
+        associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
           paper22Id: let8DataPaperContent.associationPaperId.paper22Id,
           paper1Id: let8DataPaperContent.associationPaperId.paper1Id,
+          paper6Id: let8DataPaperContent.associationPaperId.paper6Id,
+          paper8Id: selectedPaper.let8Data.paperId
+        } : {
           paper6Id: let8DataPaperContent.associationPaperId.paper6Id,
           paper8Id: selectedPaper.let8Data.paperId
         }

@@ -378,7 +378,7 @@ export default {
     return {
       letData: {},
       options: {},
-      associationPaper: ["1"],
+      associationPaper: this.corpData.caseType === '0' ? ["1"] : [],
     };
   },
   methods: {
@@ -396,28 +396,38 @@ export default {
         let curYear = myDate.getFullYear();
         cellIdx2String = `${curYear}年度加强和改善安全监管建议书（加强和改善安全管理意见书）`
       } else {
-        let db = new GoDB(this.$store.state.DBName);
-        let corpBase = db.table("corpBase");
-        let corp = await corpBase.find((item) => {
-          return item.corpId == this.corpData.corpId;
-        });
-        // 创建初始版本 */
-        // 1.案卷题名: 煤矿名称+隐患描述+案
-        // 获取笔录文书中的隐患数据
-        let let1DataPaperContent = JSON.parse(
-          selectedPaper.let1Data.paperContent
-        );
-        let dangerObject = getDangerObject(
-          let1DataPaperContent.DangerTable.selectedDangerList
-        );
-        cellIdx2String = `${corp.corpName}${dangerObject.dangerString}案。`;
-        await db.close();
-        DangerTable = let1DataPaperContent.DangerTable ? 
-        setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
-        : {}
-        associationPaperId = { // 关联的paperId
-          paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
-          paper1Id: selectedPaper.let1Data.paperId
+        if (this.corpData.caseType === '0') {
+          let db = new GoDB(this.$store.state.DBName);
+          let corpBase = db.table("corpBase");
+          let corp = await corpBase.find((item) => {
+            return item.corpId == this.corpData.corpId;
+          });
+          // 创建初始版本 */
+          // 1.案卷题名: 煤矿名称+隐患描述+案
+          // 获取笔录文书中的隐患数据
+          let let1DataPaperContent = JSON.parse(
+            selectedPaper.let1Data.paperContent
+          );
+          let dangerObject = getDangerObject(
+            let1DataPaperContent.DangerTable.selectedDangerList
+          );
+          cellIdx2String = `${corp.corpName}${dangerObject.dangerString}案。`;
+          await db.close();
+          DangerTable = let1DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
+          : {}
+          associationPaperId = { // 关联的paperId
+            paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
+            paper1Id: selectedPaper.let1Data.paperId
+          }
+        } else {
+          let db = new GoDB(this.$store.state.DBName);
+          let corpBase = db.table("corpBase");
+          let corp = await corpBase.find((item) => {
+            return item.corpId == this.corpData.corpId;
+          });
+          cellIdx2String = `${corp.corpName}XXX案。`;
+          await db.close();
         }
       }
       this.letData = {
