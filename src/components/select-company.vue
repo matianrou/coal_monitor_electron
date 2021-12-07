@@ -15,28 +15,31 @@
         ref="dataForm"
         label-width="0"
         size="small"
-        @keyup.enter.native="getCompanyList()">
-        <!-- 是否本级机构筛选 -->
-        <!-- <el-form-item
-          prop="onlySelf">
-          <el-checkbox
-            v-model="dataForm.onlySelf"
-            @change="getCompanyList">
-            仅显示本机构
-          </el-checkbox>
-        </el-form-item> -->
-        <!-- 企业矿井类型筛选 -->
-        <el-form-item
-          prop="companyStatus">
-          <el-radio-group
-            v-model="dataForm.companyStatus"
-            @change="getCompanyList">
-            <el-radio label="">全部</el-radio>
-            <el-radio label="11">上级企业</el-radio>
-            <el-radio label="0101">正常生产矿井</el-radio>
-            <el-radio label="0301">关闭矿井</el-radio>
-          </el-radio-group>
-        </el-form-item>
+        @keyup.enter.native="getCompanyList()"
+        style="position: relative;">
+        <div style="display: flex; justify-content: space-between;">
+          <!-- 企业矿井类型筛选 -->
+          <el-form-item
+            prop="companyStatus">
+            <el-radio-group
+              v-model="dataForm.companyStatus"
+              @change="getCompanyList">
+              <el-radio label="0000">全部</el-radio>
+              <el-radio label="10">上级企业</el-radio>
+              <el-radio label="0101">正常生产矿井</el-radio>
+              <el-radio label="0301">关闭矿井</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <!-- 是否本级机构筛选 -->
+          <el-form-item
+            prop="onlySelf">
+            <el-checkbox
+              v-model="dataForm.onlySelf"
+              @change="getCompanyList">
+              仅显示本机构
+            </el-checkbox>
+          </el-form-item>
+        </div>
         <!-- 企业名称输入检索 -->
         <el-form-item
           prop="companyName">
@@ -48,6 +51,9 @@
           </el-input>
           <el-button type="primary" @click="getCompanyList">搜索</el-button>
         </el-form-item>
+        <div class="company-count">
+          <span>共{{ companyList ? companyList.length : 0}}家企业</span>
+        </div>
       </el-form>
       <div class="select-company-main">
         <!-- 按地区筛选 -->
@@ -105,11 +111,11 @@ import { treeDataTranslate } from '@/utils/index'
         selectedCompany: null, // 选择的企业
         dataForm: { // 筛选条件
           onlySelf: false, // 仅显示本机构
-          companyStatus: '', // 企业状态：全部、上级企业、正常生产矿井、关闭矿井
+          companyStatus: '0000', // 企业状态：全部、上级企业、正常生产矿井、关闭矿井
           companyName: '', // 按企业名称搜索
           areaId: '', // 按地区检索
         },
-        curAreaLevel: null, // 当前地区节点的level，用于检索
+        curAreaLevel: 2, // 当前地区节点的level，用于检索
         DBName: this.$store.state.DBName
       }
     },
@@ -139,26 +145,23 @@ import { treeDataTranslate } from '@/utils/index'
       async getCompanyList() {
         // 获取企业数据
         // 整理筛选项内容：
-        let {companyStatus, companyName, areaId} = this.dataForm
+        let {onlySelf, companyStatus, companyName, areaId} = this.dataForm
         let db = new GoDB(this.DBName);
         let corpBase = db.table("corpBase"); // 煤矿企业
         let corpList = await corpBase.findAll(item => {
-          if (companyStatus === '11')  {
-            return item.constructType == companyStatus &&
-                    item.delFlag !== '1' &&
-                    item.corpName.indexOf(companyName) !== -1 &&
-                    item.zoneCountyId.slice(0, this.curAreaLevel) === (areaId ? areaId.slice(0, this.curAreaLevel) : item.zoneCountyId)
-          } else if (companyStatus === '') {
-            return item.corpName.indexOf(companyName) !== -1 &&
-                    item.delFlag !== '1' &&
-                    item.zoneCountyId.slice(0, this.curAreaLevel) === (areaId ? areaId.slice(0, this.curAreaLevel) : item.zoneCountyId)
-          } else {
-            return item.mineStatusZs == companyStatus &&
-                    item.delFlag !== '1' &&
-                    item.corpName.indexOf(companyName) !== -1 &&
-                    item.zoneCountyId.slice(0, this.curAreaLevel) === (areaId ? areaId.slice(0, this.curAreaLevel) : item.zoneCountyId)
-          }
+          return item.corpName.indexOf(companyName) !== -1 &&
+                  item.delFlag !== '1' && 
+                  item.zoneCountyId.slice(0, this.curAreaLevel) === (areaId ? areaId.slice(0, this.curAreaLevel) : item.zoneCountyId.slice(0, this.curAreaLevel))
         })
+        // 是否仅显示本机构
+        if (onlySelf) {
+          corpList = corpList.filter(item => item.groupId === this.$store.state.user.userGroupId)
+        }
+        if (companyStatus === '10') {
+          corpList = corpList.filter(item => item.constructType === companyStatus)
+        } else if (companyStatus === '0101' || companyStatus === '0301'){
+          corpList = corpList.filter(item => item.mineStatusZs === companyStatus)
+        }
         if (corpList.length > 0) {
           corpList.forEach(item => {
             item.active = false
@@ -166,13 +169,12 @@ import { treeDataTranslate } from '@/utils/index'
         }
         this.companyList = corpList
         await db.close();
-
       },
       selectArea(data, node, ele) {
         // 选中地区进行筛选 按名称中是否有省做判断条件，当前选中地区的level
         if (data && data.name) {
           if (data.name.indexOf('省') !== -1) {
-            this.curAreaLevel = 3
+            this.curAreaLevel = 2
           } else {
             this.curAreaLevel = 4
           }
@@ -211,6 +213,13 @@ import { treeDataTranslate } from '@/utils/index'
 <style lang="scss" scoped>
 .el-form-item {
   margin-bottom: 0px;
+}
+.company-count {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  font-size: 14px;
+  color: #909399;
 }
 .company-tree {
   border: 1px solid #DCDFE6;
