@@ -32,8 +32,16 @@
             style="margin-left:0;"
             @click="selectFilter(true)"
           >模糊搜索</el-button>
-          <el-tooltip class="item" effect="dark" content="可进行多关键词的搜索，每个关键词之间用空格键隔开" placement="top">
-            <i class="el-icon-warning-outline" style="color: #E6A23C;"></i>
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="可进行多关键词的搜索，每个关键词之间用空格键隔开"
+            placement="top"
+          >
+            <i
+              class="el-icon-warning-outline"
+              style="color: #E6A23C;"
+            ></i>
           </el-tooltip>
         </div>
         <div>
@@ -151,6 +159,7 @@ export default {
   },
   data() {
     return {
+      isDim: false,
       loading: false,
       dangerListOriginal: [], // 全部功能原始数据
       dangerList: [], // 转换为树形结构的全部功能数组，用于选择
@@ -298,26 +307,24 @@ export default {
       this.close()
     },
     selectFilter(isDim) {
-      if (isDim) {
-        // 模糊搜索
-        let str = this.filter.name.trim()
-        str && str.length && str.split('').forEach(s => this.$refs.dangerListTree.filter(s))
-      } else {
-        // 精准搜索
-        let str = this.filter.name
-        let isMulti = false
-        if (str.includes(' ')) {
-          isMulti = true
-        }
-        isMulti ?
-          (str && str.length && str.split(' ').forEach(s => this.$refs.dangerListTree.filter(s)))
-          :
-          this.$refs.dangerListTree.filter(this.filter.name)
-      }
+      this.isDim = isDim
+      this.$refs.dangerListTree.filter(this.filter.name)
     },
-    filterNode(value, data) {
+    filterNode(value, data, node) {
       if (!value) return true;
-      return data.treeName.indexOf(value) !== -1;
+      let flag = null
+      // 是否模糊查询
+      if (this.isDim) {
+        return value.replace(/[^\u4e00-\u9fa5]/gi, "").split('').some(s => data.treeName.includes(s))
+      } else {
+        const isMulti = value.includes(' ')
+        // 是否包含空格
+        isMulti ?
+          flag = value.split(' ').some(s => data.treeName.includes(s))
+          :
+          flag = data.treeName.includes(value)
+        return flag
+      }
     },
     changeQdList(val) {
       // 切换自定义列表
