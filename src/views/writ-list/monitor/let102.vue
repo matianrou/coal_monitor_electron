@@ -69,13 +69,28 @@
               现场检查时，发现你单位有下列违法违规行为，现作出以下现场处理决定：
             </div>
             <div
-              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+              style="
+                word-wrap: break-word;
+                word-break: break-all;
+                overflow: hidden;
+              "
               class="cellInput mutiLineArea"
-              @dblclick="commandFill('cellIdx7', '违法违规行为', (corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'))"
-              @click="commandFill('cellIdx7', '违法违规行为', 'DangerTextareaItem')">
+              @dblclick="
+                commandFill(
+                  'cellIdx7',
+                  '违法违规行为',
+                  corpData.caseType === '0'
+                    ? 'DangerTable'
+                    : 'DangerTextareaItem'
+                )
+              "
+              @click="
+                commandFill('cellIdx7', '违法违规行为', 'DangerTextareaItem')
+              "
+            >
               <div>
                 <p class="show-area-item-p">
-                  <span style="padding: 7px;">{{ letData.cellIdx7 }}</span>
+                  <span style="padding: 7px">{{ letData.cellIdx7 }}</span>
                 </p>
                 <cell-line :line-num="300"></cell-line>
               </div>
@@ -94,30 +109,40 @@
             </div>
             <table height="30"></table>
             <div class="docTextarea">
-              <div style="display:inline-block;min-width:60%">
+              <div style="display: inline-block; min-width: 60%">
                 <span class="no-line">现场执法人员（签名):</span>
-                <span @click="commandFill('cellIdx10', '现场执法人员（签名)', 'TextItem')"
+                <span
+                  @click="
+                    commandFill('cellIdx10', '现场执法人员（签名)', 'TextItem')
+                  "
                   >{{ letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）" }}
                 </span>
               </div>
-                <span class="no-line">日期</span>
-                <span @click="commandFill('cellIdx11', '日期', 'DateItem')">{{
-                  letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）"
-                }}</span>
-                <div class="line"></div>
+              <span class="no-line">日期</span>
+              <span @click="commandFill('cellIdx11', '日期', 'DateItem')">{{
+                letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）"
+              }}</span>
+              <div class="line"></div>
             </div>
             <div class="docTextarea">
-              <div style="display:inline-block;min-width:60%">
+              <div style="display: inline-block; min-width: 60%">
                 <span class="no-line">被检查单位负责人（签名):</span>
-                <span @click="commandFill('cellIdx12', '被检查单位负责人（签名)', 'TextItem')"
+                <span
+                  @click="
+                    commandFill(
+                      'cellIdx12',
+                      '被检查单位负责人（签名)',
+                      'TextItem'
+                    )
+                  "
                   >{{ letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）" }}
                 </span>
               </div>
-                <span class="no-line">日期</span>
-                <span @click="commandFill('cellIdx13', '日期', 'DateItem')">{{
-                  letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）"
-                }}</span>
-                <div class="line"></div>
+              <span class="no-line">日期</span>
+              <span @click="commandFill('cellIdx13', '日期', 'DateItem')">{{
+                letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）"
+              }}</span>
+              <div class="line"></div>
             </div>
             <table height="30"></table>
             <table class="docBody">
@@ -168,8 +193,9 @@
 <script>
 // import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
+import { getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
+import { setDangerTable } from "@/utils/handlePaperData";
 export default {
   name: "Let102",
   mixins: [associationSelectPaper],
@@ -190,9 +216,20 @@ export default {
       let let1DataPaperContent = JSON.parse(
         selectedPaper.let1Data.paperContent
       );
-      let dangerObject = let1DataPaperContent.DangerTable ? getDangerObject(
-        let1DataPaperContent.DangerTable.tableData
-      ) : {contentOnsiteDesc: ''};
+      let cellIdx7String =
+        this.corpData.caseType === "0"
+          ? setDangerTable(
+              let1DataPaperContent.DangerTable,
+              {},
+              {
+                page: "2",
+                key: "cellIdx7",
+              }
+            )
+          : "";
+      // let dangerObject = let1DataPaperContent.DangerTable ? getDangerObject(
+      //   let1DataPaperContent.DangerTable.tableData
+      // ) : {contentOnsiteDesc: ''};
       // 通过机构接口中的sysOfficeInfo中获取的organName和courtPrefix字段分别填充cellIdx8和cellIdx9字段
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(
@@ -208,9 +245,9 @@ export default {
         this.corpData.caseId,
         this.$store.state.user
       );
-      let DangerTable = let1DataPaperContent.DangerTable ? 
-        setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
-        : {}
+      let DangerTable = let1DataPaperContent.DangerTable
+        ? setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
+        : {};
       await db.close();
       this.letData = {
         cellIdx0: paperNumber.num0, // 文书号
@@ -226,7 +263,7 @@ export default {
         cellIdx5: "局", //局
         cellIdx5TypeTextItem: "局", //局
         cellIdx6: let1DataPaperContent.cellIdx1, //
-        cellIdx7: dangerObject.contentOnsiteDesc, // 现场处理决定
+        cellIdx7: cellIdx7String, // 现场处理决定
         cellIdx8: orgSysOfficeInfo.organName, //
         cellIdx8TypeTextItem: orgSysOfficeInfo.organName, //
         cellIdx9: orgSysOfficeInfo.courtPrefix, //
@@ -240,10 +277,11 @@ export default {
         cellIdx15: this.todayDate, //
         cellIdx15TypeDateItem: this.todayDate, //
         DangerTable, // 隐患项大表
-        associationPaperId: { // 关联的paperId
+        associationPaperId: {
+          // 关联的paperId
           paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
-          paper1Id: selectedPaper.let1Data.paperId
-        }
+          paper1Id: selectedPaper.let1Data.paperId,
+        },
       };
     },
     goBack({ page, data }) {
@@ -256,18 +294,18 @@ export default {
         // 打开编辑
         let dataKey = `${key}`;
         if (key === "cellIdx7") {
-          if (type === 'DangerTable') {
+          if (type === "DangerTable") {
             // 隐患项时对应letData中的dangerItemObject
             dataKey = "DangerTable";
             this.options.cellIdx7 = {
               page: "2", // 用于在隐患项保存，做数据处理时，判断是否增加现场处理决定字段描述
               showBaseInfor: false, // 用于区分是否展示基本情况大文本输入
               showSelectDangerBtn: false, // 用于区分是否可以选择隐患项
-            }
+            };
           } else {
             this.options.cellIdx7 = {
-              disabled: false
-            }
+              disabled: false,
+            };
           }
         }
         this.$refs.letMain.commandFill(

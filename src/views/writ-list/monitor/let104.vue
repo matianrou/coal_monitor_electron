@@ -255,9 +255,10 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
+import { getDocNumber } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 import { setNewDanger } from '@/utils/setInitPaperData'
+import { setDangerTable } from '@/utils/handlePaperData'
 export default {
   name: "Let104",
   mixins: [associationSelectPaper],
@@ -303,12 +304,29 @@ export default {
       let let2DataPaperContent = JSON.parse(
         selectedPaper.let2Data.paperContent
       );
-      let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
-        let2DataPaperContent.DangerTable.tableData,
-        { danger: true }
-      ) : {};
-      let cellIdx9String = this.corpData.caseType === '0' ? dangerObject.dangerString : '';
-      let cellIdx10String = this.corpData.caseType === '0' ? dangerObject.onsiteDescString : '';
+      // let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
+      //   let2DataPaperContent.DangerTable.tableData,
+      //   { danger: true }
+      // ) : {};
+      
+      // let cellIdx9String = this.corpData.caseType === '0' ? dangerObject.dangerString : '';
+      // let cellIdx10String = this.corpData.caseType === '0' ? dangerObject.onsiteDescString : '';
+      let cellIdx9String =this.corpData.caseType === '0' ? setDangerTable(
+        let2DataPaperContent.DangerTable,
+        {},
+        {
+          page: "13",
+          key: "cellIdx9",
+        }
+      ):'';
+      let cellIdx10String = this.corpData.caseType === '0' ?setDangerTable(
+        let2DataPaperContent.DangerTable,
+        {},
+        {
+          page: "13",
+          key: "cellIdx10",
+        }
+      ):'';
       let DangerTable = null
       if (this.corpData.caseType === '0') {
         DangerTable = let2DataPaperContent.DangerTable ? 
@@ -356,8 +374,8 @@ export default {
         cellIdx23TypeDateItem: this.todayDate, // 日期
         DangerTable: DangerTable,
         associationPaperId: { // 关联的paperId
-          paper22Id: let2DataPaperContent.associationPaperId.paper22Id,
-          paper1Id: let2DataPaperContent.associationPaperId.paper1Id,
+          // paper22Id: let2DataPaperContent.associationPaperId.paper22Id,
+          // paper1Id: let2DataPaperContent.associationPaperId.paper1Id,
           paper2Id: selectedPaper.let2Data.paperId
         }
       };
@@ -376,6 +394,7 @@ export default {
             this.options[key] = {
               page: "13",
               key: key,
+              // showSelectDangerBtn: true, // 用于区分是否可以选择隐患项
             };
             dataKey = "DangerTable";
           } else {

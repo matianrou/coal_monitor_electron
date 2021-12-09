@@ -74,36 +74,39 @@
             </div>
             <div class="docTextarea">
               <span class="no-line">调查事由：</span>
-              <span @click="commandFill('cellIdx8', '调查事由', 'TextareaItem')">{{
-                letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
-              }}</span>
+              <span
+                @click="commandFill('cellIdx8', '调查事由', 'DangerTable')"
+                >{{
+                  letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
+                }}</span
+              >
               <div class="line"></div>
             </div>
-            <div class="docTextLine" style="text-align:center">
+            <div class="docTextLine" style="text-align: center">
               <label>被调查人：</label>
               <div style="flex: 2; display: flex">
-              <label>姓&nbsp;&nbsp;&nbsp;&nbsp;名</label>
-              <span
-                class="line-div"
-                @click="commandFill('cellIdx9', '姓名', 'TextItem')"
-                >{{ letData.cellIdx9 ? letData.cellIdx9 : "" }}</span
-              >
-              </div>
-              <div style="flex:1; display: flex">
-              <label>性别</label>
-              <span
-                class="line-div"
-                @click="commandFill('cellIdx10', '性别', 'SelectItem')"
-                >{{ letData.cellIdx10 ? letData.cellIdx10 : "" }}</span
-              >
+                <label>姓&nbsp;&nbsp;&nbsp;&nbsp;名</label>
+                <span
+                  class="line-div"
+                  @click="commandFill('cellIdx9', '姓名', 'TextItem')"
+                  >{{ letData.cellIdx9 ? letData.cellIdx9 : "" }}</span
+                >
               </div>
               <div style="flex: 1; display: flex">
-              <label>年龄</label>
-              <span
-                class="line-div"
-                @click="commandFill('cellIdx11', '年龄', 'TextItem')"
-                >{{ letData.cellIdx11 ? letData.cellIdx11 : "" }}</span
-              >
+                <label>性别</label>
+                <span
+                  class="line-div"
+                  @click="commandFill('cellIdx10', '性别', 'SelectItem')"
+                  >{{ letData.cellIdx10 ? letData.cellIdx10 : "" }}</span
+                >
+              </div>
+              <div style="flex: 1; display: flex">
+                <label>年龄</label>
+                <span
+                  class="line-div"
+                  @click="commandFill('cellIdx11', '年龄', 'TextItem')"
+                  >{{ letData.cellIdx11 ? letData.cellIdx11 : "" }}</span
+                >
               </div>
               <div style="flex: 3.5; display: flex">
                 <label>身份证号</label>
@@ -115,47 +118,105 @@
               </div>
             </div>
             <div class="docTextarea">
-              <span class="no-line" style="width:25%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;工作单位</span>
-              <span style="display:inline-block;min-width:32%;line-height: normal;max-width:32%" @click="commandFill('cellIdx13', '工作单位', 'TextItem')"
+              <span class="no-line" style="width: 25%"
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;工作单位</span
+              >
+              <span
+                style="
+                  display: inline-block;
+                  min-width: 32%;
+                  line-height: normal;
+                  max-width: 32%;
+                "
+                @click="commandFill('cellIdx13', '工作单位', 'TextItem')"
                 >{{ letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）" }}
               </span>
-              <span class="no-line" style="width:17%">职务（职业）</span>
-              <span style="display:inline-block;min-width:21%;line-height: normal;max-width:21%" @click="commandFill('cellIdx14', '职务（职业）', 'TextItem')">{{
-                letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）"
-              }}</span>
+              <span class="no-line" style="width: 17%">职务（职业）</span>
+              <span
+                style="
+                  display: inline-block;
+                  min-width: 21%;
+                  line-height: normal;
+                  max-width: 21%;
+                "
+                @click="commandFill('cellIdx14', '职务（职业）', 'TextItem')"
+                >{{
+                  letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）"
+                }}</span
+              >
             </div>
             <div class="docTextarea">
-              <span class="no-line" style="width:25%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;政治面貌</span>
-              <span style="display:inline-block;min-width:17%;line-height: normal;max-width:17%" @click="commandFill('cellIdx15', '政治面貌', 'SelectItem')"
+              <span class="no-line" style="width: 25%"
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;政治面貌</span
+              >
+              <span
+                style="
+                  display: inline-block;
+                  min-width: 17%;
+                  line-height: normal;
+                  max-width: 17%;
+                "
+                @click="commandFill('cellIdx15', '政治面貌', 'SelectItem')"
                 >{{ letData.cellIdx15 ? letData.cellIdx15 : "（编辑）" }}
               </span>
-              <span class="no-line" style="width:11%">文化程度</span>
-              <span style="display:inline-block;min-width:11%;line-height: normal;max-width:11%" @click="commandFill('cellIdx16', '文化程度', 'SelectItem')">{{
-                letData.cellIdx16 ? letData.cellIdx16 : "（编辑）"
-              }}</span>
-              <span class="no-line" style="width:11%">电&nbsp;&nbsp;&nbsp;&nbsp;话</span>
-              <span style="display:inline-block;min-width:18%;line-height: normal;max-width:18%" @click="commandFill('cellIdx17', '电话', 'TextItem')">{{
-                letData.cellIdx17 ? letData.cellIdx17 : "（编辑）"
-              }}</span>
+              <span class="no-line" style="width: 11%">文化程度</span>
+              <span
+                style="
+                  display: inline-block;
+                  min-width: 11%;
+                  line-height: normal;
+                  max-width: 11%;
+                "
+                @click="commandFill('cellIdx16', '文化程度', 'SelectItem')"
+                >{{ letData.cellIdx16 ? letData.cellIdx16 : "（编辑）" }}</span
+              >
+              <span class="no-line" style="width: 11%"
+                >电&nbsp;&nbsp;&nbsp;&nbsp;话</span
+              >
+              <span
+                style="
+                  display: inline-block;
+                  min-width: 18%;
+                  line-height: normal;
+                  max-width: 18%;
+                "
+                @click="commandFill('cellIdx17', '电话', 'TextItem')"
+                >{{ letData.cellIdx17 ? letData.cellIdx17 : "（编辑）" }}</span
+              >
             </div>
             <div class="docTextarea">
-              <span class="no-line" style="width:25%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;住&nbsp;&nbsp;&nbsp;&nbsp;址</span>
-              <span style="display:inline-block;min-width:73%;line-height: normal;max-width:73%" @click="commandFill('cellIdx18', '住址', 'TextItem')"
+              <span class="no-line" style="width: 25%"
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;住&nbsp;&nbsp;&nbsp;&nbsp;址</span
+              >
+              <span
+                style="
+                  display: inline-block;
+                  min-width: 73%;
+                  line-height: normal;
+                  max-width: 73%;
+                "
+                @click="commandFill('cellIdx18', '住址', 'TextItem')"
                 >{{ letData.cellIdx18 ? letData.cellIdx18 : "（编辑）" }}
               </span>
             </div>
             <div class="docTextarea">
-              <div style="display:inline-block;min-width:50%">
+              <div style="display: inline-block; min-width: 50%">
                 <span class="no-line">调查人（签名）：</span>
-                <span @click="commandFill('cellIdx19', '调查人（签名）', 'TextItem')"
+                <span
+                  @click="
+                    commandFill('cellIdx19', '调查人（签名）', 'TextItem')
+                  "
                   >{{ letData.cellIdx19 ? letData.cellIdx19 : "（点击编辑）" }}
                 </span>
               </div>
-                <span class="no-line">记录人（签名）：</span>
-                <span @click="commandFill('cellIdx20', '记录人（签名）', 'TextItem')">{{
+              <span class="no-line">记录人（签名）：</span>
+              <span
+                @click="commandFill('cellIdx20', '记录人（签名）', 'TextItem')"
+                >{{
                   letData.cellIdx20 ? letData.cellIdx20 : "（点击编辑）"
-                }}</span>
-                <div class="line"></div>
+                }}</span
+              >
+              <div class="line"></div>
             </div>
             <div
               style="
@@ -164,7 +225,7 @@
                 overflow: hidden;
               "
               class="cellInput mutiLineArea"
-              @click="commandFill('cellIdx21', '', 'TextareaItem')"
+              @click="commandFill('cellIdx21', '', 'DangerTable')"
             >
               <div
                 v-if="letData.cellIdx21 && letData.cellIdx21.length > 0"
@@ -219,8 +280,9 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, setNewDanger } from "@/utils/setInitPaperData";
+import { setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
+import { setDangerTable } from "@/utils/handlePaperData";
 export default {
   name: "Let202",
   mixins: [associationSelectPaper],
@@ -350,7 +412,7 @@ export default {
           },
         ],
       },
-      associationPaper: this.corpData.caseType === '0' ? ["4"] : [],
+      associationPaper: this.corpData.caseType === "0" ? ["4"] : [],
     };
   },
   methods: {
@@ -367,32 +429,71 @@ export default {
       let cellIdx2Date = now.getDate().toString();
       let cellIdx3Hour = now.getHours().toString();
       let cellIdx4Minu = now.getMinutes().toString();
-      let let4DataPaperContent =  this.corpData.caseType === '0' ? JSON.parse(
-        selectedPaper.let4Data.paperContent
-      ) : null;
-      let dangerObject =  this.corpData.caseType === '0' ? getDangerObject(
-        let4DataPaperContent.DangerTable.selectedDangerList
-      ) : null;
-      let cellIdx8String =  this.corpData.caseType === '0' ? `${corp.corpName}涉嫌${dangerObject ? dangerObject.dangerString : 'XXX案'}。` : '';
+      let let4DataPaperContent =
+        this.corpData.caseType === "0"
+          ? JSON.parse(selectedPaper.let4Data.paperContent)
+          : null;
+      // let let4DataPaperContent =
+      //   this.corpData.caseType === "0"
+      //     ? JSON.parse(selectedPaper.let4Data.paperContent)
+      //     : null;
+      // let dangerObject =  this.corpData.caseType === '0' ? getDangerObject(
+      //   let4DataPaperContent.DangerTable.selectedDangerList
+      // ) : null;
+      // let cellIdx8String =  this.corpData.caseType === '0' ? `${corp.corpName}涉嫌${dangerObject ? dangerObject.dangerString : 'XXX案'}。` : '';
+      let cellIdx8String =
+        this.corpData.caseType === "0"
+          ? setDangerTable(
+              let4DataPaperContent.DangerTable,
+              {},
+              {
+                page: "5",
+                key: "cellIdx8",
+                spellString: {
+                  corpName: corp.corpName,
+                  groupName: this.$store.state.curCase.groupName,
+                },
+              }
+            )
+          : "";
+      //涉嫌...违法违规
+      let dangerString =
+        this.corpData.caseType === "0"
+          ? setDangerTable(
+              let4DataPaperContent.DangerTable,
+              {},
+              {
+                page: "5",
+                key: "cellIdx21",
+                spellString: {
+                  corpName: corp.corpName,
+                  groupName: this.$store.state.curCase.groupName,
+                },
+              }
+            )
+          : "";
       // 2.组成： “我们是”+当前机构+“监察员，这是我们的执法证件（出示行政执法证件），现就你”+煤矿名称+“涉嫌”+隐患描述+“违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？”
-      let cellIdx21String = `我们是${this.$store.state.curCase.groupName}监察员，这是我们的执法证件（出示行政执法证件），现就你${corp.corpName}涉嫌${dangerObject ? dangerObject.dangerString : 'XXX'}违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？
-    答：听清楚了。
-    问：你对我们调查人员申请回避吗？
-    答：不申请回避。
-    问：你的岗位安全生产职责主要是什么？
-    答：我主要负责XX掘进工作面等地点安全监控设备安装、维护、调校等工作
-    问：XXXXX问题是否属实？
-    答：属实。
-    问：为什么出现这个问题？
-    答：
-    问：你还有补充吗？
-    答： 没有了。
-    问： 请你看一下记录，是否如你所说一样，如无异议，请签字确认。`;
-      let DangerTable = null
-      if (this.corpData.caseType === '0') {
-        DangerTable = let4DataPaperContent.DangerTable ? 
-          setNewDanger(selectedPaper.let4Data, let4DataPaperContent.DangerTable)
-          : {}
+      let cellIdx21String = `我们是${this.$store.state.curCase.groupName}监察员，这是我们的执法证件（出示行政执法证件），现就你${corp.corpName}涉嫌${dangerString}违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？
+      答：听清楚了。
+      问：你对我们调查人员申请回避吗？
+      答：不申请回避。
+      问：你的岗位安全生产职责主要是什么？
+      答：我主要负责XX掘进工作面等地点安全监控设备安装、维护、调校等工作
+      问：XXXXX问题是否属实？
+      答：属实。
+      问：为什么出现这个问题？
+      答：
+      问：你还有补充吗？
+      答： 没有了。
+      问： 请你看一下记录，是否如你所说一样，如无异议，请签字确认。`;
+      let DangerTable = null;
+      if (this.corpData.caseType === "0") {
+        DangerTable = let4DataPaperContent.DangerTable
+          ? setNewDanger(
+              selectedPaper.let4Data,
+              let4DataPaperContent.DangerTable
+            )
+          : {};
       }
       await db.close();
       this.letData = {
@@ -435,12 +536,15 @@ export default {
           corpName: corp.corpName,
           groupName: this.$store.state.curCase.groupName,
         },
-        DangerTable,
-        associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
-          paper22Id: let4DataPaperContent.associationPaperId.paper22Id,
-          paper1Id: let4DataPaperContent.associationPaperId.paper1Id,
-          paper4Id: selectedPaper.let4Data.paperId
-        } : null
+        associationPaperId:
+          this.corpData.caseType === "0"
+            ? {
+                // 关联的paperId
+                paper22Id: let4DataPaperContent.associationPaperId.paper22Id,
+                paper1Id: let4DataPaperContent.associationPaperId.paper1Id,
+                paper4Id: selectedPaper.let4Data.paperId,
+              }
+            : null,
       };
     },
     goBack({ page, data }) {
@@ -452,6 +556,20 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
+        let spellString = {};
+        if (key === "cellIdx8") {
+          spellString = {
+            corpName: this.letData.extraData.corpName,
+          };
+        } else if (key === "cellIdx21") {
+          spellString = this.letData.extraData;
+        }
+        this.options[key] = {
+          page: "5",
+          key: key,
+          spellString,
+          showMergeBtn: true,
+        };
         this.$refs.letMain.commandFill(
           key,
           dataKey,

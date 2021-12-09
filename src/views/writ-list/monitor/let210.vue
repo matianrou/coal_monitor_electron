@@ -211,8 +211,9 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber, getDangerObject, setNewDanger } from "@/utils/setInitPaperData";
+import { getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
+import { setDangerTable } from '@/utils/handlePaperData'
 export default {
   name: "Let210",
   mixins: [associationSelectPaper],
@@ -270,10 +271,22 @@ export default {
       let let28DataPaperContent = JSON.parse(
         selectedPaper.let28Data.paperContent
       );
-      let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
-        let28DataPaperContent.DangerTable.selectedDangerList
-      ) : null;
-      let cellIdx6String = this.corpData.caseType === '0' ? `${corp.corpName}涉嫌${dangerObject.dangerString}案。` : '';
+      // let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
+      //   let28DataPaperContent.DangerTable.selectedDangerList
+      // ) : null;
+      // let cellIdx6String = this.corpData.caseType === '0' ? `${corp.corpName}涉嫌${dangerObject.dangerString}案。` : '';
+      let cellIdx6String = this.corpData.caseType === '0' ?setDangerTable(
+          let28DataPaperContent.DangerTable,
+          {}, 
+          {
+            page: "29",
+            key: "cellIdx6",
+            spellString: {
+              corpName: corp.corpName,
+              groupName: this.$store.state.curCase.groupName,
+            },
+          }
+        ):'';
       // 5.地点：sysOfficeInfo实体中depAddress字段+ deparFullname字段
       // 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
       let orgInfo = db.table("orgInfo");

@@ -66,16 +66,28 @@
                   letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
                 }}</span> -->
               <span
-                @dblclick="commandFill('cellIdx6', '违法违规行为', corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem')"
-                @click="commandFill('cellIdx6', '违法违规行为', 'DangerTextareaItem')"
+                @dblclick="
+                  commandFill(
+                    'cellIdx6',
+                    '违法违规行为',
+                    corpData.caseType === '0'
+                      ? 'DangerTable'
+                      : 'DangerTextareaItem'
+                  )
+                "
+                @click="
+                  commandFill('cellIdx6', '违法违规行为', 'DangerTextareaItem')
+                "
                 >{{
                   letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
                 }}</span
               >
               的行为涉嫌违法违规。根据《中华人民共和国行政处罚法》第三十七条第二款规定，我
-              <span class="no-underline" @click="commandFill('cellIdx7', '局', 'TextItem')">{{
-                letData.cellIdx7 ? letData.cellIdx7 : "(编辑)"
-              }}</span>
+              <span
+                class="no-underline"
+                @click="commandFill('cellIdx7', '局', 'TextItem')"
+                >{{ letData.cellIdx7 ? letData.cellIdx7 : "(编辑)" }}</span
+              >
               决定对你单位
               <!-- <span @click="commandFill('cellIdx8', '单位', 'TextItem')">{{
                 letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
@@ -119,51 +131,72 @@
             </div>
             <table height="20"></table>
             <div class="docTextarea">
-              <div style="display:inline-block;min-width:50%">
-                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;受送达人（签名）：</span>
-                <span @click="commandFill('cellIdx13', '受送达人（签名）', 'TextItem')"
+              <div style="display: inline-block; min-width: 50%">
+                <span class="no-line"
+                  >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;受送达人（签名）：</span
+                >
+                <span
+                  @click="
+                    commandFill('cellIdx13', '受送达人（签名）', 'TextItem')
+                  "
                   >{{ letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）" }}
                 </span>
               </div>
-                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期</span>
-                <span @click="commandFill('cellIdx14', '日期', 'DateItem')">{{
-                  letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）"
-                }}</span>
-                <div class="line"></div>
+              <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期</span>
+              <span @click="commandFill('cellIdx14', '日期', 'DateItem')">{{
+                letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）"
+              }}</span>
+              <div class="line"></div>
             </div>
             <div class="docTextarea">
-              <div style="display:inline-block;min-width:50%">
+              <div style="display: inline-block; min-width: 50%">
                 <span class="no-line">
                   <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我</span>
-                  <span class="no-line" @click="commandFill('cellIdx15', '局', 'TextItem')"
-                  >{{ letData.cellIdx15 ? letData.cellIdx15 : "(编辑)" }}</span>
-                地址：</span>
+                  <span
+                    class="no-line"
+                    @click="commandFill('cellIdx15', '局', 'TextItem')"
+                    >{{
+                      letData.cellIdx15 ? letData.cellIdx15 : "(编辑)"
+                    }}</span
+                  >
+                  地址：</span
+                >
                 <span @click="commandFill('cellIdx16', '地址', 'TextItem')"
                   >{{ letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）" }}
                 </span>
               </div>
-                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;邮政编码：</span>
-                <span @click="commandFill('cellIdx17', '邮政编码', 'TextItem')">{{
-                  letData.cellIdx17 ? letData.cellIdx17 : "（点击编辑）"
-                }}</span>
-                <div class="line"></div>
+              <span class="no-line"
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;邮政编码：</span
+              >
+              <span @click="commandFill('cellIdx17', '邮政编码', 'TextItem')">{{
+                letData.cellIdx17 ? letData.cellIdx17 : "（点击编辑）"
+              }}</span>
+              <div class="line"></div>
             </div>
-              <div class="docTextarea">
-                <div style="display:inline-block;min-width:50%">
-                  <span class="no-line">
-                    <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我</span>
-                    <span class="no-line" @click="commandFill('cellIdx18', '局', 'TextItem')"
-                    >{{ letData.cellIdx18 ? letData.cellIdx18 : "(编辑)" }}</span>
-                  联系人：</span>
-                  <span @click="commandFill('cellIdx19', '联系人', 'TextItem')"
-                    >{{ letData.cellIdx19 ? letData.cellIdx19 : "（点击编辑）" }}
-                  </span>
-                </div>
-                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;联系电话：</span>
-                <span @click="commandFill('cellIdx20', '联系电话', 'TextItem')">{{
-                  letData.cellIdx20 ? letData.cellIdx20 : "（点击编辑）"
-                }}</span>
-                <div class="line"></div>
+            <div class="docTextarea">
+              <div style="display: inline-block; min-width: 50%">
+                <span class="no-line">
+                  <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我</span>
+                  <span
+                    class="no-line"
+                    @click="commandFill('cellIdx18', '局', 'TextItem')"
+                    >{{
+                      letData.cellIdx18 ? letData.cellIdx18 : "(编辑)"
+                    }}</span
+                  >
+                  联系人：</span
+                >
+                <span @click="commandFill('cellIdx19', '联系人', 'TextItem')"
+                  >{{ letData.cellIdx19 ? letData.cellIdx19 : "（点击编辑）" }}
+                </span>
+              </div>
+              <span class="no-line"
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;联系电话：</span
+              >
+              <span @click="commandFill('cellIdx20', '联系电话', 'TextItem')">{{
+                letData.cellIdx20 ? letData.cellIdx20 : "（点击编辑）"
+              }}</span>
+              <div class="line"></div>
             </div>
             <table height="20"></table>
             <table class="docBody">
@@ -213,8 +246,9 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
+import { getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
+import { setDangerTable } from "@/utils/handlePaperData";
 export default {
   name: "Let108",
   mixins: [associationSelectPaper],
@@ -222,7 +256,7 @@ export default {
     return {
       letData: {},
       options: {},
-      associationPaper: this.corpData.caseType === '0' ? ["1"] : [],
+      associationPaper: this.corpData.caseType === "0" ? ["1"] : [],
     };
   },
   methods: {
@@ -240,13 +274,25 @@ export default {
         this.$store.state.user
       );
       // 2.获取笔录文书中的隐患数据
-      let let1DataPaperContent = this.corpData.caseType === '0' ? JSON.parse(
-        selectedPaper.let1Data.paperContent
-      ) : null;
-      let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
-        let1DataPaperContent.DangerTable.selectedDangerList
-      ) : null;
-      let cellIdx6String = this.corpData.caseType === '0' ? `${dangerObject.dangerString}` : null;
+      let let1DataPaperContent =
+        this.corpData.caseType === "0"
+          ? JSON.parse(selectedPaper.let1Data.paperContent)
+          : null;
+      // let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
+      //   let1DataPaperContent.DangerTable.selectedDangerList
+      // ) : null;
+      // let cellIdx6String = this.corpData.caseType === '0' ? `${dangerObject.dangerString}` : null;
+      let cellIdx6String =
+        this.corpData.caseType === "0"
+          ? setDangerTable(
+              let1DataPaperContent.DangerTable,
+              {},
+              {
+                page: "25",
+                key: "cellIdx6",
+              }
+            )
+          : "";
       // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(
@@ -260,11 +306,14 @@ export default {
       let cellIdx17String = orgSysOfficeInfo.depPost;
       let cellIdx19String = orgSysOfficeInfo.master;
       let cellIdx20String = orgSysOfficeInfo.phone;
-      let DangerTable = null 
-      if (this.corpData.caseType === '0') {
-        DangerTable = let1DataPaperContent.DangerTable ? 
-        setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
-        : {}
+      let DangerTable = null;
+      if (this.corpData.caseType === "0") {
+        DangerTable = let1DataPaperContent.DangerTable
+          ? setNewDanger(
+              selectedPaper.let1Data,
+              let1DataPaperContent.DangerTable
+            )
+          : {};
       }
       await db.close();
       this.letData = {
@@ -312,10 +361,14 @@ export default {
           signature: null,
           signDate: "",
         },
-        associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
-          paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
-          paper1Id: selectedPaper.let1Data.paperId
-        } : null
+        associationPaperId:
+          this.corpData.caseType === "0"
+            ? {
+                // 关联的paperId
+                paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
+                paper1Id: selectedPaper.let1Data.paperId,
+              }
+            : null,
       };
     },
     goBack({ page, data }) {
@@ -327,8 +380,9 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
+        let spellString = {};
         if (key === "cellIdx6") {
-          if (type === 'DangerTable') {
+          if (type === "DangerTable") {
             this.options[key] = {
               page: "25",
               key: key,
@@ -336,7 +390,7 @@ export default {
             dataKey = "DangerTable";
           } else {
             this.options[key] = {
-              disabled: false
+              disabled: false,
             };
           }
         } else if (key === "cellIdx12") {

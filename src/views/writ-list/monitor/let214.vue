@@ -261,17 +261,17 @@
               <div class="line"></div>
             </div>
             <div class="docTextarea">
-              <div style="display:inline-block;min-width:55%">
+              <div style="display: inline-block; min-width: 55%">
                 <span class="no-line">档号：</span>
                 <span @click="commandFill('cellIdx15', '档号', 'TextItem')"
                   >{{ letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）" }}
                 </span>
               </div>
-                <span class="no-line">保管期限：</span>
-                <span @click="commandFill('cellIdx16', '保管期限', 'TextItem')">{{
-                  letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）"
-                }}</span>
-                <div class="line"></div>
+              <span class="no-line">保管期限：</span>
+              <span @click="commandFill('cellIdx16', '保管期限', 'TextItem')">{{
+                letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）"
+              }}</span>
+              <div class="line"></div>
             </div>
             <div
               style="
@@ -369,8 +369,9 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, setNewDanger } from "@/utils/setInitPaperData";
+import { setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
+import { setDangerTable } from "@/utils/handlePaperData";
 export default {
   name: "Let214",
   mixins: [associationSelectPaper],
@@ -378,25 +379,26 @@ export default {
     return {
       letData: {},
       options: {},
-      associationPaper: this.corpData.caseType === '0' ? ["1"] : [],
+      associationPaper: this.corpData.caseType === "0" ? ["1"] : [],
     };
   },
   methods: {
     async initLetData(selectedPaper) {
-      let cellIdx0String = ''
-      let cellIdx1String = ''
-      let cellIdx2String = ''
-      let DangerTable = {}
-      let associationPaperId = {}
-      if (this.fromPage === 'opinion-suggestion') {
+      let cellIdx0String = "";
+      let cellIdx1String = "";
+      let cellIdx2String = "";
+      let DangerTable = {};
+      let associationPaperId = {};
+      if (this.fromPage === "opinion-suggestion") {
         // 从意见建议书进入执法案卷首页时
-        cellIdx0String = ''
-        cellIdx1String = '加强和改善安全监管建议书（加强和改善安全管理意见书）档案'
+        cellIdx0String = "";
+        cellIdx1String =
+          "加强和改善安全监管建议书（加强和改善安全管理意见书）档案";
         let myDate = new Date();
         let curYear = myDate.getFullYear();
-        cellIdx2String = `${curYear}年度加强和改善安全监管建议书（加强和改善安全管理意见书）`
+        cellIdx2String = `${curYear}年度加强和改善安全监管建议书（加强和改善安全管理意见书）`;
       } else {
-        if (this.corpData.caseType === '0') {
+        if (this.corpData.caseType === "0") {
           let db = new GoDB(this.$store.state.DBName);
           let corpBase = db.table("corpBase");
           let corp = await corpBase.find((item) => {
@@ -408,18 +410,37 @@ export default {
           let let1DataPaperContent = JSON.parse(
             selectedPaper.let1Data.paperContent
           );
-          let dangerObject = getDangerObject(
-            let1DataPaperContent.DangerTable.selectedDangerList
-          );
-          cellIdx2String = `${corp.corpName}${dangerObject.dangerString}案。`;
+          // let dangerObject = getDangerObject(
+          //   let1DataPaperContent.DangerTable.selectedDangerList
+          // );
+          // cellIdx2String = `${corp.corpName}${dangerObject.dangerString}案。`;
+          cellIdx2String =
+            this.corpData.caseType === "0"
+              ? setDangerTable(
+                  let1DataPaperContent.DangerTable,
+                  {},
+                  {
+                    page: "15",
+                    key: "cellIdx2",
+                    spellString: {
+                      corpName: corp.corpName,
+                      userGroupName: this.$store.state.user.userGroupName,
+                    },
+                  }
+                )
+              : "";
           await db.close();
-          DangerTable = let1DataPaperContent.DangerTable ? 
-          setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
-          : {}
-          associationPaperId = { // 关联的paperId
+          DangerTable = let1DataPaperContent.DangerTable
+            ? setNewDanger(
+                selectedPaper.let1Data,
+                let1DataPaperContent.DangerTable
+              )
+            : {};
+          associationPaperId = {
+            // 关联的paperId
             paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
-            paper1Id: selectedPaper.let1Data.paperId
-          }
+            paper1Id: selectedPaper.let1Data.paperId,
+          };
         } else {
           let db = new GoDB(this.$store.state.DBName);
           let corpBase = db.table("corpBase");
