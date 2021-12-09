@@ -235,7 +235,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/deep/ .el-dialog__header {
-  border-bottom: 1px solid #DCDFE6;
-}
 </style>

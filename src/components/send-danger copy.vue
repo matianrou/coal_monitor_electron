@@ -131,6 +131,7 @@
           </el-tab-pane>
         </el-tabs>
         <select-person
+          v-if="showDialog.selectPerson"
           :visible="showDialog.selectPerson"
           title="选择接收人"
           @confirm-person="confirmPerson"
@@ -332,9 +333,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/deep/ .el-dialog__body {
-  padding: 0 20px;
-}
 .send-danger-main {
   display: flex;
   flex-direction: column;

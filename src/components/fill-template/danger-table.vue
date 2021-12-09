@@ -340,6 +340,7 @@
       </div>
     </div>
     <select-person
+      v-if="visible.selectPerson"
       :visible="visible.selectPerson"
       :multi-select="true"
       :selected-data-list="selectedRowPersonList"

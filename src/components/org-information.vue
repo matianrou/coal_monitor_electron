@@ -75,21 +75,24 @@ export default {
       let db = new GoDB(this.DBName)
       let wkCase = db.table('wkCase')
       let caseData = await wkCase.find(item => item.caseId === this.corpData.caseId)
-      let planDate = ''
-      if (caseData && caseData.planBeginDate && caseData.planEndDate) {
-        // 处理检查时间
-        let beginList = caseData.planBeginDate.split(' ')[0].split('-')
-        let endList = caseData.planEndDate.split(' ')[0].split('-')
-        planDate = `${beginList[1]}月${beginList[2]}日-${endList[1]}月${endList[2]}日`
-      }
-      let groupName = `国家矿山安全监察局${caseData.groupName}`
-      caseData = Object.assign({}, caseData, { planDate, groupName })
-      this.caseData = caseData
-      this.$store.commit('changeState', {
-        key: 'curCase',
-        val: caseData
-      })
       await db.close()
+      if (caseData) {
+        let planDate = ''
+        if (caseData.planBeginDate && caseData.planEndDate) {
+          // 处理检查时间
+          let beginList = caseData.planBeginDate.split(' ')[0].split('-')
+          let endList = caseData.planEndDate.split(' ')[0].split('-')
+          planDate = `${beginList[1]}月${beginList[2]}日-${endList[1]}月${endList[2]}日`
+        }
+        console.log('caseData', caseData)
+        let groupName = `国家矿山安全监察局${caseData.groupName}`
+        caseData = Object.assign({}, caseData, { planDate, groupName })
+        this.caseData = caseData
+        this.$store.commit('changeState', {
+          key: 'curCase',
+          val: caseData
+        })
+      }
     }
   },
 };

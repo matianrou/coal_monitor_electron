@@ -73,7 +73,9 @@
           </el-form-item>
         </el-form>
         <select-risk-assessment
+          v-if="showDialog.riskAssessment"
           :visible="showDialog.riskAssessment"
+          :selected-risk-assessment="dataForm.riskAssessment"
           @close="closeDialog"
           @save="saveRisk"
         ></select-risk-assessment>
@@ -217,6 +219,8 @@ export default {
     cancel(refresh = false) {
       // 关闭弹窗
       this.$refs.dataForm.resetFields();
+      this.dataForm.riskAssessment = null
+      console.log('this.dataForm', this.dataForm)
       this.initData();
       this.$emit("close", { name: "newCase", refresh });
     },
@@ -347,9 +351,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/deep/ .el-dialog__body {
-  padding: 10px 20px;
-}
 .writ-information-main {
   display: flex;
   flex-direction: column;

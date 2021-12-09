@@ -471,7 +471,15 @@ export default {
           this.getCaseClassify(userSessId),
           this.getRiskAssessment(userSessId),
           this.getSubitemType(userSessId), // 行政处罚类型 
-          this.getOnsiteDesc (userSessId) // 现场处理决定 
+          this.getOnsiteDesc (userSessId), // 现场处理决定 
+          this.getParentType(userSessId),
+          this.getMineWsGrade(userSessId),
+          this.getGrimeExplosive(userSessId),
+          this.getMineMinestyle(userSessId),
+          this.getMineVentilatestyle(userSessId),
+          this.getHydrogeologicalType(userSessId),
+          this.getMineFire(userSessId),
+          this.getBaseMineStatusZs(userSessId),
         ]).then(async () => {
           await docDictionaryDb(resId, this.dictionary)
         })
@@ -573,7 +581,9 @@ export default {
           console.log("获取监察执法报告文件列表失败：", err);
         });
     },
+    // 码表下载
     getProgrammeType (userSessId) {
+      // 监察监管类型或方式码表
       return this.$http.get(
           `/local/dict/listData?type=${(this.userType === 'supervision' ? 'programme_sv_type' : 'programme_jczf_type')}&__sid=${userSessId}`)
         .then(async ({ data }) => {
@@ -586,6 +596,7 @@ export default {
         });
     },
     getCaseClassify (userSessId) {
+      // 执法活动分类
       return this.$http.get(
           `/local/dict/listData?type=${(this.userType === 'supervision' ? 'caseClassify' : 'caseClassify')}&__sid=${userSessId}`)
         .then(async ({ data }) => {
@@ -619,6 +630,7 @@ export default {
         });
     },
     getRiskAssessment (userSessId) {
+      // 风险研判
       return this.$http.get(
           `/local/riskStrict/getAll?__sid=${userSessId}`)
         .then(async ({ data }) => {
@@ -634,6 +646,7 @@ export default {
         });
     },
     getSubitemType (userSessId) {
+      // 行政处罚类型
       return this.$http.get(
           `/local/dict/listData?type=${(this.userType === 'supervision' ? 'subitem_type' : 'subitem_type')}&__sid=${userSessId}`)
         .then(async ({ data }) => {
@@ -688,6 +701,7 @@ export default {
         });
     },
     getOnsiteDesc (userSessId) {
+      // 现场处理决定码表
       return this.$http.get(
           `/local/dict/listData?type=${(this.userType === 'supervision' ? 'onsite_desc' : 'onsite_desc')}&__sid=${userSessId}`)
         .then(async ({ data }) => {
@@ -700,6 +714,134 @@ export default {
         })
         .catch((err) => {
           console.log("获取现场处理决定码表失败：", err);
+        });
+    },
+    getParentType (userSessId) {
+      // 煤矿类型
+      return this.$http.get(
+          `/local/dict/listData?type=${(this.userType === 'supervision' ? 'ParentType' : 'ParentType')}&__sid=${userSessId}`)
+        .then(async ({ data }) => {
+          if (data.status === "200") {
+            data.data.forEach(item => {
+              item.id = item.id.trim()
+            })
+            this.dictionary.parentType = data.data
+          }
+        })
+        .catch((err) => {
+          console.log("获取煤矿类型码表失败：", err);
+        });
+    },
+    getMineWsGrade (userSessId) {
+      // 瓦斯等级
+      return this.$http.get(
+          `/local/dict/listData?type=${(this.userType === 'supervision' ? 'MineWsGrade' : 'MineWsGrade')}&__sid=${userSessId}`)
+        .then(async ({ data }) => {
+          if (data.status === "200") {
+            data.data.forEach(item => {
+              item.id = item.id.trim()
+            })
+            this.dictionary.mineWsGrade = data.data
+          }
+        })
+        .catch((err) => {
+          console.log("获取瓦斯等级码表失败：", err);
+        });
+    },
+    getGrimeExplosive (userSessId) {
+      // 煤尘爆炸性
+      return this.$http.get(
+          `/local/dict/listData?type=${(this.userType === 'supervision' ? 'GrimeExplosive' : 'GrimeExplosive')}&__sid=${userSessId}`)
+        .then(async ({ data }) => {
+          if (data.status === "200") {
+            data.data.forEach(item => {
+              item.id = item.id.trim()
+            })
+            this.dictionary.grimeExplosive = data.data
+          }
+        })
+        .catch((err) => {
+          console.log("获取煤尘爆炸性码表失败：", err);
+        });
+    },
+    getMineMinestyle (userSessId) {
+      // 开拓方式
+      return this.$http.get(
+          `/local/dict/listData?type=${(this.userType === 'supervision' ? 'MineMinestyle' : 'MineMinestyle')}&__sid=${userSessId}`)
+        .then(async ({ data }) => {
+          if (data.status === "200") {
+            data.data.forEach(item => {
+              item.id = item.id.trim()
+            })
+            this.dictionary.mineMinestyle = data.data
+          }
+        })
+        .catch((err) => {
+          console.log("获取开拓方式码表失败：", err);
+        });
+    },
+    getMineVentilatestyle (userSessId) {
+      // 通风方式
+      return this.$http.get(
+          `/local/dict/listData?type=${(this.userType === 'supervision' ? 'MineVentilatestyle' : 'MineVentilatestyle')}&__sid=${userSessId}`)
+        .then(async ({ data }) => {
+          if (data.status === "200") {
+            data.data.forEach(item => {
+              item.id = item.id.trim()
+            })
+            this.dictionary.mineVentilatestyle = data.data
+          }
+        })
+        .catch((err) => {
+          console.log("获取通风方式码表失败：", err);
+        });
+    },
+    getHydrogeologicalType (userSessId) {
+      // 水文地质类型
+      return this.$http.get(
+          `/local/dict/listData?type=${(this.userType === 'supervision' ? 'HydrogeologicalType' : 'HydrogeologicalType')}&__sid=${userSessId}`)
+        .then(async ({ data }) => {
+          if (data.status === "200") {
+            data.data.forEach(item => {
+              item.id = item.id.trim()
+            })
+            this.dictionary.hydrogeologicalType = data.data
+          }
+        })
+        .catch((err) => {
+          console.log("获取水文地质类型码表失败：", err);
+        });
+    },
+    getMineFire (userSessId) {
+      // 煤层自燃倾向性
+      return this.$http.get(
+          `/local/dict/listData?type=${(this.userType === 'supervision' ? 'MineFire' : 'MineFire')}&__sid=${userSessId}`)
+        .then(async ({ data }) => {
+          if (data.status === "200") {
+            data.data.forEach(item => {
+              item.id = item.id.trim()
+            })
+            this.dictionary.mineFire = data.data
+          }
+        })
+        .catch((err) => {
+          console.log("获取煤层自燃倾向性码表失败：", err);
+        });
+    },
+    getBaseMineStatusZs (userSessId) {
+      // 矿井状态
+      return this.$http.get(
+          `/local/dict/listData?type=${(this.userType === 'supervision' ? 'base_mine_status_zs' : 'base_mine_status_zs')}&__sid=${userSessId}`)
+        .then(async ({ data }) => {
+          if (data.status === "200") {
+            data.data.forEach(item => {
+              item.id = item.id.trim()
+            })
+            this.dictionary.baseMineStatusZs = data.data
+          }
+        })
+        .catch((err) => {
+          console.log("获取矿井状态码表失败：", err);
         });
     },
     async handleUpdateTime(resId) {

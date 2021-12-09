@@ -52,17 +52,29 @@
         type: Boolean,
         default: false
       },
+      selectedRiskAssessment: {
+        type: String,
+        default: null
+      }
     },
     data () {
       return {
         DBName: this.$store.state.DBName,
         loading: false,
         riskAssessmentList: [],
-        selectedRisk: [], // 选中的节点数据
+        selectedRisk: [], 
+      }
+    },
+    watch: {
+      selectedRiskAssessment(val) {
+        this.getData()
       }
     },
     created() {
       this.getDictionary()
+    },
+    mounted() {
+      this.getData()
     },
     methods: {
       async getDictionary () {
@@ -82,6 +94,16 @@
         let list = treeDataTranslate(riskAssessmentList)
         this.riskAssessmentList = list
       },
+      getData () {
+        let selectedRisk = []
+        if (this.selectedRiskAssessment) {
+          selectedRisk = this.selectedRiskAssessment.split(',')
+        }
+        this.selectedRisk = selectedRisk
+        this.$nextTick(() => {
+          this.$refs.checkListTree.setCheckedKeys(selectedRisk);
+        })
+      },
       checkList (objectItem, selectedObjectItem) {
         // 选择权限同时增加至已选择权限列表中
         this.selectedRisk = selectedObjectItem.checkedNodes
@@ -98,12 +120,6 @@
 </script>
 
 <style lang="scss" scoped>
-/deep/ .el-dialog__header {
-  border-bottom: 1px solid #DCDFE6;
-}
-/deep/ .el-dialog__body {
-  padding: 10px 30px;
-}
 /deep/ .el-tree-node__content {
   height: auto;
 }

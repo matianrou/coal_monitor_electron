@@ -6,10 +6,10 @@
     append-to-body
     :visible="visible"
     width="700px"
-    top="10vh"
+    top="5vh"
     @close="close"
   >
-    <div v-loading="loading">
+    <div v-loading="loading" ref="dragDiv">
       <div class="dialog-filter">
         <div class="filter-name">
           <el-input
@@ -37,15 +37,9 @@
           </el-select>
           <el-checkbox v-model="dataForm.allPerson" @change="getPersonList">是否显示全省用户</el-checkbox>
         </div>
-        <div v-if="hasAdd" class="filter-operation">
-          <el-button
-            type="primary"
-            size="small"
-            @click="addPerson"
-          >添加人员</el-button>
-        </div>
+        
       </div>
-      <div class="dialog-max">
+      <div :class="multiSelect ? 'dialog-max-multi' : 'dialog-max'">
         <el-table
           ref="personList"
           :data="personList"
@@ -53,16 +47,33 @@
           border
           style="width: 100%;"
           height="100%"
+          :row-key="getRowKey"
           :header-cell-style="{background: '#f5f7fa'}"
           :highlight-current-row="!multiSelect"
           @current-change="handleCurrentChange"
           @selection-change="handleSelectionChange"
         >
-          <el-table-column v-if="multiSelect" type="selection" width="55"></el-table-column>
+          <el-table-column v-if="multiSelect" type="selection" width="55" :reserve-selection="true"></el-table-column>
           <el-table-column type="index" width="50" align="center"></el-table-column>
           <el-table-column prop="name" label="姓名" header-align="center" align="center"></el-table-column>
           <el-table-column prop="officeName" label="所属机构" header-align="center" align="center"></el-table-column>
         </el-table>
+      </div>
+      <div v-if="multiSelect" class="list-order">
+        <!-- 拖拽排序 -->
+        <div class="list-order-title">
+          <span>已选人员（拖拽排序）：</span>
+        </div>
+        <div class="list-order-tags">
+          <el-tag
+            v-for="(person, index) in currentRows"
+            :key="person.no"
+            closable
+            class="dragtag"
+            @close="deletePerson(person, index)">
+            {{person.name}}
+          </el-tag>
+        </div>
       </div>
     </div>
     <el-dialog
@@ -95,6 +106,11 @@
       </span>
     </el-dialog>
     <span slot="footer" class="dialog-footer">
+      <el-button
+        v-if="hasAdd"
+        type="primary"
+        @click="addPerson"
+      >添加人员</el-button>
       <el-button @click="close">取消</el-button>
       <el-button type="primary" @click="confirm">确定</el-button>
     </span>
@@ -105,6 +121,7 @@
 import GoDB from "@/utils/godb.min.js";
 import { getAllProvinceOrg, sortbyAsc, randomString } from '@/utils/index'
 import { getNowTime, getNowFormatTime } from '@/utils/date'
+import Sortable from 'sortablejs'
 export default {
   name: "selectPersonDialog",
   props: {
@@ -126,6 +143,10 @@ export default {
       // 多选时回显数据
       type: Array,
       default: () => [],
+    },
+    selectedData: {
+      type: Object,
+      default: () => {}
     },
     hasAdd: {
       // 是否可以新增人员
@@ -163,40 +184,19 @@ export default {
         officeName: [
           { required: true, message: '请输入工作单位', trigger: 'blur' }
         ],
-      }
+      },
+      sortableItem: null
     };
   },
   async created() {
     await this.getOrgList()
     await this.getPersonList()
-  },
-  computed: {
-    watchData() {
-      return {
-        selectedDataList: this.selectedDataList,
-        personList: this.personList
-      }
+    if (this.multiSelect) {
+      this.setSelectionRows()
+      this.rowDrop()
+    } else {
+      this.setSelectionRow()
     }
-  },
-  watch: {
-    watchData: {
-      // 回显数据，勾选上已选数据
-      handler(val) {
-        this.currentRows = val.selectedDataList;
-        this.$nextTick(() => {
-          this.$refs.personList && this.$refs.personList.clearSelection();
-          if (this.$refs.personList && val.selectedDataList.length > 0) {
-            val.selectedDataList.map((row) => {
-              this.$refs.personList.toggleRowSelection(
-                this.personList.find((item) => item.no === row.no),
-                true
-              );
-            });
-          }
-        });
-      },
-      immediate: true,
-    },
   },
   methods: {
     async getOrgList() {
@@ -204,9 +204,9 @@ export default {
       let orgInfo = db.table("orgInfo"); // 机构
       // 查询全省机构
       let groupList = await orgInfo.findAll(item => {
-        return item.delFlag === "0" && item.grade === '2'
+        return item.delFlag === "0" && (item.grade === '2' || item.grade === '1')
       })
-      groupList.sort(sortbyAsc('createDate'))
+      groupList.sort(sortbyAsc('grade'))
       this.allProvinceList = groupList
       await db.close();
     },
@@ -246,6 +246,33 @@ export default {
       this.personList = [...personList, ...addPersonList]
       this.loading = false;
     },
+    setSelectionRow() {
+      // 设置单选
+      this.currentRow = this.selectedData
+      this.$nextTick(() => {
+        if (this.selectedData && this.selectedData.no) {
+          this.$refs.personList.setCurrentRow(
+            this.personList.find((item) => item.no === this.selectedData.no),
+            true
+          );
+        }
+      })
+    },
+    setSelectionRows() {
+      // 设置多选
+      this.currentRows = this.selectedDataList;
+      this.$nextTick(() => {
+        this.$refs.personList && this.$refs.personList.clearSelection();
+        if (this.$refs.personList && this.selectedDataList.length > 0) {
+          this.selectedDataList.map((row) => {
+            this.$refs.personList.toggleRowSelection(
+              this.personList.find((item) => item.no === row.no),
+              true
+            );
+          });
+        }
+      });
+    },
     close(refresh) {
       if (this.multiSelect) {
         this.currentRows = [];
@@ -277,9 +304,37 @@ export default {
     },
     handleSelectionChange(val) {
       // 多选时使用
-      if (this.multiSelect) {
+      if (this.multiSelect && val) {
         this.currentRows = val;
       }
+    },
+    deletePerson (person, index) {
+      this.currentRows.splice(index, 1)
+      this.$refs.personList.toggleRowSelection(
+        this.personList.find((item) => item.no === person.no),
+        false
+      );
+    },
+    rowDrop () {
+      this.$nextTick(() => {
+        // 此时找到的元素是要拖拽元素的父容器
+        const dagEl = this.$refs.dragDiv.querySelectorAll('.list-order-tags')[0]
+        const that = this;
+        this.sortableItem = new Sortable(dagEl, {
+          //  指定父元素下可被拖拽的子元素
+          draggable: ".dragtag",
+          direction: 'horizontal',
+          onEnd ({ newIndex, oldIndex }) {
+            let value = JSON.parse(JSON.stringify(that.currentRows))
+            let currRow = value.splice(oldIndex, 1)[0];
+            value.splice(newIndex, 0, currRow);
+            that.currentRows = value
+          }
+        });
+      })
+    },
+    getRowKey (row) {
+      return row.no
     },
     addPerson () {
       // 添加人员
@@ -324,10 +379,6 @@ export default {
     color: #fff;
   }
 }
-/deep/ .el-dialog__body {
-  padding: 10px 30px;
-  border-top: 1px solid #DCDFE6;
-}
 .dialog-filter {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -337,7 +388,26 @@ export default {
     text-align: right;
   }
 }
+.dialog-max-multi {
+  height: calc(100vh - 10vh - 330px);
+}
 .dialog-max {
   height: calc(100vh - 10vh - 250px);
+}
+.list-order {
+  margin-top: 15px;
+  border: 1px solid rgb(160, 207, 255);
+  padding: 15px;
+  position: relative;
+  .list-order-title {
+    position: absolute;
+    top: -10px;
+    background: #fff;
+    padding: 0 3px;
+    color: #303133;
+  }
+  .dragtag {
+    margin-right: 5px;
+  }
 }
 </style>

@@ -140,7 +140,9 @@
       </el-table>
     </div>
     <select-person
+      v-if="showDialog.selectPerson"
       :visible="showDialog.selectPerson"
+      :selected-data="{no: dataForm.receiveId}"
       title="选择接收人"
       @confirm-person="confirmPerson"
       @close="closeDialog"

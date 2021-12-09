@@ -254,9 +254,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/deep/ .el-dialog__body {
-  padding: 0 20px;
-}
 .receive-danger-main {
   height: 65vh;
   width: 100%;

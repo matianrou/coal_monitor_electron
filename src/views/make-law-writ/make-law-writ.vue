@@ -66,6 +66,13 @@
       @close="closeSelectDialog"
       @confirm-paper="confirmPaper"
     ></select-paper>
+    <check-corp-info
+      v-if="checkCorpInfoVisible"
+      :visible="checkCorpInfoVisible"
+      :corp-data="corpData"
+      @close="closeCheckCorpInfo"
+      @confirm="confirmCheckCorpInfo"
+    ></check-corp-info>
   </div>
 </template>
 
@@ -78,6 +85,7 @@ import writInformation from '@/components/writ-information' // 创建活动弹�
 import { writList } from '@/utils/writList'
 import selectPaper from '@/components/select-paper'
 import { sortbyAsc } from "@/utils/index";
+import checkCorpInfo from '@/components/check-corp-info'
 
 export default {
   name: "MakeLawWrit",
@@ -87,7 +95,8 @@ export default {
     writInformation,
     ...writFlow,
     ...writList,
-    selectPaper
+    selectPaper,
+    checkCorpInfo
   },
   data() {
     return {
@@ -113,6 +122,7 @@ export default {
       templatePaperData: {},  // 当选择文书时，临时保存的文书数据，用来选择后指定文书跳转及展示
       paperList: [], // 选择的文书列表
       showJczfReport: false, // 是否展示监察执法报告环节
+      checkCorpInfoVisible: false, // 回传煤矿信息
     }
   },
   created() {
@@ -140,11 +150,27 @@ export default {
       if (page === 'writFill') {
         this.paperData = {}
         this.paperList = []
+        this.templatePaperData = {}
         // 进入填写页面前，根据新增或修改调取数据，
         // 如果新增则直接进入编辑页面并进行初始化，
         if (data.isCreated) {
           // 新增时进入填写页面时，data为展示模板page
-          this.gotoWritFill(data)
+          // 新增时增加判断：如果是首次添加检查方案时，增加煤矿信息确认回传窗口
+          if (data.docData.docTypeNo === '22') {
+            let db = new GoDB(this.$store.state.DBName);
+            let wkPaper = db.table("wkPaper");
+            let paper22List = await wkPaper.findAll(item => item.caseId === this.corpData.caseId && item.paperType === '22')
+            await db.close()
+            if (paper22List.length === 0) {
+              // 弹窗
+              this.checkCorpInfoVisible = true
+              this.templatePaperData = data
+            } else {
+              this.gotoWritFill(data)
+            }
+          } else {
+            this.gotoWritFill(data)
+          }
         } else if (data.isCurPaper && data.isCurPaper.paperId) {
           // 判断当指定进入某个文书时，当前用于接收文书后直接进入展示文书内容
           this.paperData = data.isCurPaper
@@ -158,7 +184,14 @@ export default {
           // await wkPaper.delete(checkPaper[0].id) // 删除文书
           if (checkPaper.length === 0) {
             // 如果未查询到相关数据，则进入文书编辑页面，进行初始化
-            this.gotoWritFill(data)
+            // 如果是检查方案则弹窗确认返回煤矿信息
+            if (data.docData.docTypeNo === '22') {
+              // 弹窗
+              this.checkCorpInfoVisible = true
+              this.templatePaperData = data
+            } else {
+              this.gotoWritFill(data)
+            }
           } else if (checkPaper.length === 1) {
             // 如果有一条数据，则赋值paperId进入页面, 回显
             this.paperData = checkPaper[0]
@@ -185,6 +218,7 @@ export default {
       }
     },
     gotoWritFill (data) {
+      console.log('data', data)
       this.showPage.writFill = true
       this.showTemp = data.page
       this.docData = data.docData
@@ -281,9 +315,25 @@ export default {
     },
     confirmPaper (currentRow) {
       // 保存选择文书
-      this.paperData = currentRow
-      this.gotoWritFill(this.templatePaperData)
-      this.closeSelectDialog()
+      if (currentRow) {
+        this.paperData = currentRow
+        this.gotoWritFill(this.templatePaperData)
+        this.selectPaperVisible = false
+      } else {
+        this.$message.error('请选择文书')
+      }
+    },
+    closeCheckCorpInfo () {
+      // 关闭确认返回煤矿信息弹窗
+      this.checkCorpInfoVisible = false
+    },
+    confirmCheckCorpInfo () {
+      // 确认返回煤矿信息弹窗
+      this.checkCorpInfoVisible = false
+      this.$nextTick(() => {
+        // 使用nextTick以防止弹窗未关闭时切换至填报页面，报错
+        this.gotoWritFill(this.templatePaperData)
+      })
     }
   },
 };
@@ -332,8 +382,5 @@ export default {
     width: 100%;
     overflow: hidden;
   }
-}
-.el-dialog__header {
-  border-bottom: 1px solid #DCDFE6;
 }
 </style>

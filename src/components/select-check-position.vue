@@ -70,10 +70,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/deep/ .el-dialog__body {
-  padding: 10px 30px;
-  border-top: 1px solid #DCDFE6;
-}
 .dialog-max {
   height: calc(100vh - 10vh - 200px);
   overflow: auto;

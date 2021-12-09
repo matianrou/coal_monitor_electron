@@ -240,7 +240,4 @@ export default {
 .receive-paper-main {
   height: calc(100vh - 10vh - 54px - 70px - 20px);
 }
-/deep/ .el-dialog__body {
-  padding: 0px 20px;
-}
 </style>

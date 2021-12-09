@@ -335,12 +335,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/deep/ .el-dialog__header {
-  border-bottom: 1px solid #DCDFE6;
-}
-/deep/ .el-dialog__body {
-  padding: 10px 20px;
-}
 .update-paper-main {
   height: 70vh;
   overflow: auto;

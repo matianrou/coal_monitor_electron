@@ -149,9 +149,9 @@ import { treeDataTranslate } from '@/utils/index'
         let db = new GoDB(this.DBName);
         let corpBase = db.table("corpBase"); // 煤矿企业
         let corpList = await corpBase.findAll(item => {
-          return item.corpName.indexOf(companyName) !== -1 &&
+          return item.corpName && item.corpName.indexOf(companyName) !== -1 &&
                   item.delFlag !== '1' && 
-                  item.zoneCountyId.slice(0, this.curAreaLevel) === (areaId ? areaId.slice(0, this.curAreaLevel) : item.zoneCountyId.slice(0, this.curAreaLevel))
+                  item.zoneCountyId && item.zoneCountyId.slice(0, this.curAreaLevel) === (areaId ? areaId.slice(0, this.curAreaLevel) : item.zoneCountyId.slice(0, this.curAreaLevel))
         })
         // 是否仅显示本机构
         if (onlySelf) {
@@ -258,11 +258,6 @@ import { treeDataTranslate } from '@/utils/index'
       }
     }
   }
-}
-/deep/ .el-dialog__body {
-  padding: 0px;
-  color: #606266;
-  font-size: 14px;
 }
 /deep/ .el-tree {
   overflow: auto；

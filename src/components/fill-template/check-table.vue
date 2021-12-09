@@ -127,6 +127,7 @@
       @close="handleClose"
     ></select-check-content>
     <select-person
+      v-if="visible.selectPerson"
       :visible="visible.selectPerson"
       :multi-select="true"
       :selected-data-list="selectedRowPersonList"
@@ -329,6 +330,7 @@ export default {
       // 保存人员
       // 判断是多个操作还是单项操作
       let personNames = ''
+      console.log('personList', personList)
       if (personList.length > 0) {
         personList.map(item => {
           personNames += item.name + '，'
