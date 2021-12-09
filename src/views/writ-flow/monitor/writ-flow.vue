@@ -2101,6 +2101,7 @@
     <!-- 隐患项列表详情展示 -->
     <show-danger-items
       :visible="visible.showDangerItems"
+      :corp-data="corpData"
       :danger-list="showDangerList"
       @close="closeDialog"
     ></show-danger-items>
