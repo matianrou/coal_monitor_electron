@@ -25,13 +25,16 @@
             type="primary"
             size="small"
             @click="selectFilter(false)"
-          >搜索</el-button>
+          >精准搜索</el-button>
           <el-button
             type="primary"
             size="small"
             style="margin-left:0;"
             @click="selectFilter(true)"
           >模糊搜索</el-button>
+          <el-tooltip class="item" effect="dark" content="可进行多关键词的搜索，每个关键词之间用空格键隔开" placement="top">
+            <i class="el-icon-warning-outline" style="color: #E6A23C;"></i>
+          </el-tooltip>
         </div>
         <div>
           <el-select
@@ -295,11 +298,22 @@ export default {
       this.close()
     },
     selectFilter(isDim) {
-      const str = this.filter.name
-      isDim ?
-        (str && str.length && str.split('').forEach(s => this.$refs.dangerListTree.filter(s)))
-        :
-        this.$refs.dangerListTree.filter(this.filter.name)
+      if (isDim) {
+        // 模糊搜索
+        let str = this.filter.name.trim()
+        str && str.length && str.split('').forEach(s => this.$refs.dangerListTree.filter(s))
+      } else {
+        // 精准搜索
+        let str = this.filter.name
+        let isMulti = false
+        if (str.includes(' ')) {
+          isMulti = true
+        }
+        isMulti ?
+          (str && str.length && str.split(' ').forEach(s => this.$refs.dangerListTree.filter(s)))
+          :
+          this.$refs.dangerListTree.filter(this.filter.name)
+      }
     },
     filterNode(value, data) {
       if (!value) return true;
