@@ -160,39 +160,9 @@ export default {
     exportExcel() {
       import('@/vendor/Export2Excel').then(excel => {
         // 表头
-        const tHeader = [
-          '序号',
-          '隐患等级',
-          '隐患发现人',
-          '隐患发现时间',
-          '隐患描述',
-          '违法认定法条',
-          '现场处理措施',
-          '现场处理依据',
-          '行政处罚决定',
-          '行政处罚依据',
-          '企业罚款（万）',
-          '个人罚款（万）',
-          '是否隐患复查',
-          '隐患复查日期'
-        ];
+        const tHeader = ['序号'].concat(this.colList.map(h => h.label))
         // 表头对应字段名
-        const tColumnVal = [
-          'order',
-          'isSeriousValue',
-          'personNames',
-          'createDate',
-          'itemContent',
-          'confirmBasis',
-          'onsiteDesc',
-          'onsiteBasis',
-          'penaltyDesc',
-          'penaltyBasis',
-          'orgPenalty',
-          'personPenalty',
-          'isReviewValue',
-          'reviewDate'
-        ];
+        const tColumnVal = ['order'].concat(this.colList.map(c => c.prop))
         const list = this.dangerList;// 数据来源
         const data = this.formatJson(tColumnVal, list);// 数据格式化
         const fileName = this.corpData.corpName || '隐患项明细表';// 导出时文件名
