@@ -233,9 +233,10 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
+import {  getDocNumber } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 import { setNewDanger } from '@/utils/setInitPaperData'
+import { setDangerTable } from '@/utils/handlePaperData'
 export default {
   name: "Let107",
   mixins: [associationSelectPaper],
@@ -266,10 +267,18 @@ export default {
       let let1DataPaperContent = this.corpData.caseType === '0' ? JSON.parse(
         selectedPaper.let1Data.paperContent
       ) : null;
-      let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
-        let1DataPaperContent.DangerTable.selectedDangerList
-      ) : null;
-      let cellIdx5String = this.corpData.caseType === '0' ? `${dangerObject.dangerString}` : '';
+      // let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
+      //   let1DataPaperContent.DangerTable.selectedDangerList
+      // ) : null;
+      // let cellIdx5String = this.corpData.caseType === '0' ? `${dangerObject.dangerString}` : '';
+      let cellIdx5String = this.corpData.caseType === '0' ?setDangerTable(
+        let1DataPaperContent.DangerTable,
+        {},
+        {
+          page: "23",
+          key: "cellIdx5",
+        }
+      ):'';
       // 3.抽样时间9-12
       let now = new Date();
       let cellIdx9Year = now.getFullYear().toString();

@@ -293,8 +293,9 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber, getDangerObject, setNewDanger } from "@/utils/setInitPaperData";
+import { getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
+import { setDangerTable } from '@/utils/handlePaperData'
 export default {
   name: "Let301",
   mixins: [associationSelectPaper],
@@ -339,11 +340,23 @@ export default {
       let let39DataPaperContent = JSON.parse(
         selectedPaper.let39Data.paperContent
       );
-      let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
-        let39DataPaperContent.DangerTable.selectedDangerList
-      ) : null;
+      // let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
+      //   let39DataPaperContent.DangerTable.selectedDangerList
+      // ) : null;
       // 4.对被申请人：企业名称+'涉嫌'+隐患描述+'案'
-      let cellIdx16String = `${corp.corpName}涉嫌${ this.corpData.caseType === '0' ? dangerObject.dangerString : 'XXX'}案`;
+      // let cellIdx16String = `${corp.corpName}涉嫌${ this.corpData.caseType === '0' ? dangerObject.dangerString : 'XXX'}案`;
+      let cellIdx16String = this.corpData.caseType === '0' ?setDangerTable(
+          let39DataPaperContent.DangerTable,
+          {}, 
+          {
+            page: "18",
+            key: "cellIdx16",
+            spellString: {
+              corpName: corp.corpName,
+              groupName: this.$store.state.curCase.groupName,
+            },
+          }
+        ):'';
       let let39Date = let39DataPaperContent.cellIdx29
         ? let39DataPaperContent.cellIdx29
             .replace("年", "-")

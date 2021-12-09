@@ -71,59 +71,72 @@
               <div class="line"></div>
             </div>
             <div class="docTextarea">
-              <div style="display:inline-block;min-width:48%">
-                  <span class="no-line">陈述、申辩人：</span>
-                  <span @click="commandFill('cellIdx8', '陈述、申辩人', 'TextItem')"
-                  >{{ letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）" }}</span>
+              <div style="display: inline-block; min-width: 48%">
+                <span class="no-line">陈述、申辩人：</span>
+                <span
+                  @click="commandFill('cellIdx8', '陈述、申辩人', 'TextItem')"
+                  >{{
+                    letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
+                  }}</span
+                >
               </div>
               <span class="no-line">性&nbsp;&nbsp;&nbsp;别：</span>
-                <span @click="commandFill('cellIdx9', '性别', 'SelectItem')">{{
-                  letData.cellIdx9 ? letData.cellIdx9 : "（编辑）"
-                }}</span>
-                <span class="no-line">年&nbsp;&nbsp;&nbsp;龄：</span>
-                <span @click="commandFill('cellIdx10', '年龄', 'TextItem')">{{
-                  letData.cellIdx10 ? letData.cellIdx10 : "（编辑）"
-                }}</span>
-                <div class="line"></div>
+              <span @click="commandFill('cellIdx9', '性别', 'SelectItem')">{{
+                letData.cellIdx9 ? letData.cellIdx9 : "（编辑）"
+              }}</span>
+              <span class="no-line">年&nbsp;&nbsp;&nbsp;龄：</span>
+              <span @click="commandFill('cellIdx10', '年龄', 'TextItem')">{{
+                letData.cellIdx10 ? letData.cellIdx10 : "（编辑）"
+              }}</span>
+              <div class="line"></div>
             </div>
             <div class="docTextarea">
-              <div style="display:inline-block;min-width:48%">
+              <div style="display: inline-block; min-width: 48%">
                 <span class="no-line">工作单位：</span>
                 <span @click="commandFill('cellIdx11', '工作单位', 'TextItem')"
                   >{{ letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）" }}
                 </span>
               </div>
-                <span class="no-line">职务（职业）：</span>
-                <span @click="commandFill('cellIdx12', '职务（职业）', 'TextItem')">{{
+              <span class="no-line">职务（职业）：</span>
+              <span
+                @click="commandFill('cellIdx12', '职务（职业）', 'TextItem')"
+                >{{
                   letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）"
-                }}</span>
-                <div class="line"></div>
+                }}</span
+              >
+              <div class="line"></div>
             </div>
             <div class="docTextarea">
-              <div style="display:inline-block;min-width:48%">
+              <div style="display: inline-block; min-width: 48%">
                 <span class="no-line">住&nbsp;&nbsp;&nbsp;&nbsp;址：</span>
                 <span @click="commandFill('cellIdx13', '住址', 'TextItem')"
                   >{{ letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）" }}
                 </span>
               </div>
-                <span class="no-line">电&nbsp;&nbsp;&nbsp;&nbsp;话：</span>
-                <span @click="commandFill('cellIdx14', '电话', 'TextItem')">{{
-                  letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）"
-                }}</span>
-                <div class="line"></div>
+              <span class="no-line">电&nbsp;&nbsp;&nbsp;&nbsp;话：</span>
+              <span @click="commandFill('cellIdx14', '电话', 'TextItem')">{{
+                letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）"
+              }}</span>
+              <div class="line"></div>
             </div>
             <div class="docTextarea">
-              <div style="display:inline-block;min-width:48%">
+              <div style="display: inline-block; min-width: 48%">
                 <span class="no-line">承办人（签名）：</span>
-                <span @click="commandFill('cellIdx15', '承办人（签名）', 'TextItem')"
+                <span
+                  @click="
+                    commandFill('cellIdx15', '承办人（签名）', 'TextItem')
+                  "
                   >{{ letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）" }}
                 </span>
               </div>
-                <span class="no-line">记录人（签名）：</span>
-                <span @click="commandFill('cellIdx17', '记录人（签名）', 'TextItem')">{{
+              <span class="no-line">记录人（签名）：</span>
+              <span
+                @click="commandFill('cellIdx17', '记录人（签名）', 'TextItem')"
+                >{{
                   letData.cellIdx17 ? letData.cellIdx17 : "（点击编辑）"
-                }}</span>
-                <div class="line"></div>
+                }}</span
+              >
+              <div class="line"></div>
             </div>
             <div class="docTextarea">
               陈述、申辩记录：我们是
@@ -197,8 +210,9 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, setNewDanger } from "@/utils/setInitPaperData";
+import { setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
+import { setDangerTable } from "@/utils/handlePaperData";
 export default {
   name: "Let205",
   mixins: [associationSelectPaper],
@@ -208,12 +222,12 @@ export default {
       options: {
         cellIdx9: [
           {
-            value: '男',
-            name: '男'
+            value: "男",
+            name: "男",
           },
           {
-            value: '女',
-            name: '女'
+            value: "女",
+            name: "女",
           },
         ],
         cellIdx19: {
@@ -258,15 +272,33 @@ export default {
       let let6DataPaperContent = JSON.parse(
         selectedPaper.let6Data.paperContent
       );
-      let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
-        let6DataPaperContent.DangerTable.selectedDangerList
-      ) : null;
-      let cellIdx19String = this.corpData.caseType === '0' ? `${corp.corpName}涉嫌${dangerObject.dangerString}案。` : ''
-      let DangerTable = null
-      if (this.corpData.caseType === '0') {
-        DangerTable = let6DataPaperContent.DangerTable ? 
-          setNewDanger(selectedPaper.let6Data, let6DataPaperContent.DangerTable)
-          : {}
+      // let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
+      //   let6DataPaperContent.DangerTable.selectedDangerList
+      // ) : null;
+      // let cellIdx19String = this.corpData.caseType === '0' ? `${corp.corpName}涉嫌${dangerObject.dangerString}案。` : ''
+      let cellIdx19String =
+        this.corpData.caseType === "0"
+          ? setDangerTable(
+              let6DataPaperContent.DangerTable,
+              {},
+              {
+                page: "30",
+                key: "cellIdx19",
+                spellString: {
+                  corpName: corp.corpName,
+                  groupName: this.$store.state.curCase.groupName,
+                },
+              }
+            )
+          : "";
+      let DangerTable = null;
+      if (this.corpData.caseType === "0") {
+        DangerTable = let6DataPaperContent.DangerTable
+          ? setNewDanger(
+              selectedPaper.let6Data,
+              let6DataPaperContent.DangerTable
+            )
+          : {};
       }
       await db.close();
       /* let let204Data = await wkPaper.find(
@@ -315,13 +347,17 @@ export default {
           groupName: this.$store.state.curCase.groupName,
         },
         selectedType: let6DataPaperContent.selectedType,
-        associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
-          paper22Id: let6DataPaperContent.associationPaperId.paper22Id,
-          paper1Id: let6DataPaperContent.associationPaperId.paper1Id,
-          paper6Id: selectedPaper.let6Data.paperId
-        } : {
-          paper6Id: selectedPaper.let6Data.paperId
-        }
+        associationPaperId:
+          this.corpData.caseType === "0"
+            ? {
+                // 关联的paperId
+                paper22Id: let6DataPaperContent.associationPaperId.paper22Id,
+                paper1Id: let6DataPaperContent.associationPaperId.paper1Id,
+                paper6Id: selectedPaper.let6Data.paperId,
+              }
+            : {
+                paper6Id: selectedPaper.let6Data.paperId,
+              },
       };
     },
     goBack({ page, data }) {

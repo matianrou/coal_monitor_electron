@@ -77,38 +77,65 @@
               <label style="width: 5%"></label>
               经查，你单位
               <span
-                @dblclick="commandFill('cellIdx6', '违法违规行为', corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem')"
-                @click="commandFill('cellIdx6', '违法违规行为', 'DangerTextareaItem')"
+                @dblclick="
+                  commandFill(
+                    'cellIdx6',
+                    '违法违规行为',
+                    corpData.caseType === '0'
+                      ? 'DangerTable'
+                      : 'DangerTextareaItem'
+                  )
+                "
+                @click="
+                  commandFill('cellIdx6', '违法违规行为', 'DangerTextareaItem')
+                "
                 >{{
                   letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
                 }}</span
               >
               行为涉嫌违反
-              <span 
-                @dblclick="commandFill('cellIdx7', '规定', corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem')"
-                @click="commandFill('cellIdx7', '规定', 'DangerTextareaItem')">{{
-                letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
-              }}</span>
+              <span
+                @dblclick="
+                  commandFill(
+                    'cellIdx7',
+                    '规定',
+                    corpData.caseType === '0'
+                      ? 'DangerTable'
+                      : 'DangerTextareaItem'
+                  )
+                "
+                @click="commandFill('cellIdx7', '规定', 'DangerTextareaItem')"
+                >{{
+                  letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
+                }}</span
+              >
               的规定，根据《中华人民共和国安全生产法》第六十二条第一款第四项规定，我
-              <span class="no-underline" @click="commandFill('cellIdx8', '局', 'TextItem')">{{
-                letData.cellIdx8 ? letData.cellIdx8 : "(编辑)"
-              }}</span>
+              <span
+                class="no-underline"
+                @click="commandFill('cellIdx8', '局', 'TextItem')"
+                >{{ letData.cellIdx8 ? letData.cellIdx8 : "(编辑)" }}</span
+              >
               决定对你单位涉案
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx9', '', 'SelectItem')"
-                >{{ letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）" }}</span
-              >
-              予以
-              <span
-                class="no-underline"
                 >{{
-                  letData.cellIdx0 ? letData.cellIdx0 : "（点击编辑）"
+                  letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
                 }}</span
               >
+              予以
+              <span class="no-underline">{{
+                letData.cellIdx0 ? letData.cellIdx0 : "（点击编辑）"
+              }}</span>
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx10', '《物品清单》', 'SamplingForensicsTable')"
+                @click="
+                  commandFill(
+                    'cellIdx10',
+                    '《物品清单》',
+                    'SamplingForensicsTable'
+                  )
+                "
                 >（详见《物品清单》）。</span
               >
             </div>
@@ -133,9 +160,13 @@
                 }}</span
               >
               作出处理决定。此前，你单位不得使用、销毁或转移上述
-              <span class="no-underline" @click="commandFill('cellIdx9', '', 'SelectItem')">{{
-                letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
-              }}</span>
+              <span
+                class="no-underline"
+                @click="commandFill('cellIdx9', '', 'SelectItem')"
+                >{{
+                  letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
+                }}</span
+              >
               ，并负有安全保障责任。
             </div>
             <div class="docTextarea">
@@ -195,12 +226,12 @@
                 </td>
               </tr>
             </table>
-            <div class="docTextarea" style="border-top: 2px solid #000;">
+            <div class="docTextarea" style="border-top: 2px solid #000">
               备注：本文书一式两份，一份交被
-              <span
-                style="borderBottom:none"
-              >{{ letData.cellIdx23 ? letData.cellIdx23 : '（点击编辑）'}}</span>
-              单位，一份存档。 
+              <span style="borderbottom: none">{{
+                letData.cellIdx23 ? letData.cellIdx23 : "（点击编辑）"
+              }}</span>
+              单位，一份存档。
             </div>
           </div>
         </div>
@@ -237,8 +268,9 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
+import { getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
+import { setDangerTable } from "@/utils/handlePaperData";
 const dictionary = [
   {
     value: "场所",
@@ -286,7 +318,7 @@ export default {
         },
         cellIdx9: dictionary,
       },
-      associationPaper: this.corpData.caseType === '0' ? ["1"] : [],
+      associationPaper: this.corpData.caseType === "0" ? ["1"] : [],
       selectedType: "查封",
       visibleSelectDialog: false,
     };
@@ -308,14 +340,37 @@ export default {
         this.$store.state.user
       );
       // 3.违法行为：获取笔录文书中的隐患数据
-      let let1DataPaperContent = this.corpData.caseType === '0' ? JSON.parse(
-        selectedPaper.let1Data.paperContent
-      ) : null;
-      let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
-        let1DataPaperContent.DangerTable.selectedDangerList
-      ) : null;
-      let cellIdx6String = this.corpData.caseType === '0' ? `${dangerObject.dangerString}` : '';
-      let cellIdx7String = this.corpData.caseType === '0' ? `${dangerObject.illegalString}` : '';
+      let let1DataPaperContent =
+        this.corpData.caseType === "0"
+          ? JSON.parse(selectedPaper.let1Data.paperContent)
+          : null;
+      // let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
+      //   let1DataPaperContent.DangerTable.selectedDangerList
+      // ) : null;
+      // let cellIdx6String = this.corpData.caseType === '0' ? `${dangerObject.dangerString}` : '';
+      // let cellIdx7String = this.corpData.caseType === '0' ? `${dangerObject.illegalString}` : '';
+      let cellIdx6String =
+        this.corpData.caseType === "0"
+          ? setDangerTable(
+              let1DataPaperContent.DangerTable,
+              {},
+              {
+                page: "32",
+                key: "cellIdx6",
+              }
+            )
+          : "";
+      let cellIdx7String =
+        this.corpData.caseType === "0"
+          ? setDangerTable(
+              let1DataPaperContent.DangerTable,
+              {},
+              {
+                page: "32",
+                key: "cellIdx7",
+              }
+            )
+          : "";
       // 4.地点：sysOfficeInfo实体中organName字段+ courtPrefix字段
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(
@@ -327,11 +382,14 @@ export default {
           : { organName: "", courtPrefix: "" };
       let cellIdx16String = orgSysOfficeInfo.organName;
       let cellIdx17String = orgSysOfficeInfo.courtPrefix;
-      let DangerTable = null
-      if (this.corpData.caseType === '0') {
-        DangerTable = let1DataPaperContent.DangerTable ? 
-        setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
-        : {}
+      let DangerTable = null;
+      if (this.corpData.caseType === "0") {
+        DangerTable = let1DataPaperContent.DangerTable
+          ? setNewDanger(
+              selectedPaper.let1Data,
+              let1DataPaperContent.DangerTable
+            )
+          : {};
       }
       await db.close();
       this.letData = {
@@ -350,13 +408,13 @@ export default {
         cellIdx5TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
         cellIdx6: cellIdx6String, // 违法行为
         cellIdx7: cellIdx7String, // 涉嫌违法...规定
-        cellIdx8: '局', //局
-        cellIdx8TypeTextItem: '局', //局
-        cellIdx9: '物品', // 对你单位涉案....
-        cellIdx9TypeSelectItem: '物品', // 对你单位涉案....
+        cellIdx8: "局", //局
+        cellIdx8TypeTextItem: "局", //局
+        cellIdx9: "物品", // 对你单位涉案....
+        cellIdx9TypeSelectItem: "物品", // 对你单位涉案....
         cellIdx10: null, // 附件
-        cellIdx11: '局', // 局
-        cellIdx11TypeTextItem: '局', //局
+        cellIdx11: "局", // 局
+        cellIdx11TypeTextItem: "局", //局
         cellIdx12: null, // 查封/扣押
         // cellIdx13: null, // 暂不用
         // cellIdx14: null, // 暂不用
@@ -379,10 +437,14 @@ export default {
           signature: null,
           signDate: "",
         },
-        associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
-          paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
-          paper1Id: selectedPaper.let1Data.paperId
-        } : null
+        associationPaperId:
+          this.corpData.caseType === "0"
+            ? {
+                // 关联的paperId
+                paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
+                paper1Id: selectedPaper.let1Data.paperId,
+              }
+            : null,
       };
     },
     goBack({ page, data }) {
@@ -395,7 +457,7 @@ export default {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
         if (key === "cellIdx6" || key === "cellIdx7") {
-          if (type === 'DangerTable') {
+          if (type === "DangerTable") {
             this.options[key] = {
               page: "32",
               key: key,
@@ -403,7 +465,7 @@ export default {
             dataKey = "DangerTable";
           } else {
             this.options[key] = {
-              disabled: false
+              disabled: false,
             };
           }
         } else if (key === "cellIdx10") {

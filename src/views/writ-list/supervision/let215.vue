@@ -159,8 +159,8 @@
 <script>
 import GoDB from "@/utils/godb.min.js";
 import { handleDate } from '@/utils/date'
-import { getDangerObject } from '@/utils/setInitPaperData'
 import associationSelectPaper from '@/components/association-select-paper'
+import { setDangerTable } from '@/utils/handlePaperData'
 export default {
   name: "Let201",
   mixins: [associationSelectPaper],
@@ -180,8 +180,20 @@ export default {
       });
       // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
       let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPaperContent.DangerTable.tableData)
-      let cellIdx4String = `${corp.corpName}${dangerObject.dangerString}案。`
+      // let dangerObject = getDangerObject(let1DataPaperContent.DangerTable.tableData)
+      // let cellIdx4String = `${corp.corpName}${dangerObject.dangerString}案。`
+      let cellIdx4String = this.corpData.caseType === '0' ?setDangerTable(
+          let1DataPaperContent.DangerTable,
+          {},
+          {
+            page: "48",
+            key: "cellIdx4",
+            spellString: {
+              corpName: corp.corpName,
+              groupName: this.$store.state.curCase.groupName,
+            },
+          }
+        ):'';
       await db.close();
       this.letData = {
         cellIdx0: cellIdx4String, // 案由

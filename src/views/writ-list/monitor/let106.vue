@@ -223,9 +223,10 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
+import { getDocNumber } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 import { setNewDanger } from '@/utils/setInitPaperData'
+import { setDangerTable } from '@/utils/handlePaperData'
 export default {
   name: "Let106",
   mixins: [associationSelectPaper],
@@ -262,10 +263,18 @@ export default {
       let let1DataPaperContent = this.corpData.caseType === '0' ? JSON.parse(
         selectedPaper.let1Data.paperContent
       ) : null;
-      let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
-        let1DataPaperContent.DangerTable.selectedDangerList
-      ) : null;
-      let cellIdx12String = this.corpData.caseType === '0' ? dangerObject.dangerString : '';
+      // let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
+      //   let1DataPaperContent.DangerTable.selectedDangerList
+      // ) : null;
+      // let cellIdx12String = this.corpData.caseType === '0' ? dangerObject.dangerString : '';
+      let cellIdx12String = this.corpData.caseType === '0' ?setDangerTable(
+          let1DataPaperContent.DangerTable,
+          {},
+          {
+            page: "3",
+            key: "cellIdx12",
+          }
+        ):'';
       // 4.sysOfficeInfo中organName和courtPrefix
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(
@@ -330,7 +339,7 @@ export default {
         cellIdx28TypeDateItem: this.todayDate, // 日期
         DangerTable: DangerTable,
         associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
-          paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
+          // paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
           paper1Id: selectedPaper.let1Data.paperId
         } : null
       };
@@ -349,6 +358,7 @@ export default {
             this.options[key] = {
               page: "3",
               key: key,
+              // showSelectDangerBtn: true, // 用于区分是否可以选择隐患项
             };
             dataKey = "DangerTable";
           } else {

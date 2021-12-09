@@ -15,15 +15,17 @@
         style="width: 100%;"
         border
         stripe
-        :default-sort = "{prop: 'createDate', order: 'descending'}"
+        :default-sort="{prop: 'createDate', order: 'descending'}"
         highlight-current-row
         :header-cell-style="{background: '#f5f7fa'}"
-        height="100%">
+        height="100%"
+      >
         <el-table-column
           type="index"
           width="60"
           header-align="center"
-          align="center">
+          align="center"
+        >
         </el-table-column>
         <el-table-column
           v-for="(item, index) in colList"
@@ -32,14 +34,22 @@
           :header-align="item.headerAlign ? item.headerAlign : 'center'"
           :align="item.align ? item.align : 'center'"
           :width="item.width ? item.width : ''"
-          :min-width="item.minWidth ? item.minWidth : ''">
+          :min-width="item.minWidth ? item.minWidth : ''"
+        >
           <template slot-scope="scope">
             <span>{{ scope.row[item.prop] }}</span>
           </template>
         </el-table-column>
       </el-table>
     </div>
-    <span slot="footer" class="dialog-footer">
+    <span
+      slot="footer"
+      class="dialog-footer"
+    >
+      <el-button
+        type="primary"
+        @click="exportExcel"
+      >导出</el-button>
       <el-button @click="close">返回</el-button>
     </span>
   </el-dialog>
@@ -57,6 +67,10 @@ export default {
       // 弹窗标题
       type: String,
       default: '隐患项明细查看',
+    },
+    corpData: {
+      type: Object,
+      default: () => { }
     },
     colList: {
       type: Array,
@@ -139,8 +153,29 @@ export default {
     };
   },
   created() {
+    console.log(this.dangerList, this.corpData)
   },
   methods: {
+    // 导出EXCEL
+    exportExcel() {
+      import('@/vendor/Export2Excel').then(excel => {
+        // 表头
+        const tHeader = ['序号'].concat(this.colList.map(h => h.label))
+        // 表头对应字段名
+        const tColumnVal = ['order'].concat(this.colList.map(c => c.prop))
+        const list = this.dangerList;// 数据来源
+        const data = this.formatJson(tColumnVal, list);// 数据格式化
+        const fileName = this.corpData.corpName || '隐患项明细表';// 导出时文件名
+        excel.export_json_to_excel(tHeader, data, fileName);// 导出文件
+      })
+    },
+    // 对导出数据格式化处理
+    formatJson(columnList, jsonData) {
+      return jsonData.map(v => columnList.map(j => {
+        if (j === 'order') v[j]++;
+        return v[j];
+      }))
+    },
     close(refresh) {
       this.$emit("close", { page: "showDangerItems" });
     },
