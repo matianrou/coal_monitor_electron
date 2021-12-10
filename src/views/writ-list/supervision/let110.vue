@@ -385,8 +385,7 @@ export default {
         cellIdx18TypeTextItem: cellIdx17String, // courtPrefix人民法院
         cellIdx19: null, // 查封(扣押)
         cellIdx20: null, // 附件 暂不用
-        cellIdx21: this.$store.state.curCase.groupName, //
-        cellIdx21TypeTextItem: this.$store.state.curCase.groupName, //
+        cellIdx21: this.$store.state.curCase.provinceGroupName, //
         cellIdx22: this.todayDate, // 日期
         cellIdx22TypeDateItem: this.todayDate, // 日期
         cellIdx23: null, // 查封(扣押)

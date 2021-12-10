@@ -302,13 +302,12 @@ export default {
         cellIdx13TypeTextItem: orgSysOfficeInfo.master, // 执法机关联系人
         cellIdx14: orgSysOfficeInfo.phone, // 联系电话
         cellIdx14TypeTextItem: orgSysOfficeInfo.phone, // 邮政编码
-        cellIdx15: this.$store.state.curCase.groupName, // 单位
-        cellIdx15TypeTextItem: this.$store.state.curCase.groupName, //
+        cellIdx15: this.$store.state.curCase.provinceGroupName, // 单位
         cellIdx16: this.todayDate, // 日期
         cellIdx16TypeDateItem: this.todayDate, // 日期
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
-          groupName: this.$store.state.curCase.groupName,
+          groupName: this.$store.state.curCase.provinceGroupName,
         }
       };
     },

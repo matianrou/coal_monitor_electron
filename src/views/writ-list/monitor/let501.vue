@@ -227,6 +227,15 @@ export default {
         '',
         this.$store.state.user
       );
+      // 获取当前用户的省局机构名称
+      let userGroupId = this.$store.state.user.userGroupId
+      let orgInfo = db.table('orgInfo')
+      let userOrg = await orgInfo.find(item => item.no === userGroupId)
+      let provinceGroupName = userOrg.name
+      if (userOrg.grade === '3') {
+        let provinceOrg = await orgInfo.find(item => item.no === userOrg.parentId)
+        provinceGroupName = provinceOrg.name
+      }
       await db.close()
       this.letData = {
         cellIdx0: paperNumber.num0, // 文书号
@@ -246,7 +255,7 @@ export default {
         cellIdx14: null, // 收件人（签名)
         cellIdx15: null, // 日期
         cellIdx16: null, // 报送
-        cellIdx17: this.$store.state.curCase.groupName, // 
+        cellIdx17: provinceGroupName, // 
         cellIdx18: this.todayDate, // 日期
         cellIdx19: [], // 附件
         UploadFile: {

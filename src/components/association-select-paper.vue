@@ -42,6 +42,7 @@ export default {
   },
   data() {
     return {
+      DBName: this.$store.state.DBName,
       visible: {
         selectPaper: false
       },
@@ -89,7 +90,7 @@ export default {
     async initData() {
       // 初始化文书内容
       // 案件处理呈报书需初始化法制审核意见
-      let db = new GoDB(this.$store.state.DBName);
+      let db = new GoDB(this.DBName);
       if (this.docData.docTypeNo === '36') {
         // 4.法制审核意见初始化码表
         let nowDate = getNowDate();

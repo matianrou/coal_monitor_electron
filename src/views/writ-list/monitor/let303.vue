@@ -358,7 +358,7 @@ export default {
         cellIdx16TypeTextItem: orgSysOfficeInfo.master, // 我局联系人
         cellIdx17: orgSysOfficeInfo.phone, // 联系电话
         cellIdx17TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
-        cellIdx18: this.$store.state.curCase.groupName, //
+        cellIdx18: this.$store.state.curCase.provinceGroupName, //
         cellIdx19: this.todayDate, //日期
         cellIdx22: null, //单位/个人
         DangerTable, // 隐患项大表

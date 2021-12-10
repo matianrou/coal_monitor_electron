@@ -302,7 +302,7 @@ export default {
         cellIdx23: null, // 执法机关联系人
         cellIdx24: null, // 联系电话
         cellIdx25: this.$store.state.curCase.groupNamee, //
-        cellIdx25TypeTextItem: this.$store.state.curCase.groupName, //
+        cellIdx25TypeTextItem: this.$store.state.curCase.provinceGroupName, //
         cellIdx26: this.todayDate, //日期
         cellIdx26TypeDateItem: this.todayDate, // 日期
         cellIdx27: let8DataPaperContent.selectedType, //单位

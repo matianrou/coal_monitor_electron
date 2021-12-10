@@ -332,8 +332,7 @@ export default {
         cellIdx20: null, // 全部/部分
         cellIdx21: let32DataPaperContent.selectedType, // 查封(扣押)
         cellIdx22: let32DataPaperContent.SamplingForensicsTable, // 附件
-        cellIdx23: this.$store.state.curCase.groupName, //
-        cellIdx23TypeTextItem: this.$store.state.curCase.groupName, //
+        cellIdx23: this.$store.state.curCase.provinceGroupName, //
         cellIdx24: this.todayDate, // 日期
         cellIdx24TypeDateItem: this.todayDate, // 日期
         cellIdx25: let32DataPaperContent.selectedType, // 查封(扣押)

@@ -368,8 +368,7 @@ export default {
         cellIdx19: null, // 日期
         cellIdx20: null, // 复查人员（签名）
         cellIdx21: null, // 日期
-        cellIdx22: this.$store.state.curCase.groupName, //
-        cellIdx22TypeTextItem: this.$store.state.curCase.groupName, //
+        cellIdx22: this.$store.state.curCase.provinceGroupName, //
         cellIdx23: this.todayDate, // 日期
         cellIdx23TypeDateItem: this.todayDate, // 日期
         DangerTable: DangerTable,

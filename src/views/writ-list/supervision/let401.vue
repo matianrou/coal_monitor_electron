@@ -273,8 +273,7 @@ export default {
         cellIdx24: null, // 日期
         cellIdx19: null, // 收件人（签名）
         cellIdx20: null, // 日期
-        cellIdx21: this.$store.state.curCase.groupName, //
-        cellIdx21TypeTextItem: this.$store.state.curCase.groupName, //
+        cellIdx21: this.$store.state.curCase.provinceGroupName, //
         cellIdx22: this.todayDate, // 日期
         cellIdx22TypeDateItem: this.todayDate, // 日期
       };

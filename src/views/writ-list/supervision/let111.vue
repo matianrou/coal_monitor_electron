@@ -286,8 +286,7 @@ export default {
         cellIdx18TypeTextItem: orgSysOfficeInfo.organName, //
         cellIdx19: orgSysOfficeInfo.courtPrefix, // 人民法院
         cellIdx19TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
-        cellIdx20: this.$store.state.curCase.groupName, //
-        cellIdx20TypeTextItem: this.$store.state.curCase.groupName, //
+        cellIdx20: this.$store.state.curCase.provinceGroupName, //
         cellIdx21: this.todayDate, // 日期
         cellIdx21TypeDateItem: this.todayDate, // 日期
       };

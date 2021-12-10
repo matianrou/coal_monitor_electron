@@ -273,14 +273,14 @@ export default {
                 key: "cellIdx3",
                 spellString: {
                   corpName: corp.corpName,
-                  groupName: this.$store.state.curCase.groupName,
+                  groupName: this.$store.state.curCase.provinceGroupName,
                 },
               }
             )
           : "";
       // 2.违法事实及依据：隐患描述+“经调查取证以上违法违规行为属实，分别违反了”+违法认定发条
       // let cellIdx5String = `${dangerObject.dangerString}经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString}的规定。`
-      // let cellIdx5String = `${let1DataPaperContent.cellIdx1}${this.$store.state.curCase.groupName}对${corp.corpName}进行现场检查时发现${dangerObject.dangerString}以上行为分别涉嫌${dangerObject.illegalString}依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`;
+      // let cellIdx5String = `${let1DataPaperContent.cellIdx1}${this.$store.state.curCase.provinceGroupName}对${corp.corpName}进行现场检查时发现${dangerObject.dangerString}以上行为分别涉嫌${dangerObject.illegalString}依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`;
       let cellIdx5String =
         this.corpData.caseType === "0"
           ? setDangerTable(
@@ -334,7 +334,7 @@ export default {
                 spellString: {
                   corpName: corp.corpName,
                   useCode: corp.useCode ? corp.useCode : "XX",
-                  groupName: this.$store.state.curCase.groupName,
+                  groupName: this.$store.state.curCase.provinceGroupName,
                 },
               }
             )
@@ -364,7 +364,7 @@ export default {
           // 用于拼写隐患内容的字符集合
           corpName: this.corpData.corpName,
           let101Date: let1DataPaperContent.cellIdx1,
-          groupName: this.$store.state.curCase.groupName,
+          groupName: this.$store.state.curCase.provinceGroupName,
         },
       };
     },

@@ -790,7 +790,7 @@ export default {
         this.dataForm.tempValue.tableData[index].penaltyDescTypeId = id
         this.dataForm.tempValue.tableData[index].penaltyDescType = type
         // 同步修改已选择的数据
-        if (this.dataForm.tempValue.selecteddangerList && this.dataForm.tempValue.selecteddangerList.length > 0) {
+        if (this.dataForm.tempValue.selectedDangerList && this.dataForm.tempValue.selectedDangerList.length > 0) {
           let selectedItemIndex = this.dataForm.tempValue.selectedDangerList.findIndex(item => item.dangerId === this.dataForm.tempValue.tableData[index].dangerId)
           if (selectedItemIndex !== -1) {
             let obj = Object.assign({}, this.dataForm.tempValue.selectedDangerList[selectedItemIndex], {
@@ -799,14 +799,11 @@ export default {
               penaltyDescType: type,
             })
             this.$set(this.dataForm.tempValue.selectedDangerList, selectedItemIndex, obj)
-            // this.dataForm.tempValue.selectedDangerList[selectedItemIndex].penaltyDescFine = penaltyDescFine
-            // this.dataForm.tempValue.selectedDangerList[selectedItemIndex].penaltyDescTypeId = id
-            // this.dataForm.tempValue.selectedDangerList[selectedItemIndex].penaltyDescType = type
           }
         }
       }
       // 同步修改已选择的数据
-      if (this.dataForm.tempValue.selecteddangerList && this.dataForm.tempValue.selecteddangerList.length > 0) {
+      if (this.dataForm.tempValue.selectedDangerList && this.dataForm.tempValue.selectedDangerList.length > 0) {
         let selectedItemIndex = this.dataForm.tempValue.selectedDangerList.findIndex(item => item.dangerId === this.dataForm.tempValue.tableData[index].dangerId)
         if (selectedItemIndex !== -1) {
           this.dataForm.tempValue.selectedDangerList[selectedItemIndex][field] = val
@@ -1141,7 +1138,7 @@ export default {
       // 获取行政处罚信息
       if (this.subitemTypeOptions.length > 0) {
         let punishmentList = []
-        let selectedDangerList = this.dataForm.tempValue.selectedDangerList
+        let selectedDangerList = this.dataForm.tempValue.selectedDangerList || []
         if (selectedDangerList.length > 0) {
           for (let i = 0; i < selectedDangerList.length; i++) {
             let item = selectedDangerList[i]

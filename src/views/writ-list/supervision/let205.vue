@@ -277,7 +277,7 @@ export default {
       // 2.工作单位：煤矿名称
       let cellIdx11String = corp.corpName
       // 3.单位
-      let cellIdx18String = this.$store.state.curCase.groupName
+      let cellIdx18String = this.$store.state.curCase.provinceGroupName
       // 获取笔录文书中
       let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
       let dangerObject = getDangerObject(let1DataPaperContent.DangerTable.tableData)
@@ -326,7 +326,7 @@ export default {
         DangerTable: let1DataPaperContent.DangerTable,
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
-          groupName: this.$store.state.curCase.groupName,
+          groupName: this.$store.state.curCase.provinceGroupName,
         },
         selectedType: cellIdx20String
       };

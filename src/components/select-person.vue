@@ -37,7 +37,6 @@
           </el-select>
           <el-checkbox v-model="dataForm.allPerson" @change="getPersonList">是否显示全省用户</el-checkbox>
         </div>
-        
       </div>
       <div :class="multiSelect ? 'dialog-max-multi' : 'dialog-max'">
         <el-table

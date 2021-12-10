@@ -274,8 +274,7 @@ export default {
         cellIdx20: null, // 被检查单位意见
         cellIdx21: null, // 单位负责人（签名)
         cellIdx22: null, // 日期
-        cellIdx23: this.$store.state.curCase.groupName, //
-        cellIdx23TypeTextItem: this.$store.state.curCase.groupName, //
+        cellIdx23: this.$store.state.curCase.provinceGroupName, //
         cellIdx24: this.todayDate, //日期
         cellIdx24TypeDateItem: this.todayDate, // 日期
         DangerTable: let1DataPaperContent.DangerTable

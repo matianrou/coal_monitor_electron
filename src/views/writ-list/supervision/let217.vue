@@ -280,7 +280,7 @@ export default {
         cellIdx18: orgSysOfficeInfo.phone, // 联系电话
         cellIdx18TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
         cellIdx19: this.$store.state.curCase.groupNamee, //
-        cellIdx19TypeTextItem: this.$store.state.curCase.groupName, //
+        cellIdx19TypeTextItem: this.$store.state.curCase.provinceGroupName, //
         cellIdx20: this.todayDate, // 日期
         cellIdx20TypeDateItem: this.todayDate, // 日期
       };

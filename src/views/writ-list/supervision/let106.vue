@@ -303,8 +303,7 @@ export default {
         cellIdx26: null, //被检查单位负责人意见
         cellIdx27: null, // 签名
         cellIdx28: null, // 日期
-        cellIdx29: this.$store.state.curCase.groupName, //
-        cellIdx29TypeTextItem: this.$store.state.curCase.groupName, //
+        cellIdx29: this.$store.state.curCase.provinceGroupName, //
         cellIdx30: this.todayDate, // 日期
         cellIdx30TypeDateItem: this.todayDate, // 日期
         DangerTable: let1DataPaperContent.DangerTable

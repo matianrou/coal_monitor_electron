@@ -249,7 +249,7 @@ export default {
       // 1.文书编号：送达收执文书编号
       let paperNumber = await getDocNumber(db, '9', caseId, this.$store.state.user)
       // 2.申请人：机构名称
-      let cellIdx5String = this.$store.state.curCase.groupName
+      let cellIdx5String = this.$store.state.curCase.provinceGroupName
       // 3.被申请人：企业煤矿名称
       let cellIdx11String = corp.corpName
       // 4.对被申请人：企业名称+'涉嫌'+隐患描述+'案'
@@ -323,8 +323,7 @@ export default {
         cellIdx26: null, // 日期
         cellIdx27: null, // 联系人
         cellIdx28: null, // 联系电话
-        cellIdx29: this.$store.state.curCase.groupName, //
-        cellIdx29TypeTextItem: this.$store.state.curCase.groupName, //
+        cellIdx29: this.$store.state.curCase.provinceGroupName, //
         cellIdx30: this.todayDate, // 日期
         cellIdx30TypeDateItem: this.todayDate, // 日期
       };

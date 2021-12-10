@@ -358,6 +358,7 @@
     </let-main>
     <!-- 关联文书选择 -->
     <select-paper
+      v-if="fromPage !== 'opinion-suggestion'"
       :visible="visible.selectPaper"
       title="关联文书选择"
       :paper-list="paperList"
@@ -379,7 +380,7 @@ export default {
     return {
       letData: {},
       options: {},
-      associationPaper: this.corpData.caseType === "0" ? ["1"] : [],
+      associationPaper: this.fromPage !== "opinion-suggestion" && this.corpData.caseType === "0" ? ["1"] : [],
     };
   },
   methods: {

@@ -370,8 +370,7 @@ export default {
         cellIdx26TypeTextItem: orgSysOfficeInfo.master, // 联系人
         cellIdx27: orgSysOfficeInfo.phone, // 联系电话
         cellIdx27TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
-        cellIdx28: this.$store.state.curCase.groupName, //
-        cellIdx28TypeTextItem: this.$store.state.curCase.groupName, //
+        cellIdx28: this.$store.state.curCase.provinceGroupName, //
         cellIdx29: this.todayDate, // 日期
         cellIdx29TypeDateItem: this.todayDate, // 日期
         cellIdx30: let8DataPaperContent.selectedType, // 单位/个人

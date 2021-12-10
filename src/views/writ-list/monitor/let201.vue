@@ -189,7 +189,7 @@ export default {
             spellString: {
               corpName: corp.corpName,
               dateString,
-              groupName: this.$store.state.curCase.groupName,
+              groupName: this.$store.state.curCase.provinceGroupName,
             },
           }
         );
@@ -203,7 +203,7 @@ export default {
             spellString: {
               corpName: corp.corpName,
               dateString,
-              groupName: this.$store.state.curCase.groupName,
+              groupName: this.$store.state.curCase.provinceGroupName,
             },
           }
         );
@@ -232,7 +232,7 @@ export default {
           cellIdx10: null, // 审批人意见
           cellIdx11: null, // 审批人（签名）
           cellIdx12: null, // 日期
-          cellIdx13: this.$store.state.curCase.groupName, //
+          cellIdx13: this.$store.state.curCase.provinceGroupName, //
           cellIdx14: this.todayDate, // 日期
           /* cellIdx14: null, // 年
             cellIdx15: null, // 月
@@ -242,7 +242,7 @@ export default {
             // 保存额外拼写的数据内容，用于修改隐患项时回显使用
             corpName: corp.corpName,
             dateString,
-            groupName: this.$store.state.curCase.groupName,
+            groupName: this.$store.state.curCase.provinceGroupName,
           },
           associationPaperId: {
             // 关联的paperId
@@ -278,7 +278,7 @@ export default {
           cellIdx10: null, // 审批人意见
           cellIdx11: null, // 审批人（签名）
           cellIdx12: null, // 日期
-          cellIdx13: this.$store.state.curCase.groupName, //
+          cellIdx13: this.$store.state.curCase.provinceGroupName, //
           cellIdx14: this.todayDate, // 日期
         };
       }

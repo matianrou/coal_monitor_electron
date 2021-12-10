@@ -58,30 +58,29 @@ async function doOrgDb(resId, data) {
   for (let i = 0; i < data.length; i++) {
     let obj = data[i];
     let item = await orgInfo.get({ no: obj.id });
-    if (!item) {
-      arrOrg.push({
-        "no": obj.id,
-        "createDate": obj.createDate,
-        "updateDate": obj.updateDate,
-        "delFlag": obj.delFlag,
-        "parentIds": obj.parentIds,
-        "name": obj.name,
-        "code": obj.code,
-        "type": obj.type,
-        "grade": obj.grade,
-        "address": obj.address,
-        "parentId": obj.parentId,
-				"sort": obj.sort,
-				"areaId": obj.area.id,
-        "areaName": obj.area.name,
-        "areaShortName": obj.area.shortName,
-        "areaParentIds": obj.area.parentIds,
-        "areaParentId": obj.area.parentId,
-				"areaDelFlag": obj.area.areaDelFlag,
-				"areaSort": obj.area.sort,
-				"sysOfficeInfo": JSON.stringify(obj.sysOfficeInfo)
-    });
-    }
+		if (item) await orgInfo.delete({ no: obj.id }); //删除
+		arrOrg.push({
+			"no": obj.id,
+			"createDate": obj.createDate,
+			"updateDate": obj.updateDate,
+			"delFlag": obj.delFlag,
+			"parentIds": obj.parentIds,
+			"name": obj.name,
+			"code": obj.code,
+			"type": obj.type,
+			"grade": obj.grade,
+			"address": obj.address,
+			"parentId": obj.parentId,
+			"sort": obj.sort,
+			"areaId": obj.area.id,
+			"areaName": obj.area.name,
+			"areaShortName": obj.area.shortName,
+			"areaParentIds": obj.area.parentIds,
+			"areaParentId": obj.area.parentId,
+			"areaDelFlag": obj.area.areaDelFlag,
+			"areaSort": obj.area.sort,
+			"sysOfficeInfo": JSON.stringify(obj.sysOfficeInfo)
+		});
   }
   // 增:
   await orgInfo.addMany(arrOrg);
@@ -143,7 +142,8 @@ async function doPersonDb(resId, data) {
   for (let i = 0; i < data.length; i++) {
     let obj = data[i];
     let item = await person.get({ no: obj.id });
-    if (!item) arrPerson.push({ 
+		if (item) await person.delete({ no: obj.id }); //删除
+    arrPerson.push({ 
 			admin: obj.admin,
 			company: obj.company ? JSON.stringify(obj.company) : '',
 			createBy: obj.createBy ? JSON.stringify(obj.createBy) : '',
@@ -214,27 +214,26 @@ async function doPlanDb(resId, data) {
 		for (let i = 0; i < data.length; i++) {
 			let obj = data[i];
 			let item = await docPlan.get({ no: obj.id });
-			if (!item) {
-				arrPlan.push({
-          "no": obj.id,
-					"dbplanId": obj.id,
-					"createDate": obj.createDate,
-					"updateDate": obj.updateDate,
-					"delFlag": obj.delFlag,
-					"status": obj.status,
-					"corpId": obj.corpId,
-					"corpName": obj.corpName,
-					"groupId": obj.groupId,
-					"planMonthTimes": obj.planMonthTimes,
-					"planMonth": obj.planMonth,
-					"planYear": obj.planYear,
-					"meikuangType": obj.meikuangType,
-					"meikuangPlanfrom": obj.meikuangPlanfrom,
-					"isRandom": obj.isRandom,
-					"monitoringCategory": obj.monitoringCategory,
-					"monitoringCategoryName": obj.monitoringCategoryName
-				});
-			}
+			if (item) await docPlan.delete({ no: obj.id  }); //删除
+			arrPlan.push({
+				"no": obj.id,
+				"dbplanId": obj.id,
+				"createDate": obj.createDate,
+				"updateDate": obj.updateDate,
+				"delFlag": obj.delFlag,
+				"status": obj.status,
+				"corpId": obj.corpId,
+				"corpName": obj.corpName,
+				"groupId": obj.groupId,
+				"planMonthTimes": obj.planMonthTimes,
+				"planMonth": obj.planMonth,
+				"planYear": obj.planYear,
+				"meikuangType": obj.meikuangType,
+				"meikuangPlanfrom": obj.meikuangPlanfrom,
+				"isRandom": obj.isRandom,
+				"monitoringCategory": obj.monitoringCategory,
+				"monitoringCategoryName": obj.monitoringCategoryName
+			});
 		}
 	}
 	// 增:
@@ -370,45 +369,44 @@ async function doCorpDb(resId, data) {
 	for (let i = 0; i < arrBaseInfo.length; i++) {
 		let obj = arrBaseInfo[i];
 		let item = await corpBase.get({ corpId: obj.corpId });
-		if (!item) {
-			arrOrg.push({
-				"corpId": obj.corpId,
-				"delFlag": obj.delFlag,
-				"corpName": obj.corpName,
-				"meikuangType": obj.meikuangType,
-				"corpTypeName": obj.corpTypeName,
-				"address": obj.address,
-				"provinceName": obj.provinceName,
-				"cityName": obj.cityName,
-				"countryName": obj.countryName,
-				"zoneCountyId": obj.zoneCountyId,
-				"legalName": obj.legalName,
-				"contacts": obj.contacts,
-				"tel": obj.tel,
-				"xkzStatusNameZs": obj.xkzStatusNameZs,
-				"parentTypeName": obj.parentTypeName,
-				"economyTypeName": obj.economyTypeName,
-				"standardClassName": obj.standardClassName,
-				"mineStatusZs": obj.mineStatusZs,
-				"mineStatusZsName": obj.mineStatusZsName,
-				"mineClassName": obj.mineClassName,
-				"designOutput": obj.designOutput,
-				"provedOutput": obj.provedOutput,
-				"mineMinestyleName": obj.mineMinestyleName,
-				"mineMinetypeName": obj.mineMinetypeName,
-				"mineTransmitstyleName": obj.mineTransmitstyleName,
-				"minePowerstyleName": obj.minePowerstyleName,
-				"mineVentilatestyleName": obj.mineVentilatestyleName,
-				"mineGeohazardtypeName": obj.mineGeohazardtypeName,
-				"hydrogeologicalTypeName": obj.hydrogeologicalTypeName,
-				"approvedMineDepth": obj.approvedMineDepth,
-				"mineWsGradeName": obj.mineWsGradeName,
-				"mineFireName": obj.mineFireName,
-				"grimeExplosiveName": obj.grimeExplosiveName,
-				"rockburstName": obj.rockburstName,
-				"groupId": obj.groupId
-			});
-		}
+		if (item) await corpBase.delete({ corpId: obj.corpId }); //删除
+		arrOrg.push({
+			"corpId": obj.corpId,
+			"delFlag": obj.delFlag,
+			"corpName": obj.corpName,
+			"meikuangType": obj.meikuangType,
+			"corpTypeName": obj.corpTypeName,
+			"address": obj.address,
+			"provinceName": obj.provinceName,
+			"cityName": obj.cityName,
+			"countryName": obj.countryName,
+			"zoneCountyId": obj.zoneCountyId,
+			"legalName": obj.legalName,
+			"contacts": obj.contacts,
+			"tel": obj.tel,
+			"xkzStatusNameZs": obj.xkzStatusNameZs,
+			"parentTypeName": obj.parentTypeName,
+			"economyTypeName": obj.economyTypeName,
+			"standardClassName": obj.standardClassName,
+			"mineStatusZs": obj.mineStatusZs,
+			"mineStatusZsName": obj.mineStatusZsName,
+			"mineClassName": obj.mineClassName,
+			"designOutput": obj.designOutput,
+			"provedOutput": obj.provedOutput,
+			"mineMinestyleName": obj.mineMinestyleName,
+			"mineMinetypeName": obj.mineMinetypeName,
+			"mineTransmitstyleName": obj.mineTransmitstyleName,
+			"minePowerstyleName": obj.minePowerstyleName,
+			"mineVentilatestyleName": obj.mineVentilatestyleName,
+			"mineGeohazardtypeName": obj.mineGeohazardtypeName,
+			"hydrogeologicalTypeName": obj.hydrogeologicalTypeName,
+			"approvedMineDepth": obj.approvedMineDepth,
+			"mineWsGradeName": obj.mineWsGradeName,
+			"mineFireName": obj.mineFireName,
+			"grimeExplosiveName": obj.grimeExplosiveName,
+			"rockburstName": obj.rockburstName,
+			"groupId": obj.groupId
+		});
 	}
 
 	// 增:
@@ -421,22 +419,21 @@ async function doCorpDb(resId, data) {
 	for (let i = 0; i < arrZfZzInfo.length; i++) {
 		let obj = arrZfZzInfo[i];
 		let item = await zfZzInfo.get({ corpId: obj.corpId });
-		if (!item) {
-			arrOrg.push({
-				"corpId": obj.corpId,
-				"delFlag": obj.delFlag,
-				"corpName": obj.corpName,
-				"provinceName": obj.provinceName,
-				"cityName": obj.cityName,
-				"countryName": obj.countryName,
-				"zoneCountyId": obj.zoneCountyId,
-				"groupId": obj.groupId,
-				"credId": obj.credId,
-				"effectiveTime": obj.effectiveTime,
-				"expireTime": obj.expireTime,
-				"credTypeName": obj.credTypeName
-			});
-		}
+		if (item) await zfZzInfo.delete({ corpId: obj.corpId }); //删除
+		arrOrg.push({
+			"corpId": obj.corpId,
+			"delFlag": obj.delFlag,
+			"corpName": obj.corpName,
+			"provinceName": obj.provinceName,
+			"cityName": obj.cityName,
+			"countryName": obj.countryName,
+			"zoneCountyId": obj.zoneCountyId,
+			"groupId": obj.groupId,
+			"credId": obj.credId,
+			"effectiveTime": obj.effectiveTime,
+			"expireTime": obj.expireTime,
+			"credTypeName": obj.credTypeName
+		});
 	}
 
 	// 增:
@@ -449,22 +446,21 @@ async function doCorpDb(resId, data) {
 	for (let i = 0; i < arrZfJjgzmInfo.length; i++) {
 		let obj = arrZfJjgzmInfo[i];
 		let item = await zfJjgzmInfo.get({ corpId: obj.corpId });
-		if (!item) {
-			arrOrg.push({
-				"corpId": obj.corpId,
-				"delFlag": obj.delFlag,
-				"corpName": obj.corpName,
-				"provinceName": obj.provinceName,
-				"cityName": obj.cityName,
-				"countryName": obj.countryName,
-				"zoneCountyId": obj.zoneCountyId,
-				"groupId": obj.groupId,
-				"mineTunnelGeotype": obj.mineTunnelGeotype,
-				"mineTunnelProcessName": obj.mineTunnelProcessName,
-				"mineTunnelsupporstyleName": obj.mineTunnelsupporstyleName,
-				"workfaceName": obj.workfaceName
-			});
-		}
+		if (item) await zfJjgzmInfo.delete({ corpId: obj.corpId }); //删除
+		arrOrg.push({
+			"corpId": obj.corpId,
+			"delFlag": obj.delFlag,
+			"corpName": obj.corpName,
+			"provinceName": obj.provinceName,
+			"cityName": obj.cityName,
+			"countryName": obj.countryName,
+			"zoneCountyId": obj.zoneCountyId,
+			"groupId": obj.groupId,
+			"mineTunnelGeotype": obj.mineTunnelGeotype,
+			"mineTunnelProcessName": obj.mineTunnelProcessName,
+			"mineTunnelsupporstyleName": obj.mineTunnelsupporstyleName,
+			"workfaceName": obj.workfaceName
+		});
 	}
 
 	// 增:
@@ -477,25 +473,24 @@ async function doCorpDb(resId, data) {
 	for (let i = 0; i < arrZfCyrytjInfo.length; i++) {
 		let obj = arrZfCyrytjInfo[i];
 		let item = await zfCyrytjInfo.get({ corpId: obj.corpId });
-		if (!item) {
-			arrOrg.push({
-				"corpId": obj.corpId,
-				"delFlag": obj.delFlag,
-				"corpName": obj.corpName,
-				"provinceName": obj.provinceName,
-				"cityName": obj.cityName,
-				"countryName": obj.countryName,
-				"zoneCountyId": obj.zoneCountyId,
-				"groupId": obj.groupId,
-				"reportYear": obj.reportYear,
-				"cyrytZs": obj.reportYear,
-				"cyrytJxcyrs": obj.reportYear,
-				"cyrytZzrs": obj.reportYear,
-				"cyrytGz": obj.reportYear,
-				"cyrytCz": obj.reportYear,
-				"cyrytCzyx": obj.reportYear
-			});
-		}
+		if (item) await zfCyrytjInfo.delete({ corpId: obj.corpId }); //删除
+		arrOrg.push({
+			"corpId": obj.corpId,
+			"delFlag": obj.delFlag,
+			"corpName": obj.corpName,
+			"provinceName": obj.provinceName,
+			"cityName": obj.cityName,
+			"countryName": obj.countryName,
+			"zoneCountyId": obj.zoneCountyId,
+			"groupId": obj.groupId,
+			"reportYear": obj.reportYear,
+			"cyrytZs": obj.reportYear,
+			"cyrytJxcyrs": obj.reportYear,
+			"cyrytZzrs": obj.reportYear,
+			"cyrytGz": obj.reportYear,
+			"cyrytCz": obj.reportYear,
+			"cyrytCzyx": obj.reportYear
+		});
 	}
 
 	// 增:
@@ -508,23 +503,22 @@ async function doCorpDb(resId, data) {
 	for (let i = 0; i < arrZfCmgzmInfo.length; i++) {
 		let obj = arrZfCmgzmInfo[i];
 		let item = await zfCmgzmInfo.get({ corpId: obj.corpId });
-		if (!item) {
-			arrOrg.push({
-				"corpId": obj.corpId,
-				"delFlag": obj.delFlag,
-				"corpName": obj.corpName,
-				"provinceName": obj.provinceName,
-				"cityName": obj.cityName,
-				"countryName": obj.countryName,
-				"zoneCountyId": obj.zoneCountyId,
-				"groupId": obj.groupId,
-				"mineLayer": obj.mineLayer,
-				"mineGatherstyleName": obj.mineGatherstyleName,
-				"mineTunnelsupporstyleName": obj.mineTunnelsupporstyleName,
-				"tffsName": obj.tffsName,
-				"workfaceName": obj.workfaceName
-			});
-		}
+		if (item) await zfCmgzmInfo.delete({ corpId: obj.corpId }); //删除
+		arrOrg.push({
+			"corpId": obj.corpId,
+			"delFlag": obj.delFlag,
+			"corpName": obj.corpName,
+			"provinceName": obj.provinceName,
+			"cityName": obj.cityName,
+			"countryName": obj.countryName,
+			"zoneCountyId": obj.zoneCountyId,
+			"groupId": obj.groupId,
+			"mineLayer": obj.mineLayer,
+			"mineGatherstyleName": obj.mineGatherstyleName,
+			"mineTunnelsupporstyleName": obj.mineTunnelsupporstyleName,
+			"tffsName": obj.tffsName,
+			"workfaceName": obj.workfaceName
+		});
 	}
 	// 增:
 	await zfCmgzmInfo.addMany(arrOrg);
@@ -564,7 +558,8 @@ async function doEnterpriseList(resId, data){
 		let obj = data[i];
 		//
 		let item = await doEnterpriseList.get({ no: obj.id });
-		if (!item) EnterpriseList.push({
+		if (item) await doEnterpriseList.delete({ no: obj.id }); //删除
+		EnterpriseList.push({
 			no: obj.id,
 			code: obj.code,
 			createBy: obj.createBy,
@@ -583,7 +578,6 @@ async function doEnterpriseList(resId, data){
 	await doEnterpriseList.addMany(EnterpriseList);
 	//await dangerList.consoleTable();
 	await db.close();
-
 }
 
 // “检查项类别”下载。
@@ -615,7 +609,8 @@ async function doCheckCateDb(resId, data) {
 	for (let i = 0; i < data.length; i++) {
 		let obj = data[i];
 		let item = await checkCate.get({ no: obj.id });
-		if (!item) arrCheck.push({
+		if (item) await checkCate.delete({ no: obj.id }); //删除
+		arrCheck.push({
       no: obj.id,
       delFlag: obj.delFlag,
       sort: obj.sort,
@@ -690,7 +685,8 @@ async function doCheckListDb(resId, data) {
 	for (let i = 0; i < arrData.length; i++) {
 		let obj = arrData[i];
 		let item = await checkList.get({ no: obj.id });
-		if (!item) arrCheck.push({
+		if (item) await checkList.delete({ no: obj.id }); //删除
+		arrCheck.push({
 			no: obj.id,
       delFlag: obj.delFlag,
       createDate: obj.createDate,
@@ -754,7 +750,8 @@ async function doDangerCateDb(resId, data) {
 		for (let i = 0; i < data.length; i++) {
 			let obj = data[i];
 			let item = await dangerCate.get({ no: obj.id });
-			if (!item) arrDanger.push({
+			if (item) await dangerCate.delete({ no: obj.id }); //删除
+			arrDanger.push({
         no: obj.id,
         delFlag: obj.delFlag,
         sort: obj.sort,
@@ -817,7 +814,8 @@ async function doDangerListDb(resId, data) {
 	for (let i = 0; i < data.length; i++) {
 		let obj = data[i];
 		let item = await dangerList.get({ no: obj.id });
-		if (!item) arrDanger.push({
+		if (item) await dangerList.delete({ no: obj.id }); //删除
+		arrDanger.push({
 			no: obj.id,
       delFlag: obj.delFlag,
       createDate: obj.createDate,
@@ -1117,39 +1115,38 @@ async function doDocDb(resId, data){
 	for (let i = 0; i < arrCase.length; i++) {
 		let obj = arrCase[i];
 		let item = await wkCase.get({ caseId: obj.caseId });
-		if (!item) {
-			arrDocCase.push({
-				"caseId": obj.caseId,
-				"caseNo": obj.caseNo,
-			  "caseSn": obj.caseSn,
-				"remoteId": obj.id,
-				"delFlag": obj.delFlag,
-				"createDate": obj.createDate,
-				"updateDate": obj.updateDate,
-				"createById": obj.createBy.id,
-				"updateById": obj.updateBy.id,
-				"corpId": obj.corpId,
-				"corpName": obj.corpName,
-				"personId": obj.personId,
-				"personName": obj.personName,
-				"groupId": obj.groupId,
-				"groupName": obj.groupName,
-				"caseType": obj.caseType,
-				"checkReason": obj.checkReason,
-				"checkStatus": obj.checkStatus,
-				"planBeginDate": obj.planBeginDate,
-				"planEndDate": obj.planEndDate,
-				"meikuangType": obj.meikuangType,
-				"meikuangPlanfrom": obj.meikuangPlanfrom,
-				"planId": obj.planId,
-				"pcMonth": obj.pcMonth,
-				"caseClassify": obj.caseClassify,
-				"riskAssessment": obj.riskAssessment,
-				"riskAssessmentContent": obj.riskAssessmentContent, 
-				"affiliate": obj.affiliate,
-				"corpType": obj.corpType
-			});
-		}
+		if (item) await wkCase.delete({ caseId: obj.caseId }); //删除
+		arrDocCase.push({
+			"caseId": obj.caseId,
+			"caseNo": obj.caseNo,
+			"caseSn": obj.caseSn,
+			"remoteId": obj.id,
+			"delFlag": obj.delFlag,
+			"createDate": obj.createDate,
+			"updateDate": obj.updateDate,
+			"createById": obj.createBy.id,
+			"updateById": obj.updateBy.id,
+			"corpId": obj.corpId,
+			"corpName": obj.corpName,
+			"personId": obj.personId,
+			"personName": obj.personName,
+			"groupId": obj.groupId,
+			"groupName": obj.groupName,
+			"caseType": obj.checkStatus,
+			"checkReason": obj.checkReason,
+			"checkStatus": obj.checkStatus,
+			"planBeginDate": obj.planBeginDate,
+			"planEndDate": obj.planEndDate,
+			"meikuangType": obj.meikuangType,
+			"meikuangPlanfrom": obj.meikuangPlanfrom,
+			"planId": obj.planId,
+			"pcMonth": obj.pcMonth,
+			"caseClassify": obj.caseClassify,
+			"riskAssessment": obj.riskAssessment,
+			"riskAssessmentContent": obj.riskAssessmentContent, 
+			"affiliate": obj.affiliate,
+			"corpType": obj.corpType
+		});
 	}
 
 	// 当前获取的检查项内容有重复的数据，导致第一次下载时会报错，故加上以下去重逻辑

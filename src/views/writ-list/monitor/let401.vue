@@ -295,7 +295,7 @@ export default {
         cellIdx18: null, // 日期
         cellIdx19: null, // 收件人（签名）
         cellIdx20: null, // 日期
-        cellIdx21: this.$store.state.curCase.groupName, //
+        cellIdx21: this.$store.state.curCase.provinceGroupName, //
         cellIdx22: this.todayDate, // 日期
         // cellIdx22: null, // 年
         // cellIdx23: null, // 月

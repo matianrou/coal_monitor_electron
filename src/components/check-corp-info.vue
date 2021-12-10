@@ -320,6 +320,7 @@ export default {
   },
   data() {
     return {
+      DBName: this.$store.state.DBName,
       dataForm: {
         corpId: null,
         corpName: null,
@@ -362,7 +363,7 @@ export default {
   methods: {
     async getDictionary () {
       // 获取码表
-      let db = new GoDB(this.$store.state.DBName);
+      let db = new GoDB(this.DBName);
       let dictionary = db.table('dictionary')
       for (let key in this.dictionary) {
         let dictJson = await dictionary.find(item => item.type === key)
@@ -374,7 +375,7 @@ export default {
     },
     async getCorpInfo () {
       this.originalData = null
-      let db = new GoDB(this.$store.state.DBName);
+      let db = new GoDB(this.DBName);
       let corpBase = db.table('corpBase')
       let corpInfo = await corpBase.find(item => item.corpId === this.corpData.corpId && item.delFlag !== '1')
       let zfZzInfo = db.table("zfZzInfo");
@@ -452,6 +453,7 @@ export default {
             })
             .catch((err) => {
               console.log('确认企业信息失败:', err)
+              this.$emit('confirm')
             });
         }).catch(() => {})
     },

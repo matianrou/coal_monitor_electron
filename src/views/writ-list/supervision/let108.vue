@@ -233,8 +233,7 @@ export default {
         // cellIdx19: null, // 联系人
         cellIdx20: cellIdx20String, // 联系电话
         cellIdx20ypeTextItem: cellIdx20String, // 联系电话
-        cellIdx21: this.$store.state.curCase.groupName, //
-        cellIdx21TypeTextItem: this.$store.state.curCase.groupName, //
+        cellIdx21: this.$store.state.curCase.provinceGroupName, //
         cellIdx22: this.todayDate, // 日期
         cellIdx22TypeDateItem: this.todayDate, // 日期
         DangerTable: let1DataPaperContent.DangerTable,

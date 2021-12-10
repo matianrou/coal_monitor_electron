@@ -376,14 +376,13 @@ export default {
         cellIdx29TypeTextItem: orgSysOfficeInfo.master, // 执法机关联系人
         cellIdx30: orgSysOfficeInfo.phone, // 联系电话
         cellIdx30TypeTextItem: orgSysOfficeInfo.phone, // 地址
-        cellIdx31: this.$store.state.curCase.groupName, //
-        cellIdx31TypeTextItem: this.$store.state.curCase.groupName, //
+        cellIdx31: this.$store.state.curCase.provinceGroupName, //
         cellIdx32: this.todayDate, // 日期
         cellIdx32TypeDateItem: this.todayDate, // 日期
         DangerTable: let1DataPaperContent.DangerTable,
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
-          groupName: this.$store.state.curCase.groupName,
+          groupName: this.$store.state.curCase.provinceGroupName,
         }
       };
     },

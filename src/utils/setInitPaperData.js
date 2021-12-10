@@ -138,22 +138,25 @@ export function getDangerObject(tableData, hasIndex = {
   let penaltyDesc = ''
   // 行政处罚罚金总额
   let penaltyDescFineTotle = 0
-  tableData.map((item, index) => {
-    contentOnsiteDesc += `    ${(index + 1)}. ${item.itemContent}${item.onsiteDesc}。\r\n`
-    dangerString += hasIndex.danger ? `${(index + 1)}. ${item.itemContent}` : `${item.itemContent}`
-    illegalString += hasIndex.illegal ? `${(index + 1)}. ${item.confirmBasis}、` : `${item.confirmBasis}、`
-    onsiteDescString += hasIndex.onsiteDesc ? `${(index + 1)}. ${item.onsiteDesc}、` : `${item.onsiteDesc}、`
-    treatmentSuggestion += `${(index + 1)}. ${item.penaltyBasis ? item.penaltyBasis : ''}${item.penaltyDesc ? item.penaltyDesc : ''}；`
-    penaltyBasisString += hasIndex.penaltyBasis ? `${(index + 1)}. ${item.penaltyBasis ? item.penaltyBasis : ''}、` : `${item.penaltyBasis ? item.penaltyBasis : ''}、`
-    penaltyDesc += hasIndex.penaltyDesc ? `${item.penaltyDesc ? `${(index + 1)}. ${item.penaltyDesc}` : ''}` : `${item.penaltyDesc ? `${item.penaltyDesc}` : ''}`
-    penaltyDescFineTotle += item.penaltyDescFine ? Number(item.penaltyDescFine) : 0
-  })
-  illegalString = illegalString ? illegalString.substring(0, illegalString.length - 1) : ''
-  onsiteDescString = onsiteDescString ? onsiteDescString.substring(0, onsiteDescString.length - 1) : ''
-  treatmentSuggestion = treatmentSuggestion ? treatmentSuggestion.substring(0, treatmentSuggestion.length - 1) + '。' : ''
-  penaltyBasisString = penaltyBasisString ? penaltyBasisString.substring(0, penaltyBasisString.length - 1) : ''
-  penaltyDesc = penaltyDesc ? penaltyDesc.substring(0, penaltyDesc.length - 1) + '。' : ''
-  penaltyDescFineTotle = penaltyDescFineTotle
+  if (tableData && tableData.length > 0) {
+    for (let index = 0; index < tableData.length; index++) {
+      let item = tableData[index]
+      contentOnsiteDesc += `    ${(index + 1)}. ${item.itemContent}${item.onsiteDesc}。\r\n`
+      dangerString += hasIndex.danger ? `${(index + 1)}. ${item.itemContent}` : `${item.itemContent}`
+      illegalString += hasIndex.illegal ? `${(index + 1)}. ${item.confirmBasis}、` : `${item.confirmBasis}、`
+      onsiteDescString += hasIndex.onsiteDesc ? `${(index + 1)}. ${item.onsiteDesc}、` : `${item.onsiteDesc}、`
+      treatmentSuggestion += `${(index + 1)}. ${item.penaltyBasis ? item.penaltyBasis : ''}${item.penaltyDesc ? item.penaltyDesc : ''}；`
+      penaltyBasisString += hasIndex.penaltyBasis ? `${(index + 1)}. ${item.penaltyBasis ? item.penaltyBasis : ''}、` : `${item.penaltyBasis ? item.penaltyBasis : ''}、`
+      penaltyDesc += hasIndex.penaltyDesc ? `${item.penaltyDesc ? `${(index + 1)}. ${item.penaltyDesc}` : ''}` : `${item.penaltyDesc ? `${item.penaltyDesc}` : ''}`
+      penaltyDescFineTotle += item.penaltyDescFine ? Number(item.penaltyDescFine) : 0
+    }
+    illegalString = illegalString ? illegalString.substring(0, illegalString.length - 1) : ''
+    onsiteDescString = onsiteDescString ? onsiteDescString.substring(0, onsiteDescString.length - 1) : ''
+    treatmentSuggestion = treatmentSuggestion ? treatmentSuggestion.substring(0, treatmentSuggestion.length - 1) + '。' : ''
+    penaltyBasisString = penaltyBasisString ? penaltyBasisString.substring(0, penaltyBasisString.length - 1) : ''
+    penaltyDesc = penaltyDesc ? penaltyDesc.substring(0, penaltyDesc.length - 1) + '。' : ''
+    penaltyDescFineTotle = penaltyDescFineTotle
+  }
   return {
     contentOnsiteDesc,
     dangerString,

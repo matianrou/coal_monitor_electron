@@ -75,6 +75,15 @@ export default {
       let db = new GoDB(this.DBName)
       let wkCase = db.table('wkCase')
       let caseData = await wkCase.find(item => item.caseId === this.corpData.caseId)
+      let orgInfo = db.table('orgInfo')
+      // 归档机构信息
+      let affiliateOrg = await orgInfo.find(item => item.no === caseData.affiliate)
+      // 获取当前归档机构的省局名称
+      let provinceGroupName = `${caseData.groupName}`
+      if (affiliateOrg.grade === '3') {
+        let provinceOrg = await orgInfo.find(item => item.no === affiliateOrg.parentId)
+        provinceGroupName = provinceOrg.name
+      }
       await db.close()
       if (caseData) {
         let planDate = ''
@@ -84,14 +93,13 @@ export default {
           let endList = caseData.planEndDate.split(' ')[0].split('-')
           planDate = `${beginList[1]}月${beginList[2]}日-${endList[1]}月${endList[2]}日`
         }
-        console.log('caseData', caseData)
-        let groupName = `国家矿山安全监察局${caseData.groupName}`
-        caseData = Object.assign({}, caseData, { planDate, groupName })
+        caseData = Object.assign({}, caseData, { planDate, provinceGroupName })
         this.caseData = caseData
         this.$store.commit('changeState', {
           key: 'curCase',
           val: caseData
         })
+        console.log('caseData',caseData)
       }
     }
   },

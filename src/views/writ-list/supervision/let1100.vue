@@ -353,8 +353,7 @@ export default {
         cellIdx23TypeTextItem: orgSysOfficeInfo.organName, // organName
         cellIdx24: orgSysOfficeInfo.depAddress, // courtPrefix人民法院
         cellIdx24TypeTextItem: orgSysOfficeInfo.depAddress, // courtPrefix人民法院
-        cellIdx25: this.$store.state.curCase.groupName, //
-        cellIdx25TypeTextItem: this.$store.state.curCase.groupName, //
+        cellIdx25: this.$store.state.curCase.provinceGroupName, //
         cellIdx26: this.todayDate, // 日期
         cellIdx26TypeDateItem: this.todayDate, // 日期
         cellIdx27: selectedType, // 查封/扣押

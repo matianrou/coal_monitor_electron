@@ -287,7 +287,7 @@ export default {
         cellIdx10TypeTextareaItem: cellIdx10String, // 行政复议决定
         cellIdx11: cellIdx11String, // 人民法院
         cellIdx11TypeTextItem: cellIdx11String, // 人民法院
-        cellIdx12: this.$store.state.curCase.groupName, //
+        cellIdx12: this.$store.state.curCase.provinceGroupName, //
         cellIdx13: this.todayDate, // 日期
         /* cellIdx12: null, // 年
           cellIdx13: null, // 月

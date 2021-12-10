@@ -351,8 +351,7 @@ export default {
         cellIdx19ypeTextItem: cellIdx19String, // 联系人
         cellIdx20: cellIdx20String, // 联系电话
         cellIdx20ypeTextItem: cellIdx20String, // 联系电话
-        cellIdx21: this.$store.state.curCase.groupName, //
-        cellIdx21TypeTextItem: this.$store.state.curCase.groupName, //
+        cellIdx21: this.$store.state.curCase.provinceGroupName, //
         cellIdx22: this.todayDate, //
         cellIdx22TypeDateItem: this.todayDate, // 日期
         DangerTable: DangerTable,

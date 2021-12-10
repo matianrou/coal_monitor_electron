@@ -392,7 +392,7 @@ export default {
                 key: "cellIdx7",
                 spellString: {
                   corpName: corp.corpName,
-                  groupName: this.$store.state.curCase.groupName,
+                  groupName: this.$store.state.curCase.provinceGroupName,
                 },
               }
             )
@@ -481,8 +481,7 @@ export default {
         cellIdx34TypeTextItem: cellIdx34String, // 联系人
         cellIdx35: cellIdx35String, // 联系电话
         cellIdx35TypeTextItem: cellIdx35String, // 联系电话
-        cellIdx36: this.$store.state.curCase.groupName, //
-        cellIdx36TypeTextItem: this.$store.state.curCase.groupName, //
+        cellIdx36: this.$store.state.curCase.provinceGroupName, //
         cellIdx37: this.todayDate, // 日期
         cellIdx37TypeDateItem: this.todayDate, // 日期
         cellIdx38: let6DataPaperContent.selectedType, // 单位/个人
@@ -490,7 +489,7 @@ export default {
         extraData: {
           // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
-          groupName: this.$store.state.curCase.groupName,
+          groupName: this.$store.state.curCase.provinceGroupName,
         },
         selectedType: let6DataPaperContent.selectedType,
         associationPaperId:

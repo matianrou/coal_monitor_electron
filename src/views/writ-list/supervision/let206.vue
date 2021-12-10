@@ -265,8 +265,7 @@ export default {
         cellIdx17TypeTextItem: orgSysOfficeInfo.organName, // 煤监机构
         cellIdx18: orgSysOfficeInfo.courtPrefix, // 人民法院
         cellIdx18TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
-        cellIdx19: this.$store.state.curCase.groupName, //
-        cellIdx19TypeTextItem: this.$store.state.curCase.groupName, //
+        cellIdx19: this.$store.state.curCase.provinceGroupName, //
         cellIdx20: this.todayDate, // 日期
         cellIdx20TypeDateItem: this.todayDate, // 日期
         cellIdx21: cellIdx4String, // 单位/个人

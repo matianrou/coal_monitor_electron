@@ -256,8 +256,7 @@ export default {
         cellIdx16TypeTextItem: cellIdx16String, // organName
         cellIdx17: cellIdx17String, // 人民法院
         cellIdx17TypeTextItem: cellIdx17String, // 人民法院
-        cellIdx18: this.$store.state.curCase.groupName, //
-        cellIdx18TypeTextItem: this.$store.state.curCase.groupName, //
+        cellIdx18: this.$store.state.curCase.provinceGroupName, //
         cellIdx19: this.todayDate, // 日期
         cellIdx19TypeDateItem: this.todayDate, // 日期
       };

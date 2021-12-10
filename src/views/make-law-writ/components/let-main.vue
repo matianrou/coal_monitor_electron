@@ -304,7 +304,7 @@ export default {
       }
     },
     async savePaper (saveFlag) {
-      if (this.corpData.caseType === '1' && this.docData.docTypeNo === '8') {
+      if (this.corpData && this.corpData.caseType === '1' && this.docData.docTypeNo === '8') {
         // 事故类型检查活动时，行政处罚决定书弹窗补充行政罚款金额和行政处罚类型
         this.punishmentInfoFillVisible = true
         this.saveFlag = saveFlag
@@ -616,7 +616,7 @@ export default {
         await wkPaper.add(jsonPaper);
       }
       // 如果检查类型是事故时则不传输danger
-      if (this.corpData.caseType === '0') {
+      if (this.corpData && this.corpData.caseType === '0') {
         // 1.需保存隐患项的文书：现场检查笔录1、现场处理决定书2、立案决定书4、复查意见书13
         // 调查取证笔录5、案件处理呈报书36、行政处罚告知书6、行政处罚决定书8、撤出作业人员命令书 3
         // 隐患整改44 抽样取证通知书 23 先行登记保存证据通知书 25 查封(扣押)决定书 32
@@ -1067,7 +1067,7 @@ export default {
           spellString: {
             corpName: itemPaper.corpName,
             dateString: paperContentOld.extraData.dateString,
-            groupName: this.$store.state.curCase.groupName,
+            groupName: this.$store.state.curCase.provinceGroupName,
           },
         })
         let newcellIdx5 = setDangerTable(this.curDangerTable, {}, { 
@@ -1076,7 +1076,7 @@ export default {
           spellString: {
             corpName: itemPaper.corpName,
             dateString: paperContentOld.extraData.dateString,
-            groupName: this.$store.state.curCase.groupName,
+            groupName: this.$store.state.curCase.provinceGroupName,
           },
         })
         paperContentOld.cellIdx4 = newcellIdx4
@@ -1088,7 +1088,7 @@ export default {
           key: 'cellIdx2',
           spellString: {
             corpName: itemPaper.corpName,
-            groupName: this.$store.state.curCase.groupName,
+            groupName: this.$store.state.curCase.provinceGroupName,
           },
         })
         let cellIdx6String = setDangerTable(this.curDangerTable, {}, { 
@@ -1096,7 +1096,7 @@ export default {
           key: 'cellIdx6',
           spellString: {
             corpName: itemPaper.corpName,
-            groupName: this.$store.state.curCase.groupName,
+            groupName: this.$store.state.curCase.provinceGroupName,
           },
         })
         let cellIdx7String = setDangerTable(this.curDangerTable, {}, { 
@@ -1104,7 +1104,7 @@ export default {
           key: 'cellIdx7',
           spellString: {
             corpName: itemPaper.corpName,
-            groupName: this.$store.state.curCase.groupName,
+            groupName: this.$store.state.curCase.provinceGroupName,
           },
         })
         paperContentOld.cellIdx2 = cellIdx2String

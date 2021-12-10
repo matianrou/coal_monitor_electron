@@ -114,6 +114,7 @@ export default {
             this.$store.state.user.userSessId = sessId
             //获取用户信息
             // 最大化窗口
+            console.log('userId', userId)
             electronRequest({msgName: 'window-max'});
             // 设置系统读取数据库
             this.$store.commit('changeState', {

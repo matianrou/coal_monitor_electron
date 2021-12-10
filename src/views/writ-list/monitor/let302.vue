@@ -229,7 +229,7 @@ export default {
         let8DataPaperContent.DangerTable.selectedDangerList
       ) : null;
       let paper8number = `${let8DataPaperContent.cellIdx0}矿安监${let8DataPaperContent.cellIdx1}罚〔${let8DataPaperContent.cellIdx2}〕${let8DataPaperContent.cellIdx3}号`
-      let cellIdx14String = `我代表${corp.corpName}对${this.$store.state.curCase.groupName}做出的行政处罚决定${paper8number}申请行政复议，对处罚的${ this.corpData.caseType === '0' ? dangerObject.dangerString : 'XXX'}违法行为进行复议。我矿认为......。请求从轻或者免于处罚。`;
+      let cellIdx14String = `我代表${corp.corpName}对${this.$store.state.curCase.provinceGroupName}做出的行政处罚决定${paper8number}申请行政复议，对处罚的${ this.corpData.caseType === '0' ? dangerObject.dangerString : 'XXX'}违法行为进行复议。我矿认为......。请求从轻或者免于处罚。`;
       let DangerTable = null
       if (this.corpData.caseType === '0') {
         DangerTable = let8DataPaperContent.DangerTable ? 
@@ -264,7 +264,7 @@ export default {
         extraData: {
           // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
-          groupName: this.$store.state.curCase.groupName,
+          groupName: this.$store.state.curCase.provinceGroupName,
         },
         associationPaperId:  this.corpData.caseType === '0' ?{ // 关联的paperId
           paper22Id: let8DataPaperContent.associationPaperId.paper22Id,

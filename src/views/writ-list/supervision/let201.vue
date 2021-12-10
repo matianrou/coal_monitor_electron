@@ -238,7 +238,7 @@ export default {
       let cellIdx4String = `${corp.corpName}${dangerObject.dangerString}案。`
       // 2.案情摘要：检查时间+当前机构名称+“对”+煤矿名称+“进行现场检查时发现”+隐患描述+"以上行为分别涉嫌违反了"+违法认定法条+“依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。”
       dangerObject = getDangerObject(let1DataPaperContent.DangerTable.tableData, {danger: true})
-      let cellIdx5String = `${dateString}，${this.$store.state.curCase.groupName}对${corp.corpName}进行现场检查时发现：${dangerObject.dangerString}以上行为分别涉嫌违反了${dangerObject.illegalString}的规定。依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`
+      let cellIdx5String = `${dateString}，${this.$store.state.curCase.provinceGroupName}对${corp.corpName}进行现场检查时发现：${dangerObject.dangerString}以上行为分别涉嫌违反了${dangerObject.illegalString}的规定。依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`
       let paperNumber = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
       await db.close();
       this.letData = {
@@ -260,15 +260,14 @@ export default {
         cellIdx11: null, // 审批人（签名）
         cellIdx12: null, // 日期
         // cellIdx13: null, //
-        cellIdx14: this.$store.state.curCase.groupName, //
-        cellIdx14TypeTextItem: this.$store.state.curCase.groupName, //
+        cellIdx14: this.$store.state.curCase.provinceGroupName, //
         cellIdx15: this.todayDate, // 日期
         cellIdx15TypeDateItem: this.todayDate, // 日期
         DangerTable: let1DataPaperContent.DangerTable,
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
           dateString,
-          groupName: this.$store.state.curCase.groupName,
+          groupName: this.$store.state.curCase.provinceGroupName,
         }
       };
     },

@@ -218,7 +218,6 @@ export default {
       }
     },
     gotoWritFill (data) {
-      console.log('data', data)
       this.showPage.writFill = true
       this.showTemp = data.page
       this.docData = data.docData

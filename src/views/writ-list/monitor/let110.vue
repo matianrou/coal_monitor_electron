@@ -423,8 +423,7 @@ export default {
         cellIdx16: cellIdx17String, // courtPrefix人民法院
         cellIdx16TypeTextItem: cellIdx17String, // courtPrefix人民法院
         // cellIdx17: null, // 附件 暂不用
-        cellIdx18: this.$store.state.curCase.groupName, //
-        cellIdx18TypeTextItem: this.$store.state.curCase.groupName, //
+        cellIdx18: this.$store.state.curCase.provinceGroupName, //
         cellIdx19: this.todayDate, //日期
         cellIdx19TypeDateItem: this.todayDate, // 日期
         // cellIdx20: null, // 年

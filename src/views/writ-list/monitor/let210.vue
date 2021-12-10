@@ -283,7 +283,7 @@ export default {
             key: "cellIdx6",
             spellString: {
               corpName: corp.corpName,
-              groupName: this.$store.state.curCase.groupName,
+              groupName: this.$store.state.curCase.provinceGroupName,
             },
           }
         ):'';
@@ -341,7 +341,7 @@ export default {
         cellIdx16TypeTextItem: cellIdx16String, // 联系人
         cellIdx17: cellIdx17String, // 联系电话
         cellIdx17TypeTextItem: cellIdx17String, // 联系电话
-        cellIdx18: this.$store.state.curCase.groupName, // 
+        cellIdx18: this.$store.state.curCase.provinceGroupName, // 
         cellIdx19: this.todayDate, // 日期
         cellIdx19TypeDateItem: this.todayDate, // 日期
         cellIdx20: let28DataPaperContent.selectedType, // 单位或个人
@@ -349,7 +349,7 @@ export default {
         extraData: {
           // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
-          groupName: this.$store.state.curCase.groupName,
+          groupName: this.$store.state.curCase.provinceGroupName,
         },
         DangerTable,
         associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId

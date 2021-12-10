@@ -201,7 +201,7 @@ export default {
       let baseInfor = `${
         let22DataPaperContent.cellIdx2 ? let22DataPaperContent.cellIdx2 : "20XX年XX月XX日"
       }，${
-        this.$store.state.curCase.groupName || '国家矿山安全监察局XX局'
+        this.$store.state.curCase.provinceGroupName || '国家矿山安全监察局XX局'
       }的煤矿安全监察员${names || 'XXX'}按照月度监察执法计划对${
         corp.corpName || 'XXX'
       }进行检查，检查前制定了检查方案。依据执法程序当场向被检查单位出示了执法证件，表明身份，向其告知了检查内容和依法享有的权利、义务。检查时矿井处于${

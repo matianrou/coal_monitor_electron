@@ -333,7 +333,7 @@ export default {
         this.$store.state.user
       );
       // 2.申请人：机构名称
-      let cellIdx5String = this.$store.state.curCase.groupName;
+      let cellIdx5String = this.$store.state.curCase.provinceGroupName;
       // 3.被申请人：企业煤矿名称
       let cellIdx11String = corp.corpName;
       // 5.文书号2：催告书编号
@@ -353,7 +353,7 @@ export default {
             key: "cellIdx16",
             spellString: {
               corpName: corp.corpName,
-              groupName: this.$store.state.curCase.groupName,
+              groupName: this.$store.state.curCase.provinceGroupName,
             },
           }
         ):'';
@@ -437,7 +437,7 @@ export default {
         cellIdx30TypeTextItem: orgSysOfficeInfo.master, // 联系人
         cellIdx31: orgSysOfficeInfo.phone, // 联系电话
         cellIdx31TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
-        cellIdx32: this.$store.state.curCase.groupName, //
+        cellIdx32: this.$store.state.curCase.provinceGroupName, //
         cellIdx33: this.todayDate, // 日期
         DangerTable,
         associationPaperId: this.corpData.caseType === '0' ?{ // 关联的paperId

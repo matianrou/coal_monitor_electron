@@ -592,8 +592,7 @@ export default {
         // cellIdx34: null, // 日
         // cellIdx35: null, // 缴纳罚款
         // cellIdx36: null, // 缴纳罚款大写
-        cellIdx37: this.$store.state.curCase.groupName, //
-        cellIdx37TypeTextItem: this.$store.state.curCase.groupName, //
+        cellIdx37: this.$store.state.curCase.provinceGroupName, //
         cellIdx38: this.todayDate, // 日期
         cellIdx38TypeDateItem: this.todayDate, // 日期
         cellIdx39: selectedTypeExtra, // 单位/个人

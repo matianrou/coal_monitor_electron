@@ -333,8 +333,7 @@ export default {
         cellIdx24: null, // 执法人员（签名)
         cellIdx25: null, // 执法人员（签名)
         cellIdx26: null, //日期
-        cellIdx27: this.$store.state.curCase.groupName, //
-        cellIdx27TypeTextItem: this.$store.state.curCase.groupName, //
+        cellIdx27: this.$store.state.curCase.provinceGroupName, //
         cellIdx28: this.todayDate, // 日期
         cellIdx28TypeDateItem: this.todayDate, // 日期
         DangerTable: DangerTable,

@@ -207,7 +207,7 @@ export default {
     return {
       letData: {},
       options: {},
-      fileGroupName: this.$store.state.curCase.groupName
+      fileGroupName: this.$store.state.curCase.provinceGroupName
     };
   },
   methods: {
