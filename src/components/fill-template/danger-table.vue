@@ -677,7 +677,7 @@ export default {
               penaltyDescFine = money
             }
           }
-          let {id, type} = getPenaltyDescType(receiveDanger.penaltyDesc, this.subitemTypeOptions)
+          let {id, type} = getPenaltyDescType(item.penaltyDesc, this.subitemTypeOptions)
           let addItem = Object.assign({}, item, {
             dangerId: getNowTime() + randomString(28),
             personIds: this.$store.state.user.userId, // 隐患发现人

@@ -102,7 +102,7 @@ import { randomString, sortbyAsc } from "@/utils/index";
 import GoDB from "@/utils/godb.min.js";
 import { createHtml } from "@/utils/createHtml";
 import letDrawer from "@/components/let-drawer";
-import { saveToUpload, saveFineCollection } from '@/utils/savePaperData'
+import { saveToUpload, saveFineCollection, updateXkzStatus } from '@/utils/savePaperData'
 import docxtemplater from 'docxtemplater'
 import JSZipUtils from 'jszip-utils'
 import { saveAs } from 'file-saver'
@@ -729,6 +729,10 @@ export default {
             callback: action => {}
           })
         }
+      }
+      if (this.docData.docTypeNo === '8') {
+        // 如果是行政处罚决定书，则还需要上传当前行政处罚类别
+        await updateXkzStatus(paperId)
       }
       // 返回列表并刷新
       this.$emit("go-back", { page: "writFlow", data: this.$store.state.curCase });

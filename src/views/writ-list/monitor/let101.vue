@@ -224,9 +224,12 @@ export default {
         DangerTable: this.corpData.caseType === '0' ? {
           baseInfor: baseInfor,
           dangerInfor: dangerInfor,
+          punishmentInfor: null,
+          punishmentList: [],
           tableData: [],
-          selectedIdList: [],
           dangerItemDetail: {
+            personIds: null, // 隐患发现人
+            personNames: null, // 隐患发现人
             itemContent: null, // 违法行为描述
             confirmBasis: null, // 违法认定法条
             onsiteDesc: null, // 现场处理决定
@@ -237,11 +240,18 @@ export default {
             coalingFace: null, // 采煤工作面
             penaltyDesc: null, // 行政处罚决定
             penaltyDescFine: null, // 行政处罚决定罚金
+            penaltyDescTypeId: null, // 行政处罚决定类型的id
+            penaltyDescType: null, // 行政处罚决定类型
             penaltyBasis: null, // 行政处罚依据
-            isSerious: false, // 是否重大隐患
-            isReview: false, // 是否复查
+            firstDangerType: null, // 第一级隐患类别
+            secDangerType: null, // 第二级隐患类别
+            changeDangerType: null, // 更改的隐患类别
+            isSerious: '0', // 是否重大隐患
+            isReview: '0', // 是否复查
             reviewDate: null, // 复查日期
           },
+          selectedDangerList: [],
+          dangerContentMerge: false,
         } : null, // 隐患项大表
         associationPaperId: { // 关联的paperId
           paper22Id: selectedPaper.let22Data.paperId

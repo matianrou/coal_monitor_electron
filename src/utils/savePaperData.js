@@ -359,3 +359,45 @@ export async function saveFineCollection(paperId) {
       console.log("上传至服务器请求失败：", err);
     });
 }
+
+export async function updateXkzStatus(paperId) {
+  // 整理上传数据：
+  let db = new GoDB(store.state.DBName);
+  let wkPaper = db.table("wkPaper");
+  let wkCase = db.table("wkCase");
+    //查询符合条件的记录
+  let paperData = await wkPaper.find((item) => {
+    return item.paperId == paperId && item.delFlag !== '1';
+  });
+  await db.close()
+  let paperContent = JSON.parse(paperData.paperContent)
+  let DangerTable = paperContent.DangerTable || null
+  let selectedDangerList = DangerTable.selectedDangerList || []
+  let path = store.state.user.userType === 'supervision' ? '/sv' : ''
+  for (let i = 0; i < selectedDangerList.length; i++) {
+    let item = selectedDangerList[i]
+    let xkzStatus = ''
+    if (item.penaltyDesc.includes('暂扣安全生产许可证')) {
+      xkzStatus = '7'
+    } else if (item.penaltyDesc.includes('吊销安全生产许可证')) {
+      xkzStatus = '11'
+    } else if (item.penaltyDesc.includes('责令停产整顿')) {
+      xkzStatus = '3'
+    }  else if (item.penaltyDesc.includes('责令停止建设')) {
+      xkzStatus = '5'
+    }
+    if (xkzStatus) {
+      await http.get(
+        `${path}/local/corp/updateXkzStatus?__sid=${store.state.user.userSessId}&corpId=${paperData.corpId}&xkzStatus=${xkzStatus}`)
+      .then(({ data }) => {
+        if (data.status === "200") {
+        } else {
+          console.log('发送行政处罚信息失败')
+        }
+      })
+      .catch((err) => {
+        console.log('发送行政处罚信息失败', err)
+      });
+    }
+  }
+}
