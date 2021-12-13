@@ -99,7 +99,6 @@ export default {
           key: 'curCase',
           val: caseData
         })
-        console.log('caseData',caseData)
       }
     }
   },

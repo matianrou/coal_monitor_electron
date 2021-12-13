@@ -268,7 +268,7 @@
         <el-row class="session-content">
           <el-col :span="24" class="col-span-row" style="border-bottom: 1px solid #7DCEFD;">
             <el-form-item
-              prop="mineStatus">
+              prop="mineStatusContent">
               <template slot="label">
                 <span class="title">矿井状况</span>
               </template>
@@ -339,7 +339,33 @@ export default {
         mineVentilatestyle: null,
       },
       rules: {
-
+        parentType: [
+          {required: true, message: '请选择煤矿类型', trigger: 'change'}
+        ],
+        provedOutput: [
+          {required: true, message: '请输入核定产能', trigger: 'blur'}
+        ],
+        mineWsGrade: [
+          {required: true, message: '请选择瓦斯等级', trigger: 'change'}
+        ],
+        hydrogeologicalType: [
+          {required: true, message: '请选择水文地质类型', trigger: 'change'}
+        ],
+        grimeExplosive: [
+          {required: true, message: '请选择煤尘爆炸性', trigger: 'change'}
+        ],
+        mineFire: [
+          {required: true, message: '请选择煤层自燃倾向性', trigger: 'change'}
+        ],
+        mineMinestyle: [
+          {required: true, message: '请选择煤层开拓方式', trigger: 'change'}
+        ],
+        mineVentilatestyle: [
+          {required: true, message: '请选择通风方式', trigger: 'change'}
+        ],
+        mineStatusContent: [
+          {required: true, message: '请选择矿井状况', trigger: 'change'}
+        ],
       },
       dictionary: {
         parentType: [],
@@ -397,12 +423,15 @@ export default {
         }
       }
       // 处理失效日期：expireTime
-      dataForm.ckxkzExpireTime = corpZfZzInfo1.expireTime.split(' ')[0]
-      dataForm.aqscxkzExpireTime = corpZfZzInfo2.expireTime.split(' ')[0]
+      dataForm.ckxkzExpireTime = corpZfZzInfo1 && corpZfZzInfo1.expireTime ? corpZfZzInfo1.expireTime.split(' ')[0] : null
+      dataForm.aqscxkzExpireTime = corpZfZzInfo2 && corpZfZzInfo2.expireTime ? corpZfZzInfo2.expireTime.split(' ')[0] : null
       // 处理矿井状况: mineStatusZs,mineStatusZsName8
-      dataForm.mineStatus = corpInfo.mineStatusZs
-      dataForm.mineStatusContent = corpInfo.mineStatusZsName
+      dataForm.mineStatus = corpInfo.mineStatusZs || ''
+      dataForm.mineStatusContent = corpInfo.mineStatusZsName || ''
       this.$set(this, 'dataForm', dataForm) 
+      this.$nextTick(() => {
+        this.$refs.dataForm.clearValidate()
+      })
       if (corpInfo.mineStatusZs === '0301') {
         this.mineStatusDisabled = true
       } else {
@@ -422,40 +451,52 @@ export default {
     },
     confirm () {
       // 确认修改
-      let msg = JSON.stringify(this.dataForm) === this.originalData ? '企业信息未修改，是否确认提交？' : '已修改企业信息，是否确认提交？'
-      this.$confirm(msg, '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          dangerouslyUseHTMLString: true,
-          type: 'warning'
-        }).then(() => {
-          let params = {
-            corpId: this.dataForm.corpId,
-            address: this.dataForm.address,
-            parentType: this.dataForm.parentType,
-            mineWsGrade: this.dataForm.mineWsGrade,
-            mineFire: this.dataForm.mineFire,
-            grimeExplosive: this.dataForm.grimeExplosive,
-            mineMinestyle: this.dataForm.mineMinestyle,
-            mineVentilatestyle: this.dataForm.mineVentilatestyle,
-            mineStatus: this.dataForm.mineStatus,
-            hydrogeologicalType: this.dataForm.hydrogeologicalType,
-            provedOutput: this.dataForm.provedOutput,
-            ckxkzExpireTime: this.dataForm.ckxkzExpireTime,
-            aqscxkzExpireTime: this.dataForm.aqscxkzExpireTime,
-          }
-          this.$http.post(`${this.userType === 'supervision' ? '/sv' : ''}/local/corp/updateByZf?__sid=${this.$store.state.user.userSessId}`, {sendJson: true, data: params})
-            .then(async ({ data }) => {
-              if (data.status === "200") {
-                this.$message.success('确认企业信息成功！')
-                this.$emit('confirm')
+      if (JSON.parse(this.originalData).mineStatus === '0301') {
+        // 关闭的矿井则提示已关闭不可修改
+        this.$message.error('当前矿井已关闭，不可修改信息！')
+        this.$emit('confirm')
+        return
+      }
+      this.$refs.dataForm.validate(validate => {
+        if (validate) {
+          let msg = JSON.stringify(this.dataForm) === this.originalData ? '企业信息未修改，是否确认提交？' : '已修改企业信息，是否确认提交？'
+          this.$confirm(msg, '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              dangerouslyUseHTMLString: true,
+              type: 'warning'
+            }).then(() => {
+              let params = {
+                corpId: this.dataForm.corpId,
+                address: this.dataForm.address,
+                parentType: this.dataForm.parentType,
+                mineWsGrade: this.dataForm.mineWsGrade,
+                mineFire: this.dataForm.mineFire,
+                grimeExplosive: this.dataForm.grimeExplosive,
+                mineMinestyle: this.dataForm.mineMinestyle,
+                mineVentilatestyle: this.dataForm.mineVentilatestyle,
+                mineStatus: this.dataForm.mineStatus,
+                hydrogeologicalType: this.dataForm.hydrogeologicalType,
+                provedOutput: this.dataForm.provedOutput,
+                ckxkzExpireTime: this.dataForm.ckxkzExpireTime,
+                aqscxkzExpireTime: this.dataForm.aqscxkzExpireTime,
               }
-            })
-            .catch((err) => {
-              console.log('确认企业信息失败:', err)
-              this.$emit('confirm')
-            });
-        }).catch(() => {})
+              this.$http.post(`${this.userType === 'supervision' ? '/sv' : ''}/local/corp/updateByZf?__sid=${this.$store.state.user.userSessId}`, {sendJson: true, data: params})
+                .then(async ({ data }) => {
+                  if (data.status === "200") {
+                    this.$message.success('确认企业信息成功！')
+                    this.$emit('confirm')
+                  } else {
+                    this.$message.error(data.data)
+                  }
+                })
+                .catch((err) => {
+                  console.log('确认企业信息失败:', err)
+                  this.$emit('confirm')
+                });
+            }).catch(() => {})
+        }
+      })
     },
     setMineStatus () {
       if (!this.mineStatusDisabled) {
@@ -569,8 +610,8 @@ export default {
         display: flex;
       }
       /deep/ .el-form-item__error {
-        top: 10px;
-        left: 220px;
+        top: 15px;
+        left: 20px;
       }
     }
   }

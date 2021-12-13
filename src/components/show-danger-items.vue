@@ -22,7 +22,7 @@
       >
         <el-table-column
           type="index"
-          width="60"
+          width="40"
           header-align="center"
           align="center"
         >
@@ -78,17 +78,17 @@ export default {
         {
           label: '隐患等级',
           prop: 'isSeriousValue',
-          width: '120'
+          width: '80'
         },
         {
           label: '隐患发现人',
           prop: 'personNames',
-          width: '150'
+          width: '100'
         },
         {
           label: '隐患发现时间',
           prop: 'createDate',
-          width: '180'
+          width: '170'
         },
         {
           label: '隐患描述',
@@ -109,12 +109,12 @@ export default {
         {
           label: '现场处理依据',
           prop: 'onsiteBasis',
-          minWidth: '200'
+          minWidth: '250'
         },
         {
           label: '行政处罚决定',
           prop: 'penaltyDesc',
-          minWidth: '200'
+          minWidth: '250'
         },
         {
           label: '行政处罚依据',
@@ -124,22 +124,22 @@ export default {
         {
           label: '企业罚款（万）',
           prop: 'orgPenalty',
-          width: '150'
+          width: '120'
         },
         {
           label: '个人罚款（万）',
           prop: 'personPenalty',
-          width: '150'
+          width: '120'
         },
         {
           label: '是否隐患复查',
           prop: 'isReviewValue',
-          width: '150'
+          width: '120'
         },
         {
           label: '隐患复查日期',
           prop: 'reviewDate',
-          width: '180'
+          width: '170'
         },
       ]
     },
@@ -153,7 +153,6 @@ export default {
     };
   },
   created() {
-    console.log(this.dangerList, this.corpData)
   },
   methods: {
     // 导出EXCEL

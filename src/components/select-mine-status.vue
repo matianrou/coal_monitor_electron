@@ -76,7 +76,11 @@
         this.$emit('close', { page: 'mineStatus' })
       },
       save () {
-        let selectedStatus = this.$refs.checkListTree.getCurrentNode()
+        let selectedStatus = this.$refs.checkListTree.getCurrentNode() || null
+        if (!selectedStatus) {
+          this.$message.error('未选中矿井状况，请选择！')
+          return
+        }
         if (selectedStatus.children && selectedStatus.children.length > 0) {
           this.$message.error('当前选中的是状态分类，请选择矿井状态')
           return

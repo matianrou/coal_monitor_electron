@@ -330,7 +330,6 @@ export default {
       // 保存人员
       // 判断是多个操作还是单项操作
       let personNames = ''
-      console.log('personList', personList)
       if (personList.length > 0) {
         personList.map(item => {
           personNames += item.name + '，'
@@ -527,9 +526,11 @@ export default {
     confirmExportItems ({data}) {
       // 确定导入检查项
       data.map(item => {
-        item.checkId = getNowTime() + randomString(28)
-        item.order = this.dataForm.tempValue.tableData.length
-        this.dataForm.tempValue.tableData.push(item)
+        let addItem = Object.assign({}, item, {
+          checkId: getNowTime() + randomString(28),
+          order: this.dataForm.tempValue.tableData.length
+        })
+        this.dataForm.tempValue.tableData.push(addItem)
       })
       this.visible.exportCheck = false
     },

@@ -107,6 +107,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
+import { saveToUpload } from '@/utils/savePaperData'
 export default {
   name: "ReceivePaper",
   props: {
@@ -202,16 +203,18 @@ export default {
               await wkPaper.add(row.paperContent);
             }
             await db.close()
+            // 上传保存
+            await saveToUpload(row.paperContent.paperId, false);
             // 更新列表
             await this.getData()
             // 关闭当前接收窗口
             this.$emit('recevice-paper', {data: row})
           } else {
-            this.$message.error('发送文书失败，请重新发送！')
+            this.$message.error('接收文书成功，请重新发送！')
           }
         })
         .catch((err) => {
-          console.log("发送文书失败：", err);
+          console.log("接收文书成功：", err);
         });
     },
     async getData() {

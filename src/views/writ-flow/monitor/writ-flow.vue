@@ -2177,7 +2177,7 @@ export default {
             let paperContentString = paper.paperContent;
             let paperContent = JSON.parse(paperContentString);
             // 根据isSelected区分是否已经接收完毕，如果有未接收则加入状态中
-            if (!paperContent.isSelected === false) {
+            if (paperContent.isSelected === false) {
               let key = `unreceived${paperContent.paperType}`;
               if (!status[key]) {
                 status[key] = true;

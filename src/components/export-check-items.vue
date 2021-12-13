@@ -125,13 +125,17 @@
         // 拉取做的检查活动
         let caseList = await wkPaper.findAll(item => item.paperType === '22' 
           && item.delFlag !== '1' && item.personId === this.$store.state.user.userId)
+        let exportCaseList = []
         if (caseList.length > 0) {
           caseList.map(item => {
             item.paperContent = JSON.parse(item.paperContent)
-            item.showTag = `${item.corpName} ${item.createDate}`
+            if (item.paperContent.CheckTable && item.paperContent.CheckTable.tableData.length > 0) {
+              item.showTag = `${item.corpName} ${item.createDate}`
+              exportCaseList.push(item)
+            }
           })
         }
-        this.caseList = caseList
+        this.caseList = exportCaseList
       },
       changeSelected (val) {
         // 切换选择的检查活动
@@ -144,6 +148,8 @@
       save () {
         if (this.multiSelectedIndexs.length > 0) {
           this.$emit('save', {data: this.multiSelectedIndexs})
+          this.multiSelectedIndexs = []
+          this.$refs.checkTable.clearSelection()
         } else {
           this.$message.error('请选择需要导入的检查项！')
         }

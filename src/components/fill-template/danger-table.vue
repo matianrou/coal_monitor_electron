@@ -822,7 +822,7 @@ export default {
         }
         // 获取罚款金额
         let penaltyDescFine = 0
-        if (item.penaltyDesc) {
+        if (receiveDanger.penaltyDesc) {
           let {money, count} = retrunGetMoney(receiveDanger.penaltyDesc)
           if (count > 0 && count < 3) {
             penaltyDescFine = money
