@@ -4,12 +4,12 @@ import store from "@/store"
 // “机构资源”下载。
 async function doOrgDb(resId, data) {
 	// 当前获取的机构资源有重复的数据，导致第一次下载时会报错，故加上以下去重逻辑
-	let obj = {}
-	let arrData = JSON.parse(JSON.stringify(data))
-	arrData = arrData.reduce((cur, next) => {
-		obj[next.id] ? "" : obj[next.id] = true && cur.push(next);
-		return cur
-	}, [])
+	// let obj = {}
+	// let arrData = JSON.parse(JSON.stringify(data))
+	// arrData = arrData.reduce((cur, next) => {
+	// 	obj[next.id] ? "" : obj[next.id] = true && cur.push(next);
+	// 	return cur
+	// }, [])
 	// 检验数据是否仍有重复
 	// let id = []
 	// for (let i = 0; i < (arrData.length / 2); i++ ) {
@@ -637,12 +637,12 @@ async function doCheckCateDb(resId, data) {
 async function doCheckListDb(resId, data) {
 	let arrCheck = [];
 	// 当前获取的检查项内容有重复的数据，导致第一次下载时会报错，故加上以下去重逻辑
-	let obj = {}
-	let arrData = JSON.parse(JSON.stringify(data))
-	arrData = arrData.reduce((cur, next) => {
-		obj[next.id] ? "" : obj[next.id] = true && cur.push(next);
-		return cur
-	}, [])
+	// let obj = {}
+	// let arrData = JSON.parse(JSON.stringify(data))
+	// arrData = arrData.reduce((cur, next) => {
+	// 	obj[next.id] ? "" : obj[next.id] = true && cur.push(next);
+	// 	return cur
+	// }, [])
 	// 检验数据是否仍有重复
 	// let id = []
 	// for (let i = 0; i < (arrData.length / 2); i++ ) {
@@ -682,8 +682,8 @@ async function doCheckListDb(resId, data) {
 	let db = new GoDB(store.state.DBName, schema);
 	let checkList = db.table('checkList');
 
-	for (let i = 0; i < arrData.length; i++) {
-		let obj = arrData[i];
+	for (let i = 0; i < data.length; i++) {
+		let obj = data[i];
 		let item = await checkList.get({ no: obj.id });
 		if (item) await checkList.delete({ no: obj.id }); //删除
 		arrCheck.push({

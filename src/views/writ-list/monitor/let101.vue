@@ -79,8 +79,8 @@
                 >{{ letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）" }}
               </span>
             </div>
-            <span class="no-line">陪同检察人员：</span>
-            <span @click="commandFill('cellIdx7', '陪同检察人员', 'TextItem')">{{
+            <span class="no-line">陪同检查人员：</span>
+            <span @click="commandFill('cellIdx7', '陪同检查人员', 'TextItem')">{{
               letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
             }}</span>
             <div class="line"></div>

@@ -288,7 +288,7 @@
                 format="yyyy年MM月dd日"
                 value-format="yyyy年MM月dd日"
                 placeholder="选择复查日期"
-                @blur="val => changeValue(val, 'reviewDate')">
+                @change="val => changeValue(val, 'reviewDate')">
               </el-date-picker>
             </el-form-item>
             <el-form-item
@@ -525,7 +525,6 @@ export default {
           { validator: validateCate, trigger: 'change' }
         ]
       },
-      dangerIndex: 0, // 计算隐患排序位置字段
       onsiteTypeOptions: [], // 现场处理类型码表
       subitemTypeOptions: [], // 行政处罚类型码表
       showOnsiteDesc: {
@@ -606,16 +605,16 @@ export default {
     }
   },
   methods: {
-    initData () {
+    async initData () {
       this.dataForm.tempValue = JSON.parse(JSON.stringify(this.value)) 
       this.originalValue = JSON.stringify(this.value)
+      if (this.dataForm.tempValue.tableData.length > 0) {
+        await this.selectedItem({
+          $index: 0,
+          row: this.dataForm.tempValue.tableData[0]
+        })
+      }
       // this.dataForm.tempValue.dangerContentMerge = false
-      // if (this.dataForm.tempValue.tableData.length > 0) {
-      //   this.selectedItem({
-      //     $index: 0,
-      //     row: this.dataForm.tempValue.tableData[0]
-      //   })
-      // }
     },
     async getDictionary () {
       // 获取码表
@@ -641,9 +640,11 @@ export default {
     setSelection() {
       // 设置选中
       if (this.dataForm.tempValue.selectedDangerList && this.dataForm.tempValue.selectedDangerList.length > 0) {
-        this.dataForm.tempValue.selectedDangerList.map(item => {
-          let index = this.dataForm.tempValue.tableData.findIndex(tableItem => item.dangerId === tableItem.dangerId)
-          this.$refs.dangerTable.toggleRowSelection(this.dataForm.tempValue.tableData[index])
+          this.dataForm.tempValue.selectedDangerList.map(item => {
+        this.$nextTick(() => {
+            let index = this.dataForm.tempValue.tableData.findIndex(tableItem => item.dangerId === tableItem.dangerId)
+            this.$refs.dangerTable.toggleRowSelection(this.dataForm.tempValue.tableData[index])
+          })
         })
       }
     },
@@ -659,8 +660,6 @@ export default {
       let tableData = []
       // 抽取选择的检查项最底一层，作为table展示
       this.handleData(params.data.selecteddangerList, tableData)
-      // 清空隐患排序为0，已便下一次继续递归遍历赋值
-      this.dangerIndex = 0
       if (tableData.length > 0) {
         tableData.forEach((item, index) => {
           // 通过模糊匹配onsiteType
@@ -709,7 +708,7 @@ export default {
             this.handleData(item.children, tableData)
           } else {
             let itemObject = Object.assign({}, item, {
-              order: this.dangerIndex,
+              order: tableData.length,
               headingFace: '', // 掘进工作面
               deviceNum: '', // 设备台数
               coalingFace: '', // 采煤工作面
@@ -719,7 +718,6 @@ export default {
               active: false,
             })
             tableData.push(itemObject)
-            this.dangerIndex = this.dangerIndex + 1
           }
         })
       }
@@ -749,24 +747,7 @@ export default {
         // 向后
         newOrder = dangerItemDetail.order + 1
       }
-      // 修改tableData中所有项目的order值
-      let tableData = this.dataForm.tempValue.tableData
-      // 删除tableData中原位置的隐患项
-      tableData.splice(dangerItemDetail.order, 1)
-      // 在tableData新位置中插入隐患项
-      tableData.splice(newOrder, 0, dangerItemDetail)
-      // 重新排列order
-      tableData.forEach((item, index) => {
-        item.order = index
-        // 同步更新已选择列表中的order
-        let selectedItemIndex = this.dataForm.tempValue.selectedDangerList.findIndex(selectedItem => selectedItem.dangerId === item.dangerId)
-        if (selectedItemIndex !== -1) {
-          this.dataForm.tempValue.selectedDangerList[selectedItemIndex].order = index
-        }
-      })
-      // 赋值tableData
-      this.dataForm.tempValue.tableData = tableData
-      dangerItemDetail.order = newOrder
+      this.orderTable(dangerItemDetail.order, newOrder)
     },
     changeValue (val, field) {
       let index = this.dangerItemDetail.order
@@ -1109,20 +1090,32 @@ export default {
         draggable: ".el-table__row",
         disabled: that.dataForm.tempValue.tableData.length < 2,
         onEnd ({ newIndex, oldIndex }) {
-          let value = JSON.parse(JSON.stringify(that.dataForm.tempValue.tableData))
-          let currRow = value.splice(oldIndex, 1)[0];
-          value.splice(newIndex, 0, currRow);
-          // 重新设置排序
-          that.orderTable(value)
-          that.dataForm.tempValue.tableData = value
+          that.orderTable(oldIndex, newIndex)
         }
       });
     },
-    orderTable (val) {
-      if (val.length > 0) {
-        val.forEach((item, index) => {
-          item.order = index
-        })
+    orderTable (oldIndex, newIndex) {
+      // 修改tableData中所有项目的order值
+      let value = JSON.parse(JSON.stringify(this.dataForm.tempValue.tableData))
+      // 删除tableData中原位置的隐患项
+      let currRow = value.splice(oldIndex, 1)[0]
+      // 在tableData新位置中插入隐患项
+      value.splice(newIndex, 0, currRow);
+      // 重新排列order
+      for (let index = 0; index < value.length; index++) {
+        let item = value[index]
+        item.order = index
+        // 同步更新已选择列表中的order
+        let selectedItemIndex = this.dataForm.tempValue.selectedDangerList.findIndex(selectedItem => selectedItem.dangerId === item.dangerId)
+        if (selectedItemIndex !== -1) {
+          this.dataForm.tempValue.selectedDangerList[selectedItemIndex].order = index
+        }
+      }
+      this.$set(this.dataForm.tempValue, 'tableData', value)
+      this.setSelection()
+      // 再同步修改已选中展示的节点元素
+      if (this.dangerItemDetail.dangerId) {
+        this.dangerItemDetail.order = this.dataForm.tempValue.tableData.find(item => item.dangerId === this.dangerItemDetail.dangerId).order
       }
     },
     handleSelectionChange (val) {
