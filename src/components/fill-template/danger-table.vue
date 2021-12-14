@@ -392,29 +392,6 @@ export default {
           punishmentInfor: null,
           punishmentList: [],
           tableData: [],
-          dangerItemDetail: {
-            personIds: null, // 隐患发现人
-            personNames: null, // 隐患发现人
-            itemContent: null, // 违法行为描述
-            confirmBasis: null, // 违法认定法条
-            onsiteDesc: null, // 现场处理决定
-            onsiteBasis: null, // 现场处理依据
-            onsiteType: null, // 现场处理决定类型
-            headingFace: null, // 掘进工作面
-            deviceNum: null, // 设备台数
-            coalingFace: null, // 采煤工作面
-            penaltyDesc: null, // 行政处罚决定
-            penaltyDescFine: null, // 行政处罚决定罚金
-            penaltyDescTypeId: null, // 行政处罚决定类型的id
-            penaltyDescType: null, // 行政处罚决定类型
-            penaltyBasis: null, // 行政处罚依据
-            firstDangerType: null, // 第一级隐患类别
-            secDangerType: null, // 第二级隐患类别
-            changeDangerType: null, // 更改的隐患类别
-            isSerious: '0', // 是否重大隐患
-            isReview: '0', // 是否复查
-            reviewDate: null, // 复查日期
-          },
           selectedDangerList: [],  // 多选隐患项
           dangerContentMerge: false, // 是否合并隐患项
         }
@@ -454,29 +431,6 @@ export default {
           punishmentInfor: null,
           punishmentList: [],
           tableData: [],
-          dangerItemDetail: {
-            personIds: null, // 隐患发现人
-            personNames: null, // 隐患发现人
-            itemContent: null, // 违法行为描述
-            confirmBasis: null, // 违法认定法条
-            onsiteDesc: null, // 现场处理决定
-            onsiteBasis: null, // 现场处理依据
-            onsiteType: null, // 现场处理决定类型
-            headingFace: null, // 掘进工作面
-            deviceNum: null, // 设备台数
-            coalingFace: null, // 采煤工作面
-            penaltyDesc: null, // 行政处罚决定
-            penaltyDescFine: null, // 行政处罚决定罚金
-            penaltyDescTypeId: null, // 行政处罚决定类型的id
-            penaltyDescType: null, // 行政处罚决定类型
-            penaltyBasis: null, // 行政处罚依据
-            firstDangerType: null, // 第一级隐患类别
-            secDangerType: null, // 第二级隐患类别
-            changeDangerType: null, // 更改的隐患类别
-            isSerious: '0', // 是否重大隐患
-            isReview: '0', // 是否复查
-            reviewDate: null, // 复查日期
-          },
           selectedDangerList: [],  // 多选隐患项
           dangerContentMerge: false, // 是否合并隐患项
         }
@@ -508,10 +462,6 @@ export default {
         dangerSelect: false, // 选择隐患
         receiveDanger: false, // 接收隐患
         selectPerson: false, // 选择隐患发现人
-      },
-      dangerListTreeProps: {
-        label: 'treeName',
-        children: 'children',
       },
       rules: {
         itemContent: [
@@ -548,8 +498,8 @@ export default {
     this.initData()
   },
   mounted() {
-    this.rowDrop()
     this.setSelection()
+    this.rowDrop()
   },
   watch: {
     'dangerItemDetail.onsiteType'(val) {
@@ -605,17 +555,6 @@ export default {
     }
   },
   methods: {
-    async initData () {
-      this.dataForm.tempValue = JSON.parse(JSON.stringify(this.value)) 
-      this.originalValue = JSON.stringify(this.value)
-      if (this.dataForm.tempValue.tableData.length > 0) {
-        await this.selectedItem({
-          $index: 0,
-          row: this.dataForm.tempValue.tableData[0]
-        })
-      }
-      // this.dataForm.tempValue.dangerContentMerge = false
-    },
     async getDictionary () {
       // 获取码表
       let db = new GoDB(this.DBName)
@@ -637,15 +576,88 @@ export default {
         }
       }
     },
+    async initData () {
+      this.dataForm.tempValue = JSON.parse(JSON.stringify(this.value)) 
+      this.originalValue = JSON.stringify(this.value)
+      if (this.dataForm.tempValue.tableData.length > 0) {
+        await this.selectedItem({
+          $index: 0,
+          row: this.dataForm.tempValue.tableData[0]
+        })
+      }
+    },
+    async selectedItem(scope) {
+      // 选择隐患
+      this.dataForm.tempValue.tableData.forEach(item => {
+        item.active = false
+      })
+      scope.row.active = true
+      // 保存已选择的隐患项
+      // 设置选中状态
+      this.$set(this.dataForm.tempValue.tableData, scope.$index, scope.row)
+      // 将选中的隐患项内容赋值进form中
+      this.dangerItemDetail = scope.row
+      await this.getDangerCate()
+    },
     setSelection() {
       // 设置选中
-      if (this.dataForm.tempValue.selectedDangerList && this.dataForm.tempValue.selectedDangerList.length > 0) {
-          this.dataForm.tempValue.selectedDangerList.map(item => {
-        this.$nextTick(() => {
-            let index = this.dataForm.tempValue.tableData.findIndex(tableItem => item.dangerId === tableItem.dangerId)
-            this.$refs.dangerTable.toggleRowSelection(this.dataForm.tempValue.tableData[index])
-          })
-        })
+      for(let i = 0; i < this.dataForm.tempValue.selectedDangerList.length; i++) {
+        let item = this.dataForm.tempValue.selectedDangerList[i]
+        for (let j = 0; j < this.dataForm.tempValue.tableData.length; j++) {
+          let tableItem = this.dataForm.tempValue.tableData[j]
+          if (tableItem.dangerId === item.dangerId) {
+            this.$nextTick(() => {
+              this.$refs.dangerTable.toggleRowSelection(tableItem)
+            })
+          }
+        }
+      }
+    },
+    // 行拖拽
+    rowDrop () {
+      // 此时找到的元素是要拖拽元素的父容器
+      const tbody = this.$refs.dangerTable.$el.querySelectorAll(
+        '.el-table__body-wrapper > table > tbody'
+      )[0]
+      const that = this;
+      this.sortableItem = new Sortable(tbody, {
+        //  指定父元素下可被拖拽的子元素
+        draggable: ".el-table__row",
+        disabled: that.dataForm.tempValue.tableData.length < 2,
+        onEnd ({ newIndex, oldIndex }) {
+          that.orderTable(oldIndex, newIndex)
+        }
+      });
+    },
+    orderTable (oldIndex, newIndex) {
+      // 修改tableData中所有项目的order值
+      let value = JSON.parse(JSON.stringify(this.dataForm.tempValue.tableData))
+      // 删除tableData中原位置的隐患项
+      let currRow = value.splice(oldIndex, 1)[0]
+      // 在tableData新位置中插入隐患项
+      value.splice(newIndex, 0, currRow);
+      // 重新排列order
+      for (let index = 0; index < value.length; index++) {
+        let item = value[index]
+        item.order = index
+        // 同步更新已选择列表中的order
+        for (let j = 0; j < this.dataForm.tempValue.selectedDangerList.length; j++) {
+          let selectedItem = this.dataForm.tempValue.selectedDangerList[j]
+          if (selectedItem.dangerId === item.dangerId) {
+            this.dataForm.tempValue.selectedDangerList[j].order = index
+          }
+        }
+      }
+      this.$set(this.dataForm.tempValue, 'tableData', value)
+      this.setSelection()
+      // 再同步修改已选中展示的节点元素
+      if (this.dangerItemDetail.dangerId) {
+        for (let i = 0; i < this.dataForm.tempValue.tableData.length; i++) {
+          let item = this.dataForm.tempValue.tableData[i]
+          if (item.dangerId === this.dangerItemDetail.dangerId) {
+            this.dangerItemDetail.order = item.order
+          }
+        }
       }
     },
     handleDialog (key) {
@@ -727,20 +739,7 @@ export default {
         })
       }
     },
-    async selectedItem(scope) {
-      // 选择隐患
-      this.dataForm.tempValue.tableData.forEach(item => {
-        item.active = false
-      })
-      scope.row.active = true
-      // 保存已选择的隐患项
-      // 设置选中状态
-      this.$set(this.dataForm.tempValue.tableData, scope.$index, scope.row)
-      // 将选中的隐患项内容赋值进form中
-      // this.$set(this, 'dangerItemDetail', scope.row)
-      this.dangerItemDetail = scope.row
-      await this.getDangerCate()
-    },
+    
     changeOrder(type) {
       // 修改排序
       let dangerItemDetail = this.dangerItemDetail
@@ -1083,46 +1082,7 @@ export default {
       // 选中新建的隐患项
       this.selectedItem(scope)
     },
-    // 行拖拽
-    rowDrop () {
-      // 此时找到的元素是要拖拽元素的父容器
-      const tbody = this.$refs.dangerTable.$el.querySelectorAll(
-        '.el-table__body-wrapper > table > tbody'
-      )[0]
-      const that = this;
-      this.sortableItem = new Sortable(tbody, {
-        //  指定父元素下可被拖拽的子元素
-        draggable: ".el-table__row",
-        disabled: that.dataForm.tempValue.tableData.length < 2,
-        onEnd ({ newIndex, oldIndex }) {
-          that.orderTable(oldIndex, newIndex)
-        }
-      });
-    },
-    orderTable (oldIndex, newIndex) {
-      // 修改tableData中所有项目的order值
-      let value = JSON.parse(JSON.stringify(this.dataForm.tempValue.tableData))
-      // 删除tableData中原位置的隐患项
-      let currRow = value.splice(oldIndex, 1)[0]
-      // 在tableData新位置中插入隐患项
-      value.splice(newIndex, 0, currRow);
-      // 重新排列order
-      for (let index = 0; index < value.length; index++) {
-        let item = value[index]
-        item.order = index
-        // 同步更新已选择列表中的order
-        let selectedItemIndex = this.dataForm.tempValue.selectedDangerList.findIndex(selectedItem => selectedItem.dangerId === item.dangerId)
-        if (selectedItemIndex !== -1) {
-          this.dataForm.tempValue.selectedDangerList[selectedItemIndex].order = index
-        }
-      }
-      this.$set(this.dataForm.tempValue, 'tableData', value)
-      this.setSelection()
-      // 再同步修改已选中展示的节点元素
-      if (this.dangerItemDetail.dangerId) {
-        this.dangerItemDetail.order = this.dataForm.tempValue.tableData.find(item => item.dangerId === this.dangerItemDetail.dangerId).order
-      }
-    },
+    
     handleSelectionChange (val) {
       this.dataForm.tempValue.selectedDangerList = val
     },
@@ -1152,7 +1112,7 @@ export default {
               punishmentObj.counterStr = `针对“${this.options.selectedType}”`
             }
             // 获取罚款金额
-            if (item.penaltyDesc.includes('元')) {
+            if (item.penaltyDesc && item.penaltyDesc.includes('元')) {
               let count = 0
               for (let j = 0; j < item.penaltyDesc.length; j++) {
                 if (item.penaltyDesc[j] === '元') count ++  
@@ -1171,7 +1131,7 @@ export default {
             // 获取处罚决定
             // 通过行政处罚决定penaltyDesc获取行政处罚信息
             for (let j = 0; j < this.subitemTypeOptions.length; j++) {
-              if (this.subitemTypeOptions[j].searchLabel && item.penaltyDesc.includes(this.subitemTypeOptions[j].searchLabel)) {
+              if (this.subitemTypeOptions[j].searchLabel && item.penaltyDesc && item.penaltyDesc.includes(this.subitemTypeOptions[j].searchLabel)) {
                 punishmentObj.penaltyDesId += this.subitemTypeOptions[j].value + ','
                 punishmentObj.penaltyDesStr += this.subitemTypeOptions[j].label + ','
               }
