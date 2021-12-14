@@ -132,7 +132,7 @@
             </el-form-item>
             <el-form-item
               label="b.现场处理决定："
-              prop="onsiteDesc">
+              prop="onsiteType">
               <div style="display: flex;">
                 <el-input
                   v-model.trim="dangerItemDetail.onsiteDesc"
@@ -517,8 +517,8 @@ export default {
         itemContent: [
           { required: true, message: '请填写违法行为描述', tirgger: 'blur' }
         ],
-        onsiteDesc: [
-          { required: true, message: '请填写现场处理决定', tirgger: 'blur' }
+        onsiteType: [
+          { required: true, message: '请选择现场处理决定', tirgger: 'blur' }
         ],
         changeDangerType: [
           {required: true, message: '请选择隐患从属类别', trigger: 'change'},
@@ -655,12 +655,13 @@ export default {
     handleClose (key) {
       this.visible[key] = false
     },
-    handleSave (params) {
+    async handleSave (params) {
       // 保存选择的检查项
       let tableData = []
       // 抽取选择的检查项最底一层，作为table展示
       this.handleData(params.data.selecteddangerList, tableData)
       if (tableData.length > 0) {
+        let showDetailIndex = this.dataForm.tempValue.tableData.length
         tableData.forEach((item, index) => {
           // 通过模糊匹配onsiteType
           let onsiteType = null
@@ -697,6 +698,10 @@ export default {
             order: this.dataForm.tempValue.tableData.length,
           })
           this.dataForm.tempValue.tableData.push(addItem)
+        })
+        await this.selectedItem({
+          $index: showDetailIndex,
+          row: this.dataForm.tempValue.tableData[showDetailIndex]
         })
       }
     },
@@ -1273,6 +1278,7 @@ export default {
     flex: 1;
     border: 1px solid #EBEEF5;
     padding: 0 7px;
+    overflow: auto;
     .puinshment-main {
       height: calc(100% - 250px);
       overflow: auto;

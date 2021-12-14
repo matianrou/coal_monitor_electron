@@ -216,7 +216,10 @@ export default {
       let person = db.table("person");
       let addPerson = db.table("addPerson");
       let personList = await person.findAll(item => item);
-      let addPersonList = await addPerson.findAll(item => item.caseId === this.corpData.caseId && item.delFlag !== '1')
+      let addPersonList = []
+      if (this.corpData) {
+        addPersonList = await addPerson.findAll(item => item.caseId === this.corpData.caseId && item.delFlag !== '1')
+      }
       // let curPerson = await person.find(item => item.no === this.$store.state.user.userId)
       await db.close();
       if (this.dataForm.name) {

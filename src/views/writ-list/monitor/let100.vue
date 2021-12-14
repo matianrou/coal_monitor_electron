@@ -85,12 +85,12 @@
                 @click="
                   commandFill(
                     'cellIdx5',
-                    `${fileGroupName}检查分工明细表`,
+                    `${letData.cellIdx12 ? letData.cellIdx12 : $store.state.curCase.provinceGroupName}检查分工明细表`,
                     'CheckTable'
                   )
                 "
               >
-                六、检查的主要内容和分工见明细表（附件：《{{fileGroupName}}检查分工明细表》）
+                六、检查的主要内容和分工见明细表（附件：《{{letData.cellIdx12 ? letData.cellIdx12 : $store.state.curCase.provinceGroupName}}检查分工明细表》）
               </div>
               <div></div>
             </div>
@@ -111,12 +111,12 @@
                 @click="
                   commandFill(
                     'cellIdx5',
-                    `${fileGroupName}检查分工明细表`,
+                    `${letData.cellIdx12 ? letData.cellIdx12 : $store.state.curCase.provinceGroupName}检查分工明细表`,
                     'CheckTable'
                   )
                 "
               >
-                《{{fileGroupName}}检查分工明细表》
+                《{{letData.cellIdx12 ? letData.cellIdx12 : $store.state.curCase.provinceGroupName}}检查分工明细表》
               </div>
             </div>
               <div class="docTextarea">
@@ -176,7 +176,7 @@
                 >
                 </el-table-column>
                 <el-table-column
-                  prop="basis"
+                  prop="method"
                   header-align="center"
                   align="left"
                   label="检查主要资料及方法"
@@ -222,7 +222,6 @@ export default {
     return {
       letData: {},
       options: {},
-      fileGroupName: this.$store.state.curCase.provinceGroupName
     };
   },
   methods: {
@@ -297,6 +296,7 @@ export default {
         cellIdx9: null, // 编制日期
         cellIdx10: null, // 审批人
         cellIdx11: null, // 审批日期
+        cellIdx12: this.$store.state.curCase.provinceGroupName, // 机构名称
         CheckTable: {
           tableData: [],
           selectedIdList: [],

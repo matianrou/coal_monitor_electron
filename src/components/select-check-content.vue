@@ -53,7 +53,7 @@
             </span>
           </el-tree>
         </div>
-        <div v-else class="select-danger-col-tree">
+        <div v-else class="select-check-col-tree">
           <el-tree
             ref="checkListTree"
             :data="selectedQdList"

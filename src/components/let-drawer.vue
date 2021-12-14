@@ -169,7 +169,7 @@ export default {
             if (value.selectedDangerList && value.selectedDangerList.length > 0) {
               value.selectedDangerList.map((item, index) => {
                 // 校验违法违规行为，行政处罚决定，更改从属类型必填
-                if (!item.itemContent || !item.onsiteDesc || !item.changeDangerType) {
+                if (!item.itemContent || !item.onsiteType || !item.changeDangerType) {
                   isSave = false
                   indexString += (index + 1) + ','
                 }

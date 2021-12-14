@@ -162,7 +162,9 @@ function setDangerTable(data, selectedData, options) {
           })
         }
       }
-      string = `${data.baseInfor}\r\n${data.dangerInfor}\r\n${dangerString}`
+      string = data.baseInfor ? `${data.baseInfor}\r\n` : ''
+      string += data.dangerInfor ? `${data.dangerInfor}\r\n` : ''
+      string += `${dangerString}`
       break
     case '2': // 现场处理决定书
       let dangerString1 = ''
