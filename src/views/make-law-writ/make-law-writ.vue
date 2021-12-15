@@ -26,7 +26,7 @@
           <div class="detail-org-information">
             <!-- 企业信息 -->
             <org-information
-              v-if="corpData && corpData.corpId"
+              v-if="corpData && corpData.corpId && corpData.caseId"
               :corp-data="corpData"
             ></org-information>
           </div>

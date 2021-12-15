@@ -276,7 +276,6 @@ export default {
               showBaseInfor: true, // 用于区分是否展示基本情况大文本输入
               showSelectDangerBtn: true, // 用于区分是否可以选择隐患项
               showDangerInfor: true, // 
-              showMergeBtn: true
             }
           } else {
             if (this.corpData.caseType === '0') {

@@ -75,7 +75,7 @@
             <div class="docTextarea">
               <span class="no-line">调查事由：</span>
               <span
-                @click="commandFill('cellIdx8', '调查事由', 'DangerTable')"
+                @click="commandFill('cellIdx8', '调查事由', 'TextareaItem')"
                 >{{
                   letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
                 }}</span
@@ -225,7 +225,7 @@
                 overflow: hidden;
               "
               class="cellInput mutiLineArea"
-              @click="commandFill('cellIdx21', '', 'DangerTable')"
+              @click="commandFill('cellIdx21', '', 'TextareaItem')"
             >
               <div
                 v-if="letData.cellIdx21 && letData.cellIdx21.length > 0"
@@ -545,6 +545,7 @@ export default {
                 paper4Id: selectedPaper.let4Data.paperId,
               }
             : null,
+        DangerTable: DangerTable
       };
     },
     goBack({ page, data }) {
@@ -556,20 +557,6 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
-        let spellString = {};
-        if (key === "cellIdx8") {
-          spellString = {
-            corpName: this.letData.extraData.corpName,
-          };
-        } else if (key === "cellIdx21") {
-          spellString = this.letData.extraData;
-        }
-        this.options[key] = {
-          page: "5",
-          key: key,
-          spellString,
-          showMergeBtn: true,
-        };
         this.$refs.letMain.commandFill(
           key,
           dataKey,

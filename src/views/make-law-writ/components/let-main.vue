@@ -930,10 +930,12 @@ export default {
       if (this.docData.docTypeNo === '5' || this.docData.docTypeNo === '13' || this.docData.docTypeNo === '27'
         || this.docData.docTypeNo === '30' || this.docData.docTypeNo === '7' || this.docData.docTypeNo === '14'
         || this.docData.docTypeNo === '55' || this.docData.docTypeNo === '31' || this.docData.docTypeNo === '10'
-        || this.docData.docTypeNo === '11' || this.docData.docTypeNo === '12') {
+        || this.docData.docTypeNo === '11' || this.docData.docTypeNo === '12' || this.docData.docTypeNo === '1'
+        || this.docData.docTypeNo === '2') {
         // 大文本换行问题解决：通过获取大文本中的\n换行符，截取字符串形成数组，将数组转换为doc文本实现换行效果
         // 需要处理的文书：调查询问笔录cellIdx21;复查意见书cellIdx15;先行登记保存证据处理决定书cellIdx14;
         // 需要处理的文书：陈述申辩笔录cellIdx21;听证笔录cellIdx10;案件结案报告cellIdx0;鉴定委托书cellIdx6
+        // 需要处理的文书：现场检查笔录cellIdx8;现场处理决定书cellIdx7
         let cellIdxExtraTextarea = []
         let key = ''
         switch (this.docData.docTypeNo) {
@@ -969,6 +971,12 @@ export default {
             break;
           case '12':
             key = 'cellIdx10'
+            break;
+          case '1':
+            key = 'cellIdx8'
+            break;
+          case '2':
+            key = 'cellIdx7'
             break;
         }
         exportData[key].split('\n').map(item => {
