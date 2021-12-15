@@ -578,7 +578,20 @@ export default {
     },
     async initData () {
       this.dataForm.tempValue = JSON.parse(JSON.stringify(this.value)) 
-      this.originalValue = JSON.stringify(this.value)
+      // 删除表格及选中表格中的已选中字段active后保存原始数据进行对比
+      let tableData = this.value.tableData ? JSON.parse(JSON.stringify(this.value.tableData)) : []
+      for (let i = 0; i < tableData.length; i++) {
+        await delete tableData[i].active
+      }
+      let selectedDangerList = this.value.selectedDangerList ? JSON.parse(JSON.stringify(this.value.selectedDangerList)) : []
+      for (let i = 0; i < selectedDangerList.length; i++) {
+        await delete selectedDangerList[i].active
+      }
+      let originalValue = {
+        tableData,
+        selectedDangerList,
+      }
+      this.originalValue = JSON.stringify(originalValue)
       if (this.dataForm.tempValue.tableData.length > 0) {
         await this.selectedItem({
           $index: 0,
