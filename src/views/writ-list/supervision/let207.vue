@@ -204,7 +204,7 @@ export default {
       let cellIdx5String = `${let8DataPaperContent.cellIdx0}（${let8DataPaperContent.cellIdx1}）煤安罚〔${let8DataPaperContent.cellIdx2}〕${let8DataPaperContent.cellIdx3}号`
       // 3.送达地点：煤矿名称
       let cellIdx6String = corp.corpName
-      let paperNumber = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
+      let paperNumber = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId)
       // 获取行政处罚决定书中选择的单位/个人
       let selectedType = let8DataPaperContent.selectedType
       let selectedString = selectedType === '单位' ? '单位负责人' : '个人'

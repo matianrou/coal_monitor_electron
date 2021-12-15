@@ -370,8 +370,7 @@ export default {
       let { num0, num1, num3, num4 } = await getDocNumber(
         db,
         this.docData.docTypeNo,
-        this.corpData.caseId,
-        this.$store.state.user
+        this.corpData.caseId
       );
       // 3.企业煤矿名称
       // 4.违法行为：获取笔录文书中的隐患数据

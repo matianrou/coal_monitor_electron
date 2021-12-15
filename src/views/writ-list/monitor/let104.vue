@@ -298,8 +298,7 @@ export default {
       let { num0, num1, num3, num4 } = await getDocNumber(
         db,
         this.docData.docTypeNo,
-        this.corpData.caseId,
-        this.$store.state.user
+        this.corpData.caseId
       );
       let let2DataPaperContent = JSON.parse(
         selectedPaper.let2Data.paperContent

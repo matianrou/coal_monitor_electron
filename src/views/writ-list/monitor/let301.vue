@@ -329,8 +329,7 @@ export default {
       let paperNumber = await getDocNumber(
         db,
         "9",
-        this.corpData.caseId,
-        this.$store.state.user
+        this.corpData.caseId
       );
       // 2.申请人：机构名称
       let cellIdx5String = this.$store.state.curCase.provinceGroupName;

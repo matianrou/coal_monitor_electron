@@ -311,7 +311,7 @@ export default {
         this.paperData = checkPaper[0];
       } else {
         // 创建初始版本
-        let paperNumber = await getDocNumber(db, this.docData.docTypeNo, caseId, this.$store.state.user)
+        let paperNumber = await getDocNumber(db, this.docData.docTypeNo, caseId)
         this.letData = {
           cellIdx0: paperNumber.num0, // 文书号
           cellIdx0TypeTextItem: paperNumber.num0, // 文书号

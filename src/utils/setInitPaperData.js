@@ -16,10 +16,10 @@ import { getNowFormatTime, getNowTime } from "@/utils/date";
 // 3.num2: 文书号3（立、告、罚、送、催）
 // 4.num3: 文书号4（curYear）
 // 5.num4: 文书号5（个人执法编号+自增三位数字）
-export async function getDocNumber(db, docTypeNo, caseId, user) {
-  // 获取当前机构
+export async function getDocNumber(db, docTypeNo, caseId) {
+  // 获取当前归档机构信息
   const orgInfo = db.table("orgInfo");
-  const orgData = await orgInfo.find(item => item.no === user.userGroupId)
+  const orgData = await orgInfo.find(item => item.no === store.state.curCase.affiliate)
   let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {
     docRiseSafe: '',
     docRiseDepa: ''
@@ -176,7 +176,7 @@ export function getDangerContentWithoutPoint (tableData, replaceString = '') {
   let dangerString = ''
   for (let i = 0; i < tableData.length; i++) {
     let item = tableData[i]
-    if (item.itemContent[item.itemContent.length - 1] === '。') {
+    if (item.itemContent && item.itemContent[item.itemContent.length - 1] === '。') {
       // 如果有。句号则去掉句号
       dangerString += item.itemContent.substring(0, item.itemContent.length - 1) + replaceString
     } else {
@@ -194,7 +194,7 @@ export function getDangerContentWithoutPointHasIndex (tableData, replaceString =
   let dangerString = ''
   for (let i = 0; i < tableData.length; i++) {
     let item = tableData[i]
-    if (item.itemContent[item.itemContent.length - 1] === '。') {
+    if (item.itemContent && item.itemContent[item.itemContent.length - 1] === '。') {
       // 如果有。句号则去掉句号
       dangerString += (i + 1) + '.' + item.itemContent.substring(0, item.itemContent.length - 1) + replaceString
     } else {
@@ -213,7 +213,7 @@ export function getDangerPenaltyBasisWithoutPointHasIndex (tableData, replaceStr
   let dangerString = ''
   for (let i = 0; i < tableData.length; i++) {
     let item = tableData[i]
-    if (item.penaltyDesc[item.penaltyDesc.length - 1] === '。') {
+    if (item.penaltyDesc && item.penaltyDesc[item.penaltyDesc.length - 1] === '。') {
       // 如果有。句号则去掉句号
       dangerString += (i + 1) + '.' + item.penaltyBasis + item.penaltyDesc.substring(0, item.penaltyDesc.length - 1) + replaceString
     } else {
@@ -232,7 +232,7 @@ export function getDangerPenaltyDescWithoutPoint (tableData, replaceString = '')
   let dangerString = ''
   for (let i = 0; i < tableData.length; i++) {
     let item = tableData[i]
-    if (item.penaltyDesc[item.penaltyDesc.length - 1] === '。') {
+    if (item.penaltyDesc && item.penaltyDesc[item.penaltyDesc.length - 1] === '。') {
       // 如果有。句号则去掉句号
       dangerString += item.penaltyDesc.substring(0, item.penaltyDesc.length - 1) + replaceString
     } else {
@@ -251,7 +251,7 @@ export function getDangerPenaltyDescWithoutPointHasIndex (tableData, replaceStri
   let dangerString = ''
   for (let i = 0; i < tableData.length; i++) {
     let item = tableData[i]
-    if (item.penaltyDesc[item.penaltyDesc.length - 1] === '。') {
+    if (item.penaltyDesc && item.penaltyDesc[item.penaltyDesc.length - 1] === '。') {
       // 如果有。句号则去掉句号
       dangerString += (i + 1) + '.' + item.penaltyDesc.substring(0, item.penaltyDesc.length - 1) + replaceString
     } else {

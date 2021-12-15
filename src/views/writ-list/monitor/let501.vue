@@ -224,8 +224,7 @@ export default {
       let paperNumber = await getDocNumber(
         db,
         this.docData.docTypeNo,
-        '',
-        this.$store.state.user
+        ''
       );
       // 获取当前用户的省局机构名称
       let userGroupId = this.$store.state.user.userGroupId

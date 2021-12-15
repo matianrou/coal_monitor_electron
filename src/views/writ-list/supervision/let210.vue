@@ -264,7 +264,7 @@ export default {
       // 1.弹出提示框，选择单位或个人
       this.visibleSelectDialog = true
       // 2.生成文书编号
-      let {num0, num1, num3, num4} = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
+      let {num0, num1, num3, num4} = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId)
       // 3.企业煤矿名称
       // 4.违法行为：获取笔录文书中的隐患数据
       let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)

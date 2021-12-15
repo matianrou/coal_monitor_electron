@@ -186,8 +186,7 @@ export default {
       let { num0, num1, num3, num4 } = await getDocNumber(
         db,
         this.docData.docTypeNo,
-        this.corpData.caseId,
-        this.$store.state.user
+        this.corpData.caseId
       );
       // 2.获取先行登记保存证据通知书中的日期、物品清单和编号字段
       let let25DataPaperContent = JSON.parse(

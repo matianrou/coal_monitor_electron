@@ -310,8 +310,7 @@ export default {
       let { num0, num1, num3, num4 } = await getDocNumber(
         db,
         this.docData.docTypeNo,
-        this.corpData.caseId,
-        this.$store.state.user
+        this.corpData.caseId
       );
       // 3.违法行为：获取笔录文书中的隐患数据
       let let1DataPaperContent = JSON.parse(

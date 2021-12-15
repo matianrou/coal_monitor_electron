@@ -247,7 +247,7 @@ export default {
       });
       let caseId = this.corpData.caseId
       // 1.文书编号：送达收执文书编号
-      let paperNumber = await getDocNumber(db, '9', caseId, this.$store.state.user)
+      let paperNumber = await getDocNumber(db, '9', caseId)
       // 2.申请人：机构名称
       let cellIdx5String = this.$store.state.curCase.provinceGroupName
       // 3.被申请人：企业煤矿名称

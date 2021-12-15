@@ -279,8 +279,7 @@ export default {
         let paperNumber = await getDocNumber(
           db,
           this.docData.docTypeNo,
-          this.corpData.caseId,
-          this.$store.state.user
+          this.corpData.caseId
         );
         // 获取笔录文书中的隐患数据
         let let1DataPaperContent = JSON.parse(
@@ -378,8 +377,7 @@ export default {
         let paperNumber = await getDocNumber(
           db,
           this.docData.docTypeNo,
-          this.corpData.caseId,
-          this.$store.state.user
+          this.corpData.caseId
         );
         // 9.机构接口中获取sysOfficeInfo实体中
         let orgInfo = db.table("orgInfo");

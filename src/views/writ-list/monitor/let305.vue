@@ -211,8 +211,7 @@ export default {
       let paperNumber = await getDocNumber(
         db,
         this.docData.docTypeNo,
-        this.corpData.caseId,
-        this.$store.state.user
+        this.corpData.caseId
       );
       // 3.获取行政复议申请笔录中的申请时间
       let let10DataPaperContent = JSON.parse(

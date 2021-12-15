@@ -234,7 +234,7 @@ export default {
         return item.corpId == this.corpData.corpId;
       });
       // 1.生成文书编号
-      let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
+      let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId)
       // 2.违法行为：获取笔录文书中的隐患数据
       // let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
       // let dangerObject = getDangerObject(let1DataPaperContent.DangerTable.tableData)

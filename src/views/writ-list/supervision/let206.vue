@@ -228,7 +228,7 @@ export default {
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
       let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {accountName: '', accountBank: '', billName: '', account: '', accountAddress: '', organName: '', courtPrefix: ''}
-      let paperNumber = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
+      let paperNumber = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId)
       await db.close();
       this.letData = {
         cellIdx0: paperNumber.num0, // 文书号

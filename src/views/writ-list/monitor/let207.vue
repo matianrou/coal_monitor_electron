@@ -210,8 +210,7 @@ export default {
       let paperNumber = await getDocNumber(
         db,
         this.docData.docTypeNo,
-        this.corpData.caseId,
-        this.$store.state.user
+        this.corpData.caseId
       );
       // 获取行政处罚决定书中选择的单位/个人
       let selectedType = let8DataPaperContent.selectedType;

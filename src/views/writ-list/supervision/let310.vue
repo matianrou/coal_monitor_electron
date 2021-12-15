@@ -195,8 +195,7 @@ export default {
       let { num0, num1, num3, num4 } = await getDocNumber(
         db,
         this.docData.docTypeNo,
-        this.corpData.caseId,
-        this.$store.state.user
+        this.corpData.caseId
       );
       // 2.发现你矿存在：隐患描述
       // 获取笔录文书中的隐患数据 调整为立案决定书中的案由字段cellIdx4

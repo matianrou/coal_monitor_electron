@@ -243,7 +243,7 @@ export default {
       let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      let paperNumber = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
+      let paperNumber = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId)
       // sysOfficeInfo实体中depAddress字段+ deparFullname字段
       // 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
       let orgInfo = db.table("orgInfo");

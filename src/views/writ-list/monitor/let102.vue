@@ -242,8 +242,7 @@ export default {
       let paperNumber = await getDocNumber(
         db,
         this.docData.docTypeNo,
-        this.corpData.caseId,
-        this.$store.state.user
+        this.corpData.caseId
       );
       let DangerTable = let1DataPaperContent.DangerTable
         ? setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)

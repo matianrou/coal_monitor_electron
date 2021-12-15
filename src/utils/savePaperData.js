@@ -164,7 +164,7 @@ export async function saveToUpload(paperId, messageShow) {
         meikuangType: workCaseObj.meikuangType,
         meikuangPlanfrom: workCaseObj.meikuangPlanfrom, // 是否计划内
         planId: workCaseObj.planId,
-        pcMonth: '',
+        pcMonth: workCaseObj.pcMonth,
         caseClassify: workCaseObj.caseClassify || '',
 				riskAssessment: workCaseObj.riskAssessment || '',
 				riskAssessmentContent: workCaseObj.riskAssessmentContent || '', 

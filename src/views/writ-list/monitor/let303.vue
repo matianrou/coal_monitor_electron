@@ -298,8 +298,7 @@ export default {
       let paperNumber = await getDocNumber(
         db,
         this.docData.docTypeNo,
-        this.corpData.caseId,
-        this.$store.state.user
+        this.corpData.caseId
       );
       // 3.企业煤矿名称
       // 4.日期，行政复议申请时间

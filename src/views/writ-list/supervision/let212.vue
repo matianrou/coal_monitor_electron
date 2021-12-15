@@ -252,7 +252,7 @@ export default {
         return item.corpId == this.corpData.corpId;
       });
       // 1.生成文书编号
-      let {num0, num1, num3, num4} = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
+      let {num0, num1, num3, num4} = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId)
       // 2.行政处罚决定书 日期、编号
       let let8DataPaperContent = JSON.parse(selectedPaper.let8Data.paperContent)
       let date206 = let8DataPaperContent.cellIdx20 ? let8DataPaperContent.cellIdx20.replace('年', '-').replace('月', '-').replace('日', '-').split('-') : ['', '', '']

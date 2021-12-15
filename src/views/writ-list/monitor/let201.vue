@@ -210,8 +210,7 @@ export default {
         let paperNumber = await getDocNumber(
           db,
           this.docData.docTypeNo,
-          this.corpData.caseId,
-          this.$store.state.user
+          this.corpData.caseId
         );
         let DangerTable = let1DataPaperContent.DangerTable ? 
           setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
@@ -259,8 +258,7 @@ export default {
         let paperNumber = await getDocNumber(
           db,
           this.docData.docTypeNo,
-          this.corpData.caseId,
-          this.$store.state.user
+          this.corpData.caseId
         );
         let date = this.todayDate.replace('年', '-').replace('月', '-').replace('日', '-').split('-')
         await db.close();

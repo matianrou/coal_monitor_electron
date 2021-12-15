@@ -239,7 +239,7 @@ export default {
       // 2.案情摘要：检查时间+当前机构名称+“对”+煤矿名称+“进行现场检查时发现”+隐患描述+"以上行为分别涉嫌违反了"+违法认定法条+“依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。”
       dangerObject = getDangerObject(let1DataPaperContent.DangerTable.tableData, {danger: true})
       let cellIdx5String = `${dateString}，${this.$store.state.curCase.provinceGroupName}对${corp.corpName}进行现场检查时发现：${dangerObject.dangerString}以上行为分别涉嫌违反了${dangerObject.illegalString}的规定。依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`
-      let paperNumber = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId, this.$store.state.user)
+      let paperNumber = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId)
       await db.close();
       this.letData = {
         cellIdx0: paperNumber.num0, // 文书号

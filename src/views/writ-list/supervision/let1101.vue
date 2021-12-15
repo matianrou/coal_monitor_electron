@@ -276,8 +276,7 @@ export default {
       let { num0, num1, num3, num4 } = await getDocNumber(
         db,
         this.docData.docTypeNo,
-        this.corpData.caseId,
-        this.$store.state.user
+        this.corpData.caseId
       );
       // 3.地点：sysOfficeInfo实体中organName字段+ courtPrefix字段
       let orgInfo = db.table("orgInfo");

@@ -107,6 +107,27 @@ export default {
         this.changeTab(this.$store.state.activeTab)
       } else {
         this.changeTab('MakeLawWrit')
+        console.log('', this.$store.state.DBName)
+        // if (this.$store.state.DBName) {
+        //   let dbExists = true;
+        //   let request = window.indexedDB.open(this.$store.state.DBName);
+        //   request.onupgradeneeded = function (e) {
+        //     console.log('e.target', e.target.transaction)
+        //     if (!e.target.transaction) {
+        //       dbExists = false;
+        //     }
+        //   }
+        //     console.log('dbExists', dbExists)
+        //     this.changeTab('SourceDownload')
+        //   if (dbExists) {
+        //     this.changeTab('MakeLawWrit')
+        //   } else {
+        //     this.changeTab('SourceDownload')
+        //   }
+        // } else {
+        //   this.changeTab('SourceDownload')
+        // }
+        
       }
     },
     changeTab (tab, go) {

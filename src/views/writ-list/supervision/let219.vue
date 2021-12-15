@@ -505,8 +505,7 @@ export default {
       let paperNumber = await getDocNumber(
         db,
         this.docData.docTypeNo,
-        this.corpData.caseId,
-        this.$store.state.user
+        this.corpData.caseId
       );
       // 2.行政处罚决定书 日期、编号、
       let let8DataPaperContent = JSON.parse(selectedPaper.let8Data.paperContent);
