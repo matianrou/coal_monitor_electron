@@ -291,7 +291,6 @@ export default {
           dangerList: '未下载',
           doc: '未下载',
         }
-        await sourceDownload.add(this.updateTime)
       }
       await db.close()
     },
@@ -299,8 +298,6 @@ export default {
     资源下载、任务/活动创建、文书保存及归档
     ***************************************************************************** */
     async resDownload(resId) {
-      let objLink = document.getElementById("btn-" + resId + "-down");
-      objLink.disabled = true;
       let userId = this.$store.state.user.userId;
       let userSessId = this.$store.state.user.userSessId;
       let userGroupId = this.$store.state.user.userGroupId;
@@ -383,7 +380,6 @@ export default {
             this.$message.error(
               "远程请求异常，可能是认证信息超时，请重新登录。"
             );
-            objLink.disabled = false;
             this.loading.download = false
           } else {
             if (response.data.data) {
@@ -441,7 +437,6 @@ export default {
         .catch((err) => {
           this.$message.error("远程请求异常，可能是认证信息超时，请重新登录。");
           console.log("下载失败：", err);
-          objLink.disabled = false;
           this.loading.download = false
         });
       if (resId === 'doc') {

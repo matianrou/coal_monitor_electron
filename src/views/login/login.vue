@@ -44,6 +44,7 @@
 import { encry, Encrypt, Decrypt } from '@/utils/AesEncryptUtil'
 import { electronRequest } from '@/utils/electronRequest'
 import GoDB from "@/utils/godb.min.js";
+import { schema } from '@/utils/downloadSource'
 export default {
   name: "Login",
   data() {
@@ -123,7 +124,8 @@ export default {
             })
             // 判断当前登录用户为监管或监察
             await this.getUserType(userId, sessId)
-            await this.getUserInfo(userId, sessId);
+            await this.getUserInfo(userId, sessId)
+            await this.setDB(userId)
             this.$router.replace({
               name: 'CalmineElectronMain',
             })
@@ -185,6 +187,53 @@ export default {
       // this.$store.state.user.userNumber = userInfo ? userInfo.userNumber : ''
       // await db.close()
     },
+    async setDB (userId) {
+      // 校验是否存在数据库
+      // 以下注释的为原生indexDB校验方法，可实现校验数据库创建数据库表
+      // 此方式只是没有做好同步的操作，只能将路由跳转放进onupgradeneeded和onsuccess方法的回调中才能解决判断后再跳转页面，
+      // 所以使用此方法时需删除调用此方法的function中的路由跳转语句
+      // onupgradeneeded为创建数据库时调用方法
+      // onsuccess为一般打开数据库的回调
+      // const request = window.indexedDB.open(userId)
+      // let that = this
+      // request.onsuccess = function (event) {
+      //   request.result.close()
+      //   that.$router.replace({
+      //     name: 'CalmineElectronMain',
+      //   })
+      // }
+      // request.onupgradeneeded = async function (event) {
+      //   let version = event.oldVersion
+      //   await event.target.result.close()
+      //   if (version === 0) {
+      //     let db = new GoDB(userId, schema)
+      //     await db.close()
+      //     that.$store.commit('changeState', {
+      //       key: 'activeTab',
+      //       val: 'SourceDownload'
+      //     })
+      //     that.$message.warning('初次使用系统，请先下载全部资源后再使用！')
+      //     that.$router.replace({
+      //       name: 'CalmineElectronMain',
+      //     })
+      //   }
+      // };
+      // 以上方法保留的基础上新增判断土方法：
+      // 读取当前是否已进行过资源下载，如果没有则表示未下载过资源，则提示需要下载资源，同时创建数据库表
+      let db1 = new GoDB(userId);
+      let sourceDownload = db1.table('sourceDownload')
+      let downloadData = await sourceDownload.find(item => item)
+      await db1.close()
+      if (!downloadData) {
+        let db2 = new GoDB(userId, schema)
+        await db2.close()
+        this.$store.commit('changeState', {
+          key: 'activeTab',
+          val: 'SourceDownload'
+        })
+        this.$message.warning('当前未下载任何资源，请先下载全部资源后再使用！')
+      }
+    }
   },
 };
 </script>

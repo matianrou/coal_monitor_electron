@@ -103,31 +103,9 @@ export default {
       // 初始化页签
       // 判断数据仓库存储的activeTab，如果有值则跳转，如果无默认为执法工作台
       if (this.$store.state.activeTab) {
-        this.activeTab = this.$store.state.activeTab
         this.changeTab(this.$store.state.activeTab)
       } else {
         this.changeTab('MakeLawWrit')
-        console.log('', this.$store.state.DBName)
-        // if (this.$store.state.DBName) {
-        //   let dbExists = true;
-        //   let request = window.indexedDB.open(this.$store.state.DBName);
-        //   request.onupgradeneeded = function (e) {
-        //     console.log('e.target', e.target.transaction)
-        //     if (!e.target.transaction) {
-        //       dbExists = false;
-        //     }
-        //   }
-        //     console.log('dbExists', dbExists)
-        //     this.changeTab('SourceDownload')
-        //   if (dbExists) {
-        //     this.changeTab('MakeLawWrit')
-        //   } else {
-        //     this.changeTab('SourceDownload')
-        //   }
-        // } else {
-        //   this.changeTab('SourceDownload')
-        // }
-        
       }
     },
     changeTab (tab, go) {

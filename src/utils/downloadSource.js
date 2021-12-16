@@ -24,33 +24,7 @@ async function doOrgDb(resId, data) {
 	// 	i--
 	// }
 	// console.log('id', id)
-  let schema = {
-    orgInfo: {
-      "no": {
-        type: String,
-        unique: true
-      },
-      "createDate": String,
-      "updateDate": String,
-      "delFlag": String,
-      "parentIds": String,
-      "name": String,
-      "code": String,
-      "type": String,
-      "grade": String,
-      "address": String,
-      "parentId": String,
-      "sort": Number,
-      "areaId": String,
-      "areaName": String,
-      "areaShortName": String,
-      "areaParentIds": String,
-			"areaDelFlag": String,
-			"areaSort": Number,
-      "sysOfficeInfo": String
-    }
-  };
-  let db = new GoDB(store.state.DBName, schema);
+  let db = new GoDB(store.state.DBName);
   let orgInfo = db.table('orgInfo');
 
   //1-add baseInfo(机构基本信息)
@@ -91,53 +65,7 @@ async function doOrgDb(resId, data) {
 // “用户资源”下载。
 async function doPersonDb(resId, data) {
   let arrPerson = [];
-  let schema = {
-    person: {
-			admin: Boolean,
-			company: String,
-			createBy: String,
-			createDate: String,
-			delFlag: String,
-			email: String,
-      no: {
-        type: String,
-        unique: true
-      },
-			loginDate: String,
-			loginFlag: String,
-			loginIp: String,
-      loginName: String,
-			mobile: String,
-      name: String,
-			office: String,
-			oldLoginDate: String,
-			oldLoginIp: String,
-			qylxmc: String,
-			remarks: String,
-			roleNames: String,
-			updateBy: String,
-			updateDate: String,
-      userNumber: String,
-			userType: String,
-			zfLogin: Boolean,
-      officeId: String,
-      officeName: String,
-    },
-		addPerson: { // 检查分工中添加的人员
-			no: {
-        type: String,
-        unique: true
-      },
-			name: String,
-			officeName: String,
-			caseId: String,
-			corpId: String,
-			delFlag: String,
-			createBy: String,
-			createDate: String
-		}
-  };
-  let db = new GoDB(store.state.DBName, schema);
+  let db = new GoDB(store.state.DBName);
   let person = db.table('person');
   for (let i = 0; i < data.length; i++) {
     let obj = data[i];
@@ -182,31 +110,7 @@ async function doPersonDb(resId, data) {
 
 // “其他资源”下载。
 async function doPlanDb(resId, data) {
-	let schema = {
-		docPlan: {
-			"no": {
-				type: String,
-				unique: true
-			},
-			"createDate": String,
-			"updateDate": String,
-			"delFlag": String,
-			"status": String,
-			"corpId": String,
-			"corpName": String,
-			"groupId": String,
-			"planMonthTimes": String,
-			"planMonth": String,
-			"planYear": String,
-			"meikuangType": String,
-			"meikuangPlanfrom": String,
-			"isRandom": String,
-			"monitoringCategory": String,
-			"monitoringCategoryName": String,
-			"dbplanId":String,
-		}
-	};
-	let db = new GoDB(store.state.DBName, schema);
+	let db = new GoDB(store.state.DBName);
 	let docPlan = db.table('docPlan');
 
 	let arrPlan = [];
@@ -249,115 +153,7 @@ async function doCorpDb(resId, data) {
 	let arrZfJjgzmInfo = data.zfJjgzmInfo || [];
 	let arrZfCyrytjInfo = data.zfCyrytjInfo || [];
 	let arrZfCmgzmInfo = data.zfCmgzmInfo || [];
-	/*console.log("arrBaseInfo=" + arrBaseInfo.length);
-	console.log("arrZfZzInfo=" + arrZfZzInfo.length);
-	console.log("arrZfJjgzmInfo=" + arrZfJjgzmInfo.length);
-	console.log("arrZfCyrytjInfo=" + arrZfCyrytjInfo.length);
-	console.log("arrZfCmgzmInfo=" + arrZfCmgzmInfo.length);
-	console.log(data);*/
-	let schema = {
-		corpBase: {
-			"corpId": {
-				type: String,
-				unique: true
-			},
-			"delFlag": String, //"0",
-			"corpName": String, //"邢台新兴通泰矿业集团内丘裕泰煤业有限公司",
-			"meikuangType": String, //"5",
-			"corpTypeName": String, // "县管企业",
-			"address": String, //"邢台市内丘县内丘镇东庞前街村",
-			"provinceName": String, //"河北省",
-			"cityName": String, //"邢台市",
-			"countryName": String, //"内丘县",
-			"zoneCountyId": String, //"130523",
-			"legalName": String, // "郑海庭",
-			"contacts": String, //"郑海庭",
-			"tel": String, //"0319-6809588",
-			"xkzStatusNameZs": String, //"未办证",
-			"parentTypeName": String, //"地方国有",
-			"economyTypeName": String, //"集体经济",
-			"standardClassName": String, //"未评定",
-			"mineStatusZs": String, //"0301",
-			"mineStatusZsName": String, //"关闭矿井->已关闭矿井",
-			"mineClassName": String, //"小型矿井",
-			"designOutput": Number, //6.0,
-			"provedOutput": Number, //15.0,
-			"mineMinestyleName": String, //"立井",
-			"mineMinetypeName": String, // "井工",
-			"mineTransmitstyleName": String, // "调度绞车",
-			"minePowerstyleName": String, // "双电源",
-			"mineVentilatestyleName": String, // "其他",
-			"mineGeohazardtypeName": String, //"爆炸",
-			"hydrogeologicalTypeName": String, // "复杂",
-			"approvedMineDepth": Number, // 200.0,
-			"mineWsGradeName": String, //"低瓦斯",
-			"mineFireName": String, //"自燃",
-			"grimeExplosiveName": String, //"有爆炸性",
-			"rockburstName": String, //"无冲击地压矿井",
-			"groupId": String // "130500130001"
-		},
-		zfZzInfo: {
-			"delFlag": String, // "0",
-			"corpId": String, // "130201001532",
-			"corpName": String, // "开滦（集团）有限责任公司东欢坨矿业分公司",
-			"provinceName": String, // "河北省",
-			"cityName": String, // "唐山市",
-			"countryName": String, // "路北区",
-			"zoneCountyId": String, //"130203",
-			"groupId": String, // "130200130001",
-			"credId": String, // "130206196709150336",
-			"effectiveTime": String, // "2016-07-13 12:07:00",
-			"expireTime": String, // "2019-07-12 12:07:00",
-			"credTypeName": String, // "矿长安全资格证"
-		},
-		zfJjgzmInfo: {
-			"delFlag": String, // "0",
-			"corpId": String, // "130201001532",
-			"corpName": String, // "开滦（集团）有限责任公司东欢坨矿业分公司",
-			"provinceName": String, // "河北省",
-			"cityName": String, // "唐山市",
-			"countryName": String, // "路北区",
-			"zoneCountyId": String, // "130203",
-			"groupId": String, // "130200130001",
-			"mineTunnelGeotype": String, // "12",
-			"mineTunnelProcessName": String, //"综掘",
-			"mineTunnelsupporstyleName": String, // "锚喷支护",
-			"workfaceName": String, // "-690南翼轨道巷"
-		},
-		zfCyrytjInfo: {
-			"delFlag": String, // "0",
-			"corpId": String, // "130201001532",
-			"corpName": String, // "开滦（集团）有限责任公司东欢坨矿业分公司",
-			"provinceName": String, // "河北省",
-			"cityName": String, // "唐山市",
-			"countryName": String, // "路北区",
-			"zoneCountyId": String, // "130203",
-			"groupId": String, // "130200130001",
-			"reportYear": String, // "2016",
-			"cyrytZs": String, // "3731",
-			"cyrytJxcyrs": String, //"3224",
-			"cyrytZzrs": String, // "572",
-			"cyrytGz": String, //"1394",
-			"cyrytCz": String, //"1706",
-			"cyrytCzyx": String, //"59"
-		},
-		zfCmgzmInfo: {
-			"delFlag": String, // "0",
-			"corpId": String, // "130201001532",
-			"corpName": String, // "开滦（集团）有限责任公司东欢坨矿业分公司",
-			"provinceName": String, // "河北省",
-			"cityName": String, // "唐山市",
-			"countryName": String, // "路北区",
-			"zoneCountyId": String, // "130203",
-			"groupId": String, // "130200130001",
-			"mineLayer": String, // "8",
-			"mineGatherstyleName": String, // "综采",
-			"mineTunnelsupporstyleName": String, // "综采支架支护",
-			"tffsName": String, // "中央分列抽出",
-			"workfaceName": String, // "3085"
-		}
-	};
-	let db = new GoDB(store.state.DBName, schema);
+	let db = new GoDB(store.state.DBName);
 	let corpBase = db.table('corpBase');
 	let zfZzInfo = db.table('zfZzInfo');
 	let zfJjgzmInfo = db.table('zfJjgzmInfo');
@@ -408,11 +204,9 @@ async function doCorpDb(resId, data) {
 			"groupId": obj.groupId
 		});
 	}
-
 	// 增:
-	await corpBase.addMany(arrOrg);
-	//await corpBase.consoleTable();
 	console.log('-----------add baseInfo(煤矿基本信息)');
+	await corpBase.addMany(arrOrg);
 
 	//2-add zfZzInfo(证照信息)
 	arrOrg = [];
@@ -437,9 +231,8 @@ async function doCorpDb(resId, data) {
 	}
 
 	// 增:
-	await zfZzInfo.addMany(arrOrg);
-	//await zfZzInfo.consoleTable();
 	console.log('-----------add zfZzInfo(证照信息)');
+	await zfZzInfo.addMany(arrOrg);
 
 	//3-add zfJjgzmInfo(掘进工作面信息)
 	arrOrg = [];
@@ -464,9 +257,8 @@ async function doCorpDb(resId, data) {
 	}
 
 	// 增:
-	await zfJjgzmInfo.addMany(arrOrg);
-	//await zfJjgzmInfo.consoleTable();
 	console.log('-----------add zfJjgzmInfo(掘进工作面信息)');
+	await zfJjgzmInfo.addMany(arrOrg);
 
 	//4-add zfCyrytjInfo(从业人员信息)
 	arrOrg = [];
@@ -494,9 +286,8 @@ async function doCorpDb(resId, data) {
 	}
 
 	// 增:
-	await zfCyrytjInfo.addMany(arrOrg);
-	//await zfCyrytjInfo.consoleTable();
 	console.log('-----------add zfCyrytjInfo(从业人员信息)');
+	await zfCyrytjInfo.addMany(arrOrg);
 
 	//5-add zfCmgzmInfo(采煤工作面信息)
 	arrOrg = [];
@@ -521,37 +312,15 @@ async function doCorpDb(resId, data) {
 		});
 	}
 	// 增:
-	await zfCmgzmInfo.addMany(arrOrg);
-	//await zfCmgzmInfo.consoleTable();
 	console.log('-----------add zfCmgzmInfo(采煤工作面信息)');
+	await zfCmgzmInfo.addMany(arrOrg);
 	await db.close();
 }
 
 // “行政区域”下载。
 async function doEnterpriseList(resId, data){
 	let EnterpriseList = [];
-	let schema = {
-		doEnterpriseList: {
-			"no": {
-				type: String,
-				unique: true
-			},
-			"code": String,
-			"createBy": String,
-			"createDate": String,
-			"delFlag": String,
-			"id": String,
-			"name": String,
-			"parentId": String,
-			"parentIds": String,
-			"shortName": String,
-			"sort": Number,
-			"type": String,
-			"updateBy": String,
-			"updateDate": String,
-		}
-	};
-	let db = new GoDB(store.state.DBName, schema);
+	let db = new GoDB(store.state.DBName);
 	let doEnterpriseList = db.table('doEnterpriseList');
 
 	for (let i = 0; i < data.length; i++) {
@@ -576,34 +345,13 @@ async function doEnterpriseList(resId, data){
 	}
 	// 增:
 	await doEnterpriseList.addMany(EnterpriseList);
-	//await dangerList.consoleTable();
 	await db.close();
 }
 
 // “检查项类别”下载。
 async function doCheckCateDb(resId, data) {
 	let arrCheck = [];
-	let schema = {
-		checkCate: {
-			"no": {
-				type: String,
-				unique: true
-			},
-			//"id": "fe372c44-a4d9-7898-a162-c3ad70645922",
-			"delFlag": String, // "0",
-			"sort": Number, //30,
-			"categoryName": String, //"露天煤矿",
-			"groupId": String, //"000000110001",
-			"categoryCode": String, //"000002",
-			"souFlag": String, // "1",
-			"parentCode": String, // "000000",
-			"parentId": String, // "0"
-			"treeName": String,
-			"treeId": String,
-			"treeParentId": String
-		}
-	};
-	let db = new GoDB(store.state.DBName, schema);
+	let db = new GoDB(store.state.DBName);
 	let checkCate = db.table('checkCate');
 
 	for (let i = 0; i < data.length; i++) {
@@ -628,9 +376,7 @@ async function doCheckCateDb(resId, data) {
 
 	// 增:
 	await checkCate.addMany(arrCheck);
-	//await checkCate.consoleTable();
 	await db.close();
-
 }
 
 // “检查项内容”下载。
@@ -657,29 +403,7 @@ async function doCheckListDb(resId, data) {
 	// 	i--
 	// }
 	// console.log('id', id)
-	let schema = {
-		checkList: {
-			"no": String,
-			"createDate": String,
-			"updateDate": String,
-			"delFlag": String,
-			"itemCode": String,
-			"itemContent": String,
-			"basis": String,
-			"method": String,
-			"status": String,
-			"groupId": String,
-			"souFlag": String,
-			"categoryCode": String,
-			"categoryName": String,
-			"treeName": String,
-			"treeId": String,
-			"treeParentId": String,
-			"qdId": String, // 清单标记
-			"name": String, // 清单名称
-		}
-	};
-	let db = new GoDB(store.state.DBName, schema);
+	let db = new GoDB(store.state.DBName);
 	let checkList = db.table('checkList');
 
 	for (let i = 0; i < data.length; i++) {
@@ -710,41 +434,13 @@ async function doCheckListDb(resId, data) {
 
 	// 增:
 	await checkList.addMany(arrCheck);
-	//await checkList.consoleTable();
 	await db.close();
 }
 
 // “隐患类别”下载。
 async function doDangerCateDb(resId, data) {
 	let arrDanger = [];
-	let schema = {
-		dangerCate: {
-			"no": {
-				type: String,
-				unique: true
-			},
-			//"id": "fe372c44-a4d9-7898-a162-c3ad70645922",
-			"delFlag": String, // "0",
-			"sort": Number, //30,
-			"categoryName": String, //"露天煤矿",
-			"groupId": String, //"000000110001",
-			"categoryCode": String, //"000002",
-			"categoryLevel": String,
-			"createBy": String, 
-			"createDate": String,
-			"updateBy": String, 
-			"updateDate": String,
-			"industryId": String,
-			"souFlag": String, // "1",
-			"parentCode": String, // "000000",
-			"parentId": String, // "0"
-			"pid": String,
-      "treeName": String,
-			"treeId": String,
-			"treeParentId": String
-		}
-	};
-	let db = new GoDB(store.state.DBName, schema);
+	let db = new GoDB(store.state.DBName);
 	let dangerCate = db.table('dangerCate');
 	if (data) {
 		for (let i = 0; i < data.length; i++) {
@@ -776,40 +472,13 @@ async function doDangerCateDb(resId, data) {
 	}
 	// 增:
 	await dangerCate.addMany(arrDanger);
-	//await dangerCate.consoleTable();
 	await db.close();
 }
 
 // “隐患内容”下载。
 async function doDangerListDb(resId, data) {
 	let arrDanger = [];
-	let schema = {
-		dangerList: {
-			"no": String,
-			"createDate": String,
-			"updateDate": String,
-			"delFlag": String,
-			"itemCode": String,// "7502000045",
-			"itemContent": String,//  "采用钻井法开凿立井井筒，钻井临时锁口深度不符合规定。",
-			"noItemContent": String,//  "采用钻井法开凿立井井筒，钻井临时锁口深度不符合规定。",
-			"confirmClause": String,//  "《煤矿安全规程》第五十条",
-			"confirmBasis": String,//  "《煤矿安全规程》第五十条",
-			"onsiteBasis": String,//  "《中华人民共和国安全生产法》第六十二条第一款第二项",
-			"onsiteDesc": String,//  "责令限X日内改正",
-			"penaltyBasis": String,//  "《安全生产违法行为行政处罚办法》第四十五条第一项",
-			"penaltyDesc": String,//  "给予警告，并可以对生产经营单位处一万元以上三万元以下罚款，对其主要负责人、其他有关人员处一千元以上一万元以下的罚款。",
-			"status": String,//  "20",
-			"groupId": String,//  "000000110001",
-			"categoryCode": String,//  "750200",
-			"souFlag": String,//  "1"
-			"treeName": String,
-      "treeId": String,
-			"treeParentId": String,
-			"qdId": String, // 清单标记
-			"name": String, // 清单名称
-		}
-	};
-	let db = new GoDB(store.state.DBName, schema);
+	let db = new GoDB(store.state.DBName);
 	let dangerList = db.table('dangerList');
 	for (let i = 0; i < data.length; i++) {
 		let obj = data[i];
@@ -842,7 +511,6 @@ async function doDangerListDb(resId, data) {
 	}
 	// 增:
 	await dangerList.addMany(arrDanger);
-	//await dangerList.consoleTable();
 	await db.close();
 }
 
@@ -851,211 +519,7 @@ async function doDocDb(resId, data){
 	let arrPaper = data && data.paper ? data.paper : [];
 	let arrCase = data && data.jczfCase ? data.jczfCase : [];
 	let arrDanger = data && data.danger ? data.danger : [];
-	let schema = {
-		wkPaper: {
-			"paperId": {     //客户端生产的文书唯一id
-				type: String,
-				unique: true
-			},
-			"remoteId": String,  //服务器端生成的id/
-			"delFlag": String,
-			"createDate": String,
-			"updateDate": String,
-			"createById": String,
-			"updateById": String,
-			"paperType": String, //docTypeNo,
-			"paperContent": String, // 文书大JSON字符串,/
-      "paperHtml": String, // 文书展示样式html
-			"createTime": String, //文书创建时间/
-			"caseId": String, //第1次做文书时，活动的唯一id：185b15772fb746dfb3643a66aa192f86/
-			"caseType": String, //活动类型
-			"name": String, //文书名称
-			"personId": String, //文书制作人id
-			"personName": String, //文书制作人名称/
-			"corpId": String,
-			"corpName": String,
-			"p0FloorTime": String, //归档时间：2021-06-15 11:00:38
-			"p22JczfCheck": String,   //检查项分工明细表
-			"groupId": String, //机构id
-			"groupName": String, //机构名称
-			"planId": String, //docPlan表-no字段
-			"checkSite":String,
-			"checkSiteArr":String,
-			"p0ParentId": String, // 文书与其他文书关联id
-			"p22BeginTime": String, //"2021-06-15 00:00:00",
-			"p22EndTime": String, //"2021-06-22 00:00:00",
-			"p22location": String, //"检查地点",
-			"p22inspection": String, //"32",
-			"locationRemarks": String, //"%e5%85%a8%e7%b3%bb%e7%bb%9f%e5%90%84%e7%8e%af%e8%8a%82%e7%9b%91%e5%af%9f",
-			"p1PersonId": String, //null,
-			"p1PersonName": String, //null,
-			"p5EvidenceTime": String, //null,
-			"p8penaltyType": String, //null,
-			"p8Penalty": Number, //null,
-			"p8PersonPenalty": String, //null,
-			"p8OrgPenalty": String, //null,
-			"p13PersonId": String, // null,
-			"p13PersonName": String, // null,
-			"p31JudgeTime": String, //null,
-			"p36PersonId": String, //null,
-			"p36PersonName": String, //null,
-			"p36RegisterTime": String, //null 
-		},
-		wkCase: {
-			"caseId": {     //第1次做文书时，活动的唯一id：185b15772fb746dfb3643a66aa192f86
-				type: String,
-				unique: true
-			},
-			"caseNo": String,  //机构id+年月日时分秒：34060013074120210615110030
-			"remoteId": String,  //服务器端生成的id
-			"caseType": String, //活动类型
-			"delFlag": String,
-			"createDate": String,
-			"updateDate": String,
-			"createById": String,
-			"updateById": String,
-			"corpId": String, //企业id
-			"corpName": String, //企业名称
-			"personId": String, //文书制作人id
-			"personName": String, //文书制作人名称
-			"groupId": String, //机构id
-			"groupName": String, //机构名称
-			/*
-			*/
-			"corpType": String,
-			"checkReason": String, // "1",
-			"checkStatus": String, // "0",
-			"planBeginDate": String, //检查开始日期：2021-06-15 00:00:00
-			"planEndDate": String, //检查结束日期：2021-06-22 00:00:00
-			//"createTime": "2021-06-15 11:00:25",
-			"caseSn": String,
-			//"sourceFlag": "0",
-			"affiliate": String,
-			"meikuangType": String, //docPlan表-meikuangType字段
-			"meikuangPlanfrom": String, //docPlan表-meikuangPlanfrom字段
-			"planId": String, //docPlan表-no字段
-			"pcMonth": String, //计划时间（年月）：2021-6
-			"caseClassify": String, // 活动分类 "2"
-			"riskAssessment": String, // ""0100,0101,0102,0103,0104"
-			"riskAssessmentContent": String, // "生产接续计划方面 ,矿井开拓、准备、回采比例失调（小） ,上级企业超能力下达生产指标，煤矿超强度、超定员组织生产 ,采掘工作面数量超过规定 ,其他 "
-			//"mobile": false
-		},
-		wkDanger: {
-			"dangerId": {     //客户端生产的隐患唯一id
-				type: String,
-				unique: true
-			},
-			"paperId": String, //客户端生产的文书唯一id
-			"remoteId": String,  //服务器端生成的id
-			/*
-			"id": null,
-			"isNewRecord": null,
-			"remarks": null,
-			*/
-			"createDate":String,
-			"updateDate": String,
-			"createBy": String,
-			"updateBy":String,
-			"caseId": String,
-			"dangerType": String,
-      "delFlag": String,
-			"dangerCate": String,
-			"dangerItemId": String,   //"7101000033",
-			"dangerContent": String,  //"煤矿建设项目未按规定进行安全预评价和安全验收评价，逾期未改正的。",
-			"dangerLocation": String, //违法违规及隐患位置
-			"dangerStatus": String,   //违法违规及隐患状态
-			"detectTime": String,     //发现时间：2021-06-24 15:48:54
-			"isHigh": String,         //是否重大隐患：[0|1]
-			"personId": String,       //发现人编号：beba494c4b67435f93e5fdfbe440e18e
-			"personName": String,     //发现人姓名：测试小柴
-			"personIds": String,       //发现人编号多选：以逗号分隔
-			"personNames": String,     //隐患发现人多选：以逗号分隔
-			"rectifyTerm": String,    //整改期限
-			"solveTime": String,      //隐患消解时间
-			"solveMethod": String,    //整改落实措施
-			"checkTime": String,      //整改核查时间
-			"checkPerson": String,    //整改核查人
-			"subitemCode": String,    //违法违规自由裁量序号
-			"subitemContent": String,      //违法违规内容：煤矿建设项目未按规定进行安全预评价和安全验收评价，逾期未改正的。
-			"subitemPenalty": String,      //违法违规行政处罚决定：逾期未改正的，处五十万元以上一百万元以下的罚款，对其直接负责的主管人员和其他直接责任人员处二万元以上五万元以下的罚款。
-			"subitemPenaltyBasis": String, //行政处罚依据：《中华人民共和国安全生产法》第二十九条，第九十五条第一项
-			"penaltyOrg": String,       //对单位的处罚
-			"penaltyOrgFine": String,   //单位罚金
-			"penaltyPerson": String,    //对个人的处罚
-			"penaltyPersonFine": String,//个人罚金
-			"itemOnsiteType": String,   //现场处理类型
-			"itemOnsiteBasis": String,  //现场决定依据：《中华人民共和国安全生产法》第九十五条第一项
-			"onsiteContent": String,    //现场处理内容：责令停止建设责令停止作业、限X日内改正
-			"verNo": String,            // 版本号：null
-			"basisContent": String,     //认定：《中华人民共和国安全生产法》第二十九条；《煤矿建设项目安全设施监察规定》第九条
-			"name": String,             //名称
-			//"sourceFlag": "0",        //数据来源0为新数据，1为老数据
-			"onsiteType": String,       //现场处理决定类型：4
-			"penaltyType": String,      //行政处罚类型：null,
-			"changeDangerType": String, //更改后隐患类别：710100
-			"showIndex": String,        //隐患顺序：1
-			"isCheck": String,          //是否需要复查0不需要1需要,
-			"dangerParentId": String,   //隐患父id：null
-			"isCommon": String,         //是否为其他隐患（自定义隐患传1）：null
-			"deviceNum": String,        //设备台数：默认为空
-			"coalingFace": String,      //采煤工作面：3
-			"headingFace": String,      //掘进工作面：6
-			"dangerCorrected": String,  //隐患整改情况(0未整改，1已整改）：null
-			"reviewUnitId": String,     //复查单位id：null
-			"reviewUnitName": String,   //复查单位名称：null
-    },
-		// 创建发送文书数据库
-		sendPaper: {
-			"id": {     
-				type: String,
-				unique: true
-			},
-			"postId": String,  // 发送人id
-			"receiveId": String, // 接收人id,
-			"receiveName": String, // 接收人姓名,
-			"paperContent": String, // 文书大JSON字符串,/
-			"companyId": String, // 煤矿id
-			"companyName": String, // 煤矿名称,
-			"isReceive": String, // 是否发送,'0'未发送，'1'是发送
-			"delFlag": String, // 2保存 1删除 0归档
-			"createDate": String,
-			"updateDate": String,
-			"createById": String,
-			"updateById": String,
-		},
-		// 创建发送隐患数据库
-		sendDanger: {
-			"HistoryId": {     
-				type: String,
-				unique: true
-			},
-			"categoryCode": String,
-			"confirmBasis": String,
-			"createDate": String, 
-			"itemId": String, 
-			"isNewRecord": Boolean, 
-			"isOther": Boolean, 
-			"isSelected": Boolean, 
-			"itemCode": String, 
-			"itemContent": String, 
-			"onsiteBasis": String, 
-			"onsiteDesc": String, 
-			"penaltyBasis": String, 
-			"penaltyDesc": String, 
-			"updateDate": String, 
-			"delFlag": String,
-			"isSend": String, // 0为未发送，1为发送
-			"postId": String,
-			"receiveId": String,
-			"name": String,
-			"companyId": String,
-			"companyName": String,
-			"no": String,
-			"isCommon": String,
-			"sendTime": String,
-		},
-	};
-	let db = new GoDB(store.state.DBName, schema);
+	let db = new GoDB(store.state.DBName);
 	let wkPaper = db.table('wkPaper');
 	let wkCase = db.table('wkCase');
 	let wkDanger = db.table('wkDanger');
@@ -1240,156 +704,7 @@ async function doDocDb(resId, data){
 
 // “委托复查,罚款收缴,回执单,影音证据,意见建议书附件”下载。
 async function docFileListDb(resId, data){
-	let schema = {
-		// 委托复查
-		localReview: {
-			"id": {
-				type: String,
-				unique: true
-			},
-			"reviewId": String,
-			"name": String,
-			"createBy": String,
-			"createDate": String,
-			"updateBy": String,
-			"updateDate": String,
-			"delFlag": String,
-			"remark": String,
-			"caseId": String,
-			"fileName": String,
-			"filePath": String,
-			"createTime": String,
-			"fileSize": Number,
-			"hashCode": String,
-			"paperId": String,
-		},
-		// 罚款收缴
-		fineCollection: {
-			"id": {
-				type: String,
-				unique: true
-			},
-			"fineId": String,
-			"name": String,
-			"createBy": String,
-			"createDate": String,
-			"updateBy": String,
-			"updateDate": String,
-			"delFlag": String,
-			"remark": String,
-			"caseId": String,
-			"paperId": String,
-			"punishType": String,
-			"P8Penalty": Number,
-			"collectionFine": String,
-			"p8Id": String,
-			"paperNo": String,
-			"createTime": String,
-			"lateFee": String,
-			"collectionDate": String,
-		},
-		// 回执单
-		singleReceipt: {
-			"id": {
-				type: String,
-				unique: true
-			},
-			"singleId": String,
-			"name": String,
-			"createBy": String,
-			"createDate": String,
-			"updateBy": String,
-			"updateDate": String,
-			"delFlag": String,
-			"remark": String,
-			"caseId": String,
-			"fileName": String,
-			"filePath": String,
-			"createTime": String,
-			"fileSize": Number,
-			"hashCode": String,
-			"paperId": String,
-			"p8Id": String,
-		},
-		// 影音证据
-		imageEvidence: {
-			"id": {
-				type: String,
-				unique: true
-			},
-			"evidenceId": String,
-			"name": String,
-			"createBy": String,
-			"createDate": String,
-			"updateBy": String,
-			"updateDate": String,
-			"delFlag": String,
-			"remark": String,
-			"filePath": String,
-			"caseId": String,
-			"caseNo": String,
-			"evidenceType": String,
-			"groupId": String,
-			"groupName": String,
-			"corpId": String,
-			"corpName": String,
-			"paperId": String,
-			"evidenceDesc": String,
-			"createTime": String,
-			"fileName": String,
-			"fileSize": String,
-			"hashCode": String,
-		},
-		// 附件
-		paperAttachment: {
-			"id": {
-				type: String,
-				unique: true
-			},
-			"attachmentId": String,
-			"paperId": String,
-			"fileSize": String,
-			"fileType": String,
-			"fileHash": String,
-			"fileName": String,
-			"filePath": String,
-			"groupId": String,
-			"groupName": String,
-			"createBy": String,
-			"createDate": String,
-			"updateBy": String,
-			"updateDate": String,
-			"remark": String,
-			"delFlag": String,
-		},
-		// 监察执法报告
-		jczfReport: {
-			"id": {
-				type: String,
-				unique: true
-			},
-			"evidenceId": String,
-			"fileName": String,
-			"filePath": String,
-			"fileSize": String,
-			"hashCode": String,
-			"caseId": String,
-			"caseNo": String,
-			"groupId": String,
-			"groupName": String,
-			"corpId": String,
-			"corpName": String,
-			"createTime": String,
-			"createDate": String,
-			"createBy": String,
-			"updateBy": String,
-			"updateDate": String,
-			"delFlag": String,
-			"remark": String,
-			"paperId": String,
-		},
-	};
-	let db = new GoDB(store.state.DBName, schema);
+	let db = new GoDB(store.state.DBName);
 	let localReview = db.table('localReview');
 	let fineCollection = db.table('fineCollection');
 	let singleReceipt = db.table('singleReceipt');
@@ -1568,16 +883,7 @@ async function docFileListDb(resId, data){
 
 // “码表”下载。
 async function docDictionaryDb(resId, data) {
-  let schema = {
-		dictionary: {
-			"type": {
-				type: String,
-				unique: true
-			},
-			"list": String,
-		}
-  };
-  let db = new GoDB(store.state.DBName, schema);
+  let db = new GoDB(store.state.DBName);
   let dictionary = db.table('dictionary');
 	let arr = []
 	for (let key in data) {
@@ -1593,6 +899,682 @@ async function docDictionaryDb(resId, data) {
   await db.close();
 }
 
+// 数据库表结构:
+let schema = {
+	// 机构资源表
+	orgInfo: {
+		"no": {
+			type: String,
+			unique: true
+		},
+		"createDate": String,
+		"updateDate": String,
+		"delFlag": String,
+		"parentIds": String,
+		"name": String,
+		"code": String,
+		"type": String,
+		"grade": String,
+		"address": String,
+		"parentId": String,
+		"sort": Number,
+		"areaId": String,
+		"areaName": String,
+		"areaShortName": String,
+		"areaParentIds": String,
+		"areaDelFlag": String,
+		"areaSort": Number,
+		"sysOfficeInfo": String
+	},
+	// “用户资源”表
+	person: {
+		admin: Boolean,
+		company: String,
+		createBy: String,
+		createDate: String,
+		delFlag: String,
+		email: String,
+		no: {
+			type: String,
+			unique: true
+		},
+		loginDate: String,
+		loginFlag: String,
+		loginIp: String,
+		loginName: String,
+		mobile: String,
+		name: String,
+		office: String,
+		oldLoginDate: String,
+		oldLoginIp: String,
+		qylxmc: String,
+		remarks: String,
+		roleNames: String,
+		updateBy: String,
+		updateDate: String,
+		userNumber: String,
+		userType: String,
+		zfLogin: Boolean,
+		officeId: String,
+		officeName: String,
+	},
+	// 检查分工中添加的人员
+	addPerson: { 
+		no: {
+			type: String,
+			unique: true
+		},
+		name: String,
+		officeName: String,
+		caseId: String,
+		corpId: String,
+		delFlag: String,
+		createBy: String,
+		createDate: String
+	},
+	// “其他资源:计划表
+	docPlan: {
+		"no": {
+			type: String,
+			unique: true
+		},
+		"createDate": String,
+		"updateDate": String,
+		"delFlag": String,
+		"status": String,
+		"corpId": String,
+		"corpName": String,
+		"groupId": String,
+		"planMonthTimes": String,
+		"planMonth": String,
+		"planYear": String,
+		"meikuangType": String,
+		"meikuangPlanfrom": String,
+		"isRandom": String,
+		"monitoringCategory": String,
+		"monitoringCategoryName": String,
+		"dbplanId":String,
+	},
+	// 字典表
+	dictionary: {
+		"type": {
+			type: String,
+			unique: true
+		},
+		"list": String,
+	},
+	// “企业资源”:企业表
+	corpBase: {
+		"corpId": {
+			type: String,
+			unique: true
+		},
+		"delFlag": String, //"0",
+		"corpName": String, //"邢台新兴通泰矿业集团内丘裕泰煤业有限公司",
+		"meikuangType": String, //"5",
+		"corpTypeName": String, // "县管企业",
+		"address": String, //"邢台市内丘县内丘镇东庞前街村",
+		"provinceName": String, //"河北省",
+		"cityName": String, //"邢台市",
+		"countryName": String, //"内丘县",
+		"zoneCountyId": String, //"130523",
+		"legalName": String, // "郑海庭",
+		"contacts": String, //"郑海庭",
+		"tel": String, //"0319-6809588",
+		"xkzStatusNameZs": String, //"未办证",
+		"parentTypeName": String, //"地方国有",
+		"economyTypeName": String, //"集体经济",
+		"standardClassName": String, //"未评定",
+		"mineStatusZs": String, //"0301",
+		"mineStatusZsName": String, //"关闭矿井->已关闭矿井",
+		"mineClassName": String, //"小型矿井",
+		"designOutput": Number, //6.0,
+		"provedOutput": Number, //15.0,
+		"mineMinestyleName": String, //"立井",
+		"mineMinetypeName": String, // "井工",
+		"mineTransmitstyleName": String, // "调度绞车",
+		"minePowerstyleName": String, // "双电源",
+		"mineVentilatestyleName": String, // "其他",
+		"mineGeohazardtypeName": String, //"爆炸",
+		"hydrogeologicalTypeName": String, // "复杂",
+		"approvedMineDepth": Number, // 200.0,
+		"mineWsGradeName": String, //"低瓦斯",
+		"mineFireName": String, //"自燃",
+		"grimeExplosiveName": String, //"有爆炸性",
+		"rockburstName": String, //"无冲击地压矿井",
+		"groupId": String // "130500130001"
+	},
+	// 证照信息
+	zfZzInfo: {
+		"delFlag": String, // "0",
+		"corpId": String, // "130201001532",
+		"corpName": String, // "开滦（集团）有限责任公司东欢坨矿业分公司",
+		"provinceName": String, // "河北省",
+		"cityName": String, // "唐山市",
+		"countryName": String, // "路北区",
+		"zoneCountyId": String, //"130203",
+		"groupId": String, // "130200130001",
+		"credId": String, // "130206196709150336",
+		"effectiveTime": String, // "2016-07-13 12:07:00",
+		"expireTime": String, // "2019-07-12 12:07:00",
+		"credTypeName": String, // "矿长安全资格证"
+	},
+	// 掘进工作面信息
+	zfJjgzmInfo: {
+		"delFlag": String, // "0",
+		"corpId": String, // "130201001532",
+		"corpName": String, // "开滦（集团）有限责任公司东欢坨矿业分公司",
+		"provinceName": String, // "河北省",
+		"cityName": String, // "唐山市",
+		"countryName": String, // "路北区",
+		"zoneCountyId": String, // "130203",
+		"groupId": String, // "130200130001",
+		"mineTunnelGeotype": String, // "12",
+		"mineTunnelProcessName": String, //"综掘",
+		"mineTunnelsupporstyleName": String, // "锚喷支护",
+		"workfaceName": String, // "-690南翼轨道巷"
+	},
+	// 从业人员信息
+	zfCyrytjInfo: {
+		"delFlag": String, // "0",
+		"corpId": String, // "130201001532",
+		"corpName": String, // "开滦（集团）有限责任公司东欢坨矿业分公司",
+		"provinceName": String, // "河北省",
+		"cityName": String, // "唐山市",
+		"countryName": String, // "路北区",
+		"zoneCountyId": String, // "130203",
+		"groupId": String, // "130200130001",
+		"reportYear": String, // "2016",
+		"cyrytZs": String, // "3731",
+		"cyrytJxcyrs": String, //"3224",
+		"cyrytZzrs": String, // "572",
+		"cyrytGz": String, //"1394",
+		"cyrytCz": String, //"1706",
+		"cyrytCzyx": String, //"59"
+	},
+	// 采煤工作面信息
+	zfCmgzmInfo: {
+		"delFlag": String, // "0",
+		"corpId": String, // "130201001532",
+		"corpName": String, // "开滦（集团）有限责任公司东欢坨矿业分公司",
+		"provinceName": String, // "河北省",
+		"cityName": String, // "唐山市",
+		"countryName": String, // "路北区",
+		"zoneCountyId": String, // "130203",
+		"groupId": String, // "130200130001",
+		"mineLayer": String, // "8",
+		"mineGatherstyleName": String, // "综采",
+		"mineTunnelsupporstyleName": String, // "综采支架支护",
+		"tffsName": String, // "中央分列抽出",
+		"workfaceName": String, // "3085"
+	},
+	// “行政区域”表。
+	doEnterpriseList: {
+		"no": {
+			type: String,
+			unique: true
+		},
+		"code": String,
+		"createBy": String,
+		"createDate": String,
+		"delFlag": String,
+		"id": String,
+		"name": String,
+		"parentId": String,
+		"parentIds": String,
+		"shortName": String,
+		"sort": Number,
+		"type": String,
+		"updateBy": String,
+		"updateDate": String,
+	},
+	// “检查项类别”表
+	checkCate: {
+		"no": {
+			type: String,
+			unique: true
+		},
+		//"id": "fe372c44-a4d9-7898-a162-c3ad70645922",
+		"delFlag": String, // "0",
+		"sort": Number, //30,
+		"categoryName": String, //"露天煤矿",
+		"groupId": String, //"000000110001",
+		"categoryCode": String, //"000002",
+		"souFlag": String, // "1",
+		"parentCode": String, // "000000",
+		"parentId": String, // "0"
+		"treeName": String,
+		"treeId": String,
+		"treeParentId": String
+	},
+	// “检查项内容”表
+	checkList: {
+		"no": String,
+		"createDate": String,
+		"updateDate": String,
+		"delFlag": String,
+		"itemCode": String,
+		"itemContent": String,
+		"basis": String,
+		"method": String,
+		"status": String,
+		"groupId": String,
+		"souFlag": String,
+		"categoryCode": String,
+		"categoryName": String,
+		"treeName": String,
+		"treeId": String,
+		"treeParentId": String,
+		"qdId": String, // 清单标记
+		"name": String, // 清单名称
+	},
+	// “隐患类别”表
+	dangerCate: {
+		"no": {
+			type: String,
+			unique: true
+		},
+		//"id": "fe372c44-a4d9-7898-a162-c3ad70645922",
+		"delFlag": String, // "0",
+		"sort": Number, //30,
+		"categoryName": String, //"露天煤矿",
+		"groupId": String, //"000000110001",
+		"categoryCode": String, //"000002",
+		"categoryLevel": String,
+		"createBy": String, 
+		"createDate": String,
+		"updateBy": String, 
+		"updateDate": String,
+		"industryId": String,
+		"souFlag": String, // "1",
+		"parentCode": String, // "000000",
+		"parentId": String, // "0"
+		"pid": String,
+		"treeName": String,
+		"treeId": String,
+		"treeParentId": String
+	},
+	// “隐患内容”表
+	dangerList: {
+		"no": String,
+		"createDate": String,
+		"updateDate": String,
+		"delFlag": String,
+		"itemCode": String,// "7502000045",
+		"itemContent": String,//  "采用钻井法开凿立井井筒，钻井临时锁口深度不符合规定。",
+		"noItemContent": String,//  "采用钻井法开凿立井井筒，钻井临时锁口深度不符合规定。",
+		"confirmClause": String,//  "《煤矿安全规程》第五十条",
+		"confirmBasis": String,//  "《煤矿安全规程》第五十条",
+		"onsiteBasis": String,//  "《中华人民共和国安全生产法》第六十二条第一款第二项",
+		"onsiteDesc": String,//  "责令限X日内改正",
+		"penaltyBasis": String,//  "《安全生产违法行为行政处罚办法》第四十五条第一项",
+		"penaltyDesc": String,//  "给予警告，并可以对生产经营单位处一万元以上三万元以下罚款，对其主要负责人、其他有关人员处一千元以上一万元以下的罚款。",
+		"status": String,//  "20",
+		"groupId": String,//  "000000110001",
+		"categoryCode": String,//  "750200",
+		"souFlag": String,//  "1"
+		"treeName": String,
+		"treeId": String,
+		"treeParentId": String,
+		"qdId": String, // 清单标记
+		"name": String, // 清单名称
+	},
+	// “个人账号文书资源”:
+	// 文书
+	wkPaper: {
+		"paperId": {     //客户端生产的文书唯一id
+			type: String,
+			unique: true
+		},
+		"remoteId": String,  //服务器端生成的id/
+		"delFlag": String,
+		"createDate": String,
+		"updateDate": String,
+		"createById": String,
+		"updateById": String,
+		"paperType": String, //docTypeNo,
+		"paperContent": String, // 文书大JSON字符串,/
+		"paperHtml": String, // 文书展示样式html
+		"createTime": String, //文书创建时间/
+		"caseId": String, //第1次做文书时，活动的唯一id：185b15772fb746dfb3643a66aa192f86/
+		"caseType": String, //活动类型
+		"name": String, //文书名称
+		"personId": String, //文书制作人id
+		"personName": String, //文书制作人名称/
+		"corpId": String,
+		"corpName": String,
+		"p0FloorTime": String, //归档时间：2021-06-15 11:00:38
+		"p22JczfCheck": String,   //检查项分工明细表
+		"groupId": String, //机构id
+		"groupName": String, //机构名称
+		"planId": String, //docPlan表-no字段
+		"checkSite":String,
+		"checkSiteArr":String,
+		"p0ParentId": String, // 文书与其他文书关联id
+		"p22BeginTime": String, //"2021-06-15 00:00:00",
+		"p22EndTime": String, //"2021-06-22 00:00:00",
+		"p22location": String, //"检查地点",
+		"p22inspection": String, //"32",
+		"locationRemarks": String, //"%e5%85%a8%e7%b3%bb%e7%bb%9f%e5%90%84%e7%8e%af%e8%8a%82%e7%9b%91%e5%af%9f",
+		"p1PersonId": String, //null,
+		"p1PersonName": String, //null,
+		"p5EvidenceTime": String, //null,
+		"p8penaltyType": String, //null,
+		"p8Penalty": Number, //null,
+		"p8PersonPenalty": String, //null,
+		"p8OrgPenalty": String, //null,
+		"p13PersonId": String, // null,
+		"p13PersonName": String, // null,
+		"p31JudgeTime": String, //null,
+		"p36PersonId": String, //null,
+		"p36PersonName": String, //null,
+		"p36RegisterTime": String, //null 
+	},
+	// 检查活动
+	wkCase: {
+		"caseId": {     //第1次做文书时，活动的唯一id：185b15772fb746dfb3643a66aa192f86
+			type: String,
+			unique: true
+		},
+		"caseNo": String,  //机构id+年月日时分秒：34060013074120210615110030
+		"remoteId": String,  //服务器端生成的id
+		"caseType": String, //活动类型
+		"delFlag": String,
+		"createDate": String,
+		"updateDate": String,
+		"createById": String,
+		"updateById": String,
+		"corpId": String, //企业id
+		"corpName": String, //企业名称
+		"personId": String, //文书制作人id
+		"personName": String, //文书制作人名称
+		"groupId": String, //机构id
+		"groupName": String, //机构名称
+		/*
+		*/
+		"corpType": String,
+		"checkReason": String, // "1",
+		"checkStatus": String, // "0",
+		"planBeginDate": String, //检查开始日期：2021-06-15 00:00:00
+		"planEndDate": String, //检查结束日期：2021-06-22 00:00:00
+		//"createTime": "2021-06-15 11:00:25",
+		"caseSn": String,
+		//"sourceFlag": "0",
+		"affiliate": String,
+		"meikuangType": String, //docPlan表-meikuangType字段
+		"meikuangPlanfrom": String, //docPlan表-meikuangPlanfrom字段
+		"planId": String, //docPlan表-no字段
+		"pcMonth": String, //计划时间（年月）：2021-6
+		"caseClassify": String, // 活动分类 "2"
+		"riskAssessment": String, // ""0100,0101,0102,0103,0104"
+		"riskAssessmentContent": String, // "生产接续计划方面 ,矿井开拓、准备、回采比例失调（小） ,上级企业超能力下达生产指标，煤矿超强度、超定员组织生产 ,采掘工作面数量超过规定 ,其他 "
+		//"mobile": false
+	},
+	// 隐患
+	wkDanger: {
+		"dangerId": {     //客户端生产的隐患唯一id
+			type: String,
+			unique: true
+		},
+		"paperId": String, //客户端生产的文书唯一id
+		"remoteId": String,  //服务器端生成的id
+		/*
+		"id": null,
+		"isNewRecord": null,
+		"remarks": null,
+		*/
+		"createDate":String,
+		"updateDate": String,
+		"createBy": String,
+		"updateBy":String,
+		"caseId": String,
+		"dangerType": String,
+		"delFlag": String,
+		"dangerCate": String,
+		"dangerItemId": String,   //"7101000033",
+		"dangerContent": String,  //"煤矿建设项目未按规定进行安全预评价和安全验收评价，逾期未改正的。",
+		"dangerLocation": String, //违法违规及隐患位置
+		"dangerStatus": String,   //违法违规及隐患状态
+		"detectTime": String,     //发现时间：2021-06-24 15:48:54
+		"isHigh": String,         //是否重大隐患：[0|1]
+		"personId": String,       //发现人编号：beba494c4b67435f93e5fdfbe440e18e
+		"personName": String,     //发现人姓名：测试小柴
+		"personIds": String,       //发现人编号多选：以逗号分隔
+		"personNames": String,     //隐患发现人多选：以逗号分隔
+		"rectifyTerm": String,    //整改期限
+		"solveTime": String,      //隐患消解时间
+		"solveMethod": String,    //整改落实措施
+		"checkTime": String,      //整改核查时间
+		"checkPerson": String,    //整改核查人
+		"subitemCode": String,    //违法违规自由裁量序号
+		"subitemContent": String,      //违法违规内容：煤矿建设项目未按规定进行安全预评价和安全验收评价，逾期未改正的。
+		"subitemPenalty": String,      //违法违规行政处罚决定：逾期未改正的，处五十万元以上一百万元以下的罚款，对其直接负责的主管人员和其他直接责任人员处二万元以上五万元以下的罚款。
+		"subitemPenaltyBasis": String, //行政处罚依据：《中华人民共和国安全生产法》第二十九条，第九十五条第一项
+		"penaltyOrg": String,       //对单位的处罚
+		"penaltyOrgFine": String,   //单位罚金
+		"penaltyPerson": String,    //对个人的处罚
+		"penaltyPersonFine": String,//个人罚金
+		"itemOnsiteType": String,   //现场处理类型
+		"itemOnsiteBasis": String,  //现场决定依据：《中华人民共和国安全生产法》第九十五条第一项
+		"onsiteContent": String,    //现场处理内容：责令停止建设责令停止作业、限X日内改正
+		"verNo": String,            // 版本号：null
+		"basisContent": String,     //认定：《中华人民共和国安全生产法》第二十九条；《煤矿建设项目安全设施监察规定》第九条
+		"name": String,             //名称
+		//"sourceFlag": "0",        //数据来源0为新数据，1为老数据
+		"onsiteType": String,       //现场处理决定类型：4
+		"penaltyType": String,      //行政处罚类型：null,
+		"changeDangerType": String, //更改后隐患类别：710100
+		"showIndex": String,        //隐患顺序：1
+		"isCheck": String,          //是否需要复查0不需要1需要,
+		"dangerParentId": String,   //隐患父id：null
+		"isCommon": String,         //是否为其他隐患（自定义隐患传1）：null
+		"deviceNum": String,        //设备台数：默认为空
+		"coalingFace": String,      //采煤工作面：3
+		"headingFace": String,      //掘进工作面：6
+		"dangerCorrected": String,  //隐患整改情况(0未整改，1已整改）：null
+		"reviewUnitId": String,     //复查单位id：null
+		"reviewUnitName": String,   //复查单位名称：null
+	},
+	// 创建发送文书数据库
+	sendPaper: {
+		"id": {     
+			type: String,
+			unique: true
+		},
+		"postId": String,  // 发送人id
+		"receiveId": String, // 接收人id,
+		"receiveName": String, // 接收人姓名,
+		"paperContent": String, // 文书大JSON字符串,/
+		"companyId": String, // 煤矿id
+		"companyName": String, // 煤矿名称,
+		"isReceive": String, // 是否发送,'0'未发送，'1'是发送
+		"delFlag": String, // 2保存 1删除 0归档
+		"createDate": String,
+		"updateDate": String,
+		"createById": String,
+		"updateById": String,
+	},
+	// 创建发送隐患数据库
+	sendDanger: {
+		"HistoryId": {     
+			type: String,
+			unique: true
+		},
+		"categoryCode": String,
+		"confirmBasis": String,
+		"createDate": String, 
+		"itemId": String, 
+		"isNewRecord": Boolean, 
+		"isOther": Boolean, 
+		"isSelected": Boolean, 
+		"itemCode": String, 
+		"itemContent": String, 
+		"onsiteBasis": String, 
+		"onsiteDesc": String, 
+		"penaltyBasis": String, 
+		"penaltyDesc": String, 
+		"updateDate": String, 
+		"delFlag": String,
+		"isSend": String, // 0为未发送，1为发送
+		"postId": String,
+		"receiveId": String,
+		"name": String,
+		"companyId": String,
+		"companyName": String,
+		"no": String,
+		"isCommon": String,
+		"sendTime": String,
+	},
+	// 委托复查
+	localReview: {
+		"id": {
+			type: String,
+			unique: true
+		},
+		"reviewId": String,
+		"name": String,
+		"createBy": String,
+		"createDate": String,
+		"updateBy": String,
+		"updateDate": String,
+		"delFlag": String,
+		"remark": String,
+		"caseId": String,
+		"fileName": String,
+		"filePath": String,
+		"createTime": String,
+		"fileSize": Number,
+		"hashCode": String,
+		"paperId": String,
+	},
+	// 罚款收缴
+	fineCollection: {
+		"id": {
+			type: String,
+			unique: true
+		},
+		"fineId": String,
+		"name": String,
+		"createBy": String,
+		"createDate": String,
+		"updateBy": String,
+		"updateDate": String,
+		"delFlag": String,
+		"remark": String,
+		"caseId": String,
+		"paperId": String,
+		"punishType": String,
+		"P8Penalty": Number,
+		"collectionFine": String,
+		"p8Id": String,
+		"paperNo": String,
+		"createTime": String,
+		"lateFee": String,
+		"collectionDate": String,
+	},
+	// 回执单
+	singleReceipt: {
+		"id": {
+			type: String,
+			unique: true
+		},
+		"singleId": String,
+		"name": String,
+		"createBy": String,
+		"createDate": String,
+		"updateBy": String,
+		"updateDate": String,
+		"delFlag": String,
+		"remark": String,
+		"caseId": String,
+		"fileName": String,
+		"filePath": String,
+		"createTime": String,
+		"fileSize": Number,
+		"hashCode": String,
+		"paperId": String,
+		"p8Id": String,
+	},
+	// 影音证据
+	imageEvidence: {
+		"id": {
+			type: String,
+			unique: true
+		},
+		"evidenceId": String,
+		"name": String,
+		"createBy": String,
+		"createDate": String,
+		"updateBy": String,
+		"updateDate": String,
+		"delFlag": String,
+		"remark": String,
+		"filePath": String,
+		"caseId": String,
+		"caseNo": String,
+		"evidenceType": String,
+		"groupId": String,
+		"groupName": String,
+		"corpId": String,
+		"corpName": String,
+		"paperId": String,
+		"evidenceDesc": String,
+		"createTime": String,
+		"fileName": String,
+		"fileSize": String,
+		"hashCode": String,
+	},
+	// 附件
+	paperAttachment: {
+		"id": {
+			type: String,
+			unique: true
+		},
+		"attachmentId": String,
+		"paperId": String,
+		"fileSize": String,
+		"fileType": String,
+		"fileHash": String,
+		"fileName": String,
+		"filePath": String,
+		"groupId": String,
+		"groupName": String,
+		"createBy": String,
+		"createDate": String,
+		"updateBy": String,
+		"updateDate": String,
+		"remark": String,
+		"delFlag": String,
+	},
+	// 监察执法报告
+	jczfReport: {
+		"id": {
+			type: String,
+			unique: true
+		},
+		"evidenceId": String,
+		"fileName": String,
+		"filePath": String,
+		"fileSize": String,
+		"hashCode": String,
+		"caseId": String,
+		"caseNo": String,
+		"groupId": String,
+		"groupName": String,
+		"corpId": String,
+		"corpName": String,
+		"createTime": String,
+		"createDate": String,
+		"createBy": String,
+		"updateBy": String,
+		"updateDate": String,
+		"delFlag": String,
+		"remark": String,
+		"paperId": String,
+	},
+
+};
+
 export {
   doOrgDb,
   doPersonDb,
@@ -1605,5 +1587,6 @@ export {
   doDangerListDb,
   doDocDb,
 	docFileListDb,
-	docDictionaryDb
+	docDictionaryDb,
+	schema
 }

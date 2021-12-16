@@ -170,8 +170,8 @@ export default {
       }
     };
   },
-  created() {
-    this.initData();
+  async created() {
+    await this.initData();
   },
   watch: {
     'selectPlanData.selGovUnit'(val) {
@@ -220,7 +220,6 @@ export default {
       // 关闭弹窗
       this.$refs.dataForm.resetFields();
       this.dataForm.riskAssessment = null
-      console.log('this.dataForm', this.dataForm)
       this.initData();
       this.$emit("close", { name: "newCase", refresh });
     },
