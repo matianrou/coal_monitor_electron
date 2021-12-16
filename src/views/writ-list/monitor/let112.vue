@@ -216,7 +216,33 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 停供电(停供民用爆炸物品)
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx22: null, // 停供电(停供民用爆炸物品)
+        cellIdx3: null, // 文书号
+        cellIdx4: null, // 文书号
+        cellIdx5: null, // 单位
+        cellIdx6: null, // 局
+        cellIdx7: null, // corpname
+        cellIdx8: null, // 依法作出X的决定
+        cellIdx9: null, // 采取X的措施。
+        cellIdx10: null, // 附件？页面已注释
+        cellIdx11: null, // 受送达人（签名）
+        cellIdx12: null, // 日期
+        cellIdx13: null, // 局
+        cellIdx14: null, // 地址
+        cellIdx15: null, // 邮政编码
+        cellIdx16: null, // 局
+        cellIdx17: null, // 联系人
+        cellIdx18: null, // 联系电话
+        cellIdx19: null, //
+        cellIdx20: null, // 日期
+        cellIdx21: null, // 停供电(停供民用爆炸物品)
+        DangerTable: null, // 隐患项大表
+        associationPaperId: null
+      },
       options: {},
       visibleSelectDialog: false,
       selectedType: "停供电", // 初始化时选择的停供电
@@ -261,48 +287,25 @@ export default {
           : {}
       }
       await db.close();
-      this.letData = {
-        cellIdx0: null, // 停供电(停供民用爆炸物品)
+      this.letData = Object.assign({}, this.letData, {
         cellIdx1: num0, // 文书号
-        cellIdx1TypeTextItem: num0, // 文书号
         cellIdx2: num1, // 文书号
-        cellIdx2TypeTextItem: num1, // 文书号
-        cellIdx22: null, // 停供电(停供民用爆炸物品)
         cellIdx3: num3, // 文书号
-        cellIdx3TypeTextItem: num3, // 文书号
         cellIdx4: num4, // 文书号
-        cellIdx4TypeTextItem: num4, // 文书号
-        cellIdx5: null, // 单位
-        cellIdx5TypeTextItem: null, // 单位
         cellIdx6: '局', // 局
-        cellIdx6TypeTextItem: '局', // 局
         cellIdx7: corp.corpName ? corp.corpName : null, // corpname
-        cellIdx7TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
-        cellIdx8: null, // 依法作出X的决定
-        cellIdx9: null, // 采取X的措施。
-        cellIdx10: null, // 附件？页面已注释
-        cellIdx11: null, // 受送达人（签名）
-        cellIdx12: null, // 日期
-        cellIdx13: null, // 局
         cellIdx14: cellIdx14String, // 地址
-        cellIdx14TypeTextItem: cellIdx14String, // 地址
         cellIdx15: cellIdx15String, // 邮政编码
-        cellIdx15TypeTextItem: cellIdx15String, // 邮政编码
-        cellIdx16: null, // 局
         cellIdx17: cellIdx17String, // 联系人
-        cellIdx17TypeTextItem: cellIdx17String, // 联系人
         cellIdx18: cellIdx18String, // 联系电话
-        cellIdx18TypeTextItem: cellIdx18String, // 联系电话
         cellIdx19: this.$store.state.curCase.provinceGroupName, //
         cellIdx20: this.todayDate, // 日期
-        cellIdx20TypeDateItem: this.todayDate, // 日期
-        cellIdx21: null, // 停供电(停供民用爆炸物品)
         DangerTable, // 隐患项大表
         associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
           paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
           paper1Id: selectedPaper.let1Data.paperId
         } : null
-      };
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

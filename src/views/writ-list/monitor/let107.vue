@@ -242,7 +242,39 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 文书号
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 文书号
+        cellIdx4: null, // corpname
+        cellIdx5: null, // 隐患描述
+        cellIdx6: null, // 局
+        cellIdx7: null, // 抽样取证清单
+        cellIdx8: null, // 抽样承办人：（签名）
+        cellIdx9: null, // 年
+        cellIdx10: null, // 月
+        cellIdx11: null, // 日
+        cellIdx12: null, // 时
+        cellIdx13: null, // 抽样地点
+        cellIdx14: null, // 受送达人（签名）
+        cellIdx15: null, // 日期
+        cellIdx16: null, // 局
+        cellIdx17: null, // 地址
+        cellIdx18: null, // 邮政编码
+        cellIdx19: null, // 局
+        cellIdx20: null, // 联系人
+        cellIdx21: null, // 联系电话
+        cellIdx22: null, //
+        cellIdx23: null, // 日期
+        DangerTable: null,
+        SamplingForensicsTable: {
+          tableData: [],
+          signature: null,
+          signDate: "",
+        },
+        associationPaperId: null
+      },
       options: {},
       associationPaper: this.corpData.caseType === '0' ? ["1"] : [],
     };
@@ -304,46 +336,26 @@ export default {
           : {}
       }
       await db.close();
-      this.letData = {
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: num0, // 文书号
-        cellIdx0TypeTextItem: num0, // 文书号
         cellIdx1: num1, // 文书号
-        cellIdx1TypeTextItem: num1, // 文书号
         cellIdx2: num3, // 文书号
-        cellIdx2TypeTextItem: num3, // 文书号
         cellIdx3: num4, // 文书号
-        cellIdx3TypeTextItem: num4, // 文书号
         cellIdx4: corp.corpName ? corp.corpName : null, // corpname
-        cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
         cellIdx5: cellIdx5String, // 隐患描述
         cellIdx6: '局', // 局
-        cellIdx6TypeTextItem: '局', // 局
-        cellIdx7: null, // 抽样取证清单
-        cellIdx8: null, // 抽样承办人：（签名）
         cellIdx9: cellIdx9Year, // 年
-        cellIdx9TypeTextItem: cellIdx9Year, // 年
         cellIdx10: cellIdx10Month, // 月
-        cellIdx10TypeTextItem: cellIdx10Month, // 月
         cellIdx11: cellIdx11Date, // 日
-        cellIdx11TypeTextItem: cellIdx11Date, // 日
         cellIdx12: cellIdx12Hour, // 时
-        cellIdx12TypeTextItem: cellIdx12Hour, // 时
-        cellIdx13: null, // 抽样地点
-        cellIdx14: null, // 受送达人（签名）
-        cellIdx15: null, // 日期
         cellIdx16: '局', // 局
         cellIdx17: cellIdx17String, // 地址
-        cellIdx17TypeTextItem: cellIdx17String, // 地址
         cellIdx18: cellIdx18String, // 邮政编码
-        cellIdx18TypeTextItem: cellIdx18String, // 邮政编码
         cellIdx19: '局', // 局
         cellIdx20: cellIdx20String, // 联系人
-        cellIdx20TypeTextItem: cellIdx20String, // 联系人
         cellIdx21: cellIdx21String, // 联系电话
-        cellIdx21TypeTextItem: cellIdx21String, // 联系电话
         cellIdx22: this.$store.state.curCase.provinceGroupName, //
         cellIdx23: this.todayDate, // 日期
-        cellIdx23TypeDateItem: this.todayDate, // 日期
         DangerTable: DangerTable,
         SamplingForensicsTable: {
           tableData: [],
@@ -354,7 +366,7 @@ export default {
           paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
           paper1Id: selectedPaper.let1Data.paperId
         } : null
-      };
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

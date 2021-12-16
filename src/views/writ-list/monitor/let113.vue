@@ -190,7 +190,31 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 解除停供电(解除停供民用爆炸物品)
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx19: null, // 电/爆
+        cellIdx3: null, // 文书号
+        cellIdx4: null, // 文书号
+        cellIdx5: null, // 单位
+        cellIdx6: null, // corpname
+        cellIdx7: null, // 解除停供电(解除停供民用爆炸物品)
+        cellIdx8: null, // 受送达人（签名）
+        cellIdx9: null, // 日期
+        cellIdx10: null, // 局
+        cellIdx11: null, // 地址
+        cellIdx12: null, // 邮政编码
+        cellIdx13: null, // 局
+        cellIdx14: null, // 联系人
+        cellIdx15: null, // 联系电话
+        cellIdx16: null, //
+        cellIdx17: null, // 日期
+        cellIdx18: null, // 单位/个人
+        selectedType: null,
+        DangerTable: null, // 隐患项大表
+        associationPaperId: null
+      },
       options: {},
       associationPaper: ['37'],
     };
@@ -233,38 +257,23 @@ export default {
           : {}
       }
       await db.close();
-      this.letData = {
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: let37DataPaperContent.selectedType, // 解除停供电(解除停供民用爆炸物品)
         cellIdx1: num0, // 文书号
-        cellIdx1TypeTextItem: num0, // 文书号
         cellIdx2: num1, // 文书号
-        cellIdx2TypeTextItem: num1, // 文书号
         cellIdx19: let37DataPaperContent.selectedType === '停供电' ? '电' : '爆', // 电/爆
         cellIdx3: num3, // 文书号
-        cellIdx3TypeTextItem: num3, // 文书号
         cellIdx4: num4, // 文书号
-        cellIdx4TypeTextItem: num4, // 文书号
-        cellIdx5: null, // 单位
         cellIdx6: corp.corpName ? corp.corpName : null, // corpname
-        cellIdx6TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
         cellIdx7: let37DataPaperContent.selectedType === '停供电' ? '停供生产性用电' : '停供民用爆炸物品', // 解除停供电(解除停供民用爆炸物品)
-        cellIdx8: null, // 受送达人（签名）
-        cellIdx9: null, // 日期
         cellIdx10: '局', // 局
-        cellIdx10TypeTextItem: '局', // 局
         cellIdx11: cellIdx11String, // 地址
-        cellIdx11TypeTextItem: cellIdx11String, // 地址
         cellIdx12: cellIdx12String, // 邮政编码
-        cellIdx12TypeTextItem: cellIdx12String, // 邮政编码
         cellIdx13: '局', // 局
-        cellIdx13TypeTextItem: '局', // 局
         cellIdx14: cellIdx14String, // 联系人
-        cellIdx14TypeTextItem: cellIdx14String, // 联系人
         cellIdx15: cellIdx15String, // 联系电话
-        cellIdx15TypeTextItem: cellIdx15String, // 联系电话
         cellIdx16: this.$store.state.curCase.provinceGroupName, //
         cellIdx17: this.todayDate, // 日期
-        cellIdx17TypeDateItem: this.todayDate, // 日期
         cellIdx18: let37DataPaperContent.selectedType === '停供电' ? '供电部门' : '公安机关', // 单位/个人
         selectedType: let37DataPaperContent.selectedType,
         DangerTable, // 隐患项大表
@@ -275,7 +284,7 @@ export default {
         } : {
           paper37Id: selectedPaper.let37Data.paperId
         }
-      };
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

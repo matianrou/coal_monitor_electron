@@ -62,7 +62,7 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_5"
-                  style="width: 50%"
+                  style="min-width: 50%"
                   data-title
                   data-type="text"
                   data-src
@@ -306,7 +306,40 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 查封(扣押)
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx24: null, // 查/扣
+        cellIdx3: null, // 文书号
+        cellIdx4: null, // 文书号
+        cellIdx5: null, // corpname
+        cellIdx6: null, // 违法行为
+        cellIdx7: null, // 涉嫌违法...规定
+        cellIdx8: null, //局
+        cellIdx9: null, // 对你单位涉案....
+        cellIdx10: null, // 附件
+        cellIdx11: null, // 局
+        cellIdx12: null, // 查封/扣押
+        // cellIdx13: null, // 暂不用
+        // cellIdx14: null, // 暂不用
+        cellIdx15: null, // organName
+        cellIdx16: null, // courtPrefix人民法院
+        // cellIdx17: null, // 附件 暂不用
+        cellIdx18: null, //
+        cellIdx19: null, //日期
+        // cellIdx20: null, // 年
+        // cellIdx21: null, //月
+        // cellIdx22: null, // 日 暂不用
+        cellIdx23: null, // 查封/扣押
+        DangerTable: null,
+        SamplingForensicsTable: {
+          tableData: [],
+          signature: null,
+          signDate: "",
+        },
+        associationPaperId: null
+      },
       options: {
         cellIdx6: {
           page: "32",
@@ -391,44 +424,21 @@ export default {
           : {};
       }
       await db.close();
-      this.letData = {
-        cellIdx0: null, // 查封(扣押)
+      this.letData = Object.assign({}, this.letData, {
         cellIdx1: num0, // 文书号
-        cellIdx1TypeTextItem: num0, // 文书号
         cellIdx2: num1, // 文书号
-        cellIdx2TypeTextItem: num1, // 文书号
-        cellIdx24: null, // 查/扣
-        cellIdx24TypeTextItem: null, // 查/扣
         cellIdx3: num3, // 文书号
-        cellIdx3TypeTextItem: num3, // 文书号
         cellIdx4: num4, // 文书号
-        cellIdx4TypeTextItem: num4, // 文书号
         cellIdx5: corp.corpName ? corp.corpName : null, // corpname
-        cellIdx5TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
         cellIdx6: cellIdx6String, // 违法行为
         cellIdx7: cellIdx7String, // 涉嫌违法...规定
         cellIdx8: "局", //局
-        cellIdx8TypeTextItem: "局", //局
         cellIdx9: "物品", // 对你单位涉案....
-        cellIdx9TypeSelectItem: "物品", // 对你单位涉案....
-        cellIdx10: null, // 附件
         cellIdx11: "局", // 局
-        cellIdx11TypeTextItem: "局", //局
-        cellIdx12: null, // 查封/扣押
-        // cellIdx13: null, // 暂不用
-        // cellIdx14: null, // 暂不用
         cellIdx15: cellIdx16String, // organName
-        cellIdx15TypeTextItem: cellIdx16String, // organName
         cellIdx16: cellIdx17String, // courtPrefix人民法院
-        cellIdx16TypeTextItem: cellIdx17String, // courtPrefix人民法院
-        // cellIdx17: null, // 附件 暂不用
         cellIdx18: this.$store.state.curCase.provinceGroupName, //
         cellIdx19: this.todayDate, //日期
-        cellIdx19TypeDateItem: this.todayDate, // 日期
-        // cellIdx20: null, // 年
-        // cellIdx21: null, //月
-        // cellIdx22: null, // 日 暂不用
-        cellIdx23: null, // 查封/扣押
         DangerTable: DangerTable,
         SamplingForensicsTable: {
           tableData: [],
@@ -443,7 +453,7 @@ export default {
                 paper1Id: selectedPaper.let1Data.paperId,
               }
             : null,
-      };
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

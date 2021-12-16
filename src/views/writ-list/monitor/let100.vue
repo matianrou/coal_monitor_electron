@@ -85,12 +85,12 @@
                 @click="
                   commandFill(
                     'cellIdx5',
-                    `${letData.cellIdx12 ? letData.cellIdx12 : $store.state.curCase.provinceGroupName}检查分工明细表`,
+                    `${letData.cellIdx12}检查分工明细表`,
                     'CheckTable'
                   )
                 "
               >
-                六、检查的主要内容和分工见明细表（附件：《{{letData.cellIdx12 ? letData.cellIdx12 : $store.state.curCase.provinceGroupName}}检查分工明细表》）
+                六、检查的主要内容和分工见明细表（附件：《{{letData.cellIdx12}}检查分工明细表》）
               </div>
               <div></div>
             </div>
@@ -111,12 +111,12 @@
                 @click="
                   commandFill(
                     'cellIdx5',
-                    `${letData.cellIdx12 ? letData.cellIdx12 : $store.state.curCase.provinceGroupName}检查分工明细表`,
+                    `${letData.cellIdx12}检查分工明细表`,
                     'CheckTable'
                   )
                 "
               >
-                《{{letData.cellIdx12 ? letData.cellIdx12 : $store.state.curCase.provinceGroupName}}检查分工明细表》
+                《{{letData.cellIdx12}}检查分工明细表》
               </div>
             </div>
               <div class="docTextarea">
@@ -132,7 +132,7 @@
                 }}</span>
                 <div class="line"></div>
             </div>
-             <div class="docTextarea" >
+            <div class="docTextarea" >
               <div style="display:inline-block;min-width:60%">
                 <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;审批人（签名）：</span>
                 <span @click="commandFill('cellIdx10', '审批人（签名）', 'TextItem')">{{ 
@@ -220,7 +220,26 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 被检查单位
+        cellIdx1: null, // 监察类型或方式
+        cellIdx2: null, // 检查时间
+        cellIdx3: null, // 煤矿概况
+        cellIdx4: null, // 检查地点
+        cellIdx5: [], // 检查分工明细表
+        cellIdx6: null, // 其他事项
+        cellIdx8: null, // 编制人
+        cellIdx9: null, // 编制日期
+        cellIdx10: null, // 审批人
+        cellIdx11: null, // 审批日期
+        cellIdx12: this.$store.state.curCase.provinceGroupName,
+        cellIdx13: null,
+        cellIdx14: null,
+        CheckTable: {
+          tableData: [],
+          selectedIdList: [],
+        }
+      },
       options: {},
     };
   },
@@ -281,27 +300,11 @@ export default {
         "采煤方式为综采。通风方式为中央分列抽出，采掘作业地点有71003综采工作面采煤工作面、 71007综采工作面风巷、71007综采工作面机巷掘进工作面。";
       let corpOther = "检查的内容和分工变化时，应及时调整。";
       await db.close();
-      this.letData = {
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
-        cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null,
-        cellIdx1: null, // 监察类型或方式
-        cellIdx2: null, // 检查时间
         cellIdx3: sSummary ? sSummary : null, // 煤矿概况
-        cellIdx3TypeTextareaItem: sSummary ? sSummary : null, // 煤矿概况
-        cellIdx4: null, // 检查地点
-        cellIdx5: [], // 检查分工明细表
         cellIdx6: corpOther, // 其他事项
-        cellIdx6TypeTextItem: corpOther, // 其他事项
-        cellIdx8: null, // 编制人
-        cellIdx9: null, // 编制日期
-        cellIdx10: null, // 审批人
-        cellIdx11: null, // 审批日期
-        cellIdx12: this.$store.state.curCase.provinceGroupName, // 机构名称
-        CheckTable: {
-          tableData: [],
-          selectedIdList: [],
-        }, // 检查表
-      };
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

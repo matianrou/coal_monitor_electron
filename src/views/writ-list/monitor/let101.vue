@@ -142,7 +142,22 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 被检查单位
+        cellIdx1: null, // 检查时间
+        cellIdx2: null, // 检查地点（路线）
+        cellIdx3: null, // 采矿许可证
+        cellIdx4: null, // 安全生产许可证
+        cellIdx5: null, // 检查人（签名）
+        cellIdx6: null, // 记录人（签名）
+        cellIdx7: null, // 陪同检查人员
+        cellIdx8: null, // 检查情况
+        cellIdx9: null, // 被检查单位负责人意见
+        cellIdx10: null, // 签名
+        cellIdx11: null, // 日期
+        DangerTable: null, // 隐患项大表
+        associationPaperId: {} // 关联的paperId
+      },
       options: {},
       associationPaper: ["22"],
     };
@@ -208,19 +223,13 @@ export default {
         corp.mineStatusZsName ? corp.mineStatusZsName : 'XX'
       }状态。`;
       let dangerInfor = `    发现违法违规行为如下：`;
-      this.letData = {
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
         cellIdx1: let22DataPaperContent.cellIdx2, // 检查时间
         cellIdx2: let22DataPaperContent.cellIdx4, // 检查地点（路线）
         cellIdx3: zzInfo1 && zzInfo1.credId ? zzInfo1.credId : '', // 采矿许可证
         cellIdx4: zzInfo2 && zzInfo2.credId ? zzInfo2.credId : '', // 安全生产许可证
-        cellIdx5: null, // 检查人（签名）
-        cellIdx6: null, // 记录人（签名）
-        cellIdx7: null, // 陪同检查人员
         cellIdx8: this.corpData.caseType === '0' ? `    ${baseInfor}\r\n${dangerInfor}` : null, // 检查情况
-        cellIdx9: null, // 被检查单位负责人意见
-        cellIdx10: null, // 签名
-        cellIdx11: null, // 日期
         DangerTable: this.corpData.caseType === '0' ? {
           baseInfor: baseInfor,
           dangerInfor: dangerInfor,
@@ -256,7 +265,7 @@ export default {
         associationPaperId: { // 关联的paperId
           paper22Id: selectedPaper.let22Data.paperId
         }
-      };
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

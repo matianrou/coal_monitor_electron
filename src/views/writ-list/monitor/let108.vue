@@ -115,7 +115,7 @@
             <table height="30"></table>
             <div class="docTextLine">
               <label style="width: 7%"></label>
-              <label>XX</label>
+              <label>附件：</label>
               <div
                 class="no-line-div"
                 @click="
@@ -254,7 +254,38 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 文书号
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 文书号
+        cellIdx4: null, // corpname
+        // cellIdx5: null, // 单位/个人？
+        cellIdx6: null, // 隐患描述
+        cellIdx7: null, // 局
+        // cellIdx8: null, // 单位/个人？
+        cellIdx9: null, // 存放在...
+        cellIdx10: null, // 由...负责保管
+        cellIdx11: null, // 局
+        cellIdx12: null, // 附件：抽样取证清单
+        cellIdx13: null, // 受送达人（签名）
+        cellIdx14: null, // 日期
+        cellIdx15: null, // 局
+        cellIdx16: null, // 地址
+        cellIdx17: null, // 邮政编码
+        cellIdx18: null, // 局
+        cellIdx19: null, // 联系人
+        cellIdx20: null, // 联系电话
+        cellIdx21: null, //
+        cellIdx22: null, //
+        DangerTable: null,
+        SamplingForensicsTable: {
+          tableData: [],
+          signature: null,
+          signDate: "",
+        },
+        associationPaperId: null,
+      },
       options: {},
       associationPaper: this.corpData.caseType === "0" ? ["1"] : [],
     };
@@ -315,44 +346,23 @@ export default {
           : {};
       }
       await db.close();
-      this.letData = {
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: num0, // 文书号
-        cellIdx0TypeTextItem: num0, // 文书号
         cellIdx1: num1, // 文书号
-        cellIdx1TypeTextItem: num1, // 文书号
         cellIdx2: num3, // 文书号
-        cellIdx2TypeTextItem: num3, // 文书号
         cellIdx3: num4, // 文书号
-        cellIdx3TypeTextItem: num4, // 文书号
         cellIdx4: corp.corpName ? corp.corpName : null, // corpname
-        cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
-        // cellIdx5: '单位', // 单位/个人？
         cellIdx6: cellIdx6String, // 隐患描述
         cellIdx7: "局", // 局
-        cellIdx7TypeTextItem: "局", // 局
-        // cellIdx8: null, // 单位/个人？
-        cellIdx9: null, // 存放在...
-        cellIdx10: null, // 由...负责保管
         cellIdx11: "局", // 局
-        cellIdx11TypeTextItem: "局", // 局
-        cellIdx12: null, // 附件：抽样取证清单
-        cellIdx13: null, // 受送达人（签名）
-        cellIdx14: null, // 日期
         cellIdx15: "局", // 局
-        cellIdx15TypeTextItem: "局", // 局
         cellIdx16: cellIdx16String, // 地址
-        cellIdx16ypeTextItem: cellIdx16String, // 地址
         cellIdx17: cellIdx17String, // 邮政编码
-        cellIdx17ypeTextItem: cellIdx17String, // 邮政编码
         cellIdx18: "局", // 局
-        cellIdx18TypeTextItem: "局", // 局
         cellIdx19: cellIdx19String, // 联系人
-        cellIdx19ypeTextItem: cellIdx19String, // 联系人
         cellIdx20: cellIdx20String, // 联系电话
-        cellIdx20ypeTextItem: cellIdx20String, // 联系电话
         cellIdx21: this.$store.state.curCase.provinceGroupName, //
         cellIdx22: this.todayDate, //
-        cellIdx22TypeDateItem: this.todayDate, // 日期
         DangerTable: DangerTable,
         SamplingForensicsTable: {
           tableData: [],
@@ -367,7 +377,7 @@ export default {
                 paper1Id: selectedPaper.let1Data.paperId,
               }
             : null,
-      };
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

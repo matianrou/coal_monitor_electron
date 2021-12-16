@@ -142,18 +142,15 @@
               号） 。
             </div>
             <div class="docTextarea">
-              <label style="width: 5%"></label>
-              <span 
-                style="borderBottom:none"
+              <label class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;</label><span
+                class="no-line no-underline"
                 @click="commandFill('cellIdx15', '', 'SelectItem')">{{
                 letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）"
-              }}</span>
-              ，经复查，意见如下：
+              }}</span><span class="no-line">，经复查，意见如下：</span>
               <span @click="commandFill('cellIdx16', '意见', 'TextareaItem')">{{
                 letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）"
               }}</span>
             </div>
-            <table height="30"></table>
             <!-- <div class="docTextarea">
               <span class="no-line">被检查单位负责人意见：</span>
               <span
@@ -182,16 +179,16 @@
                   >{{ letData.cellIdx17 ? letData.cellIdx17 : "（编辑）" }}
                 </span>
               </div>
-                <span class="no-line">签名：</span>
-                <span @click="commandFill('cellIdx18', '签名', 'TextItem')">{{
-                  letData.cellIdx18 ? letData.cellIdx18 : "（编辑）"
-                }}</span>
-                <span class="no-line">日期：</span>
-                <span @click="commandFill('cellIdx19', '日期', 'DateItem')">{{
-                  letData.cellIdx19 ? letData.cellIdx19 : "（编辑）"
-                }}</span>
-                <div class="line"></div>
-                <div class="line1"></div>
+              <span class="no-line">签名：</span>
+              <span @click="commandFill('cellIdx18', '签名', 'TextItem')">{{
+                letData.cellIdx18 ? letData.cellIdx18 : "（编辑）"
+              }}</span>
+              <span class="no-line">日期：</span>
+              <span @click="commandFill('cellIdx19', '日期', 'DateItem')">{{
+                letData.cellIdx19 ? letData.cellIdx19 : "（编辑）"
+              }}</span>
+              <div class="line"></div>
+              <div class="line1"></div>
             </div>
               <div class="docTextarea">
               <div style="display:inline-block;min-width:60%">
@@ -264,7 +261,34 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 文书号
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 文书号
+        cellIdx4: null, //
+        cellIdx5: null, // 局
+        cellIdx6: null, // 年
+        cellIdx7: null, // 月
+        cellIdx8: null, // 日
+        cellIdx9: null, // 违法违规行为：隐患描述
+        cellIdx10: null, // 现场处理决定
+        cellIdx11: null, // 现场处理决定书 文书号
+        cellIdx12: null, // 现场处理决定书 文书号
+        cellIdx13: null, // 现场处理决定书 文书号
+        cellIdx14: null, // 现场处理决定书 文书号
+        cellIdx15: null, //
+        cellIdx16: null, // 意见
+        cellIdx17: null, // 被复查单位意见
+        cellIdx18: null, // 单位负责人（签名）
+        cellIdx19: null, // 日期
+        cellIdx20: null, // 复查人员（签名）
+        cellIdx21: null, // 日期
+        cellIdx22: null, //
+        cellIdx23: null, // 日期
+        DangerTable: null,
+        associationPaperId: {}
+      },
       options: {
         cellIdx9: {
           page: "13",
@@ -333,50 +357,29 @@ export default {
           : {} 
       }
       await db.close();
-      this.letData = {
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: num0, // 文书号
-        cellIdx0TypeTextItem: num0, // 文书号
         cellIdx1: num1, // 文书号
-        cellIdx1TypeTextItem: num1, // 文书号
         cellIdx2: num3, // 文书号
-        cellIdx2TypeTextItem: num3, // 文书号
         cellIdx3: num4, // 文书号
-        cellIdx3TypeTextItem: num4, // 文书号
         cellIdx4: corp.corpName ? corp.corpName : null, //
-        cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, //
         cellIdx5: '局', // 局
-        cellIdx5TypeTextItem: '局', // 局
-        cellIdx6: null, // 年
-        cellIdx7: null, // 月
-        cellIdx8: null, // 日
         cellIdx9: cellIdx9String, // 违法违规行为：隐患描述
         cellIdx10: cellIdx10String, // 现场处理决定
         cellIdx11: let2DataPaperContent.cellIdx0, // 现场处理决定书 文书号
-        cellIdx11TypeTextItem: let2DataPaperContent.cellIdx0, // 现场处理决定书 文书号
         cellIdx12: let2DataPaperContent.cellIdx1, // 现场处理决定书 文书号
-        cellIdx12TypeTextItem: let2DataPaperContent.cellIdx1, // 现场处理决定书 文书号
         cellIdx13: let2DataPaperContent.cellIdx2, // 现场处理决定书 文书号
-        cellIdx13TypeTextItem: let2DataPaperContent.cellIdx2, // 现场处理决定书 文书号
         cellIdx14: let2DataPaperContent.cellIdx3, // 现场处理决定书 文书号
-        cellIdx14TypeTextItem: let2DataPaperContent.cellIdx3, // 现场处理决定书 文书号
         cellIdx15: '应你单位申请', //
-        cellIdx15TypeSelectItem: '应你单位申请', //
-        cellIdx16: null, // 意见
-        cellIdx17: null, // 被复查单位意见
-        cellIdx18: null, // 单位负责人（签名）
-        cellIdx19: null, // 日期
-        cellIdx20: null, // 复查人员（签名）
-        cellIdx21: null, // 日期
         cellIdx22: this.$store.state.curCase.provinceGroupName, //
         cellIdx23: this.todayDate, // 日期
-        cellIdx23TypeDateItem: this.todayDate, // 日期
         DangerTable: DangerTable,
         associationPaperId: { // 关联的paperId
           // paper22Id: let2DataPaperContent.associationPaperId.paper22Id,
           // paper1Id: let2DataPaperContent.associationPaperId.paper1Id,
           paper2Id: selectedPaper.let2Data.paperId
         }
-      };
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

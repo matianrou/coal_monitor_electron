@@ -466,10 +466,13 @@ export function setNewDanger (paperData, DangerTable) {
       updateDate: getNowFormatTime(),
       verNo: null, //"版本号：null",
     }
-    let selectedIndex = DangerTable.selectedDangerList.findIndex(selectedItem => selectedItem.dangerId === tableDataNewItem.dangerId)
-    if (selectedIndex >= 0) {
-      // 如果是选中的：修改为新的dangerId然后添加至新的选中selectedDangerTableNew中,如果未选中则无需添加
-      selectedDangerTableNew.push(tableDataNewSave)
+    if (DangerTable.selectedDangerList) {
+      for (let j = 0; j < DangerTable.selectedDangerList.length; j++) {
+        let selectedItem = DangerTable.selectedDangerList[j]
+        if (selectedItem.dangerId === tableDataNewItem.dangerId) {
+          selectedDangerTableNew.push(tableDataNewSave)
+        }
+      }
     }
     // 无论是否选中统一添加入allDangerTableNew中
     allDangerTableNew.push(tableDataNewSave)

@@ -115,7 +115,7 @@ export default {
       }
       if (this.paperData && this.paperData.paperId) {
         this.paperId = this.paperData.paperId
-        this.letData = JSON.parse(this.paperData.paperContent);
+        this.letData = Object.assign({}, this.letData, JSON.parse(this.paperData.paperContent))
         // 赋值一个原始对象数据,用于比较数据是否被修改更新
         this.letDataOragin = JSON.stringify(this.letData)
       } else {

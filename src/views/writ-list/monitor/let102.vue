@@ -201,7 +201,26 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 文书号
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 文书号
+        cellIdx4: null, // 被检查单位
+        cellIdx5: null, //局
+        cellIdx6: null, //
+        cellIdx7: null, // 现场处理决定
+        cellIdx8: null, //
+        cellIdx9: null, //
+        cellIdx10: null, // 现场执法人员（签名)
+        cellIdx11: null, // 日期
+        cellIdx12: null, // 被检查单位负责人（签名)
+        cellIdx13: null, // 日期
+        cellIdx14: null, //
+        cellIdx15: null, //
+        DangerTable: null, // 隐患项大表
+        associationPaperId: {}, // 关联的paperId
+      },
       options: {},
       associationPaper: ["1"],
     };
@@ -248,39 +267,26 @@ export default {
         ? setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
         : {};
       await db.close();
-      this.letData = {
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: paperNumber.num0, // 文书号
-        cellIdx0TypeTextItem: paperNumber.num0, // 文书号
         cellIdx1: paperNumber.num1, // 文书号
-        cellIdx1TypeTextItem: paperNumber.num1, // 文书号
         cellIdx2: paperNumber.num3, // 文书号
-        cellIdx2TypeTextItem: paperNumber.num3, // 文书号
         cellIdx3: paperNumber.num4, // 文书号
-        cellIdx3TypeTextItem: paperNumber.num4, // 文书号
         cellIdx4: corp.corpName ? corp.corpName : null, // 被检查单位
-        cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // 被检查单位
         cellIdx5: "局", //局
-        cellIdx5TypeTextItem: "局", //局
         cellIdx6: let1DataPaperContent.cellIdx1, //
         cellIdx7: cellIdx7String, // 现场处理决定
         cellIdx8: orgSysOfficeInfo.organName, //
-        cellIdx8TypeTextItem: orgSysOfficeInfo.organName, //
         cellIdx9: orgSysOfficeInfo.courtPrefix, //
-        cellIdx9TypeTextItem: orgSysOfficeInfo.courtPrefix, //
-        cellIdx10: null, // 现场执法人员（签名)
-        cellIdx11: null, // 日期
-        cellIdx12: null, // 被检查单位负责人（签名)
-        cellIdx13: null, // 日期
         cellIdx14: this.$store.state.curCase.provinceGroupName, //
         cellIdx15: this.todayDate, //
-        cellIdx15TypeDateItem: this.todayDate, //
         DangerTable, // 隐患项大表
         associationPaperId: {
           // 关联的paperId
           paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
           paper1Id: selectedPaper.let1Data.paperId,
         },
-      };
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

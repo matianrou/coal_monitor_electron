@@ -245,7 +245,38 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 查封(扣押)
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 查/扣
+        cellIdx4: null, // 文书号
+        cellIdx5: null, // 文书号
+        cellIdx6: null, // corpname
+        cellIdx7: null, // 局
+        cellIdx8: null, // 年
+        cellIdx9: null, // 月
+        cellIdx10: null, // 日
+        cellIdx11: null, // 单位/个人
+        cellIdx12: null, // 查封(扣押)
+        cellIdx13: null, // 文书号
+        cellIdx14: null, // 文书号
+        cellIdx15: null, // 查/扣
+        cellIdx16: null, // 文书号
+        cellIdx17: null, // 文书号
+        cellIdx18: null, // 查封(扣押)
+        cellIdx19: null, // 第X项的规定
+        cellIdx20: null, // 全部/部分
+        cellIdx21: null, // 查封(扣押)
+        cellIdx22: null, // 附件
+        cellIdx23: null, //
+        cellIdx24: null, // 日期
+        cellIdx25: null, // 查封(扣押)
+        SamplingForensicsTable: null,
+        selectedType: null,
+        DangerTable: null, // 隐患项大表
+        associationPaperId: null
+      },
       options: {
         cellIdx20: [
           {
@@ -294,46 +325,30 @@ export default {
           : {}
       }
       await db.close();
-      this.letData = {
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: let32DataPaperContent.selectedType, // 查封(扣押)
         cellIdx1: num0, // 文书号
-        cellIdx1TypeTextItem: num0, // 文书号
         cellIdx2: num1, // 文书号
-        cellIdx2TypeTextItem: num1, // 文书号
         cellIdx3: let32DataPaperContent.selectedType.substring(0, 1), // 查/扣
         cellIdx4: num3, // 文书号
-        cellIdx4TypeTextItem: num3, // 文书号
         cellIdx5: num4, // 文书号
-        cellIdx5TypeTextItem: num4, // 文书号
         cellIdx6: corp.corpName ? corp.corpName : null, // corpname
-        cellIdx6TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
         cellIdx7: '局', // 局
-        cellIdx7TypeTextItem: '局', // 局
         cellIdx8: dateList[0], // 年
-        cellIdx8TypeTextItem: dateList[0], // 年
         cellIdx9: dateList[1], // 月
-        cellIdx9TypeTextItem: dateList[1], // 月
         cellIdx10: dateList[2], // 日
-        cellIdx10TypeTextItem: dateList[2], // 日
         cellIdx11: '单位', // 单位/个人
         cellIdx12: let32DataPaperContent.selectedType, // 查封(扣押)
         cellIdx13: cellIdx13String, // 文书号
-        cellIdx13TypeTextItem: cellIdx13String, // 文书号
         cellIdx14: cellIdx14String, // 文书号
-        cellIdx14TypeTextItem: cellIdx14String, // 文书号
         cellIdx15: let32DataPaperContent.selectedType.substring(0, 1), // 查/扣
         cellIdx16: cellIdx16String, // 文书号
-        cellIdx16TypeTextItem: cellIdx16String, // 文书号
         cellIdx17: cellIdx17String, // 文书号
-        cellIdx17TypeTextItem: cellIdx17String, // 文书号
         cellIdx18: let32DataPaperContent.selectedType, // 查封(扣押)
-        cellIdx19: null, // 第X项的规定
-        cellIdx20: null, // 全部/部分
         cellIdx21: let32DataPaperContent.selectedType, // 查封(扣押)
         cellIdx22: let32DataPaperContent.SamplingForensicsTable, // 附件
         cellIdx23: this.$store.state.curCase.provinceGroupName, //
         cellIdx24: this.todayDate, // 日期
-        cellIdx24TypeDateItem: this.todayDate, // 日期
         cellIdx25: let32DataPaperContent.selectedType, // 查封(扣押)
         SamplingForensicsTable: let32DataPaperContent.SamplingForensicsTable,
         selectedType: let32DataPaperContent.selectedType,
@@ -345,7 +360,7 @@ export default {
         } : {
           paper32Id: selectedPaper.let32Data.paperId
         }
-      };
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业
