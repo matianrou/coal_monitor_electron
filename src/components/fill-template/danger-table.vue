@@ -725,6 +725,7 @@ export default {
             isReview: '0', // 是否复查
             reviewDate: null, // 复查日期
             order: this.dataForm.tempValue.tableData.length,
+            delFlag: '2',
           })
           this.dataForm.tempValue.tableData.push(addItem)
         }
@@ -862,7 +863,7 @@ export default {
           isReview: '0', // 是否复查
           reviewDate: null, // 复查日期
           order: this.dataForm.tempValue.tableData.length,
-          delFlag: '0',
+          delFlag: '2',
           isCommon: receiveDanger.isCommon,
         })
       }
@@ -1072,6 +1073,7 @@ export default {
     },
     addNewDanger () {
       // 新建隐患项
+      let itemCode = getNowTime() + randomString(28)
       this.dataForm.tempValue.tableData.push({
         dangerId: getNowTime() + randomString(28),
         active: true,
@@ -1098,8 +1100,8 @@ export default {
         isReview: '0', // 是否复查
         reviewDate: '', // 复查日期
         createDate: '', // 创建日期
-        itemCode: getNowTime() + randomString(28), //
-        no: getNowTime() + randomString(28), // 同itemCode
+        itemCode: itemCode, //
+        no: itemCode, // 同itemCode
         delFlag: '2',
         order: this.dataForm.tempValue.tableData.length, // 顺序向后顺延
         isCommon: '1',

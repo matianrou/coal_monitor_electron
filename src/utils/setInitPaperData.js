@@ -393,28 +393,42 @@ export function setNewDanger (paperData, DangerTable) {
     let newDangerId = getNowTime() + randomString(28)
     let tableDataNewSave = {
       dangerId: newDangerId,
+      categoryCode: tableDataNewItem.categoryCode,
+      personIds: tableDataNewItem.personIds, //"发现人编号多选：以逗号分隔",
+      personNames: tableDataNewItem.personNames, //"隐患发现人多选：以逗号分隔",
       itemContent: tableDataNewItem.itemContent,
       confirmBasis: tableDataNewItem.confirmBasis,
       onsiteDesc: tableDataNewItem.onsiteDesc,
       onsiteBasis: tableDataNewItem.onsiteBasis,
+      onsiteType: tableDataNewItem.onsiteType, //"现场处理类型",
+      headingFace: tableDataNewItem.headingFace, //"掘进工作面：6",
+      deviceNum: tableDataNewItem.deviceNum, //"设备台数：默认为空",
+      coalingFace: tableDataNewItem.coalingFace, //"采煤工作面：3",
       penaltyDesc: tableDataNewItem.penaltyDesc,
+      penaltyDescFine: tableDataNewItem.penaltyDescFine, // 罚金
+      penaltyDescTypeId: tableDataNewItem.penaltyDescTypeId, // 行政处罚决定类型的id
+      penaltyDescType: tableDataNewItem.penaltyDescType, // 行政处罚决定类型
       penaltyBasis: tableDataNewItem.penaltyBasis,
+      firstDangerType: tableDataNewItem.firstDangerType,
+      secDangerType: tableDataNewItem.secDangerType,
+      changeDangerType: tableDataNewItem.changeDangerType, //"更改后隐患类别：710100",
       isSerious: tableDataNewItem.isSerious,
       isReview: tableDataNewItem.isReview,
       reviewDate: tableDataNewItem.reviewDate,
+      createDate: paperData.createDate,
+      itemCode: tableDataNewItem.itemCode, //
+      no: tableDataNewItem.no, // 同itemCode
+      delFlag: '2',
       order: tableDataNewItem.order,
-      categoryCode: tableDataNewItem.categoryCode,
+      isCommon: tableDataNewItem.isCommon ? tableDataNewItem.isCommon : null, //"是否为其他隐患（自定义隐患传1）：null",
 
       basisContent: tableDataNewItem.confirmBasis, //"认定：《中华人民共和国安全生产法》第二十九条；《煤矿建设项目安全设施监察规定》第九条",
       caseId: paperData.caseId,
-      changeDangerType: tableDataNewItem.changeDangerType, //"更改后隐患类别：710100",
       checkPerson: '', //"整改核查人",
       checkTime: '', //"整改核查时间",
-      coalingFace: tableDataNewItem.coalingFace, //"采煤工作面：3",
       createBy: JSON.stringify({
         id: store.state.user.userId
       }),
-      createDate: paperData.createDate,
       dangerCate: tableDataNewItem.categoryCode,
       dangerContent: tableDataNewItem.itemContent, // "煤矿建设项目未按规定进行安全预评价和安全验收评价，逾期未改正的。"
       dangerCorrected: tableDataNewItem.dangerCorrected ? tableDataNewItem.dangerCorrected : null, //"隐患整改情况(0未整改，1已整改）：null",
@@ -423,31 +437,21 @@ export function setNewDanger (paperData, DangerTable) {
       dangerParentId: tableDataNewItem.dangerId, //"隐患关联id：null",
       dangerStatus: tableDataNewItem.status, //违法违规及隐患状态
       dangerType: tableDataNewItem.categoryCode,
-      delFlag: '0',
       detectTime: getNowFormatTime(),  //发现时间：2021-06-24 15:48:54
-      deviceNum: tableDataNewItem.deviceNum, //"设备台数：默认为空",
-      headingFace: tableDataNewItem.headingFace, //"掘进工作面：6",
       isCheck: tableDataNewItem.isReview, //"是否需要复查0不需要1需要",
-      isCommon: tableDataNewItem.isCommon ? tableDataNewItem.isCommon : null, //"是否为其他隐患（自定义隐患传1）：null",
       isHigh: tableDataNewItem.isSerious, //是否重大隐患：[0|1]
       itemOnsiteBasis: tableDataNewItem.onsiteBasis, //"现场决定依据：《中华人民共和国安全生产法》第九十五条第一项",
       itemOnsiteType: tableDataNewItem.onsiteType, //"现场处理类型",
       name: null,
       onsiteContent: tableDataNewItem.onsiteDesc, //"现场处理内容：责令停止建设责令停止作业、限X日内改正",
-      onsiteType: tableDataNewItem.onsiteType, //"现场处理类型",
       paperId: paperData.paperId,
-      penaltyDescFine: tableDataNewItem.penaltyDescFine, // 罚金
-      penaltyDescTypeId: tableDataNewItem.penaltyDescTypeId, // 行政处罚决定类型的id
-      penaltyDescType: tableDataNewItem.penaltyDescType, // 行政处罚决定类型
       penaltyOrg: '', //"对单位的处罚", // 后台不需要了21.12.2
       penaltyOrgFine: selectedType === '单位' ? tableDataNewItem.penaltyDescFine : null, //"单位罚金",
       penaltyPerson: '', //"对个人的处罚",  // 后台不需要了21.12.2
       penaltyPersonFine: selectedType === '个人' ? tableDataNewItem.penaltyDescFine : null, //"个人罚金",
       penaltyType: tableDataNewItem.penaltyDescTypeId, //"行政处罚类型3,7",
       personId: store.state.user.userId, //"7101000033",
-      personIds: tableDataNewItem.personIds, //"发现人编号多选：以逗号分隔",
       personName: store.state.user.userName, //"发现人编号：beba494c4b67435f93e5fdfbe440e18e",
-      personNames: tableDataNewItem.personNames, //"隐患发现人多选：以逗号分隔",
       rectifyTerm: '', //"整改期限",
       remoteId: '', //服务器端生成的id
       reviewUnitId: tableDataNewItem.reviewUnitId ? tableDataNewItem.reviewUnitId : null, //"复查单位id：null",
