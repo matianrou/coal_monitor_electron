@@ -301,7 +301,44 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 文书号
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 文书号
+        cellIdx4: null, // 签发人
+        cellIdx5: null, // 申请人
+        cellIdx6: null, // 法定代表人：姓名
+        cellIdx7: null, // 职务
+        cellIdx8: null, // 委托代理人：姓名
+        cellIdx9: null, // 工作单位
+        cellIdx10: null, // 职务（职业）
+        cellIdx11: null, // 被申请人
+        cellIdx12: null, // 法定代表人：姓名
+        cellIdx13: null, // 职务
+        cellIdx14: null, // 性别
+        cellIdx15: null, // 住址
+        cellIdx16: null, // 对被申请人
+        cellIdx17: null, // 局
+        cellIdx18: null, // 年
+        cellIdx19: null, // 月
+        cellIdx20: null, // 日
+        cellIdx21: null, // 文书号
+        cellIdx22: null, // 文书号
+        cellIdx23: null, // 文书号
+        cellIdx24: null, // 文书号
+        cellIdx25: null, //
+        cellIdx26: null, // 人民法院
+        cellIdx27: null, // 收件人（签名）
+        cellIdx28: null, // 日期
+        cellIdx29: null, // 局
+        cellIdx30: null, // 联系人
+        cellIdx31: null, // 联系电话
+        cellIdx32: null, //
+        cellIdx33: null, // 日期
+        DangerTable: null,
+        associationPaperId: null
+      },
       options: {
         cellIdx14: [
           {
@@ -391,31 +428,15 @@ export default {
           : {}
       }
       await db.close()
-      this.letData = {
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: paperNumber.num0, // 文书号
-        cellIdx0TypeTextItem: paperNumber.num0, // 文书号
         cellIdx1: paperNumber.num1, // 文书号
-        cellIdx1TypeTextItem: paperNumber.num1, // 文书号
         cellIdx2: paperNumber.num3, // 文书号
-        cellIdx2TypeTextItem: paperNumber.num3, // 文书号
         cellIdx3: paperNumber.num4, // 文书号
-        cellIdx3TypeTextItem: paperNumber.num4, // 文书号
-        cellIdx4: null, // 签发人
         cellIdx5: cellIdx5String, // 申请人
-        cellIdx5TypeTextItem: cellIdx5String, // 申请人
         cellIdx6: orgSysOfficeInfo.legalPerson, // 法定代表人：姓名
-        cellIdx6TypeTextItem: orgSysOfficeInfo.legalPerson, // 法定代表人：姓名
         cellIdx7: orgSysOfficeInfo.post, // 职务
-        cellIdx7TypeTextItem: orgSysOfficeInfo.post, // 职务
-        cellIdx8: null, // 委托代理人：姓名
-        cellIdx9: null, // 工作单位
-        cellIdx10: null, // 职务（职业）
         cellIdx11: cellIdx11String, // 被申请人
-        cellIdx11TypeTextItem: cellIdx11String, // 被申请人
-        cellIdx12: null, // 法定代表人：姓名
-        cellIdx13: null, // 职务
-        cellIdx14: null, // 性别
-        cellIdx15: null, // 住址
         cellIdx16: cellIdx16String, // 对被申请人
         cellIdx17: '局', // 局
         cellIdx18: let39Date[0], // 年
@@ -426,16 +447,10 @@ export default {
         cellIdx23: let39DataPaperContent.cellIdx2, // 文书号
         cellIdx24: let39DataPaperContent.cellIdx3, // 文书号
         cellIdx25: cellIdx25String, //
-        cellIdx25TypeTextareaItem: cellIdx25String, //
         cellIdx26: orgSysOfficeInfo.courtPrefix, // 人民法院
-        cellIdx26TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
-        cellIdx27: null, // 收件人（签名）
-        cellIdx28: null, // 日期
         cellIdx29: '局', // 局
         cellIdx30: orgSysOfficeInfo.master, // 联系人
-        cellIdx30TypeTextItem: orgSysOfficeInfo.master, // 联系人
         cellIdx31: orgSysOfficeInfo.phone, // 联系电话
-        cellIdx31TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
         cellIdx32: this.$store.state.curCase.provinceGroupName, //
         cellIdx33: this.todayDate, // 日期
         DangerTable,
@@ -450,7 +465,7 @@ export default {
           paper8Id: let39DataPaperContent.associationPaperId.paper8Id,
           paper39Id: selectedPaper.let39Data.paperId
         }
-      };
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

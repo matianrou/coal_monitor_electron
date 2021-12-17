@@ -245,28 +245,34 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
-      options: {
-        cellIdx6: {
-          page: "6",
-          key: "cellIdx6",
-        },
-        cellIdx7: {
-          page: "6",
-          key: "cellIdx7",
-        },
-        cellIdx8: {
-          page: "6",
-          key: "cellIdx8",
-        },
-        cellIdx10: {
-          page: "6",
-          key: "cellIdx10",
-        },
+      letData: {
+        cellIdx0: null, // 文书号
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 文书号
+        cellIdx4: null, // 煤矿名称
+        cellIdx5: null, // 单位或个人
+        cellIdx6: null, // 违法行为
+        cellIdx7: null, // 违法行为
+        cellIdx8: null, // 法律依据
+        cellIdx9: null, // 单位或个人
+        cellIdx10: null, // 法律规定
+        cellIdx11: null, // 单位或个人
+        cellIdx13: null, // 收件人（签名）
+        cellIdx14: null, // 日期
+        cellIdx15: null, // 邮政编码
+        cellIdx16: null, // 邮政编码
+        cellIdx17: null, // 我局联系人
+        cellIdx18: null, // 联系电话
+        cellIdx19: null, // 
+        cellIdx20: null, // 日期
+        cellIdx21: null, // 单位或个人
+        DangerTable: null,
+        associationPaperId: null
       },
+      options: {},
       visibleSelectDialog: false,
       selectedType: "单位", // 初始化时选择的单位或个人
-      extraData: {}, // 用于拼写隐患内容的字符集合
       associationPaper: this.corpData.caseType === '0' ? ["1"] : [],
     };
   },
@@ -335,43 +341,27 @@ export default {
           setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
           : {}
         await db.close();
-        this.letData = {
+        this.letData = Object.assign({}, this.letData, {
           cellIdx0: paperNumber.num0, // 文书号
-          cellIdx0TypeTextItem: paperNumber.num0, // 文书号
           cellIdx1: paperNumber.num1, // 文书号
-          cellIdx1TypeTextItem: paperNumber.num1, // 文书号
           cellIdx2: paperNumber.num3, // 文书号
-          cellIdx2TypeTextItem: paperNumber.num3, // 文书号
           cellIdx3: paperNumber.num4, // 文书号
-          cellIdx3TypeTextItem: paperNumber.num4, // 文书号
-          cellIdx4: null, // 煤矿名称
-          cellIdx5: null, // 单位或个人
           cellIdx6: cellIdx6String, // 违法行为
           cellIdx7: cellIdx7String, // 违法行为
           cellIdx8: cellIdx8String, // 法律依据
-          cellIdx9: null, // 单位或个人
           cellIdx10: cellIdx10String, // 法律规定
-          cellIdx11: null, // 单位或个人
-          cellIdx13: null, // 收件人（签名）
-          cellIdx14: null, // 日期
           cellIdx15: orgSysOfficeInfo.depAddress, // 邮政编码
-          cellIdx15TypeTextItem: orgSysOfficeInfo.depAddress, //我局地址
           cellIdx16: orgSysOfficeInfo.depPost, // 邮政编码
-          cellIdx16TypeTextItem: orgSysOfficeInfo.depPost, // 邮政编码
           cellIdx17: orgSysOfficeInfo.master, // 我局联系人
-          cellIdx17TypeTextItem: orgSysOfficeInfo.master, // 我局联系人
           cellIdx18: orgSysOfficeInfo.phone, // 联系电话
-          cellIdx18TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
           cellIdx19: this.$store.state.curCase.provinceGroupName, // 
           cellIdx20: this.todayDate, // 日期
-          cellIdx20TypeDateItem: this.todayDate, // 日期
-          cellIdx21: null, // 单位或个人
           DangerTable: DangerTable,
           associationPaperId: { // 关联的paperId
             paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
             paper1Id: selectedPaper.let1Data.paperId,
           }
-        };
+        })
       } else {
         let db = new GoDB(this.$store.state.DBName);
         let paperNumber = await getDocNumber(
@@ -389,29 +379,18 @@ export default {
             ? JSON.parse(orgData.sysOfficeInfo)
             : { depAddress: "", depPost: "", master: "", phone: "" };
         await db.close();
-        this.letData = {
+        this.letData = Object.assign({}, this.letData, {
           cellIdx0: paperNumber.num0, // 文书号
           cellIdx1: paperNumber.num1, // 文书号
           cellIdx2: paperNumber.num3, // 文书号
           cellIdx3: paperNumber.num4, // 文书号
-          cellIdx4: null, // 煤矿名称
-          cellIdx5: null, // 单位或个人
-          cellIdx6: null, // 违法行为
-          cellIdx7: null, // 规定
-          cellIdx8: null, // 法律依据
-          cellIdx9: null, // 单位或个人
-          cellIdx10: null, // 法律规定
-          cellIdx11: null, // 单位或个人
-          cellIdx13: null, // 收件人（签名）
-          cellIdx14: null, // 日期
           cellIdx15: orgSysOfficeInfo.depAddress, // 邮政编码
           cellIdx16: orgSysOfficeInfo.depPost, // 邮政编码
           cellIdx17: orgSysOfficeInfo.master, // 我局联系人
           cellIdx18: orgSysOfficeInfo.phone, // 联系电话
           cellIdx19: this.$store.state.curCase.provinceGroupName, // 
           cellIdx20: this.todayDate, // 日期
-          cellIdx21: null, // 单位或个人
-        };
+        })
       }
     },
     goBack({ page, data }) {

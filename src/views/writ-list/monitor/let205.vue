@@ -218,7 +218,34 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 年
+        cellIdx1: null, // 月
+        cellIdx2: null, // 日
+        cellIdx3: null, // 时
+        cellIdx4: null, // 分
+        cellIdx5: null, // 时
+        cellIdx6: null, // 分
+        cellIdx7: null, // 地点
+        cellIdx8: null, // 陈述申辩人
+        cellIdx9: null, // 性别
+        cellIdx10: null, // 年龄
+        cellIdx11: null, // 工作单位
+        cellIdx12: null, // 职务（职业）
+        cellIdx13: null, // 邮政编码
+        cellIdx14: null, // 电话
+        cellIdx15: null, // 承办人（签名）
+        // cellIdx16: null, // 承办人（签名）   暂不用
+        cellIdx17: null, // 记录人（签名）
+        cellIdx18: null, // 监察员
+        cellIdx19: null, // 违法行为
+        cellIdx20: null, // 单位/个人
+        cellIdx21: null, // 法制审核意见
+        DangerTable: null,
+        extraData: null,
+        selectedType: null,
+        associationPaperId: null,
+      },
       options: {
         cellIdx9: [
           {
@@ -230,10 +257,6 @@ export default {
             name: "女",
           },
         ],
-        cellIdx19: {
-          page: "30",
-          key: "cellIdx19", // 用来区分一个页面多个地方调用隐患大表，最后返回值
-        },
         cellIdx20: [
           {
             value: "单位",
@@ -309,37 +332,16 @@ export default {
       let cellIdx20String = let6DataPaperContent.selectedType
         ? let6DataPaperContent.selectedType
         : "";
-      this.letData = {
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: cellIdx0Year, // 年
-        cellIdx0TypeTextItem: cellIdx0Year, // 年
         cellIdx1: cellIdx1Month, // 月
-        cellIdx1TypeTextItem: cellIdx1Month, // 月
         cellIdx2: cellIdx2Date, // 日
-        cellIdx2TypeTextItem: cellIdx2Date, // 日
         cellIdx3: cellIdx3Hour, // 时
-        cellIdx3TypeTextItem: cellIdx3Hour, // 时
         cellIdx4: cellIdx4Minu, // 分
-        cellIdx4TypeTextItem: cellIdx4Minu, // 分
-        cellIdx5: null, // 时
-        cellIdx6: null, // 分
-        cellIdx7: null, // 地点
-        cellIdx8: null, // 陈述申辩人
-        cellIdx9: null, // 性别
-        cellIdx10: null, // 年龄
         cellIdx11: cellIdx11String, // 工作单位
-        cellIdx11TypeTextItem: cellIdx11String, // 工作单位
-        cellIdx12: null, // 职务（职业）
-        cellIdx13: null, // 邮政编码
-        cellIdx14: null, // 电话
-        cellIdx15: null, // 承办人（签名）
-        // cellIdx16: null, // 承办人（签名）   暂不用
-        cellIdx17: null, // 记录人（签名）
         cellIdx18: cellIdx18String, // 监察员
-        cellIdx18TypeTextItem: cellIdx18String, // 监察员
         cellIdx19: cellIdx19String, // 违法行为
         cellIdx20: cellIdx20String, // 单位/个人
-        cellIdx20TypeTextItem: cellIdx20String, // 单位/个人
-        cellIdx21: null, // 法制审核意见
         DangerTable: DangerTable,
         extraData: {
           // 保存额外拼写的数据内容，用于修改隐患项时回显使用
@@ -358,7 +360,7 @@ export default {
             : {
                 paper6Id: selectedPaper.let6Data.paperId,
               },
-      };
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

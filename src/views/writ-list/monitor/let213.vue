@@ -105,13 +105,21 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
-      options: {
-        cellIdx10: {
-          page: "14",
-          key: "cellIdx10",
-        },
+      letData: {
+        cellIdx0: null, // 案由
+        cellIdx1: null, // 承办人意见
+        cellIdx2: null, // 签名
+        cellIdx3: null, // 年
+        cellIdx4: null, // 月
+        cellIdx5: null, // 日
+        cellIdx6: null, // 审批人意见
+        cellIdx7: null, // 签名
+        cellIdx8: null, // 年
+        cellIdx9: null, // 月
+        cellIdx10: null, // 日
+        associationPaperId: null
       },
+      options: {},
       associationPaper: ["4"],
     };
   },
@@ -253,25 +261,14 @@ export default {
         let cellIdx10String =
           string1 + string2 + string3 + string4 + string5 + string6 + string7 + string8;
         await db.close();
-        this.letData = {
+        this.letData = Object.assign({}, this.letData, {
           cellIdx0: cellIdx10String ? cellIdx10String : "", // 案由
-          cellIdx0TypeTextareaItem: cellIdx10String ? cellIdx10String : "", // 案由
-          cellIdx1: null, // 承办人意见
-          cellIdx2: null, // 签名
-          cellIdx3: null, // 年
-          cellIdx4: null, // 月
-          cellIdx5: null, // 日
-          cellIdx6: null, // 审批人意见
-          cellIdx7: null, // 签名
-          cellIdx8: null, // 年
-          cellIdx9: null, // 月
-          cellIdx10: null, // 日
           associationPaperId: { // 关联的paperId
             paper22Id: let4DataPaperContent.associationPaperId.paper22Id,
             paper1Id: let4DataPaperContent.associationPaperId.paper1Id,
             paper4Id: selectedPaper.let4Data.paperId
           }
-        };
+        })
       } else {
         // 生成事故文书：
         let db = new GoDB(this.$store.state.DBName);
@@ -298,23 +295,12 @@ export default {
         let string8 = `    八、${corp.corpName}及其负责人XXX已执行对其作出的行政处罚决定，承办人员申请结案。`;
         let cellIdx10String = string1 + string2 + string3 + string4 + string5 + string6 + string7 + string8;
         await db.close()
-        this.letData = {
+        this.letData = Object.assign({}, this.letData, {
           cellIdx0: cellIdx10String ? cellIdx10String : "", // 案由
-          cellIdx0TypeTextareaItem: cellIdx10String ? cellIdx10String : "", // 案由
-          cellIdx1: null, // 承办人意见
-          cellIdx2: null, // 签名
-          cellIdx3: null, // 年
-          cellIdx4: null, // 月
-          cellIdx5: null, // 日
-          cellIdx6: null, // 审批人意见
-          cellIdx7: null, // 签名
-          cellIdx8: null, // 年
-          cellIdx9: null, // 月
-          cellIdx10: null, // 日
           associationPaperId: { // 关联的paperId
             paper4Id: selectedPaper.let4Data.paperId
           }
-        };
+        })
       }
     },
     goBack({ page, data }) {

@@ -288,12 +288,45 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 年
+        cellIdx1: null, // 月
+        cellIdx2: null, // 日
+        cellIdx3: null, // 时
+        cellIdx4: null, // 分
+        cellIdx5: null, // 时
+        cellIdx6: null, // 分
+        cellIdx7: null, // 地点
+        cellIdx8: null, // 调查事由
+        cellIdx9: null, // 姓名
+        cellIdx10: null, // 性别
+        cellIdx11: null, // 年龄
+        cellIdx12: null, // 身份证号
+        cellIdx13: null, // 工作单位
+        cellIdx14: null, // 职务（职业）
+        cellIdx15: null, // 政治面貌
+        cellIdx16: null, // 文化程度
+        cellIdx17: null, // 电话
+        cellIdx18: null, // 住址
+        cellIdx19: null, // 调查人（签名）
+        cellIdx20: null, // 记录人（签名）
+        cellIdx21: null,
+        cellIdx22: null,
+        cellIdx23: null,
+        cellIdx24: null,
+        cellIdx25: null,
+        cellIdx26: null,
+        cellIdx27: null,
+        cellIdx28: null,
+        cellIdx29: null,
+        cellIdx30: null,
+        cellIdx31: null,
+        cellIdx32: null,
+        extraData: {},
+        associationPaperId: null,
+        DangerTable: null
+      },
       options: {
-        cellIdx8: {
-          page: "5",
-          key: "cellIdx8",
-        },
         cellIdx10: [
           // 性别码表
           {
@@ -496,41 +529,16 @@ export default {
           : {};
       }
       await db.close();
-      this.letData = {
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: cellIdx0Year, // 年
         cellIdx1: cellIdx1Month, // 月
         cellIdx2: cellIdx2Date, // 日
         cellIdx3: cellIdx3Hour, // 时
         cellIdx4: cellIdx4Minu, // 分
-        cellIdx5: null, // 时
-        cellIdx6: null, // 分
         cellIdx7: corp.corpName, // 地点
         cellIdx8: cellIdx8String, // 调查事由
-        cellIdx9: null, // 姓名
-        cellIdx10: null, // 性别
-        cellIdx11: null, // 年龄
-        cellIdx12: null, // 身份证号
         cellIdx13: corp.corpName, // 工作单位
-        cellIdx14: null, // 职务（职业）
-        cellIdx15: null, // 政治面貌
-        cellIdx16: null, // 文化程度
-        cellIdx17: null, // 电话
-        cellIdx18: null, // 住址
-        cellIdx19: null, // 调查人（签名）
-        cellIdx20: null, // 记录人（签名）
         cellIdx21: cellIdx21String,
-        cellIdx21TypeTextareaItem: cellIdx21String,
-        cellIdx22: null,
-        cellIdx23: null,
-        cellIdx24: null,
-        cellIdx25: null,
-        cellIdx26: null,
-        cellIdx27: null,
-        cellIdx28: null,
-        cellIdx29: null,
-        cellIdx30: null,
-        cellIdx31: null,
-        cellIdx32: null,
         extraData: {
           // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
@@ -546,7 +554,7 @@ export default {
               }
             : null,
         DangerTable: DangerTable
-      };
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

@@ -485,6 +485,7 @@ export function getMoney (str) {
 export function fuzzyearch(str, dict, dictKey) {
   let dictItem = {count: 0}
   if (str) {
+    str = str.replace('，','').replace('。', '').replace('、', '')
     for (let i = 0; i < dict.length; i++) {
       let count = 0
       for (let j = 0; j < str.length; j++) {

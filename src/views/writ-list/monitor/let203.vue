@@ -168,24 +168,30 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, //
+        cellIdx1: null, // 编号
+        cellIdx2: null, // 案由
+        cellIdx3: null, // 立案决定书编号
+        cellIdx4: null, // 立案时间
+        cellIdx5: null, // 承办人
+        cellIdx6: null, // 违法事实及依据
+        cellIdx7: null, // 建议案件处理意见
+        cellIdx8: null, // 法制审核意见
+        cellIdx9: null, // 分管负责人意见
+        cellIdx10: null, // 签名
+        cellIdx11: null, // 日期
+        cellIdx12: null, // 主要负责人意见
+        cellIdx13: null, // 签名
+        cellIdx14: null, // 日期
+        DangerTable: null,
+        extraData: null,
+        associationPaperId: null
+      },
       options: {
-        cellIdx2: {
-          page: "36", // 用于在隐患项保存，做数据处理时，判断是否增加现场处理决定字段描述
-          key: "cellIdx2", // 用来区分一个页面多个地方调用隐患大表，最后返回值
-        },
-        cellIdx6: {
-          page: "36",
-          key: "cellIdx6",
-        },
-        cellIdx7: {
-          page: "36",
-          key: "cellIdx7",
-        },
-        cellIdx8: [],
+        cellIdx8: []
       },
       associationPaper: ["4"],
-      extraData: {}, // 用于拼写隐患内容的字符集合 */
     };
   },
   methods: {
@@ -247,25 +253,13 @@ export default {
           setNewDanger(selectedPaper.let4Data, let4DataPaperContent.DangerTable)
           : {}
         await db.close();
-        this.letData = {
-          cellIdx0: null, //
-          cellIdx1: null, // 编号
+        this.letData = Object.assign({}, this.letData, {
           cellIdx2: cellIdx2String, // 案由
           cellIdx3: let4PaperNumber, // 立案决定书编号
-          cellIdx3TypeTextItem: let4PaperNumber, // 立案决定书编号
           cellIdx4: let4Date, // 立案时间
-          cellIdx4TypeTextItem: let4Date, // 立案时间
           cellIdx5: let4Person, // 承办人
-          cellIdx5TypeTextItem: let4Person, // 承办人
           cellIdx6: cellIdx6String, // 违法事实及依据
           cellIdx7: cellIdx7String, // 建议案件处理意见
-          cellIdx8: null, // 法制审核意见
-          cellIdx9: null, // 分管负责人意见
-          cellIdx10: null, // 签名
-          cellIdx11: null, // 日期
-          cellIdx12: null, // 主要负责人意见
-          cellIdx13: null, // 签名
-          cellIdx14: null, // 日期
           DangerTable: DangerTable,
           extraData: {
             // 保存额外拼写的数据内容，用于修改隐患项时回显使用
@@ -277,7 +271,7 @@ export default {
             paper1Id: let4DataPaperContent.associationPaperId.paper1Id,
             paper4Id: selectedPaper.let4Data.paperId,
           }
-        };
+        })
       } else {
         let let4DataPaperContent = JSON.parse(
           selectedPaper.let4Data.paperContent
@@ -297,26 +291,14 @@ export default {
           cellIdx7 ? cellIdx7 : "XX"
         }月${cellIdx8 ? cellIdx8 : "XX"}日`;
         let let4Person = cellIdx9 ? cellIdx9 : 'XX'
-        this.letData = {
-          cellIdx0: null, //
-          cellIdx1: null, // 编号
-          cellIdx2: null, // 案由
+        this.letData = Object.assign({}, this.letData, {
           cellIdx3: let4PaperNumber, // 立案决定书编号
           cellIdx4: let4Date, // 立案时间
           cellIdx5: let4Person, // 承办人
-          cellIdx6: null, // 违法事实及依据
-          cellIdx7: null, // 建议案件处理意见
-          cellIdx8: null, // 法制审核意见
-          cellIdx9: null, // 分管负责人意见
-          cellIdx10: null, // 签名
-          cellIdx11: null, // 日期
-          cellIdx12: null, // 主要负责人意见
-          cellIdx13: null, // 签名
-          cellIdx14: null, // 日期
           associationPaperId: { // 关联的paperId
             paper4Id: selectedPaper.let4Data.paperId,
           }
-        };
+        })
       }
     },
     goBack({ page, data }) {

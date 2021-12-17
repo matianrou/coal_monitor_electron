@@ -193,7 +193,26 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 年
+        cellIdx1: null, // 月
+        cellIdx2: null, // 日
+        cellIdx3: null, // 时
+        cellIdx4: null, // 分
+        cellIdx5: null, // 申请地点
+        cellIdx6: null, // 申请人姓名
+        cellIdx7: null, // 性别
+        cellIdx8: null, // 年龄
+        cellIdx9: null, // 申请人单位
+        cellIdx10: null, // 职务（职业）
+        cellIdx11: null, // 电话
+        cellIdx12: null, // 申请人住址
+        cellIdx13: null, // 记录人（签名）
+        cellIdx14: null, // 申请记录
+        DangerTable: null,
+        extraData: null,
+        associationPaperId: null
+      },
       options: {
         cellIdx7: [
           {
@@ -237,29 +256,14 @@ export default {
           : {}
       }
       await db.close();
-      this.letData = {
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: now.getFullYear().toString(), // 年
-        cellIdx0TypeTextItem: now.getFullYear().toString(), // 年
         cellIdx1: (now.getMonth() + 1).toString(), // 月
-        cellIdx1TypeTextItem: (now.getMonth() + 1).toString(), // 月
         cellIdx2: now.getDate().toString(), // 日
-        cellIdx2TypeTextItem: now.getDate().toString(), // 日
         cellIdx3: now.getHours().toString(), // 时
-        cellIdx3TypeTextItem: now.getHours().toString(), // 时
         cellIdx4: now.getMinutes().toString(), // 分
-        cellIdx4TypeTextItem: now.getMinutes().toString(), // 分
-        cellIdx5: null, // 申请地点
-        cellIdx6: null, // 申请人姓名
-        cellIdx7: null, // 性别
-        cellIdx8: null, // 年龄
         cellIdx9: corp.corpName, // 申请人单位
-        cellIdx9TypeTextItem: corp.corpName, // 申请人单位
-        cellIdx10: null, // 职务（职业）
-        cellIdx11: null, // 电话
-        cellIdx12: null, // 申请人住址
-        cellIdx13: null, // 记录人（签名）
         cellIdx14: cellIdx14String, // 申请记录
-        cellIdx14TypeTextareaItem: cellIdx14String, // 申请记录
         DangerTable: DangerTable,
         extraData: {
           // 保存额外拼写的数据内容，用于修改隐患项时回显使用
@@ -275,7 +279,7 @@ export default {
           paper6Id: let8DataPaperContent.associationPaperId.paper6Id,
           paper8Id: selectedPaper.let8Data.paperId
         }
-      };
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

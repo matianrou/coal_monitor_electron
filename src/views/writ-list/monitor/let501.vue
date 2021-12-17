@@ -39,7 +39,7 @@
                 }}</span>
                 <label>号&nbsp;&nbsp;&nbsp;签发人：</label>
                 <span @click="commandFill('cellIdx4', '签发人', 'TextItem')">{{
-                  letData.cellIdx4 ? letData.cellIdx4 : "（编辑）"
+                  letData.cellIdx4 ? letData.cellIdx4 : "XXX"
                 }}</span>
               </div>
             </div>
@@ -209,7 +209,31 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 文书号
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 文书号
+        cellIdx4: null, // 签发人
+        cellIdx5: null, // 单位
+        cellIdx6: null, // 经我XX检查，
+        cellIdx7: null, // XX在矿山安全监督管理工作中
+        cellIdx8: null, // 年
+        cellIdx9: null, // 月
+        cellIdx10: null, // 日
+        cellIdx11: null, // 局
+        cellIdx12: null, // 送件人（签名)
+        cellIdx13: null, // 日期
+        cellIdx14: null, // 收件人（签名)
+        cellIdx15: null, // 日期
+        cellIdx16: null, // 报送
+        cellIdx17: null, // 
+        cellIdx18: null, // 日期
+        cellIdx19: [], // 附件
+        UploadFile: {
+          tableData: [],
+        },
+      },
       options: {},
       paperId: null,
     };
@@ -236,31 +260,21 @@ export default {
         provinceGroupName = provinceOrg.name
       }
       await db.close()
-      this.letData = {
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: paperNumber.num0, // 文书号
         cellIdx1: paperNumber.num1, // 文书号
         cellIdx2: paperNumber.num3, // 文书号
         cellIdx3: paperNumber.num4, // 文书号
-        cellIdx4: null, // 签发人
-        cellIdx5: null, // 单位
         cellIdx6: '局', // 经我XX检查，
         cellIdx7: '你单位', // XX在矿山安全监督管理工作中
-        cellIdx8: null, // 年
-        cellIdx9: null, // 月
-        cellIdx10: null, // 日
         cellIdx11: '局', // 局
-        cellIdx12: null, // 送件人（签名)
-        cellIdx13: null, // 日期
-        cellIdx14: null, // 收件人（签名)
-        cellIdx15: null, // 日期
-        cellIdx16: null, // 报送
         cellIdx17: provinceGroupName, // 
         cellIdx18: this.todayDate, // 日期
         cellIdx19: [], // 附件
         UploadFile: {
           tableData: [],
         },
-      };
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

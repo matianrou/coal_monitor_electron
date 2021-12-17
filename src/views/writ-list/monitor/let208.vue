@@ -263,7 +263,43 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 文书号
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 文书号
+        cellIdx4: null, // 煤矿单位
+        cellIdx5: null, // 局
+        cellIdx6: null, // 年
+        cellIdx7: null, // 月
+        cellIdx8: null, // 日
+        cellIdx9: null, // 单位
+        cellIdx10: null, // 文书号
+        cellIdx11: null, // 文书号
+        cellIdx12: null, // 文书号
+        cellIdx13: null, // 文书号
+        cellIdx14: null, // 单位/个人
+        cellIdx15: null, // 单位/个人
+        cellIdx16: null, // 缴纳罚款
+        cellIdx17: null, //  单位/个人
+        cellIdx18: null, // 局
+        cellIdx19: null, // 单位/个人
+        cellIdx20: null, // 签名
+        cellIdx21: null, // 日期
+        cellIdx22: null, // 局
+        cellIdx23: null, // 地址
+        cellIdx24: null, // 邮政编码
+        cellIdx25: null, // 局
+        cellIdx26: null, // 联系人
+        cellIdx27: null, // 联系电话
+        cellIdx28: null, //
+        cellIdx29: null, // 日期
+        cellIdx30: null, // 单位/个人
+        selectedType: null,
+        p8PaperId: null,
+        DangerTable: null,
+        associationPaperId: null
+      },
       options: {},
       associationPaper: ["8"],
     };
@@ -318,60 +354,36 @@ export default {
         setNewDanger(selectedPaper.let8Data, let8DataPaperContent.DangerTable)
         : null
       await db.close();
-      this.letData = {
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: num0, // 文书号
-        cellIdx0TypeTextItem: num0, // 文书号
         cellIdx1: num1, // 文书号
-        cellIdx1TypeTextItem: num1, // 文书号
         cellIdx2: num3, // 文书号
-        cellIdx2TypeTextItem: num3, // 文书号
         cellIdx3: num4, // 文书号
-        cellIdx3TypeTextItem: num4, // 文书号
         cellIdx4:
           let8DataPaperContent.selectedType === "单位" ? corp.corpName : "", // 煤矿单位
-        cellIdx4TypeTextItem:
-          let8DataPaperContent.selectedType === "单位" ? corp.corpName : "", // 煤矿单位
         cellIdx5: "局", // 局
-        cellIdx5TypeTextItem: "局", // 局
         cellIdx6: dateList[0], // 年
-        cellIdx6TypeTextItem: dateList[0], // 年
         cellIdx7: dateList[1], // 月
-        cellIdx7TypeTextItem: dateList[1], // 月
         cellIdx8: dateList[2], // 日
-        cellIdx8TypeTextItem: dateList[2], // 日
         cellIdx9: let8DataPaperContent.selectedType, // 单位
         cellIdx10: let8DataPaperContent.cellIdx0, // 文书号
-        cellIdx10TypeTextItem: let8DataPaperContent.cellIdx0, // 文书号
         cellIdx11: let8DataPaperContent.cellIdx1, // 文书号
-        cellIdx11TypeTextItem: let8DataPaperContent.cellIdx1, // 文书号
         cellIdx12: let8DataPaperContent.cellIdx2, // 文书号
-        cellIdx12TypeTextItem: let8DataPaperContent.cellIdx2, // 文书号
         cellIdx13: let8DataPaperContent.cellIdx3, // 文书号
-        cellIdx13TypeTextItem: let8DataPaperContent.cellIdx3, // 文书号
         cellIdx14: let8DataPaperContent.selectedType, // 单位/个人
         cellIdx15: let8DataPaperContent.selectedType, // 单位/个人
         cellIdx16: cellIdx16String, // 缴纳罚款
         cellIdx17: let8DataPaperContent.selectedType, //  单位/个人
         cellIdx18: "局", // 局
-        cellIdx18TypeTextItem: "局", // 局
         cellIdx19: let8DataPaperContent.selectedType, // 单位/个人
-        cellIdx20: null, // 签名
-        cellIdx21: null, // 日期
         cellIdx22: "局", // 局
-        cellIdx22TypeTextItem: "局", // 局
         cellIdx23: orgSysOfficeInfo.depAddress, // 地址
-        cellIdx23TypeTextItem: orgSysOfficeInfo.depAddress, // 地址
         cellIdx24: orgSysOfficeInfo.depPost, // 邮政编码
-        cellIdx24TypeTextItem: orgSysOfficeInfo.depPost, // 邮政编码
         cellIdx25: "局", // 局
-        cellIdx25TypeTextItem: "局", // 局
         cellIdx26: orgSysOfficeInfo.master, // 联系人
-        cellIdx26TypeTextItem: orgSysOfficeInfo.master, // 联系人
         cellIdx27: orgSysOfficeInfo.phone, // 联系电话
-        cellIdx27TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
         cellIdx28: this.$store.state.curCase.provinceGroupName, //
         cellIdx29: this.todayDate, // 日期
-        cellIdx29TypeDateItem: this.todayDate, // 日期
         cellIdx30: let8DataPaperContent.selectedType, // 单位/个人
         selectedType: let8DataPaperContent.selectedType,
         p8PaperId: selectedPaper.let8Data.paperId,
@@ -385,7 +397,7 @@ export default {
           paper6Id: let8DataPaperContent.associationPaperId.paper6Id,
           paper8Id: selectedPaper.let8Data.paperId
         }
-      };
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

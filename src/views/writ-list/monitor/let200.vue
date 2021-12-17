@@ -346,7 +346,42 @@ export default {
   },
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // SHORTNAME
+        cellIdx1: null, // YEAR
+        cellIdx2: null, // DOCNUMBER
+        cellIdx3: null, // 被处罚人
+        cellIdx4: null, // 性别
+        cellIdx5: null, // 年龄
+        cellIdx6: null, // 身份证号
+        cellIdx7: null, // 家庭住址
+        cellIdx8: null, // 邮政编码
+        cellIdx9: null, // 联系电话
+        cellIdx10: null, // 所在单位
+        cellIdx11: null, // 职务
+        cellIdx12: null, // 单位地址
+        cellIdx13: null, // 被处罚单位ent_name
+        cellIdx14: null, // 地址op_loc_address
+        cellIdx15: null, // 邮政编码op_loc_zip_code
+        cellIdx16: null, // 法定代表人（负责人）le_rpe
+        cellIdx17: null, // 职务rep_duty
+        cellIdx18: null, // 联系电话rep_phone
+        cellIdx19: null, //
+        cellIdx20: null, //
+        cellIdx21: null, //
+        cellIdx22: null, //
+        cellIdx23: null, //
+        cellIdx24: null, //
+        cellIdx25: null, // RefPayUnit
+        cellIdx26: null, // RefPayAccount
+        cellIdx27: null, // RefReconsiderOrgan
+        cellIdx28: null, // RefDeptName
+        cellIdx29: null, // RefLitigationOrgan
+        cellIdx30: null, // 安全生产行政执法人员（签名）
+        cellIdx31: null, // 当事人或者委托代理人（签名）
+        cellIdx32: null, // OrgName
+        cellIdx33: null, // 选择日期
+      },
       options: {},
     };
   },
@@ -377,43 +412,6 @@ export default {
         this.paperData = checkPaper[0];
       } else {
         // 创建初始版本
-        this.letData = {
-          cellIdx0: null, // SHORTNAME
-          cellIdx1: null, // YEAR
-          cellIdx2: null, // DOCNUMBER
-          cellIdx3: null, // 被处罚人
-          cellIdx4: null, // 性别
-          cellIdx5: null, // 年龄
-          cellIdx6: null, // 身份证号
-          cellIdx7: null, // 家庭住址
-          cellIdx8: null, // 邮政编码
-          cellIdx9: null, // 联系电话
-          cellIdx10: null, // 所在单位
-          cellIdx11: null, // 职务
-          cellIdx12: null, // 单位地址
-          cellIdx13: null, // 被处罚单位ent_name
-          cellIdx14: null, // 地址op_loc_address
-          cellIdx15: null, // 邮政编码op_loc_zip_code
-          cellIdx16: null, // 法定代表人（负责人）le_rpe
-          cellIdx17: null, // 职务rep_duty
-          cellIdx18: null, // 联系电话rep_phone
-          cellIdx19: null, //
-          cellIdx20: null, //
-          cellIdx21: null, //
-          cellIdx22: null, //
-          cellIdx23: null, //
-          cellIdx24: null, //
-          cellIdx25: null, // RefPayUnit
-          cellIdx26: null, // RefPayAccount
-          cellIdx27: null, // RefReconsiderOrgan
-          cellIdx28: null, // RefDeptName
-          cellIdx29: null, // RefLitigationOrgan
-          cellIdx30: null, // 安全生产行政执法人员（签名）
-          cellIdx31: null, // 当事人或者委托代理人（签名）
-          cellIdx32: null, // OrgName
-          cellIdx33: null, // 选择日期
-
-        };
       }
       await db.close();
     },

@@ -687,7 +687,8 @@ export default {
       this.handleData(params.data.selecteddangerList, tableData)
       if (tableData.length > 0) {
         let showDetailIndex = this.dataForm.tempValue.tableData.length
-        tableData.forEach((item, index) => {
+        for (let i = 0; i < tableData.length; i++) {
+          let item = tableData[i]
           // 通过模糊匹配onsiteType
           let onsiteType = null
           let matchOption = fuzzyearch(item.onsiteDesc, this.onsiteTypeOptions, 'label')
@@ -703,6 +704,9 @@ export default {
             }
           }
           let {id, type} = getPenaltyDescType(item.penaltyDesc, this.subitemTypeOptions)
+          // 通过categoryCode获取从属隐患一级和二级类别
+          let secDangerType = await this.getParentDangerCateCode(item.categoryCode)
+          let firstDangerType = await this.getParentDangerCateCode(secDangerType)
           let addItem = Object.assign({}, item, {
             dangerId: getNowTime() + randomString(28),
             personIds: this.$store.state.user.userId, // 隐患发现人
@@ -714,8 +718,8 @@ export default {
             penaltyDescFine, // 行政处罚决定罚金
             penaltyDescTypeId: id, // 行政处罚决定类型的id
             penaltyDescType: type, // 行政处罚决定类型
-            firstDangerType: null, // 第一级隐患类别
-            secDangerType: null, // 第二级隐患类别
+            firstDangerType, // 第一级隐患类别
+            secDangerType, // 第二级隐患类别
             changeDangerType: item.categoryCode, // 更改的隐患类别
             isSerious: '0', // 是否重大隐患
             isReview: '0', // 是否复查
@@ -723,7 +727,7 @@ export default {
             order: this.dataForm.tempValue.tableData.length,
           })
           this.dataForm.tempValue.tableData.push(addItem)
-        })
+        }
         await this.selectedItem({
           $index: showDetailIndex,
           row: this.dataForm.tempValue.tableData[showDetailIndex]
@@ -752,7 +756,6 @@ export default {
         })
       }
     },
-    
     changeOrder(type) {
       // 修改排序
       let dangerItemDetail = this.dangerItemDetail
@@ -808,9 +811,10 @@ export default {
         }
       }
     },
-    handleSaveReceiveDanger (dangerList) {
+    async handleSaveReceiveDanger (dangerList) {
       // 保存接收的隐患项: 放入隐患列表
-      dangerList.map((receiveDanger, index) => {
+      for (let i = 0; i < dangerList.length; i++) {
+        let receiveDanger = dangerList[i]
         // 添加
         // 通过模糊匹配onsiteType
         let onsiteType = null
@@ -827,6 +831,9 @@ export default {
           }
         }
         let {id, type} = getPenaltyDescType(receiveDanger.penaltyDesc, this.subitemTypeOptions)
+        // 通过categoryCode获取从属隐患一级和二级类别
+        let secDangerType = await this.getParentDangerCateCode(item.categoryCode)
+        let firstDangerType = await this.getParentDangerCateCode(secDangerType)
         this.dataForm.tempValue.tableData.push({
           dangerId: getNowTime() + randomString(28),
           active: false,
@@ -848,8 +855,8 @@ export default {
           penaltyDescTypeId: id, // 行政处罚决定类型的id
           penaltyDescType: type, // 行政处罚决定类型
           penaltyBasis: receiveDanger.penaltyBasis, // 行政处罚依据
-          firstDangerType: null, // 第一级隐患类别
-          secDangerType: null, // 第二级隐患类别
+          firstDangerType, // 第一级隐患类别
+          secDangerType, // 第二级隐患类别
           changeDangerType: receiveDanger.categoryCode, // 更改的隐患类别
           isSerious: '0', // 是否重大隐患
           isReview: '0', // 是否复查
@@ -858,7 +865,7 @@ export default {
           delFlag: '0',
           isCommon: receiveDanger.isCommon,
         })
-      })
+      }
     },
     deleteDangerItem (scope) {
       // 删除单条隐患项
@@ -1046,6 +1053,15 @@ export default {
         }
       }
     },
+    async getParentDangerCateCode (code) {
+      // 获取父级code
+      let db = new GoDB(this.DBName)
+      let dangerCate = db.table('dangerCate')
+      let parentCode = ''
+      parentCode = await dangerCate.find((item) => item.delFlag !== '1' && item.categoryCode === code);
+      await db.close()
+      return parentCode.pid
+    },
     changeOnsiteDesc (val) {
       // 修改现场处理决定，关联现场处理决定选择
       let matchOption = fuzzyearch(val, this.onsiteTypeOptions, 'label')
@@ -1095,7 +1111,6 @@ export default {
       // 选中新建的隐患项
       this.selectedItem(scope)
     },
-    
     handleSelectionChange (val) {
       this.dataForm.tempValue.selectedDangerList = val
     },

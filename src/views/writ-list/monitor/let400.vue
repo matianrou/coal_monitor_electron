@@ -139,7 +139,24 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, //
+        cellIdx1: null, // 编号
+        cellIdx2: null, // 案由
+        cellIdx3: null, // 理由和依据
+        cellIdx4: null, // 人民法院
+        cellIdx5: null, //
+        cellIdx6: null, // 承办人（签名）
+        cellIdx7: null, // 日期
+        cellIdx8: null, // 分管负责人意见
+        cellIdx9: null, // 签名
+        cellIdx10: null, // 日期
+        cellIdx11: null, // 主要负责人意见
+        cellIdx12: null, // 签名
+        cellIdx13: null, // 日期
+        DangerTable: null,
+        associationPaperId: null
+      },
       options: {},
       associationPaper: this.corpData.caseType === '0' ? ['1'] : []
     };
@@ -169,52 +186,25 @@ export default {
           : {}
         // XXX国土资源局
         let cellIdx4String = "XXX国土资源局";
-        this.letData = {
-          cellIdx0: null, //
-          cellIdx1: null, // 编号
+        this.letData = Object.assign({}, this.letData, {
           cellIdx2: cellIdx2String, // 案由
-          cellIdx2TypeTextareaItem: cellIdx2String, // 案由
           cellIdx3: cellIdx3String, // 理由和依据
-          cellIdx3TypeTextareaItem: cellIdx3String, // 案由
           cellIdx4: cellIdx4String, // 人民法院
-          cellIdx4TypeTextItem: cellIdx4String, // 人民法院
-          cellIdx5: null, //
-          cellIdx6: null, // 承办人（签名）
-          cellIdx7: null, // 日期
-          cellIdx8: null, // 分管负责人意见
-          cellIdx9: null, // 签名
-          cellIdx10: null, // 日期
-          cellIdx11: null, // 主要负责人意见
-          cellIdx12: null, // 签名
-          cellIdx13: null, // 日期
           DangerTable: DangerTable,
           associationPaperId: { // 关联的paperId
             paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
             paper1Id: selectedPaper.let1Data.paperId
           }
-        };
+        })
       } else {
         let cellIdx2String = `${this.corpData.corpName}XXX案。`
         let cellIdx3String = `20XX年XX月XX日我分局对${this.corpData.corpName}进行安全监察时，发现该矿XXX。经分局执法人员初步调查取证，认定该行为涉嫌违反了《矿产资源法》第十七条规定。`
         let cellIdx4String = "XXX国土资源局";
-        this.letData = {
-          cellIdx0: null, //
-          cellIdx1: null, // 编号
+        this.letData = Object.assign({}, this.letData, {
           cellIdx2: cellIdx2String, // 案由
           cellIdx3: cellIdx3String, // 理由和依据
           cellIdx4: cellIdx4String, // 人民法院
-          cellIdx5: null, //
-          cellIdx6: null, // 承办人（签名）
-          cellIdx7: null, // 日期
-          cellIdx8: null, // 分管负责人意见
-          cellIdx9: null, // 签名
-          cellIdx10: null, // 日期
-          cellIdx11: null, // 主要负责人意见
-          cellIdx12: null, // 签名
-          cellIdx13: null, // 日期
-          DangerTable: null,
-          associationPaperId: {}
-        };
+        })
       }
     },
     goBack({ page, data }) {

@@ -225,7 +225,33 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 文书号
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 文书号
+        cellIdx4: null, // 签发人
+        cellIdx5: null, //
+        cellIdx6: null, // 局
+        cellIdx7: null, //
+        cellIdx8: null, // 违法行为
+        cellIdx9: null, // X份
+        cellIdx10: null, // X页
+        cellIdx11: null, // 局
+        cellIdx12: null, // 地址
+        cellIdx13: null, // 邮政编码
+        cellIdx14: null, // 局
+        cellIdx15: null, // 联系人
+        cellIdx16: null, // 电话
+        cellIdx17: null, // 送件人（签名）
+        cellIdx18: null, // 日期
+        cellIdx19: null, // 收件人（签名）
+        cellIdx20: null, // 日期
+        cellIdx21: null, //
+        cellIdx22: null, // 日期
+        DangerTable: null,
+        associationPaperId: null
+      },
       options: {},
       associationPaper: this.corpData.caseType === '0' ? ['1'] : []
     };
@@ -262,49 +288,28 @@ export default {
           : {}
       }
       await db.close();
-      this.letData = {
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: num0, // 文书号
-        cellIdx0TypeTextItem: num0, // 文书号
         cellIdx1: num1, // 文书号
-        cellIdx1TypeTextItem: num1, // 文书号
         cellIdx2: num3, // 文书号
-        cellIdx2TypeTextItem: num3, // 文书号
         cellIdx3: num4, // 文书号
-        cellIdx3TypeTextItem: num4, // 文书号
-        cellIdx4: null, // 签发人
-        cellIdx5: null, //
         cellIdx6: '局', // 局
         cellIdx7: corp.corpName, //
-        cellIdx7TypeTextItem: corp.corpName, //
         cellIdx8: cellIdx8String, // 违法行为
-        cellIdx8TypeTextareaItem: cellIdx8String, // 违法行为
-        cellIdx9: null, // X份
-        cellIdx10: null, // X页
         cellIdx11: '局', // 局
         cellIdx12: cellIdx12String, // 地址
-        cellIdx12TypeTextItem: cellIdx12String, // 地址
         cellIdx13: cellIdx13String, // 邮政编码
-        cellIdx13TypeTextItem: cellIdx13String, // 邮政编码
         cellIdx14: '局', // 局
         cellIdx15: cellIdx15String, // 联系人
-        cellIdx15TypeTextItem: cellIdx15String, // 联系人
         cellIdx16: cellIdx16String, // 电话
-        cellIdx16TypeTextItem: cellIdx16String, // 电话
-        cellIdx17: null, // 送件人（签名）
-        cellIdx18: null, // 日期
-        cellIdx19: null, // 收件人（签名）
-        cellIdx20: null, // 日期
         cellIdx21: this.$store.state.curCase.provinceGroupName, //
         cellIdx22: this.todayDate, // 日期
-        // cellIdx22: null, // 年
-        // cellIdx23: null, // 月
-        // cellIdx24: null, // 日  暂不用
         DangerTable,
         associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
           paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
           paper1Id: selectedPaper.let1Data.paperId
         } : {}
-      };
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

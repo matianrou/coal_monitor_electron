@@ -157,7 +157,33 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 文书号
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 文书号
+        cellIdx4: null, // 案由
+        cellIdx5: null, // 案情摘要
+        cellIdx6: null, // 年
+        cellIdx7: null, // 月
+        cellIdx8: null, // 日
+        cellIdx9: null, // 本案承办人
+        cellIdx10: null, // 审批人意见
+        cellIdx11: null, // 审批人（签名）
+        cellIdx12: null, // 日期
+        cellIdx13: null, //
+        cellIdx14: null, // 日期
+        /* cellIdx14: null, // 年
+          cellIdx15: null, // 月
+          cellIdx16: null, // 日   暂不用*/
+        DangerTable: null,
+        extraData: {},
+        associationPaperId: {},
+        SelectedPerson: {
+          personList: [],
+          personNamesString: ''
+        }
+      },
       options: {},
       associationPaper: this.corpData.caseType === '0' ? ["1"] : [],
     };
@@ -217,7 +243,7 @@ export default {
           : {}
         await db.close();
         let date = this.todayDate.replace('年', '-').replace('月', '-').replace('日', '-').split('-')
-        this.letData = {
+        this.letData = Object.assign({}, this.letData, {
           cellIdx0: paperNumber.num0, // 文书号
           cellIdx1: paperNumber.num1, // 文书号
           cellIdx2: paperNumber.num3, // 文书号
@@ -227,15 +253,8 @@ export default {
           cellIdx6: date[0], // 年
           cellIdx7: date[1], // 月
           cellIdx8: date[2], // 日
-          cellIdx9: null, // 本案承办人
-          cellIdx10: null, // 审批人意见
-          cellIdx11: null, // 审批人（签名）
-          cellIdx12: null, // 日期
           cellIdx13: this.$store.state.curCase.provinceGroupName, //
           cellIdx14: this.todayDate, // 日期
-          /* cellIdx14: null, // 年
-            cellIdx15: null, // 月
-            cellIdx16: null, // 日   暂不用*/
           DangerTable: DangerTable,
           extraData: {
             // 保存额外拼写的数据内容，用于修改隐患项时回显使用
@@ -252,7 +271,7 @@ export default {
             personList: [],
             personNamesString: ''
           }
-        };
+        })
       } else {
         let db = new GoDB(this.$store.state.DBName);
         let paperNumber = await getDocNumber(
@@ -262,23 +281,17 @@ export default {
         );
         let date = this.todayDate.replace('年', '-').replace('月', '-').replace('日', '-').split('-')
         await db.close();
-        this.letData = {
+        this.letData = Object.assign({}, this.letData, {
           cellIdx0: paperNumber.num0, // 文书号
           cellIdx1: paperNumber.num1, // 文书号
           cellIdx2: paperNumber.num3, // 文书号
           cellIdx3: paperNumber.num4, // 文书号
-          cellIdx4: null, // 案由
-          cellIdx5: null, // 案情摘要
           cellIdx6: date[0], // 年
           cellIdx7: date[1], // 月
           cellIdx8: date[2], // 日
-          cellIdx9: null, // 本案承办人
-          cellIdx10: null, // 审批人意见
-          cellIdx11: null, // 审批人（签名）
-          cellIdx12: null, // 日期
           cellIdx13: this.$store.state.curCase.provinceGroupName, //
           cellIdx14: this.todayDate, // 日期
-        };
+        })
       }
     },
     goBack({ page, data }) {

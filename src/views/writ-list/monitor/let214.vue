@@ -378,7 +378,31 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 执法单位
+        cellIdx1: null, // 案卷类别
+        cellIdx2: null, // 案卷题名
+        cellIdx3: null, // 年
+        cellIdx4: null, // 月
+        cellIdx5: null, // 日
+        cellIdx6: null, // 年
+        cellIdx7: null, // 月
+        cellIdx8: null, // 日
+        cellIdx9: null, //
+        cellIdx10: null, //
+        cellIdx11: null, // 年
+        cellIdx12: null, // 月
+        cellIdx13: null, // 日
+        cellIdx14: null, // 承办人（签名）
+        cellIdx15: null, // 档号
+        cellIdx16: null, // 保管期限
+        cellIdx17: [], // 编辑目录
+        volumesMenuTable: {
+          tableData: [],
+        },
+        DangerTable: null,
+        associationPaperId: null,
+      },
       options: {},
       associationPaper: this.fromPage !== "opinion-suggestion" && this.corpData.caseType === "0" ? ["1"] : [],
     };
@@ -452,32 +476,17 @@ export default {
           await db.close();
         }
       }
-      this.letData = {
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: cellIdx0String, // 执法单位
         cellIdx1: cellIdx1String, // 案卷类别
         cellIdx2: cellIdx2String, // 案卷题名
-        cellIdx2TypeTextareaItem: cellIdx2String, // 案卷题名
-        cellIdx3: null, // 年
-        cellIdx4: null, // 月
-        cellIdx5: null, // 日
-        cellIdx6: null, // 年
-        cellIdx7: null, // 月
-        cellIdx8: null, // 日
-        cellIdx9: null, //
-        cellIdx10: null, //
-        cellIdx11: null, // 年
-        cellIdx12: null, // 月
-        cellIdx13: null, // 日
-        cellIdx14: null, // 承办人（签名）
-        cellIdx15: null, // 档号
-        cellIdx16: null, // 保管期限
         cellIdx17: [], // 编辑目录
         volumesMenuTable: {
           tableData: [],
         },
         DangerTable,
         associationPaperId,
-      };
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

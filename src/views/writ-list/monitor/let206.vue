@@ -187,7 +187,33 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 文书号
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 文书号
+        cellIdx4: null, // 单位/个人
+        cellIdx5: null, // 被处罚
+        cellIdx6: null, // 地址
+        cellIdx7: null, // 违法事实
+        cellIdx8: null, // 法律规定
+        cellIdx9: null, // 法律依据
+        cellIdx10: null, // 行政处罚
+        cellIdx11: null, //
+        cellIdx12: null, // 银行
+        cellIdx13: null, // 支行（分理处），账户名称
+        cellIdx14: null, // 账号
+        cellIdx15: null, // 地址
+        cellIdx16: null, // 煤监机构
+        cellIdx17: null, // 人民法院
+        cellIdx18: null, // 暂不用
+        cellIdx19: null, // 
+        cellIdx20: null, // 日期
+        cellIdx21: null, // 单位/个人
+        DangerTable: null,
+        selectedType: null,
+        associationPaperId: null
+      },
       options: {
         cellIdx4: [
           {
@@ -199,22 +225,6 @@ export default {
             name: "个人",
           },
         ],
-        cellIdx7: {
-          page: "8",
-          key: "cellIdx7",
-        },
-        cellIdx8: {
-          page: "8",
-          key: "cellIdx8",
-        },
-        cellIdx9: {
-          page: "8",
-          key: "cellIdx9",
-        },
-        cellIdx10: {
-          page: "8",
-          key: "cellIdx10",
-        },
       },
       associationPaper: ["6"],
     };
@@ -297,7 +307,7 @@ export default {
         setNewDanger(selectedPaper.let6Data, let6DataPaperContent.DangerTable)
         : null
       await db.close();
-      this.letData = {
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: paperNumber.num0, // 文书号
         cellIdx1: paperNumber.num1, // 文书号
         cellIdx2: paperNumber.num3, // 文书号
@@ -316,7 +326,6 @@ export default {
         cellIdx15: orgSysOfficeInfo.accountAddress, // 地址
         cellIdx16: orgSysOfficeInfo.organName, // 煤监机构
         cellIdx17: orgSysOfficeInfo.courtPrefix, // 人民法院
-        cellIdx18: null, // 暂不用
         cellIdx19: this.$store.state.curCase.provinceGroupName, // 
         cellIdx20: this.todayDate, // 日期
         cellIdx21: cellIdx4String, // 单位/个人
@@ -329,7 +338,7 @@ export default {
         } : {
           paper6Id: selectedPaper.let6Data.paperId,
         }
-      };
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

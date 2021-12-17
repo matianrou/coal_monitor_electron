@@ -339,12 +339,52 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 文书号
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 文书号
+        cellIdx4: null, // 单位
+        cellIdx5: null, // 局
+        cellIdx6: null, // 单位/个人
+        cellIdx7: null, // 违法行为
+        cellIdx8: null, // 年
+        cellIdx9: null, // 月
+        cellIdx10: null, // 日
+        cellIdx11: null, // 时
+        cellIdx12: null, // 地点
+        cellIdx13: null, // 公开/不公开
+        cellIdx14: null, // 单位/个人
+        cellIdx15: null, // 听证主持人姓名
+        cellIdx16: null, // 职务
+        cellIdx17: null, // 听证员姓名
+        cellIdx18: null, // 职务
+        cellIdx19: null, // 听证员姓名
+        cellIdx20: null, // 签名
+        cellIdx21: null, // 录人姓名
+        cellIdx22: null, // 职务
+        cellIdx23: null, // 单位/个人
+        // cellIdx24: null, // 单位  暂不用
+        cellIdx25: null, // 局
+        cellIdx26: null, // 局
+        cellIdx27: null, // 局
+        cellIdx28: null, // 签收人（签名）
+        cellIdx29: null, // 日期
+        cellIdx30: null, // 局
+        cellIdx31: null, // 地址
+        cellIdx32: null, // 邮政编码
+        cellIdx33: null, // 局
+        cellIdx34: null, // 联系人
+        cellIdx35: null, // 联系电话
+        cellIdx36: null, //
+        cellIdx37: null, // 日期
+        cellIdx38: null, // 单位/个人
+        DangerTable: null, // 保留用于不予受理中使用
+        extraData: null,
+        selectedType: null,
+        associationPaperId: null,
+      },
       options: {
-        cellIdx7: {
-          page: "28",
-          key: "cellIdx7",
-        },
         cellIdx13: [
           {
             value: "公开",
@@ -425,64 +465,30 @@ export default {
             )
           : null;
       await db.close();
-      this.letData = {
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: num0, // 文书号
-        cellIdx0TypeTextItem: num0, // 文书号
         cellIdx1: num1, // 文书号
-        cellIdx1TypeTextItem: num1, // 文书号
         cellIdx2: num3, // 文书号
-        cellIdx2TypeTextItem: num3, // 文书号
         cellIdx3: num4, // 文书号
-        cellIdx3TypeTextItem: num4, // 文书号
         cellIdx4:
           let6DataPaperContent.selectedType === "单位" ? corp.corpName : "", // 单位
-        cellIdx4TypeTextItem:
-          let6DataPaperContent.selectedType === "单位" ? corp.corpName : "", // 单位
         cellIdx5: "局", // 局
-        cellIdx5TypeTextItem: "局", // 局
         cellIdx6: let6DataPaperContent.selectedType, // 单位/个人
         cellIdx7: cellIdx7String, // 违法行为
-        cellIdx8: null, // 年
-        cellIdx9: null, // 月
-        cellIdx10: null, // 日
-        cellIdx11: null, // 时
         cellIdx12: cellIdx12String, // 地点
-        cellIdx12TypeTextItem: cellIdx12String, // 地点
-        cellIdx13: null, // 公开/不公开
         cellIdx14: let6DataPaperContent.selectedType, // 单位/个人
-        cellIdx15: null, // 听证主持人姓名
-        cellIdx16: null, // 职务
-        cellIdx17: null, // 听证员姓名
-        cellIdx18: null, // 职务
-        cellIdx19: null, // 听证员姓名
-        cellIdx20: null, // 签名
-        cellIdx21: null, // 录人姓名
-        cellIdx22: null, // 职务
         cellIdx23: let6DataPaperContent.selectedType, // 单位/个人
-        // cellIdx24: null, // 单位  暂不用
         cellIdx25: "局", // 局
-        cellIdx25TypeTextItem: "局", // 局
         cellIdx26: "局", // 局
-        cellIdx26TypeTextItem: "局", // 局
         cellIdx27: "局", // 局
-        cellIdx27TypeTextItem: "局", // 局
-        cellIdx28: null, // 签收人（签名）
-        cellIdx29: null, // 日期
         cellIdx30: "局", // 局
-        cellIdx30TypeTextItem: "局", // 局
         cellIdx31: cellIdx31String, // 地址
-        cellIdx31TypeTextItem: cellIdx31String, // 地址
         cellIdx32: cellIdx32String, // 邮政编码
-        cellIdx32TypeTextItem: cellIdx32String, // 邮政编码
         cellIdx33: "局", // 局
-        cellIdx33TypeTextItem: "局", // 局
         cellIdx34: cellIdx34String, // 联系人
-        cellIdx34TypeTextItem: cellIdx34String, // 联系人
         cellIdx35: cellIdx35String, // 联系电话
-        cellIdx35TypeTextItem: cellIdx35String, // 联系电话
         cellIdx36: this.$store.state.curCase.provinceGroupName, //
         cellIdx37: this.todayDate, // 日期
-        cellIdx37TypeDateItem: this.todayDate, // 日期
         cellIdx38: let6DataPaperContent.selectedType, // 单位/个人
         DangerTable: DangerTable, // 保留用于不予受理中使用
         extraData: {
@@ -502,7 +508,7 @@ export default {
             : {
                 paper6Id: selectedPaper.let6Data.paperId,
               },
-      };
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业
