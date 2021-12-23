@@ -747,7 +747,6 @@ async function docFileListDb(resId, data){
 			"name": obj.name,
 			"createBy": obj.createBy.id,
 			"createDate": obj.createDate,
-			"updateBy": obj.updateBy.id,
 			"updateDate": obj.updateDate,
 			"delFlag": obj.delFlag,
 			"remark": obj.remark,

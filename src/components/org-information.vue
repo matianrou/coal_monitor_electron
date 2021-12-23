@@ -77,7 +77,8 @@ export default {
       let caseData = await wkCase.find(item => item.caseId === this.corpData.caseId)
       let orgInfo = db.table('orgInfo')
       // 归档机构信息
-      let affiliateOrg = await orgInfo.find(item => item.no === caseData.affiliate)
+      let affiliate = caseData.affiliate ? caseData.affiliate : this.$store.state.selectedCaseOption.selGovUnit
+      let affiliateOrg = await orgInfo.find(item => item.no === affiliate)
       // 获取当前归档机构的省局名称
       let provinceGroupName = `${caseData.groupName}`
       if (affiliateOrg.grade === '3') {

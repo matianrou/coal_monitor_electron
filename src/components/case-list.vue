@@ -185,6 +185,7 @@ export default {
       this.setOrg()
       this.getPlanDateList()
       this.setPlanDate()
+      this.setStore()
       await this.getData()
     },
     async getOrgList () {
@@ -383,6 +384,14 @@ export default {
       this.getData()
       this.selectedCase = {}
       this.$parent.changePage({page: 'empty'})
+      this.setStore()
+    },
+    setStore () {
+      // 将当前选中的检查活动日期、机构及计划或其他数据更新store数据
+      this.$store.commit('changeState', {
+        key: 'selectedCaseOption',
+        val: this.dataForm
+      })
     },
     addCase () {
       // 为无计划的企业添加检查活动

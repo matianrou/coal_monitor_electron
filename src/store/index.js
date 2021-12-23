@@ -11,7 +11,8 @@ export default new Vuex.Store({
   state: {
     activeTab: null, // 当前激活的总体tab页签
     DBName: null, // 当前使用的数据库名称
-    curCase: null, // 当前检查活动的活动数据
+    curCase: null, // 当前选中的检查活动的活动数据
+    selectedCaseOption: null, // 当前选择的检查活动日期（年月）、机构、类型（计划或其他）
     unreceivedPaper: [], // 当前未接收的文书信息
   },
   getters: {

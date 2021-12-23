@@ -88,7 +88,7 @@ function setDangerTable(data, selectedData, options) {
   let dangerObject = {}
   let dangerObjectIndex = {}
   let newList = []
-  if (data.dangerContentMerge) {
+  if (data && data.dangerContentMerge) {
     // 隐患合并
     // 合并数据，通过合并后的数组获取相应的检查描述
     if (data.selectedDangerList && data.selectedDangerList.length > 0) {
@@ -151,12 +151,12 @@ function setDangerTable(data, selectedData, options) {
   switch (options.page) {
     case '1':  // 现场检查记录/现场检查笔录
       let dangerString = ''
-      if (data.dangerContentMerge) {
+      if (data && data.dangerContentMerge) {
         newList.map((item, index) => {
           dangerString += `    ${(index + 1)}. ${item.itemContent}\r\n`
         })
       } else {
-        if (data.selectedDangerList) {
+        if (data && data.selectedDangerList) {
           data.selectedDangerList.map((item, index) => {
             dangerString += `    ${(index + 1)}. ${item.itemContent}\r\n`
           })
@@ -168,12 +168,12 @@ function setDangerTable(data, selectedData, options) {
       break
     case '2': // 现场处理决定书
       let dangerString1 = ''
-      if (data.dangerContentMerge) {
+      if (data && data.dangerContentMerge) {
         newList.map((item, index) => {
           dangerString1 += `    ${(index + 1)}. ${item.itemContent}${item.onsiteDesc}。\r\n`
         })
       } else {
-        if (data.selectedDangerList) {
+        if (data && data.selectedDangerList) {
           data.selectedDangerList.map((item, index) => {
             dangerString1 += `    ${(index + 1)}. ${item.itemContent}${item.onsiteDesc}。\r\n`
           })
@@ -190,7 +190,7 @@ function setDangerTable(data, selectedData, options) {
       // }
       break
     case '13': // 复查意见书
-      let list13 = data.dangerContentMerge ? newList : data.selectedDangerList
+      let list13 = data && data.dangerContentMerge ? newList : data.selectedDangerList || []
       if (options.key === 'cellIdx9') {
         let dangerString = getDangerContentWithoutPointHasIndex(list13 || [], '；')
         string = dangerString
@@ -209,7 +209,7 @@ function setDangerTable(data, selectedData, options) {
       // }
       break
     case '3': // 撤出作业人员命令书
-      let list3 = data.dangerContentMerge ? newList : data.selectedDangerList
+      let list3 = data && data.dangerContentMerge ? newList : data.selectedDangerList || []
       if (options.key === 'cellIdx12') {
         let dangerString1 = getDangerContentWithoutPoint(list3 || [], ',')
         string = dangerString1
@@ -217,7 +217,7 @@ function setDangerTable(data, selectedData, options) {
       // string = dangerObject.dangerString || ''
       break
     case '23': // 抽样取证通知书
-      let list23 = data.dangerContentMerge ? newList : data.selectedDangerList
+      let list23 = data && data.dangerContentMerge ? newList : data.selectedDangerList || []
       if (options.key === 'cellIdx5') {
         let dangerString1 = getDangerContentWithoutPoint(list23 || [], '、')
         string = dangerString1
@@ -225,7 +225,7 @@ function setDangerTable(data, selectedData, options) {
       // string = dangerObject.dangerString || ''
       break
     case '25': // 先行登记保存证据通知书
-      let list25 = data.dangerContentMerge ? newList : data.selectedDangerList
+      let list25 = data && data.dangerContentMerge ? newList : data.selectedDangerList || []
       if (options.key === 'cellIdx6') {
         let dangerString1 = getDangerContentWithoutPoint(list25 || [], ',')
         string = dangerString1
@@ -233,7 +233,7 @@ function setDangerTable(data, selectedData, options) {
       // string = dangerObject.dangerString || ''
       break
     case '32': // 查封（扣押）决定书
-      let list32 = data.dangerContentMerge ? newList : data.selectedDangerList
+      let list32 = data && data.dangerContentMerge ? newList : data.selectedDangerList || []
       if (store.state.user.userType === 'supervision') {
         // 监管
         if (options.key === 'cellIdx7') {
@@ -255,7 +255,7 @@ function setDangerTable(data, selectedData, options) {
       }
       break
     case '4': // 立案决定书
-      if (data.dangerContentMerge) {
+      if (data && data.dangerContentMerge) {
         // 合并
         if (options.key === 'cellIdx4') {
           let dangerString1 = getDangerContentWithoutPoint(newList || [], '、')
@@ -285,7 +285,7 @@ function setDangerTable(data, selectedData, options) {
       }
       break
     case '36': // 案件处理呈报书
-      let list36 = data.dangerContentMerge ? newList : data.selectedDangerList
+      let list36 = data && data.dangerContentMerge ? newList : data.selectedDangerList || []
       if (options.key === 'cellIdx2') {
         let dangerString = getDangerContentWithoutPoint(list36 || [], '、')
         string = `${options.spellString.corpName}涉嫌${dangerString || ''}违法违规案。`
@@ -306,7 +306,7 @@ function setDangerTable(data, selectedData, options) {
       }
       break
     case '6': // 行政处罚告知书
-      let list6 = data.dangerContentMerge ? newList : data.selectedDangerList
+      let list6 = data && data.dangerContentMerge ? newList : data.selectedDangerList || []
       if (options.key === 'cellIdx6') {
         let dangerString1 = getDangerContentWithoutPointHasIndex(list6 || [], '；')
         string = dangerString1
@@ -328,7 +328,7 @@ function setDangerTable(data, selectedData, options) {
       // string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString || ''}案。`
       break
     case '8': // 行政处罚决定书
-      let list8 = data.dangerContentMerge ? newList : data.selectedDangerList
+      let list8 = data && data.dangerContentMerge ? newList : data.selectedDangerList || []
       if (options.key === 'cellIdx7') {
         let dangerString1 = getDangerContentWithoutPointHasIndex(list8 || [], '；')
         string = dangerString1
@@ -378,7 +378,7 @@ function setDangerTable(data, selectedData, options) {
       // string = `${options.spellString.corpName}${dangerObject.dangerString || ''}案。`
       break
     case '47': // 行政执法决定法制审核意见书
-      let list47 = data.dangerContentMerge ? newList : data.selectedDangerList
+      let list47 = data && data.dangerContentMerge ? newList : data.selectedDangerList || []
       if (options.key === 'cellIdx3') {
         let dangerString = getDangerContentWithoutPoint(list47 || [], '、')
         string = `${options.spellString.corpName}涉嫌${dangerString }违法违规案。`

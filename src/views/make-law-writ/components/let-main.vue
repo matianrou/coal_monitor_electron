@@ -816,6 +816,13 @@ export default {
       // type为编辑窗口let-drawer内打开编辑的组件名
       // value为回显值
       // options为各组件所需的其他内容：比如选择框的选项等
+      if (type === 'DangerTable') {
+        // 判断如果有dangerTable才能编辑
+        if (!value) {
+          this.$message.error('只能编辑在本系统中提交的数据！无法编辑PC端保存的数据！')
+          return
+        }
+      }
       this.visible = true;
       this.selectedData = {
         type,
