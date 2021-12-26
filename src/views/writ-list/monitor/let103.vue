@@ -224,17 +224,18 @@ export default {
         }, // 检查表
       },
       options: {},
+      associationPaper: ["22"],
     };
   },
   methods: {
-    async initLetData() {
-    // 创建初始版本
-    let db = new GoDB(this.$store.state.DBName);
-    let corpBase = db.table("corpBase");
-    //查询符合条件的记录
-    let corp = await corpBase.find((item) => {
-      return item.corpId == this.corpData.corpId;
-    });
+    async initLetData(selectedPaper) {
+      // 创建初始版本
+      let db = new GoDB(this.$store.state.DBName);
+      let corpBase = db.table("corpBase");
+      //查询符合条件的记录
+      let corp = await corpBase.find((item) => {
+        return item.corpId == this.corpData.corpId;
+      });
       let zfZzInfo = db.table("zfZzInfo");
       let zzInfo1 = await zfZzInfo.find((item) => {
         return (
@@ -283,10 +284,17 @@ export default {
         "采煤方式为综采。通风方式为中央分列抽出，采掘作业地点有71003综采工作面采煤工作面、 71007综采工作面风巷、71007综采工作面机巷掘进工作面。";
       let corpOther = "检查的内容和分工变化时，应及时调整。";
       await db.close();
+      // 返回检查方案中的检查类型方式、检查时间和检查分工明细表
+      let let22DataPaperContent = JSON.parse(
+        selectedPaper.let22Data.paperContent
+      );
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
+        cellIdx1: let22DataPaperContent.cellIdx1,
+        cellIdx2: let22DataPaperContent.cellIdx2,
         cellIdx3: sSummary ? sSummary : null, // 煤矿概况
         cellIdx6: corpOther, // 其他事项
+        CheckTable: let22DataPaperContent.CheckTable
       })
     },
     goBack({ page, data }) {

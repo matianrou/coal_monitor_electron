@@ -109,6 +109,7 @@ export default {
       }
     },
     changeTab (tab, go) {
+      this.activeTab = this.activeTab ? this.activeTab : this.$store.state.activeTab
       if (this.activeTab !== tab) {
         if (this.activeTab === 'SourceDownload') {
           if (go) {

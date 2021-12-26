@@ -860,6 +860,49 @@ export default {
           dataKey,
           params.value
         );
+      } else if (this.$store.state.user.userType === 'monitor' && dataKey === 'DangerTable'
+        && (options.page === '13' || options.page === '32' || options.page === '4' 
+        || options.page === '36' || options.page === '6' || options.page === '8')) {
+        // 特殊保存：当文书中有多个隐患字段时，同时修改所有隐患字段内容
+        // 监察中多个隐患项字段的有:复查意见书13,查封(扣押)决定书32,立案决定书4,
+        // 案件处理呈报书36,行政处罚告知书6,行政处罚决定书8
+        let saveFields = []
+        switch (options.page) {
+          case '13': 
+            saveFields = ['cellIdx9', 'cellIdx10']
+            break
+          case '32': 
+            saveFields = ['cellIdx6', 'cellIdx7']
+            break
+          case '4': 
+            saveFields = ['cellIdx4', 'cellIdx5']
+            break
+          case '36': 
+            saveFields = ['cellIdx2', 'cellIdx6', 'cellIdx7']
+            break
+          case '6': 
+            saveFields = ['cellIdx6', 'cellIdx7', 'cellIdx8', 'cellIdx10']
+            break
+          case '8': 
+            saveFields = ['cellIdx7', 'cellIdx8', 'cellIdx9', 'cellIdx10']
+            break
+        }
+        this.$parent.letData[dataKey] = params.value;
+        for (let i = 0; i < saveFields.length; i++) {
+          let field = saveFields[i]
+          let fieldOptions = Object.assign({}, options, {
+            key: field,
+          })
+          this.$set(
+            this.$parent.letData,
+            field,
+            this.functions[`set${type}`](
+              this.$parent.letData[dataKey],
+              this.selectedData,
+              fieldOptions
+            )
+          );
+        }
       } else {
         // 通用保存
         // 保存反显数据
@@ -874,6 +917,7 @@ export default {
             options
           )
         );
+        // 再次打开编辑窗以更新数据
         this.commandFill(key, dataKey, title, type, value, options)
       }
       if (!params.direct) {

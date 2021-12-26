@@ -308,13 +308,7 @@ export default {
           (key === "cellIdx4" || key === "cellIdx5") &&
           type === "DangerTable"
         ) {
-          if (key === "cellIdx4") {
-            spellString = {
-              corpName: this.letData.extraData.corpName,
-            };
-          } else if (key === "cellIdx5") {
-            spellString = this.letData.extraData;
-          }
+          spellString = this.letData.extraData;
           this.options[key] = {
             page: "4",
             key: key,

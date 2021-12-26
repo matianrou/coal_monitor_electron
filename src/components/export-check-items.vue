@@ -90,6 +90,7 @@
 
 <script>
   import GoDB from '@/utils/godb.min.js'
+  import { sortbyAsc } from "@/utils/index";
   export default {
     name: 'ExportCheckItems',
     props: {
@@ -135,6 +136,7 @@
             }
           })
         }
+        exportCaseList.sort(sortbyAsc('createDate'))
         this.caseList = exportCaseList
       },
       changeSelected (val) {

@@ -43,7 +43,7 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_4"
-                  style="width: 74%"
+                  style="min-width: 50%"
                   data-title
                   data-type="text"
                   data-src

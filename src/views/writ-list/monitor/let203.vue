@@ -313,13 +313,7 @@ export default {
         let spellString = {};
         if (key === "cellIdx2" || key === "cellIdx6" || key === "cellIdx7") {
           if (type === 'DangerTable') {
-            if (key === "cellIdx2") {
-              spellString = {
-                corpName: this.letData.extraData.corpName,
-              };
-            } else if (key === "cellIdx6" || key === "cellIdx7") {
-              spellString = this.letData.extraData;
-            }
+            spellString = this.letData.extraData;
             this.options[key] = {
               page: "36",
               key: key,

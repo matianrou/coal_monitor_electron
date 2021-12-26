@@ -620,7 +620,7 @@ export default {
           let tableItem = this.dataForm.tempValue.tableData[j]
           if (tableItem.dangerId === item.dangerId) {
             this.$nextTick(() => {
-              this.$refs.dangerTable.toggleRowSelection(tableItem)
+              this.$refs.dangerTable.toggleRowSelection(tableItem, true)
             })
           }
         }
@@ -661,6 +661,9 @@ export default {
           }
         }
       }
+      // 按新的order排序数组
+      value.sort(sortbyAsc('order'))
+      this.dataForm.tempValue.selectedDangerList.sort(sortbyAsc('order'))
       this.$set(this.dataForm.tempValue, 'tableData', value)
       this.setSelection()
       // 再同步修改已选中展示的节点元素
@@ -728,7 +731,10 @@ export default {
             delFlag: '2',
           })
           this.dataForm.tempValue.tableData.push(addItem)
+          // 同时放入已选隐患中设置选中
+          this.dataForm.tempValue.selectedDangerList.push(addItem)
         }
+        this.setSelection()
         await this.selectedItem({
           $index: showDetailIndex,
           row: this.dataForm.tempValue.tableData[showDetailIndex]
@@ -833,9 +839,9 @@ export default {
         }
         let {id, type} = getPenaltyDescType(receiveDanger.penaltyDesc, this.subitemTypeOptions)
         // 通过categoryCode获取从属隐患一级和二级类别
-        let secDangerType = await this.getParentDangerCateCode(item.categoryCode)
+        let secDangerType = await this.getParentDangerCateCode(receiveDanger.categoryCode)
         let firstDangerType = await this.getParentDangerCateCode(secDangerType)
-        this.dataForm.tempValue.tableData.push({
+        let receData = {
           dangerId: getNowTime() + randomString(28),
           active: false,
           itemCode: receiveDanger.itemCode,
@@ -865,8 +871,12 @@ export default {
           order: this.dataForm.tempValue.tableData.length,
           delFlag: '2',
           isCommon: receiveDanger.isCommon,
-        })
+        }
+        this.dataForm.tempValue.tableData.push(receData)
+          // 同时放入已选隐患中设置选中
+        this.dataForm.tempValue.selectedDangerList.push(receData)
       }
+      this.setSelection()
     },
     deleteDangerItem (scope) {
       // 删除单条隐患项
