@@ -108,7 +108,7 @@ import JSZipUtils from 'jszip-utils'
 import { saveAs } from 'file-saver'
 import pizzip from 'pizzip'
 import punishmentInfoFill from '@/components/punishment-info-fill'
-import { setNewDanger } from '@/utils/setInitPaperData'
+import { setNewDanger, comparDangerTable } from '@/utils/setInitPaperData'
 import {
   setTextItem,
   setCheckItem,
@@ -317,7 +317,9 @@ export default {
         if (docTypeNo === '1' || docTypeNo === '2' || docTypeNo === '13' || docTypeNo === '4' || docTypeNo === '36' || docTypeNo === '6' || docTypeNo === '8') {
           // 如果是以上文书则暂停保存，判断隐患项内容是否有修改,如果有更改则需要联动修改
           let letDataOraginDanger = JSON.parse(this.$parent.letDataOragin).DangerTable || {}
-          if (JSON.stringify(letDataOraginDanger) !== JSON.stringify(this.$parent.letData.DangerTable)) {
+          let newDangerTable = this.$parent.letData.DangerTable
+          let isSame = comparDangerTable(letDataOraginDanger, newDangerTable)
+          if (!isSame) {
             // 若修改隐患项则弹窗选择需要修改的关联项
             // 1.拉取本次检查活动中的所有文书
             // 2.比对文书中的关联paper1Id，如果相同则提取文书信息

@@ -487,3 +487,35 @@ export function setNewDanger (paperData, DangerTable) {
     selectedDangerList: selectedDangerTableNew,
   })
 }
+
+// 获取DangerTable中需要对比是否更新的字段
+// 当前用于隐患项返回时和带有隐患项的文书保存时的对比
+// 需要对比的字段有：tableData和selectedDangerList
+export function comparDangerTable (originalValue, newValue) {
+  // 获取原始数据对比数据
+  let tableData1 = originalValue.tableData ? JSON.parse(JSON.stringify(originalValue.tableData)) : []
+  // 处理数组中的active字段
+  deleteField(tableData1, 'active')
+  let selectedDangerList1 = originalValue.selectedDangerList ? JSON.parse(JSON.stringify(originalValue.selectedDangerList)) : []
+  deleteField(selectedDangerList1, 'active')
+  let originalCompareValue = {
+    tableData: tableData1,
+    selectedDangerList: selectedDangerList1,
+  }
+  // 获取当前新数据对比数据
+  let tableData2 = newValue.tableData ? JSON.parse(JSON.stringify(newValue.tableData)) : []
+  deleteField(tableData2, 'active')
+  let selectedDangerList2 = newValue.selectedDangerList ? JSON.parse(JSON.stringify(newValue.selectedDangerList)) : []
+  deleteField(selectedDangerList2, 'active')
+  let newCompareValue = {
+    tableData: tableData2,
+    selectedDangerList: selectedDangerList2,
+  }
+  return JSON.stringify(originalCompareValue) === JSON.stringify(newCompareValue)
+}
+// 删除字段
+function deleteField(arrData, field) {
+  for (let i = 0; i < arrData.length; i++) {
+    delete arrData[i][field]
+  }
+}

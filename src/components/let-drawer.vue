@@ -64,6 +64,7 @@
 </template>
 
 <script>
+import { comparDangerTable } from '@/utils/setInitPaperData'
 export default {
   name: "LetDrawer",
   props: {
@@ -136,26 +137,14 @@ export default {
       // 如果是隐患项编辑保存时增加校验是否有修改，如果有修改则提示是否确认返回
       if (this.selectedData.type === 'DangerTable') {
         let tempValue = this.$refs[this.selectedData.type].dataForm.tempValue
-        // 删除表格及选中表格中的已选中字段active后保存原始数据进行对比
-        let tempTableData = tempValue.tableData ? JSON.parse(JSON.stringify(tempValue.tableData)) : []
-        for (let i = 0; i < tempTableData.length; i++) {
-          await delete tempTableData[i]['active']
-        }
-        let tempSelectedDangerList = tempValue.selectedDangerList ? JSON.parse(JSON.stringify(tempValue.selectedDangerList)) : []
-        for (let i = 0; i < tempSelectedDangerList.length; i++) {
-          await delete tempSelectedDangerList[i]['active']
-        }
-        let compareValue = {
-          tableData: tempTableData,
-          selectedDangerList: tempSelectedDangerList,
-        }
         let originalValue = this.$refs[this.selectedData.type].originalValue
-        if (JSON.stringify(compareValue) === originalValue) {
+        let isSame = comparDangerTable(originalValue, tempValue)
+        if (isSame) {
           // 如果数据相同则表示未修改任何数据，直接执行返回
           this.$emit('handle-close')
         } else {
           // 如果有修改
-          this.$confirm('当前有已修改的隐患，是否确定不保存修改直接返回？', '提示', {
+          this.$confirm('当前有已修改的隐患项，是否确定不保存修改直接返回？', '提示', {
               confirmButtonText: '取消',
               cancelButtonText: '确定',
               dangerouslyUseHTMLString: true,
