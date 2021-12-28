@@ -225,7 +225,7 @@ export default {
         page: 'let104'
       },
       {
-        id: '1111',
+        id: '44',
         name: '隐患整改',
         page: 'let105'
       },
@@ -325,7 +325,7 @@ export default {
         page: 'let211'
       },
       {
-        id: '11111111',
+        id: '43',
         name: '罚款收缴',
         page: 'let212'
       },
@@ -403,6 +403,132 @@ export default {
         id: '17',
         name: '加强和改善安全管理意见书',
         page: 'let502'
+      },
+    ],
+    paperNumberType: [
+      {
+        docTypeNo: '2', // 现场处理决定书let102
+        docString: '处',
+        paperNumberFields: ['cellIdx0', 'cellIdx1', 'cellIdx2', 'cellIdx3']
+      },
+      {
+        docTypeNo: '13', // 复查意见书let104
+        docString: '复',
+        paperNumberFields: ['cellIdx0', 'cellIdx1', 'cellIdx2', 'cellIdx3']
+      },
+      {
+        docTypeNo: '3', // 撤出作业人员命令书let106
+        docString: '撤',
+        paperNumberFields: ['cellIdx0', 'cellIdx1', 'cellIdx2', 'cellIdx3']
+      },
+      {
+        docTypeNo: '23', // 抽样取证通知书let107
+        docString: '抽',
+        paperNumberFields: ['cellIdx0', 'cellIdx1', 'cellIdx2', 'cellIdx3']
+      },
+      {
+        docTypeNo: '25', // 先行登记保存证据通知书let108
+        docString: '先保',
+        paperNumberFields: ['cellIdx0', 'cellIdx1', 'cellIdx2', 'cellIdx3']
+      },
+      {
+        docTypeNo: '27', // 先行登记保存证据处理决定书let109
+        docString: '先保处',
+        paperNumberFields: ['cellIdx0', 'cellIdx1', 'cellIdx2', 'cellIdx3']
+      },
+      {
+        docTypeNo: '32', // 查封（扣押）决定书let110
+        selectedType: '查封',
+        docString: '查',
+        paperNumberFields: ['cellIdx1', 'cellIdx2', 'cellIdx3', 'cellIdx4']
+      },
+      {
+        docTypeNo: '32', // 查封（扣押）决定书let110
+        selectedType: '扣押',
+        docString: '扣',
+        paperNumberFields: ['cellIdx1', 'cellIdx2', 'cellIdx3', 'cellIdx4']
+      },
+      {
+        docTypeNo: '34', // 解除查封（扣押）决定书let111
+        selectedType: '查封',
+        docString: '解查',
+        paperNumberFields: ['cellIdx1', 'cellIdx2', 'cellIdx4', 'cellIdx5']
+      },
+      {
+        docTypeNo: '34', // 解除查封（扣押）决定书
+        selectedType: '扣押',
+        docString: '解扣',
+        paperNumberFields: ['cellIdx1', 'cellIdx2', 'cellIdx4', 'cellIdx5']
+      },
+      {
+        docTypeNo: '37', // 停供电(停供民用爆炸物品)通知书let112
+        docString: '停',
+        paperNumberFields: ['cellIdx1', 'cellIdx2', 'cellIdx3', 'cellIdx4']
+      },
+      {
+        docTypeNo: '38', // 解除停供电(停供民用爆炸物品)通知书let113
+        docString: '解停',
+        paperNumberFields: ['cellIdx1', 'cellIdx2', 'cellIdx4', 'cellIdx5']
+      },
+      {
+        docTypeNo: '4', // 立案决定书let201
+        docString: '立',
+        paperNumberFields: ['cellIdx0', 'cellIdx1', 'cellIdx2', 'cellIdx3']
+      },
+      {
+        docTypeNo: '6', // 行政处罚告知书let204
+        docString: '告',
+        paperNumberFields: ['cellIdx0', 'cellIdx1', 'cellIdx2', 'cellIdx3']
+      },
+      {
+        docTypeNo: '8', // 行政处罚决定书let206
+        docString: '罚',
+        paperNumberFields: ['cellIdx0', 'cellIdx1', 'cellIdx2', 'cellIdx3']
+      },
+      {
+        docTypeNo: '9', // 送达收执let207
+        docString: '送',
+        paperNumberFields: ['cellIdx0', 'cellIdx1', 'cellIdx2', 'cellIdx3']
+      },
+      {
+        docTypeNo: '39', // 行政决定履行催告书let208
+        docString: '催',
+        paperNumberFields: ['cellIdx0', 'cellIdx1', 'cellIdx2', 'cellIdx3']
+      },
+      {
+        docTypeNo: '28', // 听证通知书let209
+        docString: '听',
+        paperNumberFields: ['cellIdx0', 'cellIdx1', 'cellIdx2', 'cellIdx3']
+      },
+      {
+        docTypeNo: '29', // 不予受理听证申请通知书let210
+        docString: '听不受',
+        paperNumberFields: ['cellIdx0', 'cellIdx1', 'cellIdx2', 'cellIdx3']
+      },
+      {
+        docTypeNo: '18', // 强制执行申请书let301
+        docString: '执',
+        paperNumberFields: ['cellIdx0', 'cellIdx1', 'cellIdx2', 'cellIdx3']
+      },
+      {
+        docTypeNo: '41', // 不予受理行政复议申请决定书let303
+        docString: '复不受',
+        paperNumberFields: ['cellIdx0', 'cellIdx1', 'cellIdx2', 'cellIdx3']
+      },
+      {
+        docTypeNo: '12', // 行政复议决定书let305
+        docString: '复决',
+        paperNumberFields: ['cellIdx0', 'cellIdx1', 'cellIdx2', 'cellIdx3']
+      },
+      {
+        docTypeNo: '19', // 移送书let401
+        docString: '移',
+        paperNumberFields: ['cellIdx0', 'cellIdx1', 'cellIdx2', 'cellIdx3']
+      },
+      {
+        docTypeNo: '20', // 涉嫌犯罪案件移送书let402
+        docString: '涉',
+        paperNumberFields: ['cellIdx0', 'cellIdx1', 'cellIdx2', 'cellIdx3']
       },
     ]
   }

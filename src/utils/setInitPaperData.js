@@ -26,70 +26,11 @@ export async function getDocNumber(db, docTypeNo, caseId) {
   }
   // 根据文书类型，获得（立、告、罚、送、催）
   let docString = ''
-  switch (docTypeNo) {
-    case '4': // 立案决定书let201
-      docString = '立'
-      break
-    case '6': // 行政处罚告知书let204
-      docString = '告'
-      break
-    case '8': // 行政处罚决定书let206
-      docString = '罚'
-      break
-    case '9': // 送达收执let207
-      docString = '送'
-      break
-    case '39': // 行政决定履行催告书let208
-      docString = '催'
-      break
-    case '2': // 行现场处理决定书let102
-      docString = '处'
-      break
-    case '41': // 不予受理行政复议申请决定书
-      docString = '复不受'
-      break
-    case '12': // 行政复议决定书
-      docString = '复决'
-      break
-    case '28': // 听证通知书
-      docString = '听'
-      break
-    case '29': // 不予受理听证申请通知书
-      docString = '听不受'
-      break
-    case '13': // 复查意见书
-      docString = '复'
-      break
-    case '3': // 撤出作业人员命令书
-      docString = '撤'
-      break
-    case '23': // 抽样取证通知书
-      docString = '抽'
-      break
-    case '25': // 先行登记保存证据通知书
-      docString = '先保'
-      break
-    case '27': // 先行登记保存证据处理决定书
-      docString = '先保处'
-      break
-    case '32': // 查封（扣押）决定书
-      docString = '查/扣'
-      break
-    case '34': // 解除查封（扣押）决定书
-      docString = '解查/解扣'
-      break
-    case '37': // 停供电(停供民用爆炸物品)通知书
-      docString = '停'
-      break
-    case '38': // 解除停供电(停供民用爆炸物品)通知书
-      docString = '解停'
-      break
-    case '19': // 移送书
-      docString = '移'
-      break
-    case '20': // 涉嫌犯罪案件移送书
-      docString = '涉'
-      break
+  for(let i = 0; i < store.state.dictionary.paperNumberType.length > 0; i++) {
+    let item = store.state.dictionary.paperNumberType[i]
+    if (item.docTypeNo === docTypeNo) {
+      docString = item.docString
+    }
   }
   // 当前年份
   let date = new Date()
@@ -105,6 +46,34 @@ export async function getDocNumber(db, docTypeNo, caseId) {
     num3: curYear + '',
     num4: caseInfo ? caseInfo.caseSn : '',
   }
+}
+
+// 获取已存在的文书的文书编号
+export function getCurPaperDocNumber(paper) {
+  let paperContent = JSON.parse(paper.paperContent) 
+  let paperNumber = ''
+  let docString = ''
+  let paperNumberFields = []
+  let paperTypeName = store.state.user.userType === 'supervision' ? '矿安' : '矿安监'
+  for(let i = 0; i < store.state.dictionary.paperNumberType.length > 0; i++) {
+    let item = store.state.dictionary.paperNumberType[i]
+    if (item.docTypeNo === paper.paperType) {
+      // 判断是否有多个文书类型
+      if (item.selectedType) {
+        if (item.selectedType === paperContent.selectedType) {
+          docString = item.docString
+          paperNumberFields = item.paperNumberFields
+        }
+      } else {
+        docString = item.docString
+        paperNumberFields = item.paperNumberFields
+      }
+    }
+  }
+  if (paperNumberFields && paperNumberFields.length > 0) {
+    paperNumber = `${paperContent[paperNumberFields[0]]}${paperTypeName}${paperContent[paperNumberFields[1]]}${docString}〔${paperContent[paperNumberFields[2]]}〕${paperContent[paperNumberFields[3]]}号`
+  }
+  return paperNumber
 }
 
 // 返回对象根据隐患项生成的文本数据：

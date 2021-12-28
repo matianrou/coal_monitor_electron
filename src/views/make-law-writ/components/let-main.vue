@@ -1108,6 +1108,8 @@ export default {
       }
       // 关闭更新弹窗
       this.selectUpdatePaperVisible = false
+      // 保存已被更新的文书列表，用于展示隐患项更新情况
+
       // 保存当前文书数据
       await this.savePaperFunction(this.saveFlag)
       this.saveFlag = '0'

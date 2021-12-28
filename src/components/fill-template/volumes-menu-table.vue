@@ -173,9 +173,13 @@ export default {
     operation(scope, operate) {
       if (operate === 'add') {
         // 添加行操作
-        let item = {}
-        for(let key in this.dataForm.tempValue.tableData[0]) {
-          item[key] = null
+        let item = {
+          sindex: scope.$index + 2,
+          paperNumber: '',
+          title: '',
+          date: '',
+          pageNumber: scope.$index + 2,
+          note: '',
         }
         this.dataForm.tempValue.tableData.splice(scope.$index + 1, 0, JSON.parse(JSON.stringify(item)))
       } else if (operate === 'delete') {

@@ -395,6 +395,7 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/scss/let";
 .show-volumes-menu {
+  margin-top: 30px;
   /deep/ .el-table td {
     border-color: #606266!important;
   }

@@ -16,10 +16,9 @@
             <div class="textAlignCenter formHeader2" style="font-size: 30px">
               国 家 矿 山 安 全 监 察
             </div>
-            <div class="textAlignCenter formHeader3" style="font-size: 30px">
+            <div class="textAlignCenter formHeader4" style="font-size: 30px">
               执 法 案 卷 首 页
             </div>
-            <div class="halfRowH"></div>
             <table class="docBody" style="border: solid 1.5px #000">
               <tr style="height: 3cm">
                 <td
@@ -287,14 +286,11 @@
                   v-if="letData.cellIdx17 && letData.cellIdx17.length > 0"
                   class="show-volumes-menu"
                 >
-                  <div
-                    style="
-                      text-align: center;
-                      font-size: 20px;
-                      font-weight: 500;
-                    "
-                  >
-                    <span>档案卷内目录</span>
+                  <div class="textAlignCenter formHeader2" style="font-size: 30px">
+                    国 家 矿 山 安 全 监 察
+                  </div>
+                  <div class="textAlignCenter formHeader4" style="font-size: 30px">
+                    档 案 卷 内 目 录
                   </div>
                   <el-table
                     :data="letData.cellIdx17"
@@ -370,9 +366,10 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { setNewDanger } from "@/utils/setInitPaperData";
+import { setNewDanger, getCurPaperDocNumber } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 import { setDangerTable } from "@/utils/handlePaperData";
+import { sortbyAsc } from "@/utils/index";
 export default {
   name: "Let214",
   mixins: [associationSelectPaper],
@@ -414,6 +411,7 @@ export default {
       let cellIdx2String = "";
       let DangerTable = {};
       let associationPaperId = {};
+      let volumesMenuTableData = []
       if (this.fromPage === "opinion-suggestion") {
         // 从意见建议书进入执法案卷首页时
         cellIdx0String = "";
@@ -423,8 +421,73 @@ export default {
         let curYear = myDate.getFullYear();
         cellIdx2String = `${curYear}年度加强和改善安全监管建议书（加强和改善安全管理意见书）`;
       } else {
+        let db = new GoDB(this.$store.state.DBName);
+        let let1DataPaperContent = JSON.parse(
+          selectedPaper.let1Data.paperContent
+        );
+        // 获取所有文书，整理成为默认案卷首页
+        let wkPaper = db.table('wkPaper') 
+        // 获取笔录文书：
+        let paper1 = await wkPaper.findAll(item => item.paperId === selectedPaper.let1Data.paperId)
+        let paper22 = []
+        let paper22AssociationPaper = []
+        if (let1DataPaperContent && let1DataPaperContent.associationPaperId) {
+          // 获取关联检查方案文书：
+          paper22 = await wkPaper.findAll(item => item.paperId === let1DataPaperContent.associationPaperId.paper22Id)
+          // 获取关联检查方案复查文书：
+          paper22AssociationPaper = await wkPaper.findAll(item => {
+            if (item.paperContent) {
+              let paperContent = JSON.parse(item.paperContent) 
+              if (paperContent.associationPaperId && paperContent.associationPaperId.paper22Id) {
+                if (paperContent.associationPaperId.paper22Id === let1DataPaperContent.associationPaperId.paper22Id
+                  && item.paperType === '42') {
+                  return item
+                }
+              }
+            }
+          })
+        }
+        // 获取所有关联同一笔录文书的文书
+        let paperList = await wkPaper.findAll(item => {
+          if (item.paperContent) {
+            let paperContent = JSON.parse(item.paperContent) 
+            if (paperContent.associationPaperId && paperContent.associationPaperId.paper1Id) {
+              if (paperContent.associationPaperId.paper1Id === selectedPaper.let1Data.paperId) {
+                return item
+              }
+            }
+          }
+        })
+        let allPaper = [...paper22, ...paper1, ...paper22AssociationPaper, ...paperList]
+        // 按文书顺序排序
+        let orderList = []
+        let dictionaryField = `${this.$store.state.user.userType}PaperType`
+        for (let i = 0; i < this.$store.state.dictionary[dictionaryField].length; i++) {
+          orderList.push(this.$store.state.dictionary[dictionaryField][i].id)
+        }
+        allPaper.sort((sortbyAsc('paperType', orderList)))
+        console.log('allPaper', allPaper)
+        // 通过所有文书allPaper整理出卷内目录
+        for (let i = 0; i < allPaper.length; i++) {
+          let item = allPaper[i]
+          // 获取文号字段
+          let number = getCurPaperDocNumber(item)
+          // 获取日期字段
+          let createDate = ''
+          if (item.createDate) {
+            let dateList = item.createDate.split(' ')[0].split('-')
+            createDate = `${dateList[0]}年${dateList[1]}月${dateList[2]}日`
+          }
+          volumesMenuTableData.push({
+            sindex: i + 1,
+            paperNumber: number,
+            title: `国家矿山安全监察${item.name}`,
+            date: createDate,
+            pageNumber: i + 1,
+            note: '',
+          })
+        }
         if (this.corpData.caseType === "0") {
-          let db = new GoDB(this.$store.state.DBName);
           let corpBase = db.table("corpBase");
           let corp = await corpBase.find((item) => {
             return item.corpId == this.corpData.corpId;
@@ -432,9 +495,7 @@ export default {
           // 创建初始版本 */
           // 1.案卷题名: 煤矿名称+隐患描述+案
           // 获取笔录文书中的隐患数据
-          let let1DataPaperContent = JSON.parse(
-            selectedPaper.let1Data.paperContent
-          );
+          
           // let dangerObject = getDangerObject(
           //   let1DataPaperContent.DangerTable.selectedDangerList
           // );
@@ -454,7 +515,6 @@ export default {
                   }
                 )
               : "";
-          await db.close();
           DangerTable = let1DataPaperContent.DangerTable
             ? setNewDanger(
                 selectedPaper.let1Data,
@@ -467,14 +527,13 @@ export default {
             paper1Id: selectedPaper.let1Data.paperId,
           };
         } else {
-          let db = new GoDB(this.$store.state.DBName);
           let corpBase = db.table("corpBase");
           let corp = await corpBase.find((item) => {
             return item.corpId == this.corpData.corpId;
           });
           cellIdx2String = `${corp.corpName}XXX案。`;
-          await db.close();
         }
+        await db.close();
       }
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: cellIdx0String, // 执法单位
@@ -482,7 +541,7 @@ export default {
         cellIdx2: cellIdx2String, // 案卷题名
         cellIdx17: [], // 编辑目录
         volumesMenuTable: {
-          tableData: [],
+          tableData: volumesMenuTableData,
         },
         DangerTable,
         associationPaperId,
@@ -520,4 +579,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/assets/scss/let";
+.show-volumes-menu {
+  margin-top: 30px;
+}
 </style>

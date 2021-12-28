@@ -37,12 +37,12 @@
       <div class="main-top-operation">
         <!-- 操作 -->
         <!-- <el-button type="text" @click="logoutHandle">退出</el-button> -->
-        <img :src="activeTab === 'sendPaper' ? require('@/components/assets/image/paper-send-actived.png') : require('@/components/assets/image/paper-send.png')" class="btn-icon" title="调查笔录发送" @click="changeTab('sendPaper')" />&nbsp;
+        <img :src="activeTab === 'sendPaper' ? require('@/components/assets/image/paper-send-actived.png') : require('@/components/assets/image/paper-send.png')" class="btn-icon img-btn" title="调查互动" @click="changeTab('sendPaper')" />&nbsp;
         <i class="el-icon-s-promotion btn-icon" title="隐患发送" @click="sendDanger"></i>
         <!-- 消息提醒 -->
         <el-dropdown :hide-on-click="false" @command="handleCommand">
           <span class="el-dropdown-link">
-            <img src="@/components/assets/image/message.png" class="btn-icon" title="消息通知"/>
+            <img src="@/components/assets/image/message.png" class="btn-icon img-btn" title="消息通知"/>
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="checkList">您有{{notice.checkList.length}}条检查项任务待接收</el-dropdown-item>
@@ -240,8 +240,12 @@ export default {
     .split-line {
       width: 2px;
       height: 60%;
-      background: #303133;
+      background: rgba(#f19716, 0.8);
       margin-right: 5px;
+    }
+    .img-btn {
+      height: 35px;
+      vertical-align: middle;
     }
     .btn-icon {
       font-size: 35px;

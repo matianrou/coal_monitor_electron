@@ -294,7 +294,11 @@ export default {
         cellIdx2: let22DataPaperContent.cellIdx2,
         cellIdx3: sSummary ? sSummary : null, // 煤矿概况
         cellIdx6: corpOther, // 其他事项
-        CheckTable: let22DataPaperContent.CheckTable
+        CheckTable: let22DataPaperContent.CheckTable,
+        associationPaperId: {
+          // 关联的paperId
+          paper22Id: selectedPaper.let22Data.paperId,
+        }
       })
     },
     goBack({ page, data }) {
