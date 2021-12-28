@@ -269,6 +269,7 @@ export default {
       let orgData = await orgInfo.find(
         (item) => item.no === this.$store.state.user.userGroupId
       );
+      console.log('orgData', orgData)
       let orgSysOfficeInfo =
         orgData && orgData.sysOfficeInfo
           ? JSON.parse(orgData.sysOfficeInfo)
@@ -330,6 +331,7 @@ export default {
       // 选择停供电或停供民用爆炸物品
       this.visibleSelectDialog = false;
       this.letData.cellIdx0 = this.selectedType;
+      this.letData.cellIdx5 = this.selectedType === '停供电' ? '供电公司' : '公安局';
       this.letData.cellIdx22 = this.selectedType === '停供电' ? '电' : '爆'
       this.letData.cellIdx9 = this.selectedType === '停供电' ? '停供生产性用电' : '停供民用爆炸物品'
       this.letData.cellIdx21 = this.selectedType === '停供电' ? '供电部门' : '公安机关'

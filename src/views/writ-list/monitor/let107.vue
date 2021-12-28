@@ -214,7 +214,7 @@
               </tr>
             </table>
             <div class="docTextarea" style="border-top: 2px solid #000">
-              备注：本文书一式两份，一份交被检查单位，一份存档。
+              备注：本文书一式两份，一份交被取证单位，一份存档。
             </div>
           </div>
         </div>
@@ -330,7 +330,12 @@ export default {
       let cellIdx20String = orgSysOfficeInfo.master;
       let cellIdx21String = orgSysOfficeInfo.phone;
       let DangerTable = null
+      let cellIdx13String = ''
       if ( this.corpData.caseType === '0') {
+        // 5.获取检查地点
+        let wkPaper = db.table('wkPaper')
+        let paper22 = await wkPaper.find(item => item.paperId === let1DataPaperContent.associationPaperId.paper22Id)
+        cellIdx13String = paper22.paperContent ? JSON.parse(paper22.paperContent).cellIdx4 : ''
         DangerTable = let1DataPaperContent.DangerTable ? 
           setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
           : {}
@@ -347,6 +352,7 @@ export default {
         cellIdx9: cellIdx9Year, // 年
         cellIdx10: cellIdx10Month, // 月
         cellIdx11: cellIdx11Date, // 日
+        cellIdx13: cellIdx13String,
         cellIdx12: cellIdx12Hour, // 时
         cellIdx16: '局', // 局
         cellIdx17: cellIdx17String, // 地址

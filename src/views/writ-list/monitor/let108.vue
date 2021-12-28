@@ -82,7 +82,7 @@
                   letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
                 }}</span
               >
-              的行为涉嫌违法违规。根据《中华人民共和国行政处罚法》第三十七条第二款规定，我
+              的行为涉嫌违法违规。根据《中华人民共和国行政处罚法》第五十六条规定，我
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx7', '局', 'TextItem')"
@@ -227,7 +227,7 @@
               </tr>
             </table>
             <div class="docTextarea" style="border-top: 2px solid #000">
-              备注：本文书一式两份，一份交被检查单位，一份存档。
+              备注：本文书一式两份，一份交被取证单位，一份存档。
             </div>
           </div>
         </div>
@@ -337,7 +337,12 @@ export default {
       let cellIdx19String = orgSysOfficeInfo.master;
       let cellIdx20String = orgSysOfficeInfo.phone;
       let DangerTable = null;
+      let cellIdx9String = ''
       if (this.corpData.caseType === "0") {
+        // 5.获取检查地点
+        let wkPaper = db.table('wkPaper')
+        let paper22 = await wkPaper.find(item => item.paperId === let1DataPaperContent.associationPaperId.paper22Id)
+        cellIdx9String = paper22.paperContent ? JSON.parse(paper22.paperContent).cellIdx4 : ''
         DangerTable = let1DataPaperContent.DangerTable
           ? setNewDanger(
               selectedPaper.let1Data,
@@ -354,6 +359,7 @@ export default {
         cellIdx4: corp.corpName ? corp.corpName : null, // corpname
         cellIdx6: cellIdx6String, // 隐患描述
         cellIdx7: "局", // 局
+        cellIdx9: cellIdx9String, // 存放在...
         cellIdx11: "局", // 局
         cellIdx15: "局", // 局
         cellIdx16: cellIdx16String, // 地址

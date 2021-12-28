@@ -6,7 +6,8 @@ import {
   getDangerPenaltyBasisWithoutPointHasIndex,
   getDangerDes,
   getDangerPenaltyDescWithoutPointHasIndex,
-  getDangerPenaltyDescWithoutPoint
+  getDangerPenaltyDescWithoutPoint,
+  getDangerConfirmBasis
 } from '@/utils/setInitPaperData'
 import store from '@/store'
 import { handleDate } from '@/utils/date'
@@ -240,7 +241,7 @@ function setDangerTable(data, selectedData, options) {
           let dangerString = getDangerContentWithoutPointHasIndex(list32 || [], '；')
           string = dangerString
         } else if (options.key === 'cellIdx8') {
-          let dangerString = getDangerContentWithoutPoint(list32 || [], ',')
+          let dangerString = getDangerConfirmBasis(list32 || [], '、')
           string = dangerString
         }
       } else {
@@ -249,7 +250,7 @@ function setDangerTable(data, selectedData, options) {
           let dangerString = getDangerContentWithoutPointHasIndex(list32 || [], '；')
           string = dangerString
         } else if (options.key === 'cellIdx7') {
-          let dangerString = getDangerContentWithoutPoint(list32 || [], ',')
+          let dangerString = getDangerConfirmBasis(list32 || [], '、')
           string = dangerString
         }
       }
@@ -278,10 +279,7 @@ function setDangerTable(data, selectedData, options) {
     case '5': // 调查取证笔录
       if (options.key === 'cellIdx8') {
         let dangerString = getDangerContentWithoutPoint(data.selectedDangerList || [], '、')
-        string = `${options.spellString.corpName}涉嫌${dangerString}违法违规案。`
-      } else if (options.key === 'cellIdx21') {
-        let dangerString1 = getDangerContentWithoutPoint(data.selectedDangerList || [], '；')
-        string = `我们是${options.spellString.groupName}${store.state.user.userType === 'supervision' ? '监管' : '监察'}员，这是我们的执法证件（出示行政执法证件），现就你${options.spellString.corpName}涉嫌${dangerString1}违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？`
+        string = `${options.spellString.corpName}涉嫌${dangerString}`
       }
       break
     case '36': // 案件处理呈报书
@@ -352,7 +350,7 @@ function setDangerTable(data, selectedData, options) {
     case '18': // 强制执行申请书
       if (options.key === 'cellIdx16') {
         let dangerString = getDangerContentWithoutPoint(data.selectedDangerList || [], '、')
-        string = `${options.spellString.corpName}涉嫌${dangerString}违法违规案。`
+        string = `${options.spellString.corpName}涉嫌${dangerString}违法违规案`
       }
       // string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString || ''}案。`
       break
@@ -366,7 +364,7 @@ function setDangerTable(data, selectedData, options) {
     case '29': // 不予受理听证申请通知书
       if (options.key === 'cellIdx6') {
         let dangerString = getDangerContentWithoutPoint(data.selectedDangerList || [], '、')
-        string = `${options.spellString.corpName}涉嫌${dangerString}违法违规案。`
+        string = `${options.spellString.corpName}涉嫌${dangerString}违法违规案`
       }
       // string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString || ''}案。`
       break
@@ -397,6 +395,28 @@ function setDangerTable(data, selectedData, options) {
       string = `${options.spellString.corpName}涉嫌${dangerString}违法违规案。`
     }
       // string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString || ''}案。`
+      break
+    case '35': // 移送案件呈报书
+      if (options.key === 'cellIdx2') {
+        let dangerString = getDangerContentWithoutPoint(data.selectedDangerList || [], '、')
+        string = `${options.spellString.corpName}涉嫌${dangerString}违法违规案。`
+      } else if (options.key === 'cellIdx3') {
+        let dangerString = getDangerContentWithoutPointHasIndex(data.selectedDangerList || [], '；')
+        string = `${options.spellString.dateString}我分局对${options.spellString.corpName}进行安全监察时，发现该矿：${dangerString}。经分局执法人员初步调查取证，认定该行为涉嫌违反了《矿产资源法》第十七条规定。`
+      }
+      // string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString || ''}案。`
+      break
+    case '19': // 移送书
+      if (options.key === 'cellIdx8') {
+        let dangerString = getDangerContentWithoutPoint(data.selectedDangerList || [], '、')
+        string = `${dangerString}`
+      }
+      break
+    case '20': // 涉嫌犯罪案件移送书
+      if (options.key === 'cellIdx10') {
+        let dangerString = getDangerContentWithoutPoint(data.selectedDangerList || [], '、')
+        string = `${options.spellString.corpName}涉嫌${dangerString}违法违规案`
+      }
       break
   }
   return string

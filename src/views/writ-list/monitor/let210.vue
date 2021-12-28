@@ -96,7 +96,7 @@
             </table>
             <div class="docTextarea">
               <label style="width: 5%"></label>
-              根据《中华人民共和国行政处罚法》第四十二条之规定，我
+              根据《中华人民共和国行政处罚法》第六十三条、第六十四条规定，我
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx8', '局', 'TextItem')"

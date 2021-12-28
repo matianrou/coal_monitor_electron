@@ -75,7 +75,7 @@
               <span @click="commandFill('cellIdx8', '', 'TextareaItem')">{{
                 letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
               }}</span>
-              的问题，根据《中华人民共和国安全生产法》第六十六条规定，现将该案件移送贵单位依法处理。
+              的问题，根据《中华人民共和国安全生产法》第六十九条规定，现将该案件移送贵单位依法处理。
             </div>
             <table height="30"></table>
             <table class="docBody">
@@ -220,6 +220,7 @@
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject, getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from '@/components/association-select-paper'
+import { setDangerTable } from '@/utils/handlePaperData'
 export default {
   name: "Let401",
   mixins: [associationSelectPaper],
@@ -271,8 +272,14 @@ export default {
       );
       // 2.违法行为：获取笔录文书中的隐患数据
       let let1DataPaperContent = this.corpData.caseType === '0' ? JSON.parse(selectedPaper.let1Data.paperContent) : null
-      let dangerObject = this.corpData.caseType === '0' ? getDangerObject(let1DataPaperContent.DangerTable.selectedDangerList) : null
-      let cellIdx8String = this.corpData.caseType === '0' ? `${dangerObject.dangerString}` : ''
+      let cellIdx8String = this.corpData.caseType === '0' ? setDangerTable(
+        let1DataPaperContent.DangerTable,
+        {}, 
+        {
+          page: "19",
+          key: "cellIdx8",
+        }
+      ):'';
       // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)

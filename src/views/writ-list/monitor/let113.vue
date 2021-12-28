@@ -264,6 +264,7 @@ export default {
         cellIdx19: let37DataPaperContent.selectedType === '停供电' ? '电' : '爆', // 电/爆
         cellIdx3: num3, // 文书号
         cellIdx4: num4, // 文书号
+        cellIdx5: let37DataPaperContent.selectedType === '停供电' ? '供电公司' : '公安局',
         cellIdx6: corp.corpName ? corp.corpName : null, // corpname
         cellIdx7: let37DataPaperContent.selectedType === '停供电' ? '停供生产性用电' : '停供民用爆炸物品', // 解除停供电(解除停供民用爆炸物品)
         cellIdx10: '局', // 局

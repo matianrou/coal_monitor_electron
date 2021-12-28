@@ -53,15 +53,15 @@
               <span class="no-line">&nbsp;&nbsp;&nbsp;</span>
               根据《中华人民共和国安全生产法》第六十九条规定，建议将该案件移送
               <span
-                @click="commandFill('cellIdx4', '人民法院', 'TextItem')"
+                @click="commandFill('cellIdx4', '', 'TextItem')"
                 >{{
                   letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）"
                 }}</span>
-                <span
+                <!-- <span
                 @click="commandFill('cellIdx5', '', 'TextItem')"
                 >{{
                   letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
-                }}</span>
+                }}</span> -->
               依法处理。
             </div>
             <table height="30"></table>
@@ -134,6 +134,7 @@
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from '@/components/association-select-paper'
+import { setDangerTable } from '@/utils/handlePaperData'
 export default {
   name: "Let400",
   mixins: [associationSelectPaper],
@@ -175,11 +176,31 @@ export default {
         let dateString = let1DataPaperContent.cellIdx1 ? let1DataPaperContent.cellIdx1 : 'X年X月X日-X年X月X日'
         // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
         let dangerObject = getDangerObject(let1DataPaperContent.DangerTable.selectedDangerList)
-        let cellIdx2String = `${corp.corpName}${dangerObject.dangerString}案。`
+        let cellIdx2String = this.corpData.caseType === '0' ? setDangerTable(
+          let1DataPaperContent.DangerTable,
+          {}, 
+          {
+            page: "35",
+            key: "cellIdx2",
+            spellString: {
+              corpName: corp.corpName,
+            },
+          }
+        ):'';
          // 2.理由和依据
           // 1，移送案件的理由和依据：立案时间+“我分局对”+煤矿名称+“进行安全监察时，发现该矿”+隐患描述+“经分局执法人员初步调查取证，认定该行为涉嫌违反了《矿产资源法》第十七条规定。” 
-          dangerObject = getDangerObject(let1DataPaperContent.DangerTable.selectedDangerList, {danger: true})
-        let cellIdx3String = `${dateString}我分局对${corp.corpName}进行安全监察时，发现该矿${dangerObject.dangerString}。经分局执法人员初步调查取证，认定该行为涉嫌违反了《矿产资源法》第十七条规定。`
+        let cellIdx3String = this.corpData.caseType === '0' ? setDangerTable(
+          let1DataPaperContent.DangerTable,
+          {}, 
+          {
+            page: "35",
+            key: "cellIdx3",
+            spellString: {
+              corpName: corp.corpName,
+              dateString: dateString
+            },
+          }
+        ):'';
         await db.close();
         let DangerTable = let1DataPaperContent.DangerTable ? 
           setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)

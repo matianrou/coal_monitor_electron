@@ -233,6 +233,19 @@ export function getDangerPenaltyDescWithoutPointHasIndex (tableData, replaceStri
   return dangerString
 }
 
+// 获取违法认定法条confirmBasis，splitString为每个现场处理依据的分割字符
+export function getDangerConfirmBasis (tableData, splitString = '、') {
+  let confirmBasisString = ''
+  for (let i = 0; i < tableData.length; i++) {
+    let item = tableData[i]
+    confirmBasisString += item.confirmBasis + splitString
+  }
+  if (confirmBasisString[confirmBasisString.length - 1] === splitString) {
+    confirmBasisString = confirmBasisString.substring(0, confirmBasisString.length - 1)
+  }
+  return confirmBasisString
+}
+
 // 获取总体行政决定说明
 export function getDangerDes (tableData) {
   // 遍历隐患获取对应的行政处罚类型

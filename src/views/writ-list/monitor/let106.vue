@@ -96,7 +96,7 @@
                   letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）"
                 }}</span
               >
-              等威胁职工生命安全的紧急情况，现命令立即从
+              等威胁职工生命安全的紧急情况，根据《中华人民共和国安全生产法》第六十五条第一款第三项规定，现命令立即从
               <span @click="commandFill('cellIdx13', '', 'TextItem')">{{
                 letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）"
               }}</span>
@@ -315,7 +315,12 @@ export default {
       let cellIdx19String = orgSysOfficeInfo.organName;
       let cellIdx20String = orgSysOfficeInfo.courtPrefix;
       let DangerTable = null
+      let cellIdx11String = ''
       if (this.corpData.caseType === '0') {
+        // 5.获取检查地点
+        let wkPaper = db.table('wkPaper')
+        let paper22 = await wkPaper.find(item => item.paperId === let1DataPaperContent.associationPaperId.paper22Id)
+        cellIdx11String = paper22.paperContent ? JSON.parse(paper22.paperContent).cellIdx4 : ''
         DangerTable = let1DataPaperContent.DangerTable ? 
           setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
           : {}
@@ -333,6 +338,7 @@ export default {
         cellIdx8: cellIdx8Date, // 日
         cellIdx9: cellIdx9Hour, // 时
         cellIdx10: cellIdx10Minu, // 分
+        cellIdx11: cellIdx11String, // 发现在。。。有
         cellIdx12: cellIdx12String, // 隐患描述
         cellIdx14: cellIdx6Year, // 年
         cellIdx15: cellIdx7Month, // 月
@@ -345,7 +351,7 @@ export default {
         cellIdx28: this.todayDate, // 日期
         DangerTable: DangerTable,
         associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
-          // paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
+          paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
           paper1Id: selectedPaper.let1Data.paperId
         } : null
       })

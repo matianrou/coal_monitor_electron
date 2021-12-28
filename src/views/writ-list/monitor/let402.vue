@@ -234,6 +234,7 @@
 import GoDB from "@/utils/godb.min.js";
 import { getDangerObject, getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
+import { setDangerTable } from '@/utils/handlePaperData'
 export default {
   name: "Let402",
   mixins: [associationSelectPaper],
@@ -291,10 +292,17 @@ export default {
       let let4DataPaperContent = JSON.parse(
         selectedPaper.let4Data.paperContent
       );
-      let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
-        let4DataPaperContent.DangerTable.selectedDangerList
-      ) : null;
-      let cellIdx10String = `${corp.corpName}${this.corpData.caseType === '0' ? dangerObject.dangerString : ''}案。`;
+      let cellIdx10String = this.corpData.caseType === '0' ? setDangerTable(
+        let4DataPaperContent.DangerTable,
+        {}, 
+        {
+          page: "20",
+          key: "cellIdx10",
+          spellString: {
+            corpName: corp.corpName,
+          },
+        }
+      ):'';
       // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(

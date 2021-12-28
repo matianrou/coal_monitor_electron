@@ -98,7 +98,7 @@
               <span class="no-underline" @click="commandFill('cellIdx13', '', 'TextItem')">{{
                 letData.cellIdx13 ? letData.cellIdx13 : "（编辑）"
               }}</span>
-              号）。现根据《中华人民共和国行政处罚法》第三十七条第二款规定，对上述物品作出以下处理决定：
+              号）。现根据《中华人民共和国行政处罚法》第五十六条规定，对上述物品作出以下处理决定：
               <span @click="commandFill('cellIdx14', '处理决定', 'TextItem')">{{
                 letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）"
               }}</span>
@@ -144,7 +144,7 @@
               </tr>
             </table>
             <div class="docTextarea" style="border-top: 2px solid #000;">
-              备注：本文书一式两份，一份交被检查单位，一份存档。
+              备注：本文书一式两份，一份交被取证单位，一份存档。
             </div>
           </div>
         </div>
@@ -224,6 +224,13 @@ export default {
       let cellIdx7String = dateList[1];
       let cellIdx8String = dateList[2];
       // 物品名称：
+      let checkPosition = ''
+      if (this.corpData.caseType === "0") {
+        // 5.获取检查地点
+        let wkPaper = db.table('wkPaper')
+        let paper22 = await wkPaper.find(item => item.paperId === let25DataPaperContent.associationPaperId.paper22Id)
+        checkPosition = paper22.paperContent ? JSON.parse(paper22.paperContent).cellIdx4 + '使用的' : ''
+      }
       let let25Article = let25DataPaperContent.SamplingForensicsTable
         ? let25DataPaperContent.SamplingForensicsTable.tableData
         : [];
@@ -234,7 +241,7 @@ export default {
         });
         articleName = articleName.substring(0, articleName.length - 1);
       }
-      let cellIdx9String = articleName;
+      let cellIdx9String = checkPosition + articleName;
       // 文书号：
       let num250 = let25DataPaperContent.cellIdx0;
       let num251 = let25DataPaperContent.cellIdx1;
@@ -272,6 +279,7 @@ export default {
         cellIdx11: num251, // 文书号
         cellIdx12: num253, // 文书号
         cellIdx13: num254, // 文书号
+        cellIdx14: '解除先行登记保存证据',
         cellIdx15: cellIdx15String, // 可在接到本决定书之日起60日内向。。。申请行政复议或6个月内向
         cellIdx16: cellIdx16String, // 人民法院
         cellIdx17: this.$store.state.curCase.provinceGroupName, //

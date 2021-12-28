@@ -375,8 +375,8 @@ export default {
         cellIdx23: this.todayDate, // 日期
         DangerTable: DangerTable,
         associationPaperId: { // 关联的paperId
-          // paper22Id: let2DataPaperContent.associationPaperId.paper22Id,
-          // paper1Id: let2DataPaperContent.associationPaperId.paper1Id,
+          paper22Id: let2DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: let2DataPaperContent.associationPaperId.paper1Id,
           paper2Id: selectedPaper.let2Data.paperId
         }
       })

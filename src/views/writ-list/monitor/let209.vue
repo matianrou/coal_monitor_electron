@@ -174,7 +174,7 @@
             </div>
             <div class="docTextarea">
               <label style="width: 5%"></label>
-              根据《中华人民共和国行政处罚法》第四十二条规定，你
+              根据《中华人民共和国行政处罚法》第六十四条规定，你
               <span class="no-underline">{{
                 letData.cellIdx23 ? letData.cellIdx23 : "（点击编辑）"
               }}</span>
@@ -309,7 +309,7 @@
             </table>
             <div class="docTextarea" style="border-top: 2px solid #000">
               备注：本文书一式两份，一份交申请听证
-              <span style="borderbottom: none">{{
+              <span class="no-line">{{
                 letData.cellIdx38 ? letData.cellIdx38 : "（点击编辑）"
               }}</span>
               ，一份存档。

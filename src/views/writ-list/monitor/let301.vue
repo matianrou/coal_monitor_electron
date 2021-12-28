@@ -170,7 +170,7 @@
                   letData.cellIdx24 ? letData.cellIdx24 : "（点击编辑）"
                 }}</span
               >
-              号）。由于其在法定期限内未履行，根据《中华人民共和国行政处罚法》第五十一条、《中华人民共和国行政强制法》第五十三条、第五十四条规定，申请贵院强制执行下列项目：
+              号）。由于其在法定期限内未履行，根据《中华人民共和国行政处罚法》第七十二条第一款第四项、《中华人民共和国行政强制法》第五十三条、第五十四条规定，申请贵院强制执行下列项目：
               <span @click="commandFill('cellIdx25', '', 'TextareaItem')">{{
                 letData.cellIdx25 ? letData.cellIdx25 : "（点击编辑）"
               }}</span>
@@ -381,7 +381,7 @@ export default {
       // ) : null;
       // 4.对被申请人：企业名称+'涉嫌'+隐患描述+'案'
       // let cellIdx16String = `${corp.corpName}涉嫌${ this.corpData.caseType === '0' ? dangerObject.dangerString : 'XXX'}案`;
-      let cellIdx16String = this.corpData.caseType === '0' ?setDangerTable(
+      let cellIdx16String = this.corpData.caseType === '0' ? setDangerTable(
           let39DataPaperContent.DangerTable,
           {}, 
           {

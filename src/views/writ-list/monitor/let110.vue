@@ -109,7 +109,7 @@
                   letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
                 }}</span
               >
-              的规定，根据《中华人民共和国安全生产法》第六十二条第一款第四项规定，我
+              的规定，根据《中华人民共和国安全生产法》第六十五条第一款第四项规定，我
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx8', '局', 'TextItem')"
@@ -228,7 +228,7 @@
             </table>
             <div class="docTextarea" style="border-top: 2px solid #000">
               备注：本文书一式两份，一份交被
-              <span style="borderbottom: none">{{
+              <span class="no-line">{{
                 letData.cellIdx23 ? letData.cellIdx23 : "（点击编辑）"
               }}</span>
               单位，一份存档。
