@@ -23,7 +23,7 @@
                 <span @click="commandFill('cellIdx0', '文书号', 'TextItem')">{{
                   letData.cellIdx0 ? letData.cellIdx0 : "（编辑）"
                 }}</span>
-                <label>矿安监</label>
+                <label>煤安监</label>
                 <span @click="commandFill('cellIdx1', '文书号', 'TextItem')">{{
                   letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
                 }}</span>
@@ -223,7 +223,7 @@ export default {
       let let8DataPaperContent = JSON.parse(
         selectedPaper.let8Data.paperContent
       );
-      let cellIdx5String = `${let8DataPaperContent.cellIdx0}矿安监${let8DataPaperContent.cellIdx1}罚〔${let8DataPaperContent.cellIdx2}〕${let8DataPaperContent.cellIdx3}号`;
+      let cellIdx5String = `${let8DataPaperContent.cellIdx0}煤安监${let8DataPaperContent.cellIdx1}罚〔${let8DataPaperContent.cellIdx2}〕${let8DataPaperContent.cellIdx3}号`;
       // 3.送达地点：煤矿名称
       let cellIdx6String = corp.corpName;
       let paperNumber = await getDocNumber(

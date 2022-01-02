@@ -23,7 +23,7 @@
                 <span @click="commandFill('cellIdx0', '文书号', 'TextItem')">{{
                   letData.cellIdx0 ? letData.cellIdx0 : "（编辑）"
                 }}</span>
-                <label>矿安监</label>
+                <label>煤安监</label>
                 <span @click="commandFill('cellIdx1', '文书号', 'TextItem')">{{
                   letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
                 }}</span>
@@ -249,13 +249,13 @@ export default {
       let let8DataPaperContent = JSON.parse(
         paper8.paperContent
       );
-      let paper8number = `${let8DataPaperContent.cellIdx0}矿安监${let8DataPaperContent.cellIdx1}罚〔${let8DataPaperContent.cellIdx2}〕${let8DataPaperContent.cellIdx3}号`
+      let paper8number = `${let8DataPaperContent.cellIdx0}煤安监${let8DataPaperContent.cellIdx1}罚〔${let8DataPaperContent.cellIdx2}〕${let8DataPaperContent.cellIdx3}号`
       // 行政处罚告知书：
       let paper6 = await wkPaper.find(item => item.paperId === let10DataPaperContent.associationPaperId.paper6Id && item.delFlag !== '1')
       let let6DataPaperContent = JSON.parse(
         paper6.paperContent
       );
-      let paper6number = `${let6DataPaperContent.cellIdx0}矿安监${let6DataPaperContent.cellIdx1}告〔${let6DataPaperContent.cellIdx2}〕${let6DataPaperContent.cellIdx3}号`
+      let paper6number = `${let6DataPaperContent.cellIdx0}煤安监${let6DataPaperContent.cellIdx1}告〔${let6DataPaperContent.cellIdx2}〕${let6DataPaperContent.cellIdx3}号`
       let cellIdx10String = `申请人于 20XX 年 XX 月 XX 日对 XX 煤矿安全监察局 XX 监察分局《行政处罚决定书》（${paper8number}）作出的行政处罚决定不服，向本局提出行政复议申请，我局受理后依法采取书面审理的方式，被申请人在法定期限内提交了行政复议答辩意见。通过对有关行政执法审查和对有关人员调查询问，现已审理终结。
       申请人请求：撤销被申请人作出的《行政处罚决定书》（${paper8number}），减轻或免于行政处罚。
       申请人称：淮北监察分局对我矿安全检查时发现特种作业人员无证上岗作业问题，在行政处罚法律适用上，不应适用《中华人民共和国安全生产法》进行处罚,应依据《煤矿安全监察条例》第二十九条第（四）项“特种作业人员未取得资格证书上岗作业的”应当责令限期改正的规定。《煤矿安全监察条例》是确立煤矿安全监察机构执法地位的专门法规，应优先执行。既使适用《中华人民共和国安全生产法》第九十四条“责令限期改正，可以处五万元以下的罚款”的规定，也应当遵守《安全生产行政处罚自由裁量适用规则（试行）》(国家安全生产监督管理总局令第 31 号)第十二条第一款“法律、行政法规或者部门规章规定的多种处罚应当并处的，不得选择适用；规定可以并处的，可以选择适用”的规定。我矿积极主动改正，在案件调查前已将爆破工 XXX、瓦斯检查工 XXX 调离工作岗位，对于已培训未持证上岗作业的特种作业人员，是因有关机构未及时发证，培训机构业已出具培训合格证明。基于上述事实，安全隐患已消除，对安全生产不构成威胁，未产生严重后果。按照《安全生产违法行为行政处罚办法》第五十六条第（二）项“主动消除或者减轻安全生产违法行为危害后果的”应当依法从轻或者减轻行政处罚的规定，应当减轻或免于行政处罚。

@@ -13,11 +13,11 @@
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader0">
-              煤矿安全监管行政执法文书
+            <div class="textAlignCenter formHeader2">
+              国 家 矿 山 安 全 监 察
               <br />
             </div>
-            <div class="textAlignCenter formHeader1">
+            <div class="textAlignCenter formHeader4">
               <table class="docBody">
                 <tr>
                   <td
@@ -29,20 +29,19 @@
                   >
                     {{ letData.cellIdx0 }}
                   </td>
-                  <td class="textAlignLeft">决定书</td>
+                  <td class="textAlignLeft">处理决定书</td>
                 </tr>
               </table>
             </div>
-            <div class="docTextLine paper-number-div">
+            <div class="formHeader5 paper-number-div">
               <div>
                 <span
                   @click="commandFill('cellIdx1', '文书号', 'TextItem')"
                 >{{ letData.cellIdx1 ? letData.cellIdx1 : '（编辑）' }}</span>
-                <label>（</label>
+                <label>煤安监</label>
                 <span
                   @click="commandFill('cellIdx2', '文书号', 'TextItem')"
                 >{{ letData.cellIdx2 ? letData.cellIdx2 : '（编辑）' }}</span>
-                <label>）煤安</label>
                 <span
                 >{{ letData.cellIdx3 ? letData.cellIdx3 : '（编辑）' }}</span>
                 <label>处〔</label>
@@ -56,9 +55,25 @@
                 <label>号</label>
               </div>
             </div>
+            <table class="docBody">
+              <tr>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_6"
+                  style="min-width: 50%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx6', '', 'TextItem')"
+                >
+                  {{ letData.cellIdx6 }}
+                </td>
+                <td class="textAlignLeft">:</td>
+              </tr>
+            </table>
             <div class="docTextarea">
               <label style="width: 5%"></label>
-              本机关于
+              我局于
               <span @click="commandFill('cellIdx7', '年', 'TextItem')">{{
                 letData.cellIdx7 ? letData.cellIdx7 : "（XX）"
               }}</span>
@@ -70,7 +85,7 @@
               <span @click="commandFill('cellIdx9', '', 'TextItem')">{{
                 letData.cellIdx9 ? letData.cellIdx9 : "（XX）"
               }}</span>
-              日向你单位作出《
+              日对你单位作出《
               <span
                 class="no-underline"
                 >{{
@@ -137,13 +152,13 @@
                   letData.cellIdx18 ? letData.cellIdx18 : "（点击编辑）"
                 }}</span
               >
-              。现根据《中华人民共和国行政强制法》第二十七条、
+              。现根据《中华人民共和国行政强制法》第<span class="text-decoration">二十七</span>条、
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx19', '', 'SelectItem')"
                 >{{ letData.cellIdx19 ? letData.cellIdx19 : "□" }}</span
               >
-              第二十八条第一款第
+              第<span class="text-decoration">二十八</span>条第<span class="text-decoration">一</span>款第
               <span @click="commandFill('cellIdx20', '第几项', 'TextItem')">{{
                 letData.cellIdx20 ? letData.cellIdx20 : "（点击编辑）"
               }}</span>
@@ -162,19 +177,16 @@
               <span
                 @click="commandFill('cellIdx22', '人民政府', 'TextItem')"
               >{{ letData.cellIdx22 ? letData.cellIdx22 : '（点击编辑）'}}</span>
-              人民政府或者
-              <span
-                @click="commandFill('cellIdx23', '', 'TextItem')"
-              >{{ letData.cellIdx23 ? letData.cellIdx23 : '（点击编辑）' }}</span>
               申请行政复议，或者在6个月内依法向
               <span
                 @click="commandFill('cellIdx24', '人民法院', 'TextItem')"
               >{{ letData.cellIdx24 ? letData.cellIdx24 : '（点击编辑）'}}</span>
-              人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。
+              人民法院提起行政诉讼，但不停止执行本决定。
             </div>
             <div class="docTextarea" style="margin-top: 30px; margin-bottom: 30px;">
               <label style="width:5%"></label>
               附件：
+              <span style="borderBottom:none">《</span>
               <span 
                 style="borderBottom:none"
               >{{ letData.cellIdx25 ? letData.cellIdx25 : '（点击编辑）'}}</span>
@@ -187,7 +199,7 @@
                       'SamplingForensicsTable'
                     )
                   "
-              >《物品处理表》</span>
+              >物品处理表》</span>
             </div>
             <table class="docBody">
               <tr>
@@ -241,7 +253,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
+import { getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 const toggleDictionary = [
   {
@@ -258,7 +270,45 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 查封(扣押)
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 文书号
+        cellIdx4: null, // 文书号
+        cellIdx5: null, // 文书号
+        cellIdx6: null, // corpname
+        cellIdx7: null, // 年
+        cellIdx8: null, // 月
+        cellIdx9: null, // 日
+        cellIdx10: null, // 查封(扣押)
+        cellIdx11: null, // 查封扣押文书号
+        cellIdx12: null, // 查封扣押文书号
+        cellIdx13: null, // 查封扣押文书号
+        cellIdx14: null, // 查封扣押文书号
+        cellIdx15: null, // 查封扣押文书号
+        cellIdx16: null, // 查封/扣押
+        cellIdx17: null, // 查封扣押中的物品清单
+        cellIdx18: null, // 查封/扣押
+        cellIdx19: null, // 第二十七条、XXX第二十八条第一款第
+        cellIdx20: null, // 第二十八条第一款第XX项的规定
+        cellIdx21: null, // 查封/扣押
+        cellIdx22: null, // 人民政府
+        // cellIdx23: null, // 人民法院
+        cellIdx24: null, // 人民法院
+        cellIdx25: null, // 查封/扣押
+        // cellIdx26: null, // 暂不用
+        cellIdx27: null, // 机构
+        cellIdx28: null, // 日期
+        cellIdx29: null, // 查封/扣押
+        DangerTable: null,
+        SamplingForensicsTable: {
+          tableData: [],
+          signature: null,
+          signDate: "",
+        },
+        associationPaperId: null
+      },
       options: {
         cellIdx19: toggleDictionary,
       },
@@ -299,60 +349,42 @@ export default {
         : ["", "", ""];
       // 获取查封/扣押
       let selectedType = let32DataPaperContent.selectedType
+      let DangerTable = null;
+      if (this.corpData.caseType === "0") {
+        DangerTable = let32DataPaperContent.DangerTable
+          ? setNewDanger(
+              selectedPaper.let32Data,
+              let32DataPaperContent.DangerTable
+            )
+          : {};
+      }
       await db.close();
-      this.letData = {
-        cellIdx0: `${selectedType}处理`, // 查封(扣押)
-        cellIdx0TypeTextItem: `${selectedType}处理`, // 查封(扣押)
+      this.letData = Object.assign({}, this.letData, {
+        cellIdx0: selectedType, // 查封(扣押)
         cellIdx1: num0, // 文书号
-        cellIdx1TypeTextItem: num0, // 文书号
         cellIdx2: num1, // 文书号
-        cellIdx2TypeTextItem: num1, // 文书号
         cellIdx3: selectedType ? selectedType.substring(0, 1) : '', // 查/扣
-        cellIdx3TypeTextItem: selectedType ? selectedType.substring(0, 1) : '', // 查/扣
         cellIdx4: num3, // 文书号
-        cellIdx4TypeTextItem: num3, // 文书号
         cellIdx5: num4, // 文书号
-        cellIdx5TypeTextItem: num4, // 文书号
         cellIdx6: corp.corpName ? corp.corpName : null, // corpname
-        cellIdx6TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
         cellIdx7: let32Date[0], // 年
         cellIdx8: let32Date[1], // 月
         cellIdx9: let32Date[2], // 日
         cellIdx10: selectedType, // 查封(扣押)
-        cellIdx10TypeTextItem: selectedType, // 查封(扣押)
         cellIdx11: let32DataPaperContent.cellIdx1, // 查封扣押文书号
-        cellIdx11TypeTextItem: let32DataPaperContent.cellIdx1, // 查封扣押文书号
         cellIdx12: let32DataPaperContent.cellIdx2, // 查封扣押文书号
-        cellIdx12TypeTextItem: let32DataPaperContent.cellIdx2, // 查封扣押文书号
-        cellIdx13: let32DataPaperContent.cellIdx3, // 查封扣押文书号 查、扣
-        cellIdx13TypeTextItem: let32DataPaperContent.cellIdx3, // 查封扣押文书号 查、扣
-        cellIdx14: let32DataPaperContent.cellIdx4, // 查封扣押文书号
-        cellIdx14TypeTextItem: let32DataPaperContent.cellIdx4, // 查封扣押文书号
-        cellIdx15: let32DataPaperContent.cellIdx5, // 查封扣押文书号
-        cellIdx15TypeTextItem: let32DataPaperContent.cellIdx5, // 查封扣押文书号
+        cellIdx13: let32DataPaperContent.cellIdx24, // 查封扣押文书号 查、扣
+        cellIdx14: let32DataPaperContent.cellIdx3, // 查封扣押文书号
+        cellIdx15: let32DataPaperContent.cellIdx4, // 查封扣押文书号
         cellIdx16: selectedType, // 查封/扣押
-        cellIdx16TypeTextItem: selectedType, // 查封/扣押
-        cellIdx17: null, // 查封扣押中的物品清单
         cellIdx18: selectedType, // 查封/扣押
-        cellIdx18TypeTextItem: selectedType, // 查封/扣押
-        cellIdx19: null, // 第二十七条、XXX第二十八条第一款第
-        cellIdx20: null, // 第二十八条第一款第XX项的规定
         cellIdx21: selectedType, // 查封/扣押
-        cellIdx21TypeTextItem: selectedType, // 查封/扣押
         cellIdx22: orgSysOfficeInfo.goverPrefix, // 人民政府
-        cellIdx22TypeTextItem: orgSysOfficeInfo.goverPrefix, // 人民政府
-        cellIdx23: orgSysOfficeInfo.organName, // organName
-        cellIdx23TypeTextItem: orgSysOfficeInfo.organName, // organName
-        cellIdx24: orgSysOfficeInfo.courtPrefix, // courtPrefix人民法院
-        cellIdx24TypeTextItem: orgSysOfficeInfo.courtPrefix, // courtPrefix人民法院
+        cellIdx24: orgSysOfficeInfo.organName, // organName
         cellIdx25: selectedType, // 查封/扣押
-        cellIdx25TypeTextItem: selectedType, // 查封/扣押
-        cellIdx26: null, // 暂不用
         cellIdx27: this.$store.state.curCase.provinceGroupName, //
         cellIdx28: this.todayDate, // 日期
-        cellIdx28TypeDateItem: this.todayDate, // 日期
         cellIdx29: selectedType, // 查封/扣押
-        cellIdx29TypeTextItem: selectedType, // 查封/扣押
         SamplingForensicsTable: let32DataPaperContent.SamplingForensicsTable
           ? let32DataPaperContent.SamplingForensicsTable
           : {
@@ -360,8 +392,18 @@ export default {
               signature: null,
               signDate: "",
             },
-        selectedType: selectedType
-      };
+        selectedType: selectedType,
+        DangerTable: DangerTable,
+        associationPaperId: 
+          this.corpData.caseType === "0"
+            ? {
+                // 关联的paperId
+                paper22Id: let32DataPaperContent.associationPaperId.paper22Id,
+                paper1Id: let32DataPaperContent.associationPaperId.paper1Id,
+                paper32Id: selectedPaper.let32Data.paperId,
+              }
+            : null,
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

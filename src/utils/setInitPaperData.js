@@ -4,7 +4,7 @@ import { getNowFormatTime, getNowTime } from "@/utils/date";
 // 初始化各文书数据
 
 // 初始化文书编号：
-// 文书编号规则：1.机构接口中sysOfficeInfo实体中docRiseSafe字段+“矿安监”
+// 文书编号规则：1.机构接口中sysOfficeInfo实体中docRiseSafe字段+“煤安监”
 //             2.机构接口中sysOfficeInfo实体中docRiseDepa字段 +
 //             3.根据不同文书 显示（立、告、罚、送、催）+
 //             4.{当前年份}+
@@ -38,7 +38,7 @@ export async function getDocNumber(db, docTypeNo, caseId) {
   // 3位数字
   let wkCase = db.table("wkCase")
   let caseInfo = await wkCase.find(item => item.caseId === caseId)
-  let paperTypeName = store.state.user.userType === 'supervision' ? '矿安' : '矿安监'
+  let paperTypeName = store.state.user.userType === 'supervision' ? '矿安' : '煤安监'
   return {
     num0: orgSysOfficeInfo.docRiseSafe,
     num1: orgSysOfficeInfo.docRiseDepa,
@@ -54,7 +54,7 @@ export function getCurPaperDocNumber(paper) {
   let paperNumber = ''
   let docString = ''
   let paperNumberFields = []
-  let paperTypeName = store.state.user.userType === 'supervision' ? '矿安' : '矿安监'
+  let paperTypeName = store.state.user.userType === 'supervision' ? '矿安' : '煤安监'
   for(let i = 0; i < store.state.dictionary.paperNumberType.length > 0; i++) {
     let item = store.state.dictionary.paperNumberType[i]
     if (item.docTypeNo === paper.paperType) {

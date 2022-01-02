@@ -949,8 +949,10 @@ export default {
             tableData: tableData
           }) 
         }
-      } else if (this.docData.docTypeNo === '23' || this.docData.docTypeNo === '25' || this.docData.docTypeNo === '32' || this.docData.docTypeNo === '34') {
+      } else if (this.docData.docTypeNo === '23' || this.docData.docTypeNo === '25' || this.docData.docTypeNo === '32' || this.docData.docTypeNo === '34'
+        || this.docData.docTypeNo === '47') {
         // 抽样取证通知书导出时增加抽样取证清单||先行登记保存证据通知书 || 查封（扣押）决定书 || 解除查封（扣押）决定书
+        // 查封（扣押）处理决定书
         let {tableData, signature, signDate, otherEvidence, lawSignature, lawSignDate, places} = this.$parent.letData.SamplingForensicsTable
         // 遍历tableData数据，处理undefined情况
         tableData && tableData.forEach(item => {
@@ -1047,11 +1049,13 @@ export default {
         || this.docData.docTypeNo === '45' || this.docData.docTypeNo === '46' || this.docData.docTypeNo === '6'
         || this.docData.docTypeNo === '8' || this.docData.docTypeNo === '50' || this.docData.docTypeNo === '51'
         || this.docData.docTypeNo === '53' || this.docData.docTypeNo === '39' || (this.docData.docTypeNo === '28' && this.$store.state.user.userType !== 'supervision')
-        || this.docData.docTypeNo === '41' || this.docData.docTypeNo === '12' || this.docData.docTypeNo === '29') {
+        || this.docData.docTypeNo === '41' || this.docData.docTypeNo === '12' || this.docData.docTypeNo === '29'
+        || this.docData.docTypeNo === '47') {
         // 需要分别替换的模板为：查封（扣押）决定书;停供电(停供民用爆炸物品)函告书;解除停供电(停供民用爆炸物品)函告书;
         // 需要分别替换的模板为：延长查封（扣押）期限决定书；查封（扣押）处理决定书;
         // 需要分别替换的模板为：行政处罚告知书；行政处罚决定书；罚款缴纳催告书；加处罚款决定书；
-        // 需要分别替换的模板为：行政强制执行事先催告书；
+        // 需要分别替换的模板为：行政强制执行事先催告书；延长查封（扣押）期限决定书；
+        // 需要分别替换的模板为：查封（扣押）处理决定书
         let { selectedType } = this.$parent.letData
         if (selectedType === '查封' || selectedType === '停供电' || selectedType === '解除停供电' || selectedType === '单位') {
           docName = this.docData.docTypeNo + '-1'

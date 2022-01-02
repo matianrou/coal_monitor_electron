@@ -25,7 +25,7 @@
                 <span @click="commandFill('cellIdx0', '', 'TextItem')">{{
                   letData.cellIdx0 ? letData.cellIdx0 : "（编辑）"
                 }}</span>
-                <label>矿安监</label>
+                <label>煤安监</label>
                 <span @click="commandFill('cellIdx1', '', 'TextItem')">{{
                   letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
                 }}</span>
@@ -86,7 +86,7 @@
               <span class="no-underline" @click="commandFill('cellIdx10', '', 'TextItem')">{{
                 letData.cellIdx10 ? letData.cellIdx10 : "（编辑）"
               }}</span>
-              矿安监
+              煤安监
               <span class="no-underline" @click="commandFill('cellIdx11', '', 'TextItem')">{{
                 letData.cellIdx11 ? letData.cellIdx11 : "（编辑）"
               }}</span>

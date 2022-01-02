@@ -39,7 +39,7 @@
                 <span @click="commandFill('cellIdx1', '', 'TextItem')">{{
                   letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
                 }}</span>
-                <label>矿安监</label>
+                <label>煤安监</label>
                 <span @click="commandFill('cellIdx2', '', 'TextItem')">{{
                   letData.cellIdx2 ? letData.cellIdx2 : "（编辑）"
                 }}</span>
@@ -113,7 +113,7 @@
                 @click="commandFill('cellIdx13', '文书号', 'TextItem')"
                 >{{ letData.cellIdx13 ? letData.cellIdx13 : "（编辑）" }}</span
               >
-              矿安监
+              煤安监
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx14', '文书号', 'TextItem')"

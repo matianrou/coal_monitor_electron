@@ -193,6 +193,9 @@ export function createHtml(paperDiv, corpData) {
         .docTextarea .no-underline {
           border-bottom: 0px;
         }
+        .docTextarea .text-decoration {
+          text-decoration: 1px solid;
+        }
         .docHeader{
           width: 15.6cm;
           left: 1cm;

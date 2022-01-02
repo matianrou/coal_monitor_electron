@@ -217,7 +217,7 @@ export default {
         let let6Date = []
         let paper6Date = `${let6Date[0] || '20XX'}年${let6Date[1] || 'XX'}月${let6Date[2] || 'XX'}日`
         let paper6PaperNumber = ''
-        // （${let6DataPaperContent.cellIdx0}矿安监${let6DataPaperContent.cellIdx1}告〔${let6DataPaperContent.cellIdx2}〕${let6DataPaperContent.cellIdx3}号）
+        // （${let6DataPaperContent.cellIdx0}煤安监${let6DataPaperContent.cellIdx1}告〔${let6DataPaperContent.cellIdx2}〕${let6DataPaperContent.cellIdx3}号）
         let hasPaper30 = false
         // （1）判断陈述、申辩笔录，没有的话，按照模板写；有的话写出“XXXX年XX月XX日，下达了陈述、申辩笔录；（2）判断听证通知书，没有的话，按照模板写；有的话，XXXX年XX月XX日，下达了《听证通知书》（A煤安监B听〔20XX〕XXXX号）
         let paper30String = ''
@@ -241,7 +241,7 @@ export default {
           && JSON.parse(paper.paperContent).associationPaperId.paper4Id === selectedPaper.let4Data.paperId
         })
         let let8PaperNum = ''
-        // let let8PaperNum = `${let8DataPaperContent.cellIdx0}矿安监${let8DataPaperContent.cellIdx1}罚〔${let8DataPaperContent.cellIdx2}〕${let8DataPaperContent.cellIdx3}号`;
+        // let let8PaperNum = `${let8DataPaperContent.cellIdx0}煤安监${let8DataPaperContent.cellIdx1}罚〔${let8DataPaperContent.cellIdx2}〕${let8DataPaperContent.cellIdx3}号`;
         let let8Date = []
         string6 += `${let8Date[0] || '20XX'}年${let8Date[1] || 'XX'}月${let8Date[2] || 'XX'}日案件承办人员向${corp.corpName}及其负责人XXX${paper8List > 1 ? '分别' : ''}送达了《行政处罚决定书》${let8PaperNum}。\r\n`;
         // 6，	行政处罚执行情况：固定模板

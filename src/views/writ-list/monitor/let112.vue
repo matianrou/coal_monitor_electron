@@ -39,7 +39,7 @@
                 <span @click="commandFill('cellIdx1', '', 'TextItem')">{{
                   letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
                 }}</span>
-                <label>矿安监</label>
+                <label>煤安监</label>
                 <span @click="commandFill('cellIdx2', '', 'TextItem')">{{
                   letData.cellIdx2 ? letData.cellIdx2 : "（编辑）"
                 }}</span>
@@ -86,7 +86,7 @@
               <span @click="commandFill('cellIdx8', '', 'TextItem')">{{
                 letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
               }}</span>
-              的决定，但该单位拒不执行该决定，未及时消除安全隐患，现有发生生产安全事故的危险。根据《中华人民共和国安全生产法》第第七十条第一款规定，请贵单位对其采取
+              的决定，但该单位拒不执行该决定，未及时消除安全隐患，现有发生生产安全事故的危险。根据《中华人民共和国安全生产法》第七十条第一款规定，请贵单位对其采取
               <span class="no-underline">{{
                 letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
               }}</span>
