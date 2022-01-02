@@ -1,0 +1,411 @@
+<!-- 行政处罚 一般程序 行政执法决定法制审核意见书 47 -->
+<template>
+  <div style="width: 100%; height: 100%">
+    <let-main
+      ref="letMain"
+      :corp-data="corpData"
+      :doc-data="docData"
+      :let-data="letData"
+      :paper-data="paperData"
+      @go-back="goBack"
+    >
+      <div slot="left">
+        <div class="page page-sizeA4">
+          <div>
+            <div class="stdRowH"></div>
+            <div class="textAlignCenter formHeader0">
+              煤矿安全监管行政执法文书
+              <br />
+            </div>
+            <div class="textAlignCenter formHeader1">
+              行政执法决定法制审核意见书
+            </div>
+            <div class="docTextLine paper-number-div">
+              <div>
+                <!-- <span
+                  @click="commandFill('cellIdx0', '', 'TextItem')"
+                >{{ letData.cellIdx0 ? letData.cellIdx0 : '（编辑）' }}</span> -->
+                <label>编号：</label>
+                <span
+                  class="line"
+                  @click="commandFill('cellIdx1', '编号', 'TextItem')"
+                  >{{
+                    letData.cellIdx1 ? letData.cellIdx1 : "（点击编辑）"
+                  }}</span
+                >
+              </div>
+            </div>
+            <!-- <table class="docBody">
+              <tr>
+                <td
+                  class="cellInput"
+                  id="cell_idx_2"
+                  style="width:70%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx2', '', 'TextItem')"
+                >{{ letData.cellIdx2 }}</td>
+              </tr>
+            </table> -->
+            <div
+              class="docTextarea"
+              style="display: flex; justify-content: space-evenly"
+            >
+              <div
+                class="cellInput"
+                id="cell_idx_11"
+                @click="
+                  commandFill(
+                    'cellIdx15',
+                    '一般行政执法决定法制审核',
+                    'SelectItem'
+                  )
+                "
+              >
+                {{
+                  letData.cellIdx15 ? letData.cellIdx15 : "□"
+                }}一般行政执法决定法制审核
+              </div>
+              <div
+                class="cellInput"
+                id="cell_idx_11"
+                @click="
+                  commandFill(
+                    'cellIdx16',
+                    '重大行政执法决定法制审核',
+                    'SelectItem'
+                  )
+                "
+              >
+                {{
+                  letData.cellIdx16 ? letData.cellIdx16 : "□"
+                }}重大行政执法决定法制审核
+              </div>
+            </div>
+            <div class="docTextarea">
+              <span class="no-line"
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;案&nbsp;&nbsp;由：</span
+              >
+              <span @click="commandFill('cellIdx3', '案由', 'DangerTable')">{{
+                letData.cellIdx3 ? letData.cellIdx3 : "（点击编辑）"
+              }}</span>
+              <div class="line"></div>
+            </div>
+            <div class="docTextarea">
+              <span class="no-line"
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;行政相对人基本情况：</span
+              >
+              <span
+                @click="
+                  commandFill('cellIdx4', '行政相对人基本情况', 'TextareaItem')
+                "
+                >{{
+                  letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）"
+                }}</span
+              >
+              <div class="line"></div>
+            </div>
+            <div class="docTextarea">
+              <span class="no-line"
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;案情摘要：</span
+              >
+              <span
+                @click="commandFill('cellIdx5', '案情摘要', 'DangerTable')"
+                >{{
+                  letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
+                }}</span
+              >
+              <div class="line"></div>
+            </div>
+            <div class="docTextarea">
+              <span class="no-line"
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作出决定依据：</span
+              >
+              <span
+                @click="commandFill('cellIdx6', '作出决定依据', 'DangerTable')"
+                >{{
+                  letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
+                }}</span
+              >
+              <div class="line"></div>
+            </div>
+            <div class="docTextarea">
+              <span class="no-line"
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;建议行政决定：</span
+              >
+              <span
+                @click="commandFill('cellIdx7', '建议行政决定', 'DangerTable')"
+                >{{
+                  letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
+                }}</span
+              >
+              <div class="line"></div>
+            </div>
+            <div class="docTextarea">
+              <span class="no-line"
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;法制审核意见：</span
+              >
+              <span
+                @click="
+                  commandFill('cellIdx8', '法制审核意见', 'SelectInputItem')
+                "
+                >{{
+                  letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
+                }}</span
+              >
+              <div class="line"></div>
+            </div>
+            <div
+              class="docTextarea"
+              style="margin-top: 30px; margin-bottom: 30px"
+            >
+              <div style="display: inline-block; min-width: 55%">
+                <span class="no-line">法制审核人员（签名）：</span>
+                <span
+                  @click="
+                    commandFill('cellIdx9', '法制审核人员（签名）', 'TextItem')
+                  "
+                  >{{ letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）" }}
+                </span>
+              </div>
+              <span class="no-line">日&nbsp;&nbsp;&nbsp;&nbsp;期：</span>
+              <span @click="commandFill('cellIdx10', '日期', 'DateItem')">{{
+                letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
+              }}</span>
+              <div class="line"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </let-main>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
+  </div>
+</template>
+
+<script>
+import GoDB from "@/utils/godb.min.js";
+import { getNowDate } from "@/utils/date";
+import { transformNumToChinese } from "@/utils";
+import associationSelectPaper from "@/components/association-select-paper";
+import { setDangerTable } from "@/utils/handlePaperData";
+const toggleDictionary = [
+  {
+    value: "□",
+    name: "□",
+  },
+  {
+    value: "√",
+    name: "√",
+  },
+];
+export default {
+  name: "Let215",
+  mixins: [associationSelectPaper],
+  data() {
+    return {
+      letData: {},
+      options: {
+        cellIdx8: [
+          {
+            value:
+              "经2021年8月31日法制审核，认为案件事实清楚、证据确凿充分、定性准确、处罚适当、程序合法，同意处罚意见。",
+            name: "经2021年8月31日法制审核，认为案件事实清楚、证据确凿充分、定性准确、处罚适当、程序合法，同意处罚意见。",
+          },
+          {
+            value:
+              "经2021年8月31日法制审核，认为案件主要事实不清、证据不足，建议继续调查或不予作出行政执法决定的建议。",
+            name: "经2021年8月31日法制审核，认为案件主要事实不清、证据不足，建议继续调查或不予作出行政执法决定的建议。",
+          },
+          {
+            value:
+              "经2021年8月31日法制审核，认为案件定性不准、适用法律不准确、执行裁量基准不当的，建议给予XXX的行政处罚。",
+            name: "经2021年8月31日法制审核，认为案件定性不准、适用法律不准确、执行裁量基准不当的，建议给予XXX的行政处罚。",
+          },
+          {
+            value:
+              "经2021年8月31日法制审核，认为案件程序不合法的，建议进行纠正。",
+            name: "经2021年8月31日法制审核，认为案件程序不合法的，建议进行纠正。",
+          },
+          {
+            value:
+              "经2021年8月31日法制审核，认为超出本机关管辖范围或者涉嫌犯罪的，建议移送。",
+            name: "经2021年8月31日法制审核，认为超出本机关管辖范围或者涉嫌犯罪的，建议移送。",
+          },
+        ],
+        cellIdx15: toggleDictionary,
+        cellIdx16: toggleDictionary,
+      },
+      associationPaper: ["1"],
+    };
+  },
+  methods: {
+    async initLetData(selectedPaper) {
+      let db = new GoDB(this.$store.state.DBName);
+      let corpBase = db.table("corpBase");
+      let corp = await corpBase.find((item) => {
+        return item.corpId == this.corpData.corpId;
+      });
+      // 获取笔录文书中的隐患数据和  现场检查笔录时间
+      let let1DataPaperContent = JSON.parse(
+        selectedPaper.let1Data.paperContent
+      );
+      // let dangerObject = getDangerObject(
+      //   let1DataPaperContent.DangerTable.tableData
+      // );
+      // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
+      // 获取笔录文书中的隐患数据
+      // let cellIdx3String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
+      let cellIdx3String =
+        this.corpData.caseType === "0"
+          ? setDangerTable(
+              let1DataPaperContent.DangerTable,
+              {},
+              {
+                page: "47",
+                key: "cellIdx3",
+                spellString: {
+                  corpName: corp.corpName,
+                  groupName: this.$store.state.curCase.provinceGroupName,
+                },
+              }
+            )
+          : "";
+      // 2.违法事实及依据：隐患描述+“经调查取证以上违法违规行为属实，分别违反了”+违法认定发条
+      // let cellIdx5String = `${dangerObject.dangerString}经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString}的规定。`
+      // let cellIdx5String = `${let1DataPaperContent.cellIdx1}${this.$store.state.curCase.provinceGroupName}对${corp.corpName}进行现场检查时发现${dangerObject.dangerString}以上行为分别涉嫌${dangerObject.illegalString}依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`;
+      let cellIdx5String =
+        this.corpData.caseType === "0"
+          ? setDangerTable(
+              let1DataPaperContent.DangerTable,
+              {},
+              {
+                page: "47",
+                key: "cellIdx5",
+                spellString: {
+                  corpName: corp.corpName,
+                  userGroupName: this.$store.state.user.userGroupName,
+                },
+              }
+            )
+          : "";
+      // 3.建议案件处理意见：行政处罚依据+行政处罚决定（分条）
+      // let cellIdx6String = `${dangerObject.penaltyBasisString}`;
+      let cellIdx6String =
+        this.corpData.caseType === "0"
+          ? setDangerTable(
+              let1DataPaperContent.DangerTable,
+              {},
+              {
+                page: "47",
+                key: "cellIdx6",
+              }
+            )
+          : "";
+      // let cellIdx7String = `${dangerObject.penaltyDesc}`;
+      let cellIdx7String =
+        this.corpData.caseType === "0"
+          ? setDangerTable(
+              let1DataPaperContent.DangerTable,
+              {},
+              {
+                page: "47",
+                key: "cellIdx7",
+              }
+            )
+          : "";
+      //5.行政相对人基本情况：煤矿名称+（煤矿基本信息字段uscCode）+（煤矿基本信息字段？）+（煤矿基本信息字段？）
+      // let cellIdx4String = `${corp.corpName}社会统一信用代码是${corp.useCode ? corp.useCode : 'XX'}采矿许可证号是${corp.uscCode ? corp.uscCode : 'XX'}安全生产许可证号是${corp.uscCode ? corp.uscCode : 'XX'} `;
+      let cellIdx4String =
+        this.corpData.caseType === "0"
+          ? setDangerTable(
+              let1DataPaperContent.DangerTable,
+              {},
+              {
+                page: "47",
+                key: "cellIdx4",
+                spellString: {
+                  corpName: corp.corpName,
+                  useCode: corp.useCode ? corp.useCode : "XX",
+                  groupName: this.$store.state.curCase.provinceGroupName,
+                },
+              }
+            )
+          : "";
+      await db.close();
+      this.letData = {
+        cellIdx0: null, //
+        cellIdx1: null, // 编号
+        cellIdx2: null, // 暂不用
+        cellIdx3: cellIdx3String, // 案由
+        cellIdx4: cellIdx4String, // 行政相对人基本情况
+        cellIdx4TypeTextareaItem: cellIdx4String, // 行政相对人基本情况
+        cellIdx5: cellIdx5String, // 案情摘要
+        cellIdx6: cellIdx6String, // 作出决定依据
+        cellIdx7: cellIdx7String, // 建议行政决定
+        cellIdx8: null, // 法制审核意见
+        cellIdx9: null, // 分管负责人意见
+        cellIdx10: null, // 签名
+        cellIdx11: null, // 日期
+        cellIdx12: null, // 主要负责人意见
+        cellIdx13: null, // 签名
+        cellIdx14: null, // 日期
+        cellIdx15: "□", // 选项：一般行政执法决定法制审核
+        cellIdx16: "□", // 选项：重大行政执法决定法制审核
+        DangerTable: let1DataPaperContent.DangerTable,
+        extraData: {
+          // 用于拼写隐患内容的字符集合
+          corpName: this.corpData.corpName,
+          let101Date: let1DataPaperContent.cellIdx1,
+          groupName: this.$store.state.curCase.provinceGroupName,
+        },
+      };
+    },
+    goBack({ page, data }) {
+      // 返回选择企业
+      this.$emit("go-back", { page, data });
+    },
+    commandFill(key, title, type) {
+      // 判断是否可编辑
+      if (this.$refs.letMain.canEdit) {
+        // 文书各个字段点击打开左侧弹出编辑窗口
+        let dataKey = `${key}`;
+        if (
+          key === "cellIdx3" ||
+          key === "cellIdx5" ||
+          key === "cellIdx6" ||
+          key === "cellIdx7"
+        ) {
+          this.options[key] = {
+            page: "47",
+            key: key,
+            spellString: this.letData.extraData,
+          };
+          dataKey = "DangerTable";
+        } else if (key === "cellIdx8") {
+          dataKey = `${key}Type${type}`;
+        }
+        this.$refs.letMain.commandFill(
+          key,
+          dataKey,
+          title,
+          type,
+          this.letData[dataKey],
+          this.options[key]
+        );
+      }
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+@import "@/assets/scss/let";
+</style>

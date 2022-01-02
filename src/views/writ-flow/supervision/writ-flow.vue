@@ -269,11 +269,11 @@
                     :title="flowStatus.paper45 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let1100','延长查封（扣押）期限决定书', '45')" class="flow-span">
+                  <span @click="cmdEditDoc('let114','延长查封（扣押）期限决定书', '45')" class="flow-span">
                     延长查封（扣押）
                     <br />期限决定书
                   </span>
-                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let1100','延长查封（扣押）期限决定书', '45')"></i>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let114','延长查封（扣押）期限决定书', '45')"></i>
                 </td>
                 <!-- <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />
@@ -288,11 +288,11 @@
                     :title="flowStatus.paper46 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let1101','查封(扣押)处理决定书', '46')" class="flow-span">
+                  <span @click="cmdEditDoc('let115','查封(扣押)处理决定书', '46')" class="flow-span">
                     查封(扣押)处理
                     <br />决定书
                   </span>
-                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let1101','查封(扣押)处理决定书', '46')"></i>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let115','查封(扣押)处理决定书', '46')"></i>
                 </td>
                 <!-- <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c5.png" style="height: 100%;" />

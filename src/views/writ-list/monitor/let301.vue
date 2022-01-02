@@ -351,7 +351,8 @@ export default {
           },
         ],
       },
-      associationPaper: ['39'],
+      // associationPaper: ['39'],
+      associationPaper: [],
     };
   },
   methods: {
@@ -373,33 +374,33 @@ export default {
       // 3.被申请人：企业煤矿名称
       let cellIdx11String = corp.corpName;
       // 5.文书号2：催告书编号
-      let let39DataPaperContent = JSON.parse(
-        selectedPaper.let39Data.paperContent
-      );
+      // let let39DataPaperContent = JSON.parse(
+      //   selectedPaper.let39Data.paperContent
+      // );
       // let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
       //   let39DataPaperContent.DangerTable.selectedDangerList
       // ) : null;
       // 4.对被申请人：企业名称+'涉嫌'+隐患描述+'案'
       // let cellIdx16String = `${corp.corpName}涉嫌${ this.corpData.caseType === '0' ? dangerObject.dangerString : 'XXX'}案`;
-      let cellIdx16String = this.corpData.caseType === '0' ? setDangerTable(
-          let39DataPaperContent.DangerTable,
-          {}, 
-          {
-            page: "18",
-            key: "cellIdx16",
-            spellString: {
-              corpName: corp.corpName,
-              groupName: this.$store.state.curCase.provinceGroupName,
-            },
-          }
-        ):'';
-      let let39Date = let39DataPaperContent.cellIdx29
-        ? let39DataPaperContent.cellIdx29
-            .replace("年", "-")
-            .replace("月", "-")
-            .replace("日", "-")
-            .split("-")
-        : ["", "", ""];
+      // let cellIdx16String = this.corpData.caseType === '0' ? setDangerTable(
+      //     let39DataPaperContent.DangerTable,
+      //     {}, 
+      //     {
+      //       page: "18",
+      //       key: "cellIdx16",
+      //       spellString: {
+      //         corpName: corp.corpName,
+      //         groupName: this.$store.state.curCase.provinceGroupName,
+      //       },
+      //     }
+      //   ):'';
+      // let let39Date = let39DataPaperContent.cellIdx29
+      //   ? let39DataPaperContent.cellIdx29
+      //       .replace("年", "-")
+      //       .replace("月", "-")
+      //       .replace("日", "-")
+      //       .split("-")
+      //   : ["", "", ""];
       // 从sysOfficeInfo中获取：
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(
@@ -422,11 +423,11 @@ export default {
       // 7.人民法院：courtPrefix 联系人：master 联系电话：phone
       // 8.申请人的法定代表人legalPerson和职务post
       let DangerTable = null
-      if (this.corpData.caseType === '0') {
-        DangerTable = let39DataPaperContent.DangerTable ? 
-          setNewDanger(selectedPaper.let39Data, let39DataPaperContent.DangerTable)
-          : {}
-      }
+      // if (this.corpData.caseType === '0') {
+      //   DangerTable = let39DataPaperContent.DangerTable ? 
+      //     setNewDanger(selectedPaper.let39Data, let39DataPaperContent.DangerTable)
+      //     : {}
+      // }
       await db.close()
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: paperNumber.num0, // 文书号
@@ -437,15 +438,15 @@ export default {
         cellIdx6: orgSysOfficeInfo.legalPerson, // 法定代表人：姓名
         cellIdx7: orgSysOfficeInfo.post, // 职务
         cellIdx11: cellIdx11String, // 被申请人
-        cellIdx16: cellIdx16String, // 对被申请人
+        // cellIdx16: cellIdx16String, // 对被申请人
         cellIdx17: '局', // 局
-        cellIdx18: let39Date[0], // 年
-        cellIdx19: let39Date[1], // 月
-        cellIdx20: let39Date[2], // 日
-        cellIdx21: let39DataPaperContent.cellIdx0, // 文书号
-        cellIdx22: let39DataPaperContent.cellIdx1, // 文书号
-        cellIdx23: let39DataPaperContent.cellIdx2, // 文书号
-        cellIdx24: let39DataPaperContent.cellIdx3, // 文书号
+        // cellIdx18: let39Date[0], // 年
+        // cellIdx19: let39Date[1], // 月
+        // cellIdx20: let39Date[2], // 日
+        // cellIdx21: let39DataPaperContent.cellIdx0, // 文书号
+        // cellIdx22: let39DataPaperContent.cellIdx1, // 文书号
+        // cellIdx23: let39DataPaperContent.cellIdx2, // 文书号
+        // cellIdx24: let39DataPaperContent.cellIdx3, // 文书号
         cellIdx25: cellIdx25String, //
         cellIdx26: orgSysOfficeInfo.courtPrefix, // 人民法院
         cellIdx29: '局', // 局
@@ -454,17 +455,17 @@ export default {
         cellIdx32: this.$store.state.curCase.provinceGroupName, //
         cellIdx33: this.todayDate, // 日期
         DangerTable,
-        associationPaperId: this.corpData.caseType === '0' ?{ // 关联的paperId
-          paper22Id: let39DataPaperContent.associationPaperId.paper22Id,
-          paper1Id: let39DataPaperContent.associationPaperId.paper1Id,
-          paper6Id: let39DataPaperContent.associationPaperId.paper6Id,
-          paper8Id: let39DataPaperContent.associationPaperId.paper8Id,
-          paper39Id: selectedPaper.let39Data.paperId
-        } : {
-          paper6Id: let39DataPaperContent.associationPaperId.paper6Id,
-          paper8Id: let39DataPaperContent.associationPaperId.paper8Id,
-          paper39Id: selectedPaper.let39Data.paperId
-        }
+        // associationPaperId: this.corpData.caseType === '0' ?{ // 关联的paperId
+        //   paper22Id: let39DataPaperContent.associationPaperId.paper22Id,
+        //   paper1Id: let39DataPaperContent.associationPaperId.paper1Id,
+        //   paper6Id: let39DataPaperContent.associationPaperId.paper6Id,
+        //   paper8Id: let39DataPaperContent.associationPaperId.paper8Id,
+        //   paper39Id: selectedPaper.let39Data.paperId
+        // } : {
+        //   paper6Id: let39DataPaperContent.associationPaperId.paper6Id,
+        //   paper8Id: let39DataPaperContent.associationPaperId.paper8Id,
+        //   paper39Id: selectedPaper.let39Data.paperId
+        // }
       })
     },
     goBack({ page, data }) {

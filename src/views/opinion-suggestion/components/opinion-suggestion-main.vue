@@ -222,11 +222,7 @@ export default {
       // 编辑，打开编辑页面
       // 根据paperType打开相应页面
       let page = "";
-      let dictName =
-        this.$store.state.user.userType === "supervision"
-          ? "supervisionPaperType"
-          : "monitorPaperType";
-      this.$store.state.dictionary[dictName].map((item) => {
+      this.$store.state.dictionary['opinionSuggestionPaperType'].map((item) => {
         if (item.id === row.paperType) page = item.page;
       });
       let docData = {

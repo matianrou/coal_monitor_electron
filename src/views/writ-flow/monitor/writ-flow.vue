@@ -831,10 +831,80 @@
                       @click="addPaper('let110', '查封（扣押）决定书', '32')"
                     ></i>
                   </td>
+                  <td class="arrows">→</td>
+                  <td
+                    :class="
+                      flowStatus.paper46
+                        ? 'writ-flow-spantd-ex writ-flow-td'
+                        : 'writ-flow-spantd writ-flow-td'
+                    "
+                  >
+                    <img
+                      v-if="flowStatus.paper46"
+                      :src="
+                        flowStatus.paper46 === 'save'
+                          ? ''
+                          : require('../assets/image/file.png')
+                      "
+                      :title="
+                        flowStatus.paper46 === 'save' ? '已保存' : '已归档'
+                      "
+                      alt=""
+                    />
+                    <span
+                      @click="
+                        cmdEditDoc('let114', '延长查封（扣押）期限决定书', '46')
+                      "
+                      class="flow-span"
+                      >延长查封（扣押） <br />期限决定书</span
+                    >
+                    <i
+                      class="el-icon-plus create-icon"
+                      title="添加"
+                      @click="
+                        addPaper('let114', '延长查封（扣押）期限决定书', '46')
+                      "
+                    ></i>
+                  </td>
+                  <td class="arrows">→</td>
+                  <td
+                    :class="
+                      flowStatus.paper46
+                        ? 'writ-flow-spantd-ex writ-flow-td'
+                        : 'writ-flow-spantd writ-flow-td'
+                    "
+                  >
+                    <img
+                      v-if="flowStatus.paper46"
+                      :src="
+                        flowStatus.paper46 === 'save'
+                          ? ''
+                          : require('../assets/image/file.png')
+                      "
+                      :title="
+                        flowStatus.paper46 === 'save' ? '已保存' : '已归档'
+                      "
+                      alt=""
+                    />
+                    <span
+                      @click="
+                        cmdEditDoc('let115', '查封（扣押）处理决定书', '47')
+                      "
+                      class="flow-span"
+                      >查封（扣押）处理 <br />决定书</span
+                    >
+                    <i
+                      class="el-icon-plus create-icon"
+                      title="添加"
+                      @click="
+                        addPaper('let115', '查封（扣押）处理决定书', '47')
+                      "
+                    ></i>
+                  </td>
                   <!-- <td style="width:28px;">
                   <img src="../assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
                 </td> -->
-                  <td class="arrows">→</td>
+                  <!-- <td class="arrows">→</td>
                   <td
                     :class="
                       flowStatus.paper34
@@ -868,10 +938,65 @@
                         addPaper('let111', '解除查封（扣押）决定书', '34')
                       "
                     ></i>
-                  </td>
+                  </td> -->
                   <!-- <td style="width:28px;">
                   <img src="../assets/image/doc-flow_r1_c5.png" style="height: 65px;" />
                 </td> -->
+                  <td class="arrows">→</td>
+                  <td
+                    :class="
+                      flowStatus.paper37
+                        ? 'writ-flow-spantd-ex writ-flow-td'
+                        : 'writ-flow-spantd writ-flow-td'
+                    "
+                  >
+                    <img
+                      v-if="flowStatus.paper37"
+                      :src="
+                        flowStatus.paper37 === 'save'
+                          ? ''
+                          : require('../assets/image/file.png')
+                      "
+                      :title="
+                        flowStatus.paper37 === 'save' ? '已保存' : '已归档'
+                      "
+                      alt=""
+                    />
+                    <span
+                      @click="
+                        cmdEditDoc(
+                          'let111',
+                          '停供电（停供民用爆炸物品）决定书',
+                          '48'
+                        )
+                      "
+                      class="flow-span"
+                      >停供电（停供民用 <br />爆炸物品）决定书</span
+                    >
+                    <i
+                      class="el-icon-plus create-icon"
+                      title="添加"
+                      @click="
+                        addPaper(
+                          'let111',
+                          '停供电（停供民用爆炸物品）决定书',
+                          '48'
+                        )
+                      "
+                    ></i>
+                  </td>
+                </tr>
+              </table>
+              <br />
+              <table
+                style="
+                  width: 836px;
+                  height: 65px;
+                  border-collapse: collapse;
+                  margin-left: 20px;
+                "
+              >
+                <tr class="writ-flow-row">
                   <td class="arrows">→</td>
                   <td
                     :class="
@@ -1074,49 +1199,6 @@
                       @click="addPaper('let202', '调查取证笔录', '5')"
                     ></i>
                   </td>
-                  <!-- <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c5.png" style="height: 65px;" />
-                </td> -->
-                  <td class="arrows">→</td>
-                  <td
-                    :class="
-                      flowStatus.paper36
-                        ? 'writ-flow-spantd-ex writ-flow-td'
-                        : 'writ-flow-spantd writ-flow-td'
-                    "
-                  >
-                    <img
-                      v-if="flowStatus.paper36"
-                      :src="
-                        flowStatus.paper36 === 'save'
-                          ? ''
-                          : require('../assets/image/file.png')
-                      "
-                      :title="
-                        flowStatus.paper36 === 'save' ? '已保存' : '已归档'
-                      "
-                      alt=""
-                    />
-                    <span
-                      @click="cmdEditDoc('let203', '案件处理呈报书', '36')"
-                      class="flow-span"
-                      >案件处理呈报书</span
-                    >
-                    <i
-                      v-if="dangerStatus.danger36 && dangerStatus.danger36.length > 0"
-                      class="el-icon-warning-outline danger-info-icon"
-                      :title="`隐患数：${dangerStatus.danger36.length}`"
-                      @click="showDangerInfo('36')"
-                    ></i>
-                    <i
-                      class="el-icon-plus create-icon"
-                      title="添加"
-                      @click="addPaper('let203', '案件处理呈报书', '36')"
-                    ></i>
-                  </td>
-                  <!-- <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
-                </td> -->
                   <td class="arrows">→</td>
                   <td
                     :class="
@@ -1154,24 +1236,6 @@
                       @click="addPaper('let204', '行政处罚告知书', '6')"
                     ></i>
                   </td>
-                  <!-- <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c6.png" style="height: 65px;" />
-                </td> -->
-                </tr>
-              </table>
-              <br />
-              <table
-                style="
-                  width: 836px;
-                  height: 65px;
-                  border-collapse: collapse;
-                  margin-left: 20px;
-                "
-              >
-                <tr class="writ-flow-row">
-                  <!-- <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c1.png" style="height: 65px;" />
-                </td> -->
                   <td class="arrows">→</td>
                   <td
                     :class="
@@ -1193,19 +1257,124 @@
                       alt=""
                     />
                     <span
-                      @click="cmdEditDoc('let205', '陈述申辩笔录', '30')"
+                      @click="cmdEditDoc('let205', '陈述、申辩笔录', '30')"
                       class="flow-span"
-                      >陈述申辩笔录</span
+                      >陈述、申辩笔录</span
                     >
                     <i
                       class="el-icon-plus create-icon"
                       title="添加"
-                      @click="addPaper('let205', '陈述申辩笔录', '30')"
+                      @click="addPaper('let205', '陈述、申辩笔录', '30')"
                     ></i>
                   </td>
-                  <!-- <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
-                </td> -->
+                </tr>
+              </table>
+              <br />
+              <table
+                style="
+                  width: 836px;
+                  height: 65px;
+                  border-collapse: collapse;
+                  margin-left: 20px;
+                "
+              >
+                <tr class="writ-flow-row">
+                  <td class="arrows">→</td>
+                  <td
+                    :class="
+                      flowStatus.paper47
+                        ? 'writ-flow-spantd-ex writ-flow-td'
+                        : 'writ-flow-spantd writ-flow-td'
+                    "
+                  >
+                    <img
+                      v-if="flowStatus.paper47"
+                      :src="
+                        flowStatus.paper47 === 'save'
+                          ? ''
+                          : require('../assets/image/file.png')
+                      "
+                      :title="
+                        flowStatus.paper47 === 'save' ? '已保存' : '已归档'
+                      "
+                      alt=""
+                    />
+                    <span @click="cmdEditDoc('let215','行政执法决定法制审核意见书', '49')" class="flow-span">
+                      行政执法决定法制
+                      <br />审核意见书
+                    </span>
+                    <i
+                      class="el-icon-plus create-icon"
+                      title="添加"
+                      @click="addPaper('let215', '行政执法决定法制审核意见书', '49')"
+                    ></i>
+                  </td>
+                  <td class="arrows">→</td>
+                  <td
+                    :class="
+                      flowStatus.paper36
+                        ? 'writ-flow-spantd-ex writ-flow-td'
+                        : 'writ-flow-spantd writ-flow-td'
+                    "
+                  >
+                    <img
+                      v-if="flowStatus.paper36"
+                      :src="
+                        flowStatus.paper36 === 'save'
+                          ? ''
+                          : require('../assets/image/file.png')
+                      "
+                      :title="
+                        flowStatus.paper36 === 'save' ? '已保存' : '已归档'
+                      "
+                      alt=""
+                    />
+                    <span
+                      @click="cmdEditDoc('let203', '案件处理呈报书', '36')"
+                      class="flow-span"
+                      >案件处理呈报书</span
+                    >
+                    <i
+                      v-if="dangerStatus.danger36 && dangerStatus.danger36.length > 0"
+                      class="el-icon-warning-outline danger-info-icon"
+                      :title="`隐患数：${dangerStatus.danger36.length}`"
+                      @click="showDangerInfo('36')"
+                    ></i>
+                    <i
+                      class="el-icon-plus create-icon"
+                      title="添加"
+                      @click="addPaper('let203', '案件处理呈报书', '36')"
+                    ></i>
+                  </td>
+                  <td class="arrows">→</td>
+                  <td
+                    :class="
+                      flowStatus.paper50
+                        ? 'writ-flow-spantd-ex writ-flow-td'
+                        : 'writ-flow-spantd writ-flow-td'
+                    "
+                  >
+                    <img
+                      v-if="flowStatus.paper50"
+                      :src="
+                        flowStatus.paper50 === 'save'
+                          ? ''
+                          : require('../assets/image/file.png')
+                      "
+                      :title="
+                        flowStatus.paper50 === 'save' ? '已保存' : '已归档'
+                      "
+                      alt=""
+                    />
+                    <span @click="cmdEditDoc('let216','集体讨论记录', '50')" class="flow-span">
+                      集体讨论记录
+                    </span>
+                    <i
+                      class="el-icon-plus create-icon"
+                      title="添加"
+                      @click="addPaper('let216', '集体讨论记录', '50')"
+                    ></i>
+                  </td>
                   <td class="arrows">→</td>
                   <td
                     :class="
@@ -1243,9 +1412,49 @@
                       @click="addPaper('let206', '行政处罚决定书', '8')"
                     ></i>
                   </td>
-                  <!-- <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c5.png" style="height: 65px;" />
-                </td> -->
+                  <!-- <td class="arrows">→</td>
+                  <td
+                    :class="
+                      flowStatus.paper39
+                        ? 'writ-flow-spantd-ex writ-flow-td'
+                        : 'writ-flow-spantd writ-flow-td'
+                    "
+                  >
+                    <img
+                      v-if="flowStatus.paper39"
+                      :src="
+                        flowStatus.paper39 === 'save'
+                          ? ''
+                          : require('../assets/image/file.png')
+                      "
+                      :title="
+                        flowStatus.paper39 === 'save' ? '已保存' : '已归档'
+                      "
+                      alt=""
+                    />
+                    <span
+                      @click="cmdEditDoc('let208', '行政决定履行催告书', '39')"
+                      class="flow-span"
+                      >行政决定履行 <br />催告书</span
+                    >
+                    <i
+                      class="el-icon-plus create-icon"
+                      title="添加"
+                      @click="addPaper('let208', '行政决定履行催告书', '39')"
+                    ></i>
+                  </td> -->
+                </tr>
+              </table>
+              <br />
+              <table
+                style="
+                  width: 836px;
+                  height: 65px;
+                  border-collapse: collapse;
+                  margin-left: 20px;
+                "
+              >
+                <tr class="writ-flow-row">
                   <td class="arrows">→</td>
                   <td
                     :class="
@@ -1277,43 +1486,6 @@
                       @click="addPaper('let207', '送达收执', '9')"
                     ></i>
                   </td>
-                  <!-- <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
-                </td> -->
-                  <td class="arrows">→</td>
-                  <td
-                    :class="
-                      flowStatus.paper39
-                        ? 'writ-flow-spantd-ex writ-flow-td'
-                        : 'writ-flow-spantd writ-flow-td'
-                    "
-                  >
-                    <img
-                      v-if="flowStatus.paper39"
-                      :src="
-                        flowStatus.paper39 === 'save'
-                          ? ''
-                          : require('../assets/image/file.png')
-                      "
-                      :title="
-                        flowStatus.paper39 === 'save' ? '已保存' : '已归档'
-                      "
-                      alt=""
-                    />
-                    <span
-                      @click="cmdEditDoc('let208', '行政决定履行催告书', '39')"
-                      class="flow-span"
-                      >行政决定履行 <br />催告书</span
-                    >
-                    <i
-                      class="el-icon-plus create-icon"
-                      title="添加"
-                      @click="addPaper('let208', '行政决定履行催告书', '39')"
-                    ></i>
-                  </td>
-                  <!-- <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c6.png" style="height: 65px;" />
-                </td> -->
                 </tr>
               </table>
             </fieldset>
@@ -1494,9 +1666,105 @@
                     ></i>
                   </td>
                   <td class="arrows">→</td>
-                  <!-- <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
-                </td> -->
+                  <td
+                    :class="
+                      flowStatus.paper51
+                        ? 'writ-flow-spantd-ex writ-flow-td'
+                        : 'writ-flow-spantd writ-flow-td'
+                    "
+                  >
+                    <img
+                      v-if="flowStatus.paper51"
+                      :src="
+                        flowStatus.paper51 === 'save'
+                          ? ''
+                          : require('../assets/image/file.png')
+                      "
+                      :title="
+                        flowStatus.paper51 === 'save' ? '已保存' : '已归档'
+                      "
+                      alt=""
+                    />
+                    <span @click="cmdEditDoc('let217','罚款缴纳催告书', '51')" class="flow-span">
+                      罚款缴纳催告书
+                    </span>
+                    <i
+                      class="el-icon-plus create-icon"
+                      title="添加"
+                      @click="addPaper('let217', '罚款缴纳催告书', '51')"
+                    ></i>
+                  </td>
+                  <td class="arrows">→</td>
+                  <td
+                    :class="
+                      flowStatus.paper52
+                        ? 'writ-flow-spantd-ex writ-flow-td'
+                        : 'writ-flow-spantd writ-flow-td'
+                    "
+                  >
+                    <img
+                      v-if="flowStatus.paper52"
+                      :src="
+                        flowStatus.paper52 === 'save'
+                          ? ''
+                          : require('../assets/image/file.png')
+                      "
+                      :title="
+                        flowStatus.paper52 === 'save' ? '已保存' : '已归档'
+                      "
+                      alt=""
+                    />
+                    <span @click="cmdEditDoc('let218','加处罚款决定书', '52')" class="flow-span">
+                      加处罚款决定书
+                    </span>
+                    <i
+                      class="el-icon-plus create-icon"
+                      title="添加"
+                      @click="addPaper('let218', '加处罚款决定书', '52')"
+                    ></i>
+                  </td>
+                  <td class="arrows">→</td>
+                  <td
+                    :class="
+                      flowStatus.paper53
+                        ? 'writ-flow-spantd-ex writ-flow-td'
+                        : 'writ-flow-spantd writ-flow-td'
+                    "
+                  >
+                    <img
+                      v-if="flowStatus.paper53"
+                      :src="
+                        flowStatus.paper53 === 'save'
+                          ? ''
+                          : require('../assets/image/file.png')
+                      "
+                      :title="
+                        flowStatus.paper53 === 'save' ? '已保存' : '已归档'
+                      "
+                      alt=""
+                    />
+                    <span @click="cmdEditDoc('let219','延期（分期）缴纳罚款决定书', '53')" class="flow-span">
+                      延期（分期）缴纳<br />罚款决定书
+                    </span>
+                    <i
+                      class="el-icon-plus create-icon"
+                      title="添加"
+                      @click="addPaper('let219', '延期（分期）缴纳罚款决定书', '53')"
+                    ></i>
+                  </td>
+                </tr>
+              </table>
+              <br />
+              <table
+                style="
+                  width: 626px;
+                  height: 65px;
+                  border-collapse: collapse;
+                  margin-left: 20px;
+                "
+              >
+                <tr class="writ-flow-row">
+                  <td class="arrows">→</td>
                   <td
                     :class="
                       flowStatus.paper14
@@ -1527,9 +1795,6 @@
                       @click="addPaper('let213', '案件结案报告', '14')"
                     ></i>
                   </td>
-                  <!-- <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c5.png" style="height: 65px;" />
-                </td> -->
                   <td class="arrows">→</td>
                   <td
                     :class="
@@ -1565,9 +1830,6 @@
                       "
                     ></i>
                   </td>
-                  <!-- <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c7.png" style="height: 65px;" />
-                </td> -->
                 </tr>
               </table>
             </fieldset>
@@ -1588,9 +1850,6 @@
                 "
               >
                 <tr class="writ-flow-row">
-                  <!-- <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c1.png" style="height: 65px;" />
-                </td> -->
                   <td class="arrows">➤</td>
                   <td
                     :class="
@@ -1624,16 +1883,9 @@
                       @click="addPaper('let300', '执法案件公开裁定记录', '31')"
                     ></i>
                   </td>
-                  <!-- <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c7.png" style="height: 65px;" />
-                </td> -->
                 </tr>
               </table>
             </fieldset>
-            <!-- <br /> -->
-            <!-- <div style="height:32px;line-height:32px;font-weight:bold;color:#333;">
-              <img src="@/components/assets/image/letTitle.png" style="vertical-align:middle;" />行政强制执行
-            </div> -->
             <fieldset class="borderColor">
               <legend>行政强制执行</legend>
               <table
@@ -1645,10 +1897,38 @@
                 "
               >
                 <tr class="writ-flow-row">
-                  <!-- <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c1.png" style="height: 65px;" />
-                </td> -->
                   <td class="arrows">➤</td>
+                  <td
+                    :class="
+                      flowStatus.paper54
+                        ? 'writ-flow-spantd-ex writ-flow-td'
+                        : 'writ-flow-spantd writ-flow-td'
+                    "
+                  >
+                    <img
+                      v-if="flowStatus.paper54"
+                      :src="
+                        flowStatus.paper54 === 'save'
+                          ? ''
+                          : require('../assets/image/file.png')
+                      "
+                      :title="
+                        flowStatus.paper54 === 'save' ? '已保存' : '已归档'
+                      "
+                      alt=""
+                    />
+                    <span
+                      @click="cmdEditDoc('let309', '行政强制执行事先催告书', '54')"
+                      class="flow-span"
+                      >行政强制执行<br />事先催告书</span
+                    >
+                    <i
+                      class="el-icon-plus create-icon"
+                      title="添加"
+                      @click="addPaper('let309', '行政强制执行事先催告书', '54')"
+                    ></i>
+                  </td>
+                  <td class="arrows">→</td>
                   <td
                     :class="
                       flowStatus.paper18
@@ -1679,17 +1959,11 @@
                       @click="addPaper('let301', '强制执行申请书', '18')"
                     ></i>
                   </td>
-                  <!-- <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c7.png" style="height: 65px;" />
-                </td> -->
                 </tr>
               </table>
             </fieldset>
-            <!-- <br /> -->
-            <!-- <div style="height:32px;line-height:32px;font-weight:bold;color:#333;">
-              <img src="@/components/assets/image/letTitle.png" style="vertical-align:middle;" />行政复议
-            </div> -->
-            <fieldset class="borderColor" style="margin-bottom: 0px;">
+            <!-- 2022/1/1去掉 -->
+            <fieldset v-if="false" class="borderColor" style="margin-bottom: 0px;">
               <legend>行政复议</legend>
               <table
                 style="
@@ -1700,9 +1974,6 @@
                 "
               >
                 <tr class="writ-flow-row">
-                  <!-- <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c1.png" style="height: 65px;" />
-                </td> -->
                   <td class="arrows">➤</td>
                   <td
                     :class="
@@ -1734,9 +2005,6 @@
                       @click="addPaper('let302', '行政复议申请笔录', '10')"
                     ></i>
                   </td>
-                  <!-- <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
-                </td> -->
                   <td class="arrows">→</td>
                   <td
                     :class="
@@ -1772,9 +2040,6 @@
                       "
                     ></i>
                   </td>
-                  <!-- <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c5.png" style="height: 65px;" />
-                </td> -->
                   <td class="arrows">→</td>
                   <td
                     :class="
@@ -1806,9 +2071,6 @@
                       @click="addPaper('let304', '行政复议调查笔录', '11')"
                     ></i>
                   </td>
-                  <!-- <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
-                </td> -->
                   <td class="arrows">→</td>
                   <td
                     :class="
@@ -1840,18 +2102,12 @@
                       @click="addPaper('let305', '行政复议决定书', '12')"
                     ></i>
                   </td>
-                  <!-- <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c6.png" style="height: 65px;" />
-                </td> -->
                 </tr>
               </table>
             </fieldset>
           </div>
           <!-- 其他 -->
           <div v-else-if="activeFlowTab === 'flow-4'" style="padding: 16px">
-            <!-- <div style="height:32px;line-height:32px;font-weight:bold;color:#333;">
-              <img src="@/components/assets/image/letTitle.png" style="vertical-align:middle;" />其他
-            </div> -->
             <fieldset class="borderColor">
               <legend>其他</legend>
               <table
@@ -1863,11 +2119,9 @@
                 "
               >
                 <tr class="writ-flow-row">
-                  <!-- <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c1.png" style="height: 65px;" />
-                </td> -->
                   <td class="arrows">➤</td>
-                  <td
+                  <!-- 2022/1/1去掉 -->
+                  <!-- <td
                     :class="
                       flowStatus.paper35
                         ? 'writ-flow-spantd-ex writ-flow-td'
@@ -1897,10 +2151,7 @@
                       @click="addPaper('let400', '移送案件呈报书', '35')"
                     ></i>
                   </td>
-                  <!-- <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c3.png" style="height: 65px;" />
-                </td> -->
-                  <td class="arrows">→</td>
+                  <td class="arrows">→</td> -->
                   <td
                     :class="
                       flowStatus.paper19
@@ -1931,9 +2182,6 @@
                       @click="addPaper('let401', '移送书', '19')"
                     ></i>
                   </td>
-                  <!-- <td style="width:28px;">
-                  <img src="../assets/image/doc-flow_r1_c5.png" style="height: 65px;" />
-                </td> -->
                   <td class="arrows">→</td>
                   <td
                     :class="
@@ -1965,11 +2213,37 @@
                       @click="addPaper('let402', '涉嫌犯罪案件移送书', '20')"
                     ></i>
                   </td>
-                  <!--<td style="width:28px;"><img src="../assets/image/doc-flow_r1_c3.png" style="height: 65px;" /></td>
-                <td class="writ-flow-spantd-ex"><a class="{let403}" href="#">查封扣押处理<br />决定书</a></td>-->
-                  <!-- <td style="width:12px;">
-                  <img src="../assets/image/doc-flow_r1_c7.png" style="height: 65px;" />
-                </td> -->
+                  <td class="arrows">→</td>
+                  <td
+                    :class="
+                      flowStatus.paper55
+                        ? 'writ-flow-spantd-ex writ-flow-td'
+                        : 'writ-flow-spantd writ-flow-td'
+                    "
+                  >
+                    <img
+                      v-if="flowStatus.paper55"
+                      :src="
+                        flowStatus.paper55 === 'save'
+                          ? ''
+                          : require('../assets/image/file.png')
+                      "
+                      :title="
+                        flowStatus.paper55 === 'save' ? '已保存' : '已归档'
+                      "
+                      alt=""
+                    />
+                    <span
+                      @click="cmdEditDoc('let408', '行政执法有关事项审批报告', '55')"
+                      class="flow-span">
+                      行政执法有关事项<br />审批报告
+                    </span>
+                    <i
+                      class="el-icon-plus create-icon"
+                      title="添加"
+                      @click="addPaper('let408', '行政执法有关事项审批报告', '55')"
+                    ></i>
+                  </td>
                 </tr>
               </table>
             </fieldset>

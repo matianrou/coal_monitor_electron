@@ -50,12 +50,12 @@ export default {
       {
         id: '45',
         name: '延长查封（扣押）期限决定书',
-        page: 'let1100'
+        page: 'let114'
       },
       {
         id: '46',
         name: '查封(扣押)处理决定书',
-        page: 'let1101'
+        page: 'let115'
       },
       {
         id: '56',
@@ -255,8 +255,24 @@ export default {
         page: 'let110'
       },
       {
-        id: '34',
-        name: '解除查封（扣押）决定书',
+        id: '46',
+        name: '延长查封（扣押）期限决定书',
+        page: 'let114'
+      },
+      {
+        id: '47',
+        name: '查封(扣押)处理决定书',
+        page: 'let115'
+      },
+      // 2022.1.1去掉
+      // { 
+      //   id: '34',
+      //   name: '解除查封（扣押）决定书',
+      //   page: 'let111'
+      // },
+      {
+        id: '48',
+        name: '停供电（停供民用爆炸物品）决定书',
         page: 'let111'
       },
       {
@@ -279,11 +295,12 @@ export default {
         name: '调查取证笔录',
         page: 'let202'
       },
-      {
-        id: '36',
-        name: '案件处理呈报书',
-        page: 'let203'
-      },
+      // 2022.1.1去掉
+      // {
+      //   id: '36',
+      //   name: '案件处理呈报书',
+      //   page: 'let203'
+      // },
       {
         id: '6',
         name: '行政处罚告知书',
@@ -295,6 +312,21 @@ export default {
         page: 'let205'
       },
       {
+        id: '49',
+        name: '行政执法决定法制审核意见书',
+        page: 'let215'
+      },
+      {
+        id: '36',
+        name: '案件处理呈报书',
+        page: 'let203'
+      },
+      {
+        id: '50',
+        name: '集体讨论记录',
+        page: 'let216'
+      },
+      {
         id: '8',
         name: '行政处罚决定书',
         page: 'let206'
@@ -304,11 +336,12 @@ export default {
         name: '送达收执',
         page: 'let207'
       },
-      {
-        id: '39',
-        name: '行政决定履行催告书',
-        page: 'let208'
-      },
+      // 2022.1.1去掉
+      // {
+      //   id: '39',
+      //   name: '行政决定履行催告书',
+      //   page: 'let208'
+      // },
       {
         id: '28',
         name: '听证通知书',
@@ -330,6 +363,21 @@ export default {
         page: 'let212'
       },
       {
+        id: '51',
+        name: '罚款缴纳催告书',
+        page: 'let217'
+      },
+      {
+        id: '52',
+        name: '加处罚款决定书',
+        page: 'let218'
+      },
+      {
+        id: '53',
+        name: '延期（分期）缴纳罚款决定书',
+        page: 'let219'
+      },
+      {
         id: '14',
         name: '案件结案报告',
         page: 'let213'
@@ -345,35 +393,41 @@ export default {
         page: 'let300'
       },
       {
+        id: '54',
+        name: '行政强制执行事先催告书',
+        page: 'let309'
+      },
+      {
         id: '18',
         name: '强制执行申请书',
         page: 'let301'
       },
-      {
-        id: '10',
-        name: '行政复议申请笔录',
-        page: 'let302'
-      },
-      {
-        id: '41',
-        name: '不予受理行政复议申请决定书',
-        page: 'let303'
-      },
-      {
-        id: '11',
-        name: '行政复议调查笔录',
-        page: 'let304'
-      },
-      {
-        id: '12',
-        name: '行政复议决定书',
-        page: 'let305'
-      },
-      {
-        id: '35',
-        name: '移送案件呈报书',
-        page: 'let400'
-      },
+      // 2022/1/1去掉
+      // {
+      //   id: '10',
+      //   name: '行政复议申请笔录',
+      //   page: 'let302'
+      // },
+      // {
+      //   id: '41',
+      //   name: '不予受理行政复议申请决定书',
+      //   page: 'let303'
+      // },
+      // {
+      //   id: '11',
+      //   name: '行政复议调查笔录',
+      //   page: 'let304'
+      // },
+      // {
+      //   id: '12',
+      //   name: '行政复议决定书',
+      //   page: 'let305'
+      // },
+      // {
+      //   id: '35',
+      //   name: '移送案件呈报书',
+      //   page: 'let400'
+      // },
       {
         id: '19',
         name: '移送书',
@@ -385,6 +439,11 @@ export default {
         page: 'let402'
       },
       {
+        id: '55',
+        name: '行政执法有关事项审批报告',
+        page: 'let408'
+      },
+      {
         id: '21',
         name: '影音证据',
         page: 'let406'
@@ -393,6 +452,13 @@ export default {
         id: '45',
         name: '监察执法报告',
         page: 'let407'
+      },
+    ],
+    opinionSuggestionPaperType: [
+      {
+        id: '15',
+        name: '执法案卷（首页）及目录',
+        page: 'let214'
       },
       {
         id: '16',
