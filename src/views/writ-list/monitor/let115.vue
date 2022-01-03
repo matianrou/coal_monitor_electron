@@ -380,7 +380,7 @@ export default {
         cellIdx18: selectedType, // 查封/扣押
         cellIdx21: selectedType, // 查封/扣押
         cellIdx22: orgSysOfficeInfo.goverPrefix, // 人民政府
-        cellIdx24: orgSysOfficeInfo.organName, // organName
+        cellIdx24: orgSysOfficeInfo.courtPrefix, // 法院
         cellIdx25: selectedType, // 查封/扣押
         cellIdx27: this.$store.state.curCase.provinceGroupName, //
         cellIdx28: this.todayDate, // 日期

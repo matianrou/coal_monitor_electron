@@ -13,11 +13,11 @@
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader0">
-              煤矿安全监管行政执法文书
+            <div class="textAlignCenter formHeader2">
+              国 家 矿 山 安 全 监 察
               <br />
             </div>
-            <div class="textAlignCenter formHeader1">集体讨论记录</div>
+            <div class="textAlignCenter formHeader4">集 体 讨 论 记 录</div>
             <div class="docTextarea">
              <span class="no-line">案由：</span>
               <span
@@ -137,10 +137,6 @@
               >{{ letData.cellIdx16 ? letData.cellIdx16 : '（点击编辑）'}}</span>
               <div class="line"></div>
             </div>
-            <!-- <table>
-		<hr />
-		<td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被复查单位，一份存档。</td>
-            </table>-->
           </div>
         </div>
       </div>
@@ -166,37 +162,8 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
-      options: {},
-      associationPaper: ['1']
-    };
-  },
-  methods: {
-    async initLetData (selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
-        return item.corpId == this.corpData.corpId;
-      });
-      // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
-      let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      // let dangerObject = getDangerObject(let1DataPaperContent.DangerTable.tableData)
-      // let cellIdx4String = `${corp.corpName}${dangerObject.dangerString}案。`
-      let cellIdx4String = this.corpData.caseType === '0' ?setDangerTable(
-          let1DataPaperContent.DangerTable,
-          {},
-          {
-            page: "48",
-            key: "cellIdx4",
-            spellString: {
-              corpName: corp.corpName,
-              groupName: this.$store.state.curCase.provinceGroupName,
-            },
-          }
-        ):'';
-      await db.close();
-      this.letData = {
-        cellIdx0: cellIdx4String, // 案由
+      letData: {
+        cellIdx0: null, // 案由
         cellIdx1: null, // 年
         cellIdx2: null, // 月
         cellIdx3: null, // 日
@@ -213,12 +180,46 @@ export default {
         cellIdx14: null, // 讨论记录
         cellIdx15: null, // 结论性意见
         cellIdx16: null, // 出席人员签名
-        DangerTable: let1DataPaperContent.DangerTable,
+        DangerTable: null,
+        extraData: {},
+        associationPaperId: {},
+      },
+      options: {},
+      associationPaper: ['4']
+    };
+  },
+  methods: {
+    async initLetData (selectedPaper) {
+      let db = new GoDB(this.$store.state.DBName);
+      let corpBase = db.table("corpBase");
+      let corp = await corpBase.find((item) => {
+        return item.corpId == this.corpData.corpId;
+      });
+      // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
+      let let4DataPaperContent = JSON.parse(selectedPaper.let4Data.paperContent)
+      // let dangerObject = getDangerObject(let4DataPaperContent.DangerTable.tableData)
+      // let cellIdx4String = `${corp.corpName}${dangerObject.dangerString}案。`
+      let cellIdx4String = this.corpData.caseType === '0' ?setDangerTable(
+          let4DataPaperContent.DangerTable,
+          {},
+          {
+            page: "50",
+            key: "cellIdx4",
+            spellString: {
+              corpName: corp.corpName,
+              groupName: this.$store.state.curCase.provinceGroupName,
+            },
+          }
+        ):'';
+      await db.close();
+      this.letData = Object.assign({}, this.letData, {
+        cellIdx0: cellIdx4String, // 案由
+        DangerTable: let4DataPaperContent.DangerTable,
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
           groupName: this.$store.state.curCase.provinceGroupName,
         }
-      };
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业
@@ -231,7 +232,7 @@ export default {
         let dataKey = `${key}`;
         if (key === 'cellIdx0') {
           this.options[key] = {
-            page: '48',
+            page: '50',
             key: key,
             spellString: {
               corpName: this.letData.extraData

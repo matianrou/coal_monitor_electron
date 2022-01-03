@@ -373,7 +373,7 @@ export default {
         cellIdx17: let32DataPaperContent.cellIdx4, // 查封扣押文书号
         cellIdx19: selectedType, // 将以上XX的期限延长
         cellIdx23: orgSysOfficeInfo.goverPrefix, // organName
-        cellIdx24: orgSysOfficeInfo.organName, // courtPrefix人民法院
+        cellIdx24: orgSysOfficeInfo.courtPrefix, // courtPrefix人民法院
         cellIdx25: this.$store.state.curCase.provinceGroupName, //
         cellIdx26: this.todayDate, // 日期
         cellIdx27: selectedType, // 查封/扣押

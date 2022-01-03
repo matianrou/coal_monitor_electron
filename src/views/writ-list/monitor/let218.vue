@@ -13,21 +13,21 @@
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader0">
-              煤矿安全监管行政执法文书
+            <div class="textAlignCenter formHeader2">
+              国 家 矿 山 安 全 监 察
               <br />
             </div>
-            <div class="textAlignCenter formHeader1">加处罚款决定书</div>
-            <div class="docTextLine paper-number-div">
+            <div class="textAlignCenter formHeader4">加处罚款决定书</div>
+            <div class="formHeader5 paper-number-div">
               <div>
                 <span
                   @click="commandFill('cellIdx0', '文书号', 'TextItem')"
                 >{{ letData.cellIdx0 ? letData.cellIdx0 : '（编辑）' }}</span>
-                <label>（</label>
+                <label>煤安监</label>
                 <span
                   @click="commandFill('cellIdx1', '文书号', 'TextItem')"
                 >{{ letData.cellIdx1 ? letData.cellIdx1 : '（编辑）' }}</span>
-                <label>）煤安加罚〔</label>
+                <label>加罚〔</label>
                 <span
                   @click="commandFill('cellIdx2', '文书号', 'TextItem')"
                 >{{ letData.cellIdx2 ? letData.cellIdx2 : '（编辑）' }}</span>
@@ -54,7 +54,7 @@
             </table>
             <div class="docTextarea">
               <label style="width:5%"></label>
-              本机关于
+              我局于
               <span
                 @click="commandFill('cellIdx5', '年', 'TextItem')"
               >{{ letData.cellIdx5 ? letData.cellIdx5 : '（XX）'}}</span>
@@ -69,19 +69,18 @@
               日向你
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx8', '单位', 'TextItem')"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
-              送达 《行政处罚决定书》 (
+              送达 《行政处罚决定书》（
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx9', '行政处罚决定书文书号', 'TextItem')"
               >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</span>
-              （
+              煤安监
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx10', '行政处罚决定书文书号', 'TextItem')"
               >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）'}}</span>
-              ）煤安罚〔
+              罚〔
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx11', '行政处罚决定文书号', 'TextItem')"
@@ -94,7 +93,6 @@
               号），对你
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx13', '单位', 'TextItem')"
               >{{ letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）'}}</span>
               罚款
               <span
@@ -124,10 +122,13 @@
               <span
                 @click="commandFill('cellIdx20', '日', 'TextItem')"
               >{{ letData.cellIdx20 ? letData.cellIdx20 : '（XX）'}}</span>
-              日你单位未履行该处罚决定，依据《中华人民共和国行政处罚法》第七十二条第一款第一项规定，本机关决定对你
+              日你
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx21', '单位', 'TextItem')"
+              >{{ letData.cellIdx21 ? letData.cellIdx21 : '（点击编辑）'}}</span>
+              仍未履行该行政处罚决定，依据《中华人民共和国行政处罚法》第<span class="text-decoration">七十二</span>条第<span class="text-decoration">一</span>款第<span class="text-decoration">一</span>项规定，本机关决定对你
+              <span
+                class="no-underline"
               >{{ letData.cellIdx21 ? letData.cellIdx21 : '（点击编辑）'}}</span>
               加处罚款
               <span
@@ -147,7 +148,7 @@
               >{{ letData.cellIdx25 ? letData.cellIdx25 : '（XX）'}}</span>
               日前将加处的罚款缴至
               <span
-                @click="commandFill('cellIdx26', '罚款缴至', 'TextItem')"
+                @click="commandFill('cellIdx26', '银行', 'TextItem')"
               >{{ letData.cellIdx26 ? letData.cellIdx26 : '（点击编辑）'}}</span>
               银行
               <span
@@ -169,19 +170,15 @@
             </div>
             <div class="docTextarea">
               <label style="width:5%"></label>
-              如不服本决定，可在接到本决定书之日起60日内向
+              如对本处罚决定不服，可在接到本决定书之日起60日内向
               <span
                 @click="commandFill('cellIdx31', '人民政府', 'TextItem')"
               >{{ letData.cellIdx31 ? letData.cellIdx31 : '（点击编辑）'}}</span>
-              人民政府或者
-              <span
-                @click="commandFill('cellIdx32', '', 'TextItem')"
-              >{{ letData.cellIdx32 ? letData.cellIdx32 : '（点击编辑）'}}</span>
-              申请行政复议，或者在6个月内依法向
+              申请行政复议或6个月内向
               <span
                 @click="commandFill('cellIdx33', '', 'TextItem')"
               >{{ letData.cellIdx33 ? letData.cellIdx33 : '（点击编辑）'}}</span>
-              人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。
+              法院提起行政诉讼，但不停止执行本决定。
             </div>
             <table class="docBody" style="margin-top: 60px; margin-bottom: 30px;">
               <tr>
@@ -237,7 +234,47 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 文书号
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 文书号
+        cellIdx4: null, // corpname
+        cellIdx5: null, // 年
+        cellIdx6: null, // 月
+        cellIdx7: null, // 日
+        cellIdx8: null, // 单位
+        cellIdx9: null, // 行政处罚决定书 文书号
+        cellIdx10: null, // 行政处罚决定书 文书号
+        cellIdx11: null, // 行政处罚决定书 文书号
+        cellIdx12: null, // 行政处罚决定书 文书号
+        cellIdx13: null, // 单位
+        cellIdx14: null, // 罚款
+        cellIdx15: null, // 年
+        cellIdx16: null, // 月
+        cellIdx17: null, // 日
+        cellIdx18: null, // 年
+        cellIdx19: null, // 月
+        cellIdx20: null, // 日
+        cellIdx21: null, // 单位
+        cellIdx22: null, // 加处罚款
+        cellIdx23: null, // 年
+        cellIdx24: null, // 月
+        cellIdx25: null, // 日
+        cellIdx26: null, // 银行
+        cellIdx27: null, // 支行（分理处）
+        cellIdx28: null, // 账户名称
+        cellIdx29: null, // 账号
+        cellIdx30: null, // 地址
+        cellIdx31: null, // 人民政府
+        cellIdx32: null, // 暂不用
+        cellIdx33: null, // 人民法院
+        cellIdx34: null, //
+        cellIdx35: null, // 日期
+        cellIdx36: null, // 单位
+        DangerTable: null,
+        associationPaperId: {},
+      },
       options: {
         cellIdx36: [
           {
@@ -297,70 +334,46 @@ export default {
             courtPrefix: "",
           };
       await db.close();
-      this.letData = {
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: num0, // 文书号
-        cellIdx0TypeTextItem: num0, // 文书号
         cellIdx1: num1, // 文书号
-        cellIdx1TypeTextItem: num1, // 文书号
         cellIdx2: num3, // 文书号
-        cellIdx2TypeTextItem: num3, // 文书号
         cellIdx3: num4, // 文书号
-        cellIdx3TypeTextItem: num4, // 文书号
         cellIdx4: corp.corpName ? corp.corpName : null, // corpname
-        cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
         cellIdx5: date206[0], // 年
-        cellIdx5TypeTextItem: date206[0], // 年
         cellIdx6: date206[1], // 月
-        cellIdx6TypeTextItem: date206[1], // 月
         cellIdx7: date206[2], // 日
-        cellIdx7TypeTextItem: date206[2], // 日
         cellIdx8: null, // 单位
         cellIdx9: let8DataPaperContent.cellIdx0, // 行政处罚决定书 文书号
-        cellIdx9TypeTextItem: let8DataPaperContent.cellIdx0, // 行政处罚决定书 文书号
         cellIdx10: let8DataPaperContent.cellIdx1, // 行政处罚决定书 文书号
-        cellIdx10TypeTextItem: let8DataPaperContent.cellIdx1, // 行政处罚决定书 文书号
         cellIdx11: let8DataPaperContent.cellIdx2, // 行政处罚决定书 文书号
-        cellIdx11TypeTextItem: let8DataPaperContent.cellIdx2, // 行政处罚决定书 文书号
         cellIdx12: let8DataPaperContent.cellIdx3, // 行政处罚决定书 文书号
-        cellIdx12TypeTextItem: let8DataPaperContent.cellIdx3, // 行政处罚决定书 文书号
         cellIdx13: null, // 单位
         cellIdx14: null, // 罚款
         cellIdx15: null, // 年
         cellIdx16: null, // 月
         cellIdx17: null, // 日
         cellIdx18: cellIdx6Year, // 年
-        cellIdx18TypeTextItem: cellIdx6Year, // 年
         cellIdx19: cellIdx7Month, // 月
-        cellIdx19TypeTextItem: cellIdx7Month, // 月
         cellIdx20: cellIdx8Date, // 日
-        cellIdx20TypeTextItem: cellIdx8Date, // 日
         cellIdx21: null, // 单位
         cellIdx22: null, // 加处罚款
         cellIdx23: null, // 年
         cellIdx24: null, // 月
         cellIdx25: null, // 日
         cellIdx26: orgSysOfficeInfo.accountName, // 银行
-        cellIdx26TypeTextItem: orgSysOfficeInfo.accountName, // 银行
         cellIdx27: orgSysOfficeInfo.accountBank, // 支行（分理处）
-        cellIdx27TypeTextItem: orgSysOfficeInfo.accountBank, // 支行（分理处）
         cellIdx28: orgSysOfficeInfo.billName, // 账户名称
-        cellIdx28TypeTextItem: orgSysOfficeInfo.billName, // 账户名称
         cellIdx29: orgSysOfficeInfo.account, // 账号
-        cellIdx29TypeTextItem: orgSysOfficeInfo.account, // 账号
         cellIdx30: orgSysOfficeInfo.accountAddress, // 地址
-        cellIdx30TypeTextItem: orgSysOfficeInfo.accountAddress, // 地址
         cellIdx31: orgSysOfficeInfo.goverPrefix, // 人民政府
-        cellIdx31TypeTextItem: orgSysOfficeInfo.goverPrefix, // 人民政府
         cellIdx32: orgSysOfficeInfo.organName, //
-        cellIdx32TypeTextItem: orgSysOfficeInfo.organName, //
         cellIdx33: orgSysOfficeInfo.courtPrefix, // 人民法院
-        cellIdx33TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
         cellIdx34: this.$store.state.curCase.provinceGroupName, //
         cellIdx35: this.todayDate, // 日期
-        cellIdx35TypeDateItem: this.todayDate, // 日期
         cellIdx36: let8DataPaperContent.selectedType, // 单位
         selectedType: let8DataPaperContent.selectedType, // 单位
-      };
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

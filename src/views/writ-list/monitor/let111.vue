@@ -1,4 +1,4 @@
-<!-- 现场检查 实施检查 停供电(停供民用爆炸物品)决定书 56 -->
+<!-- 现场检查 实施检查 停供电(停供民用爆炸物品)决定书 48 -->
 <template>
   <div style="width: 100%; height: 100%">
     <let-main
@@ -13,10 +13,11 @@
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader0">
-              煤矿安全监管行政执法文书
+            <div class="textAlignCenter formHeader2">
+              国 家 矿 山 安 全 监 察
+              <br />
             </div>
-            <div class="textAlignCenter formHeader1">
+            <div class="textAlignCenter formHeader4">
               <table class="docBody">
                 <tr>
                   <td
@@ -32,20 +33,16 @@
                 </tr>
               </table>
             </div>
-            <div class="docTextLine paper-number-div">
+            <div class="formHeader5 paper-number-div">
               <div>
                 <span @click="commandFill('cellIdx1', '文书号', 'TextItem')">{{
                   letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
                 }}</span>
-                <label>（</label>
+                <label>煤安监</label>
                 <span @click="commandFill('cellIdx2', '文书号', 'TextItem')">{{
                   letData.cellIdx2 ? letData.cellIdx2 : "（编辑）"
                 }}</span>
-                <label>）煤安停</label>
-                <span>{{
-                  letData.cellIdx3 ? letData.cellIdx3 : "（编辑）"
-                }}</span>
-                <label>决〔</label>
+                <label>停决〔</label>
                 <span @click="commandFill('cellIdx4', '文书号', 'TextItem')">{{
                   letData.cellIdx4 ? letData.cellIdx4 : "（编辑）"
                 }}</span>
@@ -74,7 +71,7 @@
             </table>
             <div class="docTextarea">
               <label style="width: 5%"></label>
-              因你单位存在重大事故隐患，本机关于
+              因你单位存在重大事故隐患，我局于
               <span @click="commandFill('cellIdx7', '年', 'TextItem')">{{
                 letData.cellIdx7 ? letData.cellIdx7 : "（XX）"
               }}</span>
@@ -83,14 +80,14 @@
                 letData.cellIdx8 ? letData.cellIdx8 : "（XX）"
               }}</span>
               月
-              <span @click="commandFill('cellIdx9', '', 'TextItem')">{{
+              <span @click="commandFill('cellIdx9', '日', 'TextItem')">{{
                 letData.cellIdx9 ? letData.cellIdx9 : "（XX）"
               }}</span>
               日依法对你单位作出
               <span>{{
                 letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
               }}</span>
-              的决定，但你单位未执行以上决定，未及时消除事故隐患，存在发生生产安全事故的危险。根据《中华人民共和国安全生产法》第六十七条第一款规定，本机关决定自
+              的决定，但你单位未执行以上决定，未及时消除事故隐患，存在发生生产安全事故的危险。根据《中华人民共和国安全生产法》第<span class="text-decoration">七十</span>条第<span class="text-decoration">一</span>款规定，本机关决定自
               <span
                 @click="commandFill('cellIdx11', '', 'TextItem')">{{
                 letData.cellIdx11 ? letData.cellIdx11 : "（XX）"
@@ -115,14 +112,14 @@
                 @click="commandFill('cellIdx15', '', 'TextItem')">{{
                 letData.cellIdx15 ? letData.cellIdx15 : "（XX）"
               }}</span>
-              分起，对你单位采取
+              分起，对你单位采取的
               <span
                 class="no-underline"
                 >{{
                   letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）"
                 }}</span
               >
-              的措施，强制你单位履行决定。
+              措施，强制你单位履行决定。
             </div>
             <div class="docTextarea">
               <label style="width:5%"></label>
@@ -134,15 +131,11 @@
               <span
                 @click="commandFill('cellIdx17', '人民政府', 'TextItem')"
               >{{ letData.cellIdx17 ? letData.cellIdx17 : '（点击编辑）'}}</span>
-              人民政府或者
-              <span
-                @click="commandFill('cellIdx18', '', 'TextItem')"
-              >{{ letData.cellIdx18 ? letData.cellIdx18 : '（点击编辑）' }}</span>
               申请行政复议，或者在6个月内依法向
               <span
                 @click="commandFill('cellIdx19', '', 'TextItem')"
               >{{ letData.cellIdx19 ? letData.cellIdx19 : '（点击编辑）'}}</span>
-              人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。
+              人民法院提起行政诉讼，但不停止执行本决定。
             </div>
             <table class="docBody" style="margin-top: 30px;">
               <tr>
@@ -215,12 +208,34 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 停供电(停供民用爆炸物品)
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 暂不用
+        cellIdx4: null, // 文书号
+        cellIdx5: null, // 文书号
+        cellIdx6: null, // corpName
+        cellIdx7: null, // 年
+        cellIdx8: null, // 月
+        cellIdx9: null, // 日
+        cellIdx10: null, // 依法对你单位作出XXX的决定
+        cellIdx11: null, // 年
+        cellIdx12: null, // 月
+        cellIdx13: null, // 日
+        cellIdx14: null, // 时
+        cellIdx15: null, // 分
+        cellIdx16: null, // 采取XX的措施
+        cellIdx17: null, // 人民政府
+        cellIdx18: null, // 暂不用
+        cellIdx19: null, // 人民法院
+        cellIdx20: null, //
+        cellIdx21: null, // 日期
+      },
       options: {},
-      paperData: {}, // 回显数据
       visibleSelectDialog: false,
       selectedType: "停供电",
-      associationPaper: [],
+      associationPaper: ['1'],
     };
   },
   methods: {
@@ -253,42 +268,20 @@ export default {
       let month = date.getMonth() + 1;
       let strDate = date.getDate();
       await db.close();
-      this.letData = {
-        cellIdx0: null, // 停供电(停供民用爆炸物品)
+      this.letData = Object.assign({}, this.letData, {
         cellIdx1: num0, // 文书号
-        cellIdx1TypeTextItem: num0, // 文书号
         cellIdx2: num1, // 文书号
-        cellIdx2TypeTextItem: num1, // 文书号
-        cellIdx3: null, // 停供电(停供民用爆炸物品)
         cellIdx4: num3, // 文书号
-        cellIdx4TypeTextItem: num3, // 文书号
         cellIdx5: num4, // 文书号
-        cellIdx5TypeTextItem: num4, // 文书号
         cellIdx6: corp.corpName, // corpName
-        cellIdx6TypeTextItem: corp.corpName, // corpName
         cellIdx7: year, // 年
-        cellIdx7TypeTextItem: year, // 年
         cellIdx8: month, // 月
-        cellIdx8TypeTextItem: month, // 月
         cellIdx9: strDate, // 日
-        cellIdx9TypeTextItem: strDate, // 日
-        cellIdx10: null, // 依法对你单位作出XXX的决定
-        cellIdx11: null, // 年
-        cellIdx12: null, // 月
-        cellIdx13: null, // 日
-        cellIdx14: null, // 时
-        cellIdx15: null, // 分
-        cellIdx16: null, // 采取XX的措施
         cellIdx17: orgSysOfficeInfo.goverPrefix, // 人民政府
-        cellIdx17TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民政府
-        cellIdx18: orgSysOfficeInfo.organName, //
-        cellIdx18TypeTextItem: orgSysOfficeInfo.organName, //
         cellIdx19: orgSysOfficeInfo.courtPrefix, // 人民法院
-        cellIdx19TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
         cellIdx20: this.$store.state.curCase.provinceGroupName, //
         cellIdx21: this.todayDate, // 日期
-        cellIdx21TypeDateItem: this.todayDate, // 日期
-      };
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

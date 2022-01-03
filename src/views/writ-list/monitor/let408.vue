@@ -13,16 +13,13 @@
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader0">
-              煤矿安全监管行政执法文书
+            <div class="textAlignCenter formHeader2">
+              国 家 矿 山 安 全 监 察
               <br />
             </div>
-            <div class="textAlignCenter formHeader1">行政执法有关事项审批报告</div>
+            <div class="textAlignCenter formHeader4">行政执法有关事项审批报告</div>
             <div class="docTextLine paper-number-div">
               <div>
-                <!-- <span
-                  @click="commandFill('cellIdx0', '', 'TextItem')"
-                >{{ letData.cellIdx0 ? letData.cellIdx0 : '（编辑）' }}</span> -->
                 <label>编号：</label>
                 <span
                   class="line"
@@ -127,7 +124,7 @@
                 <div class="line"></div>
                 <div class="line1"></div>
             </div>
-            <table class="docBody" style="margin-top: 30px;">
+            <!-- <table class="docBody" style="margin-top: 30px;">
               <tr>
                 <td
                   class="cellInput"
@@ -149,11 +146,7 @@
                   @click="commandFill('cellIdx19', '日期', 'DateItem')"
                 >{{ letData.cellIdx19 ? letData.cellIdx19 : '（点击编辑）' }}</td>
               </tr>
-            </table>
-            <!-- <table>
-              <hr />
-              <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被复查单位，一份存档。</td>
-            </table>-->
+            </table> -->
           </div>
         </div>
       </div>
@@ -179,7 +172,30 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 暂不用
+        cellIdx1: null, // 编号
+        cellIdx2: null, // 案由
+        cellIdx3: null, // 审批事项
+        cellIdx4: null, // 行政相对人基本情况
+        cellIdx5: null, // 案情摘要
+        cellIdx6: null, // 提请审批的理由及依据
+        cellIdx7: null, // 承办人意见
+        cellIdx8: null, // 承办人（签名)
+        cellIdx9: null, // 日期
+        cellIdx10: null, // 承办人（签名）)
+        cellIdx11: null, // 日期
+        cellIdx12: null, // 被检查单位意见
+        cellIdx13: null, // 单位负责人（签名)
+        cellIdx14: null, // 日期
+        cellIdx15: null, // 被检查单位意见
+        cellIdx16: null, // 单位负责人（签名)
+        cellIdx17: null, // 日期
+        cellIdx18: null, //
+        cellIdx19: null, // 日期
+        DangerTable: null,
+        associationPaperId: {},
+      },
       options: {},
       associationPaper: ['4']
     };
@@ -209,30 +225,11 @@ export default {
       let let4DataPaperContent = JSON.parse(selectedPaper.let4Data.paperContent);
 
       await db.close();
-      this.letData = {
-        cellIdx0: null, //
-        cellIdx1: null, // 编号
+      this.letData = Object.assign({}, this.letData, {
         cellIdx2: let4DataPaperContent.cellIdx4, // 案由
-        cellIdx2TypeTextareaItem: let4DataPaperContent.cellIdx4, // 案由
-        cellIdx3: null, // 审批事项
-        cellIdx4: null, // 行政相对人基本情况
-        cellIdx5: null, // 案情摘要
-        cellIdx6: null, // 提请审批的理由及依据
-        cellIdx7: null, // 承办人意见
-        cellIdx8: null, // 承办人（签名)
-        cellIdx9: null, // 日期
-        cellIdx10: null, // 现场执法人员（签名)
-        cellIdx11: null, // 日期
-        cellIdx12: null, // 被检查单位意见
-        cellIdx13: null, // 单位负责人（签名)
-        cellIdx14: null, // 日期
-        cellIdx15: null, // 被检查单位意见
-        cellIdx16: null, // 单位负责人（签名)
-        cellIdx17: null, // 日期
         cellIdx18: this.$store.state.curCase.provinceGroupName, //
         cellIdx19: this.todayDate, // 日期
-        cellIdx19TypeDateItem: this.todayDate, // 日期
-      };
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

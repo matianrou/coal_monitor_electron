@@ -13,20 +13,23 @@
         <div class="page page-sizeA4">
           <div>
             <div class="stdRowH"></div>
-            <div class="textAlignCenter formHeader0">煤矿安全监管行政执法文书</div>
-            <div class="textAlignLeft formHeader1">
+            <div class="textAlignCenter formHeader2">
+              国 家 矿 山 安 全 监 察
+              <br />
+            </div>
+            <div class="textAlignLeft formHeader4">
                <div class="textAlignCenter ">行政强制执行事先催告书</div>
             </div>
-            <div class="docTextLine paper-number-div">
+            <div class="formHeader5 paper-number-div">
               <div>
                 <span
                   @click="commandFill('cellIdx0', '文书号', 'TextItem')"
                 >{{ letData.cellIdx0 ? letData.cellIdx0 : '（编辑）' }}</span>
-                <label>（</label>
+                <label>煤安监</label>
                 <span
                   @click="commandFill('cellIdx1', '文书号', 'TextItem')"
                 >{{ letData.cellIdx1 ? letData.cellIdx1 : '（编辑）' }}</span>
-                <label>）煤安催告〔</label>
+                <label>催告〔</label>
                 <span
                   @click="commandFill('cellIdx2', '文书号', 'TextItem')"
                 >{{ letData.cellIdx2 ? letData.cellIdx2 : '（编辑）' }}</span>
@@ -53,7 +56,7 @@
             </table>
             <div class="docTextarea">
               <label style="width:5%"></label>
-              本机关对
+              我局对你
               <span
                 class="no-underline"
               >{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）'}}</span>
@@ -61,11 +64,11 @@
               <span
                 @click="commandFill('cellIdx7', '', 'TextareaItem')"
               >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
-              尚未履行，且
+              尚未履行，且你
               <span
                 class="no-underline"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
-              在法定期限内未申请行政复议或者提起行政诉讼。依据《中华人民共和国行政强制法》第五十三条、第五十四条的规定，请
+              在法定期限内未申请行政复议或者提起行政诉讼。依据《中华人民共和国行政强制法》第<span class="text-decoration">五十三</span>条、第<span class="text-decoration">五十四</span>条的规定，请你
               <span
                 class="no-underline"
               >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</span>
@@ -121,11 +124,11 @@
             </div>
             <div class="docTextarea">
               <label style="width:5%"></label>
-              如
+              如你
               <span
                 class="no-underline"
               >{{ letData.cellIdx20 ? letData.cellIdx20 : '（点击编辑）'}}</span>
-              不履行上述义务，本机关将依据《中华人民共和国行政强制法》第五十三条、第五十四条的规定，申请人民法院强制执行。
+              不履行上述义务，本机关将依据《中华人民共和国行政强制法》第<span class="text-decoration">五十三</span>条、第<span class="text-decoration">五十四</span>条的规定，申请人民法院强制执行。
             </div>
             <div class="docTextarea" style="margin-top: 30px;">
               <div style="display:inline-block;min-width:55%">
@@ -142,7 +145,7 @@
             </div>
             <div class="docTextarea">
               <div style="display:inline-block;min-width:55%">
-                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;执法机关地址：</span>
+                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;我局地址：</span>
                 <span @click="commandFill('cellIdx23', '执法机关地址：', 'TextItem')"
                   >{{ letData.cellIdx23 ? letData.cellIdx23 : "（点击编辑）" }}
                 </span>
@@ -155,7 +158,7 @@
             </div>
             <div class="docTextarea">
               <div style="display:inline-block;min-width:55%">
-                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;执法机关联系人：</span>
+                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;我局联系人：</span>
                 <span @click="commandFill('cellIdx25', '执法机关联系人', 'TextItem')"
                   >{{ letData.cellIdx25 ? letData.cellIdx25 : "（点击编辑）" }}
                 </span>
@@ -231,8 +234,8 @@ const companyPerson = [
     name: '单位',
   },
   {
-    value: '你',
-    name: '你',
+    value: '个人',
+    name: '个人',
   },
 ]
 export default {
@@ -240,7 +243,40 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 文书号
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 文书号
+        cellIdx4: null, // 暂不用
+        cellIdx5: null, // corpname
+        cellIdx6: null, // 单位/个人
+        cellIdx7: null, // 作出XX尚未履行
+        cellIdx8: null, // 且你XX在法定期限内未申请行政复议或者提起行政诉讼
+        cellIdx9: null, // 请你XX（单位）
+        cellIdx10: null, // 勾选项
+        cellIdx11: null, // 年
+        cellIdx12: null, // 月
+        cellIdx13: null, // 日
+        cellIdx14: null, // 罚款（大写）
+        cellIdx15: null, // 加处罚款（大写）
+        cellIdx16: null, // 合计
+        cellIdx17: null, // 银行
+        cellIdx18: null, // 勾选项
+        cellIdx19: null, // 立即履行以下行政决定XXX
+        cellIdx20: null, // 单位/个人
+        cellIdx21: null, // 受送达人（签名）
+        cellIdx22: null, // 日期
+        cellIdx23: null, // 执法机关地址
+        cellIdx24: null, // 邮政编码
+        cellIdx25: null, // 执法机关联系人
+        cellIdx26: null, // 联系电话
+        cellIdx27: null, //
+        cellIdx28: null, //日期
+        cellIdx29: null, // 单位/个人
+        DangerTable: null,
+        associationPaperId: {},
+      },
       options: {
         cellIdx6: companyPerson,
         cellIdx8: companyPerson,
@@ -248,16 +284,7 @@ export default {
         cellIdx10: toggleDictionary,
         cellIdx18: toggleDictionary,
         cellIdx20: companyPerson,
-        cellIdx29: [
-          {
-            value: '单位',
-            name: '单位',
-          },
-          {
-            value: '个人',
-            name: '个人',
-          },
-        ],
+        cellIdx29: companyPerson,
       },
       associationPaper: ['8']
     };
@@ -284,54 +311,27 @@ export default {
       let selectedType = let8DataPaperContent.selectedType
       let selectedString = selectedType === '个人' ? '你' : '单位'
       await db.close();
-      this.letData = {
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: num0, // 文书号
-        cellIdx0TypeTextItem: num0, // 文书号
         cellIdx1: num1, // 文书号
-        cellIdx1TypeTextItem: num1, // 文书号
         cellIdx2: num3, // 文书号
-        cellIdx2TypeTextItem: num3, // 文书号
         cellIdx3: num4, // 文书号
-        cellIdx3TypeTextItem: num4, // 文书号
-        // cellIdx4: null, // 单位
         cellIdx5: corp.corpName ? corp.corpName : null, // corpname
-        cellIdx5TypeTextItem: corp.corpName ? corp.corpName : null, //
         cellIdx6: selectedString, // 单位/个人
-        cellIdx6TypeSelectItem: selectedString, // 单位/个人
-        cellIdx7: null, // 作出XX尚未履行
         cellIdx8: selectedString, // 且你XX在法定期限内未申请行政复议或者提起行政诉讼
-        cellIdx8TypeSelectItem: selectedString, // 且你XX在法定期限内未申请行政复议或者提起行政诉讼
         cellIdx9: selectedString, // 请你XX（单位）
-        cellIdx9TypeSelectItem: selectedString, // 请你XX（单位）
         cellIdx10: '□', // 勾选项
-        cellIdx11: null, // 年
-        cellIdx12: null, // 月
-        cellIdx13: null, // 日
-        cellIdx14: null, // 罚款（大写）
-        cellIdx15: null, // 加处罚款（大写）
-        cellIdx16: null, // 合计
-        cellIdx17: null, // 银行
         cellIdx18: '□', // 勾选项
-        cellIdx19: null, // 立即履行以下行政决定XXX
         cellIdx20: selectedString, // 单位/个人
-        cellIdx20TypeSelectItem: selectedString, // 单位/个人
-        cellIdx21: null, // 受送达人（签名）
-        cellIdx22: null, // 日期
         cellIdx23: depAddress, // 执法机关地址
-        cellIdx23TypeTextItem: depAddress, // 执法机关地址
         cellIdx24: depPost, // 邮政编码
-        cellIdx24TypeTextItem: depPost, // 邮政编码
         cellIdx25: master, // 执法机关联系人
-        cellIdx25TypeTextItem: master, // 执法机关联系人
         cellIdx26: phone, // 联系电话
-        cellIdx26TypeTextItem: phone, // 联系电话
         cellIdx27: this.$store.state.curCase.provinceGroupName, //
         cellIdx28: this.todayDate, //日期
-        cellIdx28TypeDateItem: this.todayDate, // 日期
         cellIdx29: selectedType, // 单位/个人
-        cellIdx29TypeSelectItem: selectedType, // 单位/个人
         selectedType: selectedType, // 单位/个人
-      };
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业
