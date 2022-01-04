@@ -7,7 +7,8 @@ import {
   getDangerDes,
   getDangerPenaltyDescWithoutPointHasIndex,
   getDangerPenaltyDescWithoutPoint,
-  getDangerConfirmBasis
+  getDangerConfirmBasis,
+  getDangerPenaltyBasis
 } from '@/utils/setInitPaperData'
 import store from '@/store'
 import { handleDate } from '@/utils/date'
@@ -369,13 +370,13 @@ function setDangerTable(data, selectedData, options) {
       // string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString || ''}案。`
       break
     case '15': // 执法案卷（首页）及目录
-    if (options.key === 'cellIdx2') {
-      let dangerString = getDangerContentWithoutPoint(data.selectedDangerList || [], '、')
-      string = `${options.spellString.corpName}涉嫌${dangerString}违法违规案。`
-    }
+      if (options.key === 'cellIdx2') {
+        let dangerString = getDangerContentWithoutPoint(data.selectedDangerList || [], '、')
+        string = `${options.spellString.corpName}涉嫌${dangerString}违法违规案。`
+      }
       // string = `${options.spellString.corpName}${dangerObject.dangerString || ''}案。`
       break
-    case '47': // 行政执法决定法制审核意见书
+    case '47': // 行政执法决定法制审核意见书 监管
       let list47 = data && data.dangerContentMerge ? newList : data.selectedDangerList || []
       if (options.key === 'cellIdx3') {
         let dangerString = getDangerContentWithoutPoint(list47 || [], '、')
@@ -387,6 +388,20 @@ function setDangerTable(data, selectedData, options) {
         string = dangerObject.penaltyBasisString || ''
       } else if (options.key === 'cellIdx7') {
         string = dangerObject.penaltyDesc || ''
+      }
+      break
+    case '49': // 行政执法决定法制审核意见书 监察
+      let list49 = data && data.dangerContentMerge ? newList : data.selectedDangerList || []
+      if (options.key === 'cellIdx3') {
+        let dangerString = getDangerContentWithoutPoint(list49 || [], '、')
+        string = `${options.spellString.corpName}涉嫌${dangerString }违法违规案。`
+      } else if (options.key === 'cellIdx5') {
+        let dangerString2 = getDangerContentWithoutPoint(data.selectedDangerList || [], '；')
+        string = `${options.spellString.dateString}，${options.spellString.groupName}对${options.spellString.corpName}进行现场检查时发现：${dangerString2}。以上行为分别涉嫌违反了${dangerObject.illegalString || ''}的规定。依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`
+      } else if (options.key === 'cellIdx6') {
+        string = getDangerPenaltyBasis(data.selectedDangerList || [], '，') + '。'
+      } else if (options.key === 'cellIdx7') {
+        string = getDangerPenaltyDescWithoutPoint(data.selectedDangerList || [], '；') + '。'
       }
       break
     case '48': // 集体讨论记录或停供电(停供民用爆炸物品)决定书

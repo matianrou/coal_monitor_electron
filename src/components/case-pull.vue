@@ -109,13 +109,39 @@
         let userGroupId = this.$store.state.user.userGroupId
         if (this.allUser) {
           // 查询全省用户，排除自己
-          personList = await person.findAll((item) => {
-            return item.delFlag == "0" && item.no !== userId;
-          });
+          // 通过userGroupId查询机构表，获取全省所有机构，遍历用户表将机构中的人员筛选出来
+          let orgInfo = db.table('orgInfo')
+          let orgData = await orgInfo.find(item => item.no === userGroupId && item.delFlag === "0")
+          let orgList = []
+          if (orgData.grade === '2') {
+            // 省级
+            // 获取所有parentId为当前userGroupId的机构
+            let orgChildrenList = await orgInfo.findAll(item => item.parentId === userGroupId && item.delFlag === "0")
+            orgList = [...[orgData], ...orgChildrenList]
+          } else if (orgData.grade === '3') {
+            // 市区县级
+            // 获取当前机构的省级用户
+            let parentOrg = await orgInfo.find(item => item.no === orgData.parentId && item.delFlag === '0')
+            // 获取所有parentId为当前parentOrg.no的机构
+            let orgChildrenList = await orgInfo.findAll(item => item.parentId === parentOrg.no && item.delFlag === "0")
+            orgList = [...[parentOrg], ...orgChildrenList]
+          } else {
+            // 国家局
+            personList = await person.findAll((item) => {
+              return item.delFlag === "0" && item.no !== userId;
+            });
+          }
+          if (orgList.length > 0) {
+            // 省级和市区县级根据机构获取人员
+            for (let i = 0; i < orgList.length; i++) {
+              let curPersons = await person.findAll(item => item.delFlag === "0" && item.officeId === orgList[i].no && item.no !== userId)
+              personList = [...personList, ...curPersons]
+            }
+          }
         } else {
           // 查询当前用户当前机构的所有用户，排除自己
           personList = await person.findAll((item) => {
-            return item.delFlag == "0" && item.officeId === userGroupId && item.no !== userId;
+            return item.delFlag === "0" && item.officeId === userGroupId && item.no !== userId;
           });
         }
         personList.forEach(item => {

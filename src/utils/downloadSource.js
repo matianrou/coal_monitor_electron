@@ -178,8 +178,10 @@ async function doCorpDb(resId, data) {
 			"countryName": obj.countryName,
 			"zoneCountyId": obj.zoneCountyId,
 			"legalName": obj.legalName,
+			"legalTel": obj.legalTel,
 			"contacts": obj.contacts,
 			"tel": obj.tel,
+			"useCode": obj.useCode,
 			"xkzStatusNameZs": obj.xkzStatusNameZs,
 			"parentTypeName": obj.parentTypeName,
 			"economyTypeName": obj.economyTypeName,
@@ -1018,8 +1020,10 @@ let schema = {
 		"countryName": String, //"内丘县",
 		"zoneCountyId": String, //"130523",
 		"legalName": String, // "郑海庭",
+		"legalTel": String, // 法定代表人电话
 		"contacts": String, //"郑海庭",
 		"tel": String, //"0319-6809588",
+		"useCode": String, // 统一信用代码
 		"xkzStatusNameZs": String, //"未办证",
 		"parentTypeName": String, //"地方国有",
 		"economyTypeName": String, //"集体经济",

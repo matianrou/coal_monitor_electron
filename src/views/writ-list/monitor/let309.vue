@@ -45,7 +45,7 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_5"
-                  style="width:50%"
+                  style="min-width:50%"
                   data-title
                   data-type="text"
                   data-src
@@ -216,8 +216,9 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber } from '@/utils/setInitPaperData'
+import { getDocNumber, setNewDanger } from '@/utils/setInitPaperData'
 import associationSelectPaper from '@/components/association-select-paper'
+import { transformNumToChinese } from '@/utils/index'
 const toggleDictionary = [
   {
     value: '□',
@@ -226,16 +227,6 @@ const toggleDictionary = [
   {
     value: '√',
     name: '√'
-  },
-]
-const companyPerson = [
-  {
-    value: '单位',
-    name: '单位',
-  },
-  {
-    value: '个人',
-    name: '个人',
   },
 ]
 export default {
@@ -278,13 +269,8 @@ export default {
         associationPaperId: {},
       },
       options: {
-        cellIdx6: companyPerson,
-        cellIdx8: companyPerson,
-        cellIdx9: companyPerson,
         cellIdx10: toggleDictionary,
         cellIdx18: toggleDictionary,
-        cellIdx20: companyPerson,
-        cellIdx29: companyPerson,
       },
       associationPaper: ['8']
     };
@@ -302,27 +288,56 @@ export default {
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
       let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: ''}
-      let depAddress = orgSysOfficeInfo.depAddress
-      let depPost = orgSysOfficeInfo.depPost
-      let master = orgSysOfficeInfo.master
-      let phone = orgSysOfficeInfo.phone
+      let accountName = orgSysOfficeInfo.accountName || ''
+      let depAddress = orgSysOfficeInfo.depAddress || ''
+      let depPost = orgSysOfficeInfo.depPost || ''
+      let master = orgSysOfficeInfo.master || ''
+      let phone = orgSysOfficeInfo.phone || ''
       // 3.带入处罚决定书的单位或个人
       let let8DataPaperContent = JSON.parse(selectedPaper.let8Data.paperContent)
       let selectedType = let8DataPaperContent.selectedType
-      let selectedString = selectedType === '个人' ? '你' : '单位'
+      // 4.被处罚单位个人
+      let cellIdx5String = let8DataPaperContent.cellIdx5 || ''
+      // 5.获取行政处罚决定
+      let cellIdx7String = let8DataPaperContent.cellIdx10 || ''
+      // 6.当前时间
+      let now = new Date();
+      let year = now.getFullYear() + ''; //得到年份
+      let month = now.getMonth() + 1 + '';//得到月份
+      let date = now.getDate() + '';//得到日期
+      let moneyChinese = ''
+      if (selectedPaper.let8Data.p8Penalty) {
+        moneyChinese = transformNumToChinese(selectedPaper.let8Data.p8Penalty)
+      }
+      let cellIdx14String = selectedPaper.let8Data.p8Penalty ? moneyChinese : ''
+      let DangerTable = null;
+      if (this.corpData.caseType === "0") {
+        DangerTable = let8DataPaperContent.DangerTable
+          ? setNewDanger(
+              selectedPaper.let8Data,
+              let8DataPaperContent.DangerTable
+            )
+          : {};
+      }
       await db.close();
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: num0, // 文书号
         cellIdx1: num1, // 文书号
         cellIdx2: num3, // 文书号
         cellIdx3: num4, // 文书号
-        cellIdx5: corp.corpName ? corp.corpName : null, // corpname
-        cellIdx6: selectedString, // 单位/个人
-        cellIdx8: selectedString, // 且你XX在法定期限内未申请行政复议或者提起行政诉讼
-        cellIdx9: selectedString, // 请你XX（单位）
+        cellIdx5: cellIdx5String, // 被处罚单位、个人
+        cellIdx6: selectedType, // 单位/个人
+        cellIdx7: cellIdx7String, // 行政处罚决定
+        cellIdx8: selectedType, // 且你XX在法定期限内未申请行政复议或者提起行政诉讼
+        cellIdx9: selectedType, // 请你XX（单位）
         cellIdx10: '□', // 勾选项
+        cellIdx11: year, // 年
+        cellIdx12: month, // 月
+        cellIdx13: date, // 日
+        cellIdx14: cellIdx14String, // 罚款大写
+        cellIdx17: accountName, // 银行
         cellIdx18: '□', // 勾选项
-        cellIdx20: selectedString, // 单位/个人
+        cellIdx20: selectedType, // 单位/个人
         cellIdx23: depAddress, // 执法机关地址
         cellIdx24: depPost, // 邮政编码
         cellIdx25: master, // 执法机关联系人
@@ -331,6 +346,20 @@ export default {
         cellIdx28: this.todayDate, //日期
         cellIdx29: selectedType, // 单位/个人
         selectedType: selectedType, // 单位/个人
+        DangerTable: DangerTable,
+        associationPaperId:
+          this.corpData.caseType === "0"
+            ? {
+                // 关联的paperId
+                paper22Id: let8DataPaperContent.associationPaperId.paper22Id,
+                paper1Id: let8DataPaperContent.associationPaperId.paper1Id,
+                paper6Id: let8DataPaperContent.associationPaperId.paper6Id,
+                paper8Id: selectedPaper.let8Data.paperId,
+              }
+            : {
+              paper6Id: let8DataPaperContent.associationPaperId.paper6Id,
+              paper8Id: selectedPaper.let8Data.paperId,
+            },
       })
     },
     goBack({ page, data }) {

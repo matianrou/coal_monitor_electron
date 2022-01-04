@@ -91,7 +91,7 @@ export default {
       // 初始化文书内容
       // 案件处理呈报书需初始化法制审核意见
       let db = new GoDB(this.DBName);
-      if (this.docData.docTypeNo === '36') {
+      if (this.docData.docTypeNo === '36' || (this.docData.docTypeNo === '49' && this.$store.state.user.userType !== 'supervision')) {
         // 4.法制审核意见初始化码表
         let nowDate = getNowDate();
         let optionList = [

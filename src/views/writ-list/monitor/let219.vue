@@ -307,8 +307,9 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber } from "@/utils/setInitPaperData";
+import { getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from '@/components/association-select-paper'
+import { transformNumToChinese, thousands } from '@/utils/index'
 const toggleDictionary = [
   {
     value: "□",
@@ -317,16 +318,6 @@ const toggleDictionary = [
   {
     value: "√",
     name: "√",
-  },
-];
-const companyYou = [
-  {
-    value: "单位",
-    name: "单位",
-  },
-  {
-    value: "个人",
-    name: "个人",
   },
 ];
 export default {
@@ -385,22 +376,9 @@ export default {
         associationPaperId: {},
       },
       options: {
-        cellIdx9: companyYou,
-        cellIdx14: companyYou,
-        cellIdx16: companyYou,
         cellIdx17: toggleDictionary,
         cellIdx19: toggleDictionary,
         cellIdx23: toggleDictionary,
-        cellIdx39: [
-          {
-            value: "单位",
-            name: "单位",
-          },
-          {
-            value: "个人",
-            name: "个人",
-          },
-        ]
       },
       visibleSelectDialog: false,
       selectedType: "延期",
@@ -414,22 +392,36 @@ export default {
       let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
+      // 1.文书号
       let paperNumber = await getDocNumber(
         db,
         this.docData.docTypeNo,
         this.corpData.caseId
       );
-      // 2.行政处罚决定书 日期、编号、
+      // 2.被处罚单位个人
       let let8DataPaperContent = JSON.parse(selectedPaper.let8Data.paperContent);
-      let date206 = let8DataPaperContent.cellIdx20
-        ? let8DataPaperContent.cellIdx20
-            .replace("年", "-")
-            .replace("月", "-")
-            .replace("日", "-")
-            .split("-")
-        : ["", "", ""];
+      let cellIdx5String = let8DataPaperContent.cellIdx5 || ''
+      // 3.行政处罚决定书 日期、编号、
+      let date206 = selectedPaper.let8Data.createDate.split(' ')[0].split('-')
       let selectedTypeExtra = let8DataPaperContent.selectedType
-      let selectedString = selectedTypeExtra === '单位' ? '单位' : '你'
+      // 4.获取行政处罚中的罚款金额
+      // 带入行政处罚决定书的处罚金额 .罚款数额的填写应当使用中文大写填写，后面用括号标明“¥+阿拉伯数字”，如“人民币贰万元整（¥20,000.00）
+      let moneyChinese = ''
+      let moneyThousands = ''
+      if (selectedPaper.let8Data.p8Penalty) {
+        moneyChinese = transformNumToChinese(selectedPaper.let8Data.p8Penalty)
+        moneyThousands = thousands(selectedPaper.let8Data.p8Penalty, 2)
+      }
+      let cellIdx15String = selectedPaper.let8Data.p8Penalty ?`${moneyChinese}（¥${moneyThousands}）` : ''
+      let DangerTable = null;
+      if (this.corpData.caseType === "0") {
+        DangerTable = let8DataPaperContent.DangerTable
+          ? setNewDanger(
+              selectedPaper.let8Data,
+              let8DataPaperContent.DangerTable
+            )
+          : {};
+      }
       await db.close();
       this.visibleSelectDialog = true;
       this.letData = Object.assign({}, this.letData, {
@@ -437,7 +429,7 @@ export default {
         cellIdx2: paperNumber.num1, // 文书号
         cellIdx3: paperNumber.num3, // 文书号
         cellIdx4: paperNumber.num4, // 文书号
-        cellIdx5: corp.corpName, // 煤矿名称
+        cellIdx5: cellIdx5String, // 被处罚单位/个人
         cellIdx6: date206[0], // 年
         cellIdx7: date206[1], // 月
         cellIdx8: date206[2], // 日
@@ -447,6 +439,7 @@ export default {
         cellIdx12: let8DataPaperContent.cellIdx2, // 行政处罚决定书 文书号
         cellIdx13: let8DataPaperContent.cellIdx3, // 行政处罚决定书 文书号
         cellIdx14: selectedTypeExtra, // 单位/个人
+        cellIdx15: cellIdx15String,
         cellIdx16: selectedTypeExtra, // 单位/个人
         cellIdx17: "□", // 不予批准
         cellIdx19: "□", // 延期缴纳罚款
@@ -454,6 +447,21 @@ export default {
         cellIdx37: this.$store.state.curCase.provinceGroupName, //
         cellIdx38: this.todayDate, // 日期
         cellIdx39: selectedTypeExtra, // 单位/个人
+        selectedType1: let8DataPaperContent.selectedType, // 单位或个人的存储
+        DangerTable: DangerTable,
+        associationPaperId:
+          this.corpData.caseType === "0"
+            ? {
+                // 关联的paperId
+                paper22Id: let8DataPaperContent.associationPaperId.paper22Id,
+                paper1Id: let8DataPaperContent.associationPaperId.paper1Id,
+                paper6Id: let8DataPaperContent.associationPaperId.paper6Id,
+                paper8Id: selectedPaper.let8Data.paperId,
+              }
+            : {
+              paper6Id: let8DataPaperContent.associationPaperId.paper6Id,
+              paper8Id: selectedPaper.let8Data.paperId,
+            },
       })
     },
     goBack({ page, data }) {

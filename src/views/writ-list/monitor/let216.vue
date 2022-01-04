@@ -21,7 +21,7 @@
             <div class="docTextarea">
              <span class="no-line">案由：</span>
               <span
-                @click="commandFill('cellIdx0', '案由', 'DangerTable')"
+                @click="commandFill('cellIdx0', '案由', 'TextareaItem')"
               >{{ letData.cellIdx0 ? letData.cellIdx0 : '（点击编辑）'}}</span>
               <div class="line"></div>
             </div>
@@ -157,6 +157,7 @@ import GoDB from "@/utils/godb.min.js";
 import { handleDate } from '@/utils/date'
 import associationSelectPaper from '@/components/association-select-paper'
 import { setDangerTable } from '@/utils/handlePaperData'
+import { setNewDanger } from '@/utils/setInitPaperData'
 export default {
   name: "Let216",
   mixins: [associationSelectPaper],
@@ -195,30 +196,45 @@ export default {
       let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
+      // 1.案由内容初始化：立案决定书案由
       let let4DataPaperContent = JSON.parse(selectedPaper.let4Data.paperContent)
-      // let dangerObject = getDangerObject(let4DataPaperContent.DangerTable.tableData)
-      // let cellIdx4String = `${corp.corpName}${dangerObject.dangerString}案。`
-      let cellIdx4String = this.corpData.caseType === '0' ?setDangerTable(
-          let4DataPaperContent.DangerTable,
-          {},
-          {
-            page: "50",
-            key: "cellIdx4",
-            spellString: {
-              corpName: corp.corpName,
-              groupName: this.$store.state.curCase.provinceGroupName,
-            },
-          }
-        ):'';
+      let cellIdx0String = let4DataPaperContent.cellIdx4
+      // 2.讨论时间：默认当前时间
+      let now = new Date();
+      let year = now.getFullYear() + ''; //得到年份
+      let month = now.getMonth() + 1 + '';//得到月份
+      let date = now.getDate() + '';//得到日期
+      let hour = now.getHours() + '';//得到小时
+      let minu = now.getMinutes() + '';//得到分钟
+      let DangerTable = null;
+      if (this.corpData.caseType === "0") {
+        DangerTable = let4DataPaperContent.DangerTable
+          ? setNewDanger(
+              selectedPaper.let4Data,
+              let4DataPaperContent.DangerTable
+            )
+          : {};
+      }
       await db.close();
       this.letData = Object.assign({}, this.letData, {
-        cellIdx0: cellIdx4String, // 案由
-        DangerTable: let4DataPaperContent.DangerTable,
-        extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
-          corpName: corp.corpName,
-          groupName: this.$store.state.curCase.provinceGroupName,
-        }
+        cellIdx0: cellIdx0String, // 案由
+        cellIdx1: year, // 年
+        cellIdx2: month, // 月
+        cellIdx3: date, // 日
+        cellIdx4: hour, // 时
+        cellIdx5: minu, // 分
+        DangerTable: DangerTable,
+        associationPaperId:
+          this.corpData.caseType === "0"
+            ? {
+                // 关联的paperId
+                paper22Id: let4DataPaperContent.associationPaperId.paper22Id,
+                paper1Id: let4DataPaperContent.associationPaperId.paper1Id,
+                paper4Id: selectedPaper.let4Data.paperId,
+              }
+            : {
+              paper4Id: selectedPaper.let4Data.paperId,
+            },
       })
     },
     goBack({ page, data }) {
@@ -230,16 +246,6 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
-        if (key === 'cellIdx0') {
-          this.options[key] = {
-            page: '50',
-            key: key,
-            spellString: {
-              corpName: this.letData.extraData
-            }
-          }
-          dataKey = 'DangerTable'
-        }
         this.$refs.letMain.commandFill(
           key,
           dataKey,

@@ -325,7 +325,8 @@ export default {
             // 2.比对文书中的关联paper1Id，如果相同则提取文书信息
             let db = new GoDB(this.DBName)
             let wkPaper = db.table('wkPaper')
-            let updatePaperType = ['1', '2', '4', '36', '6', '8']
+            let updatePaperType = ['1', '2', '4', '6', '49', '36', '8']
+            console.log('updatePaperType', updatePaperType)
             let curIndex = updatePaperType.indexOf(this.docData.docTypeNo)
             let updatePaper = {}
             // 遍历文书类型updatePaperType，逐个拉取需要更新的数据,只拉取状态为保存的文书
@@ -364,6 +365,7 @@ export default {
               }
             }
             this.updatePaper = updatePaper
+            console.log('updatePaper', this.updatePaper)
             this.curDangerTable = this.$parent.letData.DangerTable
             await db.close()
             // 如果updatePaper中没有数据则无需再打开弹窗选择更新
@@ -864,10 +866,12 @@ export default {
         );
       } else if (this.$store.state.user.userType === 'monitor' && dataKey === 'DangerTable'
         && (options.page === '13' || options.page === '32' || options.page === '4' 
-        || options.page === '36' || options.page === '6' || options.page === '8')) {
+        || options.page === '36' || options.page === '6' || options.page === '8'
+        || options.page === '49')) {
         // 特殊保存：当文书中有多个隐患字段时，同时修改所有隐患字段内容
         // 监察中多个隐患项字段的有:复查意见书13,查封(扣押)决定书32,立案决定书4,
         // 案件处理呈报书36,行政处罚告知书6,行政处罚决定书8
+        // 行政执法决定法制审核意见书49,
         let saveFields = []
         switch (options.page) {
           case '13': 
@@ -887,6 +891,9 @@ export default {
             break
           case '8': 
             saveFields = ['cellIdx7', 'cellIdx8', 'cellIdx9', 'cellIdx10']
+            break
+          case '49': 
+            saveFields = ['cellIdx3', 'cellIdx5', 'cellIdx6', 'cellIdx7']
             break
         }
         this.$parent.letData[dataKey] = params.value;

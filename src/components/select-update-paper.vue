@@ -136,21 +136,21 @@
           </el-table>
         </div>
       </div>
-      <div v-if="updatePaper.paper36List && updatePaper.paper36List.length > 0">
+      <div v-if="updatePaper.paper6List && updatePaper.paper6List.length > 0">
         <div class="paper-title">
-          案件处理呈报书
+          行政处罚告知书
         </div>
         <div>
           <el-table
-            ref="paper36List"
-            :data="updatePaper.paper36List"
+            ref="paper6List"
+            :data="updatePaper.paper6List"
             style="width: 100%;"
             row-key="paperId"
             border
             stripe
             :default-sort = "{prop: 'createDate', order: 'descending'}"
             :header-cell-style="{background: '#f5f7fa'}"
-            @selection-change="val => handleSelectionChange(val, 'paper36List')">
+            @selection-change="val => handleSelectionChange(val, 'paper6List')">
             <el-table-column
               type="selection"
               width="60"
@@ -178,21 +178,63 @@
           </el-table>
         </div>
       </div>
-      <div v-if="updatePaper.paper6List && updatePaper.paper6List.length > 0">
+      <div v-if="updatePaper.paper49List && updatePaper.paper49List.length > 0">
         <div class="paper-title">
-          行政处罚告知书
+          行政执法决定法制审核意见书
         </div>
         <div>
           <el-table
-            ref="paper6List"
-            :data="updatePaper.paper6List"
+            ref="paper49List"
+            :data="updatePaper.paper49List"
             style="width: 100%;"
             row-key="paperId"
             border
             stripe
             :default-sort = "{prop: 'createDate', order: 'descending'}"
             :header-cell-style="{background: '#f5f7fa'}"
-            @selection-change="val => handleSelectionChange(val, 'paper6List')">
+            @selection-change="val => handleSelectionChange(val, 'paper49List')">
+            <el-table-column
+              type="selection"
+              width="60"
+              header-align="center"
+              align="center">
+            </el-table-column>
+            <el-table-column
+              type="index"
+              width="60"
+              header-align="center"
+              align="center">
+            </el-table-column>
+            <el-table-column
+              label="制作人"
+              prop="personName"
+              header-align="center"
+              align="center">
+            </el-table-column>
+            <el-table-column
+              label="制作时间"
+              prop="createDate"
+              header-align="center"
+              align="center">
+            </el-table-column>
+          </el-table>
+        </div>
+      </div>
+      <div v-if="updatePaper.paper36List && updatePaper.paper36List.length > 0">
+        <div class="paper-title">
+          案件处理呈报书
+        </div>
+        <div>
+          <el-table
+            ref="paper36List"
+            :data="updatePaper.paper36List"
+            style="width: 100%;"
+            row-key="paperId"
+            border
+            stripe
+            :default-sort = "{prop: 'createDate', order: 'descending'}"
+            :header-cell-style="{background: '#f5f7fa'}"
+            @selection-change="val => handleSelectionChange(val, 'paper36List')">
             <el-table-column
               type="selection"
               width="60"

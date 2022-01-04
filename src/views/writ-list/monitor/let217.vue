@@ -54,7 +54,7 @@
             </table>
             <div class="docTextarea">
               <label style="width:5%"></label>
-              本局于
+              我局于
               <span
                 @click="commandFill('cellIdx5', '年', 'TextItem')"
               >{{ letData.cellIdx5 ? letData.cellIdx5 : '（XX）'}}</span>
@@ -86,7 +86,7 @@
                 class="no-underline"
                 @click="commandFill('cellIdx11', '行政处罚决定文书号', 'TextItem')"
               >{{ letData.cellIdx11 ? letData.cellIdx11 : '（点击编辑）'}}</span>
-              号），要求
+              号），要求你
               <span
                 class="no-underline"
               >{{ letData.cellIdx12 ? letData.cellIdx12 : '（点击编辑）'}}</span>
@@ -110,7 +110,7 @@
               <span
                 class="no-underline"
               >{{ letData.cellIdx27 ? letData.cellIdx27 : '（点击编辑）'}}</span>
-              逾期未履行该处罚决定，依据《中华人民共和国行政强制法》第<span class="text-decoration">三十五</span>条规定，现催告
+              逾期未履行该处罚决定，依据《中华人民共和国行政强制法》第<span class="text-decoration">三十五</span>条规定，现催告你
               <span
                 class="no-underline"
               >{{ letData.cellIdx17 ? letData.cellIdx17 : '（点击编辑）'}}</span>
@@ -126,7 +126,7 @@
             </div>
              <div class="docTextarea" style="margin-top: 60px;">
               <div style="display:inline-block;min-width:55%">
-                <span class="no-line">受送达人（签名）：</span>
+                <span class="no-line">受送达<span>{{letData.cellIdx17}}</span>（签名）：</span>
                 <span @click="commandFill('cellIdx19', '受送达人（签名）：', 'TextItem')"
                   >{{ letData.cellIdx19 ? letData.cellIdx19 : "（点击编辑）" }}
                 </span>
@@ -211,28 +211,9 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber } from '@/utils/setInitPaperData'
+import { getDocNumber, setNewDanger } from '@/utils/setInitPaperData'
 import associationSelectPaper from '@/components/association-select-paper'
-const companyPerson = [
-  {
-    value: '单位',
-    name: '单位',
-  },
-  {
-    value: '个人',
-    name: '个人',
-  },
-]
-const companyYou = [
-  {
-    value: '单位',
-    name: '单位',
-  },
-  {
-    value: '你',
-    name: '你',
-  },
-]
+
 export default {
   name: "Let217",
   mixins: [associationSelectPaper],
@@ -271,37 +252,39 @@ export default {
         extraData: {},
         associationPaperId: {},
       },
-      options: {
-        cellIdx12: companyYou,
-        cellIdx17: companyYou,
-        cellIdx18: companyYou,
-        cellIdx27: companyPerson
-      },
+      options: {},
       associationPaper: ['8']
     };
   },
   methods: {
     async initLetData (selectedPaper) {
       let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
-        return item.corpId == this.corpData.corpId;
-      });
       // 1.生成文书编号
       let {num0, num1, num3, num4} = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId)
-      // 2.行政处罚决定书 日期、编号
       let let8DataPaperContent = JSON.parse(selectedPaper.let8Data.paperContent)
-      let date206 = let8DataPaperContent.cellIdx20 ? let8DataPaperContent.cellIdx20.replace('年', '-').replace('月', '-').replace('日', '-').split('-') : ['', '', '']
+      // 2.被处罚单位个人
+      let cellIdx4String = let8DataPaperContent.cellIdx5 || ''
+      // 3.行政处罚决定书 日期、编号
+      let date206 = selectedPaper.let8Data.createDate.split(' ')[0].split('-')
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
-      let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {accountName: '', accountBank: '', billName: '', account: '', accountAddress: '', organName: '', courtPrefix: ''}
+      let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {accountName: '', billName: '', depAddress: '', depPost: '', master: '', phone: ''}
+      let DangerTable = null;
+      if (this.corpData.caseType === "0") {
+        DangerTable = let8DataPaperContent.DangerTable
+          ? setNewDanger(
+              selectedPaper.let8Data,
+              let8DataPaperContent.DangerTable
+            )
+          : {};
+      }
       await db.close();
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: num0, // 文书号
         cellIdx1: num1, // 文书号
         cellIdx2: num3, // 文书号
         cellIdx3: num4, // 文书号
-        cellIdx4: corp.corpName, // corpName
+        cellIdx4: cellIdx4String, // 被处罚单位、个人
         cellIdx5: date206[0], // 年
         cellIdx6: date206[1], // 月
         cellIdx7: date206[2], // 日
@@ -310,21 +293,30 @@ export default {
         cellIdx10: let8DataPaperContent.cellIdx2, // 行政处罚决定书 文书号
         cellIdx11: let8DataPaperContent.cellIdx3, // 行政处罚决定书 文书号
         cellIdx12: let8DataPaperContent.selectedType, // 单位
-        cellIdx13: null, // 年
-        cellIdx14: null, // 月
-        cellIdx15: null, // 日
-        cellIdx16: null, // 罚款缴至
+        cellIdx16: orgSysOfficeInfo.accountName + orgSysOfficeInfo.accountBank, // 银行
         cellIdx17: let8DataPaperContent.selectedType, // 单位
-        cellIdx19: null, // 受送达人（签名）
-        cellIdx20: null, // 日期
-        cellIdx21: orgSysOfficeInfo.accountAddress, // 执法机关地址
-        cellIdx22: null, // 邮政编码
-        cellIdx23: null, // 执法机关联系人
-        cellIdx24: null, // 联系电话
-        cellIdx25: this.$store.state.curCase.groupNamee, //
+        cellIdx21: orgSysOfficeInfo.depAddress, // 执法机关地址
+        cellIdx22: orgSysOfficeInfo.depPost, // 邮政编码
+        cellIdx23: orgSysOfficeInfo.master, // 执法机关联系人
+        cellIdx24: orgSysOfficeInfo.phone, // 联系电话
+        cellIdx25: this.$store.state.curCase.provinceGroupName, //
         cellIdx26: this.todayDate, //日期
         cellIdx27: let8DataPaperContent.selectedType, //单位
         selectedType: let8DataPaperContent.selectedType, // 单位
+        DangerTable: DangerTable,
+        associationPaperId:
+          this.corpData.caseType === "0"
+            ? {
+                // 关联的paperId
+                paper22Id: let8DataPaperContent.associationPaperId.paper22Id,
+                paper1Id: let8DataPaperContent.associationPaperId.paper1Id,
+                paper6Id: let8DataPaperContent.associationPaperId.paper6Id,
+                paper8Id: selectedPaper.let8Data.paperId,
+              }
+            : {
+              paper6Id: let8DataPaperContent.associationPaperId.paper6Id,
+              paper8Id: selectedPaper.let8Data.paperId,
+            },
       })
     },
     goBack({ page, data }) {

@@ -124,33 +124,27 @@
                 <div class="line"></div>
                 <div class="line1"></div>
             </div>
-            <!-- <table class="docBody" style="margin-top: 30px;">
-              <tr>
-                <td
-                  class="cellInput"
-                  id="cell_idx_18"
-                  align="right"
-                  style="width:95%"
-                  @click="commandFill('cellIdx18', '', 'TextItem')"
-                >{{ letData.cellIdx18 ? letData.cellIdx18 : '（点击编辑）' }}</td>
-              </tr>
-              <tr>
-                <td
-                  class="cellInput"
-                  id="cell_idx_19"
-                  align="right"
-                  style="width:95%"
-                  data-title
-                  data-type="date"
-                  data-src
-                  @click="commandFill('cellIdx19', '日期', 'DateItem')"
-                >{{ letData.cellIdx19 ? letData.cellIdx19 : '（点击编辑）' }}</td>
-              </tr>
-            </table> -->
           </div>
         </div>
       </div>
     </let-main>
+    <el-dialog
+      title="文书信息选择"
+      :close-on-click-modal="false"
+      append-to-body
+      :visible="visibleSelectDialog"
+      width="400px"
+      :show-close="false"
+    >
+      <span>请选择：</span>
+      <el-radio-group v-model="selectedType">
+        <el-radio label="单位">单位</el-radio>
+        <el-radio label="个人">个人</el-radio>
+      </el-radio-group>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="confirm">确定</el-button>
+      </span>
+    </el-dialog>
     <!-- 关联文书选择 -->
     <select-paper
       :visible="visible.selectPaper"
@@ -164,7 +158,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
+import { getDocNumber2 } from "@/utils/setInitPaperData";
 import associationSelectPaper from '@/components/association-select-paper'
 
 export default {
@@ -191,44 +185,32 @@ export default {
         cellIdx15: null, // 被检查单位意见
         cellIdx16: null, // 单位负责人（签名)
         cellIdx17: null, // 日期
-        cellIdx18: null, //
-        cellIdx19: null, // 日期
         DangerTable: null,
         associationPaperId: {},
       },
       options: {},
+      visibleSelectDialog: false,
+      selectedType: "单位", // 初始化时选择的单位或个人
       associationPaper: ['4']
     };
   },
   methods: {
     async initLetData (selectedPaper) {
+      this.visibleSelectDialog = true;
       let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
-        return item.corpId == this.corpData.corpId;
-      });
       // 1.生成文书编号
-      let { num0, num1, num3, num4 } = await getDocNumber(
+      let paperNumber = await getDocNumber2(
         db,
         this.docData.docTypeNo,
         this.corpData.caseId
       );
-      // 2.发现你矿存在：隐患描述
-      // 获取笔录文书中的隐患数据 调整为立案决定书中的案由字段cellIdx4
-      // let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent);
-      // let dangerObject = getDangerObject(
-      //   let1DataPaperContent.DangerTable.tableData,
-      //   { danger: true }
-      // );
-      // let cellIdx2String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
-      // let cellIdx10String = dangerObject.onsiteDescString;
+      // 2.获取立案决定书案由
       let let4DataPaperContent = JSON.parse(selectedPaper.let4Data.paperContent);
-
       await db.close();
       this.letData = Object.assign({}, this.letData, {
+        cellIdx1: paperNumber,
         cellIdx2: let4DataPaperContent.cellIdx4, // 案由
-        cellIdx18: this.$store.state.curCase.provinceGroupName, //
-        cellIdx19: this.todayDate, // 日期
+        cellIdx5: let4DataPaperContent.cellIdx5, // 案由
       })
     },
     goBack({ page, data }) {
@@ -248,6 +230,24 @@ export default {
           this.letData[dataKey],
           this.options[key]
         );
+      }
+    },
+    async confirm() {
+      // 选择单位或个人
+      this.visibleSelectDialog = false;
+      if (this.selectedType === "单位") {
+        // 按单位初始化信息
+        let db = new GoDB(this.$store.state.DBName);
+        let corpBase = db.table("corpBase");
+        let corp = await corpBase.find((item) => {
+          return item.corpId == this.corpData.corpId;
+        });
+        console.log('corp', corp)
+        // 煤矿名称+“，”+统一信用代码+“，”+法定代表人+“，”+“法定代表人手机号”+“，”+煤矿地址。
+        let corpDescription = `${corp.corpName || 'XX'}，${corp.useCode || 'XX'}，${corp.legalName || 'XX'}，${corp.legalTel || 'XX'}，${corp.address || 'XX'}`
+        this.letData.cellIdx4 = corpDescription;
+      } else {
+        // 按个人初始化信息
       }
     },
   },

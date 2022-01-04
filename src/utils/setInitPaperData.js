@@ -48,6 +48,19 @@ export async function getDocNumber(db, docTypeNo, caseId) {
   }
 }
 
+// 获取文书编号：编号：
+// 执法年份+序号
+export async function getDocNumber2(db, docTypeNo, caseId) {
+  // 当前年份
+  let date = new Date()
+  let curYear = date.getFullYear() + ''
+  // 3位数字
+  let wkCase = db.table("wkCase")
+  let caseInfo = await wkCase.find(item => item.caseId === caseId)
+  let caseSn = caseInfo ? caseInfo.caseSn : ''
+  return curYear + caseSn
+}
+
 // 获取已存在的文书的文书编号
 export function getCurPaperDocNumber(paper) {
   let paperContent = JSON.parse(paper.paperContent) 
@@ -205,7 +218,7 @@ export function getDangerPenaltyDescWithoutPoint (tableData, replaceString = '')
       // 如果有。句号则去掉句号
       dangerString += item.penaltyDesc.substring(0, item.penaltyDesc.length - 1) + replaceString
     } else {
-      dangerString += item.penaltyDesc
+      dangerString += item.penaltyDesc + replaceString
     }
   }
   if (dangerString[dangerString.length - 1] === replaceString) {
@@ -214,7 +227,7 @@ export function getDangerPenaltyDescWithoutPoint (tableData, replaceString = '')
   return dangerString
 }
 
-// 去掉句号形式返回的penaltyDesc行政处罚决定的字符串
+// 去掉句号形式返回的penaltyDesc行政处罚决定的字符串 有序号
 // replaceString为句号可替换成其他的字符，如、，；等
 export function getDangerPenaltyDescWithoutPointHasIndex (tableData, replaceString = '') {
   let dangerString = ''
@@ -244,6 +257,25 @@ export function getDangerConfirmBasis (tableData, splitString = '、') {
     confirmBasisString = confirmBasisString.substring(0, confirmBasisString.length - 1)
   }
   return confirmBasisString
+}
+
+// 返回行政处罚依据penaltyBasis
+// replaceString为句号可替换成其他的字符，如、，；等
+export function getDangerPenaltyBasis (tableData, replaceString = '') {
+  let dangerString = ''
+  for (let i = 0; i < tableData.length; i++) {
+    let item = tableData[i]
+    if (item.penaltyBasis && item.penaltyBasis[item.penaltyBasis.length - 1] === '。') {
+      // 如果有。句号则去掉句号
+      dangerString += item.penaltyBasis.substring(0, item.penaltyBasis.length - 1) + replaceString
+    } else {
+      dangerString += item.penaltyBasis + replaceString
+    }
+  }
+  if (dangerString[dangerString.length - 1] === replaceString) {
+    dangerString = dangerString.substring(0, dangerString.length - 1)
+  }
+  return dangerString
 }
 
 // 获取总体行政决定说明

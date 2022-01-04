@@ -394,7 +394,9 @@ export default {
                 paper1Id: let32DataPaperContent.associationPaperId.paper1Id,
                 paper32Id: selectedPaper.let32Data.paperId,
               }
-            : null,
+            : {
+              paper32Id: selectedPaper.let32Data.paperId,
+            },
       })
     },
     goBack({ page, data }) {
