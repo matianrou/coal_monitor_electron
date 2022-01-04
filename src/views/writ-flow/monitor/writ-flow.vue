@@ -869,20 +869,20 @@
                   <td class="arrows">→</td>
                   <td
                     :class="
-                      flowStatus.paper46
+                      flowStatus.paper47
                         ? 'writ-flow-spantd-ex writ-flow-td'
                         : 'writ-flow-spantd writ-flow-td'
                     "
                   >
                     <img
-                      v-if="flowStatus.paper46"
+                      v-if="flowStatus.paper47"
                       :src="
-                        flowStatus.paper46 === 'save'
+                        flowStatus.paper47 === 'save'
                           ? ''
                           : require('../assets/image/file.png')
                       "
                       :title="
-                        flowStatus.paper46 === 'save' ? '已保存' : '已归档'
+                        flowStatus.paper47 === 'save' ? '已保存' : '已归档'
                       "
                       alt=""
                     />
@@ -945,20 +945,20 @@
                   <td class="arrows">→</td>
                   <td
                     :class="
-                      flowStatus.paper37
+                      flowStatus.paper48
                         ? 'writ-flow-spantd-ex writ-flow-td'
                         : 'writ-flow-spantd writ-flow-td'
                     "
                   >
                     <img
-                      v-if="flowStatus.paper37"
+                      v-if="flowStatus.paper48"
                       :src="
-                        flowStatus.paper37 === 'save'
+                        flowStatus.paper48 === 'save'
                           ? ''
                           : require('../assets/image/file.png')
                       "
                       :title="
-                        flowStatus.paper37 === 'save' ? '已保存' : '已归档'
+                        flowStatus.paper48 === 'save' ? '已保存' : '已归档'
                       "
                       alt=""
                     />
@@ -1282,20 +1282,20 @@
                   <td class="arrows">→</td>
                   <td
                     :class="
-                      flowStatus.paper47
+                      flowStatus.paper49
                         ? 'writ-flow-spantd-ex writ-flow-td'
                         : 'writ-flow-spantd writ-flow-td'
                     "
                   >
                     <img
-                      v-if="flowStatus.paper47"
+                      v-if="flowStatus.paper49"
                       :src="
-                        flowStatus.paper47 === 'save'
+                        flowStatus.paper49 === 'save'
                           ? ''
                           : require('../assets/image/file.png')
                       "
                       :title="
-                        flowStatus.paper47 === 'save' ? '已保存' : '已归档'
+                        flowStatus.paper49 === 'save' ? '已保存' : '已归档'
                       "
                       alt=""
                     />

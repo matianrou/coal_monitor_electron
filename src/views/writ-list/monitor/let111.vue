@@ -58,7 +58,7 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_6"
-                  style="width: 62%"
+                  style="min-width: 50%"
                   data-title
                   data-type="text"
                   data-src
@@ -84,7 +84,7 @@
                 letData.cellIdx9 ? letData.cellIdx9 : "（XX）"
               }}</span>
               日依法对你单位作出
-              <span>{{
+              <span @click="commandFill('cellIdx10', '', 'TextareaItem')">{{
                 letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
               }}</span>
               的决定，但你单位未执行以上决定，未及时消除事故隐患，存在发生生产安全事故的危险。根据《中华人民共和国安全生产法》第<span class="text-decoration">七十</span>条第<span class="text-decoration">一</span>款规定，本机关决定自
@@ -201,8 +201,9 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber } from "@/utils/setInitPaperData";
+import { getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
+import { setDangerTable } from "@/utils/handlePaperData";
 export default {
   name: "Let111",
   mixins: [associationSelectPaper],
@@ -231,6 +232,8 @@ export default {
         cellIdx19: null, // 人民法院
         cellIdx20: null, //
         cellIdx21: null, // 日期
+        DangerTable: null,
+        associationPaperId: {}
       },
       options: {},
       visibleSelectDialog: false,
@@ -262,11 +265,35 @@ export default {
         orgData && orgData.sysOfficeInfo
           ? JSON.parse(orgData.sysOfficeInfo)
           : { organName: "", depAddress: "" };
-      // 4.年、月、日取当前时间
+      // 4.当前时间年、月、日、时、分
       let date = new Date();
       let year = date.getFullYear();
       let month = date.getMonth() + 1;
       let strDate = date.getDate();
+      let hours = date.getHours();
+      let minutes = date.getMinutes();
+      // 5.隐患的行政处罚决定
+      let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent);
+      let cellIdx10String =
+        this.corpData.caseType === "0"
+          ? setDangerTable(
+              let1DataPaperContent.DangerTable,
+              {},
+              {
+                page: "48",
+                key: "cellIdx10",
+              }
+            )
+          : "";
+      let DangerTable = null;
+      if (this.corpData.caseType === "0") {
+        DangerTable = let1DataPaperContent.DangerTable
+          ? setNewDanger(
+              selectedPaper.let1Data,
+              let1DataPaperContent.DangerTable
+            )
+          : {};
+      }
       await db.close();
       this.letData = Object.assign({}, this.letData, {
         cellIdx1: num0, // 文书号
@@ -277,10 +304,25 @@ export default {
         cellIdx7: year, // 年
         cellIdx8: month, // 月
         cellIdx9: strDate, // 日
+        cellIdx10: cellIdx10String, // 对你单位作出XXX
+        cellIdx11: year, // 年
+        cellIdx12: month, // 月
+        cellIdx13: strDate, // 日
+        cellIdx14: hours, // 日
+        cellIdx15: minutes, // 日
         cellIdx17: orgSysOfficeInfo.goverPrefix, // 人民政府
         cellIdx19: orgSysOfficeInfo.courtPrefix, // 人民法院
         cellIdx20: this.$store.state.curCase.provinceGroupName, //
         cellIdx21: this.todayDate, // 日期
+        DangerTable: DangerTable,
+        associationPaperId: 
+          this.corpData.caseType === "0"
+            ? {
+                // 关联的paperId
+                paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
+                paper1Id: selectedPaper.let1Data.paperId,
+              }
+            : null,
       })
     },
     goBack({ page, data }) {
@@ -306,13 +348,8 @@ export default {
       // 选择停供电(停供民用爆炸物品)
       this.visibleSelectDialog = false;
       this.letData.cellIdx0 = this.selectedType;
-      this.letData.cellIdx0TypeTextItem = this.selectedType;
       this.letData.cellIdx3 = this.selectedType === '停供电' ? '电' : '爆';
-      this.letData.cellIdx3TypeTextItem = this.selectedType === '停供电' ? '电' : '爆';
-      this.letData.cellIdx10 = this.selectedType;
-      this.letData.cellIdx10TypeTextItem = this.selectedType;
       this.letData.cellIdx16 = this.selectedType === '停供电' ? '停供生产性用电' : '停供民用爆炸物品';
-      this.letData.cellIdx16TypeTextItem = this.selectedType === '停供电' ? '停供生产性用电' : '停供民用爆炸物品';
       this.letData.selectedType = this.selectedType;
     },
   },

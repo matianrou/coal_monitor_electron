@@ -389,11 +389,18 @@ function setDangerTable(data, selectedData, options) {
         string = dangerObject.penaltyDesc || ''
       }
       break
-    case '48': // 集体讨论记录
-    if (options.key === 'cellIdx4') {
-      let dangerString = getDangerContentWithoutPoint(data.selectedDangerList || [], '、')
-      string = `${options.spellString.corpName}涉嫌${dangerString}违法违规案。`
-    }
+    case '48': // 集体讨论记录或停供电(停供民用爆炸物品)决定书
+      if (store.state.user.userType === 'supervision') {
+        // 监管为集体讨论记录
+        if (options.key === 'cellIdx4') {
+          let dangerString = getDangerContentWithoutPoint(data.selectedDangerList || [], '、')
+          string = `${options.spellString.corpName}涉嫌${dangerString}违法违规案。`
+        }
+      } else {
+        // 监察为停供电(停供民用爆炸物品)决定书 
+          let dangerString = getDangerPenaltyDescWithoutPoint(data.selectedDangerList || [], '；')
+          string = dangerString
+      }
       // string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString || ''}案。`
       break
     case '35': // 移送案件呈报书
@@ -416,6 +423,12 @@ function setDangerTable(data, selectedData, options) {
       if (options.key === 'cellIdx10') {
         let dangerString = getDangerContentWithoutPoint(data.selectedDangerList || [], '、')
         string = `${options.spellString.corpName}涉嫌${dangerString}违法违规案`
+      }
+      break
+    case '46': // 延长查封（扣押）期限决定书
+      if (options.key === 'cellIdx18') {
+        let dangerString = getDangerContentWithoutPoint(data.selectedDangerList || [], '；')
+        string = dangerString
       }
       break
   }

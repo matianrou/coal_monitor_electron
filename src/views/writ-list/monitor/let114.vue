@@ -43,8 +43,7 @@
                 <span
                   @click="commandFill('cellIdx2', '文书号', 'TextItem')"
                 >{{ letData.cellIdx2 ? letData.cellIdx2 : '（编辑）' }}</span>
-                <label>延</label>
-                <span
+                <label>延</label><span
                 >{{ letData.cellIdx3 ? letData.cellIdx3 : '（编辑）' }}</span>
                 <label>〔</label>
                 <span
@@ -75,11 +74,9 @@
             </table>
             <div class="docTextarea">
               <label style="width: 5%"></label>
-              我
-              <span @click="commandFill('cellIdx7', '', 'TextItem')">{{
+              我<span class="no-underline" @click="commandFill('cellIdx7', '', 'TextItem')">{{
                 letData.cellIdx7 ? letData.cellIdx7 : "（XX）"
-              }}</span>
-              于
+              }}</span>于
               <span @click="commandFill('cellIdx8', '年', 'TextItem')">{{
                 letData.cellIdx8 ? letData.cellIdx8 : "（XX）"
               }}</span>
@@ -91,7 +88,7 @@
               <span @click="commandFill('cellIdx10', '日', 'TextItem')">{{
                 letData.cellIdx10 ? letData.cellIdx10 : "（XX）"
               }}</span>
-              日对你单位涉案场所
+              日对你单位涉案
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx11', '', 'SelectItem')"
@@ -174,7 +171,7 @@
               <span
                 @click="commandFill('cellIdx23', '人民政府', 'TextItem')"
               >{{ letData.cellIdx23 ? letData.cellIdx23 : '（点击编辑）'}}</span>
-              申请行政复议，或者在6个月内依法向
+              申请行政复议或6个月内向
               <span
                 @click="commandFill('cellIdx23', '人民法院', 'TextItem')"
               >{{ letData.cellIdx24 ? letData.cellIdx24 : '（点击编辑）'}}</span>
@@ -232,6 +229,7 @@
 import GoDB from "@/utils/godb.min.js";
 import { getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
+import { setDangerTable } from "@/utils/handlePaperData";
 const dictionary = [
   {
     value: "场所",
@@ -306,7 +304,7 @@ export default {
         associationPaperId: null
       },
       options: {
-        cellIdx10: dictionary,
+        cellIdx11: dictionary,
       },
       associationPaper: ["32"],
     };
@@ -318,29 +316,37 @@ export default {
       let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      // 2.生成文书编号
+      // 1.生成文书编号
       let { num0, num1, num3, num4 } = await getDocNumber(
         db,
         this.docData.docTypeNo,
         this.corpData.caseId
       );
-      // 4.地点：sysOfficeInfo实体中goverPrefix字段 organName字段+ courtPrefix字段
+      // 2.获取查封扣押决定书创建日期
+      let let32Date = selectedPaper.let32Data.createDate.split(' ')[0].split('-')
+      // 3.查封扣押文书号
+      let let32DataPaperContent = JSON.parse(selectedPaper.let32Data.paperContent);
+      // 4.隐患描述，多个以分号隔开
+      let cellIdx18String =
+        this.corpData.caseType === "0"
+          ? setDangerTable(
+              let32DataPaperContent.DangerTable,
+              {},
+              {
+                page: "46",
+                key: "cellIdx18",
+              }
+            )
+          : "";
+      // 5.地点：sysOfficeInfo实体中goverPrefix字段 courtPrefix字段
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(
         (item) => item.no === this.$store.state.user.userGroupId
       );
       let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo
         ? JSON.parse(orgData.sysOfficeInfo)
-        : { organName: "", depAddress: "" };
-      // 5.查封扣押文书号
-      let let32DataPaperContent = JSON.parse(selectedPaper.let32Data.paperContent);
-      let let32Date = let32DataPaperContent.cellIdx20
-        ? let32DataPaperContent.cellIdx20
-            .replace("年", "-")
-            .replace("月", "-")
-            .replace("日", "-")
-            .split("-")
-        : ["", "", ""];
+        : { goverPrefix: "", courtPrefix: "" };
+      
       // 查封扣押决定书文书中是查封/扣押
       let selectedType = let32DataPaperContent.selectedType
       let DangerTable = null;
@@ -365,14 +371,16 @@ export default {
         cellIdx8: let32Date[0], // 年
         cellIdx9: let32Date[1], // 月
         cellIdx10: let32Date[2], // 日
+        cellIdx11: '场所',
         cellIdx12: selectedType, // 予以XX 查封、扣押
         cellIdx13: let32DataPaperContent.cellIdx1, // 查封扣押文书号
         cellIdx14: let32DataPaperContent.cellIdx2, // 查封扣押文书号
         cellIdx15: let32DataPaperContent.cellIdx24, // 查封扣押文书号 查、扣
         cellIdx16: let32DataPaperContent.cellIdx3, // 查封扣押文书号
         cellIdx17: let32DataPaperContent.cellIdx4, // 查封扣押文书号
+        cellIdx18: cellIdx18String, // 因XXX
         cellIdx19: selectedType, // 将以上XX的期限延长
-        cellIdx23: orgSysOfficeInfo.goverPrefix, // organName
+        cellIdx23: orgSysOfficeInfo.goverPrefix, // goverPrefix
         cellIdx24: orgSysOfficeInfo.courtPrefix, // courtPrefix人民法院
         cellIdx25: this.$store.state.curCase.provinceGroupName, //
         cellIdx26: this.todayDate, // 日期

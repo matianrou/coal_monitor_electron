@@ -43,8 +43,7 @@
                   @click="commandFill('cellIdx2', '文书号', 'TextItem')"
                 >{{ letData.cellIdx2 ? letData.cellIdx2 : '（编辑）' }}</span>
                 <span
-                >{{ letData.cellIdx3 ? letData.cellIdx3 : '（编辑）' }}</span>
-                <label>处〔</label>
+                >{{ letData.cellIdx3 ? letData.cellIdx3 : '（编辑）' }}</span><label>处〔</label>
                 <span
                   @click="commandFill('cellIdx4', '文书号', 'TextItem')"
                 >{{ letData.cellIdx4 ? letData.cellIdx4 : '（编辑）' }}</span>
@@ -100,7 +99,7 @@
                   letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）"
                 }}</span
               >
-              (
+              煤安监
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx12', '', 'TextItem')"
@@ -108,7 +107,6 @@
                   letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）"
                 }}</span
               >
-              ) 煤安
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx13', '', 'TextItem')"
@@ -133,12 +131,12 @@
                 }}</span
               >
               号），对所附《
-              <span
+              <!-- <span
                 class="no-underline"
                 >{{
                   letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）"
                 }}</span
-              >
+              > -->
               <span
                 class="no-underline"
                 @click="
@@ -287,7 +285,7 @@ export default {
         cellIdx13: null, // 查封扣押文书号
         cellIdx14: null, // 查封扣押文书号
         cellIdx15: null, // 查封扣押文书号
-        cellIdx16: null, // 查封/扣押
+        cellIdx16: null, // 暂不用
         cellIdx17: null, // 查封扣押中的物品清单
         cellIdx18: null, // 查封/扣押
         cellIdx19: null, // 第二十七条、XXX第二十八条第一款第
@@ -322,12 +320,14 @@ export default {
       let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      // 2.生成文书编号
+      // 1.生成文书编号
       let { num0, num1, num3, num4 } = await getDocNumber(
         db,
         this.docData.docTypeNo,
         this.corpData.caseId
       );
+      // 2.获取查封扣押决定书创建日期
+      let let32Date = selectedPaper.let32Data.createDate.split(' ')[0].split('-')
       // 3.地点：sysOfficeInfo实体中organName字段+ courtPrefix字段
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(
@@ -335,18 +335,11 @@ export default {
       );
       let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo
         ? JSON.parse(orgData.sysOfficeInfo)
-        : { organName: "", courtPrefix: "" };
+        : { goverPrefix: "", courtPrefix: "" };
       // 4.查封扣押文书号
       let let32DataPaperContent = JSON.parse(
         selectedPaper.let32Data.paperContent
       );
-      let let32Date = let32DataPaperContent.cellIdx20
-        ? let32DataPaperContent.cellIdx20
-            .replace("年", "-")
-            .replace("月", "-")
-            .replace("日", "-")
-            .split("-")
-        : ["", "", ""];
       // 获取查封/扣押
       let selectedType = let32DataPaperContent.selectedType
       let DangerTable = null;
@@ -376,7 +369,6 @@ export default {
         cellIdx13: let32DataPaperContent.cellIdx24, // 查封扣押文书号 查、扣
         cellIdx14: let32DataPaperContent.cellIdx3, // 查封扣押文书号
         cellIdx15: let32DataPaperContent.cellIdx4, // 查封扣押文书号
-        cellIdx16: selectedType, // 查封/扣押
         cellIdx18: selectedType, // 查封/扣押
         cellIdx21: selectedType, // 查封/扣押
         cellIdx22: orgSysOfficeInfo.goverPrefix, // 人民政府

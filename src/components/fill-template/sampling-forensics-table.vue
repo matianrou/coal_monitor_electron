@@ -1,4 +1,4 @@
-<!-- 填写组件 抽样取证清单或先行登记保存证据清单或物品清单 表格（可编辑） -->
+<!-- 填写组件 抽样取证清单、先行登记保存证据清单、物品清单 表格（可编辑） -->
 <template>
   <div class="sampling-main">
     <!-- 标题 -->
@@ -77,7 +77,7 @@
       </el-table>
     </div>
     <!-- 底部 -->
-    <div v-if="options.page !== '55'" class="sampling-foot-main" :style="options.page === '25' || options.page === '32' || options.page === '34' || options.page === '46' ? 'height: 160px;' : ''">
+    <div v-if="options.page !== '55'" class="sampling-foot-main" :style="options.page === '25' || options.page === '32' || options.page === '34' || options.page === '46' || options.page === '47' ? 'height: 160px;' : ''">
       <div v-if="options.page === '25' || options.page === '23'">
         <div v-if="options.page === '25'">
           <span>其他证据：</span>
@@ -93,7 +93,7 @@
           <span>{{options.page === '25' ? '上述物品经核无误' : '上述证据经核无误。'}}</span>
         </div>
       </div>
-      <div v-if="options.page === '32' || options.page === '34' || options.page === '46'">
+      <div v-if="options.page === '32' || options.page === '34' || options.page === '46' || options.page === '47'">
         <div>
           <span>场所地点：</span>
           <el-input
@@ -109,7 +109,7 @@
         </div>
       </div>
       <div style="margin-top: 10px;">
-        <span>被{{options.page === '32' || options.page === '34' || options.page === '46' ? options.name : '取证'}}单位负责人（签名）：</span>
+        <span>被{{options.page === '32' || options.page === '34' || options.page === '46' || options.page === '47' ? options.name : '取证'}}单位负责人（签名）：</span>
         <el-input
           v-if="options.canEdit"
           v-model="dataForm.tempValue.signature"
@@ -128,8 +128,8 @@
         </el-date-picker>
         <span v-else>{{dataForm.tempValue.signDate ? dataForm.tempValue.signDate : ''}}</span>
       </div>
-      <div v-if="options.page === '25' || options.page === '32' || options.page === '34' || options.page === '46'" style="margin-top: 10px;">
-        <span>{{options.page ==='25' || options.page === '32' || options.page === '46' ? '行政执法人员（签名）：' : '执法人员（签名）：'}}</span>
+      <div v-if="options.page === '25' || options.page === '32' || options.page === '34' || options.page === '46' || options.page === '47'" style="margin-top: 10px;">
+        <span>{{options.page ==='25' || options.page === '32' || options.page === '46' || options.page === '47' ? '行政执法人员（签名）：' : '执法人员（签名）：'}}</span>
         <el-input
           v-if="options.canEdit"
           v-model="dataForm.tempValue.lawSignature"
@@ -201,7 +201,7 @@ export default {
         title = '先行登记保存证据清单'
       } else if (this.options.page === '32' || this.options.page === '34' || this.options.page === '55') {
         title = '物品清单'
-      } else if (this.options.page === '46') {
+      } else if (this.options.page === '46' || this.options.page === '47') {
         // 查封（扣押）处理决定书
         title = this.options.name + '物品处理表'
       }
@@ -249,7 +249,7 @@ export default {
           type: 'text',
         }
       ]
-      if (this.options.page === '46') {
+      if (this.options.page === '46' || this.options.page === '47') {
         // 当页面为查封(扣押)处理决定书时，最后一列为处理决定
         colList.push({
           label: '处理决定',
@@ -303,7 +303,7 @@ export default {
       if (this.options.canEdit) {
         // 如果value.tableData无数据则自动添加一条
         if (this.dataForm.tempValue.tableData.length === 0) {
-          if (this.options.page === '46') {
+          if (this.options.page === '46' || this.options.page === '47') {
             this.dataForm.tempValue.tableData.push({
               sindex: 1, // 序号
               name: null, // 名称

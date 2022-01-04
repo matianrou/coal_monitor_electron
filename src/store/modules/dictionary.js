@@ -54,22 +54,22 @@ export default {
       },
       {
         id: '46',
-        name: '查封(扣押)处理决定书',
+        name: '查封（扣押）处理决定书',
         page: 'let115'
       },
       {
         id: '56',
-        name: '停供电(停供民用爆炸物品)决定书',
+        name: '停供电（停供民用爆炸物品）决定书',
         page: 'let111'
       },
       {
         id: '37',
-        name: '停供电(停供民用爆炸物品)函告书',
+        name: '停供电（停供民用爆炸物品）函告书',
         page: 'let112'
       },
       {
         id: '38',
-        name: '解除停供电(停供民用爆炸物品)通知书',
+        name: '解除停供电（停供民用爆炸物品）通知书',
         page: 'let113'
       },
       {
@@ -216,7 +216,7 @@ export default {
       },
       {
         id: '42',
-        name: '检查方案(复查)',
+        name: '检查方案（复查）',
         page: 'let103'
       },
       {
@@ -261,7 +261,7 @@ export default {
       },
       {
         id: '47',
-        name: '查封(扣押)处理决定书',
+        name: '查封（扣押）处理决定书',
         page: 'let115'
       },
       // 2022.1.1去掉
@@ -277,12 +277,12 @@ export default {
       },
       {
         id: '37',
-        name: '停供电(停供民用爆炸物品)通知书',
+        name: '停供电（停供民用爆炸物品）通知书',
         page: 'let112'
       },
       {
         id: '38',
-        name: '解除停供电(停供民用爆炸物品)通知书',
+        name: '解除停供电（停供民用爆炸物品）通知书',
         page: 'let113'
       },
       {
@@ -527,12 +527,12 @@ export default {
         paperNumberFields: ['cellIdx1', 'cellIdx2', 'cellIdx4', 'cellIdx5']
       },
       {
-        docTypeNo: '37', // 停供电(停供民用爆炸物品)通知书let112
+        docTypeNo: '37', // 停供电（停供民用爆炸物品）通知书let112
         docString: '停',
         paperNumberFields: ['cellIdx1', 'cellIdx2', 'cellIdx3', 'cellIdx4']
       },
       {
-        docTypeNo: '38', // 解除停供电(停供民用爆炸物品)通知书let113
+        docTypeNo: '38', // 解除停供电（停供民用爆炸物品）通知书let113
         docString: '解停',
         paperNumberFields: ['cellIdx1', 'cellIdx2', 'cellIdx4', 'cellIdx5']
       },

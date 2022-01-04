@@ -6,19 +6,21 @@
           <img src="@/views/login/assets/btnPower.png" style="cursor: pointer;" @click="closeWin" />
         </div>
         <div class="login-form-main">
-          <div style="width: 300px; margin: 0 auto;">
-            <div style="height: 40px;"></div>
+          <div>
+            <div style="height: 30px;"></div>
             <div class="form-title">
               <span>用户登录</span>
             </div>
-            <div style="height: 20px;"></div>
+          </div>
+          <div style="width: 300px; margin: 0 auto;">
+            <div style="height: 30px;"></div>
             <div class="form-content">
               <div class="form-content-item">
-                <span class="item-label">USER NAME</span>
+                <span class="item-label">用户名</span>
                 <el-input v-model="dataForm.txtUserNo"></el-input>
               </div>
               <div class="form-content-item">
-                <span class="item-label">PASSWORD</span>
+                <span class="item-label">密码</span>
                 <el-input v-model="dataForm.txtPassword" type="password"></el-input>
               </div>
             </div>
@@ -253,7 +255,7 @@ export default {
   }
   .login-form-main {
     height: 495px;
-    width: 420px;
+    width: 419px;
     position: absolute;
     top: 89px;
     right: 82px;
@@ -261,9 +263,13 @@ export default {
       height: 60px;
       display: flex;
       align-items: center;
+      background: rgb(102, 177, 255);
+      justify-content: center;
+      letter-spacing: 0.5rem;
       span {
-        font-size: 19px;
+        font-size: 25px;
         font-weight: 500;
+        color: #fff;
       }
     }
     .form-content {

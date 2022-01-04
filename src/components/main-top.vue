@@ -131,6 +131,8 @@ export default {
             val: tab
           })
         }
+      } else {
+        this.$emit('change-tab', tab)
       }
     },
     handleWindow (message) {
