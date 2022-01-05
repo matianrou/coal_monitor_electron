@@ -7,6 +7,7 @@
       :doc-data="docData"
       :let-data="letData"
       :paper-data="paperData"
+      :from-page="fromPage"
       @go-back="goBack"
     >
       <div slot="left">
@@ -466,7 +467,6 @@ export default {
           orderList.push(this.$store.state.dictionary[dictionaryField][i].id)
         }
         allPaper.sort((sortbyAsc('paperType', orderList)))
-        console.log('allPaper', allPaper)
         // 通过所有文书allPaper整理出卷内目录
         for (let i = 0; i < allPaper.length; i++) {
           let item = allPaper[i]

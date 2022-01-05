@@ -7,6 +7,7 @@
       :doc-data="docData"
       :let-data="letData"
       :paper-data="paperData"
+      :from-page="fromPage"
       @go-back="goBack"
     >
       <div slot="left">
@@ -48,7 +49,7 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_5"
-                  style="width: 62%"
+                  style="min-width: 50%"
                   data-title
                   data-type="text"
                   data-src

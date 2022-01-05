@@ -43,7 +43,7 @@
                   label="是否完成"
                   width="100">
                   <template slot-scope="scope">
-                    <el-checkbox v-model="scope.row.dangerCorrected" true-label="1" false-label="0">{{scope.row.dangerCorrected ? '已完成' : '未完成' }}</el-checkbox>
+                    <el-checkbox v-model="scope.row.dangerCorrected" true-label="1" false-label="0">{{scope.row.dangerCorrected === '1' ? '已完成' : '未完成' }}</el-checkbox>
                   </template>
                 </el-table-column>
                 <el-table-column

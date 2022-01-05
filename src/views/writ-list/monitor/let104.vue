@@ -350,6 +350,7 @@ export default {
           key: "cellIdx10",
         }
       ):'';
+      let date2 = let2DataPaperContent.cellIdx15 ? let2DataPaperContent.cellIdx15.replace('年', '-').replace('月', '-').replace('日', '-').split('-') : ['', '', '']
       let DangerTable = null
       if (this.corpData.caseType === '0') {
         DangerTable = let2DataPaperContent.DangerTable ? 
@@ -364,6 +365,9 @@ export default {
         cellIdx3: num4, // 文书号
         cellIdx4: corp.corpName ? corp.corpName : null, //
         cellIdx5: '局', // 局
+        cellIdx6: date2[0], // 年
+        cellIdx7: date2[1], // 月
+        cellIdx8: date2[2], // 日
         cellIdx9: cellIdx9String, // 违法违规行为：隐患描述
         cellIdx10: cellIdx10String, // 现场处理决定
         cellIdx11: let2DataPaperContent.cellIdx0, // 现场处理决定书 文书号

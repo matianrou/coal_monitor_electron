@@ -326,7 +326,6 @@ export default {
             let db = new GoDB(this.DBName)
             let wkPaper = db.table('wkPaper')
             let updatePaperType = ['1', '2', '4', '6', '49', '36', '8']
-            console.log('updatePaperType', updatePaperType)
             let curIndex = updatePaperType.indexOf(this.docData.docTypeNo)
             let updatePaper = {}
             // 遍历文书类型updatePaperType，逐个拉取需要更新的数据,只拉取状态为保存的文书
@@ -365,7 +364,6 @@ export default {
               }
             }
             this.updatePaper = updatePaper
-            console.log('updatePaper', this.updatePaper)
             this.curDangerTable = this.$parent.letData.DangerTable
             await db.close()
             // 如果updatePaper中没有数据则无需再打开弹窗选择更新
@@ -574,8 +572,8 @@ export default {
         createTime,
         personId: this.$store.state.user.userId,
         personName: this.$store.state.user.userName,
-        groupId: this.$store.state.curCase.groupId, //归档机构id
-        groupName: this.$store.state.curCase.groupName, //归档机构名称
+        groupId: this.fromPage === 'opinion-suggestion' ? this.$store.state.user.userGroupId : this.$store.state.curCase.groupId, //归档机构id
+        groupName: this.fromPage === 'opinion-suggestion' ? this.$store.state.user.userGroupName : this.$store.state.curCase.groupName, //归档机构名称
         paperContent: JSON.stringify(this.$parent.letData),
         paperType: this.docData.docTypeNo,
         paperHtml: page,
@@ -1064,7 +1062,6 @@ export default {
         // 需要分别替换的模板为：行政强制执行事先催告书；延长查封（扣押）期限决定书；
         // 需要分别替换的模板为：查封（扣押）处理决定书
         let { selectedType } = this.$parent.letData
-      console.log('selectedType', selectedType)
         if (selectedType === '查封' || selectedType === '停供电' || selectedType === '解除停供电' || selectedType === '单位') {
           docName = this.docData.docTypeNo + '-1'
         } else if (selectedType === '扣押' || selectedType === '停供民用爆炸物品' || selectedType === '解除停供民用爆炸物品' || selectedType === '个人'){
@@ -1080,7 +1077,6 @@ export default {
       } else {
         docName = this.docData.docTypeNo
       }
-      console.log('docName', docName)
       await JSZipUtils.getBinaryContent(`./static/docxtemplate/${this.$store.state.user.userType}/doc${docName}.docx`, (error, content) => {
         console.log('error = ', error, content)
         let zip = new pizzip(content)

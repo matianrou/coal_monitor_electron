@@ -1,7 +1,7 @@
-<!-- 弹窗选择企业 -->
+<!-- 弹窗选择煤矿/企业 -->
 <template>
   <el-dialog
-    title="选择企业"
+    title="选择煤矿/企业"
     :close-on-click-modal="false"
     append-to-body
     :visible="visible"

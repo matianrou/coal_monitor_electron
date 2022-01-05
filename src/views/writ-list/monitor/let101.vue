@@ -98,7 +98,7 @@
             @click="commandFill('cellIdx8', '检查情况', 'DangerTextareaItem')">
             <div>
               <p class="show-area-item-p">
-                <span style="padding: 7px;">{{ letData.cellIdx8 || '' }}</span>
+                <span style="padding: 7px;">{{ letData.cellIdx8 || '（双击编辑）' }}</span>
               </p>
               <cell-line :line-num="300"></cell-line>
             </div>

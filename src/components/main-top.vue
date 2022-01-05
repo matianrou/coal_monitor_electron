@@ -33,22 +33,26 @@
           @click="changeTab('opinionSuggestion')">
           <span>意见建议书</span>
         </div>
+        <div class="main-top-operation" style="margin-left: 20px;">
+          <!-- <el-button type="text" @click="logoutHandle">退出</el-button> -->
+          <img :src="activeTab === 'sendPaper' ? require('@/components/assets/image/paper-send-actived.png') : require('@/components/assets/image/paper-send.png')" class="btn-icon img-btn" title="调查互动" @click="changeTab('sendPaper')" />&nbsp;
+          <i class="el-icon-s-promotion btn-icon" title="隐患发送" @click="sendDanger"></i>
+          <!-- 消息提醒 -->
+          <el-dropdown :hide-on-click="false" @command="handleCommand">
+            <span class="el-dropdown-link">
+              <img src="@/components/assets/image/message.png" class="btn-icon img-btn" title="消息通知"/>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="checkList">您有{{notice.checkList.length}}条检查项任务待接收</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <div style="min-width: 140px;">
+            <span style="color: #fff;">欢迎您：{{$store.state.user.userName}}</span>
+          </div>
+        </div>
       </div>
       <div class="main-top-operation">
         <!-- 操作 -->
-        <!-- <el-button type="text" @click="logoutHandle">退出</el-button> -->
-        <img :src="activeTab === 'sendPaper' ? require('@/components/assets/image/paper-send-actived.png') : require('@/components/assets/image/paper-send.png')" class="btn-icon img-btn" title="调查互动" @click="changeTab('sendPaper')" />&nbsp;
-        <i class="el-icon-s-promotion btn-icon" title="隐患发送" @click="sendDanger"></i>
-        <!-- 消息提醒 -->
-        <el-dropdown :hide-on-click="false" @command="handleCommand">
-          <span class="el-dropdown-link">
-            <img src="@/components/assets/image/message.png" class="btn-icon img-btn" title="消息通知"/>
-          </span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="checkList">您有{{notice.checkList.length}}条检查项任务待接收</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-        <div class="split-line"></div>
         <img src="@/components/assets/image/minus.png" class="btn-icon" id="minbt"  title="最小化" @click="handleWindow('window-min')" />&nbsp;
         <img src="@/components/assets/image/maximize.png" v-show="maxSrc" class="btn-icon" title="最大化" id="maxbt" @click="handleWindow('window-max')" />
         <img src="@/components/assets/image/minimize.png" v-show="!maxSrc" class="btn-icon" id="minbt" title="还原" @click="handleWindow('window-max')" />&nbsp;
@@ -229,6 +233,7 @@ export default {
       color: #fff;
       font-size: 18px;
       font-weight: 500;
+      cursor: pointer;
       &:hover {
         background: rgba(#224f7d, 0.6);
       }
@@ -239,12 +244,6 @@ export default {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    .split-line {
-      width: 2px;
-      height: 60%;
-      background: rgba(#f19716, 0.8);
-      margin-right: 5px;
-    }
     .img-btn {
       height: 35px;
       vertical-align: middle;

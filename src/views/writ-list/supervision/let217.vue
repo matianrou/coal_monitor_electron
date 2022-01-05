@@ -252,18 +252,12 @@ export default {
       await db.close();
       this.letData = {
         cellIdx0: paperNumber.num0, // 文书号
-        cellIdx0TypeTextItem: paperNumber.num0, // 文书号
         cellIdx1: paperNumber.num1, // 文书号
-        cellIdx1TypeTextItem: paperNumber.num1, // 文书号
         cellIdx2: paperNumber.num3, // 文书号
-        cellIdx2TypeTextItem: paperNumber.num3, // 文书号
         cellIdx3: paperNumber.num4, // 文书号
-        cellIdx3TypeTextItem: paperNumber.num4, // 文书号
         cellIdx4: corp.corpName, // 煤矿名称
-        cellIdx4TypeTextItem: corp.corpName, // 煤矿名称
         cellIdx5: null, // 因XXX,
         cellIdx6: '你', // 请你XX于
-        cellIdx6TypeSelectItem: '你', // 请你XX于
         cellIdx7: null, // 年
         cellIdx8: null, // 月
         cellIdx9: null, // 日
@@ -274,13 +268,9 @@ export default {
         cellIdx14: '□', // 其他
         cellIdx15: null, // 其他内容
         cellIdx16: orgSysOfficeInfo.depAddress, // 执法机关地址
-        cellIdx16TypeTextItem: orgSysOfficeInfo.depAddress, // 执法机关地址
         cellIdx17: orgSysOfficeInfo.master, // 联系人
-        cellIdx17TypeTextItem: orgSysOfficeInfo.master, // 联系人
         cellIdx18: orgSysOfficeInfo.phone, // 联系电话
-        cellIdx18TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
-        cellIdx19: this.$store.state.curCase.groupNamee, //
-        cellIdx19TypeTextItem: this.$store.state.curCase.provinceGroupName, //
+        cellIdx19: this.$store.state.curCase.provinceGroupName, //
         cellIdx20: this.todayDate, // 日期
         cellIdx20TypeDateItem: this.todayDate, // 日期
       };

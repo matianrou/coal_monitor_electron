@@ -1292,5 +1292,8 @@ export default {
   /deep/ .el-form--label-top .el-form-item__label {
     padding: 0px;
   }
+  /deep/ .el-input__inner {
+    font-family: monospace;
+  }
 }
 </style>

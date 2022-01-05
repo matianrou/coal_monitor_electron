@@ -188,7 +188,6 @@
         // }
         this.checkList = corpTypeIndex === null ? list : [list[corpTypeIndex]]
         // 操作检查项自定义列表选择
-        console.log('qdListAllItem', qdListAllItem)
         let qdList = [] // 列表选项，其中包括qdId,qdName,及列表list
         if (qdListAllItem && qdListAllItem.length > 0) {
           // 如果有列表则先将第一个赋值

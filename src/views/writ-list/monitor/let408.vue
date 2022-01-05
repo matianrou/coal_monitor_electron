@@ -242,7 +242,6 @@ export default {
         let corp = await corpBase.find((item) => {
           return item.corpId == this.corpData.corpId;
         });
-        console.log('corp', corp)
         // 煤矿名称+“，”+统一信用代码+“，”+法定代表人+“，”+“法定代表人手机号”+“，”+煤矿地址。
         let corpDescription = `${corp.corpName || 'XX'}，${corp.useCode || 'XX'}，${corp.legalName || 'XX'}，${corp.legalTel || 'XX'}，${corp.address || 'XX'}`
         this.letData.cellIdx4 = corpDescription;

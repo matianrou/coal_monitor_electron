@@ -12,7 +12,7 @@
       <el-select 
         v-model="orgData.id" 
         filterable 
-        placeholder="请选择单位"
+        placeholder="（可输入关键字筛选）"
         size="small"
         @change="selectedOrg">
         <el-option
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import GoDB from "@/utils/godb.min.js";
+import { getAllProvinceOrg } from '@/utils/index'
 export default {
   name: "SelectPaperDialog",
   props: {
@@ -71,13 +71,12 @@ export default {
   methods: {
     async getOrgList () {
       // 获取复查单位列表
-      let db = new GoDB(this.$store.state.DBName);
-      let orgInfo = db.table('orgInfo')
-      this.orgList = await orgInfo.findAll(item => item.delFlag !== '1')
-      this.orgList.push({
+      let orgList = await getAllProvinceOrg(this.$store.state.user.userGroupId)
+      orgList.push({
         name: '其他部门名称',
         no: '1'
       })
+      this.orgList = orgList
     },
     selectedOrg(val) {
       this.orgList.map(item => {

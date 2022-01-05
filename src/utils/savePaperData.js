@@ -279,8 +279,9 @@ export async function saveToUpload(paperId, messageShow) {
       }
     )
     .then(({ data }) => {
-      if (messageShow) {
+      if (messageShow && workPaper.delFlag === '0') {
         if (data.status === "200") {
+          // 调整为归档时提示文书上传服务器，2022.1.5建议
           Message.success(
             `“${workPaper.name}”文书已经上传至服务器。`
           );

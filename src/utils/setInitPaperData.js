@@ -19,7 +19,9 @@ import { getNowFormatTime, getNowTime } from "@/utils/date";
 export async function getDocNumber(db, docTypeNo, caseId) {
   // 获取当前归档机构信息
   const orgInfo = db.table("orgInfo");
-  const orgData = await orgInfo.find(item => item.no === store.state.curCase.affiliate)
+  // 如果有caseId则获取归档机构如果没有则获取当前用户机构（没有时为意见建议书时）
+  let orgId = caseId ? store.state.curCase.affiliate : store.state.user.userGroupId
+  const orgData = await orgInfo.find(item => item.no === orgId)
   let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {
     docRiseSafe: '',
     docRiseDepa: ''
@@ -199,7 +201,7 @@ export function getDangerPenaltyBasisWithoutPointHasIndex (tableData, replaceStr
       // 如果有。句号则去掉句号
       dangerString += (i + 1) + '.' + item.penaltyBasis + item.penaltyDesc.substring(0, item.penaltyDesc.length - 1) + replaceString
     } else {
-      dangerString += (i + 1) + '.' + item.penaltyBasis + item.penaltyDesc
+      dangerString += (i + 1) + '.' + (item.penaltyBasis || '') + (item.penaltyDesc || '')
     }
   }
   if (dangerString[dangerString.length - 1] === replaceString) {
@@ -218,7 +220,7 @@ export function getDangerPenaltyDescWithoutPoint (tableData, replaceString = '')
       // 如果有。句号则去掉句号
       dangerString += item.penaltyDesc.substring(0, item.penaltyDesc.length - 1) + replaceString
     } else {
-      dangerString += item.penaltyDesc + replaceString
+      dangerString += (item.penaltyDesc || '') + replaceString
     }
   }
   if (dangerString[dangerString.length - 1] === replaceString) {
@@ -237,7 +239,9 @@ export function getDangerPenaltyDescWithoutPointHasIndex (tableData, replaceStri
       // 如果有。句号则去掉句号
       dangerString += (i + 1) + '.' + item.penaltyDesc.substring(0, item.penaltyDesc.length - 1) + replaceString
     } else {
-      dangerString += (i + 1) + '.' + item.penaltyDesc
+      if (item.penaltyDesc) {
+        dangerString += (i + 1) + '.' + (item.penaltyDesc || '')
+      }
     }
   }
   if (dangerString[dangerString.length - 1] === replaceString) {

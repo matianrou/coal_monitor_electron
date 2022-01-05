@@ -1875,7 +1875,7 @@
                         cmdEditDoc('let300', '执法案件公开裁定记录', '31')
                       "
                       class="flow-span"
-                      >执法案件公开裁定记录</span
+                      >执法案件公开裁定<br>记录</span
                     >
                     <i
                       class="el-icon-plus create-icon"
@@ -1920,7 +1920,7 @@
                     <span
                       @click="cmdEditDoc('let309', '行政强制执行事先催告书', '54')"
                       class="flow-span"
-                      >行政强制执行<br />事先催告书</span
+                      >行政强制执行事先<br />催告书</span
                     >
                     <i
                       class="el-icon-plus create-icon"

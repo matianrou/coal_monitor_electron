@@ -269,7 +269,6 @@ export default {
       let orgData = await orgInfo.find(
         (item) => item.no === this.$store.state.user.userGroupId
       );
-      console.log('orgData', orgData)
       let orgSysOfficeInfo =
         orgData && orgData.sysOfficeInfo
           ? JSON.parse(orgData.sysOfficeInfo)

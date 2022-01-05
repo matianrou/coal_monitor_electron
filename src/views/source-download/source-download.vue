@@ -60,7 +60,7 @@
         -->
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
-          <td>其它资源</td>
+          <td>其它资源（监察计划及数据码表）</td>
           <td>{{updateTime.plan}}</td>
           <td style="text-align:center;" id="cell-plan-down">
             <el-button
@@ -81,7 +81,7 @@
         </tr>
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
-          <td>企业列表</td>
+          <td>煤矿/企业信息</td>
           <td>{{updateTime.corp}}</td>
           <td style="text-align:center;" id="cell-corp-down">
             <el-button
@@ -141,7 +141,7 @@
         </tr>
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
-          <td>隐患类别</td>
+          <td>隐患项类别</td>
           <td>{{updateTime.dangerCate}}</td>
           <td style="text-align:center;" id="cell-dangerCate-down">
             <el-button
@@ -154,7 +154,7 @@
         </tr>
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
-          <td>隐患内容</td>
+          <td>隐患项内容</td>
           <td>{{updateTime.dangerList}}</td>
           <td style="text-align:center;" id="cell-dangerList-down">
             <el-button

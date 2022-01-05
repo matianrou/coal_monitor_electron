@@ -3,7 +3,7 @@
   <div class="case-list">
     <div class="case-list-select-main">
       <div style="height:36px; line-height: 36px; color:#666;background:#4F83E9">
-        <td style="text-indent:20px;color:#fff;font-size：20px">{{usePage === 'MakeLawWrit' ? '选择企业' : '选择检查活动'}}</td>
+        <td style="text-indent:20px;color:#fff;">{{usePage === 'MakeLawWrit' ? '选择煤矿/企业' : '选择煤矿/企业'}}</td>
       </div>
       <div style="flex: 1;background-color:#fff;vertical-align:top; overflow: auto;">
         <table style="width:100%;">
@@ -126,7 +126,7 @@
 
 <script>
 import GoDB from '@/utils/godb.min.js'
-import { getAllProvinceOrg } from '@/utils/index'
+import { getAllProvinceOrg, sortbyDes } from '@/utils/index'
 import selectCompany from '@/components/select-company'
 import casePull from '@/components/case-pull'
 export default {
@@ -260,6 +260,7 @@ export default {
       // 判断检查活动类型选择为计划或者其他，计划则为由网页端创建的计划再创建的检查活动，
       // 其他则为未从网页端创建，直接从客户端创建的检查活动，无planId，归档时归入其他类
       let corpList = []
+      let listArr = []
       if (this.dataForm.isPlan === '计划') {
         // 增加逻辑：先获取检查活动，按检查活动对比计划中的企业信息
         // 如果计划中的企业已有检查，则名称前增加”（已做）“
@@ -286,7 +287,8 @@ export default {
           })
         }
         // 使用页面usePage为执法工作台时，计划中展示计划数据，如果为文书管理，计划内也只展示检查活动
-        let listArr = this.usePage === 'MakeLawWrit' ? [...wkCase, ...arrPlan] : [...wkCase];
+        listArr = this.usePage === 'MakeLawWrit' ? [...wkCase, ...arrPlan] : [...wkCase];
+        listArr.sort(sortbyDes('createDate'))
         this.total = listArr.length;
         // 转换为列表所需要的值
         listArr.map((k, index) => {
@@ -323,7 +325,9 @@ export default {
           && item.pcMonth === selectPlanDate
           && !item.planId && item.delFlag !== '1';
         })
-        let listArr = [...wkCase]
+        listArr = [...wkCase]
+        // 按创建时间排序
+        listArr.sort(sortbyDes('createDate'))
         // 转换为列表所需要的值
         listArr.map((k, index) => {
           let corp = {}
@@ -345,6 +349,10 @@ export default {
       }
       await db.close();
       this.corpList = corpList
+      // 默认选中第一个
+      if (listArr.length > 0 && corpList.length > 0) {
+        this.showDocHome(corpList[0], 0)
+      }
     },
     async showDocHome(data, index) {
       // 设置case激活状态

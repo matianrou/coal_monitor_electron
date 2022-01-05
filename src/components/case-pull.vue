@@ -10,6 +10,15 @@
     @close="close">
     <div class="user-tree" v-loading="loading.main">
       <div class="selected-all-users">
+        <!-- 用户筛选 -->
+        <el-input
+          v-model.trim="dataForm.name"
+          placeholder="按姓名筛选"
+          size="small"
+          style="width: 150px;margin-right: 10px;"
+          clearable
+          @change="handleChangeUser">
+        </el-input>
         <!-- 是否显示全省用户 -->
         <el-checkbox v-model="allUser" @change="handleChangeUser">是否显示全省用户</el-checkbox>
       </div>
@@ -90,6 +99,9 @@
         caseList: [], // 选择的用户的检查活动列表
         allPaperData: {}, // 选择的用户的全部文书数据：检查活动jczfCase，文书paperk,隐患项danger
         selcetedCaseList: [], // 多选的需要拉取的个人的检查活动
+        dataForm: {
+          name: null, // 按姓名筛选
+        }
       }
     },
     created () {
@@ -143,6 +155,17 @@
           personList = await person.findAll((item) => {
             return item.delFlag === "0" && item.officeId === userGroupId && item.no !== userId;
           });
+        }
+        // 按姓名筛选
+        if (this.dataForm.name) {
+          let filterPersonList = []
+          for (let i = 0; i < personList.length; i++) {
+            let item = personList[i]
+            if (item.name.includes(this.dataForm.name)) {
+              filterPersonList.push(item)
+            }
+          }
+          personList = filterPersonList
         }
         personList.forEach(item => {
           // 默认为都不选中
@@ -291,13 +314,13 @@
   border: 1px solid #DCDFE6;
   padding: 10px 20px;
   .selected-all-users {
-    height: 30px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: right;
   }
   .content-div-main {
-    height: calc(100vh - 5vh - 5vh - 140px - 50px);
+    height: calc(100vh - 5vh - 5vh - 140px - 60px);
     display: flex;
     border: 1px solid #DCDFE6;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
