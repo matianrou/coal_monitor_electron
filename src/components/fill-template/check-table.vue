@@ -85,7 +85,7 @@
         <el-table-column
           header-align="center"
           align="left"
-          label="检查人员">
+          label="检查分工">
           <template slot-scope="scope">
             <span>{{ scope.row.personNames }}</span>
           </template>

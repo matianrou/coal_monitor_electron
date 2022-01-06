@@ -98,7 +98,7 @@
               <span class="no-underline" @click="commandFill('cellIdx13', '', 'TextItem')">{{
                 letData.cellIdx13 ? letData.cellIdx13 : "（编辑）"
               }}</span>
-              号）。现根据《中华人民共和国行政处罚法》第五十六条规定，对上述物品作出以下处理决定：
+              号）。现根据《中华人民共和国行政处罚法》第<span class="text-decoration">五十六</span>条规定，对上述物品作出以下处理决定：
               <span @click="commandFill('cellIdx14', '处理决定', 'TextItem')">{{
                 letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）"
               }}</span>
@@ -110,10 +110,10 @@
                 letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）"
               }}</span>
               申请行政复议或6个月内向
-              <span @click="commandFill('cellIdx16', '人民法院', 'TextItem')">{{
+              <span @click="commandFill('cellIdx16', '法院', 'TextItem')">{{
                 letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）"
               }}</span>
-              人民法院提起行政诉讼，但不停止执行本决定。
+              法院提起行政诉讼，但不停止执行本决定。
             </div>
             <table height="60"></table>
             <table class="docBody">
@@ -229,7 +229,7 @@ export default {
         // 5.获取检查地点
         let wkPaper = db.table('wkPaper')
         let paper22 = await wkPaper.find(item => item.paperId === let25DataPaperContent.associationPaperId.paper22Id)
-        checkPosition = paper22.paperContent ? JSON.parse(paper22.paperContent).cellIdx4 + '使用的' : ''
+        checkPosition = paper22.paperContent ? JSON.parse(paper22.paperContent).cellIdx4 || 'XX' + '使用的' : ''
       }
       let let25Article = let25DataPaperContent.SamplingForensicsTable
         ? let25DataPaperContent.SamplingForensicsTable.tableData
@@ -256,7 +256,7 @@ export default {
         orgData && orgData.sysOfficeInfo
           ? JSON.parse(orgData.sysOfficeInfo)
           : { organName: "", courtPrefix: "" };
-      let cellIdx15String = orgSysOfficeInfo.organName;
+      let cellIdx15String = '国家矿山安全监察局';
       let cellIdx16String = orgSysOfficeInfo.courtPrefix;
       let DangerTable = null
       if (this.corpData.caseType === '0') {

@@ -102,13 +102,23 @@
                 <div class="line"></div>
                 <div class="line1"></div>
             </div>
-            <div class="docTextarea">
-              <span class="no-line">出席人员姓名以及职务：</span>
-              <span
-                @click="commandFill('cellIdx12', '出席人员姓名以及职务', 'TextareaItem')"
-              >{{ letData.cellIdx12 ? letData.cellIdx12 : '（点击编辑）'}}</span>
-              <div class="line"></div>
+            <table style="border:solid 0 #000;" class="docBody">
+              <tr>
+                <td class="textAlignLeft">出席人员姓名以及职务：</td>
+              </tr>
+            </table>
+            <div
+              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+              class="cellInput mutiLineArea"
+              @click="commandFill('cellIdx12', '出席人员姓名以及职务', 'TextareaItem')">
+              <div>
+                <p class="show-area-item-p">
+                  <span style="padding: 7px;">{{ letData.cellIdx12 || '（点击编辑）' }}</span>
+                </p>
+                <cell-line :line-num="300"></cell-line>
+              </div>
             </div>
+            
             <div class="docTextarea">
                <span class="no-line">讨论内容：</span>
               <span

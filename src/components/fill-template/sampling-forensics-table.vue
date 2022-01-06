@@ -90,7 +90,7 @@
           <span v-else>{{dataForm.tempValue.otherEvidence ? dataForm.tempValue.otherEvidence : ''}}</span>
         </div>
         <div style="margin-top: 10px;">
-          <span>{{options.page === '25' ? '上述物品经核无误' : '上述证据经核无误。'}}</span>
+          <span>{{'上述证据经核无误。'}}</span>
         </div>
       </div>
       <div v-if="options.page === '32' || options.page === '34' || options.page === '46' || options.page === '47'">
@@ -129,7 +129,7 @@
         <span v-else>{{dataForm.tempValue.signDate ? dataForm.tempValue.signDate : ''}}</span>
       </div>
       <div v-if="options.page === '25' || options.page === '32' || options.page === '34' || options.page === '46' || options.page === '47'" style="margin-top: 10px;">
-        <span>{{options.page ==='25' || options.page === '32' || options.page === '46' || options.page === '47' ? '行政执法人员（签名）：' : '执法人员（签名）：'}}</span>
+        <span>{{options.page ==='25' || options.page === '32' || options.page === '46' || options.page === '47' ? '执法人员（签名）：' : '执法人员（签名）：'}}</span>
         <el-input
           v-if="options.canEdit"
           v-model="dataForm.tempValue.lawSignature"
@@ -200,7 +200,7 @@ export default {
       } else if (this.options.page === '25') {
         title = '先行登记保存证据清单'
       } else if (this.options.page === '32' || this.options.page === '34' || this.options.page === '55') {
-        title = '物品清单'
+        title = `${this.options.name || ''}物品清单`
       } else if (this.options.page === '46' || this.options.page === '47') {
         // 查封（扣押）处理决定书
         title = this.options.name + '物品处理表'
@@ -249,7 +249,7 @@ export default {
           type: 'text',
         }
       ]
-      if (this.options.page === '46' || this.options.page === '47') {
+      if (this.options.page === '46') {
         // 当页面为查封(扣押)处理决定书时，最后一列为处理决定
         colList.push({
           label: '处理决定',

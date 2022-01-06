@@ -64,7 +64,7 @@
                   letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
                 }}</span
               >
-              涉嫌违法违规。根据《中华人民共和国行政处罚法》第三十七条第二款规定，我
+              涉嫌违法违规。根据《中华人民共和国行政处罚法》第<span class="text-decoration">五十六</span>条规定，我
               <span  class="no-underline" @click="commandFill('cellIdx6', '局', 'TextItem')">{{
                 letData.cellIdx6 ? letData.cellIdx6 : "(编辑)"
               }}</span>
@@ -334,8 +334,10 @@ export default {
       if ( this.corpData.caseType === '0') {
         // 5.获取检查地点
         let wkPaper = db.table('wkPaper')
-        let paper22 = await wkPaper.find(item => item.paperId === let1DataPaperContent.associationPaperId.paper22Id)
-        cellIdx13String = paper22.paperContent ? JSON.parse(paper22.paperContent).cellIdx4 : ''
+        if (let1DataPaperContent.associationPaperId) {
+          let paper22 = await wkPaper.find(item => item.paperId === let1DataPaperContent.associationPaperId.paper22Id)
+          cellIdx13String = paper22.paperContent ? JSON.parse(paper22.paperContent).cellIdx4 : ''
+        }
         DangerTable = let1DataPaperContent.DangerTable ? 
           setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
           : {}
@@ -369,7 +371,7 @@ export default {
           signDate: "",
         },
         associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
-          paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
+          paper22Id: let1DataPaperContent.associationPaperId ? let1DataPaperContent.associationPaperId.paper22Id : '',
           paper1Id: selectedPaper.let1Data.paperId
         } : null
       })

@@ -62,6 +62,13 @@
                 <div class="line1"></div>
             </div>
             <div class="docTextarea">
+              <span class="no-line">统一社会信用代码：</span>
+              <span @click="commandFill('cellIdx12', '统一社会信用代码', 'TextItem')"
+                >{{ letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）" }}
+              </span>
+              <div class="line"></div>
+            </div>
+            <div class="docTextarea">
               <span class="no-line">检查人（签名）：</span>
               <span
                 @click="commandFill('cellIdx5', '检查人（签名）', 'TextItem')"
@@ -148,6 +155,7 @@ export default {
         cellIdx2: null, // 检查地点（路线）
         cellIdx3: null, // 采矿许可证
         cellIdx4: null, // 安全生产许可证
+        cellIdx12: null, // 统一社会信用代码
         cellIdx5: null, // 检查人（签名）
         cellIdx6: null, // 记录人（签名）
         cellIdx7: null, // 陪同检查人员

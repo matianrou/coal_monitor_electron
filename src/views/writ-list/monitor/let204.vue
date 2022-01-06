@@ -73,7 +73,7 @@
                   letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
                 }}</span
               >
-              分别违反了
+              违反了
               <span
                 @dblclick="commandFill('cellIdx7', '规定', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
                 @click="commandFill('cellIdx7', '规定', 'DangerTextareaItem')"
@@ -93,7 +93,7 @@
               <span class="no-underline">{{
                 letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
               }}</span>
-              分别作出：
+              作出：
               <span
                 @dblclick="commandFill('cellIdx10', '行政处罚', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
                 @click="commandFill('cellIdx10', '行政处罚', 'DangerTextareaItem')"
@@ -105,7 +105,7 @@
             </div>
             <div class="docTextarea">
               <label style="width: 5%"></label>
-              根据《中华人民共和国行政处罚法》第四十五条规定，你
+              根据《中华人民共和国行政处罚法》第<span class="text-decoration">四十五</span>条规定，你
               <span
                 class="no-underline"
                 >{{
@@ -116,7 +116,7 @@
             </div>
             <div class="docTextarea">
               <label style="width: 5%"></label>
-              根据《中华人民共和国行政处罚法》第六十三条、第六十四条规定，你
+              根据《中华人民共和国行政处罚法》第<span class="text-decoration">六十三</span>条、第<span class="text-decoration">六十四</span>条规定，你
               <span
                 class="no-underline"
                 >{{
@@ -193,7 +193,7 @@
               </tr>
             </table>
             <div class="docTextarea" style="border-top: 2px solid #000;">
-              备注：本文书一式两份，一份送拟处罚
+              备注：本文书一式两份，一份送被拟处罚
               <span
                 style="borderBottom:none">
                 {{ letData.cellIdx21 ? letData.cellIdx21 : "（点击编辑）" }}

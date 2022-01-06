@@ -109,7 +109,7 @@
                   letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
                 }}</span
               >
-              的规定，根据《中华人民共和国安全生产法》第六十五条第一款第四项规定，我
+              的规定，根据《中华人民共和国安全生产法》第<span class="text-decoration">六十五</span>条第<span class="text-decoration">一</span>款第<span class="text-decoration">四</span>项规定，我
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx8', '局', 'TextItem')"
@@ -132,11 +132,11 @@
                 @click="
                   commandFill(
                     'cellIdx10',
-                    '《物品清单》',
+                    `附件：《${letData.cellIdx12}物品清单》`,
                     'SamplingForensicsTable'
                   )
                 "
-                >（详见《物品清单》）。</span
+                >（详见《{{letData.cellIdx12}}物品清单》）。</span
               >
             </div>
             <div class="docTextarea">
@@ -179,7 +179,7 @@
               <span @click="commandFill('cellIdx16', '人民法院', 'TextItem')">{{
                 letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）"
               }}</span>
-              人民法院提起行政诉讼，但不停止本决定的执行。
+              法院提起行政诉讼，但不停止本决定的执行。
             </div>
             <table height="30"></table>
             <div class="docTextLine">
@@ -190,12 +190,12 @@
                 @click="
                   commandFill(
                     'cellIdx10',
-                    '《物品清单》',
+                    `附件：《${letData.cellIdx12}物品清单》`,
                     'SamplingForensicsTable'
                   )
                 "
               >
-                《物品清单》
+                《{{letData.cellIdx12}}物品清单》
               </div>
             </div>
             <table height="30"></table>
@@ -412,7 +412,7 @@ export default {
         orgData && orgData.sysOfficeInfo
           ? JSON.parse(orgData.sysOfficeInfo)
           : { organName: "", courtPrefix: "" };
-      let cellIdx16String = orgSysOfficeInfo.organName;
+      let cellIdx16String = '国家矿山安全监察局';
       let cellIdx17String = orgSysOfficeInfo.courtPrefix;
       let DangerTable = null;
       if (this.corpData.caseType === "0") {
@@ -449,7 +449,7 @@ export default {
           this.corpData.caseType === "0"
             ? {
                 // 关联的paperId
-                paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
+                paper22Id: let1DataPaperContent.associationPaperId ? let1DataPaperContent.associationPaperId.paper22Id : '',
                 paper1Id: selectedPaper.let1Data.paperId,
               }
             : null,

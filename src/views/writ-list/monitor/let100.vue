@@ -134,6 +134,17 @@
             </div>
             <div class="docTextarea" >
               <div style="display:inline-block;min-width:60%">
+                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;带队人（签名）：</span>
+                <span @click="commandFill('cellIdx15', '带队人（签名）', 'TextItem')">{{ 
+                  letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）" }}</span>
+              </div>
+              <span class="no-line">日期：</span>
+              <span @click="commandFill('cellIdx16', '日期', 'DateItem')">{{
+              letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）"}}</span>
+              <div class="line"></div>
+            </div>
+            <div class="docTextarea" >
+              <div style="display:inline-block;min-width:60%">
                 <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;审批人（签名）：</span>
                 <span @click="commandFill('cellIdx10', '审批人（签名）', 'TextItem')">{{ 
                   letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）" }}</span>
@@ -230,6 +241,8 @@ export default {
         cellIdx6: null, // 其他事项
         cellIdx8: null, // 编制人
         cellIdx9: null, // 编制日期
+        cellIdx15: null, // 带队人
+        cellIdx16: null, // 日期
         cellIdx10: null, // 审批人
         cellIdx11: null, // 审批日期
         cellIdx12: this.$store.state.curCase.provinceGroupName,
@@ -237,7 +250,6 @@ export default {
         cellIdx14: null,
         CheckTable: {
           tableData: [],
-          selectedIdList: [],
         }
       },
       options: {},

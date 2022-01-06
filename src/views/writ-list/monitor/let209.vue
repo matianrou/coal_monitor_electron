@@ -174,7 +174,7 @@
             </div>
             <div class="docTextarea">
               <label style="width: 5%"></label>
-              根据《中华人民共和国行政处罚法》第六十四条规定，你
+              根据《中华人民共和国行政处罚法》第<span class="text-decoration">六十四</span>条规定，你
               <span class="no-underline">{{
                 letData.cellIdx23 ? letData.cellIdx23 : "（点击编辑）"
               }}</span>
@@ -183,7 +183,7 @@
             <div class="docTextarea">
               <label style="width: 5%"></label>
               1.
-              请事先准备相关证据，通知证人或委托代理人准时参加；不按时参加听证会且未事先说明理由的，视为放弃听证权利。
+              请事先准备相关证据，通知证人或委托代理人准时参加；无正当理由拒不出席听证或者未经许可中途退出听证的，视为放弃听证权利，我局将终止听证。
             </div>
             <div class="docTextarea">
               <label style="width: 5%"></label>

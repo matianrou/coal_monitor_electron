@@ -72,34 +72,36 @@ export default {
   methods: {
     async init () {
       // 获取检查活动相关信息
-      let db = new GoDB(this.DBName)
-      let wkCase = db.table('wkCase')
-      let caseData = await wkCase.find(item => item.caseId === this.corpData.caseId)
-      let orgInfo = db.table('orgInfo')
-      // 归档机构信息
-      let affiliate = this.$store.state.selectedCaseOption.selGovUnit
-      let affiliateOrg = await orgInfo.find(item => item.no === affiliate)
-      // 获取当前归档机构的省局名称
-      let provinceGroupName = `${caseData.groupName}`
-      if (affiliateOrg.grade === '3') {
-        let provinceOrg = await orgInfo.find(item => item.no === affiliateOrg.parentId)
-        provinceGroupName = provinceOrg.name
-      }
-      await db.close()
-      if (caseData) {
-        let planDate = ''
-        if (caseData.planBeginDate && caseData.planEndDate) {
-          // 处理检查时间
-          let beginList = caseData.planBeginDate.split(' ')[0].split('-')
-          let endList = caseData.planEndDate.split(' ')[0].split('-')
-          planDate = `${beginList[1]}月${beginList[2]}日-${endList[1]}月${endList[2]}日`
+      if (this.corpData.caseId) {
+        let db = new GoDB(this.DBName)
+        let wkCase = db.table('wkCase')
+        let caseData = await wkCase.find(item => item.caseId === this.corpData.caseId)
+        let orgInfo = db.table('orgInfo')
+        // 归档机构信息
+        let affiliate = this.$store.state.selectedCaseOption.selGovUnit
+        let affiliateOrg = await orgInfo.find(item => item.no === affiliate)
+        // 获取当前归档机构的省局名称
+        let provinceGroupName = `${caseData.groupName}`
+        if (affiliateOrg.grade === '3') {
+          let provinceOrg = await orgInfo.find(item => item.no === affiliateOrg.parentId)
+          provinceGroupName = provinceOrg.name
         }
-        caseData = Object.assign({}, caseData, { planDate, provinceGroupName })
-        this.caseData = caseData
-        this.$store.commit('changeState', {
-          key: 'curCase',
-          val: caseData
-        })
+        await db.close()
+        if (caseData) {
+          let planDate = ''
+          if (caseData.planBeginDate && caseData.planEndDate) {
+            // 处理检查时间
+            let beginList = caseData.planBeginDate.split(' ')[0].split('-')
+            let endList = caseData.planEndDate.split(' ')[0].split('-')
+            planDate = `${beginList[1]}月${beginList[2]}日-${endList[1]}月${endList[2]}日`
+          }
+          caseData = Object.assign({}, caseData, { planDate, provinceGroupName })
+          this.caseData = caseData
+          this.$store.commit('changeState', {
+            key: 'curCase',
+            val: caseData
+          })
+        }
       }
     }
   },

@@ -70,7 +70,7 @@
             prop="personNames"
             header-align="center"
             align="left"
-            label="检查人员">
+            label="检查分工">
           </el-table-column>
           <el-table-column
             prop="situation"

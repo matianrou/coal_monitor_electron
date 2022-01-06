@@ -946,8 +946,11 @@ export default {
           let {tableData} = this.$parent.letData.CheckTable
           // 遍历tableData数据，处理undefined情况
           tableData && tableData.forEach(item => {
-            for (let key in item) {
-              item[key] = item[key] ? item[key] : ''
+            let keyList = ['categoryName', 'itemContent', 'method', 'positions', 'personNames', 'situation']
+            for (let i = 0; i < keyList.length; i++) {
+              if (!item[keyList[i]]) {
+                item[keyList[i]] = ''
+              }
             }
           })
           Object.assign(exportData, {
@@ -994,7 +997,7 @@ export default {
         || this.docData.docTypeNo === '2') {
         // 大文本换行问题解决：通过获取大文本中的\n换行符，截取字符串形成数组，将数组转换为doc文本实现换行效果
         // 需要处理的文书：调查询问笔录cellIdx21;复查意见书cellIdx15;先行登记保存证据处理决定书cellIdx14;
-        // 需要处理的文书：陈述申辩笔录cellIdx21;听证笔录cellIdx10;案件结案报告cellIdx0;鉴定委托书cellIdx6
+        // 需要处理的文书：陈述、申辩笔录cellIdx21;听证笔录cellIdx10;案件结案报告cellIdx0;鉴定委托书cellIdx6
         // 需要处理的文书：现场检查笔录cellIdx8;现场处理决定书cellIdx7
         let cellIdxExtraTextarea = []
         let key = ''

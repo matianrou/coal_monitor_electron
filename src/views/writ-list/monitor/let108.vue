@@ -82,7 +82,7 @@
                   letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
                 }}</span
               >
-              的行为涉嫌违法违规。根据《中华人民共和国行政处罚法》第五十六条规定，我
+              的行为涉嫌违法违规。根据《中华人民共和国行政处罚法》第<span class="text-decoration">五十六</span>条规定，我
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx7', '局', 'TextItem')"
@@ -110,7 +110,7 @@
                 @click="commandFill('cellIdx11', '局', 'TextItem')"
                 >{{ letData.cellIdx11 ? letData.cellIdx11 : "(编辑)" }}</span
               >
-              将在七日内对先行登记保存的证据依法作出处理决定。逾期未作出处理决定的，先行登记保存措施自动解除。
+              将在七个工作日内对先行登记保存的证据依法作出处理决定。逾期未作出处理决定的，先行登记保存措施自动解除。
             </div>
             <table height="30"></table>
             <div class="docTextLine">
@@ -341,8 +341,10 @@ export default {
       if (this.corpData.caseType === "0") {
         // 5.获取检查地点
         let wkPaper = db.table('wkPaper')
-        let paper22 = await wkPaper.find(item => item.paperId === let1DataPaperContent.associationPaperId.paper22Id)
-        cellIdx9String = paper22.paperContent ? JSON.parse(paper22.paperContent).cellIdx4 : ''
+        if (let1DataPaperContent.associationPaperId) {
+          let paper22 = await wkPaper.find(item => item.paperId === let1DataPaperContent.associationPaperId.paper22Id)
+          cellIdx9String = paper22.paperContent ? JSON.parse(paper22.paperContent).cellIdx4 : ''
+        }
         DangerTable = let1DataPaperContent.DangerTable
           ? setNewDanger(
               selectedPaper.let1Data,
@@ -379,7 +381,7 @@ export default {
           this.corpData.caseType === "0"
             ? {
                 // 关联的paperId
-                paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
+                paper22Id: let1DataPaperContent.associationPaperId ? let1DataPaperContent.associationPaperId.paper22Id : '',
                 paper1Id: selectedPaper.let1Data.paperId,
               }
             : null,

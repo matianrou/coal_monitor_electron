@@ -548,8 +548,8 @@
                     :title="flowStatus.paper30 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let205','陈述申辩笔录', '30')" class="flow-span">陈述申辩笔录</span>
-                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let205','陈述申辩笔录', '30')"></i>
+                  <span @click="cmdEditDoc('let205','陈述、申辩笔录', '30')" class="flow-span">陈述、申辩笔录</span>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let205','陈述、申辩笔录', '30')"></i>
                 </td>
                 <!-- <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c5.png" style="height: 100%;" />

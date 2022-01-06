@@ -60,7 +60,7 @@
                   letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
                 }}</span
               >
-              以上事实分别违反了
+              以上事实违反了
               <span
                 @dblclick="commandFill('cellIdx8', '法律规定', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
                 @click="commandFill('cellIdx8', '法律规定', 'DangerTextareaItem')"
@@ -122,7 +122,7 @@
               <span @click="commandFill('cellIdx17', '人民法院', 'TextItem')">{{
                 letData.cellIdx17 ? letData.cellIdx17 : "（点击编辑）"
               }}</span>
-              人民法院提起行政诉讼，但不停止执行本决定。
+              法院提起行政诉讼，但不停止执行本决定。
             </div>
             <table height="30"></table>
             <table class="docBody">
@@ -153,7 +153,7 @@
               </tr>
             </table>
             <div class="docTextarea" style="border-top: 2px solid #000;">
-              备注：本文书一式三份，一份交被罚处
+              备注：本文书一式三份，一份交被处罚
               <span
                 style="borderBottom:none"
               >{{ letData.cellIdx21 ? letData.cellIdx21 : '（点击编辑）'}}</span>
@@ -286,6 +286,7 @@ export default {
       let orgData = await orgInfo.find(
         (item) => item.no === this.$store.state.user.userGroupId
       );
+      console.log('orgData', orgData)
       let orgSysOfficeInfo =
         orgData && orgData.sysOfficeInfo
           ? JSON.parse(orgData.sysOfficeInfo)
@@ -319,12 +320,12 @@ export default {
         cellIdx8: cellIdx8String, // 法律规定
         cellIdx9: cellIdx9String, // 法律依据
         cellIdx10: cellIdx10String, // 行政处罚
-        cellIdx11: orgSysOfficeInfo.accountName, //
-        cellIdx12: orgSysOfficeInfo.accountBank, // 银行
-        cellIdx13: orgSysOfficeInfo.billName, // 支行（分理处），账户名称
-        cellIdx14: orgSysOfficeInfo.account, // 账号
+        cellIdx11: orgSysOfficeInfo.accountName, // 银行
+        cellIdx12: orgSysOfficeInfo.accountBank, // 支行（分理处）
+        cellIdx13: orgSysOfficeInfo.account, // ，账户名称
+        cellIdx14: orgSysOfficeInfo.billName, // 账号
         cellIdx15: orgSysOfficeInfo.accountAddress, // 地址
-        cellIdx16: orgSysOfficeInfo.organName, // 煤监机构
+        cellIdx16: '国家矿山安全监察局', // 煤监机构
         cellIdx17: orgSysOfficeInfo.courtPrefix, // 人民法院
         cellIdx19: this.$store.state.curCase.provinceGroupName, // 
         cellIdx20: this.todayDate, // 日期

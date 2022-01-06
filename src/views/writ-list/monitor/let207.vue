@@ -89,7 +89,7 @@
             </div>
             <div class="docTextarea">
               <div style="display:inline-block;min-width:60%">
-                <span class="no-line">受送达人（签名）：</span>
+                <span class="no-line">送达人（签名）：</span>
                 <span @click="commandFill('cellIdx10', '受送达人（签名）', 'TextItem')"
                   >{{ letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）" }}
                 </span>
@@ -194,6 +194,14 @@ export default {
           {
             value: "公告送达",
             name: "公告送达",
+          },
+          {
+            value: "传真送达",
+            name: "传真送达",
+          },
+          {
+            value: "电子邮件送达",
+            name: "电子邮件送达",
           },
         ],
         cellIdx14: [

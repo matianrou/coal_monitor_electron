@@ -65,9 +65,9 @@
               <div class="line"></div>
             </div>
             <div class="docTextarea">
-              <span class="no-line">违法事实及处理依据：</span>
+              <span class="no-line">违法事实及依据：</span>
               <span
-                @dblclick="commandFill('cellIdx6', '违法事实及处理依据', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
+                @dblclick="commandFill('cellIdx6', '违法事实及依据', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
                 @click="
                   commandFill(
                     'cellIdx6',
@@ -82,6 +82,18 @@
               <div class="line"></div>
             </div>
             <div class="docTextarea">
+              <span class="no-line">法制审核意见：</span>
+              <span
+                @click="
+                  commandFill('cellIdx8', '法制审核意见', 'SelectInputItem')
+                "
+                >{{
+                  letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
+                }}</span
+              >
+              <div class="line"></div>
+            </div>
+            <div class="docTextarea">
               <span class="no-line">建议案件处理意见：</span>
               <span
                 @dblclick="commandFill('cellIdx7', '建议案件处理意见', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
@@ -90,18 +102,6 @@
                 "
                 >{{
                   letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
-                }}</span
-              >
-              <div class="line"></div>
-            </div>
-            <div class="docTextarea">
-              <span class="no-line">法制审核意见：</span>
-              <span
-                @click="
-                  commandFill('cellIdx8', '法制审核意见', 'SelectInputItem')
-                "
-                >{{
-                  letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
                 }}</span
               >
               <div class="line"></div>
@@ -161,7 +161,7 @@
 import GoDB from "@/utils/godb.min.js";
 import { setDangerTable } from '@/utils/handlePaperData'
 import associationSelectPaper from "@/components/association-select-paper";
-import { setNewDanger } from '@/utils/setInitPaperData'
+import { setNewDanger, getDocNumber2 } from '@/utils/setInitPaperData'
 
 export default {
   name: "Let203",
@@ -202,6 +202,8 @@ export default {
         let corp = await corpBase.find((item) => {
           return item.corpId == this.corpData.corpId;
         });
+        // 4.编号：
+        let paperNumber = await getDocNumber2(db, this.docData.docTypeNo, this.corpData.caseId)
         // 5.获取立案决定书编号及立案日期,承办人
         let let4DataPaperContent = JSON.parse(
           selectedPaper.let4Data.paperContent
@@ -244,7 +246,7 @@ export default {
           cellIdx8,
           cellIdx9
         } = let4DataPaperContent;
-        let let4PaperNumber = `${cellIdx0 || ''}（${cellIdx1 || ''}）矿安立〔${cellIdx2 || ''}〕${cellIdx3 || ''}号`;
+        let let4PaperNumber = `${cellIdx0 || ''}（${cellIdx1 || ''}）煤安立〔${cellIdx2 || ''}〕${cellIdx3 || ''}号`;
         let let4Date = `${cellIdx6 ? cellIdx6 : "XX"}年${
           cellIdx7 ? cellIdx7 : "XX"
         }月${cellIdx8 ? cellIdx8 : "XX"}日`;
@@ -254,6 +256,7 @@ export default {
           : {}
         await db.close();
         this.letData = Object.assign({}, this.letData, {
+          cellIdx1: paperNumber, // 编号
           cellIdx2: cellIdx2String, // 案由
           cellIdx3: let4PaperNumber, // 立案决定书编号
           cellIdx4: let4Date, // 立案时间
@@ -273,6 +276,9 @@ export default {
           }
         })
       } else {
+        let db = new GoDB(this.$store.state.DBName);
+        let paperNumber = await getDocNumber2(db, this.docData.docTypeNo, this.corpData.caseId)
+        await db.close();
         let let4DataPaperContent = JSON.parse(
           selectedPaper.let4Data.paperContent
         );
@@ -286,12 +292,13 @@ export default {
           cellIdx8,
           cellIdx9
         } = let4DataPaperContent;
-        let let4PaperNumber = `${cellIdx0}（${cellIdx1}）矿安立〔${cellIdx2}〕${cellIdx3}号`;
+        let let4PaperNumber = `${cellIdx0}（${cellIdx1}）煤安立〔${cellIdx2}〕${cellIdx3}号`;
         let let4Date = `${cellIdx6 ? cellIdx6 : "XX"}年${
           cellIdx7 ? cellIdx7 : "XX"
         }月${cellIdx8 ? cellIdx8 : "XX"}日`;
         let let4Person = cellIdx9 ? cellIdx9 : 'XX'
         this.letData = Object.assign({}, this.letData, {
+          cellIdx1: paperNumber, // 编号
           cellIdx3: let4PaperNumber, // 立案决定书编号
           cellIdx4: let4Date, // 立案时间
           cellIdx5: let4Person, // 承办人

@@ -1,4 +1,4 @@
-<!-- 行政处罚 听证程序  陈述申辩笔录 30 -->
+<!-- 行政处罚 听证程序  陈述、申辩笔录 30 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -17,7 +17,7 @@
               煤矿安全监管行政执法文书
               <br />
             </div>
-            <div class="textAlignCenter formHeader1">陈述申辩笔录</div>
+            <div class="textAlignCenter formHeader1">陈述、申辩笔录</div>
             <div class="docTextLine">
               时间：
               <div style="flex: 1; display: flex;">

@@ -105,7 +105,7 @@
               <span @click="commandFill('cellIdx9', '', 'TextItem')">{{
                 letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
               }}</span>
-              人民法院提起行政诉讼，但不停止执行本决定。
+              法院提起行政诉讼，但不停止执行本决定。
             </div>
             <table height="30"></table>
             <div class="docTextarea">
@@ -276,7 +276,7 @@ export default {
         cellIdx5: "局", //局
         cellIdx6: let1DataPaperContent.cellIdx1, //
         cellIdx7: cellIdx7String, // 现场处理决定
-        cellIdx8: orgSysOfficeInfo.organName, //
+        cellIdx8: '国家矿山安全监察局', //
         cellIdx9: orgSysOfficeInfo.courtPrefix, //
         cellIdx14: this.$store.state.curCase.provinceGroupName, //
         cellIdx15: this.todayDate, //

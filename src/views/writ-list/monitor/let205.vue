@@ -1,4 +1,4 @@
-<!-- 行政处罚 一般程序 陈述申辩笔录 30 -->
+<!-- 行政处罚 一般程序 陈述、申辩笔录 30 -->
 <template>
   <div style="width: 100%; height: 100%">
     <let-main
@@ -17,9 +17,9 @@
               国 家 矿 山 安 全 监 察
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">陈 述 申 辩 笔 录</div>
+            <div class="textAlignCenter formHeader3">陈 述、申 辩 笔 录</div>
             <div class="docTextLine">
-              <label>讨论时间：</label>
+              <label>时间：</label>
               <span
                 class="line-div center"
                 @click="commandFill('cellIdx0', '年', 'TextItem')"
@@ -138,16 +138,15 @@
               >
               <div class="line"></div>
             </div>
-            <div class="docTextarea">
+            <div class="docTextarea" style="text-indent: 2em;">
               陈述、申辩记录：我们是
               <span
-                class="no-underline"
                 @click="commandFill('cellIdx18', '执法人员', 'TextItem')"
                 >{{
                   letData.cellIdx18 ? letData.cellIdx18 : "（点击编辑）"
                 }}</span
               >
-              监察员，这是我们的证件（出示证件）。现对
+              矿山安全监察局监察员，这是我们的证件（出示证件）。现对
               <span
                 @click="commandFill('cellIdx19', '违法行为', 'TextareaItem')"
                 >{{
@@ -188,6 +187,38 @@
               <div v-else>
                 <p class="show-area-item-p">&nbsp;</p>
                 <p class="show-area-item-p">&nbsp;</p>
+              </div>
+            </div>
+            <div class="docTextarea">
+              <span class="no-line">陈述、申辩人意见：</span>
+              <span @click="commandFill('cellIdx22', '陈述、申辩人意见', 'TextareaItem')">{{
+                letData.cellIdx22 ? letData.cellIdx22 : "（点击编辑）"
+              }}</span>
+              <div class="line"></div>
+            </div>
+            <div class="docTextarea">
+              <div style="display: inline-block; min-width: 65%">
+                <span class="no-line">陈述、申辩人（签名）：</span>
+                <span
+                  @click="commandFill('cellIdx23', '陈述、申辩人（签名）', 'TextItem')"
+                  >{{
+                    letData.cellIdx23 ? letData.cellIdx23 : "（点击编辑）"
+                  }}</span
+                >
+              </div>
+              <div style="display: inline-block; text-align: right; width: 30%;">
+                <span @click="commandFill('cellIdx24', '年', 'TextItem')">{{
+                  letData.cellIdx24 ? letData.cellIdx24 : "XXXX"
+                }}</span>
+                <span class="no-line">年</span>
+                <span @click="commandFill('cellIdx25', '月', 'TextItem')">{{
+                  letData.cellIdx25 ? letData.cellIdx25 : "XX"
+                }}</span>
+                <span class="no-line">月</span>
+                <span @click="commandFill('cellIdx26', '日', 'TextItem')">{{
+                  letData.cellIdx26 ? letData.cellIdx26 : "XX"
+                }}</span>
+                <span class="no-line">日</span> 
               </div>
             </div>
             <div class="docTextarea" style="border-top: 2px solid #000">
@@ -241,6 +272,11 @@ export default {
         cellIdx19: null, // 违法行为
         cellIdx20: null, // 单位/个人
         cellIdx21: null, // 法制审核意见
+        cellIdx22: null, // 陈述、申辩人意见
+        cellIdx23: null, // 陈述、申辩人（签名）
+        cellIdx24: null, // 年
+        cellIdx25: null, // 月
+        cellIdx26: null, // 日
         DangerTable: null,
         extraData: null,
         selectedType: null,

@@ -96,7 +96,7 @@
                   letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）"
                 }}</span
               >
-              等威胁职工生命安全的紧急情况，根据《中华人民共和国安全生产法》第六十五条第一款第三项规定，现命令立即从
+              等威胁职工生命安全的紧急情况，根据《中华人民共和国安全生产法》第<span class="text-decoration">六十五</span>条第<span class="text-decoration">一</span>款第<span class="text-decoration">三</span>项规定，现命令立即从
               <span @click="commandFill('cellIdx13', '', 'TextItem')">{{
                 letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）"
               }}</span>
@@ -133,10 +133,10 @@
                 letData.cellIdx19 ? letData.cellIdx19 : "（点击编辑）"
               }}</span>
               申请行政复议或6个月内向
-              <span @click="commandFill('cellIdx20', '人民法院', 'TextItem')">{{
+              <span @click="commandFill('cellIdx20', '法院', 'TextItem')">{{
                 letData.cellIdx20 ? letData.cellIdx20 : "（点击编辑）"
               }}</span>
-              人民法院提起行政诉讼，但不停止执行本命令。
+              法院提起行政诉讼，但不停止执行本命令。
             </div>
             <div class="docTextarea">
               <div style="display:inline-block;min-width:47%">
@@ -250,7 +250,7 @@ export default {
         cellIdx17: null, // 时
         cellIdx18: null, // 分
         cellIdx19: null, // 机构名
-        cellIdx20: null, // 人民法院
+        cellIdx20: null, // 法院
         cellIdx21: null, // 被检查单位负责人意见
         cellIdx22: null, // 签名
         cellIdx23: null, // 日期
@@ -312,15 +312,17 @@ export default {
         orgData && orgData.sysOfficeInfo
           ? JSON.parse(orgData.sysOfficeInfo)
           : { organName: "", courtPrefix: "" };
-      let cellIdx19String = orgSysOfficeInfo.organName;
+      let cellIdx19String = '国家矿山安全监察局';
       let cellIdx20String = orgSysOfficeInfo.courtPrefix;
       let DangerTable = null
       let cellIdx11String = ''
       if (this.corpData.caseType === '0') {
         // 5.获取检查地点
         let wkPaper = db.table('wkPaper')
-        let paper22 = await wkPaper.find(item => item.paperId === let1DataPaperContent.associationPaperId.paper22Id)
-        cellIdx11String = paper22.paperContent ? JSON.parse(paper22.paperContent).cellIdx4 : ''
+        if (let1DataPaperContent.associationPaperId) {
+          let paper22 = await wkPaper.find(item => item.paperId === let1DataPaperContent.associationPaperId.paper22Id)
+          cellIdx11String = paper22.paperContent ? JSON.parse(paper22.paperContent).cellIdx4 : ''
+        }
         DangerTable = let1DataPaperContent.DangerTable ? 
           setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
           : {}
@@ -340,18 +342,19 @@ export default {
         cellIdx10: cellIdx10Minu, // 分
         cellIdx11: cellIdx11String, // 发现在。。。有
         cellIdx12: cellIdx12String, // 隐患描述
+        cellIdx13: cellIdx11String, // 危险区
         cellIdx14: cellIdx6Year, // 年
         cellIdx15: cellIdx7Month, // 月
         cellIdx16: cellIdx8Date, // 日
         cellIdx17: cellIdx9Hour, // 时
         cellIdx18: cellIdx10Minu, // 分
         cellIdx19: cellIdx19String, // 机构名
-        cellIdx20: cellIdx20String, // 人民法院
+        cellIdx20: cellIdx20String, // 法院
         cellIdx27: this.$store.state.curCase.provinceGroupName, //
         cellIdx28: this.todayDate, // 日期
         DangerTable: DangerTable,
         associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
-          paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
+          paper22Id: let1DataPaperContent.associationPaperId ? let1DataPaperContent.associationPaperId.paper22Id : '',
           paper1Id: selectedPaper.let1Data.paperId
         } : null
       })

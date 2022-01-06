@@ -96,7 +96,7 @@
             </table>
             <div class="docTextarea">
               <label style="width: 5%"></label>
-              根据《中华人民共和国行政处罚法》第六十三条、第六十四条规定，我
+              根据《中华人民共和国行政处罚法》第<span class="text-decoration">六十三</span>条、第<span class="text-decoration">六十四</span>条规定，我
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx8', '局', 'TextItem')"
@@ -137,8 +137,8 @@
                 </span>
               </div>
                 <span class="no-line">邮政编码：</span>
-                <span @click="commandFill('cellIdx32', '邮政编码', 'TextItem')">{{
-                  letData.cellIdx32 ? letData.cellIdx32 : "（点击编辑）"
+                <span @click="commandFill('cellIdx14', '邮政编码', 'TextItem')">{{
+                  letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）"
                 }}</span>
                 <div class="line"></div>
             </div>
