@@ -267,7 +267,7 @@ export default {
       // 3.行政处罚决定书 日期、编号
       let date206 = selectedPaper.let8Data.createDate.split(' ')[0].split('-')
       let orgInfo = db.table("orgInfo");
-      let orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+      let orgData = await orgInfo.find(item => item.no === this.$store.state.curCase.affiliate)
       let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {accountName: '', billName: '', depAddress: '', depPost: '', master: '', phone: ''}
       let DangerTable = null;
       if (this.corpData.caseType === "0") {

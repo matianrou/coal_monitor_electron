@@ -109,7 +109,7 @@
                   letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
                 }}</span
               >
-              的规定，根据《中华人民共和国安全生产法》第<span class="text-decoration">六十五</span>条第<span class="text-decoration">一</span>款第<span class="text-decoration">四</span>项规定，我
+              的规定，根据《中华人民共和国安全生产法》第<span class="text-decoration">六十五</span>条第<span class="text-decoration">一</span>款第<span class="text-decoration">四</span>项和《中华人民共和国行政强制法》第<span class="text-decoration">二十四</span>条规定，我
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx8', '局', 'TextItem')"
@@ -406,7 +406,7 @@ export default {
       // 4.地点：sysOfficeInfo实体中organName字段+ courtPrefix字段
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(
-        (item) => item.no === this.$store.state.user.userGroupId
+        (item) => item.no === this.$store.state.curCase.affiliate
       );
       let orgSysOfficeInfo =
         orgData && orgData.sysOfficeInfo

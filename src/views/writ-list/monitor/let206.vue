@@ -119,7 +119,7 @@
                 letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）"
               }}</span>
               申请行政复议或6个月内向
-              <span @click="commandFill('cellIdx17', '人民法院', 'TextItem')">{{
+              <span @click="commandFill('cellIdx17', '法院', 'TextItem')">{{
                 letData.cellIdx17 ? letData.cellIdx17 : "（点击编辑）"
               }}</span>
               法院提起行政诉讼，但不停止执行本决定。
@@ -284,8 +284,9 @@ export default {
       // 地址：accountAddress；组织机构名：organName；法院：courtPrefix
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(
-        (item) => item.no === this.$store.state.user.userGroupId
+        (item) => item.no === this.$store.state.curCase.affiliate
       );
+      
       console.log('orgData', orgData)
       let orgSysOfficeInfo =
         orgData && orgData.sysOfficeInfo

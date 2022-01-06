@@ -273,7 +273,7 @@ export default {
       // 5.地点：sysOfficeInfo实体中depAddress字段+ deparFullname字段
       // 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
       let orgInfo = db.table("orgInfo");
-      let orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+      let orgData = await orgInfo.find(item => item.no === this.$store.state.curCase.affiliate)
       let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: '' }
       await db.close();
       this.letData = {

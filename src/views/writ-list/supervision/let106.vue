@@ -250,7 +250,7 @@ export default {
       let cellIdx12String = dangerObject.dangerString
       // 4.sysOfficeInfo中organName和courtPrefix
       let orgInfo = db.table("orgInfo");
-      let orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+      let orgData = await orgInfo.find(item => item.no === this.$store.state.curCase.affiliate)
       let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {organName: '', courtPrefix: ''}
       let cellIdx20String = orgSysOfficeInfo.organName
       let cellIdx21String = orgSysOfficeInfo.courtPrefix

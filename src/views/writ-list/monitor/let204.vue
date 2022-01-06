@@ -303,7 +303,7 @@ export default {
         // 9.机构接口中获取sysOfficeInfo实体中
         let orgInfo = db.table("orgInfo");
         let orgData = await orgInfo.find(
-          (item) => item.no === this.$store.state.user.userGroupId
+          (item) => item.no === this.$store.state.curCase.affiliate
         );
         let orgSysOfficeInfo =
           orgData && orgData.sysOfficeInfo
@@ -372,7 +372,7 @@ export default {
         // 9.机构接口中获取sysOfficeInfo实体中
         let orgInfo = db.table("orgInfo");
         let orgData = await orgInfo.find(
-          (item) => item.no === this.$store.state.user.userGroupId
+          (item) => item.no === this.$store.state.curCase.affiliate
         );
         let orgSysOfficeInfo =
           orgData && orgData.sysOfficeInfo

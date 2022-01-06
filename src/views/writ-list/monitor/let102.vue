@@ -252,7 +252,7 @@ export default {
       // 通过机构接口中的sysOfficeInfo中获取的organName和courtPrefix字段分别填充cellIdx8和cellIdx9字段
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(
-        (item) => item.no === this.$store.state.user.userGroupId
+        (item) => item.no === this.$store.state.curCase.affiliate
       );
       let orgSysOfficeInfo =
         orgData && orgData.sysOfficeInfo

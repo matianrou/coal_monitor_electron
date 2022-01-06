@@ -257,7 +257,7 @@ export default {
       let let8DataPaperContent = JSON.parse(selectedPaper.let8Data.paperContent)
       let date206 = let8DataPaperContent.cellIdx20 ? let8DataPaperContent.cellIdx20.replace('年', '-').replace('月', '-').replace('日', '-').split('-') : ['', '', '']
       let orgInfo = db.table("orgInfo");
-      let orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+      let orgData = await orgInfo.find(item => item.no === this.$store.state.curCase.affiliate)
       let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {accountName: '', accountBank: '', billName: '', account: '', accountAddress: '', organName: '', courtPrefix: ''}
       await db.close();
       this.letData = {

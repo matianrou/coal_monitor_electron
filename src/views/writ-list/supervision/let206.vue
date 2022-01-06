@@ -226,7 +226,7 @@ export default {
       // accountName；银行：accountBank；账户名称：billName；账号：account；
       // 地址：accountAddress；组织机构名：organName；法院：courtPrefix
       let orgInfo = db.table("orgInfo");
-      let orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+      let orgData = await orgInfo.find(item => item.no === this.$store.state.curCase.affiliate)
       let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {accountName: '', accountBank: '', billName: '', account: '', accountAddress: '', organName: '', courtPrefix: ''}
       let paperNumber = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId)
       await db.close();

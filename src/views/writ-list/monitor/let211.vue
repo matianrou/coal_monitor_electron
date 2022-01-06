@@ -191,7 +191,7 @@ export default {
       // 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(
-        (item) => item.no === this.$store.state.user.userGroupId
+        (item) => item.no === this.$store.state.curCase.affiliate
       );
       let orgSysOfficeInfo =
         orgData && orgData.sysOfficeInfo

@@ -300,7 +300,7 @@ export default {
       // 4.sysOfficeInfo中 goverPrefix和organName和courtPrefix
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(
-        (item) => item.no === this.$store.state.user.userGroupId
+        (item) => item.no === this.$store.state.curCase.affiliate
       );
       let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo
         ? JSON.parse(orgData.sysOfficeInfo)
