@@ -1,4 +1,4 @@
-<!-- 行政强制  行政强制执行  行政执法有关事项审批报告 55 -->
+<!-- 行政强制 行政强制执行 行政执法有关事项审批报告 55 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -243,7 +243,7 @@ export default {
           return item.corpId == this.corpData.corpId;
         });
         // 煤矿名称+“，”+统一信用代码+“，”+法定代表人+“，”+“法定代表人手机号”+“，”+煤矿地址。
-        let corpDescription = `${corp.corpName || 'XX'}，${corp.useCode || 'XX'}，${corp.legalName || 'XX'}，${corp.legalTel || 'XX'}，${corp.address || 'XX'}`
+        let corpDescription = `${corp.corpName || 'XX'}，${corp.uscCode || 'XX'}，${corp.legalName || 'XX'}，${corp.legalTel || 'XX'}，${corp.address || 'XX'}`
         this.letData.cellIdx4 = corpDescription;
       } else {
         // 按个人初始化信息

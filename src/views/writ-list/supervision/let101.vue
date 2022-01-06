@@ -261,7 +261,7 @@ export default {
         cellIdx3: null, // 有效期
         cellIdx4: zzInfo2.credId, // 安全生产许可证
         cellIdx5: null, // 有效期
-        cellIdx6: null, // 统一社会信用代码
+        cellIdx6: corp.uscCode, // 统一社会信用代码
         cellIdx7: null, // 主要负责人
         cellIdx8: null, // 联系电话
         cellIdx9: null, // 检查地点

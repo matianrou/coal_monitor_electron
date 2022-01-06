@@ -112,7 +112,7 @@
                 @click="commandFill('cellIdx15', '', 'TextItem')">{{
                 letData.cellIdx15 ? letData.cellIdx15 : "（XX）"
               }}</span>
-              分起，对你单位采取的
+              分起，对你单位采取
               <span
                 class="no-underline"
                 >{{
@@ -127,15 +127,15 @@
             </div>
             <div class="docTextarea">
               <label style="width:5%"></label>
-              如果不服本决定，可在接到本决定书之日起60日内向
+              如不服本决定，可在接到本决定书之日起60日内向
               <span
                 @click="commandFill('cellIdx17', '人民政府', 'TextItem')"
               >{{ letData.cellIdx17 ? letData.cellIdx17 : '（点击编辑）'}}</span>
-              申请行政复议，或者在6个月内依法向
+              申请行政复议或6个月内向
               <span
-                @click="commandFill('cellIdx19', '', 'TextItem')"
+                @click="commandFill('cellIdx19', '法院', 'TextItem')"
               >{{ letData.cellIdx19 ? letData.cellIdx19 : '（点击编辑）'}}</span>
-              人民法院提起行政诉讼，但不停止执行本决定。
+              法院提起行政诉讼，但不停止执行本决定。
             </div>
             <table class="docBody" style="margin-top: 30px;">
               <tr>
@@ -310,7 +310,7 @@ export default {
         cellIdx13: strDate, // 日
         cellIdx14: hours, // 日
         cellIdx15: minutes, // 日
-        cellIdx17: orgSysOfficeInfo.goverPrefix, // 人民政府
+        cellIdx17: '国家矿山安全监察局', // 人民政府
         cellIdx19: orgSysOfficeInfo.courtPrefix, // 人民法院
         cellIdx20: this.$store.state.curCase.provinceGroupName, //
         cellIdx21: this.todayDate, // 日期

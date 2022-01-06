@@ -43,9 +43,7 @@
                 <span @click="commandFill('cellIdx2', '', 'TextItem')">{{
                   letData.cellIdx2 ? letData.cellIdx2 : "（编辑）"
                 }}</span>
-                <label>停</label>
-                <span>{{ letData.cellIdx22 }}</span>
-                <label>〔</label>
+                <label>停〔</label>
                 <span @click="commandFill('cellIdx3', '', 'TextItem')">{{
                   letData.cellIdx3 ? letData.cellIdx3 : "（编辑）"
                 }}</span>
@@ -61,7 +59,7 @@
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_5"
-                  style="width: 50%"
+                  style="min-width: 50%"
                   data-title
                   data-type="text"
                   data-src
@@ -86,7 +84,7 @@
               <span @click="commandFill('cellIdx8', '', 'TextItem')">{{
                 letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
               }}</span>
-              的决定，但该单位拒不执行该决定，未及时消除安全隐患，现有发生生产安全事故的危险。根据《中华人民共和国安全生产法》第七十条第一款规定，请贵单位对其采取
+              的决定，但该单位拒不执行该决定，未及时消除安全隐患，现有发生生产安全事故的危险。根据《中华人民共和国安全生产法》第<span class="text-decoration">七十</span>条第<span class="text-decoration">一</span>款规定，请贵单位对其采取
               <span class="no-underline">{{
                 letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
               }}</span>
@@ -220,7 +218,6 @@ export default {
         cellIdx0: null, // 停供电(停供民用爆炸物品)
         cellIdx1: null, // 文书号
         cellIdx2: null, // 文书号
-        cellIdx22: null, // 停供电(停供民用爆炸物品)
         cellIdx3: null, // 文书号
         cellIdx4: null, // 文书号
         cellIdx5: null, // 单位
@@ -240,6 +237,7 @@ export default {
         cellIdx19: null, //
         cellIdx20: null, // 日期
         cellIdx21: null, // 停供电(停供民用爆炸物品)
+        cellIdx22: null, // 暂不用
         DangerTable: null, // 隐患项大表
         associationPaperId: null
       },
@@ -294,8 +292,10 @@ export default {
         cellIdx4: num4, // 文书号
         cellIdx6: '局', // 局
         cellIdx7: corp.corpName ? corp.corpName : null, // corpname
+        cellIdx13: '局', // 局
         cellIdx14: cellIdx14String, // 地址
         cellIdx15: cellIdx15String, // 邮政编码
+        cellIdx16: '局', // 局
         cellIdx17: cellIdx17String, // 联系人
         cellIdx18: cellIdx18String, // 联系电话
         cellIdx19: this.$store.state.curCase.provinceGroupName, //
@@ -331,7 +331,6 @@ export default {
       this.visibleSelectDialog = false;
       this.letData.cellIdx0 = this.selectedType;
       this.letData.cellIdx5 = this.selectedType === '停供电' ? '供电公司' : '公安局';
-      this.letData.cellIdx22 = this.selectedType === '停供电' ? '电' : '爆'
       this.letData.cellIdx9 = this.selectedType === '停供电' ? '停供生产性用电' : '停供民用爆炸物品'
       this.letData.cellIdx21 = this.selectedType === '停供电' ? '供电部门' : '公安机关'
       this.letData.selectedType = this.selectedType;

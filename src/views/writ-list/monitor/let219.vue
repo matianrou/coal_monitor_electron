@@ -235,12 +235,17 @@
               >{{ item.fineChinese ? item.fineChinese : `&nbsp;&nbsp;&nbsp;&nbsp;`}}</span>
               ）
               <span
+                v-if="paperData && paperData.delFlag !== '0'"
                 class="no-line no-print"
                 style="cursor: pointer; color:#409EFF;"
                 @click="deletInstallment(index, item)"
               >删除</span>
             </div>
-            <div class="docTextarea no-print" style="text-align: center; cursor: pointer; color:#409EFF;" @click="addInstallment">
+            <div 
+              v-if="paperData && paperData.delFlag !== '0'"
+              class="docTextarea no-print" 
+              style="text-align: center; cursor: pointer; color:#409EFF;" 
+              @click="addInstallment">
               （点击添加分期）
             </div>
             <table class="docBody" style="margin-top: 30px;">
@@ -268,7 +273,7 @@
             </table>
           </div>
           <div class="docTextarea" style="border-top: 2px solid #000;">
-            备注：本文书一式三份，一份交银行，一份交被处
+            备注：本文书一式三份，一份交银行，一份交被处罚
             <span
               style="borderBottom:none"
             >{{ letData.cellIdx39 ? letData.cellIdx39 : '（点击编辑）'}}</span>

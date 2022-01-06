@@ -21,26 +21,31 @@
               涉 嫌 犯 罪 案 件 移 送 书
             </div>
             <div class="formHeader5 paper-number-div">
-              <div>
-                <span @click="commandFill('cellIdx0', '文书号', 'TextItem')">{{
-                  letData.cellIdx0 ? letData.cellIdx0 : "(编辑)"
-                }}</span>
-                <label>煤安监</label>
-                <span @click="commandFill('cellIdx1', '文书号', 'TextItem')">{{
-                  letData.cellIdx1 ? letData.cellIdx1 : "(编辑)"
-                }}</span>
-                <label>涉〔</label>
-                <span @click="commandFill('cellIdx2', '文书号', 'TextItem')">{{
-                  letData.cellIdx2 ? letData.cellIdx2 : "(编辑)"
-                }}</span>
-                <label>〕</label>
-                <span @click="commandFill('cellIdx3', '文书号', 'TextItem')">{{
-                  letData.cellIdx3 ? letData.cellIdx3 : "(编辑)"
-                }}</span>
-                <label>号&nbsp;&nbsp;签发人：</label>
-                <span @click="commandFill('cellIdx4', '签发人', 'TextItem')">{{
-                  letData.cellIdx4 ? letData.cellIdx4 : "(编辑)"
-                }}</span>
+              <div style="display: flex; width: 100%;">
+                <div>
+                  <span @click="commandFill('cellIdx0', '文书号', 'TextItem')">{{
+                    letData.cellIdx0 ? letData.cellIdx0 : "(编辑)"
+                  }}</span>
+                  <label>煤安监</label>
+                  <span @click="commandFill('cellIdx1', '文书号', 'TextItem')">{{
+                    letData.cellIdx1 ? letData.cellIdx1 : "(编辑)"
+                  }}</span>
+                  <label>涉〔</label>
+                  <span @click="commandFill('cellIdx2', '文书号', 'TextItem')">{{
+                    letData.cellIdx2 ? letData.cellIdx2 : "(编辑)"
+                  }}</span>
+                  <label>〕</label>
+                  <span @click="commandFill('cellIdx3', '文书号', 'TextItem')">{{
+                    letData.cellIdx3 ? letData.cellIdx3 : "(编辑)"
+                  }}</span>
+                  <label>号</label>
+                </div>
+                <div style="flex: 1; text-align: right;">
+                  <label>签发人：</label>
+                  <span @click="commandFill('cellIdx4', '签发人', 'TextItem')">{{
+                    letData.cellIdx4 ? letData.cellIdx4 : "(编辑)"
+                  }}</span>
+                </div>
               </div>
             </div>
             <table class="docBody">
@@ -83,7 +88,7 @@
               <span @click="commandFill('cellIdx10', '违法行为', 'TextareaItem')">{{
                 letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
               }}</span>
-              立案调查，在调查中发现其违法事实涉嫌构成犯罪，根据《行政执法机关移送涉嫌犯罪案件的规定》第三条以及
+              立案调查，在调查中发现其违法事实涉嫌构成犯罪，根据《行政执法机关移送涉嫌犯罪案件的规定》第<span class="text-decoration">三</span>条以及
               <span
                 @click="commandFill('cellIdx11', '法律规定', 'TextareaItem')"
                 >{{
@@ -343,8 +348,8 @@ export default {
         cellIdx25: this.todayDate, // 日期
         DangerTable,
         associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
-          paper22Id: let4DataPaperContent.associationPaperId.paper22Id,
-          paper1Id: let4DataPaperContent.associationPaperId.paper1Id,
+          paper22Id: let4DataPaperContent.associationPaperId ? let4DataPaperContent.associationPaperId.paper22Id : '',
+          paper1Id: let4DataPaperContent.associationPaperId ? let4DataPaperContent.associationPaperId.paper1Id : '',
           paper4Id: selectedPaper.let4Data.paperId
         } : {
           paper4Id: selectedPaper.let4Data.paperId

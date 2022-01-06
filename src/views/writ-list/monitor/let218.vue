@@ -356,8 +356,7 @@ export default {
         cellIdx28: orgSysOfficeInfo.account, // 账户名称
         cellIdx29: orgSysOfficeInfo.billName, // 账号
         cellIdx30: orgSysOfficeInfo.accountAddress, // 地址
-        cellIdx31: orgSysOfficeInfo.goverPrefix, // 人民政府
-        cellIdx32: '国家矿山安全监察局', //
+        cellIdx31: '国家矿山安全监察局', // 人民政府
         cellIdx33: orgSysOfficeInfo.courtPrefix, // 人民法院
         cellIdx34: this.$store.state.curCase.provinceGroupName, //
         cellIdx35: this.todayDate, // 日期

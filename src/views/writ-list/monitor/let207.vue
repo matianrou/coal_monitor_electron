@@ -73,11 +73,8 @@
             <div class="docTextarea">
               <div style="display:inline-block;min-width:60%">
                 <span class="no-line">
-                  <span class="no-line">受送达</span>
-                  <span class="no-line" @click="commandFill('cellIdx14', '单位负责人/个人', 'TextItem')"
-                  >{{ letData.cellIdx14 ? letData.cellIdx14 : "(编辑)" }}</span>
-                （签名）:</span>
-                <span @click="commandFill('cellIdx8', '（签名）', 'TextItem')"
+                  <span class="no-line">受送达</span><span class="no-line">{{ letData.cellIdx14 ? letData.cellIdx14 : "(编辑)" }}</span>（签名）:</span>
+                <span @click="commandFill('cellIdx8', `受送达${letData.cellIdx14}（签名）`, 'TextItem')"
                   >{{ letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）" }}
                 </span>
               </div>
@@ -90,7 +87,7 @@
             <div class="docTextarea">
               <div style="display:inline-block;min-width:60%">
                 <span class="no-line">送达人（签名）：</span>
-                <span @click="commandFill('cellIdx10', '受送达人（签名）', 'TextItem')"
+                <span @click="commandFill('cellIdx10', '送达人（签名）', 'TextItem')"
                   >{{ letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）" }}
                 </span>
               </div>

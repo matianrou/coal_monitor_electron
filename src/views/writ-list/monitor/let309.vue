@@ -132,8 +132,8 @@
             </div>
             <div class="docTextarea" style="margin-top: 30px;">
               <div style="display:inline-block;min-width:55%">
-                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;受送达人（签名）：</span>
-                <span @click="commandFill('cellIdx21', '受送达人（签名）', 'TextItem')"
+                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;受送达<span class="no-underline">{{letData.cellIdx29}}</span>（签名）：</span>
+                <span @click="commandFill('cellIdx21', `受送达${letData.cellIdx29}（签名）`, 'TextItem')"
                   >{{ letData.cellIdx21 ? letData.cellIdx21 : "（点击编辑）" }}
                 </span>
               </div>

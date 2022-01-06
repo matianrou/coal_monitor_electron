@@ -322,7 +322,7 @@ export default {
             )
           : "";
       //5.行政相对人基本情况：煤矿名称+（煤矿基本信息字段uscCode）+（煤矿基本信息字段？）+（煤矿基本信息字段？）
-      // let cellIdx4String = `${corp.corpName}社会统一信用代码是${corp.useCode ? corp.useCode : 'XX'}采矿许可证号是${corp.uscCode ? corp.uscCode : 'XX'}安全生产许可证号是${corp.uscCode ? corp.uscCode : 'XX'} `;
+      // let cellIdx4String = `${corp.corpName}社会统一信用代码是${corp.uscCode ? corp.uscCode : 'XX'}采矿许可证号是${corp.uscCode ? corp.uscCode : 'XX'}安全生产许可证号是${corp.uscCode ? corp.uscCode : 'XX'} `;
       let cellIdx4String =
         this.corpData.caseType === "0"
           ? setDangerTable(
@@ -333,7 +333,7 @@ export default {
                 key: "cellIdx4",
                 spellString: {
                   corpName: corp.corpName,
-                  useCode: corp.useCode ? corp.useCode : "XX",
+                  uscCode: corp.uscCode ? corp.uscCode : "XX",
                   groupName: this.$store.state.curCase.provinceGroupName,
                 },
               }

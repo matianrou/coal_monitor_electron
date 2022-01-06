@@ -133,6 +133,23 @@
         </div>
       </div>
     </let-main>
+    <el-dialog
+      title="文书信息选择"
+      :close-on-click-modal="false"
+      append-to-body
+      :visible="visibleSelectDialog"
+      width="400px"
+      :show-close="false"
+    >
+      <span>请选择：</span>
+      <el-radio-group v-model="selectedType">
+        <el-radio label="单位">单位</el-radio>
+        <el-radio label="个人">个人</el-radio>
+      </el-radio-group>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="confirm">确定</el-button>
+      </span>
+    </el-dialog>
     <!-- 关联文书选择 -->
     <select-paper
       :visible="visible.selectPaper"
@@ -176,10 +193,14 @@ export default {
         cellIdx8: []
       },
       associationPaper: ["4"],
+      selectedType: "单位",
+      visibleSelectDialog: false,
     };
   },
   methods: {
     async initLetData(selectedPaper) {
+      // 1.弹出提示框，选择单位或个人
+      this.visibleSelectDialog = true;
       let db = new GoDB(this.$store.state.DBName);
       let corpBase = db.table("corpBase");
       let corp = await corpBase.find((item) => {
@@ -260,10 +281,6 @@ export default {
               }
             )
           : "";
-      //5.行政相对人基本情况：
-      // 1，如对煤矿企业经行法制审核，则显示：煤矿企业名称，社会统一信用代码是XXXX，采矿许可证号是xxx,安全生产许可证号是xxx.
-      // 2，如果对个人进行法制审核，则显示姓名XXX，出生日期XXXX年XX月XX日，身份证号XXXX。
-      let cellIdx4String = `${corp.corpName}社会统一信用代码是${corp.useCode ? corp.useCode : 'XX'}，采矿许可证号是${corp.uscCode ? corp.uscCode : 'XX'}，安全生产许可证号是${corp.uscCode ? corp.uscCode : 'XX'}。`;
       let DangerTable = null;
       if (this.corpData.caseType === "0") {
         DangerTable = let4DataPaperContent.DangerTable
@@ -277,7 +294,6 @@ export default {
       this.letData = Object.assign({}, this.letData, {
         cellIdx1: paperNumber,
         cellIdx3: cellIdx3String, // 案由
-        cellIdx4: cellIdx4String, // 行政相对人基本情况
         cellIdx5: cellIdx5String, // 案情摘要
         cellIdx6: cellIdx6String, // 作出决定依据
         cellIdx7: cellIdx7String, // 建议行政决定
@@ -336,6 +352,26 @@ export default {
           this.options[key]
         );
       }
+    },
+    async confirm() {
+      // 选择单位或个人
+      this.visibleSelectDialog = false;
+      //5.行政相对人基本情况：
+      // 1，如对煤矿企业经行法制审核，则显示：煤矿企业名称，社会统一信用代码是XXXX，采矿许可证号是xxx,安全生产许可证号是xxx.
+      // 2，如果对个人进行法制审核，则显示姓名XXX，出生日期XXXX年XX月XX日，身份证号XXXX。
+      let cellIdx4String = ''
+      if (this.selectedType === '单位') {
+        let db = new GoDB(this.$store.state.DBName);
+        let corpBase = db.table("corpBase");
+        let corp = await corpBase.find((item) => {
+          return item.corpId == this.corpData.corpId;
+        });
+        await db.close();
+        cellIdx4String = `${corp.corpName}社会统一信用代码是${corp.uscCode ? corp.uscCode : 'XX'}，采矿许可证号是${corp.uscCode ? corp.uscCode : 'XX'}，安全生产许可证号是${corp.uscCode ? corp.uscCode : 'XX'}。`;
+      } else {
+        cellIdx4String = '姓名XXX，出生日期XXXX年XX月XX日，身份证号XXXX。'
+      }
+      this.letData.cellIdx4 = cellIdx4String
     },
   },
 };

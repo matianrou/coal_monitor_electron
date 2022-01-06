@@ -43,11 +43,7 @@
                 <span @click="commandFill('cellIdx2', '', 'TextItem')">{{
                   letData.cellIdx2 ? letData.cellIdx2 : "（编辑）"
                 }}</span>
-                <label>解停</label>
-                <span>{{
-                  letData.cellIdx19 ? letData.cellIdx19 : "（编辑）"
-                }}</span>
-                <label>〔</label>
+                <label>解停〔</label>
                 <span @click="commandFill('cellIdx3', '', 'TextItem')">{{
                   letData.cellIdx3 ? letData.cellIdx3 : "（编辑）"
                 }}</span>
@@ -79,7 +75,7 @@
               <span @click="commandFill('cellIdx6', '', 'TextItem')">{{
                 letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
               }}</span>
-              已依法履行行政决定，采取相应措施消除了安全隐患，发生生产安全事故的现实危险已不存在，根据《中华人民共和国安全生产法》第七十条第二款规定，请贵单位解除对其采取的
+              已依法履行行政决定，采取相应措施消除了安全隐患，发生生产安全事故的现实危险已不存在，根据《中华人民共和国安全生产法》第<span class="text-decoration">七十</span>条第<span class="text-decoration">二</span>款规定，请贵单位解除对其采取的
               <span class="no-underline">{{ letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）" }}</span>
               措施。
             </div>
@@ -194,7 +190,6 @@ export default {
         cellIdx0: null, // 解除停供电(解除停供民用爆炸物品)
         cellIdx1: null, // 文书号
         cellIdx2: null, // 文书号
-        cellIdx19: null, // 电/爆
         cellIdx3: null, // 文书号
         cellIdx4: null, // 文书号
         cellIdx5: null, // 单位
@@ -211,6 +206,7 @@ export default {
         cellIdx16: null, //
         cellIdx17: null, // 日期
         cellIdx18: null, // 单位/个人
+        cellIdx19: null, // 暂不用
         selectedType: null,
         DangerTable: null, // 隐患项大表
         associationPaperId: null
@@ -261,12 +257,11 @@ export default {
         cellIdx0: let37DataPaperContent.selectedType, // 解除停供电(解除停供民用爆炸物品)
         cellIdx1: num0, // 文书号
         cellIdx2: num1, // 文书号
-        cellIdx19: let37DataPaperContent.selectedType === '停供电' ? '电' : '爆', // 电/爆
         cellIdx3: num3, // 文书号
         cellIdx4: num4, // 文书号
         cellIdx5: let37DataPaperContent.selectedType === '停供电' ? '供电公司' : '公安局',
         cellIdx6: corp.corpName ? corp.corpName : null, // corpname
-        cellIdx7: let37DataPaperContent.selectedType === '停供电' ? '停供生产性用电' : '停供民用爆炸物品', // 解除停供电(解除停供民用爆炸物品)
+        cellIdx7: let37DataPaperContent.selectedType, // 解除停供电(解除停供民用爆炸物品)
         cellIdx10: '局', // 局
         cellIdx11: cellIdx11String, // 地址
         cellIdx12: cellIdx12String, // 邮政编码

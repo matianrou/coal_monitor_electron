@@ -181,7 +181,7 @@ async function doCorpDb(resId, data) {
 			"legalTel": obj.legalTel,
 			"contacts": obj.contacts,
 			"tel": obj.tel,
-			"useCode": obj.useCode,
+			"uscCode": obj.uscCode,
 			"xkzStatusNameZs": obj.xkzStatusNameZs,
 			"parentTypeName": obj.parentTypeName,
 			"economyTypeName": obj.economyTypeName,
@@ -1023,7 +1023,7 @@ let schema = {
 		"legalTel": String, // 法定代表人电话
 		"contacts": String, //"郑海庭",
 		"tel": String, //"0319-6809588",
-		"useCode": String, // 统一信用代码
+		"uscCode": String, // 统一信用代码
 		"xkzStatusNameZs": String, //"未办证",
 		"parentTypeName": String, //"地方国有",
 		"economyTypeName": String, //"集体经济",
@@ -1575,7 +1575,22 @@ let schema = {
 		"remark": String,
 		"paperId": String,
 	},
-
+	prepareUpload: {
+		"id": { // 唯一标识
+			type: String,
+			unique: true
+		},
+		'paperId': String, // 文书id
+		'isUpload': String, // 是否上传，0未上传 1已上传
+		'corpId': String, // 煤矿企业id
+		'corpName': String, // 煤矿企业名称
+		'paperType': String, // 文书类型
+		'name': String, // 文书类型名称
+		'createDate': String, // 文书制作时间
+		'personId': String, // 制作人id
+		'personName': String, // 制作人姓名
+		"delFlag": String, // 删除标记
+	}
 };
 
 export {

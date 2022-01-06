@@ -118,7 +118,7 @@
             </div>
             <div class="docTextarea">
               <label style="width:5%"></label>
-              如有异议，依据《中华人民共和国行政强制法》第<span class="text-decoration">三十六</span>条规定，你
+              如有异议，依据《中华人民共和国行政强制法》第<span class="text-decoration">三十六</span>条的规定，你
               <span
                 class="no-underline"
               >{{ letData.cellIdx27 ? letData.cellIdx27 : '（点击编辑）'}}</span>
@@ -126,8 +126,8 @@
             </div>
              <div class="docTextarea" style="margin-top: 60px;">
               <div style="display:inline-block;min-width:55%">
-                <span class="no-line">受送达<span>{{letData.cellIdx17}}</span>（签名）：</span>
-                <span @click="commandFill('cellIdx19', '受送达人（签名）：', 'TextItem')"
+                <span class="no-line">受送达<span class="no-underline">{{letData.cellIdx17}}</span>（签名）：</span>
+                <span @click="commandFill('cellIdx19', `受送达${letData.cellIdx17}（签名）：`, 'TextItem')"
                   >{{ letData.cellIdx19 ? letData.cellIdx19 : "（点击编辑）" }}
                 </span>
               </div>
@@ -293,7 +293,7 @@ export default {
         cellIdx10: let8DataPaperContent.cellIdx2, // 行政处罚决定书 文书号
         cellIdx11: let8DataPaperContent.cellIdx3, // 行政处罚决定书 文书号
         cellIdx12: let8DataPaperContent.selectedType, // 单位
-        cellIdx16: orgSysOfficeInfo.accountName + orgSysOfficeInfo.accountBank, // 银行
+        cellIdx16: orgSysOfficeInfo.accountName || '', // 银行
         cellIdx17: let8DataPaperContent.selectedType, // 单位
         cellIdx21: orgSysOfficeInfo.depAddress, // 执法机关地址
         cellIdx22: orgSysOfficeInfo.depPost, // 邮政编码

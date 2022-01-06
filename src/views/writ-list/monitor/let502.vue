@@ -22,26 +22,31 @@
               加强和改善安全管理意见书
             </div>
             <div class="formHeader5 paper-number-div">
-              <div>
-                <span @click="commandFill('cellIdx0', '', 'TextItem')">{{
-                  letData.cellIdx0 ? letData.cellIdx0 : "（编辑）"
-                }}</span>
-                <label>煤安监</label>
-                <span @click="commandFill('cellIdx1', '', 'TextItem')">{{
-                  letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
-                }}</span>
-                <label>管意〔</label>
-                <span @click="commandFill('cellIdx2', '', 'TextItem')">{{
-                  letData.cellIdx2 ? letData.cellIdx2 : "（编辑）"
-                }}</span>
-                <label>〕</label>
-                <span @click="commandFill('cellIdx3', '', 'TextItem')">{{
-                  letData.cellIdx3 ? letData.cellIdx3 : "（编辑）"
-                }}</span>
-                <label>号&nbsp;&nbsp;&nbsp;签发人：</label>
-                <span @click="commandFill('cellIdx4', '签发人', 'TextItem')">{{
-                  letData.cellIdx4 ? letData.cellIdx4 : "XXX"
-                }}</span>
+              <div style="display: flex; width: 100%;">
+                <div>
+                  <span @click="commandFill('cellIdx0', '', 'TextItem')">{{
+                    letData.cellIdx0 ? letData.cellIdx0 : "（编辑）"
+                  }}</span>
+                  <label>煤安监</label>
+                  <span @click="commandFill('cellIdx1', '', 'TextItem')">{{
+                    letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
+                  }}</span>
+                  <label>管意〔</label>
+                  <span @click="commandFill('cellIdx2', '', 'TextItem')">{{
+                    letData.cellIdx2 ? letData.cellIdx2 : "（编辑）"
+                  }}</span>
+                  <label>〕</label>
+                  <span @click="commandFill('cellIdx3', '', 'TextItem')">{{
+                    letData.cellIdx3 ? letData.cellIdx3 : "（编辑）"
+                  }}</span>
+                  <label>号</label>
+                </div>
+                <div style="flex: 1; text-align: right;">
+                  <label>签发人：</label>
+                  <span @click="commandFill('cellIdx4', '签发人', 'TextItem')">{{
+                    letData.cellIdx4 ? letData.cellIdx4 : "XXX"
+                  }}</span>
+                </div>
               </div>
             </div>
             <table class="docBody">
@@ -186,7 +191,7 @@
                 line-height: normal;
               "
             >
-              备注：本文书一式三份，一份主送煤矿上级企业，一份报送国家矿山安全监察局，一份存档。
+              备注：本文书一式三份，一份送煤矿企业（集团或公司），一份送上级矿山安全监察机构，一份存档。
             </div>
           </div>
         </div>

@@ -171,15 +171,15 @@
             </div>
             <div class="docTextarea">
               <label style="width:5%"></label>
-              如果不服本决定，可在接到本决定书之日起60日内向
+              如不服本决定，可在接到本决定书之日起60日内向
               <span
                 @click="commandFill('cellIdx22', '人民政府', 'TextItem')"
               >{{ letData.cellIdx22 ? letData.cellIdx22 : '（点击编辑）'}}</span>
-              申请行政复议，或者在6个月内依法向
+              申请行政复议或6个月内向
               <span
-                @click="commandFill('cellIdx24', '人民法院', 'TextItem')"
+                @click="commandFill('cellIdx24', '法院', 'TextItem')"
               >{{ letData.cellIdx24 ? letData.cellIdx24 : '（点击编辑）'}}</span>
-              人民法院提起行政诉讼，但不停止执行本决定。
+              法院提起行政诉讼，但不停止执行本决定。
             </div>
             <div class="docTextarea" style="margin-top: 30px; margin-bottom: 30px;">
               <label style="width:5%"></label>
@@ -227,7 +227,7 @@
               </tr>
             </table>
             <div class="docTextarea" style="border-top: 2px solid #000;">
-              备注：本文书一式两份，一份交被
+              备注：本文书一式两份，一份交被解除
               <span
                 style="borderBottom:none"
               >{{ letData.cellIdx29 ? letData.cellIdx29 : '（点击编辑）'}}</span>
@@ -371,7 +371,7 @@ export default {
         cellIdx15: let32DataPaperContent.cellIdx4, // 查封扣押文书号
         cellIdx18: selectedType, // 查封/扣押
         cellIdx21: selectedType, // 查封/扣押
-        cellIdx22: orgSysOfficeInfo.goverPrefix, // 人民政府
+        cellIdx22: '国家矿山安全监察局', // 人民政府
         cellIdx24: orgSysOfficeInfo.courtPrefix, // 法院
         cellIdx25: selectedType, // 查封/扣押
         cellIdx27: this.$store.state.curCase.provinceGroupName, //

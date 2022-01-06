@@ -143,10 +143,7 @@
             <div class="docTextarea">
               <div style="display:inline-block;min-width:60%">
                 <span class="no-line">
-                  <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;受送达</span>
-                  <span class="no-line" @click="commandFill('cellIdx19', '单位负责人/个人', 'TextItem')"
-                  >{{ letData.cellIdx19 ? letData.cellIdx19 : "(编辑)" }}</span>
-                （签名）:</span>
+                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;受送达</span><span class="no-line">{{ letData.cellIdx19 ? letData.cellIdx19 : "(编辑)" }}</span>（签名）:</span>
                 <span @click="commandFill('cellIdx20', '（签名）', 'TextItem')"
                   >{{ letData.cellIdx20 ? letData.cellIdx20 : "（点击编辑）" }}
                 </span>

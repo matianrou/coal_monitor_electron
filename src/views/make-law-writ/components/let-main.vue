@@ -215,7 +215,7 @@ export default {
         edit = true
       }
       return edit
-    }
+    },
   },
   created() {
   },
@@ -299,7 +299,28 @@ export default {
         if (this.sendData) {
           this.$message.error('文书已发送，不可再编辑！')
         } else {
-          this.$message.error('文书已经完成归档，不能再次保存或回档！')
+          // 获取prepareUpload库表中是否有未上传服务器的文书，如果有则可以归档，如果无则不能保存或归档
+          let db = new GoDB(this.DBName);
+          let prepareUpload = db.table("prepareUpload");
+          let paperData = await prepareUpload.find(item => item.paperId === this.$parent.paperId)
+          await db.close();
+          if (paperData) {
+            if (saveFlag === '2') {
+              // 保存时提示：
+              this.$message.error('文书已经在本地归档，不可保存，请归档上传至服务器！')
+            } else {
+              // 归档
+              await this.$confirm('是否确认已经完成文书的填写，归档后将不能再次编辑或者保存', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+              }).then(async () => {
+                await this.savePaper(saveFlag)
+              }).catch(() => {})
+            }
+          } else {
+            this.$message.error('文书已经完成归档，不能再次保存或回档！')
+          }
         }
       }
     },
@@ -715,7 +736,7 @@ export default {
       await db.close();
       let mes = saveFlag === "2" ? "保存" : "归档";
       this.$message.success(
-        `“${this.docData.docTypeName}”文书已经${mes}完毕。`
+        `“${this.docData.docTypeName}”文书本地${mes}成功。`
       );
       await saveToUpload(paperId, true);
       if (this.docData.docTypeNo === '43') {

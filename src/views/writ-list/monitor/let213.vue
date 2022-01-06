@@ -24,17 +24,22 @@
             </div>
             <table height="30"></table>
             <div class="docTextarea">
-              <div style="display:inline-block;min-width:55%">
+              <div style="display:inline-block;min-width:47%">
                 <span class="no-line">承办人意见：</span>
                 <span @click="commandFill('cellIdx1', '承办人意见', 'TextItem')"
-                  >{{ letData.cellIdx1 ? letData.cellIdx1 : "（点击编辑）" }}
+                  >{{ letData.cellIdx1 ? letData.cellIdx1 : "（编辑）" }}
                 </span>
               </div>
-                <span class="no-line">签名：</span>
-                <span @click="commandFill('cellIdx2', '签名', 'TextItem')">{{
-                  letData.cellIdx2 ? letData.cellIdx2 : "（点击编辑）"
-                }}</span>
-                <div class="line"></div>
+              <span class="no-line">签名：</span>
+              <span @click="commandFill('cellIdx2', '签名', 'TextItem')">{{
+                letData.cellIdx2 ? letData.cellIdx2 : "（编辑）"
+              }}</span>
+              <span class="no-line">日期：</span>
+              <span @click="commandFill('cellIdx3', '日期', 'DateItem')">{{
+                letData.cellIdx3 ? letData.cellIdx3 : "（编辑）"
+              }}</span>
+              <div class="line"></div>
+              <div class="line1"></div>
             </div>
             <div class="docTextarea">
               <div style="display:inline-block;min-width:47%">
@@ -43,16 +48,16 @@
                   >{{ letData.cellIdx6 ? letData.cellIdx6 : "（编辑）" }}
                 </span>
               </div>
-                <span class="no-line">签名：</span>
-                <span @click="commandFill('cellIdx7', '签名', 'TextItem')">{{
-                  letData.cellIdx7 ? letData.cellIdx7 : "（编辑）"
-                }}</span>
-                <span class="no-line">日期：</span>
-                <span @click="commandFill('cellIdx8', '日期', 'DateItem')">{{
-                  letData.cellIdx8 ? letData.cellIdx8 : "（编辑）"
-                }}</span>
-                <div class="line"></div>
-                <div class="line1"></div>
+              <span class="no-line">签名：</span>
+              <span @click="commandFill('cellIdx7', '签名', 'TextItem')">{{
+                letData.cellIdx7 ? letData.cellIdx7 : "（编辑）"
+              }}</span>
+              <span class="no-line">日期：</span>
+              <span @click="commandFill('cellIdx8', '日期', 'DateItem')">{{
+                letData.cellIdx8 ? letData.cellIdx8 : "（编辑）"
+              }}</span>
+              <div class="line"></div>
+              <div class="line1"></div>
             </div>
             <div
               style="
@@ -73,7 +78,7 @@
                     letData.cellIdx0 ? letData.cellIdx0 : "（点击编辑）"
                   }}</span>
                 </p>
-                <cell-line></cell-line>
+                <cell-line :line-num="300"></cell-line>
               </div>
               <div v-else>
                 <p class="show-area-item-p">&nbsp;</p>
@@ -109,14 +114,14 @@ export default {
         cellIdx0: null, // 案由
         cellIdx1: null, // 承办人意见
         cellIdx2: null, // 签名
-        cellIdx3: null, // 年
-        cellIdx4: null, // 月
-        cellIdx5: null, // 日
+        cellIdx3: null, // 日期
+        cellIdx4: null, // 暂不用
+        cellIdx5: null, // 暂不用
         cellIdx6: null, // 审批人意见
         cellIdx7: null, // 签名
-        cellIdx8: null, // 年
-        cellIdx9: null, // 月
-        cellIdx10: null, // 日
+        cellIdx8: null, // 日期
+        cellIdx9: null, // 暂不用
+        cellIdx10: null, // 暂不用
         associationPaperId: null
       },
       options: {},

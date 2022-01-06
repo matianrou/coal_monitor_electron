@@ -1,7 +1,9 @@
 import GoDB from "@/utils/godb.min.js";
 import http from '@/utils/http'
-import { Message } from 'element-ui'
+import { Message, Alert } from 'element-ui'
 import store from "@/store"
+import { randomString } from "@/utils/index";
+import { getNowTime } from "@/utils/date";
 export async function saveToUpload(paperId, messageShow) {
   // messageShow是否展示保存成功提示
   // 保存文书至服务器
@@ -278,24 +280,71 @@ export async function saveToUpload(paperId, messageShow) {
         data: JSON.stringify(submitData),
       }
     )
-    .then(({ data }) => {
+    .then(async ({ data }) => {
       if (messageShow && workPaper.delFlag === '0') {
         if (data.status === "200") {
           // 调整为归档时提示文书上传服务器，2022.1.5建议
-          Message.success(
-            `“${workPaper.name}”文书已经上传至服务器。`
+          Alert.success(
+            `“${workPaper.name}”文书已经归档上传至服务器。`
           );
         } else {
-          Message.error("上传至服务器请求失败，请重新保存！");
+          Alert.error("上传至服务器请求失败，请重新归档！");
         }
       }
+      if (workPaper.delFlag === '0') {
+        // 当保存失败时，将文书保存至库表prepareUpload
+        await savePaperToPrepareUpload(submitData)
+      }
     })
-    .catch((err) => {
-      if (messageShow) {
-        Message.error("上传至服务器请求失败，请重新保存！");
+    .catch(async (err) => {
+      if (messageShow && workPaper.delFlag === '0') {
+        Alert.error("上传至服务器请求失败，请重新归档！");
+        // 当保存失败时，将文书保存至库表prepareUpload
+        await savePaperToPrepareUpload(submitData)
       }
       console.log("上传至服务器请求失败：", err);
     });
+}
+
+async function savePaperToPrepareUpload(submitData) {
+  // 保存未成功上传的文书
+  let paperData = submitData.paper[0]
+  let schema = {
+    prepareUpload: {
+      "id": { // 唯一标识
+        type: String,
+        unique: true
+      },
+      'paperId': String, // 文书id
+      'isUpload': String, // 是否上传，0未上传 1已上传
+      'corpId': String, // 煤矿企业id
+      'corpName': String, // 煤矿企业名称
+      'paperType': String, // 文书类型
+      'name': String, // 文书类型名称
+      'createDate': String, // 文书制作时间
+      'personId': String, // 制作人id
+      'personName': String, // 制作人姓名
+      "delFlag": String, // 删除标记
+    }
+  }
+  let db = new GoDB(store.state.DBName, schema);
+  let prepareUpload = db.table("prepareUpload");
+  let item = await prepareUpload.get({ paperId: paperData.paperId });
+  if (item) await prepareUpload.delete({ paperId: paperData.paperId }); //删除
+	await prepareUpload.add({
+    id: getNowTime() + randomString(28),
+    paperId: paperData.paperId,
+    isUpload: '0', 
+    corpId: paperData.corpId,
+    corpName: paperData.corpName,
+    paperType: paperData.paperType,
+    name: paperData.name,
+    createDate: paperData.createDate,
+    personId: paperData.personId,
+    personName: paperData.personName,
+    delFlag: '0',
+  });
+  await db.close();
 }
 
 export async function saveFineCollection(paperId) {

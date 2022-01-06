@@ -173,14 +173,14 @@
                 <div class="line1"></div>
             </div> -->
             <div class="docTextarea">
-              <div style="display:inline-block;min-width:48%">
-                <span class="no-line">被检查单位负责人意见：</span>
-                <span @click="commandFill('cellIdx17', '被检查单位负责人意见', 'TextItem')"
+              <div style="display:inline-block;min-width:36%">
+                <span class="no-line">被复查单位意见：</span>
+                <span @click="commandFill('cellIdx17', '被复查单位意见', 'TextItem')"
                   >{{ letData.cellIdx17 ? letData.cellIdx17 : "（编辑）" }}
                 </span>
               </div>
-              <span class="no-line">签名：</span>
-              <span @click="commandFill('cellIdx18', '签名', 'TextItem')">{{
+              <span class="no-line">单位负责人签名：</span>
+              <span @click="commandFill('cellIdx18', '单位负责人签名', 'TextItem')">{{
                 letData.cellIdx18 ? letData.cellIdx18 : "（编辑）"
               }}</span>
               <span class="no-line">日期：</span>
@@ -191,7 +191,7 @@
               <div class="line1"></div>
             </div>
               <div class="docTextarea">
-              <div style="display:inline-block;min-width:60%">
+              <div style="display:inline-block;min-width:71%">
                 <span class="no-line">复查人员（签名）：</span>
                 <span @click="commandFill('cellIdx20', '复查人员（签名）', 'TextItem')">{{
                   letData.cellIdx20 ? letData.cellIdx20 : "（点击编辑）"

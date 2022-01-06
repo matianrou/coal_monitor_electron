@@ -111,7 +111,7 @@
                   letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）"
                 }}</span
               >
-              (
+              煤安监
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx14', '', 'TextItem')"
@@ -119,7 +119,6 @@
                   letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）"
                 }}</span
               >
-              ) 煤安监
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx15', '', 'TextItem')"
@@ -144,7 +143,9 @@
                 }}</span
               >
               号&nbsp;&nbsp;)&nbsp;&nbsp;因
-              <span @click="commandFill('cellIdx18', '', 'TextareaItem')">{{
+              <span 
+                @dblclick="commandFill('cellIdx18', '', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
+                @click="commandFill('cellIdx18', '', 'DangerTextareaItem')">{{
                 letData.cellIdx18 ? letData.cellIdx18 : "（点击编辑）"
               }}</span>
               ，依据《中华人民共和国行政强制法》第<span class="text-decoration">二十五</span>条规定，决定将以上
@@ -167,15 +168,15 @@
             </div>
             <div class="docTextarea">
               <label style="width:5%"></label>
-                如果不服本决定，可在接到本决定书之日起60日内向
+              如不服本决定，可在接到本决定书之日起60日内向
               <span
                 @click="commandFill('cellIdx23', '人民政府', 'TextItem')"
               >{{ letData.cellIdx23 ? letData.cellIdx23 : '（点击编辑）'}}</span>
               申请行政复议或6个月内向
               <span
-                @click="commandFill('cellIdx23', '人民法院', 'TextItem')"
+                @click="commandFill('cellIdx24', '法院', 'TextItem')"
               >{{ letData.cellIdx24 ? letData.cellIdx24 : '（点击编辑）'}}</span>
-              人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。
+              法院提起行政诉讼，但不停止执行本决定。
             </div>
             <table class="docBody" style="margin-top: 30px;">
               <tr>
@@ -380,7 +381,7 @@ export default {
         cellIdx17: let32DataPaperContent.cellIdx4, // 查封扣押文书号
         cellIdx18: cellIdx18String, // 因XXX
         cellIdx19: selectedType, // 将以上XX的期限延长
-        cellIdx23: orgSysOfficeInfo.goverPrefix, // goverPrefix
+        cellIdx23: '国家矿山安全监察局', // goverPrefix
         cellIdx24: orgSysOfficeInfo.courtPrefix, // courtPrefix人民法院
         cellIdx25: this.$store.state.curCase.provinceGroupName, //
         cellIdx26: this.todayDate, // 日期
@@ -410,6 +411,13 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
+        if (key === "cellIdx18" && type === "DangerTable") {
+          this.options[key] = {
+            page: "46",
+            key: key,
+          };
+          dataKey = "DangerTable";
+        } 
         this.$refs.letMain.commandFill(
           key,
           dataKey,

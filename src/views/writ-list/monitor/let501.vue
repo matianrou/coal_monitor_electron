@@ -22,26 +22,31 @@
               加强和改善安全监管建议书
             </div>
             <div class="formHeader5 paper-number-div">
-              <div>
-                <span @click="commandFill('cellIdx0', '文书号', 'TextItem')">{{
-                  letData.cellIdx0 ? letData.cellIdx0 : "（编辑）"
-                }}</span>
-                <label>煤安监</label>
-                <span @click="commandFill('cellIdx1', '文书号', 'TextItem')">{{
-                  letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
-                }}</span>
-                <label>监建〔</label>
-                <span @click="commandFill('cellIdx2', '文书号', 'TextItem')">{{
-                  letData.cellIdx2 ? letData.cellIdx2 : "（编辑）"
-                }}</span>
-                <label>〕</label>
-                <span @click="commandFill('cellIdx3', '文书号', 'TextItem')">{{
-                  letData.cellIdx3 ? letData.cellIdx3 : "（编辑）"
-                }}</span>
-                <label>号&nbsp;&nbsp;&nbsp;签发人：</label>
-                <span @click="commandFill('cellIdx4', '签发人', 'TextItem')">{{
-                  letData.cellIdx4 ? letData.cellIdx4 : "XXX"
-                }}</span>
+              <div style="display: flex; width: 100%;">
+                <div>
+                  <span @click="commandFill('cellIdx0', '文书号', 'TextItem')">{{
+                    letData.cellIdx0 ? letData.cellIdx0 : "（编辑）"
+                  }}</span>
+                  <label>煤安监</label>
+                  <span @click="commandFill('cellIdx1', '文书号', 'TextItem')">{{
+                    letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
+                  }}</span>
+                  <label>监建〔</label>
+                  <span @click="commandFill('cellIdx2', '文书号', 'TextItem')">{{
+                    letData.cellIdx2 ? letData.cellIdx2 : "（编辑）"
+                  }}</span>
+                  <label>〕</label>
+                  <span @click="commandFill('cellIdx3', '文书号', 'TextItem')">{{
+                    letData.cellIdx3 ? letData.cellIdx3 : "（编辑）"
+                  }}</span>
+                  <label>号</label>
+                </div>
+                <div style="flex: 1; text-align: right;">
+                  <label>签发人：</label>
+                  <span @click="commandFill('cellIdx4', '签发人', 'TextItem')">{{
+                    letData.cellIdx4 ? letData.cellIdx4 : "XXX"
+                  }}</span>
+                </div>
               </div>
             </div>
             <table class="docBody">
@@ -62,15 +67,15 @@
             </table>
             <div class="docTextarea">
               <label style="width: 5%"></label>
-              经我
-              <span class="no-underline" @click="commandFill('cellIdx6', '局', 'TextItem')">{{
+              经我<span class="no-underline" @click="commandFill('cellIdx6', '局', 'TextItem')">{{
                 letData.cellIdx6 ? letData.cellIdx6 : "局"
-              }}</span>
-              检查，
-              <span class="no-underline" @click="commandFill('cellIdx7', '', 'TextItem')">{{
+              }}</span>检查，
+              <span @click="commandFill('cellIdx7', '', 'TextItem')">{{
                 letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
               }}</span>
-              在矿山安全监督管理工作中，存在下列问题（见附件），现提出加强和改善矿山安全监管的如下建议（见附件）。
+              <span class="no-underline" @click="commandFill('cellIdx20', '', 'SelectItem')">{{
+                letData.cellIdx20 ? letData.cellIdx20 : "（点击编辑）"
+              }}</span>在煤矿安全日常性、经常性安全监督管理工作中，存在下列问题（见附件），根据《煤矿安全监察条例》第条，第条规定，以及煤矿安全监管、监察职能职责规定，提出加强和改善煤矿安全监管的如下建议（见附件）。
             </div>
             <div class="docTextarea">
               <label style="width: 5%"></label>
@@ -86,10 +91,9 @@
               <span @click="commandFill('cellIdx10', '日', 'TextItem')">{{
                 letData.cellIdx10 ? letData.cellIdx10 : "（XX）"
               }}</span>
-              日前函告我
-              <span class="no-underline" @click="commandFill('cellIdx11', '局', 'TextItem')">{{
+              日前函告我<span class="no-underline" @click="commandFill('cellIdx11', '局', 'TextItem')">{{
                 letData.cellIdx11 ? letData.cellIdx11 : ""
-              }}</span>
+              }}</span>。
             </div>
             <table height="20"></table>
             <div class="docTextarea">
@@ -191,7 +195,7 @@
                 line-height: normal;
               "
             >
-              备注：本文书一式三份，一份主送当地人民政府（矿山安全监管部门），一份报送国家矿山安全监察局，一份存档。
+              备注：本文书一式三份，一份主送当地人民政府（煤矿安全监管部门），一份报送上级矿山安全监察机构，一份存档。
             </div>
           </div>
         </div>
@@ -218,7 +222,8 @@ export default {
         cellIdx4: null, // 签发人
         cellIdx5: null, // 单位
         cellIdx6: null, // 经我XX检查，
-        cellIdx7: null, // XX在矿山安全监督管理工作中
+        cellIdx7: null, // XX市（县、区）
+        cellIdx20: null, // 市
         cellIdx8: null, // 年
         cellIdx9: null, // 月
         cellIdx10: null, // 日
@@ -235,7 +240,22 @@ export default {
           tableData: [],
         },
       },
-      options: {},
+      options: {
+        cellIdx20: [
+          {
+            value: '市',
+            name: '市',
+          },
+          {
+            value: '区',
+            name: '区',
+          },
+          {
+            value: '县',
+            name: '县',
+          },
+        ]
+      },
       paperId: null,
     };
   },
@@ -267,7 +287,7 @@ export default {
         cellIdx2: paperNumber.num3, // 文书号
         cellIdx3: paperNumber.num4, // 文书号
         cellIdx6: '局', // 经我XX检查，
-        cellIdx7: '你单位', // XX在矿山安全监督管理工作中
+        cellIdx20: '市',
         cellIdx11: '局', // 局
         cellIdx17: provinceGroupName, // 
         cellIdx18: this.todayDate, // 日期
