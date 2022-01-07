@@ -127,7 +127,7 @@
             <div class="docTextarea">
               <div style="display: inline-block; min-width: 55%">
                 <span class="no-line"
-                  >&nbsp;&nbsp;&nbsp;&nbsp;听 证 员 姓 名：</span
+                  >&nbsp;&nbsp;&nbsp;&nbsp;听证员姓名：</span
                 >
                 <span
                   @click="commandFill('cellIdx17', '听证员姓名', 'TextItem')"
@@ -143,7 +143,7 @@
             <div class="docTextarea">
               <div style="display: inline-block; min-width: 55%">
                 <span class="no-line"
-                  >&nbsp;&nbsp;&nbsp;&nbsp;听 证 员 姓 名：</span
+                  >&nbsp;&nbsp;&nbsp;&nbsp;听证员姓名：</span
                 >
                 <span
                   @click="commandFill('cellIdx19', '听证员姓名', 'TextItem')"
@@ -159,7 +159,7 @@
             <div class="docTextarea">
               <div style="display: inline-block; min-width: 55%">
                 <span class="no-line"
-                  >&nbsp;&nbsp;&nbsp;&nbsp;记 录 人 姓 名：</span
+                  >&nbsp;&nbsp;&nbsp;&nbsp;记录人姓名：</span
                 >
                 <span
                   @click="commandFill('cellIdx21', '记录人姓名', 'TextItem')"

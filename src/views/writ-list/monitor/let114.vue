@@ -142,7 +142,7 @@
                   letData.cellIdx17 ? letData.cellIdx17 : "（点击编辑）"
                 }}</span
               >
-              号&nbsp;&nbsp;)&nbsp;&nbsp;因
+              号）。因
               <span 
                 @dblclick="commandFill('cellIdx18', '', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
                 @click="commandFill('cellIdx18', '', 'DangerTextareaItem')">{{

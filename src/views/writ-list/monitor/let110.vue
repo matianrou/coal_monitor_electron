@@ -175,11 +175,11 @@
               <span @click="commandFill('cellIdx15', '', 'TextItem')">{{
                 letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）"
               }}</span>
-              申行政复议请或6个月内向
+              申请行政复议请或6个月内向
               <span @click="commandFill('cellIdx16', '人民法院', 'TextItem')">{{
                 letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）"
               }}</span>
-              法院提起行政诉讼，但不停止本决定的执行。
+              法院提起行政诉讼，但不停止执行本决定。
             </div>
             <table height="30"></table>
             <div class="docTextLine">

@@ -370,6 +370,7 @@ export default {
         cellIdx14: let32DataPaperContent.cellIdx3, // 查封扣押文书号
         cellIdx15: let32DataPaperContent.cellIdx4, // 查封扣押文书号
         cellIdx18: selectedType, // 查封/扣押
+        cellIdx19: '□',
         cellIdx21: selectedType, // 查封/扣押
         cellIdx22: '国家矿山安全监察局', // 人民政府
         cellIdx24: orgSysOfficeInfo.courtPrefix, // 法院

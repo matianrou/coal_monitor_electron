@@ -998,7 +998,7 @@ export default {
           tabelLawSignDate: lawSignDate ? lawSignDate : '',
           tabelPlaces: places ? places : ''
         }) 
-      } else if (this.docData.docTypeNo === '55') {
+      } else if ((this.docData.docTypeNo === '55' && this.$store.state.user.userType === 'supervision')) {
         // 鉴定委托书遍历tableData数据，处理undefined情况
         this.$parent.letData.cellIdx5 && this.$parent.letData.cellIdx5.forEach(item => {
           for (let key in item) {
@@ -1013,7 +1013,7 @@ export default {
       }
       if (this.docData.docTypeNo === '5' || this.docData.docTypeNo === '13' || this.docData.docTypeNo === '27'
         || this.docData.docTypeNo === '30' || this.docData.docTypeNo === '7' || this.docData.docTypeNo === '14'
-        || this.docData.docTypeNo === '55' || this.docData.docTypeNo === '31' || this.docData.docTypeNo === '10'
+        || (this.docData.docTypeNo === '55' && this.$store.state.user.userType === 'supervision') || this.docData.docTypeNo === '31' || this.docData.docTypeNo === '10'
         || this.docData.docTypeNo === '11' || this.docData.docTypeNo === '12' || this.docData.docTypeNo === '1'
         || this.docData.docTypeNo === '2') {
         // 大文本换行问题解决：通过获取大文本中的\n换行符，截取字符串形成数组，将数组转换为doc文本实现换行效果

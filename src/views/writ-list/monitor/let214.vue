@@ -169,7 +169,7 @@
                 <td class="textAlignLeft">日</td>
               </tr>
               <tr>
-                <td class="textPaddingLeft">本卷共：&nbsp;&nbsp;</td>
+                <td class="textPaddingLeft">本卷共&nbsp;&nbsp;</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
@@ -194,8 +194,8 @@
                   {{ letData.cellIdx10 }}
                 </td>
                 <td class="textAlignLeft">页</td>
-                <td class="textPaddingLeft" style="width: 25%">
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;归 档 日 期：
+                <td class="textPaddingLeft" style="width: 28%; text-align: right;">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;归档日期：
                 </td>
                 <td
                   class="cellInput cellBottomLine"

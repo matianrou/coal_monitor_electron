@@ -133,7 +133,7 @@
               </div>
             </div>
             <div class="docTextarea">
-              <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;听证参加人（签名）：</span>
+              <span class="no-line">听证参加人（签名）：</span>
               <span @click="commandFill('cellIdx11', '听证参加人（签名）', 'TextItem')">{{
                 letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）"
               }}</span>

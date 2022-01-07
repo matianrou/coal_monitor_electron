@@ -75,7 +75,7 @@
               }}</span>
               <span class="no-underline" @click="commandFill('cellIdx20', '', 'SelectItem')">{{
                 letData.cellIdx20 ? letData.cellIdx20 : "（点击编辑）"
-              }}</span>在煤矿安全日常性、经常性安全监督管理工作中，存在下列问题（见附件），根据《煤矿安全监察条例》第条，第条规定，以及煤矿安全监管、监察职能职责规定，提出加强和改善煤矿安全监管的如下建议（见附件）。
+              }}</span>在煤矿安全日常性、经常性安全监督管理工作中，存在下列问题（见附件），根据《煤矿安全监察条例》第<span class="text-decoration">四</span>条、第<span class="text-decoration">十七</span>条规定，以及煤矿安全监管、监察职能职责规定，提出加强和改善煤矿安全监管的如下建议（见附件）。
             </div>
             <div class="docTextarea">
               <label style="width: 5%"></label>

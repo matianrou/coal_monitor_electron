@@ -61,7 +61,7 @@
               <div class="line"></div>
             </div>
             <div class="docTextarea">
-              <label style="width: 5%"></label>
+              <label style="width: 2em;"></label>
               根据以上案由案情，决定自
               <span @click="commandFill('cellIdx6', '年', 'TextItem')">{{
                 letData.cellIdx6 ? letData.cellIdx6 : "（XX）"
@@ -83,10 +83,10 @@
             <table height="30"></table>
             <div class="docTextarea">
               <div style="display: inline-block; min-width: 35%">
-                <span class="no-line">审批人意见：</span>
+                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;审批人意见：</span>
                 <span
                   @click="commandFill('cellIdx10', '审批人意见', 'TextItem')"
-                  >{{ letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）" }}
+                  >{{ letData.cellIdx10 ? letData.cellIdx10 : "（编辑）" }}
                 </span>
               </div>
               <span class="no-line">审批人（签名）：</span>
@@ -96,7 +96,7 @@
               >
               <span class="no-line">日期：</span>
               <span @click="commandFill('cellIdx12', '日期', 'DateItem')">{{
-                letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）"
+                letData.cellIdx12 ? letData.cellIdx12 : "（编辑）"
               }}</span>
               <div class="line"></div>
               <!-- <div class="line1"></div> -->

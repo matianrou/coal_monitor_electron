@@ -70,28 +70,28 @@
               <div class="line"></div>
             </div>
             <div class="docTextarea">
-              <span class="no-line" style="width:28%">&nbsp;&nbsp;&nbsp;&nbsp;承办人（签名）：</span>
-              <span style="display:inline-block;min-width:35%;line-height: normal;max-width:35%" @click="commandFill('cellIdx8', '承办人（签名）', 'TextItem')"
+              <span class="no-line" style="width:22%">承办人（签名）：</span>
+              <span style="display:inline-block;min-width:38%;line-height: normal;max-width:35%" @click="commandFill('cellIdx8', '承办人（签名）', 'TextItem')"
                 >{{ letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）" }}
               </span>
               <span class="no-line" style="width:12%">日&nbsp;&nbsp;&nbsp;&nbsp;期:</span>
-              <span style="display:inline-block;min-width:20%;line-height: normal;max-width:20%" @click="commandFill('cellIdx9', '日期', 'DateItem')">{{
+              <span style="display:inline-block;min-width:22%;line-height: normal;max-width:20%" @click="commandFill('cellIdx9', '日期', 'DateItem')">{{
                 letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
               }}</span>
             </div>
             <div class="docTextarea">
-              <span class="no-line" style="width:28%">&nbsp;</span>
-              <span style="display:inline-block;min-width:35%;line-height: normal;max-width:35%" @click="commandFill('cellIdx10', '承办人（签名）', 'TextItem')"
+              <span class="no-line" style="width:22%">&nbsp;</span>
+              <span style="display:inline-block;min-width:38%;line-height: normal;max-width:35%" @click="commandFill('cellIdx10', '承办人（签名）', 'TextItem')"
                 >{{ letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）" }}
               </span>
               <span class="no-line" style="width:12%">日&nbsp;&nbsp;&nbsp;&nbsp;期:</span>
-              <span style="display:inline-block;min-width:20%;line-height: normal;max-width:20%" @click="commandFill('cellIdx11', '日期', 'DateItem')">{{
+              <span style="display:inline-block;min-width:22%;line-height: normal;max-width:20%" @click="commandFill('cellIdx11', '日期', 'DateItem')">{{
                 letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）"
               }}</span>
             </div>
             <div class="docTextarea">
-              <div style="display:inline-block;min-width:43%">
-                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;分管负责人意见：</span>
+              <div style="display:inline-block;min-width:45%">
+                <span class="no-line">分管负责人意见：</span>
                 <span @click="commandFill('cellIdx12', '分管负责人意见', 'TextItem')"
                   >{{ letData.cellIdx12 ? letData.cellIdx12 : "（编辑）" }}
                 </span>
@@ -107,8 +107,8 @@
                 <div class="line"></div>
             </div>
             <div class="docTextarea">
-              <div style="display:inline-block;min-width:43%">
-                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;主要负责人意见：</span>
+              <div style="display:inline-block;min-width:45%">
+                <span class="no-line">主要负责人意见：</span>
                 <span @click="commandFill('cellIdx15', '主要负责人意见', 'TextItem')"
                   >{{ letData.cellIdx15 ? letData.cellIdx15 : "（编辑）" }}
                 </span>

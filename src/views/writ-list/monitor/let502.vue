@@ -90,7 +90,7 @@
               日前函告我
               <span class="no-underline" @click="commandFill('cellIdx10', '局', 'TextItem')">{{
                 letData.cellIdx10 ? letData.cellIdx10 : ""
-              }}</span>
+              }}</span>。
             </div>
             <table height="20"></table>
             <div class="docTextarea">

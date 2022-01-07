@@ -144,6 +144,7 @@
             <div class="docTextarea">
               <label class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;</label><span
                 class="no-line no-underline"
+                style="cursor: pointer;"
                 @click="commandFill('cellIdx15', '', 'SelectItem')">{{
                 letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）"
               }}</span><span class="no-line">，经复查，意见如下：</span>
@@ -174,7 +175,7 @@
             </div> -->
             <div class="docTextarea">
               <div style="display:inline-block;min-width:36%">
-                <span class="no-line">被复查单位意见：</span>
+                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;被复查单位意见：</span>
                 <span @click="commandFill('cellIdx17', '被复查单位意见', 'TextItem')"
                   >{{ letData.cellIdx17 ? letData.cellIdx17 : "（编辑）" }}
                 </span>
@@ -192,7 +193,7 @@
             </div>
               <div class="docTextarea">
               <div style="display:inline-block;min-width:71%">
-                <span class="no-line">复查人员（签名）：</span>
+                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;复查人员（签名）：</span>
                 <span @click="commandFill('cellIdx20', '复查人员（签名）', 'TextItem')">{{
                   letData.cellIdx20 ? letData.cellIdx20 : "（点击编辑）"
                 }}</span>

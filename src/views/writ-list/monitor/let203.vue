@@ -17,7 +17,7 @@
               国 家 矿 山 安 全 监 察
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">案 件 处 理 呈 报 书</div>
+            <div class="textAlignCenter formHeader4">案 件 处 理 呈 报 书</div>
             <div class="docTextLine paper-number-div">
               <div>
                 <!-- <span
@@ -109,7 +109,7 @@
             <table height="60"></table>
             <div class="docTextarea">
               <div style="display:inline-block;min-width:45%">
-                <span class="no-line">分管负责人意见：</span>
+                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;分管负责人意见：</span>
                 <span @click="commandFill('cellIdx9', '分管负责人意见', 'TextItem')"
                   >{{ letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）" }}
                 </span>
@@ -126,7 +126,7 @@
             </div>
             <div class="docTextarea">
               <div style="display:inline-block;min-width:45%">
-                <span class="no-line">主要负责人意见：</span>
+                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;主要负责人意见：</span>
                 <span @click="commandFill('cellIdx12', '主要负责人意见', 'TextItem')"
                   >{{ letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）" }}
                 </span>

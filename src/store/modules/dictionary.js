@@ -494,12 +494,12 @@ export default {
       },
       {
         docTypeNo: '25', // 先行登记保存证据通知书let108
-        docString: '先保',
+        docString: '保',
         paperNumberFields: ['cellIdx0', 'cellIdx1', 'cellIdx2', 'cellIdx3']
       },
       {
         docTypeNo: '27', // 先行登记保存证据处理决定书let109
-        docString: '先保处',
+        docString: '保处',
         paperNumberFields: ['cellIdx0', 'cellIdx1', 'cellIdx2', 'cellIdx3']
       },
       {
@@ -568,7 +568,7 @@ export default {
       },
       {
         docTypeNo: '29', // 不予受理听证申请通知书let210
-        docString: '听不受',
+        docString: '不听',
         paperNumberFields: ['cellIdx0', 'cellIdx1', 'cellIdx2', 'cellIdx3']
       },
       {

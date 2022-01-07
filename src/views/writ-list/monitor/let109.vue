@@ -29,7 +29,7 @@
                 <span @click="commandFill('cellIdx1', '', 'TextItem')">{{
                   letData.cellIdx1 ? letData.cellIdx1 : "（编辑）"
                 }}</span>
-                <label>先保处〔</label>
+                <label>保处〔</label>
                 <span @click="commandFill('cellIdx2', '', 'TextItem')">{{
                   letData.cellIdx2 ? letData.cellIdx2 : "（编辑）"
                 }}</span>
@@ -90,7 +90,7 @@
               <span class="no-underline" @click="commandFill('cellIdx11', '', 'TextItem')">{{
                 letData.cellIdx11 ? letData.cellIdx11 : "（编辑）"
               }}</span>
-              先保〔
+              保〔
               <span class="no-underline" @click="commandFill('cellIdx12', '', 'TextItem')">{{
                 letData.cellIdx12 ? letData.cellIdx12 : "（编辑）"
               }}</span>

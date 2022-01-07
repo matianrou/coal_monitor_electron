@@ -115,7 +115,7 @@
               style="margin-top: 30px; margin-bottom: 30px"
             >
               <div style="display: inline-block; min-width: 55%">
-                <span class="no-line">法制审核人员（签名）：</span>
+                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;法制审核人员（签名）：</span>
                 <span
                   @click="
                     commandFill('cellIdx9', '法制审核人员（签名）', 'TextItem')

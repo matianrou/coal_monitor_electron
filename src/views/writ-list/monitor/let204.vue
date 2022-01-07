@@ -140,7 +140,7 @@
             </div>
             <div class="docTextarea">
               <div style="display:inline-block;min-width:55%">
-                <span class="no-line">我局地址</span>
+                <span class="no-line">我局地址：</span>
                 <span @click="commandFill('cellIdx15', '我局地址', 'TextItem')"
                   >{{ letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）" }}
                 </span>
@@ -153,7 +153,7 @@
             </div>
             <div class="docTextarea">
               <div style="display:inline-block;min-width:55%">
-                <span class="no-line">我局联系人</span>
+                <span class="no-line">我局联系人：</span>
                 <span @click="commandFill('cellIdx17', '我局联系人', 'TextItem')"
                   >{{ letData.cellIdx17 ? letData.cellIdx17 : "（点击编辑）" }}
                 </span>

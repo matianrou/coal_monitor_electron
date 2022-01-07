@@ -96,7 +96,7 @@
               <span @click="commandFill('cellIdx9', '', 'TextItem')">{{
                 letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
               }}</span>
-              由
+              ，由
               <span @click="commandFill('cellIdx10', '', 'TextItem')">{{
                 letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
               }}</span>
@@ -133,7 +133,7 @@
             <div class="docTextarea">
               <div style="display: inline-block; min-width: 50%">
                 <span class="no-line"
-                  >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;受送达人（签名）：</span
+                  >&nbsp;&nbsp;&nbsp;&nbsp;受送达人（签名）：</span
                 >
                 <span
                   @click="
@@ -151,7 +151,7 @@
             <div class="docTextarea">
               <div style="display: inline-block; min-width: 50%">
                 <span class="no-line">
-                  <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我</span>
+                  <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;我</span>
                   <span
                     class="no-line"
                     @click="commandFill('cellIdx15', '局', 'TextItem')"
@@ -176,7 +176,7 @@
             <div class="docTextarea">
               <div style="display: inline-block; min-width: 50%">
                 <span class="no-line">
-                  <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我</span>
+                  <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;我</span>
                   <span
                     class="no-line"
                     @click="commandFill('cellIdx18', '局', 'TextItem')"
