@@ -331,8 +331,8 @@ export default {
         this.saveFlag = saveFlag
         return
       }
-      // 判断是否有保存初始数据，如果有则需要对比隐患项是否有修改
-      if (this.$parent.letDataOragin) {
+      // 判断是否是正常流程文书，非事故类，并且是否有保存初始数据，如果有则需要对比隐患项是否有修改
+      if (this.corpData.caseType === '0' && this.$parent.letDataOragin) {
         // 判断当前保存的是否为现场检查笔录1，现场处理决定书2，复查意见书13，立案决定书4，案件处理呈报书36，行政处罚告知书6，行政处罚决定书8
         let docTypeNo = this.docData.docTypeNo
         if (docTypeNo === '1' || docTypeNo === '2' || docTypeNo === '13' || docTypeNo === '4' || docTypeNo === '36' || docTypeNo === '6' || docTypeNo === '8') {

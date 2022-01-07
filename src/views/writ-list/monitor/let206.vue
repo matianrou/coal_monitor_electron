@@ -110,7 +110,7 @@
               <span @click="commandFill('cellIdx15', '地址', 'TextItem')">{{
                 letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）"
               }}</span>
-              到期不缴纳罚款的，每日按罚款数额的百分之三加处罚款。
+              。到期不缴纳罚款的，每日按罚款数额的百分之三加处罚款。
             </div>
             <div class="docTextarea">
               <label style="width: 5%"></label>

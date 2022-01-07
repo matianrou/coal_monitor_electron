@@ -298,6 +298,7 @@
               // 更新检查活动侧边栏
               this.$emit('confirm', jczfCase[0])
               this.loading.main = false
+              this.$message.success('文书拉取成功！')
               this.close()
             }).catch(() => {})
         } else {

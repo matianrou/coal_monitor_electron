@@ -14,6 +14,7 @@ export default new Vuex.Store({
     curCase: null, // 当前选中的检查活动的活动数据
     selectedCaseOption: null, // 当前选择的检查活动日期（年月）、机构、类型（计划或其他）
     unreceivedPaper: [], // 当前未接收的文书信息
+    sendPaperTabData: null, // 保留当前发送文书页面已选煤矿和接收人数据
   },
   getters: {
   },

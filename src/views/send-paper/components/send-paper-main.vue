@@ -191,7 +191,7 @@ export default {
     };
   },
   async created() {
-    await this.init();
+    this.init();
     this.getData();
   },
   watch: {
@@ -200,7 +200,12 @@ export default {
     }
   },
   methods: {
-    async init() {},
+    init() {
+      // 首先获取数据仓库中是否已存数据，如果有则恢复
+      if (this.$store.state.sendPaperTabData) {
+        this.$set(this, 'dataForm', this.$store.state.sendPaperTabData)
+      }
+    },
     selectData (type) {
       // 打开选择用户、选择企业弹窗
       this.showDialog[type] = true
@@ -214,6 +219,7 @@ export default {
       if (selectedPerson) {
         this.dataForm.receiveId = selectedPerson.no
         this.dataForm.receiveName = selectedPerson.name
+        this.setStore()
       }
     },
     confirmCompany (selectedCompany) {
@@ -221,6 +227,7 @@ export default {
       if (selectedCompany) {
         this.dataForm.companyId = selectedCompany.corpId
         this.dataForm.companyName = selectedCompany.corpName
+        this.setStore()
       }
     },
     async createPaper() {
@@ -250,6 +257,8 @@ export default {
       }
     },
     changePage({docData = null, corpData = null, sendData = null, paperData = null}) {
+      // 切换编辑页面前保留当前选择的煤矿和发送人
+      this.setStore()
       this.$emit("change-page", {
         status: "sendPaperPaper",
         docData,
@@ -257,6 +266,12 @@ export default {
         sendData,
         paperData,
       });
+    },
+    setStore() {
+      this.$store.commit('changeState', {
+        key: 'sendPaperTabData',
+        val: this.dataForm
+      })
     },
     async getData() {
       // 从本地数据库中获取已保存的发送文书数据

@@ -506,7 +506,24 @@ export default {
             )
           : "";
       // 2.组成： “我们是”+当前机构+“监察员，这是我们的执法证件（出示行政执法证件），现就你”+煤矿名称+“涉嫌”+隐患描述+“违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？”
-      let cellIdx21String = `我们是${this.$store.state.curCase.provinceGroupName}监察员，这是我们的执法证件（出示行政执法证件），现就你${corp.corpName}涉嫌${dangerString}违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？
+      let provinceGroupName = ''
+      if (this.fromPage === 'send-paper') {
+        // 调查互动发送文书进入时，获取机构名称改为当前用户的省级机构名称
+        let db = new GoDB(this.DBName)
+        let orgInfo = db.table('orgInfo')
+        // 归档机构信息
+        let orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+        // 获取当前归档机构的省局名称
+        provinceGroupName = `${orgData.name}`
+        if (orgData.grade === '3') {
+          let provinceOrg = await orgInfo.find(item => item.no === orgData.parentId)
+          provinceGroupName = provinceOrg.name
+        }
+        await db.close()
+      } else {
+        provinceGroupName = this.$store.state.curCase.provinceGroupName
+      }
+      let cellIdx21String = `我们是${provinceGroupName}监察员，这是我们的执法证件（出示行政执法证件），现就你${corp.corpName}涉嫌${dangerString || 'XXX'}违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？
       答：听清楚了。
       问：你对我们调查人员申请回避吗？
       答：不申请回避。
@@ -542,7 +559,7 @@ export default {
         extraData: {
           // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
-          groupName: this.$store.state.curCase.provinceGroupName,
+          groupName: provinceGroupName,
         },
         associationPaperId:
           this.corpData.caseType === "0"

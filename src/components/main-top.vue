@@ -33,9 +33,15 @@
           @click="changeTab('opinionSuggestion')">
           <span>意见建议书</span>
         </div>
+        <div
+          class="navTd"
+          :style="activeTab === 'sendPaper' ? 'background: #224f7d;' : ''"
+          @click="changeTab('sendPaper')">
+          <span>调查互动</span>
+        </div>
         <div class="main-top-operation" style="margin-left: 20px;">
           <!-- <el-button type="text" @click="logoutHandle">退出</el-button> -->
-          <img :src="activeTab === 'sendPaper' ? require('@/components/assets/image/paper-send-actived.png') : require('@/components/assets/image/paper-send.png')" class="btn-icon img-btn" title="调查互动" @click="changeTab('sendPaper')" />&nbsp;
+          <!-- <img :src="activeTab === 'sendPaper' ? require('@/components/assets/image/paper-send-actived.png') : require('@/components/assets/image/paper-send.png')" class="btn-icon img-btn" title="调查互动" @click="changeTab('sendPaper')" />&nbsp; -->
           <i class="el-icon-s-promotion btn-icon" title="隐患发送" @click="sendDanger"></i>
           <!-- 消息提醒 -->
           <el-dropdown :hide-on-click="false" @command="handleCommand">
