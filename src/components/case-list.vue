@@ -503,9 +503,17 @@ export default {
     casePull () {
       this.visible.casePull = true
     },
-    async confirmCasePull () {
+    async confirmCasePull (caseData) {
       // 拉取检查活动后更新检查列表
+      // 跳转至活动
+      this.$set(this, 'dataForm', {
+        selPlanDate: caseData.pcMonth,
+        selGovUnit: caseData.groupId,
+        selGovUnitName: caseData.groupName,
+        isPlan: caseData.planId ? '计划' : '其他',
+      })
       await this.getData()
+      this.setStore()
     }
   },
 };

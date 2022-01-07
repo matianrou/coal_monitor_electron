@@ -527,7 +527,6 @@ async function doDocDb(resId, data){
 	let wkCase = db.table('wkCase');
 	let wkDanger = db.table('wkDanger');
 	let arrDocPaper = [], arrDocCase = [], arrDocDanger = [];
-
 	//1-paper
 	for (let i = 0; i < arrPaper.length; i++) {
 		let obj = arrPaper[i];

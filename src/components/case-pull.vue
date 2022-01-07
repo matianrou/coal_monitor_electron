@@ -42,21 +42,21 @@
         </adjustable-div>
         <div class="content-div-right" v-loading="loading.right">
           <!-- 右侧 用户的检查列表 -->
-          <el-checkbox-group 
+          <el-radio-group
             v-if="caseList.length > 0"
-            v-model="selcetedCaseList">
+            v-model="selcetedCaseId">
             <div
               v-for="(item, index) in caseList"
               :key="index"
               class="case-list-item"
             >
-              <el-checkbox 
+              <el-radio 
                 style="font-size: 18px;"
-                :value="index"
-                :label="`${item.corpName} [${item.createDate.split(' ')[0]}]`">
-              </el-checkbox>
+                :label="item.caseId">
+                {{`${item.corpName} [${item.createDate.split(' ')[0]}]`}}
+              </el-radio>
             </div>
-          </el-checkbox-group>
+          </el-radio-group>
           <div v-else style="text-align: center;">
             <span>暂无数据</span>
           </div>
@@ -98,7 +98,7 @@
         selectedUser: {}, // 点击用户列表选择的用户
         caseList: [], // 选择的用户的检查活动列表
         allPaperData: {}, // 选择的用户的全部文书数据：检查活动jczfCase，文书paperk,隐患项danger
-        selcetedCaseList: [], // 多选的需要拉取的个人的检查活动
+        selcetedCaseId: null, // 单选的需要拉取的个人的检查活动
         dataForm: {
           name: null, // 按姓名筛选
         }
@@ -196,7 +196,7 @@
         // 选中点击的用户
         item.active = true
         // 清空已选择的检查活动
-        this.selcetedCaseList = []
+        this.selcetedCaseId = null
         // 根据当前选中的用户拉取其所有文书
         this.getUserCase(item.no)
       },
@@ -243,12 +243,16 @@
         this.selectedUser = companyObj
       },
       confirm() {
-        if (this.selcetedCaseList.length > 0) {
+        if (this.selcetedCaseId) {
           let msg = ''
-          this.selcetedCaseList.map(item => {
-            msg += item + '，'
-          })
-          msg = msg.substr(0, msg.length - 1)
+          let selectedCaseData = {}
+          for(let i = 0; i < this.caseList.length > 0; i++) {
+            let item = this.caseList[i]
+            if (item.caseId === this.selcetedCaseId) {
+              msg += `${item.corpName} [${item.createDate.split(' ')[0]}]`
+              selectedCaseData = item
+            }
+          }
           this.$confirm(`是否确认拉取“${msg}”的检查活动？`, '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',
@@ -259,12 +263,10 @@
               // 将临时保存数据结果赋值到数据中
               // 通过选定的selcetedCaseList检查活动，获取相应的检查活动数据jczfCase
               let jczfCase = []
-              this.selcetedCaseList.map(item => {
-                this.allPaperData.jczfCase.map(jcItem => {
-                  if (`${jcItem.corpName} [${jcItem.createDate.split(' ')[0]}]` === item && jcItem.delFlag !== '1') {
-                    jczfCase.push(jcItem)
-                  }
-                })
+              this.allPaperData.jczfCase.map(jcItem => {
+                if (jcItem.caseId === selectedCaseData.caseId && jcItem.delFlag !== '1') {
+                  jczfCase.push(jcItem)
+                }
               })
               // 根据监察活动数据jczfCase再获取相应的paper数据
               let paper = []
@@ -288,20 +290,25 @@
                   })
                 })
               }
-              let sutmitData = {
+              let submitData = {
                 jczfCase, paper, danger
               }
               // 通过doDoc方法存入本地数据库中
-              await doDocDb('doc', sutmitData)
+              await doDocDb('doc', submitData)
               // 更新检查活动侧边栏
-              this.$emit('confirm')
+              this.$emit('confirm', jczfCase[0])
               this.loading.main = false
               this.close()
             }).catch(() => {})
         } else {
-          this.$message.error('当前未选定需要拉取的检查活动，请勾选需要拉取的检查活动后再点击拉取！')
+          this.$message.error('当前未选定需要拉取的检查活动，请选择需要拉取的检查活动后再点击拉取！')
         }
       },
+      selectedCase (val) {
+        if (val.length > 1) {
+          this.selcetedCaseList = val[val.length - 1]
+        }
+      }
     }
   }
 </script>
@@ -364,7 +371,8 @@
       .case-list-item {
         display: flex;
         align-items: center;
-        margin: 3px 0px;
+        margin: 5px 0px;
+        height: 25px;
       }
       /deep/ .el-checkbox__label {
         font-size: 16px;
