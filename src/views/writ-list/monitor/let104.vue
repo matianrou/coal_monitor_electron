@@ -78,8 +78,8 @@
               }}</span>
               日发现
               <span
-                @dblclick="commandFill('cellIdx9', '违法违规行为', corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem')"
-                @click="commandFill('cellIdx9', '违法行为', 'DangerTextareaItem')"
+                @dblclick="commandFill('cellIdx9', '违法违规行为', corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem')"
+                @click="commandFill('cellIdx9', '违法违规行为', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')"
                 >{{
                   letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
                 }}</span
@@ -87,9 +87,9 @@
               的违法违规行为，依法作出了
               <span
                 style="borderbottom: none"
-                @dblclick="commandFill('cellIdx10', '违法违规行为', corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem')"
+                @dblclick="commandFill('cellIdx10', '现场处理决定', corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem')"
                 @click="
-                  commandFill('cellIdx10', '现场处理决定', 'DangerTextareaItem')
+                  commandFill('cellIdx10', '现场处理决定', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')
                 "
                 >{{
                   letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"

@@ -37,8 +37,8 @@
                 >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;案&nbsp;&nbsp;由：</span
               >
               <span 
-                @dblclick="commandFill('cellIdx3', '案由', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
-                @click="commandFill('cellIdx3', '案由', 'DangerTextareaItem')">{{
+                @dblclick="commandFill('cellIdx3', '案由', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @click="commandFill('cellIdx3', '案由', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')">{{
                 letData.cellIdx3 ? letData.cellIdx3 : "（点击编辑）"
               }}</span>
               <div class="line"></div>
@@ -62,8 +62,8 @@
                 >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;案情摘要：</span
               >
               <span
-                @dblclick="commandFill('cellIdx5', '案情摘要', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
-                @click="commandFill('cellIdx5', '案情摘要', 'DangerTextareaItem')"
+                @dblclick="commandFill('cellIdx5', '案情摘要', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @click="commandFill('cellIdx5', '案情摘要', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')"
                 >{{
                   letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
                 }}</span
@@ -75,8 +75,8 @@
                 >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作出决定依据：</span
               >
               <span
-                @dblclick="commandFill('cellIdx6', '作出决定依据', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
-                @click="commandFill('cellIdx6', '作出决定依据', 'DangerTextareaItem')"
+                @dblclick="commandFill('cellIdx6', '作出决定依据', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @click="commandFill('cellIdx6', '作出决定依据', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')"
                 >{{
                   letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
                 }}</span
@@ -88,8 +88,8 @@
                 >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;建议行政决定：</span
               >
               <span
-                @dblclick="commandFill('cellIdx7', '建议行政决定', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
-                @click="commandFill('cellIdx7', '建议行政决定', 'DangerTextareaItem')"
+                @dblclick="commandFill('cellIdx7', '建议行政决定', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @click="commandFill('cellIdx7', '建议行政决定', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')"
                 >{{
                   letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
                 }}</span

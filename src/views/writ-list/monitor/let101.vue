@@ -101,8 +101,8 @@
           <div
             style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
             class="cellInput mutiLineArea"
-            @dblclick="commandFill('cellIdx8', '检查情况', corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem')"
-            @click="commandFill('cellIdx8', '检查情况', 'DangerTextareaItem')">
+            @dblclick="commandFill('cellIdx8', '检查情况', corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem')"
+            @click="commandFill('cellIdx8', '检查情况', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')">
             <div>
               <p class="show-area-item-p">
                 <span style="padding: 7px;">{{ letData.cellIdx8 || '（双击编辑）' }}</span>

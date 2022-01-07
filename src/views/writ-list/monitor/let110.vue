@@ -83,11 +83,11 @@
                     '违法违规行为',
                     corpData.caseType === '0'
                       ? 'DangerTable'
-                      : 'DangerTextareaItem'
+                      : 'TextareaItem'
                   )
                 "
                 @click="
-                  commandFill('cellIdx6', '违法违规行为', 'DangerTextareaItem')
+                  commandFill('cellIdx6', '违法违规行为', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')
                 "
                 >{{
                   letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
@@ -101,10 +101,10 @@
                     '规定',
                     corpData.caseType === '0'
                       ? 'DangerTable'
-                      : 'DangerTextareaItem'
+                      : 'TextareaItem'
                   )
                 "
-                @click="commandFill('cellIdx7', '规定', 'DangerTextareaItem')"
+                @click="commandFill('cellIdx7', '规定', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')"
                 >{{
                   letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
                 }}</span

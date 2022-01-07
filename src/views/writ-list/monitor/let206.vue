@@ -54,32 +54,32 @@
             <div class="docTextarea">
               违法事实：
               <span
-                @dblclick="commandFill('cellIdx7', '违法事实', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
-                @click="commandFill('cellIdx7', '违法事实', 'DangerTextareaItem')"
+                @dblclick="commandFill('cellIdx7', '违法事实', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @click="commandFill('cellIdx7', '违法事实', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')"
                 >{{
                   letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
                 }}</span
               >
               以上事实违反了
               <span
-                @dblclick="commandFill('cellIdx8', '法律规定', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
-                @click="commandFill('cellIdx8', '法律规定', 'DangerTextareaItem')"
+                @dblclick="commandFill('cellIdx8', '法律规定', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @click="commandFill('cellIdx8', '法律规定', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')"
                 >{{
                   letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
                 }}</span
               >
               的规定，依据
               <span
-                @dblclick="commandFill('cellIdx9', '法律依据', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
-                @click="commandFill('cellIdx9', '法律依据', 'DangerTextareaItem')"
+                @dblclick="commandFill('cellIdx9', '法律依据', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @click="commandFill('cellIdx9', '法律依据', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')"
                 >{{
                   letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
                 }}</span
               >
               的规定，决定给予以下行政处罚：
               <span
-                @dblclick="commandFill('cellIdx10', '行政处罚', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
-                @click="commandFill('cellIdx10', '行政处罚', 'DangerTextareaItem')"
+                @dblclick="commandFill('cellIdx10', '行政处罚', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @click="commandFill('cellIdx10', '行政处罚', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')"
                 >{{
                   letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
                 }}</span

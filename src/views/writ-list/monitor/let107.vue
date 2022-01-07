@@ -58,8 +58,8 @@
               <label style="width: 5%"></label>
               你单位
               <span
-                @dblclick="commandFill('cellIdx5', '违法违规行为', corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem')"
-                @click="commandFill('cellIdx5', '违法违规行为', 'DangerTextareaItem')"
+                @dblclick="commandFill('cellIdx5', '违法违规行为', corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem')"
+                @click="commandFill('cellIdx5', '违法违规行为', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')"
                 >{{
                   letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
                 }}</span

@@ -41,8 +41,8 @@
             <div class="docTextarea">
               <span class="no-line">案&nbsp;&nbsp;&nbsp; 由：</span>
               <span
-                @dblclick="commandFill('cellIdx4', '案由', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
-                @click="commandFill('cellIdx4', '案由', 'DangerTextareaItem')"
+                @dblclick="commandFill('cellIdx4', '案由', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @click="commandFill('cellIdx4', '案由', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')"
                 >{{
                   letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）"
                 }}</span
@@ -52,8 +52,8 @@
             <div class="docTextarea">
               <span class="no-line">案情摘要：</span>
               <span
-                @dblclick="commandFill('cellIdx5', '案情摘要', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
-                @click="commandFill('cellIdx5', '案情摘要', 'DangerTextareaItem')"
+                @dblclick="commandFill('cellIdx5', '案情摘要', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @click="commandFill('cellIdx5', '案情摘要', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')"
                 >{{
                   letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
                 }}</span

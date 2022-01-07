@@ -81,11 +81,11 @@
                   '违法违规行为',
                   corpData.caseType === '0'
                     ? 'DangerTable'
-                    : 'DangerTextareaItem'
+                    : 'TextareaItem'
                 )
               "
               @click="
-                commandFill('cellIdx7', '违法违规行为', 'DangerTextareaItem')
+                commandFill('cellIdx7', '违法违规行为', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')
               "
             >
               <div>

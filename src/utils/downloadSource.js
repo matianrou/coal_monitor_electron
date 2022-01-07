@@ -203,7 +203,8 @@ async function doCorpDb(resId, data) {
 			"mineFireName": obj.mineFireName,
 			"grimeExplosiveName": obj.grimeExplosiveName,
 			"rockburstName": obj.rockburstName,
-			"groupId": obj.groupId
+			"groupId": obj.groupId,
+			"constructType": obj.constructType,
 		});
 	}
 	// 增:
@@ -1045,7 +1046,8 @@ let schema = {
 		"mineFireName": String, //"自燃",
 		"grimeExplosiveName": String, //"有爆炸性",
 		"rockburstName": String, //"无冲击地压矿井",
-		"groupId": String // "130500130001"
+		"groupId": String, // "130500130001"
+		"constructType": String,  //煤矿11  上级企业10
 	},
 	// 证照信息
 	zfZzInfo: {

@@ -144,8 +144,8 @@
               >
               号）。因
               <span 
-                @dblclick="commandFill('cellIdx18', '', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
-                @click="commandFill('cellIdx18', '', 'DangerTextareaItem')">{{
+                @dblclick="commandFill('cellIdx18', '', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @click="commandFill('cellIdx18', '', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')">{{
                 letData.cellIdx18 ? letData.cellIdx18 : "（点击编辑）"
               }}</span>
               ，依据《中华人民共和国行政强制法》第<span class="text-decoration">二十五</span>条规定，决定将以上

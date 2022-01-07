@@ -36,8 +36,8 @@
             <div class="docTextarea">
               <span class="no-line">案&nbsp;&nbsp;由：</span>
               <span
-                @dblclick="commandFill('cellIdx2', '案由', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
-                @click="commandFill('cellIdx2', '案由', 'DangerTextareaItem')"
+                @dblclick="commandFill('cellIdx2', '案由', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @click="commandFill('cellIdx2', '案由', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')"
                 >{{
                   letData.cellIdx2 ? letData.cellIdx2 : "（点击编辑）"
                 }}</span
@@ -67,12 +67,12 @@
             <div class="docTextarea">
               <span class="no-line">违法事实及依据：</span>
               <span
-                @dblclick="commandFill('cellIdx6', '违法事实及依据', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
+                @dblclick="commandFill('cellIdx6', '违法事实及依据', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
                 @click="
                   commandFill(
                     'cellIdx6',
                     '违法事实及处理依据',
-                    'DangerTextareaItem'
+                    corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem'
                   )
                 "
                 >{{
@@ -96,9 +96,9 @@
             <div class="docTextarea">
               <span class="no-line">建议案件处理意见：</span>
               <span
-                @dblclick="commandFill('cellIdx7', '建议案件处理意见', `${corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem'}`)"
+                @dblclick="commandFill('cellIdx7', '建议案件处理意见', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
                 @click="
-                  commandFill('cellIdx7', '建议案件处理意见', 'DangerTextareaItem')
+                  commandFill('cellIdx7', '建议案件处理意见', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')
                 "
                 >{{
                   letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"

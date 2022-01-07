@@ -212,6 +212,7 @@ export default {
           planId: this.caseData.planId,
           caseId: this.caseData.caseId,
           caseType: this.caseData.caseType,
+          constructType: corp.constructType
         }
       }
       // 获取文书列表

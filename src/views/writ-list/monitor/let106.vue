@@ -90,8 +90,8 @@
               }}</span>
               有
               <span
-                @dblclick="commandFill('cellIdx12', '违法违规行为', corpData.caseType === '0' ? 'DangerTable' : 'DangerTextareaItem')"
-                @click="commandFill('cellIdx12', '违法行为', 'DangerTextareaItem')"
+                @dblclick="commandFill('cellIdx12', '违法违规行为', corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem')"
+                @click="commandFill('cellIdx12', '违法违规行为', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')"
                 >{{
                   letData.cellIdx12 ? letData.cellIdx12 : "（点击编辑）"
                 }}</span
