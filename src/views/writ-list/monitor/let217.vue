@@ -268,7 +268,7 @@ export default {
       let date206 = selectedPaper.let8Data.createDate.split(' ')[0].split('-')
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(item => item.no === this.$store.state.curCase.affiliate)
-      let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {accountName: '', billName: '', depAddress: '', depPost: '', master: '', phone: ''}
+      let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {accountName: '', depAddress: '', depPost: '', master: '', phone: ''}
       let DangerTable = null;
       if (this.corpData.caseType === "0") {
         DangerTable = let8DataPaperContent.DangerTable

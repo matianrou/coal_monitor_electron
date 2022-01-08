@@ -287,7 +287,6 @@ export default {
         (item) => item.no === this.$store.state.curCase.affiliate
       );
       
-      console.log('orgData', orgData)
       let orgSysOfficeInfo =
         orgData && orgData.sysOfficeInfo
           ? JSON.parse(orgData.sysOfficeInfo)
@@ -323,8 +322,8 @@ export default {
         cellIdx10: cellIdx10String, // 行政处罚
         cellIdx11: orgSysOfficeInfo.accountName, // 银行
         cellIdx12: orgSysOfficeInfo.accountBank, // 支行（分理处）
-        cellIdx13: orgSysOfficeInfo.account, // ，账户名称
-        cellIdx14: orgSysOfficeInfo.billName, // 账号
+        cellIdx13: orgSysOfficeInfo.billName, // ，账户名称
+        cellIdx14: orgSysOfficeInfo.account, // 账号
         cellIdx15: orgSysOfficeInfo.accountAddress, // 地址
         cellIdx16: '国家矿山安全监察局', // 煤监机构
         cellIdx17: orgSysOfficeInfo.courtPrefix, // 人民法院

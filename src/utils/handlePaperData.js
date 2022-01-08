@@ -316,7 +316,7 @@ function setDangerTable(data, selectedData, options) {
       } else if (options.key === 'cellIdx10') {
         let penaltyDescString = getDangerPenaltyDescWithoutPointHasIndex(list6 || [], '；')
         let { descTypeStrings } = getDangerDes(list6 || [])
-        string = `${penaltyDescString}。${dangerObject.penaltyDescFineTotle ? `合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle) || ''}（￥${dangerObject.penaltyDescFineTotle.toLocaleString() || ''}）` : ''}${descTypeStrings || ''}`
+        string = `${list6.length > 0 ? (list6.length > 1 ? '分别作出' : '作出') : ''}${penaltyDescString}${list6.length > 0 ? '。' : ''}${dangerObject.penaltyDescFineTotle ? `合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle) || ''}（￥${dangerObject.penaltyDescFineTotle.toLocaleString() || ''}）` : ''}${descTypeStrings || ''}`
       }
       break
     case '30': // 陈述、申辩笔录

@@ -104,7 +104,12 @@ export function severalDaysLater(dayNums) {
     time1 = date1.getFullYear() + "-" + (date1.getMonth() + 1) + "-" + date1.getDate();//time1表示当前时间
   let date2 = new Date(date1);
   date2.setDate(date1.getDate() + dayNums);
-  let time2 = date2.getFullYear() + "-" + (date2.getMonth() + 1) + "-" + date2.getDate();
+  let year = date2.getFullYear(); //得到年份
+  let month = date2.getMonth() + 1;//得到月份
+  let date = date2.getDate();//得到日期
+  if (month < 10) month = "0" + month;
+  if (date < 10) date = "0" + date;
+  let time2 = year + "-" + month + "-" + date;
   return time2;
 }
 
@@ -169,4 +174,28 @@ export function handleDateRetrun(value) {
     dateRange = []
   }
   return dateRange
+}
+
+// 整理日期范围字段：由日期范围数据（date字符串形式）
+// beginDate:YYYY-mm-DD和endDate:YYYY-mm-DD 
+// 按逻辑转换为
+// YYYY年M月D日至YYYY年M月D日或M月D日或D日
+export function handleDateNormal(beginDate, endDate) {
+  let beginDateList = beginDate.split('-')
+  let endDateList = endDate.split('-')
+  let dateString = `${beginDateList[0]}年${beginDateList[1]}月${beginDateList[2]}至`
+  // 判断第二个日期，如果年份一样则不再展示，如果月份一样也同样不展示，不同时都展示
+  if (beginDateList[0] !== endDateList[0]) {
+    dateString += endDateList[0] + '年'
+  }
+  if (beginDateList[1] !== endDateList[1]) {
+    dateString += endDateList[1] + '月'
+  }
+  if (beginDateList[2] !== endDateList[2]) {
+    dateString += endDateList[2] + '日'
+  }
+  if (beginDateList[0] === endDateList[0] && beginDateList[1] === endDateList[1] && beginDateList[2] === endDateList[2]) {
+    dateString = dateString.substring(0, dateString.length - 1)
+  }
+  return dateString
 }

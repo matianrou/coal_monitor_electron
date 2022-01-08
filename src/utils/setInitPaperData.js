@@ -356,6 +356,35 @@ export async function corpInformation(db, corpData) {
   const zzInfo2 = await zfZzInfo.find((item) => {
     return item.corpId == corpData.corpId && item.credTypeName == "安全生产许可证";
   });
+  let zfCmgzmInfo = db.table("zfCmgzmInfo");
+  let zfJjgzmInfo = db.table("zfJjgzmInfo");
+  let zfCmgzm = await zfCmgzmInfo.findAll((item) => {
+    return item.corpId === corpData.corpId && item.delFlag !== '1';
+  });
+  let zfJjgzm = await zfJjgzmInfo.findAll((item) => {
+    return item.corpId === corpData.corpId && item.delFlag !== '1';
+  });
+  let zfCmgzmString = ''
+  for (let i = 0; i < zfCmgzm.length; i++) {
+    let item = zfCmgzm[i]
+    zfCmgzmString += item.workfaceName + '、'
+  }
+  if (zfCmgzm.length > 0) zfCmgzmString = zfCmgzmString.substring(0, zfCmgzmString.length -1) + '采煤工作面、'
+  let zfJjgzmString = ''
+  for (let i = 0; i < zfJjgzm.length; i++) {
+    let item = zfJjgzm[i]
+    zfJjgzmString += item.workfaceName + '、'
+  }
+  if (zfJjgzm.length > 0) zfJjgzmString = zfJjgzmString.substring(0, zfJjgzmString.length -1) + '掘进工作面、'
+  let zfCmgzmStringZfJjgzmString = zfCmgzmString + zfJjgzmString
+  zfCmgzmStringZfJjgzmString = zfCmgzmStringZfJjgzmString.substring(0, zfCmgzmStringZfJjgzmString.length -1)
+  let mineStatusZsNameString = ''
+  if (corpData.mineStatusZsName) {
+    if (corpData.mineStatusZsName.includes('->')) {
+      let mineStatusZsNameList = corpData.mineStatusZsName.split('->')
+      mineStatusZsNameString = mineStatusZsNameList[mineStatusZsNameList.length - 1]
+    }
+  }
   let sSummary =
     corpData.corpName +
     "位于" +
@@ -367,10 +396,10 @@ export async function corpInformation(db, corpData) {
     "煤矿。 ";
   if (zzInfo1 && zzInfo1.expireTime)
     sSummary += "采矿许可证有效日期至" + zzInfo1.expireTime + "、";
-  else sSummary += "采矿许可证有效日期至    ";
+  else sSummary += "采矿许可证有效日期至xxx";
   if (zzInfo2 && zzInfo2.expireTime)
     sSummary += "、安全生产许可证有效期至" + zzInfo2.expireTime + "，";
-  else sSummary += "、安全生产许可证有效期至    ，";
+  else sSummary += "、安全生产许可证有效期至XXX，";
   if (corpData.provedOutput)
     sSummary += "矿井核定生产能力为" + corpData.provedOutput + "万吨/年，";
   else sSummary += "矿井核定生产能力为X万吨/年，";
@@ -383,12 +412,12 @@ export async function corpInformation(db, corpData) {
     "，";
   sSummary +=
     "矿井状况为" +
-    (corpData.mineStatusZsName || 'XXX') +
+    (mineStatusZsNameString || 'XXX') +
     "，开拓方式为" +
     (corpData.mineMinestyleName || 'XXX') +
     "开拓。";
   sSummary +=
-    "采煤方式为综采。通风方式为中央分列抽出，采掘作业地点有71003综采工作面采煤工作面、 71007综采工作面风巷、71007综采工作面机巷掘进工作面。";
+    `采煤方式为${zfCmgzm.length > 0 ? zfCmgzm[0].mineGatherstyleName : 'XXX'}。通风方式为${corpData.mineVentilatestyleName || 'XXX'}，采掘作业地点有${zfCmgzmStringZfJjgzmString}。`;
   return sSummary
 }
 

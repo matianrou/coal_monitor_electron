@@ -308,7 +308,7 @@
               </tr>
             </table>
             <div class="docTextarea" style="border-top: 2px solid #000">
-              备注：本文书一式两份，一份交申请听证
+              备注：本文书一式两份，一份送被拟处罚
               <span class="no-line">{{
                 letData.cellIdx38 ? letData.cellIdx38 : "（点击编辑）"
               }}</span>

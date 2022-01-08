@@ -192,15 +192,15 @@
               <div class="line1"></div>
             </div>
               <div class="docTextarea">
-              <div style="display:inline-block;min-width:71%">
+              <div style="display:inline-block;min-width:75%">
                 <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;复查人员（签名）：</span>
                 <span @click="commandFill('cellIdx20', '复查人员（签名）', 'TextItem')">{{
-                  letData.cellIdx20 ? letData.cellIdx20 : "（点击编辑）"
+                  letData.cellIdx20 ? letData.cellIdx20 : "（编辑）"
                 }}</span>
               </div>
                 <span class="no-line">日期：</span>
                 <span @click="commandFill('cellIdx21', '日期', 'DateItem')">{{
-                  letData.cellIdx21 ? letData.cellIdx21 : "（点击编辑）"
+                  letData.cellIdx21 ? letData.cellIdx21 : "（编辑）"
                 }}</span>
                 <div class="line"></div>
                 <div class="line1"></div>

@@ -249,53 +249,6 @@ export default {
       let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      let zfZzInfo = db.table("zfZzInfo");
-      let zzInfo1 = await zfZzInfo.find((item) => {
-        return (
-          item.corpId == this.corpData.corpId &&
-          item.credTypeName == "采矿许可证"
-        );
-      });
-      let zzInfo2 = await zfZzInfo.find((item) => {
-        return (
-          item.corpId == this.corpData.corpId &&
-          item.credTypeName == "安全生产许可证"
-        );
-      });
-      let sSummary =
-        corp.corpName +
-        "位于" +
-        corp.provinceName +
-        corp.cityName +
-        corp.countryName +
-        "境内，隶属于" +
-        corp.parentTypeName +
-        "煤矿。 ";
-      if (zzInfo1 && zzInfo1.expireTime)
-        sSummary += "采矿许可证有效日期至" + zzInfo1.expireTime + "、";
-      else sSummary += "采矿许可证有效日期至    ";
-      if (zzInfo2 && zzInfo2.expireTime)
-        sSummary += "、安全生产许可证有效期至" + zzInfo2.expireTime + "，";
-      else sSummary += "、安全生产许可证有效期至    ，";
-      if (corp.provedOutput)
-        sSummary += "矿井核定生产能力为" + corp.provedOutput + "万吨/年，";
-      else sSummary += "矿井核定生产能力为   万吨/年，";
-      sSummary +=
-        corp.mineWsGradeName +
-        "、水文地质类型为中等，煤层自燃倾向性为" +
-        corp.mineFireName +
-        "，煤尘" +
-        corp.grimeExplosiveName +
-        "，";
-      sSummary +=
-        "矿井状况为" +
-        corp.mineStatusZsName +
-        "，开拓方式为" +
-        corp.mineMinestyleName +
-        "开拓。";
-      sSummary +=
-        "采煤方式为综采。通风方式为中央分列抽出，采掘作业地点有71003综采工作面采煤工作面、 71007综采工作面风巷、71007综采工作面机巷掘进工作面。";
-      let corpOther = "检查的内容和分工变化时，应及时调整。";
       await db.close();
       // 返回检查方案中的检查类型方式、检查时间和检查分工明细表
       let let22DataPaperContent = JSON.parse(
@@ -305,8 +258,11 @@ export default {
         cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
         cellIdx1: let22DataPaperContent.cellIdx1,
         cellIdx2: let22DataPaperContent.cellIdx2,
-        cellIdx3: sSummary ? sSummary : null, // 煤矿概况
-        cellIdx6: corpOther, // 其他事项
+        cellIdx3: let22DataPaperContent.cellIdx3, // 煤矿概况
+        cellIdx4: let22DataPaperContent.cellIdx4, // 煤矿概况
+        cellIdx4TypeCheckPositionItem: let22DataPaperContent.cellIdx4TypeCheckPositionItem, // 煤矿概况
+        cellIdx6: let22DataPaperContent.cellIdx6, // 其他事项
+        cellIdx12: let22DataPaperContent.cellIdx12,
         CheckTable: let22DataPaperContent.CheckTable,
         associationPaperId: {
           // 关联的paperId

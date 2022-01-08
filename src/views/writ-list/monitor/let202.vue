@@ -85,7 +85,7 @@
             <div class="docTextLine" style="text-align: center">
               <label>被调查人：</label>
               <div style="flex: 2; display: flex">
-                <label>姓&nbsp;&nbsp;&nbsp;&nbsp;名</label>
+                <label>姓名</label>
                 <span
                   class="line-div"
                   @click="commandFill('cellIdx9', '姓名', 'TextItem')"
@@ -171,7 +171,7 @@
                 >{{ letData.cellIdx16 ? letData.cellIdx16 : "（编辑）" }}</span
               >
               <span class="no-line" style="width: 11%"
-                >电&nbsp;&nbsp;&nbsp;&nbsp;话</span
+                >电话</span
               >
               <span
                 style="
@@ -186,7 +186,7 @@
             </div>
             <div class="docTextarea">
               <span class="no-line" style="width: 25%"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;住&nbsp;&nbsp;&nbsp;&nbsp;址</span
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;住址</span
               >
               <span
                 style="

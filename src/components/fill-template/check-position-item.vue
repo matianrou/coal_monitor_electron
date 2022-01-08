@@ -149,11 +149,11 @@ export default {
       let zfJserve = db.table("zfJjgzmInfo");
       let caimei = await zfCserve.findAll((item) => {
         item.select = false;
-        return item.corpId == this.corpData.corpId;
+        return item.corpId == this.corpData.corpId && item.delFlag !== '1';
       });
       let juejin = await zfJserve.findAll((item) => {
         item.select = false;
-        return item.corpId == this.corpData.corpId;
+        return item.corpId == this.corpData.corpId && item.delFlag !== '1';
       });
       this.coalOptions = caimei;
       this.tunnellingOptions = juejin;

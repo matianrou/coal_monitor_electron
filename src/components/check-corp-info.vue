@@ -8,7 +8,7 @@
     :visible="visible"
     top="5vh"
     width="850px">
-    <div class="check-corp-info-main">
+    <div v-loading="loading.save" class="check-corp-info-main">
       <div class="check-corp-info-title">
         <div>
           <img src="./assets/image/company.png" alt="" style="vertical-align: text-bottom;" />
@@ -293,8 +293,8 @@
       ></select-mine-status>
     </div>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="close">取消</el-button>
-      <el-button type="primary" @click="confirm">确定</el-button>
+      <el-button :loading="loading.save" @click="close">取消</el-button>
+      <el-button :loading="loading.save" type="primary" @click="confirm">确定</el-button>
     </span>
   </el-dialog>
 </template>
@@ -378,6 +378,9 @@ export default {
       },
       showDialog: {
         mineStatus: false
+      },
+      loading: {
+        save: false
       },
       originalData: null, // 用来对比数据是否被修改
     };
@@ -465,7 +468,8 @@ export default {
               cancelButtonText: '取消',
               dangerouslyUseHTMLString: true,
               type: 'warning'
-            }).then(() => {
+            }).then(async () => {
+              this.loading.save = true
               let params = {
                 corpId: this.dataForm.corpId,
                 address: this.dataForm.address,
@@ -481,7 +485,7 @@ export default {
                 ckxkzExpireTime: this.dataForm.ckxkzExpireTime,
                 aqscxkzExpireTime: this.dataForm.aqscxkzExpireTime,
               }
-              this.$http.post(`${this.userType === 'supervision' ? '/sv' : ''}/local/corp/updateByZf?__sid=${this.$store.state.user.userSessId}`, {sendJson: true, data: params})
+              await this.$http.post(`${this.userType === 'supervision' ? '/sv' : ''}/local/corp/updateByZf?__sid=${this.$store.state.user.userSessId}`, {sendJson: true, data: params})
                 .then(async ({ data }) => {
                   if (data.status === "200") {
                     this.$message.success('确认企业信息成功！')
@@ -494,6 +498,7 @@ export default {
                   console.log('确认企业信息失败:', err)
                   this.$emit('confirm')
                 });
+              this.loading.save = false
             }).catch(() => {})
         }
       })

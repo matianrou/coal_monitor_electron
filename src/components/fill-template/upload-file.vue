@@ -210,8 +210,8 @@ export default {
         fileName: param.file.name,
         fileSize: param.file.size,
         createDate: getNowFormatTime(),
-        groupId: this.$store.state.curCase.groupId,
-        groupName: this.$store.state.curCase.groupName,
+        groupId: this.$store.state.user.userGroupId,
+        groupName: this.$store.state.user.userGroupName,
       }
       formData.append('file', param.file)
       formData.append('paperAttach', JSON.stringify(submitData))

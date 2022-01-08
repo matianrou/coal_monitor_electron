@@ -292,6 +292,7 @@ export default {
         cellIdx4: num4, // 文书号
         cellIdx6: '局', // 局
         cellIdx7: corp.corpName ? corp.corpName : null, // corpname
+        cellIdx8: '责令停产整顿',
         cellIdx13: '局', // 局
         cellIdx14: cellIdx14String, // 地址
         cellIdx15: cellIdx15String, // 邮政编码

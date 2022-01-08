@@ -353,8 +353,8 @@ export default {
         cellIdx21: let8DataPaperContent.selectedType, // 单位
         cellIdx26: orgSysOfficeInfo.accountName, // 银行
         cellIdx27: orgSysOfficeInfo.accountBank, // 支行（分理处）
-        cellIdx28: orgSysOfficeInfo.account, // 账户名称
-        cellIdx29: orgSysOfficeInfo.billName, // 账号
+        cellIdx28: orgSysOfficeInfo.billName, // 账户名称
+        cellIdx29: orgSysOfficeInfo.account, // 账号
         cellIdx30: orgSysOfficeInfo.accountAddress, // 地址
         cellIdx31: '国家矿山安全监察局', // 人民政府
         cellIdx33: orgSysOfficeInfo.courtPrefix, // 人民法院

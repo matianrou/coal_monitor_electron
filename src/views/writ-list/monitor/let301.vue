@@ -139,10 +139,7 @@
                   letData.cellIdx24 ? letData.cellIdx24 : "（点击编辑）"
                 }}</span
               >
-              号）。由于被申请执行人在法定期限内未履行行政处罚决定，根据《中华人民共和国行政处罚法》第<span class="text-decoration">七十二</span>条第<span class="text-decoration">一</span>款第<span class="text-decoration">四</span>项、《中华人民共和国行政强制法》第<span class="text-decoration">五十三</span>条、第<span class="text-decoration">五十四</span>条规定，特申请贵院强制执行：
-              <span @click="commandFill('cellIdx25', '', 'TextareaItem')">{{
-                letData.cellIdx25 ? letData.cellIdx25 : "（点击编辑）"
-              }}</span>
+              号）。由于被申请执行人在法定期限内未履行行政处罚决定，根据《中华人民共和国行政处罚法》第<span class="text-decoration">七十二</span>条第<span class="text-decoration">一</span>款第<span class="text-decoration">四</span>项、《中华人民共和国行政强制法》第<span class="text-decoration">五十三</span>条、第<span class="text-decoration">五十四</span>条规定，特申请贵院强制执行。
             </div>
             <div class="docTextarea">
               <label style="width: 2em;"></label>
@@ -313,7 +310,7 @@ export default {
         cellIdx22: null, // 催告书文书号
         cellIdx23: null, // 催告书文书号
         cellIdx24: null, // 催告书文书号
-        cellIdx25: null, //
+        cellIdx25: null, // 暂不用
         cellIdx26: null, // 暂不用
         cellIdx27: null, // 收件人（签名）
         cellIdx28: null, // 日期
@@ -374,7 +371,6 @@ export default {
       // 3.被申请人：企业煤矿名称
       let cellIdx11String = corp.corpName;
       // 5.文书号2：催告书编号
-      console.log('selectedPaper.let54Data', selectedPaper.let54Data)
       let let54DataPaperContent = JSON.parse(
         selectedPaper.let54Data.paperContent
       );
@@ -405,7 +401,6 @@ export default {
         let wkPaper = db.table('wkPaper')
         let paper8 = await wkPaper.find(item => item.paperId === let54DataPaperContent.associationPaperId.paper8Id && item.delFlag !== '1')
         let paper8PaperContent = JSON.parse(paper8.paperContent)
-        console.log('paper8PaperContent', paper8PaperContent)
         paper8num1 = paper8PaperContent.cellIdx0
         paper8num2 = paper8PaperContent.cellIdx1
         paper8num3 = paper8PaperContent.cellIdx2
@@ -458,7 +453,6 @@ export default {
         cellIdx22: let54DataPaperContent.cellIdx1, // 文书号
         cellIdx23: let54DataPaperContent.cellIdx2, // 文书号
         cellIdx24: let54DataPaperContent.cellIdx3, // 文书号
-        cellIdx25: cellIdx25String, //
         cellIdx26: orgSysOfficeInfo.courtPrefix, // 人民法院
         cellIdx29: '局', // 局
         cellIdx30: orgSysOfficeInfo.master, // 联系人
