@@ -309,6 +309,10 @@ export default {
           this.visible[type] = true
           this.multiOperationTag = true
         } else if (type === 'send') {
+          if (!navigator.onLine) {
+            this.$message.error('当前无网络，请联网后发送！')
+            return
+          }
           // 发送检查任务
           this.sendCheckItems()
         }

@@ -36,11 +36,16 @@ export default {
   },
   methods: {
     changeTab (tab) {
-      this.$router.replace({
-        name: `${tab}`
-      })
+      if (this.$route.name !== tab) {
+        this.$router.replace({
+          name: `${tab}`
+        })
+      }
     },
     async getSendPaperData () {
+      if (!navigator.onLine) {
+        return
+      }
       let {userId, userSessId} = this.$store.state.user
       await this.$http.get(`${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/api-postPaper/findAllByUserId?userId=${userId}&__sid=${userSessId}`)
         .then(async ({ data }) => {

@@ -425,6 +425,10 @@ export default {
     },
     deleteCase () {
       // 删除检查活动
+      if (!navigator.onLine) {
+        this.$message.error('需要联网才能删除，请联网后再删除！')
+        return
+      }
       if (this.selectedCase && this.selectedCase.caseId) {
         this.loading.btn = true
         this.$confirm(`是否确定删除“${this.selectedCase.corpName}”的检查活动及已保存的文书？`, '提示', {

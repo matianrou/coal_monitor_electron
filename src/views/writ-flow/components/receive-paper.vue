@@ -170,6 +170,10 @@ export default {
       this.$emit('close', {page: 'receivePaper'})
     },
     async handleRecevice (row) {
+      if (!navigator.onLine) {
+        this.$message.error('当前无网络，请联网后才能接收！')
+        return
+      }
       // 接收文书
       // 置发送的文书中isSelected为true
       row.paperContent.isSelected = true

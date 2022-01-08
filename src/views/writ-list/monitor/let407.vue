@@ -32,7 +32,7 @@
                   :show-file-list="false"
                   :on-success="handleSuccess"
                   :http-request="addFile">
-                  <el-button size="small" :loading="loading.btn">添加报告</el-button>
+                  <el-button :disabled="!navigator.onLine" size="small" :loading="loading.btn">添加报告</el-button>
                 </el-upload>
               </div>
             </div>
@@ -71,11 +71,13 @@
                   width="120">
                   <template slot-scope="scope">
                     <el-button
+                      :disabled="!navigator.onLine"
                       :loading="loading.btn"
                       type="text"
                       @click="downloadFile(scope.$index, scope.row)"
                     >下载</el-button>
                     <el-button
+                      :disabled="!navigator.onLine"
                       :loading="loading.btn"
                       type="text"
                       @click="deleteFile(scope.$index, scope.row)"
@@ -103,6 +105,7 @@ export default {
   },
   data() {
     return {
+      navigator: navigator,
       letData: {},
       options: {},
       fileList: [], // 上传文件表
@@ -122,6 +125,10 @@ export default {
       this.$emit("go-back", { page, data });
     },
     async getFileList () {
+      if (!navigator.onLine) {
+        this.$message.warning('当前无网络，请联网后才能上传、下载或删除文件！')
+        return
+      }
       // 获取文件列表
       let db = new GoDB(this.$store.state.DBName);
 	    let jczfReport = db.table('jczfReport');

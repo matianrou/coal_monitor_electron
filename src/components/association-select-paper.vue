@@ -179,6 +179,13 @@ export default {
         // 隐患整改, 影音证据,意见建议书拉取上传的文件列表
         await this.getFileList()
       }
+      if ((this.docData.docTypeNo === '43' && this.$store.state.user.userType !== 'supervision')) {
+        // 罚款收缴时如果没有网络则提示
+        if (!navigator.onLine) {
+          this.$message.warning('当前无网络，请联网后才能上传、下载或删除文件！')
+          return
+        }
+      }
     },
     handleSelectPaper () {
       this.paperList = this.selectFlowList[this.selectedIndex].paperList

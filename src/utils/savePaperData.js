@@ -281,24 +281,44 @@ export async function saveToUpload(paperId, messageShow) {
       }
     )
     .then(async ({ data }) => {
-      if (messageShow && workPaper.delFlag === '0') {
-        if (data.status === "200") {
-          // 调整为归档时提示文书上传服务器，2022.1.5建议
-          Alert.success(
-            `“${workPaper.name}”文书已经归档上传至服务器。`
-          );
-        } else {
-          Alert.error("上传至服务器请求失败，请重新归档！");
-        }
-      }
       if (workPaper.delFlag === '0') {
-        // 当保存失败时，将文书保存至库表prepareUpload
-        await savePaperToPrepareUpload(submitData)
+        // 当归档时：
+        if (data.status === "200") {
+          // 保存成功时检索云存储列表中是否有未存储数据，如果有则标记已发送成功
+          let db = new GoDB(this.DBName);
+          let prepareUpload = db.table("prepareUpload");
+          let paperData = await prepareUpload.find(item => item.paperId === this.$parent.paperId && item.isUpload === '0')
+          paperData.isUpload = '1'
+          await prepareUpload.put(paperData)
+          await db.close();
+        } else {
+          // 当保存失败时，将文书保存至库表prepareUpload
+          await savePaperToPrepareUpload(submitData)
+        }
+        if (messageShow) {
+          // 需要提示信息时：
+          if (data.status === "200") {
+            // 调整为归档时提示文书上传服务器，2022.1.5建议
+            Message.success(
+              `“${workPaper.name}”文书已经归档上传至服务器。`
+            );
+          } else {
+            Message.error({
+              message: "上传至服务器请求失败，请重新归档！",
+              showClose: true,
+              duration: 0,
+            });
+          }
+        }
       }
     })
     .catch(async (err) => {
       if (messageShow && workPaper.delFlag === '0') {
-        Alert.error("上传至服务器请求失败，请重新归档！");
+        Message.error({
+          message: "上传至服务器请求失败，请重新归档！",
+          showClose: true,
+          duration: 0,
+        });
         // 当保存失败时，将文书保存至库表prepareUpload
         await savePaperToPrepareUpload(submitData)
       }

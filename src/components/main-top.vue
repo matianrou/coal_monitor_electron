@@ -40,8 +40,6 @@
           <span>调查互动</span>
         </div>
         <div class="main-top-operation" style="margin-left: 20px;">
-          <!-- <el-button type="text" @click="logoutHandle">退出</el-button> -->
-          <!-- <img :src="activeTab === 'sendPaper' ? require('@/components/assets/image/paper-send-actived.png') : require('@/components/assets/image/paper-send.png')" class="btn-icon img-btn" title="调查互动" @click="changeTab('sendPaper')" />&nbsp; -->
           <i class="el-icon-s-promotion btn-icon" title="隐患发送" @click="sendDanger"></i>
           <!-- 消息提醒 -->
           <el-dropdown :hide-on-click="false" @command="handleCommand">
@@ -49,12 +47,18 @@
               <img src="@/components/assets/image/message.png" class="btn-icon img-btn" title="消息通知"/>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="checkList">您有{{notice.checkList.length}}条检查项任务待接收</el-dropdown-item>
+              <el-dropdown-item command="checkList">您有{{notice.checkList.length || '0'}}条检查项任务待接收</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <div style="min-width: 140px;">
-            <span style="color: #fff;">欢迎您：{{$store.state.user.userName}}</span>
-          </div>
+          <!-- 个人和更多 -->
+          <el-dropdown :hide-on-click="false" @command="handleCommand" style="min-width: 120px; cursor: pointer;">
+            <span class="el-dropdown-link">
+              <span style="color: #fff;">欢迎您：{{$store.state.user.userName}}</span>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="clearLogin">注销登录</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </div>
       </div>
       <div class="main-top-operation">
@@ -151,22 +155,37 @@ export default {
       }
       electronRequest({msgName: message})
     },
-    logoutHandle () {
-      clearLoginInfo()
-      this.$router.replace({ name: 'Login' })
-    },
     sendDanger () {
       // 隐患发送
       this.visible.sendDanger = true
     },
     handleCommand (command) {
+      if (command === 'clearLogin') {
+        // 注销登录
+        this.$confirm(`是否确定注销登录?`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.logoutHandle()
+        }).catch(() => {})
+        return
+      }
       this.visible[command] = true
     },
+    logoutHandle () {
+      clearLoginInfo()
+      this.$router.replace({ name: 'Login', params: {
+        autoLogin: false
+      }})
+    },
     async getNotice () {
-      await Promise.all([
-        this.getCheckList(),
-      ]).then(() => {
-      }).catch()
+      if (navigator.onLine) {
+        await Promise.all([
+          this.getCheckList(),
+        ]).then(() => {
+        }).catch()
+      }
     },
     async getCheckList () {
       // 获取检查任务

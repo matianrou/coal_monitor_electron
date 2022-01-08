@@ -420,6 +420,10 @@ export default {
       }
     },
     async save () {
+      if (!navigator.onLine) {
+        this.$message.error('当前无网络，请联网后发送！')
+        return
+      }
       // 确定：发送隐患
       // 先保存当前正在编辑内容
       await this.saveEditItem()

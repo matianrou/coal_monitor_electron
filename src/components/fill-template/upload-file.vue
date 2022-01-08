@@ -15,6 +15,7 @@
         :on-success="handleSuccess"
         :http-request="addFile">
         <el-button 
+          :disabled="!navigator.onLine"
           type="primary"
           size="small" 
           :loading="loading.btn"
@@ -60,12 +61,14 @@
           label="操作">
           <template slot-scope="scope">
             <el-button
+              :disabled="!navigator.onLine"
               :loading="loading.btn"
               type="text"
               @click="downloadFile(scope.$index, scope.row)"
             >下载</el-button>
             <el-button 
               v-if="options.canEdit"
+              :disabled="!navigator.onLine"
               :loading="loading.btn"
               type="text" 
               size="small" 
@@ -105,6 +108,7 @@ export default {
   },
   data() {
     return {
+      navigator: navigator,
       dataForm: {
         tempValue: {
           tableData: [],
@@ -139,6 +143,10 @@ export default {
     init () {
       // this.dataForm.tempValue = this.value
       this.getFileList()
+      if (!navigator.onLine) {
+        this.$message.error('当前无网络，请联网后才能上传、下载或删除文件！')
+        return
+      }
     },
     async getFileList () {
       // 获取文件列表
@@ -227,6 +235,10 @@ export default {
     },
     deleteFile (index, row) {
       // 删除文件
+      if (!navigator.onLine) {
+        this.$message.error('当前无网络，请联网后再删除！')
+        return
+      }
       this.loading.btn = true
       this.$confirm(`是否确定删除文件“${row.fileName}”？`, '提示', {
           confirmButtonText: '确定',

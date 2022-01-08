@@ -114,6 +114,7 @@ export function cascaderDataTranslate(data, id = 'id', pid = 'parentId') {
  * 清除登录信息
  */
 export function clearLoginInfo() {
+  Cookies.remove('token');
   store.commit('resetStore');
 }
 

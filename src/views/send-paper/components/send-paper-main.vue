@@ -294,6 +294,10 @@ export default {
       });
     },
     async handleSend (row) {
+      if (!navigator.onLine) {
+        this.$message.error('当前无网络，请联网后发送！')
+        return
+      }
       this.$confirm(`是否确认发送给${row.receiveName || ''}“${row.companyName}”的${row.paperContent.name}?`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",

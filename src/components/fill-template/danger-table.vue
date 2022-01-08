@@ -665,6 +665,10 @@ export default {
       }
     },
     handleDialog (key) {
+      if (key === 'receiveDanger' && !navigator.onLine) {
+        this.$message.error('当前无网络，请联网后接收隐患！')
+        return
+      }
       // 展示选择检查内容弹窗
       this.visible[key] = true
     },

@@ -302,7 +302,7 @@ export default {
           // 获取prepareUpload库表中是否有未上传服务器的文书，如果有则可以归档，如果无则不能保存或归档
           let db = new GoDB(this.DBName);
           let prepareUpload = db.table("prepareUpload");
-          let paperData = await prepareUpload.find(item => item.paperId === this.$parent.paperId)
+          let paperData = await prepareUpload.find(item => item.paperId === this.$parent.paperId && item.isUpload === '0')
           await db.close();
           if (paperData) {
             if (saveFlag === '2') {
@@ -332,7 +332,7 @@ export default {
         return
       }
       // 判断是否是正常流程文书，非事故类，并且是否有保存初始数据，如果有则需要对比隐患项是否有修改
-      if (this.corpData.caseType === '0' && this.$parent.letDataOragin) {
+      if (this.corpData && this.corpData.caseType === '0' && this.$parent.letDataOragin) {
         // 判断当前保存的是否为现场检查笔录1，现场处理决定书2，复查意见书13，立案决定书4，案件处理呈报书36，行政处罚告知书6，行政处罚决定书8
         let docTypeNo = this.docData.docTypeNo
         if (docTypeNo === '1' || docTypeNo === '2' || docTypeNo === '13' || docTypeNo === '4' || docTypeNo === '36' || docTypeNo === '6' || docTypeNo === '8') {
@@ -738,7 +738,10 @@ export default {
       this.$message.success(
         `“${this.docData.docTypeName}”文书本地${mes}成功。`
       );
-      await saveToUpload(paperId, true);
+      if (navigator.onLine || saveFlag === "0") {
+        // 有网络或者归档时执行保存上传服务器操作
+        await saveToUpload(paperId, true);
+      }
       if (this.docData.docTypeNo === '43') {
         // 罚款收缴时，额外发送罚款收缴数据存储
         await saveFineCollection(paperId)
@@ -1285,7 +1288,10 @@ export default {
       }
       // 添加所选数据
       await wkDanger.addMany(paperContentOld.DangerTable.selectedDangerList)
-      await saveToUpload(itemPaper.paperId, false)
+      if (navigator.onLine) {
+        // 有网络时同步上传服务器
+        await saveToUpload(itemPaper.paperId, false)
+      }
       await db.close()
     },
     closePunishmentInfoFill ({page, refresh}) {

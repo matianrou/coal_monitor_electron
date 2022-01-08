@@ -298,6 +298,10 @@ export default {
     资源下载、任务/活动创建、文书保存及归档
     ***************************************************************************** */
     async resDownload(resId) {
+      if (!navigator.onLine) {
+        this.$message.error('当前无网络，请联网后再下载！')
+        return
+      }
       let userId = this.$store.state.user.userId;
       let userSessId = this.$store.state.user.userSessId;
       let userGroupId = this.$store.state.user.userGroupId;

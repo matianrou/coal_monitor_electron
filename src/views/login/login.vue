@@ -12,7 +12,7 @@
               <span>用户登录</span>
             </div>
           </div>
-          <div style="width: 300px; margin: 0 auto;">
+          <div v-loading="loading.loginBtn" element-loading-text="正在登录，请稍后..." style="width: 300px; margin: 0 auto;">
             <div style="height: 30px;"></div>
             <div class="form-content">
               <div class="form-content-item">
@@ -28,7 +28,7 @@
               <el-checkbox v-model="recordAccount">记住登录账号</el-checkbox>
               <!-- <el-checkbox v-model="offLine">离线使用</el-checkbox> -->
             </div>
-            <div v-loading="loading.loginBtn" class="login-btn">
+            <div class="login-btn">
               <img
                 src="@/views/login/assets/login-btn-enter.jpg"
                 @click="doLogin"
@@ -63,9 +63,24 @@ export default {
     }
   },
   created() {
-    this.initAccount()
+    this.init()
   },
   methods: {
+    init () {
+      // 判断当前是否需要自动登录
+      if (!this.$route.params || this.$route.params.autoLogin !== false) {
+        // 如果路由跳转时要求可以自动登录，则判断当前是否储存了账号密码，并恢复，然后直接执行登录操作
+        if (localStorage.getItem('userAccount')) {
+          this.initAccount()
+          this.doLogin()
+        } else {
+          // 如果没有存储账号则保持在登录页面不做任何操作
+        }
+      } else {
+        // 不自动登录时返回保存的账号信息
+        this.initAccount()
+      }
+    },
     initAccount () {
       // 如果已记住登录账号则返回账号及密码
       if (localStorage.getItem('userAccount')) {
@@ -84,10 +99,69 @@ export default {
     },
     doLogin () {
       //判断是否在线
-      // if (!navigator.onLine) {
-      // 	doAlert('网络不可用，请确认设备已经联网。');
-      // 	return;
-      // }
+      if (!navigator.onLine) {
+        // 如果不在线则进行离线登录
+        // 记录离线登录标记
+        this.$store.commit('changeState', {
+          key: 'onLine',
+          val: false
+        })
+        // 进行离线登录
+        this.offLineLogin()
+      } else {
+        this.$store.commit('changeState', {
+          key: 'onLine',
+          val: true
+        })
+        // 进行在线登录
+        this.onLineLogin()
+      }
+    },
+    async offLineLogin () {
+      // 离线登录
+      if (localStorage.getItem('userAccount')) {
+        // 判断当前账号和保存的账号密码是否一致，如果一致则恢复所有user信息并登录
+        let {txtUserNo, txtPassword} = JSON.parse(localStorage.getItem('userAccount'))
+        if (Decrypt(txtUserNo) === this.dataForm.txtUserNo && Decrypt(txtPassword) === this.dataForm.txtPassword) {
+          this.loading.loginBtn = true
+          // 获取已经存储的用户信息
+          let {userId, loginName, userName, userGroupId, userAreaId, userGroupName, userNumber, userType} = JSON.parse(localStorage.getItem('userInfo')) 
+          userId = Decrypt(userId)
+          loginName = Decrypt(loginName)
+          userName = Decrypt(userName)
+          userGroupId = Decrypt(userGroupId)
+          userAreaId = Decrypt(userAreaId)
+          userGroupName = Decrypt(userGroupName)
+          userNumber = Decrypt(userNumber)
+          userType = Decrypt(userType)
+          this.$store.state.user.userId = userId
+          this.$store.state.user.loginName = loginName
+          this.$store.state.user.userName = userName
+          this.$store.commit('changeState', {
+            key: 'DBName',
+            val: userId
+          })
+          this.$store.state.user.userType = userType
+          this.$store.state.user.userGroupId = userGroupId
+          this.$store.state.user.userAreaId = userAreaId
+          this.$store.state.user.userGroupName = userGroupName
+          this.$store.state.user.userNumber = userNumber
+          await this.setDB(userId)
+          this.loading.loginBtn = false
+          this.$message.warning('当前为离线，部分功能无法使用！')
+          this.$router.replace({
+            name: 'CalmineElectronMain',
+          })
+        } else {
+          // 如果不一致则提示当前没有网络，切换账号需要在有网络的环境，提示登录失败
+          this.$message.error('当前账号未存储，不可离线登录！')
+        }
+      } else {
+        this.$message.error('当前账号未存储，不可离线登录！')
+      }
+    },
+    onLineLogin () {
+      // 在线登录
       // 如果已勾选记住登录账号：
       if (this.recordAccount) {
         // 保存当前账号至LocalStoreage
@@ -98,6 +172,9 @@ export default {
       } else {
         if (localStorage.getItem('userAccount')) {
           localStorage.removeItem('userAccount')
+        }
+        if (localStorage.getItem('userInfo')) {
+          localStorage.removeItem('userInfo')
         }
       }
       //登录
@@ -116,8 +193,6 @@ export default {
             this.$store.state.user.userName = data.name
             this.$store.state.user.userSessId = sessId
             //获取用户信息
-            // 最大化窗口
-            electronRequest({msgName: 'window-max'});
             // 设置系统读取数据库
             this.$store.commit('changeState', {
               key: 'DBName',
@@ -127,13 +202,30 @@ export default {
             await this.getUserType(userId, sessId)
             await this.getUserInfo(userId, sessId)
             await this.setDB(userId)
+            if (this.recordAccount) {
+              // 保存所有用户数据至localStorage中，用于在离线操作时使用
+              let {loginName, userName, userGroupId, userAreaId, userGroupName, userNumber, userType} = this.$store.state.user
+              let userId1 = Encrypt(userId)
+              loginName = Encrypt(loginName)
+              userName = Encrypt(userName)
+              userGroupId = Encrypt(userGroupId)
+              userAreaId = Encrypt(userAreaId)
+              userGroupName = Encrypt(userGroupName)
+              userNumber = Encrypt(userNumber)
+              userType = Encrypt(userType)
+              localStorage.setItem('userInfo', JSON.stringify({userId: userId1, loginName, userName, userGroupId, userAreaId, userGroupName, userNumber, userType}))
+            }
+            this.loading.loginBtn = false
+            this.$message.success('在线登录成功！')
             this.$router.replace({
               name: 'CalmineElectronMain',
             })
+            // 最大化窗口
+            electronRequest({msgName: 'window-max'});
           } else {
             this.$message.error(data.message)
+            this.loading.loginBtn = false
           }
-          this.loading.loginBtn = false
         }).catch(err => {
           console.log('登录请求失败：', err)
           this.loading.loginBtn = false
@@ -154,14 +246,15 @@ export default {
             this.$store.state.user.userType = userType
           } else {
             this.$message.error('获取用户信息失败，请重新登录！')
-            this.$router.replace({
-              name: 'Login',
-            })
+            this.$router.replace({name: 'Login', params: {
+              autoLogin: false
+            }})
           }
         }).catch(err => {
-          this.$router.replace({
-            name: 'Login',
-          })
+          this.$router.replace({name: 'Login', params: {
+            autoLogin: false
+          }})
+          this.$message.error('获取用户信息失败，请重新登录！')
           console.log('获取用户为监管或监察失败：', err)
         })
     },
@@ -171,22 +264,26 @@ export default {
         path = '/sv'
       }
       await this.$http.get(`${path}/local/user/info?__sid=${sessId}&userId=${userId}`).then(({ data }) => {
-        this.$store.state.user.userGroupId = data.data.groupId
-        this.$store.state.user.userAreaId = data.data.areaId
-        this.$store.state.user.userGroupName = data.data.groupName
-        // 获取个人执法编号
-        // 有网络时，直接使用接口返回的数据
-        this.$store.state.user.userNumber = data.data.userNumber
+        if (data && data.status === '200') {
+          this.$store.state.user.userGroupId = data.data.groupId
+          this.$store.state.user.userAreaId = data.data.areaId
+          this.$store.state.user.userGroupName = data.data.groupName
+          // 获取个人执法编号
+          // 有网络时，直接使用接口返回的数据
+          this.$store.state.user.userNumber = data.data.userNumber
+        } else {
+          this.$message.error('获取用户信息失败，请重新登录！')
+          this.$router.replace({name: 'Login', params: {
+            autoLogin: false
+          }})
+        }
       }).catch(err => {
+        this.$router.replace({name: 'Login', params: {
+          autoLogin: false
+        }})
+        this.$message.error('获取用户信息失败，请重新登录！')
         console.log('获取用户信息失败：', err)
       })
-        // 获取个人执法编号
-      // 当前没有网络的情况下，从本地库中获取：
-      // let db = new GoDB(this.$store.state.DBName);
-      // let person = db.table("person")
-      // let userInfo = await person.find(item => item.no === userId)
-      // this.$store.state.user.userNumber = userInfo ? userInfo.userNumber : ''
-      // await db.close()
     },
     async setDB (userId) {
       // 校验是否存在数据库

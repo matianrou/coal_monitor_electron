@@ -123,6 +123,7 @@
                       :on-success="handleSuccess"
                       :http-request="(param) => addFile(param, scope)">
                       <el-button 
+                        :disabled="!navigator.onLine"
                         size="small" 
                         :loading="loading.btn"
                         type="primary"
@@ -176,11 +177,13 @@
                   width="120">
                   <template slot-scope="scope">
                     <el-button
+                      :disabled="!navigator.onLine"
                       :loading="loading.btn"
                       type="text"
                       @click="downloadFile(scope.$index, scope.row)"
                     >下载</el-button>
                     <el-button
+                      :disabled="!navigator.onLine"
                       :loading="loading.btn"
                       type="text"
                       @click="deleteFile(scope.$index, scope.row)"
@@ -216,6 +219,7 @@ export default {
   },
   data() {
     return {
+      navigator: navigator,
       letData: {
         tableData: [], // 罚款收缴表
       },

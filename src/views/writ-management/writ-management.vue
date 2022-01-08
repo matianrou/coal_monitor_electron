@@ -256,6 +256,10 @@ export default {
       // await db.close()
     },
     async handleDelete (row) {
+      if (!navigator.onLine) {
+        this.$message.error('当前无网络，请联网后删除文书！')
+        return
+      }
       // 删除文书 判断是否已归档，如果已归档则不可删除
       this.loading.btn = true
       this.$confirm(`是否确认删除${row.name}?`, '提示', {
