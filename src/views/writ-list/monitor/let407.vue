@@ -175,7 +175,7 @@ export default {
           "createDate": obj.createDate,
           "createBy": obj.createBy.id,
           "updateDate": obj.updateDate,
-          "updateBy": obj.updateBy.id,
+          "updateBy": obj.updateBy ? obj.updateBy.id : '',
           "delFlag": obj.delFlag,
           "remark": obj.remark,
           "paperId": obj.paperId, 

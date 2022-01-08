@@ -88,13 +88,20 @@
               <span @click="commandFill('cellIdx10', '违法行为', 'TextareaItem')">{{
                 letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
               }}</span>
-              立案调查，在调查中发现其违法事实涉嫌构成犯罪，根据《行政执法机关移送涉嫌犯罪案件的规定》第<span class="text-decoration">三</span>条以及
+              立案调查，在调查中发现其违法事实涉嫌构成犯罪，根据《行政执法机关移送涉嫌犯罪案件的规定》第<span class="text-decoration">三</span>条第
+              <span
+                @click="commandFill('cellIdx26', '第X款', 'TextItem')"
+                >{{
+                  letData.cellIdx26 ? letData.cellIdx26 : "（编辑）"
+                }}
+              </span>
+              款以及
               <span
                 @click="commandFill('cellIdx11', '法律规定', 'TextareaItem')"
                 >{{
                   letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）"
-                }}</span
-              >
+                }}
+              </span>
               规定，现移送贵单位，请审查决定是否予以立案侦查。
             </div>
             <table class="docBody">
@@ -257,6 +264,7 @@ export default {
         cellIdx8: null, // 月
         cellIdx9: null, // 日
         cellIdx10: null, // 违法行为
+        cellIdx26: null, // 第X款
         cellIdx11: null, // 法律规定
         cellIdx12: null, // 份数
         cellIdx13: null, // 页数

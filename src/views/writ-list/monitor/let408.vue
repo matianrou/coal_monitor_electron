@@ -158,7 +158,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber2 } from "@/utils/setInitPaperData";
+import { getDocNumber2, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from '@/components/association-select-paper'
 
 export default {
@@ -206,11 +206,25 @@ export default {
       );
       // 2.获取立案决定书案由
       let let4DataPaperContent = JSON.parse(selectedPaper.let4Data.paperContent);
+      let DangerTable = null
+      if (this.corpData.caseType === '0') {
+        DangerTable = let4DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let4Data, let4DataPaperContent.DangerTable)
+          : {}
+      }
       await db.close();
       this.letData = Object.assign({}, this.letData, {
         cellIdx1: paperNumber,
         cellIdx2: let4DataPaperContent.cellIdx4, // 案由
         cellIdx5: let4DataPaperContent.cellIdx5, // 案由
+        DangerTable,
+        associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
+          paper22Id: let4DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: let4DataPaperContent.associationPaperId.paper1Id,
+          paper6Id: selectedPaper.let4Data.paperId,
+        } : {
+          paper6Id: selectedPaper.let4Data.paperId,
+        }
       })
     },
     goBack({ page, data }) {

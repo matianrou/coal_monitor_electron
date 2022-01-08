@@ -29,7 +29,7 @@
                   <br />执法单位
                 </td>
                 <td
-                  style="width: 124mm; height: 30mm"
+                  style="width: 124mm; height: 30mm; word-break: break-all; display: table-cell; vertical-align: middle;"
                   class="cellInput cellBottomLine textPaddingLeft"
                   id="cell_idx_0"
                   data-title="执法单位"
@@ -42,14 +42,14 @@
               </tr>
               <tr style="height: 5cm">
                 <td
-                  style="width: 30mm; height: 50mm"
+                  style="width: 30mm; height: 50mm;"
                   class="textAlignCenter cellBottomLine cellRightLine"
                 >
                   <br />
                   <br />案卷类别
                 </td>
                 <td
-                  style="width: 124mm; height: 50mm"
+                  style="width: 124mm; height: 50mm; word-break: break-all; display: table-cell; vertical-align: middle;"
                   class="cellInput cellBottomLine textPaddingLeft"
                   id="cell_idx_1"
                   data-title="案卷类别"
@@ -72,7 +72,7 @@
                   <br />案卷题名
                 </td>
                 <td
-                  style="width: 124mm; height: 120mm"
+                  style="width: 124mm; height: 120mm; word-break: break-all; display: table-cell; vertical-align: middle;"
                   class="cellInput textPaddingLeft"
                   id="cell_idx_2"
                   data-title="案卷题名"
@@ -471,7 +471,16 @@ export default {
         for (let i = 0; i < allPaper.length; i++) {
           let item = allPaper[i]
           // 获取文号字段
-          let number = getCurPaperDocNumber(item)
+          let number = ''
+          if (item.paperType === '55' || item.paperType === '49' || item.paperType === '36') {
+            // 以下文书为单字段文书号：取得字段都是cellIdx1
+            // 行政执法有关事项审批报告/行政执法决定法制审核意见书/案件处理呈报书
+            let paperContent = JSON.parse(item.paperContent) 
+            number = paperContent.cellIdx1
+          } else {
+            // 其他文书为组合式文书号
+            number = getCurPaperDocNumber(item)
+          }
           // 获取日期字段
           let createDate = ''
           if (item.createDate) {

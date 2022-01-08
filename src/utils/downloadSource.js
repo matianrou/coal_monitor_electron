@@ -725,7 +725,7 @@ async function docFileListDb(resId, data){
 			"name": obj.name,
 			"createBy": obj.createBy.id,
 			"createDate": obj.createDate,
-			"updateBy": obj.updateBy.id,
+			"updateBy": obj.updateBy ? obj.updateBy.id : '',
 			"updateDate": obj.updateDate,
 			"delFlag": obj.delFlag,
 			"remark": obj.remark,
@@ -775,7 +775,7 @@ async function docFileListDb(resId, data){
 			"name": obj.name,
 			"createBy": obj.createBy.id,
 			"createDate": obj.createDate,
-			"updateBy": obj.updateBy.id,
+			"updateBy": obj.updateBy ? obj.updateBy.id : '',
 			"updateDate": obj.updateDate,
 			"delFlag": obj.delFlag,
 			"remark": obj.remark,
@@ -800,7 +800,7 @@ async function docFileListDb(resId, data){
 			"name": obj.name,
 			"createBy": obj.createBy.id,
 			"createDate": obj.createDate,
-			"updateBy": obj.updateBy.id,
+			"updateBy": obj.updateBy ? obj.updateBy.id : '',
 			"updateDate": obj.updateDate,
 			"delFlag": obj.delFlag,
 			"remark": obj.remark,
@@ -838,7 +838,7 @@ async function docFileListDb(resId, data){
 			"groupName": obj.groupName,
 			"createBy": obj.createBy.id,
 			"createDate": obj.createDate,
-			"updateBy": obj.updateBy.id,
+			"updateBy": obj.updateBy ? obj.updateBy.id : '',
 			"updateDate": obj.updateDate,
 			"remark": obj.remark,
 			"delFlag": obj.delFlag,
@@ -866,7 +866,7 @@ async function docFileListDb(resId, data){
 			"createDate": obj.createDate,
 			"createBy": obj.createBy.id, //
 			"updateDate": obj.updateDate, //
-			"updateBy": obj.updateBy.id, //
+			"updateBy": obj.updateBy ? obj.updateBy.id : '', //
 			"delFlag": obj.delFlag, // 
 			"remark": obj.remark, // 接口无
 			"paperId": obj.paperId, // 接口无

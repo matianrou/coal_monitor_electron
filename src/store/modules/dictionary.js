@@ -515,6 +515,30 @@ export default {
         paperNumberFields: ['cellIdx1', 'cellIdx2', 'cellIdx3', 'cellIdx4']
       },
       {
+        docTypeNo: '46', // 延长查封（扣押）期限决定书let114
+        selectedType: '查封',
+        docString: '延查',
+        paperNumberFields: ['cellIdx1', 'cellIdx2', 'cellIdx4', 'cellIdx5']
+      },
+      {
+        docTypeNo: '46', // 延长查封（扣押）期限决定书let114
+        selectedType: '扣押',
+        docString: '延扣',
+        paperNumberFields: ['cellIdx1', 'cellIdx2', 'cellIdx4', 'cellIdx5']
+      },
+      {
+        docTypeNo: '47', // 查封（扣押）处理决定书let115
+        selectedType: '查封',
+        docString: '查处',
+        paperNumberFields: ['cellIdx1', 'cellIdx2', 'cellIdx4', 'cellIdx5']
+      },
+      {
+        docTypeNo: '47', // 查封（扣押）处理决定书let115
+        selectedType: '扣押',
+        docString: '扣处',
+        paperNumberFields: ['cellIdx1', 'cellIdx2', 'cellIdx4', 'cellIdx5']
+      },
+      {
         docTypeNo: '34', // 解除查封（扣押）决定书let111
         selectedType: '查封',
         docString: '解查',
@@ -524,6 +548,11 @@ export default {
         docTypeNo: '34', // 解除查封（扣押）决定书
         selectedType: '扣押',
         docString: '解扣',
+        paperNumberFields: ['cellIdx1', 'cellIdx2', 'cellIdx4', 'cellIdx5']
+      },
+      {
+        docTypeNo: '48', // 停供电(停供民用爆炸物品)决定书let111
+        docString: '停决',
         paperNumberFields: ['cellIdx1', 'cellIdx2', 'cellIdx4', 'cellIdx5']
       },
       {
@@ -569,6 +598,26 @@ export default {
       {
         docTypeNo: '29', // 不予受理听证申请通知书let210
         docString: '不听',
+        paperNumberFields: ['cellIdx0', 'cellIdx1', 'cellIdx2', 'cellIdx3']
+      },
+      {
+        docTypeNo: '51', // 罚款缴纳催告书let217
+        docString: '催缴',
+        paperNumberFields: ['cellIdx0', 'cellIdx1', 'cellIdx2', 'cellIdx3']
+      },
+      {
+        docTypeNo: '52', // 加处罚款决定书let218
+        docString: '加罚',
+        paperNumberFields: ['cellIdx0', 'cellIdx1', 'cellIdx2', 'cellIdx3']
+      },
+      {
+        docTypeNo: '53', // 延期（分期）缴纳罚款决定书let219
+        docString: '缴决',
+        paperNumberFields: ['cellIdx1', 'cellIdx2', 'cellIdx3', 'cellIdx4']
+      },
+      {
+        docTypeNo: '54', // 行政强制执行事先催告书let309
+        docString: '催告',
         paperNumberFields: ['cellIdx0', 'cellIdx1', 'cellIdx2', 'cellIdx3']
       },
       {

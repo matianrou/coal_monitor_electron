@@ -85,6 +85,7 @@
 import GoDB from "@/utils/godb.min.js";
 import { getNowFormatTime, getNowTime } from '@/utils/date'
 import { randomString } from "@/utils/index";
+import { saveAs } from 'file-saver'
 export default {
   name: "UploadFile",
   props: {
@@ -153,6 +154,7 @@ export default {
       let db = new GoDB(this.$store.state.DBName);
 	    let paperAttachment = db.table('paperAttachment');
       let list = await paperAttachment.findAll(item => item.delFlag !== '1')
+      console.log('list', list)
       this.dataForm.tempValue.tableData = await paperAttachment.findAll(item => item.paperId === this.options.paperId && item.delFlag !== '1')
       await db.close()
     },
@@ -175,6 +177,7 @@ export default {
       let addFileList = []
       let db = new GoDB(this.$store.state.DBName);
 	    let paperAttachment = db.table('paperAttachment');
+      console.log('newFileList', newFileList)
       for (let i = 0; i < newFileList.length; i++) {
         let obj = newFileList[i];
         let item = await paperAttachment.get({ id: obj.id });
@@ -192,7 +195,7 @@ export default {
           "groupName": obj.groupName,
           "createBy": obj.createBy.id,
           "createDate": obj.createDate,
-          "updateBy": obj.updateBy.id,
+          "updateBy": obj.updateBy ? obj.updateBy.id : '',
           "updateDate": obj.updateDate,
           "remark": obj.remark,
           "delFlag": obj.delFlag,
@@ -228,8 +231,8 @@ export default {
           } else {
             this.$message.error('文件上传失败，请重新尝试！')
           }
-        })
-        .catch((err) => {
+        }).catch((err) => {
+          this.$message.error('文件上传失败，请重新尝试！')
           console.log("上传至服务器请求失败：", err);
         });
     },
@@ -280,6 +283,22 @@ export default {
       document.body.appendChild(link)
       link.click()
     },
+    // async downloadFile (index, row) {
+    //   const url = `${process.env.FILE_URL}${row.filePath}`
+    //   const response = await fetch(url, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json"
+    //     },
+    //     body: JSON.stringify(this.form),
+    //     credentials: "include",
+    //     mode: "cors"
+    //   });
+    //   const blob = await response.blob();
+    //   saveAs(
+    //     blob,
+    //   );
+    // },
     async handleSuccess(res, file, fileList) {
       await this.updateFileList()
       await this.getFileList()
