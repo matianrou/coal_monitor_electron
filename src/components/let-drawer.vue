@@ -17,11 +17,7 @@
       direction="rtl"
       :before-close="handleClose"
       :wrapperClosable="false"
-      :size="selectedData.type === 'CheckTable' || selectedData.type === 'DangerTable' 
-        || selectedData.type === 'SamplingForensicsTable' 
-        || selectedData.type === 'VolumesMenuTable' 
-        || selectedData.type === 'UploadFile'
-        ? '80%' : '400px'">
+      :size="drawerSize">
       <div class="let-drawer-main">
         <div class="let-drawer-component">
           <component
@@ -127,6 +123,19 @@ export default {
         show = true
       }
       return show
+    },
+    drawerSize () {
+      let size = ''
+      let type = this.selectedData.type
+      if (type=== 'CheckTable' || type === 'SamplingForensicsTable' 
+        || type === 'VolumesMenuTable' || type === 'UploadFile') {
+        size = '80%'
+      } else if (type === 'DangerTable') {
+        size = '90%'
+      } else {
+        size = '500px'
+      }
+      return size
     }
   },
   created() {

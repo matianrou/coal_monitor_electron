@@ -948,8 +948,10 @@ export default {
             options
           )
         );
-        // 再次打开编辑窗以更新数据
-        this.commandFill(key, dataKey, title, type, value, options)
+        if (key === 'TextItem' || key === 'DaterangeItem' || key === 'TextareaItem' || key === 'DateItem' || key === 'DatetimeItem' || key === 'SelectItem' || key === 'SelectInputItem' || key === 'DangerTextareaItem' || key === 'SelectPersonItem') {
+          // 不弹出的编辑重新打开编辑窗口以更新数据
+          this.commandFill(key, dataKey, title, type, value, options)
+        }
       }
       if (!params.direct) {
         // 不是直接在编辑区域保存的则关闭弹窗

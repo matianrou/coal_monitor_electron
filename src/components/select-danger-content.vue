@@ -5,7 +5,8 @@
     :close-on-click-modal="false"
     append-to-body
     :visible="visible"
-    width="650px"
+    top="5vh"
+    width="70%"
     @close="close"
   >
     <div
@@ -78,6 +79,7 @@
             show-checkbox
             :default-checked-keys="defaultCheckedKeys"
             :filter-node-method="filterNode"
+            :check-on-click-node="true"
             @check="checkFunctionAuthorization"
           >
             <span
@@ -343,7 +345,7 @@ export default {
 <style lang="scss" scoped>
 .select-danger {
   display: flex;
-  height: 300px;
+  height: 70vh;
   flex-direction: column;
   .select-danger-filter {
     display: flex;
