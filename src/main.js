@@ -10,7 +10,9 @@ import http from '@/utils/http'
 import cloneDeep from 'lodash/cloneDeep'
 import Print from '@/utils/print'
 import cellLine from '@/components/cell-line'
+import Contextmenu from "vue-contextmenujs"
 
+Vue.use(Contextmenu);
 Vue.use(ElementUI)
 Vue.use(Print)
 Vue.config.productionTip = false

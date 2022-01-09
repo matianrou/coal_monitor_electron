@@ -12,6 +12,7 @@
           placeholder="请选择新建文书"
           size="small"
           clearable
+          filterable
           @change="createPaper">
           <el-option
             v-for="item in $store.state.dictionary.monitorPaperType"
@@ -396,6 +397,7 @@
                     />
                     <span
                       @click="cmdEditDoc('let100', '检查方案', '22')"
+                      @contextmenu.prevent="event => onContextmenu(event, '22')"
                       class="flow-span"
                       >检查方案</span
                     >
@@ -2379,18 +2381,27 @@
       :danger-list="showDangerList"
       @close="closeDialog"
     ></show-danger-items>
+    <select-delete-paper
+      :visible="visible.selectDelPaper"
+      :paperList="deletePaperList"
+      @close="closeDialog"
+      @confirm="confirmDelete"
+    ></select-delete-paper>
   </div>
 </template>
 
 
 <script>
+import GoDB from "@/utils/godb.min.js";
 import receivePaper from "@/views/writ-flow/components/receive-paper";
 import showDangerItems from '@/components/show-danger-items'
+import selectDeletePaper from "@/views/writ-flow/components/select-delete-paper";
 export default {
   name: "WritFlow",
   components: {
     receivePaper,
-    showDangerItems
+    showDangerItems,
+    selectDeletePaper
   },
   props: {
     corpData: {
@@ -2425,10 +2436,15 @@ export default {
       activeFlowTab: "flow-1",
       visible: {
         receivePaper: false,
-        showDangerItems: false
+        showDangerItems: false,
+        selectDelPaper: false, // 选择要删除的文书
       },
       showDangerList: [], // 展示隐患项列表详情的数据
       createdSelectedPaper: null, // 选中的需要新建的文书Id
+      loading: {
+        btn: false,
+      },
+      deletePaperList: [], // 可删除的文书列表
     };
   },
   created() {
@@ -2550,6 +2566,105 @@ export default {
         item.orgPenalty = item.selectedType === '单位' ? (item.penaltyDescFine ? item.penaltyDescFine / 10000 : 0) : ''
       }
       this.showDangerList = showDangerList
+    },
+    onContextmenu(event, paperType) {
+      this.$contextmenu({
+        items: [
+          {
+            label: "删除",
+            onClick: () => {
+              this.delPaper(paperType)
+            }
+          },
+        ],
+        event, // 鼠标事件信息
+        customClass: "custom-class", // 自定义菜单 class
+        zIndex: 3, // 菜单样式 z-index
+        minWidth: 60 // 主菜单最小宽度
+      });
+      return false;
+    },
+    async delPaper (paperType) {
+      if (!navigator.onLine) {
+        this.$message.error('当前无网络，请联网后删除文书！')
+        return
+      }
+      // 删除文书 判断是否已归档，如果已归档则不可删除
+      this.loading.btn = true
+      // 获取要删除的文书：
+      let db = new GoDB(this.$store.state.DBName)
+      let wkPaper = db.table('wkPaper')
+      let curPaper = []
+      curPaper = await wkPaper.findAll(item => item.paperType === paperType && item.caseId === this.corpData.caseId && item.delFlag === '2')
+      await db.close()
+      if (curPaper.length === 0) {
+        // 如果没有文书则提示没有可以删除的文书，请制作文书
+        this.$message.error('没有可以删除的文书，请制作文书!')
+      } else if (curPaper.length === 1) {
+        // 当只有一个文书时则直接提示删除
+        await this.$confirm(`是否确认删除${curPaper[0].name}?`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          dangerouslyUseHTMLString: true,
+          type: 'warning'
+        }).then(async () => {
+          // 删除文书
+          await this.confirmDeletePaper(curPaper[0])
+          // 更新当前文书流程页面
+          await this.$parent.showDocTemplet()
+        }).catch(() => {
+        })
+      } else {
+        // 当有多个文书的时候，打开弹窗选择要删除的文书
+        this.deletePaperList = curPaper
+        this.visible.selectDelPaper = true
+      }
+      this.loading.btn = false
+    },
+    async confirmDelete (paperList) {
+      this.loading.btn = true
+      this.visible.selectDelPaper = false
+      // 遍历删除每个文书
+      for (let i = 0; i < paperList.length; i++) {
+        await this.confirmDeletePaper(paperList[i])
+      }
+      // 更新当前文书流程页面
+      await this.$parent.showDocTemplet()
+      this.loading.btn = false
+    },
+    async confirmDeletePaper (curPaper) {
+      await this.$http.get(`/sv/local/jczf/delPaperByPaperId?__sid=${this.$store.state.user.userSessId}&paperId=${curPaper.paperId}`)
+        .then(async ({ data }) => {
+          if (data.status === "200") {
+            // 删除成功后，从本地数据库中删除
+            let db = new GoDB(this.$store.state.DBName)
+            // 删除文书
+            let wkPaper = db.table('wkPaper')
+            let paperData = await wkPaper.find(item => item.paperId === curPaper.paperId)
+            let data = paperData
+            data.delFlag = '1'
+            await wkPaper.put(data)
+            // 删除对应隐患
+            let wkDanger = db.table('wkDanger')
+            let dangerList = await wkDanger.findAll(item => item.paperId === curPaper.paperId)
+            if (dangerList && dangerList.length > 0) {
+              dangerList.map(async (danger) => {
+                let dangerData = danger
+                dangerData.delFlag = '1'
+                await wkDanger.put(dangerData)
+              })
+            }
+            await db.close()
+            this.$message.success('文书删除成功！')
+          } else {
+            this.$message.error('删除文书失败，请再次尝试')
+          }
+        })
+        .catch((err) => {
+          this.$message.error('删除文书失败，请再次尝试')
+          console.log('删除文书失败:', err)
+        });
+      
     }
   },
 };

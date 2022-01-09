@@ -252,7 +252,7 @@ export default {
           return item.caseId === this.caseData.caseId && item.delFlag !== '1'
         });
         checkLetList.sort(sortbyAsc('updateDate'))
-        this.flowStatus = {}
+        let flowStatus = {}
         this.showJczfReport = false
         this.dangerStatus = {
           danger1: [],
@@ -287,7 +287,7 @@ export default {
                 }
               }
             }
-            this.$set(this.flowStatus, `paper${item.paperType}`, status)
+            flowStatus[`paper${item.paperType}`] = status
             // 判断是否需要展示监察执法报告环节
             if (item.paperType === '22') {
               let paperContent = JSON.parse(item.paperContent) 
@@ -300,9 +300,10 @@ export default {
           let jczfReport = db.table('jczfReport');
           let fileList = await jczfReport.findAll(item => item.caseId === this.caseData.caseId && item.delFlag !== '1')
           if (fileList.length > 0) {
-            this.$set(this.flowStatus, `paper45`, 'save')
+            flowStatus[`paper45`] = 'save'
           }
         }
+        this.$set(this, 'flowStatus', flowStatus)
       } else {
         this.$message.error('无此企业信息，请核实数据')
         this.changePage({page: 'empty'})
