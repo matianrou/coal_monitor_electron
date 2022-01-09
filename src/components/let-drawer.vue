@@ -167,8 +167,9 @@ export default {
         this.$emit('handle-close')
       }
     },
-    async handleSave (direct = false) {
+    async handleSave (direct = false, dangerContentMerge = false) {
       // *direct是否直接保存，不关闭（主要处理普通文本框直接在编辑区域修改）
+      // *dangerContentMerge为隐患项是否隐患合并，如果为true则需要隐患合并，默认为false
       // 保存数据
       if (this.selectedData.type === 'DangerTable') {
         // this.$refs[this.selectedData.type].$refs.dataForm.validate(validate => { // 如果未选择隐患项就保存此处会报错，暂时去掉此校验，后期修改逻辑
@@ -188,6 +189,9 @@ export default {
             }
             if (indexString.length > 0 ) indexString = indexString.substring(0, indexString.length -1)
             if (isSave) {
+              // 隐患项点击保存时
+              // 置隐患合并标记为false
+              this.$refs[this.selectedData.type].dataForm.tempValue.dangerContentMerge = dangerContentMerge
               if (this.docData.docTypeNo === '1') {
                 // 现场检查记录时增加保存逻辑：如果所有隐患项均未勾选隐患复查和重大隐患项，则提示：
                 // 是否有复查

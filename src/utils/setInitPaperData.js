@@ -60,7 +60,7 @@ export async function getDocNumber2(db, docTypeNo, caseId) {
   let wkCase = db.table("wkCase")
   let caseInfo = await wkCase.find(item => item.caseId === caseId)
   let caseSn = caseInfo ? caseInfo.caseSn : ''
-  return curYear + caseSn
+  return curYear + '-' + caseSn
 }
 
 // 获取已存在的文书的文书编号
@@ -191,8 +191,29 @@ export function getDangerContentWithoutPointHasIndex (tableData, replaceString =
   return dangerString
 }
 
-// 去掉句号形式返回的penaltyBasis行政处罚依据和行政处罚决定的字符串
+// 去掉句号形式返回的penaltyBasis行政处罚依据和penaltyDesc行政处罚决定的字符串
 // replaceString为句号可替换成其他的字符，如、，；等
+// 无序号
+export function getDangerPenaltyBasisWithoutPoint(tableData, replaceString = '') {
+  let dangerString = ''
+  for (let i = 0; i < tableData.length; i++) {
+    let item = tableData[i]
+    if (item.penaltyDesc && item.penaltyDesc[item.penaltyDesc.length - 1] === '。') {
+      // 如果有。句号则去掉句号
+      dangerString += item.penaltyBasis + item.penaltyDesc.substring(0, item.penaltyDesc.length - 1) + replaceString
+    } else {
+      dangerString += (item.penaltyBasis || '') + (item.penaltyDesc || '')
+    }
+  }
+  if (dangerString[dangerString.length - 1] === replaceString) {
+    dangerString = dangerString.substring(0, dangerString.length - 1)
+  }
+  return dangerString
+}
+
+// 去掉句号形式返回的penaltyBasis行政处罚依据和penaltyDesc行政处罚决定的字符串
+// replaceString为句号可替换成其他的字符，如、，；等
+// 有序号
 export function getDangerPenaltyBasisWithoutPointHasIndex (tableData, replaceString = '') {
   let dangerString = ''
   for (let i = 0; i < tableData.length; i++) {

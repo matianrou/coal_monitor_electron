@@ -21,7 +21,6 @@
             <div class="docTextarea">
               &nbsp;&nbsp;&nbsp;&nbsp;主要内容：案由；行政相对人基本情况；案发时间及地点；主要违法事实、立案调查及审理情况；行政处罚执行情况；结案理由。
             </div>
-            <table height="30"></table>
             <div class="docTextarea">
               <div style="display:inline-block;min-width:47%">
                 <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;承办人意见：</span>
@@ -38,8 +37,7 @@
                 letData.cellIdx3 ? letData.cellIdx3 : "（编辑）"
               }}</span>
               <div class="line"></div>
-              <div class="line1"></div>
-            </div>
+              </div>
             <div class="docTextarea">
               <div style="display:inline-block;min-width:47%">
                 <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;审批人意见：</span>
@@ -102,8 +100,9 @@
 <script>
 // import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, getDangerContentWithoutPointHasIndex, getDangerPenaltyDescWithoutPoint, corpInformation } from "@/utils/setInitPaperData";
+import { setNewDanger, getCurPaperDocNumber, getDangerPenaltyDescWithoutPoint, corpInformation } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
+import { setDangerTable } from '@/utils/handlePaperData'
 export default {
   name: "Let213",
   mixins: [associationSelectPaper],
@@ -121,6 +120,7 @@ export default {
         cellIdx8: null, // 日期
         cellIdx9: null, // 暂不用
         cellIdx10: null, // 暂不用
+        DangerTable: null,
         associationPaperId: null
       },
       options: {},
@@ -140,7 +140,7 @@ export default {
           selectedPaper.let4Data.paperContent
         );
         // 1.案由：带入形成处罚决定书中案由
-        let string1 = `    一、案由：${let4DataPaperContent.cellIdx4}案。\r\n`;
+        let string1 = `    一、案由：${let4DataPaperContent.cellIdx4}\r\n`;
         // 2.行政相对人基本情况:带入检查方案煤矿基本信息
         // 获取检查方案Paper
         let paper22 = await wkPaper.find(paper => {
@@ -178,10 +178,13 @@ export default {
           && paper.paperId === let4DataPaperContent.associationPaperId.paper1Id
         })
         let paper1PaperContent = JSON.parse(paper1.paperContent)
-        let dangerObject = getDangerObject(
-          paper1PaperContent.DangerTable.selectedDangerList
+        // 违法违规行为
+        let cellIdx5String = setDangerTable(let4DataPaperContent.DangerTable, {}, {
+            page: "14",
+            key: "cellIdx5",
+          }
         );
-        let string5 = `    五、主要违法事实：${paper1PaperContent.cellIdx2 || '20XX年XX月XX日至XX月XX日'}，${this.$store.state.curCase.provinceGroupName || '国家矿山安全监察局XX局'}监察员${p22checkName || 'XXX、XXX、XXX……'}按照监察执法计划，依法对${corp.corpName || 'XX公司XX煤矿'}进行现场检查时,发现该矿${dangerObject.dangerString || 'XX采煤工作面回风巷风流中瓦斯浓度达1.2%，未停止作业'}，涉嫌违法违规。\r\n`;
+        let string5 = `    五、主要违法事实：${paper1PaperContent.cellIdx1 || '20XX年XX月XX日至XX月XX日'}，${this.$store.state.curCase.provinceGroupName || '国家矿山安全监察局XX局'}监察员${p22checkName || 'XXX、XXX、XXX……'}等监察员按照监察执法计划，依法对${corp.corpName || 'XX公司XX煤矿'}进行现场检查时,发现该矿${cellIdx5String || 'XX采煤工作面回风巷风流中瓦斯浓度达1.2%，未停止作业'}，该行为涉嫌违法。\r\n`;
         // 6，	立案调查及审理情况：
         // 立案时间+“经”+机构名称+“负责人批准，决定对该涉嫌违法行为进行立案调查，并指定由、两名执法人员承办。案件承办人对进行调查取证，制作了调查取证笔录，收集了该矿违法违规行为的其他证据材料。
         // 经调查取证，案件承办人认定违法事实清楚，分别违反了”+违法认定法条+“建议分别依据”+行政处罚依据+“拟分别给予”+行政处罚决定+呈报书制作时间+“，经法制审核，认为案件事实清楚、证据确凿充分、定性准确、处罚适当、程序合法，同意处罚意见。案件承办人将处罚建议呈报给分管副局长XXX、局长张晓彤审批，经分局局长办公会集体研究，同意案件承办人处罚意见。”
@@ -204,23 +207,40 @@ export default {
           }
         }
         if (paper5CheckName) paper5CheckName = paper5CheckName.substring(0, paper5CheckName.length - 1)
-        let string6 = `    六、立案调查及审理情况：${p4DateString}，经${this.$store.state.curCase.provinceGroupName || '国家矿山安全监察局XX局'}负责人批准，决定对该涉嫌违法行为进行立案调查，并指定由${let4DataPaperContent.cellIdx9 || 'XXX、XXX'}两名执法人员承办。案件承办人对${paper5CheckName || 'XXX、XXX……'}进行调查取证，制作了调查取证笔录，收集了该矿违法违规行为的其他证据材料。`;
+        let string6 = `    六、立案调查及审理情况：${p4DateString}，经${this.$store.state.curCase.provinceGroupName || '国家矿山安全监察局XX局'}负责人批准，决定对该涉嫌违法行为进行立案调查，并指定由${let4DataPaperContent.cellIdx9 || 'XXX、XXX'}两名执法人员承办。案件承办人对${paper5CheckName || 'XXX、XXX……'}进行调查取证，制作了调查取证笔录，收集了该矿违法违规行为的其他证据材料。\r\n`;
         // 获取案件处理呈报书的违法事实及处理依据
-        
-        let dangerString = getDangerContentWithoutPointHasIndex(let4DataPaperContent.DangerTable.selectedDangerList || [], ';')
         let isMultiString = let4DataPaperContent.DangerTable.selectedDangerList.length > 1 ? '分别' : ''
-        string6 += `${dangerString || 'XX'}经调查取证，案件承办人认定违法事实清楚，${isMultiString}违反了${dangerObject.illegalString || 'XX'}的规定。建议${isMultiString}依据${dangerObject.penaltyBasisString || 'XX'}的规定，拟${isMultiString}给予${getDangerPenaltyDescWithoutPoint(let4DataPaperContent.DangerTable.selectedDangerList || [], '，') || 'XX'}的行政处罚。`;
+        // 规定
+        let cellIdx6String = setDangerTable(let4DataPaperContent.DangerTable, {}, {
+            page: "14",
+            key: "cellIdx6",
+          }
+        ); 
+        let cellIdx7String = setDangerTable(let4DataPaperContent.DangerTable, {}, {
+            page: "14",
+            key: "cellIdx7",
+          }
+        );
+        let cellIdx8String = setDangerTable(let4DataPaperContent.DangerTable, {}, {
+            page: "14",
+            key: "cellIdx8",
+          }
+        );  
+        string6 += `    经调查取证，案件承办人认定违法事实清楚，${cellIdx6String || 'XXX'}的规定。建议${cellIdx7String || 'XX'}的规定，拟${cellIdx8String}的行政处罚。`;
         string6 += `XX月XX日经法制审核，认为案件事实清楚、证据确凿充分、定性准确、处罚适当、程序合法，同意处罚意见。案件承办人将处罚建议呈报给分管副局长XXX、局长XXX审批，经分局局长办公会集体研究，同意案件承办人处罚意见。`
         // 行政处罚告知书6制作时间、文书编号
-        let paper6List = await wkPaper.findAll(paper => {
+        let paper6Data = await wkPaper.find(paper => {
           return paper.delFlag !== '1'
           && paper.paperType === '6'
           && JSON.parse(paper.paperContent).associationPaperId
-          && JSON.parse(paper.paperContent).associationPaperId.paper4Id === selectedPaper.let4Data.paperId
+          && JSON.parse(paper.paperContent).associationPaperId.paper1Id === let4DataPaperContent.associationPaperId.paper1Id
         })
-        let let6Date = []
+        let let6Date = paper6Data ? paper6Data.createDate.split(' ')[0].split('-') : []
         let paper6Date = `${let6Date[0] || '20XX'}年${let6Date[1] || 'XX'}月${let6Date[2] || 'XX'}日`
         let paper6PaperNumber = ''
+        if (paper6Data) {
+          paper6PaperNumber = getCurPaperDocNumber(paper6Data)
+        }
         // （${let6DataPaperContent.cellIdx0}煤安监${let6DataPaperContent.cellIdx1}告〔${let6DataPaperContent.cellIdx2}〕${let6DataPaperContent.cellIdx3}号）
         let hasPaper30 = false
         // （1）判断陈述、申辩笔录，没有的话，按照模板写；有的话写出“XXXX年XX月XX日，下达了陈述、申辩笔录；（2）判断听证通知书，没有的话，按照模板写；有的话，XXXX年XX月XX日，下达了《听证通知书》（A煤安监B听〔20XX〕XXXX号）
@@ -236,18 +256,22 @@ export default {
         } else {
           paper30String += `未要求举行听证`
         }
-        string6 += `${paper6Date || '20XX年XX月XX日'}案件承办人分别向${corp.corpName}及其负责人XXX${paper6List.length > 1 ? '分别' : ''}下达了《行政处罚告知书》${paper6PaperNumber}。该矿负责人签收文书后，${paper30String}。`;
+        string6 += `${paper6Date || '20XX年XX月XX日'}，案件承办人向${corp.corpName}及其负责人XXX分别下达了《行政处罚告知书》（${paper6PaperNumber}）。该矿负责人签收文书后，${paper30String}。`;
         // 行政处罚决定书8制作时间、文书编号
-        let paper8List = await wkPaper.findAll(paper => {
+        let paper8Data = await wkPaper.find(paper => {
           return paper.delFlag !== '1'
           && paper.paperType === '8'
           && JSON.parse(paper.paperContent).associationPaperId
-          && JSON.parse(paper.paperContent).associationPaperId.paper4Id === selectedPaper.let4Data.paperId
+          && paper6Data
+          && JSON.parse(paper.paperContent).associationPaperId.paper6Id === paper6Data.paperId
         })
         let let8PaperNum = ''
+        if (paper8Data) {
+          let8PaperNum = getCurPaperDocNumber(paper8Data)
+        }
         // let let8PaperNum = `${let8DataPaperContent.cellIdx0}煤安监${let8DataPaperContent.cellIdx1}罚〔${let8DataPaperContent.cellIdx2}〕${let8DataPaperContent.cellIdx3}号`;
-        let let8Date = []
-        string6 += `${let8Date[0] || '20XX'}年${let8Date[1] || 'XX'}月${let8Date[2] || 'XX'}日案件承办人员向${corp.corpName}及其负责人XXX${paper8List > 1 ? '分别' : ''}送达了《行政处罚决定书》${let8PaperNum}。\r\n`;
+        let let8Date = paper8Data ? paper8Data.createDate.split(' ')[0].split('-') : []
+        string6 += `${let8Date[0] || '20XX'}年${let8Date[1] || 'XX'}月${let8Date[2] || 'XX'}日案件承办人员向${corp.corpName}及其负责人XXX分别送达了《行政处罚决定书》（${let8PaperNum}）。\r\n`;
         // 6，	行政处罚执行情况：固定模板
         // ”行政处罚执行情况：“+煤矿名称+ “接到我分局送达的行政处罚决定书后，该矿及其负责人XXX未申请行政复议和提起行政诉讼。将罚款已划转至指定罚款账户。”
         let xingzhengchufa = ''
@@ -261,12 +285,14 @@ export default {
         let string7 = `    七、行政处罚执行情况：${let8Date[0] || '20XX'}年${let8Date[1] || 'XX'}月${let8Date[2] || 'XX'}日，我分局在XX日报上公告，对${corp.corpName}${xingzhengchufa}。接到我分局送达的行政处罚决定书后，该矿及其负责人XXX${xingzhengfuyi}。因未能按期缴纳罚款，20XX年XX月XX日，我分局向XX公司XX煤矿及其负责人XXX下达了《行政决定履行催告书》（A煤安监B催 〔20XX〕XXXX号）和（A煤安监B催〔20XX〕XXXX号）。XX公司XX煤矿及其负责人XXX仍未履行行政处罚决定，20XX年XX月XX日，我分局向XX市XX区人民法院提交了强制执行申请书（A煤安监B执〔20XX〕XXXX号）和（A煤安监B执〔20XX〕XXXX号），经XX市XX区人民法院强制执行，于20XX年XX月XX日将罚款已划转至指定罚款账户。\r\n`;
         // 7，	结案理由：固定模板
         // 煤矿名称+ “及其负责人XXX已执行对其作出的行政处罚决定，承办人员申请结案。”
-        let string8 = `    八、${corp.corpName}及其负责人XXX已执行对其作出的行政处罚决定，承办人员申请结案。`;
+        let string8 = `    八、结案理由：${corp.corpName}及其负责人XXX已执行对其作出的行政处罚决定，承办人员申请结案。`;
         let cellIdx10String =
           string1 + string2 + string3 + string4 + string5 + string6 + string7 + string8;
         await db.close();
+        let DangerTable = setNewDanger(selectedPaper.let4Data, let4DataPaperContent.DangerTable)
         this.letData = Object.assign({}, this.letData, {
           cellIdx0: cellIdx10String ? cellIdx10String : "", // 案由
+          DangerTable: DangerTable,
           associationPaperId: { // 关联的paperId
             paper22Id: let4DataPaperContent.associationPaperId.paper22Id,
             paper1Id: let4DataPaperContent.associationPaperId.paper1Id,
@@ -280,7 +306,6 @@ export default {
         let corp = await corpBase.find((item) => {
           return item.corpId == this.corpData.corpId;
         });
-        let wkPaper = db.table('wkPaper')
         let let4DataPaperContent = JSON.parse(
           selectedPaper.let4Data.paperContent
         );
@@ -293,10 +318,10 @@ export default {
         let string6 = `    六、立案调查及审理情况：${p4DateString}，经${this.$store.state.curCase.provinceGroupName || '国家矿山安全监察局XX局'}负责人批准，决定对该涉嫌违法行为进行立案调查，并指定由${let4DataPaperContent.cellIdx9 || 'XXX、XXX'}两名执法人员承办。案件承办人对${'XXX、XXX……'}进行调查取证，制作了调查取证笔录，收集了该矿违法违规行为的其他证据材料。`;
         string6 += `${'XX'}经调查取证，案件承办人认定违法事实清楚，违反了${'XX'}的规定。建议依据${'XX'}的规定，拟给予${'XX'}的行政处罚。`;
         string6 += `XX月XX日经法制审核，认为案件事实清楚、证据确凿充分、定性准确、处罚适当、程序合法，同意处罚意见。案件承办人将处罚建议呈报给分管副局长XXX、局长XXX审批，经分局局长办公会集体研究，同意案件承办人处罚意见。`
-        string6 += `${'20XX年XX月XX日'}案件承办人分别向${corp.corpName}及其负责人XXX下达了《行政处罚告知书》（${'XXX'}）。该矿负责人签收文书后，${'未进行陈述、申辩，未要求举行听证'}。`;
-        string6 += `${'20XX'}年${'XX'}月${'XX'}日案件承办人员向${corp.corpName}及其负责人XXX送达了《行政处罚决定书》（XXX）。\r\n`;
+        string6 += `${'20XX年XX月XX日'}，案件承办人向${corp.corpName}及其负责人XXX分别下达了《行政处罚告知书》（${'XXX'}）。该矿负责人签收文书后，${'未进行陈述、申辩，未要求举行听证'}。`;
+        string6 += `${'20XX'}年${'XX'}月${'XX'}日案件承办人员向${corp.corpName}及其负责人XXX分别送达了《行政处罚决定书》（XXX）。\r\n`;
         let string7 = `    七、行政处罚执行情况：${'20XX'}年${'XX'}月${'XX'}日，我分局在XX日报上公告，对${corp.corpName}。接到我分局送达的行政处罚决定书后，该矿及其负责人XXX未申请行政复议和提起行政诉讼。因未能按期缴纳罚款，20XX年XX月XX日，我分局向XX公司XX煤矿及其负责人XXX下达了《行政决定履行催告书》（A煤安监B催 〔20XX〕XXXX号）和（A煤安监B催〔20XX〕XXXX号）。XX公司XX煤矿及其负责人XXX仍未履行行政处罚决定，20XX年XX月XX日，我分局向XX市XX区人民法院提交了强制执行申请书（A煤安监B执〔20XX〕XXXX号）和（A煤安监B执〔20XX〕XXXX号），经XX市XX区人民法院强制执行，于20XX年XX月XX日将罚款已划转至指定罚款账户。\r\n`;
-        let string8 = `    八、${corp.corpName}及其负责人XXX已执行对其作出的行政处罚决定，承办人员申请结案。`;
+        let string8 = `    八、结案理由：${corp.corpName}及其负责人XXX已执行对其作出的行政处罚决定，承办人员申请结案。`;
         let cellIdx10String = string1 + string2 + string3 + string4 + string5 + string6 + string7 + string8;
         await db.close()
         this.letData = Object.assign({}, this.letData, {

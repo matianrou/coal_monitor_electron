@@ -909,10 +909,10 @@ export default {
             saveFields = ['cellIdx2', 'cellIdx6', 'cellIdx7']
             break
           case '6': 
-            saveFields = ['cellIdx6', 'cellIdx7', 'cellIdx8', 'cellIdx10']
+            saveFields = ['cellIdx6', 'cellIdx22', 'cellIdx7', 'cellIdx8', 'cellIdx10']
             break
           case '8': 
-            saveFields = ['cellIdx7', 'cellIdx8', 'cellIdx9', 'cellIdx10']
+            saveFields = ['cellIdx7', 'cellIdx22', 'cellIdx8', 'cellIdx9', 'cellIdx10']
             break
           case '49': 
             saveFields = ['cellIdx3', 'cellIdx5', 'cellIdx6', 'cellIdx7']

@@ -1121,8 +1121,7 @@ export default {
     dangerMerge () {
       // 隐患合并
       // 检索数据，合并相同字段数据，形成返回数据
-      this.dataForm.tempValue.dangerContentMerge = true
-      this.$parent.$parent.handleSave()
+      this.$parent.$parent.handleSave(false, true)
     },
     setPunishmentList () {
       // 获取行政处罚信息

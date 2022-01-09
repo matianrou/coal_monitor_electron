@@ -60,7 +60,11 @@
                   letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
                 }}</span
               >
-              以上事实违反了
+              以上事实<span
+                class="no-underline"
+                @click="commandFill('cellIdx22', '', 'TextItem')"
+                >{{letData.cellIdx22}}</span
+              >违反了
               <span
                 @dblclick="commandFill('cellIdx8', '法律规定', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
                 @click="commandFill('cellIdx8', '法律规定', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')"
@@ -213,6 +217,7 @@ export default {
         cellIdx5: null, // 被处罚
         cellIdx6: null, // 地址
         cellIdx7: null, // 违法事实
+        cellIdx22: null, // 分别 || ''
         cellIdx8: null, // 法律规定
         cellIdx9: null, // 法律依据
         cellIdx10: null, // 行政处罚
@@ -304,14 +309,22 @@ export default {
       // 1.关联行政处罚告知书
       // 2.单位/个人：行政处罚告知书中的单位/个人selectedType
       let cellIdx7String = ''
+      let cellIdx22String = ''
       let cellIdx8String = ''
       let cellIdx9String = ''
       let cellIdx10String = ''
       if (this.corpData.caseType === '0') {
+        // 一般监察类文书
         // 5.违法事实：行政处罚告知书中的cellIdx6
         cellIdx7String = setDangerTable(letDataPaperContent.DangerTable, {}, {
             page: "8",
             key: "cellIdx7",
+          }
+        );
+        // 是否多条显示分别
+        cellIdx22String = setDangerTable(letDataPaperContent.DangerTable, {}, {
+            page: "8",
+            key: "cellIdx22",
           }
         );
         // 6.法律规定 :行政处罚告知书中的cellIdx7
@@ -332,7 +345,8 @@ export default {
             key: "cellIdx10",
           }
         );
-      } else {
+      } else if (this.corpData.caseType === '1' && selectedPaper.let6Data) {
+        // 当为事故，且关联的行政处罚告知书时，带回行政处罚告知书中内容
         cellIdx7String = letDataPaperContent.cellIdx6
         cellIdx8String = letDataPaperContent.cellIdx7
         cellIdx9String = letDataPaperContent.cellIdx8
@@ -376,6 +390,7 @@ export default {
         cellIdx5: cellIdx4String === "单位" ? corp.corpName : "", // 被处罚
         cellIdx6: cellIdx4String === "单位" ? corp.address : "", // 地址
         cellIdx7: cellIdx7String, // 违法事实
+        cellIdx22: cellIdx22String, // 分别
         cellIdx8: cellIdx8String, // 法律规定
         cellIdx9: cellIdx9String, // 法律依据
         cellIdx10: cellIdx10String, // 行政处罚

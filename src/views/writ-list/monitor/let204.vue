@@ -73,7 +73,11 @@
                   letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
                 }}</span
               >
-              违反了
+              <span
+                class="no-underline"
+                @click="commandFill('cellIdx22', '', 'TextItem')"
+                >{{letData.cellIdx22}}</span
+              >违反了
               <span
                 @dblclick="commandFill('cellIdx7', '规定', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
                 @click="commandFill('cellIdx7', '规定', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')"
@@ -115,6 +119,13 @@
             </div>
             <div class="docTextarea">
               <label style="width: 5%"></label>
+              <span
+                @click="commandFill('cellIdx23', '', 'SelectItem')"
+                class="no-underline"
+                >{{
+                  letData.cellIdx23 ? letData.cellIdx23 : "□"
+                }}
+              </span>
               根据《中华人民共和国行政处罚法》第<span class="text-decoration">六十三</span>条、第<span class="text-decoration">六十四</span>条规定，你
               <span
                 class="no-underline"
@@ -252,10 +263,12 @@ export default {
         cellIdx4: null, // 煤矿名称
         cellIdx5: null, // 单位或个人
         cellIdx6: null, // 违法行为
-        cellIdx7: null, // 违法行为
+        cellIdx22: null, // 分别违反了或违反了
+        cellIdx7: null, // 规定
         cellIdx8: null, // 法律依据
         cellIdx9: null, // 单位或个人
-        cellIdx10: null, // 法律规定
+        cellIdx10: null, // 行政处罚
+        cellIdx23: null,
         cellIdx11: null, // 单位或个人
         cellIdx13: null, // 收件人（签名）
         cellIdx14: null, // 日期
@@ -269,7 +282,18 @@ export default {
         DangerTable: null,
         associationPaperId: null
       },
-      options: {},
+      options: {
+        cellIdx23: [
+          {
+            value: "□",
+            name: "□",
+          },
+          {
+            value: "√",
+            name: "√",
+          },            
+        ],
+      },
       visibleSelectDialog: false,
       selectedType: "单位", // 初始化时选择的单位或个人
       associationPaper: this.corpData.caseType === '0' ? ["1"] : [],
@@ -320,6 +344,14 @@ export default {
             key: "cellIdx6",
           }
         );
+        let cellIdx22String = setDangerTable(
+          let1DataPaperContent.DangerTable,
+          {},
+          {
+            page: "6",
+            key: "cellIdx22",
+          }
+        );
         let cellIdx7String = setDangerTable(
           let1DataPaperContent.DangerTable,
           {},
@@ -346,9 +378,11 @@ export default {
           cellIdx2: paperNumber.num3, // 文书号
           cellIdx3: paperNumber.num4, // 文书号
           cellIdx6: cellIdx6String, // 违法行为
+          cellIdx22: cellIdx22String, // 分别违反了或违反了
           cellIdx7: cellIdx7String, // 违法行为
           cellIdx8: cellIdx8String, // 法律依据
           cellIdx10: cellIdx10String, // 法律规定
+          cellIdx23: '□', // 
           cellIdx15: orgSysOfficeInfo.depAddress, // 邮政编码
           cellIdx16: orgSysOfficeInfo.depPost, // 邮政编码
           cellIdx17: orgSysOfficeInfo.master, // 我局联系人
@@ -383,6 +417,7 @@ export default {
           cellIdx1: paperNumber.num1, // 文书号
           cellIdx2: paperNumber.num3, // 文书号
           cellIdx3: paperNumber.num4, // 文书号
+          cellIdx23: '□', // 
           cellIdx15: orgSysOfficeInfo.depAddress, // 邮政编码
           cellIdx16: orgSysOfficeInfo.depPost, // 邮政编码
           cellIdx17: orgSysOfficeInfo.master, // 我局联系人
