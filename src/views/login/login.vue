@@ -46,7 +46,8 @@
 import { encry, Encrypt, Decrypt } from '@/utils/AesEncryptUtil'
 import { electronRequest } from '@/utils/electronRequest'
 import GoDB from "@/utils/godb.min.js";
-import { schema } from '@/utils/downloadSource'
+import { schema, doDocDb } from '@/utils/downloadSource'
+import { getNowFormatTime } from '@/utils/date'
 export default {
   name: "Login",
   data() {
@@ -323,14 +324,45 @@ export default {
       let downloadData = await sourceDownload.find(item => item)
       await db1.close()
       if (!downloadData) {
+        // 创建数据库，建表
         let db2 = new GoDB(userId, schema)
         await db2.close()
+        // 进入下载页面
         this.$store.commit('changeState', {
           key: 'activeTab',
           val: 'SourceDownload'
         })
         this.$message.warning('当前未下载任何资源，请先下载全部资源后再使用！')
+      } else {
+        // 如果有网络则自动更新下载文书资源
+        if (navigator.onLine) {
+          let userId = this.$store.state.user.userId;
+          let userSessId = this.$store.state.user.userSessId;
+          let path = this.$store.state.user.userType === 'supervision' ? '/sv' : ''
+          let url = `${path}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&officeId=&caseId=&flag=false&pageNo=0&pageSize=1000`
+          await this.$http
+            .get(`${url}`)
+            .then(async (response) => {
+              if (response.data.data) {
+                await doDocDb(resId, response.data.data);
+                // 修改更新日期
+                await this.handleUpdateTime(resId)
+              }
+            })
+            .catch((err) => {
+              console.log("下载文书失败：", err);
+            })
+        }
       }
+    },
+    async handleUpdateTime() {
+      // 更新文书下载时间未当前日期
+      let db = new GoDB(this.$store.state.user.userId);
+      let sourceDownload = db.table('sourceDownload')
+      let updateTime = await sourceDownload.find(item => item)
+      updateTime.doc = getNowFormatTime()
+      await sourceDownload.put(updateTime)
+      await db.close()
     }
   },
 };
