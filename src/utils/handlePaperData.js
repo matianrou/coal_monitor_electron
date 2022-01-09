@@ -338,7 +338,7 @@ function setDangerTable(data, selectedData, options) {
       } else if (options.key === 'cellIdx10') {
         let penaltyDescString = getDangerPenaltyDescWithoutPoint(list8 || [], '；')
         let { descTypeStrings } = getDangerDes(list8 || [])
-        string = `分别${penaltyDescString}。${dangerObject.penaltyDescFineTotle ? `合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle) || ''}（￥${dangerObject.penaltyDescFineTotle.toLocaleString() || ''}）` : ''}${descTypeStrings || ''}`
+        string = `${list8.length > 0 ? (list8.length > 1 ? '分别' : '') : ''}${list8.length > 0 ? (penaltyDescString + '。') : ''}${dangerObject.penaltyDescFineTotle ? `合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle) || ''}（￥${dangerObject.penaltyDescFineTotle.toLocaleString() || ''}）` : ''}${descTypeStrings || ''}`
       }
       break
     case '31': // 执法案件公开裁定记录

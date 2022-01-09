@@ -163,6 +163,23 @@
         </div>
       </div>
     </let-main>
+    <el-dialog
+      title="文书信息选择"
+      :close-on-click-modal="false"
+      append-to-body
+      :visible="visibleSelectDialog"
+      width="400px"
+      :show-close="false"
+    >
+      <span>请选择：</span>
+      <el-radio-group v-model="selectedType">
+        <el-radio label="单位">单位</el-radio>
+        <el-radio label="个人">个人</el-radio>
+      </el-radio-group>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="confirm">确定</el-button>
+      </span>
+    </el-dialog>
     <!-- 关联文书选择 -->
     <select-paper
       :visible="visible.selectPaper"
@@ -226,7 +243,9 @@ export default {
           },
         ],
       },
-      associationPaper: ["6"],
+      selectAssociationPaper: ['6', '1'],
+      visibleSelectDialog: false,
+      selectedType: "单位", // 初始化时选择的单位或个人
     };
   },
   methods: {
@@ -238,46 +257,86 @@ export default {
       let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
+      let cellIdx4String = '';
+      let selectletData = {}
+      let letDataPaperContent = {}
+      if (selectedPaper.let6Data) {
+        // 如果是关联告知书则直接获取告知书的单位或个人
+        letDataPaperContent = JSON.parse(
+          selectedPaper.let6Data.paperContent
+        );
+        cellIdx4String = letDataPaperContent.selectedType;
+        selectletData = selectedPaper.let6Data
+      } else {
+        // 1.如果没关联告知书则弹出提示框，选择单位或个人
+        this.visibleSelectDialog = true
+        letDataPaperContent = JSON.parse(
+          selectedPaper.let1Data.paperContent
+        );
+        selectletData = selectedPaper.let1Data
+      }
+      let associationPaperId = {}
+      // 获取关联文书id逻辑
+      if (this.corpData.caseType === '0') {
+        if (selectedPaper.let6Data) {
+          associationPaperId = {
+            paper22Id: letDataPaperContent.associationPaperId.paper22Id,
+            paper1Id: letDataPaperContent.associationPaperId.paper1Id,
+            paper6Id: selectedPaper.let6Data.paperId,
+          }
+        } else {
+          associationPaperId = {
+            paper22Id: letDataPaperContent.associationPaperId.paper22Id,
+            paper1Id: selectedPaper.let1Data.paperId,
+          }
+        }
+      } else {
+        if (selectedPaper.let6Data) {
+          associationPaperId = {
+            paper6Id: selectedPaper.let6Data.paperId,
+          }
+        } else {
+          associationPaperId = {
+            paper1Id: selectedPaper.let1Data.paperId,
+          }
+        }
+      }
       // 1.关联行政处罚告知书
-      let let6DataPaperContent = JSON.parse(
-        selectedPaper.let6Data.paperContent
-      );
       // 2.单位/个人：行政处罚告知书中的单位/个人selectedType
-      let cellIdx4String = let6DataPaperContent.selectedType;
       let cellIdx7String = ''
       let cellIdx8String = ''
       let cellIdx9String = ''
       let cellIdx10String = ''
       if (this.corpData.caseType === '0') {
         // 5.违法事实：行政处罚告知书中的cellIdx6
-        cellIdx7String = setDangerTable(let6DataPaperContent.DangerTable, {}, {
+        cellIdx7String = setDangerTable(letDataPaperContent.DangerTable, {}, {
             page: "8",
             key: "cellIdx7",
           }
         );
         // 6.法律规定 :行政处罚告知书中的cellIdx7
-        cellIdx8String = setDangerTable(let6DataPaperContent.DangerTable, {}, {
+        cellIdx8String = setDangerTable(letDataPaperContent.DangerTable, {}, {
             page: "8",
             key: "cellIdx8",
           }
         );
         // 7.法律依据 :行政处罚告知书中的cellIdx8
-        cellIdx9String = setDangerTable(let6DataPaperContent.DangerTable, {}, {
+        cellIdx9String = setDangerTable(letDataPaperContent.DangerTable, {}, {
             page: "8",
             key: "cellIdx9",
           }
         );
         // 8.行政处罚 :行政处罚告知书中的cellIdx9
-        cellIdx10String = setDangerTable(let6DataPaperContent.DangerTable, {}, {
+        cellIdx10String = setDangerTable(letDataPaperContent.DangerTable, {}, {
             page: "8",
             key: "cellIdx10",
           }
         );
       } else {
-        cellIdx7String = let6DataPaperContent.cellIdx6
-        cellIdx8String = let6DataPaperContent.cellIdx7
-        cellIdx9String = let6DataPaperContent.cellIdx8
-        cellIdx10String = let6DataPaperContent.cellIdx10
+        cellIdx7String = letDataPaperContent.cellIdx6
+        cellIdx8String = letDataPaperContent.cellIdx7
+        cellIdx9String = letDataPaperContent.cellIdx8
+        cellIdx10String = letDataPaperContent.cellIdx10
       }
       // 9.机构接口中sysOfficeInfo实体中对应：
       // accountName；银行：accountBank；账户名称：billName；账号：account；
@@ -305,7 +364,7 @@ export default {
         this.corpData.caseId
       );
       let DangerTable = this.corpData.caseType === '0' ? 
-        setNewDanger(selectedPaper.let6Data, let6DataPaperContent.DangerTable)
+        setNewDanger(selectletData, letDataPaperContent.DangerTable)
         : null
       await db.close();
       this.letData = Object.assign({}, this.letData, {
@@ -331,14 +390,8 @@ export default {
         cellIdx20: this.todayDate, // 日期
         cellIdx21: cellIdx4String, // 单位/个人
         DangerTable: DangerTable || null,
-        selectedType: let6DataPaperContent.selectedType,
-        associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
-          paper22Id: let6DataPaperContent.associationPaperId.paper22Id,
-          paper1Id: let6DataPaperContent.associationPaperId.paper1Id,
-          paper6Id: selectedPaper.let6Data.paperId,
-        } : {
-          paper6Id: selectedPaper.let6Data.paperId,
-        }
+        selectedType: letDataPaperContent.selectedType,
+        associationPaperId: associationPaperId
       })
     },
     goBack({ page, data }) {
@@ -383,6 +436,27 @@ export default {
           this.letData[dataKey],
           this.options[key]
         );
+      }
+    },
+    async confirm() {
+      // 选择单位或个人
+      this.visibleSelectDialog = false;
+      this.letData.cellIdx4 = this.selectedType;
+      this.letData.cellIdx21 = this.selectedType;
+      this.letData.selectedType = this.selectedType;
+      if (this.selectedType === "单位") {
+        let db = new GoDB(this.$store.state.DBName);
+        let corpBase = db.table("corpBase");
+        let corp = await corpBase.find((item) => {
+          return item.corpId == this.corpData.corpId;
+        });
+        await db.close();
+        // 按单位初始化信息
+        // 1.单位名称
+        this.letData.cellIdx5 = corp.corpName;
+        this.letData.cellIdx6 = corp.address;
+      } else {
+        // 按个人初始化信息
       }
     },
   },

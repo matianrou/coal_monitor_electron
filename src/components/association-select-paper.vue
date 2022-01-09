@@ -127,6 +127,7 @@ export default {
           // 按组件中定义的associationPaper关联文书
           let isReturn = false
           if (this.associationPaper && this.associationPaper.length > 0) {
+            // associationPaper是必须关联的文书，如果未关联则提示
             for (let paper of this.associationPaper) {
               let paperDataList = await wkPaper.findAll((item) => {
                 return item.caseId === this.corpData.caseId && item.paperType === paper && item.delFlag !== '1';
@@ -148,6 +149,32 @@ export default {
                   key: `let${paper}Data`,
                   paperList: paperDataList
                 })
+              }
+            }
+          } else if (this.selectAssociationPaper && this.selectAssociationPaper.length > 0) {
+            // 根据数组的顺序，顺序找是否有可关联的文书选择
+            for (let i = 0; i < this.selectAssociationPaper.length; i++ ) {
+              let paper = this.selectAssociationPaper[i]
+              let paperDataList = await wkPaper.findAll((item) => {
+                return item.caseId === this.corpData.caseId && item.paperType === paper && item.delFlag !== '1';
+              })
+              if (paperDataList.length === 0 && i === (this.selectAssociationPaper.length - 1)) {
+                // 如果未查到关联的文书，则提示：
+                let paperName = this.$store.state.dictionary[`${this.$store.state.user.userType}PaperType`].filter(item => item.id === paper)
+                this.$message.error(`请先填写并保存${paperName[0].name}中内容！`)
+                isReturn = true
+              } else if (paperDataList.length === 1) {
+                // 如果查到关联的文书仅有一条，则保存此条文书内容并退出循环
+                this.selectedPaper[`let${paper}Data`] = paperDataList[0]
+                break
+              } else if (paperDataList.length > 1){
+                // 如果查到关联的文书有两条及以上，则保留关键字，同时保留多份文书列表，以便后面遍历选择，并退出循环
+                paperDataList.sort(sortbyAsc('createDate'))
+                this.selectFlowList.push({
+                  key: `let${paper}Data`,
+                  paperList: paperDataList
+                })
+                break
               }
             }
           }
