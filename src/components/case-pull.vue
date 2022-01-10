@@ -97,7 +97,6 @@
         userList: [],
         selectedUser: {}, // 点击用户列表选择的用户
         caseList: [], // 选择的用户的检查活动列表
-        allPaperData: {}, // 选择的用户的全部文书数据：检查活动jczfCase，文书paperk,隐患项danger
         selcetedCaseId: null, // 单选的需要拉取的个人的检查活动
         dataForm: {
           name: null, // 按姓名筛选
@@ -195,6 +194,8 @@
         })
         // 选中点击的用户
         item.active = true
+        // 记录选中人
+        this.selectedUser = item
         // 清空已选择的检查活动
         this.selcetedCaseId = null
         // 根据当前选中的用户拉取其所有文书
@@ -207,15 +208,13 @@
         }
         this.loading.right = true
         this.caseList = []
-        this.allPaperData = {}
         let userSessId = this.$store.state.user.userSessId
-        this.$http.get(`/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&officeId=&caseId=&flag=false&pageNo=0&pageSize=1000`)
+        this.$http.get(`/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&flag=true`)
         .then(async (response) => {
           if (response.status === 200) {
             if (response.data.data) {
               // 如果有检查活动及文书数据则放入当前用户数据中
               this.caseList = response.data.data.jczfCase
-              this.allPaperData = response.data.data
             }
             this.loading.right = false
           } else {
@@ -232,19 +231,6 @@
         // 关闭选择弹窗
         this.selectedUser = null
         this.$emit('close', {page: 'casePull', refresh})
-      },
-      selectCompany (user, index) {
-        // 选中用户
-        // 清空其他企业选中状态
-        this.userList.forEach(item => {
-          item.active = false
-        })
-        // 设置选中样式
-        let Obj = Object.assign({}, user, {
-          active: true
-        })
-        this.$set(this.userList, index, Obj)
-        this.selectedUser = companyObj
       },
       confirm() {
         if (this.selcetedCaseId) {
@@ -266,54 +252,58 @@
               // 关闭弹窗，并赋值
               // 将临时保存数据结果赋值到数据中
               // 通过选定的selcetedCaseList检查活动，获取相应的检查活动数据jczfCase
-              let jczfCase = []
-              this.allPaperData.jczfCase.map(jcItem => {
+              let jczfCase = {}
+              this.caseList.map(jcItem => {
                 if (jcItem.caseId === selectedCaseData.caseId && jcItem.delFlag !== '1') {
-                  jczfCase.push(jcItem)
+                  jczfCase = jcItem
                 }
               })
               // 根据监察活动数据jczfCase再获取相应的paper数据
-              let paper = []
-              if (jczfCase.length > 0) {
-                jczfCase.map(jcItem => {
-                  this.allPaperData.paper.map(paperItem => {
-                    if (jcItem.caseId === paperItem.caseId && paperItem.delFlag !== '1') {
-                      paper.push(paperItem)
-                    }
+              if (jczfCase && jczfCase.caseId) {
+                // 通过caseId获取所有文书和隐患
+                let userSessId = this.$store.state.user.userSessId
+                await this.$http.get(`/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${this.selectedUser.no}&flag=false&caseId=${jczfCase.caseId}`)
+                  .then(async ({data}) => {
+                    if (data.status === '200') {
+                      let paper = []
+                      let danger = []
+                      if (data.data) {
+                        if (data.data.paper) {
+                          for (let i = 0; i < data.data.paper.length; i++) {
+                            let item = data.data.paper[i]
+                            paper.push(item)
+                          }
+                        }
+                        if (data.data.danger) {
+                          for (let i = 0; i < data.data.danger.length; i++) {
+                            let item = data.data.danger[i]
+                            danger.push(item)
+                          }
+                        }
+                      }
+                      let submitData = {
+                        jczfCase: [jczfCase], paper, danger
+                      }
+                      // 通过doDoc方法存入本地数据库中
+                      await doDocDb('doc', submitData)
+                      // 更新检查活动侧边栏
+                      this.$emit('confirm', jczfCase)
+                      this.$message.success('文书拉取成功！')
+                      this.close()
+                    } else {
+                      this.$message.error("拉取用户文书失败，远程请求异常，可能是认证信息超时，请重新登录。");
+                    }})
+                  .catch(err => {
+                    this.$message.error("拉取用户文书失败，远程请求异常，可能是认证信息超时，请重新登录。");
+                    console.log("拉取用户文书失败：", err);
                   })
-                })
               }
-              // 根据paperid获取相应的隐患项danger数据
-              let danger = []
-              if (paper.length > 0) {
-                paper.map(paperItem => {
-                  this.allPaperData.danger.map(dangerItem => {
-                    if (paperItem.paperId === dangerItem.paperId && dangerItem.delFlag !== '1') {
-                      danger.push(dangerItem)
-                    }
-                  })
-                })
-              }
-              let submitData = {
-                jczfCase, paper, danger
-              }
-              // 通过doDoc方法存入本地数据库中
-              await doDocDb('doc', submitData)
-              // 更新检查活动侧边栏
-              this.$emit('confirm', jczfCase[0])
               this.loading.main = false
-              this.$message.success('文书拉取成功！')
-              this.close()
             }).catch(() => {})
         } else {
           this.$message.error('当前未选定需要拉取的检查活动，请选择需要拉取的检查活动后再点击拉取！')
         }
       },
-      selectedCase (val) {
-        if (val.length > 1) {
-          this.selcetedCaseList = val[val.length - 1]
-        }
-      }
     }
   }
 </script>

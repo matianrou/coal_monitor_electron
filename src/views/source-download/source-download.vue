@@ -366,8 +366,7 @@ export default {
             "/local/jczf/getPageJczfByOfficeId?__sid=" +
             userSessId +
             "&userId=" +
-            userId +
-            "&officeId=&caseId=&flag=false&pageNo=0&pageSize=1000";
+            userId
           break;
         case "enterpriseList":
           //文书信息分页下载接口//文书信息分页下载接口

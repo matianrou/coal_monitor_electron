@@ -339,7 +339,7 @@ export default {
           let userId = this.$store.state.user.userId;
           let userSessId = this.$store.state.user.userSessId;
           let path = this.$store.state.user.userType === 'supervision' ? '/sv' : ''
-          let url = `${path}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&officeId=&caseId=&flag=false&pageNo=0&pageSize=1000`
+          let url = `${path}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}`
           await this.$http
             .get(`${url}`)
             .then(async (response) => {
