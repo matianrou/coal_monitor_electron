@@ -221,6 +221,7 @@ export default {
         associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
           paper22Id: let4DataPaperContent.associationPaperId.paper22Id,
           paper1Id: let4DataPaperContent.associationPaperId.paper1Id,
+          paper2Id: let4DataPaperContent.associationPaperId.paper2Id,
           paper6Id: selectedPaper.let4Data.paperId,
         } : {
           paper6Id: selectedPaper.let4Data.paperId,

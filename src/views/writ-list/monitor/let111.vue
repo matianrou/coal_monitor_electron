@@ -315,14 +315,11 @@ export default {
         cellIdx20: this.$store.state.curCase.provinceGroupName, //
         cellIdx21: this.todayDate, // 日期
         DangerTable: DangerTable,
-        associationPaperId: 
-          this.corpData.caseType === "0"
-            ? {
-                // 关联的paperId
-                paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
-                paper1Id: selectedPaper.let1Data.paperId,
-              }
-            : null,
+        associationPaperId: {
+          // 关联的paperId
+          paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: selectedPaper.let1Data.paperId,
+        },
       })
     },
     goBack({ page, data }) {

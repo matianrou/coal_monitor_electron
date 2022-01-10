@@ -259,7 +259,7 @@ export default {
         associationPaperId: null
       },
       options: {},
-      associationPaper: this.corpData.caseType === '0' ? ['1'] : []
+      associationPaper: ['1']
     };
   },
   methods: {
@@ -276,7 +276,7 @@ export default {
         this.corpData.caseId
       );
       // 2.违法行为：获取笔录文书中的隐患数据
-      let let1DataPaperContent = this.corpData.caseType === '0' ? JSON.parse(selectedPaper.let1Data.paperContent) : null
+      let let1DataPaperContent = selectedPaper.let1Data ? JSON.parse(selectedPaper.let1Data.paperContent) : null
       let cellIdx8String = this.corpData.caseType === '0' ? setDangerTable(
         let1DataPaperContent.DangerTable,
         {}, 
@@ -317,10 +317,10 @@ export default {
         cellIdx21: this.$store.state.curCase.provinceGroupName, //
         cellIdx22: this.todayDate, // 日期
         DangerTable,
-        associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
+        associationPaperId: { // 关联的paperId
           paper22Id: let1DataPaperContent.associationPaperId ? let1DataPaperContent.associationPaperId.paper22Id : '',
           paper1Id: selectedPaper.let1Data.paperId
-        } : {}
+        }
       })
     },
     goBack({ page, data }) {

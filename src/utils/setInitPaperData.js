@@ -587,3 +587,13 @@ function deleteField(arrData, field) {
     delete arrData[i][field]
   }
 }
+
+// 获取当前文书所有关联id
+export function setAssociationPaperId (associationPaperId) {
+  let associationId = {}
+  for (let key in associationPaperId) {
+    // 遍历字段
+    associationId[key] = associationPaperId[key]
+  }
+  return associationId
+}

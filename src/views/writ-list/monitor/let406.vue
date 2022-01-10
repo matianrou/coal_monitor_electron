@@ -267,27 +267,27 @@ export default {
         })
     },
     async downloadFile (index, row) {
-      // let link = document.createElement('a')
-      // link.style.display = 'none'
-      // link.href = `${process.env.FILE_URL}${row.filePath}`
-      // document.body.appendChild(link)
-      // link.click()
       this.loading.btn = true
-      const url = `${process.env.FILE_URL}${row.filePath}`
+      let {userSessId} = this.$store.state.user
+      let url = `${process.env.BASE_URL}/local/download/getfile?filePath=${row.filePath}&__sid=${userSessId}`
       await fetch(url, {
-        method: "POST",
+        method: "GET",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
         },
         credentials: "include",
         mode: "cors"
       }).then(async response => {
-        console.log('response', response)
-        const blob = await response.blob();
-        saveAs(
-          blob,
-          row.fileName
-        );
+        if (response.status === 200) {
+          const blob = await response.blob();
+          saveAs(
+            blob,
+            row.fileName
+          );
+          this.$message.success('文件下载成功！')
+        } else {
+          this.$message.error('文件下载失败，请重新下载！')
+        }
       }).catch((err) => {
         this.$message.error('文件下载失败，请重新下载！')
         console.log('err', err)

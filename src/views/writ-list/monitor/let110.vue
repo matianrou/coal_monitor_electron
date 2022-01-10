@@ -351,7 +351,7 @@ export default {
         },
         cellIdx9: dictionary,
       },
-      associationPaper: this.corpData.caseType === "0" ? ["1"] : [],
+      associationPaper: ["1"],
       selectedType: "查封",
       visibleSelectDialog: false,
     };
@@ -372,15 +372,7 @@ export default {
         this.corpData.caseId
       );
       // 3.违法行为：获取笔录文书中的隐患数据
-      let let1DataPaperContent =
-        this.corpData.caseType === "0"
-          ? JSON.parse(selectedPaper.let1Data.paperContent)
-          : null;
-      // let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
-      //   let1DataPaperContent.DangerTable.selectedDangerList
-      // ) : null;
-      // let cellIdx6String = this.corpData.caseType === '0' ? `${dangerObject.dangerString}` : '';
-      // let cellIdx7String = this.corpData.caseType === '0' ? `${dangerObject.illegalString}` : '';
+      let let1DataPaperContent = selectedPaper.let1Data ? JSON.parse(selectedPaper.let1Data.paperContent) : null;
       let cellIdx6String =
         this.corpData.caseType === "0"
           ? setDangerTable(
@@ -445,14 +437,11 @@ export default {
           signature: null,
           signDate: "",
         },
-        associationPaperId:
-          this.corpData.caseType === "0"
-            ? {
-                // 关联的paperId
-                paper22Id: let1DataPaperContent.associationPaperId ? let1DataPaperContent.associationPaperId.paper22Id : '',
-                paper1Id: selectedPaper.let1Data.paperId,
-              }
-            : null,
+        associationPaperId: {
+          // 关联的paperId
+          paper22Id: let1DataPaperContent.associationPaperId ? let1DataPaperContent.associationPaperId.paper22Id : '',
+          paper1Id: selectedPaper.let1Data.paperId,
+        },
       })
     },
     goBack({ page, data }) {

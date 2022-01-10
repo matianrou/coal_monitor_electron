@@ -199,7 +199,8 @@
 import GoDB from "@/utils/godb.min.js";
 import {
   getDocNumber,
-  setNewDanger
+  setNewDanger,
+  setAssociationPaperId
 } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 import { setDangerTable } from '@/utils/handlePaperData'
@@ -248,7 +249,7 @@ export default {
           },
         ],
       },
-      selectAssociationPaper: ['6', '1'],
+      selectAssociationPaper: this.corpData.caseType === '0' ? ['6', '1'] : ['6'],
       visibleSelectDialog: false,
       selectedType: "单位", // 初始化时选择的单位或个人
     };
@@ -265,6 +266,7 @@ export default {
       let cellIdx4String = '';
       let selectletData = {}
       let letDataPaperContent = {}
+      let associationPaperId = {}
       if (selectedPaper.let6Data) {
         // 如果是关联告知书则直接获取告知书的单位或个人
         letDataPaperContent = JSON.parse(
@@ -272,6 +274,9 @@ export default {
         );
         cellIdx4String = letDataPaperContent.selectedType;
         selectletData = selectedPaper.let6Data
+        associationPaperId = Object.assign({}, setAssociationPaperId(letDataPaperContent.associationPaperId), {
+          paper6Id: selectedPaper.let6Data.paperId,
+        }) 
       } else {
         // 1.如果没关联告知书则弹出提示框，选择单位或个人
         this.visibleSelectDialog = true
@@ -279,32 +284,9 @@ export default {
           selectedPaper.let1Data.paperContent
         );
         selectletData = selectedPaper.let1Data
-      }
-      let associationPaperId = {}
-      // 获取关联文书id逻辑
-      if (this.corpData.caseType === '0') {
-        if (selectedPaper.let6Data) {
-          associationPaperId = {
-            paper22Id: letDataPaperContent.associationPaperId.paper22Id,
-            paper1Id: letDataPaperContent.associationPaperId.paper1Id,
-            paper6Id: selectedPaper.let6Data.paperId,
-          }
-        } else {
-          associationPaperId = {
-            paper22Id: letDataPaperContent.associationPaperId.paper22Id,
-            paper1Id: selectedPaper.let1Data.paperId,
-          }
-        }
-      } else {
-        if (selectedPaper.let6Data) {
-          associationPaperId = {
-            paper6Id: selectedPaper.let6Data.paperId,
-          }
-        } else {
-          associationPaperId = {
-            paper1Id: selectedPaper.let1Data.paperId,
-          }
-        }
+        associationPaperId = Object.assign({}, setAssociationPaperId(letDataPaperContent.associationPaperId), {
+          paper1Id: selectedPaper.let1Data.paperId,
+        }) 
       }
       // 1.关联行政处罚告知书
       // 2.单位/个人：行政处罚告知书中的单位/个人selectedType
@@ -359,7 +341,6 @@ export default {
       let orgData = await orgInfo.find(
         (item) => item.no === this.$store.state.curCase.affiliate
       );
-      
       let orgSysOfficeInfo =
         orgData && orgData.sysOfficeInfo
           ? JSON.parse(orgData.sysOfficeInfo)
@@ -408,6 +389,7 @@ export default {
         selectedType: letDataPaperContent.selectedType,
         associationPaperId: associationPaperId
       })
+      console.log('letData', this.letData)
     },
     goBack({ page, data }) {
       // 返回选择企业

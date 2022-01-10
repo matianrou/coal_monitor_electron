@@ -246,7 +246,8 @@
 import GoDB from "@/utils/godb.min.js";
 import {
   getDocNumber,
-  setNewDanger
+  setNewDanger,
+  setAssociationPaperId
 } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 import { setDangerTable } from '@/utils/handlePaperData'
@@ -296,13 +297,11 @@ export default {
       },
       visibleSelectDialog: false,
       selectedType: "单位", // 初始化时选择的单位或个人
-      associationPaper: this.corpData.caseType === '0' ? ["1"] : [],
+      selectAssociationPaper: ['36', '4'],
     };
   },
   methods: {
     async initLetData(selectedPaper) {
-      // 1.弹出提示框，选择单位或个人
-      this.visibleSelectDialog = true;
       if (this.corpData.caseType === '0') {
         let db = new GoDB(this.$store.state.DBName);
         let paperNumber = await getDocNumber(
@@ -310,13 +309,41 @@ export default {
           this.docData.docTypeNo,
           this.corpData.caseId
         );
-        // 获取笔录文书中的隐患数据
-        let let1DataPaperContent = JSON.parse(
-          selectedPaper.let1Data.paperContent
-        );
+        let selectletData = {}
+        let letDataPaperContent = {}
+        let associationPaperId = {}
+        let selectedType = ''
+        if (selectedPaper.let36Data) {
+          // 如果是关联案件处理呈报书
+          letDataPaperContent = JSON.parse(
+            selectedPaper.let36Data.paperContent
+          );
+          if (letDataPaperContent.selectedType) {
+            selectedType = letDataPaperContent.selectedType
+          } else {
+            // 1.弹出提示框，选择单位或个人
+            this.visibleSelectDialog = true;
+          }
+          selectletData = selectedPaper.let36Data
+          // 遍历关联文书key
+          associationPaperId = Object.assign({}, setAssociationPaperId(letDataPaperContent.associationPaperId), {
+            paper36Id: selectedPaper.let36Data.paperId,
+          }) 
+        } else {
+          // 如果是关联立案决定书
+          // 1.弹出提示框，选择单位或个人
+          this.visibleSelectDialog = true;
+          letDataPaperContent = JSON.parse(
+            selectedPaper.let4Data.paperContent
+          );
+          selectletData = selectedPaper.let4Data
+          associationPaperId = Object.assign({}, setAssociationPaperId(letDataPaperContent.associationPaperId), {
+            paper4Id: selectedPaper.let4Data.paperId,
+          }) 
+        }
         // 7.行政处罚决定
         let cellIdx10String = setDangerTable(
-          let1DataPaperContent.DangerTable,
+          letDataPaperContent.DangerTable,
           {},
           {
             page: "6",
@@ -336,8 +363,9 @@ export default {
         // depPost：邮政编码、
         // master：我局联系人、
         // phone：联系电话
+        console.log('selectletData', selectletData)
         let cellIdx6String = setDangerTable(
-          let1DataPaperContent.DangerTable,
+          letDataPaperContent.DangerTable,
           {},
           {
             page: "6",
@@ -345,7 +373,7 @@ export default {
           }
         );
         let cellIdx22String = setDangerTable(
-          let1DataPaperContent.DangerTable,
+          letDataPaperContent.DangerTable,
           {},
           {
             page: "6",
@@ -353,7 +381,7 @@ export default {
           }
         );
         let cellIdx7String = setDangerTable(
-          let1DataPaperContent.DangerTable,
+          letDataPaperContent.DangerTable,
           {},
           {
             page: "6",
@@ -361,15 +389,15 @@ export default {
           }
         );
         let cellIdx8String = setDangerTable(
-          let1DataPaperContent.DangerTable,
+          letDataPaperContent.DangerTable,
           {},
           {
             page: "6",
             key: "cellIdx8",
           }
         );
-        let DangerTable = let1DataPaperContent.DangerTable ? 
-          setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
+        let DangerTable = letDataPaperContent.DangerTable ? 
+          setNewDanger(selectletData, letDataPaperContent.DangerTable)
           : {}
         await db.close();
         this.letData = Object.assign({}, this.letData, {
@@ -377,11 +405,15 @@ export default {
           cellIdx1: paperNumber.num1, // 文书号
           cellIdx2: paperNumber.num3, // 文书号
           cellIdx3: paperNumber.num4, // 文书号
+          cellIdx4: selectedType === '单位' ? this.corpData.corpName : '',
+          cellIdx5: selectedType,
           cellIdx6: cellIdx6String, // 违法行为
           cellIdx22: cellIdx22String, // 分别违反了或违反了
           cellIdx7: cellIdx7String, // 违法行为
           cellIdx8: cellIdx8String, // 法律依据
+          cellIdx9: selectedType,
           cellIdx10: cellIdx10String, // 法律规定
+          cellIdx11: selectedType,
           cellIdx23: '□', // 
           cellIdx15: orgSysOfficeInfo.depAddress, // 邮政编码
           cellIdx16: orgSysOfficeInfo.depPost, // 邮政编码
@@ -389,11 +421,10 @@ export default {
           cellIdx18: orgSysOfficeInfo.phone, // 联系电话
           cellIdx19: this.$store.state.curCase.provinceGroupName, // 
           cellIdx20: this.todayDate, // 日期
+          cellIdx21: selectedType, 
           DangerTable: DangerTable,
-          associationPaperId: { // 关联的paperId
-            paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
-            paper1Id: selectedPaper.let1Data.paperId,
-          }
+          selectedType,
+          associationPaperId: associationPaperId
         })
       } else {
         let db = new GoDB(this.$store.state.DBName);
@@ -412,6 +443,26 @@ export default {
             ? JSON.parse(orgData.sysOfficeInfo)
             : { depAddress: "", depPost: "", master: "", phone: "" };
         await db.close();
+        let associationPaperId = {}
+        let letDataPaperContent = {}
+        if (selectedPaper.let36Data) {
+          // 如果是关联案件处理呈报书
+          letDataPaperContent = JSON.parse(
+            selectedPaper.let36Data.paperContent
+          );
+          // 遍历关联文书key
+          associationPaperId = Object.assign({}, setAssociationPaperId(letDataPaperContent.associationPaperId), {
+            paper36Id: selectedPaper.let36Data.paperId,
+          }) 
+        } else {
+          // 如果是关联立案决定书
+          letDataPaperContent = JSON.parse(
+            selectedPaper.let4Data.paperContent
+          );
+          associationPaperId = Object.assign({}, setAssociationPaperId(letDataPaperContent.associationPaperId), {
+            paper4Id: selectedPaper.let4Data.paperId,
+          }) 
+        }
         this.letData = Object.assign({}, this.letData, {
           cellIdx0: paperNumber.num0, // 文书号
           cellIdx1: paperNumber.num1, // 文书号
@@ -424,6 +475,7 @@ export default {
           cellIdx18: orgSysOfficeInfo.phone, // 联系电话
           cellIdx19: this.$store.state.curCase.provinceGroupName, // 
           cellIdx20: this.todayDate, // 日期
+          associationPaperId: associationPaperId
         })
       }
     },
@@ -481,7 +533,6 @@ export default {
         // 按单位初始化信息
         // 1.单位名称
         this.letData.cellIdx4 = corpName;
-        this.letData.cellIdx4TypeTextItem = corpName;
       } else {
         // 按个人初始化信息
       }

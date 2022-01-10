@@ -310,7 +310,7 @@ export default {
           },
         ],
       },
-      associationPaper: ["2"],
+      associationPaper: ["1"],
     };
   },
   methods: {
@@ -325,18 +325,11 @@ export default {
         this.docData.docTypeNo,
         this.corpData.caseId
       );
-      let let2DataPaperContent = JSON.parse(
-        selectedPaper.let2Data.paperContent
+      let let1DataPaperContent = JSON.parse(
+        selectedPaper.let1Data.paperContent
       );
-      // let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
-      //   let2DataPaperContent.DangerTable.tableData,
-      //   { danger: true }
-      // ) : {};
-      
-      // let cellIdx9String = this.corpData.caseType === '0' ? dangerObject.dangerString : '';
-      // let cellIdx10String = this.corpData.caseType === '0' ? dangerObject.onsiteDescString : '';
       let cellIdx9String =this.corpData.caseType === '0' ? setDangerTable(
-        let2DataPaperContent.DangerTable,
+        let1DataPaperContent.DangerTable,
         {},
         {
           page: "13",
@@ -344,18 +337,18 @@ export default {
         }
       ):'';
       let cellIdx10String = this.corpData.caseType === '0' ?setDangerTable(
-        let2DataPaperContent.DangerTable,
+        let1DataPaperContent.DangerTable,
         {},
         {
           page: "13",
           key: "cellIdx10",
         }
       ):'';
-      let date2 = let2DataPaperContent.cellIdx15 ? let2DataPaperContent.cellIdx15.replace('年', '-').replace('月', '-').replace('日', '-').split('-') : ['', '', '']
+      let date2 = selectedPaper.let1Data ? selectedPaper.let1Data.createDate.split(' ')[0].replace('年', '-').replace('月', '-').replace('日', '-').split('-') : ['', '', '']
       let DangerTable = null
       if (this.corpData.caseType === '0') {
-        DangerTable = let2DataPaperContent.DangerTable ? 
-          setNewDanger(selectedPaper.let2Data, let2DataPaperContent.DangerTable)
+        DangerTable = let1DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
           : {} 
       }
       await db.close();
@@ -371,18 +364,17 @@ export default {
         cellIdx8: date2[2], // 日
         cellIdx9: cellIdx9String, // 违法违规行为：隐患描述
         cellIdx10: cellIdx10String, // 现场处理决定
-        cellIdx11: let2DataPaperContent.cellIdx0, // 现场处理决定书 文书号
-        cellIdx12: let2DataPaperContent.cellIdx1, // 现场处理决定书 文书号
-        cellIdx13: let2DataPaperContent.cellIdx2, // 现场处理决定书 文书号
-        cellIdx14: let2DataPaperContent.cellIdx3, // 现场处理决定书 文书号
+        cellIdx11: let1DataPaperContent.cellIdx0, // 现场处理决定书 文书号
+        cellIdx12: let1DataPaperContent.cellIdx1, // 现场处理决定书 文书号
+        cellIdx13: let1DataPaperContent.cellIdx2, // 现场处理决定书 文书号
+        cellIdx14: let1DataPaperContent.cellIdx3, // 现场处理决定书 文书号
         cellIdx15: '应你单位申请', //
         cellIdx22: this.$store.state.curCase.provinceGroupName, //
         cellIdx23: this.todayDate, // 日期
         DangerTable: DangerTable,
         associationPaperId: { // 关联的paperId
-          paper22Id: let2DataPaperContent.associationPaperId.paper22Id,
-          paper1Id: let2DataPaperContent.associationPaperId.paper1Id,
-          paper2Id: selectedPaper.let2Data.paperId
+          paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: selectedPaper.let1Data.paperId,
         }
       })
     },

@@ -161,7 +161,7 @@
 import GoDB from "@/utils/godb.min.js";
 import { setDangerTable } from '@/utils/handlePaperData'
 import associationSelectPaper from "@/components/association-select-paper";
-import { setNewDanger, getDocNumber2 } from '@/utils/setInitPaperData'
+import { setNewDanger, getDocNumber2, setAssociationPaperId } from '@/utils/setInitPaperData'
 
 export default {
   name: "Let203",
@@ -191,7 +191,7 @@ export default {
       options: {
         cellIdx8: []
       },
-      associationPaper: ["4"],
+      associationPaper: this.corpData.caseType === '0' ? ["49"] : ["4"],
     };
   },
   methods: {
@@ -205,12 +205,12 @@ export default {
         // 4.编号：
         let paperNumber = await getDocNumber2(db, this.docData.docTypeNo, this.corpData.caseId)
         // 5.获取立案决定书编号及立案日期,承办人
-        let let4DataPaperContent = JSON.parse(
-          selectedPaper.let4Data.paperContent
+        let let49DataPaperContent = JSON.parse(
+          selectedPaper.let49Data.paperContent
         );
         // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
         // 获取笔录文书中的隐患数据
-        let cellIdx2String = setDangerTable(let4DataPaperContent.DangerTable, {}, { 
+        let cellIdx2String = setDangerTable(let49DataPaperContent.DangerTable, {}, { 
           page: '36', 
           key: 'cellIdx2',
           spellString: {
@@ -219,7 +219,7 @@ export default {
           },
         })
         // 2.违法事实及依据：隐患描述+“经调查取证以上违法违规行为属实，分别违反了”+违法认定发条
-        let cellIdx6String = setDangerTable(let4DataPaperContent.DangerTable, {}, { 
+        let cellIdx6String = setDangerTable(let49DataPaperContent.DangerTable, {}, { 
           page: '36', 
           key: 'cellIdx6',
           spellString: {
@@ -228,7 +228,7 @@ export default {
           },
         })
         // 3.建议案件处理意见：行政处罚依据+行政处罚决定（分条）
-        let cellIdx7String = setDangerTable(let4DataPaperContent.DangerTable, {}, { 
+        let cellIdx7String = setDangerTable(let49DataPaperContent.DangerTable, {}, { 
           page: '36', 
           key: 'cellIdx7',
           spellString: {
@@ -236,6 +236,9 @@ export default {
             groupName: this.$store.state.curCase.provinceGroupName,
           },
         })
+        let wkPaper = db.table('wkPaper')
+        let let4Paper = await wkPaper.find(item => item.paperId === let49DataPaperContent.associationPaperId.paper4Id && item.delFlag !== '1')
+        let let4DataPaperContent = JSON.parse(let4Paper.paperContent)
         let {
           cellIdx0,
           cellIdx1,
@@ -251,9 +254,12 @@ export default {
           cellIdx7 ? cellIdx7 : "XX"
         }月${cellIdx8 ? cellIdx8 : "XX"}日`;
         let let4Person = cellIdx9 ? cellIdx9 : 'XX'
-        let DangerTable = let4DataPaperContent.DangerTable ? 
-          setNewDanger(selectedPaper.let4Data, let4DataPaperContent.DangerTable)
+        let DangerTable = let49DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let49Data, let49DataPaperContent.DangerTable)
           : {}
+        let associationPaperId = Object.assign({}, setAssociationPaperId(let49DataPaperContent.associationPaperId), {
+          paper49Id: selectedPaper.let49Data.paperId,
+        }) 
         await db.close();
         this.letData = Object.assign({}, this.letData, {
           cellIdx1: paperNumber, // 编号
@@ -269,11 +275,8 @@ export default {
             corpName: corp.corpName,
             groupName: this.$store.state.curCase.provinceGroupName,
           },
-          associationPaperId: { // 关联的paperId
-            paper22Id: let4DataPaperContent.associationPaperId ? let4DataPaperContent.associationPaperId.paper22Id : '',
-            paper1Id: let4DataPaperContent.associationPaperId ? let4DataPaperContent.associationPaperId.paper1Id : '',
-            paper4Id: selectedPaper.let4Data.paperId,
-          }
+          associationPaperId: associationPaperId,
+          selectedType: let49DataPaperContent.selectedType
         })
       } else {
         let db = new GoDB(this.$store.state.DBName);
@@ -297,14 +300,15 @@ export default {
           cellIdx7 ? cellIdx7 : "XX"
         }月${cellIdx8 ? cellIdx8 : "XX"}日`;
         let let4Person = cellIdx9 ? cellIdx9 : 'XX'
+        let associationPaperId = Object.assign({}, setAssociationPaperId(let4DataPaperContent.associationPaperId), {
+          paper49Id: selectedPaper.let49Data.paperId,
+        }) 
         this.letData = Object.assign({}, this.letData, {
           cellIdx1: paperNumber, // 编号
           cellIdx3: let4PaperNumber, // 立案决定书编号
           cellIdx4: let4Date, // 立案时间
           cellIdx5: let4Person, // 承办人
-          associationPaperId: { // 关联的paperId
-            paper4Id: selectedPaper.let4Data.paperId,
-          }
+          associationPaperId: associationPaperId
         })
       }
     },

@@ -387,17 +387,12 @@ export default {
             },
         selectedType: selectedType,
         DangerTable: DangerTable,
-        associationPaperId: 
-          this.corpData.caseType === "0"
-            ? {
-                // 关联的paperId
-                paper22Id: let32DataPaperContent.associationPaperId.paper22Id,
-                paper1Id: let32DataPaperContent.associationPaperId.paper1Id,
-                paper32Id: selectedPaper.let32Data.paperId,
-              }
-            : {
-              paper32Id: selectedPaper.let32Data.paperId,
-            },
+        associationPaperId: {
+          // 关联的paperId
+          paper22Id: let32DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: let32DataPaperContent.associationPaperId.paper1Id,
+          paper32Id: selectedPaper.let32Data.paperId,
+        }
       })
     },
     goBack({ page, data }) {

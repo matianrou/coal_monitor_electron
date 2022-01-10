@@ -177,23 +177,6 @@
         </div>
       </div>
     </let-main>
-    <el-dialog
-      title="文书信息选择"
-      :close-on-click-modal="false"
-      append-to-body
-      :visible="visibleSelectDialog"
-      width="400px"
-      :show-close="false"
-    >
-      <span>请选择：</span>
-      <el-radio-group v-model="selectedType">
-        <el-radio label="停供电">停供电</el-radio>
-        <el-radio label="停供民用爆炸物品">停供民用爆炸物品</el-radio>
-      </el-radio-group>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="confirm">确定</el-button>
-      </span>
-    </el-dialog>
     <!-- 关联文书选择 -->
     <select-paper
       :visible="visible.selectPaper"
@@ -242,9 +225,7 @@ export default {
         associationPaperId: null
       },
       options: {},
-      visibleSelectDialog: false,
-      selectedType: "停供电", // 初始化时选择的停供电
-      associationPaper: this.corpData.caseType === '0' ? ["1"] : [],
+      associationPaper: ["48"],
     };
   },
   methods: {
@@ -254,8 +235,6 @@ export default {
       let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      // 1.弹出提示框，选择停供电或停供民用爆炸物品
-      this.visibleSelectDialog = true;
       // 2.生成文书编号
       let { num0, num1, num3, num4 } = await getDocNumber(
         db,
@@ -275,24 +254,27 @@ export default {
       let cellIdx15String = orgSysOfficeInfo.depPost;
       let cellIdx17String = orgSysOfficeInfo.master;
       let cellIdx18String = orgSysOfficeInfo.phone;
-      let let1DataPaperContent = this.corpData.caseType === '0' ? JSON.parse(
-        selectedPaper.let1Data.paperContent
+      let let48DataPaperContent = selectedPaper.let48Data ? JSON.parse(
+        selectedPaper.let48Data.paperContent
       ) : null;
       let DangerTable = null
       if (this.corpData.caseType === '0') {
-        DangerTable = let1DataPaperContent.DangerTable ? 
-          setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
+        DangerTable = let48DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let48Data, let48DataPaperContent.DangerTable)
           : {}
       }
       await db.close();
       this.letData = Object.assign({}, this.letData, {
+        cellIdx0: let48DataPaperContent.selectedType,
         cellIdx1: num0, // 文书号
         cellIdx2: num1, // 文书号
         cellIdx3: num3, // 文书号
         cellIdx4: num4, // 文书号
+        cellIdx5: let48DataPaperContent.selectedType === '停供电' ? '供电公司' : '公安局',
         cellIdx6: '局', // 局
         cellIdx7: corp.corpName ? corp.corpName : null, // corpname
         cellIdx8: '责令停产整顿',
+        cellIdx9: let48DataPaperContent.selectedType === '停供电' ? '停供生产性用电' : '停供民用爆炸物品',
         cellIdx13: '局', // 局
         cellIdx14: cellIdx14String, // 地址
         cellIdx15: cellIdx15String, // 邮政编码
@@ -301,11 +283,14 @@ export default {
         cellIdx18: cellIdx18String, // 联系电话
         cellIdx19: this.$store.state.curCase.provinceGroupName, //
         cellIdx20: this.todayDate, // 日期
+        cellIdx21: let48DataPaperContent.selectedType === '停供电' ? '供电部门' : '公安机关',
         DangerTable, // 隐患项大表
-        associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
-          paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
-          paper1Id: selectedPaper.let1Data.paperId
-        } : null
+        selectedType: let48DataPaperContent.selectedType,
+        associationPaperId: { // 关联的paperId
+          paper22Id: let48DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: let48DataPaperContent.associationPaperId.paper1Id,
+          paper48Id: selectedPaper.let48Data.paperId
+        } 
       })
     },
     goBack({ page, data }) {
@@ -326,15 +311,6 @@ export default {
           this.options[key]
         );
       }
-    },
-    confirm() {
-      // 选择停供电或停供民用爆炸物品
-      this.visibleSelectDialog = false;
-      this.letData.cellIdx0 = this.selectedType;
-      this.letData.cellIdx5 = this.selectedType === '停供电' ? '供电公司' : '公安局';
-      this.letData.cellIdx9 = this.selectedType === '停供电' ? '停供生产性用电' : '停供民用爆炸物品'
-      this.letData.cellIdx21 = this.selectedType === '停供电' ? '供电部门' : '公安机关'
-      this.letData.selectedType = this.selectedType;
     },
   },
 };

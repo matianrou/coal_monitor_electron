@@ -167,7 +167,7 @@ import { getNowDate } from "@/utils/date";
 import { transformNumToChinese } from "@/utils";
 import associationSelectPaper from "@/components/association-select-paper";
 import { setDangerTable } from "@/utils/handlePaperData";
-import { getDocNumber2, setNewDanger } from '@/utils/setInitPaperData'
+import { getDocNumber2, setNewDanger, setAssociationPaperId } from '@/utils/setInitPaperData'
 export default {
   name: "Let215",
   mixins: [associationSelectPaper],
@@ -192,24 +192,43 @@ export default {
       options: {
         cellIdx8: []
       },
-      associationPaper: ["4"],
+      selectAssociationPaper: ['6', '4'],
       selectedType: "单位",
       visibleSelectDialog: false,
     };
   },
   methods: {
     async initLetData(selectedPaper) {
-      // 1.弹出提示框，选择单位或个人
-      this.visibleSelectDialog = true;
       let db = new GoDB(this.$store.state.DBName);
       let corpBase = db.table("corpBase");
       let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      // 获取笔录文书中的隐患数据和  现场检查笔录时间
-      let let4DataPaperContent = JSON.parse(
-        selectedPaper.let4Data.paperContent
-      );
+      let selectedType = ''
+      let selectletData = {}
+      let letDataPaperContent = {}
+      let associationPaperId = {}
+      if (selectedPaper.let6Data) {
+        // 如果是关联告知书则直接获取告知书的单位或个人
+        letDataPaperContent = JSON.parse(
+          selectedPaper.let6Data.paperContent
+        );
+        selectedType = letDataPaperContent.selectedType;
+        selectletData = selectedPaper.let6Data
+        associationPaperId = Object.assign({}, setAssociationPaperId(letDataPaperContent.associationPaperId), {
+          paper6Id: selectedPaper.let6Data.paperId,
+        }) 
+      } else {
+        // 1.如果没关联告知书则弹出提示框，选择单位或个人
+        this.visibleSelectDialog = true
+        letDataPaperContent = JSON.parse(
+          selectedPaper.let4Data.paperContent
+        );
+        selectletData = selectedPaper.let4Data
+        associationPaperId = Object.assign({}, setAssociationPaperId(letDataPaperContent.associationPaperId), {
+          paper4Id: selectedPaper.let4Data.paperId,
+        }) 
+      }
       // 1.获取文书编号：
       let paperNumber = await getDocNumber2(db, this.docData.docTypeNo, this.corpData.caseId)
       // 2.案由内容初始化：煤矿企业名称+涉嫌+违法违规行为+案
@@ -217,7 +236,7 @@ export default {
       let cellIdx3String =
         this.corpData.caseType === "0"
           ? setDangerTable(
-              let4DataPaperContent.DangerTable,
+              letDataPaperContent.DangerTable,
               {},
               {
                 page: "49",
@@ -232,7 +251,7 @@ export default {
       // 2.案情摘要：与立案决定书案情摘要格式一致。检查时间，煤矿企业全称+进行现场检查时发现，+隐患描述。+违反认定法条+的规定，依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。
       // 获取检查时间
       let wkPaper = db.table('wkPaper')
-      let let1Data = await wkPaper.find(item => item.paperId === let4DataPaperContent.associationPaperId.paper1Id && item.delFlag !== '1')
+      let let1Data = await wkPaper.find(item => item.paperId === letDataPaperContent.associationPaperId.paper1Id && item.delFlag !== '1')
       let let1DataPaperContent = JSON.parse(
         let1Data.paperContent
       );
@@ -243,7 +262,7 @@ export default {
       let cellIdx5String =
         this.corpData.caseType === "0"
           ? setDangerTable(
-              let4DataPaperContent.DangerTable,
+              letDataPaperContent.DangerTable,
               {},
               {
                 page: "49",
@@ -261,7 +280,7 @@ export default {
       let cellIdx6String =
         this.corpData.caseType === "0"
           ? setDangerTable(
-              let4DataPaperContent.DangerTable,
+              letDataPaperContent.DangerTable,
               {},
               {
                 page: "49",
@@ -273,7 +292,7 @@ export default {
       let cellIdx7String =
         this.corpData.caseType === "0"
           ? setDangerTable(
-              let4DataPaperContent.DangerTable,
+              letDataPaperContent.DangerTable,
               {},
               {
                 page: "49",
@@ -283,10 +302,10 @@ export default {
           : "";
       let DangerTable = null;
       if (this.corpData.caseType === "0") {
-        DangerTable = let4DataPaperContent.DangerTable
+        DangerTable = letDataPaperContent.DangerTable
           ? setNewDanger(
-              selectedPaper.let4Data,
-              let4DataPaperContent.DangerTable
+              selectletData,
+              letDataPaperContent.DangerTable
             )
           : {};
       }
@@ -294,6 +313,7 @@ export default {
       this.letData = Object.assign({}, this.letData, {
         cellIdx1: paperNumber,
         cellIdx3: cellIdx3String, // 案由
+        cellIdx4: selectedType === '单位' ? `${corp.corpName}社会统一信用代码是${corp.uscCode ? corp.uscCode : 'XX'}，采矿许可证号是${corp.uscCode ? corp.uscCode : 'XX'}，安全生产许可证号是${corp.uscCode ? corp.uscCode : 'XX'}。` : '姓名XXX，出生日期XXXX年XX月XX日，身份证号XXXX。',
         cellIdx5: cellIdx5String, // 案情摘要
         cellIdx6: cellIdx6String, // 作出决定依据
         cellIdx7: cellIdx7String, // 建议行政决定
@@ -304,17 +324,8 @@ export default {
           dateString,
           groupName: this.$store.state.curCase.provinceGroupName,
         },
-        associationPaperId:
-          this.corpData.caseType === "0"
-            ? {
-                // 关联的paperId
-                paper22Id: let4DataPaperContent.associationPaperId.paper22Id,
-                paper1Id: let4DataPaperContent.associationPaperId.paper1Id,
-                paper4Id: selectedPaper.let4Data.paperId,
-              }
-            : {
-              paper4Id: selectedPaper.let4Data.paperId,
-            },
+        selectedType,
+        associationPaperId: associationPaperId,
       })
     },
     goBack({ page, data }) {
@@ -372,6 +383,7 @@ export default {
         cellIdx4String = '姓名XXX，出生日期XXXX年XX月XX日，身份证号XXXX。'
       }
       this.letData.cellIdx4 = cellIdx4String
+      this.letData.selectedType = this.selectedType
     },
   },
 };

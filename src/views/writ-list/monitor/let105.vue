@@ -338,20 +338,30 @@ export default {
     },
     async downloadFile (index, row) {
       this.loading.btn = true
-      const url = `${process.env.FILE_URL}${row.filePath}`
-      const response = await fetch(url, {
-        method: "POST",
+      let {userSessId} = this.$store.state.user
+      let url = `${process.env.BASE_URL}/local/download/getfile?filePath=${row.filePath}&__sid=${userSessId}`
+      await fetch(url, {
+        method: "GET",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
         },
         credentials: "include",
         mode: "cors"
-      });
-      const blob = await response.blob();
-      saveAs(
-        blob,
-        row.fileName
-      );
+      }).then(async response => {
+        if (response.status === 200) {
+          const blob = await response.blob();
+          saveAs(
+            blob,
+            row.fileName
+          );
+          this.$message.success('文件下载成功！')
+        } else {
+          this.$message.error('文件下载失败，请重新下载！')
+        }
+      }).catch((err) => {
+        this.$message.error('文件下载失败，请重新下载！')
+        console.log('err', err)
+      })
       this.loading.btn = false
     },
     async handleSuccess(res, file, fileList) {

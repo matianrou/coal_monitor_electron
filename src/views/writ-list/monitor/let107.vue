@@ -276,7 +276,7 @@ export default {
         associationPaperId: null
       },
       options: {},
-      associationPaper: this.corpData.caseType === '0' ? ["1"] : [],
+      associationPaper: ["1"],
     };
   },
   methods: {
@@ -295,13 +295,9 @@ export default {
       );
       // 2.隐患描述
       // 获取笔录文书中的隐患数据
-      let let1DataPaperContent = this.corpData.caseType === '0' ? JSON.parse(
+      let let1DataPaperContent = selectedPaper.let1Data ? JSON.parse(
         selectedPaper.let1Data.paperContent
       ) : null;
-      // let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
-      //   let1DataPaperContent.DangerTable.selectedDangerList
-      // ) : null;
-      // let cellIdx5String = this.corpData.caseType === '0' ? `${dangerObject.dangerString}` : '';
       let cellIdx5String = this.corpData.caseType === '0' ?setDangerTable(
         let1DataPaperContent.DangerTable,
         {},
@@ -329,15 +325,15 @@ export default {
       let cellIdx18String = orgSysOfficeInfo.depPost;
       let cellIdx20String = orgSysOfficeInfo.master;
       let cellIdx21String = orgSysOfficeInfo.phone;
-      let DangerTable = null
+      // 5.获取检查地点
       let cellIdx13String = ''
-      if ( this.corpData.caseType === '0') {
-        // 5.获取检查地点
-        let wkPaper = db.table('wkPaper')
-        if (let1DataPaperContent.associationPaperId) {
-          let paper22 = await wkPaper.find(item => item.paperId === let1DataPaperContent.associationPaperId.paper22Id)
-          cellIdx13String = paper22.paperContent ? JSON.parse(paper22.paperContent).cellIdx4 : ''
-        }
+      let wkPaper = db.table('wkPaper')
+      if (let1DataPaperContent.associationPaperId) {
+        let paper22 = await wkPaper.find(item => item.paperId === let1DataPaperContent.associationPaperId.paper22Id)
+        cellIdx13String = paper22.paperContent ? JSON.parse(paper22.paperContent).cellIdx4 : ''
+      }
+      let DangerTable = null
+      if (this.corpData.caseType === '0') {
         DangerTable = let1DataPaperContent.DangerTable ? 
           setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
           : {}
@@ -370,10 +366,10 @@ export default {
           signature: null,
           signDate: "",
         },
-        associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
+        associationPaperId:  { // 关联的paperId
           paper22Id: let1DataPaperContent.associationPaperId ? let1DataPaperContent.associationPaperId.paper22Id : '',
           paper1Id: selectedPaper.let1Data.paperId
-        } : null
+        }
       })
     },
     goBack({ page, data }) {

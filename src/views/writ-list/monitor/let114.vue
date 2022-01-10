@@ -389,17 +389,12 @@ export default {
         selectedType: selectedType, // 查封/扣押
         DangerTable: DangerTable,
         SamplingForensicsTable: let32DataPaperContent.SamplingForensicsTable,
-        associationPaperId: 
-          this.corpData.caseType === "0"
-            ? {
-                // 关联的paperId
-                paper22Id: let32DataPaperContent.associationPaperId.paper22Id,
-                paper1Id: let32DataPaperContent.associationPaperId.paper1Id,
-                paper32Id: selectedPaper.let32Data.paperId,
-              }
-            : {
-              paper32Id: selectedPaper.let32Data.paperId,
-            },
+        associationPaperId: {
+          // 关联的paperId
+          paper22Id: let32DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: let32DataPaperContent.associationPaperId.paper1Id,
+          paper32Id: selectedPaper.let32Data.paperId,
+        }
       })
     },
     goBack({ page, data }) {
