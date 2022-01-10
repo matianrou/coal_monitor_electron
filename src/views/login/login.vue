@@ -344,9 +344,9 @@ export default {
             .get(`${url}`)
             .then(async (response) => {
               if (response.data.data) {
-                await doDocDb(resId, response.data.data);
+                await doDocDb('doc', response.data.data);
                 // 修改更新日期
-                await this.handleUpdateTime(resId)
+                await this.handleUpdateTime()
               }
             })
             .catch((err) => {

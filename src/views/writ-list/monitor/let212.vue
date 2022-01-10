@@ -212,6 +212,7 @@ import GoDB from "@/utils/godb.min.js";
 import associationSelectPaper from "@/components/association-select-paper";
 import { getNowFormatTime, getNowTime, getNowDate } from '@/utils/date'
 import { randomString, toDecimal2 } from "@/utils/index";
+import { saveAs } from 'file-saver'
 export default {
   name: "Let212",
   mixins: [associationSelectPaper],
@@ -452,12 +453,23 @@ export default {
           this.loading.btn = false
         })
     },
-    downloadFile (index, row) {
-      let link = document.createElement('a')
-      link.style.display = 'none'
-      link.href = `${process.env.FILE_URL}${row.filePath}`
-      document.body.appendChild(link)
-      link.click()
+    async downloadFile (index, row) {
+      this.loading.btn = true
+      const url = `${process.env.FILE_URL}${row.filePath}`
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+        },
+        credentials: "include",
+        mode: "cors"
+      });
+      const blob = await response.blob();
+      saveAs(
+        blob,
+        row.fileName
+      );
+      this.loading.btn = false
     },
   },
 };

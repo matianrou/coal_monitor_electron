@@ -54,10 +54,10 @@
             </div>
             <div class="docTextarea">
               <span class="no-line"
-                >&nbsp;&nbsp;&nbsp;&nbsp;四、矿山概况：</span
+                >&nbsp;&nbsp;&nbsp;&nbsp;四、煤矿概况：</span
               >
               <span
-                @click="commandFill('cellIdx3', '矿山概况', 'TextareaItem')"
+                @click="commandFill('cellIdx3', '煤矿概况', 'TextareaItem')"
                 >{{
                   letData.cellIdx3 ? letData.cellIdx3 : "（点击编辑）"
                 }}</span
