@@ -44,7 +44,7 @@
             </div>
             <div class="docTextLine">
               <label style="width: 2em"></label>
-              <label>三、计划检查时间：</label>
+              <label>三、检查时间：</label>
               <div
                 class="line-div"
                 @click="commandFill('cellIdx2', '检查时间', 'DaterangeItem')"
@@ -54,7 +54,7 @@
             </div>
             <div class="docTextarea">
               <span class="no-line"
-                >&nbsp;&nbsp;&nbsp;&nbsp;四、煤矿企业概况：</span
+                >&nbsp;&nbsp;&nbsp;&nbsp;四、煤矿概况：</span
               >
               <span
                 @click="commandFill('cellIdx3', '煤矿概况', 'TextareaItem')"
@@ -206,7 +206,7 @@
                 >
                 </el-table-column>
                 <el-table-column
-                  prop="basis"
+                  prop="method"
                   header-align="center"
                   align="left"
                   label="检查主要资料及方法"
@@ -246,12 +246,32 @@
 <script>
 import associationSelectPaper from "@/components/association-select-paper";
 import GoDB from "@/utils/godb.min.js";
+import { corpInformation }from '@/utils/setInitPaperData'
+import { handleDateNormal }from '@/utils/date'
 export default {
   name: "Let100",
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 被检查单位
+        cellIdx1: null, // 监管类型或方式
+        cellIdx2: null, // 检查时间
+        cellIdx3: null, // 煤矿概况
+        cellIdx4: null, // 检查地点
+        cellIdx5: null, // 检查分工明细表
+        cellIdx6: null, // 其他事项
+        cellIdx8: null, // 编制人
+        cellIdx9: null, // 编制日期
+        cellIdx10: null, // 带队人
+        cellIdx11: null, // 审批日期
+        cellIdx12: null, // 审批人
+        cellIdx13: null, // 审批日期
+        CheckTable: {
+          tableData: [],
+          selectedIdList: [],
+        }, // 检查表
+      },
       options: {},
     };
   },
@@ -264,76 +284,21 @@ export default {
       let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      let zfZzInfo = db.table("zfZzInfo");
-      let zzInfo1 = await zfZzInfo.find((item) => {
-        return (
-          item.corpId == this.corpData.corpId &&
-          item.credTypeName == "采矿许可证"
-        );
-      });
-      let zzInfo2 = await zfZzInfo.find((item) => {
-        return (
-          item.corpId == this.corpData.corpId &&
-          item.credTypeName == "安全生产许可证"
-        );
-      });
-      let sSummary =
-        corp.corpName +
-        "位于" +
-        corp.provinceName +
-        corp.cityName +
-        corp.countryName +
-        "境内，隶属于" +
-        (corp.parentTypeName ? corp.parentTypeName : 'XX') +
-        "煤矿。 ";
-      if (zzInfo1 && zzInfo1.expireTime)
-        sSummary += "采矿许可证有效日期至" + zzInfo1.expireTime + "、";
-      else sSummary += "采矿许可证有效日期至XX";
-      if (zzInfo2 && zzInfo2.expireTime)
-        sSummary += "、安全生产许可证有效期至" + zzInfo2.expireTime + "，";
-      else sSummary += "、安全生产许可证有效期至XX，";
-      if (corp.provedOutput)
-        sSummary += "矿井核定生产能力为" + corp.provedOutput + "万吨/年，";
-      else sSummary += "矿井核定生产能力为XX万吨/年，";
-      sSummary +=
-        (corp.mineWsGradeName ? corp.mineWsGradeName : 'XX') +
-        "、水文地质类型为中等，煤层自燃倾向性为" +
-        (corp.mineFireName ? corp.mineFireName : 'XX') +
-        "，煤尘" +
-        (corp.grimeExplosiveName ? corp.grimeExplosiveName : 'XX') +
-        "，";
-      sSummary +=
-        "矿井状况为" +
-        (corp.mineStatusZsName ? corp.mineStatusZsName : 'XX') +
-        "，开拓方式为" +
-        (corp.mineMinestyleName ? corp.mineMinestyleName : 'XX') +
-        "开拓。";
-      sSummary +=
-        "采煤方式为综采。通风方式为中央分列抽出，采掘作业地点有71003综采工作面采煤工作面、 71007综采工作面风巷、71007综采工作面机巷掘进工作面。";
+      // 1.获取创建检查活动的检查时间
+      let wkCase = db.table('wkCase')
+      let caseData = await wkCase.find(item => item.caseId === this.corpData.caseId && item.delFlag !== '1')
+      let cellIdx2String = handleDateNormal(caseData.planBeginDate, caseData.planEndDate)
+      // 2.默认选中监察类型或方式的第一个选项
+      let sSummary = await corpInformation(db, corp)
       let corpOther = "检查的内容和分工变化时，应及时调整。";
       await db.close();
-      this.letData = {
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
-        cellIdx0TypeTextItem: corp.corpName ? corp.corpName : null,
-        cellIdx1: null, // 监管类型或方式
-        cellIdx2: null, // 检查时间
+        cellIdx1: this.options.cellIdx1[0].label,
+        cellIdx2: cellIdx2String,
         cellIdx3: sSummary ? sSummary : null, // 煤矿概况
-        cellIdx3TypeTextareaItem: sSummary ? sSummary : null, // 煤矿概况
-        cellIdx4: null, // 检查地点
-        cellIdx5: null, // 检查分工明细表
         cellIdx6: corpOther, // 其他事项
-        cellIdx6TypeTextItem: corpOther, // 其他事项
-        cellIdx8: null, // 编制人
-        cellIdx9: null, // 编制日期
-        cellIdx10: null, // 带队人
-        cellIdx11: null, // 审批日期
-        cellIdx12: null, // 审批人
-        cellIdx13: null, // 审批日期
-        CheckTable: {
-          tableData: [],
-          selectedIdList: [],
-        }, // 检查表
-      };
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业
@@ -359,7 +324,7 @@ export default {
         );
       } else {
         if (key === "cellIdx5") {
-          let dataKey = `${key}`;
+          let dataKey = `${type}`;
           this.options[key] = {
             canEdit: false,
           };

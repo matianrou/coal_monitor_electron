@@ -43,7 +43,10 @@
           <el-form-item label="归档至：" prop="address">
             <el-tag>{{ dataForm.address }}</el-tag>
           </el-form-item>
-          <el-form-item label="执法活动分类：" prop="caseClassify">
+          <el-form-item 
+            v-if="$store.state.user.userType !== 'supervision'"
+            label="执法活动分类：" 
+            prop="caseClassify">
             <el-select
               v-model="dataForm.caseClassify"
               placeholder="请选择执法活动分类">

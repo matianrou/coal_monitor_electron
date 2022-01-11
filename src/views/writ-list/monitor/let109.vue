@@ -215,9 +215,9 @@ export default {
         selectedPaper.let25Data.paperContent
       );
       // 日期
-      let let25Date = let25DataPaperContent.cellIdx22;
+      let let25Date = selectedPaper.let25Data.createDate;
       let25Date = let25Date
-        ? let25Date.replace("年", "-").replace("月", "-").replace("日", "-")
+        ? let25Date.split(' ')[0].replace("年", "-").replace("月", "-").replace("日", "-")
         : " - - ";
       let dateList = let25Date.split("-");
       let cellIdx6String = dateList[0];

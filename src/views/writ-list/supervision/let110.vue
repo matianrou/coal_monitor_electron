@@ -77,33 +77,57 @@
               <label style="width: 5%"></label>
               经查，你单位
               <span
-                @click="commandFill('cellIdx7', '违法行为', 'DangerTable')"
+                @dblclick="
+                  commandFill(
+                    'cellIdx7',
+                    '违法违规行为',
+                    corpData.caseType === '0'
+                      ? 'DangerTable'
+                      : 'TextareaItem'
+                  )
+                "
+                @click="
+                  commandFill('cellIdx7', '违法违规行为', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')
+                "
                 >{{
                   letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
                 }}</span
               >
               的行为涉嫌违反
-              <span @click="commandFill('cellIdx8', '', 'DangerTable')">{{
-                letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
-              }}</span>
-              的规定，根据《中华人民共和国安全生产法》第六十二条第一款第四项和《中华人民共和国行政强制法》第二十四条规定，本机关决定对你单位涉案
               <span
-                style="borderbottom: none"
+                @dblclick="
+                  commandFill(
+                    'cellIdx8',
+                    '规定',
+                    corpData.caseType === '0'
+                      ? 'DangerTable'
+                      : 'TextareaItem'
+                  )
+                "
+                @click="commandFill('cellIdx8', '规定', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')"
+                >{{
+                  letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
+                }}</span
+              >
+              的规定，根据《中华人民共和国安全生产法》第<span class="text-decoration">六十五</span>条第<span class="text-decoration">一</span>款第<span class="text-decoration">四</span>项和《中华人民共和国行政强制法》第<span class="text-decoration">二十四</span>条规定，本机关决定对你单位涉案
+              <span
+                class="no-line"
+                style="cursor: pointer;"
                 @click="commandFill('cellIdx9', '', 'SelectItem')"
                 >{{
                   letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
                 }}</span
               >
               予以
-              <span style="borderbottom: none">{{
+              <span class="no-line">{{
                 letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
               }}</span>
               ,（详见《
-              <span style="borderbottom: none">{{
+              <span class="no-line">{{
                 letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）"
               }}</span>
               <span
-                style="borderbottom: none"
+                class="no-line"
                 @click="
                   commandFill(
                     'cellIdx12',
@@ -117,12 +141,13 @@
             <div class="docTextarea">
               <label style="width: 5%"></label>
               本机关将于三十日内（不包括检测、检验或者技术鉴定期限）对上述被
-              <span style="borderbottom: none">{{
+              <span class="no-line">{{
                 letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）"
               }}</span>
               的
               <span
-                style="borderbottom: none"
+                class="no-line"
+                style="cursor: pointer;"
                 @click="commandFill('cellIdx9', '', 'SelectItem')"
                 >{{
                   letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
@@ -130,7 +155,8 @@
               >
               作出处理决定。此前，你单位不得使用、销毁或转移上述
               <span
-                style="borderbottom: none"
+                class="no-line"
+                style="cursor: pointer;"
                 @click="commandFill('cellIdx9', '', 'SelectItem')"
                 >{{
                   letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
@@ -149,10 +175,10 @@
                 letData.cellIdx17 ? letData.cellIdx17 : "（点击编辑）"
               }}</span>
               申请行政复议，或者在6个月内依法向
-              <span @click="commandFill('cellIdx18', '人民法院', 'TextItem')">{{
+              <span @click="commandFill('cellIdx18', '法院', 'TextItem')">{{
                 letData.cellIdx18 ? letData.cellIdx18 : "（点击编辑）"
               }}</span>
-              人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。
+              法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。
             </div>
             <div
               class="docTextarea"
@@ -160,11 +186,11 @@
             >
               <label style="width: 5%"></label>
               附件：
-              <span style="borderbottom: none">{{
+              <span class="no-line">{{
                 letData.cellIdx19 ? letData.cellIdx19 : "（点击编辑）"
               }}</span>
               <span
-                style="borderbottom: none"
+                class="no-line"
                 @click="
                   commandFill(
                     'cellIdx12',
@@ -204,7 +230,7 @@
             </table>
             <div class="docTextarea" style="border-top: 2px solid #000">
               备注：本文书一式两份，一份交被
-              <span style="borderbottom: none">{{
+              <span class="no-line">{{
                 letData.cellIdx23 ? letData.cellIdx23 : "（点击编辑）"
               }}</span>
               单位，一份存档。
@@ -243,8 +269,9 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
+import { setNewDanger, getDocNumber } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
+import { setDangerTable } from "@/utils/handlePaperData";
 const dictionary = [
   {
     value: "场所",
@@ -280,16 +307,40 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 查封(扣押)
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 查/扣
+        cellIdx4: null, // 文书号
+        cellIdx5: null, // 文书号
+        cellIdx6: null, // corpName
+        cellIdx7: null, // 违法行为
+        cellIdx8: null, // 违法认定法条
+        cellIdx9: null, // 对你单位涉案....
+        cellIdx10: null, // 查封/扣押
+        cellIdx11: null, // 查封/扣押
+        cellIdx12: null, // 附件：物品清单
+        // cellIdx13: null, // 暂不用
+        // cellIdx14: null, // 暂不用
+        cellIdx15: null, // 暂不用
+        cellIdx16: null, // 人民政府
+        cellIdx17: null, // organName
+        cellIdx18: null, // 法院
+        cellIdx19: null, // 查封/扣押
+        // cellIdx20: null, // 暂不用
+        cellIdx21: null, //
+        cellIdx22: null, // 日期
+        cellIdx23: null, // 查封/扣押
+        DangerTable: null,
+        SamplingForensicsTable: {
+          tableData: [],
+          signature: null,
+          signDate: "",
+        },
+        associationPaperId: null
+      },
       options: {
-        cellIdx7: {
-          page: "32",
-          key: "cellIdx7",
-        },
-        cellIdx8: {
-          page: "32",
-          key: "cellIdx8",
-        },
         cellIdx9: dictionary,
       },
       selectedType: "查封",
@@ -313,12 +364,7 @@ export default {
         this.corpData.caseId
       );
       // 3.违法行为：获取笔录文书中的隐患数据
-      let let1DataPaperContent = JSON.parse(
-        selectedPaper.let1Data.paperContent
-      );
-      // let dangerObject = getDangerObject(let1DataPaperContent.DangerTable.tableData)
-      // let cellIdx7String = `${dangerObject.dangerString}`;
-      // let cellIdx8String = `${dangerObject.illegalString}`;
+      let let1DataPaperContent = selectedPaper.let1Data ? JSON.parse(selectedPaper.let1Data.paperContent) : null;
       let cellIdx7String =
         this.corpData.caseType === "0"
           ? setDangerTable(
@@ -349,52 +395,41 @@ export default {
       let orgSysOfficeInfo =
         orgData && orgData.sysOfficeInfo
           ? JSON.parse(orgData.sysOfficeInfo)
-          : { organName: "", depAddress: "" };
+          : { goverPrefix: "", organName: "", courtPrefix: "" };
       let cellIdx15String = orgSysOfficeInfo.goverPrefix;
       let cellIdx16String = orgSysOfficeInfo.organName;
-      let cellIdx17String = orgSysOfficeInfo.depAddress;
+      let cellIdx17String = orgSysOfficeInfo.courtPrefix;
+      let DangerTable = null;
+      if (this.corpData.caseType === "0") {
+        DangerTable = let1DataPaperContent.DangerTable
+          ? setNewDanger(
+              selectedPaper.let1Data,
+              let1DataPaperContent.DangerTable
+            )
+          : {};
+      }
       await db.close();
-      this.letData = {
-        cellIdx0: null, // 查封(扣押)
+      this.letData = Object.assign({}, this.letData, {
         cellIdx1: num0, // 文书号
-        cellIdx1TypeTextItem: num0, // 文书号
         cellIdx2: num1, // 文书号
-        cellIdx2TypeTextItem: num1, // 文书号
-        cellIdx3: null, // 查/扣
         cellIdx4: num3, // 文书号
-        cellIdx4TypeTextItem: num3, // 文书号
         cellIdx5: num4, // 文书号
-        cellIdx5TypeTextItem: num4, // 文书号
         cellIdx6: corp.corpName ? corp.corpName : null, // corpname
-        cellIdx6TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
         cellIdx7: cellIdx7String, // 违法行为
         cellIdx8: cellIdx8String, // 违法认定法条
-        cellIdx9: null, // 本机关决定对你单位涉案XX
-        cellIdx10: null, // 予以XX
-        cellIdx11: null, // 查封(扣押)
-        cellIdx12: null, // 物品清单
-        cellIdx13: null, // XX的
-        // cellIdx14: null, // XX作出处理决定 暂不用
-        // cellIdx15: null, // 此前，你单位不得使用、销毁或转移上述XX 暂不用
+        cellIdx9: '场所', // 场所
         cellIdx16: cellIdx15String, // 人民政府
-        cellIdx16TypeTextItem: cellIdx15String, // 人民政府
         cellIdx17: cellIdx16String, // organName
-        cellIdx17TypeTextItem: cellIdx16String, // organName
         cellIdx18: cellIdx17String, // courtPrefix人民法院
-        cellIdx18TypeTextItem: cellIdx17String, // courtPrefix人民法院
-        cellIdx19: null, // 查封(扣押)
-        cellIdx20: null, // 附件 暂不用
         cellIdx21: this.$store.state.curCase.provinceGroupName, //
         cellIdx22: this.todayDate, // 日期
-        cellIdx22TypeDateItem: this.todayDate, // 日期
-        cellIdx23: null, // 查封(扣押)
-        DangerTable: let1DataPaperContent.DangerTable,
-        SamplingForensicsTable: {
-          tableData: [],
-          signature: null,
-          signDate: "",
+        DangerTable: DangerTable,
+        associationPaperId: {
+          // 关联的paperId
+          paper22Id: let1DataPaperContent.associationPaperId ? let1DataPaperContent.associationPaperId.paper22Id : '',
+          paper1Id: selectedPaper.let1Data.paperId,
         },
-      };
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业
@@ -406,11 +441,17 @@ export default {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
         if (key === "cellIdx7" || key === "cellIdx8") {
-          this.options[key] = {
-            page: "32",
-            key: key,
-          };
-          dataKey = "DangerTable";
+          if (type === "DangerTable") {
+            this.options[key] = {
+              page: "32",
+              key: key,
+            };
+            dataKey = "DangerTable";
+          } else {
+            this.options[key] = {
+              disabled: false,
+            };
+          }
         } else if (key === "cellIdx12") {
           this.options[key] = {
             canEdit: true,
@@ -428,7 +469,7 @@ export default {
           this.options[key]
         );
       } else {
-        if (key === "cellIdx12") {
+        if (key === "cellIdx10") {
           this.options[key] = {
             canEdit: false,
             page: "32", // 物品清单
@@ -450,19 +491,12 @@ export default {
       // 选择单位或个人
       this.visibleSelectDialog = false;
       this.letData.cellIdx0 = this.selectedType;
-      this.letData.cellIdx0TypeTextItem = this.selectedType;
       this.letData.cellIdx3 = this.selectedType.substring(0, 1);
-      this.letData.cellIdx3TypeTextItem = this.selectedType.substring(0, 1);
       this.letData.cellIdx10 = this.selectedType;
-      this.letData.cellIdx10TypeTextItem = this.selectedType;
       this.letData.cellIdx11 = this.selectedType;
-      this.letData.cellIdx11TypeTextItem = this.selectedType;
       this.letData.cellIdx13 = this.selectedType;
-      this.letData.cellIdx13TypeTextItem = this.selectedType;
       this.letData.cellIdx19 = this.selectedType;
-      this.letData.cellIdx19TypeTextItem = this.selectedType;
       this.letData.cellIdx23 = this.selectedType;
-      this.letData.cellIdx23TypeTextItem = this.selectedType;
       this.letData.selectedType = this.selectedType;
     },
   },

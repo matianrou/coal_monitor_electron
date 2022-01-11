@@ -179,7 +179,7 @@
                 >
                 </el-table-column>
                 <el-table-column
-                  prop="basis"
+                  prop="method"
                   header-align="center"
                   align="left"
                   label="检查主要资料及方法"

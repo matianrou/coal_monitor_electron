@@ -341,14 +341,6 @@ export default {
         associationPaperId: null
       },
       options: {
-        cellIdx6: {
-          page: "32",
-          key: "cellIdx6",
-        },
-        cellIdx7: {
-          page: "32",
-          key: "cellIdx7",
-        },
         cellIdx9: dictionary,
       },
       associationPaper: ["1"],
@@ -504,13 +496,9 @@ export default {
       // 选择查封/扣押
       this.visibleSelectDialog = false;
       this.letData.cellIdx0 = this.selectedType;
-      this.letData.cellIdx0TypeTextItem = this.selectedType;
       this.letData.cellIdx12 = this.selectedType;
-      this.letData.cellIdx12TypeTextItem = this.selectedType;
       this.letData.cellIdx23 = this.selectedType;
-      this.letData.cellIdx23TypeTextItem = this.selectedType;
       this.letData.cellIdx24 = this.selectedType.substring(0, 1);
-      this.letData.cellIdx24TypeTextItem = this.selectedType.substring(0, 1);
       this.letData.selectedType = this.selectedType;
     },
   },

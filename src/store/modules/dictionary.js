@@ -24,7 +24,7 @@ export default {
       },
       {
         id: '3',
-        name: '责令撤出作业人员命令书',
+        name: '撤出作业人员命令书',
         page: 'let106'
       },
       {

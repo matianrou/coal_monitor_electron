@@ -56,9 +56,10 @@
               <label style="width:5%"></label>
               你单位
               <span
-                @click="commandFill('cellIdx5', '违法行为', 'DangerTable')"
+                @dblclick="commandFill('cellIdx5', '违法违规行为', corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem')"
+                @click="commandFill('cellIdx5', '违法行为', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')"
               >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</span>
-              的行为涉嫌违法违规。根据《中华人民共和国行政处罚法》第五十六条规定，本机关决定对你单位的有关证据（详见《抽样取证清单》）采取抽样取证。
+              的行为涉嫌违法违规。根据《中华人民共和国行政处罚法》第<span class="text-decoration">五十六</span>条规定，本机关决定对你单位的有关证据（详见《抽样取证清单》）采取抽样取证。
             </div>
             <table style="border:solid 0px #000;" class="docBody">
             </table>
@@ -197,20 +198,48 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, getDocNumber } from '@/utils/setInitPaperData'
+import { setNewDanger, getDocNumber } from '@/utils/setInitPaperData'
 import associationSelectPaper from '@/components/association-select-paper'
+import { setDangerTable } from '@/utils/handlePaperData'
 export default {
   name: "Let107",
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
-      options: {
-        cellIdx5: {
-          page: '23',
-          key: 'cellIdx5'
+      letData: {
+        cellIdx0: null, // 文书号
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 文书号
+        cellIdx4: null, // corpname
+        cellIdx5: null, // 隐患描述
+        cellIdx6: null, // 暂不用
+        cellIdx7: null, // 抽样取证清单
+        cellIdx8: null, // 抽样承办人：（签名）
+        cellIdx9: null, // 年
+        cellIdx10: null, // 月
+        cellIdx11: null, // 日
+        cellIdx12: null, // 时
+        cellIdx13: null, // 抽样地点
+        cellIdx14: null, // 受送达人（签名）
+        cellIdx15: null, // 日期
+        cellIdx16: null, // 执法机关地址
+        cellIdx17: null, // 暂不用
+        cellIdx18: null, // 邮政编码
+        cellIdx19: null, // 执法机关联系人
+        cellIdx20: null, // 暂不用
+        cellIdx21: null, // 联系电话
+        cellIdx22: null, //
+        cellIdx23: null, // 日期
+        DangerTable: null,
+        SamplingForensicsTable: {
+          tableData: [],
+          signature: null,
+          signDate: "",
         },
+        associationPaperId: null
       },
+      options: {},
       associationPaper: ['1']
     };
   },
@@ -224,9 +253,18 @@ export default {
       // 1.生成文书编号
       let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId)
       // 2.隐患描述
-      let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPaperContent.DangerTable.tableData)
-      let cellIdx5String = `${dangerObject.dangerString}`
+      // 获取笔录文书中的隐患数据
+      let let1DataPaperContent = selectedPaper.let1Data ? JSON.parse(
+        selectedPaper.let1Data.paperContent
+      ) : null;
+      let cellIdx5String = this.corpData.caseType === '0' ?setDangerTable(
+        let1DataPaperContent.DangerTable,
+        {},
+        {
+          page: "23",
+          key: "cellIdx5",
+        }
+      ):'';
       // 3.抽样时间9-12
       let now = new Date()
       let cellIdx9Year = now.getFullYear().toString()
@@ -241,53 +279,44 @@ export default {
       let cellIdx18String = orgSysOfficeInfo.depPost
       let cellIdx20String = orgSysOfficeInfo.master
       let cellIdx21String = orgSysOfficeInfo.phone
+      // 5.获取检查地点
+      let cellIdx13String = ''
+      let wkPaper = db.table('wkPaper')
+      if (let1DataPaperContent.associationPaperId) {
+        let paper22 = await wkPaper.find(item => item.paperId === let1DataPaperContent.associationPaperId.paper22Id)
+        cellIdx13String = paper22.paperContent ? JSON.parse(paper22.paperContent).cellIdx4 : ''
+      }
+      let DangerTable = null
+      if (this.corpData.caseType === '0') {
+        DangerTable = let1DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
+          : {}
+      }
       await db.close();
-      this.letData = {
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: num0, // 文书号
-        cellIdx0TypeTextItem: num0, // 文书号
         cellIdx1: num1, // 文书号
-        cellIdx1TypeTextItem: num1, // 文书号
         cellIdx2: num3, // 文书号
-        cellIdx2TypeTextItem: num3, // 文书号
         cellIdx3: num4, // 文书号
-        cellIdx3TypeTextItem: num4, // 文书号
         cellIdx4: corp.corpName ? corp.corpName : null, // corpname
-        cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
         cellIdx5: cellIdx5String, // 隐患描述
-        // cellIdx6: null, // 单位
-        cellIdx7: null, // 抽样取证清单
-        cellIdx8: null, // 抽样承办人：（签名）
         cellIdx9: cellIdx9Year, // 年
-        cellIdx9TypeTextItem: cellIdx9Year, // 年
         cellIdx10: cellIdx10Month, // 月
-        cellIdx10TypeTextItem: cellIdx10Month, // 月
         cellIdx11: cellIdx11Date, // 日
-        cellIdx11TypeTextItem: cellIdx11Date, // 日
         cellIdx12: cellIdx12Hour, // 时
-        cellIdx12TypeTextItem: cellIdx12Hour, // 时
-        cellIdx13: null, // 抽样地点
-        cellIdx14: null, // 受送达人（签名）
-        cellIdx15: null, // 日期
+        cellIdx13: cellIdx13String, // 抽样地点
         cellIdx16: cellIdx17String, // 执法机关地址
-        cellIdx16TypeTextItem: cellIdx17String, // 地址
-        // cellIdx17: null, // 地址
         cellIdx18: cellIdx18String, // 邮政编码
-        cellIdx18TypeTextItem: cellIdx18String, // 邮政编码
         cellIdx19: cellIdx20String, // 执法机关联系人
-        cellIdx19TypeTextItem: cellIdx20String, // 联系人
-        // cellIdx20: null, // 联系人
         cellIdx21: cellIdx21String, // 联系电话
-        cellIdx21TypeTextItem: cellIdx21String, // 联系电话
         cellIdx22: this.$store.state.curCase.provinceGroupName, //
         cellIdx23: this.todayDate, // 日期
-        cellIdx23TypeDateItem: this.todayDate, // 日期
-        DangerTable: let1DataPaperContent.DangerTable,
-        SamplingForensicsTable: {
-          tableData: [],
-          signature: null,
-          signDate: ''
+        DangerTable: DangerTable,
+        associationPaperId:  { // 关联的paperId
+          paper22Id: let1DataPaperContent.associationPaperId ? let1DataPaperContent.associationPaperId.paper22Id : '',
+          paper1Id: selectedPaper.let1Data.paperId
         }
-      };
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业
@@ -298,18 +327,24 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
-        if (key === 'cellIdx5') {
-          this.options[key] = {
-            page: '23',
-            key: key,
+        if (key === "cellIdx5" && type === 'DangerTable') {
+          if (type === 'DangerTable') {
+            this.options[key] = {
+              page: "23",
+              key: key,
+            };
+            dataKey = "DangerTable";
+          } else {
+            this.options[key] = {
+              disabled: false
+            };
           }
-          dataKey = 'DangerTable'
-        } else if (key === 'cellIdx7') {
+        } else if (key === "cellIdx7") {
           this.options[key] = {
             canEdit: true,
-            page: '23', // 控制当前为抽样取证或者先行登记保存证据清单
-          }
-          dataKey = 'SamplingForensicsTable'
+            page: "23", // 控制当前为抽样取证或者先行登记保存证据清单
+          };
+          dataKey = "SamplingForensicsTable";
         }
         this.$refs.letMain.commandFill(
           key,
@@ -320,21 +355,21 @@ export default {
           this.options[key]
         );
       } else {
-         if (key === 'cellIdx7') {
+        if (key === "cellIdx7") {
           // 不能编辑时，还需要查看附件
           this.options[key] = {
             canEdit: false,
-            page: '23', // 控制当前为抽样取证或者先行登记保存证据清单
-          }
-          let dataKey = 'SamplingForensicsTable'
+            page: "23", // 控制当前为抽样取证或者先行登记保存证据清单
+          };
+          let dataKey = "SamplingForensicsTable";
           this.$refs.letMain.commandFill(
-          key,
-          dataKey,
-          title,
-          type,
-          this.letData[dataKey],
-          this.options[key]
-        );
+            key,
+            dataKey,
+            title,
+            type,
+            this.letData[dataKey],
+            this.options[key]
+          );
         }
       }
     },

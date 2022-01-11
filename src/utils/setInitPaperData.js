@@ -413,11 +413,11 @@ export async function corpInformation(db, corpData) {
     corpData.cityName +
     corpData.countryName +
     "境内，隶属于" +
-    corpData.parentTypeName +
+    (corpData.parentTypeName || 'XXX') +
     "煤矿。 ";
   if (zzInfo1 && zzInfo1.expireTime)
     sSummary += "采矿许可证有效日期至" + zzInfo1.expireTime + "、";
-  else sSummary += "采矿许可证有效日期至xxx";
+  else sSummary += "采矿许可证有效日期至XXX";
   if (zzInfo2 && zzInfo2.expireTime)
     sSummary += "、安全生产许可证有效期至" + zzInfo2.expireTime + "，";
   else sSummary += "、安全生产许可证有效期至XXX，";
@@ -438,7 +438,7 @@ export async function corpInformation(db, corpData) {
     (corpData.mineMinestyleName || 'XXX') +
     "开拓。";
   sSummary +=
-    `采煤方式为${zfCmgzm.length > 0 ? zfCmgzm[0].mineGatherstyleName : 'XXX'}。通风方式为${corpData.mineVentilatestyleName || 'XXX'}，采掘作业地点有${zfCmgzmStringZfJjgzmString}。`;
+    `采煤方式为${zfCmgzm.length > 0 ? zfCmgzm[0].mineGatherstyleName : 'XXX'}。通风方式为${corpData.mineVentilatestyleName || 'XXX'}，采掘作业地点有${zfCmgzmStringZfJjgzmString || 'XXX'}。`;
   return sSummary
 }
 

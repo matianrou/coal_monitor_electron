@@ -167,8 +167,8 @@
                     :title="flowStatus.paper3 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let106','责令撤出作业人员命令书', '3')" class="flow-span">
-                    责令撤出作业人员
+                  <span @click="cmdEditDoc('let106','撤出作业人员命令书', '3')" class="flow-span">
+                    撤出作业人员
                     <br />指令书
                   </span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let106','责令撤出作业人员命令书', '3')"></i>

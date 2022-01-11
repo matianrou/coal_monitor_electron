@@ -112,7 +112,7 @@
               日前向本机关提交鉴定结果。
             </div>
             <div class="docTextarea">
-              <div style="display:inline-block;min-width:55%">
+              <div style="display:inline-block;min-width:45%">
                 <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;联系人：</span>
                 <span @click="commandFill('cellIdx10', '编制人', 'TextItem')"
                   >{{ letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）" }}
@@ -122,7 +122,7 @@
                 <span @click="commandFill('cellIdx11', '联系电话', 'TextItem')">{{
                   letData.cellIdx11 ? letData.cellIdx11 : "（点击编辑）"
                 }}</span>
-                <div class="line"></div>
+                <span class="no-line">。</span>
             </div>
             <table class="docBody">
               <tr>
@@ -174,7 +174,27 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 文书号
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 文书号
+        cellIdx4: null, // 
+        cellIdx5: null, //
+        cellIdx6: null, // 鉴定要求
+        cellIdx7: null, //年
+        cellIdx8: null, // 月
+        cellIdx9: null, //日
+        cellIdx10: null, // 联系人
+        cellIdx11: null, // 联系电话
+        cellIdx12: null, //
+        cellIdx13: null, // 日期
+        SamplingForensicsTable: {
+          tableData: [],
+          signature: null,
+          signDate: ''
+        }
+      },
       options: {},
       associationPaper: []
     };
@@ -203,32 +223,14 @@ export default {
       let cellIdx15String = orgSysOfficeInfo.master;
       let cellIdx16String = orgSysOfficeInfo.phone;
       await db.close();
-      this.letData = {
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: num0, // 文书号
-        cellIdx0TypeTextItem: num0, // 文书号
         cellIdx1: num1, // 文书号
-        cellIdx1TypeTextItem: num1, // 文书号
         cellIdx2: num3, // 文书号
-        cellIdx2TypeTextItem: num3, // 文书号
         cellIdx3: num4, // 文书号
-        cellIdx3TypeTextItem: num4, // 文书号
-        cellIdx4: null, // 
-        cellIdx5: null, //
-        cellIdx6: null, // 鉴定要求
-        cellIdx7: null, //年
-        cellIdx8: null, // 月
-        cellIdx9: null, //日
-        cellIdx10: null, // 联系人
-        cellIdx11: null, // 联系电话
         cellIdx12: this.$store.state.curCase.provinceGroupName, //
         cellIdx13: this.todayDate, // 日期
-        cellIdx13TypeDateItem: this.todayDate, // 日期
-        SamplingForensicsTable: {
-          tableData: [],
-          signature: null,
-          signDate: ''
-        }
-      };
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

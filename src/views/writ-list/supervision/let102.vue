@@ -56,13 +56,36 @@
               <label style="width:5%"></label>
               本机关于
               <span
-                @click="commandFill('cellIdx6', '', 'TextItem')"
+                @click="commandFill('cellIdx6', '', 'DaterangeItem')"
               >{{ letData.cellIdx6 ? letData.cellIdx6 : '（时间）'}}</span>
               现场检查时，发现你单位有下列违法违规行为，现作出以下现场处理决定：
-              <span
-                @click="commandFill('cellIdx7', '现场处理决定', 'DangerTable')"
-              >{{ letData.cellIdx7 }}</span>
-              <div class="line"></div>
+            </div>
+            <div
+              style="
+                word-wrap: break-word;
+                word-break: break-all;
+                overflow: hidden;
+              "
+              class="cellInput mutiLineArea"
+              @dblclick="
+                commandFill(
+                  'cellIdx7',
+                  '违法违规行为',
+                  corpData.caseType === '0'
+                    ? 'DangerTable'
+                    : 'TextareaItem'
+                )
+              "
+              @click="
+                commandFill('cellIdx7', '违法违规行为', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')
+              "
+            >
+              <div>
+                <p class="show-area-item-p">
+                  <span style="padding: 7px">{{ letData.cellIdx7 }}</span>
+                </p>
+                <cell-line :line-num="300"></cell-line>
+              </div>
             </div>
             <div class="docTextarea">
               <label style="width:5%"></label>
@@ -78,7 +101,7 @@
               <span
                 @click="commandFill('cellIdx10', '人民法院', 'TextItem')"
               >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）' }}</span>
-              人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。
+              法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。
             </div>
             <div class="docTextarea">
               <span class="no-line" style="width:28%">现场执法人员（签名):</span>
@@ -156,14 +179,37 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, getDocNumber } from '@/utils/setInitPaperData'
+import { getDocNumber, setNewDanger } from '@/utils/setInitPaperData'
 import associationSelectPaper from '@/components/association-select-paper'
+import { setDangerTable } from "@/utils/handlePaperData";
 export default {
   name: "Let102",
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 文书号
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 文书号
+        cellIdx4: null, // 被检查单位
+        cellIdx5: null, // 暂不用
+        cellIdx6: null, // 本机关于XXX现场检查时
+        cellIdx7: null, // 现场处理决定
+        cellIdx8: null, // 人民政府
+        cellIdx9: null, //
+        cellIdx10: null, // 人民法院
+        cellIdx11: null, // 现场执法人员（签名)
+        cellIdx12: null, // 执法证号
+        cellIdx13: null, // 现场执法人员（签名)
+        cellIdx14: null, // 执法证号
+        cellIdx15: null, // 被检查单位负责人（签名)
+        cellIdx16: null, // 日期
+        cellIdx17: null, // 
+        cellIdx18: null, // 日期
+        DangerTable: null, // 隐患项大表
+        associationPaperId: {}, // 关联的paperId
+      },
       options: {
         cellIdx7: {
           page: '2', // 用于在隐患项保存，做数据处理时，判断是否增加现场处理决定字段描述
@@ -182,43 +228,47 @@ export default {
         return item.corpId == this.corpData.corpId;
       });
       let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPaperContent.DangerTable.tableData)
+      let cellIdx7String =
+        this.corpData.caseType === "0"
+          ? setDangerTable(
+              let1DataPaperContent.DangerTable,
+              {},
+              {
+                page: "2",
+                key: "cellIdx7",
+              }
+            )
+          : "";
       // 通过机构接口中的sysOfficeInfo中获取的organName和courtPrefix字段分别填充cellIdx8和cellIdx9字段
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(item => item.no === this.$store.state.curCase.affiliate)
-      let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {courtPrefix: '', organName: ''}
+      let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {goverPrefix: "", courtPrefix: '', organName: ''}
+      console.log('orgData', orgData)
       let paperNumber = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId)
+      let DangerTable = let1DataPaperContent.DangerTable
+        ? setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
+        : {};
       await db.close();
-      this.letData = {
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: paperNumber.num0, // 文书号
-        cellIdx0TypeTextItem: paperNumber.num0, // 文书号
         cellIdx1: paperNumber.num1, // 文书号
-        cellIdx1TypeTextItem: paperNumber.num1, // 文书号
         cellIdx2: paperNumber.num3, // 文书号
-        cellIdx2TypeTextItem: paperNumber.num3, // 文书号
         cellIdx3: paperNumber.num4, // 文书号
-        cellIdx3TypeTextItem: paperNumber.num4, // 文书号
         cellIdx4: corp.corpName ? corp.corpName : null, // 被检查单位
-        cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // 被检查单位
-        cellIdx5: null, // 暂不用
-        cellIdx6: null, // 本机关于XXX现场检查时
-        cellIdx7: dangerObject.contentOnsiteDesc, //现场处理决定
-        cellIdx8: null, // 人民政府
+        cellIdx6: let1DataPaperContent.cellIdx1, //
+        cellIdx7: cellIdx7String, //现场处理决定
+        cellIdx8: orgSysOfficeInfo.goverPrefix,
         cellIdx9: orgSysOfficeInfo.organName,
-        cellIdx9TypeTextItem: orgSysOfficeInfo.organName, //
         cellIdx10: orgSysOfficeInfo.courtPrefix, // 人民法院
-        cellIdx10TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
-        cellIdx11: null, // 现场执法人员（签名)'
-        cellIdx12: null, //执法证号
-        cellIdx13: null, // 现场执法人员（签名)
-        cellIdx14: null,//执法证号
-        cellIdx15: null, // 被检查单位负责人（签名)
-        cellIdx16: null, // 日期
         cellIdx17: this.$store.state.curCase.provinceGroupName, //
         cellIdx18: this.todayDate, // 日期
-        cellIdx18TypeDateItem: this.todayDate, // 日期
-        DangerTable: let1DataPaperContent.DangerTable, // 隐患项大表
-      };
+        DangerTable, // 隐患项大表
+        associationPaperId: {
+          // 关联的paperId
+          paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: selectedPaper.let1Data.paperId,
+        },
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业
@@ -227,11 +277,22 @@ export default {
     commandFill(key, title, type) {
       // 判断是否可编辑
       if (this.$refs.letMain.canEdit) {
-        // 文书各个字段点击打开左侧弹出编辑窗口
+        // 打开编辑
         let dataKey = `${key}`;
-        if (key === 'cellIdx7') {
-          // 隐患项时对应letData中的dangerItemObject
-          dataKey = 'DangerTable'
+        if (key === "cellIdx7") {
+          if (type === "DangerTable") {
+            // 隐患项时对应letData中的dangerItemObject
+            dataKey = "DangerTable";
+            this.options.cellIdx7 = {
+              page: "2", // 用于在隐患项保存，做数据处理时，判断是否增加现场处理决定字段描述
+              showBaseInfor: false, // 用于区分是否展示基本情况大文本输入
+              showSelectDangerBtn: false, // 用于区分是否可以选择隐患项
+            };
+          } else {
+            this.options.cellIdx7 = {
+              disabled: false,
+            };
+          }
         }
         this.$refs.letMain.commandFill(
           key,

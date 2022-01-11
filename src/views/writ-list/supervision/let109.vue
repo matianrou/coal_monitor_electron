@@ -40,6 +40,22 @@
                 <label>号</label>
               </div>
             </div>
+            <table class="docBody">
+              <tr>
+                <td
+                  class="cellInput cellBottomLine"
+                  id="cell_idx_4"
+                  style="width: 62%"
+                  data-title
+                  data-type="text"
+                  data-src
+                  @click="commandFill('cellIdx4', '', 'TextItem')"
+                >
+                  {{ letData.cellIdx4 }}
+                </td>
+                <td class="textAlignLeft">:</td>
+              </tr>
+            </table>
             <div class="docTextarea">
               <label style="width: 5%"></label>
               本机关于
@@ -82,7 +98,7 @@
                 @click="commandFill('cellIdx13', '', 'TextItem')"
                 >{{ letData.cellIdx13 ? letData.cellIdx13 : "点击编辑" }}</span
               >
-              号）。现根据《中华人民共和国行政处罚法》第五十六条规定，对上述证据作出如下处理决定:
+              号）。现根据《中华人民共和国行政处罚法》第<span class="text-decoration">五十六</span>条规定，对上述证据作出如下处理决定:
             </div>
             <div
               style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
@@ -97,17 +113,17 @@
               <label style="width:5%"></label>
               如果不服本决定，可在接到本决定书之日起60日内向
               <span
-                @click="commandFill('cellIdx15', '', 'TextItem')"
+                @click="commandFill('cellIdx15', '人民政府', 'TextItem')"
               >{{ letData.cellIdx15 ? letData.cellIdx15 : '（点击编辑）'}}</span>
               人民政府或者
               <span
-                @click="commandFill('cellIdx16', '人民法院', 'TextItem')"
+                @click="commandFill('cellIdx16', '', 'TextItem')"
               >{{ letData.cellIdx16 ? letData.cellIdx16 : '（点击编辑）' }}</span>
               申请行政复议,或者在6个月内依法向
               <span
-                @click="commandFill('cellIdx17', '人民法院', 'TextItem')"
+                @click="commandFill('cellIdx17', '法院', 'TextItem')"
               >{{ letData.cellIdx17 ? letData.cellIdx17 : '（点击编辑）'}}</span>
-              人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。
+              法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。
             </div>
             <table class="docBody" style="margin-top: 60px;">
               <tr>
@@ -156,14 +172,37 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber } from "@/utils/setInitPaperData";
+import { getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let109",
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 文书号
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 文书号
+        cellIdx4: null, // corpname
+        cellIdx5: null, // 单位
+        cellIdx6: null, // 年
+        cellIdx7: null, // 月
+        cellIdx8: null, // 日
+        cellIdx9: null, // 物品名称
+        cellIdx10: null, // 文书号
+        cellIdx11: null, // 文书号
+        cellIdx12: null, // 文书号
+        cellIdx13: null, // 文书号
+        cellIdx14: null, // 处理决定
+        cellIdx15: null, // 人民政府
+        cellIdx16: null, // 可在接到本决定书之日起60日内向。。。申请行政复议或6个月内向
+        cellIdx17: null, // 人民法院
+        cellIdx18: null, // 
+        cellIdx19: null, // 日期
+        DangerTable: null,
+        associationPaperId: null
+      },
       options: {},
       associationPaper: ["25"],
     };
@@ -181,17 +220,27 @@ export default {
         this.docData.docTypeNo,
         this.corpData.caseId
       );
-      let let25DataPaperContent = JSON.parse(selectedPaper.let25Data.paperContent);
+      // 2.获取先行登记保存证据通知书中的日期、物品清单和编号字段
+      let let25DataPaperContent = JSON.parse(
+        selectedPaper.let25Data.paperContent
+      );
       // 日期
-      let let25Date = let25DataPaperContent.cellIdx14;
+      let let25Date = selectedPaper.let25Data.createDate;
       let25Date = let25Date
-        ? let25Date.replace("年", "-").replace("月", "-").replace("日", "-")
+        ? let25Date.split(' ')[0].replace("年", "-").replace("月", "-").replace("日", "-")
         : " - - ";
       let dateList = let25Date.split("-");
       let cellIdx6String = dateList[0];
       let cellIdx7String = dateList[1];
       let cellIdx8String = dateList[2];
       // 物品名称：
+      let checkPosition = ''
+      if (this.corpData.caseType === "0") {
+        // 5.获取检查地点
+        let wkPaper = db.table('wkPaper')
+        let paper22 = await wkPaper.find(item => item.paperId === let25DataPaperContent.associationPaperId.paper22Id)
+        checkPosition = paper22.paperContent ? JSON.parse(paper22.paperContent).cellIdx4 || 'XX' + '使用的' : ''
+      }
       let let25Article = let25DataPaperContent.SamplingForensicsTable
         ? let25DataPaperContent.SamplingForensicsTable.tableData
         : [];
@@ -202,63 +251,60 @@ export default {
         });
         articleName = articleName.substring(0, articleName.length - 1);
       }
-      let cellIdx9String = articleName;
+      let cellIdx9String = checkPosition + (articleName || "XXX");
       // 文书号：
       let num250 = let25DataPaperContent.cellIdx0;
       let num251 = let25DataPaperContent.cellIdx1;
       let num253 = let25DataPaperContent.cellIdx2;
       let num254 = let25DataPaperContent.cellIdx3;
-      // 3.sysOfficeInfo实体中 goverPrefix organName、人民法院：courtPrefix
+      // 3.sysOfficeInfo实体中 organName、人民法院：courtPrefix
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(
         (item) => item.no === this.$store.state.curCase.affiliate
       );
-      let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo
-        ? JSON.parse(orgData.sysOfficeInfo)
-        : { goverPrefix: "", organName: "", courtPrefix: "" };
+      let orgSysOfficeInfo =
+        orgData && orgData.sysOfficeInfo
+          ? JSON.parse(orgData.sysOfficeInfo)
+          : { goverPrefix: "", organName: "", courtPrefix: "" };
       let cellIdx15String = orgSysOfficeInfo.goverPrefix;
       let cellIdx16String = orgSysOfficeInfo.organName;
       let cellIdx17String = orgSysOfficeInfo.courtPrefix;
+      let DangerTable = null
+      if (this.corpData.caseType === '0') {
+        DangerTable = let25DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let25Data, let25DataPaperContent.DangerTable)
+          : {}
+      }
       await db.close();
-      this.letData = {
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: num0, // 文书号
-        cellIdx0TypeTextItem: num0, // 文书号
         cellIdx1: num1, // 文书号
-        cellIdx1TypeTextItem: num1, // 文书号
         cellIdx2: num3, // 文书号
-        cellIdx2TypeTextItem: num3, // 文书号
         cellIdx3: num4, // 文书号
-        cellIdx3TypeTextItem: num4, // 文书号
         cellIdx4: corp.corpName ? corp.corpName : null, // corpname
-        cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
-        cellIdx5: null, // 单位
         cellIdx6: cellIdx6String, // 年
-        cellIdx6TypeTextItem: cellIdx6String, // 年
         cellIdx7: cellIdx7String, // 月
-        cellIdx7TypeTextItem: cellIdx7String, // 月
         cellIdx8: cellIdx8String, // 日
-        cellIdx8TypeTextItem: cellIdx8String, // 日
         cellIdx9: cellIdx9String, // 物品名称
-        cellIdx9TypeTextItem: cellIdx9String, // 物品名称
         cellIdx10: num250, // 文书号
-        cellIdx10TypeTextItem: num250, // 文书号
         cellIdx11: num251, // 文书号
-        cellIdx11TypeTextItem: num251, // 文书号
         cellIdx12: num253, // 文书号
-        cellIdx12TypeTextItem: num253, // 文书号
         cellIdx13: num254, // 文书号
-        cellIdx13TypeTextItem: num254, // 文书号
-        cellIdx14: null, // 处理决定
+        cellIdx14: '解除先行登记保存证据', // 处理决定
         cellIdx15: cellIdx15String, // 可在接到本决定书之日起60日内向。。。申请行政复议或6个月内向
-        cellIdx15TypeTextItem: cellIdx15String, // 可在接到本决定书之日起60日内向。。。申请行政复议或6个月内向
         cellIdx16: cellIdx16String, // organName
-        cellIdx16TypeTextItem: cellIdx16String, // organName
         cellIdx17: cellIdx17String, // 人民法院
-        cellIdx17TypeTextItem: cellIdx17String, // 人民法院
         cellIdx18: this.$store.state.curCase.provinceGroupName, //
         cellIdx19: this.todayDate, // 日期
-        cellIdx19TypeDateItem: this.todayDate, // 日期
-      };
+        DangerTable,
+        associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
+          paper22Id: let25DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: let25DataPaperContent.associationPaperId.paper1Id,
+          paper25Id: selectedPaper.let25Data.paperId
+        } : {
+          paper25Id: selectedPaper.let25Data.paperId
+        }
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

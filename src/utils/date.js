@@ -183,7 +183,12 @@ export function handleDateRetrun(value) {
 export function handleDateNormal(beginDate, endDate) {
   let beginDateList = beginDate.split('-')
   let endDateList = endDate.split('-')
-  let dateString = `${beginDateList[0]}年${beginDateList[1]}月${beginDateList[2]}至`
+  // 月和日去0
+  beginDateList[1] = takeOutZero(beginDateList[1])
+  beginDateList[2] = takeOutZero(beginDateList[2])
+  endDateList[1] = takeOutZero(endDateList[1])
+  endDateList[2] = takeOutZero(endDateList[2])
+  let dateString = `${beginDateList[0]}年${beginDateList[1]}月${beginDateList[2]}日至`
   // 判断第二个日期，如果年份一样则不再展示，如果月份一样也同样不展示，不同时都展示
   if (beginDateList[0] !== endDateList[0]) {
     dateString += endDateList[0] + '年'
@@ -198,4 +203,13 @@ export function handleDateNormal(beginDate, endDate) {
     dateString = dateString.substring(0, dateString.length - 1)
   }
   return dateString
+}
+
+function takeOutZero (str) {
+  // 去日期字符中的0
+  let newStr = str
+  if (str && str.includes('0')) {
+    newStr = str.substring(1, 2)
+  }
+  return newStr
 }

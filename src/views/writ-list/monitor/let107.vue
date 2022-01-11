@@ -233,9 +233,8 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import {  getDocNumber } from "@/utils/setInitPaperData";
+import { getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
-import { setNewDanger } from '@/utils/setInitPaperData'
 import { setDangerTable } from '@/utils/handlePaperData'
 export default {
   name: "Let107",
@@ -350,8 +349,8 @@ export default {
         cellIdx9: cellIdx9Year, // 年
         cellIdx10: cellIdx10Month, // 月
         cellIdx11: cellIdx11Date, // 日
-        cellIdx13: cellIdx13String,
         cellIdx12: cellIdx12Hour, // 时
+        cellIdx13: cellIdx13String,
         cellIdx16: '局', // 局
         cellIdx17: cellIdx17String, // 地址
         cellIdx18: cellIdx18String, // 邮政编码
@@ -361,11 +360,6 @@ export default {
         cellIdx22: this.$store.state.curCase.provinceGroupName, //
         cellIdx23: this.todayDate, // 日期
         DangerTable: DangerTable,
-        SamplingForensicsTable: {
-          tableData: [],
-          signature: null,
-          signDate: "",
-        },
         associationPaperId:  { // 关联的paperId
           paper22Id: let1DataPaperContent.associationPaperId ? let1DataPaperContent.associationPaperId.paper22Id : '',
           paper1Id: selectedPaper.let1Data.paperId

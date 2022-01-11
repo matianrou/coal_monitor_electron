@@ -886,7 +886,7 @@ export default {
           dataKey,
           params.value
         );
-      } else if (this.$store.state.user.userType === 'monitor' && dataKey === 'DangerTable'
+      } else if (dataKey === 'DangerTable'
         && (options.page === '13' || options.page === '32' || options.page === '4' 
         || options.page === '36' || options.page === '6' || options.page === '8'
         || options.page === '49')) {
@@ -894,13 +894,14 @@ export default {
         // 监察中多个隐患项字段的有:复查意见书13,查封(扣押)决定书32,立案决定书4,
         // 案件处理呈报书36,行政处罚告知书6,行政处罚决定书8
         // 行政执法决定法制审核意见书49,
+        // 监管多个字段的有:
         let saveFields = []
         switch (options.page) {
           case '13': 
             saveFields = ['cellIdx9', 'cellIdx10']
             break
           case '32': 
-            saveFields = ['cellIdx6', 'cellIdx7']
+            saveFields = this.$store.state.user.userType === 'monitor' ? ['cellIdx6', 'cellIdx7'] : ['cellIdx7', 'cellIdx8']
             break
           case '4': 
             saveFields = ['cellIdx4', 'cellIdx5']
@@ -1062,7 +1063,7 @@ export default {
             key = 'cellIdx10'
             break;
           case '1':
-            key = 'cellIdx8'
+            key = this.$store.state.user.userType === 'supervision' ? 'cellIdx13' : 'cellIdx8'
             break;
           case '2':
             key = 'cellIdx7'
