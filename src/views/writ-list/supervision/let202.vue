@@ -80,38 +80,10 @@
             <div class="docTextarea">
               <span class="no-line">调查事由：</span>
               <span
-                @click="commandFill('cellIdx8', '调查事由', 'DangerTable')"
+                @click="commandFill('cellIdx8', '调查事由', 'TextareaItem')"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
               <div class="line"></div>
             </div>
-            <!-- <table style="border:solid 0 #000;" class="docBody">
-              <tr>
-                <td class="textAlignLeft">调查事由：</td>
-              </tr>
-            </table>
-            <div
-              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-              class="cellInput mutiLineArea"
-              id="cell_idx_8"
-              data-title="调查事由"
-              data-type="textarea"
-              data-src
-              @click="commandFill('cellIdx8', '调查事由', 'DangerTable')">
-              <div v-if="letData.cellIdx8 && letData.cellIdx8.length > 0">
-                <p class="show-area-item-p">
-                  <span style="padding: 7px;">{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
-                </p>
-                <cell-line></cell-line>
-              </div>
-              <div v-else>
-                <p class="show-area-item-p">
-                  &nbsp;
-                </p>
-                <p class="show-area-item-p">
-                  &nbsp;
-                </p>
-              </div>
-            </div> -->
             <div class="docTextLine">
               被调查人：
               <div style="flex: 2; display: flex;">
@@ -231,19 +203,42 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject } from '@/utils/setInitPaperData'
+import { setNewDanger } from '@/utils/setInitPaperData'
 import associationSelectPaper from '@/components/association-select-paper'
+import { setDangerTable } from "@/utils/handlePaperData";
 export default {
   name: "Let202",
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 年
+        cellIdx1: null, // 月
+        cellIdx2: null, // 日
+        cellIdx3: null, // 时
+        cellIdx4: null, // 分
+        cellIdx5: null, // 时
+        cellIdx6: null, // 分
+        cellIdx7: null, // 地点
+        cellIdx8: null, // 调查事由
+        cellIdx9: null, // 姓名
+        cellIdx10: null, // 性别
+        cellIdx11: null, // 年龄
+        cellIdx12: null, // 身份证号
+        cellIdx13: null, // 工作单位
+        cellIdx14: null, // 职务（职业）
+        cellIdx15: null, // 政治面貌
+        cellIdx16: null, // 文化程度
+        cellIdx17: null, // 电话
+        cellIdx18: null, // 住址
+        cellIdx19: null, // 调查人（签名）
+        cellIdx20: null, // 记录人（签名）
+        cellIdx21: null, // 
+        extraData: {},
+        associationPaperId: null,
+        DangerTable: null
+      },
       options: {
-        cellIdx8: {
-          page: '5',
-          key: 'cellIdx8'
-        },
         cellIdx10: [ // 性别码表
           {
             value: '男',
@@ -359,7 +354,7 @@ export default {
           },
         ]
       },
-      associationPaper: ['1']
+      associationPaper: this.corpData.caseType === "0" ? ["4"] : [],
     };
   },
   methods: {
@@ -369,44 +364,92 @@ export default {
       let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      // 1.调查事由：煤矿名称+“涉嫌”+隐患描述
-      // 隐患描述
-        // 获取笔录文书中的隐患数据
-      let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPaperContent.DangerTable.tableData)
-      let cellIdx8String = `${corp.corpName}涉嫌${dangerObject.dangerString}。`
+      // 1.时间
+      let now = new Date();
+      let cellIdx0Year = now.getFullYear().toString();
+      let cellIdx1Month = (now.getMonth() + 1).toString();
+      let cellIdx2Date = now.getDate().toString();
+      let cellIdx3Hour = now.getHours().toString();
+      let cellIdx4Minu = now.getMinutes().toString();
+      let let4DataPaperContent =
+        this.corpData.caseType === "0"
+          ? JSON.parse(selectedPaper.let4Data.paperContent)
+          : null;
+      let cellIdx8String =
+        this.corpData.caseType === "0"
+          ? setDangerTable(
+              let4DataPaperContent.DangerTable,
+              {},
+              {
+                page: "5",
+                key: "cellIdx8",
+                spellString: {
+                  corpName: corp.corpName,
+                  groupName: this.$store.state.curCase.provinceGroupName,
+                },
+              }
+            )
+          : "";
+      //涉嫌...违法违规
+      let dangerString =
+        this.corpData.caseType === "0"
+          ? setDangerTable(
+              let4DataPaperContent.DangerTable,
+              {},
+              {
+                page: "5",
+                key: "cellIdx21",
+                spellString: {
+                  corpName: corp.corpName,
+                  groupName: this.$store.state.curCase.provinceGroupName,
+                },
+              }
+            )
+          : "";
+      let provinceGroupName = ''
+      if (this.fromPage === 'send-paper') {
+        // 调查互动发送文书进入时，获取机构名称改为当前用户的省级机构名称
+        let db = new GoDB(this.DBName)
+        let orgInfo = db.table('orgInfo')
+        // 归档机构信息
+        let orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId)
+        // 获取当前归档机构的省局名称
+        provinceGroupName = `${orgData.name}`
+        if (orgData.grade === '3') {
+          let provinceOrg = await orgInfo.find(item => item.no === orgData.parentId)
+          provinceGroupName = provinceOrg.name
+        }
+        await db.close()
+      } else {
+        provinceGroupName = this.$store.state.curCase.provinceGroupName
+      }
       // 2.组成： “我们是”+当前机构+“监管员，这是我们的执法证件（出示行政执法证件），现就你”+煤矿名称+“涉嫌”+隐患描述+“违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？”
-      let cellIdx21String = `我们是${this.$store.state.curCase.provinceGroupName}监管员，这是我们的执法证件（出示行政执法证件），现就你${corp.corpName}涉嫌${dangerObject.dangerString}违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？`
+      let cellIdx21String = `我们是${provinceGroupName || 'XXX'}监管员，这是我们的执法证件（出示行政执法证件），现就你${corp.corpName}涉嫌${dangerString || 'XXX'}违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？`
       await db.close();
       this.letData = {
-        cellIdx0: null, // 年
-        cellIdx1: null, // 月
-        cellIdx2: null, // 日
-        cellIdx3: null, // 时
-        cellIdx4: null, // 分
-        cellIdx5: null, // 时
-        cellIdx6: null, // 分
-        cellIdx7: null, // 地点
+        cellIdx0: cellIdx0Year, // 年
+        cellIdx1: cellIdx1Month, // 月
+        cellIdx2: cellIdx2Date, // 日
+        cellIdx3: cellIdx3Hour, // 时
+        cellIdx4: cellIdx4Minu, // 分
+        cellIdx7: corp.corpName, // 地点
         cellIdx8: cellIdx8String, // 调查事由
-        cellIdx9: null, // 姓名
-        cellIdx10: null, // 性别
-        cellIdx11: null, // 年龄
-        cellIdx12: null, // 身份证号
-        cellIdx13: null, // 工作单位
-        cellIdx14: null, // 职务（职业）
-        cellIdx15: null, // 政治面貌
-        cellIdx16: null, // 文化程度
-        cellIdx17: null, // 电话
-        cellIdx18: null, // 住址
-        cellIdx19: null, // 调查人（签名）
-        cellIdx20: null, // 记录人（签名）
+        cellIdx13: corp.corpName, // 工作单位
         cellIdx21: cellIdx21String,
-        cellIdx21TypeTextareaItem: cellIdx21String,
-        DangerTable: let1DataPaperContent.DangerTable,
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
-          groupName: this.$store.state.curCase.provinceGroupName,
-        }
+          groupName: provinceGroupName,
+        },
+        associationPaperId:
+          this.corpData.caseType === "0"
+            ? {
+                // 关联的paperId
+                paper22Id: let4DataPaperContent.associationPaperId.paper22Id,
+                paper1Id: let4DataPaperContent.associationPaperId.paper1Id,
+                paper4Id: selectedPaper.let4Data.paperId,
+              }
+            : null,
+        DangerTable: DangerTable
       };
     },
     goBack({ page, data }) {
@@ -418,18 +461,6 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
-        let spellString = {}
-        if (key === 'cellIdx8') {
-          spellString = {
-            corpName: this.letData.extraData.corpName,
-          }
-          this.options[key] = {
-            page: '5',
-            key: key,
-            spellString
-          }
-          dataKey = 'DangerTable'
-        }
         this.$refs.letMain.commandFill(
           key,
           dataKey,

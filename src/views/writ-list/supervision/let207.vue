@@ -1,4 +1,4 @@
-<!--行政处罚 一般程序  送达收执 -->
+<!--行政处罚 一般程序  送达收执 9 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -145,14 +145,33 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber } from '@/utils/setInitPaperData'
+import { getDocNumber, setNewDanger } from '@/utils/setInitPaperData'
 import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let207",
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 文书号
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 文书号
+        cellIdx4: null, // 送达文书
+        cellIdx5: null, // 文书字号
+        cellIdx6: null, // 送达地点
+        cellIdx7: null, // 送达方式
+        cellIdx14: null, // 单位负责人/个人
+        cellIdx8: null, // 受送达单位负责人（个人）（签名）
+        cellIdx9: null, // 日期
+        cellIdx10: null, // 送达人（签名）
+        cellIdx11: null, // 日期
+        cellIdx12: null, //
+        cellIdx13: null, // 日期
+        selectedType: null,
+        DangerTable: null,
+        associationPaperId: null
+      },
       options: {
         cellIdx7: [ // 送达方式码表
           {
@@ -209,33 +228,40 @@ export default {
       let selectedType = let8DataPaperContent.selectedType
       let selectedString = selectedType === '单位' ? '单位负责人' : '个人'
       await db.close();
-      this.letData = {
+      let DangerTable = null
+      if (this.corpData.caseType === '0') {
+        DangerTable = let8DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let8Data, let8DataPaperContent.DangerTable)
+          : {}
+      }
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: paperNumber.num0, // 文书号
-        cellIdx0TypeTextItem: paperNumber.num0, // 文书号
         cellIdx1: paperNumber.num1, // 文书号
-        cellIdx1TypeTextItem: paperNumber.num1, // 文书号
         cellIdx2: paperNumber.num3, // 文书号
-        cellIdx2TypeTextItem: paperNumber.num3, // 文书号
         cellIdx3: paperNumber.num4, // 文书号
-        cellIdx3TypeTextItem: paperNumber.num4, // 文书号
         cellIdx4: cellIdx4String, // 送达文书
-        cellIdx4TypeTextItem: cellIdx4String, // 送达文书
         cellIdx5: cellIdx5String, // 文书字号
-        cellIdx5TypeTextItem: cellIdx5String, // 文书字号
         cellIdx6: cellIdx6String, // 送达地点
-        cellIdx6TypeTextItem: cellIdx6String, // 送达地点
         cellIdx7: null, // 送达方式
         cellIdx14: selectedString, // 单位负责人/个人
-        cellIdx14TypeSelectItem: selectedString, // 单位负责人/个人
         cellIdx8: null, // 受送达单位负责人（个人）（签名）
         cellIdx9: null, // 日期
         cellIdx10: null, // 送达人（签名）
         cellIdx11: null, // 日期
         cellIdx12: this.$store.state.curCase.provinceGroupName, //
         cellIdx13: this.todayDate, // 日期
-        cellIdx13TypeDateItem: this.todayDate, // 日期
-        selectedType: selectedType
-      };
+        selectedType: selectedType,
+        DangerTable,
+        associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
+          paper22Id: let8DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: let8DataPaperContent.associationPaperId.paper1Id,
+          paper6Id: let8DataPaperContent.associationPaperId.paper6Id,
+          paper8Id: selectedPaper.let8Data.paperId
+        } : {
+          paper6Id: let8DataPaperContent.associationPaperId.paper6Id,
+          paper8Id: selectedPaper.let8Data.paperId
+        }
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

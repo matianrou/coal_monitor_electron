@@ -71,7 +71,8 @@
               >{{ letData.cellIdx8 ? letData.cellIdx8 : 'XX'}}</span>
               日发现
               <span
-                @click="commandFill('cellIdx9', '违法行为', 'DangerTable')"
+                @dblclick="commandFill('cellIdx9', '违法违规行为', corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem')"
+                @click="commandFill('cellIdx9', '违法违规行为', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')"
               >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）' }}</span>
               的违法违规行为，下达了《现场处理决定书》（
               <span style="borderBottom:none"
@@ -89,10 +90,10 @@
               <span style="borderBottom:none"
                 @click="commandFill('cellIdx13', '现场处理决定书文书号', 'TextItem')"
               >{{ letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）' }}</span>
-
               号），依法作出了
               <span
-                @click="commandFill('cellIdx14', '现场处理决定', 'DangerTable')"
+                @dblclick="commandFill('cellIdx14', '现场处理决定', corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem')"
+                @click="commandFill('cellIdx14', '现场处理决定', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')"
               >{{ letData.cellIdx14 ? letData.cellIdx14 : '（点击编辑）' }}</span>
               的决定。
             </div>
@@ -102,9 +103,12 @@
                 class="no-underline"
                 @click="commandFill('cellIdx25', '', 'SelectItem')"
               >{{ letData.cellIdx25 ? letData.cellIdx25 : '（点击编辑）'}}</span>
-              ，经复查，意见如下：
+              <span class="no-line">，经复查，意见如下：</span>
+              <span @click="commandFill('cellIdx16', '意见', 'TextareaItem')">{{
+                letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）"
+              }}</span>
             </div>
-            <div
+            <!-- <div
               style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
               class="cellInput mutiLineArea"
               @click="commandFill('cellIdx15', '意见', 'TextareaItem')">
@@ -112,7 +116,7 @@
                 style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
               >{{ letData.cellIdx15 ? letData.cellIdx15 : '（点击编辑）' }}</p>
               <cell-line></cell-line>
-            </div>
+            </div> -->
             <div class="docTextarea">
               <span class="no-line" style="width:28%">现场执法人员（签名):</span>
               <span style="display:inline-block;min-width:30%;line-height: normal;max-width:30%" @click="commandFill('cellIdx16', '现场执法人员（签名', 'TextItem')"
@@ -194,23 +198,44 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, getDocNumber } from '@/utils/setInitPaperData'
+import { setNewDanger, getDocNumber } from '@/utils/setInitPaperData'
 import associationSelectPaper from '@/components/association-select-paper'
+import { setDangerTable } from '@/utils/handlePaperData'
 export default {
   name: "Let104",
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 文书号
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 文书号
+        cellIdx4: null, // corpName
+        cellIdx5: null, // 单位
+        cellIdx6: null, // 年
+        cellIdx7: null, // 月
+        cellIdx8: null, // 日
+        cellIdx9: null, // 违法违规行为：隐患描述
+        cellIdx10: null, // 现场处理决定书 文书号
+        cellIdx11: null, // 现场处理决定书 文书号
+        cellIdx12: null, // 现场处理决定书 文书号
+        cellIdx13: null, // 现场处理决定书 文书号
+        cellIdx14: null, // 现场处理决定
+        cellIdx15: null, // 意见
+        cellIdx16: null, // 现场执法人员（签名)
+        cellIdx17: null, // 执法证号
+        cellIdx18: null, // 现场执法人员（签名)
+        cellIdx19: null, // 执法证号
+        cellIdx20: null, // 被检查单位意见
+        cellIdx21: null, // 单位负责人（签名)
+        cellIdx22: null, //日期
+        cellIdx23: null, // 
+        cellIdx24: null, // 日期
+        DangerTable: null,
+        associationPaperId: {}
+      },
       options: {
-        cellIdx9: {
-          page: '13',
-          key: 'cellIdx9'
-        },
-        cellIdx14: {
-          page: '13',
-          key: 'cellIdx14'
-        },
         cellIdx25: [
           {
             value: '应你单位申请',
@@ -222,7 +247,7 @@ export default {
           },
         ]
       },
-      associationPaper: ['1', '2']
+      associationPaper: ['1']
     };
   },
   methods: {
@@ -234,51 +259,54 @@ export default {
       });
       // 1.生成文书编号
       let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId)
+      let let1DataPaperContent = JSON.parse(
+        selectedPaper.let1Data.paperContent
+      );
+      let cellIdx9String =this.corpData.caseType === '0' ? setDangerTable(
+        let1DataPaperContent.DangerTable,
+        {},
+        {
+          page: "13",
+          key: "cellIdx9",
+        }
+      ):'';
+      let cellIdx10String = this.corpData.caseType === '0' ?setDangerTable(
+        let1DataPaperContent.DangerTable,
+        {},
+        {
+          page: "13",
+          key: "cellIdx14",
+        }
+      ):'';
+      let date2 = selectedPaper.let1Data ? selectedPaper.let1Data.createDate.split(' ')[0].replace('年', '-').replace('月', '-').replace('日', '-').split('-') : ['', '', '']
+      let DangerTable = null
+      if (this.corpData.caseType === '0') {
+        DangerTable = let1DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
+          : {} 
+      }
       await db.close();
-      let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPaperContent.DangerTable.tableData, {danger: true})
-      let cellIdx9String = dangerObject.dangerString
-      let cellIdx10String = dangerObject.onsiteDescString
-      let let2DataPaperContent = JSON.parse(selectedPaper.let2Data.paperContent)
-      this.letData = {
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: num0, // 文书号
-        cellIdx0TypeTextItem: num0, // 文书号
         cellIdx1: num1, // 文书号
-        cellIdx1TypeTextItem: num1, // 文书号
         cellIdx2: num3, // 文书号
-        cellIdx2TypeTextItem: num3, // 文书号
         cellIdx3: num4, // 文书号
-        cellIdx3TypeTextItem: num4, // 文书号
         cellIdx4: corp.corpName ? corp.corpName : null, //
-        cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, //
-        cellIdx5: null, // 单位
-        cellIdx6: null, // 年
-        cellIdx7: null, // 月
-        cellIdx8: null, // 日
         cellIdx9: cellIdx9String, // 违法违规行为：隐患描述
         cellIdx10: let2DataPaperContent.cellIdx0, // 现场处理决定书 文书号
-        cellIdx10TypeTextItem: let2DataPaperContent.cellIdx0, // 现场处理决定书 文书号
         cellIdx11: let2DataPaperContent.cellIdx1, // 现场处理决定书 文书号
-        cellIdx11TypeTextItem: let2DataPaperContent.cellIdx1, // 现场处理决定书 文书号
         cellIdx12: let2DataPaperContent.cellIdx2, // 现场处理决定书 文书号
-        cellIdx12TypeTextItem: let2DataPaperContent.cellIdx2, // 现场处理决定书 文书号
         cellIdx13: let2DataPaperContent.cellIdx3, // 现场处理决定书 文书号
-        cellIdx13TypeTextItem: let2DataPaperContent.cellIdx3, // 现场处理决定书 文书号
         cellIdx14: cellIdx10String, // 现场处理决定
         cellIdx25: '应你单位申请', //
-        cellIdx15: null, // 意见
-        cellIdx16: null, // 现场执法人员（签名)
-        cellIdx17: null, // 执法证号
-        cellIdx18: null, // 现场执法人员（签名)
-        cellIdx19: null, // 执法证号
-        cellIdx20: null, // 被检查单位意见
-        cellIdx21: null, // 单位负责人（签名)
-        cellIdx22: null, // 日期
         cellIdx23: this.$store.state.curCase.provinceGroupName, //
         cellIdx24: this.todayDate, //日期
-        cellIdx24TypeDateItem: this.todayDate, // 日期
-        DangerTable: let1DataPaperContent.DangerTable
-      };
+        DangerTable: DangerTable,
+        associationPaperId: { // 关联的paperId
+          paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: selectedPaper.let1Data.paperId,
+        }
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业
@@ -289,12 +317,19 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
-        if (key === 'cellIdx9' || key === 'cellIdx14') {
-          this.options[key] = {
-            page: '13',
-            key: key,
+        if (key === "cellIdx9" || key === "cellIdx14") {
+          if (type === 'DangerTable') {
+            this.options[key] = {
+              page: "13",
+              key: key,
+              // showSelectDangerBtn: true, // 用于区分是否可以选择隐患项
+            };
+            dataKey = "DangerTable";
+          } else {
+            this.options[key] = {
+              disabled: false
+            };
           }
-          dataKey = 'DangerTable'
         }
         this.$refs.letMain.commandFill(
           key,

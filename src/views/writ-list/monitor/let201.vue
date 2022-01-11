@@ -146,10 +146,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { setNewDanger } from '@/utils/setInitPaperData'
-import {
-  getDocNumber,
-} from "@/utils/setInitPaperData";
+import { setNewDanger, getDocNumber } from '@/utils/setInitPaperData'
 import { setDangerTable } from '@/utils/handlePaperData'
 import associationSelectPaper from "@/components/association-select-paper";
 export default {

@@ -226,7 +226,6 @@ export default {
       let let37DataPaperContent = JSON.parse(
         selectedPaper.let37Data.paperContent
       );
-      
       // 2.生成文书编号
       let { num0, num1, num3, num4 } = await getDocNumber(
         db,

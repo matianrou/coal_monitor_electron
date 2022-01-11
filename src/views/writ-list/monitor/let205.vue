@@ -331,10 +331,6 @@ export default {
       let let6DataPaperContent = JSON.parse(
         selectedPaper.let6Data.paperContent
       );
-      // let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
-      //   let6DataPaperContent.DangerTable.selectedDangerList
-      // ) : null;
-      // let cellIdx19String = this.corpData.caseType === '0' ? `${corp.corpName}涉嫌${dangerObject.dangerString}案。` : ''
       let cellIdx19String =
         this.corpData.caseType === "0"
           ? setDangerTable(

@@ -37,10 +37,7 @@
                 <span
                   @click="commandFill('cellIdx2', '', 'TextItem')"
                 >{{ letData.cellIdx2 ? letData.cellIdx2 : '（编辑）' }}</span>
-                <label>）煤安停</label>
-                <span
-                >{{ letData.cellIdx18 ? letData.cellIdx18 : '（编辑）' }}</span>
-                <label>〔</label>
+                <label>）煤安停〔</label>
                 <span
                   @click="commandFill('cellIdx3', '', 'TextItem')"
                 >{{ letData.cellIdx3 ? letData.cellIdx3 : '（编辑）' }}</span>
@@ -75,7 +72,7 @@
               <span
                 @click="commandFill('cellIdx7', '', 'TextItem')"
               >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
-              的决定，但该单位拒不执行此决定，未及时消除安全隐患，现有发生生产安全事故的危险。根据《中华人民共和国安全生产法》第六十七条第一款规定，请贵单位对其采取
+              的决定，但该单位拒不执行此决定，未及时消除安全隐患，现有发生生产安全事故的危险。根据《中华人民共和国安全生产法》第<span class="text-decoration">七十</span>条第<span class="text-decoration">一</span>款规定，请贵单位对其采取
               <span style="borderBottom:none"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
               的措施。
@@ -155,22 +152,6 @@
         </div>
       </div>
     </let-main>
-    <el-dialog
-      title="文书信息选择"
-      :close-on-click-modal="false"
-      append-to-body
-      :visible="visibleSelectDialog"
-      width="400px"
-      :show-close="false">
-      <span>请选择：</span>
-      <el-radio-group v-model="selectedType">
-        <el-radio label="停供电">停供电</el-radio>
-        <el-radio label="停供民用爆炸物品">停供民用爆炸物品</el-radio>
-      </el-radio-group>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="confirm">确定</el-button>
-      </span>
-    </el-dialog>
     <!-- 关联文书选择 -->
     <select-paper
       :visible="visible.selectPaper"
@@ -184,19 +165,37 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber } from '@/utils/setInitPaperData'
+import { getDocNumber, setNewDanger } from '@/utils/setInitPaperData'
 import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let112",
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 停供电(停供民用爆炸物品)
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 文书号
+        cellIdx4: null, // 文书号
+        cellIdx5: null, // 单位
+        cellIdx6: null, // corpname
+        cellIdx7: null, // 依法作出X的决定
+        cellIdx8: null, // 采取X的措施。
+        cellIdx9: null, // 受送达人（签名）
+        cellIdx10: null, // 日期
+        cellIdx11: null, // 执法机关地址
+        cellIdx12: null, // 邮政编码
+        cellIdx13: null, // 执法机关联系人
+        cellIdx14: null, // 联系电话
+        cellIdx15: null, // 
+        cellIdx16: null, // 日期
+        cellIdx17: null, // 
+        DangerTable: null, // 隐患项大表
+        associationPaperId: null
+      },
       options: {},
-      paperData: {}, // 回显数据
-      visibleSelectDialog: false,
-      selectedType: '停供电', // 初始化时选择的停供电
-      associationPaper: ['1']
+      associationPaper: ['56']
     };
   },
   methods: {
@@ -206,46 +205,47 @@ export default {
       let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      // 1.弹出提示框，选择停供电或停供民用爆炸物品
-      this.visibleSelectDialog = true
       // 2.生成文书编号
       let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId)
       // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(item => item.no === this.$store.state.curCase.affiliate)
       let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: ''}
+      let let56DataPaperContent = selectedPaper.let56Data ? JSON.parse(
+        selectedPaper.let56Data.paperContent
+      ) : null;
+      let DangerTable = null
+      if (this.corpData.caseType === '0') {
+        DangerTable = let56DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let56Data, let56DataPaperContent.DangerTable)
+          : {}
+      }
       await db.close();
-      this.letData = {
-        cellIdx0: null, // 停供电(停供民用爆炸物品)
+      this.letData = Object.assign({}, this.letData, {
+        cellIdx0: let56DataPaperContent.selectedType,
         cellIdx1: num0, // 文书号
-        cellIdx1TypeTextItem: num0, // 文书号
         cellIdx2: num1, // 文书号
-        cellIdx2TypeTextItem: num1, // 文书号
-        cellIdx18: null, // 停供电(停供民用爆炸物品)
         cellIdx3: num3, // 文书号
-        cellIdx3TypeTextItem: num3, // 文书号
         cellIdx4: num4, // 文书号
-        cellIdx4TypeTextItem: num4, // 文书号
-        cellIdx5: null, // 单位
+        cellIdx5: let56DataPaperContent.selectedType === '停供电' ? '供电公司' : '公安局', // 单位
         cellIdx6: corp.corpName, // 本机关在对XXX进行安全检查中发现
-        cellIdx6TypeTextItem: corp.corpName, // 单位
-        cellIdx7: null, // 依法作出XXX的决定
-        cellIdx8: null, // 请贵单位对其采取XXX的措施。
-        cellIdx9: null, // 受送达人（签名）
-        cellIdx10: null, // 日期
+        cellIdx7: '责令停产整顿', // 依法作出XXX的决定
+        cellIdx8: let56DataPaperContent.selectedType === '停供电' ? '停供生产性用电' : '停供民用爆炸物品', // 请贵单位对其采取XXX的措施。
         cellIdx11: orgSysOfficeInfo.depAddress, // 执法机关地址
-        cellIdx11TypeTextItem: orgSysOfficeInfo.depAddress, // 执法机关地址
         cellIdx12: orgSysOfficeInfo.depPost, // 邮政编码
-        cellIdx12TypeTextItem: orgSysOfficeInfo.depPost, // 邮政编码
         cellIdx13: orgSysOfficeInfo.master, // 执法机关联系人
-        cellIdx13TypeTextItem: orgSysOfficeInfo.master, // 执法机关联系人
         cellIdx14: orgSysOfficeInfo.phone, // 联系电话
-        cellIdx14TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
         cellIdx15: this.$store.state.curCase.provinceGroupName, //
         cellIdx16: this.todayDate, // 日期
-        cellIdx16TypeDateItem: this.todayDate, // 日期
-        cellIdx17: null, // 一份交XXX
-      };
+        cellIdx17: let56DataPaperContent.selectedType === '停供电' ? '供电部门' : '公安机关', // 一份交XXX
+        DangerTable, // 隐患项大表
+        selectedType: let56DataPaperContent.selectedType,
+        associationPaperId: { // 关联的paperId
+          paper22Id: let56DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: let56DataPaperContent.associationPaperId.paper1Id,
+          paper56Id: selectedPaper.let56Data.paperId
+        } 
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业
@@ -266,18 +266,6 @@ export default {
         );
       }
     },
-    confirm() {
-      // 选择停供电或停供民用爆炸物品
-      this.visibleSelectDialog = false
-      this.letData.cellIdx0 = this.selectedType
-      this.letData.cellIdx0TypeTextItem = this.selectedType
-      this.letData.cellIdx18 = this.selectedType === '停供电' ? '电' : '爆';
-      this.letData.cellIdx18TypeTextItem = this.selectedType === '停供电' ? '电' : '爆';
-      this.letData.cellIdx8 = this.selectedType === '停供电' ? '停供生产性用电' : '停供民用爆炸物品'
-      this.letData.cellIdx8TypeTextItem = this.selectedType === '停供电' ? '停供生产性用电' : '停供民用爆炸物品'
-      this.letData.cellIdx17 = this.selectedType === '停供电' ? '供电部门' : '公安机关'
-      this.letData.selectedType = this.selectedType
-    }
   },
 };
 </script>

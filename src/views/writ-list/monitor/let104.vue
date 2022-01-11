@@ -253,9 +253,8 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber } from "@/utils/setInitPaperData";
+import { getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
-import { setNewDanger } from '@/utils/setInitPaperData'
 import { setDangerTable } from '@/utils/handlePaperData'
 export default {
   name: "Let104",

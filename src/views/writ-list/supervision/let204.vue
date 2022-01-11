@@ -50,36 +50,55 @@
               </tr>
             </table>
             <div class="docTextarea">
-              <label style="width:5%"></label>
+              <label style="width: 5%"></label>
               经查，你
-              <span
-                class="no-underline"
-              >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</span>
+              <span class="no-underline">{{
+                letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
+              }}</span>
               的以下行为
               <span
-                @click="commandFill('cellIdx6', '违法行为', 'DangerTable')"
-              >{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）'}}</span>
-              违反了
-              <span
-                @click="commandFill('cellIdx7', '违法行为', 'DangerTable')"
-              >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
-              的规定，依据
-              <span
-                @click="commandFill('cellIdx8', '法律依据', 'DangerTable')"
-              >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
-              的规定，拟对你
+                @dblclick="commandFill('cellIdx6', '违法行为', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @click="commandFill('cellIdx6', '违法行为', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')"
+                >{{
+                  letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
+                }}</span
+              >
               <span
                 class="no-underline"
-              >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</span>
-              作出
+                @click="commandFill('cellIdx22', '', 'TextItem')"
+                >{{letData.cellIdx22}}</span
+              >违反了
               <span
-                @click="commandFill('cellIdx10', '法律规定', 'DangerTable')"
-              >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）'}}</span>
+                @dblclick="commandFill('cellIdx7', '规定', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @click="commandFill('cellIdx7', '规定', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')"
+                >{{
+                  letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
+                }}</span
+              >
+              的规定，依据
+              <span
+                @dblclick="commandFill('cellIdx8', '法律依据', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @click="commandFill('cellIdx8', '法律依据', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')"
+                >{{
+                  letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）"
+                }}</span
+              >
+              的规定，拟对你
+              <span class="no-underline">{{
+                letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
+              }}</span>
+              <span
+                @dblclick="commandFill('cellIdx10', '行政处罚', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @click="commandFill('cellIdx10', '行政处罚', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')"
+                >{{
+                  letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
+                }}</span
+              >
               的行政处罚。
             </div>
             <div class="docTextarea">
               <label style="width:5%"></label>
-              根据《中华人民共和国行政处罚法》第四十五条规定，你
+              根据《中华人民共和国行政处罚法》第<span class="text-decoration">四十五</span>条规定，你
               <span
                 class="no-underline"
               >{{ letData.cellIdx11 ? letData.cellIdx11 : '（点击编辑）'}}</span>
@@ -87,7 +106,14 @@
             </div>
             <div class="docTextarea">
               <label style="width:5%"></label>
-              根据《中华人民共和国行政处罚法》第六十三条、第六十四条规定，你单位对上述拟作出的行政处罚有要求举行听证的权利。要求举行听证的，应当在收到本告知书之日起五个工作日内提出。逾期未提出的，视为放弃此权利。
+              <span
+                @click="commandFill('cellIdx23', '', 'SelectItem')"
+                class="no-underline"
+                >{{
+                  letData.cellIdx23 ? letData.cellIdx23 : "□"
+                }}
+              </span>
+              根据《中华人民共和国行政处罚法》第<span class="text-decoration">六十三</span>条、第<span class="text-decoration">六十四</span>条规定，你单位对上述拟作出的行政处罚有要求举行听证的权利。要求举行听证的，应当在收到本告知书之日起五个工作日内提出。逾期未提出的，视为放弃此权利。
             </div>
             <div class="docTextarea">
               <div style="display:inline-block;min-width:55%;margin-top: 30px;">
@@ -193,114 +219,239 @@
 <script>
 import GoDB from "@/utils/godb.min.js";
 import {
-  getDangerObject,
+  setNewDanger,
   getDocNumber,
+  setAssociationPaperId
 } from "@/utils/setInitPaperData";
-import {
-  transformNumToChinese,
-} from "@/utils";
 import associationSelectPaper from '@/components/association-select-paper'
+import { setDangerTable } from '@/utils/handlePaperData'
 export default {
   name: "Let204",
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 文书号
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 文书号
+        cellIdx4: null, // 煤矿名称
+        cellIdx5: null, // 单位或个人
+        cellIdx6: null, // 违法行为
+        cellIdx22: null, // 分别违反了或违反了
+        cellIdx7: null, // 规定
+        cellIdx8: null, // 法律依据
+        cellIdx9: null, // 单位或个人
+        cellIdx10: null, // 行政处罚
+        cellIdx23: null,
+        cellIdx11: null, // 单位或个人
+        cellIdx13: null, // 收件人（签名）
+        cellIdx14: null, // 日期
+        cellIdx15: null, // 邮政编码
+        cellIdx16: null, // 邮政编码
+        cellIdx17: null, // 我局联系人
+        cellIdx18: null, // 联系电话
+        cellIdx19: null, // 
+        cellIdx20: null, // 日期
+        cellIdx21: null, // 单位或个人
+        DangerTable: null,
+        associationPaperId: null
+      },
       options: {
-        cellIdx6: {
-          page: "6",
-          key: "cellIdx6",
-        },
-        cellIdx7: {
-          page: "6",
-          key: "cellIdx7",
-        },
-        cellIdx8: {
-          page: "6",
-          key: "cellIdx8",
-        },
-        cellIdx10: {
-          page: "6",
-          key: "cellIdx10",
-        },
+        cellIdx23: [
+          {
+            value: "□",
+            name: "□",
+          },
+          {
+            value: "√",
+            name: "√",
+          },            
+        ],
       },
       visibleSelectDialog: false,
       selectedType: "单位", // 初始化时选择的单位或个人
-      associationPaper: ['1']
+      selectAssociationPaper: ['36', '4'],
     };
   },
   methods: {
     async initLetData (selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      // 1.弹出提示框，选择单位或个人
-      this.visibleSelectDialog = true;
-      let paperNumber = await getDocNumber(
-        db,
-        this.docData.docTypeNo,
-        this.corpData.caseId
-      );
-      // 获取笔录文书中的隐患数据
-      let let1DataPaperContent =JSON.parse(selectedPaper.let1Data.paperContent);
-      let dangerObject = getDangerObject(
-        let1DataPaperContent.DangerTable.tableData,
-        { danger: true, penaltyDesc: true }
-      );
-      // 3.隐患描述
-      // 4.分别违反了+违法认定法条
-      // 5.行政处罚依据
-      // 7.行政处罚决定
-      let cellIdx10String = `${
-        dangerObject.penaltyDesc
-      }。合并罚款人民币${transformNumToChinese(
-        dangerObject.penaltyDescFineTotle
-      )}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`;
-      // 9.机构接口中获取sysOfficeInfo实体中
-      let orgInfo = db.table("orgInfo");
-      let orgData = await orgInfo.find(
-        (item) => item.no === this.$store.state.curCase.affiliate
-      );
-      let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo
-        ? JSON.parse(orgData.sysOfficeInfo)
-        : { depAddress: "", depPost: "", master: "", phone: "" };
-      // depAddress：我分局地址、
-      // depPost：邮政编码、
-      // master：我分局联系人、
-      // phone：联系电话
-      await db.close();
-      this.letData = {
-        cellIdx0: paperNumber.num0, // 文书号
-        cellIdx0TypeTextItem: paperNumber.num0, // 文书号
-        cellIdx1: paperNumber.num1, // 文书号
-        cellIdx1TypeTextItem: paperNumber.num1, // 文书号
-        cellIdx2: paperNumber.num3, // 文书号
-        cellIdx2TypeTextItem: paperNumber.num3, // 文书号
-        cellIdx3: paperNumber.num4, // 文书号
-        cellIdx3TypeTextItem: paperNumber.num4, // 文书号
-        cellIdx4: null, // 煤矿名称
-        cellIdx5: null, // 单位
-        cellIdx6: `${dangerObject.dangerString}`, // 违法行为
-        cellIdx7: `${dangerObject.illegalString}`, // 违法行为
-        cellIdx8: dangerObject.penaltyBasisString, // 法律依据
-        cellIdx9: null, // 单位或个人
-        cellIdx10: cellIdx10String, // 法律规定
-        cellIdx11: null, // 单位或个人
-        cellIdx12: null, // 暂不用
-        cellIdx13: null, // 受送达人（签名
-        cellIdx14: null, // 日期
-        cellIdx15: orgSysOfficeInfo.depAddress, // 执法机关地址
-        cellIdx15TypeTextItem: orgSysOfficeInfo.depAddress, // 执法机关地址
-        cellIdx16: orgSysOfficeInfo.depPost, // 邮政编码
-        cellIdx16TypeTextItem: orgSysOfficeInfo.depPost, // 邮政编码
-        cellIdx17: orgSysOfficeInfo.master, // 执法机关联系人
-        cellIdx17TypeTextItem: orgSysOfficeInfo.master, // 执法机关联系人
-        cellIdx18: orgSysOfficeInfo.phone, // 联系电话
-        cellIdx18TypeTextItem: orgSysOfficeInfo.phone, // 联系电话
-        cellIdx19: this.$store.state.curCase.provinceGroupName, //
-        cellIdx20: this.todayDate, // 日期
-        cellIdx20TypeDateItem: this.todayDate, // 日期
-        cellIdx21: null, // 单位或个人
-        DangerTable: let1DataPaperContent.DangerTable,
-      };
+      if (this.corpData.caseType === '0') {
+        let db = new GoDB(this.$store.state.DBName);
+        let paperNumber = await getDocNumber(
+          db,
+          this.docData.docTypeNo,
+          this.corpData.caseId
+        );
+        let selectletData = {}
+        let letDataPaperContent = {}
+        let associationPaperId = {}
+        let selectedType = ''
+        if (selectedPaper.let36Data) {
+          // 如果是关联案件处理呈报书
+          letDataPaperContent = JSON.parse(
+            selectedPaper.let36Data.paperContent
+          );
+          if (letDataPaperContent.selectedType) {
+            selectedType = letDataPaperContent.selectedType
+          } else {
+            // 1.弹出提示框，选择单位或个人
+            this.visibleSelectDialog = true;
+          }
+          selectletData = selectedPaper.let36Data
+          // 遍历关联文书key
+          associationPaperId = Object.assign({}, setAssociationPaperId(letDataPaperContent.associationPaperId), {
+            paper36Id: selectedPaper.let36Data.paperId,
+          }) 
+        } else {
+          // 如果是关联立案决定书
+          // 1.弹出提示框，选择单位或个人
+          this.visibleSelectDialog = true;
+          letDataPaperContent = JSON.parse(
+            selectedPaper.let4Data.paperContent
+          );
+          selectletData = selectedPaper.let4Data
+          associationPaperId = Object.assign({}, setAssociationPaperId(letDataPaperContent.associationPaperId), {
+            paper4Id: selectedPaper.let4Data.paperId,
+          }) 
+        }
+        // 7.行政处罚决定
+        let cellIdx10String = setDangerTable(
+          letDataPaperContent.DangerTable,
+          {},
+          {
+            page: "6",
+            key: "cellIdx10",
+          }
+        );
+        // 9.机构接口中获取sysOfficeInfo实体中
+        let orgInfo = db.table("orgInfo");
+        let orgData = await orgInfo.find(
+          (item) => item.no === this.$store.state.curCase.affiliate
+        );
+        let orgSysOfficeInfo =
+          orgData && orgData.sysOfficeInfo
+            ? JSON.parse(orgData.sysOfficeInfo)
+            : { depAddress: "", depPost: "", master: "", phone: "" };
+        // depAddress：我局地址、
+        // depPost：邮政编码、
+        // master：我局联系人、
+        // phone：联系电话
+        console.log('selectletData', selectletData)
+        let cellIdx6String = setDangerTable(
+          letDataPaperContent.DangerTable,
+          {},
+          {
+            page: "6",
+            key: "cellIdx6",
+          }
+        );
+        let cellIdx22String = setDangerTable(
+          letDataPaperContent.DangerTable,
+          {},
+          {
+            page: "6",
+            key: "cellIdx22",
+          }
+        );
+        let cellIdx7String = setDangerTable(
+          letDataPaperContent.DangerTable,
+          {},
+          {
+            page: "6",
+            key: "cellIdx7",
+          }
+        );
+        let cellIdx8String = setDangerTable(
+          letDataPaperContent.DangerTable,
+          {},
+          {
+            page: "6",
+            key: "cellIdx8",
+          }
+        );
+        let DangerTable = letDataPaperContent.DangerTable ? 
+          setNewDanger(selectletData, letDataPaperContent.DangerTable)
+          : {}
+        await db.close();
+        this.letData = Object.assign({}, this.letData, {
+          cellIdx0: paperNumber.num0, // 文书号
+          cellIdx1: paperNumber.num1, // 文书号
+          cellIdx2: paperNumber.num3, // 文书号
+          cellIdx3: paperNumber.num4, // 文书号
+          cellIdx4: selectedType === '单位' ? this.corpData.corpName : '',
+          cellIdx5: selectedType,
+          cellIdx6: cellIdx6String, // 违法行为
+          cellIdx22: cellIdx22String, // 分别违反了或违反了
+          cellIdx7: cellIdx7String, // 违法行为
+          cellIdx8: cellIdx8String, // 法律依据
+          cellIdx9: selectedType,
+          cellIdx10: cellIdx10String, // 法律规定
+          cellIdx11: selectedType,
+          cellIdx23: '□', // 
+          cellIdx15: orgSysOfficeInfo.depAddress, // 邮政编码
+          cellIdx16: orgSysOfficeInfo.depPost, // 邮政编码
+          cellIdx17: orgSysOfficeInfo.master, // 我局联系人
+          cellIdx18: orgSysOfficeInfo.phone, // 联系电话
+          cellIdx19: this.$store.state.curCase.provinceGroupName, // 
+          cellIdx20: this.todayDate, // 日期
+          cellIdx21: selectedType, 
+          DangerTable: DangerTable,
+          selectedType,
+          associationPaperId: associationPaperId
+        })
+      } else {
+        let db = new GoDB(this.$store.state.DBName);
+        let paperNumber = await getDocNumber(
+          db,
+          this.docData.docTypeNo,
+          this.corpData.caseId
+        );
+        // 9.机构接口中获取sysOfficeInfo实体中
+        let orgInfo = db.table("orgInfo");
+        let orgData = await orgInfo.find(
+          (item) => item.no === this.$store.state.curCase.affiliate
+        );
+        let orgSysOfficeInfo =
+          orgData && orgData.sysOfficeInfo
+            ? JSON.parse(orgData.sysOfficeInfo)
+            : { depAddress: "", depPost: "", master: "", phone: "" };
+        await db.close();
+        let associationPaperId = {}
+        let letDataPaperContent = {}
+        if (selectedPaper.let36Data) {
+          // 如果是关联案件处理呈报书
+          letDataPaperContent = JSON.parse(
+            selectedPaper.let36Data.paperContent
+          );
+          // 遍历关联文书key
+          associationPaperId = Object.assign({}, setAssociationPaperId(letDataPaperContent.associationPaperId), {
+            paper36Id: selectedPaper.let36Data.paperId,
+          }) 
+        } else {
+          // 如果是关联立案决定书
+          letDataPaperContent = JSON.parse(
+            selectedPaper.let4Data.paperContent
+          );
+          associationPaperId = Object.assign({}, setAssociationPaperId(letDataPaperContent.associationPaperId), {
+            paper4Id: selectedPaper.let4Data.paperId,
+          }) 
+        }
+        this.letData = Object.assign({}, this.letData, {
+          cellIdx0: paperNumber.num0, // 文书号
+          cellIdx1: paperNumber.num1, // 文书号
+          cellIdx2: paperNumber.num3, // 文书号
+          cellIdx3: paperNumber.num4, // 文书号
+          cellIdx23: '□', // 
+          cellIdx15: orgSysOfficeInfo.depAddress, // 邮政编码
+          cellIdx16: orgSysOfficeInfo.depPost, // 邮政编码
+          cellIdx17: orgSysOfficeInfo.master, // 我局联系人
+          cellIdx18: orgSysOfficeInfo.phone, // 联系电话
+          cellIdx19: this.$store.state.curCase.provinceGroupName, // 
+          cellIdx20: this.todayDate, // 日期
+          associationPaperId: associationPaperId
+        })
+      }
     },
     goBack({ page, data }) {
       // 返回选择企业
@@ -311,17 +462,32 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
-        if (
-          key === "cellIdx6" ||
+        if (key === "cellIdx6" ||
           key === "cellIdx7" ||
           key === "cellIdx8" ||
           key === "cellIdx10"
         ) {
-          this.options[key] = {
-            page: "6",
-            key: key,
-          };
-          dataKey = "DangerTable";
+          if (type === 'DangerTable') {
+            this.options[key] = {
+              page: "6",
+              key: key,
+              selectedType: this.letData.selectedType,
+              showMergeBtn: true,
+              showPunishmentInfor: true
+            };
+            dataKey = "DangerTable";
+          } else {
+            if (this.corpData.caseType === '0' &&
+              (key === 'cellIdx6' || key === 'cellIdx7' || key === 'cellIdx10')) {
+              this.options[key] = {
+                disabled: true
+              };
+            } else {
+              this.options[key] = {
+                disabled: false
+              };
+            }
+          }
         }
         this.$refs.letMain.commandFill(
           key,
@@ -341,21 +507,16 @@ export default {
         // 按单位初始化信息
         // 1.单位名称
         this.letData.cellIdx4 = corpName;
-        this.letData.cellIdx4TypeTextItem = corpName;
       } else {
         // 按个人初始化信息
       }
       // 2.经查，你XX的以下行为
       this.letData.cellIdx5 = this.selectedType;
-      this.letData.cellIdx5TypeTextItem = this.selectedType;
       // 6.你单位或个人
       this.letData.cellIdx9 = this.selectedType;
-      this.letData.cellIdx9TypeTextItem = this.selectedType;
       // 8.你单位或个人
       this.letData.cellIdx11 = this.selectedType;
-      this.letData.cellIdx11TypeTextItem = this.selectedType;
       this.letData.cellIdx21 = this.selectedType;
-      this.letData.cellIdx21TypeTextItem = this.selectedType;
       this.letData.selectedType = this.selectedType;
     },
   },

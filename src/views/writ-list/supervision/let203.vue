@@ -48,7 +48,7 @@
                 >{{ letData.cellIdx2 }}</td>
               </tr>
             </table> -->
-            <div
+            <!-- <div
               class="docTextarea"
               style="display: flex; justify-content: space-evenly"
             >
@@ -82,12 +82,14 @@
                   letData.cellIdx16 ? letData.cellIdx16 : "□"
                 }}重大行政执法决定法制审核
               </div>
-            </div>
+            </div> -->
             <div class="docTextarea">
               <span class="no-line"
                 >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;案&nbsp;&nbsp;由：</span
               >
-              <span @click="commandFill('cellIdx3', '案由', 'DangerTable')">{{
+              <span 
+                @dblclick="commandFill('cellIdx3', '案由', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @click="commandFill('cellIdx3', '案由', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')">{{
                 letData.cellIdx3 ? letData.cellIdx3 : "（点击编辑）"
               }}</span>
               <div class="line"></div>
@@ -111,7 +113,8 @@
                 >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;案情摘要：</span
               >
               <span
-                @click="commandFill('cellIdx5', '案情摘要', 'DangerTable')"
+                @dblclick="commandFill('cellIdx5', '案情摘要', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @click="commandFill('cellIdx5', '案情摘要', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')"
                 >{{
                   letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
                 }}</span
@@ -123,7 +126,8 @@
                 >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作出决定依据：</span
               >
               <span
-                @click="commandFill('cellIdx6', '作出决定依据', 'DangerTable')"
+                @dblclick="commandFill('cellIdx6', '作出决定依据', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @click="commandFill('cellIdx6', '作出决定依据', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')"
                 >{{
                   letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
                 }}</span
@@ -135,7 +139,8 @@
                 >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;建议行政决定：</span
               >
               <span
-                @click="commandFill('cellIdx7', '建议行政决定', 'DangerTable')"
+                @dblclick="commandFill('cellIdx7', '建议行政决定', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @click="commandFill('cellIdx7', '建议行政决定', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')"
                 >{{
                   letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
                 }}</span
@@ -179,6 +184,23 @@
         </div>
       </div>
     </let-main>
+    <el-dialog
+      title="文书信息选择"
+      :close-on-click-modal="false"
+      append-to-body
+      :visible="visibleSelectDialog"
+      width="400px"
+      :show-close="false"
+    >
+      <span>请选择：</span>
+      <el-radio-group v-model="selectedType">
+        <el-radio label="单位">单位</el-radio>
+        <el-radio label="个人">个人</el-radio>
+      </el-radio-group>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="confirm">确定</el-button>
+      </span>
+    </el-dialog>
     <!-- 关联文书选择 -->
     <select-paper
       :visible="visible.selectPaper"
@@ -192,9 +214,8 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getNowDate } from "@/utils/date";
-import { transformNumToChinese } from "@/utils";
 import associationSelectPaper from "@/components/association-select-paper";
+import { getDocNumber2, setNewDanger, setAssociationPaperId } from '@/utils/setInitPaperData'
 import { setDangerTable } from "@/utils/handlePaperData";
 const toggleDictionary = [
   {
@@ -211,39 +232,34 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 暂不用
+        cellIdx1: null, // 编号
+        cellIdx2: null, // 暂不用
+        cellIdx3: null, // 案由
+        cellIdx4: null, // 行政相对人基本情况
+        cellIdx5: null, // 案情摘要
+        cellIdx6: null, // 作出决定依据
+        cellIdx7: null, // 建议行政决定
+        cellIdx8: null, // 法制审核意见
+        cellIdx9: null, // 分管负责人意见
+        cellIdx10: null, // 签名
+        cellIdx11: null, // 日期
+        cellIdx12: null, // 主要负责人意见
+        cellIdx13: null, // 签名
+        cellIdx14: null, // 日期
+        DangerTable: null,
+        extraData: {},
+        associationPaperId: {},
+      },
       options: {
-        cellIdx8: [
-          {
-            value:
-              "经2021年8月31日法制审核，认为案件事实清楚、证据确凿充分、定性准确、处罚适当、程序合法，同意处罚意见。",
-            name: "经2021年8月31日法制审核，认为案件事实清楚、证据确凿充分、定性准确、处罚适当、程序合法，同意处罚意见。",
-          },
-          {
-            value:
-              "经2021年8月31日法制审核，认为案件主要事实不清、证据不足，建议继续调查或不予作出行政执法决定的建议。",
-            name: "经2021年8月31日法制审核，认为案件主要事实不清、证据不足，建议继续调查或不予作出行政执法决定的建议。",
-          },
-          {
-            value:
-              "经2021年8月31日法制审核，认为案件定性不准、适用法律不准确、执行裁量基准不当的，建议给予XXX的行政处罚。",
-            name: "经2021年8月31日法制审核，认为案件定性不准、适用法律不准确、执行裁量基准不当的，建议给予XXX的行政处罚。",
-          },
-          {
-            value:
-              "经2021年8月31日法制审核，认为案件程序不合法的，建议进行纠正。",
-            name: "经2021年8月31日法制审核，认为案件程序不合法的，建议进行纠正。",
-          },
-          {
-            value:
-              "经2021年8月31日法制审核，认为超出本机关管辖范围或者涉嫌犯罪的，建议移送。",
-            name: "经2021年8月31日法制审核，认为超出本机关管辖范围或者涉嫌犯罪的，建议移送。",
-          },
-        ],
+        cellIdx8: [],
         cellIdx15: toggleDictionary,
         cellIdx16: toggleDictionary,
       },
-      associationPaper: ["1"],
+      selectAssociationPaper: ['6', '4'],
+      selectedType: "单位",
+      visibleSelectDialog: false,
     };
   },
   methods: {
@@ -253,23 +269,42 @@ export default {
       let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      // 获取笔录文书中的隐患数据和  现场检查笔录时间
-      let let1DataPaperContent = JSON.parse(
-        selectedPaper.let1Data.paperContent
-      );
-      // let dangerObject = getDangerObject(
-      //   let1DataPaperContent.DangerTable.tableData
-      // );
-      // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
+      let selectedType = ''
+      let selectletData = {}
+      let letDataPaperContent = {}
+      let associationPaperId = {}
+      if (selectedPaper.let6Data) {
+        // 如果是关联告知书则直接获取告知书的单位或个人
+        letDataPaperContent = JSON.parse(
+          selectedPaper.let6Data.paperContent
+        );
+        selectedType = letDataPaperContent.selectedType;
+        selectletData = selectedPaper.let6Data
+        associationPaperId = Object.assign({}, setAssociationPaperId(letDataPaperContent.associationPaperId), {
+          paper6Id: selectedPaper.let6Data.paperId,
+        }) 
+      } else {
+        // 1.如果没关联告知书则弹出提示框，选择单位或个人
+        this.visibleSelectDialog = true
+        letDataPaperContent = JSON.parse(
+          selectedPaper.let4Data.paperContent
+        );
+        selectletData = selectedPaper.let4Data
+        associationPaperId = Object.assign({}, setAssociationPaperId(letDataPaperContent.associationPaperId), {
+          paper4Id: selectedPaper.let4Data.paperId,
+        }) 
+      }
+      // 1.获取文书编号：
+      let paperNumber = await getDocNumber2(db, this.docData.docTypeNo, this.corpData.caseId)
+      // 2.案由内容初始化：煤矿企业名称+涉嫌+违法违规行为+案
       // 获取笔录文书中的隐患数据
-      // let cellIdx3String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
       let cellIdx3String =
         this.corpData.caseType === "0"
           ? setDangerTable(
-              let1DataPaperContent.DangerTable,
+              letDataPaperContent.DangerTable,
               {},
               {
-                page: "47",
+                page: "49",
                 key: "cellIdx3",
                 spellString: {
                   corpName: corp.corpName,
@@ -278,20 +313,29 @@ export default {
               }
             )
           : "";
-      // 2.违法事实及依据：隐患描述+“经调查取证以上违法违规行为属实，分别违反了”+违法认定发条
-      // let cellIdx5String = `${dangerObject.dangerString}经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString}的规定。`
-      // let cellIdx5String = `${let1DataPaperContent.cellIdx1}${this.$store.state.curCase.provinceGroupName}对${corp.corpName}进行现场检查时发现${dangerObject.dangerString}以上行为分别涉嫌${dangerObject.illegalString}依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`;
+      // 2.案情摘要：与立案决定书案情摘要格式一致。检查时间，煤矿企业全称+进行现场检查时发现，+隐患描述。+违反认定法条+的规定，依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。
+      // 获取检查时间
+      let wkPaper = db.table('wkPaper')
+      let let1Data = await wkPaper.find(item => item.paperId === letDataPaperContent.associationPaperId.paper1Id && item.delFlag !== '1')
+      let let1DataPaperContent = JSON.parse(
+        let1Data.paperContent
+      );
+      // 检查时间日期：
+      let dateString = let1DataPaperContent.cellIdx1
+        ? let1DataPaperContent.cellIdx1
+        : "X年X月X日-X年X月X日";
       let cellIdx5String =
         this.corpData.caseType === "0"
           ? setDangerTable(
-              let1DataPaperContent.DangerTable,
+              letDataPaperContent.DangerTable,
               {},
               {
-                page: "47",
+                page: "49",
                 key: "cellIdx5",
                 spellString: {
                   corpName: corp.corpName,
-                  userGroupName: this.$store.state.user.userGroupName,
+                  dateString,
+                  groupName: this.$store.state.curCase.provinceGroupName,
                 },
               }
             )
@@ -301,10 +345,10 @@ export default {
       let cellIdx6String =
         this.corpData.caseType === "0"
           ? setDangerTable(
-              let1DataPaperContent.DangerTable,
+              letDataPaperContent.DangerTable,
               {},
               {
-                page: "47",
+                page: "49",
                 key: "cellIdx6",
               }
             )
@@ -313,60 +357,42 @@ export default {
       let cellIdx7String =
         this.corpData.caseType === "0"
           ? setDangerTable(
-              let1DataPaperContent.DangerTable,
+              letDataPaperContent.DangerTable,
               {},
               {
-                page: "47",
+                page: "49",
                 key: "cellIdx7",
               }
             )
           : "";
-      //5.行政相对人基本情况：煤矿名称+（煤矿基本信息字段uscCode）+（煤矿基本信息字段？）+（煤矿基本信息字段？）
-      // let cellIdx4String = `${corp.corpName}社会统一信用代码是${corp.uscCode ? corp.uscCode : 'XX'}采矿许可证号是${corp.uscCode ? corp.uscCode : 'XX'}安全生产许可证号是${corp.uscCode ? corp.uscCode : 'XX'} `;
-      let cellIdx4String =
-        this.corpData.caseType === "0"
-          ? setDangerTable(
-              let1DataPaperContent.DangerTable,
-              {},
-              {
-                page: "47",
-                key: "cellIdx4",
-                spellString: {
-                  corpName: corp.corpName,
-                  uscCode: corp.uscCode ? corp.uscCode : "XX",
-                  groupName: this.$store.state.curCase.provinceGroupName,
-                },
-              }
+      let DangerTable = null;
+      if (this.corpData.caseType === "0") {
+        DangerTable = letDataPaperContent.DangerTable
+          ? setNewDanger(
+              selectletData,
+              letDataPaperContent.DangerTable
             )
-          : "";
+          : {};
+      }
       await db.close();
-      this.letData = {
-        cellIdx0: null, //
-        cellIdx1: null, // 编号
-        cellIdx2: null, // 暂不用
+      this.letData = Object.assign({}, this.letData, {
+        cellIdx1: paperNumber, // 编号
         cellIdx3: cellIdx3String, // 案由
-        cellIdx4: cellIdx4String, // 行政相对人基本情况
-        cellIdx4TypeTextareaItem: cellIdx4String, // 行政相对人基本情况
+        cellIdx4: selectedType === '单位' ? `${corp.corpName}社会统一信用代码是${corp.uscCode ? corp.uscCode : 'XX'}，采矿许可证号是${corp.uscCode ? corp.uscCode : 'XX'}，安全生产许可证号是${corp.uscCode ? corp.uscCode : 'XX'}。` : '姓名XXX，出生日期XXXX年XX月XX日，身份证号XXXX。', // 行政相对人基本情况
         cellIdx5: cellIdx5String, // 案情摘要
         cellIdx6: cellIdx6String, // 作出决定依据
         cellIdx7: cellIdx7String, // 建议行政决定
-        cellIdx8: null, // 法制审核意见
-        cellIdx9: null, // 分管负责人意见
-        cellIdx10: null, // 签名
-        cellIdx11: null, // 日期
-        cellIdx12: null, // 主要负责人意见
-        cellIdx13: null, // 签名
-        cellIdx14: null, // 日期
-        cellIdx15: "□", // 选项：一般行政执法决定法制审核
-        cellIdx16: "□", // 选项：重大行政执法决定法制审核
         DangerTable: let1DataPaperContent.DangerTable,
+        DangerTable: DangerTable,
         extraData: {
           // 用于拼写隐患内容的字符集合
-          corpName: this.corpData.corpName,
-          let101Date: let1DataPaperContent.cellIdx1,
+          corpName: corp.corpName,
+          dateString,
           groupName: this.$store.state.curCase.provinceGroupName,
         },
-      };
+        selectedType,
+        associationPaperId: associationPaperId,
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业
@@ -378,15 +404,17 @@ export default {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
         if (
-          key === "cellIdx3" ||
+          (key === "cellIdx3" ||
           key === "cellIdx5" ||
           key === "cellIdx6" ||
-          key === "cellIdx7"
+          key === "cellIdx7") &&
+          type === "DangerTable"
         ) {
           this.options[key] = {
-            page: "47",
+            page: "49",
             key: key,
             spellString: this.letData.extraData,
+            showMergeBtn: true,
           };
           dataKey = "DangerTable";
         } else if (key === "cellIdx8") {
@@ -401,6 +429,27 @@ export default {
           this.options[key]
         );
       }
+    },
+    async confirm() {
+      // 选择单位或个人
+      this.visibleSelectDialog = false;
+      //5.行政相对人基本情况：
+      // 1，如对煤矿企业经行法制审核，则显示：煤矿企业名称，社会统一信用代码是XXXX，采矿许可证号是xxx,安全生产许可证号是xxx.
+      // 2，如果对个人进行法制审核，则显示姓名XXX，出生日期XXXX年XX月XX日，身份证号XXXX。
+      let cellIdx4String = ''
+      if (this.selectedType === '单位') {
+        let db = new GoDB(this.$store.state.DBName);
+        let corpBase = db.table("corpBase");
+        let corp = await corpBase.find((item) => {
+          return item.corpId == this.corpData.corpId;
+        });
+        await db.close();
+        cellIdx4String = `${corp.corpName}社会统一信用代码是${corp.uscCode ? corp.uscCode : 'XX'}，采矿许可证号是${corp.uscCode ? corp.uscCode : 'XX'}，安全生产许可证号是${corp.uscCode ? corp.uscCode : 'XX'}。`;
+      } else {
+        cellIdx4String = '姓名XXX，出生日期XXXX年XX月XX日，身份证号XXXX。'
+      }
+      this.letData.cellIdx4 = cellIdx4String
+      this.letData.selectedType = this.selectedType
     },
   },
 };

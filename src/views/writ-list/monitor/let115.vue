@@ -440,11 +440,6 @@ export default {
         }
       }
     },
-    confirm() {
-      // 选择单位或个人
-      this.visible = false;
-      
-    },
   },
 };
 </script>

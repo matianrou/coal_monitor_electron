@@ -264,7 +264,7 @@ export default {
       let orgSysOfficeInfo =
         orgData && orgData.sysOfficeInfo
           ? JSON.parse(orgData.sysOfficeInfo)
-          : { organName: "", depAddress: "" };
+          : { organName: "", courtPrefix: "" };
       // 4.当前时间年、月、日、时、分
       let date = new Date();
       let year = date.getFullYear();
@@ -345,7 +345,6 @@ export default {
       // 选择停供电(停供民用爆炸物品)
       this.visibleSelectDialog = false;
       this.letData.cellIdx0 = this.selectedType;
-      this.letData.cellIdx3 = this.selectedType === '停供电' ? '电' : '爆';
       this.letData.cellIdx16 = this.selectedType === '停供电' ? '停供生产性用电' : '停供民用爆炸物品';
       this.letData.selectedType = this.selectedType;
     },

@@ -466,14 +466,6 @@ export default {
         this.corpData.caseType === "0"
           ? JSON.parse(selectedPaper.let4Data.paperContent)
           : null;
-      // let let4DataPaperContent =
-      //   this.corpData.caseType === "0"
-      //     ? JSON.parse(selectedPaper.let4Data.paperContent)
-      //     : null;
-      // let dangerObject =  this.corpData.caseType === '0' ? getDangerObject(
-      //   let4DataPaperContent.DangerTable.selectedDangerList
-      // ) : null;
-      // let cellIdx8String =  this.corpData.caseType === '0' ? `${corp.corpName}涉嫌${dangerObject ? dangerObject.dangerString : 'XXX案'}。` : '';
       let cellIdx8String =
         this.corpData.caseType === "0"
           ? setDangerTable(

@@ -478,11 +478,21 @@ function setDangerTable(data, selectedData, options) {
           string = `${options.spellString.corpName}涉嫌${dangerString}违法违规案。`
         }
       } else {
-        // 监察为停供电(停供民用爆炸物品)决定书 
+        if (options.key === 'cellIdx10') {
+          // 监察为停供电(停供民用爆炸物品)决定书 
           let dangerString = getDangerPenaltyDescWithoutPoint(data ? data.selectedDangerList : [], '；')
           string = dangerString
+        }
       }
       // string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString || ''}案。`
+      break
+    case '56': // 监管停供电(停供民用爆炸物品)决定书
+      if (store.state.user.userType === 'supervision') {
+        if (options.key === 'cellIdx10') {
+          let dangerString = getDangerPenaltyDescWithoutPoint(data ? data.selectedDangerList : [], '；')
+          string = dangerString
+        }
+      }
       break
     case '35': // 移送案件呈报书
       if (options.key === 'cellIdx2') {
@@ -508,6 +518,11 @@ function setDangerTable(data, selectedData, options) {
       break
     case '46': // 延长查封（扣押）期限决定书
       if (options.key === 'cellIdx18') {
+        // 监察所用字段
+        let dangerString = getDangerContentWithoutPoint(data ? data.selectedDangerList : [], '；')
+        string = dangerString
+      } else if (options.key === 'cellIdx17') {
+        // 监管所用字段
         let dangerString = getDangerContentWithoutPoint(data ? data.selectedDangerList : [], '；')
         string = dangerString
       }

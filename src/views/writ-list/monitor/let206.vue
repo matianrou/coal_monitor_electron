@@ -233,6 +233,7 @@ export default {
         cellIdx19: null, // 
         cellIdx20: null, // 日期
         cellIdx21: null, // 单位/个人
+        cellIdx22: null, // 
         DangerTable: null,
         selectedType: null,
         associationPaperId: null
