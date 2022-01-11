@@ -459,6 +459,8 @@ export function setNewDanger (paperData, DangerTable) {
     let tableDataNewItem = DangerTable.tableData[i]
     // 新的隐患id
     let newDangerId = getNowTime() + randomString(28)
+    // 关联隐患id
+    let dangerParentId = `${tableDataNewItem.dangerParentId ? tableDataNewItem.dangerParentId + ',' : ''}${tableDataNewItem.dangerId}`
     let tableDataNewSave = {
       dangerId: newDangerId,
       categoryCode: tableDataNewItem.categoryCode,
@@ -502,7 +504,7 @@ export function setNewDanger (paperData, DangerTable) {
       dangerCorrected: tableDataNewItem.dangerCorrected ? tableDataNewItem.dangerCorrected : null, //"隐患整改情况(0未整改，1已整改）：null",
       dangerItemId: tableDataNewItem.itemCode, //"7101000033",
       dangerLocation: '', //违法违规及隐患位置
-      dangerParentId: tableDataNewItem.dangerId, //"隐患关联id：null",
+      dangerParentId: dangerParentId, //"隐患关联id：null",
       dangerStatus: tableDataNewItem.status, //违法违规及隐患状态
       dangerType: tableDataNewItem.categoryCode,
       detectTime: getNowFormatTime(),  //发现时间：2021-06-24 15:48:54
