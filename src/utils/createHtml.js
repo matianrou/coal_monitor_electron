@@ -116,7 +116,6 @@ export function createHtml(paperDiv, corpData) {
           width: 15.6cm;
           margin: 0 auto;
           border-collapse: collapse;
-          // margin-bottom: 10px;
         }
         .docBody td {
           height: 1cm;
@@ -137,6 +136,7 @@ export function createHtml(paperDiv, corpData) {
         .docTextLine .line-div {
           flex: 1;
           border-bottom: solid 1px #000;
+          height: 0.69cm;
           cursor: pointer;
           word-break: break-all;
           word-wrap: break-word;
@@ -146,14 +146,13 @@ export function createHtml(paperDiv, corpData) {
           cursor: pointer;
         }
         .docTextLine .center {
-          text-align: center;
+          ttext-align: center;
         }
         .paper-number-div {
           justify-content: flex-end;
         }
         .paper-number-div span {
           word-break: break-all;
-          cursor: pointer;
         }
         .paper-number-div .line {
           border-bottom: solid 1px #000;
@@ -171,7 +170,7 @@ export function createHtml(paperDiv, corpData) {
           display: inline-block;
         }
         .docTextarea span {
-          border-bottom: 1px solid #000;
+          border-bottom: solid 1px #000;
           word-break: break-all;
         }
         .docTextarea .line {
@@ -179,6 +178,13 @@ export function createHtml(paperDiv, corpData) {
           height: 0px;
           position: absolute;
           bottom: 10px;
+          width: 100%;
+        }
+        .docTextarea .line1 {
+          border-top: 1px solid ;
+          height: 0px;
+          position: absolute;
+          bottom: 47px;
           width: 100%;
         }
         .docTextarea .no-line {
@@ -189,6 +195,7 @@ export function createHtml(paperDiv, corpData) {
           z-index: 99;
           display: inline-block;
           background-color: #fff;
+          cursor: text;
         }
         .docTextarea .no-underline {
           border-bottom: 0px;
@@ -306,7 +313,6 @@ export function createHtml(paperDiv, corpData) {
           width: 100%;
           height: auto;
           word-wrap: break-word;
-          word-wrap: break-all;
           overflow: hidden;
         }
         .border-solid {

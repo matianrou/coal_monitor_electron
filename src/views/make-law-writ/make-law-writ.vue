@@ -32,13 +32,14 @@
           </div>
           <div class="detail-writ-flow">
             <!-- 文书流程 -->
-            <writ-flow
+            <component
+              :is="writFlow"
               :corp-data="corpData"
               :flow-status="flowStatus"
               :show-jczf-report="showJczfReport"
               :danger-status="dangerStatus"
               @change-page="changePage"
-            ></writ-flow>
+            ></component>
           </div>
         </div>
       </div>
@@ -79,21 +80,23 @@
 <script>
 import GoDB from '@/utils/godb.min.js'
 import caseList from "@/components/case-list"; // 选择企业
-import { writFlow } from '@/utils/writFlow' // 文书流程目录
 import orgInformation from '@/components/org-information' // 企业信息
 import writInformation from '@/components/writ-information' // 创建活动弹窗
 import { writList } from '@/utils/writList'
 import selectPaper from '@/components/select-paper'
 import { sortbyAsc } from "@/utils/index";
 import checkCorpInfo from '@/components/check-corp-info'
+import supervisionWritFlow from '@/views/writ-flow/supervision/writ-flow'
+import monitorWritFlow from '@/views/writ-flow/monitor/writ-flow'
 
 export default {
   name: "MakeLawWrit",
   components: {
+    supervisionWritFlow,
+    monitorWritFlow,
     caseList,
     orgInformation,
     writInformation,
-    ...writFlow,
     ...writList,
     selectPaper,
     checkCorpInfo
@@ -123,6 +126,12 @@ export default {
       paperList: [], // 选择的文书列表
       showJczfReport: false, // 是否展示监察执法报告环节
       checkCorpInfoVisible: false, // 回传煤矿信息
+    }
+  },
+  computed: {
+    writFlow() {
+      // 动态组件，动态调用监察或监管文书流程
+      return this.$store.state.user.userType === 'supervision' ? supervisionWritFlow : monitorWritFlow
     }
   },
   created() {

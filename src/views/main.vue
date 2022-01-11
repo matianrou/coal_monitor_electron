@@ -25,14 +25,17 @@ export default {
   },
   async created (){
     console.log(`已进入${this.$store.state.user.userType === 'supervision' ? '监管' : '监察'}系统`)
-    await this.getSendPaperData()
-    window.setInterval(() => {
-      setTimeout(async () => {
-        ///调取接口 十分钟600000
-        // 获取是否有未接收的发送文书信息
-        await this.getSendPaperData()
-        }, 0)
-      }, 600000)
+    if (this.$store.state.user.userType !== 'supervision') {
+      // 监察环境时获取未下载的文书数据，同时设置定时更新未下载的文书数据
+      await this.getSendPaperData()
+      window.setInterval(() => {
+        setTimeout(async () => {
+          ///调取接口 十分钟600000
+          // 获取是否有未接收的发送文书信息
+          await this.getSendPaperData()
+          }, 0)
+        }, 600000)
+    }
   },
   methods: {
     changeTab (tab) {

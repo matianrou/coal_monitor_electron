@@ -307,20 +307,22 @@ export default {
       let userGroupId = this.$store.state.user.userGroupId;
       let path = this.downloadPath
       let uri = `${path}`;
+      // 监察或监管国家局officeId 
+      let goverOfficeId = this.$store.state.user.userType === 'supervision' ? '000000310001' : '000000110001'
       switch (resId) {
         case "org":
           // 调整为下载全国机构
           uri +=
             "/local/office/list?__sid=" +
             userSessId +
-            "&officeId=000000110001&allOffice=true";
+            "&officeId=" + goverOfficeId + "&allOffice=true";
           break;
         case "person":
           // 调整为下载全国用户
           uri +=
             "/local/user/getUserByOfficeId?__sid=" +
             userSessId +
-            "&officeId=000000110001";
+            "&officeId=" + goverOfficeId;
           break;
         case "plan":
           uri +=
@@ -451,16 +453,26 @@ export default {
         // 获取意见建议书中的附件
         // 获取监察执法报告
         let {userId, userSessId} = this.$store.state.user
-        await Promise.all([
-          this.getLocalReview(userId, userSessId),
-          this.getFineCollection(userId, userSessId),
-          this.getSingleReceipt(userId, userSessId),
-          this.getImageEvidencePC(userId, userSessId),
-          this.getPaperAttachment(userId, userSessId),
-          this.getJczfReport(userId, userSessId)
-        ]).then(async () => {
-          await docFileListDb(resId, this.fileData)
-        })
+        if (this.$store.state.user.userType === 'supervision') {
+          // 监管时下载影音证据
+          await Promise.all([
+            this.getImageEvidencePC(userId, userSessId),
+          ]).then(async () => {
+            await docFileListDb(resId, this.fileData)
+          })
+        } else {
+          // 监察时下载委托复查、罚款收缴、回执单、影音证据、意见建议书附件、监察执法报告
+          await Promise.all([
+            this.getLocalReview(userId, userSessId),
+            this.getFineCollection(userId, userSessId),
+            this.getSingleReceipt(userId, userSessId),
+            this.getImageEvidencePC(userId, userSessId),
+            this.getPaperAttachment(userId, userSessId),
+            this.getJczfReport(userId, userSessId)
+          ]).then(async () => {
+            await docFileListDb(resId, this.fileData)
+          })
+        }
       } else if (resId === 'plan') {
         // 下载其他资源时，同时下载码表
         let {userSessId} = this.$store.state.user

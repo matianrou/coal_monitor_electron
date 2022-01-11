@@ -34,6 +34,7 @@
           <span>意见建议书</span>
         </div>
         <div
+          v-if="userType !== 'supervision'"
           class="navTd"
           :style="activeTab === 'sendPaper' ? 'background: #224f7d;' : ''"
           @click="changeTab('sendPaper')">

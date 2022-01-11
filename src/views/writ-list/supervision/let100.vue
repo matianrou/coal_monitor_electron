@@ -169,7 +169,6 @@
         <div class="page-break"></div>
         <!-- 但页面不展示 -->
         <div style="height: 0; overflow: hidden">
-          <!-- <div class="page-sizeA4-rorate" ref="CheckTable"> -->
           <div class="page-sizeA4" ref="CheckTable">
             <div style="height: 90px">
               <span style="display: block; height: 30px; font-size: 16px"
