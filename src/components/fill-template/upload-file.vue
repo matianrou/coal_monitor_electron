@@ -206,6 +206,7 @@ export default {
     },
     addFile (param) {
       // 上传文件
+      this.loading.btn = true
       let formData = new FormData()
       let submitData = {
         attachmentId: getNowTime() + randomString(28),
@@ -231,9 +232,11 @@ export default {
           } else {
             this.$message.error('文件上传失败，请重新尝试！')
           }
+          this.loading.btn = false
         }).catch((err) => {
           this.$message.error('文件上传失败，请重新尝试！')
           console.log("上传至服务器请求失败：", err);
+          this.loading.btn = false
         });
     },
     deleteFile (index, row) {

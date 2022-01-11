@@ -190,6 +190,7 @@ export default {
     },
     addFile (param) {
       // 上传文件
+      this.loading.btn = true
       let formData = new FormData()
       let submitData = {
         paperId: this.paperId,
@@ -225,9 +226,11 @@ export default {
           } else {
             this.$message.error('文件上传失败，请重新尝试！')
           }
+          this.loading.btn = false
         })
         .catch((err) => {
           console.log("上传至服务器请求失败：", err);
+          this.loading.btn = false
         });
     },
     deleteFile (index, row) {
