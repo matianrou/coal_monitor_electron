@@ -47,12 +47,13 @@
     <div v-if="showPage.writFill" class="make-law-writ-fill">
       <!-- 填写文书 -->
       <component
-        :is="showTemp"
+        :is="`${$store.state.user.userType}-writ-list`"
+        :show-temp="showTemp"
         :corp-data="corpData"
         :doc-data="docData"
         :paper-data="paperData"
-        @go-back="changePage">
-      </component>
+        @go-back="changePage"
+      ></component>
     </div>
     <writ-information
       :visible="visible.newCase"
@@ -82,24 +83,26 @@ import GoDB from '@/utils/godb.min.js'
 import caseList from "@/components/case-list"; // 选择企业
 import orgInformation from '@/components/org-information' // 企业信息
 import writInformation from '@/components/writ-information' // 创建活动弹窗
-import { writList } from '@/utils/writList'
 import selectPaper from '@/components/select-paper'
 import { sortbyAsc } from "@/utils/index";
 import checkCorpInfo from '@/components/check-corp-info'
-import supervisionWritFlow from '@/views/writ-flow/supervision/writ-flow'
-import monitorWritFlow from '@/views/writ-flow/monitor/writ-flow'
+import monitorWritFlow from '@/views/writ-flow/monitor/writ-flow' // 监察流程组件
+import supervisionWritFlow from '@/views/writ-flow/supervision/writ-flow' // 监管流程组件
+import monitorWritList from '@/views/make-law-writ/components/monitor-writ-list' // 监察文书组件表
+import supervisionWritList from '@/views/make-law-writ/components/supervision-writ-list' // 监管文书组件表
 
 export default {
   name: "MakeLawWrit",
   components: {
-    supervisionWritFlow,
     monitorWritFlow,
+    supervisionWritFlow,
+    monitorWritList,
+    supervisionWritList,
     caseList,
     orgInformation,
     writInformation,
-    ...writList,
     selectPaper,
-    checkCorpInfo
+    checkCorpInfo,
   },
   data() {
     return {

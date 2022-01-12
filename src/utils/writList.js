@@ -1,5 +1,5 @@
 import store from '@/store'
-const monitorWritList = {
+export const monitorWritList = {
   let100: resolve => { require(["@/views/writ-list/monitor/let100"], function(let100) { resolve(let100);});},
   let101: resolve => { require(["@/views/writ-list/monitor/let101"], function(let101) { resolve(let101);});},
   let102: resolve => { require(["@/views/writ-list/monitor/let102"], function(let102) { resolve(let102);});},
@@ -57,7 +57,7 @@ const monitorWritList = {
   let502: resolve => { require(["@/views/writ-list/monitor/let502"], function(let502) { resolve(let502);});},
 }
 
-const supervisionWritList = {
+export const supervisionWritList = {
   let100: resolve => { require(["@/views/writ-list/supervision/let100"], function(let100) { resolve(let100);});},
   let101: resolve => { require(["@/views/writ-list/supervision/let101"], function(let101) { resolve(let101);});},
   let102: resolve => { require(["@/views/writ-list/supervision/let102"], function(let102) { resolve(let102);});},
@@ -114,5 +114,4 @@ const supervisionWritList = {
   let406: resolve => { require(["@/views/writ-list/supervision/let406"], function(let406) { resolve(let406);});},
 }
 
-export const writList = store.state.user.userType === 'supervision' ? supervisionWritList : monitorWritList
 

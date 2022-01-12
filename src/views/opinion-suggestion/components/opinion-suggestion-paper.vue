@@ -13,7 +13,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { writList } from '@/utils/writList'
+import { monitorWritList } from '@/utils/writList' // 当前只有监察有意见建议书，所以写死引入监察文书，如果需要动态加载参照执法工作台
 export default {
   name: "OpinionSuggestion",
   props: {
@@ -27,7 +27,7 @@ export default {
     }
   },
   components: {
-    ...writList,
+    ...monitorWritList,
   },
   data() {
     return {

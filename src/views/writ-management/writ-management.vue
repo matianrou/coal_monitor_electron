@@ -122,7 +122,8 @@
     <div v-if="showPage.writFill" class="make-law-writ-fill">
       <!-- 填写文书 -->
       <component
-        :is="showTemp"
+        :is="`${$store.state.user.userType}-writ-list`"
+        :show-temp="showTemp"
         :corp-data="corpData"
         :doc-data="docData"
         :paper-data="selectedPaper"
@@ -138,13 +139,15 @@ import orgInformation from '@/components/org-information' // 企业信息
 import GoDB from '@/utils/godb.min.js'
 import { sortbyDes } from '@/utils/index'
 import { saveToUpload } from '@/utils/savePaperData'
-import { writList } from '@/utils/writList'
+import monitorWritList from '@/views/make-law-writ/components/monitor-writ-list' // 监察文书组件表
+import supervisionWritList from '@/views/make-law-writ/components/supervision-writ-list' // 监管文书组件表
 export default {
   name: "WritManagement",
   components: {
     caseList,
     orgInformation,
-    ...writList
+    monitorWritList,
+    supervisionWritList,
   },
   data() {
     return {

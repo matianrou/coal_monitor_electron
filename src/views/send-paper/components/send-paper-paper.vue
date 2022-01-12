@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { writList } from '@/utils/writList'
+import { monitorWritList } from '@/utils/writList' // 当前只有监察有调查互动发送文书功能，所以写死引入监察文书列表，如果需要动态加载参照执法工作台
 export default {
   name: "SendPaperPapaer",
   props: {
@@ -36,7 +36,7 @@ export default {
     }
   },
   components: {
-    ...writList,
+    ...monitorWritList,
   },
   data() {
     return {
