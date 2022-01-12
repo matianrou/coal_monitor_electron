@@ -400,6 +400,7 @@ export default {
         },
         DangerTable: null,
         associationPaperId: null,
+        associationPaperOrder: []
       },
       options: {},
       associationPaper: this.fromPage !== "opinion-suggestion" && this.corpData.caseType === "0" ? ["1"] : [],
@@ -412,6 +413,7 @@ export default {
       let cellIdx2String = "";
       let DangerTable = {};
       let associationPaperId = {};
+      let associationPaperOrder = []
       let volumesMenuTableData = []
       if (this.fromPage === "opinion-suggestion") {
         // 从意见建议书进入执法案卷首页时
@@ -530,11 +532,11 @@ export default {
                 let1DataPaperContent.DangerTable
               )
             : {};
-          associationPaperId = {
-            // 关联的paperId
-            paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
+          associationPaperId = Object.assign({}, this.setAssociationPaperId(let1DataPaperContent.associationPaperId), {
             paper1Id: selectedPaper.let1Data.paperId,
-          };
+          }) 
+          associationPaperOrder = this.setAssociationPaperOrder(let1DataPaperContent.associationPaperOrder)
+          associationPaperOrder.push('1')
         } else {
           let corpBase = db.table("corpBase");
           let corp = await corpBase.find((item) => {
@@ -554,6 +556,7 @@ export default {
         },
         DangerTable,
         associationPaperId,
+        associationPaperOrder
       })
     },
     goBack({ page, data }) {

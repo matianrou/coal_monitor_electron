@@ -287,7 +287,8 @@ export default {
         cellIdx22: null, //
         cellIdx23: null, // 日期
         DangerTable: null,
-        associationPaperId: {}
+        associationPaperId: {},
+        associationPaperOrder: []
       },
       options: {
         cellIdx9: {
@@ -350,6 +351,11 @@ export default {
           setNewDanger(selectedPaper.let2Data, let2DataPaperContent.DangerTable)
           : {} 
       }
+      let associationPaperId = Object.assign({}, this.setAssociationPaperId(let2DataPaperContent.associationPaperId), {
+        paper2Id: selectedPaper.let2Data.paperId,
+      }) 
+      let associationPaperOrder = this.setAssociationPaperOrder(let2DataPaperContent.associationPaperOrder)
+      associationPaperOrder.push('2')
       await db.close();
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: num0, // 文书号
@@ -371,12 +377,10 @@ export default {
         cellIdx22: this.$store.state.curCase.provinceGroupName, //
         cellIdx23: this.todayDate, // 日期
         DangerTable: DangerTable,
-        associationPaperId: { // 关联的paperId
-          paper22Id: let2DataPaperContent.associationPaperId.paper22Id,
-          paper1Id: let2DataPaperContent.associationPaperId.paper1Id,
-          paper2Id: selectedPaper.let2Data.paperId,
-        }
+        associationPaperId,
+        associationPaperOrder,
       })
+      console.log('letData', this.letData)
     },
     goBack({ page, data }) {
       // 返回选择企业

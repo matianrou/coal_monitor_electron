@@ -281,6 +281,7 @@ export default {
         extraData: null,
         selectedType: null,
         associationPaperId: null,
+        associationPaperOrder: []
       },
       options: {
         cellIdx9: [
@@ -364,6 +365,11 @@ export default {
       let cellIdx20String = let6DataPaperContent.selectedType
         ? let6DataPaperContent.selectedType
         : "";
+      let associationPaperId = Object.assign({}, this.setAssociationPaperId(let6DataPaperContent.associationPaperId), {
+        paper6Id: selectedPaper.let6Data.paperId,
+      }) 
+      let associationPaperOrder = this.setAssociationPaperOrder(let6DataPaperContent.associationPaperOrder)
+      associationPaperOrder.push('6')
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: cellIdx0Year, // 年
         cellIdx1: cellIdx1Month, // 月
@@ -381,17 +387,8 @@ export default {
           groupName: this.$store.state.curCase.provinceGroupName,
         },
         selectedType: let6DataPaperContent.selectedType,
-        associationPaperId:
-          this.corpData.caseType === "0"
-            ? {
-                // 关联的paperId
-                paper22Id: let6DataPaperContent.associationPaperId.paper22Id,
-                paper1Id: let6DataPaperContent.associationPaperId.paper1Id,
-                paper6Id: selectedPaper.let6Data.paperId,
-              }
-            : {
-                paper6Id: selectedPaper.let6Data.paperId,
-              },
+        associationPaperId,
+        associationPaperOrder,
       })
     },
     goBack({ page, data }) {

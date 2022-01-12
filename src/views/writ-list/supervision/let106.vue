@@ -254,10 +254,11 @@ export default {
         cellIdx29: null, // 签名
         cellIdx30: null, // 日期
         DangerTable: null,
-        associationPaperId: {}
+        associationPaperId: {},
+        associationPaperOrder: []
       },
       options: {},
-      associationPaper: this.corpData.caseType === '0' ? ["1"] : [],
+      associationPaper: ["1"],
     };
   },
   methods: {
@@ -294,6 +295,13 @@ export default {
       let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {goverPrefix: '', organName: '', courtPrefix: ''}
       let DangerTable = null
       let cellIdx11String = ''
+      let associationPaperId = {}
+      let associationPaperOrder = []
+      associationPaperId = Object.assign({}, this.setAssociationPaperId(let1DataPaperContent.associationPaperId), {
+        paper1Id: selectedPaper.let1Data.paperId,
+      }) 
+      associationPaperOrder = this.setAssociationPaperOrder(let1DataPaperContent.associationPaperOrder)
+      associationPaperOrder.push('1') 
       if (this.corpData.caseType === '0') {
         // 5.获取检查地点
         let wkPaper = db.table('wkPaper')
@@ -331,10 +339,8 @@ export default {
         cellIdx29: this.$store.state.curCase.provinceGroupName, //
         cellIdx30: this.todayDate, // 日期
         DangerTable,
-        associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
-          paper22Id: let1DataPaperContent.associationPaperId ? let1DataPaperContent.associationPaperId.paper22Id : '',
-          paper1Id: selectedPaper.let1Data.paperId
-        } : null
+        associationPaperId,
+        associationPaperOrder
       })
     },
     goBack({ page, data }) {

@@ -599,3 +599,12 @@ export function setAssociationPaperId (associationPaperId) {
   }
   return associationId
 }
+
+// 保存文书关联顺序
+export function setAssociationPaperOrder (associationPaperOrder = []) {
+  let paperOrder = []
+  for (let i = 0; i < associationPaperOrder.length; i++) {
+    paperOrder.push(associationPaperOrder[i])
+  }
+  return paperOrder
+}

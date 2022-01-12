@@ -200,7 +200,6 @@ import GoDB from "@/utils/godb.min.js";
 import {
   getDocNumber,
   setNewDanger,
-  setAssociationPaperId
 } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 import { setDangerTable } from '@/utils/handlePaperData'
@@ -236,7 +235,8 @@ export default {
         cellIdx22: null, // 
         DangerTable: null,
         selectedType: null,
-        associationPaperId: null
+        associationPaperId: null,
+        associationPaperOrder: []
       },
       options: {
         cellIdx4: [
@@ -268,6 +268,7 @@ export default {
       let selectletData = {}
       let letDataPaperContent = {}
       let associationPaperId = {}
+      let associationPaperOrder = []
       if (selectedPaper.let6Data) {
         // 如果是关联告知书则直接获取告知书的单位或个人
         letDataPaperContent = JSON.parse(
@@ -275,9 +276,11 @@ export default {
         );
         cellIdx4String = letDataPaperContent.selectedType;
         selectletData = selectedPaper.let6Data
-        associationPaperId = Object.assign({}, setAssociationPaperId(letDataPaperContent.associationPaperId), {
+        associationPaperId = Object.assign({}, this.setAssociationPaperId(letDataPaperContent.associationPaperId), {
           paper6Id: selectedPaper.let6Data.paperId,
         }) 
+        associationPaperOrder = this.setAssociationPaperOrder(letDataPaperContent.associationPaperOrder)
+        associationPaperOrder.push('6')
       } else {
         // 1.如果没关联告知书则弹出提示框，选择单位或个人
         this.visibleSelectDialog = true
@@ -285,9 +288,11 @@ export default {
           selectedPaper.let1Data.paperContent
         );
         selectletData = selectedPaper.let1Data
-        associationPaperId = Object.assign({}, setAssociationPaperId(letDataPaperContent.associationPaperId), {
+        associationPaperId = Object.assign({}, this.setAssociationPaperId(letDataPaperContent.associationPaperId), {
           paper1Id: selectedPaper.let1Data.paperId,
         }) 
+        associationPaperOrder = this.setAssociationPaperOrder(letDataPaperContent.associationPaperOrder)
+        associationPaperOrder.push('1')
       }
       // 1.关联行政处罚告知书
       // 2.单位/个人：行政处罚告知书中的单位/个人selectedType
@@ -388,7 +393,8 @@ export default {
         cellIdx21: cellIdx4String, // 单位/个人
         DangerTable: DangerTable || null,
         selectedType: letDataPaperContent.selectedType,
-        associationPaperId: associationPaperId
+        associationPaperId: associationPaperId,
+        associationPaperOrder
       })
       console.log('letData', this.letData)
     },

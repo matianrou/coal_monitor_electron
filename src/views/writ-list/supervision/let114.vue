@@ -307,7 +307,8 @@ export default {
           signature: null,
           signDate: "",
         },
-        associationPaperId: null
+        associationPaperId: null,
+        associationPaperOrder: []
       },
       options: {
         cellIdx10: dictionary,
@@ -364,6 +365,11 @@ export default {
           : {};
       }
       await db.close();
+      let associationPaperId = Object.assign({}, this.setAssociationPaperId(let32DataPaperContent.associationPaperId), {
+        paper32Id: selectedPaper.let32Data.paperId,
+      }) 
+      let associationPaperOrder = this.setAssociationPaperOrder(let32DataPaperContent.associationPaperOrder)
+      associationPaperOrder.push('32')
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: selectedType, // 查封(扣押)
         cellIdx1: num0, // 文书号
@@ -393,12 +399,8 @@ export default {
         selectedType: selectedType, // 查封/扣押
         DangerTable: DangerTable,
         SamplingForensicsTable: let32DataPaperContent.SamplingForensicsTable,
-        associationPaperId: {
-          // 关联的paperId
-          paper22Id: let32DataPaperContent.associationPaperId.paper22Id,
-          paper1Id: let32DataPaperContent.associationPaperId.paper1Id,
-          paper32Id: selectedPaper.let32Data.paperId,
-        }
+        associationPaperId,
+        associationPaperOrder
       })
     },
     goBack({ page, data }) {

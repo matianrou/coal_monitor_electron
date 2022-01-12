@@ -230,11 +230,13 @@ export default {
         cellIdx16: null, // 日期
         cellIdx10: null, // 审批人
         cellIdx11: null, // 审批日期
-        cellIdx12: this.$store.state.curCase.provinceGroupName,
+        cellIdx12: null,
         CheckTable: {
           tableData: [],
           selectedIdList: [],
         }, // 检查表
+        associationPaperId: {},
+        associationPaperOrder: []
       },
       options: {},
       associationPaper: ["22"],
@@ -267,7 +269,8 @@ export default {
         associationPaperId: {
           // 关联的paperId
           paper22Id: selectedPaper.let22Data.paperId,
-        }
+        },
+        associationPaperOrder: ['22']
       })
     },
     goBack({ page, data }) {

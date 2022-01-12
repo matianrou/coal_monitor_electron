@@ -383,6 +383,7 @@ export default {
         extraData: null,
         selectedType: null,
         associationPaperId: null,
+        associationPaperOrder: []
       },
       options: {
         cellIdx13: [
@@ -417,10 +418,6 @@ export default {
       let let6DataPaperContent = JSON.parse(
         selectedPaper.let6Data.paperContent
       );
-      // let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
-      //   let6DataPaperContent.DangerTable.selectedDangerList
-      // ) : null;
-      // let cellIdx7String = this.corpData.caseType === '0' ? `${corp.corpName}涉嫌${dangerObject.dangerString}案。` : '';
       let cellIdx7String =
         this.corpData.caseType === "0"
           ? setDangerTable(
@@ -465,6 +462,11 @@ export default {
             )
           : null;
       await db.close();
+      let associationPaperId = Object.assign({}, this.setAssociationPaperId(let6DataPaperContent.associationPaperId), {
+        paper6Id: selectedPaper.let6Data.paperId,
+      }) 
+      let associationPaperOrder = this.setAssociationPaperOrder(let6DataPaperContent.associationPaperOrder)
+      associationPaperOrder.push('6')
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: num0, // 文书号
         cellIdx1: num1, // 文书号
@@ -497,17 +499,8 @@ export default {
           groupName: this.$store.state.curCase.provinceGroupName,
         },
         selectedType: let6DataPaperContent.selectedType,
-        associationPaperId:
-          this.corpData.caseType === "0"
-            ? {
-                // 关联的paperId
-                paper22Id: let6DataPaperContent.associationPaperId.paper22Id,
-                paper1Id: let6DataPaperContent.associationPaperId.paper1Id,
-                paper6Id: selectedPaper.let6Data.paperId,
-              }
-            : {
-                paper6Id: selectedPaper.let6Data.paperId,
-              },
+        associationPaperId: associationPaperId,
+        associationPaperOrder,
       })
     },
     goBack({ page, data }) {

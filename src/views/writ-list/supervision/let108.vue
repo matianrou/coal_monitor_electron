@@ -203,6 +203,7 @@ export default {
           signDate: "",
         },
         associationPaperId: null,
+        associationPaperOrder: []
       },
       options: {},
       associationPaper: ['1']
@@ -255,6 +256,11 @@ export default {
           : {};
       }
       await db.close();
+      let associationPaperId = Object.assign({}, this.setAssociationPaperId(let1DataPaperContent.associationPaperId), {
+        paper1Id: selectedPaper.let1Data.paperId,
+      }) 
+      let associationPaperOrder = this.setAssociationPaperOrder(let1DataPaperContent.associationPaperOrder)
+      associationPaperOrder.push('1')
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: num0, // 文书号
         cellIdx1: num1, // 文书号
@@ -270,11 +276,8 @@ export default {
         cellIdx21: this.$store.state.curCase.provinceGroupName, //
         cellIdx22: this.todayDate, // 日期
         DangerTable: DangerTable,
-        associationPaperId: {
-          // 关联的paperId
-          paper22Id: let1DataPaperContent.associationPaperId ? let1DataPaperContent.associationPaperId.paper22Id : '',
-          paper1Id: selectedPaper.let1Data.paperId,
-        },
+        associationPaperId,
+        associationPaperOrder
       })
     },
     goBack({ page, data }) {

@@ -211,7 +211,8 @@ export default {
         cellIdx14: null, // 申请记录
         DangerTable: null,
         extraData: null,
-        associationPaperId: null
+        associationPaperId: null,
+        associationPaperOrder: []
       },
       options: {
         cellIdx7: [
@@ -256,6 +257,11 @@ export default {
           : {}
       }
       await db.close();
+      let associationPaperId = Object.assign({}, this.setAssociationPaperId(let8DataPaperContent.associationPaperId), {
+        paper8Id: selectedPaper.let8Data.paperId
+      }) 
+      let associationPaperOrder = this.setAssociationPaperOrder(let8DataPaperContent.associationPaperOrder)
+      associationPaperOrder.push('8')
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: now.getFullYear().toString(), // 年
         cellIdx1: (now.getMonth() + 1).toString(), // 月
@@ -270,15 +276,8 @@ export default {
           corpName: corp.corpName,
           groupName: this.$store.state.curCase.provinceGroupName,
         },
-        associationPaperId:  this.corpData.caseType === '0' ?{ // 关联的paperId
-          paper22Id: let8DataPaperContent.associationPaperId.paper22Id,
-          paper1Id: let8DataPaperContent.associationPaperId.paper1Id,
-          paper6Id: let8DataPaperContent.associationPaperId.paper6Id,
-          paper8Id: selectedPaper.let8Data.paperId
-        } : {
-          paper6Id: let8DataPaperContent.associationPaperId.paper6Id,
-          paper8Id: selectedPaper.let8Data.paperId
-        }
+        associationPaperId,
+        associationPaperOrder
       })
     },
     goBack({ page, data }) {

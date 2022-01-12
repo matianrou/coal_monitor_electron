@@ -259,7 +259,8 @@ export default {
         cellIdx27: null, //
         cellIdx28: null, // 日期
         DangerTable: null,
-        associationPaperId: {}
+        associationPaperId: {},
+        associationPaperOrder: []
       },
       options: {},
       associationPaper: this.corpData.caseType === '0' ? ["1"] : [],
@@ -322,6 +323,15 @@ export default {
           setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
           : {}
       }
+      let associationPaperId = {}
+      let associationPaperOrder = []
+      if (this.corpData.caseType === '0') {
+        associationPaperId = Object.assign({}, this.setAssociationPaperId(let1DataPaperContent.associationPaperId), {
+          paper1Id: selectedPaper.let1Data.paperId,
+        }) 
+        associationPaperOrder = this.setAssociationPaperOrder(let1DataPaperContent.associationPaperOrder)
+        associationPaperOrder.push('1')
+      }
       await db.close();
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: num0, // 文书号
@@ -348,10 +358,8 @@ export default {
         cellIdx27: this.$store.state.curCase.provinceGroupName, //
         cellIdx28: this.todayDate, // 日期
         DangerTable: DangerTable,
-        associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
-          paper22Id: let1DataPaperContent.associationPaperId ? let1DataPaperContent.associationPaperId.paper22Id : '',
-          paper1Id: selectedPaper.let1Data.paperId
-        } : null
+        associationPaperId,
+        associationPaperOrder
       })
     },
     goBack({ page, data }) {

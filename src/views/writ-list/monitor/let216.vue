@@ -194,6 +194,7 @@ export default {
         DangerTable: null,
         extraData: {},
         associationPaperId: {},
+        associationPaperOrder: []
       },
       options: {},
       associationPaper: ['4']
@@ -226,6 +227,11 @@ export default {
           : {};
       }
       await db.close();
+      let associationPaperId = Object.assign({}, this.setAssociationPaperId(let4DataPaperContent.associationPaperId), {
+        paper4Id: selectedPaper.let4Data.paperId,
+      }) 
+      let associationPaperOrder = this.setAssociationPaperOrder(let4DataPaperContent.associationPaperOrder)
+      associationPaperOrder.push('4')
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: cellIdx0String, // 案由
         cellIdx1: year, // 年
@@ -234,18 +240,8 @@ export default {
         cellIdx4: hour, // 时
         cellIdx5: minu, // 分
         DangerTable: DangerTable,
-        associationPaperId:
-          this.corpData.caseType === "0"
-            ? {
-                // 关联的paperId
-                paper22Id: let4DataPaperContent.associationPaperId.paper22Id,
-                paper1Id: let4DataPaperContent.associationPaperId.paper1Id,
-                paper2Id: let4DataPaperContent.associationPaperId.paper2Id,
-                paper4Id: selectedPaper.let4Data.paperId,
-              }
-            : {
-              paper4Id: selectedPaper.let4Data.paperId,
-            },
+        associationPaperId,
+        associationPaperOrder
       })
     },
     goBack({ page, data }) {

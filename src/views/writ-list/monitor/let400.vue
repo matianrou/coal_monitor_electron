@@ -156,10 +156,11 @@ export default {
         cellIdx12: null, // 签名
         cellIdx13: null, // 日期
         DangerTable: null,
-        associationPaperId: null
+        associationPaperId: null,
+        associationPaperOrder: []
       },
       options: {},
-      associationPaper: this.corpData.caseType === '0' ? ['1'] : []
+      associationPaper: ['1']
     };
   },
   methods: {
@@ -205,6 +206,11 @@ export default {
         let DangerTable = let1DataPaperContent.DangerTable ? 
           setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
           : {}
+        let associationPaperId = Object.assign({}, this.setAssociationPaperId(let1DataPaperContent.associationPaperId), {
+          paper1Id: selectedPaper.let1Data.paperId,
+        }) 
+        let associationPaperOrder = this.setAssociationPaperOrder(let1DataPaperContent.associationPaperOrder)
+        associationPaperOrder.push('1')
         // XXX国土资源局
         let cellIdx4String = "XXX国土资源局";
         this.letData = Object.assign({}, this.letData, {
@@ -212,19 +218,24 @@ export default {
           cellIdx3: cellIdx3String, // 理由和依据
           cellIdx4: cellIdx4String, // 人民法院
           DangerTable: DangerTable,
-          associationPaperId: { // 关联的paperId
-            paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
-            paper1Id: selectedPaper.let1Data.paperId
-          }
+          associationPaperId,
+          associationPaperOrder
         })
       } else {
         let cellIdx2String = `${this.corpData.corpName}XXX案。`
         let cellIdx3String = `20XX年XX月XX日我分局对${this.corpData.corpName}进行安全监察时，发现该矿XXX。经分局执法人员初步调查取证，认定该行为涉嫌违反了《矿产资源法》第十七条规定。`
         let cellIdx4String = "XXX国土资源局";
+        let associationPaperId = Object.assign({}, this.setAssociationPaperId(let1DataPaperContent.associationPaperId), {
+          paper1Id: selectedPaper.let1Data.paperId,
+        }) 
+        let associationPaperOrder = this.setAssociationPaperOrder(let1DataPaperContent.associationPaperOrder)
+        associationPaperOrder.push('1')
         this.letData = Object.assign({}, this.letData, {
           cellIdx2: cellIdx2String, // 案由
           cellIdx3: cellIdx3String, // 理由和依据
           cellIdx4: cellIdx4String, // 人民法院
+          associationPaperId,
+          associationPaperOrder
         })
       }
     },

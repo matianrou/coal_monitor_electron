@@ -6,6 +6,8 @@ import letMain from "@/views/make-law-writ/components/let-main.vue";
 import selectPaper from '@/components/select-paper'
 import { getNowDate, getNowTime } from '@/utils/date'
 import { randomString, sortbyAsc } from "@/utils/index";
+import { setAssociationPaperId, setAssociationPaperOrder } from '@/utils/setInitPaperData'
+
 export default {
   name: "AssociationSelectPaper",
   props: {
@@ -70,6 +72,8 @@ export default {
       ],
       paperId: null,
       letDataOragin: null,
+      setAssociationPaperId: setAssociationPaperId,
+      setAssociationPaperOrder: setAssociationPaperOrder
     };
   },
   async created() {

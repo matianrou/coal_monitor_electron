@@ -186,7 +186,8 @@ export default {
         cellIdx14: null, // 日期
         DangerTable: null,
         extraData: null,
-        associationPaperId: null
+        associationPaperId: null,
+        associationPaperOrder: []
       },
       options: {
         cellIdx8: []
@@ -257,9 +258,11 @@ export default {
         let DangerTable = let49DataPaperContent.DangerTable ? 
           setNewDanger(selectedPaper.let49Data, let49DataPaperContent.DangerTable)
           : {}
-        let associationPaperId = Object.assign({}, setAssociationPaperId(let49DataPaperContent.associationPaperId), {
+        let associationPaperId = Object.assign({}, this.setAssociationPaperId(let49DataPaperContent.associationPaperId), {
           paper49Id: selectedPaper.let49Data.paperId,
         }) 
+        let associationPaperOrder = this.setAssociationPaperOrder(let49DataPaperContent.associationPaperOrder)
+        associationPaperOrder.push('49')
         await db.close();
         this.letData = Object.assign({}, this.letData, {
           cellIdx1: paperNumber, // 编号
@@ -276,6 +279,7 @@ export default {
             groupName: this.$store.state.curCase.provinceGroupName,
           },
           associationPaperId: associationPaperId,
+          associationPaperOrder,
           selectedType: let49DataPaperContent.selectedType
         })
       } else {
@@ -300,15 +304,18 @@ export default {
           cellIdx7 ? cellIdx7 : "XX"
         }月${cellIdx8 ? cellIdx8 : "XX"}日`;
         let let4Person = cellIdx9 ? cellIdx9 : 'XX'
-        let associationPaperId = Object.assign({}, setAssociationPaperId(let4DataPaperContent.associationPaperId), {
-          paper49Id: selectedPaper.let49Data.paperId,
+        let associationPaperId = Object.assign({}, this.setAssociationPaperId(let4DataPaperContent.associationPaperId), {
+          paper4Id: selectedPaper.let4Data.paperId,
         }) 
+        let associationPaperOrder = this.setAssociationPaperOrder(let4DataPaperContent.associationPaperOrder)
+        associationPaperOrder.push('4')
         this.letData = Object.assign({}, this.letData, {
           cellIdx1: paperNumber, // 编号
           cellIdx3: let4PaperNumber, // 立案决定书编号
           cellIdx4: let4Date, // 立案时间
           cellIdx5: let4Person, // 承办人
-          associationPaperId: associationPaperId
+          associationPaperId: associationPaperId,
+          associationPaperOrder
         })
       }
     },

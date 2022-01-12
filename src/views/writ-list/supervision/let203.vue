@@ -215,7 +215,7 @@
 <script>
 import GoDB from "@/utils/godb.min.js";
 import associationSelectPaper from "@/components/association-select-paper";
-import { getDocNumber2, setNewDanger, setAssociationPaperId } from '@/utils/setInitPaperData'
+import { getDocNumber2, setNewDanger } from '@/utils/setInitPaperData'
 import { setDangerTable } from "@/utils/handlePaperData";
 const toggleDictionary = [
   {
@@ -251,6 +251,7 @@ export default {
         DangerTable: null,
         extraData: {},
         associationPaperId: {},
+        associationPaperOrder: []
       },
       options: {
         cellIdx8: [],
@@ -273,6 +274,7 @@ export default {
       let selectletData = {}
       let letDataPaperContent = {}
       let associationPaperId = {}
+      let associationPaperOrder = []
       if (selectedPaper.let6Data) {
         // 如果是关联告知书则直接获取告知书的单位或个人
         letDataPaperContent = JSON.parse(
@@ -280,9 +282,11 @@ export default {
         );
         selectedType = letDataPaperContent.selectedType;
         selectletData = selectedPaper.let6Data
-        associationPaperId = Object.assign({}, setAssociationPaperId(letDataPaperContent.associationPaperId), {
+        associationPaperId = Object.assign({}, this.setAssociationPaperId(letDataPaperContent.associationPaperId), {
           paper6Id: selectedPaper.let6Data.paperId,
         }) 
+        associationPaperOrder = this.setAssociationPaperOrder(letDataPaperContent.associationPaperOrder)
+        associationPaperOrder.push('6')
       } else {
         // 1.如果没关联告知书则弹出提示框，选择单位或个人
         this.visibleSelectDialog = true
@@ -290,9 +294,11 @@ export default {
           selectedPaper.let4Data.paperContent
         );
         selectletData = selectedPaper.let4Data
-        associationPaperId = Object.assign({}, setAssociationPaperId(letDataPaperContent.associationPaperId), {
+        associationPaperId = Object.assign({}, this.setAssociationPaperId(letDataPaperContent.associationPaperId), {
           paper4Id: selectedPaper.let4Data.paperId,
         }) 
+        associationPaperOrder = this.setAssociationPaperOrder(letDataPaperContent.associationPaperOrder)
+        associationPaperOrder.push('4')
       }
       // 1.获取文书编号：
       let paperNumber = await getDocNumber2(db, this.docData.docTypeNo, this.corpData.caseId)
@@ -392,6 +398,7 @@ export default {
         },
         selectedType,
         associationPaperId: associationPaperId,
+        associationPaperOrder,
       })
     },
     goBack({ page, data }) {

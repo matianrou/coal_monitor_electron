@@ -170,7 +170,8 @@ export default {
         cellIdx13: null, // 日期
         selectedType: null,
         DangerTable: null,
-        associationPaperId: null
+        associationPaperId: null,
+        associationPaperOrder: []
       },
       options: {
         cellIdx7: [ // 送达方式码表
@@ -234,6 +235,11 @@ export default {
           setNewDanger(selectedPaper.let8Data, let8DataPaperContent.DangerTable)
           : {}
       }
+      let associationPaperId = Object.assign({}, this.setAssociationPaperId(let8DataPaperContent.associationPaperId), {
+        paper8Id: selectedPaper.let8Data.paperId
+      }) 
+      let associationPaperOrder = this.setAssociationPaperOrder(let8DataPaperContent.associationPaperOrder)
+      associationPaperOrder.push('8')
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: paperNumber.num0, // 文书号
         cellIdx1: paperNumber.num1, // 文书号
@@ -252,15 +258,8 @@ export default {
         cellIdx13: this.todayDate, // 日期
         selectedType: selectedType,
         DangerTable,
-        associationPaperId: this.corpData.caseType === '0' ? { // 关联的paperId
-          paper22Id: let8DataPaperContent.associationPaperId.paper22Id,
-          paper1Id: let8DataPaperContent.associationPaperId.paper1Id,
-          paper6Id: let8DataPaperContent.associationPaperId.paper6Id,
-          paper8Id: selectedPaper.let8Data.paperId
-        } : {
-          paper6Id: let8DataPaperContent.associationPaperId.paper6Id,
-          paper8Id: selectedPaper.let8Data.paperId
-        }
+        associationPaperId,
+        associationPaperOrder
       })
     },
     goBack({ page, data }) {

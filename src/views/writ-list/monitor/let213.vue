@@ -121,7 +121,8 @@ export default {
         cellIdx9: null, // 暂不用
         cellIdx10: null, // 暂不用
         DangerTable: null,
-        associationPaperId: null
+        associationPaperId: null,
+        associationPaperOrder: []
       },
       options: {},
       associationPaper: ["4"],
@@ -290,14 +291,16 @@ export default {
           string1 + string2 + string3 + string4 + string5 + string6 + string7 + string8;
         await db.close();
         let DangerTable = setNewDanger(selectedPaper.let4Data, let4DataPaperContent.DangerTable)
+        let associationPaperId = Object.assign({}, this.setAssociationPaperId(let4DataPaperContent.associationPaperId), {
+          paper4Id: selectedPaper.let4Data.paperId
+        }) 
+        let associationPaperOrder = this.setAssociationPaperOrder(let4DataPaperContent.associationPaperOrder)
+        associationPaperOrder.push('4')
         this.letData = Object.assign({}, this.letData, {
           cellIdx0: cellIdx10String ? cellIdx10String : "", // 案由
           DangerTable: DangerTable,
-          associationPaperId: { // 关联的paperId
-            paper22Id: let4DataPaperContent.associationPaperId.paper22Id,
-            paper1Id: let4DataPaperContent.associationPaperId.paper1Id,
-            paper4Id: selectedPaper.let4Data.paperId
-          }
+          associationPaperId,
+          associationPaperOrder
         })
       } else {
         // 生成事故文书：
@@ -323,12 +326,16 @@ export default {
         let string7 = `    七、行政处罚执行情况：${'20XX'}年${'XX'}月${'XX'}日，我分局在XX日报上公告，对${corp.corpName}。接到我分局送达的行政处罚决定书后，该矿及其负责人XXX未申请行政复议和提起行政诉讼。因未能按期缴纳罚款，20XX年XX月XX日，我分局向XX公司XX煤矿及其负责人XXX下达了《行政决定履行催告书》（A煤安监B催 〔20XX〕XXXX号）和（A煤安监B催〔20XX〕XXXX号）。XX公司XX煤矿及其负责人XXX仍未履行行政处罚决定，20XX年XX月XX日，我分局向XX市XX区人民法院提交了强制执行申请书（A煤安监B执〔20XX〕XXXX号）和（A煤安监B执〔20XX〕XXXX号），经XX市XX区人民法院强制执行，于20XX年XX月XX日将罚款已划转至指定罚款账户。\r\n`;
         let string8 = `    八、结案理由：${corp.corpName}及其负责人XXX已执行对其作出的行政处罚决定，承办人员申请结案。`;
         let cellIdx10String = string1 + string2 + string3 + string4 + string5 + string6 + string7 + string8;
+        let associationPaperId = Object.assign({}, this.setAssociationPaperId(let4DataPaperContent.associationPaperId), {
+          paper4Id: selectedPaper.let4Data.paperId
+        }) 
+        let associationPaperOrder = this.setAssociationPaperOrder(let4DataPaperContent.associationPaperOrder)
+        associationPaperOrder.push('4')
         await db.close()
         this.letData = Object.assign({}, this.letData, {
           cellIdx0: cellIdx10String ? cellIdx10String : "", // 案由
-          associationPaperId: { // 关联的paperId
-            paper4Id: selectedPaper.let4Data.paperId
-          }
+          associationPaperId,
+          associationPaperOrder
         })
       }
     },

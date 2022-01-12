@@ -379,6 +379,7 @@ export default {
         cellIdx39: null, // 单位/个人
         DangerTable: null,
         associationPaperId: {},
+        associationPaperOrder: []
       },
       options: {
         cellIdx17: toggleDictionary,
@@ -428,6 +429,11 @@ export default {
           : {};
       }
       await db.close();
+      let associationPaperId = Object.assign({}, this.setAssociationPaperId(let8DataPaperContent.associationPaperId), {
+        paper8Id: selectedPaper.let8Data.paperId,
+      }) 
+      let associationPaperOrder = this.setAssociationPaperOrder(let8DataPaperContent.associationPaperOrder)
+      associationPaperOrder.push('8')
       this.visibleSelectDialog = true;
       this.letData = Object.assign({}, this.letData, {
         cellIdx1: paperNumber.num0, // 文书号
@@ -454,19 +460,8 @@ export default {
         cellIdx39: selectedTypeExtra, // 单位/个人
         selectedType1: let8DataPaperContent.selectedType, // 单位或个人的存储
         DangerTable: DangerTable,
-        associationPaperId:
-          this.corpData.caseType === "0"
-            ? {
-                // 关联的paperId
-                paper22Id: let8DataPaperContent.associationPaperId.paper22Id,
-                paper1Id: let8DataPaperContent.associationPaperId.paper1Id,
-                paper6Id: let8DataPaperContent.associationPaperId.paper6Id,
-                paper8Id: selectedPaper.let8Data.paperId,
-              }
-            : {
-              paper6Id: let8DataPaperContent.associationPaperId.paper6Id,
-              paper8Id: selectedPaper.let8Data.paperId,
-            },
+        associationPaperId,
+        associationPaperOrder
       })
     },
     goBack({ page, data }) {

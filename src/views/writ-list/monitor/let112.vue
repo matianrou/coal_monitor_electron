@@ -222,7 +222,8 @@ export default {
         cellIdx21: null, // 停供电(停供民用爆炸物品)
         cellIdx22: null, // 暂不用
         DangerTable: null, // 隐患项大表
-        associationPaperId: null
+        associationPaperId: null,
+        associationPaperOrder: []
       },
       options: {},
       associationPaper: ["48"],
@@ -264,6 +265,11 @@ export default {
           : {}
       }
       await db.close();
+      let associationPaperId = Object.assign({}, this.setAssociationPaperId(let48DataPaperContent.associationPaperId), {
+        paper48Id: selectedPaper.let48Data.paperId,
+      }) 
+      let associationPaperOrder = this.setAssociationPaperOrder(let48DataPaperContent.associationPaperOrder)
+      associationPaperOrder.push('48')
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: let48DataPaperContent.selectedType,
         cellIdx1: num0, // 文书号
@@ -286,11 +292,8 @@ export default {
         cellIdx21: let48DataPaperContent.selectedType === '停供电' ? '供电部门' : '公安机关',
         DangerTable, // 隐患项大表
         selectedType: let48DataPaperContent.selectedType,
-        associationPaperId: { // 关联的paperId
-          paper22Id: let48DataPaperContent.associationPaperId.paper22Id,
-          paper1Id: let48DataPaperContent.associationPaperId.paper1Id,
-          paper48Id: selectedPaper.let48Data.paperId
-        } 
+        associationPaperId: associationPaperId,
+        associationPaperOrder,
       })
     },
     goBack({ page, data }) {

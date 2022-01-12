@@ -288,6 +288,11 @@ export default {
           setNewDanger(selectedPaper.let2Data, let2DataPaperContent.DangerTable)
           : {}
         await db.close();
+        let associationPaperId = Object.assign({}, this.setAssociationPaperId(let2DataPaperContent.associationPaperId), {
+          paper2Id: selectedPaper.let2Data.paperId,
+        }) 
+        let associationPaperOrder = this.setAssociationPaperOrder(let2DataPaperContent.associationPaperOrder)
+        associationPaperOrder.push('2')
         let date = this.todayDate.replace('年', '-').replace('月', '-').replace('日', '-').split('-')
         this.letData = Object.assign({}, this.letData, {
           cellIdx0: paperNumber.num0, // 文书号
@@ -307,12 +312,8 @@ export default {
             dateString,
             groupName: this.$store.state.curCase.provinceGroupName,
           },
-          associationPaperId: {
-            // 关联的paperId
-            paper22Id: let2DataPaperContent.associationPaperId.paper22Id,
-            paper1Id: let2DataPaperContent.associationPaperId.paper1Id,
-            paper2Id: selectedPaper.let2Data.paperId,
-          },
+          associationPaperId,
+          associationPaperOrder,
           SelectedPerson: {
             personList: [],
             personNamesString: ''

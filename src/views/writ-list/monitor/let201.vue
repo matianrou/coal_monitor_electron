@@ -176,6 +176,7 @@ export default {
         DangerTable: null,
         extraData: {},
         associationPaperId: {},
+        associationPaperOrder: [],
         SelectedPerson: {
           personList: [],
           personNamesString: ''
@@ -240,6 +241,13 @@ export default {
           : {}
         await db.close();
         let date = this.todayDate.replace('年', '-').replace('月', '-').replace('日', '-').split('-')
+        let associationPaperId = {}
+        let associationPaperOrder = []
+        associationPaperId = Object.assign({}, this.setAssociationPaperId(let2DataPaperContent.associationPaperId), {
+          paper2Id: selectedPaper.let2Data.paperId,
+        }) 
+        associationPaperOrder = this.setAssociationPaperOrder(let2DataPaperContent.associationPaperOrder)
+        associationPaperOrder.push('2')
         this.letData = Object.assign({}, this.letData, {
           cellIdx0: paperNumber.num0, // 文书号
           cellIdx1: paperNumber.num1, // 文书号
@@ -259,12 +267,8 @@ export default {
             dateString,
             groupName: this.$store.state.curCase.provinceGroupName,
           },
-          associationPaperId: {
-            // 关联的paperId
-            paper22Id: let2DataPaperContent.associationPaperId.paper22Id,
-            paper1Id: let2DataPaperContent.associationPaperId.paper1Id,
-            paper2Id: selectedPaper.let2Data.paperId,
-          },
+          associationPaperId,
+          associationPaperOrder,
           SelectedPerson: {
             personList: [],
             personNamesString: ''

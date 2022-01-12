@@ -230,9 +230,10 @@ export default {
         extraData: null,
         DangerTable: null, // 隐患项大表
         associationPaperId: null,
+        associationPaperOrder: []
       },
       options: {},
-      associationPaper: this.corpData.caseType === "0" ? ["1"] : [],
+      associationPaper: ["1"],
     };
   },
   methods: {
@@ -299,6 +300,11 @@ export default {
             )
           : {};
       }
+      let associationPaperId = Object.assign({}, this.setAssociationPaperId(let1DataPaperContent.associationPaperId), {
+        paper1Id: selectedPaper.let1Data.paperId,
+      }) 
+      let associationPaperOrder = this.setAssociationPaperOrder(let1DataPaperContent.associationPaperOrder)
+      associationPaperOrder.push('1')
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: cellIdx0Year, // 年
         cellIdx1: cellIdx1Month, // 月
@@ -314,14 +320,8 @@ export default {
           groupName: this.$store.state.curCase.provinceGroupName,
         },
         DangerTable, // 隐患项大表
-        associationPaperId:
-          this.corpData.caseType === "0"
-            ? {
-                // 关联的paperId
-                paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
-                paper1Id: selectedPaper.let1Data.paperId,
-              }
-            : {},
+        associationPaperId,
+        associationPaperOrder
       })
     },
     goBack({ page, data }) {

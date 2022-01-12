@@ -161,7 +161,11 @@ export default {
   },
   data() {
     return {
-      letData: {},
+      letData: {
+        DangerTable: {},
+        associationPaperId: {},
+        associationPaperOrder: []
+      },
       options: {},
       fileList: [], // 上传文件表
       associationPaper: ['1'],
@@ -177,14 +181,19 @@ export default {
     async initLetData(selectedPaper) {
       // 创建初始版本
       let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let1DataPaperContent.DangerTable = let1DataPaperContent.DangerTable ? 
-      setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
-      : {}
-      let1DataPaperContent.associationPaperId = {
-        paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
-        paper1Id: selectedPaper.let1Data.paperId
-      }
-      this.letData = let1DataPaperContent
+      let DangerTable = let1DataPaperContent.DangerTable ? 
+        setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
+        : {}  
+      let associationPaperId = Object.assign({}, this.setAssociationPaperId(let1DataPaperContent.associationPaperId), {
+        paper1Id: selectedPaper.let1Data.paperId,
+      }) 
+      let associationPaperOrder = this.setAssociationPaperOrder(let1DataPaperContent.associationPaperOrder)
+      associationPaperOrder.push('1')
+      this.letData = Object.assign({}, let1DataPaperContent, {
+        DangerTable,
+        associationPaperId,
+        associationPaperOrder
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

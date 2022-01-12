@@ -236,7 +236,8 @@ export default {
         cellIdx21: null, // 
         extraData: {},
         associationPaperId: null,
-        DangerTable: null
+        DangerTable: null,
+        associationPaperOrder: []
       },
       options: {
         cellIdx10: [ // 性别码表
@@ -354,7 +355,7 @@ export default {
           },
         ]
       },
-      associationPaper: this.corpData.caseType === "0" ? ["4"] : [],
+      associationPaper: ["4"] ,
     };
   },
   methods: {
@@ -435,6 +436,11 @@ export default {
           : {};
       }
       await db.close();
+      let associationPaperId = Object.assign({}, this.setAssociationPaperId(let4DataPaperContent.associationPaperId), {
+        paper4Id: selectedPaper.let4Data.paperId,
+      }) 
+      let associationPaperOrder = this.setAssociationPaperOrder(let4DataPaperContent.associationPaperOrder)
+      associationPaperOrder.push('4')
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: cellIdx0Year, // 年
         cellIdx1: cellIdx1Month, // 月
@@ -449,15 +455,8 @@ export default {
           corpName: corp.corpName,
           groupName: provinceGroupName,
         },
-        associationPaperId:
-          this.corpData.caseType === "0"
-            ? {
-                // 关联的paperId
-                paper22Id: let4DataPaperContent.associationPaperId.paper22Id,
-                paper1Id: let4DataPaperContent.associationPaperId.paper1Id,
-                paper4Id: selectedPaper.let4Data.paperId,
-              }
-            : null,
+        associationPaperId,
+        associationPaperOrder,
         DangerTable: DangerTable
       })
     },

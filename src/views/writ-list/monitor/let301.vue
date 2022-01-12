@@ -334,7 +334,8 @@ export default {
           },
         ], // 分期内容
         DangerTable: null,
-        associationPaperId: null
+        associationPaperId: null,
+        associationPaperOrder: []
       },
       options: {
         cellIdx14: [
@@ -434,6 +435,11 @@ export default {
           : {}
       }
       await db.close()
+      let associationPaperId = Object.assign({}, this.setAssociationPaperId(let54DataPaperContent.associationPaperId), {
+        paper54Id: selectedPaper.let54Data.paperId,
+      }) 
+      let associationPaperOrder = this.setAssociationPaperOrder(let54DataPaperContent.associationPaperOrder)
+      associationPaperOrder.push('54')
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: paperNumber.num0, // 文书号
         cellIdx1: paperNumber.num1, // 文书号
@@ -460,17 +466,8 @@ export default {
         cellIdx32: this.$store.state.curCase.provinceGroupName, //
         cellIdx33: this.todayDate, // 日期
         DangerTable,
-        associationPaperId: this.corpData.caseType === '0' ?{ // 关联的paperId
-          paper22Id: let54DataPaperContent.associationPaperId.paper22Id,
-          paper1Id: let54DataPaperContent.associationPaperId.paper1Id,
-          paper6Id: let54DataPaperContent.associationPaperId.paper6Id,
-          paper8Id: let54DataPaperContent.associationPaperId.paper8Id,
-          paper54Id: selectedPaper.let54Data.paperId
-        } : {
-          paper6Id: let54DataPaperContent.associationPaperId.paper6Id,
-          paper8Id: let54DataPaperContent.associationPaperId.paper8Id,
-          paper54Id: selectedPaper.let54Data.paperId
-        }
+        associationPaperId,
+        associationPaperOrder
       })
     },
     goBack({ page, data }) {

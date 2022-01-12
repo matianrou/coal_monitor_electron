@@ -224,7 +224,6 @@ import GoDB from "@/utils/godb.min.js";
 import {
   setNewDanger,
   getDocNumber,
-  setAssociationPaperId
 } from "@/utils/setInitPaperData";
 import associationSelectPaper from '@/components/association-select-paper'
 import { setDangerTable } from '@/utils/handlePaperData'
@@ -258,7 +257,8 @@ export default {
         cellIdx20: null, // 日期
         cellIdx21: null, // 单位或个人
         DangerTable: null,
-        associationPaperId: null
+        associationPaperId: null,
+        associationPaperOrder: [],
       },
       options: {
         cellIdx23: [
@@ -289,6 +289,7 @@ export default {
         let selectletData = {}
         let letDataPaperContent = {}
         let associationPaperId = {}
+        let associationPaperOrder = []
         let selectedType = ''
         if (selectedPaper.let36Data) {
           // 如果是关联案件处理呈报书
@@ -303,9 +304,11 @@ export default {
           }
           selectletData = selectedPaper.let36Data
           // 遍历关联文书key
-          associationPaperId = Object.assign({}, setAssociationPaperId(letDataPaperContent.associationPaperId), {
+          associationPaperId = Object.assign({}, this.setAssociationPaperId(letDataPaperContent.associationPaperId), {
             paper36Id: selectedPaper.let36Data.paperId,
           }) 
+          associationPaperOrder = this.setAssociationPaperOrder(letDataPaperContent.associationPaperOrder)
+          associationPaperOrder.push('36')
         } else {
           // 如果是关联立案决定书
           // 1.弹出提示框，选择单位或个人
@@ -314,9 +317,11 @@ export default {
             selectedPaper.let4Data.paperContent
           );
           selectletData = selectedPaper.let4Data
-          associationPaperId = Object.assign({}, setAssociationPaperId(letDataPaperContent.associationPaperId), {
+          associationPaperId = Object.assign({}, this.setAssociationPaperId(letDataPaperContent.associationPaperId), {
             paper4Id: selectedPaper.let4Data.paperId,
           }) 
+          associationPaperOrder = this.setAssociationPaperOrder(letDataPaperContent.associationPaperOrder)
+          associationPaperOrder.push('4')
         }
         // 7.行政处罚决定
         let cellIdx10String = setDangerTable(
@@ -401,7 +406,8 @@ export default {
           cellIdx21: selectedType, 
           DangerTable: DangerTable,
           selectedType,
-          associationPaperId: associationPaperId
+          associationPaperId: associationPaperId,
+          associationPaperOrder,
         })
       } else {
         let db = new GoDB(this.$store.state.DBName);
@@ -428,7 +434,7 @@ export default {
             selectedPaper.let36Data.paperContent
           );
           // 遍历关联文书key
-          associationPaperId = Object.assign({}, setAssociationPaperId(letDataPaperContent.associationPaperId), {
+          associationPaperId = Object.assign({}, this.setAssociationPaperId(letDataPaperContent.associationPaperId), {
             paper36Id: selectedPaper.let36Data.paperId,
           }) 
         } else {
@@ -436,7 +442,7 @@ export default {
           letDataPaperContent = JSON.parse(
             selectedPaper.let4Data.paperContent
           );
-          associationPaperId = Object.assign({}, setAssociationPaperId(letDataPaperContent.associationPaperId), {
+          associationPaperId = Object.assign({}, this.setAssociationPaperId(letDataPaperContent.associationPaperId), {
             paper4Id: selectedPaper.let4Data.paperId,
           }) 
         }
@@ -452,7 +458,8 @@ export default {
           cellIdx18: orgSysOfficeInfo.phone, // 联系电话
           cellIdx19: this.$store.state.curCase.provinceGroupName, // 
           cellIdx20: this.todayDate, // 日期
-          associationPaperId: associationPaperId
+          associationPaperId: associationPaperId,
+          associationPaperOrder,
         })
       }
     },

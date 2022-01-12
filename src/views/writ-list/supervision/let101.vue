@@ -187,7 +187,8 @@ export default {
         cellIdx15: null, // 签名
         cellIdx16: null, // 日期
         DangerTable: null, // 隐患项大表
-        associationPaperId: {} // 关联的paperId
+        associationPaperId: {}, // 关联的paperId
+        associationPaperOrder: []
       },
       options: {},
       associationPaper: ["22"],
@@ -295,7 +296,8 @@ export default {
         } : null, // 隐患项大表
         associationPaperId: { // 关联的paperId
           paper22Id: selectedPaper.let22Data.paperId
-        }
+        },
+        associationPaperOrder: ['22']
       })
     },
     goBack({ page, data }) {
