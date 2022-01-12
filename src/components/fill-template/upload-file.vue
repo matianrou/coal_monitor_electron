@@ -15,7 +15,7 @@
         :on-success="handleSuccess"
         :http-request="addFile">
         <el-button 
-          :disabled="!navigator.onLine"
+          :disabled="!$store.state.onLine"
           type="primary"
           size="small" 
           :loading="loading.btn"
@@ -61,14 +61,14 @@
           label="操作">
           <template slot-scope="scope">
             <el-button
-              :disabled="!navigator.onLine"
+              :disabled="!$store.state.onLine"
               :loading="loading.btn"
               type="text"
               @click="downloadFile(scope.$index, scope.row)"
             >下载</el-button>
             <el-button 
               v-if="options.canEdit"
-              :disabled="!navigator.onLine"
+              :disabled="!$store.state.onLine"
               :loading="loading.btn"
               type="text" 
               size="small" 
@@ -109,7 +109,6 @@ export default {
   },
   data() {
     return {
-      navigator: navigator,
       dataForm: {
         tempValue: {
           tableData: [],
@@ -144,8 +143,8 @@ export default {
     init () {
       // this.dataForm.tempValue = this.value
       this.getFileList()
-      if (!navigator.onLine) {
-        this.$message.error('当前无网络，请联网后才能上传、下载或删除文件！')
+      if (!this.$store.state.onLine) {
+        this.$message.error('当前为离线登录，请联网后才能上传、下载或删除文件！')
         return
       }
     },
@@ -154,7 +153,6 @@ export default {
       let db = new GoDB(this.$store.state.DBName);
 	    let paperAttachment = db.table('paperAttachment');
       let list = await paperAttachment.findAll(item => item.delFlag !== '1')
-      console.log('list', list)
       this.dataForm.tempValue.tableData = await paperAttachment.findAll(item => item.paperId === this.options.paperId && item.delFlag !== '1')
       await db.close()
     },
@@ -206,6 +204,10 @@ export default {
     },
     addFile (param) {
       // 上传文件
+      if (!this.$store.state.onLine) {
+        this.$message.error('当前为离线登录，请联网后再上传文件！')
+        return
+      }
       this.loading.btn = true
       let formData = new FormData()
       let submitData = {
@@ -241,8 +243,8 @@ export default {
     },
     deleteFile (index, row) {
       // 删除文件
-      if (!navigator.onLine) {
-        this.$message.error('当前无网络，请联网后再删除！')
+      if (!this.$store.state.onLine) {
+        this.$message.error('当前为离线登录，请联网后再删除！')
         return
       }
       this.loading.btn = true
@@ -280,6 +282,10 @@ export default {
         })
     },
     async downloadFile (index, row) {
+      if (!this.$store.state.onLine) {
+        this.$message.error('当前为离线登录，请联网后再下载！')
+        return
+      }
       this.loading.btn = true
       let {userSessId} = this.$store.state.user
       let url = `${process.env.BASE_URL}/local/download/getfile?filePath=${row.filePath}&__sid=${userSessId}`

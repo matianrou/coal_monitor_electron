@@ -169,7 +169,7 @@ export default {
         if (data.isCreated) {
           // 新增时进入填写页面时，data为展示模板page
           // 新增时增加判断：如果是首次添加检查方案时，增加煤矿信息确认回传窗口
-          if (navigator.onLine && data.docData.docTypeNo === '22' && this.corpData.constructType === '11' && this.caseData.caseType === '0') {
+          if (this.$store.state.onLine && data.docData.docTypeNo === '22' && this.corpData.constructType === '11' && this.caseData.caseType === '0') {
             let db = new GoDB(this.$store.state.DBName);
             let wkPaper = db.table("wkPaper");
             let paper22List = await wkPaper.findAll(item => item.caseId === this.corpData.caseId && item.paperType === '22')
@@ -198,7 +198,7 @@ export default {
           if (checkPaper.length === 0) {
             // 如果未查询到相关数据，则进入文书编辑页面，进行初始化
             // 如果是检查方案则弹窗确认返回煤矿信息
-            if (navigator.onLine && data.docData.docTypeNo === '22' && this.corpData.constructType === '11' && this.caseData.caseType === '0') {
+            if (this.$store.state.onLine && data.docData.docTypeNo === '22' && this.corpData.constructType === '11' && this.caseData.caseType === '0') {
               // 弹窗
               this.checkCorpInfoVisible = true
               this.templatePaperData = data

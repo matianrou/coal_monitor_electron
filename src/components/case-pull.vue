@@ -202,8 +202,8 @@
         this.getUserCase(item.no)
       },
       getUserCase(userId) {
-        if (!navigator.onLine) {
-          this.$message.error('当前无网络，请联网后再拉取！')
+        if (!this.$store.state.onLine.onLine) {
+          this.$message.error('当前为离线登录，请联网后再拉取！')
           return
         }
         this.loading.right = true

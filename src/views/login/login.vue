@@ -26,7 +26,7 @@
             </div>
             <div class="form-foot">
               <el-checkbox v-model="recordAccount">记住登录账号</el-checkbox>
-              <!-- <el-checkbox v-model="offLine">离线使用</el-checkbox> -->
+              <el-checkbox v-model="offLine">离线使用</el-checkbox>
             </div>
             <div class="login-btn">
               <img
@@ -100,12 +100,12 @@ export default {
     },
     doLogin () {
       //判断是否在线
-      if (!navigator.onLine) {
+      if (this.offLine) {
         // 如果不在线则进行离线登录
         // 记录离线登录标记
         this.$store.commit('changeState', {
           key: 'onLine',
-          val: false
+          val: !this.offLine
         })
         // 进行离线登录
         this.offLineLogin()
@@ -226,6 +226,7 @@ export default {
             this.$message.error(data.message)
           }
         }).catch(err => {
+          this.$message.error('登录失败，请确保网络通畅！')
           console.log('登录请求失败：', err)
         })
       this.loading.loginBtn = false 
@@ -333,7 +334,7 @@ export default {
         this.$message.warning('当前未下载任何资源，请先下载全部资源后再使用！')
       } else {
         // 如果有网络则自动更新下载文书资源
-        if (navigator.onLine) {
+        if (!this.offLine) {
           let userId = this.$store.state.user.userId;
           let userSessId = this.$store.state.user.userSessId;
           let path = this.$store.state.user.userType === 'supervision' ? '/sv' : ''

@@ -77,7 +77,7 @@
                   :show-file-list="false"
                   :on-success="handleSuccess"
                   :http-request="addFile">
-                  <el-button :disabled="!navigator.onLine" size="small" :loading="loading.btn">上传文件</el-button>
+                  <el-button :disabled="!$store.state.onLine" size="small" :loading="loading.btn">上传文件</el-button>
                 </el-upload>
               </div>
             </div>
@@ -109,13 +109,13 @@
                   width="120">
                   <template slot-scope="scope">
                     <el-button
-                      :disabled="!navigator.onLine"
+                      :disabled="!$store.state.onLine"
                       :loading="loading.btn"
                       type="text"
                       @click="downloadFile(scope.$index, scope.row)"
                     >下载</el-button>
                     <el-button
-                      :disabled="!navigator.onLine"
+                      :disabled="!$store.state.onLine"
                       :loading="loading.btn"
                       type="text"
                       @click="deleteFile(scope.$index, scope.row)"
@@ -161,7 +161,6 @@ export default {
   },
   data() {
     return {
-      navigator: navigator,
       letData: {},
       options: {},
       fileList: [], // 上传文件表
@@ -209,8 +208,8 @@ export default {
       this.selectOrgVisible = false
     },
     async getFileList () {
-      if (!navigator.onLine) {
-        this.$message.warning('当前无网络，请联网后才能上传、下载或删除文件！')
+      if (!this.$store.state.onLine) {
+        this.$message.warning('当前为离线登录，请联网后才能上传、下载或删除文件！')
         return
       }
       // 获取文件列表
@@ -266,6 +265,10 @@ export default {
     },
     addFile (param) {
       // 添加文件
+      if (!this.$store.state.onLine) {
+        this.$message.error('当前为离线登录，请联网后再上传文件！')
+        return
+      }
       this.loading.btn = true
       let formData = new FormData()
       let submitData = {
@@ -305,6 +308,10 @@ export default {
         });
     },
     deleteFile (index, row) {
+      if (!this.$store.state.onLine) {
+        this.$message.error('当前为离线登录，请联网后再删除！')
+        return
+      }
       // 删除文件
       this.$confirm(`是否确定删除文件${row.fileName ? row.fileName : ''}？`, '提示', {
           confirmButtonText: '确定',

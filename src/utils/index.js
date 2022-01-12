@@ -538,6 +538,3 @@ export function transformNumToChinese(data) {
       ? str.replace(/(\d)(?=(\d{3})+\.)/g, '$1,')
       : str.replace(/(\d)(?=(\d{3})+$)/g, '$1,')
 }
-
-// 网络判断
-

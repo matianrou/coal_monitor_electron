@@ -753,10 +753,8 @@ export default {
       this.$message.success(
         `“${this.docData.docTypeName}”文书本地${mes}成功。`
       );
-      if (navigator.onLine || saveFlag === "0") {
-        // 有网络或者归档时执行保存上传服务器操作
-        await saveToUpload(paperId, true);
-      }
+      await saveToUpload(paperId, true);
+
       if (this.docData.docTypeNo === '43') {
         // 罚款收缴时，额外发送罚款收缴数据存储
         await saveFineCollection(paperId)
@@ -1307,7 +1305,7 @@ export default {
       }
       // 添加所选数据
       await wkDanger.addMany(paperContentOld.DangerTable.selectedDangerList)
-      if (navigator.onLine) {
+      if (this.$store.state.onLine) {
         // 有网络时同步上传服务器
         await saveToUpload(itemPaper.paperId, false)
       }

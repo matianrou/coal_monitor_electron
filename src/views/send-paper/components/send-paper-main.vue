@@ -294,8 +294,8 @@ export default {
       });
     },
     async handleSend (row) {
-      if (!navigator.onLine) {
-        this.$message.error('当前无网络，请联网后发送！')
+      if (!this.$store.state.onLine) {
+        this.$message.error('当前为离线登录，请联网后发送！')
         return
       }
       this.$confirm(`是否确认发送给${row.receiveName || ''}“${row.companyName}”的${row.paperContent.name}?`, "提示", {

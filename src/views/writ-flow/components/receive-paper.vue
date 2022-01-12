@@ -170,8 +170,8 @@ export default {
       this.$emit('close', {page: 'receivePaper'})
     },
     async handleRecevice (row) {
-      if (!navigator.onLine) {
-        this.$message.error('当前无网络，请联网后才能接收！')
+      if (!this.$store.state.onLine) {
+        this.$message.error('当前离线登录，请联网后才能接收！')
         return
       }
       // 接收文书

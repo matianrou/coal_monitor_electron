@@ -425,8 +425,8 @@ export default {
     },
     deleteCase () {
       // 删除检查活动
-      if (!navigator.onLine) {
-        this.$message.error('需要联网才能删除，请联网后再删除！')
+      if (!this.$store.state.onLine.onLine) {
+        this.$message.error('当前为离线登录，请联网后再尝试删除！')
         return
       }
       if (this.selectedCase && this.selectedCase.caseId) {

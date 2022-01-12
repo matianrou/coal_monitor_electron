@@ -51,6 +51,17 @@
               <el-dropdown-item command="checkList">您有{{notice.checkList.length || '0'}}条检查项任务待接收</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
+        </div>
+      </div>
+      <div class="main-top-operation-right">
+        <div style="flex: 1;display: flex; align-items: flex-end;">
+          <!-- 操作 -->
+          <img src="@/components/assets/image/minus.png" class="btn-icon" id="minbt"  title="最小化" @click="handleWindow('window-min')" />&nbsp;
+          <img src="@/components/assets/image/maximize.png" v-show="maxSrc" class="btn-icon" title="最大化" id="maxbt" @click="handleWindow('window-max')" />&nbsp;
+          <img src="@/components/assets/image/minimize.png" v-show="!maxSrc" class="btn-icon" id="minbt" title="还原" @click="handleWindow('window-max')" />&nbsp;
+          <img src="@/components/assets/image/close.png" id="closebt" class="btn-icon" title="关闭" @click="handleWindow('window-quit')" />
+        </div>
+        <div style="display: flex; flex: 1; align-items: center;">
           <!-- 个人和更多 -->
           <el-dropdown :hide-on-click="false" @command="handleCommand" style="min-width: 120px; cursor: pointer;">
             <span class="el-dropdown-link">
@@ -61,13 +72,6 @@
             </el-dropdown-menu>
           </el-dropdown>
         </div>
-      </div>
-      <div class="main-top-operation">
-        <!-- 操作 -->
-        <img src="@/components/assets/image/minus.png" class="btn-icon" id="minbt"  title="最小化" @click="handleWindow('window-min')" />&nbsp;
-        <img src="@/components/assets/image/maximize.png" v-show="maxSrc" class="btn-icon" title="最大化" id="maxbt" @click="handleWindow('window-max')" />
-        <img src="@/components/assets/image/minimize.png" v-show="!maxSrc" class="btn-icon" id="minbt" title="还原" @click="handleWindow('window-max')" />&nbsp;
-        <img src="@/components/assets/image/close.png" id="closebt" class="btn-icon" title="关闭" @click="handleWindow('window-quit')" />&nbsp;&nbsp;
       </div>
     </div>
     <send-danger
@@ -151,10 +155,24 @@ export default {
       }
     },
     handleWindow (message) {
-      if (message === 'window-max') {
-        this.maxSrc = !this.maxSrc
+      if (message === 'window-quit') {
+        // 如果为关闭则确认是否关闭系统
+        this.$confirm('是否确认关闭系统？', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            dangerouslyUseHTMLString: true,
+            type: 'warning'
+          }).then(() => {
+            electronRequest({msgName: message})
+          }).catch(() => {
+
+          })
+      } else {
+        if (message === 'window-max') {
+          this.maxSrc = !this.maxSrc
+        }
+        electronRequest({msgName: message})
       }
-      electronRequest({msgName: message})
     },
     sendDanger () {
       // 隐患发送
@@ -182,7 +200,7 @@ export default {
       }})
     },
     async getNotice () {
-      if (navigator.onLine) {
+      if (this.$store.state.onLine) {
         await Promise.all([
           this.getCheckList(),
         ]).then(() => {
@@ -279,6 +297,28 @@ export default {
       font-size: 35px;
       color: #ECECEC;
       margin: 0px 5px;
+      cursor: pointer;
+      // &:hover {
+      //   color: rgba(#f19716, 0.9);
+      // }
+    }
+  }
+  .main-top-operation-right {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    padding-right: 10px;
+    .img-btn {
+      height: 35px;
+      vertical-align: middle;
+      justify-content: center;
+    }
+    .btn-icon {
+      font-size: 35px;
+      color: #ECECEC;
+      margin: 0px 5px;
+      vertical-align: middle;
       cursor: pointer;
       // &:hover {
       //   color: rgba(#f19716, 0.9);

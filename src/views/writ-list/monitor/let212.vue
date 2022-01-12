@@ -123,7 +123,7 @@
                       :on-success="handleSuccess"
                       :http-request="(param) => addFile(param, scope)">
                       <el-button 
-                        :disabled="!navigator.onLine"
+                        :disabled="!$store.state.onLine"
                         size="small" 
                         :loading="loading.btn"
                         type="primary"
@@ -177,13 +177,13 @@
                   width="120">
                   <template slot-scope="scope">
                     <el-button
-                      :disabled="!navigator.onLine"
+                      :disabled="!$store.state.onLine"
                       :loading="loading.btn"
                       type="text"
                       @click="downloadFile(scope.$index, scope.row)"
                     >下载</el-button>
                     <el-button
-                      :disabled="!navigator.onLine"
+                      :disabled="!$store.state.onLine"
                       :loading="loading.btn"
                       type="text"
                       @click="deleteFile(scope.$index, scope.row)"
@@ -220,7 +220,6 @@ export default {
   },
   data() {
     return {
-      navigator: navigator,
       letData: {
         tableData: [], // 罚款收缴表
       },
@@ -372,6 +371,10 @@ export default {
       this.getFileList()
     },
     addFile (param, scope) {
+      if (!this.$store.state.onLine) {
+        this.$message.error('当前为离线登录，请联网后再上传文件！')
+        return
+      }
       // // 判断如果当前选中的不是点击行，则切换至当前行
       if (scope.row.id !== this.selectedP8Paper.id) {
         this.$refs.table.setCurrentRow(row);
@@ -422,6 +425,10 @@ export default {
       await this.getFileList()
     },
     deleteFile (index, row) {
+      if (!this.$store.state.onLine) {
+        this.$message.error('当前为离线登录，请联网后再下载！')
+        return
+      }
       // 删除文件
       this.$confirm(`是否确定删除文件“${row.fileName}”？`, '提示', {
           confirmButtonText: '确定',
@@ -457,6 +464,10 @@ export default {
         })
     },
     async downloadFile (index, row) {
+      if (!this.$store.state.onLine) {
+        this.$message.error('当前为离线登录，请联网后再下载！')
+        return
+      }
       this.loading.btn = true
       let {userSessId} = this.$store.state.user
       let url = `${process.env.BASE_URL}/local/download/getfile?filePath=${row.filePath}&__sid=${userSessId}`

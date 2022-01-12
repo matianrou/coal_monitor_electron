@@ -272,58 +272,65 @@ export async function saveToUpload(paperId, messageShow) {
     // }
     submitData.danger = danger;
   }
-  let path = store.state.user.userType === 'supervision' ? '/sv' : ''
-  http.post(
-      `${path}/local/jczf/uploadJczf?__sid=${store.state.user.userSessId}`,
-      {
-        sendJson: true,
-        data: JSON.stringify(submitData),
-      }
-    )
-    .then(async ({ data }) => {
-      if (workPaper.delFlag === '0') {
-        // 当归档时：
-        if (data.status === "200") {
-          // 保存成功时检索云存储列表中是否有未存储数据，如果有则标记已发送成功
-          let db = new GoDB(this.DBName);
-          let prepareUpload = db.table("prepareUpload");
-          let paperData = await prepareUpload.find(item => item.paperId === this.$parent.paperId && item.isUpload === '0')
-          paperData.isUpload = '1'
-          await prepareUpload.put(paperData)
-          await db.close();
-        } else {
+  // 判断当前是否离线
+  if (store.state.onLine) {
+    // 如果在线则上传服务器
+    let path = store.state.user.userType === 'supervision' ? '/sv' : ''
+    http.post(
+        `${path}/local/jczf/uploadJczf?__sid=${store.state.user.userSessId}`,
+        {
+          sendJson: true,
+          data: JSON.stringify(submitData),
+        }
+      )
+      .then(async ({ data }) => {
+        if (workPaper.delFlag === '0') {
+          // 当归档时：
+          if (data.status === "200") {
+            // 保存成功时检索云存储列表中是否有未存储数据，如果有则标记已发送成功
+            let db = new GoDB(this.DBName);
+            let prepareUpload = db.table("prepareUpload");
+            let paperData = await prepareUpload.find(item => item.paperId === this.$parent.paperId && item.isUpload === '0')
+            paperData.isUpload = '1'
+            await prepareUpload.put(paperData)
+            await db.close();
+          } else {
+            // 当保存失败时，将文书保存至库表prepareUpload
+            await savePaperToPrepareUpload(submitData)
+          }
+          if (messageShow) {
+            // 需要提示信息时：
+            if (data.status === "200") {
+              // 调整为归档时提示文书上传服务器，2022.1.5建议
+              Message.success(
+                `“${workPaper.name}”文书已经归档上传至服务器。`
+              );
+            } else {
+              Message.error({
+                message: "上传至服务器请求失败，请重新归档！",
+                showClose: true,
+                duration: 0,
+              });
+            }
+          }
+        }
+      })
+      .catch(async (err) => {
+        if (messageShow && workPaper.delFlag === '0') {
+          Message.error({
+            message: "上传至服务器请求失败，请重新归档！",
+            showClose: true,
+            duration: 0,
+          });
           // 当保存失败时，将文书保存至库表prepareUpload
           await savePaperToPrepareUpload(submitData)
         }
-        if (messageShow) {
-          // 需要提示信息时：
-          if (data.status === "200") {
-            // 调整为归档时提示文书上传服务器，2022.1.5建议
-            Message.success(
-              `“${workPaper.name}”文书已经归档上传至服务器。`
-            );
-          } else {
-            Message.error({
-              message: "上传至服务器请求失败，请重新归档！",
-              showClose: true,
-              duration: 0,
-            });
-          }
-        }
-      }
-    })
-    .catch(async (err) => {
-      if (messageShow && workPaper.delFlag === '0') {
-        Message.error({
-          message: "上传至服务器请求失败，请重新归档！",
-          showClose: true,
-          duration: 0,
-        });
-        // 当保存失败时，将文书保存至库表prepareUpload
-        await savePaperToPrepareUpload(submitData)
-      }
-      console.log("上传至服务器请求失败：", err);
-    });
+        console.log("上传至服务器请求失败：", err);
+      });
+  } else {
+    // 离线则保存至未存档数据
+    await savePaperToPrepareUpload(submitData)
+  }
 }
 
 async function savePaperToPrepareUpload(submitData) {

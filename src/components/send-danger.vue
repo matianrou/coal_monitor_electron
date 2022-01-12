@@ -420,8 +420,8 @@ export default {
       }
     },
     async save () {
-      if (!navigator.onLine) {
-        this.$message.error('当前无网络，请联网后发送！')
+      if (!this.$store.state.onLine) {
+        this.$message.error('当前为离线登录，请联网后发送！')
         return
       }
       // 确定：发送隐患

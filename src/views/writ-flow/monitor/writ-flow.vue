@@ -2585,8 +2585,8 @@ export default {
       return false;
     },
     async delPaper (paperType) {
-      if (!navigator.onLine) {
-        this.$message.error('当前无网络，请联网后删除文书！')
+      if (!this.$store.state.onLine) {
+        this.$message.error('当前为离线登录，请联网后删除文书！')
         return
       }
       // 删除文书 判断是否已归档，如果已归档则不可删除

@@ -46,7 +46,7 @@ export default {
       }
     },
     async getSendPaperData () {
-      if (!navigator.onLine) {
+      if (!this.$store.state.onLine) {
         return
       }
       let {userId, userSessId} = this.$store.state.user

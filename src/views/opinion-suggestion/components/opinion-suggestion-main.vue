@@ -233,8 +233,8 @@ export default {
       this.changePage(docData, row);
     },
     async handleDelete(row) {
-      if (!navigator.onLine) {
-        this.$message.error('当前无网络，请联网后删除！')
+      if (!this.$store.state.onLine) {
+        this.$message.error('当前为离线登录，请联网后删除！')
         return
       }
       // 删除文书 判断是否已归档，如果已归档则不可删除
