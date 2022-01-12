@@ -137,7 +137,7 @@
               <cell-line :line-num="300"></cell-line>
             </div>
           </div>
-            <div class="docTextarea">
+          <div class="docTextarea">
             <div style="display:inline-block;min-width:43%">
               <span class="no-line">被检查单位意见：</span>
               <span @click="commandFill('cellIdx14', '被检查单位意见', 'TextItem')"

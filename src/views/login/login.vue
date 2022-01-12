@@ -69,7 +69,10 @@ export default {
   methods: {
     init () {
       // 判断当前是否需要自动登录
-      if (!this.$route.params || this.$route.params.autoLogin !== false) {
+      if (this.$route.params && this.$route.params.autoLogin === false) {
+        // 不自动登录时返回保存的账号信息
+        this.initAccount()
+      } else {
         // 如果路由跳转时要求可以自动登录，则判断当前是否储存了账号密码，并恢复，然后直接执行登录操作
         if (localStorage.getItem('userAccount')) {
           this.initAccount()
@@ -77,9 +80,6 @@ export default {
         } else {
           // 如果没有存储账号则保持在登录页面不做任何操作
         }
-      } else {
-        // 不自动登录时返回保存的账号信息
-        this.initAccount()
       }
     },
     initAccount () {
@@ -161,7 +161,7 @@ export default {
         this.$message.error('当前账号未存储，不可离线登录！')
       }
     },
-    onLineLogin () {
+    async onLineLogin () {
       // 在线登录
       // 如果已勾选记住登录账号：
       if (this.recordAccount) {
@@ -181,7 +181,7 @@ export default {
       //登录
       let password = encry(this.dataForm.txtPassword);
       this.loading.loginBtn = true
-      this.$http.post(`/login`, {
+      await this.$http.post(`/login`, {
           username: this.dataForm.txtUserNo,
           password,
           mobileLogin: true,
@@ -216,7 +216,6 @@ export default {
               userType = Encrypt(userType)
               localStorage.setItem('userInfo', JSON.stringify({userId: userId1, loginName, userName, userGroupId, userAreaId, userGroupName, userNumber, userType}))
             }
-            this.loading.loginBtn = false
             this.$message.success('在线登录成功！')
             this.$router.replace({
               name: 'CalmineElectronMain',
@@ -225,12 +224,11 @@ export default {
             electronRequest({msgName: 'window-max'});
           } else {
             this.$message.error(data.message)
-            this.loading.loginBtn = false
           }
         }).catch(err => {
           console.log('登录请求失败：', err)
-          this.loading.loginBtn = false
         })
+      this.loading.loginBtn = false 
     },
     async getUserType (userId, sessId) {
       await this.$http.get(`/local/user/role?__sid=${sessId}&userId=${userId}`).then(({ data }) => {

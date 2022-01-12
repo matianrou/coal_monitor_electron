@@ -75,7 +75,7 @@
               <span @click="commandFill('cellIdx7', '', 'TextItem')">{{
                 letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
               }}</span>
-              已依法履行行政决定并采取相应措施消除了安全隐患，生产安全事故的现实危险已不存在，根据《中华人民共和国安全生产法》第<span class="text-decoration">七十</span>条第<span class="text-decoration">二</span>款规定，请贵单位解除对其采取的
+              已依法履行行政决定并采取相应措施消除了安全隐患，发生生产安全事故的现实危险已不存在，根据《中华人民共和国安全生产法》第<span class="text-decoration">七十</span>条第<span class="text-decoration">二</span>款规定，请贵单位解除对其采取的
               <span
                 class="no-underline"
                 >{{

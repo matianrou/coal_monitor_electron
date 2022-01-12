@@ -43,8 +43,7 @@
                 <span
                   @click="commandFill('cellIdx2', '文书号', 'TextItem')"
                 >{{ letData.cellIdx2 ? letData.cellIdx2 : '（编辑）' }}</span>
-                <label>）煤安延</label>
-                <span
+                <label>）煤安延</label><span
                 >{{ letData.cellIdx3 ? letData.cellIdx3 : '（编辑）' }}</span>
                 <label>〔</label>
                 <span
@@ -148,7 +147,7 @@
                 @click="commandFill('cellIdx17', '', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')">{{
                 letData.cellIdx17 ? letData.cellIdx17 : "（点击编辑）"
               }}</span>
-              ，依据《中华人民共和国行政强制法》第<span class="text-decoration">二十五</span>条规定，第<span class="text-decoration">一</span>、<span class="text-decoration">二</span>款规定，将以上
+              ，依据《中华人民共和国行政强制法》第<span class="text-decoration">二十五</span>条规定，决定将以上
               <span class="no-underline">{{
                 letData.cellIdx18 ? letData.cellIdx18 : "（点击编辑）"
               }}</span>
@@ -376,7 +375,7 @@ export default {
         cellIdx7: let32Date[0], // 年
         cellIdx8: let32Date[1], // 月
         cellIdx9: let32Date[2], // 日
-        cellIdx10: '场所', // 对你单位涉案场所XX
+        cellIdx10: let32DataPaperContent.cellIdx9, // 对你单位涉案场所XX
         cellIdx11: selectedType, // 予以XX 查封、扣押
         cellIdx12: let32DataPaperContent.cellIdx1, // 查封扣押文书号
         cellIdx13: let32DataPaperContent.cellIdx2, // 查封扣押文书号

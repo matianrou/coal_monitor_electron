@@ -203,7 +203,7 @@
                       'SamplingForensicsTable'
                     )
                   "
-              >《物品处理表》</span>
+              >物品处理表</span>
             </div>
             <table class="docBody">
               <tr>

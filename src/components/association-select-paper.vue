@@ -202,9 +202,15 @@ export default {
       await db.close();
     },
     async initFileData() {
-      if (this.paperData && (this.docData.docTypeNo === '44' || this.docData.docTypeNo === '21' || this.docData.docTypeNo === '45')) {
-        // 隐患整改, 影音证据,意见建议书拉取上传的文件列表
-        await this.getFileList()
+      if (this.paperData) {
+        if (this.$store.state.user.userType === 'supervision') {
+          // 监管：
+        } else {
+          if (this.docData.docTypeNo === '44' || this.docData.docTypeNo === '21' || this.docData.docTypeNo === '45') {
+            // 隐患整改, 影音证据,意见建议书拉取上传的文件列表
+            await this.getFileList()
+          }
+        }
       }
       if ((this.docData.docTypeNo === '43' && this.$store.state.user.userType !== 'supervision')) {
         // 罚款收缴时如果没有网络则提示

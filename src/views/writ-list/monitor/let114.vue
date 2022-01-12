@@ -372,7 +372,7 @@ export default {
         cellIdx8: let32Date[0], // 年
         cellIdx9: let32Date[1], // 月
         cellIdx10: let32Date[2], // 日
-        cellIdx11: '场所',
+        cellIdx11: let32DataPaperContent.cellIdx9,
         cellIdx12: selectedType, // 予以XX 查封、扣押
         cellIdx13: let32DataPaperContent.cellIdx1, // 查封扣押文书号
         cellIdx14: let32DataPaperContent.cellIdx2, // 查封扣押文书号

@@ -47,6 +47,7 @@
     <div v-if="showPage.writFill" class="make-law-writ-fill">
       <!-- 填写文书 -->
       <component
+        v-if="$store.state.user.userType"
         :is="`${$store.state.user.userType}-writ-list`"
         :show-temp="showTemp"
         :corp-data="corpData"

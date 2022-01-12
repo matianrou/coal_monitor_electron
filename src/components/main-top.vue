@@ -176,6 +176,7 @@ export default {
     },
     logoutHandle () {
       clearLoginInfo()
+      this.handleWindow('window-max')
       this.$router.replace({ name: 'Login', params: {
         autoLogin: false
       }})

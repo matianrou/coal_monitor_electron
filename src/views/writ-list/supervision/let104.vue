@@ -104,19 +104,18 @@
                 @click="commandFill('cellIdx25', '', 'SelectItem')"
               >{{ letData.cellIdx25 ? letData.cellIdx25 : '（点击编辑）'}}</span>
               <span class="no-line">，经复查，意见如下：</span>
-              <span @click="commandFill('cellIdx16', '意见', 'TextareaItem')">{{
-                letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）"
-              }}</span>
             </div>
-            <!-- <div
+            <div
               style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
               class="cellInput mutiLineArea"
               @click="commandFill('cellIdx15', '意见', 'TextareaItem')">
-              <p
-                style="width:100%; height:auto; word-wrap:break-word;word-wrap: break-all; overflow: hidden;"
-              >{{ letData.cellIdx15 ? letData.cellIdx15 : '（点击编辑）' }}</p>
-              <cell-line></cell-line>
-            </div> -->
+              <div>
+                <p class="show-area-item-p">
+                  <span style="padding: 7px;">{{ letData.cellIdx15 || '（点击编辑）' }}</span>
+                </p>
+                <cell-line :line-num="300"></cell-line>
+              </div>
+            </div>
             <div class="docTextarea">
               <span class="no-line" style="width:28%">现场执法人员（签名):</span>
               <span style="display:inline-block;min-width:30%;line-height: normal;max-width:30%" @click="commandFill('cellIdx16', '现场执法人员（签名', 'TextItem')"
@@ -138,7 +137,7 @@
               }}</span>
             </div>
             <div class="docTextarea">
-              <div style="display:inline-block;min-width:41%">
+              <div style="display:inline-block;min-width:34%">
                 <span class="no-line">被复查单位意见:</span>
                 <span @click="commandFill('cellIdx20', '被复查单位意见', 'TextItem')"
                   >{{ letData.cellIdx20 ? letData.cellIdx20 : "（编辑）" }}
@@ -247,7 +246,7 @@ export default {
           },
         ]
       },
-      associationPaper: ['1']
+      associationPaper: ['2']
     };
   },
   methods: {
@@ -259,11 +258,11 @@ export default {
       });
       // 1.生成文书编号
       let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId)
-      let let1DataPaperContent = JSON.parse(
-        selectedPaper.let1Data.paperContent
+      let let2DataPaperContent = JSON.parse(
+        selectedPaper.let2Data.paperContent
       );
       let cellIdx9String =this.corpData.caseType === '0' ? setDangerTable(
-        let1DataPaperContent.DangerTable,
+        let2DataPaperContent.DangerTable,
         {},
         {
           page: "13",
@@ -271,18 +270,18 @@ export default {
         }
       ):'';
       let cellIdx10String = this.corpData.caseType === '0' ?setDangerTable(
-        let1DataPaperContent.DangerTable,
+        let2DataPaperContent.DangerTable,
         {},
         {
           page: "13",
           key: "cellIdx14",
         }
       ):'';
-      let date2 = selectedPaper.let1Data ? selectedPaper.let1Data.createDate.split(' ')[0].replace('年', '-').replace('月', '-').replace('日', '-').split('-') : ['', '', '']
+      let date2 = selectedPaper.let2Data ? selectedPaper.let2Data.createDate.split(' ')[0].replace('年', '-').replace('月', '-').replace('日', '-').split('-') : ['', '', '']
       let DangerTable = null
       if (this.corpData.caseType === '0') {
-        DangerTable = let1DataPaperContent.DangerTable ? 
-          setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
+        DangerTable = let2DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let2Data, let2DataPaperContent.DangerTable)
           : {} 
       }
       await db.close();
@@ -292,6 +291,9 @@ export default {
         cellIdx2: num3, // 文书号
         cellIdx3: num4, // 文书号
         cellIdx4: corp.corpName ? corp.corpName : null, //
+        cellIdx6: date2[0], // 年
+        cellIdx7: date2[1], // 月
+        cellIdx8: date2[2], // 日
         cellIdx9: cellIdx9String, // 违法违规行为：隐患描述
         cellIdx10: let2DataPaperContent.cellIdx0, // 现场处理决定书 文书号
         cellIdx11: let2DataPaperContent.cellIdx1, // 现场处理决定书 文书号
@@ -303,8 +305,9 @@ export default {
         cellIdx24: this.todayDate, //日期
         DangerTable: DangerTable,
         associationPaperId: { // 关联的paperId
-          paper22Id: let1DataPaperContent.associationPaperId.paper22Id,
-          paper1Id: selectedPaper.let1Data.paperId,
+          paper22Id: let2DataPaperContent.associationPaperId.paper22Id,
+          paper1Id: let2DataPaperContent.associationPaperId.paper1Id,
+          paper2Id: selectedPaper.let2Data.paperId,
         }
       })
     },

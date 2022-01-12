@@ -50,12 +50,12 @@ http.interceptors.request.use(config => {
  * 响应拦截
  */
 http.interceptors.response.use(response => {
-  if (response.data && response.data.code === 401) { // 401, token失效
-    clearLoginInfo()
-    router.replace({ name: 'Login', params: {
-      autoLogin: false
-    }})
-  }
+  // if (response.data && response.data.code === 401) { // 401, token失效
+  //   clearLoginInfo()
+  //   router.replace({ name: 'Login', params: {
+  //     autoLogin: false
+  //   }})
+  // }
   return response
 }, error => {
   return Promise.reject(error)

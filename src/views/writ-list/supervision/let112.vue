@@ -72,7 +72,7 @@
               <span
                 @click="commandFill('cellIdx7', '', 'TextItem')"
               >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
-              的决定，但该单位拒不执行此决定，未及时消除安全隐患，现有发生生产安全事故的危险。根据《中华人民共和国安全生产法》第<span class="text-decoration">七十</span>条第<span class="text-decoration">一</span>款规定，请贵单位对其采取
+              的决定，但该单位拒不执行此决定，未及时消除事故隐患，现有发生生产安全事故的危险。根据《中华人民共和国安全生产法》第<span class="text-decoration">七十</span>条第<span class="text-decoration">一</span>款规定，请贵单位对其采取
               <span style="borderBottom:none"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
               的措施。
