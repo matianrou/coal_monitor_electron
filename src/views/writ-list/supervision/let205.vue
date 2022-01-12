@@ -78,7 +78,7 @@
             </div>
             <div class="docTextarea">
               <div style="display:inline-block;min-width:55%">
-                <span class="no-line">陈述申辩人：:</span>
+                <span class="no-line">陈述、申辩人：</span>
                 <span @click="commandFill('cellIdx8', '陈述申辩人', 'TextItem')"
                   >{{ letData.cellIdx8 ? letData.cellIdx8 : "（编辑）" }}
                 </span>
@@ -125,7 +125,7 @@
                 <span @click="commandFill('cellIdx15', '承办人（签名）', 'TextItem')"
                   >{{ letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）" }}
                 </span>
-                <span class="no-line">&nbsp;</span>
+                <span class="no-line">、</span>
                 <span @click="commandFill('cellIdx16', '承办人（签名）：', 'TextItem')"
                   >{{ letData.cellIdx16 ? letData.cellIdx16 : "（点击编辑）" }}
                 </span>
@@ -138,7 +138,7 @@
                 <div class="line1"></div>
             </div>
             <div class="docTextarea">
-              陈述申辩记录：我们是
+              &nbsp;&nbsp;&nbsp;&nbsp;陈述申辩记录：我们是
               <span
                 @click="commandFill('cellIdx18', '执法人员', 'TextItem')"
               >{{ letData.cellIdx18 ? letData.cellIdx18 : '（点击编辑）' }}</span>
@@ -181,26 +181,24 @@
               <div class="line"></div>
             </div>
             <div class="docTextarea">
-              <span class="no-line" style="width:28%">陈述申辩人（签名）：</span>
-                <span style="display:inline-block;min-width:35%;line-height: normal;max-width:35%;" @click="commandFill('cellIdx23', '陈述申辩人（签名）', 'TextItem')">{{
+              <span class="no-line" style="width:29%">陈述申辩人（签名）：</span>
+                <span style="display:inline-block;min-width:38%;line-height: normal;max-width:40%;" @click="commandFill('cellIdx23', '陈述申辩人（签名）', 'TextItem')">{{
                 letData.cellIdx23 ? letData.cellIdx23 : "（点击编辑）"
               }}</span>
-              <span
-                @click="commandFill('cellIdx9', '年', 'TextItem')"
-              >{{ letData.cellIdx9 ? letData.cellIdx9 : 'XX'}}</span>
-              年
-              <span
-                @click="commandFill('cellIdx10', '月', 'TextItem')"
-              >{{ letData.cellIdx10 ? letData.cellIdx10 : 'XX' }}</span>
-              月
-              <span
-                @click="commandFill('cellIdx11', '日', 'TextItem')"
-              >{{ letData.cellIdx11 ? letData.cellIdx11 : 'XX'}}</span>
-              日
-              <span
-                @click="commandFill('cellIdx12', '时', 'TextItem')"
-              >{{ letData.cellIdx12 ? letData.cellIdx12 : 'XX'}}</span>
-              时
+              <div style="display: inline-block;text-align: right;">
+                <span
+                  @click="commandFill('cellIdx24', '年', 'TextItem')"
+                >{{ letData.cellIdx24 ? letData.cellIdx24 : 'XX'}}</span>
+                年
+                <span
+                  @click="commandFill('cellIdx25', '月', 'TextItem')"
+                >{{ letData.cellIdx25 ? letData.cellIdx25 : 'XX' }}</span>
+                月
+                <span
+                  @click="commandFill('cellIdx26', '日', 'TextItem')"
+                >{{ letData.cellIdx26 ? letData.cellIdx26 : 'XX'}}</span>
+                日
+              </div>
             </div>
             <div class="docTextarea" style="border-top: 2px solid #000;">
               备注:被陈述申辩人应在确认笔录后，签署意见，并签名押印。
@@ -248,7 +246,7 @@ export default {
         cellIdx13: null, // 邮政编码
         cellIdx14: null, // 电话
         cellIdx15: null, // 承办人（签名）
-        // cellIdx16: null, // 承办人（签名）   暂不用
+        cellIdx16: null, // 承办人（签名）  
         cellIdx17: null, // 记录人（签名）
         cellIdx18: null, // 监察员
         cellIdx19: null, // 违法行为

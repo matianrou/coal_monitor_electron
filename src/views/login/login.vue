@@ -163,21 +163,7 @@ export default {
     },
     async onLineLogin () {
       // 在线登录
-      // 如果已勾选记住登录账号：
-      if (this.recordAccount) {
-        // 保存当前账号至LocalStoreage
-        let {txtUserNo, txtPassword} = this.dataForm
-        txtUserNo = Encrypt(txtUserNo)
-        txtPassword = Encrypt(txtPassword)
-        localStorage.setItem('userAccount', JSON.stringify({txtUserNo, txtPassword}))
-      } else {
-        if (localStorage.getItem('userAccount')) {
-          localStorage.removeItem('userAccount')
-        }
-        if (localStorage.getItem('userInfo')) {
-          localStorage.removeItem('userInfo')
-        }
-      }
+      
       //登录
       let password = encry(this.dataForm.txtPassword);
       this.loading.loginBtn = true
@@ -215,6 +201,21 @@ export default {
               userNumber = Encrypt(userNumber)
               userType = Encrypt(userType)
               localStorage.setItem('userInfo', JSON.stringify({userId: userId1, loginName, userName, userGroupId, userAreaId, userGroupName, userNumber, userType}))
+            }
+            // 如果已勾选记住登录账号：
+            if (this.recordAccount) {
+              // 保存当前账号至LocalStoreage
+              let {txtUserNo, txtPassword} = this.dataForm
+              txtUserNo = Encrypt(txtUserNo)
+              txtPassword = Encrypt(txtPassword)
+              localStorage.setItem('userAccount', JSON.stringify({txtUserNo, txtPassword}))
+            } else {
+              if (localStorage.getItem('userAccount')) {
+                localStorage.removeItem('userAccount')
+              }
+              if (localStorage.getItem('userInfo')) {
+                localStorage.removeItem('userInfo')
+              }
             }
             this.$message.success('在线登录成功！')
             this.$router.replace({

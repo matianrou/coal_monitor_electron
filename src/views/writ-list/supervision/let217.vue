@@ -62,7 +62,7 @@
               ，请
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx6', '单位/个人', 'SelectItem')"
+                @click="commandFill('cellIdx6', '你/单位', 'SelectItem')"
               >{{ letData.cellIdx6 }}</span>
               于
               <span
@@ -272,7 +272,6 @@ export default {
         cellIdx18: orgSysOfficeInfo.phone, // 联系电话
         cellIdx19: this.$store.state.curCase.provinceGroupName, //
         cellIdx20: this.todayDate, // 日期
-        cellIdx20TypeDateItem: this.todayDate, // 日期
       };
     },
     goBack({ page, data }) {

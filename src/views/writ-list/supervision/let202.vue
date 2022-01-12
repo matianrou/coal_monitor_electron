@@ -19,7 +19,7 @@
             </div>
             <div class="textAlignCenter formHeader1">调查询问笔录</div>
             <div class="docTextLine">
-              时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;间：
+              时&nbsp;&nbsp;&nbsp;&nbsp;间：
               <div style="flex: 1; display: flex;">
                 <div
                   class="line-div center"
@@ -108,7 +108,7 @@
                 >{{ letData.cellIdx11 ? letData.cellIdx11 : `&nbsp;` }}</div>
               </div>
               <div style="flex: 4; display: flex;">
-                <label>身份证号</label>
+                <label>身份证号码</label>
                 <div
                   class="line-div"
                   @click="commandFill('cellIdx12', '身份证号', 'TextItem')"
@@ -118,11 +118,11 @@
             <div class="docTextarea">
               <span class="no-line" style="width:25%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;工作单位</span>
               <span style="display:inline-block;min-width:32%;line-height: normal;max-width:32%" @click="commandFill('cellIdx13', '工作单位', 'TextItem')"
-                >{{ letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）" }}
+                >{{ letData.cellIdx13 ? letData.cellIdx13 : "（编辑）" }}
               </span>
               <span class="no-line" style="width:17%">职务（职业）</span>
               <span style="display:inline-block;min-width:21%;line-height: normal;max-width:21%" @click="commandFill('cellIdx14', '职务（职业）', 'TextItem')">{{
-                letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）"
+                letData.cellIdx14 ? letData.cellIdx14 : "（编辑）"
               }}</span>
             </div>
             <div class="docTextarea">
@@ -425,8 +425,17 @@ export default {
       }
       // 2.组成： “我们是”+当前机构+“监管员，这是我们的执法证件（出示行政执法证件），现就你”+煤矿名称+“涉嫌”+隐患描述+“违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？”
       let cellIdx21String = `我们是${provinceGroupName || 'XXX'}监管员，这是我们的执法证件（出示行政执法证件），现就你${corp.corpName}涉嫌${dangerString || 'XXX'}违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？`
+      let DangerTable = null;
+      if (this.corpData.caseType === "0") {
+        DangerTable = let4DataPaperContent.DangerTable
+          ? setNewDanger(
+              selectedPaper.let4Data,
+              let4DataPaperContent.DangerTable
+            )
+          : {};
+      }
       await db.close();
-      this.letData = {
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: cellIdx0Year, // 年
         cellIdx1: cellIdx1Month, // 月
         cellIdx2: cellIdx2Date, // 日
@@ -450,7 +459,7 @@ export default {
               }
             : null,
         DangerTable: DangerTable
-      };
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

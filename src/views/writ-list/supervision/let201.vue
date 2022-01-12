@@ -112,7 +112,7 @@
             </div> -->
             <div class="docTextarea">
               <label style="width:5%"></label>
-              根据以上案由案情，决定自
+              根据以上案情，决定自
               <span
                 @click="commandFill('cellIdx6', '年', 'TextItem')"
               >{{ letData.cellIdx6 ? letData.cellIdx6 : 'XX'}}</span>
@@ -288,7 +288,8 @@ export default {
           setNewDanger(selectedPaper.let2Data, let2DataPaperContent.DangerTable)
           : {}
         await db.close();
-        this.letData = {
+        let date = this.todayDate.replace('年', '-').replace('月', '-').replace('日', '-').split('-')
+        this.letData = Object.assign({}, this.letData, {
           cellIdx0: paperNumber.num0, // 文书号
           cellIdx1: paperNumber.num1, // 文书号
           cellIdx2: paperNumber.num3, // 文书号
@@ -316,7 +317,7 @@ export default {
             personList: [],
             personNamesString: ''
           }
-        };
+        })
       } else {
         let db = new GoDB(this.$store.state.DBName);
         let paperNumber = await getDocNumber(
