@@ -142,7 +142,7 @@
                   >{{ letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）" }}
                 </span>
               </div>
-              <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期</span>
+              <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期：</span>
               <span @click="commandFill('cellIdx14', '日期', 'DateItem')">{{
                 letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）"
               }}</span>
@@ -412,6 +412,23 @@ export default {
           this.letData[dataKey],
           this.options[key]
         );
+      } else {
+        if (key === "cellIdx12") {
+          // 不能编辑时，还需要查看附件
+          this.options[key] = {
+            canEdit: false,
+            page: "25", // 控制当前为抽样取证或者先行登记保存证据清单
+          };
+          let dataKey = "SamplingForensicsTable";
+          this.$refs.letMain.commandFill(
+            key,
+            dataKey,
+            title,
+            type,
+            this.letData[dataKey],
+            this.options[key]
+          );
+        }
       }
     },
   },

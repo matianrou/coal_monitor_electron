@@ -96,6 +96,7 @@
                 ></td>
               </tr>
             </table>
+            <table height="20"></table>
             <div class="docTextarea">
             <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;抽样承办人：（签名）</span>
             <span
@@ -132,7 +133,7 @@
                 >
                 <label>时</label>
               </div>
-                <span class="no-line">抽样地点:</span>
+                <span class="no-line">抽样地点：</span>
                 <span @click="commandFill('cellIdx13', '抽样地点', 'TextItem')"
                   >{{ letData.cellIdx13 ? letData.cellIdx13 : "（点击编辑）" }}
                 </span>
@@ -144,7 +145,7 @@
                   >{{ letData.cellIdx14 ? letData.cellIdx14 : "（点击编辑）" }}
                 </span>
               </div>
-                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;日期</span>
+                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;日期：</span>
                 <span @click="commandFill('cellIdx15', '日期', 'DateItem')">{{
                   letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）"
                 }}</span>

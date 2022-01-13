@@ -230,7 +230,7 @@ export default {
                 this.$emit('handle-save', {value: this.$refs[this.selectedData.type].dataForm.tempValue, direct})
               }
             } else {
-              this.$message.error(`选中的隐患项第${indexString}条中有必填的项目未填写，如：违法行为描述,现场处理决定或更改隐患从属类别`)
+              this.$message.error(`选中的隐患项第${indexString}条中有必填的项目未填写，如：违法行为描述,现场处理决定或更改从属隐患类别`)
             }
           // }
         // })

@@ -28,8 +28,8 @@ export async function getDocNumber(db, docTypeNo, caseId) {
   }
   // 根据文书类型，获得（立、告、罚、送、催）
   let docString = ''
-  for(let i = 0; i < store.state.dictionary.paperNumberType.length > 0; i++) {
-    let item = store.state.dictionary.paperNumberType[i]
+  for(let i = 0; i < store.state.dictionary[`${store.state.user.userType}PaperNumberType`].length > 0; i++) {
+    let item = store.state.dictionary[`${store.state.user.userType}PaperNumberType`][i]
     if (item.docTypeNo === docTypeNo) {
       docString = item.docString
     }

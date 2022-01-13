@@ -253,7 +253,7 @@ export default {
         cellIdx2: num1, // 文书号
         cellIdx4: num3, // 文书号
         cellIdx5: num4, // 文书号
-        cellIdx6: let37DataPaperContent.selectedType === '停供电' ? '供电公司' : '公安局', // 
+        cellIdx6: let37DataPaperContent.selectedType === '停供电' ? `${orgData.areaName}供电公司` : `${orgData.areaName}公安局`, // 
         cellIdx7: corp.corpName ? corp.corpName : null, // corpname
         cellIdx8: let37DataPaperContent.selectedType, // 解除停供电(解除停供民用爆炸物品)
         cellIdx11: orgSysOfficeInfo.depAddress, // 执法机关地址

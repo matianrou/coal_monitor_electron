@@ -187,6 +187,7 @@
                 </td>
               </tr>
             </table>
+            <table height="30"></table>
             <div class="docTextarea" style="border-top: 2px solid #000;">
               备注：本文书一式两份，一份交申请听证
               <span

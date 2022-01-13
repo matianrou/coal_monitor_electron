@@ -233,7 +233,7 @@ export default {
         cellIdx2: num1, // 文书号
         cellIdx3: num3, // 文书号
         cellIdx4: num4, // 文书号
-        cellIdx5: let56DataPaperContent.selectedType === '停供电' ? '供电公司' : '公安局', // 单位
+        cellIdx5: let56DataPaperContent.selectedType === '停供电' ? `${orgData.areaName}供电公司` : `${orgData.areaName}公安局`, // 单位
         cellIdx6: corp.corpName, // 本机关在对XXX进行安全检查中发现
         cellIdx7: '责令停产整顿', // 依法作出XXX的决定
         cellIdx8: let56DataPaperContent.selectedType === '停供电' ? '停供生产性用电' : '停供民用爆炸物品', // 请贵单位对其采取XXX的措施。

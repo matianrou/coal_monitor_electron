@@ -219,13 +219,13 @@
             </el-form-item>
             <el-form-item
               v-if="options.showSelectDangerBtn"
-              label="更改隐患从属类别："
+              label="更改从属隐患类别："
               prop="changeDangerType"
               style="width: 100%;"
               ref="changeDangerType">
               <el-select 
                 v-model="dangerItemDetail.firstDangerType"
-                placeholder="请选择从属类别"
+                placeholder="请选择从属隐患类别"
                 @change="val => changeDangerCate(val, '0')">
                 <el-option
                   v-for="item in dangerCateOptions.dangerCateList"
@@ -236,7 +236,7 @@
               </el-select>
               <el-select 
                 v-model="dangerItemDetail.secDangerType"
-                placeholder="请选择从属类别"
+                placeholder="请选择从属隐患类别"
                 @change="val => changeDangerCate(val, '1')">
                 <el-option
                   v-for="item in dangerCateOptions.dangerCateSecList"
@@ -247,7 +247,7 @@
               </el-select>
               <el-select 
                 v-model="dangerItemDetail.changeDangerType"
-                placeholder="请选择从属类别"
+                placeholder="请选择从属隐患类别"
                 @change="val => changeDangerCate(val, '2')">
                 <el-option
                   v-for="item in dangerCateOptions.dangerCateThirdList"

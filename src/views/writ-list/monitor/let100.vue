@@ -103,6 +103,7 @@
               }}</span>
               <div class="line"></div>
             </div>
+            <table height="30"></table>
             <div class="docTextLine">
               <label style="width: 5%"></label>
               <label>附件：</label>
@@ -119,18 +120,19 @@
                 《{{letData.cellIdx12}}检查分工明细表》
               </div>
             </div>
-              <div class="docTextarea">
-                <div style="display:inline-block;min-width:60%">
-                  <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;编制人（签名）：</span>
-                  <span @click="commandFill('cellIdx8', '编制人', 'TextItem')"
-                    >{{ letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）" }}
-                  </span>
-                </div>
-                <span class="no-line">日期：</span>
-                <span style="width:19%" @click="commandFill('cellIdx9', '日期', 'DateItem')">{{
-                  letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
-                }}</span>
-                <div class="line"></div>
+            <table height="30"></table>
+            <div class="docTextarea">
+              <div style="display:inline-block;min-width:60%">
+                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;编制人（签名）：</span>
+                <span @click="commandFill('cellIdx8', '编制人', 'TextItem')"
+                  >{{ letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）" }}
+                </span>
+              </div>
+              <span class="no-line">日期：</span>
+              <span style="width:19%" @click="commandFill('cellIdx9', '日期', 'DateItem')">{{
+                letData.cellIdx9 ? letData.cellIdx9 : "（点击编辑）"
+              }}</span>
+              <div class="line"></div>
             </div>
             <div class="docTextarea" >
               <div style="display:inline-block;min-width:60%">

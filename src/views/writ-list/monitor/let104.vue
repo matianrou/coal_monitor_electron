@@ -173,6 +173,7 @@
                 <div class="line"></div>
                 <div class="line1"></div>
             </div> -->
+            <table height="30"></table>
             <div class="docTextarea">
               <div style="display:inline-block;min-width:36%">
                 <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;被复查单位意见：</span>
@@ -233,6 +234,7 @@
                 </td>
               </tr>
             </table>
+            <table height="30"></table>
             <div class="docTextarea" style="border-top: 2px solid #000;">
               备注：本文书一式两份，一份交被复查单位，一份存档。
             </div>

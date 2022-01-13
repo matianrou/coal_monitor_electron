@@ -18,7 +18,7 @@
               <br />
             </div>
             <div class="textAlignCenter formHeader4">
-              先 行 登 记 保 存 证 据 处 理 决 定 书
+              先行登记保存证据处理决定书
             </div>
             <div class="formHeader5 paper-number-div">
               <div>

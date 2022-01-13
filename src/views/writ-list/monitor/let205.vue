@@ -17,7 +17,7 @@
               国 家 矿 山 安 全 监 察
               <br />
             </div>
-            <div class="textAlignCenter formHeader3">陈 述、申 辩 笔 录</div>
+            <div class="textAlignCenter formHeader3" style="padding-bottom: 20px;">陈 述、申 辩 笔 录</div>
             <div class="docTextLine">
               <label>时间：</label>
               <span
