@@ -19,17 +19,14 @@
             v-model="filter.name"
             placeholder="请输入隐患关键字"
             style="width: 200px;"
-            size="small"
             clearable
           ></el-input>
           <el-button
             type="primary"
-            size="small"
             @click="selectFilter(false)"
           >精准搜索</el-button>
           <el-button
             type="primary"
-            size="small"
             style="margin-left:0;"
             @click="selectFilter(true)"
           >模糊搜索</el-button>
@@ -49,7 +46,6 @@
           <el-select
             v-model="filter.qdId"
             placeholder="请选择自定义列表"
-            size="small"
             clearable
             @change="changeQdList"
           >
@@ -375,6 +371,7 @@ export default {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        font-size: 16px;
       }
     }
   }

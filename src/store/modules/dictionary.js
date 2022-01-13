@@ -563,7 +563,7 @@ export default {
       {
         docTypeNo: '38', // 解除停供电（停供民用爆炸物品）通知书let113
         docString: '解停',
-        paperNumberFields: ['cellIdx1', 'cellIdx2', 'cellIdx4', 'cellIdx5']
+        paperNumberFields: ['cellIdx1', 'cellIdx2', 'cellIdx3', 'cellIdx4']
       },
       {
         docTypeNo: '4', // 立案决定书let201

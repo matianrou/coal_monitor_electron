@@ -771,12 +771,18 @@ export default {
     changeValue (val, field) {
       let index = this.dangerItemDetail.order
       this.$set(this.dataForm.tempValue.tableData, index, this.dangerItemDetail)
-      if (field === 'isReview' && val === '1') {
-        // 如果是隐患复查，并且为是的时候，设置reviewDate复查日期为顺延一个月
-        let reviewDate = severalDaysLater(30)
-        let reviewDateList = reviewDate.split('-')
-        this.dangerItemDetail.reviewDate = `${reviewDateList[0]}年${reviewDateList[1]}月${reviewDateList[2]}日`
-        this.$set(this.dataForm.tempValue.tableData, index, this.dangerItemDetail)
+      if (field === 'isReview') {
+        if (val === '1') {
+          // 如果是隐患复查，并且为是的时候，设置reviewDate复查日期为顺延一个月
+          let reviewDate = severalDaysLater(30)
+          let reviewDateList = reviewDate.split('-')
+          this.dangerItemDetail.reviewDate = `${reviewDateList[0]}年${reviewDateList[1]}月${reviewDateList[2]}日`
+          this.$set(this.dataForm.tempValue.tableData, index, this.dangerItemDetail)
+        } else {
+          // 如果不为隐患复查，清空日期
+          this.dangerItemDetail.reviewDate = ''
+          this.$set(this.dataForm.tempValue.tableData, index, this.dangerItemDetail)
+        }
       } else if (field === 'penaltyDesc') {
         // 修改行政处罚决定时同步关联修改罚金字段penaltyDescFine
         // 同步关联修改行政处罚决定类型
@@ -809,6 +815,8 @@ export default {
           this.dataForm.tempValue.selectedDangerList[selectedItemIndex][field] = val
         }
       }
+      console.log('this.dataForm.tempValue.tableData', this.dataForm.tempValue.tableData)
+      console.log('this.dataForm.tempValue.selectedDangerList', this.dataForm.tempValue.selectedDangerList)
     },
     async handleSaveReceiveDanger (dangerList) {
       // 保存接收的隐患项: 放入隐患列表
@@ -833,14 +841,15 @@ export default {
         // 通过categoryCode获取从属隐患一级和二级类别
         let secDangerType = await this.getParentDangerCateCode(receiveDanger.categoryCode)
         let firstDangerType = await this.getParentDangerCateCode(secDangerType)
+        console.log('receiveDanger', receiveDanger)
         let receData = {
           dangerId: getNowTime() + randomString(28),
           active: false,
           itemCode: receiveDanger.itemCode,
           no: receiveDanger.no,
           categoryCode: receiveDanger.categoryCode,
-          personIds: receiveDanger.personIds, // 隐患发现人
-          personNames: receiveDanger.personNames, // 隐患发现人
+          personIds: receiveDanger.personId, // 隐患发现人
+          personNames: receiveDanger.name, // 隐患发现人
           itemContent: receiveDanger.itemContent, // 违法行为描述
           confirmBasis: receiveDanger.confirmBasis, // 违法认定法条
           onsiteDesc: receiveDanger.onsiteDesc, // 现场处理决定

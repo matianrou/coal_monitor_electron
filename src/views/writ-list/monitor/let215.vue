@@ -254,7 +254,7 @@ export default {
               }
             )
           : "";
-      // 2.案情摘要：与立案决定书案情摘要格式一致。检查时间，煤矿企业全称+进行现场检查时发现，+隐患描述。+违反认定法条+的规定，依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。
+      // 3.案情摘要：与立案决定书案情摘要格式一致。检查时间，煤矿企业全称+进行现场检查时发现，+隐患描述。+违反认定法条+的规定，依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。
       // 获取检查时间
       let wkPaper = db.table('wkPaper')
       let let1Data = await wkPaper.find(item => item.paperId === letDataPaperContent.associationPaperId.paper1Id && item.delFlag !== '1')
@@ -281,7 +281,7 @@ export default {
               }
             )
           : "";
-      // 3.建议案件处理意见：行政处罚依据+行政处罚决定（分条）
+      // 4.建议案件处理意见：行政处罚依据+行政处罚决定（分条）
       // let cellIdx6String = `${dangerObject.penaltyBasisString}`;
       let cellIdx6String =
         this.corpData.caseType === "0"
@@ -306,6 +306,20 @@ export default {
               }
             )
           : "";
+      // 获取采矿许可证和安全生产许可证
+      let zfZzInfo = db.table("zfZzInfo");
+      let zzInfo1 = await zfZzInfo.find((item) => {
+        return (
+          item.corpId == this.corpData.corpId &&
+          item.credTypeName == "采矿许可证"
+        );
+      });
+      let zzInfo2 = await zfZzInfo.find((item) => {
+        return (
+          item.corpId == this.corpData.corpId &&
+          item.credTypeName == "安全生产许可证"
+        );
+      });
       let DangerTable = null;
       if (this.corpData.caseType === "0") {
         DangerTable = letDataPaperContent.DangerTable
@@ -319,7 +333,7 @@ export default {
       this.letData = Object.assign({}, this.letData, {
         cellIdx1: paperNumber,
         cellIdx3: cellIdx3String, // 案由
-        cellIdx4: selectedType === '单位' ? `${corp.corpName}社会统一信用代码是${corp.uscCode ? corp.uscCode : 'XX'}，采矿许可证号是${corp.uscCode ? corp.uscCode : 'XX'}，安全生产许可证号是${corp.uscCode ? corp.uscCode : 'XX'}。` : '姓名XXX，出生日期XXXX年XX月XX日，身份证号XXXX。',
+        cellIdx4: selectedType === '单位' ? `${corp.corpName}社会统一信用代码是${corp.uscCode ? corp.uscCode : 'XX'}，采矿许可证号是${zzInfo1 && zzInfo1.credId ? zzInfo1.credId : 'XX'}，安全生产许可证号是${zzInfo2 && zzInfo2.credId ? zzInfo2.credId : 'XX'}。` : '姓名XXX，出生日期XXXX年XX月XX日，身份证号XXXX。',
         cellIdx5: cellIdx5String, // 案情摘要
         cellIdx6: cellIdx6String, // 作出决定依据
         cellIdx7: cellIdx7String, // 建议行政决定

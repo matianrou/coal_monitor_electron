@@ -368,6 +368,20 @@ export default {
               }
             )
           : "";
+      // 获取采矿许可证和安全生产许可证
+      let zfZzInfo = db.table("zfZzInfo");
+      let zzInfo1 = await zfZzInfo.find((item) => {
+        return (
+          item.corpId == this.corpData.corpId &&
+          item.credTypeName == "采矿许可证"
+        );
+      });
+      let zzInfo2 = await zfZzInfo.find((item) => {
+        return (
+          item.corpId == this.corpData.corpId &&
+          item.credTypeName == "安全生产许可证"
+        );
+      });
       let DangerTable = null;
       if (this.corpData.caseType === "0") {
         DangerTable = letDataPaperContent.DangerTable
@@ -381,7 +395,7 @@ export default {
       this.letData = Object.assign({}, this.letData, {
         cellIdx1: paperNumber, // 编号
         cellIdx3: cellIdx3String, // 案由
-        cellIdx4: selectedType === '单位' ? `${corp.corpName}社会统一信用代码是${corp.uscCode ? corp.uscCode : 'XX'}，采矿许可证号是${corp.uscCode ? corp.uscCode : 'XX'}，安全生产许可证号是${corp.uscCode ? corp.uscCode : 'XX'}。` : '姓名XXX，出生日期XXXX年XX月XX日，身份证号XXXX。', // 行政相对人基本情况
+        cellIdx4: selectedType === '单位' ? `${corp.corpName}社会统一信用代码是${corp.uscCode ? corp.uscCode : 'XX'}，采矿许可证号是${zzInfo1 && zzInfo1.credId ? zzInfo1.credId : 'XX'}，安全生产许可证号是${zzInfo2 && zzInfo2.credId ? zzInfo2.credId : 'XX'}。` : '姓名XXX，出生日期XXXX年XX月XX日，身份证号XXXX。',
         cellIdx5: cellIdx5String, // 案情摘要
         cellIdx6: cellIdx6String, // 作出决定依据
         cellIdx7: cellIdx7String, // 建议行政决定

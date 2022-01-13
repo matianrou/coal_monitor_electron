@@ -9,7 +9,7 @@
       width="1200px"
       top="5vh"
       @close="close">
-      <div>
+      <div v-loading="loading">
         <!-- 标签：切换发送隐患及历史记录 -->
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="隐患发送" name="sendDanger">
@@ -223,8 +223,8 @@
         ></add-danger>
       </div>
       <span slot="footer">
-        <el-button @click="close">取消</el-button>
-        <el-button type="primary" @click="save">发送</el-button>
+        <el-button :loading="loading" @click="close">取消</el-button>
+        <el-button :loading="loading" type="primary" @click="save">发送</el-button>
       </span>
     </el-dialog>
   </div>
@@ -254,6 +254,7 @@ export default {
   },
   data () {
     return {
+      loading: false,
       activeName: 'sendDanger',
       DBName: this.$store.state.DBName,
       dataForm: { // 隐患发送Form
@@ -286,15 +287,18 @@ export default {
       this.$emit('close', refresh)
     },
     async getDangerList (isSend = '0') {
+      this.loading = true
 	    let db = new GoDB(this.DBName)
       let sendDanger = db.table('sendDanger')
       let dangerlist = await sendDanger.findAll(item => item.delFlag !== '1' && item.isSend === isSend)
       dangerlist.sort(sortbyAsc('createDate'))
       this.dataForm.dangerContent.tableData = dangerlist
+      this.loading = false
     },
     async confirmDangerContent ({data}) {
       // 选定隐患项
       // 保存选择的检查项
+      this.loading = true
       let tableData = []
       // 抽取选择的检查项最底一层，作为table展示
       this.handleData(data.selecteddangerList, tableData)
@@ -331,6 +335,7 @@ export default {
         }
 	      await sendDanger.addMany(addDangerList);
         await db.close()
+        this.loading = false
         this.getDangerList()
       }
     },
@@ -351,6 +356,7 @@ export default {
     },
     async deleteDanger(type, scope = {}) {
       // 首先遍历保存当前正在编辑项
+      this.loading = true
       await this.saveEditItem()
       if (type === 'single') {
         // 单个删除隐患项
@@ -377,7 +383,7 @@ export default {
           itemContents += item.itemContent + '；'
         })
         itemContents = itemContents.substring(0, itemContents.length - 1)
-        this.$confirm(`是否确定删除违法违规行为：${itemContents}?`, '提示', {
+        await this.$confirm(`是否确定删除违法违规行为：${itemContents}?`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           dangerouslyUseHTMLString: true,
@@ -393,6 +399,7 @@ export default {
         }).catch(() => {})
         
       }
+      this.loading = false
     },
     async changeStatus (scope, operation) {
       // 切换编辑或保存
@@ -408,6 +415,7 @@ export default {
       }
     },
     async saveEditItem () {
+      this.loading = true
       // 遍历当前为编辑状态的数据，设置为非编辑状态并且保存此条数据
       for (let i = 0; i < this.dataForm.dangerContent.tableData.length; i++) {
         if (this.dataForm.dangerContent.tableData[i].isEdit) {
@@ -418,6 +426,7 @@ export default {
           await db.close()
         }
       }
+      this.loading = false
     },
     async save () {
       if (!this.$store.state.onLine) {
@@ -426,6 +435,7 @@ export default {
       }
       // 确定：发送隐患
       // 先保存当前正在编辑内容
+      this.loading = true
       await this.saveEditItem()
       if (this.dataForm.receiveId && this.dataForm.companyId) {
         let dangerContent = []
@@ -501,6 +511,7 @@ export default {
       } else {
         this.$message.error('请先选择接收人和煤矿后发送隐患！')
       }
+      this.loading = false
     },
     handleClick () {
       // 切换tab
@@ -538,6 +549,7 @@ export default {
     },
     async confirmAddDanger (data) {
       // 确定新建隐患项
+      this.loading = true
       let danger = {
         HistoryId: getNowTime() + randomString(28),
         categoryCode: data.categoryCode,
@@ -566,6 +578,7 @@ export default {
       await db.close()
       // 刷新表格
       await this.getDangerList()
+      this.loading = false
     }
   },
 };

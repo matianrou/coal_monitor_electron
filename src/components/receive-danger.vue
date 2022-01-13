@@ -170,6 +170,7 @@ export default {
                       ...danger,
                       companyName: item.companyName,
                       name: item.name,
+                      personId: item.createBy.id,
                       sendTime: item.createDate
                     }
                     if (!danger.isSelected) {
