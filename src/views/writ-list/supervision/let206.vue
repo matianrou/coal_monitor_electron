@@ -380,7 +380,6 @@ export default {
         associationPaperId: associationPaperId,
         associationPaperOrder
       })
-      console.log('letData', this.letData)
     },
     goBack({ page, data }) {
       // 返回选择企业

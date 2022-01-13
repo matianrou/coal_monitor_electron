@@ -128,26 +128,30 @@ export default {
       }
     },
     changeTab (tab, go) {
+      let tab1 = tab
+      if (tab === 'Login') {
+        tab1 = 'MakeLawWrit'
+      }
       this.activeTab = this.activeTab ? this.activeTab : this.$store.state.activeTab
-      if (this.activeTab !== tab) {
+      if (this.activeTab !== tab1) {
         if (this.activeTab === 'SourceDownload') {
           if (go) {
             // 从source-download的路由跳出守卫回传值，继续进行路由跳转操作
-            this.activeTab = tab
+            this.activeTab = tab1
             this.$store.commit('changeState', {
               key: 'activeTab',
-              val: tab
+              val: tab1
             })
           } else {
             // 当从资源下载中跳出时，判断是否正在下载，如果正在下载则提示
-            this.$emit('change-tab', tab)
+            this.$emit('change-tab', tab1)
           }
         } else {
-          this.$emit('change-tab', tab)
-          this.activeTab = tab
+          this.$emit('change-tab', tab1)
+          this.activeTab = tab1
           this.$store.commit('changeState', {
             key: 'activeTab',
-            val: tab
+            val: tab1
           })
         }
       } else {

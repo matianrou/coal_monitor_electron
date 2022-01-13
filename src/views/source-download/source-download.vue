@@ -369,12 +369,14 @@ export default {
             userSessId +
             "&userId=" +
             userId
+          if (this.updateTime.doc !== '未下载') {
+            uri += `&updateTime=${this.updateTime.doc}`
+          }
           break;
         case "enterpriseList":
           //文书信息分页下载接口//文书信息分页下载接口
           uri += "/local/area/list?__sid=" + userSessId;
           break;
-
         //下载机构所有文书，
       }
       this.loading.download = true

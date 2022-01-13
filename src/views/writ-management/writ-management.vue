@@ -408,7 +408,6 @@ export default {
     async batchFile () {
       // 批量归档
       this.loading.btn = true
-      console.log('selectedPaperList', this.selectedPaperList)
       await this.$confirm(`是否确认归档所有已选中的文书?`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',

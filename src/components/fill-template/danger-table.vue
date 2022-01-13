@@ -815,8 +815,6 @@ export default {
           this.dataForm.tempValue.selectedDangerList[selectedItemIndex][field] = val
         }
       }
-      console.log('this.dataForm.tempValue.tableData', this.dataForm.tempValue.tableData)
-      console.log('this.dataForm.tempValue.selectedDangerList', this.dataForm.tempValue.selectedDangerList)
     },
     async handleSaveReceiveDanger (dangerList) {
       // 保存接收的隐患项: 放入隐患列表
@@ -841,7 +839,6 @@ export default {
         // 通过categoryCode获取从属隐患一级和二级类别
         let secDangerType = await this.getParentDangerCateCode(receiveDanger.categoryCode)
         let firstDangerType = await this.getParentDangerCateCode(secDangerType)
-        console.log('receiveDanger', receiveDanger)
         let receData = {
           dangerId: getNowTime() + randomString(28),
           active: false,

@@ -345,7 +345,6 @@ export default {
         // depPost：邮政编码、
         // master：我局联系人、
         // phone：联系电话
-        console.log('selectletData', selectletData)
         let cellIdx6String = setDangerTable(
           letDataPaperContent.DangerTable,
           {},

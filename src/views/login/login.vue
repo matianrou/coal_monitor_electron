@@ -163,7 +163,6 @@ export default {
     },
     async onLineLogin () {
       // 在线登录
-      
       //登录
       let password = encry(this.dataForm.txtPassword);
       this.loading.loginBtn = true
@@ -217,10 +216,10 @@ export default {
                 localStorage.removeItem('userInfo')
               }
             }
-            this.$message.success('在线登录成功！')
             this.$router.replace({
               name: 'CalmineElectronMain',
             })
+            this.$message.success('在线登录成功！')
             // 最大化窗口
             electronRequest({msgName: 'window-max'});
           } else {
@@ -336,22 +335,30 @@ export default {
       } else {
         // 如果有网络则自动更新下载文书资源
         if (!this.offLine) {
-          let userId = this.$store.state.user.userId;
-          let userSessId = this.$store.state.user.userSessId;
-          let path = this.$store.state.user.userType === 'supervision' ? '/sv' : ''
-          let url = `${path}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}`
-          await this.$http
-            .get(`${url}`)
-            .then(async (response) => {
-              if (response.data.data) {
-                await doDocDb('doc', response.data.data);
-                // 修改更新日期
-                await this.handleUpdateTime()
-              }
-            })
-            .catch((err) => {
-              console.log("下载文书失败：", err);
-            })
+          // 获取是否下载文书资源，如果未下载过，则不自动下载，如果下载过则执行自动下载
+          let db = new GoDB(userId);
+          let sourceDownload = db.table('sourceDownload')
+          let updateTime = await sourceDownload.find(item => item)
+          let docUpdateTime = updateTime.doc
+          await db.close()
+          if (docUpdateTime) {
+            let userId = this.$store.state.user.userId;
+            let userSessId = this.$store.state.user.userSessId;
+            let path = this.$store.state.user.userType === 'supervision' ? '/sv' : ''
+            let url = `${path}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&updateTime=${docUpdateTime}`
+            await this.$http
+              .get(`${url}`)
+              .then(async (response) => {
+                if (response.data.data) {
+                  await doDocDb('doc', response.data.data);
+                  // 修改更新日期
+                  await this.handleUpdateTime()
+                }
+              })
+              .catch((err) => {
+                console.log("下载文书失败：", err);
+              })
+          }
         }
       }
     },

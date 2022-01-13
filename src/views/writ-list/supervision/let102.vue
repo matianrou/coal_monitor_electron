@@ -244,7 +244,6 @@ export default {
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(item => item.no === this.$store.state.curCase.affiliate)
       let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {goverPrefix: "", courtPrefix: '', organName: ''}
-      console.log('orgData', orgData)
       let paperNumber = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId)
       let DangerTable = let1DataPaperContent.DangerTable
         ? setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)

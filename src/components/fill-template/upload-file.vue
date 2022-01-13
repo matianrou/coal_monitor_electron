@@ -175,7 +175,6 @@ export default {
       let addFileList = []
       let db = new GoDB(this.$store.state.DBName);
 	    let paperAttachment = db.table('paperAttachment');
-      console.log('newFileList', newFileList)
       for (let i = 0; i < newFileList.length; i++) {
         let obj = newFileList[i];
         let item = await paperAttachment.get({ id: obj.id });

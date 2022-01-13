@@ -259,7 +259,6 @@ function setDangerTable(data, selectedData, options) {
       break
     case '4': // 立案决定书
       let list4 = data && (data.dangerContentMerge ? newList : data.selectedDangerList) || []
-      console.log('list4', list4)
       if (options.key === 'cellIdx4') {
         let dangerString1 = getDangerContentWithoutPoint(list4, '、')
         string = `${options.spellString.corpName}${dangerString1 || ''}违法违规案。`
