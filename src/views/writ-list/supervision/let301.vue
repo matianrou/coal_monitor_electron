@@ -19,42 +19,45 @@
             </div>
             <div class="textAlignCenter formHeader1">强制执行申请书</div>
             <div class="docTextLine paper-number-div">
-              <div>
-                <span
-                  @click="commandFill('cellIdx0', '文书号', 'TextItem')"
-                >{{ letData.cellIdx0 ? letData.cellIdx0 : '（编辑）' }}</span>
-                <label>（</label>
-                <span
-                  @click="commandFill('cellIdx1', '文书号', 'TextItem')"
-                >{{ letData.cellIdx1 ? letData.cellIdx1 : '（编辑）' }}</span>
-                <label>）煤安执〔</label>
-                <span
-                  @click="commandFill('cellIdx2', '文书号', 'TextItem')"
-                >{{ letData.cellIdx2 ? letData.cellIdx2 : '（编辑）' }}</span>
-                <label>〕</label>
-                <span
-                  @click="commandFill('cellIdx3', '文书号', 'TextItem')"
-                >{{ letData.cellIdx3 ? letData.cellIdx3 : '（编辑）' }}</span>
-                <label>号</label>
-                <label>签发人：</label>
-                <span
-                  @click="commandFill('cellIdx4', '签发人', 'TextItem')"
-                >{{ letData.cellIdx4 ? letData.cellIdx4 : '（编辑）' }}</span>
+              <div style="display: flex; width: 100%;">
+                <div>
+                  <span
+                    @click="commandFill('cellIdx0', '文书号', 'TextItem')"
+                  >{{ letData.cellIdx0 ? letData.cellIdx0 : '（编辑）' }}</span>
+                  <label>（</label>
+                  <span
+                    @click="commandFill('cellIdx1', '文书号', 'TextItem')"
+                  >{{ letData.cellIdx1 ? letData.cellIdx1 : '（编辑）' }}</span>
+                  <label>）煤安执〔</label>
+                  <span
+                    @click="commandFill('cellIdx2', '文书号', 'TextItem')"
+                  >{{ letData.cellIdx2 ? letData.cellIdx2 : '（编辑）' }}</span>
+                  <label>〕</label>
+                  <span
+                    @click="commandFill('cellIdx3', '文书号', 'TextItem')"
+                  >{{ letData.cellIdx3 ? letData.cellIdx3 : '（编辑）' }}</span>
+                  <label>号</label>
+                </div>
+                <div style="flex: 1; text-align: right;">
+                  <label>签发人：</label>
+                  <span
+                    @click="commandFill('cellIdx4', '签发人', 'TextItem')"
+                  >{{ letData.cellIdx4 ? letData.cellIdx4 : '（编辑）' }}</span>
+                </div>
               </div>
             </div>
             <table class="docBody">
               <tr>
-                 <td
+                <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_5"
-                  align="center"
-                  style="width:60%"
-                  data-title="人民法院"
+                  style="min-width:50%"
+                  data-title
                   data-type="text"
                   data-src
-                  @click="commandFill('cellIdx5', '人民法院', 'TextItem')"
-                >{{letData.cellIdx5}}</td>
-                <td class="textAlignLeft ">人民法院：</td>
+                  @click="commandFill('cellIdx5', '', 'TextItem')"
+                >{{ letData.cellIdx5 }}</td>
+                <td class="textAlignLeft">法院:</td>
               </tr>
             </table>
             <div class="docTextarea">
@@ -73,7 +76,7 @@
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（XX）'}}</span>
               日对被申请执行人
               <span
-                @click="commandFill('cellIdx9', '现场处理决定', 'TextareaItem')"
+                @click="commandFill('cellIdx9', '', 'TextareaItem')"
               >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</span>
               作出了
               <span
@@ -131,32 +134,38 @@
                 class="no-underline"
                 @click="commandFill('cellIdx21', '催告书文书号', 'TextItem')"
               >{{ letData.cellIdx21 ? letData.cellIdx21 : '（编辑）'}}</span>
-              号）。被申请执行人在法定的期限内未履行上述行政处罚决定。根据《中华人民共和国行政处罚法》第七十二条第一款第四项、《中华人民共和国行政强制法》第五十三条、第五十四条规定，特申请贵院强制执行。
+              号）。被申请执行人在法定的期限内未履行上述行政处罚决定。根据《中华人民共和国行政处罚法》第<span class="text-decoration">七十二</span>条第<span class="text-decoration">一</span>款第<span class="text-decoration">四</span>项、《中华人民共和国行政强制法》第<span class="text-decoration">五十三</span>条、第<span class="text-decoration">五十四</span>条规定，特申请贵院强制执行。
             </div>
             <div class="docTextarea">
-              <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;附有关材料:</span>
+              <label style="width: 2em;"></label>
+              附有关材料：
             </div>
-            <div class="docTextarea">
-              <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;1.</span>
+            <div class="docTextLine"
+              v-for="(item, index) in letData.cellIdx34"
+              :key="index">
+              <label style="width: 2em;"></label>
+              <label>{{item.sindex}}.</label>
+              <div
+                class="line-div"
+                @click="editFileName('fileName', `材料${item.sindex}`, 'TextItem', index)"
+              >
+                {{ item.fileName ? item.fileName : "（点击编辑）" }}
+              </div>
               <span
-                @click="commandFill('cellIdx22', '材料1', 'TextItem')">{{
-                  letData.cellIdx22 ? letData.cellIdx22 : "（点击编辑）"}}</span>
-              <div class="line"></div>
+                v-if="paperData && paperData.delFlag !== '0'"
+                class="no-line no-print"
+                style="cursor: pointer; color:#409EFF;"
+                @click="deletFileName(index, item)"
+              >删除</span>
             </div>
-            <div class="docTextarea">
-              <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;2.</span>
-              <span
-                @click="commandFill('cellIdx23', '材料2', 'TextItem')">{{
-                  letData.cellIdx23 ? letData.cellIdx23 : "（点击编辑）"}}</span>
-              <div class="line"></div>
+            <div 
+              v-if="paperData && paperData.delFlag !== '0'"
+              class="docTextarea no-print" 
+              style="text-align: center; cursor: pointer; color:#409EFF;" 
+              @click="addFileName">
+              （点击添加材料）
             </div>
-            <div class="docTextarea">
-              <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;3.</span>
-              <span
-                @click="commandFill('cellIdx24', '材料3', 'TextItem')">{{
-                  letData.cellIdx24 ? letData.cellIdx24 : "（点击编辑）"}}</span>
-              <div class="line"></div>
-            </div>
+            <table height="30"></table>
             <div class="docTextarea">
               <div style="display:inline-block;min-width:55%">
                 <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;收件人（签名）：</span>
@@ -226,16 +235,77 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber, getDangerObject } from '@/utils/setInitPaperData'
+import { getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from '@/components/association-select-paper'
+import { setDangerTable } from '@/utils/handlePaperData'
 export default {
   name: "Let301",
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
-      options: {},
-      associationPaper: ['1', '8', '53']
+      letData: {
+        cellIdx0: null, // 文书号
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 文书号
+        cellIdx4: null, // 签发人
+        cellIdx5: null, // 法院
+        cellIdx6: null, // 年
+        cellIdx7: null, // 月
+        cellIdx8: null, // 日
+        cellIdx9: null, // 对被申请执行人
+        cellIdx10: null, // 行政处罚决定
+        cellIdx11: null, // 行政处罚决定 文书号
+        cellIdx12: null, // 行政处罚决定 文书号
+        cellIdx13: null, // 行政处罚决定 文书号
+        cellIdx14: null, // 行政处罚决定 文书号
+        cellIdx15: null, // 年
+        cellIdx16: null, // 月
+        cellIdx17: null, // 日
+        cellIdx18: null, // 催告书文书号
+        cellIdx19: null, // 催告书文书号
+        cellIdx20: null, // 催告书文书号
+        cellIdx21: null, // 催告书文书号
+        cellIdx22: null, // 暂不用
+        cellIdx23: null, // 暂不用
+        cellIdx24: null, // 暂不用
+        cellIdx25: null, // 收件人（签名）
+        cellIdx26: null, // 日期
+        cellIdx27: null, // 联系人
+        cellIdx28: null, // 联系电话
+        cellIdx29: null, // 
+        cellIdx30: null, // 日期
+        cellIdx34: [
+          {
+            sindex: 1,
+            fileName: ''
+          },
+          {
+            sindex: 2,
+            fileName: ''
+          },
+          {
+            sindex: 3,
+            fileName: ''
+          },
+        ], // 分期内容
+        DangerTable: null,
+        associationPaperId: null,
+        associationPaperOrder: []
+      },
+      options: {
+        cellIdx14: [
+          {
+            value: '男',
+            name: '男'
+          },
+          {
+            value: '女',
+            name: '女'
+          },
+        ],
+      },
+      associationPaper: ['53'],
     };
   },
   methods: {
@@ -252,11 +322,39 @@ export default {
       let cellIdx5String = this.$store.state.curCase.provinceGroupName
       // 3.被申请人：企业煤矿名称
       let cellIdx11String = corp.corpName
+      // 5.文书号2：催告书编号
+      let let53DataPaperContent = JSON.parse(
+        selectedPaper.let53Data.paperContent
+      );
       // 4.对被申请人：企业名称+'涉嫌'+隐患描述+'案'
-      // 获取笔录文书中的隐患数据
-      let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPaperContent.DangerTable.tableData)
-      let cellIdx9String = `${corp.corpName}涉嫌${dangerObject.dangerString}案`
+      let cellIdx9String = this.corpData.caseType === '0' ? setDangerTable(
+          let53DataPaperContent.DangerTable,
+          {}, 
+          {
+            page: "18",
+            key: "cellIdx9",
+            spellString: {
+              corpName: corp.corpName,
+              groupName: this.$store.state.curCase.provinceGroupName,
+            },
+          }
+        ):'';
+      let let53Date = selectedPaper.let53Data.createDate.split(' ')[0].split('-');
+      // 6.行政处罚决定书编号
+      // 获取关联的行政处罚决定书
+      let paper8PaperContent = {}
+      let paper8num1 = '', paper8num2 = '', paper8num3 = '', paper8num4 = ''
+      let paper8date = ['', '', '']
+      if (let53DataPaperContent.associationPaperId) {
+        let wkPaper = db.table('wkPaper')
+        let paper8 = await wkPaper.find(item => item.paperId === let53DataPaperContent.associationPaperId.paper8Id && item.delFlag !== '1')
+        paper8PaperContent = JSON.parse(paper8.paperContent)
+        paper8num1 = paper8PaperContent.cellIdx0
+        paper8num2 = paper8PaperContent.cellIdx1
+        paper8num3 = paper8PaperContent.cellIdx2
+        paper8num4 = paper8PaperContent.cellIdx3
+        paper8date = paper8.createDate.split(' ')[0].split('-')
+      }
       // 从sysOfficeInfo中获取：
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(item => item.no === this.$store.state.curCase.affiliate)
@@ -265,68 +363,46 @@ export default {
       let cellIdx25String = `划转罚款至${orgSysOfficeInfo.accountName}${orgSysOfficeInfo.accountBank}。账户名称：${orgSysOfficeInfo.billName}。待结算财政款项账号：${orgSysOfficeInfo.account}`
       // 7.人民法院：courtPrefix 联系人：master 联系电话：phone
       // 8.申请人的法定代表人legalPerson和职务post
-      // 行政处罚文书编号：
-      let let8DataPaperContent = JSON.parse(selectedPaper.let8Data.paperContent)
-      let paperDate206 = let8DataPaperContent.cellIdx20 ? let8DataPaperContent.cellIdx20.replace('年', '-').replace('月', '-').replace('日', '-').split('-') : ['', '', '']
-      // 行政强制执行事先催告书编号
-      let let53DataPapaerContent = JSON.parse(selectedPaper.let53Data.paperContent)
-      let paperDate309 = let53DataPapaerContent.cellIdx28 ? let53DataPapaerContent.cellIdx28.replace('年', '-').replace('月', '-').replace('日', '-').split('-') : ['', '', '']
       await db.close();
-      this.letData = {
+      let DangerTable = null
+      if (this.corpData.caseType === '0') {
+        DangerTable = let53DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let53Data, let53DataPaperContent.DangerTable)
+          : {}
+      }
+      let associationPaperId = Object.assign({}, this.setAssociationPaperId(let53DataPaperContent.associationPaperId), {
+        paper53Id: selectedPaper.let53Data.paperId,
+      }) 
+      let associationPaperOrder = this.setAssociationPaperOrder(let53DataPaperContent.associationPaperOrder)
+      associationPaperOrder.push('53')
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: paperNumber.num0, // 文书号
-        cellIdx0TypeTextItem: paperNumber.num0, // 文书号
         cellIdx1: paperNumber.num1, // 文书号
-        cellIdx1TypeTextItem: paperNumber.num1, // 文书号
         cellIdx2: paperNumber.num3, // 文书号
-        cellIdx2TypeTextItem: paperNumber.num3, // 文书号
         cellIdx3: paperNumber.num4, // 文书号
-        cellIdx3TypeTextItem: paperNumber.num4, // 文书号
-        cellIdx4: null, // 签发人
         cellIdx5: orgSysOfficeInfo.courtPrefix, // 人民法院
-        cellIdx5TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
-        cellIdx6: paperDate206[0], // 年
-        cellIdx6TypeTextItem: paperDate206[0], // 年
-        cellIdx7: paperDate206[1], // 月
-        cellIdx7TypeTextItem: paperDate206[1], // 月
-        cellIdx8: paperDate206[2], // 日
-        cellIdx8TypeTextItem: paperDate206[2], // 日
+        cellIdx6: paper8date[0], // 年
+        cellIdx7: paper8date[1], // 月
+        cellIdx8: paper8date[2], // 日
         cellIdx9: cellIdx9String, // 对被申请执行人
-        cellIdx9TypeTextareaItem: cellIdx9String, // 对被申请执行人
-        cellIdx10: dangerObject.penaltyDesc, // 行政处罚决定
-        cellIdx10TypeTextareaItem: dangerObject.penaltyDesc, // 行政处罚决定
-        cellIdx11: let8DataPaperContent.cellIdx0, // 行政处罚决定 文书号
-        cellIdx11TypeTextItem: let8DataPaperContent.cellIdx0, // 行政处罚决定 文书号
-        cellIdx12: let8DataPaperContent.cellIdx1, // 行政处罚决定 文书号
-        cellIdx12TypeTextItem: let8DataPaperContent.cellIdx1, // 行政处罚决定 文书号
-        cellIdx13: let8DataPaperContent.cellIdx2, // 行政处罚决定 文书号
-        cellIdx13TypeTextItem: let8DataPaperContent.cellIdx2, // 行政处罚决定 文书号
-        cellIdx14: let8DataPaperContent.cellIdx3, // 行政处罚决定 文书号
-        cellIdx14TypeTextItem: let8DataPaperContent.cellIdx3, // 行政处罚决定 文书号
-        cellIdx15: paperDate309[0], // 年
-        cellIdx15TypeTextItem: paperDate309[0], // 年
-        cellIdx16: paperDate309[1], // 月
-        cellIdx16TypeTextItem: paperDate309[1], // 月
-        cellIdx17: paperDate309[2], // 日
-        cellIdx17TypeTextItem: paperDate309[2], // 日
-        cellIdx18: let53DataPapaerContent.cellIdx0, // 催告书 文书号
-        cellIdx18TypeTextItem: let53DataPapaerContent.cellIdx0, // 催告书 文书号
-        cellIdx19: let53DataPapaerContent.cellIdx1, // 催告书 文书号
-        cellIdx19TypeTextItem: let53DataPapaerContent.cellIdx1, // 催告书 文书号
-        cellIdx20: let53DataPapaerContent.cellIdx2, // 催告书 文书号
-        cellIdx20TypeTextItem: let53DataPapaerContent.cellIdx2, // 催告书 文书号
-        cellIdx21: let53DataPapaerContent.cellIdx3, // 催告书 文书号
-        cellIdx21TypeTextItem: let53DataPapaerContent.cellIdx3, // 催告书 文书号
-        cellIdx22: null, // 材料1
-        cellIdx23: null, // 材料2
-        cellIdx24: null, // 材料3
-        cellIdx25: null, // 收件人（签名）
-        cellIdx26: null, // 日期
-        cellIdx27: null, // 联系人
-        cellIdx28: null, // 联系电话
+        cellIdx10: paper8PaperContent ? paper8PaperContent.cellIdx10 : '', // 行政处罚决定
+        cellIdx11: paper8num1, // 行政处罚决定 文书号
+        cellIdx12: paper8num2, // 行政处罚决定 文书号
+        cellIdx13: paper8num3, // 行政处罚决定 文书号
+        cellIdx14: paper8num4, // 行政处罚决定 文书号
+        cellIdx15: let53Date[0], // 年
+        cellIdx16: let53Date[1], // 月
+        cellIdx17: let53Date[2], // 日
+        cellIdx18: let53DataPaperContent.cellIdx0, // 催告书 文书号
+        cellIdx19: let53DataPaperContent.cellIdx1, // 催告书 文书号
+        cellIdx20: let53DataPaperContent.cellIdx2, // 催告书 文书号
+        cellIdx21: let53DataPaperContent.cellIdx3, // 催告书 文书号
         cellIdx29: this.$store.state.curCase.provinceGroupName, //
         cellIdx30: this.todayDate, // 日期
-        cellIdx30TypeDateItem: this.todayDate, // 日期
-      };
+        DangerTable,
+        associationPaperId,
+        associationPaperOrder
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业
@@ -346,6 +422,53 @@ export default {
           this.options[key]
         );
       }
+    },
+    editFileName(key, title, type, index) {
+      // 编辑分期内容
+      // 判断是否可编辑
+      if (this.$refs.letMain.canEdit) {
+        // 文书各个字段点击打开左侧弹出编辑窗口
+        this.options.cellIdx34 = {
+          saveDataKey: 'cellIdx34',
+          saveDataIndex: index
+        }
+        this.$refs.letMain.commandFill(
+          key,
+          key,
+          title,
+          type,
+          this.letData.cellIdx34[index][key],
+          this.options.cellIdx34
+        );
+      }
+    },
+    deletFileName (index, item) {
+      // 删除分期
+      let msg = `是否确定删除材料${item.sindex}.${item.fileName}？`
+      this.$confirm(msg, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          dangerouslyUseHTMLString: true,
+          type: 'warning'
+        }).then(() => {
+          this.letData.cellIdx34.splice(index, 1)
+          this.orderList()
+        }).catch(() => {})
+    },
+    orderList () {
+      for (let i = 0; i < this.letData.cellIdx34.length; i++) {
+        let itemData = Object.assign({}, this.letData.cellIdx34[i], {
+          sindex: i + 1
+        })
+        this.$set(this.letData.cellIdx34, i, itemData)
+      }
+    },
+    addFileName () {
+      // 添加
+      this.letData.cellIdx34.push({
+        sindex: this.letData.cellIdx34.length + 1, // 序号
+        fileName: '', // 材料
+      },)
     },
   },
 };

@@ -69,9 +69,9 @@ export function getCurPaperDocNumber(paper) {
   let paperNumber = ''
   let docString = ''
   let paperNumberFields = []
-  let paperTypeName = store.state.user.userType === 'supervision' ? '矿安' : '煤安监'
-  for(let i = 0; i < store.state.dictionary.paperNumberType.length > 0; i++) {
-    let item = store.state.dictionary.paperNumberType[i]
+  let paperTypeName = store.state.user.userType === 'supervision' ? '煤安' : '煤安监'
+  for(let i = 0; i < store.state.dictionary[`${store.state.user.userType}PaperNumberType`].length > 0; i++) {
+    let item = store.state.dictionary[`${store.state.user.userType}PaperNumberType`][i]
     if (item.docTypeNo === paper.paperType) {
       // 判断是否有多个文书类型
       if (item.selectedType) {
@@ -85,8 +85,16 @@ export function getCurPaperDocNumber(paper) {
       }
     }
   }
-  if (paperNumberFields && paperNumberFields.length > 0) {
-    paperNumber = `${paperContent[paperNumberFields[0]]}${paperTypeName}${paperContent[paperNumberFields[1]]}${docString}〔${paperContent[paperNumberFields[2]]}〕${paperContent[paperNumberFields[3]]}号`
+  if (store.state.user.userType === 'supervision') {
+    // 监管文书号格式
+    if (paperNumberFields && paperNumberFields.length > 0) {
+      paperNumber = `${paperContent[paperNumberFields[0]]}（${paperContent[paperNumberFields[1]]}）${paperTypeName}${docString}〔${paperContent[paperNumberFields[2]]}〕${paperContent[paperNumberFields[3]]}号`
+    }
+  } else {
+    // 监察文书号格式
+    if (paperNumberFields && paperNumberFields.length > 0) {
+      paperNumber = `${paperContent[paperNumberFields[0]]}${paperTypeName}${paperContent[paperNumberFields[1]]}${docString}〔${paperContent[paperNumberFields[2]]}〕${paperContent[paperNumberFields[3]]}号`
+    }
   }
   return paperNumber
 }

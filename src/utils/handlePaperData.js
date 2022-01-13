@@ -302,19 +302,15 @@ function setDangerTable(data, selectedData, options) {
         }
       } else if (options.key === 'cellIdx7') {
         // 建议案件处理意见
-        if (store.state.user.userType === 'supervision') {
-          string = `${dangerObject.dangerString || ''}经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString || ''}的规定。`
-        } else {
-          if (list36.length === 1) {
-            // 单条时
-            let dangerString = getDangerPenaltyBasisWithoutPoint(list36 || [], '；')
-            string = `依据${dangerString || ''}。`
-          } else if (list36.length > 1) {
-            // 多条时
-            let dangerString = getDangerPenaltyBasisWithoutPointHasIndex(list36 || [], '；')
-            let { descTypeStrings } = getDangerDes(list36 || [])
-            string = `分别依据${dangerString || ''}。${dangerObject.penaltyDescFineTotle ? `合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle) || ''}（￥${dangerObject.penaltyDescFineTotle.toLocaleString() || ''}）` : ''}${descTypeStrings || ''}`
-          }
+        if (list36.length === 1) {
+          // 单条时
+          let dangerString = getDangerPenaltyBasisWithoutPoint(list36 || [], '；')
+          string = `依据${dangerString || ''}。`
+        } else if (list36.length > 1) {
+          // 多条时
+          let dangerString = getDangerPenaltyBasisWithoutPointHasIndex(list36 || [], '；')
+          let { descTypeStrings } = getDangerDes(list36 || [])
+          string = `分别依据${dangerString || ''}。${dangerObject.penaltyDescFineTotle ? `合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle) || ''}（￥${dangerObject.penaltyDescFineTotle.toLocaleString() || ''}）` : ''}${descTypeStrings || ''}`
         }
       }
       break
@@ -414,17 +410,28 @@ function setDangerTable(data, selectedData, options) {
       // string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString || ''}案。`
       break
     case '18': // 强制执行申请书
+      let list18 = data && (data.dangerContentMerge ? newList : data.selectedDangerList)
       if (options.key === 'cellIdx16') {
-        let list18 = data && (data.dangerContentMerge ? newList : data.selectedDangerList)
+        // 监察字段
+        let dangerString = getDangerContentWithoutPoint(list18 || [], '、')
+        string = `${options.spellString.corpName}涉嫌${dangerString}违法违规案`
+      } else if (options.key === 'cellIdx9') {
+        // 监管字段
         let dangerString = getDangerContentWithoutPoint(list18 || [], '、')
         string = `${options.spellString.corpName}涉嫌${dangerString}违法违规案`
       }
-      // string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString || ''}案。`
       break
     case '28': // 听证通知书
       if (options.key === 'cellIdx7') {
-        let dangerString = getDangerContentWithoutPoint(data ? data.selectedDangerList : [], '、')
-        string = `${options.spellString.corpName}涉嫌${dangerString}违法违规案。`
+        if (store.state.user.userType === 'supervision') {
+          // 监管不带最后的句号
+          let dangerString = getDangerContentWithoutPoint(data ? data.selectedDangerList : [], '、')
+          string = `${options.spellString.corpName}涉嫌${dangerString}违法违规案`
+        } else {
+          // 监察最后加标点符号
+          let dangerString = getDangerContentWithoutPoint(data ? data.selectedDangerList : [], '、')
+          string = `${options.spellString.corpName}涉嫌${dangerString}违法违规案。`
+        }
       }
       // string = `${options.spellString.corpName}涉嫌${dangerObject.dangerString || ''}案。`
       break
@@ -448,26 +455,35 @@ function setDangerTable(data, selectedData, options) {
         let dangerString = getDangerContentWithoutPoint(list47 || [], '、')
         string = `${options.spellString.corpName}涉嫌${dangerString }违法违规案。`
       } else if (options.key === 'cellIdx5') {
-        let dangerString = getDangerContentWithoutPointHasIndex(list13 || [], '；')
-        string = `${options.spellString.let101Date}${options.spellString.groupName}对${options.spellString.corpName}进行现场检查时发现${dangerString}以上行为分别涉嫌${dangerObject.illegalString || ''}依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`
+        let dangerString2 = getDangerContentWithoutPoint(list47 || [], '；')
+        string = `${options.spellString.dateString}，${options.spellString.groupName}对${options.spellString.corpName}进行现场检查时发现：${dangerString2}。以上行为分别涉嫌违反了${dangerObject.illegalString || ''}的规定。依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`
       } else if (options.key === 'cellIdx6') {
-        string = dangerObject.penaltyBasisString || ''
+        string = getDangerPenaltyBasis(list47 || [], '，') + '。'
       } else if (options.key === 'cellIdx7') {
-        string = dangerObject.penaltyDesc || ''
+        string = getDangerPenaltyDescWithoutPoint(list47 || [], '；') + '。'
       }
       break
     case '49': // 行政执法决定法制审核意见书 监察
       let list49 = data && (data.dangerContentMerge ? newList : data.selectedDangerList)
-      if (options.key === 'cellIdx3') {
-        let dangerString = getDangerContentWithoutPoint(list49 || [], '、')
-        string = `${options.spellString.corpName}涉嫌${dangerString }违法违规案。`
-      } else if (options.key === 'cellIdx5') {
-        let dangerString2 = getDangerContentWithoutPoint(list49 || [], '；')
-        string = `${options.spellString.dateString}，${options.spellString.groupName}对${options.spellString.corpName}进行现场检查时发现：${dangerString2}。以上行为分别涉嫌违反了${dangerObject.illegalString || ''}的规定。依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`
-      } else if (options.key === 'cellIdx6') {
-        string = getDangerPenaltyBasis(list49 || [], '，') + '。'
-      } else if (options.key === 'cellIdx7') {
-        string = getDangerPenaltyDescWithoutPoint(list49 || [], '；') + '。'
+      if (store.state.user.userType === 'supervision') {
+        // 听证会报告书 监管
+        if (options.key === 'cellIdx2') {
+          let dangerString = getDangerContentWithoutPoint(list49 || [], '、')
+          string = `${options.spellString.corpName}涉嫌${dangerString }违法违规案。`
+        } 
+      } else {
+        // 行政执法决定法制审核意见书 监察
+        if (options.key === 'cellIdx3') {
+          let dangerString = getDangerContentWithoutPoint(list49 || [], '、')
+          string = `${options.spellString.corpName}涉嫌${dangerString }违法违规案。`
+        } else if (options.key === 'cellIdx5') {
+          let dangerString2 = getDangerContentWithoutPoint(list49 || [], '；')
+          string = `${options.spellString.dateString}，${options.spellString.groupName}对${options.spellString.corpName}进行现场检查时发现：${dangerString2}。以上行为分别涉嫌违反了${dangerObject.illegalString || ''}的规定。依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`
+        } else if (options.key === 'cellIdx6') {
+          string = getDangerPenaltyBasis(list49 || [], '，') + '。'
+        } else if (options.key === 'cellIdx7') {
+          string = getDangerPenaltyDescWithoutPoint(list49 || [], '；') + '。'
+        }
       }
       break
     case '48': // 集体讨论记录或停供电(停供民用爆炸物品)决定书

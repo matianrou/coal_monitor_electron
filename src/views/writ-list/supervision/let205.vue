@@ -138,7 +138,7 @@
                 <div class="line1"></div>
             </div>
             <div class="docTextarea">
-              &nbsp;&nbsp;&nbsp;&nbsp;陈述申辩记录：我们是
+              &nbsp;&nbsp;&nbsp;&nbsp;陈述、申辩记录：我们是
               <span
                 @click="commandFill('cellIdx18', '执法人员', 'TextItem')"
               >{{ letData.cellIdx18 ? letData.cellIdx18 : '（点击编辑）' }}</span>

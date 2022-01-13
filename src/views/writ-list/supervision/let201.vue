@@ -46,34 +46,6 @@
               >{{ letData.cellIdx4 ? letData.cellIdx4 : '（点击编辑）'}}</span>
               <div class="line"></div>
             </div>
-            <!-- <table style="border:solid 0 #000;" class="docBody">
-              <tr>
-                <td class="textAlignLeft">案&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;由：</td>
-              </tr>
-            </table>
-            <div
-              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-              class="cellInput mutiLineArea"
-              id="cell_idx_4"
-              data-title="案由"
-              data-type="textarea"
-              data-src
-              @click="commandFill('cellIdx4', '案由', 'DangerTable')">
-              <div v-if="letData.cellIdx4 && letData.cellIdx4.length > 0">
-                <p class="show-area-item-p">
-                  <span style="padding: 7px;">{{ letData.cellIdx4? letData.cellIdx4 : '（点击编辑）' }}</span>
-                </p>
-                <cell-line></cell-line>
-              </div>
-              <div v-else>
-                <p class="show-area-item-p">
-                  &nbsp;
-                </p>
-                <p class="show-area-item-p">
-                  &nbsp;
-                </p>
-              </div>
-            </div> -->
              <div class="docTextarea">
               <span class="no-line">案情摘要：</span>
               <span
@@ -82,34 +54,6 @@
               >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</span>
               <div class="line"></div>
             </div>
-            <!-- <table style="border:solid 0 #000;" class="docBody">
-              <tr>
-                <td class="textAlignLeft">案情摘要：</td>
-              </tr>
-            </table>
-            <div
-              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
-              class="cellInput mutiLineArea"
-              id="cell_idx_5"
-              data-title="案情摘要"
-              data-type="textarea"
-              data-src
-              @click="commandFill('cellIdx5', '案情摘要', 'DangerTable')">
-              <div v-if="letData.cellIdx5 && letData.cellIdx5.length > 0">
-                <p class="show-area-item-p">
-                  <span style="padding: 7px;">{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</span>
-                </p>
-                <cell-line></cell-line>
-              </div>
-              <div v-else>
-                <p class="show-area-item-p">
-                  &nbsp;
-                </p>
-                <p class="show-area-item-p">
-                  &nbsp;
-                </p>
-              </div>
-            </div> -->
             <div class="docTextarea">
               <label style="width:5%"></label>
               根据以上案情，决定自

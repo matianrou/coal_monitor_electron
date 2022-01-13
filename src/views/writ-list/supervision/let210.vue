@@ -91,7 +91,7 @@
             </table>
             <div class="docTextarea">
               <label style="width:5%"></label>
-              根据《中华人民共和国行政处罚法》第六十三条、第六十四条规定，本机关决定不予受理你
+              根据《中华人民共和国行政处罚法》第<span class="text-decoration">六十三</span>条、第<span class="text-decoration">六十四</span>条规定，本机关决定不予受理你
               <span
                 class="no-underline"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
@@ -176,22 +176,6 @@
         </div>
       </div>
     </let-main>
-    <el-dialog
-      title="文书信息选择"
-      :close-on-click-modal="false"
-      append-to-body
-      :visible="visibleSelectDialog"
-      width="400px"
-      :show-close="false">
-      <span>请选择：</span>
-      <el-radio-group v-model="selectedType">
-        <el-radio label="单位">单位</el-radio>
-        <el-radio label="个人">个人</el-radio>
-      </el-radio-group>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="confirm">确定</el-button>
-      </span>
-    </el-dialog>
     <!-- 关联文书选择 -->
     <select-paper
       :visible="visible.selectPaper"
@@ -205,14 +189,38 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber, getDangerObject } from '@/utils/setInitPaperData'
+import { getDocNumber, setNewDanger } from '@/utils/setInitPaperData'
 import associationSelectPaper from '@/components/association-select-paper'
+import { setDangerTable } from '@/utils/handlePaperData'
 export default {
   name: "Let210",
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 文书号
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 文书号
+        cellIdx4: null, // 企业煤矿名称
+        cellIdx5: null, // 单位或个人
+        cellIdx6: null, // 违法行为
+        cellIdx7: null, // 第X项情形
+        cellIdx8: null, // 单位
+        cellIdx9: null, // 受送达人（签名）
+        cellIdx10: null, // 日期
+        cellIdx11: null, // 地址
+        cellIdx12: null, // 邮政编码
+        cellIdx13: null, // 地址联系人
+        cellIdx14: null, // 联系电话
+        cellIdx15: null, // 
+        cellIdx16: null, // 日期
+        selectedType: null, // 单位或个人
+        extraData: null,
+        DangerTable: null,
+        associationPaperId: null,
+        associationPaperOrder: []
+      },
       options: {
         cellIdx7: [
           {
@@ -249,9 +257,7 @@ export default {
           },
         ]
       },
-      visibleSelectDialog: false,
-      selectedType: '单位', // 初始化时选择的单位或个人
-      associationPaper: ['1']
+      associationPaper: ['28']
     };
   },
   methods: {
@@ -261,55 +267,66 @@ export default {
       let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      // 1.弹出提示框，选择单位或个人
-      this.visibleSelectDialog = true
       // 2.生成文书编号
       let {num0, num1, num3, num4} = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId)
       // 3.企业煤矿名称
       // 4.违法行为：获取笔录文书中的隐患数据
-      let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPaperContent.DangerTable.tableData)
-      let cellIdx6String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`
+      let let28DataPaperContent = JSON.parse(
+        selectedPaper.let28Data.paperContent
+      );
+      let cellIdx6String = this.corpData.caseType === '0' ?setDangerTable(
+          let28DataPaperContent.DangerTable,
+          {}, 
+          {
+            page: "29",
+            key: "cellIdx6",
+            spellString: {
+              corpName: corp.corpName,
+              groupName: this.$store.state.curCase.provinceGroupName,
+            },
+          }
+        ):'';
       // 5.地点：sysOfficeInfo实体中depAddress字段+ deparFullname字段
       // 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(item => item.no === this.$store.state.curCase.affiliate)
       let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: '' }
+      let DangerTable = null
+      if (this.corpData.caseType === '0') {
+        DangerTable = let28DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let28Data, let28DataPaperContent.DangerTable)
+          : {}
+      }
+      let associationPaperId = Object.assign({}, this.setAssociationPaperId(let28DataPaperContent.associationPaperId), {
+        paper28Id: selectedPaper.let28Data.paperId
+      }) 
+      let associationPaperOrder = this.setAssociationPaperOrder(let28DataPaperContent.associationPaperOrder)
+      associationPaperOrder.push('28')
       await db.close();
-      this.letData = {
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: num0, // 文书号
-        cellIdx0TypeTextItem: num0, // 文书号
         cellIdx1: num1, // 文书号
-        cellIdx1TypeTextItem: num1, // 文书号
         cellIdx2: num3, // 文书号
-        cellIdx2TypeTextItem: num3, // 文书号
         cellIdx3: num4, // 文书号
-        cellIdx3TypeTextItem: num4, // 文书号
-        cellIdx4: corp.corpName, // 企业煤矿名称
-        cellIdx4TypeTextItem: corp.corpName, //
-        cellIdx5: null, // 单位或个人
+        cellIdx4: let28DataPaperContent.selectedType === "单位" ? corp.corpName : "", // 企业煤矿名称
+        cellIdx5: let28DataPaperContent.selectedType, // 单位或个人
         cellIdx6: cellIdx6String, // 违法行为
-        cellIdx6TypeTextareaItem: cellIdx6String, // 违法行为
-        cellIdx7: null, // 编号
-        cellIdx8: null, // 单位
-        cellIdx9: null, // 受送达人（签名）
-        cellIdx10: null, // 日期
+        cellIdx8: let28DataPaperContent.selectedType, // 单位
         cellIdx11: orgSysOfficeInfo.depAddress, // 执法机关地址
-        cellIdx11TypeTextItem: orgSysOfficeInfo.depAddress, // 执法机关地址
         cellIdx12: orgSysOfficeInfo.depPost, // 邮政编码
-        cellIdx12TypeTextItem: orgSysOfficeInfo.depPost, // 邮政编码
         cellIdx13: orgSysOfficeInfo.master, // 执法机关联系人
-        cellIdx13TypeTextItem: orgSysOfficeInfo.master, // 执法机关联系人
         cellIdx14: orgSysOfficeInfo.phone, // 联系电话
-        cellIdx14TypeTextItem: orgSysOfficeInfo.phone, // 邮政编码
         cellIdx15: this.$store.state.curCase.provinceGroupName, // 单位
         cellIdx16: this.todayDate, // 日期
-        cellIdx16TypeDateItem: this.todayDate, // 日期
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
           groupName: this.$store.state.curCase.provinceGroupName,
-        }
-      };
+        },
+        selectedType: let28DataPaperContent.selectedType, // 单位或个人
+        DangerTable,
+        associationPaperId,
+        associationPaperOrder,
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业
@@ -330,15 +347,6 @@ export default {
         );
       }
     },
-    async confirm() {
-      // 选择单位或个人
-      this.visibleSelectDialog = false
-      this.letData.cellIdx5 = this.selectedType
-      this.letData.cellIdx5TypeSelectItem = this.selectedType
-      this.letData.cellIdx8 = this.selectedType
-      this.letData.cellIdx8TypeSelectItem = this.selectedType
-      this.letData.selectedType = this.selectedType
-    }
   },
 };
 </script>

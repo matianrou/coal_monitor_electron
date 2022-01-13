@@ -124,7 +124,11 @@
               <span
                 @click="commandFill('cellIdx20', '日', 'TextItem')"
               >{{ letData.cellIdx20 ? letData.cellIdx20 : '（XX）'}}</span>
-              日你单位未履行该处罚决定，依据《中华人民共和国行政处罚法》第七十二条第一款第一项规定，本机关决定对你
+              日你
+              <span
+                class="no-underline"
+              >{{ letData.cellIdx21 ? letData.cellIdx21 : '（点击编辑）'}}</span>
+              仍未履行该处罚决定，依据《中华人民共和国行政处罚法》第<span class="text-decoration">七十二</span>条第<span class="text-decoration">一</span>款第<span class="text-decoration">一</span>项规定，本机关决定对你
               <span
                 class="no-underline"
                 @click="commandFill('cellIdx21', '单位', 'TextItem')"
@@ -169,7 +173,7 @@
             </div>
             <div class="docTextarea">
               <label style="width:5%"></label>
-              如不服本决定，可在接到本决定书之日起60日内向
+              如果不服本决定，可在接到本决定书之日起60日内向
               <span
                 @click="commandFill('cellIdx31', '人民政府', 'TextItem')"
               >{{ letData.cellIdx31 ? letData.cellIdx31 : '（点击编辑）'}}</span>
@@ -179,9 +183,9 @@
               >{{ letData.cellIdx32 ? letData.cellIdx32 : '（点击编辑）'}}</span>
               申请行政复议，或者在6个月内依法向
               <span
-                @click="commandFill('cellIdx33', '', 'TextItem')"
+                @click="commandFill('cellIdx33', '法院', 'TextItem')"
               >{{ letData.cellIdx33 ? letData.cellIdx33 : '（点击编辑）'}}</span>
-              人民法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。
+              法院提起行政诉讼；复议、诉讼期间，不停止执行本决定。
             </div>
             <table class="docBody" style="margin-top: 60px; margin-bottom: 30px;">
               <tr>
@@ -230,36 +234,63 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
+import { getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from '@/components/association-select-paper'
+import { transformNumToChinese, thousands } from '@/utils/index'
 export default {
-  name: "Let106",
+  name: "Let220",
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
-      options: {
-        cellIdx36: [
-          {
-            value: '单位',
-            name: '单位',
-          },
-          {
-            value: '个人',
-            name: '个人',
-          },
-        ]
+      letData: {
+        cellIdx0: null, // 文书号
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 文书号
+        cellIdx4: null, // corpname
+        cellIdx5: null, // 年
+        cellIdx6: null, // 月
+        cellIdx7: null, // 日
+        cellIdx8: null, // 单位
+        cellIdx9: null, // 行政处罚决定书 文书号
+        cellIdx10: null, // 行政处罚决定书 文书号
+        cellIdx11: null, // 行政处罚决定书 文书号
+        cellIdx12: null, // 行政处罚决定书 文书号
+        cellIdx13: null, // 单位
+        cellIdx14: null, // 罚款
+        cellIdx15: null, // 年
+        cellIdx16: null, // 月
+        cellIdx17: null, // 日
+        cellIdx18: null, // 年
+        cellIdx19: null, // 月
+        cellIdx20: null, // 日
+        cellIdx21: null, // 单位
+        cellIdx22: null, // 加处罚款
+        cellIdx23: null, // 年
+        cellIdx24: null, // 月
+        cellIdx25: null, // 日
+        cellIdx26: null, // 银行
+        cellIdx27: null, // 支行（分理处）
+        cellIdx28: null, // 账户名称
+        cellIdx29: null, // 账号
+        cellIdx30: null, // 地址
+        cellIdx31: null, // 人民政府
+        cellIdx32: null, // 暂不用
+        cellIdx33: null, // 人民法院
+        cellIdx34: null, //
+        cellIdx35: null, // 日期
+        cellIdx36: null, // 单位
+        DangerTable: null,
+        associationPaperId: {},
+        associationPaperOrder: []
       },
+      options: {},
       associationPaper: ['8']
     };
   },
   methods: {
     async initLetData (selectedPaper) {
       let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
-        return item.corpId == this.corpData.corpId;
-      });
       // 1.生成文书编号
       let { num0, num1, num3, num4 } = await getDocNumber(
         db,
@@ -273,13 +304,7 @@ export default {
       let cellIdx8Date = now.getDate().toString();
       // 3.行政处罚决定书 日期、编号、
       let let8DataPaperContent = JSON.parse(selectedPaper.let8Data.paperContent);
-      let date206 = let8DataPaperContent.cellIdx20
-        ? let8DataPaperContent.cellIdx20
-            .replace("年", "-")
-            .replace("月", "-")
-            .replace("日", "-")
-            .split("-")
-        : ["", "", ""];
+      let date206 = selectedPaper.let8Data.createDate.split(' ')[0].split('-')
       // 4.sysOfficeInfo中 goverPrefix和organName和courtPrefix
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(
@@ -293,74 +318,69 @@ export default {
             billName: "",
             account: "",
             accountAddress: "",
+            goverPrefix: "",
             organName: "",
             courtPrefix: "",
           };
+      // 5.被处罚单位个人
+      let cellIdx4String = let8DataPaperContent.cellIdx5 || ''
+      // 6.获取行政处罚中的罚款金额
+      // 带入行政处罚决定书的处罚金额 .罚款数额的填写应当使用中文大写填写，后面用括号标明“¥+阿拉伯数字”，如“人民币贰万元整（¥20,000.00）
+      let moneyChinese = ''
+      let moneyThousands = ''
+      if (selectedPaper.let8Data.p8Penalty) {
+        moneyChinese = transformNumToChinese(selectedPaper.let8Data.p8Penalty)
+        moneyThousands = thousands(selectedPaper.let8Data.p8Penalty, 2)
+      }
+      let cellIdx14String = selectedPaper.let8Data.p8Penalty ?`${moneyChinese}（¥${moneyThousands}）` : ''
+      let DangerTable = null;
+      if (this.corpData.caseType === "0") {
+        DangerTable = let8DataPaperContent.DangerTable
+          ? setNewDanger(
+              selectedPaper.let8Data,
+              let8DataPaperContent.DangerTable
+            )
+          : {};
+      }
+      let associationPaperId = Object.assign({}, this.setAssociationPaperId(let8DataPaperContent.associationPaperId), {
+        paper8Id: selectedPaper.let8Data.paperId,
+      }) 
+      let associationPaperOrder = this.setAssociationPaperOrder(let8DataPaperContent.associationPaperOrder)
+      associationPaperOrder.push('8')
       await db.close();
-      this.letData = {
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: num0, // 文书号
-        cellIdx0TypeTextItem: num0, // 文书号
         cellIdx1: num1, // 文书号
-        cellIdx1TypeTextItem: num1, // 文书号
         cellIdx2: num3, // 文书号
-        cellIdx2TypeTextItem: num3, // 文书号
         cellIdx3: num4, // 文书号
-        cellIdx3TypeTextItem: num4, // 文书号
-        cellIdx4: corp.corpName ? corp.corpName : null, // corpname
-        cellIdx4TypeTextItem: corp.corpName ? corp.corpName : null, // corpname
+        cellIdx4: cellIdx4String, // 被处罚单位个人
         cellIdx5: date206[0], // 年
-        cellIdx5TypeTextItem: date206[0], // 年
         cellIdx6: date206[1], // 月
-        cellIdx6TypeTextItem: date206[1], // 月
         cellIdx7: date206[2], // 日
-        cellIdx7TypeTextItem: date206[2], // 日
-        cellIdx8: null, // 单位
+        cellIdx8: let8DataPaperContent.selectedType, // 单位
         cellIdx9: let8DataPaperContent.cellIdx0, // 行政处罚决定书 文书号
-        cellIdx9TypeTextItem: let8DataPaperContent.cellIdx0, // 行政处罚决定书 文书号
         cellIdx10: let8DataPaperContent.cellIdx1, // 行政处罚决定书 文书号
-        cellIdx10TypeTextItem: let8DataPaperContent.cellIdx1, // 行政处罚决定书 文书号
         cellIdx11: let8DataPaperContent.cellIdx2, // 行政处罚决定书 文书号
-        cellIdx11TypeTextItem: let8DataPaperContent.cellIdx2, // 行政处罚决定书 文书号
         cellIdx12: let8DataPaperContent.cellIdx3, // 行政处罚决定书 文书号
-        cellIdx12TypeTextItem: let8DataPaperContent.cellIdx3, // 行政处罚决定书 文书号
-        cellIdx13: null, // 单位
-        cellIdx14: null, // 罚款
-        cellIdx15: null, // 年
-        cellIdx16: null, // 月
-        cellIdx17: null, // 日
-        cellIdx18: cellIdx6Year, // 年
-        cellIdx18TypeTextItem: cellIdx6Year, // 年
-        cellIdx19: cellIdx7Month, // 月
-        cellIdx19TypeTextItem: cellIdx7Month, // 月
-        cellIdx20: cellIdx8Date, // 日
-        cellIdx20TypeTextItem: cellIdx8Date, // 日
-        cellIdx21: null, // 单位
-        cellIdx22: null, // 加处罚款
-        cellIdx23: null, // 年
-        cellIdx24: null, // 月
-        cellIdx25: null, // 日
+        cellIdx13: let8DataPaperContent.selectedType, // 单位
+        cellIdx14: cellIdx14String, // 罚款
+        cellIdx21: let8DataPaperContent.selectedType, // 单位
         cellIdx26: orgSysOfficeInfo.accountName, // 银行
-        cellIdx26TypeTextItem: orgSysOfficeInfo.accountName, // 银行
         cellIdx27: orgSysOfficeInfo.accountBank, // 支行（分理处）
-        cellIdx27TypeTextItem: orgSysOfficeInfo.accountBank, // 支行（分理处）
         cellIdx28: orgSysOfficeInfo.billName, // 账户名称
-        cellIdx28TypeTextItem: orgSysOfficeInfo.billName, // 账户名称
         cellIdx29: orgSysOfficeInfo.account, // 账号
-        cellIdx29TypeTextItem: orgSysOfficeInfo.account, // 账号
         cellIdx30: orgSysOfficeInfo.accountAddress, // 地址
-        cellIdx30TypeTextItem: orgSysOfficeInfo.accountAddress, // 地址
         cellIdx31: orgSysOfficeInfo.goverPrefix, // 人民政府
-        cellIdx31TypeTextItem: orgSysOfficeInfo.goverPrefix, // 人民政府
-        cellIdx32: orgSysOfficeInfo.organName, //
-        cellIdx32TypeTextItem: orgSysOfficeInfo.organName, //
+        cellIdx32: orgSysOfficeInfo.organName,
         cellIdx33: orgSysOfficeInfo.courtPrefix, // 人民法院
-        cellIdx33TypeTextItem: orgSysOfficeInfo.courtPrefix, // 人民法院
         cellIdx34: this.$store.state.curCase.provinceGroupName, //
         cellIdx35: this.todayDate, // 日期
-        cellIdx35TypeDateItem: this.todayDate, // 日期
         cellIdx36: let8DataPaperContent.selectedType, // 单位
         selectedType: let8DataPaperContent.selectedType, // 单位
-      };
+        DangerTable: DangerTable,
+        associationPaperId,
+        associationPaperOrder,
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

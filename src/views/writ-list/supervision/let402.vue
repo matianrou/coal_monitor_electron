@@ -19,26 +19,31 @@
             </div>
             <div class="textAlignCenter formHeader1">涉嫌犯罪案件移送书</div>
             <div class="docTextLine paper-number-div">
-              <div>
-                <span
-                  @click="commandFill('cellIdx0', '文书号', 'TextItem')"
-                >{{ letData.cellIdx0 ? letData.cellIdx0 : '(编辑)' }}</span>
-                <label>（</label>
-                <span
-                  @click="commandFill('cellIdx1', '文书号', 'TextItem')"
-                >{{ letData.cellIdx1 ? letData.cellIdx1 : '(编辑)' }}</span>
-                <label>）煤安涉〔</label>
-                <span
-                  @click="commandFill('cellIdx2', '文书号', 'TextItem')"
-                >{{ letData.cellIdx2 ? letData.cellIdx2 : '(编辑)' }}</span>
-                <label>〕</label>
-                <span
-                  @click="commandFill('cellIdx3', '文书号', 'TextItem')"
-                >{{ letData.cellIdx3 ? letData.cellIdx3 : '(编辑)' }}</span>
-                <label>号&nbsp;&nbsp;签发人：</label>
-                <span
-                  @click="commandFill('cellIdx4', '签发人', 'TextItem')"
-                >{{ letData.cellIdx4 ? letData.cellIdx4 : '(编辑)' }}</span>
+              <div style="display: flex; width: 100%;">
+                <div>
+                  <span
+                    @click="commandFill('cellIdx0', '文书号', 'TextItem')"
+                  >{{ letData.cellIdx0 ? letData.cellIdx0 : '(编辑)' }}</span>
+                  <label>（</label>
+                  <span
+                    @click="commandFill('cellIdx1', '文书号', 'TextItem')"
+                  >{{ letData.cellIdx1 ? letData.cellIdx1 : '(编辑)' }}</span>
+                  <label>）煤安涉〔</label>
+                  <span
+                    @click="commandFill('cellIdx2', '文书号', 'TextItem')"
+                  >{{ letData.cellIdx2 ? letData.cellIdx2 : '(编辑)' }}</span>
+                  <label>〕</label>
+                  <span
+                    @click="commandFill('cellIdx3', '文书号', 'TextItem')"
+                  >{{ letData.cellIdx3 ? letData.cellIdx3 : '(编辑)' }}</span>
+                  <label>号</label>
+                </div>
+                <div style="flex: 1; text-align: right;">
+                  <label>签发人：</label>
+                  <span
+                    @click="commandFill('cellIdx4', '签发人', 'TextItem')"
+                  >{{ letData.cellIdx4 ? letData.cellIdx4 : '(编辑)' }}</span>
+                </div>
               </div>
             </div>
             <table class="docBody">
@@ -73,7 +78,7 @@
               <span
                 @click="commandFill('cellIdx10', '', 'TextItem')"
               >{{ letData.cellIdx10 ? letData.cellIdx10 : '（点击编辑）'}}</span>
-              立案调查，在调查中发现其违法事实涉嫌构成犯罪，根据《行政执法机关移送涉嫌犯罪案件的规定》第三条第一款以及
+              立案调查，在调查中发现其违法事实涉嫌构成犯罪，根据《行政执法机关移送涉嫌犯罪案件的规定》<span class="text-decoration">三</span>条第<span class="text-decoration">一</span>款以及
               <span
                 @click="commandFill('cellIdx11', '法律规定', 'TextareaItem')"
               >{{ letData.cellIdx11 ? letData.cellIdx11 : '（点击编辑）'}}</span>
@@ -81,7 +86,7 @@
             </div>
             <table class="docBody" style="margin-top: 30px; margin-bottom: 30px;">
               <tr>
-                <td class="textAlignLeft">附：本案有关材料</td>
+                <td class="textAlignLeft">附：本案有关材料共</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_12"
@@ -214,16 +219,49 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, getDocNumber } from '@/utils/setInitPaperData'
+import { setNewDanger, getDocNumber } from '@/utils/setInitPaperData'
 import associationSelectPaper from '@/components/association-select-paper'
+import { setDangerTable } from '@/utils/handlePaperData'
 export default {
   name: "Let402",
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 文书号
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 文书号
+        cellIdx4: null, // 签发人
+        cellIdx5: null,  // 单位
+        cellIdx6: null, // 暂不用
+        cellIdx7: null, // 年
+        cellIdx8: null, // 月
+        cellIdx9: null, // 日
+        cellIdx10: null, // corpName
+        cellIdx11: null, // 法律规定
+        cellIdx12: null, // 份数
+        cellIdx13: null, // 页数
+        cellIdx14: null, // 移送单位地址
+        cellIdx15: null, // 暂不用
+        cellIdx16: null, // 邮政编码
+        cellIdx17: null, // 暂不用
+        cellIdx18: null, // 移送单位联系人
+        cellIdx19: null, // 电话
+        cellIdx20: null, // 送件人（签名）
+        cellIdx21: null, // 日期
+        cellIdx22: null, // 送件人（签名）
+        cellIdx23: null, // 日期
+        cellIdx24: null, // 收件人（签名）
+        cellIdx25: null, // 日期
+        cellIdx26: null, // 
+        cellIdx27: null, // 日期
+        DangerTable: null,
+        associationPaperId: null,
+        associationPaperOrder: []
+      },
       options: {},
-      associationPaper: []
+      associationPaper: ['4'],
     };
   },
   methods: {
@@ -235,55 +273,29 @@ export default {
       });
       // 1.生成文书编号
       let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId)
-      // 2.违法行为：获取笔录文书中的隐患数据
-      // let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      // let dangerObject = getDangerObject(let1DataPaperContent.DangerTable.tableData)
-      // let cellIdx5String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`
+      // 2.立案时间
+      let let4Date = selectedPaper.let4Data.createDate.split(' ')[0].split('-')
       // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(item => item.no === this.$store.state.curCase.affiliate)
       let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: ''}
       await db.close();
-      this.letData = {
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: num0, // 文书号
-        cellIdx0TypeTextItem: num0, // 文书号
         cellIdx1: num1, // 文书号
-        cellIdx1TypeTextItem: num1, // 文书号
         cellIdx2: num3, // 文书号
-        cellIdx2TypeTextItem: num3, // 文书号
         cellIdx3: num4, // 文书号
-        cellIdx3TypeTextItem: num4, // 文书号
-        cellIdx4: null, // 签发人
-        cellIdx5: null, // 被检查单位
-        // cellIdx6: null, // 单位 暂不用
-        cellIdx7: null, // 年
-        cellIdx8: null, // 月
-        cellIdx9: null, // 日
+        cellIdx7: let4Date[0], // 年
+        cellIdx8: let4Date[1], // 月
+        cellIdx9: let4Date[2], // 日
         cellIdx10: corp.corpName, // corpName
-        cellIdx10TypeTextItem: corp.corpName, // corpName
-        cellIdx11: null, // 法律规定
-        cellIdx12: null, // 份数
-        cellIdx13: null, // 页数
         cellIdx14: orgSysOfficeInfo.depAddress, // 移送单位地址
-        cellIdx14TypeTextItem: orgSysOfficeInfo.depAddress, // 移送单位地址
-        cellIdx15: null, // 单位 暂不用
         cellIdx16: orgSysOfficeInfo.depPost, // 邮政编码
-        cellIdx16TypeTextItem: orgSysOfficeInfo.depPost, // 地址
-        cellIdx17: null, // 单位 暂不用
         cellIdx18: orgSysOfficeInfo.master, // 移送单位联系人
-        cellIdx18TypeTextItem: orgSysOfficeInfo.master, // 移送单位联系人
         cellIdx19: orgSysOfficeInfo.phone, // 电话
-        cellIdx19TypeTextItem: orgSysOfficeInfo.phone, // 电话
-        cellIdx20: null, // 送件人（签名）
-        cellIdx21: null, // 日期
-        cellIdx22: null, // 送件人（签名）
-        cellIdx23: null, // 日期
-        cellIdx24: null, // 收件人（签名）
-        cellIdx25: null, // 日期
         cellIdx26: this.$store.state.curCase.provinceGroupName, //
         cellIdx27: this.todayDate, // 日期
-        cellIdx27TypeDateItem: this.todayDate, // 日期
-      };
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

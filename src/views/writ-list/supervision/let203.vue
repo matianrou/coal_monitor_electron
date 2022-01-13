@@ -22,9 +22,6 @@
             </div>
             <div class="docTextLine paper-number-div">
               <div>
-                <!-- <span
-                  @click="commandFill('cellIdx0', '', 'TextItem')"
-                >{{ letData.cellIdx0 ? letData.cellIdx0 : '（编辑）' }}</span> -->
                 <label>编号：</label>
                 <span
                   class="line"
@@ -85,7 +82,7 @@
             </div> -->
             <div class="docTextarea">
               <span class="no-line"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;案&nbsp;&nbsp;由：</span
+                >&nbsp;&nbsp;&nbsp;&nbsp;案&nbsp;&nbsp;由：</span
               >
               <span 
                 @dblclick="commandFill('cellIdx3', '案由', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
@@ -96,7 +93,7 @@
             </div>
             <div class="docTextarea">
               <span class="no-line"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;行政相对人基本情况：</span
+                >&nbsp;&nbsp;&nbsp;&nbsp;行政相对人基本情况：</span
               >
               <span
                 @click="
@@ -110,7 +107,7 @@
             </div>
             <div class="docTextarea">
               <span class="no-line"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;案情摘要：</span
+                >&nbsp;&nbsp;&nbsp;&nbsp;案情摘要：</span
               >
               <span
                 @dblclick="commandFill('cellIdx5', '案情摘要', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
@@ -123,7 +120,7 @@
             </div>
             <div class="docTextarea">
               <span class="no-line"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作出决定依据：</span
+                >&nbsp;&nbsp;&nbsp;&nbsp;作出决定依据：</span
               >
               <span
                 @dblclick="commandFill('cellIdx6', '作出决定依据', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
@@ -136,7 +133,7 @@
             </div>
             <div class="docTextarea">
               <span class="no-line"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;建议行政决定：</span
+                >&nbsp;&nbsp;&nbsp;&nbsp;建议行政决定：</span
               >
               <span
                 @dblclick="commandFill('cellIdx7', '建议行政决定', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
@@ -149,7 +146,7 @@
             </div>
             <div class="docTextarea">
               <span class="no-line"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;法制审核意见：</span
+                >&nbsp;&nbsp;&nbsp;&nbsp;法制审核意见：</span
               >
               <span
                 @click="
@@ -166,7 +163,7 @@
               style="margin-top: 30px; margin-bottom: 30px"
             >
               <div style="display: inline-block; min-width: 55%">
-                <span class="no-line">法制审核人员（签名）：</span>
+                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;法制审核人员（签名）：</span>
                 <span
                   @click="
                     commandFill('cellIdx9', '法制审核人员（签名）', 'TextItem')
@@ -310,7 +307,7 @@ export default {
               letDataPaperContent.DangerTable,
               {},
               {
-                page: "49",
+                page: "47",
                 key: "cellIdx3",
                 spellString: {
                   corpName: corp.corpName,
@@ -336,7 +333,7 @@ export default {
               letDataPaperContent.DangerTable,
               {},
               {
-                page: "49",
+                page: "47",
                 key: "cellIdx5",
                 spellString: {
                   corpName: corp.corpName,
@@ -354,7 +351,7 @@ export default {
               letDataPaperContent.DangerTable,
               {},
               {
-                page: "49",
+                page: "47",
                 key: "cellIdx6",
               }
             )
@@ -366,7 +363,7 @@ export default {
               letDataPaperContent.DangerTable,
               {},
               {
-                page: "49",
+                page: "47",
                 key: "cellIdx7",
               }
             )
@@ -389,7 +386,7 @@ export default {
         cellIdx6: cellIdx6String, // 作出决定依据
         cellIdx7: cellIdx7String, // 建议行政决定
         DangerTable: let1DataPaperContent.DangerTable,
-        DangerTable: DangerTable,
+        DangerTable,
         extraData: {
           // 用于拼写隐患内容的字符集合
           corpName: corp.corpName,
@@ -418,7 +415,7 @@ export default {
           type === "DangerTable"
         ) {
           this.options[key] = {
-            page: "49",
+            page: "47",
             key: key,
             spellString: this.letData.extraData,
             showMergeBtn: true,

@@ -275,6 +275,7 @@ export default {
         cellIdx36: null, // 单位
         DangerTable: null,
         associationPaperId: {},
+        associationPaperOrder: []
       },
       options: {},
       associationPaper: ['8']

@@ -20,9 +20,6 @@
             <div class="textAlignCenter formHeader1">案件处理呈报书</div>
             <div class="docTextLine paper-number-div">
               <div>
-                <!-- <span
-                  @click="commandFill('cellIdx0', '', 'TextItem')"
-                >{{ letData.cellIdx0 ? letData.cellIdx0 : '（编辑）' }}</span> -->
                 <label>编号：</label>
                 <span
                   class="line"
@@ -30,81 +27,88 @@
                 >{{ letData.cellIdx1 ? letData.cellIdx1 : '（点击编辑）' }}</span>
               </div>
             </div>
-            <table class="docBody">
-              <tr>
-                <td
-                  class="cellInput"
-                  id="cell_idx_2"
-                  style="width:70%"
-                  data-title
-                  data-type="text"
-                  data-src
-                  @click="commandFill('cellIdx2', '', 'TextItem')"
-                >{{ letData.cellIdx2 }}</td>
-              </tr>
-            </table>
              <div class="docTextarea">
               <span class="no-line">案&nbsp;&nbsp;由：</span>
               <span
-                @click="commandFill('cellIdx3', '案由', 'DangerTable')"
-              >{{ letData.cellIdx3 ? letData.cellIdx3 : '（点击编辑）'}}</span>
+                @dblclick="commandFill('cellIdx2', '案由', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @click="commandFill('cellIdx2', '案由', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')"
+                >{{
+                  letData.cellIdx2 ? letData.cellIdx2 : "（点击编辑）"
+                }}</span
+              >
               <div class="line"></div>
             </div>
             <div class="docTextarea">
               <div style="display:inline-block;min-width:55%">
                 <span class="no-line">立案决定书编号：</span>
-                <span @click="commandFill('cellIdx4', '立案决定书编号', 'TextItem')"
-                  >{{ letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）" }}
+                <span @click="commandFill('cellIdx3', '立案决定书编号', 'TextItem')"
+                  >{{ letData.cellIdx3 ? letData.cellIdx3 : "（点击编辑）" }}
                 </span>
               </div>
                 <span class="no-line">立案时间：</span>
-                <span @click="commandFill('cellIdx5', '立案时间：', 'DateItem')">{{
-                  letData.cellIdx5 ? letData.cellIdx5 : "（点击编辑）"
+                <span @click="commandFill('cellIdx4', '立案时间：', 'DateItem')">{{
+                  letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）"
                 }}</span>
                 <div class="line"></div>
             </div>
             <div class="docTextarea">
               <span class="no-line">承办人：</span>
               <span
-                @click="commandFill('cellIdx6', '承办人', 'TextItem')"
-              >{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）'}}</span>
+                @click="commandFill('cellIdx5', '承办人', 'TextItem')"
+              >{{ letData.cellIdx5 ? letData.cellIdx5 : '（点击编辑）'}}</span>
               <div class="line"></div>
             </div>
              <div class="docTextarea">
               <span class="no-line">违法事实及依据：</span>
               <span
-                @click="commandFill('cellIdx7', '违法事实及依据', 'DangerTable')"
-              >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
+                @dblclick="commandFill('cellIdx6', '违法事实及依据', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @click="
+                  commandFill(
+                    'cellIdx6',
+                    '违法事实及处理依据',
+                    corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem'
+                  )
+                "
+                >{{
+                  letData.cellIdx6 ? letData.cellIdx6 : "（点击编辑）"
+                }}</span
+              >
               <div class="line"></div>
             </div>
              <div class="docTextarea">
              <span class="no-line">法制审核意见：</span>
               <span
-                @click="commandFill('cellIdx8', '法制审核意见', 'TextareaItem')"
+                @click="commandFill('cellIdx8', '法制审核意见', 'SelectInputItem')"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（点击编辑）'}}</span>
               <div class="line"></div>
             </div>
              <div class="docTextarea">
-               <span class="no-line">建议案件处理意见：</span>
+              <span class="no-line">建议案件处理意见：</span>
               <span
-                @click="commandFill('cellIdx9', '建议案件处理意见', 'TextareaItem')"
-              >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</span>
+                @dblclick="commandFill('cellIdx7', '建议案件处理意见', `${corpData.caseType === '0' ? 'DangerTable' : 'TextareaItem'}`)"
+                @click="
+                  commandFill('cellIdx7', '建议案件处理意见', corpData.caseType === '0' ? 'DangerTextareaItem' : 'TextareaItem')
+                "
+                >{{
+                  letData.cellIdx7 ? letData.cellIdx7 : "（点击编辑）"
+                }}</span
+              >
               <div class="line"></div>
             </div>
             <div class="docTextarea" style="margin-top: 60px; margin-bottom: 60px;">
               <div style="display:inline-block;min-width:43%">
-                <span class="no-line">执法机关负责人意见：:</span>
-                <span @click="commandFill('cellIdx10', '执法机关负责人意见', 'TextItem')"
-                  >{{ letData.cellIdx10 ? letData.cellIdx10 : "（编辑）" }}
+                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;执法机关负责人意见：:</span>
+                <span @click="commandFill('cellIdx9', '执法机关负责人意见', 'TextItem')"
+                  >{{ letData.cellIdx9 ? letData.cellIdx9 : "（编辑）" }}
                 </span>
               </div>
                 <span class="no-line">签名：</span>
-                <span @click="commandFill('cellIdx11', '签名', 'TextItem')">{{
-                  letData.cellIdx11 ? letData.cellIdx11 : "（编辑）"
+                <span @click="commandFill('cellIdx10', '签名', 'TextItem')">{{
+                  letData.cellIdx10 ? letData.cellIdx10 : "（编辑）"
                 }}</span>
                 <span class="no-line">日期：</span>
-                <span @click="commandFill('cellIdx12', '日期', 'DateItem')">{{
-                  letData.cellIdx12 ? letData.cellIdx12 : "（编辑）"
+                <span @click="commandFill('cellIdx11', '日期', 'DateItem')">{{
+                  letData.cellIdx11 ? letData.cellIdx11 : "（编辑）"
                 }}</span>
                 <div class="line"></div>
             </div>
@@ -124,85 +128,163 @@
 </template>
 
 <script>
-import letMain from "@/views/make-law-writ/components/let-main.vue";
 import GoDB from "@/utils/godb.min.js";
-import { getNowDate } from "@/utils/date";
+import { setDangerTable } from '@/utils/handlePaperData'
 import associationSelectPaper from '@/components/association-select-paper'
-import {
-  getDangerObject
-} from "@/utils/setInitPaperData";
-import {
-  transformNumToChinese,
-} from "@/utils";
+import { setNewDanger, getDocNumber2 } from '@/utils/setInitPaperData'
 
 export default {
-  name: "Let203",
+  name: "Let216",
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
-      options: {},
-      associationPaper: ['1', '4', '47']
+      letData: {
+        cellIdx0: null, //
+        cellIdx1: null, // 编号
+        cellIdx2: null, // 案由
+        cellIdx3: null, // 立案决定书编号
+        cellIdx4: null, // 立案时间
+        cellIdx5: null, // 承办人
+        cellIdx6: null, // 违法事实及依据
+        cellIdx7: null, // 法制审核意见
+        cellIdx8: null, // 建议案件处理意见
+        cellIdx9: null, // 执法机关负责人意见
+        cellIdx10: null, // 签名
+        cellIdx11: null, // 日期
+        DangerTable: null,
+        extraData: null,
+        associationPaperId: null,
+        associationPaperOrder: []
+      },
+      options: {
+        cellIdx8: []
+      },
+      associationPaper: this.corpData.caseType === '0' ? ["47"] : ["4"], // 关联行政法制审核意见书或者立案决定书
     };
   },
   methods: {
     async initLetData (selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
-        return item.corpId == this.corpData.corpId;
-      });
-      // 获取笔录文书中的隐患数据
-      let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent);
-      let dangerObject = getDangerObject(
-        let1DataPaperContent.DangerTable.tableData
-      );
-      // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
-      // 获取笔录文书中的隐患数据
-      let cellIdx2String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
-      // 2.违法事实及依据：隐患描述+“经调查取证以上违法违规行为属实，分别违反了”+违法认定发条
-      dangerObject = getDangerObject(
-        let1DataPaperContent.DangerTable.tableData,
-        { danger: true }
-      );
-      let cellIdx6String = `${dangerObject.dangerString}经调查取证以上违法违规行为属实，分别违反了${dangerObject.illegalString}的规定。`;
-      // 3.建议案件处理意见：行政处罚依据+行政处罚决定（分条）
-      let cellIdx7String = `分别依据${
-        dangerObject.treatmentSuggestion
-      }。合并罚款人民币${transformNumToChinese(
-        dangerObject.penaltyDescFineTotle
-      )}（￥${dangerObject.penaltyDescFineTotle.toLocaleString()}）罚款。`;
-      // 5.获取立案决定书编号及立案日期
-      let let4DataPaperContent = JSON.parse(selectedPaper.let4Data.paperContent);
-      let { cellIdx0, cellIdx1, cellIdx2, cellIdx3, cellIdx6, cellIdx7, cellIdx8} = let4DataPaperContent
-      let let4PaperNumber = `${cellIdx0}（${cellIdx1}）煤安立〔${cellIdx2}〕${cellIdx3}号`
-      let let4Date = `${cellIdx6 ? cellIdx6 : 'XX'}年${cellIdx7 ? cellIdx7 : 'XX'}月${cellIdx8 ? cellIdx8 : 'XX'}日`
-      // 6.法制审核意见：带入行政执法决定法制审核意见书中的
-      let let47DataPapaerContent = JSON.parse(selectedPaper.let47Data.paperContent);
-      await db.close();
-      this.letData = {
-        cellIdx0: null, //
-        cellIdx1: null, // 编号
-        cellIdx2: null, //
-        cellIdx3: cellIdx2String, // 案由
-        cellIdx4: let4PaperNumber, // 立案决定书编号
-        cellIdx4TypeTextItem: let4PaperNumber, // 立案决定书编号
-        cellIdx5: let4Date, // 立案时间
-        cellIdx5TypeTextItem: let4Date, // 立案时间
-        cellIdx6: null, // 承办人
-        cellIdx7: cellIdx6String, // 违法事实及依据
-        cellIdx8: let47DataPapaerContent.cellIdx8, // 法制审核意见
-        cellIdx8TypeTextareaItem: let47DataPapaerContent.cellIdx8, // 法制审核意见
-        cellIdx9: null, // 建议案件处理意见
-        cellIdx10: null, // 执法机关负责人意见
-        cellIdx11: null, // 签名
-        cellIdx12: null, // 日期
-        DangerTable: let1DataPaperContent.DangerTable,
-        extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
-          corpName: corp.corpName,
-          groupName: this.$store.state.curCase.provinceGroupName,
-        }
-      };
+      if (this.corpData.caseType === '0') {
+        let db = new GoDB(this.$store.state.DBName);
+        let corpBase = db.table("corpBase");
+        let corp = await corpBase.find((item) => {
+          return item.corpId == this.corpData.corpId;
+        });
+        // 4.编号：
+        let paperNumber = await getDocNumber2(db, this.docData.docTypeNo, this.corpData.caseId)
+        // 5.获取立案决定书编号及立案日期,承办人
+        let let47DataPaperContent = JSON.parse(
+          selectedPaper.let47Data.paperContent
+        );
+        // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
+        // 获取笔录文书中的隐患数据
+        let cellIdx2String = setDangerTable(let47DataPaperContent.DangerTable, {}, { 
+          page: '36', 
+          key: 'cellIdx2',
+          spellString: {
+            corpName: corp.corpName,
+            groupName: this.$store.state.curCase.provinceGroupName,
+          },
+        })
+        // 2.违法事实及依据：隐患描述+“经调查取证以上违法违规行为属实，分别违反了”+违法认定发条
+        let cellIdx6String = setDangerTable(let47DataPaperContent.DangerTable, {}, { 
+          page: '36', 
+          key: 'cellIdx6',
+          spellString: {
+            corpName: corp.corpName,
+            groupName: this.$store.state.curCase.provinceGroupName,
+          },
+        })
+        // 3.建议案件处理意见：行政处罚依据+行政处罚决定（分条）
+        let cellIdx7String = setDangerTable(let47DataPaperContent.DangerTable, {}, { 
+          page: '36', 
+          key: 'cellIdx7',
+          spellString: {
+            corpName: corp.corpName,
+            groupName: this.$store.state.curCase.provinceGroupName,
+          },
+        })
+        let wkPaper = db.table('wkPaper')
+        let let4Paper = await wkPaper.find(item => item.paperId === let47DataPaperContent.associationPaperId.paper4Id && item.delFlag !== '1')
+        let let4DataPaperContent = JSON.parse(let4Paper.paperContent)
+        let {
+          cellIdx0,
+          cellIdx1,
+          cellIdx2,
+          cellIdx3,
+          cellIdx6,
+          cellIdx7,
+          cellIdx8,
+          cellIdx9
+        } = let4DataPaperContent;
+        let let4PaperNumber = `${cellIdx0 || ''}煤安${cellIdx1 || ''}立〔${cellIdx2 || ''}〕${cellIdx3 || ''}号`;
+        let let4Date = `${cellIdx6 ? cellIdx6 : "XX"}年${
+          cellIdx7 ? cellIdx7 : "XX"
+        }月${cellIdx8 ? cellIdx8 : "XX"}日`;
+        let let4Person = cellIdx9 ? cellIdx9 : 'XX'
+        let DangerTable = let47DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let47Data, let47DataPaperContent.DangerTable)
+          : {}
+        let associationPaperId = Object.assign({}, this.setAssociationPaperId(let47DataPaperContent.associationPaperId), {
+          paper49Id: selectedPaper.let47Data.paperId,
+        }) 
+        let associationPaperOrder = this.setAssociationPaperOrder(let47DataPaperContent.associationPaperOrder)
+        associationPaperOrder.push('49')
+        await db.close();
+        this.letData = Object.assign({}, this.letData, {
+          cellIdx1: paperNumber, // 编号
+          cellIdx2: cellIdx2String, // 案由
+          cellIdx3: let4PaperNumber, // 立案决定书编号
+          cellIdx4: let4Date, // 立案时间
+          cellIdx5: let4Person, // 承办人
+          cellIdx6: cellIdx6String, // 违法事实及依据
+          cellIdx7: cellIdx7String, // 建议案件处理意见
+          DangerTable: DangerTable,
+          extraData: {
+            // 保存额外拼写的数据内容，用于修改隐患项时回显使用
+            corpName: corp.corpName,
+            groupName: this.$store.state.curCase.provinceGroupName,
+          },
+          associationPaperId: associationPaperId,
+          associationPaperOrder,
+          selectedType: let47DataPaperContent.selectedType
+        })
+      } else {
+        let db = new GoDB(this.$store.state.DBName);
+        let paperNumber = await getDocNumber2(db, this.docData.docTypeNo, this.corpData.caseId)
+        await db.close();
+        let let4DataPaperContent = JSON.parse(
+          selectedPaper.let4Data.paperContent
+        );
+        let {
+          cellIdx0,
+          cellIdx1,
+          cellIdx2,
+          cellIdx3,
+          cellIdx6,
+          cellIdx7,
+          cellIdx8,
+          cellIdx9
+        } = let4DataPaperContent;
+        let let4PaperNumber = `${cellIdx0 || ''}煤安${cellIdx1 || ''}立〔${cellIdx2 || ''}〕${cellIdx3 || ''}号`;
+        let let4Date = `${cellIdx6 ? cellIdx6 : "XX"}年${
+          cellIdx7 ? cellIdx7 : "XX"
+        }月${cellIdx8 ? cellIdx8 : "XX"}日`;
+        let let4Person = cellIdx9 ? cellIdx9 : 'XX'
+        let associationPaperId = Object.assign({}, this.setAssociationPaperId(let4DataPaperContent.associationPaperId), {
+          paper4Id: selectedPaper.let4Data.paperId,
+        }) 
+        let associationPaperOrder = this.setAssociationPaperOrder(let4DataPaperContent.associationPaperOrder)
+        associationPaperOrder.push('4')
+        this.letData = Object.assign({}, this.letData, {
+          cellIdx1: paperNumber, // 编号
+          cellIdx3: let4PaperNumber, // 立案决定书编号
+          cellIdx4: let4Date, // 立案时间
+          cellIdx5: let4Person, // 承办人
+          associationPaperId: associationPaperId,
+          associationPaperOrder
+        })
+      }
     },
     goBack({ page, data }) {
       // 返回选择企业
@@ -214,18 +296,24 @@ export default {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
         let spellString = {};
-        if (key === "cellIdx3" || key === "cellIdx7") {
-          if (key === "cellIdx3") {
-            spellString = {
-              corpName: this.letData.extraData.corpName,
+        if (key === "cellIdx2" || key === "cellIdx6" || key === "cellIdx7") {
+          if (type === 'DangerTable') {
+            spellString = this.letData.extraData;
+            this.options[key] = {
+              page: "36",
+              key: key,
+              spellString,
+              showMergeBtn: true,
+              showPunishmentInfor: true
+            };
+            dataKey = "DangerTable";
+          } else {
+            this.options[key] = {
+              disabled: false
             };
           }
-          this.options[key] = {
-            page: "36",
-            key: key,
-            spellString,
-          };
-          dataKey = "DangerTable";
+        } else if (key === 'cellIdx8') {
+          dataKey = `${key}Type${type}`;
         }
         this.$refs.letMain.commandFill(
           key,

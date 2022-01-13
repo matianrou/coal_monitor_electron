@@ -202,7 +202,7 @@
         this.getUserCase(item.no)
       },
       getUserCase(userId) {
-        if (!this.$store.state.onLine.onLine) {
+        if (!this.$store.state.onLine) {
           this.$message.error('当前为离线登录，请联网后再拉取！')
           return
         }

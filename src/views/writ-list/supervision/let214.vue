@@ -16,46 +16,51 @@
             <div class="textAlignCenter formHeader0" style="font-size:30px">煤矿安全监管行政执法文书</div>
             <div class="textAlignCenter formHeader1" style="font-size:30px">执法案卷首页</div>
             <div class="halfRowH"></div>
-            <table class="docBody" style="border:solid 1.5px #000;">
-              <tr style="height:3cm;">
+            <table class="docBody" style="border: solid 1.5px #000">
+              <tr style="height: 3cm">
                 <td
-                  style="width:30mm;height:30mm"
+                  style="width: 30mm; height: 30mm"
                   class="textAlignCenter cellBottomLine cellRightLine"
                 >
                   <br />执法单位
                 </td>
                 <td
-                  style="width:124mm;height:30mm"
+                  style="width: 124mm; height: 30mm; word-break: break-all; display: table-cell; vertical-align: middle;"
                   class="cellInput cellBottomLine textPaddingLeft"
                   id="cell_idx_0"
-                  align="center"
                   data-title="执法单位"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx0', '执法单位', 'TextItem')"
-                >{{letData.cellIdx0}}</td>
+                >
+                  {{ letData.cellIdx0 }}
+                </td>
               </tr>
-              <tr style="height:5cm;">
+              <tr style="height: 5cm">
                 <td
-                  style="width:30mm;height:50mm"
+                  style="width: 30mm; height: 50mm;"
                   class="textAlignCenter cellBottomLine cellRightLine"
                 >
                   <br />
                   <br />案卷类别
                 </td>
                 <td
-                  style="width:124mm;height:50mm"
+                  style="width: 124mm; height: 50mm; word-break: break-all; display: table-cell; vertical-align: middle;"
                   class="cellInput cellBottomLine textPaddingLeft"
                   id="cell_idx_1"
-                  align="center"
                   data-title="案卷类别"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx1', '案卷类别', 'TextItem')"
-                >{{letData.cellIdx1}}</td>
+                >
+                  {{ letData.cellIdx1 }}
+                </td>
               </tr>
-              <tr style="height:6cm;">
-                <td style="width:30mm;height:120mm" class="textAlignCenter cellRightLine">
+              <tr style="height: 6cm">
+                <td
+                  style="width: 30mm; height: 120mm"
+                  class="textAlignCenter cellRightLine"
+                >
                   <br />
                   <br />
                   <br />
@@ -63,15 +68,16 @@
                   <br />案卷题名
                 </td>
                 <td
-                  style="width:124mm;height:120mm"
+                  style="width: 124mm; height: 120mm; word-break: break-all; display: table-cell; vertical-align: middle;"
                   class="cellInput textPaddingLeft"
                   id="cell_idx_2"
-                  align="center"
                   data-title="案卷题名"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx2', '案卷题名', 'TextareaItem')"
-                >{{letData.cellIdx2}}</td>
+                >
+                  {{ letData.cellIdx2 }}
+                </td>
               </tr>
             </table>
             <table class="docBody">
@@ -81,128 +87,150 @@
                   class="cellInput cellBottomLine"
                   id="cell_idx_3"
                   align="center"
-                  style="width:10%"
+                  style="width: 10%"
                   data-title="年"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx3', '年', 'TextItem')"
-                >{{letData.cellIdx3}}</td>
+                >
+                  {{ letData.cellIdx3 }}
+                </td>
                 <td class="textAlignLeft">年</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_4"
                   align="center"
-                  style="width:9%"
+                  style="width: 9%"
                   data-title="月"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx4', '月', 'TextItem')"
-                >{{letData.cellIdx4}}</td>
+                >
+                  {{ letData.cellIdx4 }}
+                </td>
                 <td class="textAlignLeft">月</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_5"
                   align="center"
-                  style="width:9%"
+                  style="width: 9%"
                   data-title="日"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx5', '日', 'TextItem')"
-                >{{letData.cellIdx5}}</td>
-                <td
-                  class="textAlignLeft" style="width:16%"
-                >&nbsp;&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;至&nbsp;&nbsp;&nbsp;</td>
+                >
+                  {{ letData.cellIdx5 }}
+                </td>
+                <td class="textAlignLeft" style="width: 16%">
+                  &nbsp;&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;至&nbsp;&nbsp;&nbsp;
+                </td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_6"
                   align="center"
-                  style="width:10%"
+                  style="width: 10%"
                   data-title="年"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx6', '年', 'TextItem')"
-                >{{letData.cellIdx6}}</td>
+                >
+                  {{ letData.cellIdx6 }}
+                </td>
                 <td class="textAlignLeft">年</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_7"
                   align="center"
-                  style="width:9%"
+                  style="width: 9%"
                   data-title="月"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx7', '月', 'TextItem')"
-                >{{letData.cellIdx7}}</td>
+                >
+                  {{ letData.cellIdx7 }}
+                </td>
                 <td class="textAlignLeft">月</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_8"
                   align="center"
-                  style="width:9%"
+                  style="width: 9%"
                   data-title="日"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx8', '日', 'TextItem')"
-                >{{letData.cellIdx8}}</td>
+                >
+                  {{ letData.cellIdx8 }}
+                </td>
                 <td class="textAlignLeft">日</td>
               </tr>
               <tr>
-                <td class="textPaddingLeft">本卷共：&nbsp;&nbsp;</td>
+                <td class="textPaddingLeft">本卷共&nbsp;&nbsp;</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_9"
                   align="center"
-                  style="width:10%"
+                  style="width: 10%"
                   data-type="textarea"
                   data-src
                   @click="commandFill('cellIdx9', '件', 'TextItem')"
-                >{{letData.cellIdx9}}</td>
+                >
+                  {{ letData.cellIdx9 }}
+                </td>
                 <td class="textAlignLeft">件</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_10"
                   align="center"
-                  style="width:9%"
+                  style="width: 9%"
                   data-type="textarea"
                   data-src
                   @click="commandFill('cellIdx10', '页', 'TextItem')"
-                >{{letData.cellIdx10}}</td>
+                >
+                  {{ letData.cellIdx10 }}
+                </td>
                 <td class="textAlignLeft">页</td>
-                <td
-                  class="textPaddingLeft" style="width:25%"
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;归 档 日 期：</td>
+                <td class="textPaddingLeft" style="width: 28%; text-align: right;">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;归档日期：
+                </td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_11"
                   align="center"
-                  style="width:10%"
+                  style="width: 10%"
                   data-title="年"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx11', '年', 'TextItem')"
-                >{{letData.cellIdx11}}</td>
+                >
+                  {{ letData.cellIdx11 }}
+                </td>
                 <td class="textAlignLeft">年</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_12"
                   align="center"
-                  style="width:9%"
+                  style="width: 9%"
                   data-title="月"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx12', '月', 'TextItem')"
-                >{{letData.cellIdx12}}</td>
+                >
+                  {{ letData.cellIdx12 }}
+                </td>
                 <td class="textAlignLeft">月</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_13"
                   align="center"
-                  style="width:9%"
+                  style="width: 9%"
                   data-title="日"
                   data-type="text"
                   data-src
                   @click="commandFill('cellIdx13', '日', 'TextItem')"
-                >{{letData.cellIdx13}}</td>
+                >
+                  {{ letData.cellIdx13 }}
+                </td>
                 <td class="textAlignLeft">日</td>
               </tr>
               <!-- <tr>
@@ -227,7 +255,7 @@
             </div>
             <div class="docTextarea">
               <div style="display:inline-block;min-width:55%">
-                <span class="no-line">档号：&nbsp;&nbsp;</span>
+                <span class="no-line">档&nbsp;&nbsp;号：&nbsp;&nbsp;</span>
                 <span @click="commandFill('cellIdx15', '档号', 'TextItem')"
                   >{{ letData.cellIdx15 ? letData.cellIdx15 : "（点击编辑）" }}
                 </span>
@@ -244,7 +272,8 @@
               @click="commandFill('cellIdx17', '编辑目录', 'VolumesMenuTable')">
               <div style="margin-top: 10px; margin-bottom: 20px;">
                 <div v-if="letData.cellIdx17 && letData.cellIdx17.length > 0" class="show-volumes-menu">
-                  <div style="text-align: center; font-size: 20px; font-weight: 500;"><span>档案卷内目录</span></div>
+                  <div class="textAlignCenter formHeader0" style="font-size:30px">煤矿安全监管行政执法文书</div>
+                  <div class="textAlignCenter formHeader1" style="font-size:30px">执法案卷首页</div>
                   <el-table
                     :data="letData.cellIdx17"
                     stripe
@@ -312,44 +341,27 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject } from '@/utils/setInitPaperData'
-import associationSelectPaper from '@/components/association-select-paper'
+import { setNewDanger, getCurPaperDocNumber } from "@/utils/setInitPaperData";
+import associationSelectPaper from "@/components/association-select-paper";
+import { setDangerTable } from "@/utils/handlePaperData";
+import { sortbyAsc } from "@/utils/index";
 export default {
   name: "Let214",
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
-      options: {},
-      associationPaper: ['1']
-    };
-  },
-  methods: {
-    async initLetData (selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
-        return item.corpId == this.corpData.corpId;
-      });
-      // 1.案卷题名: 煤矿名称+隐患描述+案
-      // 获取笔录文书中的隐患数据
-      let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      let dangerObject = getDangerObject(let1DataPaperContent.DangerTable.tableData)
-      let cellIdx2String = `${corp.corpName}${dangerObject.dangerString}案。`
-      await db.close();
-      this.letData = {
+      letData: {
         cellIdx0: null, // 执法单位
         cellIdx1: null, // 案卷类别
-        cellIdx2: cellIdx2String, // 案卷题名
-        cellIdx2TypeTextareaItem: cellIdx2String, // 案卷题名
+        cellIdx2: null, // 案卷题名
         cellIdx3: null, // 年
         cellIdx4: null, // 月
         cellIdx5: null, // 日
         cellIdx6: null, // 年
         cellIdx7: null, // 月
         cellIdx8: null, // 日
-        cellIdx9: null, // 本卷共X件
-        cellIdx10: null, // X页
+        cellIdx9: null, //
+        cellIdx10: null, //
         cellIdx11: null, // 年
         cellIdx12: null, // 月
         cellIdx13: null, // 日
@@ -358,9 +370,158 @@ export default {
         cellIdx16: null, // 保管期限
         cellIdx17: [], // 编辑目录
         volumesMenuTable: {
-          tableData: []
+          tableData: [],
+        },
+        DangerTable: null,
+        associationPaperId: null,
+        associationPaperOrder: []
+      },
+      options: {},
+      associationPaper: this.corpData.caseType === "0" ? ["1"] : []
+    };
+  },
+  methods: {
+    async initLetData (selectedPaper) {
+    let cellIdx0String = "";
+    let cellIdx1String = "";
+    let cellIdx2String = "";
+    let DangerTable = {};
+    let associationPaperId = {};
+    let associationPaperOrder = []
+    let volumesMenuTableData = []
+    let db = new GoDB(this.$store.state.DBName);
+      let let1DataPaperContent = JSON.parse(
+        selectedPaper.let1Data.paperContent
+      );
+      // 获取所有文书，整理成为默认案卷首页
+      let wkPaper = db.table('wkPaper') 
+      // 获取笔录文书：
+      let paper1 = await wkPaper.findAll(item => item.paperId === selectedPaper.let1Data.paperId)
+      let paper22 = []
+      let paper22AssociationPaper = []
+      if (let1DataPaperContent && let1DataPaperContent.associationPaperId) {
+        // 获取关联检查方案文书：
+        paper22 = await wkPaper.findAll(item => item.paperId === let1DataPaperContent.associationPaperId.paper22Id)
+        // 获取关联检查方案复查文书：
+        paper22AssociationPaper = await wkPaper.findAll(item => {
+          if (item.paperContent) {
+            let paperContent = JSON.parse(item.paperContent) 
+            if (paperContent.associationPaperId && paperContent.associationPaperId.paper22Id) {
+              if (paperContent.associationPaperId.paper22Id === let1DataPaperContent.associationPaperId.paper22Id
+                && item.paperType === '42') {
+                return item
+              }
+            }
+          }
+        })
+      }
+      // 获取所有关联同一笔录文书的文书
+      let paperList = await wkPaper.findAll(item => {
+        if (item.paperContent) {
+          let paperContent = JSON.parse(item.paperContent) 
+          if (paperContent.associationPaperId && paperContent.associationPaperId.paper1Id) {
+            if (paperContent.associationPaperId.paper1Id === selectedPaper.let1Data.paperId) {
+              return item
+            }
+          }
         }
-      };
+      })
+      let allPaper = [...paper22, ...paper1, ...paper22AssociationPaper, ...paperList]
+      // 按文书顺序排序
+      let orderList = []
+      let dictionaryField = `${this.$store.state.user.userType}PaperType`
+      for (let i = 0; i < this.$store.state.dictionary[dictionaryField].length; i++) {
+        orderList.push(this.$store.state.dictionary[dictionaryField][i].id)
+      }
+      allPaper.sort((sortbyAsc('paperType', orderList)))
+      // 通过所有文书allPaper整理出卷内目录
+      for (let i = 0; i < allPaper.length; i++) {
+        let item = allPaper[i]
+        // 获取文号字段
+        let number = ''
+        if (item.paperType === '55' || item.paperType === '49' || item.paperType === '36') {
+          // 以下文书为单字段文书号：取得字段都是cellIdx1
+          // 行政执法有关事项审批报告/行政执法决定法制审核意见书/案件处理呈报书
+          let paperContent = JSON.parse(item.paperContent) 
+          number = paperContent.cellIdx1
+        } else {
+          // 其他文书为组合式文书号
+          number = getCurPaperDocNumber(item)
+        }
+        // 获取日期字段
+        let createDate = ''
+        if (item.createDate) {
+          let dateList = item.createDate.split(' ')[0].split('-')
+          createDate = `${dateList[0]}年${dateList[1]}月${dateList[2]}日`
+        }
+        volumesMenuTableData.push({
+          sindex: i + 1,
+          paperNumber: number,
+          title: `${item.name}`,
+          date: createDate,
+          pageNumber: i + 1,
+          note: '',
+        })
+      }
+      if (this.corpData.caseType === "0") {
+        let corpBase = db.table("corpBase");
+        let corp = await corpBase.find((item) => {
+          return item.corpId == this.corpData.corpId;
+        });
+        // 创建初始版本 */
+        // 1.案卷题名: 煤矿名称+隐患描述+案
+        // 获取笔录文书中的隐患数据
+        
+        // let dangerObject = getDangerObject(
+        //   let1DataPaperContent.DangerTable.selectedDangerList
+        // );
+        // cellIdx2String = `${corp.corpName}${dangerObject.dangerString}案。`;
+        cellIdx2String =
+          this.corpData.caseType === "0"
+            ? setDangerTable(
+                let1DataPaperContent.DangerTable,
+                {},
+                {
+                  page: "15",
+                  key: "cellIdx2",
+                  spellString: {
+                    corpName: corp.corpName,
+                    userGroupName: this.$store.state.user.userGroupName,
+                  },
+                }
+              )
+            : "";
+        DangerTable = let1DataPaperContent.DangerTable
+          ? setNewDanger(
+              selectedPaper.let1Data,
+              let1DataPaperContent.DangerTable
+            )
+          : {};
+        associationPaperId = Object.assign({}, this.setAssociationPaperId(let1DataPaperContent.associationPaperId), {
+          paper1Id: selectedPaper.let1Data.paperId,
+        }) 
+        associationPaperOrder = this.setAssociationPaperOrder(let1DataPaperContent.associationPaperOrder)
+        associationPaperOrder.push('1')
+      } else {
+        let corpBase = db.table("corpBase");
+        let corp = await corpBase.find((item) => {
+          return item.corpId == this.corpData.corpId;
+        });
+        cellIdx2String = `${corp.corpName}XXX案。`;
+      }
+      await db.close();
+      this.letData = Object.assign({}, this.letData, {
+        cellIdx0: cellIdx0String, // 执法单位
+        cellIdx1: cellIdx1String, // 案卷类别
+        cellIdx2: cellIdx2String, // 案卷题名
+        cellIdx17: [], // 编辑目录
+        volumesMenuTable: {
+          tableData: volumesMenuTableData,
+        },
+        DangerTable,
+        associationPaperId,
+        associationPaperOrder
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

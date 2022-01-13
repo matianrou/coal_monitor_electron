@@ -145,33 +145,62 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
+import { setNewDanger } from '@/utils/setInitPaperData'
 import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let211",
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, // 年
+        cellIdx1: null, // 月
+        cellIdx2: null, // 日
+        cellIdx3: null, // 时
+        cellIdx4: null, // 分
+        cellIdx5: null, // 时
+        cellIdx6: null, // 分
+        cellIdx7: null, // 听证地点
+        cellIdx8: null, // 听证主持人（签名）
+        cellIdx9: null, // 记录人（签名）
+        cellIdx10: null, // 听证记录
+        cellIdx11: null, // 听证参加人（签名）
+        selectedType: null,
+        DangerTable: null,
+        associationPaperId: {},
+        associationPaperOrder: []
+      },
       options: {},
-      associationPaper: []
+      associationPaper: ['28']
     };
   },
   methods: {
     async initLetData (selectedPaper) {
       let db = new GoDB(this.$store.state.DBName);
       let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
-        return item.corpId == this.corpData.corpId;
-      });
       // 1.时间
-        let now = new Date()
-        let cellIdx0Year = now.getFullYear().toString()
-        let cellIdx1Month = (now.getMonth() + 1).toString()
-        let cellIdx2Date = now.getDate().toString()
-        let cellIdx3Hour = now.getHours().toString()
-        let cellIdx4Minu = now.getMinutes().toString()
-        // 2.听证记录：固定模板
-        let cellIdx10String = `主持人：今天，就淮北矿业股份有限公司许疃煤矿申请对安徽煤矿安全监管局淮北监管分局拟对其使用违法违规行为作出\r
+      let now = new Date()
+      let cellIdx0Year = now.getFullYear().toString()
+      let cellIdx1Month = (now.getMonth() + 1).toString()
+      let cellIdx2Date = now.getDate().toString()
+      let cellIdx3Hour = now.getHours().toString()
+      let cellIdx4Minu = now.getMinutes().toString()
+      // 5.地点：sysOfficeInfo实体中depAddress字段+ deparFullname字段
+      // 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
+      let orgInfo = db.table("orgInfo");
+      let orgData = await orgInfo.find(
+        (item) => item.no === this.$store.state.curCase.affiliate
+      );
+      let orgSysOfficeInfo =
+        orgData && orgData.sysOfficeInfo
+          ? JSON.parse(orgData.sysOfficeInfo)
+          : {
+              depAddress: "",
+              deparFullname: "",
+            };
+      let cellIdx7String = `${orgSysOfficeInfo.depAddress}${orgSysOfficeInfo.deparFullname}`;
+      // 2.听证记录：固定模板
+      let cellIdx10String = `主持人：今天，就淮北矿业股份有限公司许疃煤矿申请对安徽煤矿安全监管局淮北监管分局拟对其使用违法违规行为作出\r
     根据《安全生产违法行为行政处罚办法》第三十九条规定，请记录人先查明听证各方参加人员到会情况，宣布听证会场纪律、当事人的权利和义务。\r
       记录人：现在开始查明听证各方参加人员到会情况 (经查明，案件调查人到会2人，申请人到会1人，申请代理人到会1人) 。现宣读参加听证会的全体人员应遵守的纪律、当事人享有的权利和义务（内容略）。\r
       记录人：案件调查人、申请人及其代理人全部到会。会场纪律、当事人的权利和义务宣读完毕，现在请主持人主持听证。\r
@@ -225,26 +254,34 @@ export default {
                                                         XXX签名压印\r
                                                       20XX年XX月XX日\r`
       await db.close();
-      this.letData = {
+      let let28DataPaperContent = JSON.parse(
+        selectedPaper.let28Data.paperContent
+      );
+      let DangerTable =
+        this.corpData.caseType === "0"
+          ? setNewDanger(
+              selectedPaper.let28Data,
+              let28DataPaperContent.DangerTable
+            )
+          : null;
+      let associationPaperId = Object.assign({}, this.setAssociationPaperId(let28DataPaperContent.associationPaperId), {
+        paper28Id: selectedPaper.let28Data.paperId,
+      }) 
+      let associationPaperOrder = this.setAssociationPaperOrder(let28DataPaperContent.associationPaperOrder)
+      associationPaperOrder.push('28')
+      this.letData = Object.assign({}, this.letData, {
         cellIdx0: cellIdx0Year, // 年
-        cellIdx0TypeTextItem: cellIdx0Year, // 年
         cellIdx1: cellIdx1Month, // 月
-        cellIdx1TypeTextItem: cellIdx1Month, // 年
         cellIdx2: cellIdx2Date, // 日
-        cellIdx2TypeTextItem: cellIdx2Date, // 年
         cellIdx3: cellIdx3Hour, // 时
-        cellIdx3TypeTextItem: cellIdx3Hour, // 时
         cellIdx4: cellIdx4Minu, // 分
-        cellIdx4TypeTextItem: cellIdx4Minu, // 分
-        cellIdx5: null, // 时
-        cellIdx6: null, // 分
-        cellIdx7: null, // 听证地点
-        cellIdx8: null, // 听证主持人（签名）
-        cellIdx9: null, // 记录人（签名）
+        cellIdx7: cellIdx7String, // 听证地点
         cellIdx10: cellIdx10String, // 听证记录
-        cellIdx10TypeTextareaItem: cellIdx10String, // 听证记录
-        cellIdx11: null, // 听证参加人（签名）
-      };
+        DangerTable,
+        selectedType: let28DataPaperContent.selectedType,
+        associationPaperId,
+        associationPaperOrder
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

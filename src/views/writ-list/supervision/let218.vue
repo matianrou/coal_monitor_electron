@@ -112,19 +112,34 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject } from "@/utils/setInitPaperData";
+import { setNewDanger, getDocNumber2 } from '@/utils/setInitPaperData'
 import associationSelectPaper from '@/components/association-select-paper'
+import { setDangerTable } from "@/utils/handlePaperData";
 export default {
-  name: "Let205",
+  name: "Let218",
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
+      letData: {
+        cellIdx0: null, //
+        cellIdx1: null, // 编号
+        cellIdx2: null, // 案由
+        cellIdx3: null, // 听证主持人
+        cellIdx4: null, // 听证主持人
+        cellIdx5: null, // 记录人
+        cellIdx6: null, // 听证会基本情况摘要
+        cellIdx7: null, // 听证主持人意见
+        cellIdx8: null, // 听证主持人（签名）
+        cellIdx9: null, // 日期
+        cellIdx10: null, // 负责人审核意见
+        cellIdx11: null, // 负责人（签名）
+        cellIdx12: null, // 日期
+        DangerTable: null,
+        selectedType: null,
+        associationPaperId: {},
+        associationPaperOrder: []
+      },
       options: {
-        cellIdx2: {
-          page: "30",
-          key: "cellIdx2", // 用来区分一个页面多个地方调用隐患大表，最后返回值
-        },
         cellIdx7: [
           {
             value:
@@ -156,7 +171,7 @@ export default {
           },
         ],
       },
-      associationPaper: ['1']
+      associationPaper: ['7']
     };
   },
   methods: {
@@ -166,43 +181,56 @@ export default {
       let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
+      // 1.获取文书编号：
+      let paperNumber = await getDocNumber2(db, this.docData.docTypeNo, this.corpData.caseId)
       // 获取笔录文书中的隐患数据
-      let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent);
-      let dangerObject = getDangerObject(
-        let1DataPaperContent.DangerTable.tableData
+      let let7DataPaperContent = JSON.parse(
+        selectedPaper.let7Data.paperContent
       );
       // 案由：煤矿名称 + '涉嫌' + 隐患描述 + '案。'
-      let cellIdx2String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
+      let cellIdx2String =
+        this.corpData.caseType === "0"
+          ? setDangerTable(
+              let7DataPaperContent.DangerTable,
+              {},
+              {
+                page: "49",
+                key: "cellIdx2",
+                spellString: {
+                  corpName: corp.corpName,
+                  groupName: this.$store.state.curCase.provinceGroupName,
+                },
+              }
+            )
+          : "";
       // 获取听证笔录中的听证主持人和记录人
-      let wkPaper = db.table('wkPaper');
-      let let211Data = await wkPaper.find((item) => {
-        return item.caseId === this.corpData.caseId && item.paperType === "7" && item.delFlag !== '1';
-      });
-      let let211DataPapaerContent = let211Data ? JSON.parse(let211Data.paperContent) : {cellIdx8: '', cellIdx9: ''};
       await db.close();
-      this.letData = {
-        cellIdx0: null, //
-        cellIdx1: null, // 编号
+      let DangerTable =
+        this.corpData.caseType === "0"
+          ? setNewDanger(
+              selectedPaper.let7Data,
+              let7DataPaperContent.DangerTable
+            )
+          : null;
+      let associationPaperId = Object.assign({}, this.setAssociationPaperId(let7DataPaperContent.associationPaperId), {
+        paper7Id: selectedPaper.let7Data.paperId,
+      }) 
+      let associationPaperOrder = this.setAssociationPaperOrder(let7DataPaperContent.associationPaperOrder)
+      associationPaperOrder.push('7')
+      this.letData = Object.assign({}, this.letData, {
+        cellIdx1: paperNumber,
         cellIdx2: cellIdx2String, // 案由
-        cellIdx2TypeTextareaItem: cellIdx2String, // 案由
-        cellIdx3: let211DataPapaerContent.cellIdx8, // 听证主持人
-        cellIdx3TypeTextItem: let211DataPapaerContent.cellIdx8, // 听证主持人
-        // cellIdx4: null, // 听证主持人
-        cellIdx5: let211DataPapaerContent.cellIdx9, // 记录人
-        cellIdx5TypeTextItem: let211DataPapaerContent.cellIdx9, // 记录人
-        cellIdx6: null, // 听证会基本情况摘要
-        cellIdx7: null, // 听证主持人意见
-        cellIdx8: null, // 听证主持人（签名）
-        cellIdx9: null, // 日期
-        cellIdx10: null, // 负责人审核意见
-        cellIdx11: null, // 负责人（签名）
-        cellIdx12: null, // 日期
-        DangerTable: let1DataPaperContent.DangerTable,
+        cellIdx3: let7DataPaperContent.cellIdx8, // 听证主持人
+        cellIdx5: let7DataPaperContent.cellIdx9, // 记录人
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
           groupName: this.$store.state.curCase.provinceGroupName,
-        }
-      };
+        },
+        DangerTable,
+        selectedType: let7DataPaperContent.selectedType,
+        associationPaperId,
+        associationPaperOrder
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

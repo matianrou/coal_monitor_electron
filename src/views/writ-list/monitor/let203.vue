@@ -161,7 +161,7 @@
 import GoDB from "@/utils/godb.min.js";
 import { setDangerTable } from '@/utils/handlePaperData'
 import associationSelectPaper from "@/components/association-select-paper";
-import { setNewDanger, getDocNumber2, setAssociationPaperId } from '@/utils/setInitPaperData'
+import { setNewDanger, getDocNumber2 } from '@/utils/setInitPaperData'
 
 export default {
   name: "Let203",
@@ -192,7 +192,7 @@ export default {
       options: {
         cellIdx8: []
       },
-      associationPaper: this.corpData.caseType === '0' ? ["49"] : ["4"],
+      associationPaper: this.corpData.caseType === '0' ? ["49"] : ["4"],// 关联行政法制审核意见书或者立案决定书
     };
   },
   methods: {

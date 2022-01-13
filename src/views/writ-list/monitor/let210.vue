@@ -274,7 +274,6 @@ export default {
         ],
       },
       associationPaper: ["28"],
-      visibleSelectDialog: false,
     };
   },
   methods: {
@@ -284,8 +283,6 @@ export default {
       let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      // 1.弹出提示框，选择单位或个人
-      this.visibleSelectDialog = true;
       // 2.生成文书编号
       let { num0, num1, num3, num4 } = await getDocNumber(
         db,
@@ -297,10 +294,6 @@ export default {
       let let28DataPaperContent = JSON.parse(
         selectedPaper.let28Data.paperContent
       );
-      // let dangerObject = this.corpData.caseType === '0' ? getDangerObject(
-      //   let28DataPaperContent.DangerTable.selectedDangerList
-      // ) : null;
-      // let cellIdx6String = this.corpData.caseType === '0' ? `${corp.corpName}涉嫌${dangerObject.dangerString}案。` : '';
       let cellIdx6String = this.corpData.caseType === '0' ?setDangerTable(
           let28DataPaperContent.DangerTable,
           {}, 
@@ -387,21 +380,6 @@ export default {
           this.options[key]
         );
       }
-    },
-    async confirm() {
-      // 选择单位或个人
-      this.visibleSelectDialog = false;
-      this.letData.cellIdx5 = this.selectedType;
-      this.letData.cellIdx5TypeTextItem = this.selectedType;
-      this.letData.cellIdx9 = this.selectedType;
-      this.letData.cellIdx9TypeTextItem = this.selectedType;
-      this.letData.cellIdx20 = this.selectedType;
-      this.letData.cellIdx20TypeTextItem = this.selectedType;
-      this.letData.cellIdx9 = this.selectedType;
-      this.letData.cellIdx9TypeTextItem = this.selectedType;
-      this.letData.cellIdx22 = this.selectedType;
-      this.letData.cellIdx22TypeTextItem = this.selectedType;
-      this.letData.selectedType = this.selectedType;
     },
   },
 };

@@ -31,7 +31,7 @@
                   data-src
                   onclick="commandFill(this.id)"
                 ></td>
-                <td class="textAlignLeft cellBottomLine">煤安监</td>
+                <td class="textAlignLeft cellBottomLine">煤安</td>
                 <td
                   class="cellInput cellBottomLine"
                   id="cell_idx_1"

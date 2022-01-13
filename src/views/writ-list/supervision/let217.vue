@@ -126,7 +126,7 @@
                   id="cell_idx_15"
                   style="width:92%;"
                   @click="commandFill('cellIdx15', '', 'TextItem')"
-                >{{letData.cellIdx15 ? letData.cellIdx15 : '其他'}}</td>
+                >{{letData.cellIdx15 ? letData.cellIdx15 : ''}}</td>
               </tr>
               <tr>
                 <td style="width:5%"></td>

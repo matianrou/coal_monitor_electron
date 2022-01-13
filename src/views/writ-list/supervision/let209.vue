@@ -61,7 +61,7 @@
               >{{ letData.cellIdx6 ? letData.cellIdx6 : '（点击编辑）' }}</span>
               申请，关于
               <span
-                @click="commandFill('cellIdx7', '违法行为', 'DangerTable')"
+                @click="commandFill('cellIdx7', '违法行为', 'TextareaItem')"
               >{{ letData.cellIdx7 ? letData.cellIdx7 : '（点击编辑）'}}</span>
               ，现定于
               <span
@@ -152,7 +152,7 @@
             </div>
             <div class="docTextarea">
               <label style="width: 2em"></label>
-              根据《中华人民共和国行政处罚法》第六十四条规定，你
+              根据《中华人民共和国行政处罚法》第<span class="text-decoration">六十四</span>条规定，你
               <span
                 class="no-underline"
               >{{ letData.cellIdx23 ? letData.cellIdx23 : '（点击编辑）'}}</span>
@@ -168,7 +168,7 @@
             </div>
             <div class="docTextarea">
               <label style="width: 2em"></label>
-              3. 申请延期举行的，应当在举行听证会至少三日前向本机关提出，由本机关决定是否延期。
+              3. 申请延期举行的，应当在举行听证会前向本机关提出，由本机关决定是否延期。
             </div>
             <!-- <table style="border:solid 0 #000;" class="docBody">
               <tr>
@@ -266,8 +266,9 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber } from '@/utils/setInitPaperData'
+import { getDocNumber, setNewDanger } from '@/utils/setInitPaperData'
 import associationSelectPaper from '@/components/association-select-paper'
+import { setDangerTable } from "@/utils/handlePaperData";
 export default {
   name: "Let209",
   mixins: [associationSelectPaper],

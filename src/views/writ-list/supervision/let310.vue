@@ -73,7 +73,7 @@
               <div class="line"></div>
             </div>
             <div class="docTextarea">
-              <span class="no-line" style="width:28%">&nbsp;&nbsp;&nbsp;&nbsp;承办人（签名）：</span>
+              <span class="no-line" style="width:28%">承办人（签名）：</span>
               <span style="display:inline-block;min-width:35%;line-height: normal;max-width:35%" @click="commandFill('cellIdx8', '承办人（签名）', 'TextItem')"
                 >{{ letData.cellIdx8 ? letData.cellIdx8 : "（点击编辑）" }}
               </span>
@@ -94,7 +94,7 @@
             </div>
             <div class="docTextarea">
               <div style="display:inline-block;min-width:43%">
-                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;分管负责人意见：</span>
+                <span class="no-line">分管负责人意见：</span>
                 <span @click="commandFill('cellIdx12', '分管负责人意见', 'TextItem')"
                   >{{ letData.cellIdx12 ? letData.cellIdx12 : "（编辑）" }}
                 </span>
@@ -111,7 +111,7 @@
             </div>
             <div class="docTextarea">
               <div style="display:inline-block;min-width:43%">
-                <span class="no-line">&nbsp;&nbsp;&nbsp;&nbsp;主要负责人意见：</span>
+                <span class="no-line">主要负责人意见：</span>
                 <span @click="commandFill('cellIdx15', '主要负责人意见', 'TextItem')"
                   >{{ letData.cellIdx15 ? letData.cellIdx15 : "（编辑）" }}
                 </span>
@@ -127,37 +127,27 @@
                 <div class="line"></div>
                 <div class="line1"></div>
             </div>
-            <table class="docBody" style="margin-top: 30px;">
-              <tr>
-                <td
-                  class="cellInput"
-                  id="cell_idx_18"
-                  align="right"
-                  style="width:95%"
-                  @click="commandFill('cellIdx18', '', 'TextItem')"
-                >{{ letData.cellIdx18 ? letData.cellIdx18 : '（点击编辑）' }}</td>
-              </tr>
-              <tr>
-                <td
-                  class="cellInput"
-                  id="cell_idx_19"
-                  align="right"
-                  style="width:95%"
-                  data-title
-                  data-type="date"
-                  data-src
-                  @click="commandFill('cellIdx19', '日期', 'DateItem')"
-                >{{ letData.cellIdx19 ? letData.cellIdx19 : '（点击编辑）' }}</td>
-              </tr>
-            </table>
-            <!-- <table>
-              <hr />
-              <td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被复查单位，一份存档。</td>
-            </table>-->
           </div>
         </div>
       </div>
     </let-main>
+    <el-dialog
+      title="文书信息选择"
+      :close-on-click-modal="false"
+      append-to-body
+      :visible="visibleSelectDialog"
+      width="400px"
+      :show-close="false"
+    >
+      <span>请选择：</span>
+      <el-radio-group v-model="selectedType">
+        <el-radio label="单位">单位</el-radio>
+        <el-radio label="个人">个人</el-radio>
+      </el-radio-group>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="confirm">确定</el-button>
+      </span>
+    </el-dialog>
     <!-- 关联文书选择 -->
     <select-paper
       :visible="visible.selectPaper"
@@ -171,7 +161,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
+import { getDocNumber2, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from '@/components/association-select-paper'
 
 export default {
@@ -179,41 +169,10 @@ export default {
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
-      options: {},
-      associationPaper: ['4']
-    };
-  },
-  methods: {
-    async initLetData (selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
-        return item.corpId == this.corpData.corpId;
-      });
-      // 1.生成文书编号
-      let { num0, num1, num3, num4 } = await getDocNumber(
-        db,
-        this.docData.docTypeNo,
-        this.corpData.caseId
-      );
-      // 2.发现你矿存在：隐患描述
-      // 获取笔录文书中的隐患数据 调整为立案决定书中的案由字段cellIdx4
-      // let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent);
-      // let dangerObject = getDangerObject(
-      //   let1DataPaperContent.DangerTable.tableData,
-      //   { danger: true }
-      // );
-      // let cellIdx2String = `${corp.corpName}涉嫌${dangerObject.dangerString}案。`;
-      // let cellIdx10String = dangerObject.onsiteDescString;
-      let let4DataPaperContent = JSON.parse(selectedPaper.let4Data.paperContent);
-
-      await db.close();
-      this.letData = {
-        cellIdx0: null, //
+      letData: {
+        cellIdx0: null, // 暂不用
         cellIdx1: null, // 编号
-        cellIdx2: let4DataPaperContent.cellIdx4, // 案由
-        cellIdx2TypeTextareaItem: let4DataPaperContent.cellIdx4, // 案由
+        cellIdx2: null, // 案由
         cellIdx3: null, // 审批事项
         cellIdx4: null, // 行政相对人基本情况
         cellIdx5: null, // 案情摘要
@@ -221,7 +180,7 @@ export default {
         cellIdx7: null, // 承办人意见
         cellIdx8: null, // 承办人（签名)
         cellIdx9: null, // 日期
-        cellIdx10: null, // 现场执法人员（签名)
+        cellIdx10: null, // 承办人（签名）)
         cellIdx11: null, // 日期
         cellIdx12: null, // 被检查单位意见
         cellIdx13: null, // 单位负责人（签名)
@@ -229,10 +188,49 @@ export default {
         cellIdx15: null, // 被检查单位意见
         cellIdx16: null, // 单位负责人（签名)
         cellIdx17: null, // 日期
-        cellIdx18: this.$store.state.curCase.provinceGroupName, //
-        cellIdx19: this.todayDate, // 日期
-        cellIdx19TypeDateItem: this.todayDate, // 日期
-      };
+        DangerTable: null,
+        associationPaperId: {},
+        associationPaperOrder: []
+      },
+      options: {},
+      visibleSelectDialog: false,
+      selectedType: "单位", // 初始化时选择的单位或个人
+      associationPaper: ['4']
+    };
+  },
+  methods: {
+    async initLetData (selectedPaper) {
+      this.visibleSelectDialog = true;
+      let db = new GoDB(this.$store.state.DBName);
+      // 1.生成文书编号
+      let paperNumber = await getDocNumber2(
+        db,
+        this.docData.docTypeNo,
+        this.corpData.caseId
+      );
+      // 2.获取立案决定书案由
+      let let4DataPaperContent = JSON.parse(selectedPaper.let4Data.paperContent);
+      let DangerTable = null
+      if (this.corpData.caseType === '0') {
+        DangerTable = let4DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let4Data, let4DataPaperContent.DangerTable)
+          : {}
+      }
+      await db.close();
+      let associationPaperId = Object.assign({}, this.setAssociationPaperId(let4DataPaperContent.associationPaperId), {
+        paper4Id: selectedPaper.let4Data.paperId,
+      }) 
+      let associationPaperOrder = this.setAssociationPaperOrder(let4DataPaperContent.associationPaperOrder)
+      associationPaperOrder.push('4')
+      await db.close();
+      this.letData = Object.assign({}, this.letData, {
+        cellIdx1: paperNumber,
+        cellIdx2: let4DataPaperContent.cellIdx4, // 案由
+        cellIdx5: let4DataPaperContent.cellIdx5, // 案由
+        DangerTable,
+        associationPaperId,
+        associationPaperOrder
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业
@@ -251,6 +249,23 @@ export default {
           this.letData[dataKey],
           this.options[key]
         );
+      }
+    },
+    async confirm() {
+      // 选择单位或个人
+      this.visibleSelectDialog = false;
+      if (this.selectedType === "单位") {
+        // 按单位初始化信息
+        let db = new GoDB(this.$store.state.DBName);
+        let corpBase = db.table("corpBase");
+        let corp = await corpBase.find((item) => {
+          return item.corpId == this.corpData.corpId;
+        });
+        // 煤矿名称+“，”+统一信用代码+“，”+法定代表人+“，”+“法定代表人手机号”+“，”+煤矿地址。
+        let corpDescription = `${corp.corpName || 'XX'}，${corp.uscCode || 'XX'}，${corp.legalName || 'XX'}，${corp.legalTel || 'XX'}，${corp.address || 'XX'}`
+        this.letData.cellIdx4 = corpDescription;
+      } else {
+        // 按个人初始化信息
       }
     },
   },

@@ -77,7 +77,7 @@
               <span
                 @click="commandFill('cellIdx8', '日', 'TextItem')"
               >{{ letData.cellIdx8 ? letData.cellIdx8 : '（XX）'}}</span>
-              日向
+              日向你
               <span
                 class="no-underline"
               >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）'}}</span>
@@ -101,7 +101,7 @@
                 class="no-underline"
                 @click="commandFill('cellIdx13', '行政处罚决定文书号', 'TextItem')"
               >{{ letData.cellIdx13 ? letData.cellIdx13 : '（点击编辑）'}}</span>
-              号），对
+              号），对你
               <span
                 class="no-underline"
               >{{ letData.cellIdx14 ? letData.cellIdx14 : '（点击编辑）'}}</span>
@@ -113,7 +113,7 @@
               <span
                 class="no-underline"
               >{{ letData.cellIdx16 ? letData.cellIdx16 : '（点击编辑）'}}</span>
-              的申请，本机关依据《中华人民共和国行政处罚法》第六十六条第二款规定，经研究，作出如下决定:
+              的申请，本机关依据《中华人民共和国行政处罚法》<span class="text-decoration">六十六</span>条第<span class="text-decoration">二</span>款规定，经研究，作出如下决定:
             </div>
             <table class="docBody">
               <tr>
@@ -240,146 +240,6 @@
             <div class="docTextarea no-print" style="text-align: center; cursor: pointer; color:#409EFF;" @click="addInstallment">
               （点击添加分期）
             </div>
-            <!-- <table class="docBody">
-              <td style="width:5%"></td>
-              <td class="textAlignLeft">第</td>
-              <td
-                class="cellInput cellBottomLine"
-                id="cell_idx_25"
-                align="center"
-                style="width:7%"
-                data-title="月"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx25', '第几期', 'TextItem')"
-              >{{letData.cellIdx25}}</td>
-              <td class="textAlignLeft">期：</td>
-              <td
-                class="cellInput cellBottomLine"
-                id="cell_idx_26"
-                align="center"
-                style="width:8%"
-                data-title="年"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx26', '年', 'TextItem')"
-              >{{letData.cellIdx26}}</td>
-              <td class="textAlignLeft">年</td>
-              <td
-                class="cellInput cellBottomLine"
-                id="cell_idx_27"
-                align="center"
-                style="width:8%"
-                data-title="月"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx27', '月', 'TextItem')"
-              >{{letData.cellIdx27}}</td>
-              <td class="textAlignLeft">月</td>
-              <td
-                class="cellInput cellBottomLine"
-                id="cell_idx_28"
-                align="center"
-                style="width:8%"
-                data-title="日"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx28', '日', 'TextItem')"
-              >{{letData.cellIdx28}}</td>
-              <td class="textAlignLeft">日前，缴纳罚款</td>
-              <td
-                class="cellInput cellBottomLine"
-                id="cell_idx_29"
-                align="center"
-                style="width:9%"
-                data-title="缴纳罚款"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx29', '缴纳罚款', 'TextItem')"
-              >{{letData.cellIdx29}}</td>
-              <td class="textAlignLeft">(￥</td>
-              <td
-                class="cellInput"
-                id="cell_idx_30"
-                align="center"
-                style="width:10%"
-                data-title="￥"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx30', '￥', 'TextItem')"
-              >{{letData.cellIdx30}}</td>
-              <td class="textAlignLeft">)</td>
-            </table>
-            <table class="docBody">
-              <td style="width:5%"></td>
-              <td class="textAlignLeft">第</td>
-              <td
-                class="cellInput cellBottomLine"
-                id="cell_idx_31"
-                align="center"
-                style="width:7%"
-                data-title="月"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx31', '第几期', 'TextItem')"
-              >{{letData.cellIdx31}}</td>
-              <td class="textAlignLeft">期：</td>
-              <td
-                class="cellInput cellBottomLine"
-                id="cell_idx_32"
-                align="center"
-                style="width:8%"
-                data-title="年"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx32', '年', 'TextItem')"
-              >{{letData.cellIdx32}}</td>
-              <td class="textAlignLeft">年</td>
-              <td
-                class="cellInput cellBottomLine"
-                id="cell_idx_33"
-                align="center"
-                style="width:8%"
-                data-title="月"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx33', '月', 'TextItem')"
-              >{{letData.cellIdx33}}</td>
-              <td class="textAlignLeft">月</td>
-              <td
-                class="cellInput cellBottomLine"
-                id="cell_idx_34"
-                align="center"
-                style="width:8%"
-                data-title="日"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx34', '日', 'TextItem')"
-              >{{letData.cellIdx34}}</td>
-              <td class="textAlignLeft">日前，缴纳罚款</td>
-              <td
-                class="cellInput cellBottomLine"
-                id="cell_idx_35"
-                align="center"
-                style="width:9%"
-                data-title="缴纳罚款"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx35', '缴纳罚款', 'TextItem')"
-              >{{letData.cellIdx36}}</td>
-              <td class="textAlignLeft">(￥</td>
-              <td
-                class="cellInput"
-                id="cell_idx_36"
-                align="center"
-                style="width:10%"
-                data-title="￥"
-                data-type="text"
-                data-src
-                @click="commandFill('cellIdx36', '￥', 'TextItem')"
-              >{{letData.cellIdx36}}</td>
-              <td class="textAlignLeft">)</td>
-            </table> -->
             <table class="docBody" style="margin-top: 30px;">
               <tr>
                 <td
@@ -405,7 +265,7 @@
             </table>
           </div>
           <div class="docTextarea" style="border-top: 2px solid #000;">
-            备注：本文书一式三份，一份交银行，一份交被处
+            备注：本文书一式三份，一份交银行，一份交被处罚
             <span
               style="borderBottom:none"
             >{{ letData.cellIdx39 ? letData.cellIdx39 : '（点击编辑）'}}</span>
@@ -444,8 +304,9 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber } from "@/utils/setInitPaperData";
+import { getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from '@/components/association-select-paper'
+import { transformNumToChinese, thousands } from '@/utils/index'
 const toggleDictionary = [
   {
     value: "□",
@@ -456,110 +317,36 @@ const toggleDictionary = [
     name: "√",
   },
 ];
-const companyYou = [
-  {
-    value: "单位",
-    name: "单位",
-  },
-  {
-    value: "你",
-    name: "你",
-  },
-];
 export default {
-  name: "Let105",
+  name: "Let219",
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
-      options: {
-        cellIdx9: companyYou,
-        cellIdx14: companyYou,
-        cellIdx16: companyYou,
-        cellIdx17: toggleDictionary,
-        cellIdx19: toggleDictionary,
-        cellIdx23: toggleDictionary,
-        cellIdx39: [
-          {
-            value: "单位",
-            name: "单位",
-          },
-          {
-            value: "个人",
-            name: "个人",
-          },
-        ]
-      },
-      visibleSelectDialog: false,
-      selectedType: "延期",
-      associationPaper: ['8']
-    };
-  },
-  methods: {
-    async initLetData (selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
-        return item.corpId == this.corpData.corpId;
-      });
-      let paperNumber = await getDocNumber(
-        db,
-        this.docData.docTypeNo,
-        this.corpData.caseId
-      );
-      // 2.行政处罚决定书 日期、编号、
-      let let8DataPaperContent = JSON.parse(selectedPaper.let8Data.paperContent);
-      let date206 = let8DataPaperContent.cellIdx20
-        ? let8DataPaperContent.cellIdx20
-            .replace("年", "-")
-            .replace("月", "-")
-            .replace("日", "-")
-            .split("-")
-        : ["", "", ""];
-      let selectedTypeExtra = let8DataPaperContent.selectedType
-      let selectedString = selectedTypeExtra === '单位' ? '单位' : '你'
-      await db.close();
-      this.visibleSelectDialog = true;
-      this.letData = {
-        cellIdx0: null, // 延期/分期
-        cellIdx1: paperNumber.num0, // 文书号
-        cellIdx1TypeTextItem: paperNumber.num0, // 文书号
-        cellIdx2: paperNumber.num1, // 文书号
-        cellIdx2TypeTextItem: paperNumber.num1, // 文书号
-        cellIdx3: paperNumber.num3, // 文书号
-        cellIdx3TypeTextItem: paperNumber.num3, // 文书号
-        cellIdx4: paperNumber.num4, // 文书号
-        cellIdx5TypeTextItem: paperNumber.num4, // 文书号
-        cellIdx5: corp.corpName, // 煤矿名称
-        cellIdx5TypeTextItem: corp.corpName, // 煤矿名称
-        cellIdx6: date206[0], // 年
-        cellIdx6TypeTextItem: date206[0], // 年
-        cellIdx7: date206[1], // 月
-        cellIdx7TypeTextItem: date206[1], // 月
-        cellIdx8: date206[2], // 日
-        cellIdx8TypeTextItem: date206[2], // 日
-        cellIdx9: selectedString, // 单位/个人
-        cellIdx9TypeSelectItem: selectedString, // 单位/个人
-        cellIdx10: let8DataPaperContent.cellIdx0, // 行政处罚决定书 文书号
-        cellIdx10TypeTextItem: let8DataPaperContent.cellIdx0, // 行政处罚决定书 文书号
-        cellIdx11: let8DataPaperContent.cellIdx1, // 行政处罚决定书 文书号
-        cellIdx11TypeTextItem: let8DataPaperContent.cellIdx1, // 行政处罚决定书 文书号
-        cellIdx12: let8DataPaperContent.cellIdx2, // 行政处罚决定书 文书号
-        cellIdx12TypeTextItem: let8DataPaperContent.cellIdx2, // 行政处罚决定书 文书号
-        cellIdx13: let8DataPaperContent.cellIdx3, // 行政处罚决定书 文书号
-        cellIdx13TypeTextItem: let8DataPaperContent.cellIdx3, // 行政处罚决定书 文书号
-        cellIdx14: selectedString, // 单位/个人
-        cellIdx14TypeSelectItem: selectedString, // 单位/个人
+      letData: {
+        ellIdx0: null, // 延期/分期
+        cellIdx1: null, // 文书号
+        cellIdx2: null, // 文书号
+        cellIdx3: null, // 文书号
+        cellIdx4: null, // 文书号
+        cellIdx5: null, // 煤矿名称
+        cellIdx6: null, // 年
+        cellIdx7: null, // 月
+        cellIdx8: null, // 日
+        cellIdx9: null, // 单位/个人
+        cellIdx10: null, // 行政处罚决定书 文书号
+        cellIdx11: null, // 行政处罚决定书 文书号
+        cellIdx12: null, // 行政处罚决定书 文书号
+        cellIdx13: null, // 行政处罚决定书 文书号
+        cellIdx14: null, // 单位/个人
         cellIdx15: null, // 罚款
-        cellIdx16: selectedString, // 单位/个人
-        cellIdx16TypeSelectItem: selectedString, // 单位/个人
-        cellIdx17: "□", // 不予批准
+        cellIdx16: null, // 单位/个人
+        cellIdx17: null, // 不予批准
         cellIdx18: null, // 延期/分期
-        cellIdx19: "□", // 延期缴纳罚款
+        cellIdx19: null, // 延期缴纳罚款
         cellIdx20: null, // 年
         cellIdx21: null, // 月
         cellIdx22: null, // 日
-        cellIdx23: "□", // 不予批准
+        cellIdx23: null, // 不予批准
         cellIdx24: null, // 分几期
         cellIdx40: [
           {
@@ -579,24 +366,95 @@ export default {
             fineChinese: '', // 缴纳罚款大写
           },
         ], // 分期内容
-        // cellIdx25: null, // 第几期
-        // cellIdx26: null, // 年
-        // cellIdx27: null, // 月
-        // cellIdx28: null, // 日
-        // cellIdx29: null, // 缴纳罚款
-        // cellIdx30: null, // 缴纳罚款大写
-        // cellIdx31: null, // 第几期
-        // cellIdx32: null, // 年
-        // cellIdx33: null, // 月
-        // cellIdx34: null, // 日
-        // cellIdx35: null, // 缴纳罚款
-        // cellIdx36: null, // 缴纳罚款大写
+        cellIdx37: null, //
+        cellIdx38: null, // 日期
+        cellIdx39: null, // 单位/个人
+        DangerTable: null,
+        associationPaperId: {},
+        associationPaperOrder: []
+      },
+      options: {
+        cellIdx17: toggleDictionary,
+        cellIdx19: toggleDictionary,
+        cellIdx23: toggleDictionary,
+      },
+      visibleSelectDialog: false,
+      selectedType: "延期",
+      associationPaper: ['8']
+    };
+  },
+  methods: {
+    async initLetData (selectedPaper) {
+      let db = new GoDB(this.$store.state.DBName);
+      let corpBase = db.table("corpBase");
+      let corp = await corpBase.find((item) => {
+        return item.corpId == this.corpData.corpId;
+      });
+      // 1.文书号
+      let paperNumber = await getDocNumber(
+        db,
+        this.docData.docTypeNo,
+        this.corpData.caseId
+      );
+      // 2.被处罚单位个人
+      let let8DataPaperContent = JSON.parse(selectedPaper.let8Data.paperContent);
+      let cellIdx5String = let8DataPaperContent.cellIdx5 || ''
+      // 3.行政处罚决定书 日期、编号、
+      let date206 = selectedPaper.let8Data.createDate.split(' ')[0].split('-')
+      let selectedTypeExtra = let8DataPaperContent.selectedType
+      // 4.获取行政处罚中的罚款金额
+      // 带入行政处罚决定书的处罚金额 .罚款数额的填写应当使用中文大写填写，后面用括号标明“¥+阿拉伯数字”，如“人民币贰万元整（¥20,000.00）
+      let moneyChinese = ''
+      let moneyThousands = ''
+      if (selectedPaper.let8Data.p8Penalty) {
+        moneyChinese = transformNumToChinese(selectedPaper.let8Data.p8Penalty)
+        moneyThousands = thousands(selectedPaper.let8Data.p8Penalty, 2)
+      }
+      let cellIdx15String = selectedPaper.let8Data.p8Penalty ?`${moneyChinese}（¥${moneyThousands}）` : ''
+      let DangerTable = null;
+      if (this.corpData.caseType === "0") {
+        DangerTable = let8DataPaperContent.DangerTable
+          ? setNewDanger(
+              selectedPaper.let8Data,
+              let8DataPaperContent.DangerTable
+            )
+          : {};
+      }
+      await db.close();
+      let associationPaperId = Object.assign({}, this.setAssociationPaperId(let8DataPaperContent.associationPaperId), {
+        paper8Id: selectedPaper.let8Data.paperId,
+      }) 
+      let associationPaperOrder = this.setAssociationPaperOrder(let8DataPaperContent.associationPaperOrder)
+      associationPaperOrder.push('8')
+      this.visibleSelectDialog = true;
+      this.letData = Object.assign({}, this.letData, {
+        cellIdx1: paperNumber.num0, // 文书号
+        cellIdx2: paperNumber.num1, // 文书号
+        cellIdx3: paperNumber.num3, // 文书号
+        cellIdx4: paperNumber.num4, // 文书号
+        cellIdx5: cellIdx5String, // 被处罚单位/个人
+        cellIdx6: date206[0], // 年
+        cellIdx7: date206[1], // 月
+        cellIdx8: date206[2], // 日
+        cellIdx9: selectedTypeExtra, // 单位/个人
+        cellIdx10: let8DataPaperContent.cellIdx0, // 行政处罚决定书 文书号
+        cellIdx11: let8DataPaperContent.cellIdx1, // 行政处罚决定书 文书号
+        cellIdx12: let8DataPaperContent.cellIdx2, // 行政处罚决定书 文书号
+        cellIdx13: let8DataPaperContent.cellIdx3, // 行政处罚决定书 文书号
+        cellIdx14: selectedTypeExtra, // 单位/个人
+        cellIdx15: cellIdx15String,
+        cellIdx16: selectedTypeExtra, // 单位/个人
+        cellIdx17: "□", // 不予批准
+        cellIdx19: "□", // 延期缴纳罚款
+        cellIdx23: "□", // 不予批准
         cellIdx37: this.$store.state.curCase.provinceGroupName, //
         cellIdx38: this.todayDate, // 日期
-        cellIdx38TypeDateItem: this.todayDate, // 日期
         cellIdx39: selectedTypeExtra, // 单位/个人
-        cellIdx39TypeSelectItem: selectedTypeExtra, // 单位/个人
-      };
+        selectedType1: let8DataPaperContent.selectedType, // 单位或个人的存储
+        DangerTable: DangerTable,
+        associationPaperId,
+        associationPaperOrder
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业

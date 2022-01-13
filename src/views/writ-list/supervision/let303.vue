@@ -18,7 +18,7 @@
 		<table class="docBody">
 			<tr>
 			<td class="cellInput cellBottomLine" id="cell_idx_0" align="right" style="width:55%" data-title="文书号" data-type="text" data-src="" onclick="commandFill(this.id)"></td>
-			<td class="textAlignLeft cellBottomLine">煤安监</td>
+			<td class="textAlignLeft cellBottomLine">煤安</td>
 			<td class="cellInput cellBottomLine" id="cell_idx_1" align="center" style="width:7%" data-title="文书号" data-type="text" data-src="" onclick="commandFill(this.id)"></td>
 			<td class="textAlignLeft cellBottomLine">复不受〔</td>
 			<td class="cellInput cellBottomLine" id="cell_idx_2" align="center" style="width:7%" data-title="文书号" data-type="text" data-src="" onclick="commandFill(this.id)"></td>

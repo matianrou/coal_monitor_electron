@@ -65,7 +65,7 @@
           <!-- 个人和更多 -->
           <el-dropdown :hide-on-click="false" @command="handleCommand" style="min-width: 120px; cursor: pointer;">
             <span class="el-dropdown-link">
-              <span style="color: #fff;">欢迎您：{{$store.state.user.userName}}</span>
+              <span style="color: #fff;">欢迎您：{{$store.state.user.userName}}</span><i class="el-icon-caret-bottom" style="color: #f19716;"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="clearLogin">注销登录</el-dropdown-item>

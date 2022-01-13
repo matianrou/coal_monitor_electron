@@ -425,7 +425,7 @@ export default {
     },
     deleteCase () {
       // 删除检查活动
-      if (!this.$store.state.onLine.onLine) {
+      if (!this.$store.state.onLine) {
         this.$message.error('当前为离线登录，请联网后再尝试删除！')
         return
       }

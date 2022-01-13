@@ -21,7 +21,7 @@
             <div class="docTextarea">
              <span class="no-line">案由：</span>
               <span
-                @click="commandFill('cellIdx0', '案由', 'DangerTable')"
+                @click="commandFill('cellIdx0', '案由', 'TextareaItem')"
               >{{ letData.cellIdx0 ? letData.cellIdx0 : '（点击编辑）'}}</span>
               <div class="line"></div>
             </div>
@@ -102,12 +102,21 @@
                 <div class="line"></div>
                 <div class="line1"></div>
             </div>
-            <div class="docTextarea">
-              <span class="no-line">出席人员姓名以及职务：</span>
-              <span
-                @click="commandFill('cellIdx12', '出席人员姓名以及职务', 'TextareaItem')"
-              >{{ letData.cellIdx12 ? letData.cellIdx12 : '（点击编辑）'}}</span>
-              <div class="line"></div>
+            <table style="border:solid 0 #000;" class="docBody">
+              <tr>
+                <td class="textAlignLeft">出席人员姓名以及职务：</td>
+              </tr>
+            </table>
+            <div
+              style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
+              class="cellInput mutiLineArea"
+              @click="commandFill('cellIdx12', '出席人员姓名以及职务', 'TextareaItem')">
+              <div>
+                <p class="show-area-item-p">
+                  <span style="padding: 7px;">{{ letData.cellIdx12 || '（点击编辑）' }}</span>
+                </p>
+                <cell-line :line-num="300"></cell-line>
+              </div>
             </div>
             <div class="docTextarea">
                <span class="no-line">讨论内容：</span>
@@ -137,10 +146,6 @@
               >{{ letData.cellIdx16 ? letData.cellIdx16 : '（点击编辑）'}}</span>
               <div class="line"></div>
             </div>
-            <!-- <table>
-		<hr />
-		<td class="textAlignLeft">&nbsp;&nbsp;&nbsp;&nbsp;备注：本文书一式两份，一份交被复查单位，一份存档。</td>
-            </table>-->
           </div>
         </div>
       </div>
@@ -158,45 +163,16 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { handleDate } from '@/utils/date'
 import associationSelectPaper from '@/components/association-select-paper'
 import { setDangerTable } from '@/utils/handlePaperData'
+import { setNewDanger } from '@/utils/setInitPaperData'
 export default {
-  name: "Let201",
+  name: "Let215",
   mixins: [associationSelectPaper],
   data() {
     return {
-      letData: {},
-      options: {},
-      associationPaper: ['1']
-    };
-  },
-  methods: {
-    async initLetData (selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
-        return item.corpId == this.corpData.corpId;
-      });
-      // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
-      let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
-      // let dangerObject = getDangerObject(let1DataPaperContent.DangerTable.tableData)
-      // let cellIdx4String = `${corp.corpName}${dangerObject.dangerString}案。`
-      let cellIdx4String = this.corpData.caseType === '0' ?setDangerTable(
-          let1DataPaperContent.DangerTable,
-          {},
-          {
-            page: "48",
-            key: "cellIdx4",
-            spellString: {
-              corpName: corp.corpName,
-              groupName: this.$store.state.curCase.provinceGroupName,
-            },
-          }
-        ):'';
-      await db.close();
-      this.letData = {
-        cellIdx0: cellIdx4String, // 案由
+      letData: {
+        cellIdx0: null, // 案由
         cellIdx1: null, // 年
         cellIdx2: null, // 月
         cellIdx3: null, // 日
@@ -213,12 +189,58 @@ export default {
         cellIdx14: null, // 讨论记录
         cellIdx15: null, // 结论性意见
         cellIdx16: null, // 出席人员签名
-        DangerTable: let1DataPaperContent.DangerTable,
-        extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
-          corpName: corp.corpName,
-          groupName: this.$store.state.curCase.provinceGroupName,
-        }
-      };
+        DangerTable: null,
+        extraData: {},
+        associationPaperId: {},
+        associationPaperOrder: []
+      },
+      options: {},
+      associationPaper: ['4']
+    };
+  },
+  methods: {
+    async initLetData (selectedPaper) {
+      let db = new GoDB(this.$store.state.DBName);
+      let corpBase = db.table("corpBase");
+      let corp = await corpBase.find((item) => {
+        return item.corpId == this.corpData.corpId;
+      });
+      // 1.案由内容初始化：立案决定书案由
+      let let4DataPaperContent = JSON.parse(selectedPaper.let4Data.paperContent)
+      let cellIdx0String = let4DataPaperContent.cellIdx4
+      // 2.讨论时间：默认当前时间
+      let now = new Date();
+      let year = now.getFullYear() + ''; //得到年份
+      let month = now.getMonth() + 1 + '';//得到月份
+      let date = now.getDate() + '';//得到日期
+      let hour = now.getHours() + '';//得到小时
+      let minu = now.getMinutes() + '';//得到分钟
+      let DangerTable = null;
+      if (this.corpData.caseType === "0") {
+        DangerTable = let4DataPaperContent.DangerTable
+          ? setNewDanger(
+              selectedPaper.let4Data,
+              let4DataPaperContent.DangerTable
+            )
+          : {};
+      }
+      await db.close();
+      let associationPaperId = Object.assign({}, this.setAssociationPaperId(let4DataPaperContent.associationPaperId), {
+        paper4Id: selectedPaper.let4Data.paperId,
+      }) 
+      let associationPaperOrder = this.setAssociationPaperOrder(let4DataPaperContent.associationPaperOrder)
+      associationPaperOrder.push('4')
+      this.letData = Object.assign({}, this.letData, {
+        cellIdx0: cellIdx0String, // 案由
+        cellIdx1: year, // 年
+        cellIdx2: month, // 月
+        cellIdx3: date, // 日
+        cellIdx4: hour, // 时
+        cellIdx5: minu, // 分
+        DangerTable: DangerTable,
+        associationPaperId,
+        associationPaperOrder
+      })
     },
     goBack({ page, data }) {
       // 返回选择企业
@@ -229,16 +251,6 @@ export default {
       if (this.$refs.letMain.canEdit) {
         // 文书各个字段点击打开左侧弹出编辑窗口
         let dataKey = `${key}`;
-        if (key === 'cellIdx0') {
-          this.options[key] = {
-            page: '48',
-            key: key,
-            spellString: {
-              corpName: this.letData.extraData
-            }
-          }
-          dataKey = 'DangerTable'
-        }
         this.$refs.letMain.commandFill(
           key,
           dataKey,
