@@ -35,7 +35,39 @@
                 style="width:32px;height:32px;vertical-align:middle"
               />执法文书
             </div>
-            <div style="flex: 1;">
+            <div class="paper-list-operation">
+              <div style="flex: 2;">
+                <el-form
+                  :model="dataForm"
+                  ref="dataForm"
+                  :inline="true">
+                  <el-form-item
+                    prop="name">
+                    <el-input 
+                      v-model="dataForm.name"
+                      placeholder="请输入文书名称" 
+                      style="width: 150px;"
+                      clearable>
+                    </el-input>
+                  </el-form-item>
+                  <el-form-item
+                    prop="personName">
+                    <el-input 
+                      v-model="dataForm.personName"
+                      placeholder="请输入制作人" 
+                      style="width: 150px;"
+                      clearable>
+                    </el-input>
+                  </el-form-item>
+                </el-form>
+              </div>
+              <div style="flex: 1; text-align: right;">
+                <el-button @click="resetForm">重置</el-button>
+                <el-button type="primary" @click="getData">查询</el-button>
+                <el-button type="primary" @click="batchFile">批量归档</el-button>
+              </div>
+            </div>
+            <div class="paper-list-table">
               <el-table
                 :data="paperList"
                 ref="table"
@@ -43,7 +75,12 @@
                 style="width: 100%;"
                 height="100%"
                 stripe
-                :header-cell-style="{background: '#f5f7fa'}">
+                :header-cell-style="{background: '#f5f7fa'}"
+                @selection-change="handleSelectionChange">
+                <el-table-column
+                  type="selection"
+                  width="55">
+                </el-table-column>
                 <el-table-column
                   header-align="center"
                   align="center"
@@ -169,6 +206,11 @@ export default {
       docData: {}, // 选择显示的文书基本信息编号及名称
       DBName: this.$store.state.DBName,
       selectedPaper: {}, // 选择编辑的文书数据
+      selectedPaperList: [], // 多选的批量归档的文书
+      dataForm: {
+        name: null,
+        personName: null
+      }
     };
   },
   created() {
@@ -202,6 +244,7 @@ export default {
       this.loading.list = true
       let db = new GoDB(this.DBName)
       // 获取煤矿信息
+      this.selectedPaperList = []
       if (this.caseData.corpId) {
         let corpBase = db.table('corpBase')
         let corp = await corpBase.find(item => item.corpId === this.caseData.corpId)
@@ -222,9 +265,27 @@ export default {
       // 获取文书列表
       if (this.caseData.caseId) {
         let wkPaper = db.table('wkPaper')
+        let {name, personName} = this.dataForm
         let paperList = await wkPaper.findAll(item => item.caseId === this.caseData.caseId && item.delFlag !== '1')
+        // 筛选文书名称
+        if (name) {
+          paperList = paperList.filter(item => item.name.includes(name))
+        }
+        // 筛选制作人
+        if (personName) {
+          paperList = paperList.filter(item => item.personName.includes(personName))
+        }
         // 按创建时间排序
         paperList.length > 0 && paperList.sort(sortbyDes('createTime'))
+        // 获取prepareUpload库表中是否有未上传服务器的文书，如果有则可以归档，如果无则不能保存或归档
+        let prepareUpload = db.table("prepareUpload");
+        for (let i = 0; i < paperList.length; i++) {
+          let paper = paperList[i]
+          let paperData = await prepareUpload.find(item => item.paperId === paper.paperId && item.isUpload === '0')
+          if (paperData) {
+            paperList[i].delFlag = '2'
+          }
+        }
         // 遍历设置归档时间：如果delFlag='0'则代表已归档，将updateTiem设置为归档时间，其他则为未归档
         paperList.length > 0 && paperList.map(item => {
           item.fileTime = item.delFlag === '0' ? item.updateDate : '未归档'
@@ -272,7 +333,7 @@ export default {
           dangerouslyUseHTMLString: true,
           type: 'warning'
         }).then(async () => {
-          await this.$http.get(`/sv/local/jczf/delPaperByPaperId?__sid=${this.$store.state.user.userSessId}&paperId=${row.paperId}`)
+          await this.$http.get(`${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/jczf/delPaperByPaperId?__sid=${this.$store.state.user.userSessId}&paperId=${row.paperId}`)
             .then(async ({ data }) => {
               if (data.status === "200") {
                 // 删除成功后，从本地数据库中删除
@@ -312,22 +373,57 @@ export default {
     async handleFile (row) {
       // 归档: 更新delFlag = '0'字段（本地及上传）
       // 拉取已经保存的文书，修改delFlag = '0',调用saveToUpload上传
+      this.loading.btn = true
       this.$confirm(`是否确认归档${row.name}?`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           dangerouslyUseHTMLString: true,
           type: 'warning'
         }).then(async () => {
-          let db = new GoDB(this.$store.state.DBName)
-          let wkPaper = db.table('wkPaper')
-          let curPaper = await wkPaper.find(item => item.paperId === row.paperId && item.delFlag !== '1')
-          let paperData = curPaper
-          paperData.delFlag = '0'
-          await wkPaper.put(paperData)
-          await db.close()
-          this.$message.success(`${row.name}归档成功！`)
-          await saveToUpload(row.paperId, this.$store.state.user.userSessId)
+          await this.filePaper(row)
           this.loading.btn = false
+          this.$message.success(`${row.name}归档成功！`)
+          this.getData()
+        }).catch(() => {
+          this.loading.btn = false
+        })
+    },
+    async filePaper (paper) {
+      // 归档文书
+      let db = new GoDB(this.$store.state.DBName)
+      let wkPaper = db.table('wkPaper')
+      let curPaper = await wkPaper.find(item => item.paperId === paper.paperId && item.delFlag !== '1')
+      let paperData = curPaper
+      paperData.delFlag = '0'
+      await wkPaper.put(paperData)
+      await db.close()
+      await saveToUpload(paper.paperId, false)
+    },
+    resetForm () {
+      this.$refs.dataForm.resetFields()
+    },
+    handleSelectionChange (val) {
+      this.selectedPaperList = val
+    },
+    async batchFile () {
+      // 批量归档
+      this.loading.btn = true
+      console.log('selectedPaperList', this.selectedPaperList)
+      await this.$confirm(`是否确认归档所有已选中的文书?`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          dangerouslyUseHTMLString: true,
+          type: 'warning'
+        }).then(async () => {
+          for (let i = 0; i < this.selectedPaperList.length; i++) {
+            let item = this.selectedPaperList[i]
+            if (item.delFlag !== '0') {
+              // 判断是否为已归档，如果已归档则不再重复归档
+              await this.filePaper(item)
+            }
+          }
+          this.loading.btn = false
+          this.$message.success(`批量归档成功！`)
           this.getData()
         }).catch(() => {
           this.loading.btn = false
@@ -386,6 +482,18 @@ export default {
             font-size: 18px;
             margin: 0px;
             background: #4f83e9;
+          }
+          .paper-list-operation {
+            height: 50px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+          }
+          .paper-list-table {
+            height: calc(100% - 100px);
+          }
+          /deep/ .el-form-item {
+            margin: 0px;
           }
         }
       }

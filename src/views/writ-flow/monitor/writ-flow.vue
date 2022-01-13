@@ -2633,7 +2633,7 @@ export default {
       this.loading.btn = false
     },
     async confirmDeletePaper (curPaper) {
-      await this.$http.get(`/sv/local/jczf/delPaperByPaperId?__sid=${this.$store.state.user.userSessId}&paperId=${curPaper.paperId}`)
+      await this.$http.get(`${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/jczf/delPaperByPaperId?__sid=${this.$store.state.user.userSessId}&paperId=${curPaper.paperId}`)
         .then(async ({ data }) => {
           if (data.status === "200") {
             // 删除成功后，从本地数据库中删除

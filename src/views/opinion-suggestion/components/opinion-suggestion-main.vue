@@ -312,7 +312,7 @@ export default {
           await wkPaper.put(paperData);
           await db.close();
           this.$message.success(`${row.name}归档成功！`);
-          await saveToUpload(row.paperId, this.$store.state.user.userSessId);
+          await saveToUpload(row.paperId, false);
           this.loading.btn = false;
           this.getData();
         })

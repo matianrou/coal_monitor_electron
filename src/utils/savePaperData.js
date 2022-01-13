@@ -288,11 +288,13 @@ export async function saveToUpload(paperId, messageShow) {
           // 当归档时：
           if (data.status === "200") {
             // 保存成功时检索云存储列表中是否有未存储数据，如果有则标记已发送成功
-            let db = new GoDB(this.DBName);
+            let db = new GoDB(store.state.DBName);
             let prepareUpload = db.table("prepareUpload");
-            let paperData = await prepareUpload.find(item => item.paperId === this.$parent.paperId && item.isUpload === '0')
-            paperData.isUpload = '1'
-            await prepareUpload.put(paperData)
+            let paperData = await prepareUpload.find(item => item.paperId === workPaper.paperId && item.isUpload === '0')
+            if (paperData) {
+              paperData.isUpload = '1'
+              await prepareUpload.put(paperData)
+            }
             await db.close();
           } else {
             // 当保存失败时，将文书保存至库表prepareUpload
