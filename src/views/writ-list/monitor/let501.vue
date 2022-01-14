@@ -207,8 +207,6 @@
 import GoDB from "@/utils/godb.min.js";
 import associationSelectPaper from "@/components/association-select-paper";
 import { getDocNumber } from "@/utils/setInitPaperData";
-import { getNowFormatTime, getNowTime } from '@/utils/date'
-import { randomString } from "@/utils/index";
 export default {
   name: "Let501",
   mixins: [associationSelectPaper],
@@ -263,7 +261,6 @@ export default {
   },
   methods: {
     async initLetData() {
-      this.paperId = getNowTime() + randomString(28)
       let db = new GoDB(this.$store.state.DBName);
       // 1.文书编号
       let paperNumber = await getDocNumber(

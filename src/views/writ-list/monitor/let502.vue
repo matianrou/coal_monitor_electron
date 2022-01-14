@@ -285,6 +285,7 @@ export default {
           this.options[key] = {
             canEdit: true,
             page: "17",
+            paperId: this.paperId
           };
           dataKey = "UploadFile";
         }

@@ -244,13 +244,17 @@ export default {
           await this.goBackFunc()
         } else {
           // 如果有修改
-          await this.$confirm('当前已修改文书，是否确定不保存修改直接返回？', '提示', {
-              confirmButtonText: '取消',
-              cancelButtonText: '确定',
+          await this.$confirm('即将关闭，是否保存？', '提示', {
+              confirmButtonText: '是',
+              cancelButtonText: '否',
               dangerouslyUseHTMLString: true,
+              closeOnClickModal: false,
               type: 'warning'
-            }).then(() => {
+            }).then(async() => {
+              // 保存
+              await this.cmdDocSave('2')
             }).catch(async () => {
+              // 退出
               await this.goBackFunc()
             })
         }
