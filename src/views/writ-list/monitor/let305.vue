@@ -183,7 +183,8 @@
 import GoDB from "@/utils/godb.min.js";
 import {
   getDocNumber,
-  setNewDanger
+  setNewDanger,
+  getOrgData
 } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
@@ -264,20 +265,7 @@ export default {
       经审理查明：申请人长时间安排爆破工 XXX、瓦斯检查工 XXX 无证上岗作业，被申请人于 20XX 年 XX 月 XX 日，在对申请人进行安全监察时根据发现的线索进行立案调查。20XX 年 XX 月 XX 日，被申请人作出（${paper6number}）《行政处罚告知书》，告知了申请人有陈述、申辩和申请听证的权利。20XX 年 XX 月 XX日，听取了申请人的陈述、申辩。20XX 年 XX 月 XX 日，组织进行了听证。20XX 年XX 月 XX 日，被申请人根据《中华人民共和国安全生产法》第九十四条第（七）项的规定，依法作出《行政处罚决定书》（${paper8number}），分别没收违法所得，并处十万元以上五十万元以下的罚款，注销其安全生产许可证、责令停止生产，限期办理变更手续，处1万元以上3万元以下罚款。合并罚款人民币伍拾叁万元整（¥530,000.00）罚款、没收违法所得。
       本局认为：申请人安排爆破工 XXX、瓦斯检查工 XXX 无证上岗作业的违法行为，不存在从轻或免于行政处罚情形。被申请人在作出行政处罚决定前，依法进行了立案调查、处罚告知，处罚程序符合法律规定。对违法事实认定清楚，证据确凿，适用法律正确、行政处罚适当。根据《中华人民共和国行政复议法》第二十八条第一款第（一）项规定，经集体讨论，决定维持淮北监察分局《行政处罚决定书》（${paper8number}）的处罚决定。`;
       // 5.人民法院
-      let orgInfo = db.table("orgInfo");
-      let orgData = await orgInfo.find(
-        (item) => item.no === this.$store.state.curCase.affiliate
-      );
-      let orgSysOfficeInfo =
-        orgData && orgData.sysOfficeInfo
-          ? JSON.parse(orgData.sysOfficeInfo)
-          : {
-              courtPrefix: "",
-              depAddress: "",
-              depPost: "",
-              master: "",
-              phone: "",
-            };
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
       let cellIdx11String = orgSysOfficeInfo.courtPrefix;
       let DangerTable = null
       if (this.corpData.caseType === '0') {

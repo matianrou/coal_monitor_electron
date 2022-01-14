@@ -230,6 +230,8 @@ export default {
       let orgInfo = db.table("orgInfo");
       let orgData = await orgInfo.find(
         (item) => item.no === this.$store.state.curCase.affiliate
+        && (item.type === '3' || item.type === '4' || item.type === '11') 
+        && item.delFlag !== "1"
       );
       let orgSysOfficeInfo =
         orgData && orgData.sysOfficeInfo

@@ -167,7 +167,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, getDocNumber } from "@/utils/setInitPaperData";
+import { getOrgData, getDocNumber } from "@/utils/setInitPaperData";
 import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let401",
@@ -213,21 +213,15 @@ export default {
         this.corpData.caseId
       );
       // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
-      let orgInfo = db.table("orgInfo");
-      let orgData = await orgInfo.find(
-        (item) => item.no === this.$store.state.curCase.affiliate
-      );
-      let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: ''}
-      let cellIdx12String = orgSysOfficeInfo.depAddress;
-      let cellIdx13String = orgSysOfficeInfo.depPost;
-      let cellIdx15String = orgSysOfficeInfo.master;
-      let cellIdx16String = orgSysOfficeInfo.phone;
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
       await db.close();
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: num0, // 文书号
         cellIdx1: num1, // 文书号
         cellIdx2: num3, // 文书号
         cellIdx3: num4, // 文书号
+        cellIdx10: orgSysOfficeInfo.master,
+        cellIdx11: orgSysOfficeInfo.phone,
         cellIdx12: this.$store.state.curCase.provinceGroupName, //
         cellIdx13: this.todayDate, // 日期
       })

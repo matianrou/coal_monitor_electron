@@ -276,7 +276,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
+import { getDocNumber, setNewDanger, getOrgData } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 import { setDangerTable } from '@/utils/handlePaperData'
 export default {
@@ -408,22 +408,7 @@ export default {
         paper8num4 = paper8PaperContent.cellIdx3
       }
       // 从sysOfficeInfo中获取：
-      let orgInfo = db.table("orgInfo");
-      let orgData = await orgInfo.find(
-        (item) => item.no === this.$store.state.curCase.affiliate
-      );
-      let orgSysOfficeInfo =
-        orgData && orgData.sysOfficeInfo
-          ? JSON.parse(orgData.sysOfficeInfo)
-          : {
-              accountName: "",
-              accountBank: "",
-              billName: "",
-              account: "",
-              accountAddress: "",
-              organName: "",
-              courtPrefix: "",
-            };
+        let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
       // 6.强制执行下列项目：‘划转罚款至’accountName+accountBank‘账户名称：’+billName+‘待结算财政款项账号：’+account
       let cellIdx25String = `划转罚款至${orgSysOfficeInfo.accountName}${orgSysOfficeInfo.accountBank}。账户名称：${orgSysOfficeInfo.billName}。待结算财政款项账号：${orgSysOfficeInfo.account}`;
       // 7.人民法院：courtPrefix 联系人：master 联系电话：phone

@@ -182,7 +182,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { setNewDanger, getDocNumber } from '@/utils/setInitPaperData'
+import { setNewDanger, getDocNumber, getOrgData } from '@/utils/setInitPaperData'
 import associationSelectPaper from '@/components/association-select-paper'
 import { setDangerTable } from '@/utils/handlePaperData'
 export default {
@@ -325,23 +325,7 @@ export default {
       // 9.机构接口中sysOfficeInfo实体中对应：
       // accountName；银行：accountBank；账户名称：billName；账号：account；
       // 地址：accountAddress；组织机构名：organName；法院：courtPrefix
-      let orgInfo = db.table("orgInfo");
-      let orgData = await orgInfo.find(
-        (item) => item.no === this.$store.state.curCase.affiliate
-      );
-      let orgSysOfficeInfo =
-        orgData && orgData.sysOfficeInfo
-          ? JSON.parse(orgData.sysOfficeInfo)
-          : {
-              accountName: "",
-              accountBank: "",
-              billName: "",
-              account: "",
-              accountAddress: "",
-              goverPrefix: "",
-              organName: "",
-              courtPrefix: "",
-            };
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
       let paperNumber = await getDocNumber(
         db,
         this.docData.docTypeNo,

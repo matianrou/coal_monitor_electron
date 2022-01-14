@@ -219,7 +219,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { setNewDanger, getDocNumber } from '@/utils/setInitPaperData'
+import { setNewDanger, getDocNumber, getOrgData } from '@/utils/setInitPaperData'
 import associationSelectPaper from '@/components/association-select-paper'
 import { setDangerTable } from '@/utils/handlePaperData'
 export default {
@@ -276,10 +276,22 @@ export default {
       // 2.立案时间
       let let4Date = selectedPaper.let4Data.createDate.split(' ')[0].split('-')
       // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
-      let orgInfo = db.table("orgInfo");
-      let orgData = await orgInfo.find(item => item.no === this.$store.state.curCase.affiliate)
-      let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: ''}
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
       await db.close();
+      let let4DataPaperContent = JSON.parse(
+        selectedPaper.let4Data.paperContent
+      );
+      let DangerTable = null
+      if (this.corpData.caseType === '0') {
+        DangerTable = let4DataPaperContent.DangerTable ? 
+          setNewDanger(selectedPaper.let4Data, let4DataPaperContent.DangerTable)
+          : {}
+      }
+      let associationPaperId = Object.assign({}, this.setAssociationPaperId(let4DataPaperContent.associationPaperId), {
+        paper4Id: selectedPaper.let4Data.paperId
+      }) 
+      let associationPaperOrder = this.setAssociationPaperOrder(let4DataPaperContent.associationPaperOrder)
+      associationPaperOrder.push('4')
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: num0, // 文书号
         cellIdx1: num1, // 文书号
@@ -295,6 +307,9 @@ export default {
         cellIdx19: orgSysOfficeInfo.phone, // 电话
         cellIdx26: this.$store.state.curCase.provinceGroupName, //
         cellIdx27: this.todayDate, // 日期
+        DangerTable,
+        associationPaperId,
+        associationPaperOrder
       })
     },
     goBack({ page, data }) {

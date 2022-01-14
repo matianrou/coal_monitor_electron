@@ -192,7 +192,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
+import { getDocNumber, setNewDanger, getOrgData } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 import { setDangerTable } from "@/utils/handlePaperData";
 export default {
@@ -247,14 +247,7 @@ export default {
             )
           : "";
       // 通过机构接口中的sysOfficeInfo中获取的organName和courtPrefix字段分别填充cellIdx8和cellIdx9字段
-      let orgInfo = db.table("orgInfo");
-      let orgData = await orgInfo.find(
-        (item) => item.no === this.$store.state.curCase.affiliate
-      );
-      let orgSysOfficeInfo =
-        orgData && orgData.sysOfficeInfo
-          ? JSON.parse(orgData.sysOfficeInfo)
-          : { organName: "", courtPrefix: "" };
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
       let paperNumber = await getDocNumber(
         db,
         this.docData.docTypeNo,

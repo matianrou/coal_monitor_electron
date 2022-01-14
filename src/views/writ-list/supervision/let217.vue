@@ -199,7 +199,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber } from '@/utils/setInitPaperData'
+import { getDocNumber, getOrgData } from '@/utils/setInitPaperData'
 import associationSelectPaper from '@/components/association-select-paper'
 const toggleDictionary = [
   {
@@ -246,9 +246,7 @@ export default {
       let paperNumber = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId)
       // sysOfficeInfo实体中depAddress字段+ deparFullname字段
       // 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
-      let orgInfo = db.table("orgInfo");
-      let orgData = await orgInfo.find(item => item.no === this.$store.state.curCase.affiliate)
-      let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', master: '', phone: ''}
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
       await db.close();
       this.letData = {
         cellIdx0: paperNumber.num0, // 文书号

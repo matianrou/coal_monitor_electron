@@ -227,7 +227,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDangerObject, getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
+import { getOrgData, getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
 import associationSelectPaper from '@/components/association-select-paper'
 import { transformNumToChinese, thousands } from '@/utils/index'
 export default {
@@ -299,21 +299,7 @@ export default {
       let let8DataPaperContent = JSON.parse(selectedPaper.let8Data.paperContent);
       let date206 = selectedPaper.let8Data.createDate.split(' ')[0].split('-')
       // 4.sysOfficeInfo中 goverPrefix和organName和courtPrefix
-      let orgInfo = db.table("orgInfo");
-      let orgData = await orgInfo.find(
-        (item) => item.no === this.$store.state.curCase.affiliate
-      );
-      let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo
-        ? JSON.parse(orgData.sysOfficeInfo)
-        : {
-            accountName: "",
-            accountBank: "",
-            billName: "",
-            account: "",
-            accountAddress: "",
-            organName: "",
-            courtPrefix: "",
-          };
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
       // 5.被处罚单位个人
       let cellIdx4String = let8DataPaperContent.cellIdx5 || ''
       // 6.获取行政处罚中的罚款金额

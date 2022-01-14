@@ -145,7 +145,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { setNewDanger } from '@/utils/setInitPaperData'
+import { setNewDanger, getOrgData } from '@/utils/setInitPaperData'
 import associationSelectPaper from '@/components/association-select-paper'
 export default {
   name: "Let211",
@@ -187,17 +187,7 @@ export default {
       let cellIdx4Minu = now.getMinutes().toString()
       // 5.地点：sysOfficeInfo实体中depAddress字段+ deparFullname字段
       // 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
-      let orgInfo = db.table("orgInfo");
-      let orgData = await orgInfo.find(
-        (item) => item.no === this.$store.state.curCase.affiliate
-      );
-      let orgSysOfficeInfo =
-        orgData && orgData.sysOfficeInfo
-          ? JSON.parse(orgData.sysOfficeInfo)
-          : {
-              depAddress: "",
-              deparFullname: "",
-            };
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
       let cellIdx7String = `${orgSysOfficeInfo.depAddress}${orgSysOfficeInfo.deparFullname}`;
       // 2.听证记录：固定模板
       let cellIdx10String = `主持人：今天，就淮北矿业股份有限公司许疃煤矿申请对安徽煤矿安全监管局淮北监管分局拟对其使用违法违规行为作出\r

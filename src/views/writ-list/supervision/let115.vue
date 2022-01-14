@@ -257,7 +257,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { setNewDanger, getDocNumber } from "@/utils/setInitPaperData";
+import { setNewDanger, getDocNumber, getOrgData } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 const toggleDictionary = [
   {
@@ -336,13 +336,7 @@ export default {
       // 2.获取查封扣押决定书创建日期
       let let32Date = selectedPaper.let32Data.createDate.split(' ')[0].split('-')
       // 3.地点：sysOfficeInfo实体中organName字段+ courtPrefix字段
-      let orgInfo = db.table("orgInfo");
-      let orgData = await orgInfo.find(
-        (item) => item.no === this.$store.state.curCase.affiliate
-      );
-      let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo
-        ? JSON.parse(orgData.sysOfficeInfo)
-        : { goverPrefix: "", organName: "", courtPrefix: "" };
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
       // 4.查封扣押文书号
       let let32DataPaperContent = JSON.parse(
         selectedPaper.let32Data.paperContent

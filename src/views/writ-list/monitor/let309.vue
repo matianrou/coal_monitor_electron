@@ -216,7 +216,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber, setNewDanger } from '@/utils/setInitPaperData'
+import { getDocNumber, setNewDanger, getOrgData } from '@/utils/setInitPaperData'
 import associationSelectPaper from '@/components/association-select-paper'
 import { transformNumToChinese } from '@/utils/index'
 const toggleDictionary = [
@@ -286,9 +286,7 @@ export default {
       // 1.生成文书编号
       let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId)
       // 2.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
-      let orgInfo = db.table("orgInfo");
-      let orgData = await orgInfo.find(item => item.no === this.$store.state.curCase.affiliate)
-      let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: ''}
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
       let accountName = orgSysOfficeInfo.accountName || ''
       let depAddress = orgSysOfficeInfo.depAddress || ''
       let depPost = orgSysOfficeInfo.depPost || ''

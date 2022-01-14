@@ -228,7 +228,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
+import { getDocNumber, setNewDanger, getOrgData } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 import { setDangerTable } from "@/utils/handlePaperData";
 const dictionary = [
@@ -341,14 +341,7 @@ export default {
             )
           : "";
       // 5.地点：sysOfficeInfo实体中goverPrefix字段 courtPrefix字段
-      let orgInfo = db.table("orgInfo");
-      let orgData = await orgInfo.find(
-        (item) => item.no === this.$store.state.curCase.affiliate
-      );
-      let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo
-        ? JSON.parse(orgData.sysOfficeInfo)
-        : { goverPrefix: "", courtPrefix: "" };
-      
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
       // 查封扣押决定书文书中是查封/扣押
       let selectedType = let32DataPaperContent.selectedType
       let DangerTable = null;

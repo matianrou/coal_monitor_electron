@@ -253,7 +253,7 @@ import GoDB from "@/utils/godb.min.js";
 import {
   transformNumToChinese,
 } from "@/utils";
-import { getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
+import { getDocNumber, setNewDanger, getOrgData } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let208",
@@ -323,14 +323,7 @@ export default {
         .replace("日", "-")
         .split("-");
       // 9.机构接口中获取sysOfficeInfo实体中
-      let orgInfo = db.table("orgInfo");
-      let orgData = await orgInfo.find(
-        (item) => item.no === this.$store.state.curCase.affiliate
-      );
-      let orgSysOfficeInfo =
-        orgData && orgData.sysOfficeInfo
-          ? JSON.parse(orgData.sysOfficeInfo)
-          : { depAddress: "", depPost: "", master: "", phone: "" };
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
       // depAddress：我局地址、
       // depPost：邮政编码、
       // master：我局联系人、

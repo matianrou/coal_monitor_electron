@@ -210,18 +210,8 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber, setNewDanger } from '@/utils/setInitPaperData'
+import { getDocNumber, setNewDanger, getOrgData } from '@/utils/setInitPaperData'
 import associationSelectPaper from '@/components/association-select-paper'
-const companyPerson = [
-  {
-    value: '单位',
-    name: '单位',
-  },
-  {
-    value: '个人',
-    name: '个人',
-  },
-]
 export default {
   name: "Let212",
   mixins: [associationSelectPaper],
@@ -275,9 +265,7 @@ export default {
       let cellIdx4String = let8DataPaperContent.cellIdx5 || ''
       // 3.行政处罚决定书 日期、编号
       let date206 = selectedPaper.let8Data.createDate.split(' ')[0].split('-')
-      let orgInfo = db.table("orgInfo");
-      let orgData = await orgInfo.find(item => item.no === this.$store.state.curCase.affiliate)
-      let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {accountName: '', depAddress: '', depPost: '', master: '', phone: ''}
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
       let DangerTable = null;
       if (this.corpData.caseType === "0") {
         DangerTable = let8DataPaperContent.DangerTable

@@ -201,7 +201,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
+import { getDocNumber, setNewDanger, getOrgData } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 import { setDangerTable } from "@/utils/handlePaperData";
 export default {
@@ -258,14 +258,7 @@ export default {
         this.corpData.caseId
       );
       // 3.sysOfficeInfo实体中organName字段+ courtPrefix字段
-      let orgInfo = db.table("orgInfo");
-      let orgData = await orgInfo.find(
-        (item) => item.no === this.$store.state.curCase.affiliate
-      );
-      let orgSysOfficeInfo =
-        orgData && orgData.sysOfficeInfo
-          ? JSON.parse(orgData.sysOfficeInfo)
-          : { organName: "", courtPrefix: "" };
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
       // 4.当前时间年、月、日、时、分
       let date = new Date();
       let year = date.getFullYear();

@@ -79,11 +79,15 @@ export default {
         let orgInfo = db.table('orgInfo')
         // 归档机构信息
         let affiliate = this.$store.state.selectedCaseOption.selGovUnit
-        let affiliateOrg = await orgInfo.find(item => item.no === affiliate)
+        let affiliateOrg = await orgInfo.find(item => item.no === affiliate
+          && (item.type === '3' || item.type === '4' || item.type === '11') 
+          && item.delFlag !== "1")
         // 获取当前归档机构的省局名称
         let provinceGroupName = `${caseData.groupName}`
         if (affiliateOrg.grade === '3') {
-          let provinceOrg = await orgInfo.find(item => item.no === affiliateOrg.parentId)
+          let provinceOrg = await orgInfo.find(item => item.no === affiliateOrg.parentId
+            && (item.type === '3' || item.type === '4' || item.type === '11') 
+            && item.delFlag !== "1")
           provinceGroupName = provinceOrg.name
         }
         await db.close()

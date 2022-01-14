@@ -171,7 +171,7 @@
                     撤出作业人员
                     <br />指令书
                   </span>
-                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let106','责令撤出作业人员命令书', '3')"></i>
+                  <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let106','撤出作业人员命令书', '3')"></i>
                 </td>
                 <!-- <td style="width:28px;" class="writ-flow-td">
                   <img src="../assets/image/doc-flow_r1_c3.png" style="height: 100%;" />

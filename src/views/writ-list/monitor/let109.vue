@@ -163,7 +163,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
+import { getDocNumber, setNewDanger, getOrgData } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let109",
@@ -249,14 +249,7 @@ export default {
       let num253 = let25DataPaperContent.cellIdx2;
       let num254 = let25DataPaperContent.cellIdx3;
       // 3.sysOfficeInfo实体中 organName、人民法院：courtPrefix
-      let orgInfo = db.table("orgInfo");
-      let orgData = await orgInfo.find(
-        (item) => item.no === this.$store.state.curCase.affiliate
-      );
-      let orgSysOfficeInfo =
-        orgData && orgData.sysOfficeInfo
-          ? JSON.parse(orgData.sysOfficeInfo)
-          : { organName: "", courtPrefix: "" };
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
       let cellIdx15String = '国家矿山安全监察局';
       let cellIdx16String = orgSysOfficeInfo.courtPrefix;
       let DangerTable = null

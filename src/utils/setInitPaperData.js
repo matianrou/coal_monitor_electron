@@ -21,7 +21,9 @@ export async function getDocNumber(db, docTypeNo, caseId) {
   const orgInfo = db.table("orgInfo");
   // 如果有caseId则获取归档机构如果没有则获取当前用户机构（没有时为意见建议书时）
   let orgId = caseId ? store.state.curCase.affiliate : store.state.user.userGroupId
-  const orgData = await orgInfo.find(item => item.no === orgId)
+  const orgData = await orgInfo.find(item => item.no === orgId 
+    && (item.type === '3' || item.type === '4' || item.type === '11') 
+    && item.delFlag !== "1")
   let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {
     docRiseSafe: '',
     docRiseDepa: ''
@@ -615,4 +617,35 @@ export function setAssociationPaperOrder (associationPaperOrder = []) {
     paperOrder.push(associationPaperOrder[i])
   }
   return paperOrder
+}
+
+export async function getOrgData (db, orgId) {
+  // 获取机构信息
+  let orgInfo = db.table("orgInfo");
+  let orgData = await orgInfo.find(item => item.no === orgId
+    && (item.type === '3' || item.type === '4' || item.type === '11') 
+    && item.delFlag !== "1"
+  );
+  let orgSysOfficeInfo =
+        orgData && orgData.sysOfficeInfo
+          ? JSON.parse(orgData.sysOfficeInfo)
+          : { 
+              account: '', 
+              accountAddress: '',
+              accountBank: '',
+              accountName: '',
+              billName: '',
+              courtPrefix: '',
+              depAddress: '',
+              depPost: '',
+              deparAbb: '',
+              deparFullname: '',
+              docRiseDepa: '',
+              docRiseSafe: '',
+              legalPerson: '',
+              officeId: '',
+              phone: '',
+              post: '',
+            };
+  return orgSysOfficeInfo
 }

@@ -1,4 +1,4 @@
-<!-- 现场检查 实施检查 责令撤出作业人员指令书 3 -->
+<!-- 现场检查 实施检查 撤出作业人员命令书 3 -->
 <template>
   <div style="width: 100%; height: 100%;">
     <let-main
@@ -213,7 +213,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { setNewDanger, getDocNumber } from '@/utils/setInitPaperData'
+import { setNewDanger, getDocNumber, getOrgData } from '@/utils/setInitPaperData'
 import associationSelectPaper from '@/components/association-select-paper'
 import { setDangerTable } from '@/utils/handlePaperData'
 export default {
@@ -290,9 +290,7 @@ export default {
           }
         ):'';
       // 4.sysOfficeInfo中organName和courtPrefix
-      let orgInfo = db.table("orgInfo");
-      let orgData = await orgInfo.find(item => item.no === this.$store.state.curCase.affiliate)
-      let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {goverPrefix: '', organName: '', courtPrefix: ''}
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
       let DangerTable = null
       let cellIdx11String = ''
       let associationPaperId = {}

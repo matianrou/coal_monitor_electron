@@ -244,13 +244,11 @@ export default {
       );
       // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
       let orgInfo = db.table("orgInfo");
-      let orgData = await orgInfo.find(
-        (item) => item.no === this.$store.state.curCase.affiliate
-      );
-      let orgSysOfficeInfo =
-        orgData && orgData.sysOfficeInfo
-          ? JSON.parse(orgData.sysOfficeInfo)
-          : { depAddress: "", depPost: "", master: "", phone: "" };
+      let orgData = await orgInfo.find(item => 
+        item.no === this.$store.state.curCase.affiliate
+        && (item.type === '3' || item.type === '4' || item.type === '11') 
+        && item.delFlag !== "1")
+      let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: ''}
       let cellIdx14String = orgSysOfficeInfo.depAddress;
       let cellIdx15String = orgSysOfficeInfo.depPost;
       let cellIdx17String = orgSysOfficeInfo.master;

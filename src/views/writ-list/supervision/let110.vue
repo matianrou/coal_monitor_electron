@@ -269,7 +269,7 @@
 
 <script>
 import GoDB from "@/utils/godb.min.js";
-import { setNewDanger, getDocNumber } from "@/utils/setInitPaperData";
+import { setNewDanger, getDocNumber, getOrgData } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 import { setDangerTable } from "@/utils/handlePaperData";
 const dictionary = [
@@ -389,14 +389,7 @@ export default {
             )
           : "";
       // 4.地点：sysOfficeInfo实体中organName字段+ courtPrefix字段
-      let orgInfo = db.table("orgInfo");
-      let orgData = await orgInfo.find(
-        (item) => item.no === this.$store.state.curCase.affiliate
-      );
-      let orgSysOfficeInfo =
-        orgData && orgData.sysOfficeInfo
-          ? JSON.parse(orgData.sysOfficeInfo)
-          : { goverPrefix: "", organName: "", courtPrefix: "" };
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
       let cellIdx15String = orgSysOfficeInfo.goverPrefix;
       let cellIdx16String = orgSysOfficeInfo.organName;
       let cellIdx17String = orgSysOfficeInfo.courtPrefix;

@@ -157,6 +157,7 @@
 <script>
 import GoDB from "@/utils/godb.min.js";
 import associationSelectPaper from "@/components/association-select-paper";
+import { getOrgData } from '@/utils/setInitPaperData'
 export default {
   name: "Let211",
   mixins: [associationSelectPaper],
@@ -189,17 +190,7 @@ export default {
       });
       // 5.地点：sysOfficeInfo实体中depAddress字段+ deparFullname字段
       // 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
-      let orgInfo = db.table("orgInfo");
-      let orgData = await orgInfo.find(
-        (item) => item.no === this.$store.state.curCase.affiliate
-      );
-      let orgSysOfficeInfo =
-        orgData && orgData.sysOfficeInfo
-          ? JSON.parse(orgData.sysOfficeInfo)
-          : {
-              depAddress: "",
-              deparFullname: "",
-            };
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
       let cellIdx7String = `${orgSysOfficeInfo.depAddress}${orgSysOfficeInfo.deparFullname}`;
       // 1.时间
       let now = new Date();
