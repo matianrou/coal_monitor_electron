@@ -373,6 +373,11 @@ export default {
     async handleFile (row) {
       // 归档: 更新delFlag = '0'字段（本地及上传）
       // 拉取已经保存的文书，修改delFlag = '0',调用saveToUpload上传
+      // 如果没有网络则不能归档
+      if (!this.$store.state.onLine) {
+        this.$message.error('当前为离线登录，请联网后再归档！')
+        return
+      }
       this.loading.btn = true
       this.$confirm(`是否确认归档${row.name}?`, '提示', {
           confirmButtonText: '确定',
@@ -407,6 +412,11 @@ export default {
     },
     async batchFile () {
       // 批量归档
+      // 如果没有网络则不能归档
+      if (!this.$store.state.onLine) {
+        this.$message.error('当前为离线登录，请联网后再归档！')
+        return
+      }
       this.loading.btn = true
       await this.$confirm(`是否确认归档所有已选中的文书?`, '提示', {
           confirmButtonText: '确定',

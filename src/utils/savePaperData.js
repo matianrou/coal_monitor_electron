@@ -425,17 +425,21 @@ export async function saveFineCollection(paperId) {
       }
     )
     .then(({ data }) => {
-      if (data.status === "200") {
-        Message.success(
-          `“罚款收缴”信息已上传至服务器`
-        );
-      } else {
-        Message.error("上传至服务器请求失败，请重新保存！");
+      if (paperData.delFlag === '0') {
+        if (data.status === "200") {
+          Message.success(
+            `“罚款收缴”信息已上传至服务器`
+          );
+        } else {
+          Message.error("上传至服务器请求失败，请重新保存！");
+        }
       }
     })
     .catch((err) => {
-      Message.error("上传至服务器请求失败，请重新保存！");
-      console.log("上传至服务器请求失败：", err);
+      if (paperData.delFlag === '0') {
+        Message.error("上传至服务器请求失败，请重新保存！");
+        console.log("上传至服务器请求失败：", err);
+      }
     });
 }
 

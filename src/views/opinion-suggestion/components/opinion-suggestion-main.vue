@@ -293,6 +293,11 @@ export default {
     },
     async handleFile(row) {
       // 归档: 更新delFlag = '0'字段（本地及上传）
+      // 如果没有网络则不能归档
+      if (!this.$store.state.onLine) {
+        this.$message.error('当前为离线登录，请联网后再归档！')
+        return
+      }
       // 拉取已经保存的文书，修改delFlag = '0',调用saveToUpload上传
       this.loading.btn = true;
       this.$confirm(`是否确认归档${row.orgName || ''} ${row.name}?`, "提示", {

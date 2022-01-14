@@ -1576,7 +1576,7 @@ let schema = {
 		"remark": String,
 		"paperId": String,
 	},
-	prepareUpload: {
+	prepareUpload: { // 未归档成功的文书存储
 		"id": { // 唯一标识
 			type: String,
 			unique: true

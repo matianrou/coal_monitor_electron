@@ -294,9 +294,14 @@ export default {
       // 保存或归档文书
       // 判断当前文书是否已经归档，如已归档则不可保存或归档
       if (this.canEdit) {
-        // 如果是归档时增加确认逻辑：
         this.loading.btn = true
         if (saveFlag === '0') {
+          // 归档时首先判断是否为离线操作
+          if (!this.$store.state.onLine) {
+            this.$message.error('当前为离线登录，请联网后再归档保存至服务器！')
+            return
+          }
+          // 如果是归档时增加确认逻辑：
           await this.$confirm('是否确认已经完成文书的填写，归档后将不能再次编辑或者保存', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
@@ -753,12 +758,13 @@ export default {
         }
       }
       await db.close();
-      let mes = saveFlag === "2" ? "保存" : "归档";
-      this.$message.success(
-        `“${this.docData.docTypeName}”文书本地${mes}成功。`
-      );
+      if (saveFlag === "2") {
+        // 保存时提示保存成功，服务器上传成功不提示，否则会引起误解，归档时此处不提示，如果上传服务器成功则提示，未成功则直接提示未成功
+        this.$message.success(
+          `“${this.docData.docTypeName}”文书保存成功。`
+        );
+      }
       await saveToUpload(paperId, true);
-
       if (this.docData.docTypeNo === '43') {
         // 罚款收缴时，额外发送罚款收缴数据存储
         await saveFineCollection(paperId)
