@@ -39,30 +39,65 @@ export async function getDocNumber(db, docTypeNo, caseId) {
   // 当前年份
   let date = new Date()
   let curYear = date.getFullYear()
-  // 3位数字
-  let wkCase = db.table("wkCase")
-  let caseInfo = await wkCase.find(item => item.caseId === caseId)
-  let paperTypeName = store.state.user.userType === 'supervision' ? '矿安' : '煤安监'
+  // 获取3位数字
+  let paperNumber = await getPersonNumber(db, docTypeNo)
+  let paperTypeName = store.state.user.userType === 'supervision' ? '煤安' : '煤安监'
   return {
     num0: orgSysOfficeInfo.docRiseSafe,
     num1: orgSysOfficeInfo.docRiseDepa,
     num2: docString,
     num3: curYear + '',
-    num4: caseInfo ? caseInfo.caseSn : '',
+    num4: paperNumber,
   }
 }
 
 // 获取文书编号：编号：
 // 执法年份+序号
-export async function getDocNumber2(db, docTypeNo, caseId) {
+export async function getDocNumber2(db, docTypeNo) {
   // 当前年份
   let date = new Date()
   let curYear = date.getFullYear() + ''
-  // 3位数字
-  let wkCase = db.table("wkCase")
-  let caseInfo = await wkCase.find(item => item.caseId === caseId)
-  let caseSn = caseInfo ? caseInfo.caseSn : ''
-  return curYear + '-' + caseSn
+  // 获取3位数字
+  let paperNumber = await getPersonNumber(db, docTypeNo)
+  return curYear + '-' + paperNumber
+}
+
+async function getPersonNumber (db, docTypeNo) {
+  // 读取库表
+  let date = new Date()
+  let curYear = date.getFullYear()
+  let personPaperNumber = db.table('personPaperNumber')
+  let numberData = await personPaperNumber.find(item => item.year === (curYear + ''))
+  let threeNum = ''
+  if (numberData) {
+    // 如果有当前年份的文书号数据
+    let paperNumber = JSON.parse(numberData.paperNumber)
+    if (paperNumber[`paper-${docTypeNo}`]) {
+      // 有当前文书的文书号
+      threeNum = paperNumber[`paper-${docTypeNo}`]
+    } else {
+      // 没有当前文书的文书号
+      threeNum = '001'
+      numberData.paperNumber = JSON.stringify(Object.assign({}, paperNumber, {
+        [`paper-${docTypeNo}`]: threeNum
+      }))
+      numberData.updateDate = getNowFormatTime()
+      await personPaperNumber.put(numberData)
+    }
+  } else {
+    // 还没有当前年份的文书号数据：创建：
+    threeNum = '001'
+    await personPaperNumber.add({
+      id: getNowTime() + randomString(28),
+      year: curYear + '',
+      paperNumber: JSON.stringify({
+        [`paper-${docTypeNo}`]: threeNum
+      }),
+      createDate: getNowFormatTime(),
+      updateDate: getNowFormatTime() 
+    });
+  }
+  return store.state.user.userNumber  + threeNum
 }
 
 // 获取已存在的文书的文书编号

@@ -128,6 +128,7 @@ import {
   setDangerTextareaItem
 } from "@/utils/handlePaperData";
 import selectUpdatePaper from '@/components/select-update-paper'
+import { savePaperNumber } from '@/utils/savePaper'
 
 export default {
   name: "LetMain",
@@ -661,6 +662,8 @@ export default {
         await wkPaper.add(jsonPaper);
       } else {
         await wkPaper.add(jsonPaper);
+        // 当为新创建文书时，保存成功后，个人文书号自增1
+        await savePaperNumber(db, this.docData.docTypeNo)
       }
       // 如果检查类型是事故时则不传输danger
       if (this.corpData && this.corpData.caseType === '0') {

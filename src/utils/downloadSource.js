@@ -1591,6 +1591,16 @@ let schema = {
 		'personId': String, // 制作人id
 		'personName': String, // 制作人姓名
 		"delFlag": String, // 删除标记
+	},
+	personPaperNumber: { // 个人自增文书编号
+		"id": {
+			type: String,
+			unique: true
+		},
+		"year": String, // 年度文书号
+		"paperNumber": String, // 所有类型文书号
+		"createDate": String, // 创建日期
+		"updateDate": String, // 更新日期
 	}
 };
 

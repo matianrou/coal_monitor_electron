@@ -1,3 +1,5 @@
+// 上传服务器保存文书各方法
+
 import GoDB from "@/utils/godb.min.js";
 import http from '@/utils/http'
 import { Message, Alert } from 'element-ui'
