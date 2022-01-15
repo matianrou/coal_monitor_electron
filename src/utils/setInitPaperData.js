@@ -72,14 +72,14 @@ async function getPersonNumber (db, docTypeNo) {
   if (numberData) {
     // 如果有当前年份的文书号数据
     let paperNumber = JSON.parse(numberData.paperNumber)
-    if (paperNumber[`paper-${docTypeNo}`]) {
+    if (paperNumber[`paper-${store.state.user.userType}-${docTypeNo}`]) {
       // 有当前文书的文书号
-      threeNum = paperNumber[`paper-${docTypeNo}`]
+      threeNum = paperNumber[`paper-${store.state.user.userType}-${docTypeNo}`]
     } else {
       // 没有当前文书的文书号
       threeNum = '001'
       numberData.paperNumber = JSON.stringify(Object.assign({}, paperNumber, {
-        [`paper-${docTypeNo}`]: threeNum
+        [`paper-${store.state.user.userType}-${docTypeNo}`]: threeNum
       }))
       numberData.updateDate = getNowFormatTime()
       await personPaperNumber.put(numberData)
@@ -91,7 +91,7 @@ async function getPersonNumber (db, docTypeNo) {
       id: getNowTime() + randomString(28),
       year: curYear + '',
       paperNumber: JSON.stringify({
-        [`paper-${docTypeNo}`]: threeNum
+        [`paper-${store.state.user.userType}-${docTypeNo}`]: threeNum
       }),
       createDate: getNowFormatTime(),
       updateDate: getNowFormatTime() 
