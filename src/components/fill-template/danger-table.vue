@@ -37,7 +37,7 @@
             <el-input
               v-model="dataForm.tempValue.baseInfor"
               type="textarea"
-              :rows="20"
+              :rows="15"
               placeholder="请填写基本信息">
             </el-input>
           </div>
@@ -48,7 +48,7 @@
             <el-input
               v-model="dataForm.tempValue.dangerInfor"
               type="textarea"
-              :rows="8"
+              :rows="9"
               placeholder="请填写隐患情况">
             </el-input>
           </div>
@@ -1226,7 +1226,7 @@ export default {
 
 <style lang="scss" scoped>
 .title {
-  margin-top: 20px;
+  margin-top: 10px;
   height: 30px;
   background: #4F83E9;
   color: #fff;
@@ -1237,7 +1237,7 @@ export default {
 .danger-table-main {
   display: flex;
   margin-top: 10px;
-  height: calc(100vh - 210px);
+  height: calc(100vh - 320px);
   min-width: 900px;
   overflow: hidden;
   .danger-table-main-table {

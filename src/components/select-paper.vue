@@ -16,10 +16,16 @@
         border
         stripe
         :default-sort = "{prop: 'createDate', order: 'descending'}"
-        highlight-current-row
+        :highlight-current-row="!multiSelect"
         :header-cell-style="{background: '#f5f7fa'}"
         height="100%"
-        @current-change="handleCurrentChange">
+        @current-change="handleCurrentChange"
+        @selection-change="handleSelectionChange">
+        <el-table-column
+          v-if="multiSelect"
+          type="selection"
+          width="55">
+        </el-table-column>
         <el-table-column
           type="index"
           width="60"
@@ -81,11 +87,17 @@ export default {
     paperList: {
       type: Array,
       default: () => []
+    },
+    multiSelect: {
+      // 多选，当前送达收执需多选文书
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {
-      currentRow: {}, // 选中的文书
+      currentRow: {}, // 单选： 选中的文书
+      currentRows: [], // 多选： 选中的文书
     };
   },
   created() {
@@ -96,11 +108,20 @@ export default {
     },
     confirm() {
       // 关闭弹窗，并赋值
-      this.$emit("confirm-paper", this.currentRow);
+      if (this.multiSelect) {
+        // 多选时回传多选值
+        this.$emit("confirm-paper", this.currentRows);
+      } else {
+        // 单选时回传单选值
+        this.$emit("confirm-paper", this.currentRow);
+      }
     },
     handleCurrentChange(val) {
       this.currentRow = val;
     },
+    handleSelectionChange(val) {
+      this.currentRows = val
+    }
   },
 };
 </script>

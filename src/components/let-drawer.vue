@@ -10,14 +10,16 @@
 
 <template>
   <div>
-    <el-drawer
+    <el-dialog
       v-if="showDrawer"
       :title="selectedData.title"
       :visible.sync="visible"
-      direction="rtl"
       :before-close="handleClose"
-      :wrapperClosable="false"
-      :size="drawerSize">
+      :close-on-click-modal="false"
+      :show-close="false"
+      append-to-body
+      top="4vh"
+      :width="drawerSize.width">
       <div class="let-drawer-main">
         <div class="let-drawer-component">
           <component
@@ -30,12 +32,12 @@
             :paper-data="paperData"
           ></component>
         </div>
-        <div class="let-drawer-operation">
+        <div slot="footer" class="let-drawer-operation">
           <el-button @click="handleClose">返回</el-button>
           <el-button type="primary" @click="handleSave(false)">保存</el-button>
         </div>
       </div>
-    </el-drawer>
+    </el-dialog>
     <div v-else class="let-drawer-direct">
       <div class="let-drawer-direct-title">
         <span>编辑区域</span>
@@ -125,15 +127,19 @@ export default {
       return show
     },
     drawerSize () {
-      let size = ''
+      let size = {
+        width: '800px',
+      }
       let type = this.selectedData.type
       if (type=== 'CheckTable' || type === 'SamplingForensicsTable' 
         || type === 'VolumesMenuTable' || type === 'UploadFile') {
-        size = '80%'
+        size = {
+          width: '1200px',
+        } 
       } else if (type === 'DangerTable') {
-        size = '90%'
-      } else {
-        size = '500px'
+        size = {
+          width: '1300px',
+        } 
       }
       return size
     }
@@ -254,7 +260,8 @@ export default {
   overflow: hidden;
 }
 .let-drawer-main {
-  height: 100%;
+  height: 80vh;
+  overflow: auto;
   display: flex;
   flex-direction: column;
   padding: 10px 20px;

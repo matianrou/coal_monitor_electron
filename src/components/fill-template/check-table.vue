@@ -222,6 +222,7 @@ export default {
     };
   },
   created() {
+    this.showAlert()
     this.initData()
   },
   mounted() {
@@ -238,6 +239,10 @@ export default {
     }
   },
   methods: {
+    showAlert () {
+      // 展示提示框
+      this.$alert('工作提示：为规范下矿下井等执法检查情况统计工作，国家煤监局对执法系统中的《检查方案》作了调整，现提醒所有执法人员，在制作《检查方案》时，务必将所有参与检查人员（包括参与检查的省局、分局领导班子成员）的检查分工情况，在《检查分工明细表》中载明。')
+    },
     initData () {
       this.dataForm.tempValue = JSON.parse(JSON.stringify(this.value)) 
     },

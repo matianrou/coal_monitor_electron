@@ -68,6 +68,7 @@
       </div>
       <!-- 修改数据区域 -->
       <let-drawer
+        v-if="visible"
         ref="letDrawer"
         :visible="visible"
         :selected-data="selectedData"
@@ -599,13 +600,12 @@ export default {
       } 
       // 整理p0ParentId关联的上一级文书id
       let p0ParentId = ''
-      if (this.$parent.letData.associationPaperId) {
+      if (this.$parent.letData.associationPaperOrder.length > 0) {
         // 遍历associationPaperId，获取页面不同的关联id放入p0ParentId中
-        // 当前为统一逻辑，获取最后一个key关联id
+        // 当前为统一逻辑，获取associationPaperOrder中最后一个文书号的关联文书id
         let associationPaperId = this.$parent.letData.associationPaperId
-        for (let key in associationPaperId) {
-          p0ParentId = associationPaperId[key]
-        }
+        let associationPaperOrder = this.$parent.letData.associationPaperOrder
+        p0ParentId = associationPaperId[`paper${associationPaperOrder[associationPaperOrder.length - 1]}Id`]
       }
       let jsonPaper = {
         paperId: paperId,

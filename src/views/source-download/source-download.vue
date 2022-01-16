@@ -617,24 +617,25 @@ export default {
             for (let i = 0; i < data.data.length; i++) {
               data.data[i].description = ''
               switch (data.data[i].label) {
-                case '本监察分局（站）':
+                case '本执法处':
                   data.data[i].description = ''
                   break
-                case '省局': 
-                  data.data[i].description = '“省局”是指省局机关对本分局（站）辖区煤矿开展的执法检查统计数据。'
+                case '业务处和综合处': 
+                  data.data[i].description = '“业务处和综合处”是指省级局机关对本执法处辖区开展的执法检查统计数据。'
                   break
-                case '省内其他分局': 
-                  data.data[i].description = '“省内其他分局”是指省局组织的省内其他分局（站）对本分局（站）辖区煤矿开展的执法检查统计数据。'
+                case '其他执法处': 
+                  data.data[i].description = '“其他执法处”是指省级局组织的其他执法处对本执法处辖区煤矿开展的执法检查统计数据。'
                   break
-                case '外省局异地执法': 
-                  data.data[i].description = '“外省局异地执法”是指国家局组织的外省局对本分局（站）辖区煤矿开展的异地执法检查统计数据。'
+                case '外省级局异地执法': 
+                  data.data[i].description = '“外省级局异地执法”是指国家局组织的外省级局对本执法处辖区煤矿开展的异地执法检查统计数据。'
                   break
                 case '国家局明察暗访': 
-                  data.data[i].description = '“国家局明查暗访”是指国家局机关组织的对本分局（站）辖区煤矿开展的明查暗访执法检查统计数据。'
+                  data.data[i].description = '“国家局明查暗访”是指国家局机关组织的对本执法处辖区煤矿开展的明查暗访执法检查统计数据。'
                   break
               }
             }
             this.dictionary.caseClassify = data.data
+            console.log('caseClassify', this.dictionary.caseClassify)
           }
         })
         .catch((err) => {
