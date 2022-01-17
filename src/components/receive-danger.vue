@@ -12,7 +12,11 @@
       <div v-loading="loading">
         <!-- 标签：切换接收隐患及历史记录 -->
         <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane label="隐患接收" name="receiveDanger">
+          <el-tab-pane 
+            v-for="item in tabs"
+            :key="item.name"
+            :label="item.label" 
+            :name="item.name">
             <div class="receive-danger-main">
               <div style="height: 100%; width: 100%;">
                 <el-table
@@ -81,43 +85,12 @@
               </div>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="历史记录" name="historyList">
-            <div class="receive-danger-main">
-              <el-table
-                :data="receiveDangerListHistory"
-                stripe
-                border
-                style="width: 100%"
-                height="calc(100% - 200px)"
-                :header-row-style="{fontSize: '16px', fontWeight: 600, color: '#303133'}">
-                <el-table-column
-                  prop="name"
-                  label="接收人"
-                  header-align="center"
-                  align="center"
-                  width="180">
-                </el-table-column>
-                <el-table-column
-                  prop="companyName"
-                  label="煤矿"
-                  header-align="center"
-                  align="center">
-                </el-table-column>
-                <el-table-column
-                  prop="sendTime"
-                  header-align="center"
-                  align="center"
-                  label="发送时间"
-                  width="200">
-                </el-table-column>
-              </el-table>
-            </div>
-          </el-tab-pane>
         </el-tabs>
       </div>
       <span slot="footer">
         <el-button @click="close">取消</el-button>
-        <el-button type="primary" @click="save">接收</el-button>
+        <el-button v-if="activeName === 'receiveDanger'" type="primary" @click="save">接收</el-button>
+        <el-button v-else type="primary" @click="reuse">再次使用</el-button>
       </span>
     </el-dialog>
   </div>
@@ -146,10 +119,22 @@ export default {
       userType: this.$store.state.user.userType,
       receiveDangerList: [], // 接收到的所有隐患数据, 用来发送隐患已接收状态
       selectedDangerList: [], // 已选择的隐患项
+      allList: [],
+      tabs: [
+        {
+          label: '隐患接收',
+          name: 'receiveDanger'
+        },
+        {
+          label: '历史记录',
+          name: 'historyList'
+        },
+      ],
     };
   },
   async created () {
     await this.getDangerList()
+    await this.handleClick()
   },
   methods: {
     async getDangerList () {
@@ -182,18 +167,24 @@ export default {
                 }
               })
             }
-            this.tableData = dangerList
-            this.receiveDangerList = data.data
+            this.allList = data.data
+            this.receiveDangerList = dangerList
             this.receiveDangerListHistory = dangerHistoryList
           } else {
             this.$message.error('接收隐患失败，请再次尝试')
+            this.receiveDangerList = []
+            this.receiveDangerListHistory = []
             this.tableData = []
+            this.allList = []
           }
           this.loading =false
         })
         .catch((err) => {
           this.$message.error('接收隐患失败，请再次尝试')
+          this.receiveDangerList = []
+          this.receiveDangerListHistory = []
           this.tableData = []
+          this.allList = []
           console.log('接收隐患失败:', err)
           this.loading =false
         });
@@ -205,7 +196,7 @@ export default {
       // 确定：接收隐患，将隐患放入隐患列表中
       if (this.selectedDangerList.length > 0) {
         // 根据已选择的隐患遍历当前所有隐患，置已选择的隐患isSelected为true
-        this.receiveDangerList.length > 0 && this.receiveDangerList.forEach(receiveDanger => {
+        this.allList.length > 0 && this.allList.forEach(receiveDanger => {
           let dangerContent = receiveDanger.dangerContent && isJSON(receiveDanger.dangerContent) ? JSON.parse(receiveDanger.dangerContent) : []
           dangerContent.length > 0 && dangerContent.forEach(danger => {
             this.selectedDangerList.map(selectedDanger => {
@@ -219,26 +210,26 @@ export default {
         })
         // 调用接口重新发送隐患项，如果成功则接收隐患，不成功则提示重新接收
         let receiveSuccess = true
-        this.receiveDangerList.length > 0 && this.receiveDangerList.map(receiveDanger => {
+        for (let i = 0; i < this.allList.length; i++) {
+          let receiveDanger = this.allList[i]
           this.$http.post(`${this.userType === 'supervision' ? '/sv' : ''}/local/postdanger/save?__sid=${this.$store.state.user.userSessId}`, {sendJson: true, data: receiveDanger})
             .then(async ({ data }) => {
               if (data.status === "200") {
               } else {
-                this.$message.error('隐患接收失败，请再次尝试！')
                 receiveSuccess = false
               }
             })
             .catch((err) => {
-              this.$message.error('隐患接收失败，请再次尝试！')
-              console.log('隐患接收失败:', err)
               receiveSuccess = false
             });
-        })
+        }
         // 接收成功后完成隐患添加至隐患列表中
         if (receiveSuccess) {
           this.$message.success('隐患接收成功！')
           this.$emit('save', this.selectedDangerList)
           this.close()
+        } else {
+          this.$message.error('隐患接收失败，请再次尝试！')
         }
       } else {
         this.$message.error('请选择接收的隐患项！')
@@ -246,10 +237,16 @@ export default {
     },
     handleClick () {
       // 切换tab
+      this.tableData = this.activeName === 'receiveDanger' ? this.receiveDangerList : this.receiveDangerListHistory
     },
     handleSelectionChange (val) {
       this.selectedDangerList = val
     },
+    reuse () {
+      // 再次使用
+      this.$emit('save', this.selectedDangerList)
+      this.close()
+    }
   },
 };
 </script>

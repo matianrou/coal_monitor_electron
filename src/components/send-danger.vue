@@ -12,7 +12,11 @@
       <div v-loading="loading">
         <!-- 标签：切换发送隐患及历史记录 -->
         <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane label="隐患发送" name="sendDanger">
+          <el-tab-pane
+            v-for="item in tabs"
+            :key="item.name"
+            :label="item.label" 
+            :name="item.name">
             <div class="send-danger-main">
               <div>
                 <el-form
@@ -28,7 +32,7 @@
                   <el-form-item label="煤  矿：" prop="companyId">
                     <el-input v-model="dataForm.companyName" placeholder="请选择煤矿" style="width: 200px;" @focus="selectData('selectCompany')"></el-input>
                   </el-form-item>
-                  <el-form-item label="编写隐患：" prop="dangerContent">
+                  <el-form-item v-if="item.name === 'sendDanger'" label="编写隐患：">
                     <el-button type="primary" @click="selectData('dangerSelect')">添加违法违规行为</el-button>
                     <el-button @click="deleteDanger('multi')">删除违法违规行为</el-button>
                     <el-button type="primary" @click="selectData('addDanger')">新建违法违规行为</el-button>
@@ -149,50 +153,21 @@
                     </template>
                   </el-table-column>
                   <el-table-column
+                    v-if="item.name === 'sendDanger'"
                     header-align="center"
                     align="center"
                     label="操作"
                     width="100">
                     <template slot-scope="scope">
-                      <el-button v-if="!scope.row.isEdit" type="text" @click="changeStatus(scope, 'edit')">编辑</el-button>
-                      <el-button v-else type="text" @click="changeStatus(scope, 'save')">保存</el-button>
-                      <el-button type="text" @click="deleteDanger('single', scope)">删除</el-button>
+                      <div>
+                        <el-button v-if="!scope.row.isEdit" type="text" @click="changeStatus(scope, 'edit')">编辑</el-button>
+                        <el-button v-else type="text" @click="changeStatus(scope, 'save')">保存</el-button>
+                        <el-button type="text" @click="deleteDanger('single', scope)">删除</el-button>
+                      </div>
                     </template>
                   </el-table-column>
                 </el-table>
               </div>
-            </div>
-          </el-tab-pane>
-          <el-tab-pane label="历史记录" name="historyList">
-            <div class="send-danger-main">
-              <el-table
-                :data="dataForm.dangerContent.tableData"
-                stripe
-                border
-                style="width: 100%"
-                height="calc(100% - 200px)"
-                :header-row-style="{fontSize: '16px', fontWeight: 600, color: '#303133'}">
-                <el-table-column
-                  prop="name"
-                  label="接收人"
-                  header-align="center"
-                  align="center"
-                  width="180">
-                </el-table-column>
-                <el-table-column
-                  prop="companyName"
-                  label="煤矿"
-                  header-align="center"
-                  align="center">
-                </el-table-column>
-                <el-table-column
-                  prop="sendTime"
-                  header-align="center"
-                  align="center"
-                  label="发送时间"
-                  width="200">
-                </el-table-column>
-              </el-table>
             </div>
           </el-tab-pane>
         </el-tabs>
@@ -224,7 +199,7 @@
       </div>
       <span slot="footer">
         <el-button :loading="loading" @click="close">取消</el-button>
-        <el-button :loading="loading" type="primary" @click="save">发送</el-button>
+        <el-button :loading="loading" type="primary" @click="save">{{activeName === 'sendDanger' ? '发送' : '再次发送'}}</el-button>
       </span>
     </el-dialog>
   </div>
@@ -257,6 +232,16 @@ export default {
       loading: false,
       activeName: 'sendDanger',
       DBName: this.$store.state.DBName,
+      tabs: [
+        {
+          label: '隐患发送',
+          name: 'sendDanger'
+        },
+        {
+          label: '历史记录',
+          name: 'historyList'
+        },
+      ],
       dataForm: { // 隐患发送Form
         receiveId: null, // 接收人
         receiveName: null, // 接收人
@@ -286,7 +271,8 @@ export default {
     close (refresh) {
       this.$emit('close', refresh)
     },
-    async getDangerList (isSend = '0') {
+    async getDangerList () {
+      let isSend = this.activeName === 'sendDanger' ? '0' : '1'
       this.loading = true
 	    let db = new GoDB(this.DBName)
       let sendDanger = db.table('sendDanger')
@@ -441,8 +427,10 @@ export default {
         let dangerContent = []
         if (this.selectedDangerList.length > 0) {
           this.selectedDangerList.map(item => {
+            // 如果为历史记录再次发送，则创建新的HistoryId，以防止接收问题
+            let isSend = this.activeName === 'sendDanger'
             let danger = {
-              HistoryId: item.HistoryId,
+              HistoryId: isSend ? item.HistoryId : getNowTime() + randomString(28),
               categoryCode: item.categoryCode,
               no: item.no,
               confirmBasis: item.confirmBasis,
@@ -483,22 +471,25 @@ export default {
             if (data.status === "200") {
               this.$message.success('发送隐患成功！')
               // 发送成功后更新本地数据库
-	            let db = new GoDB(this.DBName)
-              let sendDanger = db.table('sendDanger')
-              for (let i = 0; i < this.selectedDangerList.length; i++) {
-                let updateData = Object.assign({}, this.selectedDangerList[i], {
-                  isSend: '1',
-                  postId: this.$store.state.user.userId,		// 发送人id
-                  receiveId: this.dataForm.receiveId,		// 接收人id
-                  name: this.dataForm.receiveName,		// name
-                  companyId: this.dataForm.companyId,		// 企业id
-                  companyName: this.dataForm.companyName,		// 企业名称
-                  sendTime: getNowFormatTime(),
-                })
-                await sendDanger.put(updateData)
+              if (this.activeName === 'sendDanger') {
+                // 如果为隐患发送，第一次发送时更新发送记录信息
+                let db = new GoDB(this.DBName)
+                let sendDanger = db.table('sendDanger')
+                for (let i = 0; i < this.selectedDangerList.length; i++) {
+                  let updateData = Object.assign({}, this.selectedDangerList[i], {
+                    isSend: '1',
+                    postId: this.$store.state.user.userId,		// 发送人id
+                    receiveId: this.dataForm.receiveId,		// 接收人id
+                    name: this.dataForm.receiveName,		// name
+                    companyId: this.dataForm.companyId,		// 企业id
+                    companyName: this.dataForm.companyName,		// 企业名称
+                    sendTime: getNowFormatTime(),
+                  })
+                  await sendDanger.put(updateData)
+                }
+                await db.close()
               }
-              await db.close()
-              this.getDangerList()
+              await this.getDangerList()
               // this.close()
             } else {
               this.$message.error('发送隐患失败，请再次尝试')
@@ -515,8 +506,7 @@ export default {
     },
     handleClick () {
       // 切换tab
-      let isSend = this.activeName === 'sendDanger' ? '0' : '1'
-      this.getDangerList(isSend)
+      this.getDangerList()
     },
     selectData (type) {
       // 打开选择用户、选择企业或选择隐患项弹窗
