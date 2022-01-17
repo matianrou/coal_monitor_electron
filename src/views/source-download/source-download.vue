@@ -11,13 +11,14 @@
       </tr>
       <tr style="height:36px;background:#DCECFB;color:#333;">
         <td style="width:3%;">&nbsp;</td>
-        <th style="width:37%;text-align:left;">资源名称</th>
-        <th style="width:32%;text-align:left">更新时间</th>
-        <th style="width:28%;text-align:center;">操作</th>
+        <th style="width:30%;text-align:left;">资源名称</th>
+        <th style="width:25%;text-align:center;">更新时间</th>
+        <th style="width:350px;text-align:center;">下载日期范围</th>
+        <th style="text-align:center;">操作</th>
       </tr>
       <tbody>
         <tr style="height:36px;background-color:#F9FDFF;">
-          <td colspan="4" style="padding-left:10px;color:#666;font-weight:bold;">
+          <td colspan="5" style="padding-left:10px;color:#666;font-weight:bold;">
             <img
               src="@/components/assets/image/letTitle.png"
               style="width:32px;height:32px;vertical-align:middle"
@@ -27,7 +28,8 @@
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
           <td>机构资源</td>
-          <td>{{updateTime.org}}</td>
+          <td style="text-align:center;">{{updateTime.org}}</td>
+          <td></td>
           <td style="text-align:center;" id="cell-org-down">
             <el-button
               type="text"
@@ -40,7 +42,8 @@
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
           <td>用户资源</td>
-          <td>{{updateTime.person}}</td>
+          <td style="text-align:center;">{{updateTime.person}}</td>
+          <td></td>
           <td style="text-align:center;" id="cell-person-down">
             <el-button
               type="text"
@@ -61,7 +64,8 @@
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
           <td>其它资源（监察计划及数据码表）</td>
-          <td>{{updateTime.plan}}</td>
+          <td style="text-align:center;">{{updateTime.plan}}</td>
+          <td></td>
           <td style="text-align:center;" id="cell-plan-down">
             <el-button
               type="text"
@@ -72,7 +76,7 @@
           </td>
         </tr>
         <tr style="height:36px;background-color:#F9FDFF;border-top:1px solid #DCECFB;">
-          <td colspan="4" style="padding-left:10px;color:#666;font-weight:bold;">
+          <td colspan="5" style="padding-left:10px;color:#666;font-weight:bold;">
             <img
               src="@/components/assets/image/letTitle.png"
               style="width:32px;height:32px;vertical-align:middle"
@@ -82,7 +86,8 @@
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
           <td>煤矿/企业信息</td>
-          <td>{{updateTime.corp}}</td>
+          <td style="text-align:center;">{{updateTime.corp}}</td>
+          <td></td>
           <td style="text-align:center;" id="cell-corp-down">
             <el-button
               type="text"
@@ -95,7 +100,8 @@
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
           <td>行政区域</td>
-          <td>{{updateTime.enterpriseList}}</td>
+          <td style="text-align:center;">{{updateTime.enterpriseList}}</td>
+          <td></td>
           <td style="text-align:center;" id="cell-enterpriseList-down">
             <el-button
               type="text"
@@ -106,7 +112,7 @@
           </td>
         </tr>
         <tr style="height:36px;background-color:#F9FDFF;border-top:1px solid #DCECFB;">
-          <td colspan="4" style="padding-left:10px;color:#666;font-weight:bold;">
+          <td colspan="5" style="padding-left:10px;color:#666;font-weight:bold;">
             <img
               src="@/components/assets/image/letTitle.png"
               style="width:32px;height:32px;vertical-align:middle"
@@ -116,7 +122,8 @@
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
           <td>检查项类别</td>
-          <td>{{updateTime.checkCate}}</td>
+          <td style="text-align:center;">{{updateTime.checkCate}}</td>
+          <td></td>
           <td style="text-align:center;" id="cell-checkCate-down">
             <el-button
               type="text"
@@ -129,7 +136,8 @@
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
           <td>检查项内容</td>
-          <td>{{updateTime.checkList}}</td>
+          <td style="text-align:center;">{{updateTime.checkList}}</td>
+          <td></td>
           <td style="text-align:center;" id="cell-checkList-down">
             <el-button
               type="text"
@@ -142,7 +150,8 @@
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
           <td>隐患项类别</td>
-          <td>{{updateTime.dangerCate}}</td>
+          <td style="text-align:center;">{{updateTime.dangerCate}}</td>
+          <td></td>
           <td style="text-align:center;" id="cell-dangerCate-down">
             <el-button
               type="text"
@@ -155,7 +164,8 @@
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
           <td>隐患项内容</td>
-          <td>{{updateTime.dangerList}}</td>
+          <td style="text-align:center;">{{updateTime.dangerList}}</td>
+          <td></td>
           <td style="text-align:center;" id="cell-dangerList-down">
             <el-button
               type="text"
@@ -166,7 +176,7 @@
           </td>
         </tr>
         <tr style="height:36px;background-color:#F9FDFF;border-top:1px solid #DCECFB;">
-          <td colspan="4" style="padding-left:10px;color:#666;font-weight:bold;">
+          <td colspan="5" style="padding-left:10px;color:#666;font-weight:bold;">
             <img
               src="@/components/assets/image/letTitle.png"
               style="width:32px;height:32px;vertical-align:middle"
@@ -176,7 +186,21 @@
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
           <td>个人账号文书资源</td>
-          <td>{{updateTime.doc}}</td>
+          <td style="text-align:center;">{{updateTime.doc}}</td>
+          <td style="text-align:center;">
+            <el-date-picker
+              v-model="dataForm.docDownDaterange"
+              type="daterange"
+              format="yyyy-MM-dd"
+              value-format="yyyy-MM-dd"
+              range-separator="至"
+              start-placeholder="起始日期"
+              end-placeholder="截止日期"
+              :unlink-panels="true"
+              style="margin-left: 10px;"
+              size="small"
+            ></el-date-picker>
+          </td>
           <td style="text-align:center;" id="cell-doc-down">
             <el-button
               type="text"
@@ -203,7 +227,7 @@
 import { doOrgDb, doPersonDb, doPlanDb, doCorpDb, doEnterpriseList, doCheckCateDb, doCheckListDb, doDangerCateDb, doDangerListDb, doDocDb, docFileListDb, docDictionaryDb } from "@/utils/downloadSource"
 import GoDB from "@/utils/godb.min.js";
 import { getUUID } from '@/utils/index'
-import { getNowFormatTime } from '@/utils/date'
+import { getNowFormatTime, getNowDay, getPreMonthDay } from '@/utils/date'
 export default {
   name: "SourceDownload",
   async beforeRouteLeave(to, from, next){
@@ -258,6 +282,9 @@ export default {
         subitemType: [],
         onsiteDesc: [],
       },
+      dataForm: {
+        docDownDaterange: []
+      },
       userType: this.$store.state.user.userType
     };
   },
@@ -293,6 +320,14 @@ export default {
         }
       }
       await db.close()
+      // 初始化个人账号文书资源下载时间
+      let date = new Date();
+      let year = date.getFullYear();
+      let month = date.getMonth() + 1;
+      let strDate = date.getDate();
+      let today = year + '-' + month + '-' + strDate;
+      let preMonthDay= getPreMonthDay(today, 2)
+      this.dataForm.docDownDaterange = [preMonthDay, today]
     },
     /*! *****************************************************************************
     资源下载、任务/活动创建、文书保存及归档
@@ -369,7 +404,10 @@ export default {
             userSessId +
             "&userId=" +
             userId
-          if (this.updateTime.doc !== '未下载') {
+          if (this.dataForm.docDownDaterange && this.dataForm.docDownDaterange.length > 0) {
+            uri += `&startTime=${this.dataForm.docDownDaterange[0]}`
+            uri += `&endTime=${this.dataForm.docDownDaterange[1]}`
+          } else if (this.updateTime.doc !== '未下载') {
             uri += `&updateTime=${this.updateTime.doc}`
           }
           break;
