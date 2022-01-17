@@ -325,28 +325,7 @@ export default {
         if (this.sendData) {
           this.$message.error('文书已发送，不可再编辑！')
         } else {
-          // 获取prepareUpload库表中是否有未上传服务器的文书，如果有则可以归档，如果无则不能保存或归档
-          let db = new GoDB(this.DBName);
-          let prepareUpload = db.table("prepareUpload");
-          let paperData = await prepareUpload.find(item => item.paperId === this.$parent.paperId && item.isUpload === '0')
-          await db.close();
-          if (paperData) {
-            if (saveFlag === '2') {
-              // 保存时提示：
-              this.$message.error('文书已经在本地归档，不可保存，请归档上传至服务器！')
-            } else {
-              // 归档
-              await this.$confirm('是否确认已经完成文书的填写，归档后将不能再次编辑或者保存', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-              }).then(async () => {
-                await this.savePaper(saveFlag)
-              }).catch(() => {})
-            }
-          } else {
-            this.$message.error('文书已经完成归档，不能再次保存或回档！')
-          }
+          this.$message.error('文书已经完成归档，不能再次保存或回档！')
         }
       }
     },
@@ -484,7 +463,7 @@ export default {
                 id: this.$store.state.user.userId,
               },
               createDate: item.createDate,
-              delFlag: item.delFlag,
+              delFlag: saveFlag,
               groupId: this.$store.state.curCase.groupId,
               id: item.itemCode,
               itemCode: item.itemCode,
@@ -600,7 +579,7 @@ export default {
       } 
       // 整理p0ParentId关联的上一级文书id
       let p0ParentId = ''
-      if (this.$parent.letData.associationPaperOrder.length > 0) {
+      if (this.$parent.letData.associationPaperOrder && this.$parent.letData.associationPaperOrder.length > 0) {
         // 遍历associationPaperId，获取页面不同的关联id放入p0ParentId中
         // 当前为统一逻辑，获取associationPaperOrder中最后一个文书号的关联文书id
         let associationPaperId = this.$parent.letData.associationPaperId
@@ -662,8 +641,18 @@ export default {
         await wkPaper.add(jsonPaper);
       } else {
         await wkPaper.add(jsonPaper);
-        // 当为新创建文书时，保存成功后，个人文书号自增1
-        await savePaperNumber(db, this.docData.docTypeNo)
+        // 判断当前是否需要自增文书号
+        let paperNumberType = this.$store.state.dictionary[`${this.$store.state.user.userType}PaperNumberType`]
+        let needSavePaperNumber = false
+        for (let i = 0; i < paperNumberType.length; i++) {
+          if (this.docData.docTypeNo === paperNumberType[i].docTypeNo) {
+            needSavePaperNumber = true
+          }
+        }
+        if (needSavePaperNumber) {
+          // 当为新创建文书时，保存成功后，个人文书号自增1
+          await savePaperNumber(db, this.docData.docTypeNo)
+        }
       }
       // 如果检查类型是事故时则不传输danger
       if (this.corpData && this.corpData.caseType === '0') {

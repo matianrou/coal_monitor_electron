@@ -267,29 +267,22 @@ export default {
         let wkPaper = db.table('wkPaper')
         let {name, personName} = this.dataForm
         let paperList = await wkPaper.findAll(item => item.caseId === this.caseData.caseId && item.delFlag !== '1')
-        // 筛选文书名称
-        if (name) {
-          paperList = paperList.filter(item => item.name.includes(name))
-        }
-        // 筛选制作人
-        if (personName) {
-          paperList = paperList.filter(item => item.personName.includes(personName))
-        }
-        // 按创建时间排序
-        paperList.length > 0 && paperList.sort(sortbyDes('createTime'))
-        // 获取prepareUpload库表中是否有未上传服务器的文书，如果有则可以归档，如果无则不能保存或归档
-        let prepareUpload = db.table("prepareUpload");
-        for (let i = 0; i < paperList.length; i++) {
-          let paper = paperList[i]
-          let paperData = await prepareUpload.find(item => item.paperId === paper.paperId && item.isUpload === '0')
-          if (paperData) {
-            paperList[i].delFlag = '2'
+        if (paperList.length > 0) {
+          // 筛选文书名称
+          if (name) {
+            paperList = paperList.filter(item => item.name.includes(name))
           }
+          // 筛选制作人
+          if (personName) {
+            paperList = paperList.filter(item => item.personName.includes(personName))
+          }
+          // 按创建时间排序
+          paperList.sort(sortbyDes('createTime'))
+          // 遍历设置归档时间：如果delFlag='0'则代表已归档，将updateTiem设置为归档时间，其他则为未归档
+          paperList.map(item => {
+            item.fileTime = item.delFlag === '0' ? item.updateDate : '未归档'
+          })
         }
-        // 遍历设置归档时间：如果delFlag='0'则代表已归档，将updateTiem设置为归档时间，其他则为未归档
-        paperList.length > 0 && paperList.map(item => {
-          item.fileTime = item.delFlag === '0' ? item.updateDate : '未归档'
-        })
         this.paperList = paperList
       }
       await db.close()
@@ -387,7 +380,6 @@ export default {
         }).then(async () => {
           await this.filePaper(row)
           this.loading.btn = false
-          this.$message.success(`${row.name}归档成功！`)
           this.getData()
         }).catch(() => {
           this.loading.btn = false
@@ -402,7 +394,7 @@ export default {
       paperData.delFlag = '0'
       await wkPaper.put(paperData)
       await db.close()
-      await saveToUpload(paper.paperId, false)
+      await saveToUpload(paper.paperId, true)
     },
     resetForm () {
       this.$refs.dataForm.resetFields()

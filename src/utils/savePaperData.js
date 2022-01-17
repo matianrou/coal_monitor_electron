@@ -278,7 +278,7 @@ export async function saveToUpload(paperId, messageShow) {
   if (store.state.onLine) {
     // 如果在线则上传服务器
     let path = store.state.user.userType === 'supervision' ? '/sv' : ''
-    http.post(
+    await http.post(
         `${path}/local/jczf/uploadJczf?__sid=${store.state.user.userSessId}`,
         {
           sendJson: true,
@@ -340,25 +340,7 @@ export async function saveToUpload(paperId, messageShow) {
 async function savePaperToPrepareUpload(submitData) {
   // 保存未成功上传的文书
   let paperData = submitData.paper[0]
-  let schema = {
-    prepareUpload: {
-      "id": { // 唯一标识
-        type: String,
-        unique: true
-      },
-      'paperId': String, // 文书id
-      'isUpload': String, // 是否上传，0未上传 1已上传
-      'corpId': String, // 煤矿企业id
-      'corpName': String, // 煤矿企业名称
-      'paperType': String, // 文书类型
-      'name': String, // 文书类型名称
-      'createDate': String, // 文书制作时间
-      'personId': String, // 制作人id
-      'personName': String, // 制作人姓名
-      "delFlag": String, // 删除标记
-    }
-  }
-  let db = new GoDB(store.state.DBName, schema);
+  let db = new GoDB(store.state.DBName);
   let prepareUpload = db.table("prepareUpload");
   let item = await prepareUpload.get({ paperId: paperData.paperId });
   if (item) await prepareUpload.delete({ paperId: paperData.paperId }); //删除
@@ -375,6 +357,43 @@ async function savePaperToPrepareUpload(submitData) {
     personName: paperData.personName,
     delFlag: '0',
   });
+  // 置未保存成功的文书delFlag为2保存状态
+  // 修改文书delFlag
+  if (submitData.paper) {
+    let wkPaper = db.table("wkPaper");
+    for (let i = 0; i < submitData.paper.length; i++) {
+      let paper = submitData.paper[i]
+      let jsonPaper = await wkPaper.find((item) => {
+        return item.paperId === paper.paperId && item.delFlag !== '1';
+      });
+      if (jsonPaper.paperType === '22') {
+        // 检查方案时，恢复p22JczfCheck中的delFlag
+        if (jsonPaper.p22JczfCheck) {
+          let p22JczfCheck = JSON.parse(jsonPaper.p22JczfCheck)
+          if (p22JczfCheck && p22JczfCheck.CheckItemRecords && p22JczfCheck.CheckItemRecords.length > 0) {
+            p22JczfCheck.CheckItemRecords.forEach(item => {
+              item.delFlag = '2'
+            })
+          }
+          jsonPaper.p22JczfCheck = JSON.stringify(p22JczfCheck)
+        }
+      }
+      jsonPaper.delFlag = '2'
+      await wkPaper.delete({ paperId: jsonPaper.paperId });
+      await wkPaper.add(jsonPaper);
+    }
+  }
+  // 修改隐患项delFlag
+  if (submitData.danger) {
+    let wkDanger = db.table('wkDanger')
+    for (let i = 0; i < submitData.danger.length; i++) {
+      let danger = submitData.danger[i]
+      let dangerData = await wkDanger.find(item => item.dangerId === danger.dangerId && item.delFlag !== '1')
+      dangerData.delFlag = '2'
+      await wkDanger.delete({ dangerId: dangerData.dangerId });
+      await wkDanger.add(dangerData);
+    }
+  }
   await db.close();
 }
 
@@ -419,7 +438,7 @@ export async function saveFineCollection(paperId) {
     })
   }
   let path = store.state.user.userType === 'supervision' ? '/sv' : ''
-  http.post(
+  await http.post(
       `${path}/local/api-fine/uploadFine?__sid=${store.state.user.userSessId}`,
       {
         sendJson: true,

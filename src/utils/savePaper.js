@@ -7,9 +7,9 @@ import { getNowFormatTime } from "@/utils/date";
 export async function savePaperNumber (db, docTypeNo) {
   // 获取当年文书号数据
   let date = new Date()
-  let curYear = date.getFullYear()
+  let curYear = date.getFullYear() + ''
   let personPaperNumber = db.table('personPaperNumber')
-  let numberData = await personPaperNumber.find(item => item.year === (curYear + ''))
+  let numberData = await personPaperNumber.find(item => item.year === curYear)
   let paperNumber = JSON.parse(numberData.paperNumber)
   let num = Number(paperNumber[`paper-${store.state.user.userType}-${docTypeNo}`]) + 1
   let threeNum = ''
