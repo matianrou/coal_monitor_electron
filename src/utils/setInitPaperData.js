@@ -452,20 +452,13 @@ export async function corpInformation(db, corpData) {
     }
   }
   let sSummary =
-    corpData.corpName +
-    "位于" +
-    corpData.provinceName +
-    corpData.cityName +
-    corpData.countryName +
-    "境内，隶属于" +
-    (corpData.parentTypeName || 'XXX') +
-    "煤矿。 ";
+    `${corpData.corpName}位于${corpData.provinceName}${corpData.cityName}${corpData.countryName}境内，${corpData.parentIdName ? ("隶属于" + corpData.parentIdName + '，') : ''}${(corpData.parentTypeName || 'XXX')}煤矿。`;
   if (zzInfo1 && zzInfo1.expireTime)
     sSummary += "采矿许可证有效日期至" + zzInfo1.expireTime + "、";
   else sSummary += "采矿许可证有效日期至XXX";
   if (zzInfo2 && zzInfo2.expireTime)
-    sSummary += "、安全生产许可证有效期至" + zzInfo2.expireTime + "，";
-  else sSummary += "、安全生产许可证有效期至XXX，";
+    sSummary += "安全生产许可证有效期至" + zzInfo2.expireTime + "，";
+  else sSummary += "安全生产许可证有效期至XXX，";
   if (corpData.provedOutput)
     sSummary += "矿井核定生产能力为" + corpData.provedOutput + "万吨/年，";
   else sSummary += "矿井核定生产能力为X万吨/年，";

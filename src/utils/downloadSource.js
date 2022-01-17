@@ -205,6 +205,8 @@ async function doCorpDb(resId, data) {
 			"rockburstName": obj.rockburstName,
 			"groupId": obj.groupId,
 			"constructType": obj.constructType,
+			"parentId": obj.parentId,
+			"parentIdName": obj.parentIdName, 
 		});
 	}
 	// 增:
@@ -1047,6 +1049,8 @@ let schema = {
 		"rockburstName": String, //"无冲击地压矿井",
 		"groupId": String, // "130500130001"
 		"constructType": String,  //煤矿11  上级企业10
+		"parentId": String, // 上级企业
+		"parentIdName": String, // 上级企业名称
 	},
 	// 证照信息
 	zfZzInfo: {

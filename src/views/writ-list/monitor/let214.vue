@@ -546,10 +546,21 @@ export default {
         }
         await db.close();
       }
+      // 起止日期和归档日期默认当天
+      let now = new Date();
+      let year = now.getFullYear() + ''; //得到年份
+      let month = now.getMonth() + 1 + '';//得到月份
+      let date = now.getDate() + '';//得到日期
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: cellIdx0String, // 执法单位
         cellIdx1: cellIdx1String, // 案卷类别
         cellIdx2: cellIdx2String, // 案卷题名
+        cellIdx3: year,
+        cellIdx4: month,
+        cellIdx5: date,
+        cellIdx11: year,
+        cellIdx12: month,
+        cellIdx13: date,
         cellIdx17: [], // 编辑目录
         volumesMenuTable: {
           tableData: volumesMenuTableData,
