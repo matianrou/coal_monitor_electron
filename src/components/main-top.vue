@@ -41,6 +41,9 @@
           <span>调查互动</span>
         </div>
         <div class="main-top-operation" style="margin-left: 20px;">
+          <span class="el-dropdown-link">
+            <img src="@/components/assets/image/net.png" class="btn-icon img-btn" title="打开网络端" @click="openWeb" />
+          </span>
           <i class="el-icon-s-promotion btn-icon" title="隐患发送" @click="sendDanger"></i>
           <!-- 消息提醒 -->
           <el-dropdown :hide-on-click="false" @command="handleCommand">
@@ -181,6 +184,9 @@ export default {
     sendDanger () {
       // 隐患发送
       this.visible.sendDanger = true
+    },
+    openWeb () {
+      window.open('https://zhxx.chinamine-safety.gov.cn/mj/a/login', '_blank')
     },
     handleCommand (command) {
       if (command === 'clearLogin') {

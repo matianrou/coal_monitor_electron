@@ -260,7 +260,7 @@ export default {
   overflow: hidden;
 }
 .let-drawer-main {
-  height: 80vh;
+  // height: 80vh;
   overflow: auto;
   display: flex;
   flex-direction: column;
