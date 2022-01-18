@@ -424,6 +424,8 @@ export default {
         let curYear = myDate.getFullYear();
         cellIdx2String = `${curYear}年度加强和改善安全监管建议书（加强和改善安全管理意见书）`;
       } else {
+        cellIdx0String = this.$store.state.curCase.provinceGroupName;
+        cellIdx1String = "行政处罚案件档案";
         let db = new GoDB(this.$store.state.DBName);
         let let1DataPaperContent = JSON.parse(
           selectedPaper.let1Data.paperContent

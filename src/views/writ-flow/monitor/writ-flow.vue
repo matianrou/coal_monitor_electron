@@ -68,7 +68,7 @@
                   <span
                     @click="cmdEditDoc('let201', '立案决定书', '4')"
                     class="flow-span"
-                    >立案决定书</span
+                    >立案决定书{{paperCount.count4 && paperCount.count4 > 1 ? `(${paperCount.count4})` : ''}}</span
                   >
                   <i
                     class="el-icon-plus create-icon"
@@ -106,7 +106,7 @@
                   <span
                     @click="cmdEditDoc('let202', '调查取证笔录', '5')"
                     class="flow-span"
-                    >调查取证笔录</span
+                    >调查取证笔录{{paperCount.count5 && paperCount.count5 > 1 ? `(${paperCount.count5})` : ''}}</span
                   >
                   <i
                     class="el-icon-plus create-icon"
@@ -137,7 +137,7 @@
                   <span
                     @click="cmdEditDoc('let203', '案件处理呈报书', '36')"
                     class="flow-span"
-                    >案件处理呈报书</span
+                    >案件处理呈报书{{paperCount.count36 && paperCount.count36 > 1 ? `(${paperCount.count36})` : ''}}</span
                   >
                   <i
                     class="el-icon-plus create-icon"
@@ -168,7 +168,7 @@
                   <span
                     @click="cmdEditDoc('let204', '行政处罚告知书', '6')"
                     class="flow-span"
-                    >行政处罚告知书</span
+                    >行政处罚告知书{{paperCount.count6 && paperCount.count6 > 1 ? `(${paperCount.count6})` : ''}}</span
                   >
                   <i
                     class="el-icon-plus create-icon"
@@ -211,7 +211,7 @@
                   <span
                     @click="cmdEditDoc('let206', '行政处罚决定书', '8')"
                     class="flow-span"
-                    >行政处罚决定书</span
+                    >行政处罚决定书{{paperCount.count8 && paperCount.count8 > 1 ? `(${paperCount.count8})` : ''}}</span
                   >
                   <i
                     class="el-icon-plus create-icon"
@@ -242,7 +242,7 @@
                   <span
                     @click="cmdEditDoc('let207', '送达收执', '9')"
                     class="flow-span"
-                    >送达收执</span
+                    >送达收执{{paperCount.count9 && paperCount.count9 > 1 ? `(${paperCount.count9})` : ''}}</span
                   >
                   <i
                     class="el-icon-plus create-icon"
@@ -273,7 +273,7 @@
                   <span
                     @click="cmdEditDoc('let212', '罚款收缴', '43')"
                     class="flow-span"
-                    >罚款收缴</span
+                    >罚款收缴{{paperCount.count43 && paperCount.count43 > 1 ? `(${paperCount.count43})` : ''}}</span
                   >
                   <i
                     class="el-icon-plus create-icon"
@@ -399,7 +399,7 @@
                       @click="cmdEditDoc('let100', '检查方案', '22')"
                       @contextmenu.prevent="event => onContextmenu(event, '22')"
                       class="flow-span"
-                      >检查方案</span
+                      >检查方案{{paperCount.count22 && paperCount.count22 > 1 ? `(${paperCount.count22})` : ''}}</span
                     >
                     <i
                       class="el-icon-plus create-icon"
@@ -439,7 +439,7 @@
                     <span
                       @click="cmdEditDoc('let101', '现场检查笔录', '1')"
                       class="flow-span"
-                      >现场检查笔录</span
+                      >现场检查笔录{{paperCount.count1 && paperCount.count1 > 1 ? `(${paperCount.count1})` : ''}}</span
                     >
                     <i
                       class="el-icon-plus create-icon"
@@ -473,7 +473,7 @@
                     <span
                       @click="cmdEditDoc('let102', '现场处理决定书', '2')"
                       class="flow-span"
-                      >现场处理 <br />决定书</span
+                      >现场处理 <br />决定书{{paperCount.count2 && paperCount.count2 > 1 ? `(${paperCount.count2})` : ''}}</span
                     >
                     <i
                       v-if="dangerStatus.danger2 && dangerStatus.danger2.length > 0"
@@ -536,7 +536,7 @@
                     <span
                       @click="cmdEditDoc('let103', '检查方案(复查)', '42')"
                       class="flow-span"
-                      >检查方案(复查)</span
+                      >检查方案(复查){{paperCount.count42 && paperCount.count42 > 1 ? `(${paperCount.count42})` : ''}}</span
                     >
                     <i
                       class="el-icon-plus create-icon"
@@ -570,7 +570,7 @@
                     <span
                       @click="cmdEditDoc('let104', '复查意见书', '13')"
                       class="flow-span"
-                      >复查意见书</span
+                      >复查意见书{{paperCount.count13 && paperCount.count13 > 1 ? `(${paperCount.count13})` : ''}}</span
                     >
                     <i
                       v-if="dangerStatus.danger13 && dangerStatus.danger13.length > 0"
@@ -610,7 +610,7 @@
                     <span
                       @click="cmdEditDoc('let105', '隐患整改', '44')"
                       class="flow-span"
-                      >隐患整改</span
+                      >隐患整改{{paperCount.count44 && paperCount.count44 > 1 ? `(${paperCount.count44})` : ''}}</span
                     >
                     <i
                       class="el-icon-plus create-icon"
@@ -665,7 +665,7 @@
                     <span
                       @click="cmdEditDoc('let106', '撤出作业人员命令书', '3')"
                       class="flow-span"
-                      >撤出作业人员 <br />命令书</span
+                      >撤出作业人员 <br />命令书{{paperCount.count3 && paperCount.count3 > 1 ? `(${paperCount.count3})` : ''}}</span
                     >
                     <i
                       class="el-icon-plus create-icon"
@@ -699,7 +699,7 @@
                     <span
                       @click="cmdEditDoc('let107', '抽样取证通知书', '23')"
                       class="flow-span"
-                      >抽样取证通知书</span
+                      >抽样取证通知书{{paperCount.count23 && paperCount.count23 > 1 ? `(${paperCount.count23})` : ''}}</span
                     >
                     <i
                       class="el-icon-plus create-icon"
@@ -735,7 +735,7 @@
                         cmdEditDoc('let108', '先行登记保存证据通知书', '25')
                       "
                       class="flow-span"
-                      >先行登记保存证据 <br />通知书</span
+                      >先行登记保存证据<br />通知书{{paperCount.count25 && paperCount.count25 > 1 ? `(${paperCount.count25})` : ''}}</span
                     >
                     <i
                       class="el-icon-plus create-icon"
@@ -773,7 +773,7 @@
                         cmdEditDoc('let109', '先行登记保存证据处理决定书', '27')
                       "
                       class="flow-span"
-                      >先行登记保存证据 <br />处理决定书</span
+                      >先行登记保存证据<br />处理决定书{{paperCount.count27 && paperCount.count27 > 1 ? `(${paperCount.count27})` : ''}}</span
                     >
                     <i
                       class="el-icon-plus create-icon"
@@ -825,7 +825,7 @@
                     <span
                       @click="cmdEditDoc('let110', '查封（扣押）决定书', '32')"
                       class="flow-span"
-                      >查封(扣押) <br />决定书</span
+                      >查封(扣押)<br />决定书{{paperCount.count32 && paperCount.count32 > 1 ? `(${paperCount.count32})` : ''}}</span
                     >
                     <i
                       class="el-icon-plus create-icon"
@@ -858,7 +858,7 @@
                         cmdEditDoc('let114', '延长查封（扣押）期限决定书', '46')
                       "
                       class="flow-span"
-                      >延长查封（扣押） <br />期限决定书</span
+                      >延长查封（扣押）<br />期限决定书{{paperCount.count46 && paperCount.count46 > 1 ? `(${paperCount.count46})` : ''}}</span
                     >
                     <i
                       class="el-icon-plus create-icon"
@@ -893,7 +893,7 @@
                         cmdEditDoc('let115', '查封（扣押）处理决定书', '47')
                       "
                       class="flow-span"
-                      >查封（扣押）处理 <br />决定书</span
+                      >查封（扣押）处理<br />决定书{{paperCount.count47 && paperCount.count47 > 1 ? `(${paperCount.count47})` : ''}}</span
                     >
                     <i
                       class="el-icon-plus create-icon"
@@ -973,7 +973,7 @@
                         )
                       "
                       class="flow-span"
-                      >停供电（停供民用 <br />爆炸物品）决定书</span
+                      >停供电（停供民用<br />爆炸物品）决定书{{paperCount.count48 && paperCount.count48 > 1 ? `(${paperCount.count48})` : ''}}</span
                     >
                     <i
                       class="el-icon-plus create-icon"
@@ -1028,7 +1028,7 @@
                         )
                       "
                       class="flow-span"
-                      >停供电(停供民用 <br />爆炸物品)通知书</span
+                      >停供电(停供民用<br />爆炸物品)通知书{{paperCount.count37 && paperCount.count37 > 1 ? `(${paperCount.count37})` : ''}}</span
                     >
                     <i
                       class="el-icon-plus create-icon"
@@ -1074,7 +1074,7 @@
                         )
                       "
                       class="flow-span"
-                      >解除停供电(停供民<br />用爆炸物品)通知书</span
+                      >解除停供电(停供民<br />用爆炸物品)通知书{{paperCount.count38 && paperCount.count38 > 1 ? `(${paperCount.count38})` : ''}}</span
                     >
                     <i
                       class="el-icon-plus create-icon"
@@ -1146,7 +1146,7 @@
                     <span
                       @click="cmdEditDoc('let201', '立案决定书', '4')"
                       class="flow-span"
-                      >立案决定书</span
+                      >立案决定书{{paperCount.count4 && paperCount.count4 > 1 ? `(${paperCount.count4})` : ''}}</span
                     >
                     <i
                       v-if="dangerStatus.danger4 && dangerStatus.danger4.length > 0"
@@ -1193,7 +1193,7 @@
                     <span
                       @click="cmdEditDoc('let202', '调查取证笔录', '5')"
                       class="flow-span"
-                      >调查取证笔录</span
+                      >调查取证笔录{{paperCount.count5 && paperCount.count5 > 1 ? `(${paperCount.count5})` : ''}}</span
                     >
                     <i
                       class="el-icon-plus create-icon"
@@ -1224,7 +1224,7 @@
                     <span
                       @click="cmdEditDoc('let204', '行政处罚告知书', '6')"
                       class="flow-span"
-                      >行政处罚告知书</span
+                      >行政处罚告知书{{paperCount.count6 && paperCount.count6 > 1 ? `(${paperCount.count6})` : ''}}</span
                     >
                     <i
                       v-if="dangerStatus.danger6 && dangerStatus.danger6.length > 0"
@@ -1261,7 +1261,7 @@
                     <span
                       @click="cmdEditDoc('let205', '陈述、申辩笔录', '30')"
                       class="flow-span"
-                      >陈述、申辩笔录</span
+                      >陈述、申辩笔录{{paperCount.count30 && paperCount.count30 > 1 ? `(${paperCount.count30})` : ''}}</span
                     >
                     <i
                       class="el-icon-plus create-icon"
@@ -1302,8 +1302,7 @@
                       alt=""
                     />
                     <span @click="cmdEditDoc('let215','行政执法决定法制审核意见书', '49')" class="flow-span">
-                      行政执法决定法制
-                      <br />审核意见书
+                      行政执法决定法制<br />审核意见书{{paperCount.count49 && paperCount.count49 > 1 ? `(${paperCount.count49})` : ''}}
                     </span>
                     <i
                       class="el-icon-plus create-icon"
@@ -1334,7 +1333,7 @@
                     <span
                       @click="cmdEditDoc('let203', '案件处理呈报书', '36')"
                       class="flow-span"
-                      >案件处理呈报书</span
+                      >案件处理呈报书{{paperCount.count36 && paperCount.count36 > 1 ? `(${paperCount.count36})` : ''}}</span
                     >
                     <i
                       v-if="dangerStatus.danger36 && dangerStatus.danger36.length > 0"
@@ -1369,7 +1368,7 @@
                       alt=""
                     />
                     <span @click="cmdEditDoc('let216','集体讨论记录', '50')" class="flow-span">
-                      集体讨论记录
+                      集体讨论记录{{paperCount.count50 && paperCount.count50 > 1 ? `(${paperCount.count50})` : ''}}
                     </span>
                     <i
                       class="el-icon-plus create-icon"
@@ -1400,7 +1399,7 @@
                     <span
                       @click="cmdEditDoc('let206', '行政处罚决定书', '8')"
                       class="flow-span"
-                      >行政处罚决定书</span
+                      >行政处罚决定书{{paperCount.count8 && paperCount.count8 > 1 ? `(${paperCount.count8})` : ''}}</span
                     >
                     <i
                       v-if="dangerStatus.danger8 && dangerStatus.danger8.length > 0"
@@ -1480,7 +1479,7 @@
                     <span
                       @click="cmdEditDoc('let207', '送达收执', '9')"
                       class="flow-span"
-                      >送达收执</span
+                      >送达收执{{paperCount.count9 && paperCount.count9 > 1 ? `(${paperCount.count9})` : ''}}</span
                     >
                     <i
                       class="el-icon-plus create-icon"
@@ -1532,7 +1531,7 @@
                     <span
                       @click="cmdEditDoc('let209', '听证通知书', '28')"
                       class="flow-span"
-                      >听证通知书</span
+                      >听证通知书{{paperCount.count28 && paperCount.count28 > 1 ? `(${paperCount.count28})` : ''}}</span
                     >
                     <i
                       class="el-icon-plus create-icon"
@@ -1568,7 +1567,7 @@
                         cmdEditDoc('let210', '不予受理听证申请通知书', '29')
                       "
                       class="flow-span"
-                      >不予受理听证申请 <br />通知书</span
+                      >不予受理听证申请<br />通知书{{paperCount.count29 && paperCount.count29 > 1 ? `(${paperCount.count29})` : ''}}</span
                     >
                     <i
                       class="el-icon-plus create-icon"
@@ -1604,7 +1603,7 @@
                     <span
                       @click="cmdEditDoc('let211', '听证笔录', '7')"
                       class="flow-span"
-                      >听证笔录</span
+                      >听证笔录{{paperCount.count7 && paperCount.count7 > 1 ? `(${paperCount.count7})` : ''}}</span
                     >
                     <i
                       class="el-icon-plus create-icon"
@@ -1659,7 +1658,7 @@
                     <span
                       @click="cmdEditDoc('let212', '罚款收缴', '43')"
                       class="flow-span"
-                      >罚款收缴</span
+                      >罚款收缴{{paperCount.count43 && paperCount.count43 > 1 ? `(${paperCount.count43})` : ''}}</span
                     >
                     <i
                       class="el-icon-plus create-icon"
@@ -1688,7 +1687,7 @@
                       alt=""
                     />
                     <span @click="cmdEditDoc('let217','罚款缴纳催告书', '51')" class="flow-span">
-                      罚款缴纳催告书
+                      罚款缴纳催告书{{paperCount.count51 && paperCount.count51 > 1 ? `(${paperCount.count51})` : ''}}
                     </span>
                     <i
                       class="el-icon-plus create-icon"
@@ -1717,7 +1716,7 @@
                       alt=""
                     />
                     <span @click="cmdEditDoc('let218','加处罚款决定书', '52')" class="flow-span">
-                      加处罚款决定书
+                      加处罚款决定书{{paperCount.count52 && paperCount.count52 > 1 ? `(${paperCount.count52})` : ''}}
                     </span>
                     <i
                       class="el-icon-plus create-icon"
@@ -1746,7 +1745,7 @@
                       alt=""
                     />
                     <span @click="cmdEditDoc('let219','延期（分期）缴纳罚款决定书', '53')" class="flow-span">
-                      延期（分期）缴纳<br />罚款决定书
+                      延期（分期）缴纳<br />罚款决定书{{paperCount.count53 && paperCount.count53 > 1 ? `(${paperCount.count53})` : ''}}
                     </span>
                     <i
                       class="el-icon-plus create-icon"
@@ -1789,7 +1788,7 @@
                     <span
                       @click="cmdEditDoc('let213', '案件结案报告', '14')"
                       class="flow-span"
-                      >案件结案报告</span
+                      >案件结案报告{{paperCount.count14 && paperCount.count14 > 1 ? `(${paperCount.count14})` : ''}}</span
                     >
                     <i
                       class="el-icon-plus create-icon"
@@ -1822,7 +1821,7 @@
                         cmdEditDoc('let214', '执法案卷（首页）及目录', '15')
                       "
                       class="flow-span"
-                      >执法案卷（首页） <br />及目录</span
+                      >执法案卷（首页）<br />及目录{{paperCount.count15 && paperCount.count15 > 1 ? `(${paperCount.count15})` : ''}}</span
                     >
                     <i
                       class="el-icon-plus create-icon"
@@ -1877,7 +1876,7 @@
                         cmdEditDoc('let300', '执法案件公开裁定记录', '31')
                       "
                       class="flow-span"
-                      >执法案件公开裁定<br>记录</span
+                      >执法案件公开裁定<br>记录{{paperCount.count31 && paperCount.count31 > 1 ? `(${paperCount.count31})` : ''}}</span
                     >
                     <i
                       class="el-icon-plus create-icon"
@@ -1922,7 +1921,7 @@
                     <span
                       @click="cmdEditDoc('let309', '行政强制执行事先催告书', '54')"
                       class="flow-span"
-                      >行政强制执行事先<br />催告书</span
+                      >行政强制执行事先<br />催告书{{paperCount.count54 && paperCount.count54 > 1 ? `(${paperCount.count54})` : ''}}</span
                     >
                     <i
                       class="el-icon-plus create-icon"
@@ -1953,7 +1952,7 @@
                     <span
                       @click="cmdEditDoc('let301', '强制执行申请书', '18')"
                       class="flow-span"
-                      >强制执行申请书</span
+                      >强制执行申请书{{paperCount.count18 && paperCount.count18 > 1 ? `(${paperCount.count18})` : ''}}</span
                     >
                     <i
                       class="el-icon-plus create-icon"
@@ -2176,7 +2175,7 @@
                     <span
                       @click="cmdEditDoc('let401', '移送书', '19')"
                       class="flow-span"
-                      >移送书</span
+                      >移送书{{paperCount.count19 && paperCount.count19 > 1 ? `(${paperCount.count19})` : ''}}</span
                     >
                     <i
                       class="el-icon-plus create-icon"
@@ -2207,7 +2206,7 @@
                     <span
                       @click="cmdEditDoc('let402', '涉嫌犯罪案件移送书', '20')"
                       class="flow-span"
-                      >涉嫌犯罪案件 <br />移送书</span
+                      >涉嫌犯罪案件<br />移送书{{paperCount.count20 && paperCount.count20 > 1 ? `(${paperCount.count20})` : ''}}</span
                     >
                     <i
                       class="el-icon-plus create-icon"
@@ -2238,7 +2237,7 @@
                     <span
                       @click="cmdEditDoc('let408', '行政执法有关事项审批报告', '55')"
                       class="flow-span">
-                      行政执法有关事项<br />审批报告
+                      行政执法有关事项<br />审批报告{{paperCount.count55 && paperCount.count55 > 1 ? `(${paperCount.count55})` : ''}}
                     </span>
                     <i
                       class="el-icon-plus create-icon"
@@ -2299,7 +2298,7 @@
                     <span
                       @click="cmdEditDoc('let406', '影音证据', '21')"
                       class="flow-span"
-                      >影音证据</span
+                      >影音证据{{paperCount.count21 && paperCount.count21 > 1 ? `(${paperCount.count21})` : ''}}</span
                     >
                     <i
                       class="el-icon-plus create-icon"
@@ -2429,6 +2428,10 @@ export default {
           danger8: [],
         }
       }
+    },
+    paperCount: {
+      type: Object,
+      default: () => {}
     }
   },
   data() {
@@ -2779,8 +2782,8 @@ export default {
   img {
     position: absolute;
     width: 20px;
-    top: 8px;
-    left: 10px;
+    top: 6px;
+    left: 6px;
   }
 }
 .flow-span {

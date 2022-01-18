@@ -389,6 +389,8 @@ export default {
     let associationPaperId = {};
     let associationPaperOrder = []
     let volumesMenuTableData = []
+    cellIdx0String = this.$store.state.curCase.provinceGroupName;
+    cellIdx1String = "行政处罚案件档案";
     let db = new GoDB(this.$store.state.DBName);
       let let1DataPaperContent = JSON.parse(
         selectedPaper.let1Data.paperContent

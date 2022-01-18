@@ -463,10 +463,7 @@ export default {
       let cellIdx2Date = now.getDate().toString();
       let cellIdx3Hour = now.getHours().toString();
       let cellIdx4Minu = now.getMinutes().toString();
-      let let4DataPaperContent =
-        this.corpData.caseType === "0"
-          ? JSON.parse(selectedPaper.let4Data.paperContent)
-          : null;
+      let let4DataPaperContent = JSON.parse(selectedPaper.let4Data.paperContent);
       let cellIdx8String =
         this.corpData.caseType === "0"
           ? setDangerTable(

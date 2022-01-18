@@ -205,6 +205,14 @@
         </div>
       </div>
     </let-main>
+    <!-- 关联文书选择 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      title="关联文书选择"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
   </div>
 </template>
 
@@ -238,7 +246,9 @@ export default {
         associationPaperId: {},
         associationPaperOrder: []
       },
-      options: {},
+      options: {
+        cellIdx1: []
+      },
       associationPaper: ["22"],
     };
   },

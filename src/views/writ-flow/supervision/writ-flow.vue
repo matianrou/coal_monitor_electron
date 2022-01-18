@@ -62,7 +62,7 @@
                     :title="flowStatus.paper22 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let100','检查方案', '22')" class="flow-span">检查方案</span>
+                  <span @click="cmdEditDoc('let100','检查方案', '22')" class="flow-span">检查方案{{paperCount.count22 && paperCount.count22 > 1 ? `(${paperCount.count22})` : ''}}</span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let100','检查方案', '22')"></i>
                 </td>
                 <!-- <td style="width:28px;" class="writ-flow-td">
@@ -78,7 +78,7 @@
                     :title="flowStatus.paper1 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let101','现场检查记录', '1')" class="flow-span">现场检查记录</span>
+                  <span @click="cmdEditDoc('let101','现场检查记录', '1')" class="flow-span">现场检查记录{{paperCount.count1 && paperCount.count1 > 1 ? `(${paperCount.count1})` : ''}}</span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let101','现场检查记录', '1')"></i>
                 </td>
                 <!-- <td style="width:28px;" class="writ-flow-td">
@@ -95,8 +95,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let102','现场处理决定书', '2')" class="flow-span">
-                    现场处理
-                    <br />决定书
+                    现场处理<br />决定书{{paperCount.count2 && paperCount.count2 > 1 ? `(${paperCount.count2})` : ''}}
                   </span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let102','现场处理决定书', '2')"></i>
                 </td>
@@ -140,7 +139,7 @@
                     :title="flowStatus.paper13 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let104','复查意见书', '13')" class="flow-span">复查意见书</span>
+                  <span @click="cmdEditDoc('let104','复查意见书', '13')" class="flow-span">复查意见书{{paperCount.count13 && paperCount.count13 > 1 ? `(${paperCount.count13})` : ''}}</span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let104','复查意见书', '13')"></i>
                 </td>
                 <!-- <td style="width:12px;" class="writ-flow-td">
@@ -168,8 +167,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let106','撤出作业人员命令书', '3')" class="flow-span">
-                    撤出作业人员
-                    <br />指令书
+                    撤出作业人员<br />指令书{{paperCount.count3 && paperCount.count3 > 1 ? `(${paperCount.count3})` : ''}}
                   </span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let106','撤出作业人员命令书', '3')"></i>
                 </td>
@@ -186,7 +184,7 @@
                     :title="flowStatus.paper23 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let107','抽样取证通知书', '23')" class="flow-span">抽样取证通知书</span>
+                  <span @click="cmdEditDoc('let107','抽样取证通知书', '23')" class="flow-span">抽样取证通知书{{paperCount.count23 && paperCount.count23 > 1 ? `(${paperCount.count23})` : ''}}</span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let107','抽样取证通知书', '23')"></i>
                 </td>
                 <!-- <td style="width:28px;" class="writ-flow-td">
@@ -203,8 +201,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let108','先行登记保存证据通知书', '25')" class="flow-span">
-                    先行登记保存证据
-                    <br />通知书
+                    先行登记保存证据<br />通知书{{paperCount.count25 && paperCount.count25 > 1 ? `(${paperCount.count25})` : ''}}
                   </span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let108','先行登记保存证据通知书', '25')"></i>
                 </td>
@@ -222,8 +219,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let109','先行登记保存证据处理决定书', '27')" class="flow-span">
-                    先行登记保存证据
-                    <br />处理决定书
+                    先行登记保存证据<br />处理决定书{{paperCount.count27 && paperCount.count27 > 1 ? `(${paperCount.count27})` : ''}}
                   </span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let109','先行登记保存证据处理决定书', '27')"></i>
                 </td>
@@ -241,8 +237,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let110','查封（扣押）决定书', '32')" class="flow-span">
-                    查封(扣押)
-                    <br />决定书
+                    查封(扣押)<br />决定书{{paperCount.count32 && paperCount.count32 > 1 ? `(${paperCount.count32})` : ''}}
                   </span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let110','查封（扣押）决定书', '32')"></i>
                 </td>
@@ -270,8 +265,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let114','延长查封（扣押）期限决定书', '45')" class="flow-span">
-                    延长查封（扣押）
-                    <br />期限决定书
+                    延长查封（扣押）<br />期限决定书{{paperCount.count45 && paperCount.count45 > 1 ? `(${paperCount.count45})` : ''}}
                   </span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let114','延长查封（扣押）期限决定书', '45')"></i>
                 </td>
@@ -289,8 +283,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let115','查封(扣押)处理决定书', '46')" class="flow-span">
-                    查封(扣押)处理
-                    <br />决定书
+                    查封(扣押)处理<br />决定书{{paperCount.count46 && paperCount.count46 > 1 ? `(${paperCount.count46})` : ''}}
                   </span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let115','查封(扣押)处理决定书', '46')"></i>
                 </td>
@@ -308,8 +301,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let111','停供电(停供民用爆炸物品)决定书', '56')" class="flow-span">
-                    停供电(停供民用
-                    <br />爆炸物品)决定书
+                    停供电(停供民用<br />爆炸物品)决定书{{paperCount.count56 && paperCount.count56 > 1 ? `(${paperCount.count56})` : ''}}
                   </span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let111','停供电(停供民用爆炸物品)决定书', '56')"></i>
                 </td>
@@ -327,8 +319,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let112','停供电(停供民用爆炸物品)函告书', '37')" class="flow-span">
-                    停供电(停供民用
-                    <br />爆炸物品)函告书
+                    停供电(停供民用<br />爆炸物品)函告书{{paperCount.count37 && paperCount.count37 > 1 ? `(${paperCount.count37})` : ''}}
                   </span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let112','停供电(停供民用爆炸物品)函告书', '37')"></i>
                 </td>
@@ -346,8 +337,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let113','解除停供电(停供民用爆炸物品)函告书', '38')" class="flow-span">
-                    解除停供电(停供民用
-                    <br />爆炸物品)函告书
+                    解除停供电(停供民用<br />爆炸物品)函告书{{paperCount.count38 && paperCount.count38 > 1 ? `(${paperCount.count38})` : ''}}
                   </span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let113','解除停供电(停供民用爆炸物品)通知书', '38')"></i>
                 </td>
@@ -378,7 +368,7 @@
                     :title="flowStatus.paper4 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let201','立案决定书', '4')" class="flow-span">立案决定书</span>
+                  <span @click="cmdEditDoc('let201','立案决定书', '4')" class="flow-span">立案决定书{{paperCount.count4 && paperCount.count4 > 1 ? `(${paperCount.count4})` : ''}}</span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let201','立案决定书', '4')"></i>
                 </td>
                 <!-- <td style="width:28px;" class="writ-flow-td">
@@ -394,7 +384,7 @@
                     :title="flowStatus.paper5 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let202','调查询问笔录', '5')" class="flow-span">调查询问笔录</span>
+                  <span @click="cmdEditDoc('let202','调查询问笔录', '5')" class="flow-span">调查询问笔录{{paperCount.count5 && paperCount.count5 > 1 ? `(${paperCount.count5})` : ''}}</span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let202','调查询问笔录', '5')"></i>
                 </td>
                 <!-- <td style="width:28px;" class="writ-flow-td">
@@ -411,8 +401,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let203','行政执法决定法制审核意见书', '47')" class="flow-span">
-                    行政执法决定法制
-                    <br />审核意见书
+                    行政执法决定法制<br />审核意见书{{paperCount.count47 && paperCount.count47 > 1 ? `(${paperCount.count47})` : ''}}
                   </span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let203','行政执法决定法制审核意见书', '47')"></i>
                 </td>
@@ -429,7 +418,7 @@
                     :title="flowStatus.paper48 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let215','集体讨论记录', '48')" class="flow-span">集体讨论记录</span>
+                  <span @click="cmdEditDoc('let215','集体讨论记录', '48')" class="flow-span">集体讨论记录{{paperCount.count48 && paperCount.count48 > 1 ? `(${paperCount.count48})` : ''}}</span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let215','集体讨论记录', '48')"></i>
                 </td>
                 <td class="arrows">  
@@ -452,7 +441,7 @@
                     :title="flowStatus.paper36 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let216','案件处理呈报书', '36')" class="flow-span">案件处理呈报书</span>
+                  <span @click="cmdEditDoc('let216','案件处理呈报书', '36')" class="flow-span">案件处理呈报书{{paperCount.count36 && paperCount.count36 > 1 ? `(${paperCount.count36})` : ''}}</span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let216','案件处理呈报书', '36')"></i>
                 </td>
                 <!-- <td style="width:28px;" class="writ-flow-td">
@@ -468,7 +457,7 @@
                     :title="flowStatus.paper6 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let204','行政处罚告知书', '6')" class="flow-span">行政处罚告知书</span>
+                  <span @click="cmdEditDoc('let204','行政处罚告知书', '6')" class="flow-span">行政处罚告知书{{paperCount.count6 && paperCount.count6 > 1 ? `(${paperCount.count6})` : ''}}</span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let204','行政处罚告知书', '6')"></i>
                 </td>
                 <!-- <td style="width:28px;" class="writ-flow-td">
@@ -485,7 +474,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let206','行政处罚决定书', '8')" class="flow-span">
-                    行政处罚决定书
+                    行政处罚决定书{{paperCount.count8 && paperCount.count8 > 1 ? `(${paperCount.count8})` : ''}}
                   </span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let206','行政处罚决定书', '8')"></i>
                 </td>
@@ -503,7 +492,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let207','送达收执', '9')" class="flow-span">
-                    送达收执
+                    送达收执{{paperCount.count9 && paperCount.count9 > 1 ? `(${paperCount.count9})` : ''}}
                   </span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let207','送达收执', '9')"></i>
                 </td>
@@ -531,7 +520,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let217','询问通知书', '57')" class="flow-span">
-                    询问通知书
+                    询问通知书{{paperCount.count57 && paperCount.count57 > 1 ? `(${paperCount.count57})` : ''}}
                   </span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let217','询问通知书', '57')"></i>
                 </td>
@@ -548,7 +537,7 @@
                     :title="flowStatus.paper30 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let205','陈述、申辩笔录', '30')" class="flow-span">陈述、申辩笔录</span>
+                  <span @click="cmdEditDoc('let205','陈述、申辩笔录', '30')" class="flow-span">陈述、申辩笔录{{paperCount.count30 && paperCount.count30 > 1 ? `(${paperCount.count30})` : ''}}</span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let205','陈述、申辩笔录', '30')"></i>
                 </td>
                 <!-- <td style="width:28px;" class="writ-flow-td">
@@ -565,7 +554,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let209','听证通知书', '28')" class="flow-span">
-                    听证通知书
+                    听证通知书{{paperCount.count28 && paperCount.count28 > 1 ? `(${paperCount.count28})` : ''}}
                   </span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let209','听证通知书', '28')"></i>
                 </td>
@@ -583,7 +572,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let210','不予受理听证申请通知书', '29')" class="flow-span">
-                    不予受理听证<br />申请通知书
+                    不予受理听证<br />申请通知书{{paperCount.count29 && paperCount.count29 > 1 ? `(${paperCount.count29})` : ''}}
                   </span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let210','不予受理听证申请通知书', '29')"></i>
                 </td>
@@ -601,7 +590,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let211','听证笔录', '7')" class="flow-span">
-                    听证笔录
+                    听证笔录{{paperCount.count7 && paperCount.count7 > 1 ? `(${paperCount.count7})` : ''}}
                   </span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let211','听证笔录', '7')"></i>
                 </td>
@@ -619,7 +608,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let218','听证会报告书', '49')" class="flow-span">
-                    听证会报告书
+                    听证会报告书{{paperCount.count49 && paperCount.count49 > 1 ? `(${paperCount.count49})` : ''}}
                   </span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let218','听证会报告书', '49')"></i>
                 </td>
@@ -647,7 +636,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let212','罚款缴纳催告书', '50')" class="flow-span">
-                    罚款缴纳催告书
+                    罚款缴纳催告书{{paperCount.count50 && paperCount.count50 > 1 ? `(${paperCount.count50})` : ''}}
                   </span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let212','罚款缴纳催告书', '50')"></i>
                 </td>
@@ -666,7 +655,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let220','加处罚款决定书', '51')" class="flow-span">
-                    加处罚款决定书
+                    加处罚款决定书{{paperCount.count51 && paperCount.count51 > 1 ? `(${paperCount.count51})` : ''}}
                   </span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let220','加处罚款决定书', '51')"></i>
                 </td>
@@ -684,7 +673,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let219','延期（分期）缴纳罚款决定书', '52')" class="flow-span">
-                    延期（分期）缴纳<br />罚款决定书
+                    延期（分期）缴纳<br />罚款决定书{{paperCount.count52 && paperCount.count52 > 1 ? `(${paperCount.count52})` : ''}}
                   </span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let219','延期（分期）缴纳罚款决定书', '52')"></i>
                 </td>
@@ -702,7 +691,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let213','案件结案报告', '14')" class="flow-span">
-                    案件结案报告
+                    案件结案报告{{paperCount.count14 && paperCount.count14 > 1 ? `(${paperCount.count14})` : ''}}
                   </span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let213','案件结案报告', '14')"></i>
                 </td>
@@ -720,7 +709,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let214','执法案卷（首页）及目录', '15')" class="flow-span">
-                    执法案卷（首页）<br />及目录
+                    执法案卷（首页）<br />及目录{{paperCount.count15 && paperCount.count15 > 1 ? `(${paperCount.count15})` : ''}}
                   </span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let214','执法案卷（首页）及目录', '15')"></i>
                 </td>
@@ -751,7 +740,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let309','行政强制执行事先催告书', '53')" class="flow-span">
-                    行政强制执行<br />事先催告书
+                    行政强制执行<br />事先催告书{{paperCount.count53 && paperCount.count53 > 1 ? `(${paperCount.count53})` : ''}}
                   </span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let309','行政强制执行事先催告书', '53')"></i>
                 </td>
@@ -769,8 +758,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let301','强制执行申请书', '18')" class="flow-span">
-                    强制执行
-                    <br />申请书
+                    强制执行<br />申请书{{paperCount.count18 && paperCount.count18 > 1 ? `(${paperCount.count18})` : ''}}
                   </span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let301','强制执行申请书', '18')"></i>
                 </td>
@@ -788,7 +776,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let310','行政执法有关事项审批报告', '54')" class="flow-span">
-                    行政执法有关事项<br />审批报告
+                    行政执法有关事项<br />审批报告{{paperCount.count54 && paperCount.count54 > 1 ? `(${paperCount.count54})` : ''}}
                   </span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let310','行政执法有关事项审批报告', '54')"></i>
                 </td>
@@ -818,7 +806,7 @@
                     :title="flowStatus.paper19 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let401','移送书', '19')" class="flow-span">移送书</span>
+                  <span @click="cmdEditDoc('let401','移送书', '19')" class="flow-span">移送书{{paperCount.count19 && paperCount.count19 > 1 ? `(${paperCount.count19})` : ''}}</span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let401','移送书', '19')"></i>
                 </td>
                 <!-- <td style="width:28px;" class="writ-flow-td">
@@ -834,7 +822,7 @@
                     :title="flowStatus.paper20 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let402','涉嫌犯罪案件移送书', '20')" class="flow-span">涉嫌犯罪案件<br />移送书</span>
+                  <span @click="cmdEditDoc('let402','涉嫌犯罪案件移送书', '20')" class="flow-span">涉嫌犯罪案件<br />移送书{{paperCount.count20 && paperCount.count20 > 1 ? `(${paperCount.count20})` : ''}}</span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let402','涉嫌犯罪案件移送书', '20')"></i>
                 </td>
                 <!-- <td style="width:28px;" class="writ-flow-td">
@@ -851,7 +839,7 @@
                     alt
                   />
                   <span @click="cmdEditDoc('let406','鉴定委托书', '55')" class="flow-span">
-                    鉴定委托书
+                    鉴定委托书{{paperCount.count55 && paperCount.count55 > 1 ? `(${paperCount.count55})` : ''}}
                   </span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let406','鉴定委托书', '55')"></i>
                 </td>
@@ -879,6 +867,10 @@ export default {
       default: () => {},
     },
     flowStatus: {
+      type: Object,
+      default: () => {},
+    },
+    paperCount: {
       type: Object,
       default: () => {},
     },
@@ -992,8 +984,8 @@ export default {
   img {
     position: absolute;
     width: 20px;
-    top: 8px;
-    left: 10px;
+    top: 6px;
+    left: 6px;
   }
 }
 .flow-span {

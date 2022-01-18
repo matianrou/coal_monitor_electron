@@ -157,7 +157,7 @@
 <script>
 import GoDB from "@/utils/godb.min.js";
 import associationSelectPaper from "@/components/association-select-paper";
-import { getOrgData } from '@/utils/setInitPaperData'
+import { setNewDanger, getOrgData } from '@/utils/setInitPaperData'
 export default {
   name: "Let211",
   mixins: [associationSelectPaper],
@@ -176,9 +176,13 @@ export default {
         cellIdx9: null, // 记录人（签名）
         cellIdx10: null, // 听证记录
         cellIdx11: null, // 听证参加人（签名）
+        selectedType: null,
+        DangerTable: null,
+        associationPaperId: {},
+        associationPaperOrder: []
       },
       options: {},
-      associationPaper: [],
+      associationPaper: ['28']
     };
   },
   methods: {
@@ -254,6 +258,21 @@ export default {
                                                         XXX签名压印\r
                                                       20XX年XX月XX日\r`;
       await db.close();
+      let let28DataPaperContent = JSON.parse(
+        selectedPaper.let28Data.paperContent
+      );
+      let DangerTable =
+        this.corpData.caseType === "0"
+          ? setNewDanger(
+              selectedPaper.let28Data,
+              let28DataPaperContent.DangerTable
+            )
+          : null;
+      let associationPaperId = Object.assign({}, this.setAssociationPaperId(let28DataPaperContent.associationPaperId), {
+        paper28Id: selectedPaper.let28Data.paperId,
+      }) 
+      let associationPaperOrder = this.setAssociationPaperOrder(let28DataPaperContent.associationPaperOrder)
+      associationPaperOrder.push('28')
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: cellIdx0Year, // 年
         cellIdx1: cellIdx1Month, // 月
@@ -262,6 +281,10 @@ export default {
         cellIdx4: cellIdx4Minu, // 分
         cellIdx7: cellIdx7String, // 听证地点
         cellIdx10: cellIdx10String, // 听证记录
+        DangerTable,
+        selectedType: let28DataPaperContent.selectedType,
+        associationPaperId,
+        associationPaperOrder
       })
     },
     goBack({ page, data }) {

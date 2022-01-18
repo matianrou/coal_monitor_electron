@@ -644,10 +644,14 @@ export default {
         // 判断当前是否需要自增文书号
         let paperNumberType = this.$store.state.dictionary[`${this.$store.state.user.userType}PaperNumberType`]
         let needSavePaperNumber = false
+        let docTypeNo = this.docData.docTypeNo
         for (let i = 0; i < paperNumberType.length; i++) {
-          if (this.docData.docTypeNo === paperNumberType[i].docTypeNo) {
+          if (docTypeNo === paperNumberType[i].docTypeNo) {
             needSavePaperNumber = true
           }
+        }
+        if (docTypeNo === '55' || docTypeNo === '49' || docTypeNo === '36') {
+          needSavePaperNumber = true
         }
         if (needSavePaperNumber) {
           // 当为新创建文书时，保存成功后，个人文书号自增1

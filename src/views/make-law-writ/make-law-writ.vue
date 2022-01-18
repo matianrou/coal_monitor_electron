@@ -36,6 +36,7 @@
               :is="writFlow"
               :corp-data="corpData"
               :flow-status="flowStatus"
+              :paper-count="paperCount"
               :show-jczf-report="showJczfReport"
               :danger-status="dangerStatus"
               @change-page="changePage"
@@ -121,6 +122,7 @@ export default {
       docData: {}, // 选择显示的文书基本信息编号及名称
       caseData: {}, // 选择的活动信息
       flowStatus: {}, // 检查活动流程各文书状态，'save'为保存，'file'为存档
+      paperCount: {}, // 文书个数，用来在文书流程中展示多个文书数量
       dangerStatus: {}, // 各文书隐患情况
       DBName: this.$store.state.DBName,
       isCreated: false, // 是否新增文书
@@ -266,6 +268,7 @@ export default {
         });
         checkLetList.sort(sortbyAsc('updateDate'))
         let flowStatus = {}
+        let paperCount = {}
         this.showJczfReport = false
         this.dangerStatus = {
           danger1: [],
@@ -301,6 +304,7 @@ export default {
               }
             }
             flowStatus[`paper${item.paperType}`] = status
+            paperCount[`count${item.paperType}`] = paperCount[`count${item.paperType}`] ? paperCount[`count${item.paperType}`] + 1 : 1
             // 判断是否需要展示监察执法报告环节
             if (item.paperType === '22') {
               let paperContent = JSON.parse(item.paperContent) 
@@ -317,6 +321,7 @@ export default {
           }
         }
         this.$set(this, 'flowStatus', flowStatus)
+        this.$set(this, 'paperCount', paperCount)
       } else {
         this.$message.error('无此企业信息，请核实数据')
         this.changePage({page: 'empty'})

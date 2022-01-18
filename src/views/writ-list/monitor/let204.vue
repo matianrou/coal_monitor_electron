@@ -436,6 +436,7 @@ export default {
         // 9.机构接口中获取sysOfficeInfo实体中
         let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
         await db.close();
+        let selectedType = ''
         let associationPaperId = {}
         let letDataPaperContent = {}
         let associationPaperOrder = []
@@ -444,6 +445,12 @@ export default {
           letDataPaperContent = JSON.parse(
             selectedPaper.let36Data.paperContent
           );
+          if (letDataPaperContent.selectedType) {
+            selectedType = letDataPaperContent.selectedType
+          } else {
+            // 1.弹出提示框，选择单位或个人
+            this.visibleSelectDialog = true;
+          }
           // 遍历关联文书key
           associationPaperId = Object.assign({}, this.setAssociationPaperId(letDataPaperContent.associationPaperId), {
             paper36Id: selectedPaper.let36Data.paperId,
@@ -452,6 +459,7 @@ export default {
           associationPaperOrder.push('36')
         } else {
           // 如果是关联立案决定书
+          this.visibleSelectDialog = true;
           letDataPaperContent = JSON.parse(
             selectedPaper.let4Data.paperContent
           );
@@ -473,6 +481,7 @@ export default {
           cellIdx18: orgSysOfficeInfo.phone, // 联系电话
           cellIdx19: this.$store.state.curCase.provinceGroupName, // 
           cellIdx20: this.todayDate, // 日期
+          selectedType,
           associationPaperId: associationPaperId,
           associationPaperOrder
         })
