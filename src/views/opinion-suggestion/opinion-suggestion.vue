@@ -2,14 +2,12 @@
 <template>
   <div class="opinion-suggestion">
     <!-- 切换展示意见建议书制作及列表opinionSuggestionMain或意见建议书文书制作opinionSuggestionPaper -->
-    <keep-alive>
-      <component
-        :is="showStatus"
-        :doc-data="docData"
-        :paper-data="paperData"
-        @change-page="changePage"
-      ></component>
-    </keep-alive>
+    <component
+      :is="showStatus"
+      :doc-data="docData"
+      :paper-data="paperData"
+      @change-page="changePage"
+    ></component>
   </div>
 </template>
 
