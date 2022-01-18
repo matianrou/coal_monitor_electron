@@ -673,7 +673,6 @@ export default {
               }
             }
             this.dictionary.caseClassify = data.data
-            console.log('caseClassify', this.dictionary.caseClassify)
           }
         })
         .catch((err) => {

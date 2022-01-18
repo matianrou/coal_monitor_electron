@@ -455,11 +455,20 @@ function setDangerTable(data, selectedData, options) {
         string = `${options.spellString.corpName}涉嫌${dangerString }违法违规案。`
       } else if (options.key === 'cellIdx5') {
         let dangerString2 = getDangerContentWithoutPoint(list47 || [], '；')
-        string = `${options.spellString.dateString}，${options.spellString.groupName}对${options.spellString.corpName}进行现场检查时发现：${dangerString2}。以上行为分别涉嫌违反了${dangerObject.illegalString || ''}的规定。依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`
+        string = `${options.spellString.dateString}，${options.spellString.groupName}对${options.spellString.corpName}进行现场检查时发现：${dangerString2}。以上行为${list47.length > 1 ? '分别' : ''}涉嫌违反了${dangerObject.illegalString || ''}的规定。依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`
       } else if (options.key === 'cellIdx6') {
         string = getDangerPenaltyBasis(list47 || [], '，') + '。'
       } else if (options.key === 'cellIdx7') {
-        string = getDangerPenaltyDescWithoutPoint(list47 || [], '；') + '。'
+        if (list47.length === 1) {
+          // 单条时：
+          let penaltyDescString = getDangerPenaltyDescWithoutPoint(list47 || [], '；')
+          string = `${penaltyDescString}。`
+        } else if (list47.length > 1) {
+          // 多条时
+          let penaltyDescString = getDangerPenaltyDescWithoutPoint(list47 || [], '；')
+          let { descTypeStrings } = getDangerDes(list47 || [])
+          string = `分别${penaltyDescString}。${dangerObject.penaltyDescFineTotle ? `合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle) || ''}（￥${dangerObject.penaltyDescFineTotle.toLocaleString() || ''}）` : ''}${descTypeStrings || ''}`
+        }
       }
       break
     case '49': // 行政执法决定法制审核意见书 监察
@@ -477,11 +486,20 @@ function setDangerTable(data, selectedData, options) {
           string = `${options.spellString.corpName}涉嫌${dangerString }违法违规案。`
         } else if (options.key === 'cellIdx5') {
           let dangerString2 = getDangerContentWithoutPoint(list49 || [], '；')
-          string = `${options.spellString.dateString}，${options.spellString.groupName}对${options.spellString.corpName}进行现场检查时发现：${dangerString2}。以上行为分别涉嫌违反了${dangerObject.illegalString || ''}的规定。依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`
+          string = `${options.spellString.dateString}，${options.spellString.groupName}对${options.spellString.corpName}进行现场检查时发现：${dangerString2}。以上行为${list49.length > 1 ? '分别' : ''}涉嫌违反了${dangerObject.illegalString || ''}的规定。依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`
         } else if (options.key === 'cellIdx6') {
           string = getDangerPenaltyBasis(list49 || [], '，') + '。'
         } else if (options.key === 'cellIdx7') {
-          string = getDangerPenaltyDescWithoutPoint(list49 || [], '；') + '。'
+          if (list49.length === 1) {
+            // 单条时：
+            let penaltyDescString = getDangerPenaltyDescWithoutPoint(list49 || [], '；')
+            string = `${penaltyDescString}。`
+          } else if (list49.length > 1) {
+            // 多条时
+            let penaltyDescString = getDangerPenaltyDescWithoutPoint(list49 || [], '；')
+            let { descTypeStrings } = getDangerDes(list49 || [])
+            string = `分别${penaltyDescString}。${dangerObject.penaltyDescFineTotle ? `合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle) || ''}（￥${dangerObject.penaltyDescFineTotle.toLocaleString() || ''}）` : ''}${descTypeStrings || ''}`
+          }
         }
       }
       break
