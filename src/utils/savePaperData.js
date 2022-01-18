@@ -445,20 +445,34 @@ export async function saveFineCollection(paperId) {
         data: JSON.stringify(submitData),
       }
     )
-    .then(({ data }) => {
+    .then(async ({ data }) => {
       if (paperData.delFlag === '0') {
         if (data.status === "200") {
           Message.success(
             `“罚款收缴”信息已上传至服务器`
           );
         } else {
-          Message.error("上传至服务器请求失败，请重新保存！");
+          // 上传失败时，重新置文书为保存状态，以备再次归档
+          let db = new GoDB(store.state.DBName);
+          let wkPaper = db.table("wkPaper");
+          paperData.delFlag = '2'
+          await wkPaper.delete({ paperId: paperData.paperId });
+          await wkPaper.add(paperData);
+          await db.close()
+          Message.error("上传至服务器请求失败，请重新归档！");
         }
       }
     })
-    .catch((err) => {
+    .catch(async (err) => {
       if (paperData.delFlag === '0') {
-        Message.error("上传至服务器请求失败，请重新保存！");
+        // 上传失败时，重新置文书为保存状态，以备再次归档
+        let db = new GoDB(store.state.DBName);
+        let wkPaper = db.table("wkPaper");
+        paperData.delFlag = '2'
+        await wkPaper.delete({ paperId: paperData.paperId });
+        await wkPaper.add(paperData);
+        await db.close()
+        Message.error("上传至服务器请求失败，请重新归档！");
         console.log("上传至服务器请求失败：", err);
       }
     });

@@ -13,7 +13,8 @@
       </div>
       <div>
         <el-button type="primary" @click="createPaper">制作文书</el-button>
-        <el-button type="primary" @click="filePaperList">批量归档</el-button>
+        <el-button type="primary" @click="batchFile">批量归档</el-button>
+        <el-button type="primary" @click="batchDelete">批量删除</el-button>
       </div>
     </div>
     <!-- 文书列表 -->
@@ -112,7 +113,7 @@
                 :disabled="scope.row.delFlag === '0'"
                 type="text"
                 size="small"
-                @click="handleDelete(scope.row)"
+                @click="singleDelete(scope.row)"
               >
                 删除
               </el-button>
@@ -238,64 +239,8 @@ export default {
       };
       this.changePage(docData, row);
     },
-    async handleDelete(row) {
-      if (!this.$store.state.onLine) {
-        this.$message.error('当前为离线登录，请联网后删除！')
-        return
-      }
-      // 删除文书 判断是否已归档，如果已归档则不可删除
-      this.loading.btn = true;
-      this.$confirm(`是否确认删除${row.orgName || ''} ${row.name}?`, "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        dangerouslyUseHTMLString: true,
-        type: "warning",
-      })
-        .then(async () => {
-          await this.$http
-            .get(
-              `/sv/local/jczf/delPaperByPaperId?__sid=${this.$store.state.user.userSessId}&paperId=${row.paperId}`
-            )
-            .then(async ({ data }) => {
-              if (data.status === "200") {
-                // 删除成功后，从本地数据库中删除
-                let db = new GoDB(this.$store.state.DBName);
-                // 删除文书
-                let wkPaper = db.table("wkPaper");
-                let paperData = await wkPaper.find(
-                  (item) => item.paperId === row.paperId
-                );
-                let data = paperData;
-                data.delFlag = "1";
-                await wkPaper.put(data);
-                // 删除对应隐患
-                let wkDanger = db.table("wkDanger");
-                let dangerList = await wkDanger.findAll(
-                  (item) => item.paperId === row.paperId
-                );
-                if (dangerList && dangerList.length > 0) {
-                  dangerList.map(async (danger) => {
-                    let dangerData = danger;
-                    dangerData.delFlag = "1";
-                    await wkDanger.put(dangerData);
-                  });
-                }
-                await db.close();
-                this.$message.success("文书删除成功！");
-                this.getData();
-              } else {
-                this.$message.error("删除文书失败，请再次尝试");
-              }
-            })
-            .catch((err) => {
-              this.$message.error("删除文书失败，请再次尝试");
-              console.log("删除文书失败:", err);
-            });
-          this.loading.btn = false;
-        })
-        .catch(() => {
-          this.loading.btn = false;
-        });
+    handleSelectionChange (val) {
+      this.selectedList = val
     },
     singleFile (row) {
       // 单个文书归档
@@ -333,10 +278,7 @@ export default {
       await db.close();
       await saveToUpload(paper.paperId, true);
     },
-    handleSelectionChange (val) {
-      this.selectedList = val
-    },
-    async filePaperList  () {
+    async batchFile  () {
       // 批量归档
       if (!this.$store.state.onLine) {
         this.$message.error('当前为离线登录，请联网后再归档！')
@@ -365,6 +307,101 @@ export default {
           });
       } else {
         this.$message.error('请选择需要归档的文书！')
+      }
+    },
+    singleDelete (row) {
+      if (!this.$store.state.onLine) {
+        this.$message.error('当前为离线登录，请联网后删除！')
+        return
+      }
+      this.$confirm(`是否确认删除${row.orgName || ''} ${row.name}?`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        dangerouslyUseHTMLString: true,
+        type: "warning",
+      })
+        .then(async () => {
+          this.loading.btn = true;
+          await handleDelete(row)
+          this.getData();
+          this.loading.btn = false;
+        })
+        .catch(() => {
+          this.loading.btn = false;
+        });
+    },
+    async handleDelete(paper) {
+      // 删除文书 判断是否已归档，如果已归档则不可删除
+      await this.$http
+        .get(
+          `/sv/local/jczf/delPaperByPaperId?__sid=${this.$store.state.user.userSessId}&paperId=${paper.paperId}`
+        )
+        .then(async ({ data }) => {
+          if (data.status === "200") {
+            // 删除成功后，从本地数据库中删除
+            let db = new GoDB(this.$store.state.DBName);
+            // 删除文书
+            let wkPaper = db.table("wkPaper");
+            let paperData = await wkPaper.find(
+              (item) => item.paperId === paper.paperId
+            );
+            let data = paperData;
+            data.delFlag = "1";
+            await wkPaper.put(data);
+            // 删除对应隐患
+            let wkDanger = db.table("wkDanger");
+            let dangerList = await wkDanger.findAll(
+              (item) => item.paperId === paper.paperId
+            );
+            if (dangerList && dangerList.length > 0) {
+              dangerList.map(async (danger) => {
+                let dangerData = danger;
+                dangerData.delFlag = "1";
+                await wkDanger.put(dangerData);
+              });
+            }
+            await db.close();
+            this.$message.success("文书删除成功！");
+          } else {
+            this.$message.error("删除文书失败，请再次尝试");
+          }
+        })
+        .catch((err) => {
+          this.$message.error("删除文书失败，请再次尝试");
+          console.log("删除文书失败:", err);
+        });
+    },
+    batchDelete () {
+      // 批量删除
+      if (!this.$store.state.onLine) {
+        this.$message.error('当前为离线登录，请联网后删除！')
+        return
+      }
+      if (this.selectedList.length > 0) {
+        this.$confirm(`是否确认删除已选择的文书?`, "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          dangerouslyUseHTMLString: true,
+          type: "warning",
+        })
+          .then(async () => {
+            this.loading.btn = true;
+            for (let i = 0; i < this.selectedList.length; i++) {
+              let item = this.selectedList[i]
+              if (item.delFlag === '2') {
+                await this.handleDelete(item)
+              } else {
+                this.$message.error(`${item.name}文书已归档无法删除！`)
+              }
+            }
+            this.getData();
+            this.loading.btn = false;
+          })
+          .catch(() => {
+            this.loading.btn = false;
+          });
+      } else {
+        this.$message.error('请选择需要删除的文书！')
       }
     }
   },
