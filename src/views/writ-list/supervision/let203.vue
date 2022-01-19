@@ -298,7 +298,7 @@ export default {
         associationPaperOrder.push('4')
       }
       // 1.获取文书编号：
-      let paperNumber = await getDocNumber2(db, this.docData.docTypeNo, this.corpData.caseId)
+      let paperNumber = await getDocNumber2(db, this.docData.docTypeNo)
       // 2.案由内容初始化：煤矿企业名称+涉嫌+违法违规行为+案
       // 获取笔录文书中的隐患数据
       let cellIdx3String =

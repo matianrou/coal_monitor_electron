@@ -97,7 +97,7 @@ async function getPersonNumber (db, docTypeNo) {
       updateDate: getNowFormatTime() 
     });
   }
-  return store.state.user.userNumber || ''  + threeNum
+    return (store.state.user.userNumber || '')  + threeNum
 }
 
 // 获取已存在的文书的文书编号

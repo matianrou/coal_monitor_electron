@@ -90,6 +90,7 @@
         :visible="punishmentInfoFillVisible"
         :let-data="$parent.letData"
         :paper-data="paperData"
+        :is-edit="true"
         @close="closePunishmentInfoFill"
         @confirm="confirmPunishmentInfoFill"
       ></punishment-info-fill>
@@ -553,11 +554,12 @@ export default {
             penaltyType += this.punishmentInfo.penaltyType[i] + ','
           }
           penaltyType = penaltyType.substring(0, penaltyType.length - 1)
+          let penaltyMoney = this.punishmentInfo.penaltyMoney * 10000
           extraSaveData = {
             p8penaltyType: penaltyType,
-            p8Penalty: this.punishmentInfo.penaltyMoney * 10000,
-            p8PersonPenalty: this.punishmentInfo.selectedType === '个人' ? this.punishmentInfo.penaltyMoney * 10000 : '', // 个人罚款总额
-            p8OrgPenalty: this.punishmentInfo.selectedType === '单位' ? this.punishmentInfo.penaltyMoney * 10000 : '' // 企业罚款总额
+            p8Penalty: penaltyMoney,
+            p8PersonPenalty: this.punishmentInfo.selectedType === '个人' ? penaltyMoney : '', // 个人罚款总额
+            p8OrgPenalty: this.punishmentInfo.selectedType === '单位' ? penaltyMoney : '' // 企业罚款总额
           }
         }
       } else if (this.docData.docTypeNo === '13') {
@@ -650,7 +652,14 @@ export default {
             needSavePaperNumber = true
           }
         }
-        if (docTypeNo === '55' || docTypeNo === '49' || docTypeNo === '36') {
+        if (this.$store.state.user.userType !== 'supervision' && (docTypeNo === '55' || docTypeNo === '49' || docTypeNo === '36')) {
+          // 监察 非正常格式自增文书号
+          // 行政执法决定法制审核意见书49 行政执法有关事项审批报告55 案件处理呈报书36
+          needSavePaperNumber = true
+        }
+        if (this.$store.state.user.userType === 'supervision' && (docTypeNo === '54' || docTypeNo === '47' || docTypeNo === '36')) {
+          // 监管 非正常格式自增文书号
+          // 行政执法决定法制审核意见书47 行政执法有关事项审批报告54 案件处理呈报书36
           needSavePaperNumber = true
         }
         if (needSavePaperNumber) {

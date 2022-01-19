@@ -1,7 +1,7 @@
 <!-- 弹窗补充事故类行政处罚金额和类型 -->
 <template>
   <el-dialog
-    title="信息填写与确认"
+    :title="isEdit ? '信息填写' : '信息确认'"
     :close-on-click-modal="false"
     append-to-body
     :visible="visible"
@@ -11,10 +11,10 @@
   >
     <div v-loading="loading" class="punishment-info-fill-main">
       <div class="title" style="justify-content: center; background: #F56C6C;">
-        重要信息填写
+        重要信息{{isEdit ? '填写' : '查看'}}
       </div>
       <div class="title">
-        请填写事故罚款金额和行政处罚类型
+        {{isEdit ? '请填写' : ''}}事故罚款金额和行政处罚类型
       </div>
       <div>
         <el-form
@@ -24,7 +24,8 @@
           :model="dataForm"
           :rules="rules"
           size="small"
-          style="margin-top: 20px;">
+          style="margin-top: 20px;"
+          :disabled="!isEdit">
           <el-form-item label="行政处罚对象：" prop="selectedType">
             <el-input 
               v-model="dataForm.selectedType" 
@@ -61,8 +62,8 @@
       </div>
     </div>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="close">取消</el-button>
-      <el-button type="primary" @click="confirm">确定</el-button>
+      <el-button @click="close">{{ isEdit ? '取消' : '返回'}}</el-button>
+      <el-button v-if="isEdit" type="primary" @click="confirm">确定</el-button>
     </span>
   </el-dialog>
 </template>
@@ -85,6 +86,10 @@ export default {
     paperData: {
       type: Object,
       default: () => {}
+    },
+    isEdit: { // 是否可编辑
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -126,6 +131,11 @@ export default {
       if (this.paperData && this.paperData.paperId) {
         // 修改已保存的文书时，带入已经保存的数据
         this.dataForm.penaltyMoney = this.paperData.p8Penalty ? Number(this.paperData.p8Penalty) / 10000 : 0
+        if (this.paperData.p8OrgPenalty) {
+          this.dataForm.selectedType = '单位'
+        } else if (this.paperData.p8PersonPenalty) {
+          this.dataForm.selectedType = '个人'
+        }
         if (this.paperData.p8penaltyType) {
           let typeList = this.paperData.p8penaltyType.split(',')
           this.dataForm.penaltyType = typeList

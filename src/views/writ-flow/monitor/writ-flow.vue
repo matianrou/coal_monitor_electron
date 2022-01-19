@@ -208,6 +208,11 @@
                     "
                     alt=""
                   />
+                  <i
+                    v-if="paperCount.count8 > 0"
+                    class="el-icon-warning-outline danger-info-icon"
+                    @click="showAccidentDangerInfo('8')"
+                  ></i>
                   <span
                     @click="cmdEditDoc('let206', '行政处罚决定书', '8')"
                     class="flow-span"
@@ -2382,10 +2387,25 @@
     ></show-danger-items>
     <select-delete-paper
       :visible="visible.selectDelPaper"
-      :paperList="deletePaperList"
+      :paper-list="deletePaperList"
       @close="closeDialog"
       @confirm="confirmDelete"
     ></select-delete-paper>
+    <!-- 选择文书 -->
+    <select-paper
+      :visible="visible.selectPaper"
+      :paper-list="paperList"
+      @close="closeDialog"
+      @confirm-paper="confirmPaper"
+    ></select-paper>
+    <punishment-info-fill
+      v-if="visible.punishmentInfoFill"
+      :visible="visible.punishmentInfoFill"
+      :let-data="letData"
+      :paper-data="paperData"
+      :is-edit="false"
+      @close="closeDialog"
+    ></punishment-info-fill>
   </div>
 </template>
 
@@ -2395,12 +2415,16 @@ import GoDB from "@/utils/godb.min.js";
 import receivePaper from "@/views/writ-flow/components/receive-paper";
 import showDangerItems from '@/components/show-danger-items'
 import selectDeletePaper from "@/views/writ-flow/components/select-delete-paper";
+import selectPaper from '@/components/select-paper'
+import punishmentInfoFill from '@/components/punishment-info-fill'
 export default {
   name: "WritFlow",
   components: {
     receivePaper,
     showDangerItems,
-    selectDeletePaper
+    selectDeletePaper,
+    selectPaper,
+    punishmentInfoFill
   },
   props: {
     corpData: {
@@ -2441,6 +2465,8 @@ export default {
         receivePaper: false,
         showDangerItems: false,
         selectDelPaper: false, // 选择要删除的文书
+        selectPaper: false, // 选择文书
+        punishmentInfoFill: false, // 事故类型行政处罚决定处罚详情查看
       },
       showDangerList: [], // 展示隐患项列表详情的数据
       createdSelectedPaper: null, // 选中的需要新建的文书Id
@@ -2448,6 +2474,10 @@ export default {
         btn: false,
       },
       deletePaperList: [], // 可删除的文书列表
+      // 以下三个字段用于事故处罚时展示处罚详情
+      paperList: [], // 需要查看的文书列表
+      letData: {}, // 需要查看文书的字段集合
+      paperData: {}, // 需要查看文书的内容
     };
   },
   created() {
@@ -2668,6 +2698,30 @@ export default {
           console.log('删除文书失败:', err)
         });
       
+    },
+    async showAccidentDangerInfo (docTypeNo) {
+      // 展示事故隐患详情
+      let db = new GoDB(this.$store.state.DBName)
+      let wkPaper = db.table('wkPaper')
+      let paperList = await wkPaper.findAll(item => item.delFlag !== '1' && item.paperType === docTypeNo && item.caseId === this.corpData.caseId)
+      if (paperList.length > 1) {
+        // 多个文书时选择文书，然后展示隐患信息
+        this.paperList = paperList
+        this.visible.selectPaper = true
+      } else if (paperList.length === 1) {
+        // 单个文书时直接展示
+        this.showInfo(paperList[0])
+      }
+    },
+    confirmPaper (paper) {
+      // 选择的文书展示隐患信息 当前用于事故类的行政处罚决定书展示隐患内容
+      this.visible.selectPaper = false
+      this.showInfo(paper)
+    },
+    showInfo (paper) {
+      this.paperData = paper
+      this.letData = JSON.parse(paper.paperContent) 
+      this.visible.punishmentInfoFill = true
     }
   },
 };
