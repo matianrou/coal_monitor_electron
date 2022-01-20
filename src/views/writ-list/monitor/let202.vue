@@ -463,39 +463,8 @@ export default {
       let cellIdx2Date = now.getDate().toString();
       let cellIdx3Hour = now.getHours().toString();
       let cellIdx4Minu = now.getMinutes().toString();
-      let let4DataPaperContent = JSON.parse(selectedPaper.let4Data.paperContent);
-      let cellIdx8String =
-        this.corpData.caseType === "0"
-          ? setDangerTable(
-              let4DataPaperContent.DangerTable,
-              {},
-              {
-                page: "5",
-                key: "cellIdx8",
-                spellString: {
-                  corpName: corp.corpName,
-                  groupName: this.$store.state.curCase.provinceGroupName,
-                },
-              }
-            )
-          : "";
-      //涉嫌...违法违规
-      let dangerString =
-        this.corpData.caseType === "0"
-          ? setDangerTable(
-              let4DataPaperContent.DangerTable,
-              {},
-              {
-                page: "5",
-                key: "cellIdx21",
-                spellString: {
-                  corpName: corp.corpName,
-                  groupName: this.$store.state.curCase.provinceGroupName,
-                },
-              }
-            )
-          : "";
-      // 2.组成： “我们是”+当前机构+“监察员，这是我们的执法证件（出示行政执法证件），现就你”+煤矿名称+“涉嫌”+隐患描述+“违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？”
+      let cellIdx8String = ''
+      let dangerString = ''
       let provinceGroupName = ''
       let associationPaperId = {}
       let associationPaperOrder = []
@@ -515,6 +484,38 @@ export default {
         }
         await db.close()
       } else {
+        let let4DataPaperContent = JSON.parse(selectedPaper.let4Data.paperContent);
+        cellIdx8String =
+          this.corpData.caseType === "0"
+            ? setDangerTable(
+                let4DataPaperContent.DangerTable,
+                {},
+                {
+                  page: "5",
+                  key: "cellIdx8",
+                  spellString: {
+                    corpName: corp.corpName,
+                    groupName: this.$store.state.curCase.provinceGroupName,
+                  },
+                }
+              )
+            : "";
+        //涉嫌...违法违规
+        dangerString =
+          this.corpData.caseType === "0"
+            ? setDangerTable(
+                let4DataPaperContent.DangerTable,
+                {},
+                {
+                  page: "5",
+                  key: "cellIdx21",
+                  spellString: {
+                    corpName: corp.corpName,
+                    groupName: this.$store.state.curCase.provinceGroupName,
+                  },
+                }
+              )
+            : "";
         provinceGroupName = this.$store.state.curCase.provinceGroupName
         associationPaperId = Object.assign({}, this.setAssociationPaperId(let4DataPaperContent.associationPaperId), {
           paper4Id: selectedPaper.let4Data.paperId,
@@ -522,6 +523,7 @@ export default {
         associationPaperOrder = this.setAssociationPaperOrder(let4DataPaperContent.associationPaperOrder)
         associationPaperOrder.push('4')
       }
+      // 2.组成： “我们是”+当前机构+“监察员，这是我们的执法证件（出示行政执法证件），现就你”+煤矿名称+“涉嫌”+隐患描述+“违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？”
       let cellIdx21String = `我们是${provinceGroupName}监察员，这是我们的执法证件（出示行政执法证件），现就你${corp.corpName}涉嫌${dangerString || 'XXX'}违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？
       答：听清楚了。
       问：你对我们调查人员申请回避吗？
