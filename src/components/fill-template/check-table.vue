@@ -18,6 +18,7 @@
         ref="checkTable"
         :data="dataForm.tempValue.tableData"
         style="width: 100%"
+        height="65vh"
         row-key="checkId"
         border
         :header-cell-style="{background: '#f5f7fa'}"

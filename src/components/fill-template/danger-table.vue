@@ -551,7 +551,7 @@ export default {
     'dataForm.tempValue.selectedDangerList'(val) {
       // 监听隐患列表中数据变动，根据变化的数据捕获处罚信息和合并处罚文书用语
       // 当文书为案件处理呈报书、行政处罚告知书、行政处罚决定书时，同步结算行政处罚信息捕获及合并处罚文书
-      this.setPunishmentList()
+      this.setPunishmentList(true)
     }
   },
   methods: {
@@ -1127,7 +1127,8 @@ export default {
       // 检索数据，合并相同字段数据，形成返回数据
       this.$parent.$parent.handleSave(false, true)
     },
-    setPunishmentList () {
+    setPunishmentList (setPunishmentInfor = false) {
+      // setPunishmentInfor更新合并处罚信息标记，如果修改隐患中行政处罚决定时，一定联动修改处罚情况
       // 获取行政处罚信息
       if (this.subitemTypeOptions.length > 0) {
         let punishmentList = []
@@ -1147,20 +1148,29 @@ export default {
               punishmentObj.counterStr = `针对“${this.options.selectedType}”`
             }
             // 获取罚款金额
-            if (item.penaltyDesc && item.penaltyDesc.includes('元')) {
-              let count = 0
-              for (let j = 0; j < item.penaltyDesc.length; j++) {
-                if (item.penaltyDesc[j] === '元') count ++  
-              }
-              if (count > 2) {
-                // 如果当前有2个以上的元字，则报错提示
-                punishmentObj.fineStr = '（发现本条隐患存在多个罚款金额，对于“行政处罚告知书、行政处罚决定书”只能一条隐患拥有一个罚款金额，请修正“行政处罚决定用语”!）'
-              } else {
-                // 提取罚款金额
-                punishmentObj.fine = getMoney(item.penaltyDesc) 
-                punishmentObj.fineStr = `罚款${getMoney(item.penaltyDesc)}元` 
-                punishmentObj.penaltyDesStr = '罚款,'
-                punishmentObj.penaltyDesId = this.subitemTypeOptions.filter(item => item.label === '罚款')[0].value + ','
+            // 增加逻辑：判断是否有多个“罚款”，如果有则提示多个罚款金额，无法计算罚款金额
+            if (item.penaltyDesc.split('罚款').length > 2) {
+              punishmentObj.fineStr = '（发现本条隐患存在多个罚款金额，对于“行政处罚告知书、行政处罚决定书”只能一条隐患拥有一个罚款金额，请修正“行政处罚决定用语”!）'
+            } else {
+              let stringList = item.penaltyDesc.split(/[,᠃.。，]/)
+              for (let i = 0; i < stringList.length; i++) {
+                let string = stringList[i]
+                if (string.includes('罚款') && string.includes('元')) {
+                  let count = 0
+                  for (let j = 0; j < string.length; j++) {
+                    if (string[j] === '元') count ++  
+                  }
+                  if (count > 2) {
+                    // 如果当前有2个以上的元字，则报错提示
+                    punishmentObj.fineStr = '（发现本条隐患存在多个罚款金额，对于“行政处罚告知书、行政处罚决定书”只能一条隐患拥有一个罚款金额，请修正“行政处罚决定用语”!）'
+                  } else {
+                    // 提取罚款金额
+                    punishmentObj.fine = getMoney(string) 
+                    punishmentObj.fineStr = `罚款${getMoney(string)}元` 
+                    punishmentObj.penaltyDesStr = '罚款,'
+                    punishmentObj.penaltyDesId = this.subitemTypeOptions.filter(item => item.label === '罚款')[0].value + ','
+                  }
+                }
               }
             }
             // 获取处罚决定
@@ -1176,7 +1186,7 @@ export default {
             punishmentList.push(punishmentObj)
           }
           this.$set(this.dataForm.tempValue, 'punishmentList', punishmentList)
-          if (!this.dataForm.tempValue.punishmentInfor) {
+          if (!this.dataForm.tempValue.punishmentInfor || setPunishmentInfor) {
             if (selectedDangerList.length > 1) {
               // 两条以上合并处罚
               let total = 0

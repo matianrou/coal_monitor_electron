@@ -9,7 +9,8 @@ import {
   getDangerPenaltyDescWithoutPointHasIndex,
   getDangerPenaltyDescWithoutPoint,
   getDangerConfirmBasis,
-  getDangerPenaltyBasis
+  getDangerPenaltyBasis,
+  retrunGetMoney
 } from '@/utils/setInitPaperData'
 import store from '@/store'
 import { handleDate } from '@/utils/date'
@@ -108,7 +109,7 @@ function setDangerTable(data, selectedData, options) {
               confirmBasis: newList[j].confirmBasis,
               onsiteDesc: getString(newList[j].onsiteDesc, data.selectedDangerList[i].onsiteDesc),
               penaltyBasis: newList[j].penaltyBasis,
-              penaltyDesc: getString(newList[j].penaltyDesc, data.selectedDangerList[i].penaltyDesc),
+              penaltyDesc: getPenaltyDescString(newList[j].penaltyDesc, data.selectedDangerList[i].penaltyDesc),
               penaltyDescFine: data.selectedDangerList[i].penaltyDescFine ? newList[j].penaltyDescFine + data.selectedDangerList[i].penaltyDescFine : newList[j].penaltyDescFine,
             }
             isAdd = false
@@ -635,6 +636,83 @@ function getString(longString, string) {
     }
     finString = `${longStringWithoutPoint}，${string}`
   }
+  return finString
+}
+
+function getPenaltyDescString(longString, string) {
+  // 对比行政处罚决定，获取其中各标点符号分割出的数组，分别对比，如果罚款则合并，其他信息对比如果不同则加上
+  let string1List = longString.split(/[,᠃.。，]/)
+  let string2List = string.split(/[,᠃.。，]/)
+  let finString = ''
+  let noFineList1 = [] // 没有罚款的字符串集合1
+  let noFineList2 = [] // 没有罚款的字符串集合2
+  let fine1 = 0 // 罚款的字符串集合1
+  let fine2 = 0 // 罚款的字符串集合1
+  let fine = ''
+  // 整理第一个字符串
+  for (let i = 0; i < string1List.length; i++) {
+    let string1 = string1List[i]
+    if (string1.includes('罚款') && 1 < string1.split('罚款').length && string1.split('罚款').length < 3) {
+      // 当有罚款，并且罚款文字只有一个时，获取罚款中元的字数和金额
+      let money1 = retrunGetMoney(string1)
+      if (money1.count < 3) {
+        // 如果金额超过不超过三个则获取金额
+        fine1 = money1.money
+      } else {
+        // 如果超过三个则放入其他处罚中
+        noFineList1.push(string1)
+      }
+    } else {
+      // 没有罚款字符，或者多余一个时，放入其他处罚字符串中
+      noFineList1.push(string1)
+    }
+  }
+  // 整理第二个字符串
+  for (let i = 0; i < string2List.length; i++) {
+    let string2 = string2List[i]
+    if (string2.includes('罚款') && 1 < string2.split('罚款').length && string2.split('罚款').length < 3) {
+      // 当有罚款，并且罚款文字只有一个时，获取罚款中元的字数和金额
+      let money2 = retrunGetMoney(string2)
+      if (money2.count < 3) {
+        // 如果金额超过不超过三个则获取金额
+        fine2 = money2.money
+      } else {
+        // 如果超过三个则放入其他处罚中
+        noFineList2.push(string2)
+      }
+    } else {
+      // 没有罚款字符，或者多余一个时，放入其他处罚字符串中
+      noFineList2.push(string2)
+    }
+  }
+  // 合并罚款字符串
+  if (fine1 && fine2) {
+    // 如果两个都有值则合并罚款
+    fine = `处罚款${(fine1 + fine2) / 10000}万元`
+  } else {
+    fine = fine1 ? `处罚款${(fine1) / 10000}万元` : `处罚款${(fine2) / 10000}万元`
+  }
+  // 合并其他处罚决定字串
+  for (let i = 0; i < noFineList2.length; i++) {
+    let string1 = noFineList2[i]
+    let hasSame = false
+    for (let j = 0; j < noFineList1.length; j++) {
+      let string2 = noFineList1[j]
+      if (string1 === string2) {
+        hasSame = true
+      }
+      if (!finString.includes(string2)) {
+        finString += string2 + '，'
+      }
+    }
+    if (!hasSame) {
+      if (!finString.includes(string1)) {
+        finString += string1 + '，'
+      }
+    }
+  }
+  finString = finString.substring(0, finString.length - 1)
+  finString = fine + '，' + finString
   return finString
 }
 
