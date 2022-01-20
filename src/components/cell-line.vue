@@ -5,7 +5,7 @@
       v-for="(item, index) in lineNum"
       :key="index"
       class="cellLine"
-      :style="`top: ${(index + 1) * 9.6}mm;`"
+      :style="`top: ${(index + 1) * 2.25}rem;`"
     >
     </div>
   </div>

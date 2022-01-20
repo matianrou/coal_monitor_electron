@@ -5,15 +5,14 @@
     :close-on-click-modal="false"
     append-to-body
     :visible="visible"
-    width="300px"
+    width="400px"
     @close="close"
   >
-    <div>
+    <div style="height: 200px;">
       <el-select 
         v-model="orgData.id" 
         filterable 
         placeholder="（可输入关键字筛选）"
-        size="small"
         @change="selectedOrg">
         <el-option
           v-for="item in orgList"
@@ -26,13 +25,13 @@
         v-if="orgData.id === '1'"
         v-model="orgData.name"
         placeholder="请输入地方部门名称"
-        size="small"
         style="width: 250px; margin-top: 10px;"
       ></el-input>
     </div>
     <span slot="footer" class="dialog-footer">
       <el-button @click="close">取消</el-button>
       <el-button type="primary" @click="confirm">确定</el-button>
+      <el-button type="primary" @click="batchConfirm">批量设置</el-button>
     </span>
   </el-dialog>
 </template>
@@ -90,8 +89,24 @@ export default {
     },
     confirm() {
       // 关闭弹窗，并赋值
-      this.$emit("confirm-org", this.orgData);
+      if (this.orgData.id === '1' && !this.orgData.name) {
+        this.$message.error('请输入地方部门名称')
+      } else {
+        this.$emit("confirm-org", this.orgData);
+      }
     },
+    batchConfirm() {
+      // 批量设置
+      console.log('orgData', this.orgData)
+      this.$confirm(`是否确认将隐患整改列表中所有复查单位均设置为${this.orgData.name}？`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          dangerouslyUseHTMLString: true,
+          type: 'warning'
+        }).then(() => {
+          this.$emit('batch-confirm-org', this.orgData)
+        }).catch(() => {})
+    }
   },
 };
 </script>

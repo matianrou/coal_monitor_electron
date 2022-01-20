@@ -232,7 +232,7 @@ table td{margin:0;padding:0;}
   }
   .no-line {
     position: relative;
-    border-bottom: 1px solid rgba($color: #000000, $alpha: 0);
+    border-bottom: none;
     height: 28px;
     bottom: 0;
     z-index: 99;
@@ -284,14 +284,14 @@ table td{margin:0;padding:0;}
   width: 100%;
   border-bottom: 1px solid #000;
   // height: 9.6mm;
-  line-height: 9.6mm;
+  line-height: 2.25rem;
   white-space: pre-wrap;
   // text-indent: 2em;
 }
 .mutiLineArea span{
   width: 100%;
-  height: 9.6mm;
-  line-height: 9.6mm;
+  height: 2.25rem;
+  line-height: 2.25rem;
 }
 .page-break-line {
   margin: 0 auto;

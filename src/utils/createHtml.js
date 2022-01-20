@@ -189,7 +189,7 @@ export function createHtml(paperDiv, corpData) {
         }
         .docTextarea .no-line {
           position: relative;
-          border-bottom: 1px solid rgba($color: #000000, $alpha: 0);
+          border-bottom: none;
           height: 28px;
           bottom: 0;
           z-index: 99;
@@ -239,14 +239,13 @@ export function createHtml(paperDiv, corpData) {
         .mutiLineArea p {
           width: 100%;
           border-bottom: 1px solid #000;
-          // height: 9.6mm;
-          line-height: 9.6mm;
+          line-height: 2.25rem;;
           white-space: pre-wrap;
         }
         .mutiLineArea span{
           width: 100%;
-          height: 9.6mm;
-          line-height: 9.6mm;
+          height: 2.25rem;;
+          line-height: 2.25rem;;
         }
         .page-break-line {
           margin: 0 auto;

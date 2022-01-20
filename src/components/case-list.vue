@@ -60,22 +60,23 @@
             v-for="(item, index) in corpList"
             :key="index"
             :data-corpId="item.corpId"
-            :title="item.corpName"
             :class="item.active ? 'active' : ''">
             <td
               v-if="item.dbplan"
               class="editaddbook"
               @dblclick="editaddbook(item)"
+              :title="item.corpName"
               style="display: inline-block;width: 318px;height:36px;padding-left:8px;cursor:pointer;line-height: 36px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"
               @click="showDocHome(item, index)">
               <i class="el-icon-date" style="font-size:16px;color: #DCDFE6;"></i>
-              {{ item.corpName}}
+              {{ item.corpName }}
             </td>
             <td
               v-else
               class="editaddbookG"
               @dblclick="editaddbook(item)"
               style="display: inline-block;width: 318px;height:36px;padding-left:8px;cursor:pointer;line-height: 36px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"
+              :title="item.corpName"
               @click="showDocHome(item, index)">
               <img src="@/components/assets/image/flash_on.png" alt="" style="vertical-align: middle;" />
               {{ item.corpName}}

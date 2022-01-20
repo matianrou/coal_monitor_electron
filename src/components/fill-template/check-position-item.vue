@@ -1,6 +1,6 @@
 <!-- 填写组件 检查地点组件 -->
 <template>
-  <div style="width: 100%;">
+  <div style="width: 100%; height: 70vh;">
     <!-- 地面 -->
     <div class="check-positon-row">
       <div class="check-positon-row-checkbox">
@@ -147,15 +147,21 @@ export default {
       let db = new GoDB(this.DBName);
       let zfCserve = db.table("zfCmgzmInfo");
       let zfJserve = db.table("zfJjgzmInfo");
-      let caimei = await zfCserve.findAll((item) => {
-        item.select = false;
-        return item.corpId == this.corpData.corpId && item.delFlag !== '1';
-      });
-      let juejin = await zfJserve.findAll((item) => {
-        item.select = false;
-        return item.corpId == this.corpData.corpId && item.delFlag !== '1';
-      });
+      let caimei = await zfCserve.findAll((item) => item.corpId === this.corpData.corpId && item.delFlag !== '1');
+      // for (let i = 0; i < caimei.length; i++) {
+      //   caimei[i].select = false
+      // }
       this.coalOptions = caimei;
+      let juejin = await zfJserve.findAll((item) => item.corpId === this.corpData.corpId && item.delFlag !== '1');
+      // for (let i = 0; i < juejin.length; i++) {
+      //   juejin[i].select = false
+      // }
+      // 国产化电脑会有重复，暂时未知原因，增加去重逻辑试试
+	    let obj = {}
+      juejin = juejin.reduce((cur, next) => {
+        obj[next.id] ? "" : obj[next.id] = true && cur.push(next);
+        return cur
+      }, [])
       this.tunnellingOptions = juejin;
       await db.close()
     },

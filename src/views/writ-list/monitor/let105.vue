@@ -41,7 +41,17 @@
                   header-align="center"
                   align="center"
                   label="是否完成"
-                  width="100">
+                  width="120">
+                  <template slot="header">
+                    <el-checkbox 
+                      v-model="isCorrected" 
+                      true-label="1" 
+                      false-label="0" 
+                      title="点击可批量设置是否完成"
+                      @change="batchCorrected">
+                      是否完成
+                    </el-checkbox>
+                  </template>
                   <template slot-scope="scope">
                     <el-checkbox v-model="scope.row.dangerCorrected" true-label="1" false-label="0">{{scope.row.dangerCorrected === '1' ? '已完成' : '未完成' }}</el-checkbox>
                   </template>
@@ -139,6 +149,7 @@
     <select-org
       :visible="selectOrgVisible"
       @confirm-org="confirmOrg"
+      @batch-confirm-org="batchConfirmOrg"
       @close="closeSelectOrg"
     ></select-org>
   </div>
@@ -174,7 +185,8 @@ export default {
       loading: {
         main: false,
         btn: false
-      }
+      },
+      isCorrected: '0'
     };
   },
   methods: {
@@ -214,6 +226,17 @@ export default {
         reviewUnitName,
         reviewUnitId
       }))
+      this.selectOrgVisible = false
+    },
+    batchConfirmOrg (data) {
+      let reviewUnitName = data.name
+      let reviewUnitId = data.id
+      let selectedDangerList = this.letData.DangerTable.selectedDangerList
+      for (let i = 0; i < selectedDangerList.length; i++) {
+        selectedDangerList[i].reviewUnitName = reviewUnitName
+        selectedDangerList[i].reviewUnitId = reviewUnitId
+      }
+      this.$set(this.letData.DangerTable, 'selectedDangerList', selectedDangerList)
       this.selectOrgVisible = false
     },
     async getFileList () {
@@ -386,6 +409,14 @@ export default {
     async handleSuccess(res, file, fileList) {
       await this.updateFileList()
       await this.getFileList()
+    },
+    batchCorrected () {
+      // 批量设置是否完成
+      let selectedDangerList = this.letData.DangerTable.selectedDangerList
+      for (let i = 0; i < selectedDangerList.length; i++) {
+        selectedDangerList[i].dangerCorrected = this.isCorrected
+      }
+      this.$set(this.letData.DangerTable, 'selectedDangerList', selectedDangerList)
     }
   },
 };
