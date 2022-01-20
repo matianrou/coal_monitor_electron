@@ -571,9 +571,7 @@ export default {
       // 当文书为案件处理呈报书、行政处罚告知书、行政处罚决定书时，同步结算行政处罚信息捕获及合并处罚文书
       let page = this.options.page
       if (page === '36' || page === '6' || page === '8') {
-        if (!this.dataForm.tempValue.punishmentInfor) {
-          this.setPunishmentList()
-        }
+        this.setPunishmentList()
       }
     },
     async initData () {
@@ -1178,42 +1176,44 @@ export default {
             punishmentList.push(punishmentObj)
           }
           this.$set(this.dataForm.tempValue, 'punishmentList', punishmentList)
-          if (selectedDangerList.length > 1) {
-            // 两条以上合并处罚
-            let total = 0
-            let penaltyId = ''
-            let penaltyStr = ''
-            for (let i = 0; i < punishmentList.length; i++) {
-              let item = punishmentList[i]
-              // 合计罚款
-              if (item.fine) {
-                total += item.fine
+          if (!this.dataForm.tempValue.punishmentInfor) {
+            if (selectedDangerList.length > 1) {
+              // 两条以上合并处罚
+              let total = 0
+              let penaltyId = ''
+              let penaltyStr = ''
+              for (let i = 0; i < punishmentList.length; i++) {
+                let item = punishmentList[i]
+                // 合计罚款
+                if (item.fine) {
+                  total += item.fine
+                }
+                if (item.penaltyDesId) {
+                  let idItemList = item.penaltyDesId.split(',')
+                  idItemList.map(idItem => {
+                    if (!penaltyId.includes(idItem)) {
+                      penaltyId += idItem + ','
+                    }
+                  })
+                }
+                if (item.penaltyDesStr) {
+                  let strItemList = item.penaltyDesStr.split(',')
+                  strItemList.map(strItem => {
+                    if (!penaltyStr.includes(strItem)) {
+                      penaltyStr += strItem + ','
+                    }
+                  })
+                }
               }
-              if (item.penaltyDesId) {
-                let idItemList = item.penaltyDesId.split(',')
-                idItemList.map(idItem => {
-                  if (!penaltyId.includes(idItem)) {
-                    penaltyId += idItem + ','
-                  }
-                })
-              }
-              if (item.penaltyDesStr) {
-                let strItemList = item.penaltyDesStr.split(',')
-                strItemList.map(strItem => {
-                  if (!penaltyStr.includes(strItem)) {
-                    penaltyStr += strItem + ','
-                  }
-                })
-              }
+              // 转换大写和人民币金额样式
+              let transTotal = transformNumToChinese(total)
+              let thousandsTotal = thousands(total)
+              if (penaltyId) penaltyId = penaltyId.substring(0, penaltyId.length - 1)
+              if (penaltyStr) penaltyStr = penaltyStr.substring(0, penaltyStr.length - 1)
+              this.$set(this.dataForm.tempValue, 'punishmentInfor', `合并罚款人民币${transTotal}（¥${thousandsTotal}）${penaltyStr}`)
+            } else {
+              this.$set(this.dataForm.tempValue, 'punishmentInfor', '')
             }
-            // 转换大写和人民币金额样式
-            let transTotal = transformNumToChinese(total)
-            let thousandsTotal = thousands(total)
-            if (penaltyId) penaltyId = penaltyId.substring(0, penaltyId.length - 1)
-            if (penaltyStr) penaltyStr = penaltyStr.substring(0, penaltyStr.length - 1)
-            this.$set(this.dataForm.tempValue, 'punishmentInfor', `合并罚款人民币${transTotal}（¥${thousandsTotal}）${penaltyStr}`)
-          } else {
-            this.$set(this.dataForm.tempValue, 'punishmentInfor', '')
           }
         } else {
           this.$set(this.dataForm.tempValue, 'punishmentList', [])

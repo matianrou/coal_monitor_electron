@@ -94,6 +94,13 @@
         @close="closePunishmentInfoFill"
         @confirm="confirmPunishmentInfoFill"
       ></punishment-info-fill>
+      <punishment-info-confirm
+        v-if="punishmentInfoConfirmVisible"
+        :visible="punishmentInfoConfirmVisible"
+        :let-data="$parent.letData"
+        @close="punishmentInfoConfirmVisible = false"
+        @confirm="confirmpunishmentInfo"
+      ></punishment-info-confirm>
     </div>
   </div>
 </template>
@@ -110,6 +117,7 @@ import JSZipUtils from 'jszip-utils'
 import { saveAs } from 'file-saver'
 import pizzip from 'pizzip'
 import punishmentInfoFill from '@/components/punishment-info-fill'
+import punishmentInfoConfirm from '@/components/punishment-info-confirm'
 import { setNewDanger, comparDangerTable } from '@/utils/setInitPaperData'
 import {
   setTextItem,
@@ -137,7 +145,8 @@ export default {
   components: {
     letDrawer,
     selectUpdatePaper,
-    punishmentInfoFill
+    punishmentInfoFill,
+    punishmentInfoConfirm
   },
   props: {
     corpData: {
@@ -201,9 +210,10 @@ export default {
       updatePaper: {}, // 需要更新的文书
       selectUpdatePaperVisible: false, // 选择更新的文书组件
       curDangerTable: {}, // 当前需要更新的dangerTable
-      saveFlag: '0', // 临时保存存储标记,用于文书弹窗选择关联更新时使用
-      punishmentInfoFillVisible: false, // 是否展示行政处罚决定书补充填写信息弹窗
-      punishmentInfo: {}
+      saveFlag: '2', // 临时保存存储标记,用于文书弹窗选择关联更新时使用
+      punishmentInfoFillVisible: false, // 是否展示行政处罚决定书补充填写信息弹窗 事故类文书
+      punishmentInfo: {}, // 事故类行政处罚信息集合
+      punishmentInfoConfirmVisible: false, // 确认行政处罚信息，一般文书
     };
   },
   computed: {
@@ -334,6 +344,11 @@ export default {
       if (this.corpData && this.corpData.caseType === '1' && this.docData.docTypeNo === '8') {
         // 事故类型检查活动时，行政处罚决定书弹窗补充行政罚款金额和行政处罚类型
         this.punishmentInfoFillVisible = true
+        this.saveFlag = saveFlag
+        return
+      } else if (this.corpData && this.corpData.caseType === '0' && this.docData.docTypeNo === '8') {
+        // 
+        this.punishmentInfoConfirmVisible = true
         this.saveFlag = saveFlag
         return
       }
@@ -1166,7 +1181,7 @@ export default {
     closeSelectUpdatePaper () {
       // 关闭选择更新文书弹窗
       this.selectUpdatePaperVisible = false
-      this.saveFlag = '0'
+      // this.saveFlag = '2'
     },
     async confirmSelectUpdatePaper (selectedRows) {
       // 遍历选择需要更新的文书，更新保存数据
@@ -1181,7 +1196,7 @@ export default {
 
       // 保存当前文书数据
       await this.savePaperFunction(this.saveFlag)
-      this.saveFlag = '0'
+      // this.saveFlag = '2'
     },
     async saveAssioPaper (itemPaper) {
       // 每一份文书itemPaper
@@ -1329,7 +1344,7 @@ export default {
     },
     closePunishmentInfoFill ({page, refresh}) {
       this.punishmentInfoFillVisible = false
-      this.saveFlag = '0'
+      // this.saveFlag = '2'
     },
     async confirmPunishmentInfoFill (data) {
       // 确认输入的行政处罚决定书信息
@@ -1337,7 +1352,14 @@ export default {
       this.punishmentInfo = data
       this.punishmentInfoFillVisible = false
       await this.savePaperFunction(this.saveFlag)
-      this.saveFlag = '0'
+      // this.saveFlag = '2'
+    },
+    async confirmpunishmentInfo () {
+      // 确认一般文书中行政处罚决定书的信息
+      // 继续保存文书
+      this.punishmentInfoConfirmVisible = false
+      await this.savePaperFunction(this.saveFlag)
+      // this.saveFlag = '2'
     }
   },
 };

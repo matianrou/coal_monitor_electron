@@ -177,15 +177,18 @@ export default {
   async created() {
     await this.init()
   },
-  watch: {
-  },
   methods: {
     async init () {
       await this.getOrgList()
       this.setOrg()
       this.getPlanDateList()
       this.setPlanDate()
-      this.setStore()
+      // 恢复数据仓库中已存储数据
+      if (this.$store.state.selectedCaseOption) {
+        this.$set(this, 'dataForm', this.$store.state.selectedCaseOption)
+      } else {
+        this.setStore()
+      }
       await this.getData()
     },
     async getOrgList () {
@@ -349,8 +352,18 @@ export default {
       }
       await db.close();
       this.corpList = corpList
-      // 默认选中第一个
-      if (listArr.length > 0 && corpList.length > 0) {
+      let isDefault = true
+      if (this.$store.state.curCase && this.$store.state.curCase.caseId) {
+        // 是否有存储的数据，如果有则恢复
+        for (let i = 0; i < corpList.length; i++) {
+          if (corpList[i].caseId === this.$store.state.curCase.caseId) {
+            this.showDocHome(corpList[i], i)
+            isDefault = false
+          }
+        }
+      } 
+      if (isDefault && listArr.length > 0 && corpList.length > 0) {
+        // 默认选中第一个
         this.showDocHome(corpList[0], 0)
       }
     },
