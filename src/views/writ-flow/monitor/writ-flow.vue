@@ -23,92 +23,94 @@
         </el-select>
       </div>
     </div>
-    <el-tabs v-model="activeFlowTab" type="card">
-      <el-tab-pane 
-        v-for="(item) in tabList"
-        :key="item.id"
-        :label="item.name">
-        <div style="padding: 16px">
-          <div 
-            v-for="first in showColList"
-            :key="first.id">
+    <div>
+      <el-tabs v-model="activeFlowTab" type="card">
+        <el-tab-pane 
+          v-for="(item) in tabList"
+          :key="item.id"
+          :label="item.name">
+          <div style="padding: 16px">
             <div 
-              v-if="first.name !== '报告上传' || showJczfReport"
-              class="writ-flow-card">
-              <span class="writ-flow-card-title">{{first.name}}</span>
-              <div
-                v-for="(second, secondIndex) in first.children"
-                :key="second.id"
-                class="writ-flow-row-main"
-                :style="secondIndex !== (first.children.length - 1) ? 'margin-bottom: 20px;' : ''">
-                <div class="writ-flow-row">
-                  <span class="arrows">{{secondIndex === 0 ? '➤' : '→'}}</span>
-                  <div
-                    v-for="(third, thirdIndex) in second.list"
-                    :key="third.id"
-                    class="writ-flow-td">
-                    <div :class="flowStatus[`paper${third.docTypeNo}`] ? 'writ-flow-spantd-ex writ-flow-td' : 'writ-flow-spantd writ-flow-td'">
-                      <!-- 文书接收 -->
-                      <img
-                        v-if="third.docTypeNo === '5' && unreceivedStatus.unreceived5"
-                        src="@/views/writ-flow/assets/image/paper-send-icon.png"
-                        title="有未接收的文书，请点击接收"
-                        style="top: 42px; left: 8px; cursor: pointer;"
-                        @click="receivePaper(third.docTypeNo)"
-                      />
-                      <!-- 存档标记 -->
-                      <img
-                        v-if="flowStatus[`paper${third.docTypeNo}`]"
-                        :src="flowStatus[`paper${third.docTypeNo}`] === 'save' ? '' : require('../assets/image/file.png')"
-                        :title="flowStatus[`paper${third.docTypeNo}`] === 'save' ? '已保存' : '已归档'"
-                        alt="" />
-                      <!-- 事故时行政处罚决定书展示的处罚详情查看 -->
-                      <i
-                        v-if="corpData.caseType === '1' && third.docTypeNo === '8' && paperCount.count8 > 0"
-                        class="el-icon-warning-outline danger-info-icon"
-                        @click="showAccidentDangerInfo(third.docTypeNo)"
-                      ></i>
-                      <!-- 隐患数量展示及详情查看 -->
-                      <i
-                        v-if="dangerStatus[`danger${third.docTypeNo}`] && dangerStatus[`danger${third.docTypeNo}`].length > 0"
-                        class="el-icon-warning-outline danger-info-icon"
-                        :title="`隐患数：${dangerStatus[`danger${third.docTypeNo}`].length}`"
-                        @click="showDangerInfo(third.docTypeNo)"
-                      ></i>
-                      <!-- 文书名称,文书数量展示 -->
-                      <div
-                        @click="cmdEditDoc(third.letName, third.name, third.docTypeNo)"
-                        @contextmenu.prevent="event => onContextmenu(event, third.docTypeNo)"
-                        class="flow-span">
-                        <span v-if="third.showName">{{third.showName[0]}}<br />{{third.showName[1]}}</span>
-                        <span v-else>{{third.name}}</span>
-                        <span>{{paperCount[`count${third.docTypeNo}`] && paperCount[`count${third.docTypeNo}`] > 1 ? '(' + paperCount[`count${third.docTypeNo}`] + ')' : ''}}</span>
+              v-for="first in showColList"
+              :key="first.id">
+              <div 
+                v-if="first.name !== '报告上传' || showJczfReport"
+                class="writ-flow-card">
+                <span class="writ-flow-card-title">{{first.name}}</span>
+                <div
+                  v-for="(second, secondIndex) in first.children"
+                  :key="second.id"
+                  class="writ-flow-row-main"
+                  :style="secondIndex !== (first.children.length - 1) ? 'margin-bottom: 20px;' : ''">
+                  <div class="writ-flow-row">
+                    <span class="arrows">{{secondIndex === 0 ? '➤' : '→'}}</span>
+                    <div
+                      v-for="(third, thirdIndex) in second.list"
+                      :key="third.id"
+                      class="writ-flow-td">
+                      <div :class="flowStatus[`paper${third.docTypeNo}`] ? 'writ-flow-spantd-ex writ-flow-td' : 'writ-flow-spantd writ-flow-td'">
+                        <!-- 文书接收 -->
+                        <img
+                          v-if="third.docTypeNo === '5' && unreceivedStatus.unreceived5"
+                          src="@/views/writ-flow/assets/image/paper-send-icon.png"
+                          title="有未接收的文书，请点击接收"
+                          style="top: 42px; left: 8px; cursor: pointer;"
+                          @click="receivePaper(third.docTypeNo)"
+                        />
+                        <!-- 存档标记 -->
+                        <img
+                          v-if="flowStatus[`paper${third.docTypeNo}`]"
+                          :src="flowStatus[`paper${third.docTypeNo}`] === 'save' ? '' : require('../assets/image/file.png')"
+                          :title="flowStatus[`paper${third.docTypeNo}`] === 'save' ? '已保存' : '已归档'"
+                          alt="" />
+                        <!-- 事故时行政处罚决定书展示的处罚详情查看 -->
+                        <i
+                          v-if="corpData.caseType === '1' && third.docTypeNo === '8' && paperCount.count8 > 0"
+                          class="el-icon-warning-outline danger-info-icon"
+                          @click="showAccidentDangerInfo(third.docTypeNo)"
+                        ></i>
+                        <!-- 隐患数量展示及详情查看 -->
+                        <i
+                          v-if="dangerStatus[`danger${third.docTypeNo}`] && dangerStatus[`danger${third.docTypeNo}`].length > 0"
+                          class="el-icon-warning-outline danger-info-icon"
+                          :title="`隐患数：${dangerStatus[`danger${third.docTypeNo}`].length}`"
+                          @click="showDangerInfo(third.docTypeNo)"
+                        ></i>
+                        <!-- 文书名称,文书数量展示 -->
+                        <div
+                          @click="cmdEditDoc(third.letName, third.name, third.docTypeNo)"
+                          @contextmenu.prevent="event => onContextmenu(event, third.docTypeNo)"
+                          class="flow-span">
+                          <span v-if="third.showName">{{third.showName[0]}}<br />{{third.showName[1]}}</span>
+                          <span v-else>{{third.name}}</span>
+                          <span>{{paperCount[`count${third.docTypeNo}`] && paperCount[`count${third.docTypeNo}`] > 1 ? '(' + paperCount[`count${third.docTypeNo}`] + ')' : ''}}</span>
+                        </div>
+                        <!-- 删除按钮 -->
+                        <i
+                          v-if="paperCount[`count${third.docTypeNo}`] && paperCount[`count${third.docTypeNo}`] > 0"
+                          class="el-icon-minus minus-icon"
+                          title="删除文书"
+                          @click="delPaper(third.docTypeNo)"
+                        ></i>
+                        <!-- 添加按钮 -->
+                        <i
+                          class="el-icon-plus create-icon"
+                          title="添加文书"
+                          @click="addPaper(third.letName, third.name, third.docTypeNo)"
+                        ></i>
                       </div>
-                      <!-- 删除按钮 -->
-                      <i
-                        v-if="paperCount[`count${third.docTypeNo}`] && paperCount[`count${third.docTypeNo}`] > 0"
-                        class="el-icon-minus minus-icon"
-                        title="删除文书"
-                        @click="delPaper(third.docTypeNo)"
-                      ></i>
-                      <!-- 添加按钮 -->
-                      <i
-                        class="el-icon-plus create-icon"
-                        title="添加文书"
-                        @click="addPaper(third.letName, third.name, third.docTypeNo)"
-                      ></i>
-                    </div>
-                    <div v-if="thirdIndex !== (second.list.length - 1)">
-                      <span class="arrows">→</span>
+                      <div v-if="thirdIndex !== (second.list.length - 1)">
+                        <span class="arrows">→</span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </el-tab-pane>
-    </el-tabs>
+        </el-tab-pane>
+      </el-tabs>
+    </div>
     <receive-paper
       :visible="visible.receivePaper"
       :corp-data="corpData"
@@ -130,6 +132,7 @@
     ></select-delete-paper>
     <!-- 选择文书 -->
     <select-paper
+      v-if="visible.selectPaper"
       :visible="visible.selectPaper"
       :paper-list="paperList"
       @close="closeDialog"
@@ -1069,8 +1072,8 @@ export default {
     },
     confirmPaper (paper) {
       // 选择的文书展示隐患信息 当前用于事故类的行政处罚决定书展示隐患内容
-      this.visible.selectPaper = false
       this.showInfo(paper)
+      this.visible.selectPaper = false
     },
     showInfo (paper) {
       this.paperData = paper

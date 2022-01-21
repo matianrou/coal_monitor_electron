@@ -1,17 +1,17 @@
 <!-- 弹窗选择文书 -->
 <template>
   <el-dialog
-    :title="title ? title : '选择文书'"
+    :title="title ? title : `请选择：${paperName}`"
     :close-on-click-modal="false"
     :show-close="false"
     append-to-body
     :visible="visible"
     top="5vh"
-    width="650px"
+    :width="dialogWidth"
   >
     <div style="height: 70vh;">
       <el-table
-        :data="paperList"
+        :data="showList"
         style="width: 100%;"
         border
         stripe
@@ -53,6 +53,7 @@
 </template>
 
 <script>
+import { getCurPaperDocNumber, getDangerContentWithoutPointHasIndex, hasPaperNumber } from  '@/utils/setInitPaperData'
 export default {
   name: "SelectPaperDialog",
   props: {
@@ -64,25 +65,6 @@ export default {
       // 弹窗标题
       type: String,
       default: null,
-    },
-    colList: {
-      type: Array,
-      default: () => [
-        {
-          label: '文书类型',
-          prop: 'name',
-        },
-        {
-          label: '制作人',
-          prop: 'personName',
-        },
-        {
-          label: '制作日期',
-          prop: 'createDate',
-          align: 'left',
-          width: '180'
-        },
-      ]
     },
     paperList: {
       type: Array,
@@ -98,11 +80,82 @@ export default {
     return {
       currentRow: {}, // 单选： 选中的文书
       currentRows: [], // 多选： 选中的文书
+      showList: [], // 展示的表格数据
+      colList: [], // 展示的表格列
+      paperName: '', // 文书名称
+      dialogWidth: '', // 对话框宽度
     };
   },
   created() {
+    this.initData()
+  },
+  watch: {
+    paperList(val) {
+      this.initData()
+    }
   },
   methods: {
+    async initData () {
+      // 获取paperList数据和colList数据
+      let colList = [
+        {
+          label: '制作人',
+          width: '100',
+          prop: 'personName',
+        },
+        {
+          label: '制作日期',
+          prop: 'createDate',
+          align: 'left',
+          width: '180'
+        },
+      ]
+      let paperName = ''
+      let dialogWidth = '400px'
+      if (this.paperList && this.paperList.length > 0) {
+        // 特殊处理:有文书号的展示文书号
+        let hasPaper = hasPaperNumber(this.paperList[0].paperType)
+        if (hasPaper) {
+          for (let i = 0; i < this.paperList.length; i++) {
+            let item = this.paperList[i]
+            item.paperNumber = await getCurPaperDocNumber(item)
+            item.dangerContent = await getDangerContentWithoutPointHasIndex(JSON.parse(item.paperContent).DangerTable.selectedDangerList, '；')
+          }
+          colList.splice(0, 0, {
+            label: '文书号',
+            width: '230',
+            prop: 'paperNumber',
+          },{
+            label: '隐患信息',
+            prop: 'dangerContent',
+            align: 'left',
+          })
+          dialogWidth = '1000px'
+        }
+        // 特殊处理:有区分类型的
+        let paperType = this.paperList[0].paperType
+        if (paperType === '32' || paperType === '46' || paperType === '46' || paperType === '47' 
+          || paperType === '48' || paperType === '37' || paperType === '38' || paperType === '6'
+          || paperType === '49' || paperType === '36' || paperType === '8' || paperType === '9'
+          || paperType === '53') {
+          for (let i = 0; i < this.paperList.length; i++) {
+            let item = this.paperList[i]
+            item.selectedType = JSON.parse(item.paperContent).selectedType
+          }
+          colList.splice(0, 0, {
+            label: '类别',
+            width: '80',
+            prop: 'selectedType'
+          })
+          dialogWidth = hasPaper ? '1200px' : '650px'
+        }
+        paperName = this.paperList[0].name
+      }
+      this.showList = this.paperList
+      this.colList = colList
+      this.paperName = paperName
+      this.dialogWidth = dialogWidth
+    },
     close(refresh) {
       this.$emit("close", { page: "selectPaper", refresh });
     },

@@ -63,7 +63,7 @@
         -->
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
-          <td>其它资源（监察计划及数据码表）</td>
+          <td>其它资源（{{userType === 'supervision' ? '监管' : '监察'}}计划及数据码表）</td>
           <td style="text-align:center;">{{updateTime.plan}}</td>
           <td></td>
           <td style="text-align:center;" id="cell-plan-down">

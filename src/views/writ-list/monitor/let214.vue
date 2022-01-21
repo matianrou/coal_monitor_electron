@@ -357,7 +357,6 @@
     <select-paper
       v-if="fromPage !== 'opinion-suggestion'"
       :visible="visible.selectPaper"
-      title="关联文书选择"
       :paper-list="paperList"
       @close="closeDialog"
       @confirm-paper="confirmPaper"

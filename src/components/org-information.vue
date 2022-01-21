@@ -1,46 +1,52 @@
 <!-- 企业信息 组件 -->
 <template>
-  <div>
-    <ul class="enterprisedata">
-      <div class="enterprisedata-title">
-        <img
-          src="@/components/assets/image/letTitle.png"
-          style="width:32px;"
-        />企业信息
-        <div v-if="caseData.planDate" class="plan-date">
-          <i class="el-icon-time"></i>
-          <span>{{caseData.planDate}}</span>
+  <div class="enterprisedata">
+    <div class="enterprisedata-title">
+      <img
+        src="@/components/assets/image/letTitle.png"
+        style="width:32px;"
+      />企业信息
+      <div v-if="caseData.planDate" class="plan-date">
+        <i class="el-icon-time"></i>
+        <span>{{caseData.planDate}}</span>
+      </div>
+      <div v-if="caseData.groupName" class="group-name">
+        <i class="el-icon-s-flag"></i>
+        <span>{{`${userType === 'supervision' ? '监管' : '监察'}归档至${caseData.groupName}`}}</span>
+      </div>
+    </div>
+    <div class="enterprisedata-content-main">
+      <div class="enterprisedata-content-left">
+        <!-- 企业信息 -->
+        <div class="enterprisedata-content">
+          <span>企业名称：</span>
+          <span>{{corpData.corpName}}</span>
         </div>
-        <div v-if="caseData.groupName" class="group-name">
-          <i class="el-icon-s-flag"></i>
-          <span>{{`${userType === 'supervision' ? '监管' : '监察'} 归档至${caseData.groupName}`}}</span>
+        <div class="enterprisedata-content">
+          <span>所在区域：</span>
+          <span>{{corpData.corpCountryName}}</span>
+        </div>
+        <div class="enterprisedata-content">
+          <span>负&nbsp;&nbsp;责&nbsp;&nbsp;人：</span>
+          <span>{{corpData.legalName}}</span>
         </div>
       </div>
-      <li>
-        <span>企业名称：</span>
-        <span>{{corpData.corpName}}</span>
-      </li>
-      <li>
-        <span>企业类型：</span>
-        <span>{{corpData.corpTypeName}}</span>
-      </li>
-      <li>
-        <span>所在区域：</span>
-        <span>{{corpData.corpCountryName}}</span>
-      </li>
-      <li>
-        <span>经营地址：</span>
-        <span>{{corpData.address}}</span>
-      </li>
-      <li>
-        <span>负&nbsp;&nbsp;责&nbsp;&nbsp;人：</span>
-        <span>{{corpData.legalName}}</span>
-      </li>
-      <li>
-        <span>联系电话：</span>
-        <span>{{corpData.tel}}</span>
-      </li>
-    </ul>
+      <div class="enterprisedata-content-left">
+        <!-- 其他功能 -->
+        <div class="enterprisedata-content">
+          <span>企业类型：</span>
+          <span>{{corpData.corpTypeName}}</span>
+        </div>
+        <div class="enterprisedata-content">
+          <span>经营地址：</span>
+          <span>{{corpData.address}}</span>
+        </div>
+        <div class="enterprisedata-content">
+          <span>联系电话：</span>
+          <span>{{corpData.tel}}</span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -122,19 +128,6 @@ export default {
   border-radius: 10px;
   margin: 0px;
   padding: 0px;
-  li {
-    width: 50%;
-    height: 45px;
-    line-height: 45px;
-    display: flex;
-    float: left;
-    border-bottom: 1px solid #ccc;
-    text-indent: 30px;
-    font-size: 18px;
-  }
-  li span:nth-child(2) {
-    text-indent: 0;
-  }
   .enterprisedata-title {
     height: 35px;
     line-height: 35px;
@@ -180,6 +173,26 @@ export default {
   }
   span {
     color: #303133;
+  }
+  .enterprisedata-content-main { 
+    display: flex;
+    flex-direction: row;
+    .enterprisedata-content-left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      .enterprisedata-content {
+        height: 45px;
+        line-height: 45px;
+        display: flex;
+        border-bottom: 1px solid #ccc;
+        text-indent: 30px;
+        font-size: 18px;
+      }
+    }
+    .enterprisedata-content-right {
+      flex: 1;
+    }
   }
 }
 </style>

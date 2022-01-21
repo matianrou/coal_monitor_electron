@@ -256,10 +256,9 @@
     </el-dialog>
     <!-- 关联文书选择 -->
     <select-paper
+      v-if="visible.selectPaper"
       :visible="visible.selectPaper"
-      title="关联文书选择"
       :paper-list="paperList"
-      :col-list="colList"
       @close="closeDialog"
       @confirm-paper="confirmPaper"
     ></select-paper>

@@ -210,8 +210,8 @@
     </el-dialog>
     <!-- 关联文书选择 -->
     <select-paper
+      v-if="visible.selectPaper"
       :visible="visible.selectPaper"
-      title="关联文书选择"
       :paper-list="paperList"
       @close="closeDialog"
       @confirm-paper="confirmPaper"

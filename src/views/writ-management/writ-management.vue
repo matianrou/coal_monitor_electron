@@ -461,8 +461,11 @@ export default {
         flex-direction: column;
         margin-left: 10px;
         height: 100%;
-        min-width: 800px;
         overflow: auto;
+        .detail-org-information {
+          height: 180px;
+          min-width: 1100px;
+        }
         .etail-org-information {
           height: 180px;
         }
@@ -474,6 +477,7 @@ export default {
           overflow: auto;
           display: flex;
           flex-direction: column;
+          min-width: 1100px;
           .paper-list-title {
             width: 100%;
             height: 40px;

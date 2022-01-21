@@ -378,21 +378,20 @@ export default {
     .make-law-writ-show-detail {
       flex: 1;
       height: 100%;
-      overflow-y: auto;
-      overflow-x: hidden;
+      overflow: auto;
       .detail-main {
         display: flex;
         flex-direction: column;
         margin-left: 10px;
-        min-width: 800px;
-        // overflow: auto;
-        // .detail-org-information {
-          // height: 180px;
-        // }
+        .detail-org-information {
+          height: 180px;
+          min-width: 1100px;
+        }
         .detail-writ-flow {
           overflow: auto;
           // flex: 1;
           margin-top: 10px;
+          min-width: 1100px;
         }
       }
     }

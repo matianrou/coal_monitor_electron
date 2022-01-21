@@ -100,6 +100,27 @@ async function getPersonNumber (db, docTypeNo) {
     return (store.state.user.userNumber || '')  + threeNum
 }
 
+// 判断文书是否有文书号
+export function hasPaperNumber (docTypeNo) {
+  let has = false
+  let paperNumberType = store.state.dictionary[`${store.state.user.userType}PaperNumberType`]
+  for (let i = 0; i < paperNumberType.length; i++) {
+    if (docTypeNo === paperNumberType[i].docTypeNo) {
+      has = true
+    }
+  }
+  if (store.state.user.userType !== 'supervision' && (docTypeNo === '55' || docTypeNo === '49' || docTypeNo === '36')) {
+    // 监察 非正常格式自增文书号
+    // 行政执法决定法制审核意见书49 行政执法有关事项审批报告55 案件处理呈报书36
+    has = true
+  }
+  if (store.state.user.userType === 'supervision' && (docTypeNo === '54' || docTypeNo === '47' || docTypeNo === '36')) {
+    // 监管 非正常格式自增文书号
+    // 行政执法决定法制审核意见书47 行政执法有关事项审批报告54 案件处理呈报书36
+    has = true
+  }
+  return has
+}
 // 获取已存在的文书的文书编号
 export function getCurPaperDocNumber(paper) {
   let paperContent = JSON.parse(paper.paperContent) 

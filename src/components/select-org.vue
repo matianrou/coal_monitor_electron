@@ -97,7 +97,6 @@ export default {
     },
     batchConfirm() {
       // 批量设置
-      console.log('orgData', this.orgData)
       this.$confirm(`是否确认将隐患整改列表中所有复查单位均设置为${this.orgData.name}？`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',

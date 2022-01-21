@@ -269,8 +269,8 @@
     </let-main>
     <!-- 关联文书选择 -->
     <select-paper
+      v-if="visible.selectPaper"
       :visible="visible.selectPaper"
-      title="关联文书选择"
       :paper-list="paperList"
       @close="closeDialog"
       @confirm-paper="confirmPaper"
@@ -468,6 +468,7 @@ export default {
       let provinceGroupName = ''
       let associationPaperId = {}
       let associationPaperOrder = []
+      let DangerTable = null;
       if (this.fromPage === 'send-paper') {
         // 调查互动发送文书进入时，获取机构名称改为当前用户的省级机构名称
         let db = new GoDB(this.DBName)
@@ -522,6 +523,14 @@ export default {
         }) 
         associationPaperOrder = this.setAssociationPaperOrder(let4DataPaperContent.associationPaperOrder)
         associationPaperOrder.push('4')
+        if (this.corpData.caseType === "0") {
+          DangerTable = let4DataPaperContent.DangerTable
+            ? setNewDanger(
+                selectedPaper.let4Data,
+                let4DataPaperContent.DangerTable
+              )
+            : {};
+        }
       }
       // 2.组成： “我们是”+当前机构+“监察员，这是我们的执法证件（出示行政执法证件），现就你”+煤矿名称+“涉嫌”+隐患描述+“违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？”
       let cellIdx21String = `我们是${provinceGroupName}监察员，这是我们的执法证件（出示行政执法证件），现就你${corp.corpName}涉嫌${dangerString || 'XXX'}违法违规案向你进行调查取证，你有配合调查、如实回答问题的义务，也享有拒绝回答与调查取证无关问题的权利，但不得做虚假陈述和伪证，否则，将负相应的法律责任，你听清楚了吗？
@@ -537,15 +546,6 @@ export default {
       问：你还有补充吗？
       答： 没有了。
       问： 请你看一下记录，是否如你所说一样，如无异议，请签字确认。`;
-      let DangerTable = null;
-      if (this.corpData.caseType === "0") {
-        DangerTable = let4DataPaperContent.DangerTable
-          ? setNewDanger(
-              selectedPaper.let4Data,
-              let4DataPaperContent.DangerTable
-            )
-          : {};
-      }
       await db.close();
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: cellIdx0Year, // 年
