@@ -1,6 +1,6 @@
 <!-- 文书 样式总框架组件 -->
 <template>
-  <div class="let-main">
+  <div v-loading="loading.btn" class="let-main">
     <div class="let-main-left">
       <!-- 左侧文书组件 -->
       <slot name="left" ref="letLeft"></slot>

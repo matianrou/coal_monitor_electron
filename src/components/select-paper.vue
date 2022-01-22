@@ -1,7 +1,6 @@
 <!-- 弹窗选择文书 -->
 <template>
   <el-dialog
-    :title="title ? title : `请选择：${paperName}`"
     :close-on-click-modal="false"
     :show-close="false"
     append-to-body
@@ -9,6 +8,10 @@
     top="5vh"
     :width="dialogWidth"
   >
+    <div slot="title" class="dialog-title">
+      <span v-if="title">{{title}}</span>
+      <span v-else>请选择：<span style="color: #4f83e9;">{{paperName}}</span></span>
+    </div>
     <div style="height: 70vh;">
       <el-table
         :data="showList"
@@ -101,43 +104,73 @@ export default {
         {
           label: '制作人',
           width: '100',
+          align: 'center',
           prop: 'personName',
         },
         {
           label: '制作日期',
           prop: 'createDate',
-          align: 'left',
+          align: 'center',
           width: '180'
         },
       ]
       let paperName = ''
-      let dialogWidth = '400px'
+      let dialogWidth = 385
       if (this.paperList && this.paperList.length > 0) {
-        // 特殊处理:有文书号的展示文书号
-        let hasPaper = hasPaperNumber(this.paperList[0].paperType)
-        if (hasPaper) {
+        // 特殊处理:检查方案
+        let paperType = this.paperList[0].paperType
+        if (paperType === '22' || paperType === '42') {
           for (let i = 0; i < this.paperList.length; i++) {
             let item = this.paperList[i]
-            item.paperNumber = await getCurPaperDocNumber(item)
-            item.dangerContent = await getDangerContentWithoutPointHasIndex(JSON.parse(item.paperContent).DangerTable.selectedDangerList, '；')
+            let paperContent = JSON.parse(item.paperContent)
+            item.checkTime = paperContent.cellIdx2
           }
           colList.splice(0, 0, {
-            label: '文书号',
-            width: '230',
-            prop: 'paperNumber',
-          },{
+            label: '检查时间',
+            prop: 'checkTime',
+            align: 'center',
+          })
+          dialogWidth += 200
+        }
+        // 特殊处理：有隐患项的文书展示隐患描述
+        if (paperType === '1' || paperType === '2' || paperType === '13' || paperType === '44'
+          || paperType === '4' || paperType === '5' || paperType === '6' || paperType === '49'
+          || paperType === '36' || paperType === '8' || paperType === '14' || paperType === '15'
+          || paperType === '31' || paperType === '54' || paperType === '18'|| paperType === '30'
+          || paperType === '19' || paperType === '20' || paperType === '55') {
+          for (let i = 0; i < this.paperList.length; i++) {
+            let item = this.paperList[i]
+            if (JSON.parse(item.paperContent) && JSON.parse(item.paperContent).DangerTable && JSON.parse(item.paperContent).DangerTable.selectedDangerList) {
+              item.dangerContent = await getDangerContentWithoutPointHasIndex(JSON.parse(item.paperContent).DangerTable.selectedDangerList, '；')
+            }
+          }
+          colList.splice(colList.length - 2, 0, {
             label: '隐患信息',
             prop: 'dangerContent',
             align: 'left',
           })
-          dialogWidth = '1000px'
+          dialogWidth += 400
+        }
+        // 特殊处理:有文书号的展示文书号
+        let hasPaper = hasPaperNumber(paperType)
+        if (hasPaper) {
+          for (let i = 0; i < this.paperList.length; i++) {
+            let item = this.paperList[i]
+            item.paperNumber = await getCurPaperDocNumber(item)
+          }
+          colList.splice(0, 0, {
+            label: '文书号',
+            width: '260',
+            prop: 'paperNumber',
+          })
+          dialogWidth += 260
         }
         // 特殊处理:有区分类型的
-        let paperType = this.paperList[0].paperType
         if (paperType === '32' || paperType === '46' || paperType === '46' || paperType === '47' 
           || paperType === '48' || paperType === '37' || paperType === '38' || paperType === '6'
           || paperType === '49' || paperType === '36' || paperType === '8' || paperType === '9'
-          || paperType === '53') {
+          || paperType === '53' || paperType === '51' || paperType === '52' || paperType === '54'
+          || paperType === '55') {
           for (let i = 0; i < this.paperList.length; i++) {
             let item = this.paperList[i]
             item.selectedType = JSON.parse(item.paperContent).selectedType
@@ -147,14 +180,14 @@ export default {
             width: '80',
             prop: 'selectedType'
           })
-          dialogWidth = hasPaper ? '1200px' : '650px'
+          dialogWidth += 80
         }
         paperName = this.paperList[0].name
       }
       this.showList = this.paperList
       this.colList = colList
       this.paperName = paperName
-      this.dialogWidth = dialogWidth
+      this.dialogWidth = dialogWidth + 'px'
     },
     close(refresh) {
       this.$emit("close", { page: "selectPaper", refresh });
@@ -185,5 +218,9 @@ export default {
     background: rgb(83, 168, 255) !important;
     color: #fff;
   }
+}
+.dialog-title {
+  font-size: 18px;
+  color: #606266;
 }
 </style>

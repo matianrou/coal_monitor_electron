@@ -186,6 +186,7 @@ export default {
         cellIdx16: null, // 单位负责人（签名)
         cellIdx17: null, // 日期
         DangerTable: null,
+        selectedType: null,
         associationPaperId: {},
         associationPaperOrder: []
       },
@@ -263,6 +264,7 @@ export default {
       } else {
         // 按个人初始化信息
       }
+      this.letData.selectedType = this.selectedType;
     },
   },
 };

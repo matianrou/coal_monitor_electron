@@ -474,16 +474,7 @@ export default {
         for (let i = 0; i < allPaper.length; i++) {
           let item = allPaper[i]
           // 获取文号字段
-          let number = ''
-          if (item.paperType === '55' || item.paperType === '49' || item.paperType === '36') {
-            // 以下文书为单字段文书号：取得字段都是cellIdx1
-            // 行政执法有关事项审批报告/行政执法决定法制审核意见书/案件处理呈报书
-            let paperContent = JSON.parse(item.paperContent) 
-            number = paperContent.cellIdx1
-          } else {
-            // 其他文书为组合式文书号
-            number = getCurPaperDocNumber(item)
-          }
+          let number = getCurPaperDocNumber(item)
           // 获取日期字段
           let createDate = ''
           if (item.createDate) {
