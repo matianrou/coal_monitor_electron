@@ -152,14 +152,17 @@
           </div>
         </div>
         <div style="height: 20px; width: 100%"></div>
-        <!-- 打印42检查方案（复查），另外打印检查分工明细表 -->
+        <!-- 打印42检查方案，另外打印检查分工明细表 -->
         <div class="page-break"></div>
         <!-- 但页面不展示 -->
         <div style="height: 0px; overflow: hidden">
           <div ref="CheckTable" class="page page-sizeA4">
-            <div style="width: 19.5cm">
+            <div style="padding: 10px 0; text-align: center">
+              {{letData.cellIdx12}}检查分工明细表
+            </div>
+            <div style="width: 19.5cm; margin: 0 auto;">
               <el-table
-                :data="letData.CheckTable && letData.CheckTable.tableData"
+                :data="letData.CheckTable.tableData"
                 width="100%"
                 border
               >
@@ -187,16 +190,23 @@
                 </el-table-column>
                 <el-table-column
                   prop="positions"
+                  label="检查地点"
                   header-align="center"
                   align="left"
-                  label="检查地点"
                 >
                 </el-table-column>
                 <el-table-column
-                  prop="personNames"
+                  prop="labor"
+                  label="检查分工"
                   header-align="center"
                   align="left"
-                  label="检查分工"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="condition"
+                  label="调整情况"
+                  header-align="center"
+                  align="left"
                 >
                 </el-table-column>
               </el-table>

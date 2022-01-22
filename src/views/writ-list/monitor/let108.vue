@@ -231,6 +231,102 @@
             </div>
           </div>
         </div>
+        <div style="height: 20px; width: 100%"></div>
+        <!-- 以下仅供web端抽样取证展示抽样取证清单 -->
+        <div class="page-break"></div>
+        <!-- 但页面不展示 -->
+        <div style="height: 0px; overflow: hidden">
+          <div class="page page-sizeA4">
+            <div style="padding: 10px 0; text-align: center">
+              先行登记保存证据清单
+            </div>
+            <div style="width: 19.5cm; margin: 0 auto;">
+              <el-table
+                :data="letData.SamplingForensicsTable.tableData"
+                width="100%"
+                border
+              >
+                <el-table-column
+                  label="序号"
+                  type="index"
+                  width="50"
+                  align="center">
+                </el-table-column>
+                <el-table-column
+                  prop="name"
+                  header-align="center"
+                  align="left"
+                  label="名称"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="modelNumber"
+                  header-align="center"
+                  align="left"
+                  label="规格型号"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="manufacturer"
+                  label="生产厂家"
+                  header-align="center"
+                  align="left"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="productDate"
+                  label="出厂日期"
+                  header-align="center"
+                  width="120"
+                  align="center"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="units"
+                  label="单位"
+                  header-align="center"
+                  align="center"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="price"
+                  label="价格"
+                  header-align="center"
+                  align="right"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="num"
+                  label="数量"
+                  header-align="center"
+                  align="right"
+                >
+                </el-table-column>
+              </el-table>
+              <div style="margin-top: 30px;">
+                <div>
+                  <span>其他证据：</span>
+                  <span>{{letData.SamplingForensicsTable.otherEvidence || ''}}</span>
+                </div>
+                <div style="margin-top: 10px;">
+                  <span>{{'上述证据经核无误。'}}</span>
+                </div>
+                <div style="margin-top: 10px;">
+                  <span>被取证单位负责人（签名）：</span>
+                  <span>{{letData.SamplingForensicsTable.signature || ''}}</span>
+                  <span>&nbsp;&nbsp;&nbsp;日期：</span>
+                  <span>{{letData.SamplingForensicsTable.signDate || ''}}</span>
+                </div>
+                <div style="margin-top: 10px;">
+                  <span>执法人员（签名）：</span>
+                  <span>{{letData.SamplingForensicsTable.lawSignature || ''}}</span>
+                  <span>&nbsp;&nbsp;&nbsp;日期：</span>
+                  <span>{{letData.SamplingForensicsTable.lawSignDate || ''}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </let-main>
     <!-- 关联文书选择 -->

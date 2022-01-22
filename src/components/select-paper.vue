@@ -132,12 +132,14 @@ export default {
           })
           dialogWidth += 200
         }
+        let userType = this.$store.state.user.userType
         // 特殊处理：有隐患项的文书展示隐患描述
         if (paperType === '1' || paperType === '2' || paperType === '13' || paperType === '44'
-          || paperType === '4' || paperType === '5' || paperType === '6' || paperType === '49'
+          || paperType === '4' || paperType === '5' || paperType === '6' || paperType === '19'
           || paperType === '36' || paperType === '8' || paperType === '14' || paperType === '15'
-          || paperType === '31' || paperType === '54' || paperType === '18'|| paperType === '30'
-          || paperType === '19' || paperType === '20' || paperType === '55') {
+          || paperType === '31' || paperType === '20' || paperType === '18'|| paperType === '30'
+          || (userType !== 'supervision' && (paperType === '49' || paperType === '54' || paperType === '55'))
+          || (userType === 'supervision' && (paperType === '47' || paperType === '55' || paperType === '54'))) {
           for (let i = 0; i < this.paperList.length; i++) {
             let item = this.paperList[i]
             if (JSON.parse(item.paperContent) && JSON.parse(item.paperContent).DangerTable && JSON.parse(item.paperContent).DangerTable.selectedDangerList) {
@@ -166,11 +168,13 @@ export default {
           dialogWidth += 260
         }
         // 特殊处理:有区分类型的
-        if (paperType === '32' || paperType === '46' || paperType === '46' || paperType === '47' 
-          || paperType === '48' || paperType === '37' || paperType === '38' || paperType === '6'
-          || paperType === '49' || paperType === '36' || paperType === '8' || paperType === '9'
+        if (paperType === '32' || paperType === '37' || paperType === '38' || paperType === '6'
+          || paperType === '36' || paperType === '8' || paperType === '9'
+          || (userType !== 'supervision' && (paperType === '46' || paperType === '47' || paperType === '48' || paperType === '49' 
           || paperType === '53' || paperType === '51' || paperType === '52' || paperType === '54'
-          || paperType === '55') {
+          || paperType === '55')) || (userType === 'supervision' && (paperType === '45' || paperType === '46' || paperType === '56' || paperType === '47' 
+          || paperType === '52' || paperType === '50' || paperType === '51' || paperType === '53'
+          || paperType === '54'))) {
           for (let i = 0; i < this.paperList.length; i++) {
             let item = this.paperList[i]
             item.selectedType = JSON.parse(item.paperContent).selectedType

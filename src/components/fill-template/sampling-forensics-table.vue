@@ -12,7 +12,7 @@
         ref="table"
         border
         stripe
-        height="100%"
+        height="58vh"
         style="width: 100%">
         <el-table-column
           header-align="center"

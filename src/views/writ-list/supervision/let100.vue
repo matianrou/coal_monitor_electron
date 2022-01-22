@@ -165,28 +165,18 @@
             <div style="height: 20px; width: 100%"></div>
           </div>
         </div>
+        <div style="height: 20px; width: 100%"></div>
         <!-- 打印22检查方案，另外打印检查分工明细表 -->
         <div class="page-break"></div>
         <!-- 但页面不展示 -->
-        <div style="height: 0; overflow: hidden">
-          <div class="page-sizeA4" ref="CheckTable">
-            <div style="height: 90px">
-              <span style="display: block; height: 30px; font-size: 16px"
-                >附件：</span
-              >
-              <span
-                style="
-                  display: block;
-                  height: 30px;
-                  text-align: center;
-                  font-size: 24px;
-                "
-                >检查分工明细表</span
-              >
+        <div style="height: 0px; overflow: hidden">
+          <div ref="CheckTable" class="page page-sizeA4">
+            <div style="padding: 10px 0; text-align: center">
+              {{letData.cellIdx12}}检查分工明细表
             </div>
-            <div class="checkTable">
+            <div style="width: 19.5cm; margin: 0 auto;">
               <el-table
-                :data="letData.CheckTable && letData.CheckTable.tableData"
+                :data="letData.CheckTable.tableData"
                 width="100%"
                 border
               >
@@ -195,7 +185,7 @@
                   label="检查事项"
                   header-align="center"
                   align="left"
-                  width="150"
+                  width="110"
                 >
                 </el-table-column>
                 <el-table-column
@@ -214,24 +204,23 @@
                 </el-table-column>
                 <el-table-column
                   prop="positions"
-                  header-align="center"
-                  align="left"
-                  width="150"
                   label="检查地点"
+                  header-align="center"
+                  align="left"
                 >
                 </el-table-column>
                 <el-table-column
-                  prop="personNames"
-                  header-align="center"
-                  align="left"
+                  prop="labor"
                   label="检查分工"
+                  header-align="center"
+                  align="left"
                 >
                 </el-table-column>
                 <el-table-column
-                  prop="situation"
+                  prop="condition"
+                  label="调整情况"
                   header-align="center"
                   align="left"
-                  label="调整情况"
                 >
                 </el-table-column>
               </el-table>

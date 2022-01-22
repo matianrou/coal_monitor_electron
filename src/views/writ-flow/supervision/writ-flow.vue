@@ -282,7 +282,7 @@
                     :title="flowStatus.paper46 === 'save' ? '已保存' : '已归档'"
                     alt
                   />
-                  <span @click="cmdEditDoc('let115','查封(扣押)处理决定书', '46')" class="flow-span">
+                  <span @click="cmdEditDoc('let115','查封（扣押）处理决定书', '46')" class="flow-span">
                     查封(扣押)处理<br />决定书{{paperCount.count46 && paperCount.count46 > 1 ? `(${paperCount.count46})` : ''}}
                   </span>
                   <i class="el-icon-plus create-icon" title="添加" @click="addPaper('let115','查封(扣押)处理决定书', '46')"></i>

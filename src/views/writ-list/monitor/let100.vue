@@ -165,11 +165,11 @@
         <div style="height: 0px; overflow: hidden">
           <div ref="CheckTable" class="page page-sizeA4">
             <div style="padding: 10px 0; text-align: center">
-              XX矿山安全监察局检查分工明细表
+              {{letData.cellIdx12}}检查分工明细表
             </div>
-            <div style="width: 19.5cm">
+            <div style="width: 19.5cm; margin: 0 auto;">
               <el-table
-                :data="letData.CheckTable && letData.CheckTable.tableData"
+                :data="letData.CheckTable.tableData"
                 width="100%"
                 border
               >
