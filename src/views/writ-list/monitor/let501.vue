@@ -271,6 +271,7 @@ export default {
       // 获取当前用户的省局机构名称
       let userGroupId = this.$store.state.user.userGroupId
       let orgInfo = db.table('orgInfo')
+      // 监察需要筛选type
       let userOrg = await orgInfo.find(item => item.no === userGroupId
         && (item.type === '3' || item.type === '4' || item.type === '11') 
         && item.delFlag !== "1")

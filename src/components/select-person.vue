@@ -202,11 +202,21 @@ export default {
       let db = new GoDB(this.DBName);
       let orgInfo = db.table("orgInfo"); // 机构
       // 查询全省机构
-      let groupList = await orgInfo.findAll(item => {
-        return item.delFlag !== "1" 
-        && (item.grade === '2' || item.grade === '1')
-        && (item.type === '3' || item.type === '4' || item.type === '11')
-      })
+      let groupList = []
+      if (this.$store.state.user.userType === 'supervision') {
+        // 监管不筛选type类型
+        groupList = await orgInfo.findAll(item => {
+          return item.delFlag !== "1" 
+          && (item.grade === '2' || item.grade === '1')
+        })
+      } else {
+        // 监察筛选type类型
+        groupList = await orgInfo.findAll(item => {
+          return item.delFlag !== "1" 
+          && (item.grade === '2' || item.grade === '1')
+          && (item.type === '3' || item.type === '4' || item.type === '11')
+        })
+      }
       groupList.sort(sortbyAsc('grade'))
       this.allProvinceList = groupList
       await db.close();

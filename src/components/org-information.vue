@@ -85,16 +85,42 @@ export default {
         let orgInfo = db.table('orgInfo')
         // 归档机构信息
         let affiliate = this.$store.state.selectedCaseOption.selGovUnit
-        let affiliateOrg = await orgInfo.find(item => item.no === affiliate
-          && (item.type === '3' || item.type === '4' || item.type === '11') 
-          && item.delFlag !== "1")
-        // 获取当前归档机构的省局名称
-        let provinceGroupName = `${caseData.groupName}`
-        if (affiliateOrg.grade === '3') {
-          let provinceOrg = await orgInfo.find(item => item.no === affiliateOrg.parentId
+        let affiliateOrg = {}
+        if (this.$store.state.user.userType === 'supervision') {
+          // 监管不过滤type
+          affiliateOrg = await orgInfo.find(item => item.no === affiliate
+            && item.delFlag !== "1")
+        } else {
+          // 监察过滤type
+          affiliateOrg = await orgInfo.find(item => item.no === affiliate
             && (item.type === '3' || item.type === '4' || item.type === '11') 
             && item.delFlag !== "1")
-          provinceGroupName = provinceOrg.name
+        }
+        // 获取当前归档机构的省局名称
+        let provinceGroupName = `${caseData.groupName}`
+        if (this.$store.state.user.userType === 'supervision') { 
+          // 监管为四级机构， 不过滤type类型
+          if (affiliateOrg.grade === '3') {
+            // 市级时
+            let provinceOrg = await orgInfo.find(item => item.no === affiliateOrg.parentId
+              && item.delFlag !== "1")
+            provinceGroupName = provinceOrg.name
+          } else if (affiliateOrg.grade === '4') {
+            // 县级时，现查询市级，再查询省级
+            let upOrg = await orgInfo.find(item => item.no === affiliateOrg.parentId
+              && item.delFlag !== "1")
+            let provinceOrg = await orgInfo.find(item => item.no === upOrg.parentId
+              && item.delFlag !== "1")
+            provinceGroupName = provinceOrg.name
+          }
+        } else {
+          // 监察为三级机构，过滤type类型
+          if (affiliateOrg.grade === '3') {
+            let provinceOrg = await orgInfo.find(item => item.no === affiliateOrg.parentId
+              && (item.type === '3' || item.type === '4' || item.type === '11') 
+              && item.delFlag !== "1")
+            provinceGroupName = provinceOrg.name
+          }
         }
         await db.close()
         if (caseData) {

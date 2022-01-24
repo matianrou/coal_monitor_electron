@@ -220,36 +220,82 @@ export async function getAllProvinceOrg (userGroupId) {
   let db = new GoDB(store.state.DBName);
   let orgInfo = db.table("orgInfo"); // 机构
   // 查询当前用户及全省机构信息
-  let userGroup = await orgInfo.find(item => {
-    return item.delFlag !== "1" 
-    && item.no === userGroupId 
-    && (item.type === '3' || item.type === '4' || item.type === '11')
-  })
+  let userGroup = {}
+  if (store.state.user.userType === 'supervision') {
+    // 监管时不过滤机构
+    userGroup = await orgInfo.find(item => {
+      return item.delFlag !== "1" 
+      && item.no === userGroupId
+    })
+  } else {
+    // 监察时过滤机构
+    userGroup = await orgInfo.find(item => {
+      return item.delFlag !== "1" 
+      && item.no === userGroupId 
+      && (item.type === '3' || item.type === '4' || item.type === '11')
+    })
+  }
   let arrOrg = []
-  if (userGroup && userGroup.no) {
-    if (userGroup.grade === '1' || userGroup.grade === '2') {
-      // 当前机构为国家级或省级时
-      arrOrg = await orgInfo.findAll((item) => {
-        return item.delFlag !== "1" 
-        && (item.no === userGroupId || item.parentIds.includes(userGroupId))
-        && (item.type === '3' || item.type === '4' || item.type === '11')
-      });
-    } else if (userGroup.grade === '3') {
-      // 当前机构为处室时，首先获取上一级省级机构，然后获取下属所有机构
-      let upGroup = await orgInfo.find(item => {
-        return item.delFlag !== "1" 
-        && item.no === userGroup.parentId
-        && (item.type === '3' || item.type === '4' || item.type === '11')
-      })
-      arrOrg = await orgInfo.findAll((item) => {
-        return item.delFlag !== "1" 
-        && (item.no === upGroup.no || item.parentIds.includes(upGroup.no))
-        && (item.type === '3' || item.type === '4' || item.type === '11')
-      });
+  if (userGroup.no) {
+    if (store.state.user.userType === 'supervision') {
+      // 监管 为四级机构，不过滤type为3,4,11
+      if (userGroup.grade === '1' || userGroup.grade === '2') {
+        // 当前机构为国家级或省级时
+        arrOrg = await orgInfo.findAll((item) => {
+          return item.delFlag !== "1" 
+          && (item.no === userGroupId || item.parentIds.includes(userGroupId))
+        });
+      } else if (userGroup.grade === '3') {
+        // 当前机构为市级时，首先获取上一级省级机构，然后获取下属所有机构
+        let upGroup = await orgInfo.find(item => {
+          return item.delFlag !== "1" 
+          && item.no === userGroup.parentId
+        })
+        arrOrg = await orgInfo.findAll((item) => {
+          return item.delFlag !== "1" 
+          && (item.no === upGroup.no || item.parentIds.includes(upGroup.no))
+        });
+      } else if (userGroup.grade === '4') {
+        // 县级时，逐步找到市级、省级机构，然后获取下属所有机构
+        let upGroup = await orgInfo.find(item => {
+          return item.delFlag !== "1" 
+          && item.no === userGroup.parentId
+        })
+        let provinceGroup = await orgInfo.find(item => {
+          return item.delFlag !== "1" 
+          && item.no === upGroup.parentId
+        })
+        arrOrg = await orgInfo.findAll((item) => {
+          return item.delFlag !== "1" 
+          && (item.no === provinceGroup.no || item.parentIds.includes(provinceGroup.no))
+        });
+      }
+    } else {
+      // 监察 为三级机构，并且过滤type为3,4,11
+      if (userGroup.grade === '1' || userGroup.grade === '2') {
+        // 当前机构为国家级或省级时
+        arrOrg = await orgInfo.findAll((item) => {
+          return item.delFlag !== "1" 
+          && (item.no === userGroupId || item.parentIds.includes(userGroupId))
+          && (item.type === '3' || item.type === '4' || item.type === '11')
+        });
+      } else if (userGroup.grade === '3') {
+        // 当前机构为处室时，首先获取上一级省级机构，然后获取下属所有机构
+        let upGroup = await orgInfo.find(item => {
+          return item.delFlag !== "1" 
+          && item.no === userGroup.parentId
+          && (item.type === '3' || item.type === '4' || item.type === '11')
+        })
+        arrOrg = await orgInfo.findAll((item) => {
+          return item.delFlag !== "1" 
+          && (item.no === upGroup.no || item.parentIds.includes(upGroup.no))
+          && (item.type === '3' || item.type === '4' || item.type === '11')
+        });
+      }
     }
   }
   await db.close();
-  // arrOrg.sort(sortbyAsc('grade'))
+  arrOrg.sort(sortbyAsc('grade'))
   return arrOrg
 }
 

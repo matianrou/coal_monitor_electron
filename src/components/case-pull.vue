@@ -121,40 +121,88 @@
         if (this.allUser) {
           // 查询全省用户，排除自己
           // 通过userGroupId查询机构表，获取全省所有机构，遍历用户表将机构中的人员筛选出来
-          let orgInfo = db.table('orgInfo')
-          let orgData = await orgInfo.find(item => item.no === userGroupId
-            && (item.type === '3' || item.type === '4' || item.type === '11') 
-            && item.delFlag !== "1")
-          let orgList = []
-          if (orgData.grade === '2') {
-            // 省级
-            // 获取所有parentId为当前userGroupId的机构
-            let orgChildrenList = await orgInfo.findAll(item => item.parentId === userGroupId
-              && (item.type === '3' || item.type === '4' || item.type === '11') 
+          if (this.$store.state.user.userType === 'supervision') {
+            // 监管时 四级机构，不筛选type类型
+            let orgInfo = db.table('orgInfo')
+            let orgData = await orgInfo.find(item => item.no === userGroupId
               && item.delFlag !== "1")
-            orgList = [...[orgData], ...orgChildrenList]
-          } else if (orgData.grade === '3') {
-            // 市区县级
-            // 获取当前机构的省级用户
-            let parentOrg = await orgInfo.find(item => item.no === orgData.parentId
-              && (item.type === '3' || item.type === '4' || item.type === '11') 
-              && item.delFlag !== "1")
-            // 获取所有parentId为当前parentOrg.no的机构
-            let orgChildrenList = await orgInfo.findAll(item => item.parentId === parentOrg.no
-              && (item.type === '3' || item.type === '4' || item.type === '11') 
-              && item.delFlag !== "1")
-            orgList = [...[parentOrg], ...orgChildrenList]
+            let orgList = []
+            if (orgData.grade === '1') {
+              // 国家局
+              personList = await person.findAll((item) => {
+                return item.delFlag === "0" && item.no !== userId;
+              });
+            } else if (orgData.grade === '2') {
+              // 省级
+              // 获取所有parentId为当前userGroupId的机构
+              let orgChildrenList = await orgInfo.findAll(item => item.parentId === userGroupId
+                && item.delFlag !== "1")
+              orgList = [...[orgData], ...orgChildrenList]
+            } else if (orgData.grade === '3') {
+              // 市级
+              // 获取当前机构的省级用户
+              let parentOrg = await orgInfo.find(item => item.no === orgData.parentId
+                && item.delFlag !== "1")
+              // 获取所有parentId为当前parentOrg.no的机构
+              let orgChildrenList = await orgInfo.findAll(item => item.parentId === parentOrg.no
+                && item.delFlag !== "1")
+              orgList = [...[parentOrg], ...orgChildrenList]
+            } else if (orgData.grade === '4') {
+              // 查询市级，再查询省级
+              let parentOrg = await orgInfo.find(item => item.no === orgData.parentId
+                && item.delFlag !== "1")
+              // 获取市级机构的省级用户
+              let provinceOrg = await orgInfo.find(item => item.no === parentOrg.parentId
+                && item.delFlag !== "1")
+              // 获取所有parentId为当前parentOrg.no的机构
+              let orgChildrenList = await orgInfo.findAll(item => item.parentId === provinceOrg.no
+                && item.delFlag !== "1")
+              orgList = [...[provinceOrg], ...orgChildrenList]
+            }
+            if (orgList.length > 0) {
+              // 省级和市区县级根据机构获取人员
+              for (let i = 0; i < orgList.length; i++) {
+                let curPersons = await person.findAll(item => item.delFlag === "0" && item.officeId === orgList[i].no && item.no !== userId)
+                personList = [...personList, ...curPersons]
+              }
+            }
           } else {
-            // 国家局
-            personList = await person.findAll((item) => {
-              return item.delFlag === "0" && item.no !== userId;
-            });
-          }
-          if (orgList.length > 0) {
-            // 省级和市区县级根据机构获取人员
-            for (let i = 0; i < orgList.length; i++) {
-              let curPersons = await person.findAll(item => item.delFlag === "0" && item.officeId === orgList[i].no && item.no !== userId)
-              personList = [...personList, ...curPersons]
+            // 监察时 三级机构，同时筛选Type
+            let orgInfo = db.table('orgInfo')
+            let orgData = await orgInfo.find(item => item.no === userGroupId
+              && (item.type === '3' || item.type === '4' || item.type === '11') 
+              && item.delFlag !== "1")
+            let orgList = []
+            if (orgData.grade === '2') {
+              // 省级
+              // 获取所有parentId为当前userGroupId的机构
+              let orgChildrenList = await orgInfo.findAll(item => item.parentId === userGroupId
+                && (item.type === '3' || item.type === '4' || item.type === '11') 
+                && item.delFlag !== "1")
+              orgList = [...[orgData], ...orgChildrenList]
+            } else if (orgData.grade === '3') {
+              // 市区县级
+              // 获取当前机构的省级用户
+              let parentOrg = await orgInfo.find(item => item.no === orgData.parentId
+                && (item.type === '3' || item.type === '4' || item.type === '11') 
+                && item.delFlag !== "1")
+              // 获取所有parentId为当前parentOrg.no的机构
+              let orgChildrenList = await orgInfo.findAll(item => item.parentId === parentOrg.no
+                && (item.type === '3' || item.type === '4' || item.type === '11') 
+                && item.delFlag !== "1")
+              orgList = [...[parentOrg], ...orgChildrenList]
+            } else {
+              // 国家局
+              personList = await person.findAll((item) => {
+                return item.delFlag === "0" && item.no !== userId;
+              });
+            }
+            if (orgList.length > 0) {
+              // 省级和市区县级根据机构获取人员
+              for (let i = 0; i < orgList.length; i++) {
+                let curPersons = await person.findAll(item => item.delFlag === "0" && item.officeId === orgList[i].no && item.no !== userId)
+                personList = [...personList, ...curPersons]
+              }
             }
           }
         } else {

@@ -383,8 +383,8 @@ export default {
         let db = new GoDB(this.DBName)
         let orgInfo = db.table('orgInfo')
         // 归档机构信息
+        // 监管不需要筛选type
         let orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId
-          && (item.type === '3' || item.type === '4' || item.type === '11') 
           && item.delFlag !== "1")
         // 获取当前归档机构的省局名称
         provinceGroupName = `${orgData.name}`
