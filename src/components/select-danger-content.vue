@@ -18,15 +18,18 @@
           <el-input
             v-model="filter.name"
             placeholder="请输入隐患关键字"
-            style="width: 200px;"
+            style="width: 390px;"
+            size="large"
             clearable
           ></el-input>
           <el-button
             type="primary"
+            size="large"
             @click="selectFilter(false)"
           >精准搜索</el-button>
           <el-button
             type="primary"
+            size="large"
             style="margin-left:0;"
             @click="selectFilter(true)"
           >模糊搜索</el-button>

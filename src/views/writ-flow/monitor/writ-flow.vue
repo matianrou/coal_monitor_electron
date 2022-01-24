@@ -139,7 +139,6 @@
       @confirm-paper="confirmPaper"
     ></select-paper>
     <punishment-info-fill
-      v-if="visible.punishmentInfoFill"
       :visible="visible.punishmentInfoFill"
       :let-data="letData"
       :paper-data="paperData"
@@ -1078,6 +1077,7 @@ export default {
     showInfo (paper) {
       this.paperData = paper
       this.letData = JSON.parse(paper.paperContent) 
+      this.visible.selectPaper = false
       this.visible.punishmentInfoFill = true
     }
   },

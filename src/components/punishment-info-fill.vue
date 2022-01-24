@@ -112,9 +112,13 @@ export default {
       subitemTypeOptions: [], // 行政处罚类型码表
     };
   },
-  async created() {
-    await this.getDictionary()
-    this.init()
+  watch: {
+    async visible (val) {
+      if (val) {
+        await this.getDictionary()
+        this.init()
+      }
+    }
   },
   methods: {
     async getDictionary () {
@@ -131,11 +135,7 @@ export default {
       if (this.paperData && this.paperData.paperId) {
         // 修改已保存的文书时，带入已经保存的数据
         this.dataForm.penaltyMoney = this.paperData.p8Penalty ? Number(this.paperData.p8Penalty) / 10000 : 0
-        if (this.paperData.p8OrgPenalty) {
-          this.dataForm.selectedType = '单位'
-        } else if (this.paperData.p8PersonPenalty) {
-          this.dataForm.selectedType = '个人'
-        }
+        this.dataForm.selectedType = this.letData.selectedType
         if (this.paperData.p8penaltyType) {
           let typeList = this.paperData.p8penaltyType.split(',')
           this.dataForm.penaltyType = typeList

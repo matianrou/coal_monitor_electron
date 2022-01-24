@@ -474,6 +474,8 @@ export async function corpInformation(db, corpData) {
   let zfJjgzm = await zfJjgzmInfo.findAll((item) => {
     return item.corpId === corpData.corpId && item.delFlag !== '1';
   });
+  console.log('corpData.corpId', corpData.corpId)
+  console.log('zfJjgzm', zfJjgzm)
   let zfCmgzmString = ''
   for (let i = 0; i < zfCmgzm.length; i++) {
     let item = zfCmgzm[i]
