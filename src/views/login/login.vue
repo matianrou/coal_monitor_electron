@@ -48,6 +48,7 @@ import { electronRequest } from '@/utils/electronRequest'
 import GoDB from "@/utils/godb.min.js";
 import { schema, doDocDb } from '@/utils/downloadSource'
 import { getNowFormatTime } from '@/utils/date'
+import { clearLoginInfo } from '@/utils'
 export default {
   name: "Login",
   data() {
@@ -246,15 +247,11 @@ export default {
             this.$store.state.user.userType = userType
           } else {
             this.$message.error('获取用户信息失败，请重新登录！')
-            this.$router.replace({name: 'Login', params: {
-              autoLogin: false
-            }})
+            this.logoutHandle()
           }
         }).catch(err => {
-          this.$router.replace({name: 'Login', params: {
-            autoLogin: false
-          }})
           this.$message.error('获取用户信息失败，请重新登录！')
+          this.logoutHandle()
           console.log('获取用户为监管或监察失败：', err)
         })
     },
@@ -273,17 +270,20 @@ export default {
           this.$store.state.user.userNumber = data.data.userNumber
         } else {
           this.$message.error('获取用户信息失败，请重新登录！')
-          this.$router.replace({name: 'Login', params: {
-            autoLogin: false
-          }})
+          this.logoutHandle()
         }
       }).catch(err => {
-        this.$router.replace({name: 'Login', params: {
-          autoLogin: false
-        }})
         this.$message.error('获取用户信息失败，请重新登录！')
+        this.logoutHandle()
         console.log('获取用户信息失败：', err)
       })
+    },
+    logoutHandle () {
+      clearLoginInfo()
+      this.handleWindow('window-max')
+      this.$router.replace({ name: 'Login', params: {
+        autoLogin: false
+      }})
     },
     async setDB (userId) {
       // 校验是否存在数据库
@@ -345,7 +345,7 @@ export default {
             let userId = this.$store.state.user.userId;
             let userSessId = this.$store.state.user.userSessId;
             let path = this.$store.state.user.userType === 'supervision' ? '/sv' : ''
-            let url = `${path}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&updateTime=${docUpdateTime}`
+            let url = `${path}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&updateTime=${docUpdateTime}&pageNo=0&pageSize=5000`
             await this.$http
               .get(`${url}`)
               .then(async (response) => {

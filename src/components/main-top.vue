@@ -1,46 +1,51 @@
 <template>
   <div>
     <div class="main-top-main">
-      <div style="margin-left: 10px;">
+      <div v-if="!maxSrc" style="margin-left: 10px;">
         <!-- 系统名称图 -->
         <img v-if="userType === 'supervision'" src="@/components/assets/image/supervision-logo.png" draggable="false" />
         <img v-else src="@/components/assets/image/coal-logo.png" draggable="false" />
       </div>
+      <div v-else style="margin-left: 10px;">
+        <!-- 系统名称图 -->
+        <img v-if="userType === 'supervision'" src="@/components/assets/image/supervision-logo-mini.png" draggable="false" />
+        <img v-else src="@/components/assets/image/coal-logo-mini.png" draggable="false" />
+      </div>
       <div class="main-top-nav">
         <!-- 页签 -->
         <div
-          class="navTd"
+          class="navTd no-drag"
           :style="activeTab === 'SourceDownload' ? 'background: #224f7d;' : ''"
           @click="changeTab('SourceDownload')">
           <span>资源下载</span>
         </div>
         <div
-          class="navTd"
+          class="navTd no-drag"
           :style="activeTab === 'MakeLawWrit' ? 'background: #224f7d;' : ''"
           @click="changeTab('MakeLawWrit')">
           <span>执法工作台</span>
         </div>
         <div
-          class="navTd"
+          class="navTd no-drag"
           :style="activeTab === 'WritManagement' ? 'background: #224f7d;' : ''"
           @click="changeTab('WritManagement')">
           <span>文书管理</span>
         </div>
         <div
           v-if="userType !== 'supervision'"
-          class="navTd"
+          class="navTd no-drag"
           :style="activeTab === 'opinionSuggestion' ? 'background: #224f7d;' : ''"
           @click="changeTab('opinionSuggestion')">
           <span>意见建议书</span>
         </div>
         <div
           v-if="userType !== 'supervision'"
-          class="navTd"
+          class="navTd no-drag"
           :style="activeTab === 'sendPaper' ? 'background: #224f7d;' : ''"
           @click="changeTab('sendPaper')">
           <span>调查互动</span>
         </div>
-        <div class="main-top-operation" style="margin-left: 20px;">
+        <div class="main-top-operation no-drag" style="margin-left: 20px;">
           <span class="el-dropdown-link">
             <img src="@/components/assets/image/net.png" class="btn-icon img-btn" title="打开网络端" @click="openWeb" />
           </span>
@@ -59,12 +64,12 @@
       <div class="main-top-operation-right">
         <div style="flex: 1;display: flex; align-items: flex-end;">
           <!-- 操作 -->
-          <img src="@/components/assets/image/minus.png" class="btn-icon" id="minbt"  title="最小化" @click="handleWindow('window-min')" />&nbsp;
-          <img src="@/components/assets/image/maximize.png" v-show="maxSrc" class="btn-icon" title="最大化" id="maxbt" @click="handleWindow('window-max')" />&nbsp;
-          <img src="@/components/assets/image/minimize.png" v-show="!maxSrc" class="btn-icon" id="minbt" title="还原" @click="handleWindow('window-max')" />&nbsp;
-          <img src="@/components/assets/image/close.png" id="closebt" class="btn-icon" title="关闭" @click="handleWindow('window-quit')" />
+          <img src="@/components/assets/image/minus.png" class="btn-icon no-drag" id="minbt"  title="最小化" @click="handleWindow('window-min')" />&nbsp;
+          <img src="@/components/assets/image/maximize.png" v-show="maxSrc" class="btn-icon no-drag" title="最大化" id="maxbt" @click="handleWindow('window-max')" />&nbsp;
+          <img src="@/components/assets/image/minimize.png" v-show="!maxSrc" class="btn-icon no-drag" id="minbt" title="还原" @click="handleWindow('window-max')" />&nbsp;
+          <img src="@/components/assets/image/close.png" id="closebt" class="btn-icon no-drag" title="关闭" @click="handleWindow('window-quit')" />
         </div>
-        <div style="display: flex; flex: 1; align-items: center;">
+        <div class="no-drag" style="display: flex; flex: 1; align-items: center;">
           <!-- 个人和更多 -->
           <el-dropdown :hide-on-click="false" @command="handleCommand" style="min-width: 120px; cursor: pointer;">
             <span class="el-dropdown-link">
@@ -186,7 +191,9 @@ export default {
       this.visible.sendDanger = true
     },
     openWeb () {
-      window.open('https://zhxx.chinamine-safety.gov.cn/mj/a/login', '_blank')
+      // 打开网络端，请求Electron打开浏览器
+      let url = 'https://zhxx.chinamine-safety.gov.cn/mj/a/login'
+      electronRequest({msgName: 'open-url', message: url});
     },
     handleCommand (command) {
       if (command === 'clearLogin') {
@@ -277,6 +284,7 @@ export default {
   border-spacing: 0px;
   // padding: 0 20px;
   display: flex;
+  -webkit-app-region: drag;
   .main-top-nav {
     margin-left: 40px;
     display: flex;
@@ -335,6 +343,9 @@ export default {
       // }
     }
   }
+}
+.no-drag {
+  -webkit-app-region: no-drag;
 }
 .topNav {
   color: #f7f7f7;

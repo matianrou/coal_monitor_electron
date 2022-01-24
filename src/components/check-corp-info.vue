@@ -469,36 +469,42 @@ export default {
               dangerouslyUseHTMLString: true,
               type: 'warning'
             }).then(async () => {
-              this.loading.save = true
-              let params = {
-                corpId: this.dataForm.corpId,
-                address: this.dataForm.address,
-                parentType: this.dataForm.parentType,
-                mineWsGrade: this.dataForm.mineWsGrade,
-                mineFire: this.dataForm.mineFire,
-                grimeExplosive: this.dataForm.grimeExplosive,
-                mineMinestyle: this.dataForm.mineMinestyle,
-                mineVentilatestyle: this.dataForm.mineVentilatestyle,
-                mineStatus: this.dataForm.mineStatus,
-                hydrogeologicalType: this.dataForm.hydrogeologicalType,
-                provedOutput: this.dataForm.provedOutput,
-                ckxkzExpireTime: this.dataForm.ckxkzExpireTime,
-                aqscxkzExpireTime: this.dataForm.aqscxkzExpireTime,
-              }
-              await this.$http.post(`${this.userType === 'supervision' ? '/sv' : ''}/local/corp/updateByZf?__sid=${this.$store.state.user.userSessId}`, {sendJson: true, data: params})
-                .then(async ({ data }) => {
-                  if (data.status === "200") {
-                    this.$message.success('确认企业信息成功！')
+              if (JSON.stringify(this.dataForm) !== this.originalData) {
+                // 如果修改信息，则调用接口
+                this.loading.save = true
+                let params = {
+                  corpId: this.dataForm.corpId,
+                  address: this.dataForm.address,
+                  parentType: this.dataForm.parentType,
+                  mineWsGrade: this.dataForm.mineWsGrade,
+                  mineFire: this.dataForm.mineFire,
+                  grimeExplosive: this.dataForm.grimeExplosive,
+                  mineMinestyle: this.dataForm.mineMinestyle,
+                  mineVentilatestyle: this.dataForm.mineVentilatestyle,
+                  mineStatus: this.dataForm.mineStatus,
+                  hydrogeologicalType: this.dataForm.hydrogeologicalType,
+                  provedOutput: this.dataForm.provedOutput,
+                  ckxkzExpireTime: this.dataForm.ckxkzExpireTime,
+                  aqscxkzExpireTime: this.dataForm.aqscxkzExpireTime,
+                }
+                await this.$http.post(`${this.userType === 'supervision' ? '/sv' : ''}/local/corp/updateByZf?__sid=${this.$store.state.user.userSessId}`, {sendJson: true, data: params})
+                  .then(async ({ data }) => {
+                    if (data.status === "200") {
+                      this.$message.success('确认企业信息成功！')
+                      this.$emit('confirm')
+                    } else {
+                      this.$message.error(data.data)
+                    }
+                  })
+                  .catch((err) => {
+                    console.log('确认企业信息失败:', err)
                     this.$emit('confirm')
-                  } else {
-                    this.$message.error(data.data)
-                  }
-                })
-                .catch((err) => {
-                  console.log('确认企业信息失败:', err)
-                  this.$emit('confirm')
-                });
-              this.loading.save = false
+                  });
+                this.loading.save = false
+              } else {
+                // 未修改企业信息，则直接进入检查方案
+                this.$emit('confirm')
+              }
             }).catch(() => {})
         }
       })

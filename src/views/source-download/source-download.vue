@@ -399,11 +399,12 @@ export default {
           break;
         case "doc":
           //文书信息分页下载接口//文书信息分页下载接口
+          // &officeId=&caseId=&flag=false&pageNo=0&pageSize=5000
           uri +=
             "/local/jczf/getPageJczfByOfficeId?__sid=" +
             userSessId +
             "&userId=" +
-            userId
+            userId + "&pageNo=0&pageSize=5000"
           if (this.dataForm.docDownDaterange && this.dataForm.docDownDaterange.length > 0) {
             uri += `&startTime=${this.dataForm.docDownDaterange[0]}`
             uri += `&endTime=${this.dataForm.docDownDaterange[1]}`

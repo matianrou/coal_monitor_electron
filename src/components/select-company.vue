@@ -159,7 +159,7 @@ import { treeDataTranslate } from '@/utils/index'
         }
         if (companyStatus === '10') {
           corpList = corpList.filter(item => item.constructType === companyStatus)
-        } else if (companyStatus === '0101' || companyStatus === '0301'){
+        } else if (companyStatus === '0101' || companyStatus === '0301') {
           corpList = corpList.filter(item => item.mineStatusZs === companyStatus)
         }
         if (corpList.length > 0) {
