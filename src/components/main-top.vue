@@ -109,7 +109,6 @@ export default {
   data() {
     return {
       activeTab: null,
-      electronRequest: electronRequest,
       maxSrc: false, // 最大化和标准窗口中间切换图标
       visible: {
         sendDanger: false,

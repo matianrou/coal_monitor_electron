@@ -327,6 +327,8 @@ export default {
           let dataKey = `${type}`;
           this.options[key] = {
             canEdit: false,
+            page: "16",
+            paperId: this.paperId
           };
           this.$refs.letMain.commandFill(
             key,

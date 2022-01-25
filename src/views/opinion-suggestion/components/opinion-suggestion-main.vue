@@ -322,12 +322,11 @@ export default {
       })
         .then(async () => {
           this.loading.btn = true;
-          await handleDelete(row)
+          await this.handleDelete(row)
           this.getData();
           this.loading.btn = false;
         })
         .catch(() => {
-          this.loading.btn = false;
         });
     },
     async handleDelete(paper) {

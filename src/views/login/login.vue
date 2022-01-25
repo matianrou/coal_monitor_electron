@@ -154,6 +154,8 @@ export default {
           this.$router.replace({
             name: 'CalmineElectronMain',
           })
+          // 最大化窗口
+          electronRequest({msgName: 'window-max'});
         } else {
           // 如果不一致则提示当前没有网络，切换账号需要在有网络的环境，提示登录失败
           this.$message.error('当前账号未存储，不可离线登录！')
