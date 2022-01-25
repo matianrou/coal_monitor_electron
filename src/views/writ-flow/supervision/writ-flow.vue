@@ -15,7 +15,7 @@
           filterable
           @change="createPaper">
           <el-option
-            v-for="item in $store.state.dictionary.monitorPaperType"
+            v-for="item in $store.state.dictionary.supervisionPaperType"
             :key="item.id"
             :label="item.name"
             :value="item.id">
@@ -796,7 +796,7 @@ export default {
     },
     createPaper (val) {
       if (val) {
-        let curPaper = this.$store.state.dictionary.monitorPaperType.filter(item => item.id === val)[0]
+        let curPaper = this.$store.state.dictionary.supervisionPaperType.filter(item => item.id === val)[0]
         this.addPaper(curPaper.page, curPaper.name, curPaper.id)
         this.createdSelectedPaper = null
       }
@@ -826,7 +826,7 @@ export default {
       // 关闭弹窗
       this.visible.receivePaper = false;
       // 进入接收的文书中
-      let page = this.$store.state.dictionary.monitorPaperType.filter(
+      let page = this.$store.state.dictionary.supervisionPaperType.filter(
         (item) => item.id === data.paperContent.paperType
       );
       let isCurPaper = data.paperContent;

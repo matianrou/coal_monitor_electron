@@ -138,7 +138,7 @@
             </div>
           </div>
           <div class="docTextarea">
-            <div style="display:inline-block;min-width:43%">
+            <div style="display:inline-block;min-width:33%">
               <span class="no-line">被检查单位意见：</span>
               <span @click="commandFill('cellIdx14', '被检查单位意见', 'TextItem')"
                 >{{ letData.cellIdx14 ? letData.cellIdx14 : "（编辑）" }}
