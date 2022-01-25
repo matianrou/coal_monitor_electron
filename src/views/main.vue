@@ -26,7 +26,9 @@ export default {
   },
   async created (){
     console.log(`已进入${this.$store.state.user.userType === 'supervision' ? '监管' : '监察'}系统`)
-    await this.getSendPaperData()
+    if (this.$store.state.user.userType !== 'supervision') {
+      await this.getSendPaperData()
+    }
   },
   async mounted() {
     if (this.$store.state.user.userType !== 'supervision') {

@@ -1,6 +1,6 @@
 <!-- 填写组件 检查类型或方式复选框 -->
 <template>
-  <div style="width: 100%;">
+  <div style="width: 100%; height: 70vh; overflow: auto;">
     <el-checkbox-group v-model="dataForm.tempValue.checkList" @change="changeValue">
       <el-checkbox
         v-for="(item, index) in options"
