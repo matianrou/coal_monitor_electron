@@ -117,12 +117,19 @@ export default {
       userType: this.$store.state.user.userType,
       notice: {
         checkList: []
-      }
+      },
+      receiveMessage: null
     };
   },
   created() {
     this.getTab();
     this.getNotice()
+    this.receiveElectronChangeSize()
+  },
+  watch: {
+    receiveMessage (val) {
+      this.maxSrc = val
+    }
   },
   methods: {
     getTab () {
@@ -179,9 +186,9 @@ export default {
 
           })
       } else {
-        if (message === 'window-max') {
-          this.maxSrc = !this.maxSrc
-        }
+        // if (message === 'window-max') {
+        //   this.maxSrc = !this.maxSrc
+        // }
         electronRequest({msgName: message})
       }
     },
@@ -269,6 +276,17 @@ export default {
         .catch((err) => {
           console.log("获取检查任务列表失败：", err);
         });
+    },
+    receiveElectronChangeSize () {
+      if (process.env.NODE_ENV === 'production') {
+        const { ipcRenderer } = window.require('electron')
+        let that = this
+        ipcRenderer.on('change-size', function(event, message) {
+          that.receiveMessage = message
+        })
+      } else {
+        console.log('当前环境不支持electron')
+      }
     }
   },
 };
