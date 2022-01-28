@@ -263,7 +263,7 @@ export default {
         cellIdx8: orgSysOfficeInfo.goverPrefix,
         cellIdx9: orgSysOfficeInfo.organName,
         cellIdx10: orgSysOfficeInfo.courtPrefix, // 人民法院
-        cellIdx17: this.$store.state.curCase.provinceGroupName, //
+        cellIdx17: this.$store.state.curCase.groupName, //
         cellIdx18: this.todayDate, // 日期
         DangerTable, // 隐患项大表
         associationPaperId,

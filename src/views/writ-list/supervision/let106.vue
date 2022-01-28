@@ -334,7 +334,7 @@ export default {
         cellIdx19: orgSysOfficeInfo.goverPrefix, // 人民政府
         cellIdx20: orgSysOfficeInfo.organName, // 机构名
         cellIdx21: orgSysOfficeInfo.courtPrefix, // 人民法院
-        cellIdx29: this.$store.state.curCase.provinceGroupName, //
+        cellIdx29: this.$store.state.curCase.groupName, //
         cellIdx30: this.todayDate, // 日期
         DangerTable,
         associationPaperId,

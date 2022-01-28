@@ -399,7 +399,7 @@ export default {
         cellIdx18: cellIdx18String, // 邮政编码
         cellIdx19: cellIdx20String, // 执法机关联系人
         cellIdx21: cellIdx21String, // 联系电话
-        cellIdx22: this.$store.state.curCase.provinceGroupName, //
+        cellIdx22: this.$store.state.curCase.groupName, //
         cellIdx23: this.todayDate, // 日期
         DangerTable: DangerTable,
         associationPaperId,

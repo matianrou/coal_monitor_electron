@@ -343,7 +343,7 @@ export default {
         cellIdx24: depPost, // 邮政编码
         cellIdx25: master, // 执法机关联系人
         cellIdx26: phone, // 联系电话
-        cellIdx27: this.$store.state.curCase.provinceGroupName, //
+        cellIdx27: this.$store.state.curCase.groupName, //
         cellIdx28: this.todayDate, //日期
         cellIdx29: selectedType, // 单位/个人
         selectedType: selectedType, // 单位/个人

@@ -358,7 +358,7 @@ export default {
         cellIdx31: orgSysOfficeInfo.goverPrefix, // 人民政府
         cellIdx32: orgSysOfficeInfo.organName,
         cellIdx33: orgSysOfficeInfo.courtPrefix, // 人民法院
-        cellIdx34: this.$store.state.curCase.provinceGroupName, //
+        cellIdx34: this.$store.state.curCase.groupName, //
         cellIdx35: this.todayDate, // 日期
         cellIdx36: let8DataPaperContent.selectedType, // 单位
         selectedType: let8DataPaperContent.selectedType, // 单位

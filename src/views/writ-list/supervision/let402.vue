@@ -305,7 +305,7 @@ export default {
         cellIdx16: orgSysOfficeInfo.depPost, // 邮政编码
         cellIdx18: orgSysOfficeInfo.master, // 移送单位联系人
         cellIdx19: orgSysOfficeInfo.phone, // 电话
-        cellIdx26: this.$store.state.curCase.provinceGroupName, //
+        cellIdx26: this.$store.state.curCase.groupName, //
         cellIdx27: this.todayDate, // 日期
         DangerTable,
         associationPaperId,

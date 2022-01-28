@@ -353,7 +353,7 @@ export default {
                 key: "cellIdx7",
                 spellString: {
                   corpName: corp.corpName,
-                  groupName: this.$store.state.curCase.provinceGroupName,
+                  groupName: this.$store.state.curCase.groupName,
                 },
               }
             )
@@ -390,12 +390,12 @@ export default {
         cellIdx28: orgSysOfficeInfo.depPost, // 邮政编码
         cellIdx29: orgSysOfficeInfo.master, // 执法机关联系人
         cellIdx30: orgSysOfficeInfo.phone, // 联系电话
-        cellIdx31: this.$store.state.curCase.provinceGroupName, //
+        cellIdx31: this.$store.state.curCase.groupName, //
         cellIdx32: this.todayDate, // 日期
         DangerTable: DangerTable,
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
-          groupName: this.$store.state.curCase.provinceGroupName,
+          groupName: this.$store.state.curCase.groupName,
         },
         selectedType: let6DataPaperContent.selectedType,
         associationPaperId,

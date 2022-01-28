@@ -300,7 +300,7 @@ export default {
         cellIdx13: orgSysOfficeInfo.depPost, // 邮政编码
         cellIdx15: orgSysOfficeInfo.master, // 移送单位联系人
         cellIdx16: orgSysOfficeInfo.phone, // 电话
-        cellIdx21: this.$store.state.curCase.provinceGroupName, //
+        cellIdx21: this.$store.state.curCase.groupName, //
         cellIdx22: this.todayDate, // 日期
         DangerTable,
         associationPaperId,

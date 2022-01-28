@@ -478,7 +478,7 @@ export default {
         cellIdx23: orgSysOfficeInfo.organName, // organName
         cellIdx24: orgSysOfficeInfo.courtPrefix, // courtPrefix人民法院
         cellIdx25: selectedType, // 查封/扣押
-        cellIdx27: this.$store.state.curCase.provinceGroupName, //
+        cellIdx27: this.$store.state.curCase.groupName, //
         cellIdx28: this.todayDate, // 日期
         cellIdx29: selectedType, // 查封/扣押
         SamplingForensicsTable: let32DataPaperContent.SamplingForensicsTable

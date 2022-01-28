@@ -447,7 +447,7 @@ export default {
         cellIdx17: "□", // 不予批准
         cellIdx19: "□", // 延期缴纳罚款
         cellIdx23: "□", // 不予批准
-        cellIdx37: this.$store.state.curCase.provinceGroupName, //
+        cellIdx37: this.$store.state.curCase.groupName, //
         cellIdx38: this.todayDate, // 日期
         cellIdx39: selectedTypeExtra, // 单位/个人
         selectedType1: let8DataPaperContent.selectedType, // 单位或个人的存储

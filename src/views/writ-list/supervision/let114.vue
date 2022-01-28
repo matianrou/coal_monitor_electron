@@ -386,7 +386,7 @@ export default {
         cellIdx22: orgSysOfficeInfo.goverPrefix, // 可在接到本决定书之日起60日内向XX人民政府
         cellIdx23: orgSysOfficeInfo.organName, // organName
         cellIdx24: orgSysOfficeInfo.courtPrefix, // courtPrefix人民法院
-        cellIdx25: this.$store.state.curCase.provinceGroupName, //
+        cellIdx25: this.$store.state.curCase.groupName, //
         cellIdx26: this.todayDate, // 日期
         cellIdx27: selectedType, // 查封/扣押
         selectedType: selectedType, // 查封/扣押

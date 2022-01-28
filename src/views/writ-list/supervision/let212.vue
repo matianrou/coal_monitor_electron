@@ -302,7 +302,7 @@ export default {
         cellIdx22: orgSysOfficeInfo.depPost, // 邮政编码
         cellIdx23: orgSysOfficeInfo.master, // 执法机关联系人
         cellIdx24: orgSysOfficeInfo.phone, // 联系电话
-        cellIdx25: this.$store.state.curCase.provinceGroupName, //
+        cellIdx25: this.$store.state.curCase.groupName, //
         cellIdx26: this.todayDate, //日期
         cellIdx27: let8DataPaperContent.selectedType, //单位
         selectedType: let8DataPaperContent.selectedType, // 单位

@@ -222,7 +222,7 @@ export default {
         cellIdx3: num4, // 文书号
         cellIdx10: orgSysOfficeInfo.master,
         cellIdx11: orgSysOfficeInfo.phone,
-        cellIdx12: this.$store.state.curCase.provinceGroupName, //
+        cellIdx12: this.$store.state.curCase.groupName, //
         cellIdx13: this.todayDate, // 日期
       })
     },

@@ -319,7 +319,7 @@ export default {
       // 1.文书编号：送达收执文书编号
       let paperNumber = await getDocNumber(db, '9', caseId)
       // 2.申请人：机构名称
-      let cellIdx5String = this.$store.state.curCase.provinceGroupName
+      let cellIdx5String = this.$store.state.curCase.groupName
       // 3.被申请人：企业煤矿名称
       let cellIdx11String = corp.corpName
       // 5.文书号2：催告书编号
@@ -335,7 +335,7 @@ export default {
             key: "cellIdx9",
             spellString: {
               corpName: corp.corpName,
-              groupName: this.$store.state.curCase.provinceGroupName,
+              groupName: this.$store.state.curCase.groupName,
             },
           }
         ):'';
@@ -395,7 +395,7 @@ export default {
         cellIdx19: let53DataPaperContent.cellIdx1, // 催告书 文书号
         cellIdx20: let53DataPaperContent.cellIdx2, // 催告书 文书号
         cellIdx21: let53DataPaperContent.cellIdx3, // 催告书 文书号
-        cellIdx29: this.$store.state.curCase.provinceGroupName, //
+        cellIdx29: this.$store.state.curCase.groupName, //
         cellIdx30: this.todayDate, // 日期
         DangerTable,
         associationPaperId,

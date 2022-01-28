@@ -198,7 +198,7 @@ export default {
                 key: "cellIdx2",
                 spellString: {
                   corpName: corp.corpName,
-                  groupName: this.$store.state.curCase.provinceGroupName,
+                  groupName: this.$store.state.curCase.groupName,
                 },
               }
             )
@@ -224,7 +224,7 @@ export default {
         cellIdx5: let7DataPaperContent.cellIdx9, // 记录人
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
-          groupName: this.$store.state.curCase.provinceGroupName,
+          groupName: this.$store.state.curCase.groupName,
         },
         DangerTable,
         selectedType: let7DataPaperContent.selectedType,

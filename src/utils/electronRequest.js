@@ -17,18 +17,3 @@ export function electronRequest ({msgName, message, type = 'send'}) {
   }
   return { request: requestData }
 }
-
-export function receiveElectron ({msgName}) {
-  let requestData = null
-  if (NODE_ENV === 'production') {
-    const { ipcRenderer } = window.require('electron')
-    ipcRenderer.on(msgName, function(event, message) {
-      console.log('event', event)
-      console.log('message', message)
-    })
-    requestData = message
-  } else {
-    console.log('当前环境不支持electron')
-  }
-  return { request: requestData }
-}

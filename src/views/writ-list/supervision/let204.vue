@@ -394,7 +394,7 @@ export default {
           cellIdx16: orgSysOfficeInfo.depPost, // 邮政编码
           cellIdx17: orgSysOfficeInfo.master, // 我局联系人
           cellIdx18: orgSysOfficeInfo.phone, // 联系电话
-          cellIdx19: this.$store.state.curCase.provinceGroupName, // 
+          cellIdx19: this.$store.state.curCase.groupName, // 
           cellIdx20: this.todayDate, // 日期
           cellIdx21: selectedType, 
           DangerTable: DangerTable,
@@ -450,7 +450,7 @@ export default {
           cellIdx16: orgSysOfficeInfo.depPost, // 邮政编码
           cellIdx17: orgSysOfficeInfo.master, // 我局联系人
           cellIdx18: orgSysOfficeInfo.phone, // 联系电话
-          cellIdx19: this.$store.state.curCase.provinceGroupName, // 
+          cellIdx19: this.$store.state.curCase.groupName, // 
           cellIdx20: this.todayDate, // 日期
           selectedType,
           associationPaperId: associationPaperId,

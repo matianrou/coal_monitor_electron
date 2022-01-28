@@ -262,7 +262,7 @@ export default {
         cellIdx12: orgSysOfficeInfo.depPost, // 邮政编码
         cellIdx13: orgSysOfficeInfo.master, // 执法机关联系人
         cellIdx14: orgSysOfficeInfo.phone, // 联系电话
-        cellIdx15: this.$store.state.curCase.provinceGroupName, //
+        cellIdx15: this.$store.state.curCase.groupName, //
         cellIdx16: this.todayDate, // 日期
         cellIdx17: let37DataPaperContent.selectedType === '停供电' ? '供电部门' : '公安机关', // 一份交XXX
         selectedType: let37DataPaperContent.selectedType,

@@ -282,7 +282,7 @@ export default {
             key: "cellIdx6",
             spellString: {
               corpName: corp.corpName,
-              groupName: this.$store.state.curCase.provinceGroupName,
+              groupName: this.$store.state.curCase.groupName,
             },
           }
         ):'';
@@ -314,11 +314,11 @@ export default {
         cellIdx12: orgSysOfficeInfo.depPost, // 邮政编码
         cellIdx13: orgSysOfficeInfo.master, // 执法机关联系人
         cellIdx14: orgSysOfficeInfo.phone, // 联系电话
-        cellIdx15: this.$store.state.curCase.provinceGroupName, // 单位
+        cellIdx15: this.$store.state.curCase.groupName, // 单位
         cellIdx16: this.todayDate, // 日期
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
-          groupName: this.$store.state.curCase.provinceGroupName,
+          groupName: this.$store.state.curCase.groupName,
         },
         selectedType: let28DataPaperContent.selectedType, // 单位或个人
         DangerTable,

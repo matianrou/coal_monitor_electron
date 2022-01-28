@@ -307,7 +307,7 @@ export default {
         cellIdx13: let2DataPaperContent.cellIdx3, // 现场处理决定书 文书号
         cellIdx14: cellIdx10String, // 现场处理决定
         cellIdx25: '应你单位申请', //
-        cellIdx23: this.$store.state.curCase.provinceGroupName, //
+        cellIdx23: this.$store.state.curCase.groupName, //
         cellIdx24: this.todayDate, //日期
         DangerTable: DangerTable,
         associationPaperId,

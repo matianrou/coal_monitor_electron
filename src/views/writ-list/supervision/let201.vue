@@ -209,7 +209,7 @@ export default {
             spellString: {
               corpName: corp.corpName,
               dateString,
-              groupName: this.$store.state.curCase.provinceGroupName,
+              groupName: this.$store.state.curCase.groupName,
             },
           }
         );
@@ -223,7 +223,7 @@ export default {
             spellString: {
               corpName: corp.corpName,
               dateString,
-              groupName: this.$store.state.curCase.provinceGroupName,
+              groupName: this.$store.state.curCase.groupName,
             },
           }
         );
@@ -248,13 +248,13 @@ export default {
           cellIdx6: date[0], // 年
           cellIdx7: date[1], // 月
           cellIdx8: date[2], // 日
-          cellIdx14: this.$store.state.curCase.provinceGroupName, //
+          cellIdx14: this.$store.state.curCase.groupName, //
           cellIdx15: this.todayDate, // 日期
           DangerTable: DangerTable,
           extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
             corpName: corp.corpName,
             dateString,
-            groupName: this.$store.state.curCase.provinceGroupName,
+            groupName: this.$store.state.curCase.groupName,
           },
           associationPaperId,
           associationPaperOrder,
@@ -280,7 +280,7 @@ export default {
           cellIdx6: date[0], // 年
           cellIdx7: date[1], // 月
           cellIdx8: date[2], // 日
-          cellIdx14: this.$store.state.curCase.provinceGroupName, //
+          cellIdx14: this.$store.state.curCase.groupName, //
           cellIdx15: this.todayDate, // 日期
         })
       }

@@ -516,7 +516,7 @@ export default {
         cellIdx16: cellIdx15String, // 人民政府
         cellIdx17: cellIdx16String, // organName
         cellIdx18: cellIdx17String, // courtPrefix人民法院
-        cellIdx21: this.$store.state.curCase.provinceGroupName, //
+        cellIdx21: this.$store.state.curCase.groupName, //
         cellIdx22: this.todayDate, // 日期
         DangerTable: DangerTable,
         associationPaperId,

@@ -311,7 +311,7 @@ export default {
                 key: "cellIdx3",
                 spellString: {
                   corpName: corp.corpName,
-                  groupName: this.$store.state.curCase.provinceGroupName,
+                  groupName: this.$store.state.curCase.groupName,
                 },
               }
             )
@@ -338,7 +338,7 @@ export default {
                 spellString: {
                   corpName: corp.corpName,
                   dateString,
-                  groupName: this.$store.state.curCase.provinceGroupName,
+                  groupName: this.$store.state.curCase.groupName,
                 },
               }
             )
@@ -405,7 +405,7 @@ export default {
           // 用于拼写隐患内容的字符集合
           corpName: corp.corpName,
           dateString,
-          groupName: this.$store.state.curCase.provinceGroupName,
+          groupName: this.$store.state.curCase.groupName,
         },
         selectedType,
         associationPaperId: associationPaperId,

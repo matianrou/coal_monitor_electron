@@ -367,7 +367,7 @@ export default {
         cellIdx17: cellIdx17String, // 邮政编码
         cellIdx18: cellIdx19String, // 执法机关联系人
         cellIdx20: cellIdx20String, // 联系电话
-        cellIdx21: this.$store.state.curCase.provinceGroupName, //
+        cellIdx21: this.$store.state.curCase.groupName, //
         cellIdx22: this.todayDate, // 日期
         DangerTable: DangerTable,
         associationPaperId,

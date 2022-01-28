@@ -293,7 +293,7 @@ export default {
         cellIdx15: cellIdx15String, // 可在接到本决定书之日起60日内向。。。申请行政复议或6个月内向
         cellIdx16: cellIdx16String, // organName
         cellIdx17: cellIdx17String, // 人民法院
-        cellIdx18: this.$store.state.curCase.provinceGroupName, //
+        cellIdx18: this.$store.state.curCase.groupName, //
         cellIdx19: this.todayDate, // 日期
         DangerTable,
         associationPaperId,
