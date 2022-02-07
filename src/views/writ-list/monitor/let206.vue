@@ -344,7 +344,7 @@ export default {
       // 9.机构接口中sysOfficeInfo实体中对应：
       // accountName；银行：accountBank；账户名称：billName；账号：account；
       // 地址：accountAddress；组织机构名：organName；法院：courtPrefix
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
       let paperNumber = await getDocNumber(
         db,
         this.docData.docTypeNo,

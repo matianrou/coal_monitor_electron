@@ -332,7 +332,7 @@ export default {
       );
       // 5.通过sysOfficeInfo获取人民法院courtPrefix、我局地址：depAddress、
       //   邮政编码：depPost、我局联系人：master、联系电话：phone
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
       let DangerTable = null
       if (this.corpData.caseType === '0') {
         DangerTable = let10DataPaperContent.DangerTable ? 

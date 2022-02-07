@@ -266,7 +266,7 @@ export default {
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
         cellIdx1: let22DataPaperContent.cellIdx2, // 检查时间
-        cellIdx3: zzInfo1 && zzInfo1.credId ? zzInfo1.credId : '', // 采矿许可证
+        cellIdx2: zzInfo1 && zzInfo1.credId ? zzInfo1.credId : '', // 采矿许可证
         cellIdx4: zzInfo2 && zzInfo2.credId ? zzInfo2.credId : '', // 安全生产许可证
         cellIdx6: corp.uscCode || '',
         cellIdx9: let22DataPaperContent.cellIdx4, // 检查地点（路线）

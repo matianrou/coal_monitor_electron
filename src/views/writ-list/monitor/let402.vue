@@ -310,7 +310,7 @@ export default {
         }
       ):'';
       // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
       let DangerTable = null
       if (this.corpData.caseType === '0') {
         DangerTable = let4DataPaperContent.DangerTable ? 

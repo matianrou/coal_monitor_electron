@@ -287,7 +287,7 @@ export default {
         }
       ):'';
       // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
       let cellIdx12String = orgSysOfficeInfo.depAddress;
       let cellIdx13String = orgSysOfficeInfo.depPost;
       let cellIdx15String = orgSysOfficeInfo.master;

@@ -340,7 +340,7 @@ export default {
             )
           : "";
       // 5.地点：sysOfficeInfo实体中goverPrefix字段 courtPrefix字段
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
       // 查封扣押决定书文书中是查封/扣押
       let selectedType = let32DataPaperContent.selectedType
       let DangerTable = null;

@@ -484,7 +484,7 @@ export default {
             )
           : "";
       // 4.地点：sysOfficeInfo实体中organName字段+ courtPrefix字段
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
       let cellIdx16String = '国家矿山安全监察局';
       let cellIdx17String = orgSysOfficeInfo.courtPrefix;
       let DangerTable = null;

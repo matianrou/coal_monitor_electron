@@ -12,7 +12,7 @@
       </div>
       <div v-if="caseData.groupName" class="group-name">
         <i class="el-icon-s-flag"></i>
-        <span>{{`${userType === 'supervision' ? '监管' : '监察'}归档至${caseData.groupName}`}}</span>
+        <span>{{`${userType === 'supervision' ? '监管' : '监察'}归档至${caseData.affiliateName}`}}</span>
       </div>
     </div>
     <div class="enterprisedata-content-main">
@@ -83,16 +83,16 @@ export default {
         let wkCase = db.table('wkCase')
         let caseData = await wkCase.find(item => item.caseId === this.corpData.caseId)
         let orgInfo = db.table('orgInfo')
-        // 归档机构信息
-        let affiliate = this.$store.state.selectedCaseOption.selGovUnit
-        let affiliateOrg = {}
+        // 获取落款省级局信息
+        let selGovUnit = this.$store.state.selectedCaseOption.selGovUnit
+        let selGovUnitOrg = {}
         if (this.$store.state.user.userType === 'supervision') {
           // 监管不过滤type
-          affiliateOrg = await orgInfo.find(item => item.no === affiliate
+          selGovUnitOrg = await orgInfo.find(item => item.no === selGovUnit
             && item.delFlag !== "1")
         } else {
           // 监察过滤type
-          affiliateOrg = await orgInfo.find(item => item.no === affiliate
+          selGovUnitOrg = await orgInfo.find(item => item.no === selGovUnit
             && (item.type === '3' || item.type === '4' || item.type === '11') 
             && item.delFlag !== "1")
         }
@@ -100,14 +100,14 @@ export default {
         let provinceGroupName = `${caseData.groupName}`
         if (this.$store.state.user.userType === 'supervision') { 
           // 监管为四级机构， 不过滤type类型
-          if (affiliateOrg.grade === '3') {
+          if (selGovUnitOrg.grade === '3') {
             // 市级时
-            let provinceOrg = await orgInfo.find(item => item.no === affiliateOrg.parentId
+            let provinceOrg = await orgInfo.find(item => item.no === selGovUnitOrg.parentId
               && item.delFlag !== "1")
             provinceGroupName = provinceOrg.name
-          } else if (affiliateOrg.grade === '4') {
+          } else if (selGovUnitOrg.grade === '4') {
             // 县级时，现查询市级，再查询省级
-            let upOrg = await orgInfo.find(item => item.no === affiliateOrg.parentId
+            let upOrg = await orgInfo.find(item => item.no === selGovUnitOrg.parentId
               && item.delFlag !== "1")
             let provinceOrg = await orgInfo.find(item => item.no === upOrg.parentId
               && item.delFlag !== "1")
@@ -115,13 +115,26 @@ export default {
           }
         } else {
           // 监察为三级机构，过滤type类型
-          if (affiliateOrg.grade === '3') {
-            let provinceOrg = await orgInfo.find(item => item.no === affiliateOrg.parentId
+          if (selGovUnitOrg.grade === '3') {
+            let provinceOrg = await orgInfo.find(item => item.no === selGovUnitOrg.parentId
               && (item.type === '3' || item.type === '4' || item.type === '11') 
               && item.delFlag !== "1")
             provinceGroupName = provinceOrg.name
           }
         }
+        // 获取归档机构信息
+        let affiliateOrg = {}
+        if (this.$store.state.user.userType === 'supervision') {
+          // 监管不过滤type
+          affiliateOrg = await orgInfo.find(item => item.no === caseData.affiliate
+            && item.delFlag !== "1")
+        } else {
+          // 监察过滤type
+          affiliateOrg = await orgInfo.find(item => item.no === caseData.affiliate
+            && (item.type === '3' || item.type === '4' || item.type === '11') 
+            && item.delFlag !== "1")
+        }
+        let affiliateName = affiliateOrg.name
         await db.close()
         if (caseData) {
           let planDate = ''
@@ -131,7 +144,7 @@ export default {
             let endList = caseData.planEndDate.split(' ')[0].split('-')
             planDate = `${beginList[1]}月${beginList[2]}日-${endList[1]}月${endList[2]}日`
           }
-          caseData = Object.assign({}, caseData, { planDate, provinceGroupName })
+          caseData = Object.assign({}, caseData, { planDate, provinceGroupName, affiliateName })
           this.caseData = caseData
           this.$store.commit('changeState', {
             key: 'curCase',

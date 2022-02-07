@@ -1,4 +1,4 @@
-<!-- 弹窗选择单位 -->
+<!-- 弹窗选择单位 当前机构省级所有单位 -->
 <template>
   <el-dialog
     :title="title ? title : '选择单位'"

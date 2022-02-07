@@ -299,7 +299,7 @@ export default {
           }
         ):'';
       // 4.sysOfficeInfo中organName和courtPrefix
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
       let cellIdx19String = '国家矿山安全监察局';
       let cellIdx20String = orgSysOfficeInfo.courtPrefix;
       let DangerTable = null

@@ -246,7 +246,7 @@ export default {
       let paperNumber = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId)
       // sysOfficeInfo实体中depAddress字段+ deparFullname字段
       // 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
       await db.close();
       this.letData = {
         cellIdx0: paperNumber.num0, // 文书号

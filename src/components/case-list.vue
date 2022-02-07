@@ -295,33 +295,34 @@ export default {
         listArr.sort(sortbyDes('createDate'))
         this.total = listArr.length;
         // 转换为列表所需要的值
-        listArr.map((k, index) => {
+        for (let i = 0; i < listArr.length; i++) {
+          let item = listArr[i]
           let corp = {}
-          if (k.dbplanId) {
+          if (item.dbplanId) {
             corp= {
-              index: index,
+              index: i,
               dbplan: true,
-              corpId: k.corpId,
-              corpName: k.corpName,
-              planId: k.dbplanId,
-              no: k.no,
+              corpId: item.corpId,
+              corpName: item.corpName,
+              planId: item.dbplanId,
+              no: item.no,
               active: false,
             }
-          } else if (k.caseId) {
+          } else if (item.caseId) {
             corp = {
-              index: index,
+              index: i,
               plan: true,
-              caseType: k.caseType,
-              caseId: k.caseId,
-              corpName: k.corpName,
-              planId: k.planId,
-              corpId: k.corpId,
-              no: k.no,
+              caseType: item.caseType,
+              caseId: item.caseId,
+              corpName: item.corpName,
+              planId: item.planId,
+              corpId: item.corpId,
+              no: item.no,
               active: false,
             }
           }
           corpList.push(corp)
-        })
+        }
       } else if (this.dataForm.isPlan === '其他') {
         // 检查活动
         let wkCase = await wkCaseInfo.findAll((item) => {
@@ -333,23 +334,24 @@ export default {
         // 按创建时间排序
         listArr.sort(sortbyDes('createDate'))
         // 转换为列表所需要的值
-        listArr.map((k, index) => {
+        for (let i = 0; i < listArr.length; i++) {
+          let item = listArr[i]
           let corp = {}
-          if (k.caseId) {
+          if (item.caseId) {
             corp = {
-              index: index,
+              index: i,
               plan: true,
-              caseType: k.caseType,
-              caseId: k.caseId,
-              corpName: k.corpName,
+              caseType: item.caseType,
+              caseId: item.caseId,
+              corpName: item.corpName,
               planId: '',
-              corpId: k.corpId,
-              no: k.no,
+              corpId: item.corpId,
+              no: item.no,
               active: false,
             }
           }
           corpList.push(corp)
-        })
+        }
       }
       await db.close();
       this.corpList = corpList

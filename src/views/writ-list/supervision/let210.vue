@@ -288,7 +288,7 @@ export default {
         ):'';
       // 5.地点：sysOfficeInfo实体中depAddress字段+ deparFullname字段
       // 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
       let DangerTable = null
       if (this.corpData.caseType === '0') {
         DangerTable = let28DataPaperContent.DangerTable ? 

@@ -359,7 +359,7 @@ export default {
       let cellIdx11Date = now.getDate().toString()
       let cellIdx12Hour = now.getHours().toString()
       // 4.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
       let cellIdx17String = orgSysOfficeInfo.depAddress
       let cellIdx18String = orgSysOfficeInfo.depPost
       let cellIdx20String = orgSysOfficeInfo.master

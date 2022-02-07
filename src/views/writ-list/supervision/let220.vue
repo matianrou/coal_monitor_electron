@@ -306,7 +306,7 @@ export default {
       let let8DataPaperContent = JSON.parse(selectedPaper.let8Data.paperContent);
       let date206 = selectedPaper.let8Data.createDate.split(' ')[0].split('-')
       // 4.sysOfficeInfo中 goverPrefix和organName和courtPrefix
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
       // 5.被处罚单位个人
       let cellIdx4String = let8DataPaperContent.cellIdx5 || ''
       // 6.获取行政处罚中的罚款金额

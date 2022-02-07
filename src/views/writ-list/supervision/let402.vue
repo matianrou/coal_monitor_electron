@@ -276,7 +276,7 @@ export default {
       // 2.立案时间
       let let4Date = selectedPaper.let4Data.createDate.split(' ')[0].split('-')
       // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
       await db.close();
       let let4DataPaperContent = JSON.parse(
         selectedPaper.let4Data.paperContent

@@ -249,7 +249,7 @@ export default {
       let num253 = let25DataPaperContent.cellIdx2;
       let num254 = let25DataPaperContent.cellIdx3;
       // 3.sysOfficeInfo实体中 organName、人民法院：courtPrefix
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
       let cellIdx15String = '国家矿山安全监察局';
       let cellIdx16String = orgSysOfficeInfo.courtPrefix;
       let DangerTable = null

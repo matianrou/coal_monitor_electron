@@ -425,7 +425,7 @@ export default {
       // 2.获取查封扣押决定书创建日期
       let let32Date = selectedPaper.let32Data.createDate.split(' ')[0].split('-')
       // 3.地点：sysOfficeInfo实体中organName字段+ courtPrefix字段
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
       // 4.查封扣押文书号
       let let32DataPaperContent = JSON.parse(
         selectedPaper.let32Data.paperContent

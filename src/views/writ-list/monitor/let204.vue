@@ -358,7 +358,7 @@ export default {
           }
         );
         // 9.机构接口中获取sysOfficeInfo实体中
-        let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
+        let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
         // depAddress：我局地址、
         // depPost：邮政编码、
         // master：我局联系人、
@@ -434,7 +434,7 @@ export default {
           this.corpData.caseId
         );
         // 9.机构接口中获取sysOfficeInfo实体中
-        let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
+        let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
         await db.close();
         let selectedType = ''
         let associationPaperId = {}

@@ -20,7 +20,7 @@ export async function getDocNumber(db, docTypeNo, caseId) {
   // 获取当前归档机构信息
   const orgInfo = db.table("orgInfo");
   // 如果有caseId则获取归档机构如果没有则获取当前用户机构（没有时为意见建议书时）
-  let orgId = caseId ? store.state.curCase.affiliate : store.state.user.userGroupId
+  let orgId = caseId ? store.state.curCase.groupId : store.state.user.userGroupId
   let orgData = {}
   if (store.state.user.userType === 'supervision') {
     // 监管不筛选type类型

@@ -230,7 +230,7 @@ export default {
       let orgInfo = db.table("orgInfo");
       // 监管不筛选type
       let orgData = await orgInfo.find(
-        (item) => item.no === this.$store.state.curCase.affiliate
+        (item) => item.no === this.$store.state.curCase.groupId
         && item.delFlag !== "1"
       );
       let orgSysOfficeInfo =

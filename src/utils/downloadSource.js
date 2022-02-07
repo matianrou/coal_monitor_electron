@@ -933,6 +933,7 @@ async function doDocDb(resId, data){
 			"p36PersonId": String, //null,
 			"p36PersonName": String, //null,
 			"p36RegisterTime": String, //null 
+			"localizeFlag": String,
 		},
 		// 检查活动
 		wkCase: {
@@ -1142,6 +1143,7 @@ async function doDocDb(resId, data){
 			"p36PersonId": obj.p36PersonId, //null,
 			"p36PersonName": obj.p36PersonName, //null,
 			"p36RegisterTime": obj.p36RegisterTime, //null 
+			"localizeFlag": obj.localizeFlag
 		});
 	}
 
@@ -1992,6 +1994,7 @@ let schema = {
 		"p36PersonId": String, //null,
 		"p36PersonName": String, //null,
 		"p36RegisterTime": String, //null 
+		"localizeFlag": String, // 国产化标记：1
 	},
 	// 检查活动
 	wkCase: {

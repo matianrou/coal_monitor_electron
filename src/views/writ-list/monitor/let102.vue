@@ -247,7 +247,7 @@ export default {
             )
           : "";
       // 通过机构接口中的sysOfficeInfo中获取的organName和courtPrefix字段分别填充cellIdx8和cellIdx9字段
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
       let paperNumber = await getDocNumber(
         db,
         this.docData.docTypeNo,

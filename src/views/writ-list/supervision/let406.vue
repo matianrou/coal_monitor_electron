@@ -213,7 +213,7 @@ export default {
         this.corpData.caseId
       );
       // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
       await db.close();
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: num0, // 文书号

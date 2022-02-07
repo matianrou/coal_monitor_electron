@@ -261,7 +261,7 @@ export default {
         this.corpData.caseId
       );
       // 3.sysOfficeInfo实体中organName字段+ courtPrefix字段
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
       // 4.年、月、日取当前时间
       let date = new Date();
       let year = date.getFullYear();

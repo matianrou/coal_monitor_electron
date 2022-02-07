@@ -485,7 +485,7 @@ export default {
             )
           : "";
       // 4.地点：sysOfficeInfo实体中organName字段+ courtPrefix字段
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.affiliate)
+      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
       let cellIdx15String = orgSysOfficeInfo.goverPrefix;
       let cellIdx16String = orgSysOfficeInfo.organName;
       let cellIdx17String = orgSysOfficeInfo.courtPrefix;

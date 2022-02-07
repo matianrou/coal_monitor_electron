@@ -212,7 +212,7 @@ export default {
       let orgInfo = db.table("orgInfo");
       // 监管不需要筛选type
       let orgData = await orgInfo.find(item => 
-        item.no === this.$store.state.curCase.affiliate
+        item.no === this.$store.state.curCase.groupId
         && item.delFlag !== "1")
       let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {depAddress: '', depPost: '', master: '', phone: ''}
       let let56DataPaperContent = selectedPaper.let56Data ? JSON.parse(

@@ -227,6 +227,11 @@ export default {
       } else {
         edit = true
       }
+      if (this.paperData && this.paperData.paperId && this.paperData.localizeFlag !== '1') {
+        edit = false
+      } else {
+        edit = true
+      }
       return edit
     },
     showPrintBtn () {
@@ -306,6 +311,10 @@ export default {
     async cmdDocSave(saveFlag = "2") {
       // 保存或归档文书
       // 判断当前文书是否已经归档，如已归档则不可保存或归档
+      if (this.paperData && this.paperData.paperId && this.paperData.localizeFlag !== '1') {
+        this.$message.error('当前文书为PC端保存数据，系统不支持修改保存及归档操作')
+        return
+      }
       if (this.canEdit) {
         this.loading.btn = true
         if (saveFlag === '0') {
@@ -646,6 +655,7 @@ export default {
         p36PersonId: extraSaveData.p36PersonId || null,
         p36PersonName: extraSaveData.p36PersonName || null,
         p36RegisterTime: extraSaveData.p36RegisterTime || null,
+        localizeFlag: "1", // 国产化保存标记
       };
       let db = new GoDB(this.DBName);
       let wkPaper = db.table("wkPaper");
