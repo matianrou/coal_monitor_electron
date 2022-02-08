@@ -424,7 +424,10 @@ export function retrunGetMoney(penaltyDescString) {
   // 元字统计count
   let money = 0
   let count = 0
-  let stringList = penaltyDescString .split(/[,᠃.。，]/)
+  let stringList = []
+  if (penaltyDescString) {
+    stringList = penaltyDescString .split(/[,᠃.。，]/)
+  }
   for (let i = 0; i < stringList.length; i++) {
     let item = stringList[i]
     if (item.includes('罚款') && item.includes('元')) {

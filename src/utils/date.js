@@ -118,26 +118,29 @@ export function severalDaysLater(dayNums) {
 // 按逻辑转换为
 // YYYY年M月D日至YYYY年M月D日或M月D日或D日
 export function handleDate(date, spliteKey) {
-  let dateList = date.split(spliteKey)
-  let string0 = dateList[0]
-  string0 = string0.replace('年', ' ').replace('月', ' ').replace('日', '')
-  let string0List = string0.split(' ')
-  let string1 = dateList[1]
-  string1 = string1.replace('年', ' ').replace('月', ' ').replace('日', ' ')
-  let string1List = string1.split(' ')
-  let dateString = dateList[0] + '至'
-  // 判断第二个日期，如果年份一样则不再展示，如果月份一样也同样不展示，不同时都展示
-  if (string0List[0] !== string1List[0]) {
-    dateString += string1List[0] + '年'
-  }
-  if (string0List[1] !== string1List[1]) {
-    dateString += string1List[1] + '月'
-  }
-  if (string0List[2] !== string1List[2]) {
-    dateString += string1List[2] + '日'
-  }
-  if (string0List[0] === string1List[0] && string0List[1] === string1List[1] && string0List[2] === string1List[2]) {
-    dateString = dateString.substring(0, dateString.length - 1)
+  let dateString = ''
+  if (date) {
+    let dateList = date.split(spliteKey)
+    let string0 = dateList[0]
+    string0 = string0.replace('年', ' ').replace('月', ' ').replace('日', '')
+    let string0List = string0.split(' ')
+    let string1 = dateList[1]
+    string1 = string1.replace('年', ' ').replace('月', ' ').replace('日', ' ')
+    let string1List = string1.split(' ')
+    dateString = dateList[0] + '至'
+    // 判断第二个日期，如果年份一样则不再展示，如果月份一样也同样不展示，不同时都展示
+    if (string0List[0] !== string1List[0]) {
+      dateString += string1List[0] + '年'
+    }
+    if (string0List[1] !== string1List[1]) {
+      dateString += string1List[1] + '月'
+    }
+    if (string0List[2] !== string1List[2]) {
+      dateString += string1List[2] + '日'
+    }
+    if (string0List[0] === string1List[0] && string0List[1] === string1List[1] && string0List[2] === string1List[2]) {
+      dateString = dateString.substring(0, dateString.length - 1)
+    }
   }
   return dateString
 }
@@ -181,26 +184,29 @@ export function handleDateRetrun(value) {
 // 按逻辑转换为
 // YYYY年M月D日至YYYY年M月D日或M月D日或D日
 export function handleDateNormal(beginDate, endDate) {
-  let beginDateList = beginDate.split('-')
-  let endDateList = endDate.split('-')
-  // 月和日去0
-  beginDateList[1] = takeOutZero(beginDateList[1])
-  beginDateList[2] = takeOutZero(beginDateList[2])
-  endDateList[1] = takeOutZero(endDateList[1])
-  endDateList[2] = takeOutZero(endDateList[2])
-  let dateString = `${beginDateList[0]}年${beginDateList[1]}月${beginDateList[2]}日至`
-  // 判断第二个日期，如果年份一样则不再展示，如果月份一样也同样不展示，不同时都展示
-  if (beginDateList[0] !== endDateList[0]) {
-    dateString += endDateList[0] + '年'
-  }
-  if (beginDateList[1] !== endDateList[1]) {
-    dateString += endDateList[1] + '月'
-  }
-  if (beginDateList[2] !== endDateList[2]) {
-    dateString += endDateList[2] + '日'
-  }
-  if (beginDateList[0] === endDateList[0] && beginDateList[1] === endDateList[1] && beginDateList[2] === endDateList[2]) {
-    dateString = dateString.substring(0, dateString.length - 1)
+  let dateString = ''
+  if (beginDate && endDate) {
+    let beginDateList = beginDate.split('-')
+    let endDateList = endDate.split('-')
+    // 月和日去0
+    beginDateList[1] = takeOutZero(beginDateList[1])
+    beginDateList[2] = takeOutZero(beginDateList[2])
+    endDateList[1] = takeOutZero(endDateList[1])
+    endDateList[2] = takeOutZero(endDateList[2])
+    dateString = `${beginDateList[0]}年${beginDateList[1]}月${beginDateList[2]}日至`
+    // 判断第二个日期，如果年份一样则不再展示，如果月份一样也同样不展示，不同时都展示
+    if (beginDateList[0] !== endDateList[0]) {
+      dateString += endDateList[0] + '年'
+    }
+    if (beginDateList[1] !== endDateList[1]) {
+      dateString += endDateList[1] + '月'
+    }
+    if (beginDateList[2] !== endDateList[2]) {
+      dateString += endDateList[2] + '日'
+    }
+    if (beginDateList[0] === endDateList[0] && beginDateList[1] === endDateList[1] && beginDateList[2] === endDateList[2]) {
+      dateString = dateString.substring(0, dateString.length - 1)
+    }
   }
   return dateString
 }

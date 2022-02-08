@@ -1149,26 +1149,28 @@ export default {
             }
             // 获取罚款金额
             // 增加逻辑：判断是否有多个“罚款”，如果有则提示多个罚款金额，无法计算罚款金额
-            if (item.penaltyDesc.split('罚款').length > 2) {
-              punishmentObj.fineStr = '（发现本条隐患存在多个罚款金额，对于“行政处罚告知书、行政处罚决定书”只能一条隐患拥有一个罚款金额，请修正“行政处罚决定用语”!）'
-            } else {
-              let stringList = item.penaltyDesc.split(/[,᠃.。，]/)
-              for (let i = 0; i < stringList.length; i++) {
-                let string = stringList[i]
-                if (string.includes('罚款') && string.includes('元')) {
-                  let count = 0
-                  for (let j = 0; j < string.length; j++) {
-                    if (string[j] === '元') count ++  
-                  }
-                  if (count > 2) {
-                    // 如果当前有2个以上的元字，则报错提示
-                    punishmentObj.fineStr = '（发现本条隐患存在多个罚款金额，对于“行政处罚告知书、行政处罚决定书”只能一条隐患拥有一个罚款金额，请修正“行政处罚决定用语”!）'
-                  } else {
-                    // 提取罚款金额
-                    punishmentObj.fine = getMoney(string) 
-                    punishmentObj.fineStr = `罚款${getMoney(string)}元` 
-                    punishmentObj.penaltyDesStr = '罚款,'
-                    punishmentObj.penaltyDesId = this.subitemTypeOptions.filter(item => item.label === '罚款')[0].value + ','
+            if (item.penaltyDesc) {
+              if (item.penaltyDesc.split('罚款').length > 2) {
+                punishmentObj.fineStr = '（发现本条隐患存在多个罚款金额，对于“行政处罚告知书、行政处罚决定书”只能一条隐患拥有一个罚款金额，请修正“行政处罚决定用语”!）'
+              } else {
+                let stringList = item.penaltyDesc.split(/[,᠃.。，]/)
+                for (let i = 0; i < stringList.length; i++) {
+                  let string = stringList[i]
+                  if (string.includes('罚款') && string.includes('元')) {
+                    let count = 0
+                    for (let j = 0; j < string.length; j++) {
+                      if (string[j] === '元') count ++  
+                    }
+                    if (count > 2) {
+                      // 如果当前有2个以上的元字，则报错提示
+                      punishmentObj.fineStr = '（发现本条隐患存在多个罚款金额，对于“行政处罚告知书、行政处罚决定书”只能一条隐患拥有一个罚款金额，请修正“行政处罚决定用语”!）'
+                    } else {
+                      // 提取罚款金额
+                      punishmentObj.fine = getMoney(string) 
+                      punishmentObj.fineStr = `罚款${getMoney(string)}元` 
+                      punishmentObj.penaltyDesStr = '罚款,'
+                      punishmentObj.penaltyDesId = this.subitemTypeOptions.filter(item => item.label === '罚款')[0].value + ','
+                    }
                   }
                 }
               }
