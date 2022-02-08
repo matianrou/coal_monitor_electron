@@ -239,12 +239,15 @@ async function doPlanDb(resId, data) {
 	}
 	let db = new GoDB(store.state.DBName, schema);
 	let docPlan = db.table('docPlan');
+	// 增加计划逻辑：删除当前已有所有计划，重新添加计划
+	let planList = await docPlan.findAll(item => item)
+	for (let i = 0; i < planList.length; i++) {
+		await docPlan.delete({ no: planList[i].no  })
+	}
 	let arrPlan = [];
 	if (data) {
 		for (let i = 0; i < data.length; i++) {
 			let obj = data[i];
-			let item = await docPlan.get({ no: obj.id });
-			if (item) await docPlan.delete({ no: obj.id  }); //删除
 			arrPlan.push({
 				"no": obj.id,
 				"dbplanId": obj.id,
@@ -268,7 +271,6 @@ async function doPlanDb(resId, data) {
 	}
 	// 增:
 	await docPlan.addMany(arrPlan);
-	//await docPlan.consoleTable();
 	await db.close();
 }
 

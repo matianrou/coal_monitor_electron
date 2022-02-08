@@ -64,7 +64,7 @@
                         placeholder="请填写违法违规行为"
                         type="textarea"
                         :autosize="{ minRows: 2, maxRows: 4}"
-                        :maxlength="200">
+                        :maxlength="1000">
                       </el-input>
                     </template>
                   </el-table-column>
@@ -80,7 +80,7 @@
                         placeholder="请填写违法认定法条"
                         type="textarea"
                         :autosize="{ minRows: 2, maxRows: 4}"
-                        :maxlength="200">
+                        :maxlength="1000">
                       </el-input>
                     </template>
                   </el-table-column>
@@ -97,7 +97,7 @@
                         placeholder="请填写现场处理依据"
                         type="textarea"
                         :autosize="{ minRows: 2, maxRows: 4}"
-                        :maxlength="200">
+                        :maxlength="1000">
                       </el-input>
                     </template>
                   </el-table-column>
@@ -114,7 +114,7 @@
                         placeholder="请填写现场处理措施"
                         type="textarea"
                         :autosize="{ minRows: 2, maxRows: 4}"
-                        :maxlength="200">
+                        :maxlength="1000">
                       </el-input>
                     </template>
                   </el-table-column>
@@ -131,7 +131,7 @@
                         placeholder="请填写行政处罚依据"
                         type="textarea"
                         :autosize="{ minRows: 2, maxRows: 4}"
-                        :maxlength="200">
+                        :maxlength="1000">
                       </el-input>
                     </template>
                   </el-table-column>
@@ -148,7 +148,7 @@
                         placeholder="请填写行政处罚决定"
                         type="textarea"
                         :autosize="{ minRows: 2, maxRows: 4}"
-                        :maxlength="200">
+                        :maxlength="1000">
                       </el-input>
                     </template>
                   </el-table-column>

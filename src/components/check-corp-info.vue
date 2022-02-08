@@ -53,7 +53,7 @@
                   placeholder="煤矿地址"
                   type="textarea"
                   :rows="2"
-                  :maxlength="200"
+                  :maxlength="1000"
                   :disabled="true">
                 </el-input>
               </div>
