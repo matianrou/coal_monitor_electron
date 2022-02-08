@@ -39,6 +39,7 @@
               :paper-count="paperCount"
               :show-jczf-report="showJczfReport"
               :danger-status="dangerStatus"
+              :change-danger-status="changeDangerStatus"
               @change-page="changePage"
             ></component>
           </div>
@@ -124,6 +125,7 @@ export default {
       flowStatus: {}, // 检查活动流程各文书状态，'save'为保存，'file'为存档
       paperCount: {}, // 文书个数，用来在文书流程中展示多个文书数量
       dangerStatus: {}, // 各文书隐患情况
+      changeDangerStatus: {}, // 关联文书隐患修改情况
       DBName: this.$store.state.DBName,
       isCreated: false, // 是否新增文书
       paperData: {}, // 多个文书时选择的文书数据
@@ -279,6 +281,15 @@ export default {
           danger6: [],
           danger8: [],
         }
+        this.changeDangerStatus = {
+          danger1: [],
+          danger2: [],
+          danger13: [],
+          danger4: [],
+          danger36: [],
+          danger6: [],
+          danger8: [],
+        }
         if (checkLetList.length > 0) {
           // 遍历所有保存的文书，设置paperType的文书文本为已保存或已归档
           checkLetList.map(item => {
@@ -294,12 +305,22 @@ export default {
               || item.paperType === '4' || item.paperType === '36' || item.paperType === '6'
               || item.paperType === '8') {
               let paperContent = JSON.parse(item.paperContent)
+              // 获取所有已选隐患信息
               if (paperContent.DangerTable && paperContent.DangerTable.selectedDangerList) {
                 for (let i = 0; i < paperContent.DangerTable.selectedDangerList.length; i++) {
                   let dangerInfo = Object.assign({}, paperContent.DangerTable.selectedDangerList[i], {
                     selectedType: paperContent.selectedType
                   })
                   this.dangerStatus[`danger${item.paperType}`].push(dangerInfo)
+                }
+              }
+              // 获取被关联修改的隐患信息
+              if (paperContent.DangerTable && paperContent.DangerTable.tableData) {
+                for (let i = 0; i < paperContent.DangerTable.tableData.length; i++) {
+                  let dangerInfo = paperContent.DangerTable.tableData[i]
+                  if (dangerInfo.verNo === '1') {
+                    this.changeDangerStatus[`danger${item.paperType}`].push(dangerInfo)
+                  }
                 }
               }
             }
