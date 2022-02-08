@@ -375,11 +375,13 @@ export function getDangerPenaltyBasis (tableData, replaceString = '') {
   let dangerString = ''
   for (let i = 0; i < tableData.length; i++) {
     let item = tableData[i]
-    if (item.penaltyBasis && item.penaltyBasis[item.penaltyBasis.length - 1] === '。') {
-      // 如果有。句号则去掉句号
-      dangerString += item.penaltyBasis.substring(0, item.penaltyBasis.length - 1) + replaceString
-    } else {
-      dangerString += item.penaltyBasis + replaceString
+    if (item.penaltyBasis) {
+      if (item.penaltyBasis[item.penaltyBasis.length - 1] === '。') {
+        // 如果有。句号则去掉句号
+        dangerString += item.penaltyBasis.substring(0, item.penaltyBasis.length - 1) + replaceString
+      } else {
+        dangerString += item.penaltyBasis + replaceString
+      }
     }
   }
   if (dangerString[dangerString.length - 1] === replaceString) {

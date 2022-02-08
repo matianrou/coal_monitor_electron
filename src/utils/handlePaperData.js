@@ -30,7 +30,7 @@ function setCheckItem(data, selectedData, options) {
     data.checkList.map(val => {
       if (option.value === val) {
         if (val === '26') {
-          string += option.label + '：' + data.detailValue + ','
+          string += option.label + (data.detailValue ? '：' + data.detailValue : '') + ','
         } else {
           string += option.label + ','
         }

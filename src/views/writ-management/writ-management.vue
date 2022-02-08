@@ -388,11 +388,20 @@ export default {
     async filePaper (paper) {
       // 归档文书
       let db = new GoDB(this.$store.state.DBName)
+      // 修改文书的标识
       let wkPaper = db.table('wkPaper')
       let curPaper = await wkPaper.find(item => item.paperId === paper.paperId && item.delFlag !== '1')
       let paperData = curPaper
       paperData.delFlag = '0'
       await wkPaper.put(paperData)
+      // 修改隐患的标识
+      let wkDanger = db.table('wkDanger')
+      let wkDangerList = []
+      wkDangerList = await wkDanger.findAll(item => item.paperId === paper.paperId && item.delFlag !== '1')
+      for (let i = 0; i < wkDangerList.length; i++) {
+        wkDangerList[i].delFlag = '0'
+        await wkDanger.put(wkDangerList[i])
+      }
       await db.close()
       await saveToUpload(paper.paperId, true)
     },
