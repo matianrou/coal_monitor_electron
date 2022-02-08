@@ -174,12 +174,12 @@ function setDangerTable(data, selectedData, options) {
       let dangerString1 = ''
       if (data && data.dangerContentMerge) {
         newList.map((item, index) => {
-          dangerString1 += `    ${(index + 1)}. ${item.itemContent}${item.onsiteDesc}。\r\n`
+          dangerString1 += `    ${(index + 1)}. ${item.itemContent}${item.onsiteDesc ? item.onsiteDesc + '。' : ''}\r\n`
         })
       } else {
         if (data && data.selectedDangerList) {
           data.selectedDangerList.map((item, index) => {
-            dangerString1 += `    ${(index + 1)}. ${item.itemContent}${item.onsiteDesc}。\r\n`
+            dangerString1 += `    ${(index + 1)}. ${item.itemContent}${item.onsiteDesc ? item.onsiteDesc + '。' : ''}\r\n`
           })
         }
       }
