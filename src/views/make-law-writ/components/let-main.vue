@@ -1213,6 +1213,12 @@ export default {
       let paperContentOld = JSON.parse(itemPaper.paperContent)
       // 更新隐患
       paperContentOld.DangerTable = setNewDanger(itemPaper, this.curDangerTable)
+      // 设置tableData中verNo为1则为标记被连带更新
+      if (paperContentOld.DangerTable.tableData) {
+        for (let i = 0; i < paperContentOld.DangerTable.tableData.length; i++) {
+          paperContentOld.DangerTable.tableData[i].verNo = '1'
+        }
+      }
       // 按文书更新其他信息
       if (itemPaper.paperType === '2') {
         // 如果是现场处理决定书：修改cellIdx7

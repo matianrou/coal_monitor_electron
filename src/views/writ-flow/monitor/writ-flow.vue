@@ -76,6 +76,13 @@
                           :title="`隐患数：${dangerStatus[`danger${third.docTypeNo}`].length}`"
                           @click="showDangerInfo(third.docTypeNo)"
                         ></i>
+                        <!-- 隐患关联修改后展示及详情查看 -->
+                        <i
+                          v-if="changeDangerStatus[`danger${third.docTypeNo}`] && dangerStatus[`danger${third.docTypeNo}`].length > 0"
+                          class="el-icon-warning-outline change-danger-info-icon"
+                          :title="`隐患数：${changeDangerStatus[`danger${third.docTypeNo}`].length}`"
+                          @click="showDangerInfo(third.docTypeNo)"
+                        ></i>
                         <!-- 文书名称,文书数量展示 -->
                         <div
                           @click="cmdEditDoc(third.letName, third.name, third.docTypeNo)"
@@ -179,6 +186,20 @@ export default {
       default: false
     },
     dangerStatus: {
+      type: Object,
+      default: () => {
+        return {
+          danger1: [],
+          danger2: [],
+          danger13: [],
+          danger4: [],
+          danger36: [],
+          danger6: [],
+          danger8: [],
+        }
+      }
+    },
+    changeDangerStatus: {
       type: Object,
       default: () => {
         return {
@@ -866,6 +887,11 @@ export default {
       }
       return status;
     },
+    changeDangerStatus () {
+      let changeDangerStatus = {}
+      console.log('dangerStatus', this.dangerStatus)
+      return changeDangerStatus
+    }
   },
   methods: {
     doTabSwitch(tab) {
@@ -1215,6 +1241,18 @@ export default {
   position: absolute;
   top: 8px;
   right: 3px;
+  cursor: pointer;
+  color: rgba(#E6A23C, 1);
+  font-weight: bold;
+  font-size: 20px;
+  // &:hover {
+  //   color: rgba(#4282E6, 0.8);
+  // }
+}
+.change-danger-info-icon {
+  position: absolute;
+  top: 8px;
+  right: 13px;
   cursor: pointer;
   color: rgba(#E6A23C, 1);
   font-weight: bold;
