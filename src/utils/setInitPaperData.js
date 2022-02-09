@@ -408,8 +408,11 @@ export function getDangerDes (tableData) {
     if (item.penaltyDescType) {
       let strItemList = item.penaltyDescType.split(',')
       strItemList.map(strItem => {
-        if (!descTypeStrings.includes(strItem)) {
-          descTypeStrings += strItem + ','
+        // 用语中去掉“罚款”，但行政处罚类型中保留
+        if (strItem !== '罚款') {
+          if (!descTypeStrings.includes(strItem)) {
+            descTypeStrings += strItem + ','
+          }
         }
       })
     }

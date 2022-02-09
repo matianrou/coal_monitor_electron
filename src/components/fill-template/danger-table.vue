@@ -1211,8 +1211,11 @@ export default {
                 if (item.penaltyDesStr) {
                   let strItemList = item.penaltyDesStr.split(',')
                   strItemList.map(strItem => {
-                    if (!penaltyStr.includes(strItem)) {
-                      penaltyStr += strItem + ','
+                    // 用语中去掉“罚款”，但行政处罚类型中保留
+                    if (strItem !== '罚款') {
+                      if (!penaltyStr.includes(strItem)) {
+                        penaltyStr += strItem + ','
+                      }
                     }
                   })
                 }
