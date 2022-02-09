@@ -75,6 +75,14 @@
                           :title="`隐患数：${dangerStatus[`danger${third.docTypeNo}`].length}`"
                           @click="showDangerInfo(third.docTypeNo)"
                         ></i>
+                        <!-- 隐患关联修改后展示及详情查看 -->
+                        <img
+                          v-if="changeDangerStatus[`danger${third.docTypeNo}`] && changeDangerStatus[`danger${third.docTypeNo}`].length > 0"
+                          src="@/views/writ-flow/assets/image/warning_fill.png"
+                          style="left: 150px; top: 8px; cursor: pointer;"
+                          :title="`请注意有关联修改的隐患！`"
+                          @click="showChangeDangerInfo(third.docTypeNo)"
+                        />
                         <!-- 文书名称,文书数量展示 -->
                         <div
                           @click="cmdEditDoc(third.letName, third.name, third.docTypeNo)"
@@ -123,6 +131,13 @@
       :danger-list="showDangerList"
       @close="closeDialog"
     ></show-danger-items>
+    <!-- 关联修改的隐患项列表详情展示 -->
+    <show-change-danger-items
+      :visible="visible.showChangeDangerItems"
+      :corp-data="corpData"
+      :danger-list="showChangeDangerList"
+      @close="closeDialog"
+    ></show-change-danger-items>
     <select-delete-paper
       :visible="visible.selectDelPaper"
       :paper-list="deletePaperList"
@@ -152,6 +167,7 @@
 import GoDB from "@/utils/godb.min.js";
 import receivePaper from "@/views/writ-flow/components/receive-paper";
 import showDangerItems from '@/components/show-danger-items'
+import showChangeDangerItems from '@/components/show-change-danger-items'
 import selectDeletePaper from "@/views/writ-flow/components/select-delete-paper";
 import selectPaper from '@/components/select-paper'
 import punishmentInfoFill from '@/components/punishment-info-fill'
@@ -160,6 +176,7 @@ export default {
   components: {
     receivePaper,
     showDangerItems,
+    showChangeDangerItems,
     selectDeletePaper,
     selectPaper,
     punishmentInfoFill
@@ -187,6 +204,20 @@ export default {
         }
       }
     },
+    changeDangerStatus: {
+      type: Object,
+      default: () => {
+        return {
+          danger1: [],
+          danger2: [],
+          danger13: [],
+          danger4: [],
+          danger36: [],
+          danger6: [],
+          danger8: [],
+        }
+      }
+    },
     paperCount: {
       type: Object,
       default: () => {}
@@ -198,11 +229,13 @@ export default {
       visible: {
         receivePaper: false,
         showDangerItems: false,
+        showChangeDangerItems: false, // 查看关联修改隐患项弹窗
         selectDelPaper: false, // 选择要删除的文书
         selectPaper: false, // 选择文书
         punishmentInfoFill: false, // 事故类型行政处罚决定处罚详情查看
       },
       showDangerList: [], // 展示隐患项列表详情的数据
+      showChangeDangerList: [], // 展示关联修改的隐患项列表的数据
       createdSelectedPaper: null, // 选中的需要新建的文书Id
       loading: {
         btn: false,
@@ -851,6 +884,35 @@ export default {
       }
       this.showDangerList = showDangerList
     },
+    async showChangeDangerInfo (paperType) {
+      // 展示关联修改的文书隐患信息
+      this.visible.showChangeDangerItems = true;
+      let showChangeDangerList = this.changeDangerStatus[`danger${paperType}`]
+      for (let i = 0; i < showChangeDangerList.length; i++) {
+        let item = showChangeDangerList[i]
+        item.isSeriousValue = item.isSerious === '1' ? '重大隐患' : '一般隐患'
+        item.isReviewValue = item.isReview === '1' ? '是' : '否'
+      }
+      this.showChangeDangerList = showChangeDangerList
+      // 置verNo为空
+      let db = new GoDB(this.$store.state.DBName);
+      let wkPaper = db.table("wkPaper");
+      let paperList = await wkPaper.findAll((item) => {
+        return item.caseId === this.corpData.caseId && item.delFlag !== '1' && item.paperType === paperType
+      });
+      for (let i = 0; i < paperList.length; i++) {
+        let paperContent = paperList[i].paperContent ? JSON.parse(paperList[i].paperContent) : null
+        if (paperContent.DangerTable && paperContent.DangerTable.tableData) {
+          for (let j = 0; j < paperContent.DangerTable.tableData.length; j++) {
+            paperContent.DangerTable.tableData[j].verNo = null
+          }
+        }
+        let paperItem = Object.assign({}, paperList[i], {paperContent: JSON.stringify(paperContent)})
+        await wkPaper.put(paperItem)
+      }
+      await db.close()
+      this.$emit('refresh-writ')
+    },
     onContextmenu(event, paperType) {
       this.$contextmenu({
         items: [
@@ -1133,7 +1195,7 @@ export default {
   img {
     position: absolute;
     width: 20px;
-    top: 6px;
+    top: 8px;
     left: 6px;
   }
 }

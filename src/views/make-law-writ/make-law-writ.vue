@@ -41,6 +41,7 @@
               :danger-status="dangerStatus"
               :change-danger-status="changeDangerStatus"
               @change-page="changePage"
+              @refresh-writ="showDocTemplet"
             ></component>
           </div>
         </div>

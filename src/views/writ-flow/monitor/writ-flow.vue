@@ -1013,10 +1013,10 @@ export default {
           }
         }
         let paperItem = Object.assign({}, paperList[i], {paperContent: JSON.stringify(paperContent)})
-        console.log('paperItem', paperItem)
         await wkPaper.put(paperItem)
       }
       await db.close()
+      this.$emit('refresh-writ')
     },
     onContextmenu(event, paperType) {
       this.$contextmenu({
