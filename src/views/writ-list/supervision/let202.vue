@@ -127,7 +127,7 @@
             </div>
             <div class="docTextarea">
               <span class="no-line" style="width:25%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;政治面貌</span>
-              <span style="display:inline-block;min-width:17%;line-height: normal;max-width:17%" @click="commandFill('cellIdx15', '电话', 'SelectItem')"
+              <span style="display:inline-block;min-width:17%;line-height: normal;max-width:17%" @click="commandFill('cellIdx15', '政治面貌', 'SelectItem')"
                 >{{ letData.cellIdx15 ? letData.cellIdx15 : "（编辑）" }}
               </span>
               <span class="no-line" style="width:11%">文化程度</span>
@@ -135,13 +135,13 @@
                 letData.cellIdx16 ? letData.cellIdx16 : "（编辑）"
               }}</span>
               <span class="no-line" style="width:11%">电&nbsp;&nbsp;&nbsp;&nbsp;话</span>
-              <span style="display:inline-block;min-width:18%;line-height: normal;max-width:18%" @click="commandFill('cellIdx17', '住址', 'TextItem')">{{
+              <span style="display:inline-block;min-width:18%;line-height: normal;max-width:18%" @click="commandFill('cellIdx17', '电话', 'TextItem')">{{
                 letData.cellIdx17 ? letData.cellIdx17 : "（编辑）"
               }}</span>
             </div>
             <div class="docTextarea">
               <span class="no-line" style="width:25%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;住&nbsp;&nbsp;&nbsp;&nbsp;址</span>
-              <span style="display:inline-block;min-width:73%;line-height: normal;max-width:73%" @click="commandFill('cellIdx18', '电话', 'SelectItem')"
+              <span style="display:inline-block;min-width:73%;line-height: normal;max-width:73%" @click="commandFill('cellIdx18', '住址', 'TextItem')"
                 >{{ letData.cellIdx18 ? letData.cellIdx18 : "（编辑）" }}
               </span>
             </div>
