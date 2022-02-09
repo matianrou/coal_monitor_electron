@@ -704,10 +704,19 @@ export function setAssociationPaperOrder (associationPaperOrder = []) {
 export async function getOrgData (db, orgId) {
   // 获取机构信息
   let orgInfo = db.table("orgInfo");
-  let orgData = await orgInfo.find(item => item.no === orgId
-    && (item.type === '3' || item.type === '4' || item.type === '11') 
-    && item.delFlag !== "1"
-  );
+  let orgData = {}
+  if (store.state.user.userType === 'supervision') {
+    // 监管
+    orgData = await orgInfo.find(item => item.no === orgId
+      && item.delFlag !== "1"
+    );
+  } else {
+    // 监察
+    orgData = await orgInfo.find(item => item.no === orgId
+      && (item.type === '3' || item.type === '4' || item.type === '11') 
+      && item.delFlag !== "1"
+    );
+  }
   let orgSysOfficeInfo =
         orgData && orgData.sysOfficeInfo
           ? JSON.parse(orgData.sysOfficeInfo)
