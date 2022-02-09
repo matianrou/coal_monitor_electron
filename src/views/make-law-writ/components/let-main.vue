@@ -222,15 +222,18 @@ export default {
       let edit = false
       // 判断当前是否为编辑，如果编辑时则调取paperData中的delFlag字段，如果为归档，则不可编辑
       // 当文书发送时，如果isSelected为已发送false时则不可再编辑（文书发送保存时无此字段，发送后为false,接收后为true,所以必须判定为===false）
-      if (this.paperData && (this.paperData.paperId && this.paperData.delFlag === '0' || this.paperData.isSelected === false)) {
-        edit = false
-      } else {
-        edit = true
-      }
-      if (this.paperData && this.paperData.paperId && this.paperData.localizeFlag !== '1') {
-        edit = false
-      } else {
-        edit = true
+      if (this.paperData && this.paperData.paperId) {
+        if (this.paperData.delFlag === '0' || this.paperData.isSelected === false) {
+          // 归档或者发送的文书时不可编辑
+          edit = false
+        } else {
+          // 再判断是否是国产化系统保存的文书，如果不是则不可编辑
+          if (this.paperData.localizeFlag !== '1') {
+            edit = false
+          } else {
+            edit = true
+          }
+        }
       }
       return edit
     },
