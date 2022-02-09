@@ -219,7 +219,7 @@ export default {
   computed: {
     canEdit() {
       // 是否可编辑或保存归档
-      let edit = false
+      let edit = true
       // 判断当前是否为编辑，如果编辑时则调取paperData中的delFlag字段，如果为归档，则不可编辑
       // 当文书发送时，如果isSelected为已发送false时则不可再编辑（文书发送保存时无此字段，发送后为false,接收后为true,所以必须判定为===false）
       if (this.paperData && this.paperData.paperId) {
