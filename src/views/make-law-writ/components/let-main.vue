@@ -1132,6 +1132,12 @@ export default {
           cellIdxExtraTextarea
         }) 
       }
+      if (this.docData.docTypeNo === '6') {
+        // 行政处罚告知书中特殊处理勾选框：如果未选中则不展示当前条款，如果选中则展示
+        if (exportData.cellIdx23 === '□') {
+          exportData.cellIdx23 = null
+        }
+      }
       // 因备注为特殊注脚形式，docx不能替换其中变量，当前临时处理为多模板，因此增加以下判断逻辑
       let docName = ''
       if(this.docData.docTypeNo === '32' || this.docData.docTypeNo === '34' || this.docData.docTypeNo === '37' || this.docData.docTypeNo === '38'

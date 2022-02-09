@@ -268,8 +268,8 @@ export default {
             name: "□",
           },
           {
-            value: "√",
-            name: "√",
+            value: "☑",
+            name: "☑",
           },            
         ],
       },
