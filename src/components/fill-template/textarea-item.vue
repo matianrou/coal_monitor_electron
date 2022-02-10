@@ -5,7 +5,7 @@
       v-model="dataForm.tempValue"
       type="textarea"
       :placeholder="placeholder"
-      :rows="13"
+      :rows="33"
       @change="changeValue">
     </el-input>
   </div>

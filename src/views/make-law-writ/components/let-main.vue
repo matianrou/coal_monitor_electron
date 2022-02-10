@@ -1002,7 +1002,12 @@ export default {
             options
           )
         );
-        if (key === 'TextItem' || key === 'DaterangeItem' || key === 'TextareaItem' || key === 'DateItem' || key === 'DatetimeItem' || key === 'SelectItem' || key === 'SelectInputItem' || key === 'DangerTextareaItem' || key === 'SelectPersonItem') {
+        // 22.2.10修改为所有均弹窗，所以注释掉此处，以防再变化故保留此段代码
+        // if (key === 'TextItem' || key === 'DaterangeItem' || key === 'TextareaItem' || key === 'DateItem' || key === 'DatetimeItem' || key === 'SelectItem' || key === 'SelectInputItem' || key === 'DangerTextareaItem' || key === 'SelectPersonItem') {
+        //   // 不弹出的编辑重新打开编辑窗口以更新数据
+        //   this.commandFill(key, dataKey, title, type, value, options)
+        // }
+        if (key === 'DangerTextareaItem') {
           // 不弹出的编辑重新打开编辑窗口以更新数据
           this.commandFill(key, dataKey, title, type, value, options)
         }

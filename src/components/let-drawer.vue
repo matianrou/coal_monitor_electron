@@ -110,19 +110,29 @@ export default {
     };
   },
   computed: {
+    // showDrawer() {
+    // 22.2.10修改为所有均弹窗，所以注释掉此处，以防再变化故保留此段代码
+    //   let show = false
+    //   let type = this.selectedData.type
+    //   if (type === 'CheckTable' 
+    //   || type === 'DangerTable' 
+    //   || type === 'SamplingForensicsTable' 
+    //   || type === 'VolumesMenuTable' 
+    //   || type === 'UploadFile'
+    //   || type === 'CheckItem'
+    //   || type === 'CheckPositionItem') {
+    //     // 修改子组件为检查项CheckTable、隐患项DangerTable、抽样调查SamplingForensicsTable、卷宗管理VolumesMenuTable或文件上传UploadFile时，弹窗
+    //     // 多选框CheckItem、检查地点CheckPositionItem
+    //     show = true
+    //   }
+    //   return show
+    // },
     showDrawer() {
-      let show = false
+      let show = true
       let type = this.selectedData.type
-      if (type === 'CheckTable' 
-      || type === 'DangerTable' 
-      || type === 'SamplingForensicsTable' 
-      || type === 'VolumesMenuTable' 
-      || type === 'UploadFile'
-      || type === 'CheckItem'
-      || type === 'CheckPositionItem') {
-        // 修改子组件为检查项CheckTable、隐患项DangerTable、抽样调查SamplingForensicsTable、卷宗管理VolumesMenuTable或文件上传UploadFile时，弹窗
-        // 多选框CheckItem、检查地点CheckPositionItem
-        show = true
+      if (type === 'DangerTextareaItem') {
+        // 修改所有内容均弹窗，除隐患单击修改时
+        show = false
       }
       return show
     },

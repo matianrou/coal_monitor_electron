@@ -92,7 +92,8 @@ export default {
         personNamesString = personNamesString.substring(0, personNamesString.length - 1)
       }
       this.$set(this.dataForm, 'tempValue', {personList, personNamesString})
-      this.$parent.handleSave(true)
+      // 22.2.10修改为所有均弹窗，所以注释掉此处，以防再变化故保留此段代码
+      // this.$parent.handleSave(true)
     },
   },
 };

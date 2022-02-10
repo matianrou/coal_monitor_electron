@@ -70,7 +70,7 @@
               >{{ letData.cellIdx8 ? letData.cellIdx8 : 'XX' }}</span>
               日起立案调查处理，并指定
               <span
-                @click="commandFill('cellIdx9', '本案承办人', 'TextItem')"
+                @click="commandFill('cellIdx9', '本案承办人', 'SelectPersonItem')"
               >{{ letData.cellIdx9 ? letData.cellIdx9 : '（点击编辑）' }}</span>
               为本案承办人。
             </div>
