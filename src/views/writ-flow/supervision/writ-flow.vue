@@ -80,7 +80,7 @@
                           v-if="changeDangerStatus[`danger${third.docTypeNo}`] && changeDangerStatus[`danger${third.docTypeNo}`].length > 0"
                           src="@/views/writ-flow/assets/image/warning_fill.png"
                           style="left: 150px; top: 8px; cursor: pointer;"
-                          :title="`请注意有关联修改的隐患！`"
+                          :title="`请注意有被关联修改的隐患！`"
                           @click="showChangeDangerInfo(third.docTypeNo)"
                         />
                         <!-- 文书名称,文书数量展示 -->
