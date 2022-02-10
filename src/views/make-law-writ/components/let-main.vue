@@ -219,18 +219,21 @@ export default {
   computed: {
     canEdit() {
       // 是否可编辑或保存归档
-      let edit = false
+      let edit = true
       // 判断当前是否为编辑，如果编辑时则调取paperData中的delFlag字段，如果为归档，则不可编辑
       // 当文书发送时，如果isSelected为已发送false时则不可再编辑（文书发送保存时无此字段，发送后为false,接收后为true,所以必须判定为===false）
-      if (this.paperData && (this.paperData.paperId && this.paperData.delFlag === '0' || this.paperData.isSelected === false)) {
-        edit = false
-      } else {
-        edit = true
-      }
-      if (this.paperData && this.paperData.paperId && this.paperData.localizeFlag !== '1') {
-        edit = false
-      } else {
-        edit = true
+      if (this.paperData && this.paperData.paperId) {
+        if (this.paperData.delFlag === '0' || this.paperData.isSelected === false) {
+          // 归档或者发送的文书时不可编辑
+          edit = false
+        } else {
+          // 再判断是否是国产化系统保存的文书，如果不是则不可编辑
+          if (this.paperData.localizeFlag !== '1') {
+            edit = false
+          } else {
+            edit = true
+          }
+        }
       }
       return edit
     },
@@ -1136,6 +1139,12 @@ export default {
         Object.assign(exportData, {
           cellIdxExtraTextarea
         }) 
+      }
+      if (this.docData.docTypeNo === '6') {
+        // 行政处罚告知书中特殊处理勾选框：如果未选中则不展示当前条款，如果选中则展示
+        if (exportData.cellIdx23 === '□') {
+          exportData.cellIdx23 = null
+        }
       }
       // 因备注为特殊注脚形式，docx不能替换其中变量，当前临时处理为多模板，因此增加以下判断逻辑
       let docName = ''

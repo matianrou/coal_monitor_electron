@@ -445,6 +445,10 @@ export function getMoney (str) {
         label: '玖',
         value: '9'
       }, 
+      {
+        label: '两',
+        value: '2'
+      }
     ]
     // 对应节权位单位码表
     let unitDict1 = [

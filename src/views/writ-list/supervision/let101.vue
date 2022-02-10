@@ -171,6 +171,7 @@
 <script>
 import associationSelectPaper from "@/components/association-select-paper";
 import GoDB from "@/utils/godb.min.js";
+import { takeOutZero } from '@/utils/date'
 export default {
   name: "Let101",
   mixins: [associationSelectPaper],
@@ -263,11 +264,27 @@ export default {
         corp.mineStatusZsName ? corp.mineStatusZsName : 'XX'
       }状态。`;
       let dangerInfor = `    发现违法违规行为如下：`;
+      let zzInfo1ExpireTime = ''
+      if (zzInfo1 && zzInfo1.expireTime) {
+        let dateList = zzInfo1.expireTime.split(' ')[0].split('-')
+        dateList[1] = takeOutZero(dateList[1])
+        dateList[2] = takeOutZero(dateList[2])
+        zzInfo1ExpireTime = `${dateList[0]}年${dateList[1]}月${dateList[2]}日`
+      }
+      let zzInfo2ExpireTime = ''
+      if (zzInfo2 && zzInfo2.expireTime) {
+        let dateList = zzInfo2.expireTime.split(' ')[0].split('-')
+        dateList[1] = takeOutZero(dateList[1])
+        dateList[2] = takeOutZero(dateList[2])
+        zzInfo2ExpireTime = `${dateList[0]}年${dateList[1]}月${dateList[2]}日`
+      }
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
         cellIdx1: let22DataPaperContent.cellIdx2, // 检查时间
         cellIdx2: zzInfo1 && zzInfo1.credId ? zzInfo1.credId : '', // 采矿许可证
+        cellIdx3: zzInfo1ExpireTime, // 采矿许可证 有效期
         cellIdx4: zzInfo2 && zzInfo2.credId ? zzInfo2.credId : '', // 安全生产许可证
+        cellIdx5: zzInfo2ExpireTime, // 安全生产许可证 有效期
         cellIdx6: corp.uscCode || '',
         cellIdx9: let22DataPaperContent.cellIdx4, // 检查地点（路线）
         DangerTable: this.corpData.caseType === '0' ? {

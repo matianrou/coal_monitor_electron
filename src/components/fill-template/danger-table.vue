@@ -114,7 +114,7 @@
                 placeholder="请填写违法行为描述"
                 type="textarea"
                 :autosize="{ minRows: 1, maxRows: 5}"
-                :maxlength="200"
+                :maxlength="1000"
                 @change="val => changeValue(val, 'itemContent')">
               </el-input>
             </el-form-item>
@@ -126,7 +126,7 @@
                 type="textarea"
                 placeholder="请填写违法认定法条"
                 :autosize="{ minRows: 1, maxRows: 5}"
-                :maxlength="300"
+                :maxlength="1000"
                 @change="val => changeValue(val, 'confirmBasis')">
               </el-input>
             </el-form-item>
@@ -137,7 +137,7 @@
                 <el-input
                   v-model.trim="dangerItemDetail.onsiteDesc"
                   placeholder="请填写现场处理决定"
-                  :maxlength="300"
+                  :maxlength="1000"
                   style="width: calc(100% - 210px); margin-right: 10px;"
                   @change="changeOnsiteDesc">
                 </el-input>
@@ -191,7 +191,7 @@
                 type="textarea"
                 placeholder="请填写现场处理依据"
                 :autosize="{ minRows: 1, maxRows: 5}"
-                :maxlength="300"
+                :maxlength="1000"
                 @change="val => changeValue(val, 'onsiteBasis')">
               </el-input>
             </el-form-item>
@@ -201,7 +201,7 @@
               <el-input
                 v-model.trim="dangerItemDetail.penaltyDesc"
                 placeholder="请填写行政处罚决定"
-                :maxlength="300"
+                :maxlength="1000"
                 @change="val => changeValue(val, 'penaltyDesc')">
               </el-input>
             </el-form-item>
@@ -213,7 +213,7 @@
                 type="textarea"
                 placeholder="请填写行政处罚依据"
                 :autosize="{ minRows: 1, maxRows: 5}"
-                :maxlength="300"
+                :maxlength="1000"
                 @change="val => changeValue(val, 'penaltyBasis')">
               </el-input>
             </el-form-item>
@@ -1211,8 +1211,11 @@ export default {
                 if (item.penaltyDesStr) {
                   let strItemList = item.penaltyDesStr.split(',')
                   strItemList.map(strItem => {
-                    if (!penaltyStr.includes(strItem)) {
-                      penaltyStr += strItem + ','
+                    // 用语中去掉“罚款”，但行政处罚类型中保留
+                    if (strItem !== '罚款') {
+                      if (!penaltyStr.includes(strItem)) {
+                        penaltyStr += strItem + ','
+                      }
                     }
                   })
                 }

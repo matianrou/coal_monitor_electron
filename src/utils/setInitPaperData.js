@@ -375,11 +375,13 @@ export function getDangerPenaltyBasis (tableData, replaceString = '') {
   let dangerString = ''
   for (let i = 0; i < tableData.length; i++) {
     let item = tableData[i]
-    if (item.penaltyBasis && item.penaltyBasis[item.penaltyBasis.length - 1] === '。') {
-      // 如果有。句号则去掉句号
-      dangerString += item.penaltyBasis.substring(0, item.penaltyBasis.length - 1) + replaceString
-    } else {
-      dangerString += item.penaltyBasis + replaceString
+    if (item.penaltyBasis) {
+      if (item.penaltyBasis[item.penaltyBasis.length - 1] === '。') {
+        // 如果有。句号则去掉句号
+        dangerString += item.penaltyBasis.substring(0, item.penaltyBasis.length - 1) + replaceString
+      } else {
+        dangerString += item.penaltyBasis + replaceString
+      }
     }
   }
   if (dangerString[dangerString.length - 1] === replaceString) {
@@ -406,8 +408,11 @@ export function getDangerDes (tableData) {
     if (item.penaltyDescType) {
       let strItemList = item.penaltyDescType.split(',')
       strItemList.map(strItem => {
-        if (!descTypeStrings.includes(strItem)) {
-          descTypeStrings += strItem + ','
+        // 用语中去掉“罚款”，但行政处罚类型中保留
+        if (strItem !== '罚款') {
+          if (!descTypeStrings.includes(strItem)) {
+            descTypeStrings += strItem + ','
+          }
         }
       })
     }
@@ -699,10 +704,19 @@ export function setAssociationPaperOrder (associationPaperOrder = []) {
 export async function getOrgData (db, orgId) {
   // 获取机构信息
   let orgInfo = db.table("orgInfo");
-  let orgData = await orgInfo.find(item => item.no === orgId
-    && (item.type === '3' || item.type === '4' || item.type === '11') 
-    && item.delFlag !== "1"
-  );
+  let orgData = {}
+  if (store.state.user.userType === 'supervision') {
+    // 监管
+    orgData = await orgInfo.find(item => item.no === orgId
+      && item.delFlag !== "1"
+    );
+  } else {
+    // 监察
+    orgData = await orgInfo.find(item => item.no === orgId
+      && (item.type === '3' || item.type === '4' || item.type === '11') 
+      && item.delFlag !== "1"
+    );
+  }
   let orgSysOfficeInfo =
         orgData && orgData.sysOfficeInfo
           ? JSON.parse(orgData.sysOfficeInfo)

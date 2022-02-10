@@ -321,8 +321,8 @@ const toggleDictionary = [
     name: "□",
   },
   {
-    value: "√",
-    name: "√",
+    value: "☑",
+    name: "☑",
   },
 ];
 export default {

@@ -211,10 +211,10 @@ export function handleDateNormal(beginDate, endDate) {
   return dateString
 }
 
-function takeOutZero (str) {
+export function takeOutZero (str) {
   // 去日期字符中的0
   let newStr = str
-  if (str && str.includes('0')) {
+  if (str && str[0] === '0') {
     newStr = str.substring(1, 2)
   }
   return newStr
