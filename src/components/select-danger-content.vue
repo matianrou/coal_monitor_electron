@@ -6,7 +6,7 @@
     append-to-body
     :visible="visible"
     top="5vh"
-    width="70%"
+    width="1100px"
     @close="close"
   >
     <div
@@ -22,6 +22,16 @@
             size="large"
             clearable
           ></el-input>
+          <el-select 
+            v-model="searchDangerField"
+            style="width: 150px;">
+            <el-option
+              v-for="(item, index) in searchDangerFieldList"
+              :key="index"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
           <el-button
             type="primary"
             size="large"
@@ -160,7 +170,38 @@ export default {
   },
   data() {
     return {
-      isDim: false,
+      isDim: false, // 精准或模糊搜索，false为精准搜索，true为模糊搜索
+      searchDangerFieldList: [
+        {
+          value: 'all',
+          label: '全部'
+        },
+        {
+          value: 'itemContent',
+          label: '违法行为描述'
+        },
+        {
+          value: 'confirmBasis',
+          label: '违法认定法条'
+        },
+        {
+          value: 'onsiteDesc',
+          label: '现场处理决定'
+        },
+        {
+          value: 'onsiteBasis',
+          label: '现场处理依据'
+        },
+        {
+          value: 'penaltyDesc',
+          label: '行政处罚决定'
+        },
+        {
+          value: 'penaltyBasis',
+          label: '行政处罚依据'
+        },
+      ], // 所有可搜索隐患字段
+      searchDangerField: 'all', // 搜索隐患字段
       loading: false,
       dangerListOriginal: [], // 全部功能原始数据
       dangerList: [], // 转换为树形结构的全部功能数组，用于选择
@@ -313,17 +354,50 @@ export default {
     },
     filterNode(value, data, node) {
       if (!value) return true;
-      let flag = null
-      // 是否模糊查询
+      let key = this.searchDangerField
       if (this.isDim) {
-        return value.replace(/[^\u4e00-\u9fa5]/gi, "").split('').some(s => data.treeName.includes(s))
+        // 模糊查询
+        if (this.searchDangerField === 'all') {
+          return value.replace(/[^\u4e00-\u9fa5]/gi, "").split('').some(s => data.treeName.includes(s) ||
+              (data.itemContent && data.itemContent.includes(s)) ||
+              (data.confirmBasis && data.confirmBasis.includes(s)) ||
+              (data.onsiteDesc && data.onsiteDesc.includes(s)) ||
+              (data.onsiteBasis && data.onsiteBasis.includes(s)) ||
+              (data.penaltyDesc && data.penaltyDesc.includes(s)) ||
+              (data.penaltyBasis && data.penaltyBasis.includes(s)))
+        } else {
+          return value.replace(/[^\u4e00-\u9fa5]/gi, "").split('').some(s => data[key] && data[key].includes(s))
+        }
       } else {
+        // 精准查询
+        let flag = null
         const isMulti = value.includes(' ')
         // 是否包含空格
-        isMulti ?
-          flag = value.split(' ').some(s => data.treeName.includes(s))
-          :
-          flag = data.treeName.includes(value)
+        if (isMulti) {
+          if (this.searchDangerField === 'all') {
+            flag = value.split(' ').some(s => data.treeName.includes(s) ||
+              (data.itemContent && data.itemContent.includes(s)) ||
+              (data.confirmBasis && data.confirmBasis.includes(s)) ||
+              (data.onsiteDesc && data.onsiteDesc.includes(s)) ||
+              (data.onsiteBasis && data.onsiteBasis.includes(s)) ||
+              (data.penaltyDesc && data.penaltyDesc.includes(s)) ||
+              (data.penaltyBasis && data.penaltyBasis.includes(s)))
+          } else {
+            flag = value.split(' ').some(s => data[key] && data[key].includes(s))
+          }
+        } else {
+          if (this.searchDangerField === 'all') {
+            flag = data.treeName.includes(value) ||
+              (data.itemContent && data.itemContent.includes(value)) ||
+              (data.confirmBasis && data.confirmBasis.includes(value)) ||
+              (data.onsiteDesc && data.onsiteDesc.includes(value)) ||
+              (data.onsiteBasis && data.onsiteBasis.includes(value)) ||
+              (data.penaltyDesc && data.penaltyDesc.includes(value)) ||
+              (data.penaltyBasis && data.penaltyBasis.includes(value))
+          } else {
+            flag = data[key] && data[key].includes(value)
+          }
+        }
         return flag
       }
     },
@@ -350,6 +424,7 @@ export default {
     display: flex;
     margin-bottom: 10px;
     justify-content: space-between;
+    
   }
   .select-danger-col {
     flex: 1;
