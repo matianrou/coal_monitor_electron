@@ -5,7 +5,7 @@
     :close-on-click-modal="false"
     append-to-body
     :visible="visible"
-    width="700px"
+    width="900px"
     top="5vh"
     @close="close"
   >
@@ -21,7 +21,8 @@
             @change="getPersonList"
           ></el-input>
         </div>
-        <div class="filter-province">
+        <!-- 切换为机构树状结构展示，此处就不再使用下拉选项方式 -->
+        <!-- <div class="filter-province">
           <el-select
             v-model="dataForm.provinceId"
             style="width: 180px;"
@@ -36,27 +37,47 @@
             </el-option>
           </el-select>
           <el-checkbox v-model="dataForm.allPerson" @change="getPersonList">是否显示全省用户</el-checkbox>
-        </div>
+        </div> -->
       </div>
-      <div :class="multiSelect ? 'dialog-max-multi' : 'dialog-max'">
-        <el-table
-          ref="personList"
-          :data="personList"
-          stripe
-          border
-          style="width: 100%;"
-          height="100%"
-          :row-key="getRowKey"
-          :header-cell-style="{background: '#f5f7fa'}"
-          :highlight-current-row="!multiSelect"
-          @current-change="handleCurrentChange"
-          @selection-change="handleSelectionChange"
-        >
-          <el-table-column v-if="multiSelect" type="selection" width="55" :reserve-selection="true"></el-table-column>
-          <el-table-column type="index" width="50" align="center"></el-table-column>
-          <el-table-column prop="name" label="姓名" header-align="center" align="center"></el-table-column>
-          <el-table-column prop="officeName" label="所属机构" header-align="center" align="center"></el-table-column>
-        </el-table>
+      <div class="show-person-main">
+        <div :class="multiSelect ? 'dialog-max-multi org-tree-main' : 'dialog-max org-tree-main'">
+          <el-tree
+            ref="orgListTree"
+            :data="orgListTree"
+            :props="{
+              label: 'name',
+              children: 'children',
+            }"
+            node-key="no"
+            highlight-current
+            :current-node-key="selectedOrgId"
+            :default-expanded-keys="[selectedOrgId]"
+            @node-click="changeSelectOrg">
+            <span class="span-ellipsis" slot-scope="{ node }">
+              <span :title="node.label">{{ node.label }}</span>
+            </span>
+          </el-tree>
+        </div>
+        <div :class="multiSelect ? 'dialog-max-multi' : 'dialog-max'" style="flex: 1;">
+          <el-table
+            ref="personList"
+            :data="personList"
+            stripe
+            border
+            style="width: 100%;"
+            height="100%"
+            :row-key="getRowKey"
+            :header-cell-style="{background: '#f5f7fa'}"
+            :highlight-current-row="!multiSelect"
+            @current-change="handleCurrentChange"
+            @selection-change="handleSelectionChange"
+          >
+            <el-table-column v-if="multiSelect" type="selection" width="55" :reserve-selection="true"></el-table-column>
+            <el-table-column type="index" width="50" align="center"></el-table-column>
+            <el-table-column prop="name" label="姓名" header-align="center" align="center"></el-table-column>
+            <el-table-column prop="officeName" label="所属机构" header-align="center" align="center"></el-table-column>
+          </el-table>
+        </div>
       </div>
       <div v-if="multiSelect" class="list-order">
         <!-- 拖拽排序 -->
@@ -121,6 +142,7 @@ import GoDB from "@/utils/godb.min.js";
 import { getAllProvinceOrg, sortbyAsc, randomString } from '@/utils/index'
 import { getNowTime, getNowFormatTime } from '@/utils/date'
 import Sortable from 'sortablejs'
+import { getOrgTreeList } from '@/utils/setInitPaperData'
 export default {
   name: "selectPersonDialog",
   props: {
@@ -170,7 +192,7 @@ export default {
         provinceId: null,
         allPerson: false,
       },
-      allProvinceList: [],
+      // allProvinceList: [],
       addPersonVisible: false, // 添加人员
       addDataForm: {
         name: null,
@@ -184,42 +206,56 @@ export default {
           { required: true, message: '请输入工作单位', trigger: 'blur' }
         ],
       },
-      sortableItem: null
+      sortableItem: null,
+      orgListTree: [], // 树状展示机构列表
+      selectedOrgId: '', // 选中的机构no
     };
   },
   async created() {
     await this.getOrgList()
-    await this.getPersonList()
-    if (this.multiSelect) {
-      this.setSelectionRows()
-      this.rowDrop()
-    } else {
-      this.setSelectionRow()
-    }
   },
   methods: {
     async getOrgList() {
-      let db = new GoDB(this.DBName);
-      let orgInfo = db.table("orgInfo"); // 机构
-      // 查询全省机构
-      let groupList = []
-      if (this.$store.state.user.userType === 'supervision') {
-        // 监管不筛选type类型
-        groupList = await orgInfo.findAll(item => {
-          return item.delFlag !== "1" 
-          && (item.grade === '2' || item.grade === '1')
-        })
-      } else {
-        // 监察筛选type类型
-        groupList = await orgInfo.findAll(item => {
-          return item.delFlag !== "1" 
-          && (item.grade === '2' || item.grade === '1')
-          && (item.type === '3' || item.type === '4' || item.type === '11')
-        })
-      }
-      groupList.sort(sortbyAsc('grade'))
-      this.allProvinceList = groupList
-      await db.close();
+      // 组织机构树状结构
+      // let db = new GoDB(this.DBName);
+      // let orgInfo = db.table("orgInfo"); // 机构
+      // // 查询全省机构
+      // let groupList = []
+      // if (this.$store.state.user.userType === 'supervision') {
+      //   // 监管不筛选type类型
+      //   groupList = await orgInfo.findAll(item => {
+      //     return item.delFlag !== "1" 
+      //     && (item.grade === '2' || item.grade === '1')
+      //   })
+      // } else {
+      //   // 监察筛选type类型
+      //   groupList = await orgInfo.findAll(item => {
+      //     return item.delFlag !== "1" 
+      //     && (item.grade === '2' || item.grade === '1')
+      //     && (item.type === '3' || item.type === '4' || item.type === '11')
+      //   })
+      // }
+      // groupList.sort(sortbyAsc('grade'))
+      // this.allProvinceList = groupList
+      // await db.close();
+      this.orgListTree = await getOrgTreeList()
+      // 默认选中当前用户的机构
+      this.$nextTick(async () => {
+        this.selectedOrgId = this.$store.state.user.userGroupId
+        this.$refs.orgListTree.setCurrentKey(this.$store.state.user.userGroupId)
+        await this.getPersonList()
+        if (this.multiSelect) {
+          this.setSelectionRows()
+          this.rowDrop()
+        } else {
+          this.setSelectionRow()
+        }
+      })
+    },
+    async changeSelectOrg (data) {
+      console.log('data', data)
+      this.selectedOrgId = data.no
+      await this.getPersonList()
     },
     async getPersonList () {
       // 获取用户数据
@@ -227,7 +263,7 @@ export default {
       let db = new GoDB(this.DBName);
       let person = db.table("person");
       let addPerson = db.table("addPerson");
-      let personList = await person.findAll(item => item);
+      let personList = await person.findAll(item => item.officeId === this.selectedOrgId);
       let addPersonList = []
       if (this.corpData) {
         addPersonList = await addPerson.findAll(item => item.caseId === this.corpData.caseId && item.delFlag !== '1')
@@ -237,25 +273,26 @@ export default {
       if (this.dataForm.name) {
         personList = personList.filter(item => item.name.includes(this.dataForm.name))
       }
-      if (this.dataForm.allPerson) {
-        // 显示全省用户
-        // 获取全省的机构id
-        let provinceIds = []
-        let provinceId = this.dataForm.provinceId ? this.dataForm.provinceId : this.$store.state.user.userGroupId
-        let orgList = await getAllProvinceOrg(provinceId)
-        if (orgList.length > 0) {
-          orgList.map(item => {
-            provinceIds.push(item.no)
-          })
-        }
-        personList = personList.filter(item => provinceIds.includes(item.officeId)) 
-        personList.sort(sortbyAsc('officeId'))
-      } else {
-        // 不显示全省用户
-        let provinceId = this.dataForm.provinceId ? this.dataForm.provinceId : this.$store.state.user.userGroupId
-        personList = personList.filter(item => item.officeId === provinceId)
-        personList.sort(sortbyAsc('officeId'))
-      }
+      console.log('personList', personList)
+      // if (this.dataForm.allPerson) {
+      //   // 显示全省用户
+      //   // 获取全省的机构id
+      //   let provinceIds = []
+      //   let provinceId = this.dataForm.provinceId ? this.dataForm.provinceId : this.$store.state.user.userGroupId
+      //   let orgList = await getAllProvinceOrg(provinceId)
+      //   if (orgList.length > 0) {
+      //     orgList.map(item => {
+      //       provinceIds.push(item.no)
+      //     })
+      //   }
+      //   personList = personList.filter(item => provinceIds.includes(item.officeId)) 
+      //   personList.sort(sortbyAsc('officeId'))
+      // } else {
+      //   // 不显示全省用户
+      //   let provinceId = this.dataForm.provinceId ? this.dataForm.provinceId : this.$store.state.user.userGroupId
+      //   personList = personList.filter(item => item.officeId === provinceId)
+      //   personList.sort(sortbyAsc('officeId'))
+      // }
       // 获取当前检查活动中已添加的人员
       this.personList = [...personList, ...addPersonList]
       this.loading = false;
@@ -402,6 +439,19 @@ export default {
     text-align: right;
   }
 }
+.show-person-main {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid #EBEEF5;
+  .org-tree-main {
+    width: 350px;
+    overflow: auto;
+    /deep/ .el-tree--highlight-current .el-tree-node.is-current>.el-tree-node__content {
+      background-color: rgb(121, 187, 255);
+      color: #fff;
+    }
+  }
+}
 .dialog-max-multi {
   height: calc(100vh - 10vh - 330px);
 }
@@ -409,7 +459,7 @@ export default {
   height: calc(100vh - 10vh - 250px);
 }
 .list-order {
-  margin-top: 15px;
+  margin-top: 20px;
   border: 1px solid rgb(160, 207, 255);
   padding: 15px;
   position: relative;

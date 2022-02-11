@@ -1,6 +1,7 @@
 import store from "@/store"
-import { getMoney, randomString } from '@/utils'
+import { getMoney, randomString, treeDataTranslate } from '@/utils'
 import { getNowFormatTime, getNowTime } from "@/utils/date";
+import GoDB from "@/utils/godb.min.js";
 // 初始化各文书数据
 
 // 初始化文书编号：
@@ -739,4 +740,21 @@ export async function getOrgData (db, orgId) {
               post: '',
             };
   return orgSysOfficeInfo
+}
+
+export async function getOrgTreeList () {
+  // 获取组织机构树状结构
+  let db = new GoDB(store.state.DBName);
+  let orgInfo = db.table("orgInfo"); // 机构
+  let orgList = []
+  // 获取所有机构信息
+  if (store.state.user.userType === 'supervision') {
+    orgList = await orgInfo.findAll(item => item.delFlag !== '1')
+  } else {
+    orgList = await orgInfo.findAll(item => item.delFlag !== '1'
+      && (item.type === '3' || item.type === '4' || item.type === '11'))
+  }
+  await db.close()
+  let orgTreeList = treeDataTranslate(orgList, 'no', 'parentId')
+  return orgTreeList
 }
