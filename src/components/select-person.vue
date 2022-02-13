@@ -14,8 +14,7 @@
         <div class="filter-name">
           <el-input
             v-model="dataForm.name"
-            placeholder="请输入姓名检索"
-            style="width: 150px;"
+            placeholder="请输入姓名检索，多个人名按逗号分割"
             size="small"
             clearable
             @change="getPersonList"
@@ -39,7 +38,8 @@
           <el-checkbox v-model="dataForm.allPerson" @change="getPersonList">是否显示全省用户</el-checkbox>
         </div> -->
       </div>
-      <div class="show-person-main">
+      <!-- 按机构查找 -->
+      <div v-if="searchFormal === 'org'" class="show-person-main">
         <div :class="multiSelect ? 'dialog-max-multi org-tree-main' : 'dialog-max org-tree-main'">
           <el-tree
             ref="orgListTree"
@@ -70,12 +70,37 @@
             :header-cell-style="{background: '#f5f7fa'}"
             :highlight-current-row="!multiSelect"
             @current-change="handleCurrentChange"
+            @select="selectPerson"
             @selection-change="handleSelectionChange"
           >
             <el-table-column v-if="multiSelect" type="selection" width="55" :reserve-selection="true"></el-table-column>
             <el-table-column type="index" width="50" align="center"></el-table-column>
             <el-table-column prop="name" label="姓名" header-align="center" align="center"></el-table-column>
             <el-table-column prop="officeName" label="所属机构" header-align="center" align="center"></el-table-column>
+          </el-table>
+        </div>
+      </div>
+      <!-- 按姓名查找 -->
+      <div v-else>
+        <div :class="multiSelect ? 'dialog-max-multi' : 'dialog-max'" style="flex: 1;">
+          <el-table
+            ref="personList"
+            :data="personList"
+            stripe
+            border
+            style="width: 100%;"
+            height="100%"
+            :row-key="getRowKey"
+            :header-cell-style="{background: '#f5f7fa'}"
+            :highlight-current-row="!multiSelect"
+            @current-change="handleCurrentChange"
+            @select="selectPerson"
+            @selection-change="handleSelectionChange"
+          >
+            <el-table-column v-if="multiSelect" type="selection" width="55" :reserve-selection="true"></el-table-column>
+            <el-table-column type="index" width="50" align="center"></el-table-column>
+            <el-table-column prop="name" label="姓名" width="180" header-align="center" align="center"></el-table-column>
+            <el-table-column prop="allOrgName" label="所属机构" header-align="center" align="center"></el-table-column>
           </el-table>
         </div>
       </div>
@@ -86,7 +111,7 @@
         </div>
         <div class="list-order-tags">
           <el-tag
-            v-for="(person, index) in currentRows"
+            v-for="(person, index) in allSelectedPerson"
             :key="person.no"
             closable
             class="dragtag"
@@ -166,6 +191,7 @@ export default {
       default: () => [],
     },
     selectedData: {
+      // 单选时回显数据
       type: Object,
       default: () => {}
     },
@@ -186,7 +212,7 @@ export default {
       DBName: this.$store.state.DBName,
       personList: [], // 人员列表
       currentRow: {}, // 单选时使用选中人员
-      currentRows: [], // 多选时选中人员
+      currentRows: [], // 多选时当前选中人员
       dataForm: {
         name: null,
         provinceId: null,
@@ -208,13 +234,33 @@ export default {
       },
       sortableItem: null,
       orgListTree: [], // 树状展示机构列表
+      orgList: [], // 所有机构列表
       selectedOrgId: '', // 选中的机构no
+      allSelectedPerson: [], // 已选中的所有人员
+      allPersonList: [], // 所有人员
+      searchFormal: 'org', // 查询人员方式，'org'为按机构查找，'name'按姓名查找
     };
   },
   async created() {
+    await this.getAllPerson()
     await this.getOrgList()
   },
   methods: {
+    async getAllPerson () {
+      let db = new GoDB(this.DBName);
+      let person = db.table("person");
+      // 获取所有用户
+      let allPersonList = []
+      if (this.$store.state.user.userType === 'supervision') {
+        // 监管获取所有用户
+        allPersonList = await person.findAll(item => item.delFlag !== '1' && item.officeId !== '000000310001');
+      } else {
+        // 监察获取所有用户，去掉国家级用户
+        allPersonList = await person.findAll(item => item.delFlag !== '1' && item.officeId !== '000000110001');
+      }
+      this.allPersonList = allPersonList
+      await db.close();
+    },
     async getOrgList() {
       // 组织机构树状结构
       // let db = new GoDB(this.DBName);
@@ -235,45 +281,99 @@ export default {
       //     && (item.type === '3' || item.type === '4' || item.type === '11')
       //   })
       // }
-      // groupList.sort(sortbyAsc('grade'))
       // this.allProvinceList = groupList
       // await db.close();
-      this.orgListTree = await getOrgTreeList()
+      let orgData = await getOrgTreeList()
+      this.orgListTree = orgData.orgListTree
+      this.orgList = orgData.orgList
       // 默认选中当前用户的机构
       this.$nextTick(async () => {
-        this.selectedOrgId = this.$store.state.user.userGroupId
-        this.$refs.orgListTree.setCurrentKey(this.$store.state.user.userGroupId)
-        await this.getPersonList()
         if (this.multiSelect) {
+          this.selectedOrgId = this.$store.state.user.userGroupId
+          this.$refs.orgListTree.setCurrentKey(this.$store.state.user.userGroupId)
+          await this.getPersonList()
+          let selectedDataList = this.selectedDataList
+          for (let i = 0; i < selectedDataList.length; i++) {
+            // 如果没有name字段则补充
+            let item = selectedDataList[i]
+            if (!item.name) {
+              let personData = this.allPersonList.find(person => person.no === item.no)
+              item.name = personData.name
+            }
+          }
+          this.allSelectedPerson = selectedDataList;
           this.setSelectionRows()
           this.rowDrop()
         } else {
+          // 单选时，判断是否已选人员，如果已选则默认进入已选人员的机构
+          let officeId = null
+          if (this.selectedData && this.selectedData.no) {
+            let curPerson = this.allPersonList.filter(item => item.no === this.selectedData.no)[0]
+            officeId = curPerson.officeId
+          }
+          this.selectedOrgId = officeId ? officeId : this.$store.state.user.userGroupId
+          this.$refs.orgListTree.setCurrentKey(this.selectedOrgId)
+          await this.getPersonList()
           this.setSelectionRow()
         }
       })
     },
     async changeSelectOrg (data) {
-      console.log('data', data)
       this.selectedOrgId = data.no
       await this.getPersonList()
     },
     async getPersonList () {
       // 获取用户数据
       this.loading = true;
+      this.personList = []
       let db = new GoDB(this.DBName);
-      let person = db.table("person");
       let addPerson = db.table("addPerson");
-      let personList = await person.findAll(item => item.officeId === this.selectedOrgId);
+      // 获取所有用户
+      // 获取当前检查活动添加人员
       let addPersonList = []
       if (this.corpData) {
         addPersonList = await addPerson.findAll(item => item.caseId === this.corpData.caseId && item.delFlag !== '1')
       }
       // let curPerson = await person.find(item => item.no === this.$store.state.user.userId)
       await db.close();
-      if (this.dataForm.name) {
-        personList = personList.filter(item => item.name.includes(this.dataForm.name))
+      // 根据输入的用户姓名进行筛选
+      // if (this.dataForm.name) {
+      //   personList = personList.filter(item => item.name.includes(this.dataForm.name))
+      // }
+      let personList = []
+      // 按机构查找时
+      if (!this.dataForm.name) {
+        // 当前选中的机构信息
+        let selectedOrgData = this.orgList.filter(item => item.no === this.selectedOrgId)[0]
+        // 递归获取当前选中机构的id及子id
+        let officeIdList = [selectedOrgData.no]
+        if (selectedOrgData.children) {
+          this.getOfficeChildrenId(selectedOrgData.children, officeIdList)
+        } 
+        // 根据选中的机构及子集获取用户信息
+        for (let i = 0; i < officeIdList.length; i++) {
+          let officePersonList = this.allPersonList.filter(item => item.officeId === officeIdList[i])
+          for (let j = 0; j < officePersonList.length; j ++) {
+            personList.push(officePersonList[j])
+          }
+        }
+        this.searchFormal = 'org'
+      } else {
+        // 按姓名查找时
+        // 判断是否有逗号，如果有则按逗号分割，如果没有则直接查找
+        if (this.dataForm.name.includes(',') || this.dataForm.name.includes('，')) {
+          let searchStringList = this.dataForm.name.split(/[,，]/)
+          for (let i = 0; i < searchStringList.length; i++) {
+            let searchList = this.getPersonListByName(searchStringList[i])
+            for (let j = 0; j < searchList.length; j++) {
+              personList.push(searchList[j])
+            }
+          }
+        } else {
+          personList = this.getPersonListByName(this.dataForm.name)
+        }
+        this.searchFormal = 'name'
       }
-      console.log('personList', personList)
       // if (this.dataForm.allPerson) {
       //   // 显示全省用户
       //   // 获取全省的机构id
@@ -295,7 +395,43 @@ export default {
       // }
       // 获取当前检查活动中已添加的人员
       this.personList = [...personList, ...addPersonList]
+      if (this.multiSelect) {
+        // 多选时直接设置当前机构选中人员
+        this.setSelectionRows() 
+      }
       this.loading = false;
+    },
+    getPersonListByName (name) {
+      let personList = this.allPersonList.filter(item => item.name && item.name.includes(name))
+      // 整理人员所在机构及父级机构名称
+      for (let i = 0; i < personList.length; i++) {
+        let item = personList[i]
+        let allOrgName = ''
+        if (item.company) {
+          let company = JSON.parse(item.company)
+          if (company.grade === '2') {
+            allOrgName = item.officeName
+          } else if (company.grade === '3') {
+            let orgData = this.orgList.find(item => item.no === company.parentId)
+            allOrgName = `${orgData.name}-${item.officeName}`
+          } else if (company.grade === '4') {
+            let upOrg = this.orgList.find(item => item.no === company.parentId)
+            let provinceOrg = this.orgList.find(item => item.no === upOrg.parentId)
+            allOrgName = `${provinceOrg.name}-${upOrg.name}-${item.officeName}`
+          }
+        }
+        item.allOrgName = allOrgName
+      }
+      return personList
+    },
+    getOfficeChildrenId (data, officeIdList) {
+      for (let i = 0; i < data.length; i++) {
+        let item = data[i]
+        officeIdList.push(item.no)
+        if (item.children) {
+          this.getOfficeChildrenId(item.children, officeIdList)
+        }
+      }
     },
     setSelectionRow() {
       // 设置单选
@@ -311,11 +447,21 @@ export default {
     },
     setSelectionRows() {
       // 设置多选
-      this.currentRows = this.selectedDataList;
       this.$nextTick(() => {
         this.$refs.personList && this.$refs.personList.clearSelection();
-        if (this.$refs.personList && this.selectedDataList.length > 0) {
-          this.selectedDataList.map((row) => {
+        // 设置当前选中机构已有人员
+        let curOrgPersonSelectedList = []
+        for (let i = 0; i < this.allSelectedPerson.length; i++) {
+          let selectedItem = this.allSelectedPerson[i]
+          for (let j = 0; j < this.personList.length; j++) {
+            let personItem = this.personList[j]
+            if (selectedItem.no === personItem.no) {
+              curOrgPersonSelectedList.push(selectedItem)
+            }
+          }
+        }
+        if (this.$refs.personList && curOrgPersonSelectedList.length > 0) {
+          curOrgPersonSelectedList.map((row) => {
             this.$refs.personList.toggleRowSelection(
               this.personList.find((item) => item.no === row.no),
               true
@@ -340,7 +486,7 @@ export default {
         this.$emit("confirm-person", this.currentRow);
       } else {
         // 多选时传出
-        this.$emit("confirm-person", this.currentRows);
+        this.$emit("confirm-person", this.allSelectedPerson);
       }
       this.close();
     },
@@ -353,14 +499,27 @@ export default {
         this.currentRow = val;
       }
     },
+    selectPerson (selection, row) {
+      // 判断row是否在selection中，如果在则代表新增，如果不在则代表删除
+      if (selection.length > 0 && selection.filter(item => item.no === row.no).length > 0) {
+        this.allSelectedPerson.push(row)
+      } else {
+        let index = this.allSelectedPerson.findIndex(item => item.no === row.no)
+        this.allSelectedPerson.splice(index, 1)
+      }
+    },
     handleSelectionChange(val) {
       // 多选时使用
-      if (this.multiSelect && val) {
+      if (this.multiSelect) {
         this.currentRows = val;
       }
     },
     deletePerson (person, index) {
-      this.currentRows.splice(index, 1)
+      // 删除当前选中
+      let curIndex = this.currentRows.findIndex(item => item.no === person.no)
+      if (curIndex !== -1) this.currentRows.splice(curIndex, 1)
+      // 同时删除已选所有人员
+      this.allSelectedPerson.splice(index, 1)
       this.$refs.personList.toggleRowSelection(
         this.personList.find((item) => item.no === person.no),
         false
@@ -376,10 +535,10 @@ export default {
           draggable: ".dragtag",
           direction: 'horizontal',
           onEnd ({ newIndex, oldIndex }) {
-            let value = JSON.parse(JSON.stringify(that.currentRows))
+            let value = JSON.parse(JSON.stringify(that.allSelectedPerson))
             let currRow = value.splice(oldIndex, 1)[0];
             value.splice(newIndex, 0, currRow);
-            that.currentRows = value
+            that.allSelectedPerson = value
           }
         });
       })
@@ -435,6 +594,9 @@ export default {
   margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
+  .filter-name {
+    width: 100%;
+  }
   .filter-province {
     text-align: right;
   }

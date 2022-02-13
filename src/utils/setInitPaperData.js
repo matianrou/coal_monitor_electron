@@ -747,14 +747,15 @@ export async function getOrgTreeList () {
   let db = new GoDB(store.state.DBName);
   let orgInfo = db.table("orgInfo"); // 机构
   let orgList = []
-  // 获取所有机构信息
+  // 获取所有机构信息,过滤国家级机构
   if (store.state.user.userType === 'supervision') {
-    orgList = await orgInfo.findAll(item => item.delFlag !== '1')
+    orgList = await orgInfo.findAll(item => item.delFlag !== '1' && item.grade !== '1')
   } else {
     orgList = await orgInfo.findAll(item => item.delFlag !== '1'
-      && (item.type === '3' || item.type === '4' || item.type === '11'))
+      && (item.type === '3' || item.type === '4' || item.type === '11')
+      && item.grade !== '1')
   }
   await db.close()
-  let orgTreeList = treeDataTranslate(orgList, 'no', 'parentId')
-  return orgTreeList
+  let orgListTree = treeDataTranslate(orgList, 'no', 'parentId')
+  return {orgList, orgListTree}
 }
