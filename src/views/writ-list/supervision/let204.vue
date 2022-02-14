@@ -292,17 +292,13 @@ export default {
         let associationPaperId = {}
         let associationPaperOrder = []
         let selectedType = ''
+        // 1.弹出提示框，选择单位或个人
+        this.visibleSelectDialog = true;
         if (selectedPaper.let36Data) {
           // 如果是关联案件处理呈报书
           letDataPaperContent = JSON.parse(
             selectedPaper.let36Data.paperContent
           );
-          if (letDataPaperContent.selectedType) {
-            selectedType = letDataPaperContent.selectedType
-          } else {
-            // 1.弹出提示框，选择单位或个人
-            this.visibleSelectDialog = true;
-          }
           selectletData = selectedPaper.let36Data
           // 遍历关联文书key
           associationPaperId = Object.assign({}, this.setAssociationPaperId(letDataPaperContent.associationPaperId), {
@@ -312,8 +308,6 @@ export default {
           associationPaperOrder.push('36')
         } else {
           // 如果是关联立案决定书
-          // 1.弹出提示框，选择单位或个人
-          this.visibleSelectDialog = true;
           letDataPaperContent = JSON.parse(
             selectedPaper.let4Data.paperContent
           );

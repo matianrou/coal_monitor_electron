@@ -56,7 +56,9 @@ export default {
       paperId: null,
       letDataOragin: null,
       setAssociationPaperId: setAssociationPaperId,
-      setAssociationPaperOrder: setAssociationPaperOrder
+      setAssociationPaperOrder: setAssociationPaperOrder, 
+      associationList: [], // 文书必须关联列表,当前用于行政处罚告知书选择关联文书逻辑
+      isRequired: true, // 选择文书时是否必选
     };
   },
   async created() {
@@ -115,6 +117,10 @@ export default {
           let wkPaper = db.table('wkPaper')
           // 按组件中定义的associationPaper关联文书
           let isReturn = false
+          // 当前有三种文书关联方式：
+          // 1.associationPaper：直接关联文书，此处逻辑为可多个直接关联，所关联的文书用数组形式顺序存储返回，但实际应用都只直接关联一个文书（以便保存关联文书id）
+          // 2.selectAssociationPaper：按顺序关联文书，即顺序查找文书，如果有则直接关联，没有则顺序再找下一文书
+          // 3.whetherAssociationPaper：是否关联文书：首先查找需判断是否要关联的文书是否有值，如果有则展示关联页面，提示是否需要关联，如果没有则查找必须关联文书，如果有则关联
           if (this.associationPaper && this.associationPaper.length > 0) {
             // associationPaper是必须关联的文书，如果未关联则提示
             for (let paper of this.associationPaper) {
@@ -166,6 +172,45 @@ export default {
                 break
               }
             }
+          } else if (this.whetherAssociationPaper && this.whetherAssociationPaper.length > 0) {
+            let docTypeNo = this.docData.docTypeNo
+            // 按文书将whetherAssociationPaper分解为两个数组：数组1为是否要关联的文书列表，按顺序询问；数组2为必须要关联的文书列表，按顺序关联
+            // 当前暂没有使用此逻辑，本来行政处罚告知书使用，但放弃使用（逻辑没有问题，可根据需要使用）
+            let splitIndex = 0
+            if (docTypeNo === '6') {
+              splitIndex = 1
+            }
+            let whetherAssociationList = this.whetherAssociationPaper.slice(0, splitIndex)
+            this.associationList = this.whetherAssociationPaper.slice(splitIndex, this.whetherAssociationPaper.length)
+            let hasWhetherAssociation = false
+            let whetherAssociationPaperList = []
+            for (let i = 0; i < whetherAssociationList.length; i++ ) {
+              let paperType = whetherAssociationList[i]
+              let paperDataList = await wkPaper.findAll((item) => {
+                return item.caseId === this.corpData.caseId && item.paperType === paperType && item.delFlag !== '1';
+              })
+              if (paperDataList.length > 0) {
+                // 如果有需要询问关联的文书则弹出提示窗
+                hasWhetherAssociation = true
+                whetherAssociationPaperList = paperDataList
+                this.selectFlowList.push({
+                  key: `let${paperType}Data`,
+                  paperList: paperDataList
+                })
+                break
+              }
+            }
+            // 如果有需要关联文书则弹窗
+            if (hasWhetherAssociation) {
+              this.isRequired = false
+              this.paperList = whetherAssociationPaperList
+              this.visible.selectPaper = true
+              return
+            } else {
+              // 第三种选择文书的方式，如果没有前置关联选择的文书，则直接进入必选文书判断
+              this.associationPaperNext()
+              return
+            }
           }
           if (isReturn) {
             // 返回主页面
@@ -210,14 +255,22 @@ export default {
       }
     },
     handleSelectPaper () {
+      this.isRequired = true
       this.paperList = this.selectFlowList[this.selectedIndex].paperList
       this.visible.selectPaper = true
     },
     closeDialog ({page, refresh}) {
       // 关闭选择文书弹窗
       this.visible[page] = false
-      this.$message.error('必须选择需要关联的文书')
-      this.$refs.letMain.cmdDocBack()
+      // 是否必选文书:
+      if (this.isRequired) {
+        this.$message.error('必须选择需要关联的文书')
+        this.$refs.letMain.cmdDocBack()
+      } else {
+        // 不是必选文书则进入选择必选文书逻辑
+        this.selectFlowList = []
+        this.associationPaperNext()
+      }
     },
     confirmPaper (currentRow) {
       // 选择的文书
@@ -232,17 +285,64 @@ export default {
             this.selectedIndex = this.selectedIndex + 1
             this.handleSelectPaper()
           }
-        } else if (currentRow.length > 0){
+        } else if (currentRow.length > 0) {
           this.selectedPaper[this.selectFlowList[this.selectedIndex].key] = currentRow
           this.initLetData(this.selectedPaper)
           this.visible.selectPaper = false
         } else {
-          this.$message.error('必须选择需要关联的文书')
+          this.$message.error('未选择需要关联的文书，如不关联则返回')
         }
       } else {
-        this.$message.error('必须选择需要关联的文书')
+        this.$message.error('未选择需要关联的文书，如不关联则返回')
       }
     },
+    async associationPaperNext () {
+      // 第三种选择文书方式：如果不选择前置关联文书:
+      // 判断必选文书列表：
+      let isReturn = false
+      if (this.associationList.length > 0) {
+        let db = new GoDB(this.DBName);
+        let wkPaper = db.table('wkPaper')
+        for (let i = 0; i < this.associationList.length; i++) {
+          let paperType = this.associationList[i]
+          let paperDataList = await wkPaper.findAll((item) => {
+            return item.caseId === this.corpData.caseId && item.paperType === paperType && item.delFlag !== '1';
+          })
+          if (paperDataList.length === 0 && i === (this.associationList.length - 1)) {
+            // 如果未查到关联的文书，则提示：
+            let paperName = this.$store.state.dictionary[`${this.$store.state.user.userType}PaperType`].filter(item => item.id === paperType)
+            this.$message.error(`请先填写并保存${paperName[0].name}中内容！`)
+            isReturn = true
+          } else if (paperDataList.length === 1) {
+            // 如果查到关联的文书仅有一条，则保存此条文书内容并退出循环
+            this.selectedPaper[`let${paperType}Data`] = paperDataList[0]
+            break
+          } else if (paperDataList.length > 1){
+            // 如果查到关联的文书有两条及以上，则保留关键字，同时保留多份文书列表，以便后面遍历选择，并退出循环
+            paperDataList.sort(sortbyAsc('createDate'))
+            this.selectFlowList.push({
+              key: `let${paperType}Data`,
+              paperList: paperDataList
+            })
+            break
+          }
+        }
+        await db.close()
+      }
+      if (isReturn) {
+        // 返回主页面
+        this.$refs.letMain.cmdDocBack()
+        return
+      }
+      // 遍历循环选择文书:
+      if (this.selectFlowList.length > 0) {
+        // 如果需要选择文书，则从第一个开始选择
+        this.handleSelectPaper()
+      } else {
+        // 如果不需要选择文书，则直接开始进行初始化
+        this.initLetData && this.initLetData(this.selectedPaper)
+      }
+    }
   },
 };
 </script>

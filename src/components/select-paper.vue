@@ -49,8 +49,8 @@
       </el-table>
     </div>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="close">取消</el-button>
-      <el-button type="primary" @click="confirm">确定</el-button>
+      <el-button @click="close">返回</el-button>
+      <el-button type="primary" @click="confirm">关联</el-button>
     </span>
   </el-dialog>
 </template>
@@ -77,7 +77,7 @@ export default {
       // 多选，当前送达收执需多选文书
       type: Boolean,
       default: false
-    }
+    },
   },
   data() {
     return {
@@ -169,7 +169,7 @@ export default {
         }
         // 特殊处理:有区分类型的
         if (paperType === '32' || paperType === '37' || paperType === '38' || paperType === '6'
-          || paperType === '36' || paperType === '8' || paperType === '9'
+          || paperType === '8' || paperType === '9'
           || (userType !== 'supervision' && (paperType === '46' || paperType === '47' || paperType === '48' || paperType === '49' 
           || paperType === '53' || paperType === '51' || paperType === '52' || paperType === '54'
           || paperType === '55')) || (userType === 'supervision' && (paperType === '45' || paperType === '46' || paperType === '56' || paperType === '47' 
