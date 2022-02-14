@@ -175,7 +175,17 @@ async function doPlanDb(resId, data) {
 			corpId: String,
 			delFlag: String,
 			createBy: String,
-			createDate: String
+			createDate: String,
+			company: String,
+			email: String,
+			mobile: String,
+			office: String,
+			qylxmc: String,
+			remarks: String,
+			roleNames: String,
+			userType: String,
+			officeId: String,
+			officeName: String,
 		},
 		// “其他资源:计划表
 		docPlan: {
@@ -1692,7 +1702,17 @@ let schema = {
 		corpId: String,
 		delFlag: String,
 		createBy: String,
-		createDate: String
+		createDate: String,
+		company: String,
+		email: String,
+		mobile: String,
+		office: String,
+		qylxmc: String,
+		remarks: String,
+		roleNames: String,
+		userType: String,
+		officeId: String,
+		officeName: String,
 	},
 	// “其他资源:计划表
 	docPlan: {

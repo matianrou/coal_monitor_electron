@@ -85,7 +85,7 @@
             </div>
             <div>
               <el-button 
-                v-if="scope.row.positions" 
+                v-if="options.canEdit && scope.row.positions" 
                 type="text"
                 @click="clearField('positions', scope.row, scope.$index)">
                 清空
@@ -103,7 +103,7 @@
             </div>
             <div>
               <el-button 
-                v-if="scope.row.personNames" 
+                v-if="options.canEdit && scope.row.personNames" 
                 type="text"
                 @click="clearField('person', scope.row, scope.$index)">
                 清空

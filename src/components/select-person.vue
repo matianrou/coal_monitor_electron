@@ -249,7 +249,15 @@ export default {
     async getAllPerson () {
       let db = new GoDB(this.DBName);
       let person = db.table("person");
+      let addPerson = db.table("addPerson");
       // 获取所有用户
+      // 获取当前检查活动添加人员
+      let addPersonList = []
+      if (this.corpData) {
+        addPersonList = await addPerson.findAll(item => 
+          item.caseId === this.corpData.caseId && 
+          item.delFlag !== '1')
+      }
       let allPersonList = []
       if (this.$store.state.user.userType === 'supervision') {
         // 监管获取所有用户
@@ -258,7 +266,7 @@ export default {
         // 监察获取所有用户，去掉国家级用户
         allPersonList = await person.findAll(item => item.delFlag !== '1' && item.officeId !== '000000110001');
       }
-      this.allPersonList = allPersonList
+      this.allPersonList = [...allPersonList, ...addPersonList]
       await db.close();
     },
     async getOrgList() {
@@ -326,20 +334,6 @@ export default {
       // 获取用户数据
       this.loading = true;
       this.personList = []
-      let db = new GoDB(this.DBName);
-      let addPerson = db.table("addPerson");
-      // 获取所有用户
-      // 获取当前检查活动添加人员
-      let addPersonList = []
-      if (this.corpData) {
-        addPersonList = await addPerson.findAll(item => item.caseId === this.corpData.caseId && item.delFlag !== '1')
-      }
-      // let curPerson = await person.find(item => item.no === this.$store.state.user.userId)
-      await db.close();
-      // 根据输入的用户姓名进行筛选
-      // if (this.dataForm.name) {
-      //   personList = personList.filter(item => item.name.includes(this.dataForm.name))
-      // }
       let personList = []
       // 按机构查找时
       if (!this.dataForm.name) {
@@ -394,7 +388,7 @@ export default {
       //   personList.sort(sortbyAsc('officeId'))
       // }
       // 获取当前检查活动中已添加的人员
-      this.personList = [...personList, ...addPersonList]
+      this.personList = personList
       if (this.multiSelect) {
         // 多选时直接设置当前机构选中人员
         this.setSelectionRows() 
@@ -559,22 +553,38 @@ export default {
       // 保存添加人员
       this.$refs.addDataForm.validate(async (validate) => {
         if (validate) {
-          let db = new GoDB(this.DBName);
-          let addPerson = db.table("addPerson"); // 添加人员的表
-          let person = {
-            no: getNowTime() + randomString(28),
-            name: this.addDataForm.name,
-            officeName: this.addDataForm.officeName,
-            caseId: this.corpData.caseId,
-            corpId: this.corpData.corpId,
-            delFlag: '0',
-            createBy: this.$store.state.user.userId,
-            createDate: getNowFormatTime(),
-          }
-          await addPerson.add(person);
-          await db.close();
-          this.addClose()
-          this.getPersonList()
+          let selectedOrgData = this.orgList.filter(item => item.no === this.selectedOrgId)[0]
+          await this.$confirm(`是否确定在“${selectedOrgData.name}”中添加“${this.addDataForm.name}”？`, '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              dangerouslyUseHTMLString: true,
+              type: 'warning'
+            }).then(async () => {
+              let db = new GoDB(this.DBName);
+              let addPerson = db.table("addPerson"); // 添加人员的表
+              let person = {
+                no: getNowTime() + randomString(28),
+                name: this.addDataForm.name,
+                officeName: this.addDataForm.officeName,
+                caseId: this.corpData.caseId,
+                corpId: this.corpData.corpId,
+                delFlag: '0',
+                createBy: this.$store.state.user.userId,
+                createDate: getNowFormatTime(),
+                company: JSON.stringify(selectedOrgData),
+                email: '',
+                mobile: '',
+                office: JSON.stringify(selectedOrgData),
+                officeId: this.selectedOrgId,
+              }
+              await addPerson.add(person);
+              await db.close();
+              this.addClose()
+              // 获取所有人员
+              await this.getAllPerson()
+              // 获取当前人员
+              await this.getPersonList()
+            }).catch(() => {})
         }
       })
     }
