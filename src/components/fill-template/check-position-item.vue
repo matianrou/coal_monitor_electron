@@ -4,7 +4,11 @@
     <!-- 地面 -->
     <div class="check-positon-row">
       <div class="check-positon-row-checkbox">
-        <el-checkbox v-model="dataForm.tempValue.isAddress" label="地面"></el-checkbox>
+        <el-checkbox 
+          v-model="dataForm.tempValue.isAddress" 
+          label="地面" 
+          @change="val => changeSelect(val, 'isAddress')"
+        ></el-checkbox>
       </div>
       <div class="check-positon-row-content">
         <el-input
@@ -20,7 +24,11 @@
     <div>
       <div class="check-positon-row">
         <div class="check-positon-row-checkbox">
-          <el-checkbox v-model="dataForm.tempValue.isUnder" label="井下"></el-checkbox>
+          <el-checkbox 
+            v-model="dataForm.tempValue.isUnder" 
+            label="井下"
+            @change="val => changeSelect(val, 'isUnder')"
+          ></el-checkbox>
         </div>
         <div v-if="dataForm.tempValue.isUnder" class="check-positon-row-content">
           <el-tag
@@ -82,7 +90,11 @@
     <!-- 其他 -->
     <div class="check-positon-row">
       <div class="check-positon-row-checkbox">
-        <el-checkbox v-model="dataForm.tempValue.isOther" label="其它"></el-checkbox>
+        <el-checkbox 
+          v-model="dataForm.tempValue.isOther" 
+          label="其它"
+          @change="val => changeSelect(val, 'isOther')"
+        ></el-checkbox>
       </div>
       <div class="check-positon-row-content">
         <el-input
@@ -179,6 +191,20 @@ export default {
       if (tunnellingIndex !== -1) tunnellingList.splice(tunnellingIndex, 1)
       let addIndex = addList.findIndex(add => item === add)
       if (addIndex !== -1) addList.splice(addIndex, 1)
+    },
+    changeSelect (value, field) {
+      // 切换是否选中时清空内容
+      if (field === 'isAddress') {
+        this.dataForm.tempValue.addressContent = null
+      } else if (field === 'isUnder') {
+        for (let i = 0; i < this.underTag.length; i++) {
+          let item = this.underTag[i]
+          this.handleClose(item)
+        }
+        this.dataForm.tempValue.addwork = null
+      } else if (field === 'isOther') {
+        this.dataForm.tempValue.otherContent = null
+      }
     }
   },
 };

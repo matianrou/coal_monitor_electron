@@ -80,7 +80,17 @@
           align="left"
           label="检查地点">
           <template slot-scope="scope">
-            <span>{{ scope.row.positions }}</span>
+            <div>
+              <span>{{ scope.row.positions }}</span>
+            </div>
+            <div>
+              <el-button 
+                v-if="scope.row.positions" 
+                type="text"
+                @click="clearField('positions', scope.row, scope.$index)">
+                清空
+              </el-button>
+            </div>
           </template>
         </el-table-column>
         <el-table-column
@@ -88,7 +98,17 @@
           align="left"
           label="检查分工">
           <template slot-scope="scope">
-            <span>{{ scope.row.personNames }}</span>
+            <div>
+              <span>{{ scope.row.personNames }}</span>
+            </div>
+            <div>
+              <el-button 
+                v-if="scope.row.personNames" 
+                type="text"
+                @click="clearField('person', scope.row, scope.$index)">
+                清空
+              </el-button>
+            </div>
           </template>
         </el-table-column>
         <el-table-column
@@ -572,6 +592,16 @@ export default {
         val.forEach((item, index) => {
           item.order = index
         })
+      }
+    },
+    clearField (field, data, index) {
+      // 清空字段：检查地点或检查分工
+      if (field === 'positions') {
+        data.positionData = {}
+        data.positions = null
+      } else if (field === 'person') {
+        data.personList = []
+        data.personNames = null
       }
     }
   },
