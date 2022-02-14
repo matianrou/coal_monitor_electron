@@ -40,10 +40,7 @@
               <el-radio label="1">事故</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item 
-            v-if="dataForm.caseClassify !== '4'"
-            label="归档至：" 
-            prop="address">
+          <el-form-item label="归档至：" prop="address">
             <el-tag>{{ dataForm.address }}</el-tag>
           </el-form-item>
           <el-form-item 
@@ -52,8 +49,7 @@
             prop="caseClassify">
             <el-select
               v-model="dataForm.caseClassify"
-              placeholder="请选择执法活动分类"
-              @change="changeCaseClassify">
+              placeholder="请选择执法活动分类">
               <el-option
                 v-for="item in dictionary.caseClassify"
                 :key="item.value"
@@ -66,17 +62,6 @@
                 </div>
               </el-option>
             </el-select>
-          </el-form-item>
-          <el-form-item 
-            v-if="dataForm.caseClassify === '4'"
-            label="外省级局(归档至)：" 
-            prop="affiliateName">
-            <el-input
-              v-model="dataForm.affiliateName"
-              placeholder="请选择外省级局"
-              readonly
-              @focus="openDialog('selectAllOrg')"
-            ></el-input>
           </el-form-item>
           <el-form-item label="重大安全风险研判：" prop="riskAssessmentContent">
             <el-input
@@ -97,14 +82,6 @@
           @close="closeDialog"
           @save="saveRisk"
         ></select-risk-assessment>
-        <select-all-org
-          v-if="showDialog.selectAllOrg"
-          :visible="showDialog.selectAllOrg"
-          title="选择外省局级"
-          :selected-id="dataForm.affiliateId"
-          @confirm-org="confirmOrg"
-          @close="closeDialog"
-        ></select-all-org>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="cancel">取消</el-button>
@@ -119,12 +96,10 @@ import GoDB from "@/utils/godb.min.js";
 import { severalDaysLater, getNowFormatDate, getNowFormatTime, getNowTime  } from "@/utils/date";
 import { sortbyAsc, randomString } from "@/utils/index";
 import selectRiskAssessment from '@/components/select-risk-assessment'
-import selectAllOrg from '@/components/select-all-org'
 export default {
   name: "WritInformation",
   components: {
-    selectRiskAssessment,
-    selectAllOrg
+    selectRiskAssessment
   },
   props: {
     visible: {
@@ -168,8 +143,6 @@ export default {
         caseClassify: null, // 活动分类
         riskAssessment: null, // 风险研判编码
         riskAssessmentContent: null, // 风险研判内容
-        affiliateId: null, // 归档机构 外省局级时归档机构和当前选择机构不同
-        affiliateName: null,
       },
       rules: {
         searchDate: [
@@ -186,9 +159,6 @@ export default {
         caseClassify: [
           { required: true, message: "请选择执法活动分类", trigger: "change" },
         ],
-        affiliateName: [
-          { required: true, message: "请选择外省级局（归档至）", trigger: "change" },
-        ],
         riskAssessmentContent: [
           { required: true, message: "请选择重大安全风险研判", trigger: "change" },
         ],
@@ -200,7 +170,6 @@ export default {
       },
       showDialog: {
         riskAssessment: false, // 选择风险研判
-        selectAllOrg: false, // 选择外省级局
       }
     };
   },
@@ -225,7 +194,6 @@ export default {
       this.dataForm.groupId = this.selectPlanData.selGovUnit
       this.dataForm.address = this.selectPlanData.selGovUnitName
       this.dataForm.planId = this.corpData.dbplanId
-      this.dataForm.caseClassify = null
       // 初始化码表
       let db = new GoDB(this.DBName);
       let dictionary = db.table('dictionary')
@@ -255,7 +223,6 @@ export default {
       // 关闭弹窗
       this.$refs.dataForm.resetFields();
       this.dataForm.riskAssessment = null
-      this.dataForm.affiliateId = null
       this.initData();
       this.$emit("close", { name: "newCase", refresh });
     },
@@ -321,7 +288,7 @@ export default {
         caseType: this.dataForm.caseType,
         remoteId: "",
         delFlag: "0",
-        affiliate: this.dataForm.affiliateId ? this.dataForm.affiliateId : groupId, // 归档机构
+        affiliate: groupId, // 归档机构
         createDate: sDate,
         updateDate: sDate,
         createById: userId,
@@ -380,16 +347,6 @@ export default {
       this.dataForm.riskAssessment = ids
       this.dataForm.riskAssessmentContent = contents
       this.showDialog.riskAssessment = false
-    },
-    changeCaseClassify () {
-      this.dataForm.affiliateId = null
-      this.dataForm.affiliateName = null
-    },
-    confirmOrg (org) {
-      this.showDialog.selectAllOrg = false
-      this.dataForm.affiliateId = org.no
-      this.dataForm.affiliateName = org.name
-      this.$refs.dataForm.validateField(['affiliateName'])
     }
   },
 };
