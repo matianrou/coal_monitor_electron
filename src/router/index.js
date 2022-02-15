@@ -46,6 +46,12 @@ export default new Router({
           name: 'WritManagement',
           component: () => import('@/views/writ-management/writ-management')
         },
+        // 文书查看
+        {
+          path: '/main/WritCheck',
+          name: 'WritCheck',
+          component: () => import('@/views/writ-check/writ-check')
+        },
         // 意见建议书
         {
           path: '/main/opinionSuggestion',
