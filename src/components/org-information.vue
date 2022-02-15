@@ -52,6 +52,7 @@
 
 <script>
 import GoDB from '@/utils/godb.min.js'
+import { getOrgTreeList } from '@/utils/setInitPaperData'
 export default {
   name: "OrgInformation",
   props: {
@@ -83,6 +84,8 @@ export default {
         let wkCase = db.table('wkCase')
         let caseData = await wkCase.find(item => item.caseId === this.corpData.caseId)
         let orgInfo = db.table('orgInfo')
+        let org = await getOrgTreeList()
+        let allOrgList = org.orgList
         // 获取落款省级局信息
         let selGovUnit = this.$store.state.selectedCaseOption.selGovUnit
         let selGovUnitOrg = {}
@@ -97,7 +100,7 @@ export default {
             && item.delFlag !== "1")
         }
         // 获取当前归档机构的省局名称
-        let provinceGroupName = `${caseData.groupName}`
+        let provinceGroupName = `${selGovUnitOrg.name}`
         if (this.$store.state.user.userType === 'supervision') { 
           // 监管为四级机构， 不过滤type类型
           if (selGovUnitOrg.grade === '3') {
@@ -134,7 +137,8 @@ export default {
             && (item.type === '3' || item.type === '4' || item.type === '11') 
             && item.delFlag !== "1")
         }
-        let affiliateName = affiliateOrg.name
+        // 执法活动分类为4异地执法时：获取及省局名称，其他则直接展示归档机构名称
+        let affiliateName = caseData.caseClassify === '4' ? this.getAffiliateOrgName(affiliateOrg, allOrgList) : affiliateOrg.name
         await db.close()
         if (caseData) {
           let planDate = ''
@@ -152,6 +156,21 @@ export default {
           })
         }
       }
+    },
+    getAffiliateOrgName (orgData, allOrgList) {
+      // 获取归档机构名称
+      let name = ''
+      if (orgData.grade === '2') {
+        name = orgData.name
+      } else if (orgData.grade === '3') {
+        let upOrg = allOrgList.find(item => item.no === orgData.parentId)
+        name = `${upOrg.name}-${orgData.name}`
+      } else if (orgData.grade === '4') {
+        let upOrg = allOrgList.find(item => item.no === orgData.parentId)
+        let provinceOrg = allOrgList.find(item => item.no === upOrg.parentId)
+        name = `${provinceOrg.name}-${upOrg.name}-${item.officeName}`
+      }
+      return name
     }
   },
 };
