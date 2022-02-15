@@ -97,7 +97,6 @@
 </template>
 
 <script>
-import {isJSON} from '@/utils/index'
 export default {
   name: "ReceiveDanger",
   props: {
@@ -147,17 +146,40 @@ export default {
             let dangerHistoryList = []
             if (data.data && data.data.length > 0) {
               data.data.map(item => {
-                let dangerContent = item.dangerContent && isJSON(item.dangerContent) ? JSON.parse(item.dangerContent) : []
+                let dangerContent = item.dangerContent ? JSON.parse(decodeURIComponent(item.dangerContent)) : []
                 if (dangerContent.length > 0) {
                   dangerContent.map(danger => {
                     // 根据隐患项中的isSelected字段判断是否为已接收字段 true为已接收，false为未接收
+                    let recDanger = {
+                      HistoryId: danger.HistoryId,
+                      categoryCode: danger.categoryCode,
+                      no: danger.no ? danger.no : null,
+                      confirmBasis: danger.confirmBasis,
+                      createDate: danger.createDate,
+                      createBy: danger.createBy,
+                      id: danger.id ? danger.id : null,
+                      isNewRecord: danger.isNewRecord ? danger.isNewRecord : false,
+                      isOther: danger.isOther ? danger.isOther : false,
+                      isSelected: danger.isSelected ? danger.isSelected : false,
+                      itemCode: danger.itemCode,
+                      itemContent: danger.itemContent,
+                      onsiteBasis: danger.onsiteBasis,
+                      onsiteDesc: danger.onsiteDesc,
+                      penaltyBasis: danger.penaltyBasis,
+                      penaltyDesc: danger.penaltyDesc,
+                      updateDate: danger.updateDate,
+                      delFlag: danger.delFlag,
+                      isSend: danger.isSend ? danger.isSend :  '1',
+                      isCommon: danger.isCommon ? danger.isCommon : null
+                    }
                     let showData = {
-                      ...danger,
+                      ...recDanger,
                       companyName: item.companyName,
                       name: item.name,
-                      personId: item.createBy.id,
+                      personId: item.postId,
                       sendTime: item.createDate
                     }
+                    console.log('showData', showData)
                     if (!danger.isSelected) {
                       dangerList.push(showData)
                     } else {
@@ -197,7 +219,7 @@ export default {
       if (this.selectedDangerList.length > 0) {
         // 根据已选择的隐患遍历当前所有隐患，置已选择的隐患isSelected为true
         this.allList.length > 0 && this.allList.forEach(receiveDanger => {
-          let dangerContent = receiveDanger.dangerContent && isJSON(receiveDanger.dangerContent) ? JSON.parse(receiveDanger.dangerContent) : []
+          let dangerContent = receiveDanger.dangerContent ? JSON.parse(decodeURIComponent(receiveDanger.dangerContent)) : []
           dangerContent.length > 0 && dangerContent.forEach(danger => {
             this.selectedDangerList.map(selectedDanger => {
               if (danger.HistoryId === selectedDanger.HistoryId) {

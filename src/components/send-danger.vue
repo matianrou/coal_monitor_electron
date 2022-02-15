@@ -435,6 +435,7 @@ export default {
               no: item.no,
               confirmBasis: item.confirmBasis,
               createDate: item.createDate,
+              createBy: this.$store.state.user.userId,
               id: item.itemId,
               isNewRecord: item.isNewRecord,
               isOther: item.isOther,

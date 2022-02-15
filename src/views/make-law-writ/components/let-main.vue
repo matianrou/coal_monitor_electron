@@ -1208,19 +1208,19 @@ export default {
       // this.saveFlag = '2'
     },
     async confirmSelectUpdatePaper (selectedRows) {
+      // 关闭更新弹窗
+      this.selectUpdatePaperVisible = false
+      this.loading.btn = true
       // 遍历选择需要更新的文书，更新保存数据
       for (let key in selectedRows) {
         for (let i = 0; i < selectedRows[key].length; i++) {
           await this.saveAssioPaper(selectedRows[key][i])
         }
       }
-      // 关闭更新弹窗
-      this.selectUpdatePaperVisible = false
-      // 保存已被更新的文书列表，用于展示隐患项更新情况
-
       // 保存当前文书数据
       await this.savePaperFunction(this.saveFlag)
       // this.saveFlag = '2'
+      this.loading.btn = false
     },
     async saveAssioPaper (itemPaper) {
       // 每一份文书itemPaper
