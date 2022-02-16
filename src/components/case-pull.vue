@@ -167,28 +167,28 @@
               }
             }
           } else {
-            // 监察时 三级机构，同时筛选Type
+            // 监察时 三级机构，同时筛选Type，2.16去掉过滤
             let orgInfo = db.table('orgInfo')
             let orgData = await orgInfo.find(item => item.no === userGroupId
-              && (item.type === '3' || item.type === '4' || item.type === '11') 
+              // && (item.type === '3' || item.type === '4' || item.type === '11') 
               && item.delFlag !== "1")
             let orgList = []
             if (orgData.grade === '2') {
               // 省级
               // 获取所有parentId为当前userGroupId的机构
               let orgChildrenList = await orgInfo.findAll(item => item.parentId === userGroupId
-                && (item.type === '3' || item.type === '4' || item.type === '11') 
+                // && (item.type === '3' || item.type === '4' || item.type === '11') 
                 && item.delFlag !== "1")
               orgList = [...[orgData], ...orgChildrenList]
             } else if (orgData.grade === '3') {
               // 市区县级
               // 获取当前机构的省级用户
               let parentOrg = await orgInfo.find(item => item.no === orgData.parentId
-                && (item.type === '3' || item.type === '4' || item.type === '11') 
+                // && (item.type === '3' || item.type === '4' || item.type === '11') 
                 && item.delFlag !== "1")
               // 获取所有parentId为当前parentOrg.no的机构
               let orgChildrenList = await orgInfo.findAll(item => item.parentId === parentOrg.no
-                && (item.type === '3' || item.type === '4' || item.type === '11') 
+                // && (item.type === '3' || item.type === '4' || item.type === '11') 
                 && item.delFlag !== "1")
               orgList = [...[parentOrg], ...orgChildrenList]
             } else {

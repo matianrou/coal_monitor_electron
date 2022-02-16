@@ -297,8 +297,8 @@ export default {
     async doSaveCase(corpBase, corpPlan) {
       let userId = this.$store.state.user.userId;
       let userName = this.$store.state.user.userName;
-      let groupId = this.selectPlanData.selGovUnit; // 企业选择的机构id
-      let groupName = this.selectPlanData.selGovUnitName; // 企业选择的机构名称
+      let groupId = this.$store.state.user.userGroupId; // 当前用户机构id
+      let groupName = this.$store.state.user.userGroupName; // 当前用户机构名称
       let sDate = getNowFormatTime();
       let caseId = getNowTime() + randomString(28);
       let caseNo = groupId + getNowTime();
@@ -321,7 +321,7 @@ export default {
         caseType: this.dataForm.caseType,
         remoteId: "",
         delFlag: "0",
-        affiliate: this.dataForm.affiliateId ? this.dataForm.affiliateId : groupId, // 归档机构
+        affiliate: this.dataForm.affiliateId ? this.dataForm.affiliateId : this.selectPlanData.selGovUnit, // 归档机构
         createDate: sDate,
         updateDate: sDate,
         createById: userId,

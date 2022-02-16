@@ -908,18 +908,21 @@ export default {
         })
         delMsg = delMsg.substring(0, delMsg.length - 1)
         this.$confirm(`是否确定删除隐患项：${delMsg}？`, '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          dangerouslyUseHTMLString: true,
-          type: 'warning'
-        }).then(() => {
-          let value = JSON.parse(JSON.stringify(this.dataForm.tempValue.tableData))
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            dangerouslyUseHTMLString: true,
+            type: 'warning'
+          }).then(() => {
+            let value = JSON.parse(JSON.stringify(this.dataForm.tempValue.tableData))
             this.dataForm.tempValue.selectedDangerList.map(selectedItem => {
               // 删除隐患项列表tableData中数据
               let index = value.findIndex(tableItem => tableItem.dangerId === selectedItem.dangerId)
               value.splice(index, 1)
             })
-            this.orderTable(value)
+            // 更改当前所有数据的order排序值
+            value.forEach((item, index) => {
+              item.order = index
+            })
             this.dataForm.tempValue.tableData = value
             // 删除后重新选定index数据（默认逻辑：统一重新选择第一个隐患项）
             if (this.dataForm.tempValue.tableData.length > 0) {

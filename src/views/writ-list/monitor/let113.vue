@@ -239,7 +239,7 @@ export default {
       // 监察需要筛选type
       let orgData = await orgInfo.find(
         (item) => item.no === this.$store.state.curCase.groupId
-        && (item.type === '3' || item.type === '4' || item.type === '11') 
+        // && (item.type === '3' || item.type === '4' || item.type === '11') 
         && item.delFlag !== "1"
       );
       let orgSysOfficeInfo =

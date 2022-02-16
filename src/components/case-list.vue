@@ -269,8 +269,10 @@ export default {
         // 增加逻辑：先获取检查活动，按检查活动对比计划中的企业信息
         // 如果计划中的企业已有检查，则名称前增加”（已做）“
         // 检查活动
+        // 当caseClassify执法活动分类为异地执法时，按制作机构展示，其他按归档机构展示
         let wkCase = await wkCaseInfo.findAll((item) => {
-          return item.groupId === selGovUnit
+          return ((item.caseClassify === '4' && item.groupId === selGovUnit)
+          || item.affiliate === selGovUnit)
           && item.pcMonth === selectPlanDate
           && item.planId && item.delFlag !== '1';
         });
@@ -325,8 +327,10 @@ export default {
         }
       } else if (this.dataForm.isPlan === '其他') {
         // 检查活动
+        // 当caseClassify执法活动分类为异地执法时，按制作机构展示，其他按归档机构展示
         let wkCase = await wkCaseInfo.findAll((item) => {
-          return item.groupId === selGovUnit
+          return ((item.caseClassify === '4' && item.groupId === selGovUnit)
+          || item.affiliate === selGovUnit)
           && item.pcMonth === selectPlanDate
           && !item.planId && item.delFlag !== '1';
         })
