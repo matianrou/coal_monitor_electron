@@ -51,9 +51,7 @@
               label="制作机构：">
               <el-select
                 v-model="dataForm.officeId"
-                placeholder="选择机构"
-                clearable
-              >
+                placeholder="选择机构">
                 <el-option
                   v-for="(item, index) in orgList"
                   :key="index"
@@ -128,9 +126,9 @@
           header-align="center"
           align="center"
           label="操作"
-          width="100">
+          width="120">
           <template slot-scope="scope">
-            <el-button type="text" @click="showPaper(scope.row, scope.$index)">查看文书</el-button>
+            <el-button type="text" @click="showPaper(scope.row, scope.$index)">查看文书列表</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -150,17 +148,27 @@
 </template>
 
 <script>
-import { getAllProvinceOrg } from '@/utils/index'
-import { getOrgTreeList } from '@/utils/setInitPaperData'
+import GoDB from '@/utils/godb.min.js'
+import { getAffiliateOrgName } from '@/utils/setInitPaperData'
 export default {
   name: "WritCase",
+  props: {
+    orgList: {
+      type: Array,
+      default: () => []
+    },
+    allOrgList: {
+      type: Array,
+      default: () => []
+    }
+  },
   components: {
   },
   data() {
     return {
       loading: false,
       dataForm: {
-        officeId: null, // 
+        officeId: this.$store.state.user.userGroupId, // 
         esname: null, // 全局搜索
         checkStatus: '0', // 活动类型
         dateValue: []
@@ -169,33 +177,18 @@ export default {
       pageSize: 10,
       totalCount: 0,
       tableData: [],
-      orgList: [], // 机构
-      allOrgList: [], // 所有机构
+      DBName: this.$store.state.DBName,
     };
   },
-  async created() {
-    await this.getOrgList()
+  watch: {
+    allOrgList(val) {
+      this.getDataList()
+    }
+  },
+  created() {
     this.getDataList()
   },
   methods: {
-    async getOrgList () {
-      // 获取省级所有机构列表
-      let userGroupId = this.$store.state.user.userGroupId
-      let arrOrg = await getAllProvinceOrg(userGroupId)
-      let orgList = []
-      for (let i = 0; i < arrOrg.length; i++) {
-        let obj = arrOrg[i];
-        let org = {
-          value: obj.no,
-          label: obj.name
-        }
-        orgList.push(org)
-      }
-      this.orgList = orgList
-      // 获取全部机构列表
-      let orgData = await getOrgTreeList()
-      this.allOrgList = orgData.orgList
-    },
     // 每页数
     sizeChangeHandle (val) {
       this.pageSize = val
@@ -232,11 +225,9 @@ export default {
         paramTxt += `beginTime=${this.dataForm.dateValue[0]}&endTime=${this.dataForm.dateValue[1]}&`
       }
       paramTxt = paramTxt.substring(0, paramTxt.length - 1)
-      console.log('paramTxt', paramTxt)
       this.$http.get(`/local/jczf/getCaseByOfficeId?${paramTxt}`)
       .then(async (response) => {
         if (response.status === 200) {
-                console.log('')
           if (response.data.data && response.data.data.list) {
             for (let i = 0; i < response.data.data.list.length; i++) {
               let item = response.data.data.list[i]
@@ -244,7 +235,15 @@ export default {
               for (let j = 0; j < this.allOrgList.length; j++) {
                 let org = this.allOrgList[j]
                 if (org.no === item.affiliate) {
-                  item.affiliateName = org.name
+                  if (item.caseClassify === '4') {
+                    let db = new GoDB(this.DBName)
+                    let orgInfo = db.table('orgInfo')
+                    let curOrgData = await orgInfo.find(o => o.no === item.affiliate && o.delFlag !== "1")
+                    await db.close()
+                    item.affiliateName = getAffiliateOrgName(curOrgData, this.allOrgList)
+                  } else {
+                    item.affiliateName = org.name
+                  }
                 }
                 if (org.no === item.groupId) {
                   item.groupName = org.name
@@ -266,9 +265,8 @@ export default {
     },
     showPaper (row, index) {
       // 查看文书
-      console.log('row', row)
-      console.log('index', index)
-    }
+      this.$emit('go-back', {page: 'writPaper', data: row})
+    },
   },
 };
 </script>

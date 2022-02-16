@@ -15,20 +15,33 @@
           <span>{{item.label}}</span><i v-if="index !== curBreadcrumb.length - 1" class="el-icon-arrow-right"></i> 
         </div>
       </div>
-      <!-- 执法活动列表 -->
-      <component
-        :is="activeBreadcrumb"
-      ></component>
+      <!-- 执法活动列表 / 执法文书列表 -->
+      <keep-alive>
+        <component
+          :is="activeBreadcrumb"
+          :case-data="selectedCaseData"
+          :paper-data="selectedPaperData"
+          :org-list="orgList"
+          :all-org-list="allOrgList"
+          @go-back="changePage"
+        ></component>
+      </keep-alive>
     </div>
   </div>
 </template>
 
 <script>
 import writCase from '@/views/writ-check/components/writ-case'
+import writPaper from '@/views/writ-check/components/writ-paper'
+import writFill from '@/views/writ-check/components/writ-fill'
+import { getAllProvinceOrg } from '@/utils/index'
+import { getOrgTreeList } from '@/utils/setInitPaperData'
 export default {
   name: "WritCheck",
   components: {
-    writCase
+    writCase,
+    writPaper,
+    writFill
   },
   data() {
     return {
@@ -41,8 +54,16 @@ export default {
           label: '执法文书列表',
           value: 'writPaper'
         },
+        {
+          label: '文书查看',
+          value: 'writFill'
+        },
       ],
-      activeBreadcrumb: 'writCase'
+      activeBreadcrumb: 'writCase',
+      orgList: [], // 省级机构
+      allOrgList: [], // 所有机构
+      selectedCaseData: null, // 选择的检查活动
+      selectedPaperData: null, // 选择的文书
     };
   },
   computed: {
@@ -60,11 +81,38 @@ export default {
       return curBreadcrumb
     }
   },
-  created() {
+  async created() {
+    await this.getOrgList()
   },
   methods: {
+    async getOrgList () {
+      // 获取省级所有机构列表
+      let userGroupId = this.$store.state.user.userGroupId
+      let arrOrg = await getAllProvinceOrg(userGroupId)
+      let orgList = []
+      for (let i = 0; i < arrOrg.length; i++) {
+        let obj = arrOrg[i];
+        let org = {
+          value: obj.no,
+          label: obj.name
+        }
+        orgList.push(org)
+      }
+      this.orgList = orgList
+      // 获取全部机构列表
+      let orgData = await getOrgTreeList()
+      this.allOrgList = orgData.orgList
+    },
     gotoPage (page) {
       this.activeBreadcrumb = page
+    },
+    changePage ({page, data}) {
+      if (this.activeBreadcrumb === 'writCase') {
+        this.selectedCaseData = data
+      } else if (this.activeBreadcrumb === 'writPaper') {
+        this.selectedPaperData = data
+      }
+      this.gotoPage(page)
     }
   },
 };

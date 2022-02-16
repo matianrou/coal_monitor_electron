@@ -7,6 +7,7 @@
       :doc-data="docData"
       :let-data="letData"
       :paper-data="paperData"
+      :from-page="fromPage"
       @go-back="goBack">
       <div slot="left">
         <div class="page page-sizeA4">

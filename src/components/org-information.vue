@@ -53,6 +53,7 @@
 <script>
 import GoDB from '@/utils/godb.min.js'
 import { getOrgTreeList } from '@/utils/setInitPaperData'
+import { getAffiliateOrgName } from '@/utils/setInitPaperData'
 export default {
   name: "OrgInformation",
   props: {
@@ -138,7 +139,7 @@ export default {
             && item.delFlag !== "1")
         }
         // 执法活动分类为4异地执法时：获取及省局名称，其他则直接展示归档机构名称
-        let affiliateName = caseData.caseClassify === '4' ? this.getAffiliateOrgName(affiliateOrg, allOrgList) : affiliateOrg.name
+        let affiliateName = caseData.caseClassify === '4' ? getAffiliateOrgName(affiliateOrg, allOrgList) : affiliateOrg.name
         await db.close()
         if (caseData) {
           let planDate = ''
@@ -157,21 +158,6 @@ export default {
         }
       }
     },
-    getAffiliateOrgName (orgData, allOrgList) {
-      // 获取归档机构名称
-      let name = ''
-      if (orgData.grade === '2') {
-        name = orgData.name
-      } else if (orgData.grade === '3') {
-        let upOrg = allOrgList.find(item => item.no === orgData.parentId)
-        name = `${upOrg.name}-${orgData.name}`
-      } else if (orgData.grade === '4') {
-        let upOrg = allOrgList.find(item => item.no === orgData.parentId)
-        let provinceOrg = allOrgList.find(item => item.no === upOrg.parentId)
-        name = `${provinceOrg.name}-${upOrg.name}-${item.officeName}`
-      }
-      return name
-    }
   },
 };
 </script>

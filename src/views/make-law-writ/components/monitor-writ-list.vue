@@ -6,6 +6,7 @@
     :corp-data="corpData"
     :doc-data="docData"
     :paper-data="paperData"
+    :from-page="fromPage"
     @go-back="changePage">
   </component>
 </template>
@@ -34,6 +35,10 @@ export default {
     paperData: {
       type: Object,
       default: () => {}
+    },
+    fromPage: {
+      type: String,
+      default: null
     }
   },
   data() {
