@@ -30,7 +30,7 @@ export async function getDocNumber(db, docTypeNo, caseId) {
   } else {
     // 监察筛选type类型
     orgData = await orgInfo.find(item => item.no === orgId 
-      && (item.type === '3' || item.type === '4' || item.type === '11') 
+      // && (item.type === '3' || item.type === '4' || item.type === '11') 
       && item.delFlag !== "1")
   }
   let orgSysOfficeInfo = orgData && orgData.sysOfficeInfo ? JSON.parse(orgData.sysOfficeInfo) : {
@@ -714,7 +714,7 @@ export async function getOrgData (db, orgId) {
   } else {
     // 监察
     orgData = await orgInfo.find(item => item.no === orgId
-      && (item.type === '3' || item.type === '4' || item.type === '11') 
+      // && (item.type === '3' || item.type === '4' || item.type === '11') 
       && item.delFlag !== "1"
     );
   }
@@ -752,7 +752,7 @@ export async function getOrgTreeList () {
     orgList = await orgInfo.findAll(item => item.delFlag !== '1' && item.grade !== '1')
   } else {
     orgList = await orgInfo.findAll(item => item.delFlag !== '1'
-      && (item.type === '3' || item.type === '4' || item.type === '11')
+      // && (item.type === '3' || item.type === '4' || item.type === '11')
       && item.grade !== '1')
   }
   await db.close()

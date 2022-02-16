@@ -96,7 +96,7 @@ export default {
         } else {
           // 监察过滤type
           selGovUnitOrg = await orgInfo.find(item => item.no === selGovUnit
-            && (item.type === '3' || item.type === '4' || item.type === '11') 
+            // && (item.type === '3' || item.type === '4' || item.type === '11') 
             && item.delFlag !== "1")
         }
         // 获取当前归档机构的省局名称
@@ -120,7 +120,7 @@ export default {
           // 监察为三级机构，过滤type类型
           if (selGovUnitOrg.grade === '3') {
             let provinceOrg = await orgInfo.find(item => item.no === selGovUnitOrg.parentId
-              && (item.type === '3' || item.type === '4' || item.type === '11') 
+              // && (item.type === '3' || item.type === '4' || item.type === '11') 
               && item.delFlag !== "1")
             provinceGroupName = provinceOrg.name
           }
@@ -134,7 +134,7 @@ export default {
         } else {
           // 监察过滤type
           affiliateOrg = await orgInfo.find(item => item.no === caseData.affiliate
-            && (item.type === '3' || item.type === '4' || item.type === '11') 
+            // && (item.type === '3' || item.type === '4' || item.type === '11') 
             && item.delFlag !== "1")
         }
         // 执法活动分类为4异地执法时：获取及省局名称，其他则直接展示归档机构名称

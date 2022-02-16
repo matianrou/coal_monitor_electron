@@ -102,7 +102,7 @@ export default {
       // 监察过滤机构 同时去掉国家局
       let orgList = await orgInfo.findAll(item => 
         item.delFlag !== "1" && 
-        (item.type === '3' || item.type === '4' || item.type === '11') &&
+        // (item.type === '3' || item.type === '4' || item.type === '11') &&
         item.grade !== '1')
       // 过滤掉当前机构省局及处室机构
       let provinceId = ''
@@ -110,7 +110,7 @@ export default {
       let userGroup = await orgInfo.find(item => {
         return item.delFlag !== "1" 
         && item.no === userGroupId
-        && (item.type === '3' || item.type === '4' || item.type === '11')
+        // && (item.type === '3' || item.type === '4' || item.type === '11')
       })
       await db.close()
       if (userGroup.no) {
