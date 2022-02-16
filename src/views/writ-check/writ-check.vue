@@ -8,41 +8,63 @@
       <!-- 面包屑导航 -->
       <div class="breadcrumb-main">
         <div
-          v-for="(item, index) in breadcrumbList"
+          v-for="(item, index) in curBreadcrumb"
           :key="index"
-          :class="index !== breadcrumbList.length - 1 ? 'breadcrumb-item' : ''"
+          :class="index !== curBreadcrumb.length - 1 ? 'breadcrumb-item' : ''"
           @click="gotoPage(item.value)">
-          <span>{{item.label}}</span><i v-if="index !== breadcrumbList.length - 1" class="el-icon-arrow-right"></i> 
+          <span>{{item.label}}</span><i v-if="index !== curBreadcrumb.length - 1" class="el-icon-arrow-right"></i> 
         </div>
       </div>
+      <!-- 执法活动列表 -->
+      <component
+        :is="activeBreadcrumb"
+      ></component>
     </div>
   </div>
 </template>
 
 <script>
+import writCase from '@/views/writ-check/components/writ-case'
 export default {
   name: "WritCheck",
   components: {
+    writCase
   },
   data() {
     return {
       breadcrumbList: [
         {
           label: '执法活动列表',
-          value: 'case'
+          value: 'writCase'
         },
         {
           label: '执法文书列表',
-          value: 'paper'
+          value: 'writPaper'
         },
-      ]
+      ],
+      activeBreadcrumb: 'writCase'
     };
+  },
+  computed: {
+    curBreadcrumb() {
+      let curBreadcrumb = []
+      for (let i = 0; i < this.breadcrumbList.length; i++) {
+        let item = this.breadcrumbList[i]
+        if (item.value === this.activeBreadcrumb) {
+          curBreadcrumb.push(item)
+          break;
+        } else {
+          curBreadcrumb.push(item)
+        }
+      }
+      return curBreadcrumb
+    }
   },
   created() {
   },
   methods: {
     gotoPage (page) {
-      console.log('page', page)
+      this.activeBreadcrumb = page
     }
   },
 };
