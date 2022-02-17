@@ -14,6 +14,23 @@
         <i class="el-icon-s-flag"></i>
         <span>{{`${userType === 'supervision' ? '监管' : '监察'}归档至${caseData.affiliateName}`}}</span>
       </div>
+      <div class="enterprisedata-title-function">
+        <!-- 监管没有企业画像 -->
+        <div 
+          v-if="$store.state.user.userType !== 'supervision' && corpData && corpData.corpId"
+          class="enterprisedata-title-function-content" 
+          style="margin-right: 7px;"
+          @click="gotoCompanyPaintings">
+          <i class="el-icon-office-building"></i>
+          <span>企业画像</span>
+        </div>
+        <div 
+          class="enterprisedata-title-function-content"
+          @click="showCompanyInfoDetail">
+          <i class="el-icon-s-order"></i>
+          <span>更多详情</span>
+        </div>
+      </div>
     </div>
     <div class="enterprisedata-content-main">
       <div class="enterprisedata-content-left">
@@ -32,7 +49,7 @@
         </div>
       </div>
       <div class="enterprisedata-content-left">
-        <!-- 其他功能 -->
+        <!-- 企业信息 -->
         <div class="enterprisedata-content">
           <span>企业类型：</span>
           <span>{{corpData.corpTypeName}}</span>
@@ -47,6 +64,12 @@
         </div>
       </div>
     </div>
+    <org-info-detail
+      v-if="visible.orgInfoDetail"
+      :visible="visible.orgInfoDetail"
+      :corp-data="corpData"
+      @close="closeDialog"
+    ></org-info-detail>
   </div>
 </template>
 
@@ -54,8 +77,13 @@
 import GoDB from '@/utils/godb.min.js'
 import { getOrgTreeList } from '@/utils/setInitPaperData'
 import { getAffiliateOrgName } from '@/utils/setInitPaperData'
+import { electronRequest } from '@/utils/electronRequest'
+import orgInfoDetail from '@/components/org-info-detail'
 export default {
   name: "OrgInformation",
+  components: {
+    orgInfoDetail
+  },
   props: {
     corpData: {
       type: Object,
@@ -67,6 +95,9 @@ export default {
       DBName: this.$store.state.DBName,
       userType: this.$store.state.user.userType,
       caseData: {},
+      visible: {
+        orgInfoDetail: false,
+      }
     };
   },
   watch: {
@@ -158,6 +189,19 @@ export default {
         }
       }
     },
+    gotoCompanyPaintings () {
+      // 打开企业画像
+      let url = `https://zhxx.chinamine-safety.gov.cn/analystrunner/project/82a6a3ad-dd4f-4480-8eed-02b2f0124d48/#/b1897637-9b62-46e3-99bf-d83ec31df322?cropid=${this.corpData.corpId}`
+      electronRequest({msgName: 'open-url', message: url});
+    },
+    async showCompanyInfoDetail () {
+      // 弹窗展示企业全部信息
+      console.log('corpData', this.corpData)
+      this.visible.orgInfoDetail = true
+    },
+    closeDialog ({page}) {
+      this.visible[page] = false
+    }
   },
 };
 </script>
@@ -212,6 +256,36 @@ export default {
       span {
         display: inline-block;
         margin-left: 5px;
+      }
+    }
+    .enterprisedata-title-function {
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+      cursor: pointer;
+      .enterprisedata-title-function-content {
+        height: 23px;
+        border: 1px solid rgba(#ffffe0, 0.9);
+        border-radius: 5px;
+        background: rgba(#ffffe0, 0.9);
+        display: flex;
+        align-items: center;
+        padding: 0 7px;
+        i {
+          color: #606266;
+        }
+        span {
+          color: #606266;
+          font-size: 16px;
+        }
+        &:hover {
+          i {
+            color: #409EFF;
+          }
+          span {
+            color: #409EFF;
+          }
+        }
       }
     }
   }
