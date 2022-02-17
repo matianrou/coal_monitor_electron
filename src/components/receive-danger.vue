@@ -179,7 +179,6 @@ export default {
                       personId: item.postId,
                       sendTime: item.createDate
                     }
-                    console.log('showData', showData)
                     if (!danger.isSelected) {
                       dangerList.push(showData)
                     } else {

@@ -185,9 +185,6 @@ export default {
       this.getDataList()
     }
   },
-  created() {
-    this.getDataList()
-  },
   methods: {
     // 每页数
     sizeChangeHandle (val) {
@@ -210,6 +207,10 @@ export default {
       this.getDataList()
     },
     getDataList () {
+      if (!this.$store.state.onLine) {
+        this.$message.warning('当前为离线登录，请联网后再查看文书！')
+        return
+      }
       this.loading = true
       this.tableData = []
       let { userSessId, userGroupId } = this.$store.state.user

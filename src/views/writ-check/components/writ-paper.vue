@@ -145,7 +145,6 @@ export default {
       .then(async (response) => {
         if (response.status === 200) {
           if (response.data.data) {
-            console.log('response.data.data', response.data.data)
             for (let i = 0; i < response.data.data.length; i++) {
               let item = response.data.data[i]
               // 获取归属机构和制作机构名称

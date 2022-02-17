@@ -250,7 +250,7 @@ export default {
         cellIdx16: null, // 日期
         cellIdx10: null, // 审批人
         cellIdx11: null, // 审批日期
-        cellIdx12: this.$store.state.curCase.provinceGroupName,
+        cellIdx12: null,
         cellIdx13: null,
         cellIdx14: null,
         CheckTable: {
@@ -283,6 +283,7 @@ export default {
         cellIdx2: cellIdx2String,
         cellIdx3: sSummary ? sSummary : null, // 煤矿概况
         cellIdx6: corpOther, // 其他事项
+        cellIdx12: this.$store.state.curCase.provinceGroupName,
       })
     },
     goBack({ page, data }) {

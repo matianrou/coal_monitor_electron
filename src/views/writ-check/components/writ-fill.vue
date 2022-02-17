@@ -46,10 +46,13 @@ export default {
   async activated() {
     await this.init()
   },
+  watch: {
+    async paperData(val) {
+      await this.init()
+    }
+  },
   methods: {
     async init () {
-      console.log('caseData', this.caseData)
-      console.log('paperData', this.paperData)
       let db = new GoDB(this.DBName)
       let corpBase = db.table('corpBase')
       let corp = await corpBase.find(item => item.corpId === this.caseData.corpId)
@@ -67,14 +70,14 @@ export default {
         caseType: this.caseData.checkStatus,
         constructType: corp.constructType
       }
-      this.docData = this.$store.state.dictionary[`${this.$store.state.user.userType}PaperType`].find(item => item.id === this.paperData.paperType)
-      console.log('corpData', this.corpData)
-      console.log('docData', this.docData)
+      let docData = this.$store.state.dictionary[`${this.$store.state.user.userType}PaperType`].find(item => item.id === this.paperData.paperType)
+      this.docData = Object.assign({}, docData, {
+        docTypeNo: docData.id,
+        docTypeName: docData.name
+      })
       this.showTemp = this.docData.page
     },
     changePage ({page, data}) {
-      console.log('page', page)
-      console.log('data', data)
       this.$emit('go-back', {page: 'writPaper', data: {}})
     },
   },
