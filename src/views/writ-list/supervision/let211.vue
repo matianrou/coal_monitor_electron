@@ -111,15 +111,14 @@
                 <p class="show-area-item-p">
                   <span style="padding: 7px;">{{ letData.cellIdx10 }}</span>
                 </p>
+                <p class="show-area-item-p">&nbsp;</p>
                 <cell-line :line-num="300"></cell-line>
               </div>
               <div v-else>
-                <p class="show-area-item-p">
-                  &nbsp;
-                </p>
-                <p class="show-area-item-p">
-                  &nbsp;
-                </p>
+                <p
+                  v-for="(item, index) in 8"
+                  :key="index"
+                  class="show-area-item-p">&nbsp;</p>
               </div>
             </div>
             <div class="docTextarea" style="margin-bottom: 30px;">
@@ -267,7 +266,7 @@ export default {
         cellIdx3: cellIdx3Hour, // 时
         cellIdx4: cellIdx4Minu, // 分
         cellIdx7: cellIdx7String, // 听证地点
-        cellIdx10: cellIdx10String, // 听证记录
+        // cellIdx10: cellIdx10String, // 听证记录 22.2.21去掉初始化逻辑
         DangerTable,
         selectedType: let28DataPaperContent.selectedType,
         associationPaperId,

@@ -167,21 +167,14 @@
                 <p class="show-area-item-p">
                   <span style="padding: 7px;">{{letData.cellIdx21 ? letData.cellIdx21 : '（点击编辑）'}}</span>
                 </p>
-                <div
-                  v-for="(item, index) in 200"
-                  :key="index"
-                  class="cellLine"
-                  :style="`top: ${(index + 1) * 9.54}mm;`"
-                >
-                </div>
+                <p class="show-area-item-p">&nbsp;</p>
+                <cell-line :line-num="300"></cell-line>
               </div>
               <div v-else>
                 <p
                   v-for="(item, index) in 8"
                   :key="index"
-                  class="show-area-item-p">
-                  &nbsp;
-                </p>
+                  class="show-area-item-p">&nbsp;</p>
               </div>
             </div>
             <div class="docTextarea" style="border-top: 2px solid #000; margin-top: 30px; line-height: normal;">
@@ -442,7 +435,7 @@ export default {
         cellIdx7: corp.corpName, // 地点
         cellIdx8: cellIdx8String, // 调查事由
         cellIdx13: corp.corpName, // 工作单位
-        cellIdx21: cellIdx21String,
+        // cellIdx21: cellIdx21String, // 22.2.21去掉初始化逻辑
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
           groupName: groupName,

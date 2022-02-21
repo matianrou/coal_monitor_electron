@@ -36,11 +36,14 @@
                 <p class="show-area-item-p">
                   <span style="padding: 7px;">{{ letData.cellIdx0? letData.cellIdx0 : '（点击编辑）' }}</span>
                 </p>
+                <p class="show-area-item-p">&nbsp;</p>
                 <cell-line></cell-line>
               </div>
               <div v-else>
-                <p class="show-area-item-p">&nbsp;</p>
-                <p class="show-area-item-p">&nbsp;</p>
+                <p
+                  v-for="(item, index) in 8"
+                  :key="index"
+                  class="show-area-item-p">&nbsp;</p>
               </div>
             </div>
             <div class="docTextarea">
@@ -284,7 +287,7 @@ export default {
         let associationPaperOrder = this.setAssociationPaperOrder(let4DataPaperContent.associationPaperOrder)
         associationPaperOrder.push('4')
         this.letData = Object.assign({}, this.letData, {
-          cellIdx0: cellIdx10String ? cellIdx10String : "", // 案由
+          // cellIdx0: cellIdx10String ? cellIdx10String : "", // 案由 22.2.21 去掉初始化逻辑
           DangerTable: DangerTable,
           associationPaperId,
           associationPaperOrder
@@ -320,7 +323,7 @@ export default {
         associationPaperOrder.push('4')
         await db.close()
         this.letData = Object.assign({}, this.letData, {
-          cellIdx0: cellIdx10String ? cellIdx10String : "", // 案由
+          // cellIdx0: cellIdx10String ? cellIdx10String : "", // 案由 22.2.21去掉初始化逻辑
           associationPaperId,
           associationPaperOrder
         })

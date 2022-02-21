@@ -224,7 +224,7 @@ export default {
       this.letData = Object.assign({}, this.letData, {
         cellIdx1: paperNumber,
         cellIdx2: let4DataPaperContent.cellIdx4, // 案由
-        cellIdx5: let4DataPaperContent.cellIdx5, // 案由
+        // cellIdx5: let4DataPaperContent.cellIdx5, // 案情摘要 // 22.2.21去掉初始化逻辑
         DangerTable,
         associationPaperId,
         associationPaperOrder

@@ -184,8 +184,11 @@
                 ></div>
               </div>
               <div v-else>
-                <p class="show-area-item-p">&nbsp;</p>
-                <p class="show-area-item-p">&nbsp;</p>
+                <p
+                  v-for="(item, index) in 8"
+                  :key="index"
+                  class="show-area-item-p"
+                >&nbsp;</p>
               </div>
             </div>
           </div>
@@ -314,7 +317,7 @@ export default {
         cellIdx4: cellIdx4Minu, // 分
         cellIdx7: corp.corpName, // 裁定地点
         cellIdx8: cellIdx8String, // 裁定事项
-        cellIdx13: cellIdx13String, // 裁定记录
+        // cellIdx13: cellIdx13String, // 裁定记录 22.2.21去掉初始化逻辑
         extraData: {
           // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,

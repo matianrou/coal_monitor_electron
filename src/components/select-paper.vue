@@ -50,7 +50,7 @@
     </div>
     <span slot="footer" class="dialog-footer">
       <el-button @click="close">返回</el-button>
-      <el-button type="primary" @click="confirm">关联</el-button>
+      <el-button type="primary" @click="confirm">确定</el-button>
     </span>
   </el-dialog>
 </template>
