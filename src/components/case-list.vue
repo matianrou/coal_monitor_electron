@@ -2,7 +2,7 @@
 <template>
   <div class="case-list">
     <div class="case-list-select-main">
-      <div style="height:36px; line-height: 36px; color:#666;background:#4F83E9">
+      <div style="height:36px; line-height: 36px; color:#666; background:#4F83E9;border-top-left-radius: 10px;border-top-right-radius: 10px;">
         <td style="text-indent:20px;color:#fff;">{{usePage === 'MakeLawWrit' ? '选择煤矿/企业' : '选择煤矿/企业'}}</td>
       </div>
       <div style="flex: 1;background-color:#fff;vertical-align:top; overflow: auto;">

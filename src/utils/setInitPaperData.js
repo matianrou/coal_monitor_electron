@@ -759,3 +759,19 @@ export async function getOrgTreeList () {
   let orgListTree = treeDataTranslate(orgList, 'no', 'parentId')
   return {orgList, orgListTree}
 }
+
+export function getAffiliateOrgName (orgData, allOrgList) {
+  // 获取归档机构名称
+  let name = ''
+  if (orgData.grade === '2') {
+    name = orgData.name
+  } else if (orgData.grade === '3') {
+    let upOrg = allOrgList.find(item => item.no === orgData.parentId)
+    name = `${upOrg.name}-${orgData.name}`
+  } else if (orgData.grade === '4') {
+    let upOrg = allOrgList.find(item => item.no === orgData.parentId)
+    let provinceOrg = allOrgList.find(item => item.no === upOrg.parentId)
+    name = `${provinceOrg.name}-${upOrg.name}-${item.officeName}`
+  }
+  return name
+}

@@ -1,11 +1,11 @@
 <!-- 文书 样式总框架组件 -->
 <template>
   <div v-loading="loading.btn" class="let-main">
-    <div class="let-main-left">
+    <div class="let-main-left" :style="fromPage === 'writ-case' ? 'height: calc(100vh - 200px)' : ''">
       <!-- 左侧文书组件 -->
       <slot name="left" ref="letLeft"></slot>
     </div>
-    <div class="let-main-right" id="toolContainer">
+    <div class="let-main-right" id="toolContainer" :style="fromPage === 'writ-case' ? 'height: calc(100vh - 200px)' : ''">
       <!-- 保存、打印、归档等操作 -->
       <table
         style="width:100%;height:110px;background-color:#CBE6FF;border-top-left-radius: 10px;border-top-right-radius: 10px; "

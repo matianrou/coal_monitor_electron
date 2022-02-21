@@ -79,14 +79,17 @@ export default {
 		background-color: #000;
 	}
   .main-page {
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
     .main-header {
       height: 80px;
       overflow: hidden;
     }
     .main-content {
-      height: calc(100% - 80px);
+      // height: calc(100% - 80px);
+      flex: 1;
     }
   }
 </style>

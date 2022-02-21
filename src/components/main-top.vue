@@ -13,37 +13,46 @@
       </div>
       <div class="main-top-nav">
         <!-- 页签 -->
-        <div
-          class="navTd no-drag"
-          :style="activeTab === 'SourceDownload' ? 'background: #224f7d;' : ''"
-          @click="changeTab('SourceDownload')">
-          <span>资源下载</span>
-        </div>
-        <div
-          class="navTd no-drag"
-          :style="activeTab === 'MakeLawWrit' ? 'background: #224f7d;' : ''"
-          @click="changeTab('MakeLawWrit')">
-          <span>执法工作台</span>
-        </div>
-        <div
-          class="navTd no-drag"
-          :style="activeTab === 'WritManagement' ? 'background: #224f7d;' : ''"
-          @click="changeTab('WritManagement')">
-          <span>文书管理</span>
-        </div>
-        <div
-          v-if="userType !== 'supervision'"
-          class="navTd no-drag"
-          :style="activeTab === 'opinionSuggestion' ? 'background: #224f7d;' : ''"
-          @click="changeTab('opinionSuggestion')">
-          <span>意见建议书</span>
-        </div>
-        <div
-          v-if="userType !== 'supervision'"
-          class="navTd no-drag"
-          :style="activeTab === 'sendPaper' ? 'background: #224f7d;' : ''"
-          @click="changeTab('sendPaper')">
-          <span>调查互动</span>
+        <div class="main-top-tab">
+          <div
+            class="navTd no-drag"
+            :style="activeTab === 'SourceDownload' ? 'background: #224f7d;' : ''"
+            @click="changeTab('SourceDownload')">
+            <span>资源下载</span>
+          </div>
+          <div
+            class="navTd no-drag"
+            :style="activeTab === 'MakeLawWrit' ? 'background: #224f7d;' : ''"
+            @click="changeTab('MakeLawWrit')">
+            <span>执法工作台</span>
+          </div>
+          <div
+            class="navTd no-drag"
+            :style="activeTab === 'WritManagement' ? 'background: #224f7d;' : ''"
+            @click="changeTab('WritManagement')">
+            <span>文书管理</span>
+          </div>
+          <div
+            v-if="userType !== 'supervision'"
+            class="navTd no-drag"
+            :style="activeTab === 'WritCheck' ? 'background: #224f7d;' : ''"
+            @click="changeTab('WritCheck')">
+            <span>文书查看</span>
+          </div>
+          <div
+            v-if="userType !== 'supervision'"
+            class="navTd no-drag"
+            :style="activeTab === 'opinionSuggestion' ? 'background: #224f7d;' : ''"
+            @click="changeTab('opinionSuggestion')">
+            <span>意见建议书</span>
+          </div>
+          <div
+            v-if="userType !== 'supervision'"
+            class="navTd no-drag"
+            :style="activeTab === 'sendPaper' ? 'background: #224f7d;' : ''"
+            @click="changeTab('sendPaper')">
+            <span>调查互动</span>
+          </div>
         </div>
         <div class="main-top-operation no-drag" style="margin-left: 20px;">
           <span class="el-dropdown-link">
@@ -303,43 +312,52 @@ export default {
   display: flex;
   -webkit-app-region: drag;
   .main-top-nav {
+    flex: 1;
     margin-left: 40px;
     display: flex;
-    .navTd {
-      width: 100px;
+    min-width: 300px;
+    .main-top-tab {
+      flex: 1;
+      display: flex;
+      overflow-y: auto;
+      .navTd {
+        width: 100px;
+        min-width: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 18px;
+        font-weight: 500;
+        cursor: pointer;
+        &:hover {
+          background: rgba(#224f7d, 0.6);
+        }
+      }
+    }
+    .main-top-operation {
+      // flex: 1;
+      width: 165px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-size: 18px;
-      font-weight: 500;
-      cursor: pointer;
-      &:hover {
-        background: rgba(#224f7d, 0.6);
+      // justify-content: flex-end;
+      .img-btn {
+        height: 35px;
+        vertical-align: middle;
+      }
+      .btn-icon {
+        font-size: 35px;
+        color: #ECECEC;
+        margin: 0px 5px;
+        cursor: pointer;
+        // &:hover {
+        //   color: rgba(#f19716, 0.9);
+        // }
       }
     }
   }
-  .main-top-operation {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    .img-btn {
-      height: 35px;
-      vertical-align: middle;
-    }
-    .btn-icon {
-      font-size: 35px;
-      color: #ECECEC;
-      margin: 0px 5px;
-      cursor: pointer;
-      // &:hover {
-      //   color: rgba(#f19716, 0.9);
-      // }
-    }
-  }
   .main-top-operation-right {
-    flex: 1;
+    width: 150px;
     display: flex;
     align-items: flex-end;
     flex-direction: column;
@@ -369,5 +387,29 @@ export default {
   text-decoration: none;
   font-size: 18px;
   cursor: pointer;
+}
+
+/*滚动条整体样式*/
+.main-top-tab::-webkit-scrollbar {
+  height: 5px;
+} 
+.main-top-tab::-webkit-scrollbar-thumb {
+  border-radius   : 10px;
+  background-color: #f19716;
+  background-image: -webkit-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.2) 25%,
+      transparent 25%,
+      transparent 50%,
+      rgba(255, 255, 255, 0.2) 50%,
+      rgba(255, 255, 255, 0.2) 75%,
+      transparent 75%,
+      transparent
+  );
+}
+.main-top-tab::-webkit-scrollbar-track {
+  box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background   : #ededed;
+  border-radius: 10px;
 }
 </style>
