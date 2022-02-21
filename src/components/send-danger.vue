@@ -364,12 +364,12 @@ export default {
           this.$message.error('请先从下表中选择需要删除的违法违规行为！')
           return
         }
-        let itemContents = ''
-        this.selectedDangerList.map(item => {
-          itemContents += item.itemContent + '；'
-        })
-        itemContents = itemContents.substring(0, itemContents.length - 1)
-        await this.$confirm(`是否确定删除违法违规行为：${itemContents}?`, '提示', {
+        // let itemContents = ''
+        // this.selectedDangerList.map(item => {
+        //   itemContents += item.itemContent + '；'
+        // })
+        // itemContents = itemContents.substring(0, itemContents.length - 1)
+        await this.$confirm(`是否确定删除已选择的${this.selectedDangerList.length}条违法违规行为?`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           dangerouslyUseHTMLString: true,

@@ -97,6 +97,7 @@
 </template>
 
 <script>
+import { isJSON } from '@/utils/index'
 export default {
   name: "ReceiveDanger",
   props: {
@@ -146,7 +147,25 @@ export default {
             let dangerHistoryList = []
             if (data.data && data.data.length > 0) {
               data.data.map(item => {
-                let dangerContent = item.dangerContent ? JSON.parse(decodeURIComponent(item.dangerContent)) : []
+                let dangerContent = []
+                // 整理隐患
+                if (item.dangerContent) {
+                  // 如果有隐患信息
+                  let dangerContentString = ''
+                  // 判断是否含有%
+                  if(item.dangerContent.indexOf('%') > -1) {
+                    // 如果有则置换
+                    dangerContentString = item.dangerContent.replace(/%/g, '%25')
+                  } else {
+                    dangerContentString = item.dangerContent
+                  }
+                  // 解码
+                  dangerContentString = decodeURIComponent(dangerContentString)
+                  // 判断是否为JSON字串
+                  if (isJSON(dangerContentString)) {
+                    dangerContent = JSON.parse(dangerContentString)
+                  }
+                }
                 if (dangerContent.length > 0) {
                   dangerContent.map(danger => {
                     // 根据隐患项中的isSelected字段判断是否为已接收字段 true为已接收，false为未接收
@@ -179,7 +198,6 @@ export default {
                       personId: item.postId,
                       sendTime: item.createDate
                     }
-                    console.log('showData', showData)
                     if (!danger.isSelected) {
                       dangerList.push(showData)
                     } else {

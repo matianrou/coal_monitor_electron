@@ -134,6 +134,7 @@
           <template slot-scope="scope">
             <el-button type="text" size="small" @click="operation(scope, 'selectCheckPosition')">检查地点</el-button>
             <el-button type="text" size="small" @click="operation(scope, 'selectPerson')" style="margin-left: 0px;">检查人员</el-button>
+            <!-- <el-button type="text" size="small" @click="copyItem(scope)" style="margin-left: 0px;">复制此项</el-button> -->
             <el-button type="text" size="small" @click="deleteItem(scope)" style="margin-left: 0px;">删除</el-button>
           </template>
         </el-table-column>
@@ -442,6 +443,7 @@ export default {
           // 删除检查项列表tableData中数据
           this.dataForm.tempValue.tableData.splice(scope.$index, 1)
           // 清空选中
+          this.orderTable(this.dataForm.tempValue.tableData)
           this.$refs.checkTable.clearSelection()
         }).catch(() => {
         })
@@ -603,6 +605,18 @@ export default {
         data.personList = []
         data.personNames = null
       }
+    },
+    copyItem (scope) {
+      // 复制粘贴一条同样的
+      let data = scope.row
+      let index = scope.$index
+      let checkId = getNowTime() + randomString(28)
+      let addItem = Object.assign({}, data, {
+        checkId
+      })
+      this.dataForm.tempValue.tableData.splice(index, 0, addItem)
+      // 重新排序
+      this.orderTable(this.dataForm.tempValue.tableData)
     }
   },
 };
