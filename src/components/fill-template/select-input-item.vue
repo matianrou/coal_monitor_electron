@@ -63,7 +63,7 @@ export default {
       })
     },
     changeValue(val) {
-      this.$parent.handleSave(true)
+      // this.$parent.handleSave(true)
     }
   },
 };

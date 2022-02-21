@@ -286,7 +286,8 @@
 <style lang="scss" scoped>
 .select-check {
   display: flex;
-  height: 300px;
+  height: 50vh;
+  min-height: 500px;
   flex-direction: column;
   .select-check-filter {
     display: flex;

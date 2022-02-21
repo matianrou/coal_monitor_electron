@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     changeValue(val) {
-      this.$parent.handleSave(true)
+      // this.$parent.handleSave(true)
     }
   },
 };

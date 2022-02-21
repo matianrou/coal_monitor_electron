@@ -1,6 +1,6 @@
 <!-- tab: 文书查看-执法活动文书列表 -->
 <template>
-  <div class="writ-paper">
+  <div v-loading="loading" class="writ-paper">
     <div class="writ-paper-case-info-main">
       <div class="writ-paper-case-info-row">
         <div class="writ-paper-case-info">

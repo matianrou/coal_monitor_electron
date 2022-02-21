@@ -1,6 +1,6 @@
 <!-- tab: 文书查看-执法活动列表 -->
 <template>
-  <div class="writ-case-main">
+  <div v-loading="loading" class="writ-case-main">
     <!-- 筛选 -->
     <div>
       <el-form 

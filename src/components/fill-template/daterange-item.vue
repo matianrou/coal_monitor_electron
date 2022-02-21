@@ -93,7 +93,7 @@ export default {
         res = handleDate(string.substring(0, string.length - 1), '-')
       } 
       this.$set(this.dataForm, 'tempValue', res)
-      this.$parent.handleSave(true)
+      // this.$parent.handleSave(true)
     }
   },
 };
