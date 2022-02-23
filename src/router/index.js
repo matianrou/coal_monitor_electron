@@ -64,6 +64,12 @@ export default new Router({
           name: 'sendPaper',
           component: () => import('@/views/send-paper/send-paper')
         },
+        // 学习资料
+        {
+          path: '/main/learningMaterials',
+          name: 'learningMaterials',
+          component: () => import('@/views/learning-materials/learning-materials')
+        },
       ]
     }
   ]

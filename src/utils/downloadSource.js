@@ -92,30 +92,37 @@ async function doOrgDb(resId, data) {
 async function doPersonDb(resId, data) {
   let arrPerson = [];
 	let schema = {
-		orgInfo: {
-			"no": {
+		person: {
+			admin: Boolean,
+			company: String,
+			createBy: String,
+			createDate: String,
+			delFlag: String,
+			email: String,
+			no: {
 				type: String,
 				unique: true
 			},
-			"createDate": String,
-			"updateDate": String,
-			"delFlag": String,
-			"parentIds": String,
-			"name": String,
-			"code": String,
-			"type": String,
-			"grade": String,
-			"address": String,
-			"parentId": String,
-			"sort": Number,
-			"areaId": String,
-			"areaName": String,
-			"areaShortName": String,
-			"areaParentIds": String,
-			"areaDelFlag": String,
-			"areaSort": Number,
-			"sysOfficeInfo": String
-		}
+			loginDate: String,
+			loginFlag: String,
+			loginIp: String,
+			loginName: String,
+			mobile: String,
+			name: String,
+			office: String,
+			oldLoginDate: String,
+			oldLoginIp: String,
+			qylxmc: String,
+			remarks: String,
+			roleNames: String,
+			updateBy: String,
+			updateDate: String,
+			userNumber: String,
+			userType: String,
+			zfLogin: Boolean,
+			officeId: String,
+			officeName: String,
+		},
 	}
   let db = new GoDB(store.state.DBName, schema);
   let person = db.table('person');

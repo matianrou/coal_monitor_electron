@@ -53,6 +53,12 @@
             @click="changeTab('sendPaper')">
             <span>调查互动</span>
           </div>
+          <div
+            class="navTd no-drag"
+            :style="activeTab === 'learningMaterials' ? 'background: #224f7d;' : ''"
+            @click="changeTab('learningMaterials')">
+            <span>学习资料</span>
+          </div>
         </div>
         <div class="main-top-operation no-drag" style="margin-left: 20px;">
           <span class="el-dropdown-link">
