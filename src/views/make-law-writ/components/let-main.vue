@@ -113,9 +113,6 @@ import { createHtml } from "@/utils/createHtml";
 import letDrawer from "@/components/let-drawer";
 import { saveToUpload, saveFineCollection, updateXkzStatus } from '@/utils/savePaperData'
 import docxtemplater from 'docxtemplater'
-import JSZipUtils from 'jszip-utils'
-import { saveAs } from 'file-saver'
-import pizzip from 'pizzip'
 import punishmentInfoFill from '@/components/punishment-info-fill'
 import punishmentInfoConfirm from '@/components/punishment-info-confirm'
 import { setNewDanger, comparDangerTable } from '@/utils/setInitPaperData'
@@ -1176,9 +1173,9 @@ export default {
       } else {
         docName = this.docData.docTypeNo
       }
-      await JSZipUtils.getBinaryContent(`./static/docxtemplate/${this.$store.state.user.userType}/doc${docName}.docx`, (error, content) => {
+      await this.JSZipUtils.getBinaryContent(`./static/docxtemplate/${this.$store.state.user.userType}/doc${docName}.docx`, (error, content) => {
         console.log('error = ', error, content)
-        let zip = new pizzip(content)
+        let zip = new this.pizzip(content)
         let doc = new docxtemplater()
         doc.loadZip(zip)
         doc.setData(exportData)
@@ -1198,7 +1195,7 @@ export default {
           mimeType:
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
         })
-        saveAs(out, `${this.docData.docTypeName}.docx`)
+        this.fileSaver.saveAs(out, `${this.docData.docTypeName}.docx`)
       })
       this.loading.btn = false
     },

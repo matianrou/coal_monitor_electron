@@ -10,9 +10,10 @@ import http from '@/utils/http'
 import cloneDeep from 'lodash/cloneDeep'
 import Print from '@/utils/print'
 import cellLine from '@/components/cell-line'
-import Contextmenu from "vue-contextmenujs"
+import JSZipUtils from 'jszip-utils'
+import pizzip from 'pizzip'
+import fileSaver from 'file-saver'
 
-Vue.use(Contextmenu);
 Vue.use(ElementUI)
 Vue.use(Print)
 Vue.config.productionTip = false
@@ -21,6 +22,9 @@ Vue.component("cellLine", cellLine)
 
 // 挂载全局
 Vue.prototype.$http = http
+Vue.prototype.JSZipUtils = JSZipUtils
+Vue.prototype.pizzip = pizzip
+Vue.prototype.fileSaver = fileSaver
 
 // 全局前缀
 window.SITE_CONFIG = {}

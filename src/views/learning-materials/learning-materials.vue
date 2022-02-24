@@ -23,9 +23,6 @@
 </template>
 
 <script>
-import JSZipUtils from 'jszip-utils'
-import pizzip from 'pizzip'
-import { saveAs } from 'file-saver'
 export default {
   name: "LearningMaterials",
   data() {
@@ -112,12 +109,11 @@ export default {
     },
     async allDownLoad () {
       // 全部下载
-      let zip = new pizzip()
+      let zip = new this.pizzip()
       let promises = []
       for (let i = 0; i < this.fileList.length; i++) {
         let item = this.fileList[i]
         const promise = this.getFile(item).then(content => {
-          console.log('content', content)
           zip.file(item.fileName, content)
         }).catch(error => {
           console.log('error', error)
@@ -125,13 +121,13 @@ export default {
         promises.push(promise)
       }
       Promise.all(promises).then(() => {
-        console.log('zip',zip)
-        saveAs(zip.generate({type: "blob"}), '全部学习资料.zip')
+        this.fileSaver.saveAs(zip.generate({type: "blob"}), '全部学习资料.zip')
       })
     },
     getFile(item) {
+      let that = this
       return new Promise((resolve, reject) => {
-        JSZipUtils.getBinaryContent(item.url).then(content => {
+        that.JSZipUtils.getBinaryContent(item.url).then(content => {
           resolve(content)
         }).catch(error => {
           reject(error.toString())
