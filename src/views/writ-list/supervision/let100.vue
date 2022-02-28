@@ -86,7 +86,7 @@
                 @click="
                   commandFill(
                     'cellIdx5',
-                    '检查的主要内容和分工见明细表',
+                    '检查分工明细表',
                     'CheckTable'
                   )
                 "
@@ -115,7 +115,7 @@
                 @click="
                   commandFill(
                     'cellIdx5',
-                    '检查的主要内容和分工见明细表',
+                    '检查分工明细表',
                     'CheckTable'
                   )
                 "
@@ -173,7 +173,7 @@
         <div style="height: 0px; overflow: hidden">
           <div ref="CheckTable" class="page page-sizeA4">
             <div style="padding: 10px 0; text-align: center">
-              {{letData.cellIdx12}}检查分工明细表
+              检查分工明细表
             </div>
             <div style="width: 19.5cm; margin: 0 auto;">
               <el-table

@@ -304,7 +304,7 @@ export default {
       let caseNo = groupId + getNowTime();
       // 生成文书编号的最后三位自增数字：存储在LocalStorage中，根据userId获取对应数据
       let num = 0
-      let userNumber = this.$store.state.user.userNumber
+      let userNumber = this.$store.state.user.userNumber || ''
       if(localStorage.getItem(`addSelfNum-${this.$store.state.user.userId}-${userNumber}`)) {
         num = Number(localStorage.getItem(`addSelfNum-${this.$store.state.user.userId}-${userNumber}`)) + 1
         localStorage.setItem(`addSelfNum-${this.$store.state.user.userId}-${userNumber}`, num)

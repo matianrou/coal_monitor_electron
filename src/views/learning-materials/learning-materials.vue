@@ -96,7 +96,6 @@ export default {
           },
         ]
       }
-      console.log('userType', this.$store.state.user.userType)
       return fileList
     }
   },

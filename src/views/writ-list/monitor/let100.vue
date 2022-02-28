@@ -86,12 +86,12 @@
                 @click="
                   commandFill(
                     'cellIdx5',
-                    `${letData.cellIdx12}检查分工明细表`,
+                    `${letData.cellIdx12 || ''}检查分工明细表`,
                     'CheckTable'
                   )
                 "
               >
-                六、检查的主要内容和分工见明细表（附件：《{{letData.cellIdx12}}检查分工明细表》）
+                六、检查的主要内容和分工见明细表（附件：《{{letData.cellIdx12 || ''}}检查分工明细表》）
               </div>
               <div></div>
             </div>
@@ -113,12 +113,12 @@
                 @click="
                   commandFill(
                     'cellIdx5',
-                    `${letData.cellIdx12}检查分工明细表`,
+                    `${letData.cellIdx12 || ''}检查分工明细表`,
                     'CheckTable'
                   )
                 "
               >
-                《{{letData.cellIdx12}}检查分工明细表》
+                《{{letData.cellIdx12 || ''}}检查分工明细表》
               </div>
             </div>
             <table height="30"></table>

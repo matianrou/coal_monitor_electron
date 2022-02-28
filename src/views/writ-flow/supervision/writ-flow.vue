@@ -86,7 +86,6 @@
                         <!-- 文书名称,文书数量展示 -->
                         <div
                           @click="cmdEditDoc(third.letName, third.name, third.docTypeNo)"
-                          @contextmenu.prevent="event => onContextmenu(event, third.docTypeNo)"
                           class="flow-span">
                           <span v-if="third.showName">{{third.showName[0]}}<br />{{third.showName[1]}}</span>
                           <span v-else>{{third.name}}</span>
@@ -913,23 +912,6 @@ export default {
       await db.close()
       this.$emit('refresh-writ')
     },
-    onContextmenu(event, paperType) {
-      this.$contextmenu({
-        items: [
-          {
-            label: "删除",
-            onClick: () => {
-              this.delPaper(paperType)
-            }
-          },
-        ],
-        event, // 鼠标事件信息
-        customClass: "custom-class", // 自定义菜单 class
-        zIndex: 3, // 菜单样式 z-index
-        minWidth: 60 // 主菜单最小宽度
-      });
-      return false;
-    },
     async delPaper (paperType) {
       if (!this.$store.state.onLine) {
         this.$message.error('当前为离线登录，请联网后删除文书！')
@@ -979,6 +961,10 @@ export default {
       this.loading.btn = false
     },
     async confirmDeletePaper (curPaper) {
+      if (curPaper.isPull) {
+        this.$message.error('当前文书为拉取的文书，不可单独删除！')
+        return
+      }
       await this.$http.get(`${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/jczf/delPaperByPaperId?__sid=${this.$store.state.user.userSessId}&paperId=${curPaper.paperId}`)
         .then(async ({ data }) => {
           if (data.status === "200") {

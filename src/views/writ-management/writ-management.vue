@@ -318,6 +318,10 @@ export default {
         this.$message.error('当前为离线登录，请联网后删除文书！')
         return
       }
+      if (row.isPull) {
+        this.$message.error('当前文书为拉取的文书，不可单独删除！')
+        return
+      }
       // 删除文书 判断是否已归档，如果已归档则不可删除
       this.loading.btn = true
       this.$confirm(`是否确认删除${row.name}?`, '提示', {
@@ -369,6 +373,10 @@ export default {
       // 如果没有网络则不能归档
       if (!this.$store.state.onLine) {
         this.$message.error('当前为离线登录，请联网后再归档！')
+        return
+      }
+      if (row.isPull) {
+        this.$message.error('当前文书为拉取的文书，不可操作！')
         return
       }
       this.loading.btn = true
