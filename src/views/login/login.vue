@@ -134,7 +134,7 @@ export default {
           userGroupId = Decrypt(userGroupId)
           userAreaId = Decrypt(userAreaId)
           userGroupName = Decrypt(userGroupName)
-          userNumber = Decrypt(userNumber)
+          userNumber = Decrypt(userNumber) 
           userType = Decrypt(userType)
           this.$store.state.user.userId = userId
           this.$store.state.user.loginName = loginName
@@ -147,7 +147,7 @@ export default {
           this.$store.state.user.userGroupId = userGroupId
           this.$store.state.user.userAreaId = userAreaId
           this.$store.state.user.userGroupName = userGroupName
-          this.$store.state.user.userNumber = userNumber
+          this.$store.state.user.userNumber = userNumber || ''
           await this.setDB(userId)
           this.loading.loginBtn = false
           this.$message.warning('当前为离线，部分功能无法使用！')
@@ -269,7 +269,7 @@ export default {
           this.$store.state.user.userGroupName = data.data.groupName
           // 获取个人执法编号
           // 有网络时，直接使用接口返回的数据
-          this.$store.state.user.userNumber = data.data.userNumber
+          this.$store.state.user.userNumber = data.data.userNumber || ''
         } else {
           this.$message.error('获取用户信息失败，请重新登录！')
           this.logoutHandle()

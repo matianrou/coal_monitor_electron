@@ -372,6 +372,10 @@ export default {
       if (isDefault && listArr.length > 0 && corpList.length > 0) {
         // 默认选中第一个
         this.showDocHome(corpList[0], 0)
+      } else if (isDefault) {
+        // 如果列表中没有数据则清空选择
+        this.selectedCase = {}
+        this.$parent.changePage({page: 'empty'})
       }
     },
     async showDocHome(data, index) {
@@ -457,63 +461,141 @@ export default {
           dangerouslyUseHTMLString: true,
           type: 'warning'
         }).then(async () => {
-          // 删除检查活动
-          // 首先遍历检查活动中的文书时候已经有归档的文书
+          // 删除检查活动:
+          // 首先判断当前检查活动是否为拉取的数据，如果是拉取的则直接删除本地存储（如果其中有自己制作的文书则仍需上传服务器），如果不是拉取则上传服务器
           let db = new GoDB(this.DBName);
-          let wkPaper = db.table('wkPaper')
-          // 获取所有此检查活动caseId的文书
-          let paperList = await wkPaper.findAll(item => item.caseId === this.selectedCase.caseId)
-          let canDelete = true
-          // 遍历文书，判断是否有已经归档的文书
-          paperList.length > 0 && paperList.map(item => {
-            if (item.delFlag === '0') {
-              canDelete = false
-            }
-          })
-          if (canDelete) {
-            // 调用接口删除检查活动，接口删除成功后进行本地删除
-            let wkCase = db.table('wkCase')
-            let curCase = await wkCase.find(item => item.caseId === this.selectedCase.caseId)
-            await this.$http.get(`${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/jczf/deleteCaseByCaseId?__sid=${this.$store.state.user.userSessId}&caseId=${curCase.caseId}`)
-              .then(async ({ data }) => {
-                if (data.status === "200") {
-                  // 本地删除：检查活动
-                  // 删除检查活动delFlag为1
-                  curCase.delFlag = '1'
-                  await wkCase.put(curCase)
-                  // 本地删除：文书
-                  // 遍历所有已经保存的文书，进行修改保存（本地），delFlag为1，即删除
-                  let wkDanger = db.table('wkDanger')
-                  paperList.map(async (paper) => {
-                    let data = paper
+          let wkCase = db.table('wkCase') 
+          let caseData = await wkCase.find(item => item.caseId === this.selectedCase.caseId && item.delFlag !== '1')
+          if (caseData.isPull) {
+            let wkPaper = db.table('wkPaper')
+            // 获取所有此检查活动caseId的文书
+            let paperList = await wkPaper.findAll(item => item.caseId === this.selectedCase.caseId && item.delFlag !== '1')
+            let canDelete = true
+            // 遍历文书，判断是否有自己添加并且已经归档的文书
+            let selfDeletePaper = []
+            let pullDeletePaper = []
+            paperList.length > 0 && paperList.map(item => {
+              if (item.delFlag === '0' && !item.isPull) {
+                canDelete = false
+              } else if (!item.isPull) {
+                // 如果是自己新增的文书则需要上传服务器进行文书删除
+                selfDeletePaper.push(item)
+              } else {
+                pullDeletePaper.push(item)
+              }
+            })
+            if (canDelete) {
+              // 删除服务器文书, 成功后删除本地检查活动和文书数据
+              let deleteAll = true
+              for (let i = 0; i < selfDeletePaper.length; i ++) {
+                let selfPaper = selfDeletePaper[i]
+                await this.$http.get(`${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/jczf/delPaperByPaperId?__sid=${this.$store.state.user.userSessId}&paperId=${selfPaper.paperId}`)
+                .then(async ({ data }) => {
+                  if (data.status === "200") {
+                    // 删除成功后，从本地数据库中删除
+                    // 删除文书
+                    let paperData = await wkPaper.find(item => item.paperId === selfPaper.paperId)
+                    let data = paperData
                     data.delFlag = '1'
                     await wkPaper.put(data)
-                    // 删除wkDanger中隐患项数据
-                    let curDangerList = await wkDanger.findAll(danger => danger.paperId === paper.paperId)
-                    if (curDangerList && curDangerList.length > 0) {
-                      curDangerList.map(async (danger) => {
+                    // 删除对应隐患
+                    let wkDanger = db.table('wkDanger')
+                    let dangerList = await wkDanger.findAll(item => item.paperId === selfPaper.paperId)
+                    if (dangerList && dangerList.length > 0) {
+                      dangerList.map(async (danger) => {
                         let dangerData = danger
                         dangerData.delFlag = '1'
                         await wkDanger.put(dangerData)
                       })
                     }
-                  })
-                  this.$message.success('删除成功！')
-                } else {
-                  this.$message.error('删除检查失败，请再次尝试')
+                  } else {
+                    deleteAll = false
+                    this.$message.error('删除文书失败，请再次尝试')
+                  }
+                })
+                .catch((err) => {
+                  deleteAll = false
+                  this.$message.error('删除失败，请再次尝试')
+                  console.log('删除失败:', err)
+                });
+              }
+              if (deleteAll) {
+                // 物理删除所有本地数据：检查活动、文书、隐患
+			          await wkCase.delete({ caseId: caseData.caseId }); // 删除
+                for (let i = 0; i < pullDeletePaper.length; i ++) {
+			            await wkPaper.delete({ paperId: pullDeletePaper[i].paperId }); // 删除
+                  // 删除相关隐患信息
+                  let wkDanger = db.table('wkDanger')
+                  let dangerList = await wkDanger.findAll(item => item.paperId === pullDeletePaper[i].paperId) || []
+                  for (let j = 0; j < dangerList.length; j++) {
+                    await wkDanger.delete({ dangerId: dangerList[j].dangerId }); // 删除
+                  }
                 }
-              })
-              .catch((err) => {
-                this.$message.error('删除检查失败，请再次尝试')
-                console.log('删除检查失败:', err)
-              });
-            // 删除成功后刷新企业列表
-            this.getData()
-            this.selectedCase = {}
-            this.$parent.changePage({page: 'empty'})
+                // 删除后刷新列表
+                await this.getData()
+                this.$message.success('删除检查活动成功！')
+              }
+            } else {
+              // 不可删除
+              this.$message.error('当前检查活动有已经归档文书，无法删除！')
+            }
           } else {
-            // 如果有已经归档的文书则弹出无法删除提示
-            this.$message.error('当前检查活动有已经归档文书，无法删除！')
+            // 首先遍历检查活动中的文书时候已经有归档的文书
+            let wkPaper = db.table('wkPaper')
+            // 获取所有此检查活动caseId的文书
+            let paperList = await wkPaper.findAll(item => item.caseId === this.selectedCase.caseId)
+            let canDelete = true
+            // 遍历文书，判断是否有已经归档的文书
+            paperList.length > 0 && paperList.map(item => {
+              if (item.delFlag === '0') {
+                canDelete = false
+              }
+            })
+            if (canDelete) {
+              // 调用接口删除检查活动，接口删除成功后进行本地删除
+              let wkCase = db.table('wkCase')
+              let curCase = await wkCase.find(item => item.caseId === this.selectedCase.caseId)
+              await this.$http.get(`${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/jczf/deleteCaseByCaseId?__sid=${this.$store.state.user.userSessId}&caseId=${curCase.caseId}`)
+                .then(async ({ data }) => {
+                  if (data.status === "200") {
+                    // 本地删除：检查活动
+                    // 删除检查活动delFlag为1
+                    curCase.delFlag = '1'
+                    await wkCase.put(curCase)
+                    // 本地删除：文书
+                    // 遍历所有已经保存的文书，进行修改保存（本地），delFlag为1，即删除
+                    let wkDanger = db.table('wkDanger')
+                    paperList.map(async (paper) => {
+                      let data = paper
+                      data.delFlag = '1'
+                      await wkPaper.put(data)
+                      // 删除wkDanger中隐患项数据
+                      let curDangerList = await wkDanger.findAll(danger => danger.paperId === paper.paperId)
+                      if (curDangerList && curDangerList.length > 0) {
+                        curDangerList.map(async (danger) => {
+                          let dangerData = danger
+                          dangerData.delFlag = '1'
+                          await wkDanger.put(dangerData)
+                        })
+                      }
+                    })
+                    this.$message.success('删除成功！')
+                  } else {
+                    this.$message.error('删除检查失败，请再次尝试')
+                  }
+                })
+                .catch((err) => {
+                  this.$message.error('删除检查失败，请再次尝试')
+                  console.log('删除检查失败:', err)
+                });
+              // 删除成功后刷新企业列表
+              this.getData()
+              this.selectedCase = {}
+              this.$parent.changePage({page: 'empty'})
+            } else {
+              // 如果有已经归档的文书则弹出无法删除提示
+              this.$message.error('当前检查活动有已经归档文书，无法删除！')
+            }
           }
           await db.close()
           this.loading.btn = false
@@ -530,10 +612,25 @@ export default {
     async confirmCasePull (caseData) {
       // 拉取检查活动后更新检查列表
       // 跳转至活动
+      // 判断caseClassify是否为异地执法'4'，如果是则按groupId跳转活动，如果不是则按归档机构affiliate跳转活动
+      let groupId = ''
+      let groupName = ''
+      if (caseData.caseClassify === '4') {
+        groupId = caseData.groupId
+        groupName = caseData.groupName
+      } else {
+        groupId =  caseData.affiliate
+        // 获取归档机构名称
+        let db = new GoDB(this.DBName)
+        let orgInfo = db.table('orgInfo')
+        let affiliateData = await orgInfo.find(item => item.no === caseData.affiliate)
+        groupName = affiliateData.name
+        await db.close()
+      }
       this.$set(this, 'dataForm', {
         selPlanDate: caseData.pcMonth,
-        selGovUnit: caseData.groupId,
-        selGovUnitName: caseData.groupName,
+        selGovUnit: groupId,
+        selGovUnitName: groupName,
         isPlan: caseData.planId ? '计划' : '其他',
       })
       await this.getData()

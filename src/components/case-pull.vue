@@ -74,6 +74,7 @@
   import GoDB from "@/utils/godb.min.js";
   import adjustableDiv from '@/components/adjustable-div'
   import { doDocDb } from "@/utils/downloadSource"
+  import { sortbyDes } from '@/utils/index'
   export default {
     name: 'CasePull',
     props: {
@@ -270,6 +271,7 @@
           if (response.status === 200) {
             if (response.data.data) {
               // 如果有检查活动及文书数据则放入当前用户数据中
+              response.data.data.jczfCase.sort(sortbyDes('createDate'))
               this.caseList = response.data.data.jczfCase
             }
             this.loading.right = false
@@ -311,7 +313,9 @@
               let jczfCase = {}
               this.caseList.map(jcItem => {
                 if (jcItem.caseId === selectedCaseData.caseId && jcItem.delFlag !== '1') {
-                  jczfCase = jcItem
+                  jczfCase = Object.assign({}, jcItem, {
+                    isPull: true
+                  }) 
                 }
               })
               // 根据监察活动数据jczfCase再获取相应的paper数据
@@ -327,13 +331,17 @@
                         if (data.data.paper) {
                           for (let i = 0; i < data.data.paper.length; i++) {
                             let item = data.data.paper[i]
-                            paper.push(item)
+                            paper.push(Object.assign({}, item, {
+                              isPull: true
+                            }))
                           }
                         }
                         if (data.data.danger) {
                           for (let i = 0; i < data.data.danger.length; i++) {
                             let item = data.data.danger[i]
-                            danger.push(item)
+                            danger.push(Object.assign({}, item, {
+                              isPull: true
+                            }))
                           }
                         }
                       }
@@ -341,7 +349,7 @@
                         jczfCase: [jczfCase], paper, danger
                       }
                       // 通过doDoc方法存入本地数据库中
-                      await doDocDb('doc', submitData)
+                      await doDocDb('doc', submitData, true)
                       // 更新检查活动侧边栏
                       this.$emit('confirm', jczfCase)
                       this.$message.success('文书拉取成功！')

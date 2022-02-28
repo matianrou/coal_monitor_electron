@@ -196,7 +196,6 @@ export default {
     },
     async showCompanyInfoDetail () {
       // 弹窗展示企业全部信息
-      console.log('corpData', this.corpData)
       this.visible.orgInfoDetail = true
     },
     closeDialog ({page}) {
