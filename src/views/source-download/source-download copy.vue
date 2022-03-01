@@ -16,7 +16,7 @@
         <th style="width:350px;text-align:center;">下载日期范围</th>
         <th style="text-align:center;">操作</th>
       </tr>
-      <tbody v-if="updateTime">
+      <tbody>
         <tr style="height:36px;background-color:#F9FDFF;">
           <td colspan="5" style="padding-left:10px;color:#666;font-weight:bold;">
             <img
@@ -100,14 +100,14 @@
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
           <td>行政区域</td>
-          <td style="text-align:center;">{{updateTime.enterpriselist}}</td>
+          <td style="text-align:center;">{{updateTime.enterpriseList}}</td>
           <td></td>
-          <td style="text-align:center;" id="cell-enterpriselist-down">
+          <td style="text-align:center;" id="cell-enterpriseList-down">
             <el-button
               type="text"
               :loading="loading.download"
-              id="btn-enterpriselist-down"
-              @click="resDownload('enterpriselist')"
+              id="btn-enterpriseList-down"
+              @click="resDownload('enterpriseList')"
             >下载</el-button>
           </td>
         </tr>
@@ -122,56 +122,56 @@
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
           <td>检查项类别</td>
-          <td style="text-align:center;">{{updateTime.checkcate}}</td>
+          <td style="text-align:center;">{{updateTime.checkCate}}</td>
           <td></td>
-          <td style="text-align:center;" id="cell-checkcate-down">
+          <td style="text-align:center;" id="cell-checkCate-down">
             <el-button
               type="text"
               :loading="loading.download"
-              id="btn-checkcate-down"
-              @click="resDownload('checkcate')"
+              id="btn-checkCate-down"
+              @click="resDownload('checkCate')"
             >下载</el-button>
           </td>
         </tr>
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
           <td>检查项内容</td>
-          <td style="text-align:center;">{{updateTime.checklist}}</td>
+          <td style="text-align:center;">{{updateTime.checkList}}</td>
           <td></td>
-          <td style="text-align:center;" id="cell-checklist-down">
+          <td style="text-align:center;" id="cell-checkList-down">
             <el-button
               type="text"
               :loading="loading.download"
-              id="btn-checklist-down"
-              @click="resDownload('checklist')"
+              id="btn-checkList-down"
+              @click="resDownload('checkList')"
             >下载</el-button>
           </td>
         </tr>
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
           <td>隐患项类别</td>
-          <td style="text-align:center;">{{updateTime.dangercate}}</td>
+          <td style="text-align:center;">{{updateTime.dangerCate}}</td>
           <td></td>
-          <td style="text-align:center;" id="cell-dangercate-down">
+          <td style="text-align:center;" id="cell-dangerCate-down">
             <el-button
               type="text"
               :loading="loading.download"
-              id="btn-dangercate-down"
-              @click="resDownload('dangercate')"
+              id="btn-dangerCate-down"
+              @click="resDownload('dangerCate')"
             >下载</el-button>
           </td>
         </tr>
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
           <td>隐患项内容</td>
-          <td style="text-align:center;">{{updateTime.dangerlist}}</td>
+          <td style="text-align:center;">{{updateTime.dangerList}}</td>
           <td></td>
-          <td style="text-align:center;" id="cell-dangerlist-down">
+          <td style="text-align:center;" id="cell-dangerList-down">
             <el-button
               type="text"
               :loading="loading.download"
-              id="btn-dangerlist-down"
-              @click="resDownload('dangerlist')"
+              id="btn-dangerList-down"
+              @click="resDownload('dangerList')"
             >下载</el-button>
           </td>
         </tr>
@@ -224,6 +224,8 @@
 </template>
 
 <script>
+import { doOrgDb, doPersonDb, doPlanDb, doCorpDb, doEnterpriseList, doCheckCateDb, doCheckListDb, doDangerCateDb, doDangerListDb, doDocDb, docFileListDb, docDictionaryDb } from "@/utils/downloadSource"
+import GoDB from "@/utils/godb.min.js";
 import { getUUID } from '@/utils/index'
 import { getNowFormatTime, getNowDay, getPreMonthDay } from '@/utils/date'
 export default {
@@ -253,60 +255,18 @@ export default {
       },
       DBName: this.$store.state.DBName,
       updateTime: {
-        id: 1,
+        id: null,
         org: '未下载',
         person: '未下载',
         plan: '未下载',
         corp: '未下载',
-        enterpriselist: '未下载',
-        checkcate: '未下载',
-        checklist: '未下载',
-        dangercate: '未下载',
-        dangerlist: '未下载',
+        enterpriseList: '未下载',
+        checkCate: '未下载',
+        checkList: '未下载',
+        dangerCate: '未下载',
+        dangerList: '未下载',
         doc: '未下载',
       },
-      resIdDict: [
-        {
-          resId: 'org',
-          resName: '机构资源'
-        },
-        {
-          resId: 'person',
-          resName: '用户资源'
-        },
-        {
-          resId: 'plan',
-          resName: '其他资源'
-        },
-        {
-          resId: 'corp',
-          resName: '企业资源'
-        },
-        {
-          resId: 'enterpriselist',
-          resName: '行政区域'
-        },
-        {
-          resId: 'checkcate',
-          resName: '检查项类别'
-        },
-        {
-          resId: 'checklist',
-          resName: '检查项内容'
-        },
-        {
-          resId: 'dangercate',
-          resName: '隐患类别'
-        },
-        {
-          resId: 'dangerlist',
-          resName: '隐患内容'
-        },
-        {
-          resId: 'doc',
-          resName: '个人账号文书资源'
-        },
-      ],
       fileData: {
         localReview: [],
         fineCollection: [],
@@ -339,6 +299,27 @@ export default {
   methods: {
     async init () {
       // 初始化更新时间
+      let db = new GoDB(this.DBName);
+      let sourceDownload = db.table('sourceDownload')
+      let downloadData = await sourceDownload.find(item => item)
+      if (downloadData) {
+        this.updateTime = Object.assign({}, this.updateTime, downloadData)
+      } else {
+        this.updateTime = {
+          id: getUUID(),
+          org: '未下载',
+          person: '未下载',
+          plan: '未下载',
+          corp: '未下载',
+          enterpriseList: '未下载',
+          checkCate: '未下载',
+          checkList: '未下载',
+          dangerCate: '未下载',
+          dangerList: '未下载',
+          doc: '未下载',
+        }
+      }
+      await db.close()
       // 初始化个人账号文书资源下载时间
       let date = new Date();
       let year = date.getFullYear();
@@ -347,9 +328,6 @@ export default {
       let today = year + '-' + month + '-' + strDate;
       let preMonthDay= getPreMonthDay(today, 2)
       this.dataForm.docDownDaterange = [preMonthDay, today]
-      let updateTime = await this.getDatabase('sourceDownload')
-      console.log('updateTime', updateTime)
-      this.$set(this, 'updateTime', updateTime[0])
     },
     /*! *****************************************************************************
     资源下载、任务/活动创建、文书保存及归档
@@ -389,21 +367,21 @@ export default {
           uri +=
             "/local/corp/list?__sid=" + userSessId + "&officeId=" + userGroupId;
           break;
-        case "checkcate": //根据机构id获取全部检查类别
+        case "checkCate": //根据机构id获取全部检查类别
           uri +=
             "/local/schema/getCategoryAll?__sid=" +
             userSessId +
             "&officeId=" +
             userGroupId;
           break;
-        case "checklist": //根据机构id获取全部检查内容
+        case "checkList": //根据机构id获取全部检查内容
           uri +=
             "/local/schema/getItemAll?__sid=" +
             userSessId +
             "&officeId=" +
             userGroupId;
           break;
-        case "dangercate":
+        case "dangerCate":
           //根据机构id获取全部隐患类别
           uri +=
             "/local/statute/getCategoryAll?__sid=" +
@@ -411,7 +389,7 @@ export default {
             "&officeId=" +
             userGroupId;
           break;
-        case "dangerlist":
+        case "dangerList":
           //根据机构id获取全部隐患内容
           uri +=
             "/local/statute/getItemContentList?__sid=" +
@@ -434,7 +412,7 @@ export default {
             uri += `&updateTime=${this.updateTime.doc}`
           }
           break;
-        case "enterpriselist":
+        case "enterpriseList":
           //文书信息分页下载接口//文书信息分页下载接口
           uri += "/local/area/list?__sid=" + userSessId;
           break;
@@ -443,7 +421,7 @@ export default {
       this.loading.download = true
       await this.$http
         .get(`${uri}`)
-        .then((response) => {
+        .then(async (response) => {
           if (response.status != 200) {
             this.$message.error(
               "远程请求异常，可能是认证信息超时，请重新登录。"
@@ -451,43 +429,54 @@ export default {
             this.loading.download = false
           } else {
             let saveData = response.data.data ? response.data.data : []
-            console.log('saveData', saveData)
-            if (resId === 'doc') {
-              // 文书存储时，需要首先获取所有文书数据wkCase,wkPaper,wkDanger
-              // 对比增量更新，如果有则更新，如果没有则增加，存储至数据库中
-              let wkCaseDataList = this.getContrastData (saveData.jczfCase, this.$store.state.database.wkCase, 'caseId')
-              this.setDatabase('wkCase', wkCaseDataList)
-              let wkPaperDataList = this.getContrastData (saveData.paper, this.$store.state.database.wkPaper, 'paperId')
-              this.setDatabase('wkPaper', wkPaperDataList)
-              let wkDangerDataList = this.getContrastData (saveData.danger, this.$store.state.database.wkDanger, 'dangerId')
-              this.setDatabase('wkDanger', wkDangerDataList)
-              document.getElementById('cell-' + resId + '-down').innerHTML = "下载完毕";
-              this.handleUpdateTime(resId)
-            } else if (resId === 'corp') {
-              this.setDatabase('baseInfo', saveData.baseInfo)
-              this.setDatabase('zfCmgzmInfo', saveData.zfCmgzmInfo)
-              this.setDatabase('zfCyrytjInfo', saveData.zfCyrytjInfo)
-              this.setDatabase('zfJjgzmInfo', saveData.zfJjgzmInfo)
-              this.setDatabase('zfZzInfo', saveData.zfZzInfo)
-              this.$message.success(`“煤矿/企业信息”已经下载完毕。`);
-              this.loading.download = false
-              // 下载完毕
-              document.getElementById('cell-' + resId + '-down').innerHTML = "下载完毕";
-              // 保存更新时间：
-              this.handleUpdateTime(resId)
-            } else {
-              // 除文书以外的库表处理：直接覆盖存储
-              let that = this
-              this.setDatabase(resId, saveData, function() {
-                let res = that.resIdDict.find(item => item.resId === resId)
-                that.$message.success(`“${res.resName || ''}”已经下载完毕。`);
-                that.loading.download = false
-                // 下载完毕
-                document.getElementById('cell-' + resId + '-down').innerHTML = "下载完毕";
-                // 保存更新时间：
-                that.handleUpdateTime(resId)
-              })
+            // 删除当前库表，处理数据，保存至IndexDB
+            switch (resId) {
+              case "org":
+                await doOrgDb(resId, saveData);
+                this.$message.success('“机构资源”已经下载完毕。');
+                break;
+              case "person":
+                await doPersonDb(resId, saveData);
+                this.$message.success('“用户资源”已经下载完毕。');
+                break;
+              case "plan":
+                await doPlanDb(resId, saveData);
+                this.$message.success('“其他资源”已经下载完毕。');
+                break;
+              case "corp":
+                await doCorpDb(resId, saveData);
+                this.$message.success('“企业资源”已经下载完毕。');
+                break;
+              case "enterpriseList":
+                await doEnterpriseList(resId, saveData);
+                this.$message.success('“行政区域”已经下载完毕。');
+                break;
+              case "checkCate":
+                await doCheckCateDb(resId, saveData);
+                this.$message.success('“检查项类别”已经下载完毕。');
+                break;
+              case "checkList":
+                await doCheckListDb(resId, saveData);
+                this.$message.success('“检查项内容”已经下载完毕。');
+                break;
+              case "dangerCate":
+                await doDangerCateDb(resId, saveData);
+                this.$message.success('“隐患类别”已经下载完毕。');
+                break;
+              case "dangerList":
+                await doDangerListDb(resId, saveData);
+                this.$message.success('“隐患内容”已经下载完毕。');
+                break;
+              case "doc":
+                await doDocDb(resId, saveData);
+                this.$message.success('“个人账号文书资源”已经下载完毕。');
+                break;
             }
+            // 下载完毕
+            document.getElementById('cell-' + resId + '-down').innerHTML = "下载完毕";
+            // 保存更新时间：
+            this.handleUpdateTime(resId)
+            this.loading.download = false
           }
         })
         .catch((err) => {
@@ -509,9 +498,7 @@ export default {
           await Promise.all([
             this.getImageEvidencePC(userId, userSessId),
           ]).then(async () => {
-            let imageEvidenceList = this.getContrastData (this.fileData.imageEvidence, this.$store.state.database.imageEvidence, 'evidenceId')
-            this.setDatabase('imageEvidence', imageEvidenceList)
-            this.$message.success('“个人账号文书资源”已经下载完毕。')
+            await docFileListDb(resId, this.fileData)
           })
         } else {
           // 监察时下载委托复查、罚款收缴、回执单、影音证据、意见建议书附件、监察执法报告
@@ -523,20 +510,7 @@ export default {
             this.getPaperAttachment(userId, userSessId),
             this.getJczfReport(userId, userSessId)
           ]).then(async () => {
-            let localReviewList = this.getContrastData (this.fileData.localReview, this.$store.state.database.localReview, 'reviewId')
-            this.setDatabase('localReview', localReviewList)
-            let fineCollectionList = this.getContrastData (this.fileData.fineCollection, this.$store.state.database.fineCollection, 'fineId')
-            this.setDatabase('fineCollection', fineCollectionList)
-            let singleReceiptList = this.getContrastData (this.fileData.singleReceipt, this.$store.state.database.singleReceipt, 'singleId')
-            this.setDatabase('singleReceipt', singleReceiptList)
-            let imageEvidenceList = this.getContrastData (this.fileData.imageEvidence, this.$store.state.database.imageEvidence, 'evidenceId')
-            this.setDatabase('imageEvidence', imageEvidenceList)
-            let paperAttachmentList = this.getContrastData (this.fileData.paperAttachment, this.$store.state.database.paperAttachment, 'attachmentId')
-            this.setDatabase('paperAttachment', paperAttachmentList)
-            let jczfReportList = this.getContrastData (this.fileData.jczfReport, this.$store.state.database.jczfReport, 'id')
-            this.setDatabase('jczfReport', jczfReportList)
-            this.$message.success('“个人账号文书资源”已经下载完毕。')
-            this.loading.download = false
+            await docFileListDb(resId, this.fileData)
           })
         }
       } else if (resId === 'plan') {
@@ -556,8 +530,8 @@ export default {
           this.getHydrogeologicalType(userSessId),
           this.getMineFire(userSessId),
           this.getBaseMineStatusZs(userSessId),
-        ]).then(() => {
-          this.setDatabase('dictionary', [this.dictionary])
+        ]).then(async () => {
+          await docDictionaryDb(resId, this.dictionary)
         })
       }
     },
@@ -922,8 +896,11 @@ export default {
     },
     async handleUpdateTime(resId) {
       // 根据更新的resId为key更新updateTime为当前时间
+      let db = new GoDB(this.DBName);
+      let sourceDownload = db.table('sourceDownload')
       this.updateTime[resId] = getNowFormatTime()
-      this.setDatabase('sourceDownload', [this.updateTime])
+      await sourceDownload.put(this.updateTime)
+      await db.close()
     }
   },
 };

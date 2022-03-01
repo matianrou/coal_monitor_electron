@@ -28,8 +28,10 @@
         }
       },
       saveState() {
-        // 刷新页面时存储仓库
-        sessionStorage.setItem('state', JSON.stringify(this.$store.state))
+        // 刷新页面时存储仓库，不存储数据库仓库，因数据量过大无法保存
+        let saveState = this.$store.state
+        delete saveState.database
+        sessionStorage.setItem('state', JSON.stringify(saveState))
       },
     }
   }

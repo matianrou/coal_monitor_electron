@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import cloneDeep from 'lodash/cloneDeep'
 import user from './modules/user'
 import dictionary from './modules/dictionary'
+import database from './modules/database'
 
 Vue.use(Vuex)
 
@@ -21,7 +22,8 @@ export default new Vuex.Store({
   },
   modules: {
     user,
-    dictionary
+    dictionary,
+    database
   },
   mutations: {
     // 重置vuex本地储存状态

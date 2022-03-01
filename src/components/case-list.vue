@@ -200,7 +200,7 @@ export default {
       for (let i = 0; i < arrOrg.length; i++) {
         let obj = arrOrg[i];
         let org = {
-          value: obj.no,
+          value: obj.id,
           label: obj.name
         }
         orgList.push(org)
@@ -258,9 +258,10 @@ export default {
       // 根据计划年月和机构获取计划和活动，组合成选择列表
       let selGovUnit = this.dataForm.selGovUnit;
       let selectPlanDate = this.dataForm.selPlanDate
-      let db = new GoDB(this.DBName);
-      let docPlan = db.table("docPlan"); // 计划
-      let wkCaseInfo = db.table("wkCase"); // 检查活动
+      let docPlan = await this.getDatabase('docPlan')
+      let wkCaseInfo = await this.getDatabase('wkCase')
+      console.log('docPlan', docPlan)
+      console.log('wkCaseInfo', wkCaseInfo)
       // 判断检查活动类型选择为计划或者其他，计划则为由网页端创建的计划再创建的检查活动，
       // 其他则为未从网页端创建，直接从客户端创建的检查活动，无planId，归档时归入其他类
       let corpList = []
@@ -270,18 +271,19 @@ export default {
         // 如果计划中的企业已有检查，则名称前增加”（已做）“
         // 检查活动
         // 当caseClassify执法活动分类为异地执法时，按制作机构展示，其他按归档机构展示
-        let wkCase = await wkCaseInfo.findAll((item) => {
+        let wkCase = wkCaseInfo.length > 0 && wkCaseInfo.filter((item) => {
           return ((item.caseClassify === '4' && item.groupId === selGovUnit)
           || item.affiliate === selGovUnit)
           && item.pcMonth === selectPlanDate
           && item.planId && item.delFlag !== '1';
-        });
+        }) || []
         // 计划
-        let arrPlan = await docPlan.findAll((item) => {
+        let arrPlan = docPlan.length > 0 && docPlan.filter((item) => {
           return item.groupId === selGovUnit
           && (`${item.planYear}-${item.planMonth}`) === selectPlanDate
           && item.delFlag !== '1';
-        });
+        }) || []
+        console.log('wkCase', wkCase)
         if (wkCase.length > 0) {
           wkCase.map(caseItem => {
             arrPlan.forEach(planItem => {
@@ -307,7 +309,7 @@ export default {
               corpId: item.corpId,
               corpName: item.corpName,
               planId: item.dbplanId,
-              no: item.no,
+              no: item.id,
               active: false,
             }
           } else if (item.caseId) {
@@ -319,7 +321,7 @@ export default {
               corpName: item.corpName,
               planId: item.planId,
               corpId: item.corpId,
-              no: item.no,
+              no: item.id,
               active: false,
             }
           }
@@ -328,12 +330,13 @@ export default {
       } else if (this.dataForm.isPlan === '其他') {
         // 检查活动
         // 当caseClassify执法活动分类为异地执法时，按制作机构展示，其他按归档机构展示
-        let wkCase = await wkCaseInfo.findAll((item) => {
+        let wkCase = wkCaseInfo.filter((item) => {
           return ((item.caseClassify === '4' && item.groupId === selGovUnit)
           || item.affiliate === selGovUnit)
           && item.pcMonth === selectPlanDate
           && !item.planId && item.delFlag !== '1';
         })
+        console.log('wkCase', wkCase)
         listArr = [...wkCase]
         // 按创建时间排序
         listArr.sort(sortbyDes('createDate'))
@@ -350,14 +353,13 @@ export default {
               corpName: item.corpName,
               planId: '',
               corpId: item.corpId,
-              no: item.no,
+              no: item.id,
               active: false,
             }
           }
           corpList.push(corp)
         }
       }
-      await db.close();
       this.corpList = corpList
       let isDefault = true
       if (this.$store.state.curCase && this.$store.state.curCase.caseId) {
@@ -463,13 +465,12 @@ export default {
         }).then(async () => {
           // 删除检查活动:
           // 首先判断当前检查活动是否为拉取的数据，如果是拉取的则直接删除本地存储（如果其中有自己制作的文书则仍需上传服务器），如果不是拉取则上传服务器
-          let db = new GoDB(this.DBName);
-          let wkCase = db.table('wkCase') 
-          let caseData = await wkCase.find(item => item.caseId === this.selectedCase.caseId && item.delFlag !== '1')
+          let wkCase = this.getDatabase('wkCase') 
+          let caseData = wkCase.find(item => item.caseId === this.selectedCase.caseId && item.delFlag !== '1')
           if (caseData.isPull) {
-            let wkPaper = db.table('wkPaper')
+            let wkPaper = this.getDatabase('wkPaper') || []
             // 获取所有此检查活动caseId的文书
-            let paperList = await wkPaper.findAll(item => item.caseId === this.selectedCase.caseId && item.delFlag !== '1')
+            let paperList = wkPaper.length > 0 && wkPaper.filter(item => item.caseId === this.selectedCase.caseId && item.delFlag !== '1') || []
             let canDelete = true
             // 遍历文书，判断是否有自己添加并且已经归档的文书
             let selfDeletePaper = []
@@ -494,20 +495,21 @@ export default {
                   if (data.status === "200") {
                     // 删除成功后，从本地数据库中删除
                     // 删除文书
-                    let paperData = await wkPaper.find(item => item.paperId === selfPaper.paperId)
-                    let data = paperData
-                    data.delFlag = '1'
-                    await wkPaper.put(data)
+                    wkPaper.forEach(item => {
+                      if (item.paperId === selfPaper.paperId) {
+                        item.delFlag = '1'
+                      }
+                    })
+                    this.setDatabase('wkPaper', wkPaper)
                     // 删除对应隐患
-                    let wkDanger = db.table('wkDanger')
-                    let dangerList = await wkDanger.findAll(item => item.paperId === selfPaper.paperId)
+                    let wkDanger = this.getDatabase('wkDanger')
+                    let dangerList = wkDanger.filter(item => item.paperId === selfPaper.paperId)
                     if (dangerList && dangerList.length > 0) {
-                      dangerList.map(async (danger) => {
-                        let dangerData = danger
-                        dangerData.delFlag = '1'
-                        await wkDanger.put(dangerData)
+                      dangerList.map((danger) => {
+                        danger.delFlag = '1'
                       })
                     }
+                    this.setDatabase('wkDanger', wkDanger)
                   } else {
                     deleteAll = false
                     this.$message.error('删除文书失败，请再次尝试')

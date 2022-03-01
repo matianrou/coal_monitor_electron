@@ -287,102 +287,91 @@ export default {
         autoLogin: false
       }})
     },
-    setDB (userId) {
+    async setDB (userId) {
+      // 校验是否存在数据库
+      // 以下注释的为原生indexDB校验方法，可实现校验数据库创建数据库表
+      // 此方式只是没有做好同步的操作，只能将路由跳转放进onupgradeneeded和onsuccess方法的回调中才能解决判断后再跳转页面，
+      // 所以使用此方法时需删除调用此方法的function中的路由跳转语句
+      // onupgradeneeded为创建数据库时调用方法
+      // onsuccess为一般打开数据库的回调
+      // const request = window.indexedDB.open(userId)
+      // let that = this
+      // request.onsuccess = function (event) {
+      //   request.result.close()
+      //   that.$router.replace({
+      //     name: 'CalmineElectronMain',
+      //   })
+      // }
+      // request.onupgradeneeded = async function (event) {
+      //   let version = event.oldVersion
+      //   await event.target.result.close()
+      //   if (version === 0) {
+      //     let db = new GoDB(userId, schema)
+      //     await db.close()
+      //     that.$store.commit('changeState', {
+      //       key: 'activeTab',
+      //       val: 'SourceDownload'
+      //     })
+      //     that.$message.warning('初次使用系统，请先下载全部资源后再使用！')
+      //     that.$router.replace({
+      //       name: 'CalmineElectronMain',
+      //     })
+      //   }
+      // };
+      // 以上方法保留的基础上新增判断土方法：
       // 读取当前是否已进行过资源下载，如果没有则表示未下载过资源，则提示需要下载资源，同时创建数据库表
-      if (this.NODE_ENV === 'production') {
-        let res = electronRequest({msgName: 'checkExistFile', message: {fileName: `database/${userId}/sourceDownload.txt`}, type: 'sendSync'})
-        console.log('res', res)
-        let isExist = res.request
-        let that = this
-        if (isExist) {
-          // 有文件
-          that.getDatabase('sourceDownload')
-          // 获取所有当前文件夹中文件，分别放入store中
-          // for (let i = 0; i < that.resIdDict.length; i++) {
-          //   let resId = that.resIdDict[i].resId
-          //   getDatabase(resId)
-          // }
-          // 如果有网络则自动更新下载文书资源
-          // if (!that.offLine) {
-          //   // 获取是否下载文书资源，如果未下载过，则不自动下载，如果下载过则执行自动下载
-          //   let db = new GoDB(userId);
-          //   let sourceDownload = db.table('sourceDownload')
-          //   let updateTime = await sourceDownload.find(item => item)
-          //   let docUpdateTime = updateTime.doc
-          //   await db.close()
-          //   if (docUpdateTime) {
-          //     let userId = this.$store.state.user.userId;
-          //     let userSessId = this.$store.state.user.userSessId;
-          //     let path = this.$store.state.user.userType === 'supervision' ? '/sv' : ''
-          //     let url = `${path}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&updateTime=${docUpdateTime}&pageNo=0&pageSize=5000`
-          //     await this.$http
-          //       .get(`${url}`)
-          //       .then(async (response) => {
-          //         if (response.data.data) {
-          //           await doDocDb('doc', response.data.data);
-          //           // 修改更新日期
-          //           await this.handleUpdateTime()
-          //         }
-          //       })
-          //       .catch((err) => {
-          //         console.log("下载文书失败：", err);
-          //       })
-          //   }
-          // }
-        } else {
-          // 没有文件
-          // ??? 获取原始indexDB中的数据，将所有文书、检查活动、隐患项信息放入库表中
-          // 进入下载页面
-          // 创建userID的目录，同时创建下载文件sourceDownload
-          let {request} = electronRequest({msgName: 'mkdir', message: {mkdirName: `database/${userId}`}, type: 'sendSync'})
-          console.log('request', request)
-          if (request.code === '200') {
-            let updateTime = {
-              id: null,
-              org: '未下载',
-              person: '未下载',
-              plan: '未下载',
-              corp: '未下载',
-              enterpriselist: '未下载',
-              checkcate: '未下载',
-              checklist: '未下载',
-              dangercate: '未下载',
-              dangerlist: '未下载',
-              doc: '未下载',
-            }
-            that.setDatabase('sourceDownload', updateTime, function () {
-              that.$message.warning('当前未下载任何资源，请先下载全部资源后再使用！')
-            })
-          } else {
-            console.log('创建文件夹失败:', error)
+      let db1 = new GoDB(userId);
+      let sourceDownload = db1.table('sourceDownload')
+      let downloadData = await sourceDownload.find(item => item)
+      await db1.close()
+      if (!downloadData) {
+        // 创建数据库，建表
+        let db2 = new GoDB(userId, schema)
+        await db2.close()
+        // 进入下载页面
+        this.$store.commit('changeState', {
+          key: 'activeTab',
+          val: 'SourceDownload'
+        })
+        this.$message.warning('当前未下载任何资源，请先下载全部资源后再使用！')
+      } else {
+        // 如果有网络则自动更新下载文书资源
+        if (!this.offLine) {
+          // 获取是否下载文书资源，如果未下载过，则不自动下载，如果下载过则执行自动下载
+          let db = new GoDB(userId);
+          let sourceDownload = db.table('sourceDownload')
+          let updateTime = await sourceDownload.find(item => item)
+          let docUpdateTime = updateTime.doc
+          await db.close()
+          if (docUpdateTime) {
+            let userId = this.$store.state.user.userId;
+            let userSessId = this.$store.state.user.userSessId;
+            let path = this.$store.state.user.userType === 'supervision' ? '/sv' : ''
+            let url = `${path}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&updateTime=${docUpdateTime}&pageNo=0&pageSize=5000`
+            await this.$http
+              .get(`${url}`)
+              .then(async (response) => {
+                if (response.data.data) {
+                  await doDocDb('doc', response.data.data);
+                  // 修改更新日期
+                  await this.handleUpdateTime()
+                }
+              })
+              .catch((err) => {
+                console.log("下载文书失败：", err);
+              })
           }
         }
-      } else {
-        console.log('当前环境不支持electron')
-        let initData = {
-          id: 1,
-          org: '未下载',
-          person: '未下载',
-          plan: '未下载',
-          corp: '未下载',
-          enterpriselist: '未下载',
-          checkcate: '未下载',
-          checklist: '未下载',
-          dangercate: '未下载',
-          dangerlist: '未下载',
-          doc: '未下载',
-        }
-        this.setDatabase('sourceDownload', [initData])
       }
     },
     async handleUpdateTime() {
       // 更新文书下载时间未当前日期
-      // let db = new GoDB(this.$store.state.user.userId);
-      // let sourceDownload = db.table('sourceDownload')
-      // let updateTime = await sourceDownload.find(item => item)
-      // updateTime.doc = getNowFormatTime()
-      // await sourceDownload.put(updateTime)
-      // await db.close()
+      let db = new GoDB(this.$store.state.user.userId);
+      let sourceDownload = db.table('sourceDownload')
+      let updateTime = await sourceDownload.find(item => item)
+      updateTime.doc = getNowFormatTime()
+      await sourceDownload.put(updateTime)
+      await db.close()
     }
   },
 };

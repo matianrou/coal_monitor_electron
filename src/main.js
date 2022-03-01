@@ -13,6 +13,7 @@ import cellLine from '@/components/cell-line'
 import JSZipUtils from 'jszip-utils'
 import pizzip from 'pizzip'
 import fileSaver from 'file-saver'
+import { getDatabase, setDatabase, getContrastData } from '@/utils/databaseOperation'
 
 Vue.use(ElementUI)
 Vue.use(Print)
@@ -25,10 +26,21 @@ Vue.prototype.$http = http
 Vue.prototype.JSZipUtils = JSZipUtils
 Vue.prototype.pizzip = pizzip
 Vue.prototype.fileSaver = fileSaver
+Vue.prototype.getDatabase = getDatabase
+Vue.prototype.setDatabase = setDatabase
+Vue.prototype.getContrastData = getContrastData
 
 // 全局前缀
 window.SITE_CONFIG = {}
 window.SITE_CONFIG['storeState'] = cloneDeep(store.state) // 保存整站vuex本地储存初始状态
+Vue.prototype.NODE_ENV = process.env.NODE_ENV
+
+if (process.env.NODE_ENV === 'production') {
+	const { ipcRenderer } = window.require('electron')
+	Vue.prototype.ipcRenderer = ipcRenderer
+} else {
+	console.log('当前环境不支持electron')
+}
 
 /* eslint-disable no-new */
 new Vue({

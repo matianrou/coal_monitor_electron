@@ -10,7 +10,7 @@ export function electronRequest ({msgName, message, type = 'send'}) {
       ipcRenderer.send(msgName, message)
     } else if (type === 'sendSync') {
       // 向主进程发送同步消息
-      ipcRenderer.sendSync(msgName, message)
+      requestData = ipcRenderer.sendSync(msgName, message)
     }
   } else {
     console.log('当前环境不支持electron')
