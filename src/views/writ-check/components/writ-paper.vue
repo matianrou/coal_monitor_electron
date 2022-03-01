@@ -69,17 +69,17 @@
           label="归属机构">
         </el-table-column>
         <el-table-column
-          prop="createDate"
+          prop="createTime"
           header-align="center"
           align="center"
           label="制作时间"
           width="180">
         </el-table-column>
         <el-table-column
-          prop="p0FloorTime"
+          prop="updateDate"
           header-align="center"
           align="center"
-          label="入库时间"
+          label="归档时间"
           width="180">
         </el-table-column>
         <el-table-column

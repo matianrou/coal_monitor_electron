@@ -343,7 +343,7 @@ export default {
           let updateTime = await sourceDownload.find(item => item)
           let docUpdateTime = updateTime.doc
           await db.close()
-          if (docUpdateTime) {
+          if (docUpdateTime && docUpdateTime !== '未下载') {
             let userId = this.$store.state.user.userId;
             let userSessId = this.$store.state.user.userSessId;
             let path = this.$store.state.user.userType === 'supervision' ? '/sv' : ''

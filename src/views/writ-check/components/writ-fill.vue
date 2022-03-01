@@ -55,20 +55,20 @@ export default {
     async init () {
       let db = new GoDB(this.DBName)
       let corpBase = db.table('corpBase')
-      let corp = await corpBase.find(item => item.corpId === this.caseData.corpId)
+      let corp = await corpBase.find(item => item.corpId === this.caseData.corpId) || {}
       await db.close()
       this.corpData = {
-        corpName: corp.corpName,
-        corpTypeName: corp.corpTypeName,
-        corpCountryName: corp.provinceName + " " + corp.cityName + " " + corp.countryName,
-        address: corp.address,
-        legalName: corp.legalName,
-        tel: corp.tel,
-        corpId: corp.corpId,
+        corpName: this.caseData.corpName,
+        corpTypeName: corp.corpTypeName || '',
+        corpCountryName: (corp.provinceName || '') + " " + (corp.cityName || '') + " " + (corp.countryName || ''),
+        address: corp.address || '',
+        legalName: corp.legalName || '',
+        tel: corp.tel || '',
+        corpId: corp.corpId || '',
         planId: this.caseData.planId || '',
-        caseId: this.caseData.caseId,
-        caseType: this.caseData.checkStatus,
-        constructType: corp.constructType
+        caseId: this.caseData.caseId || '',
+        caseType: this.caseData.checkStatus || '',
+        constructType: corp.constructType || ''
       }
       let docData = this.$store.state.dictionary[`${this.$store.state.user.userType}PaperType`].find(item => item.id === this.paperData.paperType)
       this.docData = Object.assign({}, docData, {
