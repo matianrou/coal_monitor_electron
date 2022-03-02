@@ -112,12 +112,14 @@ export default {
       subitemTypeOptions: [], // 行政处罚类型码表
     };
   },
+  async created() {
+    await this.getDictionary()
+    this.init()
+  },
   watch: {
     async visible (val) {
-      if (val) {
-        await this.getDictionary()
-        this.init()
-      }
+      await this.getDictionary()
+      this.init()
     }
   },
   methods: {
@@ -127,6 +129,7 @@ export default {
       let subitemType = await dictionary.findAll(item => item.type === 'subitemType')
       let subitemTypeList = JSON.parse(subitemType[0].list)
       subitemTypeList.sort(sortbyAsc('sort'))
+      console.log('subitemTypeList', subitemTypeList)
       this.subitemTypeOptions = subitemTypeList
       await db.close()
     },
