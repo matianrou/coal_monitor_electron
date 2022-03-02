@@ -283,14 +283,12 @@ export default {
   },
   methods: {
     async initLetData(selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
+      let corpBase = await this.getDatabase("baseInfo");
+      let corp = corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       // 1.生成文书编号
       let { num0, num1, num3, num4 } = await getDocNumber(
-        db,
         this.docData.docTypeNo,
         this.corpData.caseId
       );
@@ -311,14 +309,13 @@ export default {
         }
       ):'';
       // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
+      let orgSysOfficeInfo = await getOrgData(this.$store.state.curCase.groupId)
       let DangerTable = null
       if (this.corpData.caseType === '0') {
         DangerTable = let4DataPaperContent.DangerTable ? 
           setNewDanger(selectedPaper.let4Data, let4DataPaperContent.DangerTable)
           : {}
       }
-      await db.close();
       let cellIdx15String = orgSysOfficeInfo.depAddress;
       let cellIdx16String = orgSysOfficeInfo.depPost;
       let cellIdx18String = orgSysOfficeInfo.master;

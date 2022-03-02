@@ -199,15 +199,14 @@ export default {
   },
   methods: {
     async initData() {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
+      let corpBase = await this.getDatabase("baseInfo");
       //查询符合条件的记录
-      let corp = await corpBase.find((item) => {
+      let corp = corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      let wkPaper = db.table("wkPaper");
+      let wkPaper = await this.getDatabase("wkPaper");
       let caseId = this.corpData.caseId;
-      let checkPaper = await wkPaper.findAll((item) => {
+      let checkPaper = wkPaper.filter((item) => {
         return (
           item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
         );
@@ -234,7 +233,6 @@ export default {
           cellIdx12: null, // 日期
         };
       }
-      await db.close();
     },
     goBack({ page, data }) {
       // 返回选择企业

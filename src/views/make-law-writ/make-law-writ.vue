@@ -248,7 +248,6 @@ export default {
       let corp = corpBase.find((item) => {
         return item.corpId === this.caseData.corpId;
       });
-      console.log('corpBase', corpBase)
       // 如果本地库如果没有此数据则提示
       if (corp) {
         this.corpData = {

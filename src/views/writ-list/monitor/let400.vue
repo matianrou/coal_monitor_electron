@@ -167,9 +167,8 @@ export default {
   methods: {
     async initLetData (selectedPaper) {
       if (this.corpData.caseType === '0') {
-        let db = new GoDB(this.$store.state.DBName);
-        let corpBase = db.table("corpBase");
-        let corp = await corpBase.find((item) => {
+        let corpBase = await this.getDatabase("baseInfo");
+        let corp = corpBase.find((item) => {
           return item.corpId == this.corpData.corpId;
         });
         // 获取检查时间
@@ -203,7 +202,6 @@ export default {
             },
           }
         ):'';
-        await db.close();
         let DangerTable = let1DataPaperContent.DangerTable ? 
           setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
           : {}

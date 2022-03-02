@@ -234,7 +234,7 @@ export default {
       this.loading = true
       let dangerCate = await this.getDatabase('dangerCate');
       let dangerList = await this.getDatabase('dangerList');
-      let corpBase = await this.getDatabase('corpBase');
+      let corpBase = await this.getDatabase('baseInfo');
       // 获取隐患类别和内容
       let dangerCateData = dangerCate.filter((item) => item.delFlag !== '1');
       let dangerListData = dangerList.filter((item) => item.delFlag !== '1' && !item.qdId);

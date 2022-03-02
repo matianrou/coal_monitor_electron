@@ -356,15 +356,13 @@ export default {
   },
   methods: {
     async initLetData(selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
+      let corpBase = await this.getDatabase('baseInfo');
+      let corp = corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       // 创建初始版本 */
       // 1.文书编号：送达收执文书编号
       let paperNumber = await getDocNumber(
-        db,
         "9",
         this.corpData.caseId
       );
@@ -400,8 +398,8 @@ export default {
       // 获取关联的行政处罚决定书
       let paper8num1 = '', paper8num2 = '', paper8num3 = '', paper8num4 = ''
       if (let54DataPaperContent.associationPaperId) {
-        let wkPaper = db.table('wkPaper')
-        let paper8 = await wkPaper.find(item => item.paperId === let54DataPaperContent.associationPaperId.paper8Id && item.delFlag !== '1')
+        let wkPaper = await this.getDatabase('wkPaper')
+        let paper8 = wkPaper.find(item => item.paperId === let54DataPaperContent.associationPaperId.paper8Id && item.delFlag !== '1')
         let paper8PaperContent = JSON.parse(paper8.paperContent)
         paper8num1 = paper8PaperContent.cellIdx0
         paper8num2 = paper8PaperContent.cellIdx1
@@ -409,7 +407,7 @@ export default {
         paper8num4 = paper8PaperContent.cellIdx3
       }
       // 从sysOfficeInfo中获取：
-        let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
+        let orgSysOfficeInfo = await getOrgData(this.$store.state.curCase.groupId)
       // 6.强制执行下列项目：‘划转罚款至’accountName+accountBank‘账户名称：’+billName+‘待结算财政款项账号：’+account
       let cellIdx25String = `划转罚款至${orgSysOfficeInfo.accountName}${orgSysOfficeInfo.accountBank}。账户名称：${orgSysOfficeInfo.billName}。待结算财政款项账号：${orgSysOfficeInfo.account}`;
       // 7.人民法院：courtPrefix 联系人：master 联系电话：phone
@@ -420,7 +418,6 @@ export default {
           setNewDanger(selectedPaper.let54Data, let54DataPaperContent.DangerTable)
           : {}
       }
-      await db.close()
       let associationPaperId = Object.assign({}, this.setAssociationPaperId(let54DataPaperContent.associationPaperId), {
         paper54Id: selectedPaper.let54Data.paperId,
       }) 

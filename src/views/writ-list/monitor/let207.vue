@@ -240,9 +240,8 @@ export default {
     async initLetData(selectedPaper) {
       // 获取行政处罚决定书中选择的单位/个人
       this.visibleSelectDialog = true;
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
+      let corpBase = await this.getDatabase('baseInfo');
+      let corp = corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       // 1.送达文书：国家煤矿安全监察行政处罚决定书
@@ -259,11 +258,9 @@ export default {
       // 3.送达地点：煤矿名称
       let cellIdx6String = corp.corpName;
       let paperNumber = await getDocNumber(
-        db,
         this.docData.docTypeNo,
         this.corpData.caseId
       );
-      await db.close();
       let let8DataPaperContent = JSON.parse(
         selectedPaper.let8Data[0].paperContent
       ); 

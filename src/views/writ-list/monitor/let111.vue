@@ -245,21 +245,19 @@ export default {
   },
   methods: {
     async initLetData(selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
+      let corpBase = await this.getDatabase('baseInfo');
+      let corp = corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       // 1.选择：
       this.visibleSelectDialog = true;
       // 2.文书编号
       let { num0, num1, num3, num4 } = await getDocNumber(
-        db,
         this.docData.docTypeNo,
         this.corpData.caseId
       );
       // 3.sysOfficeInfo实体中organName字段+ courtPrefix字段
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
+      let orgSysOfficeInfo = await getOrgData(this.$store.state.curCase.groupId)
       // 4.当前时间年、月、日、时、分
       let date = new Date();
       let year = date.getFullYear();
@@ -289,7 +287,6 @@ export default {
             )
           : {};
       }
-      await db.close();
       let associationPaperId = Object.assign({}, this.setAssociationPaperId(let1DataPaperContent.associationPaperId), {
         paper1Id: selectedPaper.let1Data.paperId,
       }) 

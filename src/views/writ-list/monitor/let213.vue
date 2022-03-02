@@ -135,12 +135,11 @@ export default {
   methods: {
     async initLetData(selectedPaper) {
       if (this.corpData.caseType === '0') {
-        let db = new GoDB(this.$store.state.DBName);
-        let corpBase = db.table("corpBase");
-        let corp = await corpBase.find((item) => {
+        let corpBase = await this.getDatabase("baseInfo");
+        let corp = corpBase.find((item) => {
           return item.corpId == this.corpData.corpId;
         });
-        let wkPaper = db.table('wkPaper')
+        let wkPaper = await this.getDatabase('wkPaper')
         let let4DataPaperContent = JSON.parse(
           selectedPaper.let4Data.paperContent
         );
@@ -148,7 +147,7 @@ export default {
         let string1 = `    一、案由：${let4DataPaperContent.cellIdx4}\r\n`;
         // 2.行政相对人基本情况:带入检查方案煤矿基本信息
         // 获取检查方案Paper
-        let paper22 = await wkPaper.find(paper => {
+        let paper22 = wkPaper.find(paper => {
           if (paper.paperId === let4DataPaperContent.associationPaperId.paper22Id) {
           }
           return paper.delFlag !== '1'
@@ -178,7 +177,7 @@ export default {
           
         }
         if (p22checkName) p22checkName = p22checkName.substring(0, p22checkName.length - 1)
-        let paper1 = await wkPaper.find(paper => {
+        let paper1 = wkPaper.find(paper => {
           return paper.delFlag !== '1'
           && paper.paperId === let4DataPaperContent.associationPaperId.paper1Id
         })
@@ -197,7 +196,7 @@ export default {
         // 立案决定书4中获取立案时间
         let p4DateString = `${let4DataPaperContent.cellIdx6 || 'XX'}年${let4DataPaperContent.cellIdx7 || 'XX'}月${let4DataPaperContent.cellIdx8 || 'XX'}日`
         // 获取调查笔录中的被调查人
-        let paper5List = await wkPaper.findAll(paper => {
+        let paper5List = wkPaper.filter(paper => {
           return paper.delFlag !== '1'
           && paper.paperType === '5'
           && JSON.parse(paper.paperContent).associationPaperId
@@ -293,7 +292,6 @@ export default {
         let string8 = `    八、结案理由：${corp.corpName}及其负责人XXX已执行对其作出的行政处罚决定，承办人员申请结案。`;
         let cellIdx10String =
           string1 + string2 + string3 + string4 + string5 + string6 + string7 + string8;
-        await db.close();
         let DangerTable = setNewDanger(selectedPaper.let4Data, let4DataPaperContent.DangerTable)
         let associationPaperId = Object.assign({}, this.setAssociationPaperId(let4DataPaperContent.associationPaperId), {
           paper4Id: selectedPaper.let4Data.paperId
@@ -308,16 +306,15 @@ export default {
         })
       } else {
         // 生成事故文书：
-        let db = new GoDB(this.$store.state.DBName);
-        let corpBase = db.table("corpBase");
-        let corp = await corpBase.find((item) => {
+        let corpBase = await this.getDatabase("baseInfo");
+        let corp = corpBase.find((item) => {
           return item.corpId == this.corpData.corpId;
         });
         let let4DataPaperContent = JSON.parse(
           selectedPaper.let4Data.paperContent
         );
         let string1 = `    一、案由：${let4DataPaperContent.cellIdx4}案。\r\n`;
-        let string2 = `    二、行政相对人基本情况：${await corpInformation(db, corp)}\r\n`;
+        let string2 = `    二、行政相对人基本情况：${await corpInformation(corp)}\r\n`;
         let string3 = `    三、案发时间：${let4DataPaperContent.cellIdx6 || 'XX'}年${let4DataPaperContent.cellIdx7 || 'XX'}月${let4DataPaperContent.cellIdx8 || 'XX'}日。\r\n`;
         let string4 = `    四、案发地点：${corp.corpName || 'XX公司XX煤矿'}。\r\n`;
         let string5 = `    五、主要违法事实：${'20XX年XX月XX日至XX月XX日'}，${this.$store.state.curCase.provinceGroupName || '国家矿山安全监察局XX局'}监察员${'XXX、XXX、XXX……'}按照监察执法计划，依法对${corp.corpName || 'XX公司XX煤矿'}进行现场检查时,发现该矿${'XX采煤工作面回风巷风流中瓦斯浓度达1.2%，未停止作业'}，该行为涉嫌违法违规。\r\n`;
@@ -335,7 +332,6 @@ export default {
         }) 
         let associationPaperOrder = this.setAssociationPaperOrder(let4DataPaperContent.associationPaperOrder)
         associationPaperOrder.push('4')
-        await db.close()
         this.letData = Object.assign({}, this.letData, {
           // cellIdx0: cellIdx10String ? cellIdx10String : "", // 案由 22.2.21 去掉初始化逻辑
           associationPaperId,

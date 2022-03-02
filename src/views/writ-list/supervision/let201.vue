@@ -187,9 +187,8 @@ export default {
   methods: {
     async initLetData (selectedPaper) {
       if (this.corpData.caseType === '0') {
-        let db = new GoDB(this.$store.state.DBName);
-        let corpBase = db.table("corpBase");
-        let corp = await corpBase.find((item) => {
+        let corpBase = await this.getDatabase('baseInfo');
+        let corp = corpBase.find((item) => {
           return item.corpId == this.corpData.corpId;
         });
         // 获取检查时间
@@ -228,11 +227,10 @@ export default {
             },
           }
         );
-        let paperNumber = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId)
+        let paperNumber = await getDocNumber(this.docData.docTypeNo, this.corpData.caseId)
         let DangerTable = let2DataPaperContent.DangerTable ? 
           setNewDanger(selectedPaper.let2Data, let2DataPaperContent.DangerTable)
           : {}
-        await db.close();
         let associationPaperId = Object.assign({}, this.setAssociationPaperId(let2DataPaperContent.associationPaperId), {
           paper2Id: selectedPaper.let2Data.paperId,
         }) 
@@ -265,14 +263,11 @@ export default {
           }
         })
       } else {
-        let db = new GoDB(this.$store.state.DBName);
         let paperNumber = await getDocNumber(
-          db,
           this.docData.docTypeNo,
           this.corpData.caseId
         );
         let date = this.todayDate.replace('年', '-').replace('月', '-').replace('日', '-').split('-')
-        await db.close();
         this.letData = Object.assign({}, this.letData, {
           cellIdx0: paperNumber.num0, // 文书号
           cellIdx1: paperNumber.num1, // 文书号

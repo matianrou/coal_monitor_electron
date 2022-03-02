@@ -291,10 +291,8 @@ export default {
   },
   methods: {
     async initLetData (selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
       // 1.生成文书编号
       let { num0, num1, num3, num4 } = await getDocNumber(
-        db,
         this.docData.docTypeNo,
         this.corpData.caseId
       );
@@ -307,7 +305,7 @@ export default {
       let let8DataPaperContent = JSON.parse(selectedPaper.let8Data.paperContent);
       let date206 = selectedPaper.let8Data.createDate.split(' ')[0].split('-')
       // 4.sysOfficeInfo中 goverPrefix和organName和courtPrefix
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
+      let orgSysOfficeInfo = await getOrgData(this.$store.state.curCase.groupId)
       // 5.被处罚单位个人
       let cellIdx4String = let8DataPaperContent.cellIdx5 || ''
       // 6.获取行政处罚中的罚款金额
@@ -333,7 +331,6 @@ export default {
       }) 
       let associationPaperOrder = this.setAssociationPaperOrder(let8DataPaperContent.associationPaperOrder)
       associationPaperOrder.push('8')
-      await db.close();
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: num0, // 文书号
         cellIdx1: num1, // 文书号

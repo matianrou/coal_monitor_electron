@@ -435,9 +435,8 @@ export default {
   },
   methods: {
     async initLetData(selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
+      let corpBase = await this.getDatabase('baseInfo');
+      let corp = corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       // 1.时间
@@ -455,20 +454,18 @@ export default {
       let DangerTable = null;
       if (this.fromPage === 'send-paper') {
         // 调查互动发送文书进入时，获取机构名称改为当前用户的省级机构名称
-        let db = new GoDB(this.DBName)
-        let orgInfo = db.table('orgInfo')
+        let orgInfo = await this.getDatabase('org')
         // 归档机构信息
         // 监察需要筛选type
-        let orgData = await orgInfo.find(item => item.no === this.$store.state.user.userGroupId
+        let orgData = orgInfo.find(item => item.no === this.$store.state.user.userGroupId
           // && (item.type === '3' || item.type === '4' || item.type === '11') 
           && item.delFlag !== "1")
         // 获取当前归档机构的省局名称
         provinceGroupName = `${orgData.name}`
         if (orgData.grade === '3') {
-          let provinceOrg = await orgInfo.find(item => item.no === orgData.parentId)
+          let provinceOrg = orgInfo.find(item => item.no === orgData.parentId)
           provinceGroupName = provinceOrg.name
         }
-        await db.close()
       } else {
         let let4DataPaperContent = JSON.parse(selectedPaper.let4Data.paperContent);
         cellIdx8String =
@@ -531,7 +528,6 @@ export default {
       问：你还有补充吗？
       答： 没有了。
       问： 请你看一下记录，是否如你所说一样，如无异议，请签字确认。`;
-      await db.close();
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: cellIdx0Year, // 年
         cellIdx1: cellIdx1Month, // 月

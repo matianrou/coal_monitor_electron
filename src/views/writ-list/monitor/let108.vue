@@ -390,14 +390,12 @@ export default {
   },
   methods: {
     async initLetData(selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
+      let corpBase = await this.getDatabase("baseInfo");
+      let corp = corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       // 1.生成文书编号
       let { num0, num1, num3, num4 } = await getDocNumber(
-        db,
         this.docData.docTypeNo,
         this.corpData.caseId
       );
@@ -415,14 +413,14 @@ export default {
             )
           : "";
       // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
+      let orgSysOfficeInfo = await getOrgData(this.$store.state.curCase.groupId)
       let cellIdx16String = orgSysOfficeInfo.depAddress;
       let cellIdx17String = orgSysOfficeInfo.depPost;
       let cellIdx19String = orgSysOfficeInfo.master;
       let cellIdx20String = orgSysOfficeInfo.phone;
       let cellIdx9String = ''
       // 5.获取检查地点
-      let wkPaper = db.table('wkPaper')
+      let wkPaper = await this.getDatabase('wkPaper')
       if (let1DataPaperContent.associationPaperId) {
         let paper22 = await wkPaper.find(item => item.paperId === let1DataPaperContent.associationPaperId.paper22Id)
         cellIdx9String = paper22.paperContent ? JSON.parse(paper22.paperContent).cellIdx4 : ''
@@ -436,7 +434,6 @@ export default {
             )
           : {};
       }
-      await db.close();
       let associationPaperId = Object.assign({}, this.setAssociationPaperId(let1DataPaperContent.associationPaperId), {
         paper1Id: selectedPaper.let1Data.paperId,
       }) 

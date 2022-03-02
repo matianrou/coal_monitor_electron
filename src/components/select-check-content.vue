@@ -150,7 +150,7 @@
         this.loading = true
         let checkCate = await this.getDatabase('checkCate');
         let checkList = await this.getDatabase('checkList');
-        let corpBase = await this.getDatabase('corpBase');
+        let corpBase = await this.getDatabase('baseInfo');
         // 获取检查项类别和内容
         let checkCateData = checkCate.filter((item) => item.delFlag !== '1');
         let checkListData = checkList.filter((item) => item.delFlag !== '1' && !item.qdId);

@@ -177,13 +177,12 @@ export default {
   },
   methods: {
     async initLetData (selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
+      let corpBase = await this.getDatabase('baseInfo');
+      let corp = corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       // 1.获取文书编号：
-      let paperNumber = await getDocNumber2(db, this.docData.docTypeNo, this.corpData.caseId)
+      let paperNumber = await getDocNumber2(this.docData.docTypeNo, this.corpData.caseId)
       // 获取笔录文书中的隐患数据
       let let7DataPaperContent = JSON.parse(
         selectedPaper.let7Data.paperContent
@@ -205,7 +204,6 @@ export default {
             )
           : "";
       // 获取听证笔录中的听证主持人和记录人
-      await db.close();
       let DangerTable =
         this.corpData.caseType === "0"
           ? setNewDanger(

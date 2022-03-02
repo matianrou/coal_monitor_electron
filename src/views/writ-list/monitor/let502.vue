@@ -238,18 +238,16 @@ export default {
   },
   methods: {
     async initLetData() {
-      let db = new GoDB(this.$store.state.DBName);
       // 1.文书编号
       let paperNumber = await getDocNumber(
-        db,
         this.docData.docTypeNo,
         ''
       );
       // 获取当前用户的省局机构名称
       let userGroupId = this.$store.state.user.userGroupId
-      let orgInfo = db.table('orgInfo')
+      let orgInfo = await this.getDatabase('org')
       // 监察需要筛选type
-      let userOrg = await orgInfo.find(item => item.no === userGroupId
+      let userOrg = orgInfo.find(item => item.no === userGroupId
         // && (item.type === '3' || item.type === '4' || item.type === '11') 
         && item.delFlag !== "1")
       let provinceGroupName = userOrg.name
@@ -257,7 +255,6 @@ export default {
         let provinceOrg = await orgInfo.find(item => item.no === userOrg.parentId)
         provinceGroupName = provinceOrg.name
       }
-      await db.close()
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: paperNumber.num0, // 文书号
         cellIdx1: paperNumber.num1, // 文书号

@@ -201,9 +201,8 @@ export default {
   },
   methods: {
     async initLetData(selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
+      let corpBase = await this.getDatabase("baseInfo");
+      let corp = corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       let selectedType = ''
@@ -237,7 +236,7 @@ export default {
         associationPaperOrder.push('4')
       }
       // 1.获取文书编号：
-      let paperNumber = await getDocNumber2(db, this.docData.docTypeNo, this.corpData.caseId)
+      let paperNumber = await getDocNumber2(this.docData.docTypeNo, this.corpData.caseId)
       // 2.案由内容初始化：煤矿企业名称+涉嫌+违法违规行为+案
       // 获取笔录文书中的隐患数据
       let cellIdx3String =
@@ -257,8 +256,8 @@ export default {
           : "";
       // 3.案情摘要：与立案决定书案情摘要格式一致。检查时间，煤矿企业全称+进行现场检查时发现，+隐患描述。+违反认定法条+的规定，依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。
       // 获取检查时间
-      let wkPaper = db.table('wkPaper')
-      let let1Data = await wkPaper.find(item => item.paperId === letDataPaperContent.associationPaperId.paper1Id && item.delFlag !== '1')
+      let wkPaper = await this.getDatabase('wkPaper')
+      let let1Data = wkPaper.find(item => item.paperId === letDataPaperContent.associationPaperId.paper1Id && item.delFlag !== '1')
       let let1DataPaperContent = JSON.parse(
         let1Data.paperContent
       );
@@ -308,14 +307,14 @@ export default {
             )
           : "";
       // 获取采矿许可证和安全生产许可证
-      let zfZzInfo = db.table("zfZzInfo");
-      let zzInfo1 = await zfZzInfo.find((item) => {
+      let zfZzInfo = await this.getDatabase("zfZzInfo");
+      let zzInfo1 = zfZzInfo.find((item) => {
         return (
           item.corpId == this.corpData.corpId &&
           item.credTypeName == "采矿许可证"
         );
       });
-      let zzInfo2 = await zfZzInfo.find((item) => {
+      let zzInfo2 = zfZzInfo.find((item) => {
         return (
           item.corpId == this.corpData.corpId &&
           item.credTypeName == "安全生产许可证"
@@ -330,7 +329,6 @@ export default {
             )
           : {};
       }
-      await db.close();
       this.letData = Object.assign({}, this.letData, {
         cellIdx1: paperNumber,
         cellIdx3: cellIdx3String, // 案由
@@ -394,12 +392,10 @@ export default {
       // 2，如果对个人进行法制审核，则显示姓名XXX，出生日期XXXX年XX月XX日，身份证号XXXX。
       let cellIdx4String = ''
       if (this.selectedType === '单位') {
-        let db = new GoDB(this.$store.state.DBName);
-        let corpBase = db.table("corpBase");
-        let corp = await corpBase.find((item) => {
+        let corpBase = await this.getDatabase('baseInfo');
+        let corp = corpBase.find((item) => {
           return item.corpId == this.corpData.corpId;
         });
-        await db.close();
         cellIdx4String = `${corp.corpName}社会统一信用代码是${corp.uscCode ? corp.uscCode : 'XX'}，采矿许可证号是${corp.uscCode ? corp.uscCode : 'XX'}，安全生产许可证号是${corp.uscCode ? corp.uscCode : 'XX'}。`;
       } else {
         cellIdx4String = '姓名XXX，出生日期XXXX年XX月XX日，身份证号XXXX。'

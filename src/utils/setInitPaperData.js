@@ -19,7 +19,7 @@ import { getDatabase, setDatabase, getContrastData, updateDatabase } from '@/uti
 // 5.num4: 文书号5（个人执法编号+自增三位数字）
 export async function getDocNumber(docTypeNo, caseId) {
   // 获取当前归档机构信息
-  const orgInfo = await getDatabase("orgInfo");
+  const orgInfo = await getDatabase('org');
   // 如果有caseId则获取归档机构如果没有则获取当前用户机构（没有时为意见建议书时）
   let orgId = caseId ? store.state.curCase.groupId : store.state.user.userGroupId
   let orgData = {}
@@ -706,7 +706,7 @@ export function setAssociationPaperOrder (associationPaperOrder = []) {
 
 export async function getOrgData (orgId) {
   // 获取机构信息
-  let orgInfo = await getDatabase("orgInfo");
+  let orgInfo = await getDatabase('org');
   let orgData = {}
   if (store.state.user.userType === 'supervision') {
     // 监管

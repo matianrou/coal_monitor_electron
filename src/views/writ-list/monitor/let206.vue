@@ -259,11 +259,10 @@ export default {
   },
   methods: {
     async initLetData(selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
+      let corpBase = await this.getDatabase("baseInfo");
       // 3.被处罚：如果为单位时赋值煤矿名称coprName
       // 4.地址：如果为单位时赋值煤矿地址address
-      let corp = await corpBase.find((item) => {
+      let corp = corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       let cellIdx4String = '';
@@ -345,16 +344,14 @@ export default {
       // 9.机构接口中sysOfficeInfo实体中对应：
       // accountName；银行：accountBank；账户名称：billName；账号：account；
       // 地址：accountAddress；组织机构名：organName；法院：courtPrefix
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
+      let orgSysOfficeInfo = await getOrgData(this.$store.state.curCase.groupId)
       let paperNumber = await getDocNumber(
-        db,
         this.docData.docTypeNo,
         this.corpData.caseId
       );
       let DangerTable = this.corpData.caseType === '0' ? 
         setNewDanger(selectletData, letDataPaperContent.DangerTable)
         : null
-      await db.close();
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: paperNumber.num0, // 文书号
         cellIdx1: paperNumber.num1, // 文书号
@@ -435,12 +432,10 @@ export default {
       this.letData.cellIdx21 = this.selectedType;
       this.letData.selectedType = this.selectedType;
       if (this.selectedType === "单位") {
-        let db = new GoDB(this.$store.state.DBName);
-        let corpBase = db.table("corpBase");
-        let corp = await corpBase.find((item) => {
+        let corpBase = await this.getDatabase("baseInfo");
+        let corp = corpBase.find((item) => {
           return item.corpId == this.corpData.corpId;
         });
-        await db.close();
         // 按单位初始化信息
         // 1.单位名称
         this.letData.cellIdx5 = corp.corpName;

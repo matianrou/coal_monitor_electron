@@ -201,14 +201,12 @@ export default {
   },
   methods: {
     async initLetData(selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
+      let corpBase = await this.getDatabase('baseInfo');
       let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       // 1.生成文书编号
       let { num0, num1, num3, num4 } = await getDocNumber(
-        db,
         this.docData.docTypeNo,
         this.corpData.caseId
       );
@@ -229,7 +227,7 @@ export default {
       let checkPosition = ''
       if (this.corpData.caseType === "0") {
         // 5.获取检查地点
-        let wkPaper = db.table('wkPaper')
+        let wkPaper = await this.getDatabase('wkPaper')
         let paper22 = await wkPaper.find(item => item.paperId === let25DataPaperContent.associationPaperId.paper22Id)
         checkPosition = paper22.paperContent ? JSON.parse(paper22.paperContent).cellIdx4 || 'XX' + '使用的' : ''
       }
@@ -250,7 +248,7 @@ export default {
       let num253 = let25DataPaperContent.cellIdx2;
       let num254 = let25DataPaperContent.cellIdx3;
       // 3.sysOfficeInfo实体中 organName、人民法院：courtPrefix
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
+      let orgSysOfficeInfo = await getOrgData(this.$store.state.curCase.groupId)
       let cellIdx15String = '国家矿山安全监察局';
       let cellIdx16String = orgSysOfficeInfo.courtPrefix;
       let DangerTable = null

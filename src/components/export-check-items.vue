@@ -123,7 +123,7 @@
       async getCheckList() {
         let wkPaper = await this.getDatabase('wkPaper')
         // 拉取做的检查活动
-        let caseList = await wkPaper.findAll(item => item.paperType === '22' 
+        let caseList = wkPaper.filter(item => item.paperType === '22' 
           && item.delFlag !== '1' 
           && item.personId === this.$store.state.user.userId
           && item.localizeFlag === '1')

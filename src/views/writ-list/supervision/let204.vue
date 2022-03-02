@@ -282,9 +282,7 @@ export default {
   methods: {
     async initLetData (selectedPaper) {
       if (this.corpData.caseType === '0') {
-        let db = new GoDB(this.$store.state.DBName);
         let paperNumber = await getDocNumber(
-          db,
           this.docData.docTypeNo,
           this.corpData.caseId
         );
@@ -329,7 +327,7 @@ export default {
           }
         );
         // 9.机构接口中获取sysOfficeInfo实体中
-        let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
+        let orgSysOfficeInfo = await getOrgData(this.$store.state.curCase.groupId)
         // depAddress：我局地址、
         // depPost：邮政编码、
         // master：我局联系人、
@@ -369,7 +367,6 @@ export default {
         let DangerTable = letDataPaperContent.DangerTable ? 
           setNewDanger(selectletData, letDataPaperContent.DangerTable)
           : {}
-        await db.close();
         this.letData = Object.assign({}, this.letData, {
           cellIdx0: paperNumber.num0, // 文书号
           cellIdx1: paperNumber.num1, // 文书号
@@ -398,15 +395,12 @@ export default {
           associationPaperOrder,
         })
       } else {
-        let db = new GoDB(this.$store.state.DBName);
         let paperNumber = await getDocNumber(
-          db,
           this.docData.docTypeNo,
           this.corpData.caseId
         );
         // 9.机构接口中获取sysOfficeInfo实体中
-        let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
-        await db.close();
+        let orgSysOfficeInfo = await getOrgData(this.$store.state.curCase.groupId)
         let selectedType = ''
         let associationPaperId = {}
         let letDataPaperContent = {}

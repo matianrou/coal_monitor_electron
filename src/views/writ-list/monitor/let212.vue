@@ -239,18 +239,17 @@ export default {
     async initLetData(selectedPaper) {
       // 创建初始版本
       // 初始创建时拉取行政处罚决定书，列表展示
-      let db = new GoDB(this.$store.state.DBName);
-	    let wkPaper = db.table('wkPaper');
-      let p8PaperList = await wkPaper.findAll(item => item.caseId === this.corpData.caseId && item.paperType === '8' && item.delFlag !== '1') || []
+	    let wkPaper = await this.getDatabase('wkPaper');
+      let p8PaperList = wkPaper.filter(item => item.caseId === this.corpData.caseId && item.paperType === '8' && item.delFlag !== '1') || []
       // 拉取行政决定履行催告书，如果未制作则不能填写加处罚款
-      let p39PaperList = await wkPaper.findAll(item => item.caseId === this.corpData.caseId && item.paperType === '39' && item.delFlag !== '1') || []
+      let p39PaperList = wkPaper.filter(item => item.caseId === this.corpData.caseId && item.paperType === '39' && item.delFlag !== '1') || []
       if (p39PaperList < 1) {
         this.lateFeeTitle = '请先制作行政决定履行催告书'
       } else {
         this.lateFeeTitle = ''
       }
       // 拉取以往制作的罚款收缴信息，已经完成罚款收缴的行政处罚决定书不能再修改金额，直接展示已完成缴纳，同时未完成的则减去以往已完成罚款收缴的金额
-      let p43PaperList = await wkPaper.findAll(item => item.caseId === this.corpData.caseId && item.paperType === '43' && item.delFlag !== '1') || []
+      let p43PaperList = wkPaper.filter(item => item.caseId === this.corpData.caseId && item.paperType === '43' && item.delFlag !== '1') || []
       let alreadyFine = {} // 已缴金额对象表示，其中数值按照p8paperId：已缴纳金额合计
       if (p43PaperList.length > 0) {
         // 遍历以往填写的罚款收缴
@@ -269,7 +268,6 @@ export default {
         })
       }
       // 处理数据：
-      await db.close()
       if (p8PaperList.length > 0) {
         p8PaperList.map(item => {
           let paperContent = JSON.parse(item.paperContent)
@@ -306,13 +304,11 @@ export default {
     },
     async getFileList () {
       // 获取文件列表
-      let db = new GoDB(this.$store.state.DBName);
-	    let singleReceipt = db.table('singleReceipt');
-      let fileList = await singleReceipt.findAll(item => 
+	    let singleReceipt = await this.getDatabase('singleReceipt');
+      let fileList = singleReceipt.filter(item => 
         item.paperId === this.paperId 
         && item.p8Id === this.selectedP8Paper.paperId
         && item.delFlag !== '1') || []
-      await db.close()
       // 整理数据，添加文书编号
       if (fileList.length > 0) {
         fileList.forEach(item => {
@@ -338,12 +334,8 @@ export default {
         });
       // 更新本地库
       let addFileList = []
-      let db = new GoDB(this.$store.state.DBName);
-	    let singleReceipt = db.table('singleReceipt');
       for (let i = 0; i < newFileList.length; i++) {
         let obj = newFileList[i];
-        let item = await singleReceipt.get({ id: obj.id });
-        if (item) await singleReceipt.delete({ id: obj.id }); //删除
         addFileList.push({
           "id": obj.id,
           "singleId": obj.singleId,
@@ -364,8 +356,7 @@ export default {
           "p8Id": obj.p8Id,
         });
       }
-	    await singleReceipt.addMany(addFileList);
-	    await db.close();
+      await this.updateDatabase('singleReceipt', addFileList)
     },
     handleCurrentChange (row) {
       this.selectedP8Paper = row
@@ -445,10 +436,7 @@ export default {
               if (data.status === "200") {
                 this.$message.success('文件删除成功')
                 // 因后台数据库不再传输删除的文件，所以本地库也要相应删除
-                let db = new GoDB(this.$store.state.DBName);
-	              let singleReceipt = db.table('singleReceipt');
-                await singleReceipt.delete({ id: row.id }); //删除
-	              await db.close();
+                await this.deleteDatabasePhysics('singleReceipt', [row])
                 await this.updateFileList()
                 await this.getFileList()
               } else {

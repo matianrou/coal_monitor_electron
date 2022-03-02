@@ -305,13 +305,11 @@ export default {
   },
   methods: {
     async initLetData(selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
+      let corpBase = await this.getDatabase("baseInfo");
+      let corp = corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       let { num0, num1, num3, num4 } = await getDocNumber(
-        db,
         this.docData.docTypeNo,
         this.corpData.caseId
       );
@@ -324,7 +322,7 @@ export default {
         .replace("日", "-")
         .split("-");
       // 9.机构接口中获取sysOfficeInfo实体中
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
+      let orgSysOfficeInfo = await getOrgData(this.$store.state.curCase.groupId)
       // depAddress：我局地址、
       // depPost：邮政编码、
       // master：我局联系人、
@@ -345,7 +343,6 @@ export default {
       let DangerTable = this.corpData.caseType === '0' ? 
         setNewDanger(selectedPaper.let8Data, let8DataPaperContent.DangerTable)
         : null
-      await db.close();
       let associationPaperId = Object.assign({}, this.setAssociationPaperId(let8DataPaperContent.associationPaperId), {
         paper8Id: selectedPaper.let8Data.paperId,
       }) 

@@ -202,9 +202,8 @@ export default {
   },
   methods: {
     async initLetData (selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
+      let corpBase = await this.getDatabase('baseInfo');
+      let corp = corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       // 1.案由内容初始化：立案决定书案由
@@ -226,7 +225,6 @@ export default {
             )
           : {};
       }
-      await db.close();
       let associationPaperId = Object.assign({}, this.setAssociationPaperId(let4DataPaperContent.associationPaperId), {
         paper4Id: selectedPaper.let4Data.paperId,
       }) 

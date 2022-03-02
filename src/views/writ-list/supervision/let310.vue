@@ -203,10 +203,8 @@ export default {
   methods: {
     async initLetData (selectedPaper) {
       this.visibleSelectDialog = true;
-      let db = new GoDB(this.$store.state.DBName);
       // 1.生成文书编号
       let paperNumber = await getDocNumber2(
-        db,
         this.docData.docTypeNo,
         this.corpData.caseId
       );
@@ -218,13 +216,11 @@ export default {
           setNewDanger(selectedPaper.let4Data, let4DataPaperContent.DangerTable)
           : {}
       }
-      await db.close();
       let associationPaperId = Object.assign({}, this.setAssociationPaperId(let4DataPaperContent.associationPaperId), {
         paper4Id: selectedPaper.let4Data.paperId,
       }) 
       let associationPaperOrder = this.setAssociationPaperOrder(let4DataPaperContent.associationPaperOrder)
       associationPaperOrder.push('4')
-      await db.close();
       this.letData = Object.assign({}, this.letData, {
         cellIdx1: paperNumber,
         cellIdx2: let4DataPaperContent.cellIdx4, // 案由
@@ -258,9 +254,8 @@ export default {
       this.visibleSelectDialog = false;
       if (this.selectedType === "单位") {
         // 按单位初始化信息
-        let db = new GoDB(this.$store.state.DBName);
-        let corpBase = db.table("corpBase");
-        let corp = await corpBase.find((item) => {
+        let corpBase = await this.getDatabase('baseInfo');
+        let corp = corpBase.find((item) => {
           return item.corpId == this.corpData.corpId;
         });
         // 煤矿名称+“，”+统一信用代码+“，”+法定代表人+“，”+“法定代表人手机号”+“，”+煤矿地址。

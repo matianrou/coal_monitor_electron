@@ -333,13 +333,12 @@ export default {
   },
   methods: {
     async initLetData (selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
+      let corpBase = await this.getDatabase('baseInfo');
+      let corp = corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       // 1.生成文书编号
-      let { num0, num1, num3, num4 } = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId)
+      let { num0, num1, num3, num4 } = await getDocNumber(this.docData.docTypeNo, this.corpData.caseId)
       // 2.隐患描述
       // 获取笔录文书中的隐患数据
       let let1DataPaperContent = selectedPaper.let1Data ? JSON.parse(
@@ -360,16 +359,16 @@ export default {
       let cellIdx11Date = now.getDate().toString()
       let cellIdx12Hour = now.getHours().toString()
       // 4.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
+      let orgSysOfficeInfo = await getOrgData(this.$store.state.curCase.groupId)
       let cellIdx17String = orgSysOfficeInfo.depAddress
       let cellIdx18String = orgSysOfficeInfo.depPost
       let cellIdx20String = orgSysOfficeInfo.master
       let cellIdx21String = orgSysOfficeInfo.phone
       // 5.获取检查地点
       let cellIdx13String = ''
-      let wkPaper = db.table('wkPaper')
+      let wkPaper = await this.getDatabase('wkPaper')
       if (let1DataPaperContent.associationPaperId) {
-        let paper22 = await wkPaper.find(item => item.paperId === let1DataPaperContent.associationPaperId.paper22Id)
+        let paper22 = wkPaper.find(item => item.paperId === let1DataPaperContent.associationPaperId.paper22Id)
         cellIdx13String = paper22.paperContent ? JSON.parse(paper22.paperContent).cellIdx4 : ''
       }
       let DangerTable = null
@@ -383,7 +382,6 @@ export default {
       }) 
       let associationPaperOrder = this.setAssociationPaperOrder(let1DataPaperContent.associationPaperOrder)
       associationPaperOrder.push('1')
-      await db.close();
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: num0, // 文书号
         cellIdx1: num1, // 文书号

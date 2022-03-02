@@ -313,16 +313,14 @@ export default {
   },
   methods: {
     async initLetData(selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
+      let corpBase = await this.getDatabase("baseInfo");
+      let corp = corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       // 1.弹出提示框，选择单位或个人
       this.visibleSelectDialog = true;
       // 2.生成文书编号
       let paperNumber = await getDocNumber(
-        db,
         this.docData.docTypeNo,
         this.corpData.caseId
       );
@@ -333,14 +331,13 @@ export default {
       );
       // 5.通过sysOfficeInfo获取人民法院courtPrefix、我局地址：depAddress、
       //   邮政编码：depPost、我局联系人：master、联系电话：phone
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
+      let orgSysOfficeInfo = await getOrgData(this.$store.state.curCase.groupId)
       let DangerTable = null
       if (this.corpData.caseType === '0') {
         DangerTable = let10DataPaperContent.DangerTable ? 
           setNewDanger(selectedPaper.let10Data, let10DataPaperContent.DangerTable)
           : {}
       }
-      await db.close();
       let associationPaperId = Object.assign({}, this.setAssociationPaperId(let10DataPaperContent.associationPaperId), {
         paper10Id: selectedPaper.let10Data.paperId
       }) 

@@ -12,7 +12,7 @@ export async function saveToUpload(paperId, messageShow) {
   let wkPaper = await getDatabase("wkPaper");
   let wkCase = await getDatabase("wkCase");
   let wkDanger = await getDatabase("wkDanger")
-  let corpBase = await getDatabase("corpBase")
+  let corpBase = await getDatabase('baseInfo')
   //查询符合条件的记录
   let workPaper = wkPaper.find((item) => {
     return item.paperId == paperId && item.delFlag !== '1';

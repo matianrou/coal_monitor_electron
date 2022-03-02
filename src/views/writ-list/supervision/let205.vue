@@ -290,9 +290,8 @@ export default {
   },
   methods: {
     async initLetData (selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
+      let corpBase = await this.getDatabase('baseInfo');
+      let corp = corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
        // 1.时间：当前年、月、日、时、分
@@ -344,7 +343,6 @@ export default {
       }) 
       let associationPaperOrder = this.setAssociationPaperOrder(let6DataPaperContent.associationPaperOrder)
       associationPaperOrder.push('6')
-      await db.close();
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: cellIdx0Year, // 年
         cellIdx1: cellIdx1Month, // 月

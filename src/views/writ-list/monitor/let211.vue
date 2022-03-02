@@ -187,14 +187,13 @@ export default {
   },
   methods: {
     async initLetData(selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
+      let corpBase = await this.getDatabase('baseInfo');
       let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       // 5.地点：sysOfficeInfo实体中depAddress字段+ deparFullname字段
       // 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
+      let orgSysOfficeInfo = await getOrgData(this.$store.state.curCase.groupId)
       let cellIdx7String = `${orgSysOfficeInfo.depAddress}${orgSysOfficeInfo.deparFullname}`;
       // 1.时间
       let now = new Date();
@@ -257,7 +256,6 @@ export default {
 \r
                                                         XXX签名压印\r
                                                       20XX年XX月XX日\r`;
-      await db.close();
       let let28DataPaperContent = JSON.parse(
         selectedPaper.let28Data.paperContent
       );

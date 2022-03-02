@@ -392,21 +392,20 @@ export default {
     let volumesMenuTableData = []
     cellIdx0String = this.$store.state.curCase.groupName;
     cellIdx1String = "行政处罚案件档案";
-    let db = new GoDB(this.$store.state.DBName);
       let let1DataPaperContent = JSON.parse(
         selectedPaper.let1Data.paperContent
       );
       // 获取所有文书，整理成为默认案卷首页
-      let wkPaper = db.table('wkPaper') 
+      let wkPaper = await this.getDatabase('wkPaper') 
       // 获取笔录文书：
-      let paper1 = await wkPaper.findAll(item => item.paperId === selectedPaper.let1Data.paperId)
+      let paper1 = wkPaper.filter(item => item.paperId === selectedPaper.let1Data.paperId)
       let paper22 = []
       let paper22AssociationPaper = []
       if (let1DataPaperContent && let1DataPaperContent.associationPaperId) {
         // 获取关联检查方案文书：
-        paper22 = await wkPaper.findAll(item => item.paperId === let1DataPaperContent.associationPaperId.paper22Id)
+        paper22 = wkPaper.filter(item => item.paperId === let1DataPaperContent.associationPaperId.paper22Id)
         // 获取关联检查方案复查文书：
-        paper22AssociationPaper = await wkPaper.findAll(item => {
+        paper22AssociationPaper = wkPaper.filter(item => {
           if (item.paperContent) {
             let paperContent = JSON.parse(item.paperContent) 
             if (paperContent.associationPaperId && paperContent.associationPaperId.paper22Id) {
@@ -419,7 +418,7 @@ export default {
         })
       }
       // 获取所有关联同一笔录文书的文书
-      let paperList = await wkPaper.findAll(item => {
+      let paperList = wkPaper.filter(item => {
         if (item.paperContent) {
           let paperContent = JSON.parse(item.paperContent) 
           if (paperContent.associationPaperId && paperContent.associationPaperId.paper1Id) {
@@ -458,8 +457,8 @@ export default {
         })
       }
       if (this.corpData.caseType === "0") {
-        let corpBase = db.table("corpBase");
-        let corp = await corpBase.find((item) => {
+        let corpBase = await this.getDatabase('baseInfo');
+        let corp = corpBase.find((item) => {
           return item.corpId == this.corpData.corpId;
         });
         // 创建初始版本 */
@@ -497,13 +496,12 @@ export default {
         associationPaperOrder = this.setAssociationPaperOrder(let1DataPaperContent.associationPaperOrder)
         associationPaperOrder.push('1')
       } else {
-        let corpBase = db.table("corpBase");
-        let corp = await corpBase.find((item) => {
+        let corpBase = await this.getDatabase('baseInfo');
+        let corp = corpBase.find((item) => {
           return item.corpId == this.corpData.corpId;
         });
         cellIdx2String = `${corp.corpName}XXX案。`;
       }
-      await db.close();
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: cellIdx0String, // 执法单位
         cellIdx1: cellIdx1String, // 案卷类别

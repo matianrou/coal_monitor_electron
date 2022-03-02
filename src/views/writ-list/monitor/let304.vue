@@ -266,9 +266,8 @@ export default {
   },
   methods: {
     async initLetData(selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
+      let corpBase = await this.getDatabase("baseInfo");
+      let corp = corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       // 1.时间：当前年、月、日、时、分
@@ -294,7 +293,6 @@ export default {
           setNewDanger(selectedPaper.let10Data, let10DataPaperContent.DangerTable)
           : {}
       }
-      await db.close();
       let associationPaperId = Object.assign({}, this.setAssociationPaperId(let10DataPaperContent.associationPaperId), {
         paper10Id: selectedPaper.let10Data.paperId
       }) 

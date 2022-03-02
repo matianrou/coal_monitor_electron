@@ -213,9 +213,8 @@ export default {
   },
   methods: {
     async initLetData (selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
+      let corpBase = await this.getDatabase('baseInfo');
+      let corp = corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       // 1.送达文书：国家煤矿安全监管行政处罚决定书
@@ -225,11 +224,10 @@ export default {
       let cellIdx5String = `${let8DataPaperContent.cellIdx0}（${let8DataPaperContent.cellIdx1}）煤安罚〔${let8DataPaperContent.cellIdx2}〕${let8DataPaperContent.cellIdx3}号`
       // 3.送达地点：煤矿名称
       let cellIdx6String = corp.corpName
-      let paperNumber = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId)
+      let paperNumber = await getDocNumber(this.docData.docTypeNo, this.corpData.caseId)
       // 获取行政处罚决定书中选择的单位/个人
       let selectedType = let8DataPaperContent.selectedType
       let selectedString = selectedType === '单位' ? '单位负责人' : '个人'
-      await db.close();
       let DangerTable = null
       if (this.corpData.caseType === '0') {
         DangerTable = let8DataPaperContent.DangerTable ? 

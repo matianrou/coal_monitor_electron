@@ -224,9 +224,8 @@ export default {
   },
   methods: {
     async initLetData (selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
+      let corpBase = await this.getDatabase('baseInfo');
+      let corp = corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
@@ -242,8 +241,8 @@ export default {
             )
           : "";
       // 通过机构接口中的sysOfficeInfo中获取的organName和courtPrefix字段分别填充cellIdx8和cellIdx9字段
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
-      let paperNumber = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId)
+      let orgSysOfficeInfo = await getOrgData(this.$store.state.curCase.groupId)
+      let paperNumber = await getDocNumber(this.docData.docTypeNo, this.corpData.caseId)
       let DangerTable = let1DataPaperContent.DangerTable
         ? setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
         : {};
@@ -252,7 +251,6 @@ export default {
       }) 
       let associationPaperOrder = this.setAssociationPaperOrder(let1DataPaperContent.associationPaperOrder)
       associationPaperOrder.push('1')
-      await db.close();
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: paperNumber.num0, // 文书号
         cellIdx1: paperNumber.num1, // 文书号

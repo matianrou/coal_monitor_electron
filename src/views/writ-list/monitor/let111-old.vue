@@ -294,14 +294,12 @@ export default {
   },
   methods: {
     async initLetData(selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
+      let corpBase = await this.getDatabase('baseInfo');
       let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       // 2.生成文书编号
       let { num0, num1, num3, num4 } = await getDocNumber(
-        db,
         this.docData.docTypeNo,
         this.corpData.caseId
       );
@@ -324,7 +322,6 @@ export default {
           setNewDanger(selectedPaper.let32Data, let32DataPaperContent.DangerTable)
           : {}
       }
-      await db.close();
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: let32DataPaperContent.selectedType, // 查封(扣押)
         cellIdx1: num0, // 文书号

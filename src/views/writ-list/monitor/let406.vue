@@ -131,10 +131,8 @@ export default {
         return
       }
       // 获取文件列表
-      let db = new GoDB(this.$store.state.DBName);
-	    let imageEvidence = db.table('imageEvidence');
-      this.fileList = await imageEvidence.findAll(item => item.paperId === this.paperId && item.delFlag !== '1')
-      await db.close()
+	    let imageEvidence = await this.getDatabase('imageEvidence');
+      this.fileList = imageEvidence.filter(item => item.paperId === this.paperId && item.delFlag !== '1')
     },
     async updateFileList () {
       // 上传文件或删除文件时更新本地库
@@ -153,12 +151,8 @@ export default {
         });
       // 更新本地库
       let addFileList = []
-      let db = new GoDB(this.$store.state.DBName);
-	    let imageEvidence = db.table('imageEvidence');
       for (let i = 0; i < newFileList.length; i++) {
         let obj = newFileList[i];
-        let item = await imageEvidence.get({ id: obj.id });
-        if (item) await imageEvidence.delete({ id: obj.id }); //删除
         addFileList.push({
           "id": obj.id,
           "evidenceId": obj.evidenceId,
@@ -185,8 +179,7 @@ export default {
           "hashCode": obj.hashCode,
         });
       }
-	    await imageEvidence.addMany(addFileList);
-	    await db.close();
+      await this.updateDatabase('imageEvidence', addFileList)
     },
     addFile (param) {
       // 上传文件
@@ -258,10 +251,7 @@ export default {
               if (data.status === "200") {
                 this.$message.success('文件删除成功')
                 // 因后台数据库不再传输删除的文件，所以本地库也要相应删除
-                let db = new GoDB(this.$store.state.DBName);
-	              let imageEvidence = db.table('imageEvidence');
-                await imageEvidence.delete({ id: row.id }); //删除
-	              await db.close();
+                await this.deleteDatabasePhysics('imageEvidence', [row])
                 await this.updateFileList()
                 await this.getFileList()
               } else {

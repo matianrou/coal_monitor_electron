@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     async init () {
-      let corpBase = await this.getDatabase('corpBase')
+      let corpBase = await this.getDatabase('baseInfo')
       let corp = corpBase.find(item => item.corpId === this.caseData.corpId)
       this.corpData = {
         corpName: corp.corpName,

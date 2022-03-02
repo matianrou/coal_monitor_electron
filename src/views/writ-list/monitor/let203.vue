@@ -199,13 +199,12 @@ export default {
   methods: {
     async initLetData(selectedPaper) {
       if (this.corpData.caseType === '0') {
-        let db = new GoDB(this.$store.state.DBName);
-        let corpBase = db.table("corpBase");
-        let corp = await corpBase.find((item) => {
+        let corpBase = await this.getDatabase('baseInfo');
+        let corp = corpBase.find((item) => {
           return item.corpId == this.corpData.corpId;
         });
         // 4.编号：
-        let paperNumber = await getDocNumber2(db, this.docData.docTypeNo, this.corpData.caseId)
+        let paperNumber = await getDocNumber2(this.docData.docTypeNo, this.corpData.caseId)
         // 5.获取立案决定书编号及立案日期,承办人
         let let49DataPaperContent = JSON.parse(
           selectedPaper.let49Data.paperContent
@@ -238,7 +237,7 @@ export default {
             groupName: this.$store.state.curCase.provinceGroupName,
           },
         })
-        let wkPaper = db.table('wkPaper')
+        let wkPaper = await this.getDatabase('wkPaper')
         let let4Paper = await wkPaper.find(item => item.paperId === let49DataPaperContent.associationPaperId.paper4Id && item.delFlag !== '1')
         let let4DataPaperContent = JSON.parse(let4Paper.paperContent)
         let {
@@ -264,7 +263,6 @@ export default {
         }) 
         let associationPaperOrder = this.setAssociationPaperOrder(let49DataPaperContent.associationPaperOrder)
         associationPaperOrder.push('49')
-        await db.close();
         this.letData = Object.assign({}, this.letData, {
           cellIdx1: paperNumber, // 编号
           cellIdx2: cellIdx2String, // 案由
@@ -284,9 +282,7 @@ export default {
           selectedType: let49DataPaperContent.selectedType
         })
       } else {
-        let db = new GoDB(this.$store.state.DBName);
-        let paperNumber = await getDocNumber2(db, this.docData.docTypeNo, this.corpData.caseId)
-        await db.close();
+        let paperNumber = await getDocNumber2(this.docData.docTypeNo, this.corpData.caseId)
         let let4DataPaperContent = JSON.parse(
           selectedPaper.let4Data.paperContent
         );

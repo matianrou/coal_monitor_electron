@@ -242,12 +242,11 @@ export default {
     },
     async getData () {
       this.loading.list = true
-      let db = new GoDB(this.DBName)
       // 获取煤矿信息
       this.selectedPaperList = []
       if (this.caseData.corpId) {
-        let corpBase = db.table('corpBase')
-        let corp = await corpBase.find(item => item.corpId === this.caseData.corpId)
+        let corpBase = await this.getDatabase('baseInfo')
+        let corp = corpBase.find(item => item.corpId === this.caseData.corpId)
         this.corpData = {
           corpName: corp.corpName,
           corpTypeName: corp.corpTypeName,
@@ -264,9 +263,9 @@ export default {
       }
       // 获取文书列表
       if (this.caseData.caseId) {
-        let wkPaper = db.table('wkPaper')
+        let wkPaper = await this.getDatabase('wkPaper')
         let {name, personName} = this.dataForm
-        let paperList = await wkPaper.findAll(item => item.caseId === this.caseData.caseId && item.delFlag !== '1')
+        let paperList = wkPaper.filter(item => item.caseId === this.caseData.caseId && item.delFlag !== '1')
         if (paperList.length > 0) {
           // 筛选文书名称
           if (name) {
@@ -285,7 +284,6 @@ export default {
         }
         this.paperList = paperList
       }
-      await db.close()
       this.loading.list = false
     },
     async handleEdit (row) {
@@ -307,11 +305,8 @@ export default {
         }
       })
       this.selectedPaper = row
-      // let db = new GoDB(this.DBName)
-      // let wkPaper = db.table('wkPaper')
       // row.delFlag = '2'
-      // await wkPaper.put(row)
-      // await db.close()
+      // await this.updateDatabase('wkPaper', [row], 'paperId')
     },
     async handleDelete (row) {
       if (!this.$store.state.onLine) {
@@ -334,24 +329,18 @@ export default {
             .then(async ({ data }) => {
               if (data.status === "200") {
                 // 删除成功后，从本地数据库中删除
-                let db = new GoDB(this.$store.state.DBName)
                 // 删除文书
-                let wkPaper = db.table('wkPaper')
-                let paperData = await wkPaper.find(item => item.paperId === row.paperId)
-                let data = paperData
-                data.delFlag = '1'
-                await wkPaper.put(data)
+                let paperData = JSON.parse(JSON.stringify(row))
+                paperData.delFlag = '1'
+                await this.updateDatabase('wkPaper', [paperData], 'paperId')
                 // 删除对应隐患
-                let wkDanger = db.table('wkDanger')
-                let dangerList = await wkDanger.findAll(item => item.paperId === row.paperId)
-                if (dangerList && dangerList.length > 0) {
-                  dangerList.map(async (danger) => {
-                    let dangerData = danger
-                    dangerData.delFlag = '1'
-                    await wkDanger.put(dangerData)
-                  })
+                let wkDanger = await this.getDatabase('wkDanger')
+                let dangerList = wkDanger.filter(item => item.paperId === row.paperId)
+                for (let i = 0; i < dangerList.length; i++) {
+                  dangerList[i].delFlag = '1'
                 }
-                await db.close()
+                await this.updateDatabase('wkDanger', dangerList, 'dangerId')
+                
                 this.$message.success('文书删除成功！')
                 this.getData()
               } else {
@@ -395,22 +384,18 @@ export default {
     },
     async filePaper (paper) {
       // 归档文书
-      let db = new GoDB(this.$store.state.DBName)
       // 修改文书的标识
-      let wkPaper = db.table('wkPaper')
-      let curPaper = await wkPaper.find(item => item.paperId === paper.paperId && item.delFlag !== '1')
-      let paperData = curPaper
+      let paperData = JSON.parse(JSON.stringify(paper))
       paperData.delFlag = '0'
-      await wkPaper.put(paperData)
+      await this.updateDatabase('wkPaper', [paperData], 'paperId')
       // 修改隐患的标识
-      let wkDanger = db.table('wkDanger')
+      let wkDanger = await this.getDatabase('wkDanger')
       let wkDangerList = []
-      wkDangerList = await wkDanger.findAll(item => item.paperId === paper.paperId && item.delFlag !== '1')
+      wkDangerList = wkDanger.filter(item => item.paperId === paper.paperId && item.delFlag !== '1')
       for (let i = 0; i < wkDangerList.length; i++) {
         wkDangerList[i].delFlag = '0'
-        await wkDanger.put(wkDangerList[i])
       }
-      await db.close()
+      await this.updateDatabase('wkDanger', wkDangerList, 'dangerId')
       await saveToUpload(paper.paperId, true)
     },
     resetForm () {

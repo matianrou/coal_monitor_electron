@@ -220,9 +220,8 @@ export default {
   },
   methods: {
     async initLetData(selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
+      let corpBase = await this.getDatabase("baseInfo");
+      let corp = corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       // 1.关联停供电通知书
@@ -231,12 +230,11 @@ export default {
       );
       // 2.生成文书编号
       let { num0, num1, num3, num4 } = await getDocNumber(
-        db,
         this.docData.docTypeNo,
         this.corpData.caseId
       );
       // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
-      let orgInfo = db.table("orgInfo");
+      let orgInfo = await this.getDatabase('org');
       // 监察需要筛选type
       let orgData = await orgInfo.find(
         (item) => item.no === this.$store.state.curCase.groupId
@@ -257,7 +255,6 @@ export default {
           setNewDanger(selectedPaper.let37Data, let37DataPaperContent.DangerTable)
           : {}
       }
-      await db.close();
       let associationPaperId = Object.assign({}, this.setAssociationPaperId(let37DataPaperContent.associationPaperId), {
         paper37Id: selectedPaper.let37Data.paperId,
       }) 

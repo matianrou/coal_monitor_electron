@@ -311,14 +311,13 @@ export default {
   },
   methods: {
     async initLetData (selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
+      let corpBase = await this.getDatabase('baseInfo');
+      let corp = corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       let caseId = this.corpData.caseId
       // 1.文书编号：送达收执文书编号
-      let paperNumber = await getDocNumber(db, '9', caseId)
+      let paperNumber = await getDocNumber('9', caseId)
       // 2.申请人：机构名称
       let cellIdx5String = this.$store.state.curCase.groupName
       // 3.被申请人：企业煤矿名称
@@ -347,7 +346,7 @@ export default {
       let paper8num1 = '', paper8num2 = '', paper8num3 = '', paper8num4 = ''
       let paper8date = ['', '', '']
       if (let53DataPaperContent.associationPaperId) {
-        let wkPaper = db.table('wkPaper')
+        let wkPaper = await this.getDatabase('wkPaper')
         let paper8 = await wkPaper.find(item => item.paperId === let53DataPaperContent.associationPaperId.paper8Id && item.delFlag !== '1')
         paper8PaperContent = JSON.parse(paper8.paperContent)
         paper8num1 = paper8PaperContent.cellIdx0
@@ -357,12 +356,11 @@ export default {
         paper8date = paper8.createDate.split(' ')[0].split('-')
       }
       // 从sysOfficeInfo中获取：
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
+      let orgSysOfficeInfo = await getOrgData(this.$store.state.curCase.groupId)
       // 6.强制执行下列项目：‘划转罚款至’accountName+accountBank‘账户名称：’+billName+‘待结算财政款项账号：’+account
       let cellIdx25String = `划转罚款至${orgSysOfficeInfo.accountName}${orgSysOfficeInfo.accountBank}。账户名称：${orgSysOfficeInfo.billName}。待结算财政款项账号：${orgSysOfficeInfo.account}`
       // 7.人民法院：courtPrefix 联系人：master 联系电话：phone
       // 8.申请人的法定代表人legalPerson和职务post
-      await db.close();
       let DangerTable = null
       if (this.corpData.caseType === '0') {
         DangerTable = let53DataPaperContent.DangerTable ? 

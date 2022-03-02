@@ -179,16 +179,15 @@ export default {
   methods: {
     async initData() {
       // 初始化文书内容
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table('corpBase');
+      let corpBase = await this.getDatabase('baseInfo');
       //查询符合条件的记录
-      let corp = await corpBase.find((item) => {
+      let corp = corpBase.find((item) => {
         return item.corpId == this.corpData.corpId
       });
-      let wkPaper = db.table("wkPaper");
+      let wkPaper = await this.getDatabase("wkPaper");
       let caseId = this.corpData.caseId;
       //查询当前计划是否已做文书
-      let checkPaper = await wkPaper.findAll((item) => {
+      let checkPaper = wkPaper.filter((item) => {
         return item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1';
       });
       // 已做文书则展示文书内容，否则创建初始版本
@@ -215,7 +214,6 @@ export default {
           cellIdx11: null, // 审批日期
         }
       }
-      await db.close()
     },
     goBack ({page}) {
       // 返回选择企业

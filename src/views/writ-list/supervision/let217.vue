@@ -239,16 +239,14 @@ export default {
   },
   methods: {
     async initLetData (selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
+      let corpBase = await this.getDatabase('baseInfo');
+      let corp = corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      let paperNumber = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId)
+      let paperNumber = await getDocNumber(this.docData.docTypeNo, this.corpData.caseId)
       // sysOfficeInfo实体中depAddress字段+ deparFullname字段
       // 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
-      await db.close();
+      let orgSysOfficeInfo = await getOrgData(this.$store.state.curCase.groupId)
       this.letData = {
         cellIdx0: paperNumber.num0, // 文书号
         cellIdx1: paperNumber.num1, // 文书号

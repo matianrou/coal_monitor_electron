@@ -207,29 +207,27 @@ export default {
   methods: {
     async initLetData(selectedPaper) {
       // 创建初始版本
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
+      let corpBase = await this.getDatabase('baseInfo');
       //查询符合条件的记录
-      let corp = await corpBase.find((item) => {
+      let corp = corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       let let22DataPaperContent = JSON.parse(
         selectedPaper.let22Data.paperContent
       );
-      let zfZzInfo = db.table("zfZzInfo");
-      let zzInfo1 = await zfZzInfo.find((item) => {
+      let zfZzInfo = await this.getDatabase("zfZzInfo");
+      let zzInfo1 = zfZzInfo.find((item) => {
         return (
           item.corpId == this.corpData.corpId &&
           item.credTypeName == "采矿许可证"
         );
       });
-      let zzInfo2 = await zfZzInfo.find((item) => {
+      let zzInfo2 = zfZzInfo.find((item) => {
         return (
           item.corpId == this.corpData.corpId &&
           item.credTypeName == "安全生产许可证"
         );
       });
-      await db.close();
       // "检查方案检查时间"，"落款机构名称"的煤矿安全监察员"分工明细表中的所有人员"按照月度监察执法计划对“煤矿名称”进行检查，检查前制定了检查方案。依据执法程序当场向被检查单位出示了执法证件，表明身份，向其告知了检查内容和依法享有的权利、义务。检查时矿井处于“正常生产煤矿”状态。
       let nameList = [];
       if (

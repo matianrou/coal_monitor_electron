@@ -418,21 +418,19 @@ export default {
   },
   methods: {
     async initLetData(selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corp = await corpBase.find((item) => {
+      let corpBase = await this.getDatabase('baseInfo');
+      let corp = corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       // 1.生成文书编号
       let { num0, num1, num3, num4 } = await getDocNumber(
-        db,
         this.docData.docTypeNo,
         this.corpData.caseId
       );
       // 2.获取查封扣押决定书创建日期
       let let32Date = selectedPaper.let32Data.createDate.split(' ')[0].split('-')
       // 3.地点：sysOfficeInfo实体中organName字段+ courtPrefix字段
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
+      let orgSysOfficeInfo = await getOrgData(this.$store.state.curCase.groupId)
       // 4.查封扣押文书号
       let let32DataPaperContent = JSON.parse(
         selectedPaper.let32Data.paperContent
@@ -448,7 +446,6 @@ export default {
             )
           : {};
       }
-      await db.close();
       let associationPaperId = Object.assign({}, this.setAssociationPaperId(let32DataPaperContent.associationPaperId), {
         paper32Id: selectedPaper.let32Data.paperId,
       }) 

@@ -258,15 +258,14 @@ export default {
   },
   methods: {
     async initLetData (selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
       // 1.生成文书编号
-      let {num0, num1, num3, num4} = await getDocNumber(db, this.docData.docTypeNo, this.corpData.caseId)
+      let {num0, num1, num3, num4} = await getDocNumber(this.docData.docTypeNo, this.corpData.caseId)
       let let8DataPaperContent = JSON.parse(selectedPaper.let8Data.paperContent)
       // 2.被处罚单位个人
       let cellIdx4String = let8DataPaperContent.cellIdx5 || ''
       // 3.行政处罚决定书 日期、编号
       let date206 = selectedPaper.let8Data.createDate.split(' ')[0].split('-')
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
+      let orgSysOfficeInfo = await getOrgData(this.$store.state.curCase.groupId)
       let DangerTable = null;
       if (this.corpData.caseType === "0") {
         DangerTable = let8DataPaperContent.DangerTable
@@ -281,7 +280,6 @@ export default {
       }) 
       let associationPaperOrder = this.setAssociationPaperOrder(let8DataPaperContent.associationPaperOrder)
       associationPaperOrder.push('8')
-      await db.close();
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: num0, // 文书号
         cellIdx1: num1, // 文书号
