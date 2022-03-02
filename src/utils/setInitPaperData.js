@@ -1,7 +1,7 @@
 import store from "@/store"
 import { getMoney, randomString, treeDataTranslate } from '@/utils'
 import { getNowFormatTime, getNowTime } from "@/utils/date";
-import GoDB from "@/utils/godb.min.js";
+import { getDatabase, setDatabase, getContrastData } from '@/utils/databaseOperation'
 // 初始化各文书数据
 
 // 初始化文书编号：
@@ -744,19 +744,18 @@ export async function getOrgData (db, orgId) {
 
 export async function getOrgTreeList () {
   // 获取组织机构树状结构
-  let db = new GoDB(store.state.DBName);
-  let orgInfo = db.table("orgInfo"); // 机构
+  let orgInfo = await getDatabase("org"); // 机构
   let orgList = []
   // 获取所有机构信息,过滤国家级机构
   if (store.state.user.userType === 'supervision') {
-    orgList = await orgInfo.findAll(item => item.delFlag !== '1' && item.grade !== '1')
+    orgList = orgInfo.filter(item => item.delFlag !== '1' && item.grade !== '1')
   } else {
-    orgList = await orgInfo.findAll(item => item.delFlag !== '1'
+    orgList = orgInfo.filter(item => item.delFlag !== '1'
       // && (item.type === '3' || item.type === '4' || item.type === '11')
       && item.grade !== '1')
   }
-  await db.close()
-  let orgListTree = treeDataTranslate(orgList, 'no', 'parentId')
+  console.log('orgList', orgList)
+  let orgListTree = treeDataTranslate(orgList, 'id', 'parentId')
   return {orgList, orgListTree}
 }
 

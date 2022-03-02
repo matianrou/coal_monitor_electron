@@ -177,10 +177,8 @@ export default {
           // 且监察时才需要回传
           if (this.$store.state.onLine && data.docData.docTypeNo === '22' && this.corpData.constructType === '11' 
             && this.caseData.caseType === '0' && this.$store.state.user.userType !== 'supervision') {
-            let db = new GoDB(this.$store.state.DBName);
-            let wkPaper = db.table("wkPaper");
-            let paper22List = await wkPaper.findAll(item => item.caseId === this.corpData.caseId && item.paperType === '22')
-            await db.close()
+            let wkPaper = await this.getDatabase("wkPaper");
+            let paper22List = wkPaper.filter(item => item.caseId === this.corpData.caseId && item.paperType === '22')
             if (paper22List.length === 0) {
               // 弹窗
               this.checkCorpInfoVisible = true
@@ -197,9 +195,8 @@ export default {
           this.gotoWritFill(data)
         } else {
           // 如果为编辑则调取wkPaper文书表，如果为多条则弹窗选择文书，选择后的文书id传入组件中以拉取历史数据做为回显
-          let db = new GoDB(this.$store.state.DBName);
-          let wkPaper = db.table("wkPaper");
-          let checkPaper = await wkPaper.findAll(item => item.caseId === this.corpData.caseId && item.paperType === data.docData.docTypeNo && item.delFlag !== '1');
+          let wkPaper = await this.getDatabase("wkPaper");
+          let checkPaper = wkPaper.filter(item => item.caseId === this.corpData.caseId && item.paperType === data.docData.docTypeNo && item.delFlag !== '1');
           // console.log('checkPaper', checkPaper)
           // await wkPaper.delete(checkPaper[0].id) // 删除文书
           if (checkPaper.length === 0) {

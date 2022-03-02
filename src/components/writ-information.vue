@@ -227,16 +227,16 @@ export default {
       this.dataForm.planId = this.corpData.dbplanId
       this.dataForm.caseClassify = null
       // 初始化码表
-      let db = new GoDB(this.DBName);
-      let dictionary = db.table('dictionary')
-      let caseClassifyListJson = await dictionary.find(item => item.type === 'caseClassify')
-      let caseClassifyList = caseClassifyListJson ? JSON.parse(caseClassifyListJson.list) : []
+      let dictionaryList = await this.getDatabase('dictionary')
+      let dictionary = dictionaryList[0]
+      let caseClassifyList = dictionary.caseClassify || []
       caseClassifyList.sort(sortbyAsc('sort'))
       // 根据登录用户筛选，如果省级用户展示3个，去掉分局的两个，其他为展示5个
-      let person = db.table('person')
-      let curPerson = await person.find(item => item.no === this.$store.state.user.userId && item.delFlag !== '1')
+      let person = await this.getDatabase('person')
+      let curPerson = person.find(item => item.id === this.$store.state.user.userId && item.delFlag !== '1')
+      console.log('curPerson', curPerson)
       if (curPerson) {
-        let curOffice = JSON.parse(curPerson.office)
+        let curOffice = curPerson.office
         if (curOffice.grade === '2') {
           this.dictionary.caseClassify = caseClassifyList.filter(item => !item.label.includes('分局'))
         } else {
@@ -245,7 +245,6 @@ export default {
       } else {
         this.$message.error('用户信息查询失败，请重新下载“用户资源”！')
       }
-      await db.close()
     },
     changeDate(val) {
       this.dataForm.startDate = val && val.length > 0 ? val[0] : null;
@@ -264,20 +263,18 @@ export default {
       // 调取 doc.js 文件 doSaveCase() 方法
       await this.$refs.dataForm.validate(async (validate) => {
         if (validate) {
-          let db = new GoDB(this.DBName);
           let corpId = this.corpData.corpId;
-          let corpInfo = db.table("corpBase");
+          let corpInfo = await this.getDatabase("baseInfo");
           // 获取煤矿基本信息
-          let corpBase = await corpInfo.findAll((item) => {
+          let corpBase = corpInfo.filter((item) => {
             return item.corpId === corpId;
           });
           // 获取计划
           let {selPlanDate, selGovUnit} = this.selectPlanData
-          let docPlan = db.table("docPlan");
-          let corpPlan = await docPlan.findAll(item =>
+          let docPlan = await this.getDatabase("plan");
+          let corpPlan = docPlan.length > 0 && docPlan.filter(item =>
           item.corpId === corpId && item.groupId === selGovUnit
-          && (`${item.planYear}-${item.planMonth}` === selPlanDate))
-          await db.close();
+          && (`${item.planYear}-${item.planMonth}` === selPlanDate)) || []
           // 创建检查活动
           if (corpPlan.length > 0 && corpPlan[0].dbplanId) {
             // 所选煤矿、检查日期年月、归档机构均符合时，直接创建检查活动
@@ -344,11 +341,11 @@ export default {
         riskAssessment: this.dataForm.riskAssessment,
         riskAssessmentContent: this.dataForm.riskAssessmentContent,
       };
-      let db = new GoDB(this.DBName);
       // 保存case 表
-      let wkCase = db.table("wkCase");
-      await wkCase.add(jsonCase);
-      await db.close();
+      let wkCase = await this.getDatabase("wkCase");
+      wkCase.push(jsonCase)
+      console.log('wkCase', wkCase)
+      await this.setDatabase('wkCase', wkCase)
       // 回调 渲染方法
       this.$message.success("检查活动已经创建完毕");
     },
@@ -387,7 +384,7 @@ export default {
     },
     confirmOrg (org) {
       this.showDialog.selectAllOrg = false
-      this.dataForm.affiliateId = org.no
+      this.dataForm.affiliateId = org.id
       this.dataForm.affiliateName = org.name
       this.$refs.dataForm.validateField(['affiliateName'])
     }

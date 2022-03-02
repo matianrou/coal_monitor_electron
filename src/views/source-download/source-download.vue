@@ -348,7 +348,6 @@ export default {
       let preMonthDay= getPreMonthDay(today, 2)
       this.dataForm.docDownDaterange = [preMonthDay, today]
       let updateTime = await this.getDatabase('sourceDownload')
-      console.log('updateTime', updateTime)
       this.$set(this, 'updateTime', updateTime[0])
     },
     /*! *****************************************************************************
@@ -443,7 +442,7 @@ export default {
       this.loading.download = true
       await this.$http
         .get(`${uri}`)
-        .then((response) => {
+        .then(async (response) => {
           if (response.status != 200) {
             this.$message.error(
               "远程请求异常，可能是认证信息超时，请重新登录。"
@@ -452,41 +451,56 @@ export default {
           } else {
             let saveData = response.data.data ? response.data.data : []
             console.log('saveData', saveData)
+            // 当前获取的检查项内容有重复的数据，导致第一次下载时会报错，故加上以下去重逻辑
+            // let obj = {}
+            // let arrData = JSON.parse(JSON.stringify(saveData))
+            // arrData = arrData.reduce((cur, next) => {
+            // 	obj[next.id] ? "" : obj[next.id] = true && cur.push(next);
+            // 	return cur
+            // }, [])
+            // 检验数据是否仍有重复
+            // let id = []
+            // for (let i = 0; i < (arrData.length / 2); i++ ) {
+            // 	let del = arrData.splice(i, 1)
+            // 	arrData.map(item => {
+            // 		if (del[0].id === item.id) {
+            // 			console.log('del', del)
+            // 			console.log('item', item)
+            // 			id.push(del)
+            // 		}
+            // 	})
+            // 	i--
+            // }
+            // console.log('id', id)
             if (resId === 'doc') {
               // 文书存储时，需要首先获取所有文书数据wkCase,wkPaper,wkDanger
               // 对比增量更新，如果有则更新，如果没有则增加，存储至数据库中
-              let wkCaseDataList = this.getContrastData (saveData.jczfCase, this.$store.state.database.wkCase, 'caseId')
-              this.setDatabase('wkCase', wkCaseDataList)
-              let wkPaperDataList = this.getContrastData (saveData.paper, this.$store.state.database.wkPaper, 'paperId')
-              this.setDatabase('wkPaper', wkPaperDataList)
-              let wkDangerDataList = this.getContrastData (saveData.danger, this.$store.state.database.wkDanger, 'dangerId')
-              this.setDatabase('wkDanger', wkDangerDataList)
-              document.getElementById('cell-' + resId + '-down').innerHTML = "下载完毕";
-              this.handleUpdateTime(resId)
+              let wkCaseDataList = this.getContrastData (saveData.jczfCase, this.$store.state.database.wkCase, 'caseId') || []
+              await this.setDatabase('wkCase', wkCaseDataList)
+              let wkPaperDataList = this.getContrastData (saveData.paper, this.$store.state.database.wkPaper, 'paperId') || []
+              await this.setDatabase('wkPaper', wkPaperDataList)
+              let wkDangerDataList = this.getContrastData (saveData.danger, this.$store.state.database.wkDanger, 'dangerId') || []
+              await this.setDatabase('wkDanger', wkDangerDataList)
             } else if (resId === 'corp') {
-              this.setDatabase('baseInfo', saveData.baseInfo)
-              this.setDatabase('zfCmgzmInfo', saveData.zfCmgzmInfo)
-              this.setDatabase('zfCyrytjInfo', saveData.zfCyrytjInfo)
-              this.setDatabase('zfJjgzmInfo', saveData.zfJjgzmInfo)
-              this.setDatabase('zfZzInfo', saveData.zfZzInfo)
-              this.$message.success(`“煤矿/企业信息”已经下载完毕。`);
-              this.loading.download = false
-              // 下载完毕
-              document.getElementById('cell-' + resId + '-down').innerHTML = "下载完毕";
-              // 保存更新时间：
-              this.handleUpdateTime(resId)
+              await this.setDatabase('baseInfo', saveData.baseInfo)
+              await this.setDatabase('zfCmgzmInfo', saveData.zfCmgzmInfo)
+              await this.setDatabase('zfCyrytjInfo', saveData.zfCyrytjInfo)
+              await this.setDatabase('zfJjgzmInfo', saveData.zfJjgzmInfo)
+              await this.setDatabase('zfZzInfo', saveData.zfZzInfo)
+              this.saveFinished(resId)
+            } else if (resId === 'checklist' || resId === 'dangerlist') {
+              // 检查项和隐患项列表下载时，防止id重复导致问题，所以增加uuid作为单独id，原id保留至no中
+              for (let i = 0; i < saveData.length; i++) {
+                saveData[i].no = saveData[i].id
+                delete saveData[i].id
+                saveData[i].id = getUUID()
+              }
+              await this.setDatabase(resId, saveData)
+              this.saveFinished(resId)
             } else {
               // 除文书以外的库表处理：直接覆盖存储
-              let that = this
-              this.setDatabase(resId, saveData, function() {
-                let res = that.resIdDict.find(item => item.resId === resId)
-                that.$message.success(`“${res.resName || ''}”已经下载完毕。`);
-                that.loading.download = false
-                // 下载完毕
-                document.getElementById('cell-' + resId + '-down').innerHTML = "下载完毕";
-                // 保存更新时间：
-                that.handleUpdateTime(resId)
-              })
+              await this.setDatabase(resId, saveData)
+              this.saveFinished(resId)
             }
           }
         })
@@ -510,8 +524,8 @@ export default {
             this.getImageEvidencePC(userId, userSessId),
           ]).then(async () => {
             let imageEvidenceList = this.getContrastData (this.fileData.imageEvidence, this.$store.state.database.imageEvidence, 'evidenceId')
-            this.setDatabase('imageEvidence', imageEvidenceList)
-            this.$message.success('“个人账号文书资源”已经下载完毕。')
+            await this.setDatabase('imageEvidence', imageEvidenceList)
+            this.saveFinished(resId)
           })
         } else {
           // 监察时下载委托复查、罚款收缴、回执单、影音证据、意见建议书附件、监察执法报告
@@ -524,19 +538,18 @@ export default {
             this.getJczfReport(userId, userSessId)
           ]).then(async () => {
             let localReviewList = this.getContrastData (this.fileData.localReview, this.$store.state.database.localReview, 'reviewId')
-            this.setDatabase('localReview', localReviewList)
+            await this.setDatabase('localReview', localReviewList)
             let fineCollectionList = this.getContrastData (this.fileData.fineCollection, this.$store.state.database.fineCollection, 'fineId')
-            this.setDatabase('fineCollection', fineCollectionList)
+            await this.setDatabase('fineCollection', fineCollectionList)
             let singleReceiptList = this.getContrastData (this.fileData.singleReceipt, this.$store.state.database.singleReceipt, 'singleId')
-            this.setDatabase('singleReceipt', singleReceiptList)
+            await this.setDatabase('singleReceipt', singleReceiptList)
             let imageEvidenceList = this.getContrastData (this.fileData.imageEvidence, this.$store.state.database.imageEvidence, 'evidenceId')
-            this.setDatabase('imageEvidence', imageEvidenceList)
+            await this.setDatabase('imageEvidence', imageEvidenceList)
             let paperAttachmentList = this.getContrastData (this.fileData.paperAttachment, this.$store.state.database.paperAttachment, 'attachmentId')
-            this.setDatabase('paperAttachment', paperAttachmentList)
+            await this.setDatabase('paperAttachment', paperAttachmentList)
             let jczfReportList = this.getContrastData (this.fileData.jczfReport, this.$store.state.database.jczfReport, 'id')
-            this.setDatabase('jczfReport', jczfReportList)
-            this.$message.success('“个人账号文书资源”已经下载完毕。')
-            this.loading.download = false
+            await this.setDatabase('jczfReport', jczfReportList)
+            this.saveFinished(resId)
           })
         }
       } else if (resId === 'plan') {
@@ -556,10 +569,19 @@ export default {
           this.getHydrogeologicalType(userSessId),
           this.getMineFire(userSessId),
           this.getBaseMineStatusZs(userSessId),
-        ]).then(() => {
-          this.setDatabase('dictionary', [this.dictionary])
+        ]).then(async () => {
+          await this.setDatabase('dictionary', [this.dictionary])
         })
       }
+    },
+    saveFinished (resId) {
+      let res = this.resIdDict.find(item => item.resId === resId)
+      this.$message.success(`“${res.resName || ''}”已经下载完毕。`);
+      this.loading.download = false
+      // 下载完毕
+      document.getElementById('cell-' + resId + '-down').innerHTML = "下载完毕";
+      // 保存更新时间：
+      this.handleUpdateTime(resId)
     },
     getLocalReview (userId, userSessId) {
       // 获取委托复查
@@ -923,7 +945,8 @@ export default {
     async handleUpdateTime(resId) {
       // 根据更新的resId为key更新updateTime为当前时间
       this.updateTime[resId] = getNowFormatTime()
-      this.setDatabase('sourceDownload', [this.updateTime])
+      console.log('updateTime', this.updateTime)
+      await this.setDatabase('sourceDownload', [this.updateTime])
     }
   },
 };

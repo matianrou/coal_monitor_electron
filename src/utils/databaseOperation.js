@@ -3,6 +3,7 @@ import { electronRequest } from '@/utils/electronRequest'
 import GoDB from '@/utils/godb.min.js'
 const NODE_ENV = process.env.NODE_ENV
 export async function getDatabase (table) {
+  // table库表名
   // 获取数据库信息
   let userId = store.state.user.userId
   let dataList = []
@@ -33,30 +34,36 @@ export async function getDatabase (table) {
 }
 
 export async function setDatabase (table, data, callBackFunction = function () {}) {
+  // table数据库表名
+  // data存储数据（整表所有数据）
+  // callBackFunction回调函数
   // 设置数据库信息
-  let dataJson = JSON.stringify(data)
-  let userId = store.state.user.userId
-  if (NODE_ENV === 'production') {
-    // 发布环境：有electron环境
-    let {request} = electronRequest({msgName: 'setDatabase', message: {filePath: `database/${userId}/${table}.txt`, fileName: table, dataJson}, type: 'sendSync'})
-    if (request.code === '200') {
+  if (data !== undefined && data !== null) {
+    let dataJson = JSON.stringify(data)
+    let userId = store.state.user.userId
+    if (NODE_ENV === 'production') {
+      // 发布环境：有electron环境
+      let {request} = electronRequest({msgName: 'setDatabase', message: {filePath: `database/${userId}/${table}.txt`, fileName: table, dataJson}, type: 'sendSync'})
+      if (request.code === '200') {
+        store.state.database[table] = data
+        callBackFunction()
+      } else {
+        console.log('存储数据库失败！', request.error)
+      }
+    } else {
+      // 开发环境：下载后直接存储store.state.database
+      console.log('data', data)
+      let db = new GoDB(userId)
+      let dbData = db.table(table)
+      let dbList = await dbData.findAll(item => item)
+      for (let i = 0; i < dbList.length; i++) {
+        await dbData.delete({id: dbList[i].id})
+      }
+      await dbData.addMany(data)
+      await db.close()
       store.state.database[table] = data
       callBackFunction()
-    } else {
-      console.log('存储数据库失败！', request.error)
     }
-  } else {
-    // 开发环境：下载后直接存储store.state.database
-    let db = new GoDB(userId)
-    let dbData = db.table(table)
-    let dbList = await dbData.findAll(item => item)
-    for (let i = 0; i < dbList.length; i++) {
-      await dbData.delete({id: dbList[i].id})
-    }
-    await dbData.addMany(data)
-    await db.close()
-    store.state.database[table] = data
-    callBackFunction()
   }
 }
 
@@ -80,4 +87,31 @@ export function getContrastData (newData = [], oldData = [], key) {
     // 旧数据保持不变
     return oldData
   }
+}
+
+export async function updateDatabase (table, newData = [], tableKey = 'id', callBackFunction = function() {}) {
+  // 更新数据库
+  // table 数据库表名
+  // newData 新数据列表 
+  // tableKey 表更新索引字段(唯一值)
+  // callBackFunction 回调函数
+  let oldData = await getDatabase(table)
+  // 遍历数据
+  for (let i = 0; i < newData.length; i++) {
+    let isHas = false
+    // 遍历寻找是否有历史数据
+    for (let j = 0; j < oldData.length; j++) {
+      if (oldData[j][tableKey] === newData[i][tableKey]) {
+        // 如果有相同的数据则更新
+        oldData[j] = Object.assign({}, oldData[j], newData[i])
+        isHas = true
+      }
+    }
+    if (!isHas) {
+      oldData.push(newData[i])
+    }
+  }
+  // 重置数据库
+  await setDatabase(table, oldData)
+  callBackFunction()
 }

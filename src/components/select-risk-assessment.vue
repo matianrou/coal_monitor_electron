@@ -78,11 +78,9 @@
     },
     methods: {
       async getDictionary () {
-        let db = new GoDB(this.DBName)
-        let dictionary = db.table('dictionary')
-        let riskAssessment = await dictionary.find(item => item.type === 'riskAssessment') 
-        await db.close()
-        let riskAssessmentList = JSON.parse(riskAssessment.list)
+        let dictionaryList = await this.getDatabase('dictionary')
+        let dictionary = dictionaryList[0]
+        let riskAssessmentList = dictionary.riskAssessment
         // 遍历设置parentId
         riskAssessmentList.sort((sortbyAsc('id')))
         riskAssessmentList.forEach(item => {

@@ -93,7 +93,6 @@
 </template>
 
 <script>
-import GoDB from "@/utils/godb.min.js";
 import { treeDataTranslate } from '@/utils/index'
   export default {
     name: 'selectCompanyDialog',
@@ -131,24 +130,23 @@ import { treeDataTranslate } from '@/utils/index'
         this.loading = false
       },
       async getAreaTree() {
-        let db = new GoDB(this.DBName);
-        let doEnterpriseList = db.table('doEnterpriseList');
+        let doEnterpriseList = await this.getDatabase('doEnterpriseList');
         let areaId = this.$store.state.user.userAreaId
-        let areaList = await doEnterpriseList.findAll((item) => {
-          return item.parentId === areaId || item.no === areaId;
+        console.log('doEnterpriseList', doEnterpriseList)
+        let areaList = doEnterpriseList.filter((item) => {
+          return item.parentId === areaId || item.id === areaId;
         })
+        console.log('areaList', areaList)
         this.areaTree = treeDataTranslate(areaList, 'code', 'parentId')
         this.selectArea(this.areaTree[0])
-        await db.close()
       },
       // 获取企业列表
       async getCompanyList() {
         // 获取企业数据
         // 整理筛选项内容：
         let {onlySelf, companyStatus, companyName, areaId} = this.dataForm
-        let db = new GoDB(this.DBName);
-        let corpBase = db.table("corpBase"); // 煤矿企业
-        let corpList = await corpBase.findAll(item => {
+        let corpBase = await this.getDatabase("baseInfo"); // 煤矿企业
+        let corpList = corpBase.length > 0 && corpBase.filter(item => {
           return item.corpName && item.corpName.indexOf(companyName) !== -1 &&
                   item.delFlag !== '1' && 
                   item.zoneCountyId && item.zoneCountyId.slice(0, this.curAreaLevel) === (areaId ? areaId.slice(0, this.curAreaLevel) : item.zoneCountyId.slice(0, this.curAreaLevel))
@@ -168,7 +166,6 @@ import { treeDataTranslate } from '@/utils/index'
           })
         }
         this.companyList = corpList
-        await db.close();
       },
       selectArea(data, node, ele) {
         // 选中地区进行筛选 按名称中是否有省做判断条件，当前选中地区的level

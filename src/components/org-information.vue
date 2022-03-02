@@ -74,7 +74,6 @@
 </template>
 
 <script>
-import GoDB from '@/utils/godb.min.js'
 import { getOrgTreeList } from '@/utils/setInitPaperData'
 import { getAffiliateOrgName } from '@/utils/setInitPaperData'
 import { electronRequest } from '@/utils/electronRequest'
@@ -112,10 +111,9 @@ export default {
     async init () {
       // 获取检查活动相关信息
       if (this.corpData.caseId) {
-        let db = new GoDB(this.DBName)
-        let wkCase = db.table('wkCase')
-        let caseData = await wkCase.find(item => item.caseId === this.corpData.caseId)
-        let orgInfo = db.table('orgInfo')
+        let wkCase = await this.getDatabase('wkCase')
+        let caseData = wkCase.find(item => item.caseId === this.corpData.caseId)
+        let orgInfo = await this.getDatabase('org')
         let org = await getOrgTreeList()
         let allOrgList = org.orgList
         // 获取落款省级局信息
@@ -123,11 +121,11 @@ export default {
         let selGovUnitOrg = {}
         if (this.$store.state.user.userType === 'supervision') {
           // 监管不过滤type
-          selGovUnitOrg = await orgInfo.find(item => item.no === selGovUnit
+          selGovUnitOrg = orgInfo.find(item => item.id === selGovUnit
             && item.delFlag !== "1")
         } else {
           // 监察过滤type
-          selGovUnitOrg = await orgInfo.find(item => item.no === selGovUnit
+          selGovUnitOrg = orgInfo.find(item => item.id === selGovUnit
             // && (item.type === '3' || item.type === '4' || item.type === '11') 
             && item.delFlag !== "1")
         }
@@ -137,21 +135,21 @@ export default {
           // 监管为四级机构， 不过滤type类型
           if (selGovUnitOrg.grade === '3') {
             // 市级时
-            let provinceOrg = await orgInfo.find(item => item.no === selGovUnitOrg.parentId
+            let provinceOrg = orgInfo.find(item => item.id === selGovUnitOrg.parentId
               && item.delFlag !== "1")
             provinceGroupName = provinceOrg.name
           } else if (selGovUnitOrg.grade === '4') {
             // 县级时，现查询市级，再查询省级
-            let upOrg = await orgInfo.find(item => item.no === selGovUnitOrg.parentId
+            let upOrg = orgInfo.find(item => item.id === selGovUnitOrg.parentId
               && item.delFlag !== "1")
-            let provinceOrg = await orgInfo.find(item => item.no === upOrg.parentId
+            let provinceOrg = orgInfo.find(item => item.id === upOrg.parentId
               && item.delFlag !== "1")
             provinceGroupName = provinceOrg.name
           }
         } else {
           // 监察为三级机构，过滤type类型
           if (selGovUnitOrg.grade === '3') {
-            let provinceOrg = await orgInfo.find(item => item.no === selGovUnitOrg.parentId
+            let provinceOrg = orgInfo.find(item => item.no === selGovUnitOrg.parentId
               // && (item.type === '3' || item.type === '4' || item.type === '11') 
               && item.delFlag !== "1")
             provinceGroupName = provinceOrg.name
@@ -161,17 +159,16 @@ export default {
         let affiliateOrg = {}
         if (this.$store.state.user.userType === 'supervision') {
           // 监管不过滤type
-          affiliateOrg = await orgInfo.find(item => item.no === caseData.affiliate
+          affiliateOrg = orgInfo.find(item => item.no === caseData.affiliate
             && item.delFlag !== "1")
         } else {
           // 监察过滤type
-          affiliateOrg = await orgInfo.find(item => item.no === caseData.affiliate
+          affiliateOrg = orgInfo.find(item => item.no === caseData.affiliate
             // && (item.type === '3' || item.type === '4' || item.type === '11') 
             && item.delFlag !== "1")
         }
         // 执法活动分类为4异地执法时：获取及省局名称，其他则直接展示归档机构名称
         let affiliateName = caseData.caseClassify === '4' ? getAffiliateOrgName(affiliateOrg, allOrgList) : affiliateOrg.name
-        await db.close()
         if (caseData) {
           let planDate = ''
           if (caseData.planBeginDate && caseData.planEndDate) {

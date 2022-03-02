@@ -359,20 +359,20 @@ export default {
         }
       } else {
         console.log('当前环境不支持electron')
-        let initData = {
-          id: 1,
-          org: '未下载',
-          person: '未下载',
-          plan: '未下载',
-          corp: '未下载',
-          enterpriselist: '未下载',
-          checkcate: '未下载',
-          checklist: '未下载',
-          dangercate: '未下载',
-          dangerlist: '未下载',
-          doc: '未下载',
-        }
-        this.setDatabase('sourceDownload', [initData])
+        // let initData = {
+        //   id: 1,
+        //   org: '未下载',
+        //   person: '未下载',
+        //   plan: '未下载',
+        //   corp: '未下载',
+        //   enterpriselist: '未下载',
+        //   checkcate: '未下载',
+        //   checklist: '未下载',
+        //   dangercate: '未下载',
+        //   dangerlist: '未下载',
+        //   doc: '未下载',
+        // }
+        // this.setDatabase('sourceDownload', [initData])
       }
     },
     async handleUpdateTime() {
