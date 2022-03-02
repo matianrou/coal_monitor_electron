@@ -228,8 +228,7 @@ export default {
   },
   methods: {
     async initLetData(selectedPaper) {
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
+      let corpBase = await this.getDatabase("baseInfo");
       let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
@@ -248,16 +247,14 @@ export default {
             )
           : "";
       // 通过机构接口中的sysOfficeInfo中获取的organName和courtPrefix字段分别填充cellIdx8和cellIdx9字段
-      let orgSysOfficeInfo = await getOrgData(db, this.$store.state.curCase.groupId)
+      let orgSysOfficeInfo = await getOrgData(this.$store.state.curCase.groupId)
       let paperNumber = await getDocNumber(
-        db,
         this.docData.docTypeNo,
         this.corpData.caseId
       );
       let DangerTable = let1DataPaperContent.DangerTable
         ? setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
         : {};
-      await db.close();
       let associationPaperId = Object.assign({}, this.setAssociationPaperId(let1DataPaperContent.associationPaperId), {
         paper1Id: selectedPaper.let1Data.paperId,
       }) 

@@ -503,24 +503,22 @@ export default {
       // 获取煤矿所有信息
       this.loading = true
       let corpId = this.corpData.corpId
-      let db = new GoDB(this.DBName)
 	    // 企业基本信息
-      let corpBase = db.table('corpBase')
+      let corpBase = await this.getDatabase('baseInfo')
       let corpBaseData = await corpBase.find(item => item.corpId === corpId && item.delFlag !== '1')
       // 采煤工作面信息
-      let zfCmgzmInfo = db.table('zfCmgzmInfo')
+      let zfCmgzmInfo = await this.getDatabase('zfCmgzmInfo')
       let zfCmgzmInfoData = await zfCmgzmInfo.findAll(item => item.corpId === corpId && item.delFlag !== '1')
       // 掘进工作面信息
-      let zfJjgzmInfo = db.table('zfJjgzmInfo')
+      let zfJjgzmInfo = await this.getDatabase('zfJjgzmInfo')
       let zfJjgzmInfoData = await zfJjgzmInfo.findAll(item => item.corpId === corpId && item.delFlag !== '1')
 	    // 证照信息
-      let zfZzInfo = db.table('zfZzInfo')
+      let zfZzInfo = await this.getDatabase('zfZzInfo')
       let zfZzInfoData = await zfZzInfo.findAll(item => item.corpId === corpId && item.delFlag !== '1')
 	    // 从业人员信息
-      let zfCyrytjInfo = db.table('zfCyrytjInfo')
+      let zfCyrytjInfo = await this.getDatabase('zfCyrytjInfo')
       let zfCyrytjInfoData = await zfCyrytjInfo.findAll(item => item.corpId === corpId && item.delFlag !== '1')
       // 需要验证：上级企业编码parentIdName,允许最大采深（米）ayxkcsxxbg,
-      await db.close()
       corpBaseData.areaInfo = `${corpBaseData.provinceName || ''}-${corpBaseData.cityName || ''}-${corpBaseData.countryName || ''}`
       this.corpInfo = corpBaseData
       this.zfCmgzmInfoList = zfCmgzmInfoData

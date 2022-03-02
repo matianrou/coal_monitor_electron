@@ -1,28 +1,27 @@
 // 上传服务器保存文书各方法
 
-import GoDB from "@/utils/godb.min.js";
 import http from '@/utils/http'
 import { Message, Alert } from 'element-ui'
 import store from "@/store"
 import { randomString } from "@/utils/index";
 import { getNowTime } from "@/utils/date";
+import { getDatabase, setDatabase, getContrastData, updateDatabase, deleteDatabasePhysics } from '@/utils/databaseOperation'
 export async function saveToUpload(paperId, messageShow) {
   // messageShow是否展示保存成功提示
   // 保存文书至服务器
-  let db = new GoDB(store.state.DBName);
-  let wkPaper = db.table("wkPaper");
-  let wkCase = db.table("wkCase");
-  let wkDanger = db.table("wkDanger")
-  let corpBase = db.table("corpBase")
+  let wkPaper = await getDatabase("wkPaper");
+  let wkCase = await getDatabase("wkCase");
+  let wkDanger = await getDatabase("wkDanger")
+  let corpBase = await getDatabase("corpBase")
   //查询符合条件的记录
-  let workPaper = await wkPaper.find((item) => {
+  let workPaper = wkPaper.find((item) => {
     return item.paperId == paperId && item.delFlag !== '1';
   });
-  let workCase = await wkCase.find((item) => {
+  let workCase = wkCase.find((item) => {
     return item.caseId == workPaper.caseId && item.delFlag !== '1';
   });
   let wkDangerList = []
-  wkDangerList = await wkDanger.findAll(item => item.paperId === paperId && item.delFlag !== '1')
+  wkDangerList = wkDanger.filter(item => item.paperId === paperId && item.delFlag !== '1')
   // 没有监察活动和煤矿信息时的容错
   let caseNo = null, caseType = null, corpId = null
   let meikuangType = null, meikuangPlanfrom = null, planId = null
@@ -45,9 +44,8 @@ export async function saveToUpload(paperId, messageShow) {
       planEndDate, createDate, pcMonth, 
       caseClassify, riskAssessment, riskAssessmentContent }
       // 整理上传数据
-  let corpData = await corpBase.find(item => item.corpId === workCaseObj.corpId) 
+  let corpData = corpBase.find(item => item.corpId === workCaseObj.corpId) 
   // 整理网页端展示的html
-  await db.close();
   let submitData = {
     paper: [
       {
@@ -290,14 +288,12 @@ export async function saveToUpload(paperId, messageShow) {
           // 当归档时：
           if (data.status === "200") {
             // 保存成功时检索云存储列表中是否有未存储数据，如果有则标记已发送成功
-            let db = new GoDB(store.state.DBName);
-            let prepareUpload = db.table("prepareUpload");
-            let paperData = await prepareUpload.find(item => item.paperId === workPaper.paperId && item.isUpload === '0')
+            let prepareUpload = await getDatabase("prepareUpload");
+            let paperData = prepareUpload.find(item => item.paperId === workPaper.paperId && item.isUpload === '0')
             if (paperData) {
               paperData.isUpload = '1'
-              await prepareUpload.put(paperData)
+              await updateDatabase('prepareUpload', paperData)
             }
-            await db.close();
           } else {
             // 当保存失败时，将文书保存至库表prepareUpload
             await savePaperToPrepareUpload(submitData)
@@ -340,11 +336,7 @@ export async function saveToUpload(paperId, messageShow) {
 async function savePaperToPrepareUpload(submitData) {
   // 保存未成功上传的文书
   let paperData = submitData.paper[0]
-  let db = new GoDB(store.state.DBName);
-  let prepareUpload = db.table("prepareUpload");
-  let item = await prepareUpload.get({ paperId: paperData.paperId });
-  if (item) await prepareUpload.delete({ paperId: paperData.paperId }); //删除
-	await prepareUpload.add({
+  let prepareUploadData = {
     id: getNowTime() + randomString(28),
     paperId: paperData.paperId,
     isUpload: '0', 
@@ -356,61 +348,49 @@ async function savePaperToPrepareUpload(submitData) {
     personId: paperData.personId,
     personName: paperData.personName,
     delFlag: '0',
-  });
+  }
+  await updateDatabase('prepareUpload', prepareUploadData, 'paperId')
   // 置未保存成功的文书delFlag为2保存状态
   // 修改文书delFlag
   if (submitData.paper) {
-    let wkPaper = db.table("wkPaper");
     for (let i = 0; i < submitData.paper.length; i++) {
-      let paper = submitData.paper[i]
-      let jsonPaper = await wkPaper.find((item) => {
-        return item.paperId === paper.paperId && item.delFlag !== '1';
-      });
-      if (jsonPaper.paperType === '22') {
+      submitData.paper[i].delFlag = '2'
+      if (submitData.paper[i].paperType === '22') {
         // 检查方案时，恢复p22JczfCheck中的delFlag
-        if (jsonPaper.p22JczfCheck) {
-          let p22JczfCheck = JSON.parse(jsonPaper.p22JczfCheck)
+        if (submitData.paper[i].p22JczfCheck) {
+          let p22JczfCheck = JSON.parse(submitData.paper[i].p22JczfCheck)
           if (p22JczfCheck && p22JczfCheck.CheckItemRecords && p22JczfCheck.CheckItemRecords.length > 0) {
             p22JczfCheck.CheckItemRecords.forEach(item => {
               item.delFlag = '2'
             })
           }
-          jsonPaper.p22JczfCheck = JSON.stringify(p22JczfCheck)
+          submitData.paper[i].p22JczfCheck = JSON.stringify(p22JczfCheck)
         }
       }
-      jsonPaper.delFlag = '2'
-      await wkPaper.delete({ paperId: jsonPaper.paperId });
-      await wkPaper.add(jsonPaper);
     }
+    await updateDatabase('wkPaper', submitData.paper, 'paperId')
   }
   // 修改隐患项delFlag
   if (submitData.danger) {
-    let wkDanger = db.table('wkDanger')
     for (let i = 0; i < submitData.danger.length; i++) {
-      let danger = submitData.danger[i]
-      let dangerData = await wkDanger.find(item => item.dangerId === danger.dangerId && item.delFlag !== '1')
-      dangerData.delFlag = '2'
-      await wkDanger.delete({ dangerId: dangerData.dangerId });
-      await wkDanger.add(dangerData);
+      submitData.danger[i].delFlag = '2'
     }
+    await updateDatabase(submitData.danger)
   }
-  await db.close();
 }
 
 export async function saveFineCollection(paperId) {
   // 上传罚款收缴
   // 整理上传数据：
-  let db = new GoDB(store.state.DBName);
-  let wkPaper = db.table("wkPaper");
-  let wkCase = db.table("wkCase");
+  let wkPaper = await getDatabase("wkPaper");
+  let wkCase = await getDatabase("wkCase");
     //查询符合条件的记录
-  let paperData = await wkPaper.find((item) => {
+  let paperData = wkPaper.find((item) => {
     return item.paperId == paperId && item.delFlag !== '1';
   });
-  let caseData = await wkCase.find((item) => {
+  let caseData = wkCase.find((item) => {
     return item.caseId == paperData.caseId && item.delFlag !== '1';
   });
-  await db.close()
   let paperContent = JSON.parse(paperData.paperContent)
   let submitData  = []
   if (paperContent && paperContent.tableData && paperContent.tableData.length > 0) {
@@ -453,12 +433,8 @@ export async function saveFineCollection(paperId) {
           );
         } else {
           // 上传失败时，重新置文书为保存状态，以备再次归档
-          let db = new GoDB(store.state.DBName);
-          let wkPaper = db.table("wkPaper");
           paperData.delFlag = '2'
-          await wkPaper.delete({ paperId: paperData.paperId });
-          await wkPaper.add(paperData);
-          await db.close()
+          await updateDatabase('wkPaper', paperData)
           Message.error("上传至服务器请求失败，请重新归档！");
         }
       }
@@ -466,12 +442,8 @@ export async function saveFineCollection(paperId) {
     .catch(async (err) => {
       if (paperData.delFlag === '0') {
         // 上传失败时，重新置文书为保存状态，以备再次归档
-        let db = new GoDB(store.state.DBName);
-        let wkPaper = db.table("wkPaper");
         paperData.delFlag = '2'
-        await wkPaper.delete({ paperId: paperData.paperId });
-        await wkPaper.add(paperData);
-        await db.close()
+        await updateDatabase('wkPaper', paperData)
         Message.error("上传至服务器请求失败，请重新归档！");
         console.log("上传至服务器请求失败：", err);
       }
@@ -480,14 +452,11 @@ export async function saveFineCollection(paperId) {
 
 export async function updateXkzStatus(paperId) {
   // 整理上传数据：
-  let db = new GoDB(store.state.DBName);
-  let wkPaper = db.table("wkPaper");
-  let wkCase = db.table("wkCase");
+  let wkPaper = await getDatabase("wkPaper");
     //查询符合条件的记录
-  let paperData = await wkPaper.find((item) => {
+  let paperData = wkPaper.find((item) => {
     return item.paperId == paperId && item.delFlag !== '1';
   });
-  await db.close()
   let paperContent = JSON.parse(paperData.paperContent)
   let DangerTable = paperContent.DangerTable || null
   let selectedDangerList = DangerTable.selectedDangerList || []

@@ -96,23 +96,21 @@ export default {
     },
     async getOrgList () {
       // 获取全国机构
-      let db = new GoDB(this.DBName);
-      let orgInfo = db.table("orgInfo"); // 机构
+      let orgInfo = await this.getDatabase("org"); // 机构
       // 只针对监察三级机构做的处理
       // 监察过滤机构 同时去掉国家局
-      let orgList = await orgInfo.findAll(item => 
+      let orgList = orgInfo.filter(item => 
         item.delFlag !== "1" && 
         // (item.type === '3' || item.type === '4' || item.type === '11') &&
         item.grade !== '1')
       // 过滤掉当前机构省局及处室机构
       let provinceId = ''
       let userGroupId = this.$store.state.user.userGroupId 
-      let userGroup = await orgInfo.find(item => {
+      let userGroup = orgInfo.find(item => {
         return item.delFlag !== "1" 
         && item.no === userGroupId
         // && (item.type === '3' || item.type === '4' || item.type === '11')
       })
-      await db.close()
       if (userGroup.no) {
         if (userGroup.grade === '2') {
           provinceId = userGroup.no

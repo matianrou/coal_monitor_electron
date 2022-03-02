@@ -121,8 +121,7 @@
         this.multiSelectedIndexs = val
       },  
       async getCheckList() {
-        let db = new GoDB(this.DBName)
-        let wkPaper = db.table('wkPaper')
+        let wkPaper = await this.getDatabase('wkPaper')
         // 拉取做的检查活动
         let caseList = await wkPaper.findAll(item => item.paperType === '22' 
           && item.delFlag !== '1' 

@@ -83,7 +83,6 @@
 </template>
 
 <script>
-import GoDB from '@/utils/godb.min.js'
 import caseList from "@/components/case-list"; // 选择企业
 import orgInformation from '@/components/org-information' // 企业信息
 import writInformation from '@/components/writ-information' // 创建活动弹窗
@@ -243,13 +242,13 @@ export default {
     },
     async showDocTemplet() {
       //读取当前点击的计划或检查活动的数据
-      let db = new GoDB(this.DBName);
-      let corpBase = db.table("corpBase");
-      let wkPaper = db.table("wkPaper");
+      let corpBase = await this.getDatabase("baseInfo");
+      let wkPaper = await this.getDatabase("wkPaper");
       //查询符合条件的记录
-      let corp = await corpBase.find((item) => {
+      let corp = corpBase.find((item) => {
         return item.corpId === this.caseData.corpId;
       });
+      console.log('corpBase', corpBase)
       // 如果本地库如果没有此数据则提示
       if (corp) {
         this.corpData = {
@@ -266,7 +265,7 @@ export default {
           constructType: corp.constructType
         }
         // 查询当前检查流程中已保存或归档的所有文书，即wkPaper中已有文书
-        let checkLetList = await wkPaper.findAll((item) => {
+        let checkLetList = wkPaper.filter((item) => {
           return item.caseId === this.caseData.caseId && item.delFlag !== '1'
         });
         checkLetList.sort(sortbyAsc('updateDate'))
@@ -336,8 +335,8 @@ export default {
             }
           })
           // 监察执法报告时，当有上传的文件时即为保存
-          let jczfReport = db.table('jczfReport');
-          let fileList = await jczfReport.findAll(item => item.caseId === this.caseData.caseId && item.delFlag !== '1')
+          let jczfReport = await this.getDatabase('jczfReport') || []
+          let fileList = jczfReport.filter(item => item.caseId === this.caseData.caseId && item.delFlag !== '1')
           if (fileList.length > 0) {
             flowStatus[`paper45`] = 'save'
           }
@@ -348,7 +347,6 @@ export default {
         this.$message.error('无此企业信息，请核实数据')
         this.changePage({page: 'empty'})
       }
-      await db.close();
     },
     closeSelectDialog () {
       // 关闭选择文书弹窗

@@ -100,14 +100,14 @@
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
           <td>行政区域</td>
-          <td style="text-align:center;">{{updateTime.enterpriselist}}</td>
+          <td style="text-align:center;">{{updateTime.enterpriseList}}</td>
           <td></td>
-          <td style="text-align:center;" id="cell-enterpriselist-down">
+          <td style="text-align:center;" id="cell-enterpriseList-down">
             <el-button
               type="text"
               :loading="loading.download"
-              id="btn-enterpriselist-down"
-              @click="resDownload('enterpriselist')"
+              id="btn-enterpriseList-down"
+              @click="resDownload('enterpriseList')"
             >下载</el-button>
           </td>
         </tr>
@@ -122,56 +122,56 @@
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
           <td>检查项类别</td>
-          <td style="text-align:center;">{{updateTime.checkcate}}</td>
+          <td style="text-align:center;">{{updateTime.checkCate}}</td>
           <td></td>
-          <td style="text-align:center;" id="cell-checkcate-down">
+          <td style="text-align:center;" id="cell-checkCate-down">
             <el-button
               type="text"
               :loading="loading.download"
-              id="btn-checkcate-down"
-              @click="resDownload('checkcate')"
+              id="btn-checkCate-down"
+              @click="resDownload('checkCate')"
             >下载</el-button>
           </td>
         </tr>
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
           <td>检查项内容</td>
-          <td style="text-align:center;">{{updateTime.checklist}}</td>
+          <td style="text-align:center;">{{updateTime.checkList}}</td>
           <td></td>
-          <td style="text-align:center;" id="cell-checklist-down">
+          <td style="text-align:center;" id="cell-checkList-down">
             <el-button
               type="text"
               :loading="loading.download"
-              id="btn-checklist-down"
-              @click="resDownload('checklist')"
+              id="btn-checkList-down"
+              @click="resDownload('checkList')"
             >下载</el-button>
           </td>
         </tr>
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
           <td>隐患项类别</td>
-          <td style="text-align:center;">{{updateTime.dangercate}}</td>
+          <td style="text-align:center;">{{updateTime.dangerCate}}</td>
           <td></td>
-          <td style="text-align:center;" id="cell-dangercate-down">
+          <td style="text-align:center;" id="cell-dangerCate-down">
             <el-button
               type="text"
               :loading="loading.download"
-              id="btn-dangercate-down"
-              @click="resDownload('dangercate')"
+              id="btn-dangerCate-down"
+              @click="resDownload('dangerCate')"
             >下载</el-button>
           </td>
         </tr>
         <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
           <td style="text-align:center;">&nbsp;</td>
           <td>隐患项内容</td>
-          <td style="text-align:center;">{{updateTime.dangerlist}}</td>
+          <td style="text-align:center;">{{updateTime.dangerList}}</td>
           <td></td>
-          <td style="text-align:center;" id="cell-dangerlist-down">
+          <td style="text-align:center;" id="cell-dangerList-down">
             <el-button
               type="text"
               :loading="loading.download"
-              id="btn-dangerlist-down"
-              @click="resDownload('dangerlist')"
+              id="btn-dangerList-down"
+              @click="resDownload('dangerList')"
             >下载</el-button>
           </td>
         </tr>
@@ -258,11 +258,11 @@ export default {
         person: '未下载',
         plan: '未下载',
         corp: '未下载',
-        enterpriselist: '未下载',
-        checkcate: '未下载',
-        checklist: '未下载',
-        dangercate: '未下载',
-        dangerlist: '未下载',
+        enterpriseList: '未下载',
+        checkCate: '未下载',
+        checkList: '未下载',
+        dangerCate: '未下载',
+        dangerList: '未下载',
         doc: '未下载',
       },
       resIdDict: [
@@ -283,23 +283,23 @@ export default {
           resName: '企业资源'
         },
         {
-          resId: 'enterpriselist',
+          resId: 'enterpriseList',
           resName: '行政区域'
         },
         {
-          resId: 'checkcate',
+          resId: 'checkCate',
           resName: '检查项类别'
         },
         {
-          resId: 'checklist',
+          resId: 'checkList',
           resName: '检查项内容'
         },
         {
-          resId: 'dangercate',
+          resId: 'dangerCate',
           resName: '隐患类别'
         },
         {
-          resId: 'dangerlist',
+          resId: 'dangerList',
           resName: '隐患内容'
         },
         {
@@ -388,21 +388,21 @@ export default {
           uri +=
             "/local/corp/list?__sid=" + userSessId + "&officeId=" + userGroupId;
           break;
-        case "checkcate": //根据机构id获取全部检查类别
+        case "checkCate": //根据机构id获取全部检查类别
           uri +=
             "/local/schema/getCategoryAll?__sid=" +
             userSessId +
             "&officeId=" +
             userGroupId;
           break;
-        case "checklist": //根据机构id获取全部检查内容
+        case "checkList": //根据机构id获取全部检查内容
           uri +=
             "/local/schema/getItemAll?__sid=" +
             userSessId +
             "&officeId=" +
             userGroupId;
           break;
-        case "dangercate":
+        case "dangerCate":
           //根据机构id获取全部隐患类别
           uri +=
             "/local/statute/getCategoryAll?__sid=" +
@@ -410,7 +410,7 @@ export default {
             "&officeId=" +
             userGroupId;
           break;
-        case "dangerlist":
+        case "dangerList":
           //根据机构id获取全部隐患内容
           uri +=
             "/local/statute/getItemContentList?__sid=" +
@@ -433,7 +433,7 @@ export default {
             uri += `&updateTime=${this.updateTime.doc}`
           }
           break;
-        case "enterpriselist":
+        case "enterpriseList":
           //文书信息分页下载接口//文书信息分页下载接口
           uri += "/local/area/list?__sid=" + userSessId;
           break;
@@ -475,12 +475,9 @@ export default {
             if (resId === 'doc') {
               // 文书存储时，需要首先获取所有文书数据wkCase,wkPaper,wkDanger
               // 对比增量更新，如果有则更新，如果没有则增加，存储至数据库中
-              let wkCaseDataList = this.getContrastData (saveData.jczfCase, this.$store.state.database.wkCase, 'caseId') || []
-              await this.setDatabase('wkCase', wkCaseDataList)
-              let wkPaperDataList = this.getContrastData (saveData.paper, this.$store.state.database.wkPaper, 'paperId') || []
-              await this.setDatabase('wkPaper', wkPaperDataList)
-              let wkDangerDataList = this.getContrastData (saveData.danger, this.$store.state.database.wkDanger, 'dangerId') || []
-              await this.setDatabase('wkDanger', wkDangerDataList)
+              await this.updateDatabase('wkCase', saveData.jczfCase, 'caseId')
+              await this.updateDatabase('wkPaper', saveData.paper, 'paperId')
+              await this.updateDatabase('wkDanger', saveData.danger, 'dangerId')
             } else if (resId === 'corp') {
               await this.setDatabase('baseInfo', saveData.baseInfo)
               await this.setDatabase('zfCmgzmInfo', saveData.zfCmgzmInfo)
@@ -488,7 +485,7 @@ export default {
               await this.setDatabase('zfJjgzmInfo', saveData.zfJjgzmInfo)
               await this.setDatabase('zfZzInfo', saveData.zfZzInfo)
               this.saveFinished(resId)
-            } else if (resId === 'checklist' || resId === 'dangerlist') {
+            } else if (resId === 'checkList' || resId === 'dangerList') {
               // 检查项和隐患项列表下载时，防止id重复导致问题，所以增加uuid作为单独id，原id保留至no中
               for (let i = 0; i < saveData.length; i++) {
                 saveData[i].no = saveData[i].id

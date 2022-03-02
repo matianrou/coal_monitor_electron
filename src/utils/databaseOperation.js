@@ -112,6 +112,29 @@ export async function updateDatabase (table, newData = [], tableKey = 'id', call
     }
   }
   // 重置数据库
+  console.log('updateoldData', oldData)
+  await setDatabase(table, oldData)
+  callBackFunction()
+}
+
+export async function deleteDatabasePhysics (table, delData = [], tableKey = 'id', callBackFunction = function() {}) {
+  // 物理删除数据
+  // table 数据库表名
+  // delData 删除数据列表
+  // tableKey 表更新索引字段(唯一值)
+  // callBackFunction 回调函数
+  let oldData = await getDatabase(table)
+  // 遍历数据删除
+  for (let i = 0; i < delData.length; i++) {
+    for (let j = 0; j < oldData.length; j++) {
+      if (oldData[j][tableKey] === delData[i][tableKey]) {
+        oldData.splice(j, 1)
+        break
+      }
+    }
+  }
+  console.log('deleteoldData', oldData)
+  // 重置数据库
   await setDatabase(table, oldData)
   callBackFunction()
 }

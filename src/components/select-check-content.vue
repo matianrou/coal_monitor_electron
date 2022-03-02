@@ -148,19 +148,17 @@
     methods: {
       async getCheckList () {
         this.loading = true
-        let db = new GoDB(this.DBName);
-        let checkCate = db.table('checkCate');
-        let checkList = db.table('checkList');
-        let corpBase = db.table('corpBase');
+        let checkCate = await this.getDatabase('checkCate');
+        let checkList = await this.getDatabase('checkList');
+        let corpBase = await this.getDatabase('corpBase');
         // 获取检查项类别和内容
-        let checkCateData = await checkCate.findAll((item) => item.delFlag !== '1');
-        let checkListData = await checkList.findAll((item) => item.delFlag !== '1' && !item.qdId);
-        let corpBaseData = await corpBase.findAll((item) => {
+        let checkCateData = checkCate.filter((item) => item.delFlag !== '1');
+        let checkListData = checkList.filter((item) => item.delFlag !== '1' && !item.qdId);
+        let corpBaseData = corpBase.filter((item) => {
           return item.corpId === this.corpData.corpId
         });
         // 获取所有检查项列表内容
-        let qdListAllItem = await checkList.findAll(item => item.delFlag !== '1' && item.qdId)
-        await db.close()
+        let qdListAllItem = checkList.filter(item => item.delFlag !== '1' && item.qdId)
         // 操作检查项类别及隐患内容为树形结构展示
         // 设置为树状结构
         this.checkListOriginal = [...checkCateData, ...checkListData]

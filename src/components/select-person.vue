@@ -247,50 +247,46 @@ export default {
   },
   methods: {
     async getAllPerson () {
-      let db = new GoDB(this.DBName);
-      let person = db.table("person");
-      let addPerson = db.table("addPerson");
+      let person = await this.getDatabase("person");
+      let addPerson = await this.getDatabase("addPerson");
       // 获取所有用户
       // 获取当前检查活动添加人员
       let addPersonList = []
       if (this.corpData) {
-        addPersonList = await addPerson.findAll(item => 
+        addPersonList = addPerson.filter(item => 
           item.caseId === this.corpData.caseId && 
           item.delFlag !== '1')
       }
       let allPersonList = []
       if (this.$store.state.user.userType === 'supervision') {
         // 监管获取所有用户
-        allPersonList = await person.findAll(item => item.delFlag !== '1' && item.officeId !== '000000310001');
+        allPersonList = person.filter(item => item.delFlag !== '1' && item.officeId !== '000000310001');
       } else {
         // 监察获取所有用户，去掉国家级用户
-        allPersonList = await person.findAll(item => item.delFlag !== '1' && item.officeId !== '000000110001');
+        allPersonList = person.filter(item => item.delFlag !== '1' && item.officeId !== '000000110001');
       }
       this.allPersonList = [...allPersonList, ...addPersonList]
-      await db.close();
     },
     async getOrgList() {
       // 组织机构树状结构
-      // let db = new GoDB(this.DBName);
-      // let orgInfo = db.table("orgInfo"); // 机构
+      // let orgInfo = await this.getDatabase("org"); // 机构
       // // 查询全省机构
       // let groupList = []
       // if (this.$store.state.user.userType === 'supervision') {
       //   // 监管不筛选type类型
-      //   groupList = await orgInfo.findAll(item => {
+      //   groupList = orgInfo.filter(item => {
       //     return item.delFlag !== "1" 
       //     && (item.grade === '2' || item.grade === '1')
       //   })
       // } else {
       //   // 监察筛选type类型
-      //   groupList = await orgInfo.findAll(item => {
+      //   groupList = orgInfo.filter(item => {
       //     return item.delFlag !== "1" 
       //     && (item.grade === '2' || item.grade === '1')
       //     && (item.type === '3' || item.type === '4' || item.type === '11')
       //   })
       // }
       // this.allProvinceList = groupList
-      // await db.close();
       let orgData = await getOrgTreeList()
       this.orgListTree = orgData.orgListTree
       this.orgList = orgData.orgList
@@ -560,10 +556,8 @@ export default {
               dangerouslyUseHTMLString: true,
               type: 'warning'
             }).then(async () => {
-              let db = new GoDB(this.DBName);
-              let addPerson = db.table("addPerson"); // 添加人员的表
               let person = {
-                no: getNowTime() + randomString(28),
+                id: getNowTime() + randomString(28),
                 name: this.addDataForm.name,
                 officeName: this.addDataForm.officeName,
                 caseId: this.corpData.caseId,
@@ -577,8 +571,7 @@ export default {
                 office: JSON.stringify(selectedOrgData),
                 officeId: this.selectedOrgId,
               }
-              await addPerson.add(person);
-              await db.close();
+              await this.updateDatabase('addPerson', [person])
               this.addClose()
               // 获取所有人员
               await this.getAllPerson()

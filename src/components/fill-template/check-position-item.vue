@@ -156,15 +156,14 @@ export default {
   methods: {
     async getdbserve () {
       // 获取采煤和掘进工作面
-      let db = new GoDB(this.DBName);
-      let zfCserve = db.table("zfCmgzmInfo");
-      let zfJserve = db.table("zfJjgzmInfo");
-      let caimei = await zfCserve.findAll((item) => item.corpId === this.corpData.corpId && item.delFlag !== '1');
+      let zfCserve = await this.getDatabase("zfCmgzmInfo");
+      let zfJserve = await this.getDatabase("zfJjgzmInfo");
+      let caimei = zfCserve.filter((item) => item.corpId === this.corpData.corpId && item.delFlag !== '1');
       // for (let i = 0; i < caimei.length; i++) {
       //   caimei[i].select = false
       // }
       this.coalOptions = caimei;
-      let juejin = await zfJserve.findAll((item) => item.corpId === this.corpData.corpId && item.delFlag !== '1');
+      let juejin = zfJserve.filter((item) => item.corpId === this.corpData.corpId && item.delFlag !== '1');
       // for (let i = 0; i < juejin.length; i++) {
       //   juejin[i].select = false
       // }
@@ -175,7 +174,6 @@ export default {
         return cur
       }, [])
       this.tunnellingOptions = juejin;
-      await db.close()
     },
     addUnder () {
       // 添加自定义工作面

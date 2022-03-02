@@ -282,9 +282,8 @@ export default {
       // 当文书为意见建议书时，判断文件为this.$parent.letData.UploadFile.tableData
       if (((this.docData.docTypeNo === '21' || this.docData.docTypeNo === '44') && this.$parent.fileList.length > 0) || this.docData.docTypeNo === '43'
        || ((this.docData.docTypeNo === '16' || this.docData.docTypeNo === '17') && this.$parent.letData.UploadFile.tableData.length > 0)) {
-        let db = new GoDB(this.DBName);
-        let wkPaper = db.table("wkPaper");
-        let paperList = await wkPaper.findAll(item => item.paperId === this.$parent.paperId && item.delFlag !== '1')
+        let wkPaper = await this.getDatabase("wkPaper");
+        let paperList = wkPaper.filter(item => item.paperId === this.$parent.paperId && item.delFlag !== '1')
         if (paperList.length < 1) {
           this.$confirm(`${this.docData.docTypeNo === '43' ? '当前未保存文书，如已上传文件，' : '当前已上传文件，但未保存文书，如果'}返回主页面则无法保存已上传的文件，需要先点击“保存”按钮后才能保存已上传的文件！`, '注意!', {
               confirmButtonText: '去保存文书',
@@ -298,7 +297,6 @@ export default {
         } else {
           this.$emit("go-back", { page: "writFlow", data: this.$store.state.curCase });
         }
-        await db.close();
       } else {
         this.$emit("go-back", { page: "writFlow", data: this.$store.state.curCase });
       }
@@ -373,14 +371,13 @@ export default {
             // 若修改隐患项则弹窗选择需要修改的关联项
             // 1.拉取本次检查活动中的所有文书
             // 2.比对文书中的关联paper1Id，如果相同则提取文书信息
-            let db = new GoDB(this.DBName)
-            let wkPaper = db.table('wkPaper')
+            let wkPaper = await this.getDatabase('wkPaper')
             let updatePaperType = ['1', '2', '4', '6', '49', '36', '8']
             let curIndex = updatePaperType.indexOf(this.docData.docTypeNo)
             let updatePaper = {}
             // 遍历文书类型updatePaperType，逐个拉取需要更新的数据,只拉取状态为保存的文书
             for(let i = curIndex + 1; 0 < i && i < updatePaperType.length; i++) {
-              let paperList = await wkPaper.findAll(item => item.delFlag === '2' && item.caseId === this.paperData.caseId && item.paperType === updatePaperType[i]) || []
+              let paperList = wkPaper.filter(item => item.delFlag === '2' && item.caseId === this.paperData.caseId && item.paperType === updatePaperType[i]) || []
               // 遍历检索出的同检查活动下的检查类型文书，如果文书关联的paper1Id相同则保存
               updatePaper[`paper${updatePaperType[i]}List`] = []
               for (let j = 0; j < paperList.length; j++) {
@@ -399,7 +396,7 @@ export default {
             }
             // 当修改的文书时现场检查笔录1和现场处理决定书时，判断是否有复查意见书13，如果有则同样提示更新
             if (this.docData.docTypeNo === '1' || this.docData.docTypeNo === '2') {
-              let paper13List = await wkPaper.findAll(item => item.delFlag !== '1' && item.caseId === this.paperData.caseId && item.paperType === '13') || []
+              let paper13List = wkPaper.filter(item => item.delFlag !== '1' && item.caseId === this.paperData.caseId && item.paperType === '13') || []
               updatePaper.paper13List = []
               for (let i = 0; i < paper13List.length; i++) {
                 if (this.docData.docTypeNo === '1' && JSON.parse(paper13List[i].paperContent).associationPaperId) {
@@ -415,7 +412,6 @@ export default {
             }
             this.updatePaper = updatePaper
             this.curDangerTable = this.$parent.letData.DangerTable
-            await db.close()
             // 如果updatePaper中没有数据则无需再打开弹窗选择更新
             let needSelect = false
             for (let key in this.updatePaper) {
@@ -656,18 +652,14 @@ export default {
         p36RegisterTime: extraSaveData.p36RegisterTime || null,
         localizeFlag: "1", // 国产化保存标记
       };
-      let db = new GoDB(this.DBName);
-      let wkPaper = db.table("wkPaper");
+      let wkPaper = await this.getDatabase("wkPaper");
       // 如果保存的是已编辑的 那么保存的同时要把上一条重复的数据删除（修改为直接更新数据库）
-      let hasPaperData = await wkPaper.find((item) => {
+      let hasPaperData = wkPaper.find((item) => {
         return item.paperId === paperId && item.delFlag !== '1';
       });
-      if (hasPaperData) {
-        await wkPaper.delete({ paperId: hasPaperData.paperId });
-        await wkPaper.add(jsonPaper);
-      } else {
-        await wkPaper.add(jsonPaper);
-        // 判断当前是否需要自增文书号
+      await this.updateDatabase('wkPaper', [jsonPaper])
+      if (!hasPaperData) {
+        // 如果新增的文书，需要自增文书号
         let paperNumberType = this.$store.state.dictionary[`${this.$store.state.user.userType}PaperNumberType`]
         let needSavePaperNumber = false
         let docTypeNo = this.docData.docTypeNo
@@ -688,7 +680,7 @@ export default {
         }
         if (needSavePaperNumber) {
           // 当为新创建文书时，保存成功后，个人文书号自增1
-          await savePaperNumber(db, this.docData.docTypeNo)
+          await savePaperNumber(this.docData.docTypeNo)
         }
       }
       // 如果检查类型是事故时则不传输danger
@@ -702,13 +694,9 @@ export default {
           || docTypeNo === '3' || docTypeNo === '23' || docTypeNo === '25' || docTypeNo === '32') {
           // 2.根据paperData.paperId检索wkDanger中的隐患项，如果已存在则删除重新添加，如果未存在则直接添加
           // 删除原隐患项
-          let wkDanger = db.table("wkDanger")
-          let wkDangerList = await wkDanger.findAll(item => item.paperId === paperId)
-          if (wkDangerList.length > 0) {
-            for (let i = 0; i < wkDangerList.length; i++) {
-              await wkDanger.delete({dangerId: wkDangerList[i].dangerId})
-            }
-          }
+          let wkDanger = await this.getDatabase("wkDanger")
+          let wkDangerList = wkDanger.filter(item => item.paperId === paperId)
+          await this.deleteDatabasePhysics('wkDanger', wkDangerList)
           // 添加隐患项
           let companyOrPerson = ''
           if (docTypeNo === '8' || docTypeNo === '6') {
@@ -719,8 +707,6 @@ export default {
           let arrDocDanger = []
           for (let i = 0; i < dangerList.length; i++) {
             let item = dangerList[i]
-            let danger = await wkDanger.find(wkDangerItem => wkDangerItem.dangerId === item.dangerId)
-            if (danger) await wkDanger.delete({dangerId: item.dangerId})
             arrDocDanger.push({
               dangerId: item.dangerId, // 客户端生产的隐患唯一id
               paperId: paperId,
@@ -783,10 +769,9 @@ export default {
               reviewUnitName: item.reviewUnitName ? item.reviewUnitName : null, //"复查单位名称：null",
             })
           }
-          if (arrDocDanger.length > 0)  await wkDanger.addMany(arrDocDanger)
+          await this.updateDatabase('wkDanger', arrDocDanger)
         }
       }
-      await db.close();
       if (saveFlag === "2") {
         // 保存时提示保存成功，服务器上传成功不提示，否则会引起误解，归档时此处不提示，如果上传服务器成功则提示，未成功则直接提示未成功
         this.$message.success(
@@ -866,17 +851,8 @@ export default {
         updateById: this.$store.state.user.userId,
       }
       // 保存至本地数据库
-      let db = new GoDB(this.DBName);
-      let sendPaper = db.table('sendPaper')
-      let hasPaperData = await sendPaper.find(item => JSON.parse(item.paperContent).paperId === this.$parent.paperId)
       // 判断当前是否已经保存此id的数据，如果已经保存则·删除重新添加
-      if (hasPaperData) {
-        await sendPaper.delete({ id: hasPaperData.id });
-        await sendPaper.add(saveData);
-      } else {
-        await sendPaper.add(saveData);
-      }
-      await db.close()
+      await this.updateDatabase('sendPaper', saveData)
       this.$message.success(`“${this.docData.docTypeName}”文书已经保存完毕。`);
       this.$emit("go-back", { page: "writFlow", data: this.$store.state.curCase });
     },
@@ -1345,28 +1321,20 @@ export default {
         paperContentOld.cellIdx10 = cellIdx10String
       }
       itemPaper.paperContent = JSON.stringify(paperContentOld)
-      let db = new GoDB(this.DBName);
       // 更新文书
-      let wkPaper = db.table("wkPaper");
-      await wkPaper.delete({ paperId: itemPaper.paperId });
-      await wkPaper.add(itemPaper);
+      await this.updateDatabase('wkPaper', [itemPaper], 'paperId')
       // 更新隐患
-      let wkDanger = db.table("wkDanger")
+      let wkDanger = await this.getDatabase("wkDanger")
       // 获取当前文书所有隐患项
-      let wkDangerList = await wkDanger.findAll(item => item.paperId === itemPaper.paperId)
+      let wkDangerList = wkDanger.filter(item => item.paperId === itemPaper.paperId)
       // 删除已有数据
-      if (wkDangerList.length > 0) {
-        for (let i = 0; i < wkDangerList.length; i++) {
-          await wkDanger.delete({dangerId: wkDangerList[i].dangerId})
-        }
-      }
+      await this.deleteDatabasePhysics('wkDanger', wkDangerList, 'dangerId')
       // 添加所选数据
-      await wkDanger.addMany(paperContentOld.DangerTable.selectedDangerList)
+      await this.updateDatabase('wkDanger', paperContentOld.DangerTable.selectedDangerList, 'dangerId')
       if (this.$store.state.onLine) {
         // 有网络时同步上传服务器
         await saveToUpload(itemPaper.paperId, false)
       }
-      await db.close()
     },
     closePunishmentInfoFill ({page, refresh}) {
       this.punishmentInfoFillVisible = false

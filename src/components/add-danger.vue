@@ -202,10 +202,8 @@ export default {
     },
     async getDangerCate () {
       // 获取隐患从属类别三级码表
-      let db = new GoDB(this.DBName);
-      let dangerCate = db.table('dangerCate')
-      let dangerCateData = await dangerCate.findAll((item) => item.delFlag !== '1');
-      await db.close()
+      let dangerCate = await this.getDatabase('dangerCate')
+      let dangerCateData = dangerCate.filter((item) => item.delFlag !== '1');
       let list = treeDataTranslate([...dangerCateData] || [], 'treeId', 'treeParentId')
       this.dangerCateOptions.dangerCateList = list
     },

@@ -274,11 +274,10 @@ export default {
     async getDangerList () {
       let isSend = this.activeName === 'sendDanger' ? '0' : '1'
       this.loading = true
-	    let db = new GoDB(this.DBName)
-      let sendDanger = db.table('sendDanger')
-      let dangerlist = await sendDanger.findAll(item => item.delFlag !== '1' && item.isSend === isSend)
-      dangerlist.sort(sortbyAsc('createDate'))
-      this.dataForm.dangerContent.tableData = dangerlist
+      let sendDanger = await this.getDatabase('sendDanger')
+      let dangerList = sendDanger.filter(item => item.delFlag !== '1' && item.isSend === isSend)
+      dangerList.sort(sortbyAsc('createDate'))
+      this.dataForm.dangerContent.tableData = dangerList
       this.loading = false
     },
     async confirmDangerContent ({data}) {
@@ -290,8 +289,6 @@ export default {
       this.handleData(data.selecteddangerList, tableData)
       if (tableData.length > 0) {
         // 添加入隐患发送列表中
-        let db = new GoDB(this.DBName)
-        let sendDanger = db.table('sendDanger')
         let addDangerList = []
         for(let i = 0; i < tableData.length; i++) {
           let obj = {
@@ -319,8 +316,7 @@ export default {
           }
           addDangerList.push(obj)
         }
-	      await sendDanger.addMany(addDangerList);
-        await db.close()
+        await this.updateDatabase('sendDanger', addDangerList, 'HistoryId')
         this.loading = false
         this.getDangerList()
       }
@@ -352,10 +348,7 @@ export default {
           dangerouslyUseHTMLString: true,
           type: 'warning'
         }).then(async () => {
-          let db = new GoDB(this.DBName)
-          let sendDanger = db.table('sendDanger')
-          await sendDanger.delete({ HistoryId: scope.row.HistoryId })
-          await db.close()
+          await this.deleteDatabasePhysics('sendDanger', [scope.row], 'HistoryId')
           this.getDangerList()
         }).catch(() => {})
       } else if (type === 'multi') {
@@ -375,12 +368,7 @@ export default {
           dangerouslyUseHTMLString: true,
           type: 'warning'
         }).then(async () => {
-          let db = new GoDB(this.DBName)
-          let sendDanger = db.table('sendDanger')
-          for (let i = 0; i < this.selectedDangerList.length; i++) {
-            await sendDanger.delete({ HistoryId: this.selectedDangerList[i].HistoryId })
-          }
-          await db.close()
+          await this.deleteDatabasePhysics('sendDanger', this.selectedDangerList, 'HistoryId')
           this.getDangerList()
         }).catch(() => {})
         
@@ -406,12 +394,9 @@ export default {
       for (let i = 0; i < this.dataForm.dangerContent.tableData.length; i++) {
         if (this.dataForm.dangerContent.tableData[i].isEdit) {
           this.dataForm.dangerContent.tableData[i].isEdit = false
-          let db = new GoDB(this.DBName)
-          let sendDanger = db.table('sendDanger')
-          await sendDanger.put(this.dataForm.dangerContent.tableData[i])
-          await db.close()
         }
       }
+      await this.updateDatabase('sendDanger', this.dataForm.dangerContent.tableData, 'HistoryId')
       this.loading = false
     },
     async save () {
@@ -474,8 +459,7 @@ export default {
               // 发送成功后更新本地数据库
               if (this.activeName === 'sendDanger') {
                 // 如果为隐患发送，第一次发送时更新发送记录信息
-                let db = new GoDB(this.DBName)
-                let sendDanger = db.table('sendDanger')
+                updateDataList = []
                 for (let i = 0; i < this.selectedDangerList.length; i++) {
                   let updateData = Object.assign({}, this.selectedDangerList[i], {
                     isSend: '1',
@@ -486,9 +470,9 @@ export default {
                     companyName: this.dataForm.companyName,		// 企业名称
                     sendTime: getNowFormatTime(),
                   })
-                  await sendDanger.put(updateData)
+                  updateDataList.push(updateData)
                 }
-                await db.close()
+                await this.updateDatabase('sendDanger', updateDataList, 'HistoryId')
               }
               await this.getDangerList()
               // this.close()
@@ -563,10 +547,7 @@ export default {
         isCommon: '1'
       }
       // 添加至数据库
-      let db = new GoDB(this.DBName)
-      let sendDanger = db.table('sendDanger')
-      await sendDanger.add(danger)
-      await db.close()
+      await this.updateDatabase('sendDanger', [danger], 'HistoryId')
       // 刷新表格
       await this.getDangerList()
       this.loading = false

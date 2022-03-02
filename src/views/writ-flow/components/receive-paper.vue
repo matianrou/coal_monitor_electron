@@ -194,19 +194,8 @@ export default {
             this.$message.success('接收文书成功！')
             // 接收成功后
             // 将文书数据放入本地数据库中
-            let db = new GoDB(this.$store.state.DBName);
-            let wkPaper = db.table('wkPaper')
-            let hasPaperData = await wkPaper.find((item) => {
-              return item.paperId === row.paperContent.paperId && item.delFlag !== '1';
-            });
             row.paperContent = JSON.parse(row.paperContent)
-            if (hasPaperData == null) {
-              await wkPaper.add(row.paperContent);
-            } else {
-              await wkPaper.delete({ paperId: hasPaperData.paperId });
-              await wkPaper.add(row.paperContent);
-            }
-            await db.close()
+            await this.updateDatabase('wkPaper', [row.paperContent], 'paperId')
             // 上传保存
             await saveToUpload(row.paperContent.paperId, false);
             // 更新列表

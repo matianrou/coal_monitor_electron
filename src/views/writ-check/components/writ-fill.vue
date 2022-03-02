@@ -53,10 +53,8 @@ export default {
   },
   methods: {
     async init () {
-      let db = new GoDB(this.DBName)
-      let corpBase = db.table('corpBase')
-      let corp = await corpBase.find(item => item.corpId === this.caseData.corpId)
-      await db.close()
+      let corpBase = await this.getDatabase('corpBase')
+      let corp = corpBase.find(item => item.corpId === this.caseData.corpId)
       this.corpData = {
         corpName: corp.corpName,
         corpTypeName: corp.corpTypeName,

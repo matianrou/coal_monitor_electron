@@ -122,13 +122,11 @@ export default {
   },
   methods: {
     async getDictionary () {
-      let db = new GoDB(this.DBName)
-      let dictionary = db.table('dictionary')
-      let subitemType = await dictionary.findAll(item => item.type === 'subitemType')
-      let subitemTypeList = JSON.parse(subitemType[0].list)
+      let dictionaryList = await this.getDatabase('dictionary')
+      let dictionary = dictionaryList[0]
+      let subitemTypeList = dictionary.subitemType
       subitemTypeList.sort(sortbyAsc('sort'))
       this.subitemTypeOptions = subitemTypeList
-      await db.close()
     },
     async init() {
       // 初始化选择

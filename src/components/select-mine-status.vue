@@ -33,7 +33,6 @@
 </template>
 
 <script>
-  import GoDB from '@/utils/godb.min.js'
   import { sortbyAsc, treeDataTranslate } from "@/utils/index";
   export default {
     name: 'SelectMineStatus',
@@ -60,11 +59,9 @@
     },
     methods: {
       async getDictionary () {
-        let db = new GoDB(this.DBName)
-        let dictionary = db.table('dictionary')
-        let mineStatus = await dictionary.find(item => item.type === 'baseMineStatusZs') 
-        await db.close()
-        let mineStatusList = JSON.parse(mineStatus.list)
+        let dictionaryList = await this.getDatabase('dictionary')
+        let dictionary = dictionaryList[0]
+        let mineStatusList = dictionary.baseMineStatusZs 
         // 保留一份原始值，用来遍历获取最后矿井状况说明
         this.dictionaryMineStatus = mineStatusList
         // 遍历设置parentId

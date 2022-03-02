@@ -191,10 +191,9 @@ export default {
     },
     async getData() {
       this.loading.list = true;
-      let db = new GoDB(this.DBName);
       // 获取文书列表: 获取建议书16，意见书17，和没有caseId的执法案卷（首页）及目录15
-      let wkPaper = db.table("wkPaper");
-      let paperList = await wkPaper.findAll(
+      let wkPaper = await this.getDatabase("wkPaper");
+      let paperList = wkPaper.filter(
         (item) =>
           ((item.paperType === "15" && !item.caseId) ||
             item.paperType === "16" ||
@@ -219,7 +218,6 @@ export default {
           item.fileTime = item.delFlag === '0' ? item.updateDate : '未归档'
         });
       this.paperList = paperList;
-      await db.close();
       this.loading.list = false;
       this.$nextTick(() => {
         this.$refs.table.doLayout();
@@ -267,15 +265,9 @@ export default {
     async handleFile(paper) {
       // 归档: 更新delFlag = '0'字段（本地及上传）
       // 拉取已经保存的文书，修改delFlag = '0',调用saveToUpload上传
-      let db = new GoDB(this.$store.state.DBName);
-      let wkPaper = db.table("wkPaper");
-      let curPaper = await wkPaper.find(
-        (item) => item.paperId === paper.paperId && item.delFlag !== "1"
-      );
-      let paperData = curPaper;
+      let paperData = JSON.parse(JSON.stringify(paper));
       paperData.delFlag = "0";
-      await wkPaper.put(paperData);
-      await db.close();
+      await this.updateDatabase('wkPaper', paperData, 'paperId')
       await saveToUpload(paper.paperId, true);
     },
     async batchFile  () {
@@ -338,28 +330,19 @@ export default {
         .then(async ({ data }) => {
           if (data.status === "200") {
             // 删除成功后，从本地数据库中删除
-            let db = new GoDB(this.$store.state.DBName);
             // 删除文书
-            let wkPaper = db.table("wkPaper");
-            let paperData = await wkPaper.find(
-              (item) => item.paperId === paper.paperId
-            );
-            let data = paperData;
-            data.delFlag = "1";
-            await wkPaper.put(data);
+            let paperData = JSON.parse(JSON.stringify(paper));
+            paperData.delFlag = "1"
+            await this.updateDatabase('wkPaper', paperData, 'paperId')
             // 删除对应隐患
-            let wkDanger = db.table("wkDanger");
-            let dangerList = await wkDanger.findAll(
+            let wkDanger = await this.getDatabase("wkDanger");
+            let dangerList = wkDanger.filter(
               (item) => item.paperId === paper.paperId
             );
-            if (dangerList && dangerList.length > 0) {
-              dangerList.map(async (danger) => {
-                let dangerData = danger;
-                dangerData.delFlag = "1";
-                await wkDanger.put(dangerData);
-              });
+            for (let i = 0; i < dangerList.length; i++) {
+              dangerList[i].delFlag = "1"
             }
-            await db.close();
+            await this.updateDatabase('wkDanger', dangerList, 'dangerId')
             this.$message.success("文书删除成功！");
           } else {
             this.$message.error("删除文书失败，请再次尝试");

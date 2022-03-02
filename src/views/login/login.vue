@@ -293,42 +293,37 @@ export default {
         let res = electronRequest({msgName: 'checkExistFile', message: {fileName: `database/${userId}/sourceDownload.txt`}, type: 'sendSync'})
         console.log('res', res)
         let isExist = res.request
-        let that = this
         if (isExist) {
           // 有文件
-          that.getDatabase('sourceDownload')
-          // 获取所有当前文件夹中文件，分别放入store中
-          // for (let i = 0; i < that.resIdDict.length; i++) {
-          //   let resId = that.resIdDict[i].resId
-          //   getDatabase(resId)
-          // }
+          await this.getDatabase('sourceDownload')
           // 如果有网络则自动更新下载文书资源
-          // if (!that.offLine) {
-          //   // 获取是否下载文书资源，如果未下载过，则不自动下载，如果下载过则执行自动下载
-          //   let db = new GoDB(userId);
-          //   let sourceDownload = db.table('sourceDownload')
-          //   let updateTime = await sourceDownload.find(item => item)
-          //   let docUpdateTime = updateTime.doc
-          //   await db.close()
-          //   if (docUpdateTime) {
-          //     let userId = this.$store.state.user.userId;
-          //     let userSessId = this.$store.state.user.userSessId;
-          //     let path = this.$store.state.user.userType === 'supervision' ? '/sv' : ''
-          //     let url = `${path}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&updateTime=${docUpdateTime}&pageNo=0&pageSize=5000`
-          //     await this.$http
-          //       .get(`${url}`)
-          //       .then(async (response) => {
-          //         if (response.data.data) {
-          //           await doDocDb('doc', response.data.data);
-          //           // 修改更新日期
-          //           await this.handleUpdateTime()
-          //         }
-          //       })
-          //       .catch((err) => {
-          //         console.log("下载文书失败：", err);
-          //       })
-          //   }
-          // }
+          if (!this.offLine) {
+            // 获取是否下载文书资源，如果未下载过，则不自动下载，如果下载过则执行自动下载
+            let sourceDownload = await this.getDatabase('sourceDownload')
+            let updateTime = sourceDownload[0]
+            let docUpdateTime = updateTime.doc
+            if (docUpdateTime) {
+              let userId = this.$store.state.user.userId;
+              let userSessId = this.$store.state.user.userSessId;
+              let path = this.$store.state.user.userType === 'supervision' ? '/sv' : ''
+              let url = `${path}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&updateTime=${docUpdateTime}&pageNo=0&pageSize=5000`
+              await this.$http
+                .get(`${url}`)
+                .then(async (response) => {
+                  if (response.data.data) {
+                    let saveData = response.data.data
+                    await this.updateDatabase('wkCase', saveData.jczfCase, 'caseId')
+                    await this.updateDatabase('wkPaper', saveData.paper, 'paperId')
+                    await this.updateDatabase('wkDanger', saveData.danger, 'dangerId')
+                    // 修改更新日期
+                    await this.handleUpdateTime()
+                  }
+                })
+                .catch((err) => {
+                  console.log("下载文书失败：", err);
+                })
+            }
+          }
         } else {
           // 没有文件
           // ??? 获取原始indexDB中的数据，将所有文书、检查活动、隐患项信息放入库表中
@@ -343,15 +338,15 @@ export default {
               person: '未下载',
               plan: '未下载',
               corp: '未下载',
-              enterpriselist: '未下载',
-              checkcate: '未下载',
-              checklist: '未下载',
-              dangercate: '未下载',
-              dangerlist: '未下载',
+              enterpriseList: '未下载',
+              checkCate: '未下载',
+              checkList: '未下载',
+              dangerCate: '未下载',
+              dangerList: '未下载',
               doc: '未下载',
             }
-            that.setDatabase('sourceDownload', updateTime, function () {
-              that.$message.warning('当前未下载任何资源，请先下载全部资源后再使用！')
+            await this.setDatabase('sourceDownload', updateTime, function () {
+              this.$message.warning('当前未下载任何资源，请先下载全部资源后再使用！')
             })
           } else {
             console.log('创建文件夹失败:', error)
@@ -365,24 +360,22 @@ export default {
         //   person: '未下载',
         //   plan: '未下载',
         //   corp: '未下载',
-        //   enterpriselist: '未下载',
-        //   checkcate: '未下载',
-        //   checklist: '未下载',
-        //   dangercate: '未下载',
-        //   dangerlist: '未下载',
+        //   enterpriseList: '未下载',
+        //   checkCate: '未下载',
+        //   checkList: '未下载',
+        //   dangerCate: '未下载',
+        //   dangerList: '未下载',
         //   doc: '未下载',
         // }
-        // this.setDatabase('sourceDownload', [initData])
+        // await this.setDatabase('sourceDownload', [initData])
       }
     },
     async handleUpdateTime() {
       // 更新文书下载时间未当前日期
-      // let db = new GoDB(this.$store.state.user.userId);
-      // let sourceDownload = db.table('sourceDownload')
-      // let updateTime = await sourceDownload.find(item => item)
-      // updateTime.doc = getNowFormatTime()
-      // await sourceDownload.put(updateTime)
-      // await db.close()
+      let sourceDownload = await this.getDatabase('sourceDownload')
+      let updateTime = sourceDownload[0]
+      updateTime.doc = getNowFormatTime()
+      await this.updateDatabase('sourceDownload', [updateTime])
     }
   },
 };

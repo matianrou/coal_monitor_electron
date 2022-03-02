@@ -152,10 +152,8 @@ export default {
                 let org = this.allOrgList[j]
                 if (org.no === item.affiliate) {
                   if (this.caseData.caseClassify === '4') {
-                    let db = new GoDB(this.DBName)
-                    let orgInfo = db.table('orgInfo')
-                    let curOrgData = await orgInfo.find(o => o.no === item.affiliate && o.delFlag !== "1")
-                    await db.close()
+                    let orgInfo = await this.getDatabase('org')
+                    let curOrgData = orgInfo.find(o => o.no === item.affiliate && o.delFlag !== "1")
                     item.affiliateName = getAffiliateOrgName(curOrgData, this.allOrgList)
                   } else {
                     item.affiliateName = org.name

@@ -79,7 +79,6 @@ export default {
     async initData() {
       // 初始化文书内容
       // 案件处理呈报书需初始化法制审核意见
-      let db = new GoDB(this.DBName);
       if (this.docData.docTypeNo === '36' 
         || (this.docData.docTypeNo === '49' && this.$store.state.user.userType !== 'supervision')
         || (this.docData.docTypeNo === '47' && this.$store.state.user.userType === 'supervision')) {
@@ -98,9 +97,9 @@ export default {
           });
         });
       } else if (this.docData.docTypeNo === '22' || this.docData.docTypeNo === '42') {
-        let dictionary = db.table('dictionary')
-        let programmeTypeListJson = await dictionary.find(item => item.type === 'programmeType')
-        let programmeTypeList = JSON.parse(programmeTypeListJson.list)
+        let dictionaryList = await this.getDatabase('dictionary')
+        let dictionary = dictionaryList[0]
+        let programmeTypeList = dictionary.programmeType
         programmeTypeList.sort(sortbyAsc('sort'))
         this.options.cellIdx1 = programmeTypeList
       }
@@ -114,7 +113,7 @@ export default {
         this.paperId = getNowTime() + randomString(28)
         // 创建初始版本
         if (this.corpData && this.corpData.caseId) {
-          let wkPaper = db.table('wkPaper')
+          let wkPaper = await this.getDatabase('wkPaper')
           // 按组件中定义的associationPaper关联文书
           let isReturn = false
           // 当前有三种文书关联方式：
@@ -124,7 +123,7 @@ export default {
           if (this.associationPaper && this.associationPaper.length > 0) {
             // associationPaper是必须关联的文书，如果未关联则提示
             for (let paper of this.associationPaper) {
-              let paperDataList = await wkPaper.findAll((item) => {
+              let paperDataList = wkPaper.filter((item) => {
                 return item.caseId === this.corpData.caseId && item.paperType === paper && item.delFlag !== '1';
               })
               if (paperDataList.length === 0) {
@@ -150,7 +149,7 @@ export default {
             // 根据数组的顺序，顺序找是否有可关联的文书选择
             for (let i = 0; i < this.selectAssociationPaper.length; i++ ) {
               let paper = this.selectAssociationPaper[i]
-              let paperDataList = await wkPaper.findAll((item) => {
+              let paperDataList = wkPaper.filter((item) => {
                 return item.caseId === this.corpData.caseId && item.paperType === paper && item.delFlag !== '1';
               })
               if (paperDataList.length === 0 && i === (this.selectAssociationPaper.length - 1)) {
@@ -186,7 +185,7 @@ export default {
             let whetherAssociationPaperList = []
             for (let i = 0; i < whetherAssociationList.length; i++ ) {
               let paperType = whetherAssociationList[i]
-              let paperDataList = await wkPaper.findAll((item) => {
+              let paperDataList = wkPaper.filter((item) => {
                 return item.caseId === this.corpData.caseId && item.paperType === paperType && item.delFlag !== '1';
               })
               if (paperDataList.length > 0) {
@@ -233,7 +232,6 @@ export default {
           this.initLetData && this.initLetData()
         }
       }
-      await db.close();
     },
     async initFileData() {
       if (this.paperData) {
@@ -301,11 +299,10 @@ export default {
       // 判断必选文书列表：
       let isReturn = false
       if (this.associationList.length > 0) {
-        let db = new GoDB(this.DBName);
-        let wkPaper = db.table('wkPaper')
+        let wkPaper = await this.getDatabase('wkPaper')
         for (let i = 0; i < this.associationList.length; i++) {
           let paperType = this.associationList[i]
-          let paperDataList = await wkPaper.findAll((item) => {
+          let paperDataList = wkPaper.filter((item) => {
             return item.caseId === this.corpData.caseId && item.paperType === paperType && item.delFlag !== '1';
           })
           if (paperDataList.length === 0 && i === (this.associationList.length - 1)) {
@@ -327,7 +324,6 @@ export default {
             break
           }
         }
-        await db.close()
       }
       if (isReturn) {
         // 返回主页面

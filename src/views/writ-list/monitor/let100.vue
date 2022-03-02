@@ -228,7 +228,6 @@
 
 <script>
 import associationSelectPaper from "@/components/association-select-paper";
-import GoDB from "@/utils/godb.min.js";
 import { corpInformation }from '@/utils/setInitPaperData'
 import { handleDateNormal }from '@/utils/date'
 export default {
@@ -263,20 +262,18 @@ export default {
   methods: {
     async initLetData() {
       // 创建初始版本
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
+      let corpBase = await this.getDatabase("baseInfo");
       //查询符合条件的记录
-      let corp = await corpBase.find((item) => {
+      let corp = corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
       // 1.获取创建检查活动的检查时间
-      let wkCase = db.table('wkCase')
-      let caseData = await wkCase.find(item => item.caseId === this.corpData.caseId && item.delFlag !== '1')
+      let wkCase = await this.getDatabase('wkCase')
+      let caseData = wkCase.find(item => item.caseId === this.corpData.caseId && item.delFlag !== '1')
       let cellIdx2String = handleDateNormal(caseData.planBeginDate, caseData.planEndDate)
       // 2.默认选中监察类型或方式的第一个选项
-      let sSummary = await corpInformation(db, corp)
+      let sSummary = await corpInformation(corp)
       let corpOther = "检查的内容和分工变化时，应及时调整。";
-      await db.close();
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: corp.corpName ? corp.corpName : null, // 被检查单位
         cellIdx1: this.options.cellIdx1[0].label,

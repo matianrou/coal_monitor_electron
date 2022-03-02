@@ -266,13 +266,11 @@ export default {
   methods: {
     async initLetData(selectedPaper) {
       // 创建初始版本
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
+      let corpBase = await this.getDatabase("baseInfo");
       //查询符合条件的记录
       let corp = await corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      await db.close();
       // 返回检查方案中的检查类型方式、检查时间和检查分工明细表
       let let22DataPaperContent = JSON.parse(
         selectedPaper.let22Data.paperContent

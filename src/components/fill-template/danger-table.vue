@@ -557,17 +557,15 @@ export default {
   methods: {
     async getDictionary () {
       // 获取码表
-      let db = new GoDB(this.DBName)
-      let dictionary = db.table('dictionary')
-      let onsiteType = await dictionary.findAll(item => item.type === 'onsiteDesc') 
-      let onsiteTypeList = JSON.parse(onsiteType[0].list) 
+      let dictionaryList = await this.getDatabase('dictionary')
+      let dictionary = dictionaryList[0]
+      let onsiteTypeList = dictionary.onsiteDesc
       onsiteTypeList.sort(sortbyAsc('sort'))
       this.onsiteTypeOptions = onsiteTypeList
       let subitemType = await dictionary.findAll(item => item.type === 'subitemType')
       let subitemTypeList = JSON.parse(subitemType[0].list)
       subitemTypeList.sort(sortbyAsc('sort'))
       this.subitemTypeOptions = subitemTypeList
-      await db.close()
       // 当文书为案件处理呈报书、行政处罚告知书、行政处罚决定书时，同步结算行政处罚信息捕获及合并处罚文书
       let page = this.options.page
       if (page === '36' || page === '6' || page === '8') {
@@ -980,14 +978,12 @@ export default {
     },
     async getDangerCate () {
       // 获取隐患从属类别三级码表
-      let db = new GoDB(this.DBName);
-      let dangerCate = db.table('dangerCate')
-      let corpBase = db.table('corpBase');
-      let dangerCateData = await dangerCate.findAll((item) => item.delFlag !== '1');
-      let corpBaseData = await corpBase.find((item) => {
+      let dangerCate = await this.getDatabase('dangerCate')
+      let corpBase = await this.getDatabase('baseInfo');
+      let dangerCateData = dangerCate.filter((item) => item.delFlag !== '1');
+      let corpBaseData = corpBase.find((item) => {
         return item.corpId === this.corpData.corpId
       });
-      await db.close()
       let list = treeDataTranslate([...dangerCateData] || [], 'treeId', 'treeParentId')
       if (corpBaseData.mineMinetypeName === '井工') {
         this.dangerCateOptions.dangerCateList = [list[0]]
@@ -1065,11 +1061,9 @@ export default {
     },
     async getParentDangerCateCode (code) {
       // 获取父级code
-      let db = new GoDB(this.DBName)
-      let dangerCate = db.table('dangerCate')
+      let dangerCate = await this.getDatabase('dangerCate')
       let parentCode = ''
-      parentCode = await dangerCate.find((item) => item.delFlag !== '1' && item.categoryCode === code);
-      await db.close()
+      parentCode = dangerCate.find((item) => item.delFlag !== '1' && item.categoryCode === code);
       return parentCode.pid
     },
     changeOnsiteDesc (val) {

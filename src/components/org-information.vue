@@ -149,7 +149,7 @@ export default {
         } else {
           // 监察为三级机构，过滤type类型
           if (selGovUnitOrg.grade === '3') {
-            let provinceOrg = orgInfo.find(item => item.no === selGovUnitOrg.parentId
+            let provinceOrg = orgInfo.find(item => item.id === selGovUnitOrg.parentId
               // && (item.type === '3' || item.type === '4' || item.type === '11') 
               && item.delFlag !== "1")
             provinceGroupName = provinceOrg.name
@@ -159,11 +159,11 @@ export default {
         let affiliateOrg = {}
         if (this.$store.state.user.userType === 'supervision') {
           // 监管不过滤type
-          affiliateOrg = orgInfo.find(item => item.no === caseData.affiliate
+          affiliateOrg = orgInfo.find(item => item.id === caseData.affiliate
             && item.delFlag !== "1")
         } else {
           // 监察过滤type
-          affiliateOrg = orgInfo.find(item => item.no === caseData.affiliate
+          affiliateOrg = orgInfo.find(item => item.id === caseData.affiliate
             // && (item.type === '3' || item.type === '4' || item.type === '11') 
             && item.delFlag !== "1")
         }

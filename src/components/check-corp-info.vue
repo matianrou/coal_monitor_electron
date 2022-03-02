@@ -300,7 +300,6 @@
 </template>
 
 <script>
-import GoDB from "@/utils/godb.min.js";
 import { sortbyAsc } from "@/utils/index";
 import selectMineStatus from '@/components/select-mine-status'
 export default {
@@ -392,25 +391,21 @@ export default {
   methods: {
     async getDictionary () {
       // 获取码表
-      let db = new GoDB(this.DBName);
-      let dictionary = db.table('dictionary')
+      let dictionaryList = await this.getDatabase('dictionary')
+      let dictionary = dictionaryList[0]
       for (let key in this.dictionary) {
-        let dictJson = await dictionary.find(item => item.type === key)
-        let dictList = JSON.parse(dictJson.list)
+        let dictList = dictionary[key]
         dictList.sort(sortbyAsc('sort'))
         this.dictionary[key] = dictList
       }
-      await db.close()
     },
     async getCorpInfo () {
       this.originalData = null
-      let db = new GoDB(this.DBName);
-      let corpBase = db.table('corpBase')
-      let corpInfo = await corpBase.find(item => item.corpId === this.corpData.corpId && item.delFlag !== '1')
-      let zfZzInfo = db.table("zfZzInfo");
-      let corpZfZzInfo1 = await zfZzInfo.find(item => item.corpId === this.corpData.corpId && item.delFlag !== '1' && item.credTypeName === '采矿许可证')
-      let corpZfZzInfo2 = await zfZzInfo.find(item => item.corpId === this.corpData.corpId && item.delFlag !== '1' && item.credTypeName === '安全生产许可证')
-      await db.close()
+      let corpBase = await this.getDatabase('baseInfo')
+      let corpInfo = corpBase.find(item => item.corpId === this.corpData.corpId && item.delFlag !== '1')
+      let zfZzInfo = await this.getDatabase("zfZzInfo");
+      let corpZfZzInfo1 = zfZzInfo.find(item => item.corpId === this.corpData.corpId && item.delFlag !== '1' && item.credTypeName === '采矿许可证')
+      let corpZfZzInfo2 = zfZzInfo.find(item => item.corpId === this.corpData.corpId && item.delFlag !== '1' && item.credTypeName === '安全生产许可证')
       let {corpId, corpName, address, provedOutput} = corpInfo
       let dataForm = Object.assign({}, this.dataForm, {corpId, corpName, address, provedOutput})
       // 处理煤矿类型：parentTypeName,mineWsGrade, hydrogeologicalType, grimeExplosive, mineFire, mineMinestyle, mineVentilatestyle

@@ -999,11 +999,11 @@ export default {
       }
       this.showChangeDangerList = showChangeDangerList
       // 置verNo为空
-      let db = new GoDB(this.$store.state.DBName);
-      let wkPaper = db.table("wkPaper");
-      let paperList = await wkPaper.findAll((item) => {
+      let wkPaper = await this.getDatabase("wkPaper");
+      let paperList = wkPaper.filter((item) => {
         return item.caseId === this.corpData.caseId && item.delFlag !== '1' && item.paperType === paperType
       });
+      let updatePaperList = []
       for (let i = 0; i < paperList.length; i++) {
         let paperContent = paperList[i].paperContent ? JSON.parse(paperList[i].paperContent) : null
         if (paperContent.DangerTable && paperContent.DangerTable.tableData) {
@@ -1012,9 +1012,9 @@ export default {
           }
         }
         let paperItem = Object.assign({}, paperList[i], {paperContent: JSON.stringify(paperContent)})
-        await wkPaper.put(paperItem)
+        updatePaperList.push(paperItem)
       }
-      await db.close()
+      await this.updateDatabase('wkPaper', updatePaperList, 'paperId')
       this.$emit('refresh-writ')
     },
     async delPaper (paperType) {
@@ -1025,11 +1025,9 @@ export default {
       // 删除文书 判断是否已归档，如果已归档则不可删除
       this.loading.btn = true
       // 获取要删除的文书：
-      let db = new GoDB(this.$store.state.DBName)
-      let wkPaper = db.table('wkPaper')
+      let wkPaper = await this.getDatabase('wkPaper')
       let curPaper = []
-      curPaper = await wkPaper.findAll(item => item.paperType === paperType && item.caseId === this.corpData.caseId && item.delFlag === '2')
-      await db.close()
+      curPaper = wkPaper.filter(item => item.paperType === paperType && item.caseId === this.corpData.caseId && item.delFlag === '2')
       if (curPaper.length === 0) {
         // 如果没有文书则提示没有可以删除的文书，请制作文书
         this.$message.error('没有可以删除的文书，请制作文书!')
@@ -1074,24 +1072,17 @@ export default {
         .then(async ({ data }) => {
           if (data.status === "200") {
             // 删除成功后，从本地数据库中删除
-            let db = new GoDB(this.$store.state.DBName)
             // 删除文书
-            let wkPaper = db.table('wkPaper')
-            let paperData = await wkPaper.find(item => item.paperId === curPaper.paperId)
-            let data = paperData
-            data.delFlag = '1'
-            await wkPaper.put(data)
+            let paperData = JSON.parse(JSON.stringify(curPaper))
+            paperData.delFlag = '1'
+            await this.updateDatabase('wkPaper', [paperData], 'paperId')
             // 删除对应隐患
-            let wkDanger = db.table('wkDanger')
-            let dangerList = await wkDanger.findAll(item => item.paperId === curPaper.paperId)
-            if (dangerList && dangerList.length > 0) {
-              dangerList.map(async (danger) => {
-                let dangerData = danger
-                dangerData.delFlag = '1'
-                await wkDanger.put(dangerData)
-              })
+            let wkDanger = await this.getDatabase('wkDanger')
+            let dangerList = wkDanger.filter(item => item.paperId === curPaper.paperId)
+            for (let i = 0; i < dangerList.length; i++) {
+              dangerList[i].delFlag = '1'
             }
-            await db.close()
+            await this.updateDatabase('wkDanger', dangerList, 'dangerId')
             this.$message.success('文书删除成功！')
           } else {
             this.$message.error('删除文书失败，请再次尝试')
@@ -1105,9 +1096,8 @@ export default {
     },
     async showAccidentDangerInfo (docTypeNo) {
       // 展示事故隐患详情
-      let db = new GoDB(this.$store.state.DBName)
-      let wkPaper = db.table('wkPaper')
-      let paperList = await wkPaper.findAll(item => item.delFlag !== '1' && item.paperType === docTypeNo && item.caseId === this.corpData.caseId)
+      let wkPaper = await this.getDatabase('wkPaper')
+      let paperList = wkPaper.filter(item => item.delFlag !== '1' && item.paperType === docTypeNo && item.caseId === this.corpData.caseId)
       if (paperList.length > 1) {
         // 多个文书时选择文书，然后展示隐患信息
         this.paperList = paperList

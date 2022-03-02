@@ -1,7 +1,7 @@
 import store from "@/store"
 import { getMoney, randomString, treeDataTranslate } from '@/utils'
 import { getNowFormatTime, getNowTime } from "@/utils/date";
-import { getDatabase, setDatabase, getContrastData } from '@/utils/databaseOperation'
+import { getDatabase, setDatabase, getContrastData, updateDatabase } from '@/utils/databaseOperation'
 // 初始化各文书数据
 
 // 初始化文书编号：
@@ -17,19 +17,19 @@ import { getDatabase, setDatabase, getContrastData } from '@/utils/databaseOpera
 // 3.num2: 文书号3（立、告、罚、送、催）
 // 4.num3: 文书号4（curYear）
 // 5.num4: 文书号5（个人执法编号+自增三位数字）
-export async function getDocNumber(db, docTypeNo, caseId) {
+export async function getDocNumber(docTypeNo, caseId) {
   // 获取当前归档机构信息
-  const orgInfo = db.table("orgInfo");
+  const orgInfo = await getDatabase("orgInfo");
   // 如果有caseId则获取归档机构如果没有则获取当前用户机构（没有时为意见建议书时）
   let orgId = caseId ? store.state.curCase.groupId : store.state.user.userGroupId
   let orgData = {}
   if (store.state.user.userType === 'supervision') {
     // 监管不筛选type类型
-    orgData = await orgInfo.find(item => item.no === orgId 
+    orgData = orgInfo.find(item => item.no === orgId 
       && item.delFlag !== "1")
   } else {
     // 监察筛选type类型
-    orgData = await orgInfo.find(item => item.no === orgId 
+    orgData = orgInfo.find(item => item.no === orgId 
       // && (item.type === '3' || item.type === '4' || item.type === '11') 
       && item.delFlag !== "1")
   }
@@ -49,7 +49,7 @@ export async function getDocNumber(db, docTypeNo, caseId) {
   let date = new Date()
   let curYear = date.getFullYear()
   // 获取3位数字
-  let paperNumber = await getPersonNumber(db, docTypeNo)
+  let paperNumber = await getPersonNumber(docTypeNo)
   let paperTypeName = store.state.user.userType === 'supervision' ? '煤安' : '煤安监'
   return {
     num0: orgSysOfficeInfo.docRiseSafe,
@@ -62,21 +62,21 @@ export async function getDocNumber(db, docTypeNo, caseId) {
 
 // 获取文书编号：编号：
 // 执法年份+序号
-export async function getDocNumber2(db, docTypeNo) {
+export async function getDocNumber2(docTypeNo) {
   // 当前年份
   let date = new Date()
   let curYear = date.getFullYear() + ''
   // 获取3位数字
-  let paperNumber = await getPersonNumber(db, docTypeNo)
+  let paperNumber = await getPersonNumber(docTypeNo)
   return curYear + '-' + paperNumber
 }
 
-async function getPersonNumber (db, docTypeNo) {
+async function getPersonNumber (docTypeNo) {
   // 读取库表
   let date = new Date()
   let curYear = date.getFullYear()
-  let personPaperNumber = db.table('personPaperNumber')
-  let numberData = await personPaperNumber.find(item => item.year === (curYear + ''))
+  let personPaperNumber = await getDatabase('personPaperNumber') || []
+  let numberData = personPaperNumber.find(item => item.year === (curYear + ''))
   let threeNum = ''
   if (numberData) {
     // 如果有当前年份的文书号数据
@@ -91,12 +91,12 @@ async function getPersonNumber (db, docTypeNo) {
         [`paper-${store.state.user.userType}-${docTypeNo}`]: threeNum
       }))
       numberData.updateDate = getNowFormatTime()
-      await personPaperNumber.put(numberData)
+      await updateDatabase('personPaperNumber', numberData)
     }
   } else {
     // 还没有当前年份的文书号数据：创建：
     threeNum = '001'
-    await personPaperNumber.add({
+    let saveData = {
       id: getNowTime() + randomString(28),
       year: curYear + '',
       paperNumber: JSON.stringify({
@@ -104,9 +104,11 @@ async function getPersonNumber (db, docTypeNo) {
       }),
       createDate: getNowFormatTime(),
       updateDate: getNowFormatTime() 
-    });
+    }
+    personPaperNumber.push(saveData)
+    await setDatabase('personPaperNumber', personPaperNumber)
   }
-    return (store.state.user.userNumber || '')  + threeNum
+  return (store.state.user.userNumber || '')  + threeNum
 }
 
 // 判断文书是否有文书号
@@ -467,20 +469,20 @@ export function getPenaltyDescType (penaltyDescString, subitemTypeOptions) {
 }
 
 // 生成煤矿描述信息
-export async function corpInformation(db, corpData) {
-  const zfZzInfo = db.table("zfZzInfo");
-  const zzInfo1 = await zfZzInfo.find((item) => {
+export async function corpInformation(corpData) {
+  const zfZzInfo = await getDatabase("zfZzInfo");
+  const zzInfo1 = zfZzInfo.find((item) => {
     return item.corpId == corpData.corpId && item.credTypeName == "采矿许可证";
   });
-  const zzInfo2 = await zfZzInfo.find((item) => {
+  const zzInfo2 = zfZzInfo.find((item) => {
     return item.corpId == corpData.corpId && item.credTypeName == "安全生产许可证";
   });
-  let zfCmgzmInfo = db.table("zfCmgzmInfo");
-  let zfJjgzmInfo = db.table("zfJjgzmInfo");
-  let zfCmgzm = await zfCmgzmInfo.findAll((item) => {
+  let zfCmgzmInfo = await getDatabase("zfCmgzmInfo");
+  let zfJjgzmInfo = await getDatabase("zfJjgzmInfo");
+  let zfCmgzm = zfCmgzmInfo.filter((item) => {
     return item.corpId === corpData.corpId && item.delFlag !== '1';
   });
-  let zfJjgzm = await zfJjgzmInfo.findAll((item) => {
+  let zfJjgzm = zfJjgzmInfo.filter((item) => {
     return item.corpId === corpData.corpId && item.delFlag !== '1';
   });
   console.log('corpData.corpId', corpData.corpId)
@@ -702,18 +704,18 @@ export function setAssociationPaperOrder (associationPaperOrder = []) {
   return paperOrder
 }
 
-export async function getOrgData (db, orgId) {
+export async function getOrgData (orgId) {
   // 获取机构信息
-  let orgInfo = db.table("orgInfo");
+  let orgInfo = await getDatabase("orgInfo");
   let orgData = {}
   if (store.state.user.userType === 'supervision') {
     // 监管
-    orgData = await orgInfo.find(item => item.no === orgId
+    orgData = orgInfo.find(item => item.no === orgId
       && item.delFlag !== "1"
     );
   } else {
     // 监察
-    orgData = await orgInfo.find(item => item.no === orgId
+    orgData = orgInfo.find(item => item.no === orgId
       // && (item.type === '3' || item.type === '4' || item.type === '11') 
       && item.delFlag !== "1"
     );

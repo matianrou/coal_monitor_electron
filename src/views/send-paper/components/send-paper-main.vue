@@ -241,12 +241,10 @@ export default {
           docTypeName: '调查取证笔录',
         }
         // 获取煤矿数据
-        let db = new GoDB(this.$store.state.DBName);
-        let corpBase = db.table("corpBase");
-        let corpData = await corpBase.find((item) => {
+        let corpBase = await this.getDatabase("baseInfo");
+        let corpData = corpBase.find((item) => {
           return item.corpId == this.dataForm.companyId;
         });
-        await db.close()
         let sendData = {
           receiveId: this.dataForm.receiveId,
           receiveName: this.dataForm.receiveName,
@@ -276,12 +274,10 @@ export default {
     async getData() {
       // 从本地数据库中获取已保存的发送文书数据
       this.loading.list = true
-      let db = new GoDB(this.$store.state.DBName);
-      let sendPaper = db.table('sendPaper')
+      let sendPaper = await this.getDatabase('sendPaper')
       // 根据当前需要查询调查笔录发送列表或者历史记录分别搜索,通过delFlag进行分辨，如果为2则为保存，0为发送
       let delFlag = this.activeTab === 'sendPaper' ? '2' : '0'
-      let paperList = await sendPaper.findAll(item => item.delFlag === delFlag)
-      await db.close()
+      let paperList = sendPaper.filter(item => item.delFlag === delFlag)
       if (paperList.length > 0) {
         paperList.forEach(item => {
           item.paperContent = JSON.parse(item.paperContent)
@@ -323,11 +319,7 @@ export default {
               if (data.status === "200") {
                 this.$message.success('发送文书成功！')
                 // 发送成功后更新本地库
-                let db = new GoDB(this.$store.state.DBName);
-                let sendPaper = db.table('sendPaper')
-                // let paperData = await sendPaper.find(item => JSON.parse(item.paperContent).paperId === row.paperContent.paperId && item.delFlag !== '1')
-                await sendPaper.put(row)
-                await db.close()
+                await this.updateDatabase('sendPaper', [row])
                 // 更新列表
                 await this.getData()
               } else {
@@ -358,12 +350,10 @@ export default {
         docTypeName: row.paperContent.name,
         page,
       };
-      let db = new GoDB(this.$store.state.DBName);
-      let corpBase = db.table("corpBase");
-      let corpData = await corpBase.find((item) => {
+      let corpBase = await this.getDatabase("baseInfo");
+      let corpData = corpBase.find((item) => {
         return item.corpId == row.companyId;
       });
-      await db.close()
       let sendData = {
         receiveId: row.receiveId,
         receiveName: row.receiveName,
@@ -383,10 +373,7 @@ export default {
           row.delFlag = '1'
           row.paperContent.delFlag = '1'
           row.paperContent = JSON.stringify(row.paperContent)
-          let db = new GoDB(this.$store.state.DBName);
-          let sendPaper = db.table('sendPaper')
-          await sendPaper.put(row)
-          await db.close()
+          await this.updateDatabase('sendPaper', [row])
           this.loading.btn = false
           // 更新列表
           await this.getData()
