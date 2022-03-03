@@ -280,7 +280,7 @@ export default {
         cellIdx3: cellIdx3Hour, // 时
         cellIdx4: cellIdx4Minu, // 分
         cellIdx7: cellIdx7String, // 听证地点
-        // cellIdx10: cellIdx10String, // 听证记录 22.2.21 去掉初始化逻辑
+        cellIdx10: cellIdx10String, // 听证记录 22.3.3恢复
         DangerTable,
         selectedType: let28DataPaperContent.selectedType,
         associationPaperId,

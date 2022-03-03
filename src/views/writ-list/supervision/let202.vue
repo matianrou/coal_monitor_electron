@@ -435,7 +435,7 @@ export default {
         cellIdx7: corp.corpName, // 地点
         cellIdx8: cellIdx8String, // 调查事由
         cellIdx13: corp.corpName, // 工作单位
-        // cellIdx21: cellIdx21String, // 22.2.21去掉初始化逻辑
+        cellIdx21: cellIdx21String, // 22.3.3恢复
         extraData: { // 保存额外拼写的数据内容，用于修改隐患项时回显使用
           corpName: corp.corpName,
           groupName: groupName,
