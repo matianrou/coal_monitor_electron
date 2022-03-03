@@ -190,7 +190,6 @@ export default {
             // 判断当前登录用户为监管或监察
             await this.getUserType(userId, sessId)
             await this.getUserInfo(userId, sessId)
-            await this.setDB(userId)
             if (this.recordAccount) {
               // 保存所有用户数据至localStorage中，用于在离线操作时使用
               let {loginName, userName, userGroupId, userAreaId, userGroupName, userNumber, userType} = this.$store.state.user
@@ -217,6 +216,48 @@ export default {
               }
               if (localStorage.getItem('userInfo')) {
                 localStorage.removeItem('userInfo')
+              }
+            }
+            let sourceDownload = await this.getDatabase('sourceDownload')
+            console.log('sourceDownload1', sourceDownload)
+            if (!sourceDownload || sourceDownload.length === 0) {
+              // 如果没有下载过资源则跳转下载资源
+              // 初始数据库
+              await this.setDB(userId)
+              this.$store.commit('changeState', {
+                key: 'activeTab',
+                val: 'SourceDownload'
+              })
+            } else {
+              // 下载过资源进入页面，同时更新文书
+              await this.getDatabase('sourceDownload')
+              // 如果有网络则自动更新下载文书资源
+              if (!this.offLine) {
+                // 获取是否下载文书资源，如果未下载过，则不自动下载，如果下载过则执行自动下载
+                let updateTime = sourceDownload[0]
+                let docUpdateTime = updateTime ? updateTime.doc : null
+                if (docUpdateTime && docUpdateTime !== '未下载') {
+                  // 获取文书资源
+                  let userId = this.$store.state.user.userId;
+                  let userSessId = this.$store.state.user.userSessId;
+                  let path = this.$store.state.user.userType === 'supervision' ? '/sv' : ''
+                  let url = `${path}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&updateTime=${docUpdateTime}&pageNo=0&pageSize=5000`
+                  await this.$http
+                    .get(`${url}`)
+                    .then(async (response) => {
+                      if (response.data.data) {
+                        let saveData = response.data.data
+                        await this.updateDatabase('wkCase', saveData.jczfCase, 'caseId')
+                        await this.updateDatabase('wkPaper', saveData.paper, 'paperId')
+                        await this.updateDatabase('wkDanger', saveData.danger, 'dangerId')
+                        // 修改更新日期
+                        await this.handleUpdateTime()
+                      }
+                    })
+                    .catch((err) => {
+                      console.log("下载文书失败：", err);
+                    })
+                }
               }
             }
             this.$router.replace({
@@ -287,88 +328,65 @@ export default {
         autoLogin: false
       }})
     },
-    setDB (userId) {
+    async setDB (userId) {
       // 读取当前是否已进行过资源下载，如果没有则表示未下载过资源，则提示需要下载资源，同时创建数据库表
       if (this.NODE_ENV === 'production') {
-        let res = electronRequest({msgName: 'checkExistFile', message: {fileName: `database/${userId}/sourceDownload.txt`}, type: 'sendSync'})
-        console.log('res', res)
-        let isExist = res.request
-        if (isExist) {
-          // 有文件
-          await this.getDatabase('sourceDownload')
-          // 如果有网络则自动更新下载文书资源
-          if (!this.offLine) {
-            // 获取是否下载文书资源，如果未下载过，则不自动下载，如果下载过则执行自动下载
-            let sourceDownload = await this.getDatabase('sourceDownload')
-            let updateTime = sourceDownload[0]
-            let docUpdateTime = updateTime.doc
-            if (docUpdateTime) {
-              let userId = this.$store.state.user.userId;
-              let userSessId = this.$store.state.user.userSessId;
-              let path = this.$store.state.user.userType === 'supervision' ? '/sv' : ''
-              let url = `${path}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&updateTime=${docUpdateTime}&pageNo=0&pageSize=5000`
-              await this.$http
-                .get(`${url}`)
-                .then(async (response) => {
-                  if (response.data.data) {
-                    let saveData = response.data.data
-                    await this.updateDatabase('wkCase', saveData.jczfCase, 'caseId')
-                    await this.updateDatabase('wkPaper', saveData.paper, 'paperId')
-                    await this.updateDatabase('wkDanger', saveData.danger, 'dangerId')
-                    // 修改更新日期
-                    await this.handleUpdateTime()
-                  }
-                })
-                .catch((err) => {
-                  console.log("下载文书失败：", err);
-                })
+        // let res = electronRequest({msgName: 'checkExistFile', message: {fileName: `database/${userId}/sourceDownload.txt`}, type: 'sendSync'})
+        // 首先判断是否存在database目录，如果没有则创建
+        let databaseExist = electronRequest({msgName: 'checkExistFile', message: {fileName: `database`}, type: 'sendSync'})
+        console.log('databaseExist1', databaseExist)
+        let databaseIsExist = databaseExist.request
+        if (!databaseIsExist) {
+          // 如果没有则创建目录
+          let mkDatabaseReq = electronRequest({msgName: 'mkdir', message: {mkdirName: `database`}, type: 'sendSync'})
+          console.log('mkDatabaseReq', mkDatabaseReq)
+          if (mkDatabaseReq.request.code === '200') {
+            // 创建成功则继续创建userId目录
+            let mkUserIdReq = electronRequest({msgName: 'mkdir', message: {mkdirName: `database/${userId}`}, type: 'sendSync'})
+            console.log('mkUserIdReq', mkUserIdReq)
+            if (mkUserIdReq.request.code === '200') {
+              // 创建下载文件sourceDownload
+              await this.setSourceDownload()
             }
           }
         } else {
-          // 没有文件
-          // ??? 获取原始indexDB中的数据，将所有文书、检查活动、隐患项信息放入库表中
-          // 进入下载页面
-          // 创建userID的目录，同时创建下载文件sourceDownload
-          let {request} = electronRequest({msgName: 'mkdir', message: {mkdirName: `database/${userId}`}, type: 'sendSync'})
-          console.log('request', request)
-          if (request.code === '200') {
-            let updateTime = {
-              id: null,
-              org: '未下载',
-              person: '未下载',
-              plan: '未下载',
-              corp: '未下载',
-              enterpriseList: '未下载',
-              checkCate: '未下载',
-              checkList: '未下载',
-              dangerCate: '未下载',
-              dangerList: '未下载',
-              doc: '未下载',
+          // 如果有database目录，则判断是否有UserId目录
+          let userIdExist = electronRequest({msgName: 'checkExistFile', message: {fileName: `database/${userId}`}, type: 'sendSync'})
+          console.log('userIdExist', userIdExist)
+          let userIdIsExist = userIdExist.request
+          if (!userIdIsExist) {
+            // 如果没有目录则创建
+            let mkUserIdReq = electronRequest({msgName: 'mkdir', message: {mkdirName: `database/${userId}`}, type: 'sendSync'})
+            console.log('mkUserIdReq', mkUserIdReq)
+            if (mkUserIdReq.request.code === '200') {
+              // 创建下载文件sourceDownload
+              await this.setSourceDownload()
             }
-            await this.setDatabase('sourceDownload', updateTime, function () {
-              this.$message.warning('当前未下载任何资源，请先下载全部资源后再使用！')
-            })
           } else {
-            console.log('创建文件夹失败:', error)
+            console.log('2')
+            await this.setSourceDownload()
           }
         }
       } else {
         console.log('当前环境不支持electron')
-        // let initData = {
-        //   id: 1,
-        //   org: '未下载',
-        //   person: '未下载',
-        //   plan: '未下载',
-        //   corp: '未下载',
-        //   enterpriseList: '未下载',
-        //   checkCate: '未下载',
-        //   checkList: '未下载',
-        //   dangerCate: '未下载',
-        //   dangerList: '未下载',
-        //   doc: '未下载',
-        // }
-        // await this.setDatabase('sourceDownload', [initData])
+        await this.setSourceDownload()
       }
+    },
+    async setSourceDownload () {
+      let initData = {
+        id: 1,
+        org: '未下载',
+        person: '未下载',
+        plan: '未下载',
+        corp: '未下载',
+        enterpriseList: '未下载',
+        checkCate: '未下载',
+        checkList: '未下载',
+        dangerCate: '未下载',
+        dangerList: '未下载',
+        doc: '未下载',
+      }
+      await this.setDatabase('sourceDownload', [initData])
     },
     async handleUpdateTime() {
       // 更新文书下载时间未当前日期

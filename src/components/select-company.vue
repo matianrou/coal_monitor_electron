@@ -130,9 +130,9 @@ import { treeDataTranslate } from '@/utils/index'
         this.loading = false
       },
       async getAreaTree() {
-        let doEnterpriseList = await this.getDatabase('doEnterpriseList');
+        let doEnterpriseList = await this.getDatabase('enterpriseList');
         let areaId = this.$store.state.user.userAreaId
-        console.log('doEnterpriseList', doEnterpriseList)
+        console.log('enterpriseList', doEnterpriseList)
         let areaList = doEnterpriseList.filter((item) => {
           return item.parentId === areaId || item.id === areaId;
         })

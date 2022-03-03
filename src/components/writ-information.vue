@@ -229,7 +229,7 @@ export default {
       // 初始化码表
       let dictionaryList = await this.getDatabase('dictionary')
       let dictionary = dictionaryList[0]
-      let caseClassifyList = dictionary.caseClassify || []
+      let caseClassifyList = dictionary ? dictionary.caseClassify : []
       caseClassifyList.sort(sortbyAsc('sort'))
       // 根据登录用户筛选，如果省级用户展示3个，去掉分局的两个，其他为展示5个
       let person = await this.getDatabase('person')

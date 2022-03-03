@@ -520,8 +520,7 @@ export default {
           await Promise.all([
             this.getImageEvidencePC(userId, userSessId),
           ]).then(async () => {
-            let imageEvidenceList = this.getContrastData (this.fileData.imageEvidence, this.$store.state.database.imageEvidence, 'evidenceId')
-            await this.setDatabase('imageEvidence', imageEvidenceList)
+            await this.updateDatabase('imageEvidence', this.fileData.imageEvidence)
             this.saveFinished(resId)
           })
         } else {
@@ -534,18 +533,12 @@ export default {
             this.getPaperAttachment(userId, userSessId),
             this.getJczfReport(userId, userSessId)
           ]).then(async () => {
-            let localReviewList = this.getContrastData (this.fileData.localReview, this.$store.state.database.localReview, 'reviewId')
-            await this.setDatabase('localReview', localReviewList)
-            let fineCollectionList = this.getContrastData (this.fileData.fineCollection, this.$store.state.database.fineCollection, 'fineId')
-            await this.setDatabase('fineCollection', fineCollectionList)
-            let singleReceiptList = this.getContrastData (this.fileData.singleReceipt, this.$store.state.database.singleReceipt, 'singleId')
-            await this.setDatabase('singleReceipt', singleReceiptList)
-            let imageEvidenceList = this.getContrastData (this.fileData.imageEvidence, this.$store.state.database.imageEvidence, 'evidenceId')
-            await this.setDatabase('imageEvidence', imageEvidenceList)
-            let paperAttachmentList = this.getContrastData (this.fileData.paperAttachment, this.$store.state.database.paperAttachment, 'attachmentId')
-            await this.setDatabase('paperAttachment', paperAttachmentList)
-            let jczfReportList = this.getContrastData (this.fileData.jczfReport, this.$store.state.database.jczfReport, 'id')
-            await this.setDatabase('jczfReport', jczfReportList)
+            await this.updateDatabase('localReview', this.fileData.localReview)
+            await this.updateDatabase('fineCollection', this.fileData.fineCollection)
+            await this.updateDatabase('singleReceipt', this.fileData.singleReceipt)
+            await this.updateDatabase('imageEvidence', this.fileData.imageEvidence)
+            await this.updateDatabase('paperAttachment', this.fileData.paperAttachment)
+            await this.updateDatabase('jczfReport', this.fileData.jczfReport)
             this.saveFinished(resId)
           })
         }

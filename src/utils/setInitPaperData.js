@@ -1,7 +1,7 @@
 import store from "@/store"
 import { getMoney, randomString, treeDataTranslate } from '@/utils'
 import { getNowFormatTime, getNowTime } from "@/utils/date";
-import { getDatabase, setDatabase, getContrastData, updateDatabase } from '@/utils/databaseOperation'
+import { getDatabase, setDatabase, updateDatabase } from '@/utils/databaseOperation'
 // 初始化各文书数据
 
 // 初始化文书编号：

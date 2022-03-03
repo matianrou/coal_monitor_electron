@@ -257,7 +257,7 @@ export default {
       // 根据计划年月和机构获取计划和活动，组合成选择列表
       let selGovUnit = this.dataForm.selGovUnit;
       let selectPlanDate = this.dataForm.selPlanDate
-      let docPlan = await this.getDatabase('docPlan')
+      let docPlan = await this.getDatabase('plan')
       let wkCaseInfo = await this.getDatabase('wkCase')
       console.log('docPlan', docPlan)
       console.log('wkCaseInfo', wkCaseInfo)
