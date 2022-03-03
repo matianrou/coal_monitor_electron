@@ -485,14 +485,101 @@ export default {
               await this.setDatabase('zfJjgzmInfo', saveData.zfJjgzmInfo)
               await this.setDatabase('zfZzInfo', saveData.zfZzInfo)
               this.saveFinished(resId)
-            } else if (resId === 'checkList' || resId === 'dangerList') {
+            } else if (resId === 'checkCate' || resId === 'checkList' || resId === 'dangerCate' || resId === 'dangerList') {
               // 检查项和隐患项列表下载时，防止id重复导致问题，所以增加uuid作为单独id，原id保留至no中
+              let arrList = []
               for (let i = 0; i < saveData.length; i++) {
-                saveData[i].no = saveData[i].id
-                delete saveData[i].id
-                saveData[i].id = getUUID()
+                let obj = saveData[i]
+                if (resId === 'checkCate') {
+                  arrList.push({
+                    id: getUUID(),
+                    no: obj.id,
+                    delFlag: obj.delFlag,
+                    sort: obj.sort,
+                    categoryName: obj.categoryName,
+                    groupId: obj.groupId,
+                    categoryCode: obj.categoryCode,
+                    souFlag: obj.souFlag,
+                    parentCode: obj.parentCode,
+                    parentId: obj.parentId,
+                    treeName: obj.categoryName,
+                    treeId: obj.categoryCode,
+                    treeParentId: obj.parentCode
+                  }); 
+                } else if (resId === 'checkList') {
+                  arrList.push({
+                    id: getUUID(),
+                    no: obj.id,
+                    delFlag: obj.delFlag,
+                    createDate: obj.createDate,
+                    updateDate: obj.updateDate,
+                    itemCode: obj.itemCode,
+                    itemContent: obj.itemContent,
+                    basis: obj.basis,
+                    method: obj.method,
+                    status: obj.status,
+                    groupId: obj.groupId,
+                    souFlag: obj.souFlag,
+                    categoryCode: obj.categoryCode,
+                    categoryName: obj.categoryName,
+                    treeName: obj.itemContent,
+                    treeId: obj.itemCode,
+                    treeParentId: obj.categoryCode,
+                    qdId: obj.qdId,
+                    name: obj.name
+                  }); 
+                } else if (resId === 'dangerCate') {
+                  arrList.push({
+                    id: getUUID(),
+                    no: obj.id,
+                    delFlag: obj.delFlag,
+                    sort: obj.sort,
+                    categoryName: obj.categoryName,
+                    groupId: obj.groupId,
+                    categoryCode: obj.categoryCode,
+                    categoryLevel: obj.categoryLevel,
+                    createBy: obj.createBy ? JSON.stringify(obj.createBy) : '',
+                    createDate: obj.createDate,
+                    updateBy: obj.updateBy ? JSON.stringify(obj.updateBy) : '',
+                    updateDate: obj.updateDate,
+                    industryId: obj.industryId,
+                    souFlag: obj.souFlag,
+                    parentCode: obj.parentCode,
+                    parentId: obj.parentId,
+                    pid: obj.pid,
+                    treeName: obj.categoryName,
+                    treeId: obj.categoryCode,
+                    treeParentId: obj.pid
+                  }); 
+                } else if (resId === 'dangerList') {
+                  arrList.push({
+                    id: getUUID(),
+                    no: obj.id,
+                    delFlag: obj.delFlag,
+                    createDate: obj.createDate,
+                    updateDate: obj.updateDate,
+                    itemCode: obj.itemCode,
+                    itemContent: obj.itemContent,
+                    noItemContent: obj.noItemContent,
+                    confirmClause: obj.confirmClause,
+                    confirmBasis: obj.confirmBasis,
+                    onsiteBasis: obj.onsiteBasis,
+                    onsiteDesc: obj.onsiteDesc,
+                    penaltyBasis: obj.penaltyBasis,
+                    penaltyDesc: obj.penaltyDesc,
+                    status: obj.status,
+                    groupId: obj.groupId,
+                    categoryCode: obj.categoryCode,
+                    souFlag: obj.souFlag,
+                    treeName: obj.itemContent,
+                    treeId: obj.itemCode,
+                    treeParentId: obj.categoryCode,
+                    qdId: obj.qdId,
+                    name: obj.name
+                  }); 
+                }
               }
-              await this.setDatabase(resId, saveData)
+              await this.setDatabase(resId, arrList)
               this.saveFinished(resId)
             } else {
               // 除文书以外的库表处理：直接覆盖存储

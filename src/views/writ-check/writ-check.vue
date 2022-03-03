@@ -93,7 +93,7 @@ export default {
       for (let i = 0; i < arrOrg.length; i++) {
         let obj = arrOrg[i];
         let org = {
-          value: obj.no,
+          value: obj.id,
           label: obj.name
         }
         orgList.push(org)

@@ -25,11 +25,11 @@ export async function getDocNumber(docTypeNo, caseId) {
   let orgData = {}
   if (store.state.user.userType === 'supervision') {
     // 监管不筛选type类型
-    orgData = orgInfo.find(item => item.no === orgId 
+    orgData = orgInfo.find(item => item.id === orgId 
       && item.delFlag !== "1")
   } else {
     // 监察筛选type类型
-    orgData = orgInfo.find(item => item.no === orgId 
+    orgData = orgInfo.find(item => item.id === orgId 
       // && (item.type === '3' || item.type === '4' || item.type === '11') 
       && item.delFlag !== "1")
   }
@@ -710,12 +710,12 @@ export async function getOrgData (orgId) {
   let orgData = {}
   if (store.state.user.userType === 'supervision') {
     // 监管
-    orgData = orgInfo.find(item => item.no === orgId
+    orgData = orgInfo.find(item => item.id === orgId
       && item.delFlag !== "1"
     );
   } else {
     // 监察
-    orgData = orgInfo.find(item => item.no === orgId
+    orgData = orgInfo.find(item => item.id === orgId
       // && (item.type === '3' || item.type === '4' || item.type === '11') 
       && item.delFlag !== "1"
     );
@@ -767,11 +767,11 @@ export function getAffiliateOrgName (orgData, allOrgList) {
   if (orgData.grade === '2') {
     name = orgData.name
   } else if (orgData.grade === '3') {
-    let upOrg = allOrgList.find(item => item.no === orgData.parentId)
+    let upOrg = allOrgList.find(item => item.id === orgData.parentId)
     name = `${upOrg.name}-${orgData.name}`
   } else if (orgData.grade === '4') {
-    let upOrg = allOrgList.find(item => item.no === orgData.parentId)
-    let provinceOrg = allOrgList.find(item => item.no === upOrg.parentId)
+    let upOrg = allOrgList.find(item => item.id === orgData.parentId)
+    let provinceOrg = allOrgList.find(item => item.id === upOrg.parentId)
     name = `${provinceOrg.name}-${upOrg.name}-${item.officeName}`
   }
   return name

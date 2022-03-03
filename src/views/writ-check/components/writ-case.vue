@@ -235,16 +235,16 @@ export default {
               // 获取归属机构和制作机构名称
               for (let j = 0; j < this.allOrgList.length; j++) {
                 let org = this.allOrgList[j]
-                if (org.no === item.affiliate) {
+                if (org.id === item.affiliate) {
                   if (item.caseClassify === '4') {
                     let orgInfo = await this.getDatabase('org')
-                    let curOrgData = orgInfo.find(o => o.no === item.affiliate && o.delFlag !== "1")
+                    let curOrgData = orgInfo.find(o => o.id === item.affiliate && o.delFlag !== "1")
                     item.affiliateName = getAffiliateOrgName(curOrgData, this.allOrgList)
                   } else {
                     item.affiliateName = org.name
                   }
                 }
-                if (org.no === item.groupId) {
+                if (org.id === item.groupId) {
                   item.groupName = org.name
                 }
               }

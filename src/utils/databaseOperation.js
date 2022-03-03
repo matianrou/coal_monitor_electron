@@ -32,15 +32,15 @@ export async function getDatabase (table) {
   } else {
     dataList = store.state.database[table]
   }
-  console.log('----------getDatabase----------：', dataList)
+  // console.log('----------getDatabase----------：', dataList)
   return dataList
 }
 
-export async function setDatabase (table, data) {
+export async function setDatabase (table, data, tableKey = 'id') {
   // table数据库表名
   // data存储数据（整表所有数据）
   // 设置数据库信息
-    console.log('----------setDatabase----------：', data)
+    // console.log('----------setDatabase----------：', data)
     if (data !== undefined && data !== null) {
     let dataJson = JSON.stringify(data)
     let userId = store.state.user.userId
@@ -89,7 +89,7 @@ export async function updateDatabase (table, newData = [], tableKey = 'id') {
     }
   }
   // 重置数据库
-  console.log('----------updateoldData------------：', oldData)
+  // console.log('----------updateoldData------------：', oldData)
   await setDatabase(table, oldData, tableKey)
 }
 

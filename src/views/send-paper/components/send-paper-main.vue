@@ -217,7 +217,7 @@ export default {
     confirmPerson (selectedPerson) {
       // 选择接收人
       if (selectedPerson) {
-        this.dataForm.receiveId = selectedPerson.no
+        this.dataForm.receiveId = selectedPerson.id
         this.dataForm.receiveName = selectedPerson.name
         this.setStore()
       }

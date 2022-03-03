@@ -359,6 +359,7 @@ export default {
           corpList.push(corp)
         }
       }
+      console.log('corpList', corpList)
       this.corpList = corpList
       let isDefault = true
       if (this.$store.state.curCase && this.$store.state.curCase.caseId) {

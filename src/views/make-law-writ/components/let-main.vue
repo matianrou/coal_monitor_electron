@@ -470,8 +470,8 @@ export default {
             if (item.personList && item.personList.length > 0) {
               item.personList.map(item => {
                 // 去重
-                if(personIdList.indexOf(item.no) === -1)
-                personIdList.push(item.no)
+                if(personIdList.indexOf(item.id) === -1)
+                personIdList.push(item.id)
               })
             }
             let CheckItemRecord = {
