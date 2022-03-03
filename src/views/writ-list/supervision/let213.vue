@@ -285,7 +285,7 @@ export default {
         let associationPaperOrder = this.setAssociationPaperOrder(let4DataPaperContent.associationPaperOrder)
         associationPaperOrder.push('4')
         this.letData = Object.assign({}, this.letData, {
-          // cellIdx0: cellIdx10String ? cellIdx10String : "", // 案由 22.2.21 去掉初始化逻辑
+          cellIdx0: cellIdx10String ? cellIdx10String : "", // 案由 22.3.3恢复
           DangerTable: DangerTable,
           associationPaperId,
           associationPaperOrder
@@ -319,7 +319,7 @@ export default {
         let associationPaperOrder = this.setAssociationPaperOrder(let4DataPaperContent.associationPaperOrder)
         associationPaperOrder.push('4')
         this.letData = Object.assign({}, this.letData, {
-          // cellIdx0: cellIdx10String ? cellIdx10String : "", // 案由 22.2.21去掉初始化逻辑
+          cellIdx0: cellIdx10String ? cellIdx10String : "", // 案由 22.33恢复
           associationPaperId,
           associationPaperOrder
         })
