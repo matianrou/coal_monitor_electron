@@ -226,6 +226,7 @@
 <script>
 import { getUUID } from '@/utils/index'
 import { getNowFormatTime, getNowDay, getPreMonthDay } from '@/utils/date'
+import { orgSave, personSave, planSave, corpSave, enterpriseListSave, checkCateSave, checkListSave, dangerCateSave, dangerListSave, docSave, fileDataSave, dictionarySave} from '@/utils/downloadSource'
 export default {
   name: "SourceDownload",
   async beforeRouteLeave(to, from, next){
@@ -324,6 +325,20 @@ export default {
       },
       dataForm: {
         docDownDaterange: []
+      },
+      downloadFunction: {
+        orgSave,
+        personSave,
+        planSave,
+        corpSave,
+        enterpriseListSave,
+        checkCateSave,
+        checkListSave,
+        dangerCateSave,
+        dangerListSave,
+        docSave,
+        fileDataSave,
+        dictionarySave
       },
       userType: this.$store.state.user.userType
     };
@@ -450,142 +465,8 @@ export default {
             this.loading.download = false
           } else {
             let saveData = response.data.data ? response.data.data : []
-            console.log('saveData', saveData)
-            // 当前获取的检查项内容有重复的数据，导致第一次下载时会报错，故加上以下去重逻辑
-            // let obj = {}
-            // let arrData = JSON.parse(JSON.stringify(saveData))
-            // arrData = arrData.reduce((cur, next) => {
-            // 	obj[next.id] ? "" : obj[next.id] = true && cur.push(next);
-            // 	return cur
-            // }, [])
-            // 检验数据是否仍有重复
-            // let id = []
-            // for (let i = 0; i < (arrData.length / 2); i++ ) {
-            // 	let del = arrData.splice(i, 1)
-            // 	arrData.map(item => {
-            // 		if (del[0].id === item.id) {
-            // 			console.log('del', del)
-            // 			console.log('item', item)
-            // 			id.push(del)
-            // 		}
-            // 	})
-            // 	i--
-            // }
-            // console.log('id', id)
-            if (resId === 'doc') {
-              // 文书存储时，需要首先获取所有文书数据wkCase,wkPaper,wkDanger
-              // 对比增量更新，如果有则更新，如果没有则增加，存储至数据库中
-              await this.updateDatabase('wkCase', saveData.jczfCase, 'caseId')
-              await this.updateDatabase('wkPaper', saveData.paper, 'paperId')
-              await this.updateDatabase('wkDanger', saveData.danger, 'dangerId')
-            } else if (resId === 'corp') {
-              await this.setDatabase('baseInfo', saveData.baseInfo)
-              await this.setDatabase('zfCmgzmInfo', saveData.zfCmgzmInfo)
-              await this.setDatabase('zfCyrytjInfo', saveData.zfCyrytjInfo)
-              await this.setDatabase('zfJjgzmInfo', saveData.zfJjgzmInfo)
-              await this.setDatabase('zfZzInfo', saveData.zfZzInfo)
-              this.saveFinished(resId)
-            } else if (resId === 'checkCate' || resId === 'checkList' || resId === 'dangerCate' || resId === 'dangerList') {
-              // 检查项和隐患项列表下载时，防止id重复导致问题，所以增加uuid作为单独id，原id保留至no中
-              let arrList = []
-              for (let i = 0; i < saveData.length; i++) {
-                let obj = saveData[i]
-                if (resId === 'checkCate') {
-                  arrList.push({
-                    id: getUUID(),
-                    no: obj.id,
-                    delFlag: obj.delFlag,
-                    sort: obj.sort,
-                    categoryName: obj.categoryName,
-                    groupId: obj.groupId,
-                    categoryCode: obj.categoryCode,
-                    souFlag: obj.souFlag,
-                    parentCode: obj.parentCode,
-                    parentId: obj.parentId,
-                    treeName: obj.categoryName,
-                    treeId: obj.categoryCode,
-                    treeParentId: obj.parentCode
-                  }); 
-                } else if (resId === 'checkList') {
-                  arrList.push({
-                    id: getUUID(),
-                    no: obj.id,
-                    delFlag: obj.delFlag,
-                    createDate: obj.createDate,
-                    updateDate: obj.updateDate,
-                    itemCode: obj.itemCode,
-                    itemContent: obj.itemContent,
-                    basis: obj.basis,
-                    method: obj.method,
-                    status: obj.status,
-                    groupId: obj.groupId,
-                    souFlag: obj.souFlag,
-                    categoryCode: obj.categoryCode,
-                    categoryName: obj.categoryName,
-                    treeName: obj.itemContent,
-                    treeId: obj.itemCode,
-                    treeParentId: obj.categoryCode,
-                    qdId: obj.qdId,
-                    name: obj.name
-                  }); 
-                } else if (resId === 'dangerCate') {
-                  arrList.push({
-                    id: getUUID(),
-                    no: obj.id,
-                    delFlag: obj.delFlag,
-                    sort: obj.sort,
-                    categoryName: obj.categoryName,
-                    groupId: obj.groupId,
-                    categoryCode: obj.categoryCode,
-                    categoryLevel: obj.categoryLevel,
-                    createBy: obj.createBy ? JSON.stringify(obj.createBy) : '',
-                    createDate: obj.createDate,
-                    updateBy: obj.updateBy ? JSON.stringify(obj.updateBy) : '',
-                    updateDate: obj.updateDate,
-                    industryId: obj.industryId,
-                    souFlag: obj.souFlag,
-                    parentCode: obj.parentCode,
-                    parentId: obj.parentId,
-                    pid: obj.pid,
-                    treeName: obj.categoryName,
-                    treeId: obj.categoryCode,
-                    treeParentId: obj.pid
-                  }); 
-                } else if (resId === 'dangerList') {
-                  arrList.push({
-                    id: getUUID(),
-                    no: obj.id,
-                    delFlag: obj.delFlag,
-                    createDate: obj.createDate,
-                    updateDate: obj.updateDate,
-                    itemCode: obj.itemCode,
-                    itemContent: obj.itemContent,
-                    noItemContent: obj.noItemContent,
-                    confirmClause: obj.confirmClause,
-                    confirmBasis: obj.confirmBasis,
-                    onsiteBasis: obj.onsiteBasis,
-                    onsiteDesc: obj.onsiteDesc,
-                    penaltyBasis: obj.penaltyBasis,
-                    penaltyDesc: obj.penaltyDesc,
-                    status: obj.status,
-                    groupId: obj.groupId,
-                    categoryCode: obj.categoryCode,
-                    souFlag: obj.souFlag,
-                    treeName: obj.itemContent,
-                    treeId: obj.itemCode,
-                    treeParentId: obj.categoryCode,
-                    qdId: obj.qdId,
-                    name: obj.name
-                  }); 
-                }
-              }
-              await this.setDatabase(resId, arrList)
-              this.saveFinished(resId)
-            } else {
-              // 除文书以外的库表处理：直接覆盖存储
-              await this.setDatabase(resId, saveData)
-              this.saveFinished(resId)
-            }
+            await this.downloadFunction[`${resId}Save`](resId, saveData)
+            if (resId !== 'doc' || resId !== 'plan') this.saveFinished(resId)
           }
         })
         .catch((err) => {
@@ -607,7 +488,7 @@ export default {
           await Promise.all([
             this.getImageEvidencePC(userId, userSessId),
           ]).then(async () => {
-            await this.updateDatabase('imageEvidence', this.fileData.imageEvidence)
+            await this.downloadFunction['fileDataSave'](resId, this.fileData)
             this.saveFinished(resId)
           })
         } else {
@@ -620,12 +501,7 @@ export default {
             this.getPaperAttachment(userId, userSessId),
             this.getJczfReport(userId, userSessId)
           ]).then(async () => {
-            await this.updateDatabase('localReview', this.fileData.localReview)
-            await this.updateDatabase('fineCollection', this.fileData.fineCollection)
-            await this.updateDatabase('singleReceipt', this.fileData.singleReceipt)
-            await this.updateDatabase('imageEvidence', this.fileData.imageEvidence)
-            await this.updateDatabase('paperAttachment', this.fileData.paperAttachment)
-            await this.updateDatabase('jczfReport', this.fileData.jczfReport)
+            await this.downloadFunction['fileDataSave'](resId, this.fileData)
             this.saveFinished(resId)
           })
         }
@@ -647,7 +523,7 @@ export default {
           this.getMineFire(userSessId),
           this.getBaseMineStatusZs(userSessId),
         ]).then(async () => {
-          await this.setDatabase('dictionary', [this.dictionary])
+          await this.downloadFunction['dictionarySave'](resId, this.dictionary)
         })
       }
     },
