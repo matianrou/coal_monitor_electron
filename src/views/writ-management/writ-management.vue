@@ -340,7 +340,6 @@ export default {
                   dangerList[i].delFlag = '1'
                 }
                 await this.updateDatabase('wkDanger', dangerList, 'dangerId')
-                
                 this.$message.success('文书删除成功！')
                 this.getData()
               } else {
@@ -384,6 +383,12 @@ export default {
     },
     async filePaper (paper) {
       // 归档文书
+      // 修改当前检查活动归档标记
+      let wkCase = await this.getDatabase('wkCase')
+      let caseData = wkCase.filter(item => item.caseId === paper.caseId)
+      console.log('filePaperCaseData', caseData)
+      caseData.delFlag = '0'
+      await this.updateDatabase('wkCase', [caseData], 'caseId')
       // 修改文书的标识
       let paperData = JSON.parse(JSON.stringify(paper))
       paperData.delFlag = '0'

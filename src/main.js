@@ -35,7 +35,6 @@ Vue.prototype.deleteDatabasePhysics = deleteDatabasePhysics
 // 全局前缀
 window.SITE_CONFIG = {}
 window.SITE_CONFIG['storeState'] = cloneDeep(store.state) // 保存整站vuex本地储存初始状态
-Vue.prototype.NODE_ENV = process.env.NODE_ENV
 
 if (process.env.NODE_ENV === 'production') {
 	const { ipcRenderer } = window.require('electron')

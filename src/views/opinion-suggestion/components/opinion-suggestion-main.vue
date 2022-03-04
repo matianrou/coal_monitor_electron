@@ -267,7 +267,7 @@ export default {
       // 拉取已经保存的文书，修改delFlag = '0',调用saveToUpload上传
       let paperData = JSON.parse(JSON.stringify(paper));
       paperData.delFlag = "0";
-      await this.updateDatabase('wkPaper', paperData, 'paperId')
+      await this.updateDatabase('wkPaper', [paperData], 'paperId')
       await saveToUpload(paper.paperId, true);
     },
     async batchFile  () {
@@ -333,7 +333,7 @@ export default {
             // 删除文书
             let paperData = JSON.parse(JSON.stringify(paper));
             paperData.delFlag = "1"
-            await this.updateDatabase('wkPaper', paperData, 'paperId')
+            await this.updateDatabase('wkPaper', [paperData], 'paperId')
             // 删除对应隐患
             let wkDanger = await this.getDatabase("wkDanger");
             let dangerList = wkDanger.filter(

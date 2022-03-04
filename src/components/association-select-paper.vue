@@ -98,8 +98,8 @@ export default {
         });
       } else if (this.docData.docTypeNo === '22' || this.docData.docTypeNo === '42') {
         let dictionaryList = await this.getDatabase('dictionary')
-        let dictionary = dictionaryList[0]
-        let programmeTypeList = dictionary.programmeType
+        let programmeTypeListJson = dictionaryList.find(item => item.type === 'programmeType')
+        let programmeTypeList = JSON.parse(programmeTypeListJson.list)
         programmeTypeList.sort(sortbyAsc('sort'))
         this.options.cellIdx1 = programmeTypeList
       }

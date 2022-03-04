@@ -508,7 +508,7 @@ export default {
                   id: getNowTime() + randomString(28),
                   postId: this.$store.state.user.userId,
                   postName: this.$store.state.user.userName,
-                  receiveId: person.id,
+                  receiveId: person.no,
                   receiveName: person.name,
                   corpId: this.corpData.corpId,
                   corpName: this.corpData.corpName,

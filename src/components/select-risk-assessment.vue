@@ -79,8 +79,8 @@
     methods: {
       async getDictionary () {
         let dictionaryList = await this.getDatabase('dictionary')
-        let dictionary = dictionaryList[0]
-        let riskAssessmentList = dictionary.riskAssessment
+        let riskAssessment = dictionaryList.find(item => item.type === 'riskAssessment') 
+        let riskAssessmentList = JSON.parse(riskAssessment.list)
         // 遍历设置parentId
         riskAssessmentList.sort((sortbyAsc('id')))
         riskAssessmentList.forEach(item => {

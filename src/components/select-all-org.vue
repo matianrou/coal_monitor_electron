@@ -33,7 +33,7 @@
           <el-radio 
             v-for="(orgItem, orgIndex) in childrenOrg"
             :key="orgIndex"
-            :label="orgItem.id"
+            :label="orgItem.no"
             class="org-radio">
             {{orgItem.name}}
           </el-radio>
@@ -108,17 +108,17 @@ export default {
       let userGroupId = this.$store.state.user.userGroupId 
       let userGroup = orgInfo.find(item => {
         return item.delFlag !== "1" 
-        && item.id === userGroupId
+        && item.no === userGroupId
         // && (item.type === '3' || item.type === '4' || item.type === '11')
       })
-      if (userGroup.id) {
+      if (userGroup.no) {
         if (userGroup.grade === '2') {
-          provinceId = userGroup.id
+          provinceId = userGroup.no
         } else if (userGroup.grade === '3') {
           provinceId = userGroup.parentId
         }
       }
-      orgList = orgList.filter(item => item.id !== provinceId && item.parentId !== provinceId)
+      orgList = orgList.filter(item => item.no !== provinceId && item.parentId !== provinceId)
       // 处理机构数据，整理为树状结构
       // 按grade排序
       orgList.sort(sortbyAsc('grade'))
@@ -139,7 +139,7 @@ export default {
           for (let j = 0; j < orgTreeList.length; j++) {
             let orgTreeItem = orgTreeList[j]
             // 遍历已有树状机构结构，找到当前处室父级机构，加入其二级机构中
-            if (orgTreeItem.id === item.parentId) {
+            if (orgTreeItem.no === item.parentId) {
               orgTreeItem.children.push(item)
             }
           }
@@ -168,7 +168,7 @@ export default {
       for (let i = 0; i < this.orgList.length; i++) {
         // 遍历所有机构获取当前选中机构数据
         let item = this.orgList[i]
-        if (item.id === this.selectedId) {
+        if (item.no === this.selectedId) {
           selectedOrg = item
         }
       }
@@ -177,7 +177,7 @@ export default {
       let parentNo = null
       if (selectedOrg.grade === '2') {
         // 如果选中为省级机构
-        parentNo = selectedOrg.id
+        parentNo = selectedOrg.no
       } else if (selectedOrg.grade === '3') {
         // 如果选中为处室机构
         parentNo = selectedOrg.parentId
@@ -185,7 +185,7 @@ export default {
       for (let i = 0; i < this.orgTreeList.length; i++) {
         // 根据当前选中机构回选机构树
         let item = this.orgTreeList[i]
-        if (parentNo === item.id) {
+        if (parentNo === item.no) {
           parentIndex = i
           parentOrg = item
         }
@@ -202,7 +202,7 @@ export default {
         let selectOrg = {}
         for (let i = 0; i < this.orgList.length; i++) {
           let item = this.orgList[i]
-          if (item.id === this.selectOrg) {
+          if (item.no === this.selectOrg) {
             selectOrg = item
           }
         }

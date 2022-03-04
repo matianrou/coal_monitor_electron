@@ -204,7 +204,7 @@ export default {
       // 获取隐患从属类别三级码表
       let dangerCate = await this.getDatabase('dangerCate')
       let dangerCateData = dangerCate.filter((item) => item.delFlag !== '1');
-      let list = treeDataTranslate([...dangerCateData] || [], 'treeId', 'treeParentId')
+      let list = treeDataTranslate(JSON.parse(JSON.stringify([...dangerCateData])) || [], 'treeId', 'treeParentId')
       this.dangerCateOptions.dangerCateList = list
     },
     changeDangerCate (val, level = '0') {

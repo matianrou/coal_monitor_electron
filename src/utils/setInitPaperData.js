@@ -25,11 +25,11 @@ export async function getDocNumber(docTypeNo, caseId) {
   let orgData = {}
   if (store.state.user.userType === 'supervision') {
     // 监管不筛选type类型
-    orgData = orgInfo.find(item => item.id === orgId 
+    orgData = orgInfo.find(item => item.no === orgId 
       && item.delFlag !== "1")
   } else {
     // 监察筛选type类型
-    orgData = orgInfo.find(item => item.id === orgId 
+    orgData = orgInfo.find(item => item.no === orgId 
       // && (item.type === '3' || item.type === '4' || item.type === '11') 
       && item.delFlag !== "1")
   }
@@ -91,7 +91,7 @@ async function getPersonNumber (docTypeNo) {
         [`paper-${store.state.user.userType}-${docTypeNo}`]: threeNum
       }))
       numberData.updateDate = getNowFormatTime()
-      await updateDatabase('personPaperNumber', numberData)
+      await updateDatabase('personPaperNumber', [numberData])
     }
   } else {
     // 还没有当前年份的文书号数据：创建：
@@ -710,12 +710,12 @@ export async function getOrgData (orgId) {
   let orgData = {}
   if (store.state.user.userType === 'supervision') {
     // 监管
-    orgData = orgInfo.find(item => item.id === orgId
+    orgData = orgInfo.find(item => item.no === orgId
       && item.delFlag !== "1"
     );
   } else {
     // 监察
-    orgData = orgInfo.find(item => item.id === orgId
+    orgData = orgInfo.find(item => item.no === orgId
       // && (item.type === '3' || item.type === '4' || item.type === '11') 
       && item.delFlag !== "1"
     );
@@ -756,8 +756,7 @@ export async function getOrgTreeList () {
       // && (item.type === '3' || item.type === '4' || item.type === '11')
       && item.grade !== '1')
   }
-  console.log('orgList', orgList)
-  let orgListTree = treeDataTranslate(orgList, 'id', 'parentId')
+  let orgListTree = treeDataTranslate(orgList, 'no', 'parentId')
   return {orgList, orgListTree}
 }
 
@@ -767,11 +766,11 @@ export function getAffiliateOrgName (orgData, allOrgList) {
   if (orgData.grade === '2') {
     name = orgData.name
   } else if (orgData.grade === '3') {
-    let upOrg = allOrgList.find(item => item.id === orgData.parentId)
+    let upOrg = allOrgList.find(item => item.no === orgData.parentId)
     name = `${upOrg.name}-${orgData.name}`
   } else if (orgData.grade === '4') {
-    let upOrg = allOrgList.find(item => item.id === orgData.parentId)
-    let provinceOrg = allOrgList.find(item => item.id === upOrg.parentId)
+    let upOrg = allOrgList.find(item => item.no === orgData.parentId)
+    let provinceOrg = allOrgList.find(item => item.no === upOrg.parentId)
     name = `${provinceOrg.name}-${upOrg.name}-${item.officeName}`
   }
   return name

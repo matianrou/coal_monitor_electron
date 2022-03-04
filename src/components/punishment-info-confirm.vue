@@ -110,8 +110,8 @@ export default {
   methods: {
     async getDictionary () {
       let dictionaryList = await this.getDatabase('dictionary')
-      let dictionary = dictionaryList[0]
-      let subitemTypeList = dictionary.subitemType
+      let subitemType = dictionaryList.find(item => item.type === 'subitemType')
+      let subitemTypeList = JSON.parse(subitemType.list)
       subitemTypeList.sort(sortbyAsc('sort'))
       this.subitemTypeOptions = subitemTypeList
     },

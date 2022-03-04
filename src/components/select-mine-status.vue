@@ -48,7 +48,6 @@
     },
     data () {
       return {
-        DBName: this.$store.state.DBName,
         loading: false,
         mineStatusList: [],
         dictionaryMineStatus: []
@@ -60,8 +59,8 @@
     methods: {
       async getDictionary () {
         let dictionaryList = await this.getDatabase('dictionary')
-        let dictionary = dictionaryList[0]
-        let mineStatusList = dictionary.baseMineStatusZs 
+        let mineStatus = dictionaryList.find(item => item.type === 'baseMineStatusZs') 
+        let mineStatusList = JSON.parse(mineStatus.list)
         // 保留一份原始值，用来遍历获取最后矿井状况说明
         this.dictionaryMineStatus = mineStatusList
         // 遍历设置parentId

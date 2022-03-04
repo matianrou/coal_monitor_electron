@@ -470,8 +470,8 @@ export default {
             if (item.personList && item.personList.length > 0) {
               item.personList.map(item => {
                 // 去重
-                if(personIdList.indexOf(item.id) === -1)
-                personIdList.push(item.id)
+                if(personIdList.indexOf(item.no) === -1)
+                personIdList.push(item.no)
               })
             }
             let CheckItemRecord = {
@@ -657,7 +657,7 @@ export default {
       let hasPaperData = wkPaper.find((item) => {
         return item.paperId === paperId && item.delFlag !== '1';
       });
-      await this.updateDatabase('wkPaper', [jsonPaper])
+      await this.updateDatabase('wkPaper', [jsonPaper], 'paperId')
       if (!hasPaperData) {
         // 如果新增的文书，需要自增文书号
         let paperNumberType = this.$store.state.dictionary[`${this.$store.state.user.userType}PaperNumberType`]
@@ -696,7 +696,7 @@ export default {
           // 删除原隐患项
           let wkDanger = await this.getDatabase("wkDanger")
           let wkDangerList = wkDanger.filter(item => item.paperId === paperId)
-          await this.deleteDatabasePhysics('wkDanger', wkDangerList)
+          await this.deleteDatabasePhysics('wkDanger', wkDangerList, 'dangerId')
           // 添加隐患项
           let companyOrPerson = ''
           if (docTypeNo === '8' || docTypeNo === '6') {
@@ -769,7 +769,7 @@ export default {
               reviewUnitName: item.reviewUnitName ? item.reviewUnitName : null, //"复查单位名称：null",
             })
           }
-          await this.updateDatabase('wkDanger', arrDocDanger)
+          await this.updateDatabase('wkDanger', arrDocDanger, 'dangerId')
         }
       }
       if (saveFlag === "2") {
@@ -851,8 +851,7 @@ export default {
         updateById: this.$store.state.user.userId,
       }
       // 保存至本地数据库
-      // 判断当前是否已经保存此id的数据，如果已经保存则·删除重新添加
-      await this.updateDatabase('sendPaper', saveData)
+      await this.updateDatabase('sendPaper', [saveData])
       this.$message.success(`“${this.docData.docTypeName}”文书已经保存完毕。`);
       this.$emit("go-back", { page: "writFlow", data: this.$store.state.curCase });
     },

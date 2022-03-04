@@ -174,7 +174,7 @@
         <select-person
           v-if="showDialog.selectPerson"
           :visible="showDialog.selectPerson"
-          :selected-data="{id: dataForm.receiveId}"
+          :selected-data="{no: dataForm.receiveId}"
           title="选择接收人"
           @confirm-person="confirmPerson"
           @close="closeDialog"
@@ -459,7 +459,7 @@ export default {
               // 发送成功后更新本地数据库
               if (this.activeName === 'sendDanger') {
                 // 如果为隐患发送，第一次发送时更新发送记录信息
-                updateDataList = []
+                let updateDataList = []
                 for (let i = 0; i < this.selectedDangerList.length; i++) {
                   let updateData = Object.assign({}, this.selectedDangerList[i], {
                     isSend: '1',

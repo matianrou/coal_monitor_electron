@@ -319,7 +319,6 @@ export default {
   },
   data() {
     return {
-      DBName: this.$store.state.DBName,
       dataForm: {
         corpId: null,
         corpName: null,
@@ -392,9 +391,9 @@ export default {
     async getDictionary () {
       // 获取码表
       let dictionaryList = await this.getDatabase('dictionary')
-      let dictionary = dictionaryList[0]
       for (let key in this.dictionary) {
-        let dictList = dictionary[key]
+        let dictJson = dictionaryList.find(item => item.type === key)
+        let dictList = JSON.parse(dictJson.list)
         dictList.sort(sortbyAsc('sort'))
         this.dictionary[key] = dictList
       }

@@ -246,7 +246,7 @@ export default {
       // 操作隐患类别及隐患内容为树形结构展示
       // 设置为树状结构
       this.dangerListOriginal = [...dangerCateData, ...dangerListData]
-      let list = treeDataTranslate([...dangerCateData, ...dangerListData] || [], 'treeId', 'treeParentId')
+      let list = treeDataTranslate(JSON.parse(JSON.stringify([...dangerCateData, ...dangerListData])) || [], 'treeId', 'treeParentId')
       let corpTypeIndex = null
       if (corpBaseData.mineMinetypeName === '井工') {
         // 井工检查内容

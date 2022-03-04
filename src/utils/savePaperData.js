@@ -292,7 +292,7 @@ export async function saveToUpload(paperId, messageShow) {
             let paperData = prepareUpload.find(item => item.paperId === workPaper.paperId && item.isUpload === '0')
             if (paperData) {
               paperData.isUpload = '1'
-              await updateDatabase('prepareUpload', paperData)
+              await updateDatabase('prepareUpload', [paperData])
             }
           } else {
             // 当保存失败时，将文书保存至库表prepareUpload
@@ -349,7 +349,7 @@ async function savePaperToPrepareUpload(submitData) {
     personName: paperData.personName,
     delFlag: '0',
   }
-  await updateDatabase('prepareUpload', prepareUploadData, 'paperId')
+  await updateDatabase('prepareUpload', [prepareUploadData])
   // 置未保存成功的文书delFlag为2保存状态
   // 修改文书delFlag
   if (submitData.paper) {
@@ -375,7 +375,7 @@ async function savePaperToPrepareUpload(submitData) {
     for (let i = 0; i < submitData.danger.length; i++) {
       submitData.danger[i].delFlag = '2'
     }
-    await updateDatabase(submitData.danger)
+    await updateDatabase('wkDanger', submitData.danger, 'dangerId')
   }
 }
 
@@ -434,7 +434,7 @@ export async function saveFineCollection(paperId) {
         } else {
           // 上传失败时，重新置文书为保存状态，以备再次归档
           paperData.delFlag = '2'
-          await updateDatabase('wkPaper', paperData)
+          await updateDatabase('wkPaper', [paperData], 'paperId')
           Message.error("上传至服务器请求失败，请重新归档！");
         }
       }
@@ -443,7 +443,7 @@ export async function saveFineCollection(paperId) {
       if (paperData.delFlag === '0') {
         // 上传失败时，重新置文书为保存状态，以备再次归档
         paperData.delFlag = '2'
-        await updateDatabase('wkPaper', paperData)
+        await updateDatabase('wkPaper', [paperData], 'paperId')
         Message.error("上传至服务器请求失败，请重新归档！");
         console.log("上传至服务器请求失败：", err);
       }
@@ -453,7 +453,7 @@ export async function saveFineCollection(paperId) {
 export async function updateXkzStatus(paperId) {
   // 整理上传数据：
   let wkPaper = await getDatabase("wkPaper");
-    //查询符合条件的记录
+  //查询符合条件的记录
   let paperData = wkPaper.find((item) => {
     return item.paperId == paperId && item.delFlag !== '1';
   });

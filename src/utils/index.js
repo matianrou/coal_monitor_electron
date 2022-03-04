@@ -225,50 +225,50 @@ export async function getAllProvinceOrg (userGroupId) {
       // 监管时不过滤机构
       userGroup = org.find(item => {
         return item.delFlag !== "1" 
-        && item.id === userGroupId
+        && item.no === userGroupId
       })
     } else {
       // 监察时过滤机构
       userGroup = org.find(item => {
         return item.delFlag !== "1" 
-        && item.id === userGroupId 
+        && item.no === userGroupId 
         // && (item.type === '3' || item.type === '4' || item.type === '11')
       })
     }
   }
   let arrOrg = []
-  if (userGroup.id) {
+  if (userGroup.no) {
     if (store.state.user.userType === 'supervision') {
       // 监管 为四级机构，不过滤type为3,4,11
       if (userGroup.grade === '1' || userGroup.grade === '2') {
         // 当前机构为国家级或省级时
         arrOrg = org.filter(item => {
           return item.delFlag !== "1" 
-          && (item.id === userGroupId || item.parentIds.includes(userGroupId))
+          && (item.no === userGroupId || item.parentIds.includes(userGroupId))
         });
       } else if (userGroup.grade === '3') {
         // 当前机构为市级时，首先获取上一级省级机构，然后获取下属所有机构
         let upGroup = org.find(item => {
           return item.delFlag !== "1" 
-          && item.id === userGroup.parentId
+          && item.no === userGroup.parentId
         })
         arrOrg = org.filter(item => {
           return item.delFlag !== "1" 
-          && (item.id === upGroup.id || item.parentIds.includes(upGroup.id))
+          && (item.no === upGroup.no || item.parentIds.includes(upGroup.no))
         });
       } else if (userGroup.grade === '4') {
         // 县级时，逐步找到市级、省级机构，然后获取下属所有机构
         let upGroup = org.find(item => {
           return item.delFlag !== "1" 
-          && item.id === userGroup.parentId
+          && item.no === userGroup.parentId
         })
         let provinceGroup = org.find(item => {
           return item.delFlag !== "1" 
-          && item.id === upGroup.parentId
+          && item.no === upGroup.parentId
         })
-        arrOrg = org.filter(item => {
+        arrOrg = org.filter((item) => {
           return item.delFlag !== "1" 
-          && (item.id === provinceGroup.id || item.parentIds.includes(provinceGroup.id))
+          && (item.no === provinceGroup.no || item.parentIds.includes(provinceGroup.no))
         });
       }
     } else {
@@ -277,19 +277,19 @@ export async function getAllProvinceOrg (userGroupId) {
         // 当前机构为国家级或省级时
         arrOrg = org.filter(item => {
           return item.delFlag !== "1" 
-          && (item.id === userGroupId || item.parentIds.includes(userGroupId))
+          && (item.no === userGroupId || item.parentIds.includes(userGroupId))
           // && (item.type === '3' || item.type === '4' || item.type === '11')
         });
       } else if (userGroup.grade === '3') {
         // 当前机构为处室时，首先获取上一级省级机构，然后获取下属所有机构
         let upGroup = org.find(item => {
           return item.delFlag !== "1" 
-          && item.id === userGroup.parentId
+          && item.no === userGroup.parentId
           // && (item.type === '3' || item.type === '4' || item.type === '11')
         })
         arrOrg = org.filter(item => {
           return item.delFlag !== "1" 
-          && (item.id === upGroup.id || item.parentIds.includes(upGroup.id))
+          && (item.no === upGroup.no || item.parentIds.includes(upGroup.no))
           // && (item.type === '3' || item.type === '4' || item.type === '11')
         });
       }

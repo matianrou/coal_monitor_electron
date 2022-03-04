@@ -31,7 +31,7 @@
             class="user-list-row-main">
             <div :class="item.active ? 'active-item user-list-row' : 'user-list-row'" @click="handleSelectUser(item)">
               <img src="@/components/assets/image/customer_list_fill.png" />
-              <span>{{ `[${item.office.name}] ` }}</span>
+              <span>{{ `[${item.officeName}] ` }}</span>
               <span style="color: #303133;">{{ item.name }}</span>
               <span>{{ item.userNumber ? '（号：' + item.userNumber + '）' : '' }}</span>
             </div>
@@ -122,13 +122,13 @@
           if (this.$store.state.user.userType === 'supervision') {
             // 监管时 四级机构，不筛选type类型
             let orgInfo = await this.getDatabase('org')
-            let orgData = orgInfo.find(item => item.id === userGroupId
+            let orgData = orgInfo.find(item => item.no === userGroupId
               && item.delFlag !== "1")
             let orgList = []
             if (orgData.grade === '1') {
               // 国家局
               personList = person.filter((item) => {
-                return item.delFlag === "0" && item.id !== userId;
+                return item.delFlag === "0" && item.no !== userId;
               });
             } else if (orgData.grade === '2') {
               // 省级
@@ -139,35 +139,35 @@
             } else if (orgData.grade === '3') {
               // 市级
               // 获取当前机构的省级用户
-              let parentOrg = orgInfo.find(item => item.id === orgData.parentId
+              let parentOrg = orgInfo.find(item => item.no === orgData.parentId
                 && item.delFlag !== "1")
-              // 获取所有parentId为当前parentOrg.id的机构
-              let orgChildrenList = orgInfo.filter(item => item.parentId === parentOrg.id
+              // 获取所有parentId为当前parentOrg.no的机构
+              let orgChildrenList = orgInfo.filter(item => item.parentId === parentOrg.no
                 && item.delFlag !== "1")
               orgList = [...[parentOrg], ...orgChildrenList]
             } else if (orgData.grade === '4') {
               // 查询市级，再查询省级
-              let parentOrg = orgInfo.find(item => item.id === orgData.parentId
+              let parentOrg = orgInfo.find(item => item.no === orgData.parentId
                 && item.delFlag !== "1")
               // 获取市级机构的省级用户
-              let provinceOrg = orgInfo.find(item => item.id === parentOrg.parentId
+              let provinceOrg = orgInfo.find(item => item.no === parentOrg.parentId
                 && item.delFlag !== "1")
-              // 获取所有parentId为当前parentOrg.id的机构
-              let orgChildrenList = orgInfo.filter(item => item.parentId === provinceOrg.id
+              // 获取所有parentId为当前parentOrg.no的机构
+              let orgChildrenList = orgInfo.filter(item => item.parentId === provinceOrg.no
                 && item.delFlag !== "1")
               orgList = [...[provinceOrg], ...orgChildrenList]
             }
             if (orgList.length > 0) {
               // 省级和市区县级根据机构获取人员
               for (let i = 0; i < orgList.length; i++) {
-                let curPersons = person.filter(item => item.delFlag === "0" && item.office.id === orgList[i].id && item.id !== userId)
+                let curPersons = person.filter(item => item.delFlag === "0" && item.officeId === orgList[i].no && item.no !== userId)
                 personList = [...personList, ...curPersons]
               }
             }
           } else {
             // 监察时 三级机构，同时筛选Type，2.16去掉过滤
             let orgInfo = await this.getDatabase('org')
-            let orgData = orgInfo.find(item => item.id === userGroupId
+            let orgData = orgInfo.find(item => item.no === userGroupId
               // && (item.type === '3' || item.type === '4' || item.type === '11') 
               && item.delFlag !== "1")
             let orgList = []
@@ -181,24 +181,24 @@
             } else if (orgData.grade === '3') {
               // 市区县级
               // 获取当前机构的省级用户
-              let parentOrg = orgInfo.find(item => item.id === orgData.parentId
+              let parentOrg = orgInfo.find(item => item.no === orgData.parentId
                 // && (item.type === '3' || item.type === '4' || item.type === '11') 
                 && item.delFlag !== "1")
-              // 获取所有parentId为当前parentOrg.id的机构
-              let orgChildrenList = orgInfo.filter(item => item.parentId === parentOrg.id
+              // 获取所有parentId为当前parentOrg.no的机构
+              let orgChildrenList = orgInfo.filter(item => item.parentId === parentOrg.no
                 // && (item.type === '3' || item.type === '4' || item.type === '11') 
                 && item.delFlag !== "1")
               orgList = [...[parentOrg], ...orgChildrenList]
             } else {
               // 国家局
               personList = person.filter((item) => {
-                return item.delFlag === "0" && item.id !== userId;
+                return item.delFlag === "0" && item.no !== userId;
               });
             }
             if (orgList.length > 0) {
               // 省级和市区县级根据机构获取人员
               for (let i = 0; i < orgList.length; i++) {
-                let curPersons = person.filter(item => item.delFlag === "0" && item.office.id === orgList[i].id && item.id !== userId)
+                let curPersons = person.filter(item => item.delFlag === "0" && item.officeId === orgList[i].no && item.no !== userId)
                 personList = [...personList, ...curPersons]
               }
             }
@@ -206,7 +206,7 @@
         } else {
           // 查询当前用户当前机构的所有用户，排除自己
           personList = person.filter((item) => {
-            return item.delFlag === "0" && item.office.id === userGroupId && item.id !== userId;
+            return item.delFlag === "0" && item.officeId === userGroupId && item.no !== userId;
           });
         }
         // 按姓名筛选
@@ -252,7 +252,7 @@
         // 清空已选择的检查活动
         this.selcetedCaseId = null
         // 根据当前选中的用户拉取其所有文书
-        this.getUserCase(item.id)
+        this.getUserCase(item.no)
       },
       getUserCase(userId) {
         if (!this.$store.state.onLine) {
@@ -318,7 +318,7 @@
               if (jczfCase && jczfCase.caseId) {
                 // 通过caseId获取所有文书和隐患
                 let userSessId = this.$store.state.user.userSessId
-                await this.$http.get(`/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${this.selectedUser.id}&flag=false&caseId=${jczfCase.caseId}&pageNo=0&pageSize=5000`)
+                await this.$http.get(`/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${this.selectedUser.no}&flag=false&caseId=${jczfCase.caseId}&pageNo=0&pageSize=5000`)
                   .then(async ({data}) => {
                     if (data.status === '200') {
                       let paper = []
@@ -341,10 +341,9 @@
                           }
                         }
                       }
-                      // 存入本地数据库中
-                      await this.updateDatabase('wkCase', [jczfCase])
-                      await this.updateDatabase('wkPaper', paper)
-                      await this.updateDatabase('wkDanger', danger)
+                      await this.updateDatabase('wkCase', [jczfCase], 'caseId')
+                      await this.updateDatabase('wkPaper', paper, 'paperId')
+                      await this.updateDatabase('wkDanger', danger, 'dangerId')
                       // 更新检查活动侧边栏
                       this.$emit('confirm', jczfCase)
                       this.$message.success('文书拉取成功！')

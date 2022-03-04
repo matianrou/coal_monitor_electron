@@ -115,7 +115,6 @@ import { treeDataTranslate } from '@/utils/index'
           areaId: '', // 按地区检索
         },
         curAreaLevel: 2, // 当前地区节点的level，用于检索
-        DBName: this.$store.state.DBName
       }
     },
     created () {
@@ -134,10 +133,10 @@ import { treeDataTranslate } from '@/utils/index'
         let areaId = this.$store.state.user.userAreaId
         console.log('enterpriseList', doEnterpriseList)
         let areaList = doEnterpriseList.filter((item) => {
-          return item.parentId === areaId || item.id === areaId;
+          return item.parentIds.includes(areaId) || item.code === areaId;
         })
         console.log('areaList', areaList)
-        this.areaTree = treeDataTranslate(areaList, 'code', 'parentId')
+        this.areaTree = treeDataTranslate(JSON.parse(JSON.stringify(areaList)), 'code', 'parentId')
         this.selectArea(this.areaTree[0])
       },
       // 获取企业列表
@@ -148,8 +147,8 @@ import { treeDataTranslate } from '@/utils/index'
         let corpBase = await this.getDatabase("baseInfo"); // 煤矿企业
         let corpList = corpBase.length > 0 && corpBase.filter(item => {
           return item.corpName && item.corpName.indexOf(companyName) !== -1 &&
-                  item.delFlag !== '1' && 
-                  item.zoneCountyId && item.zoneCountyId.slice(0, this.curAreaLevel) === (areaId ? areaId.slice(0, this.curAreaLevel) : item.zoneCountyId.slice(0, this.curAreaLevel))
+            item.delFlag !== '1' && 
+            item.zoneCountyId && item.zoneCountyId.slice(0, this.curAreaLevel) === (areaId ? areaId.slice(0, this.curAreaLevel) : item.zoneCountyId.slice(0, this.curAreaLevel))
         })
         // 是否仅显示本机构
         if (onlySelf) {

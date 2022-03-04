@@ -228,15 +228,14 @@ export default {
       this.dataForm.caseClassify = null
       // 初始化码表
       let dictionaryList = await this.getDatabase('dictionary')
-      let dictionary = dictionaryList[0]
-      let caseClassifyList = dictionary ? dictionary.caseClassify : []
+      let caseClassifyListJson = dictionaryList.find(item => item.type === 'caseClassify')
+      let caseClassifyList = caseClassifyListJson ? JSON.parse(caseClassifyListJson.list) : []
       caseClassifyList.sort(sortbyAsc('sort'))
       // 根据登录用户筛选，如果省级用户展示3个，去掉分局的两个，其他为展示5个
       let person = await this.getDatabase('person')
-      let curPerson = person.find(item => item.id === this.$store.state.user.userId && item.delFlag !== '1')
-      console.log('curPerson', curPerson)
+      let curPerson = person.find(item => item.no === this.$store.state.user.userId && item.delFlag !== '1')
       if (curPerson) {
-        let curOffice = curPerson.office
+        let curOffice = JSON.parse(curPerson.office)
         if (curOffice.grade === '2') {
           this.dictionary.caseClassify = caseClassifyList.filter(item => !item.label.includes('分局'))
         } else {
@@ -342,10 +341,7 @@ export default {
         riskAssessmentContent: this.dataForm.riskAssessmentContent,
       };
       // 保存case 表
-      let wkCase = await this.getDatabase("wkCase");
-      wkCase.push(jsonCase)
-      console.log('wkCase', wkCase)
-      await this.setDatabase('wkCase', wkCase)
+      await this.updateDatabase('wkCase', [jsonCase], 'caseId')
       // 回调 渲染方法
       this.$message.success("检查活动已经创建完毕");
     },
@@ -384,7 +380,7 @@ export default {
     },
     confirmOrg (org) {
       this.showDialog.selectAllOrg = false
-      this.dataForm.affiliateId = org.id
+      this.dataForm.affiliateId = org.no
       this.dataForm.affiliateName = org.name
       this.$refs.dataForm.validateField(['affiliateName'])
     }

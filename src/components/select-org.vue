@@ -16,9 +16,9 @@
         @change="selectedOrg">
         <el-option
           v-for="item in orgList"
-          :key="item.id"
+          :key="item.no"
           :label="item.name"
-          :value="item.id">
+          :value="item.no">
         </el-option>
       </el-select>
       <el-input
@@ -73,13 +73,13 @@ export default {
       let orgList = await getAllProvinceOrg(this.$store.state.user.userGroupId)
       orgList.push({
         name: '其他部门名称',
-        id: '1'
+        no: '1'
       })
       this.orgList = orgList
     },
     selectedOrg(val) {
       this.orgList.map(item => {
-        if (item.id === val && val !== '1') {
+        if (item.no === val && val !== '1') {
           this.orgData.name = item.name
         }
       })

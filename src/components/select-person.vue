@@ -32,7 +32,7 @@
               v-for="(item, index) in allProvinceList"
               :key="index"
               :label="item.name"
-              :value="item.id">
+              :value="item.no">
             </el-option>
           </el-select>
           <el-checkbox v-model="dataForm.allPerson" @change="getPersonList">是否显示全省用户</el-checkbox>
@@ -48,7 +48,7 @@
               label: 'name',
               children: 'children',
             }"
-            node-key="id"
+            node-key="no"
             highlight-current
             :current-node-key="selectedOrgId"
             :default-expanded-keys="[selectedOrgId]"
@@ -66,7 +66,7 @@
             border
             style="width: 100%;"
             height="100%"
-            row-key="id"
+            :row-key="getRowKey"
             :header-cell-style="{background: '#f5f7fa'}"
             :highlight-current-row="!multiSelect"
             @current-change="handleCurrentChange"
@@ -90,7 +90,7 @@
             border
             style="width: 100%;"
             height="100%"
-            row-key="id"
+            :row-key="getRowKey"
             :header-cell-style="{background: '#f5f7fa'}"
             :highlight-current-row="!multiSelect"
             @current-change="handleCurrentChange"
@@ -112,7 +112,7 @@
         <div class="list-order-tags">
           <el-tag
             v-for="(person, index) in allSelectedPerson"
-            :key="person.id"
+            :key="person.no"
             closable
             class="dragtag"
             @close="deletePerson(person, index)">
@@ -258,16 +258,14 @@ export default {
           item.delFlag !== '1')
       }
       let allPersonList = []
-      console.log('person', person)
       if (this.$store.state.user.userType === 'supervision') {
         // 监管获取所有用户
-        allPersonList = person.filter(item => item.delFlag !== '1' && item.office.id !== '000000310001');
+        allPersonList = person.filter(item => item.delFlag !== '1' && item.officeId !== '000000310001');
       } else {
         // 监察获取所有用户，去掉国家级用户
-        allPersonList = person.filter(item => item.delFlag !== '1' && item.office.id !== '000000110001');
+        allPersonList = person.filter(item => item.delFlag !== '1' && item.officeId !== '000000110001');
       }
       this.allPersonList = [...allPersonList, ...addPersonList]
-      console.log('allPersonList', this.allPersonList)
     },
     async getOrgList() {
       // 组织机构树状结构
@@ -303,7 +301,7 @@ export default {
             // 如果没有name字段则补充
             let item = selectedDataList[i]
             if (!item.name) {
-              let personData = this.allPersonList.find(person => person.id === item.id)
+              let personData = this.allPersonList.find(person => person.no === item.no)
               item.name = personData.name
             }
           }
@@ -313,9 +311,9 @@ export default {
         } else {
           // 单选时，判断是否已选人员，如果已选则默认进入已选人员的机构
           let officeId = null
-          if (this.selectedData && this.selectedData.id) {
-            let curPerson = this.allPersonList.filter(item => item.id === this.selectedData.id)[0]
-            officeId = curPerson.office.id
+          if (this.selectedData && this.selectedData.no) {
+            let curPerson = this.allPersonList.filter(item => item.no === this.selectedData.no)[0]
+            officeId = curPerson.officeId
           }
           this.selectedOrgId = officeId ? officeId : this.$store.state.user.userGroupId
           this.$refs.orgListTree.setCurrentKey(this.selectedOrgId)
@@ -325,7 +323,7 @@ export default {
       })
     },
     async changeSelectOrg (data) {
-      this.selectedOrgId = data.id
+      this.selectedOrgId = data.no
       await this.getPersonList()
     },
     async getPersonList () {
@@ -336,15 +334,15 @@ export default {
       // 按机构查找时
       if (!this.dataForm.name) {
         // 当前选中的机构信息
-        let selectedOrgData = this.orgList.filter(item => item.id === this.selectedOrgId)[0]
+        let selectedOrgData = this.orgList.filter(item => item.no === this.selectedOrgId)[0]
         // 递归获取当前选中机构的id及子id
-        let officeIdList = [selectedOrgData.id]
+        let officeIdList = [selectedOrgData.no]
         if (selectedOrgData.children) {
           this.getOfficeChildrenId(selectedOrgData.children, officeIdList)
         } 
         // 根据选中的机构及子集获取用户信息
         for (let i = 0; i < officeIdList.length; i++) {
-          let officePersonList = this.allPersonList.filter(item => item.office.id === officeIdList[i])
+          let officePersonList = this.allPersonList.filter(item => item.officeId === officeIdList[i])
           for (let j = 0; j < officePersonList.length; j ++) {
             personList.push(officePersonList[j])
           }
@@ -374,7 +372,7 @@ export default {
       //   let orgList = await getAllProvinceOrg(provinceId)
       //   if (orgList.length > 0) {
       //     orgList.map(item => {
-      //       provinceIds.push(item.id)
+      //       provinceIds.push(item.no)
       //     })
       //   }
       //   personList = personList.filter(item => provinceIds.includes(item.officeId)) 
@@ -404,11 +402,11 @@ export default {
           if (company.grade === '2') {
             allOrgName = item.officeName
           } else if (company.grade === '3') {
-            let orgData = this.orgList.find(item => item.id === company.parentId)
+            let orgData = this.orgList.find(item => item.no === company.parentId)
             allOrgName = `${orgData.name}-${item.officeName}`
           } else if (company.grade === '4') {
-            let upOrg = this.orgList.find(item => item.id === company.parentId)
-            let provinceOrg = this.orgList.find(item => item.id === upOrg.parentId)
+            let upOrg = this.orgList.find(item => item.no === company.parentId)
+            let provinceOrg = this.orgList.find(item => item.no === upOrg.parentId)
             allOrgName = `${provinceOrg.name}-${upOrg.name}-${item.officeName}`
           }
         }
@@ -419,7 +417,7 @@ export default {
     getOfficeChildrenId (data, officeIdList) {
       for (let i = 0; i < data.length; i++) {
         let item = data[i]
-        officeIdList.push(item.id)
+        officeIdList.push(item.no)
         if (item.children) {
           this.getOfficeChildrenId(item.children, officeIdList)
         }
@@ -429,9 +427,9 @@ export default {
       // 设置单选
       this.currentRow = this.selectedData
       this.$nextTick(() => {
-        if (this.selectedData && this.selectedData.id) {
+        if (this.selectedData && this.selectedData.no) {
           this.$refs.personList.setCurrentRow(
-            this.personList.find((item) => item.id === this.selectedData.id),
+            this.personList.find((item) => item.no === this.selectedData.no),
             true
           );
         }
@@ -447,7 +445,7 @@ export default {
           let selectedItem = this.allSelectedPerson[i]
           for (let j = 0; j < this.personList.length; j++) {
             let personItem = this.personList[j]
-            if (selectedItem.id === personItem.id) {
+            if (selectedItem.no === personItem.no) {
               curOrgPersonSelectedList.push(selectedItem)
             }
           }
@@ -455,7 +453,7 @@ export default {
         if (this.$refs.personList && curOrgPersonSelectedList.length > 0) {
           curOrgPersonSelectedList.map((row) => {
             this.$refs.personList.toggleRowSelection(
-              this.personList.find((item) => item.id === row.id),
+              this.personList.find((item) => item.no === row.no),
               true
             );
           });
@@ -493,10 +491,10 @@ export default {
     },
     selectPerson (selection, row) {
       // 判断row是否在selection中，如果在则代表新增，如果不在则代表删除
-      if (selection.length > 0 && selection.filter(item => item.id === row.id).length > 0) {
+      if (selection.length > 0 && selection.filter(item => item.no === row.no).length > 0) {
         this.allSelectedPerson.push(row)
       } else {
-        let index = this.allSelectedPerson.findIndex(item => item.id === row.id)
+        let index = this.allSelectedPerson.findIndex(item => item.no === row.no)
         this.allSelectedPerson.splice(index, 1)
       }
     },
@@ -508,12 +506,12 @@ export default {
     },
     deletePerson (person, index) {
       // 删除当前选中
-      let curIndex = this.currentRows.findIndex(item => item.id === person.id)
+      let curIndex = this.currentRows.findIndex(item => item.no === person.no)
       if (curIndex !== -1) this.currentRows.splice(curIndex, 1)
       // 同时删除已选所有人员
       this.allSelectedPerson.splice(index, 1)
       this.$refs.personList.toggleRowSelection(
-        this.personList.find((item) => item.id === person.id),
+        this.personList.find((item) => item.no === person.no),
         false
       );
     },
@@ -536,7 +534,7 @@ export default {
       })
     },
     getRowKey (row) {
-      return row.id
+      return row.no
     },
     addPerson () {
       // 添加人员
@@ -551,7 +549,7 @@ export default {
       // 保存添加人员
       this.$refs.addDataForm.validate(async (validate) => {
         if (validate) {
-          let selectedOrgData = this.orgList.filter(item => item.id === this.selectedOrgId)[0]
+          let selectedOrgData = this.orgList.filter(item => item.no === this.selectedOrgId)[0]
           await this.$confirm(`是否确定在“${selectedOrgData.name}”中添加“${this.addDataForm.name}”？`, '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',
@@ -559,7 +557,7 @@ export default {
               type: 'warning'
             }).then(async () => {
               let person = {
-                id: getNowTime() + randomString(28),
+                no: getNowTime() + randomString(28),
                 name: this.addDataForm.name,
                 officeName: this.addDataForm.officeName,
                 caseId: this.corpData.caseId,
@@ -567,10 +565,10 @@ export default {
                 delFlag: '0',
                 createBy: this.$store.state.user.userId,
                 createDate: getNowFormatTime(),
-                company: selectedOrgData,
+                company: JSON.stringify(selectedOrgData),
                 email: '',
                 mobile: '',
-                office: selectedOrgData,
+                office: JSON.stringify(selectedOrgData),
                 officeId: this.selectedOrgId,
               }
               await this.updateDatabase('addPerson', [person])

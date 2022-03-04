@@ -54,7 +54,7 @@ export default {
   methods: {
     async init () {
       let corpBase = await this.getDatabase('baseInfo')
-      let corp = corpBase.find(item => item.corpId === this.caseData.corpId)
+      let corp = corpBase.find(item => item.corpId === this.caseData.corpId) || {}
       this.corpData = {
         corpName: this.caseData.corpName,
         corpTypeName: corp.corpTypeName || '',

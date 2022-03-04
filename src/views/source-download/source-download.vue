@@ -898,7 +898,6 @@ export default {
     async handleUpdateTime(resId) {
       // 根据更新的resId为key更新updateTime为当前时间
       this.updateTime[resId] = getNowFormatTime()
-      console.log('updateTime', this.updateTime)
       await this.setDatabase('sourceDownload', [this.updateTime])
     }
   },
