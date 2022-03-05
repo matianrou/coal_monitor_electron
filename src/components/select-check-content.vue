@@ -161,7 +161,7 @@
         let qdListAllItem = checkList.filter(item => item.delFlag !== '1' && item.qdId)
         // 操作检查项类别及隐患内容为树形结构展示
         // 设置为树状结构
-        this.checkListOriginal = [...checkCateData, ...checkListData]
+        this.checkListOriginal = [...checkCateData, ...checkListData] || []
         let list = treeDataTranslate([...checkCateData, ...checkListData] || [], 'treeId', 'treeParentId')
         let corpTypeIndex = null
         if (corpBaseData[0].mineMinetypeName === '井工') {

@@ -239,14 +239,14 @@ export default {
       let dangerCateData = dangerCate.filter((item) => item.delFlag !== '1');
       let dangerListData = dangerList.filter((item) => item.delFlag !== '1' && !item.qdId);
       // 获取所有隐患列表内容
-      let qdListAllItem = dangerList.filter(item => item.delFlag !== '1' && item.qdId)
+      let qdListAllItem = dangerList.filter(item => item.delFlag !== '1' && item.qdId) || []
       let corpBaseData = this.corpData && this.corpData.corpId ? corpBase.find((item) => {
         return item.corpId === this.corpData.corpId
       }) : { mineMinetypeName: null };
       // 操作隐患类别及隐患内容为树形结构展示
       // 设置为树状结构
       this.dangerListOriginal = [...dangerCateData, ...dangerListData]
-      let list = treeDataTranslate(JSON.parse(JSON.stringify([...dangerCateData, ...dangerListData])) || [], 'treeId', 'treeParentId')
+      let list = treeDataTranslate([...dangerCateData, ...dangerListData] || [], 'treeId', 'treeParentId')
       let corpTypeIndex = null
       if (corpBaseData.mineMinetypeName === '井工') {
         // 井工检查内容

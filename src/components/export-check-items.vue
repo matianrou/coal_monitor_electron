@@ -126,16 +126,17 @@
         let caseList = wkPaper.filter(item => item.paperType === '22' 
           && item.delFlag !== '1' 
           && item.personId === this.$store.state.user.userId
-          && item.localizeFlag === '1')
+          && item.localizeFlag === '1') || []
         let exportCaseList = []
-        if (caseList.length > 0) {
-          caseList.map(item => {
+        if (caseList && caseList.length > 0) {
+          for (let i = 0; i < caseList.length; i++) {
+            let item = caseList[i]
             item.paperContent = JSON.parse(item.paperContent)
             if (item.paperContent.CheckTable && item.paperContent.CheckTable.tableData.length > 0) {
               item.showTag = `${item.corpName} ${item.createDate}`
               exportCaseList.push(item)
             }
-          })
+          }
         }
         exportCaseList.sort(sortbyAsc('createDate'))
         this.caseList = exportCaseList

@@ -177,7 +177,7 @@ export default {
           if (this.$store.state.onLine && data.docData.docTypeNo === '22' && this.corpData.constructType === '11' 
             && this.caseData.caseType === '0' && this.$store.state.user.userType !== 'supervision') {
             let wkPaper = await this.getDatabase("wkPaper");
-            let paper22List = wkPaper.filter(item => item.caseId === this.corpData.caseId && item.paperType === '22')
+            let paper22List = wkPaper.filter(item => item.caseId === this.corpData.caseId && item.paperType === '22') || []
             if (paper22List.length === 0) {
               // 弹窗
               this.checkCorpInfoVisible = true
@@ -195,7 +195,7 @@ export default {
         } else {
           // 如果为编辑则调取wkPaper文书表，如果为多条则弹窗选择文书，选择后的文书id传入组件中以拉取历史数据做为回显
           let wkPaper = await this.getDatabase("wkPaper");
-          let checkPaper = wkPaper.filter(item => item.caseId === this.corpData.caseId && item.paperType === data.docData.docTypeNo && item.delFlag !== '1');
+          let checkPaper = wkPaper.filter(item => item.caseId === this.corpData.caseId && item.paperType === data.docData.docTypeNo && item.delFlag !== '1') || []
           // console.log('checkPaper', checkPaper)
           // await wkPaper.delete(checkPaper[0].id) // 删除文书
           if (checkPaper.length === 0) {
@@ -266,7 +266,7 @@ export default {
         // 查询当前检查流程中已保存或归档的所有文书，即wkPaper中已有文书
         let checkLetList = wkPaper.filter((item) => {
           return item.caseId === this.caseData.caseId && item.delFlag !== '1'
-        });
+        }) || []
         checkLetList.sort(sortbyAsc('updateDate'))
         let flowStatus = {}
         let paperCount = {}
@@ -335,7 +335,7 @@ export default {
           })
           // 监察执法报告时，当有上传的文件时即为保存
           let jczfReport = await this.getDatabase('jczfReport') || []
-          let fileList = jczfReport.filter(item => item.caseId === this.caseData.caseId && item.delFlag !== '1')
+          let fileList = jczfReport.filter(item => item.caseId === this.caseData.caseId && item.delFlag !== '1') || []
           if (fileList.length > 0) {
             flowStatus[`paper45`] = 'save'
           }

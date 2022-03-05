@@ -562,9 +562,8 @@ export default {
       let onsiteTypeList = JSON.parse(onsiteType.list) 
       onsiteTypeList.sort(sortbyAsc('sort'))
       this.onsiteTypeOptions = onsiteTypeList
-      let subitemTypeList = dictionary.subitemType
-      // let subitemType = await dictionary.findAll(item => item.type === 'subitemType')
-      // let subitemTypeList = JSON.parse(subitemType[0].list)
+      let subitemType = dictionaryList.find(item => item.type === 'subitemType')
+      let subitemTypeList = JSON.parse(subitemType.list)
       subitemTypeList.sort(sortbyAsc('sort'))
       this.subitemTypeOptions = subitemTypeList
       // 当文书为案件处理呈报书、行政处罚告知书、行政处罚决定书时，同步结算行政处罚信息捕获及合并处罚文书
@@ -901,11 +900,11 @@ export default {
     },
     deleteDangerList () {
       if (this.dataForm.tempValue.selectedDangerList && this.dataForm.tempValue.selectedDangerList.length > 0) {
-        let delMsg = ''
-        this.dataForm.tempValue.selectedDangerList.map(item => {
-          delMsg += item.itemContent + '，'
+        let delMsg = '第'
+        this.dataForm.tempValue.selectedDangerList.map((item, index) => {
+          delMsg += (index + 1) + '，'
         })
-        delMsg = delMsg.substring(0, delMsg.length - 1)
+        delMsg = delMsg.substring(0, delMsg.length - 1) + '条'
         this.$confirm(`是否确定删除隐患项：${delMsg}？`, '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
@@ -981,11 +980,11 @@ export default {
       // 获取隐患从属类别三级码表
       let dangerCate = await this.getDatabase('dangerCate')
       let corpBase = await this.getDatabase('baseInfo');
-      let dangerCateData = dangerCate.filter((item) => item.delFlag !== '1');
+      let dangerCateData = dangerCate.filter((item) => item.delFlag !== '1') || [];
       let corpBaseData = corpBase.find((item) => {
         return item.corpId === this.corpData.corpId
       });
-      let list = treeDataTranslate(JSON.parse(JSON.stringify([...dangerCateData])) || [], 'treeId', 'treeParentId')
+      let list = treeDataTranslate([...dangerCateData], 'treeId', 'treeParentId')
       if (corpBaseData.mineMinetypeName === '井工') {
         this.dangerCateOptions.dangerCateList = [list[0]]
       } else if (corpBaseData.mineMinetypeName === '露天') {

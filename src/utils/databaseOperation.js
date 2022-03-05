@@ -30,7 +30,8 @@ export async function getDatabase (table) {
       dataList = dbList
     }
   } else {
-    dataList = store.state.database[table]
+    // 深拷贝，以免使用时会改变数据库内容
+    dataList = JSON.parse(JSON.stringify(store.state.database[table]))
   }
   // console.log('----------getDatabase----------：', dataList)
   return dataList

@@ -255,7 +255,7 @@ export default {
       if (this.corpData) {
         addPersonList = addPerson.filter(item => 
           item.caseId === this.corpData.caseId && 
-          item.delFlag !== '1')
+          item.delFlag !== '1') || []
       }
       let allPersonList = []
       if (this.$store.state.user.userType === 'supervision') {
