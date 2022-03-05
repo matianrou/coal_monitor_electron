@@ -1,5 +1,4 @@
-import store from "@/store"
-import { getDatabase, setDatabase, updateDatabase } from '@/utils/databaseOperation'
+import { setDatabase, updateDatabase } from '@/utils/databaseOperation'
 
 // “机构资源”下载。
 export async function orgSave(resId, data) {

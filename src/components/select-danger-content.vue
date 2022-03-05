@@ -236,10 +236,10 @@ export default {
       let dangerList = await this.getDatabase('dangerList');
       let corpBase = await this.getDatabase('baseInfo');
       // 获取隐患类别和内容
-      let dangerCateData = dangerCate.filter((item) => item.delFlag !== '1');
-      let dangerListData = dangerList.filter((item) => item.delFlag !== '1' && !item.qdId);
+      let dangerCateData = JSON.parse(JSON.stringify(dangerCate.filter((item) => item.delFlag !== '1') || []))
+      let dangerListData = JSON.parse(JSON.stringify(dangerList.filter((item) => item.delFlag !== '1' && !item.qdId) || []))
       // 获取所有隐患列表内容
-      let qdListAllItem = dangerList.filter(item => item.delFlag !== '1' && item.qdId) || []
+      let qdListAllItem = JSON.parse(JSON.stringify(dangerList.filter(item => item.delFlag !== '1' && item.qdId) || []))
       let corpBaseData = this.corpData && this.corpData.corpId ? corpBase.find((item) => {
         return item.corpId === this.corpData.corpId
       }) : { mineMinetypeName: null };

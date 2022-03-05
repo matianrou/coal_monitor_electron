@@ -277,7 +277,7 @@ export default {
       let sendPaper = await this.getDatabase('sendPaper')
       // 根据当前需要查询调查笔录发送列表或者历史记录分别搜索,通过delFlag进行分辨，如果为2则为保存，0为发送
       let delFlag = this.activeTab === 'sendPaper' ? '2' : '0'
-      let paperList = sendPaper.filter(item => item.delFlag === delFlag)
+      let paperList = JSON.parse(JSON.stringify(sendPaper.filter(item => item.delFlag === delFlag) || []))
       if (paperList.length > 0) {
         paperList.forEach(item => {
           item.paperContent = JSON.parse(item.paperContent)

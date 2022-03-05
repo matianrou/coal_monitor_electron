@@ -128,7 +128,6 @@ export default {
       let subitemType = dictionaryList.find(item => item.type === 'subitemType')
       let subitemTypeList = JSON.parse(subitemType.list)
       subitemTypeList.sort(sortbyAsc('sort'))
-      console.log('subitemTypeList', subitemTypeList)
       this.subitemTypeOptions = subitemTypeList
     },
     async init() {

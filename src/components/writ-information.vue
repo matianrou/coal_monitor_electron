@@ -237,7 +237,7 @@ export default {
       if (curPerson) {
         let curOffice = JSON.parse(curPerson.office)
         if (curOffice.grade === '2') {
-          this.dictionary.caseClassify = caseClassifyList.filter(item => !item.label.includes('分局'))
+          this.dictionary.caseClassify = JSON.parse(JSON.stringify(caseClassifyList.filter(item => !item.label.includes('分局')) || []))
         } else {
           this.dictionary.caseClassify = caseClassifyList
         }
@@ -265,15 +265,15 @@ export default {
           let corpId = this.corpData.corpId;
           let corpInfo = await this.getDatabase("baseInfo");
           // 获取煤矿基本信息
-          let corpBase = corpInfo.filter((item) => {
+          let corpBase = JSON.parse(JSON.stringify(corpInfo.filter((item) => {
             return item.corpId === corpId;
-          });
+          }) || []))
           // 获取计划
           let {selPlanDate, selGovUnit} = this.selectPlanData
           let docPlan = await this.getDatabase("plan");
-          let corpPlan = docPlan.length > 0 && docPlan.filter(item =>
+          let corpPlan = docPlan.length > 0 && JSON.parse(JSON.stringify(docPlan.filter(item =>
           item.corpId === corpId && item.groupId === selGovUnit
-          && (`${item.planYear}-${item.planMonth}` === selPlanDate)) || []
+          && (`${item.planYear}-${item.planMonth}` === selPlanDate)) || []))
           // 创建检查活动
           if (corpPlan.length > 0 && corpPlan[0].dbplanId) {
             // 所选煤矿、检查日期年月、归档机构均符合时，直接创建检查活动

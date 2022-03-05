@@ -21,7 +21,7 @@ export async function saveToUpload(paperId, messageShow) {
     return item.caseId == workPaper.caseId && item.delFlag !== '1';
   });
   let wkDangerList = []
-  wkDangerList = wkDanger.filter(item => item.paperId === paperId && item.delFlag !== '1')
+  wkDangerList = JSON.parse(JSON.stringify(wkDanger.filter(item => item.paperId === paperId && item.delFlag !== '1') || []))
   // 没有监察活动和煤矿信息时的容错
   let caseNo = null, caseType = null, corpId = null
   let meikuangType = null, meikuangPlanfrom = null, planId = null

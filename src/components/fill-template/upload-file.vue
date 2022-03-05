@@ -151,8 +151,8 @@ export default {
     async getFileList () {
       // 获取文件列表
 	    let paperAttachment = await this.getDatabase('paperAttachment');
-      let list = paperAttachment.filter(item => item.delFlag !== '1')
-      this.dataForm.tempValue.tableData = paperAttachment.filter(item => item.paperId === this.options.paperId && item.delFlag !== '1')
+      let list = JSON.parse(JSON.stringify(paperAttachment.filter(item => item.delFlag !== '1') || []))
+      this.dataForm.tempValue.tableData = JSON.parse(JSON.stringify(paperAttachment.filter(item => item.paperId === this.options.paperId && item.delFlag !== '1') || []))
     },
     async updateFileList () {
       // 上传文件或删除文件时更新本地库

@@ -253,17 +253,17 @@ export default {
       // 获取当前检查活动添加人员
       let addPersonList = []
       if (this.corpData) {
-        addPersonList = addPerson.filter(item => 
+        addPersonList = JSON.parse(JSON.stringify(addPerson.filter(item => 
           item.caseId === this.corpData.caseId && 
-          item.delFlag !== '1') || []
+          item.delFlag !== '1') || []))
       }
       let allPersonList = []
       if (this.$store.state.user.userType === 'supervision') {
         // 监管获取所有用户
-        allPersonList = person.filter(item => item.delFlag !== '1' && item.officeId !== '000000310001');
+        allPersonList = JSON.parse(JSON.stringify(person.filter(item => item.delFlag !== '1' && item.officeId !== '000000310001') || []))
       } else {
         // 监察获取所有用户，去掉国家级用户
-        allPersonList = person.filter(item => item.delFlag !== '1' && item.officeId !== '000000110001');
+        allPersonList = JSON.parse(JSON.stringify(person.filter(item => item.delFlag !== '1' && item.officeId !== '000000110001') || []))
       }
       this.allPersonList = [...allPersonList, ...addPersonList]
     },
@@ -274,17 +274,17 @@ export default {
       // let groupList = []
       // if (this.$store.state.user.userType === 'supervision') {
       //   // 监管不筛选type类型
-      //   groupList = orgInfo.filter(item => {
+      //   groupList = JSON.parse(JSON.stringify(orgInfo.filter(item => {
       //     return item.delFlag !== "1" 
       //     && (item.grade === '2' || item.grade === '1')
-      //   })
+      //   }) || []))
       // } else {
       //   // 监察筛选type类型
-      //   groupList = orgInfo.filter(item => {
+      //   groupList = JSON.parse(JSON.stringify(orgInfo.filter(item => {
       //     return item.delFlag !== "1" 
       //     && (item.grade === '2' || item.grade === '1')
       //     && (item.type === '3' || item.type === '4' || item.type === '11')
-      //   })
+      //   }) || []))
       // }
       // this.allProvinceList = groupList
       let orgData = await getOrgTreeList()

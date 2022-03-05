@@ -479,14 +479,12 @@ export async function corpInformation(corpData) {
   });
   let zfCmgzmInfo = await getDatabase("zfCmgzmInfo");
   let zfJjgzmInfo = await getDatabase("zfJjgzmInfo");
-  let zfCmgzm = zfCmgzmInfo.filter((item) => {
+  let zfCmgzm = JSON.parse(JSON.stringify(zfCmgzmInfo.filter((item) => {
     return item.corpId === corpData.corpId && item.delFlag !== '1';
-  });
-  let zfJjgzm = zfJjgzmInfo.filter((item) => {
+  }) || []))
+  let zfJjgzm = JSON.parse(JSON.stringify(zfJjgzmInfo.filter((item) => {
     return item.corpId === corpData.corpId && item.delFlag !== '1';
-  });
-  console.log('corpData.corpId', corpData.corpId)
-  console.log('zfJjgzm', zfJjgzm)
+  }) || []))
   let zfCmgzmString = ''
   for (let i = 0; i < zfCmgzm.length; i++) {
     let item = zfCmgzm[i]
@@ -750,11 +748,11 @@ export async function getOrgTreeList () {
   let orgList = []
   // 获取所有机构信息,过滤国家级机构
   if (store.state.user.userType === 'supervision') {
-    orgList = orgInfo.filter(item => item.delFlag !== '1' && item.grade !== '1')
+    orgList = JSON.parse(JSON.stringify(orgInfo.filter(item => item.delFlag !== '1' && item.grade !== '1') || []))
   } else {
-    orgList = orgInfo.filter(item => item.delFlag !== '1'
+    orgList = JSON.parse(JSON.stringify(orgInfo.filter(item => item.delFlag !== '1'
       // && (item.type === '3' || item.type === '4' || item.type === '11')
-      && item.grade !== '1')
+      && item.grade !== '1') || []))
   }
   let orgListTree = treeDataTranslate(orgList, 'no', 'parentId')
   return {orgList, orgListTree}

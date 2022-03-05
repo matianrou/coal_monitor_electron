@@ -123,9 +123,9 @@ export default {
           if (this.associationPaper && this.associationPaper.length > 0) {
             // associationPaper是必须关联的文书，如果未关联则提示
             for (let paper of this.associationPaper) {
-              let paperDataList = wkPaper.filter((item) => {
+              let paperDataList = JSON.parse(JSON.stringify(wkPaper.filter((item) => {
                 return item.caseId === this.corpData.caseId && item.paperType === paper && item.delFlag !== '1';
-              })
+              }) || []))
               if (paperDataList.length === 0) {
                 // 如果未查到关联的文书，则提示：
                 let paperName = this.$store.state.dictionary[`${this.$store.state.user.userType}PaperType`].filter(item => item.id === paper)
@@ -302,9 +302,9 @@ export default {
         let wkPaper = await this.getDatabase('wkPaper')
         for (let i = 0; i < this.associationList.length; i++) {
           let paperType = this.associationList[i]
-          let paperDataList = wkPaper.filter((item) => {
+          let paperDataList = JSON.parse(JSON.stringify(wkPaper.filter((item) => {
             return item.caseId === this.corpData.caseId && item.paperType === paperType && item.delFlag !== '1';
-          })
+          }) || []))
           if (paperDataList.length === 0 && i === (this.associationList.length - 1)) {
             // 如果未查到关联的文书，则提示：
             let paperName = this.$store.state.dictionary[`${this.$store.state.user.userType}PaperType`].filter(item => item.id === paperType)

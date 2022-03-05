@@ -123,10 +123,10 @@
       async getCheckList() {
         let wkPaper = await this.getDatabase('wkPaper')
         // 拉取做的检查活动
-        let caseList = wkPaper.filter(item => item.paperType === '22' 
+        let caseList = JSON.parse(JSON.stringify(wkPaper.filter(item => item.paperType === '22' 
           && item.delFlag !== '1' 
           && item.personId === this.$store.state.user.userId
-          && item.localizeFlag === '1') || []
+          && item.localizeFlag === '1') || []))
         let exportCaseList = []
         if (caseList && caseList.length > 0) {
           for (let i = 0; i < caseList.length; i++) {

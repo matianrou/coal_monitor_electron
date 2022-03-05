@@ -240,16 +240,16 @@ export default {
       // 创建初始版本
       // 初始创建时拉取行政处罚决定书，列表展示
 	    let wkPaper = await this.getDatabase('wkPaper');
-      let p8PaperList = wkPaper.filter(item => item.caseId === this.corpData.caseId && item.paperType === '8' && item.delFlag !== '1') || []
+      let p8PaperList = JSON.parse(JSON.stringify(wkPaper.filter(item => item.caseId === this.corpData.caseId && item.paperType === '8' && item.delFlag !== '1') || []))
       // 拉取行政决定履行催告书，如果未制作则不能填写加处罚款
-      let p39PaperList = wkPaper.filter(item => item.caseId === this.corpData.caseId && item.paperType === '39' && item.delFlag !== '1') || []
+      let p39PaperList = JSON.parse(JSON.stringify(wkPaper.filter(item => item.caseId === this.corpData.caseId && item.paperType === '39' && item.delFlag !== '1') || []))
       if (p39PaperList < 1) {
         this.lateFeeTitle = '请先制作行政决定履行催告书'
       } else {
         this.lateFeeTitle = ''
       }
       // 拉取以往制作的罚款收缴信息，已经完成罚款收缴的行政处罚决定书不能再修改金额，直接展示已完成缴纳，同时未完成的则减去以往已完成罚款收缴的金额
-      let p43PaperList = wkPaper.filter(item => item.caseId === this.corpData.caseId && item.paperType === '43' && item.delFlag !== '1') || []
+      let p43PaperList = JSON.parse(JSON.stringify(wkPaper.filter(item => item.caseId === this.corpData.caseId && item.paperType === '43' && item.delFlag !== '1') || []))
       let alreadyFine = {} // 已缴金额对象表示，其中数值按照p8paperId：已缴纳金额合计
       if (p43PaperList.length > 0) {
         // 遍历以往填写的罚款收缴
@@ -305,10 +305,10 @@ export default {
     async getFileList () {
       // 获取文件列表
 	    let singleReceipt = await this.getDatabase('singleReceipt');
-      let fileList = singleReceipt.filter(item => 
+      let fileList = JSON.parse(JSON.stringify(singleReceipt.filter(item => 
         item.paperId === this.paperId 
         && item.p8Id === this.selectedP8Paper.paperId
-        && item.delFlag !== '1') || []
+        && item.delFlag !== '1') || []))
       // 整理数据，添加文书编号
       if (fileList.length > 0) {
         fileList.forEach(item => {

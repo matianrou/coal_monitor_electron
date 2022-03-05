@@ -152,13 +152,13 @@
         let checkList = await this.getDatabase('checkList');
         let corpBase = await this.getDatabase('baseInfo');
         // 获取检查项类别和内容
-        let checkCateData = checkCate.filter((item) => item.delFlag !== '1');
-        let checkListData = checkList.filter((item) => item.delFlag !== '1' && !item.qdId);
-        let corpBaseData = corpBase.filter((item) => {
+        let checkCateData = JSON.parse(JSON.stringify(checkCate.filter((item) => item.delFlag !== '1') || []))
+        let checkListData = JSON.parse(JSON.stringify(checkList.filter((item) => item.delFlag !== '1' && !item.qdId) || []))
+        let corpBaseData = JSON.parse(JSON.stringify(corpBase.filter((item) => {
           return item.corpId === this.corpData.corpId
-        });
+        }) || []))
         // 获取所有检查项列表内容
-        let qdListAllItem = checkList.filter(item => item.delFlag !== '1' && item.qdId)
+        let qdListAllItem = JSON.parse(JSON.stringify(checkList.filter(item => item.delFlag !== '1' && item.qdId) || []))
         // 操作检查项类别及隐患内容为树形结构展示
         // 设置为树状结构
         this.checkListOriginal = [...checkCateData, ...checkListData] || []

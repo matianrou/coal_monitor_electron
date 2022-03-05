@@ -508,16 +508,16 @@ export default {
       let corpBaseData = corpBase.find(item => item.corpId === corpId && item.delFlag !== '1')
       // 采煤工作面信息
       let zfCmgzmInfo = await this.getDatabase('zfCmgzmInfo')
-      let zfCmgzmInfoData = zfCmgzmInfo.filter(item => item.corpId === corpId && item.delFlag !== '1')
+      let zfCmgzmInfoData = JSON.parse(JSON.stringify(zfCmgzmInfo.filter(item => item.corpId === corpId && item.delFlag !== '1') || []))
       // 掘进工作面信息
       let zfJjgzmInfo = await this.getDatabase('zfJjgzmInfo')
-      let zfJjgzmInfoData = zfJjgzmInfo.filter(item => item.corpId === corpId && item.delFlag !== '1')
+      let zfJjgzmInfoData = JSON.parse(JSON.stringify(zfJjgzmInfo.filter(item => item.corpId === corpId && item.delFlag !== '1') || []))
 	    // 证照信息
       let zfZzInfo = await this.getDatabase('zfZzInfo')
-      let zfZzInfoData = zfZzInfo.filter(item => item.corpId === corpId && item.delFlag !== '1')
+      let zfZzInfoData = JSON.parse(JSON.stringify(zfZzInfo.filter(item => item.corpId === corpId && item.delFlag !== '1') || []))
 	    // 从业人员信息
       let zfCyrytjInfo = await this.getDatabase('zfCyrytjInfo')
-      let zfCyrytjInfoData = zfCyrytjInfo.filter(item => item.corpId === corpId && item.delFlag !== '1')
+      let zfCyrytjInfoData = JSON.parse(JSON.stringify(zfCyrytjInfo.filter(item => item.corpId === corpId && item.delFlag !== '1') || []))
       // 需要验证：上级企业编码parentIdName,允许最大采深（米）ayxkcsxxbg,
       corpBaseData.areaInfo = `${corpBaseData.provinceName || ''}-${corpBaseData.cityName || ''}-${corpBaseData.countryName || ''}`
       this.corpInfo = corpBaseData

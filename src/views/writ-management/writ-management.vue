@@ -265,7 +265,7 @@ export default {
       if (this.caseData.caseId) {
         let wkPaper = await this.getDatabase('wkPaper')
         let {name, personName} = this.dataForm
-        let paperList = wkPaper.filter(item => item.caseId === this.caseData.caseId && item.delFlag !== '1')
+        let paperList = JSON.parse(JSON.stringify(wkPaper.filter(item => item.caseId === this.caseData.caseId && item.delFlag !== '1') || []))
         if (paperList.length > 0) {
           // 筛选文书名称
           if (name) {
@@ -335,7 +335,7 @@ export default {
                 await this.updateDatabase('wkPaper', [paperData], 'paperId')
                 // 删除对应隐患
                 let wkDanger = await this.getDatabase('wkDanger')
-                let dangerList = wkDanger.filter(item => item.paperId === row.paperId)
+                let dangerList = JSON.parse(JSON.stringify(wkDanger.filter(item => item.paperId === row.paperId) || []))
                 for (let i = 0; i < dangerList.length; i++) {
                   dangerList[i].delFlag = '1'
                 }
@@ -385,7 +385,7 @@ export default {
       // 归档文书
       // 修改当前检查活动归档标记
       let wkCase = await this.getDatabase('wkCase')
-      let caseData = wkCase.filter(item => item.caseId === paper.caseId)
+      let caseData = JSON.parse(JSON.stringify(wkCase.filter(item => item.caseId === paper.caseId) || []))
       console.log('filePaperCaseData', caseData)
       caseData.delFlag = '0'
       await this.updateDatabase('wkCase', [caseData], 'caseId')
@@ -396,7 +396,7 @@ export default {
       // 修改隐患的标识
       let wkDanger = await this.getDatabase('wkDanger')
       let wkDangerList = []
-      wkDangerList = wkDanger.filter(item => item.paperId === paper.paperId && item.delFlag !== '1')
+      wkDangerList = JSON.parse(JSON.stringify(wkDanger.filter(item => item.paperId === paper.paperId && item.delFlag !== '1') || []))
       for (let i = 0; i < wkDangerList.length; i++) {
         wkDangerList[i].delFlag = '0'
       }

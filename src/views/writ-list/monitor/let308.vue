@@ -206,11 +206,9 @@ export default {
       });
       let wkPaper = await this.getDatabase("wkPaper");
       let caseId = this.corpData.caseId;
-      let checkPaper = wkPaper.filter((item) => {
-        return (
-          item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
-        );
-      });
+      let checkPaper = JSON.parse(JSON.stringify(wkPaper.filter((item) => {
+        return item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'
+      }) || []))
       if (checkPaper.length > 0) {
         // 回显
         this.letData = JSON.parse(checkPaper[0].paperContent);

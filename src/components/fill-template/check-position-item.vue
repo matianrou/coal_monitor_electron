@@ -158,12 +158,12 @@ export default {
       // 获取采煤和掘进工作面
       let zfCserve = await this.getDatabase("zfCmgzmInfo");
       let zfJserve = await this.getDatabase("zfJjgzmInfo");
-      let caimei = zfCserve.filter((item) => item.corpId === this.corpData.corpId && item.delFlag !== '1');
+      let caimei = JSON.parse(JSON.stringify(zfCserve.filter((item) => item.corpId === this.corpData.corpId && item.delFlag !== '1') || []))
       // for (let i = 0; i < caimei.length; i++) {
       //   caimei[i].select = false
       // }
       this.coalOptions = caimei;
-      let juejin = zfJserve.filter((item) => item.corpId === this.corpData.corpId && item.delFlag !== '1');
+      let juejin = JSON.parse(JSON.stringify(zfJserve.filter((item) => item.corpId === this.corpData.corpId && item.delFlag !== '1') || []))
       // for (let i = 0; i < juejin.length; i++) {
       //   juejin[i].select = false
       // }

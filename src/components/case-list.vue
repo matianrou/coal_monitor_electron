@@ -215,9 +215,9 @@ export default {
         // 设置为当前机构的选项
         if (this.orgList.length > 0) {
           let { userGroupId } = this.$store.state.user
-          let curUserGroup = this.orgList.filter(item => item.value === userGroupId)
-          this.dataForm.selGovUnit = curUserGroup.length > 0 ? curUserGroup[0].value : null
-          this.dataForm.selGovUnitName = curUserGroup.length > 0 ? curUserGroup[0].label : null
+          let curUserGroup = this.orgList.find(item => item.value === userGroupId)
+          this.dataForm.selGovUnit = curUserGroup ? curUserGroup.value : null
+          this.dataForm.selGovUnitName = curUserGroup ? curUserGroup.label : null
         }
       }
     },
@@ -259,8 +259,6 @@ export default {
       let selectPlanDate = this.dataForm.selPlanDate
       let docPlan = await this.getDatabase('plan')
       let wkCaseInfo = await this.getDatabase('wkCase')
-      console.log('docPlan', docPlan)
-      console.log('wkCaseInfo', wkCaseInfo)
       // 判断检查活动类型选择为计划或者其他，计划则为由网页端创建的计划再创建的检查活动，
       // 其他则为未从网页端创建，直接从客户端创建的检查活动，无planId，归档时归入其他类
       let corpList = []
@@ -270,19 +268,18 @@ export default {
         // 如果计划中的企业已有检查，则名称前增加”（已做）“
         // 检查活动
         // 当caseClassify执法活动分类为异地执法时，按制作机构展示，其他按归档机构展示
-        let wkCase = wkCaseInfo.length > 0 && wkCaseInfo.filter((item) => {
+        let wkCase = wkCaseInfo.length > 0 && JSON.parse(JSON.stringify(wkCaseInfo.filter((item) => {
           return ((item.caseClassify === '4' && item.groupId === selGovUnit)
           || item.affiliate === selGovUnit)
           && item.pcMonth === selectPlanDate
           && item.planId && item.delFlag !== '1';
-        }) || []
+        }) || []))
         // 计划
-        let arrPlan = docPlan.length > 0 && docPlan.filter((item) => {
+        let arrPlan = docPlan.length > 0 && JSON.parse(JSON.stringify(docPlan.filter((item) => {
           return item.groupId === selGovUnit
           && (`${item.planYear}-${item.planMonth}`) === selectPlanDate
           && item.delFlag !== '1';
-        }) || []
-        console.log('wkCase', wkCase)
+        }) || []))
         if (wkCase.length > 0) {
           wkCase.map(caseItem => {
             arrPlan.forEach(planItem => {
@@ -329,13 +326,12 @@ export default {
       } else if (this.dataForm.isPlan === '其他') {
         // 检查活动
         // 当caseClassify执法活动分类为异地执法时，按制作机构展示，其他按归档机构展示
-        let wkCase = wkCaseInfo.filter((item) => {
+        let wkCase = JSON.parse(JSON.stringify(wkCaseInfo.filter((item) => {
           return ((item.caseClassify === '4' && item.groupId === selGovUnit)
           || item.affiliate === selGovUnit)
           && item.pcMonth === selectPlanDate
           && !item.planId && item.delFlag !== '1';
-        })
-        console.log('wkCase', wkCase)
+        }) || []))
         listArr = [...wkCase]
         // 按创建时间排序
         listArr.sort(sortbyDes('createDate'))
@@ -359,7 +355,6 @@ export default {
           corpList.push(corp)
         }
       }
-      console.log('corpList', corpList)
       this.corpList = corpList
       let isDefault = true
       if (this.$store.state.curCase && this.$store.state.curCase.caseId) {
@@ -471,7 +466,7 @@ export default {
             // 拉取文书的删除逻辑：
             let wkPaper = await this.getDatabase('wkPaper') || []
             // 获取所有此检查活动caseId的文书
-            let paperList = wkPaper.length > 0 && wkPaper.filter(item => item.caseId === this.selectedCase.caseId && item.delFlag !== '1') || []
+            let paperList = wkPaper.length > 0 && JSON.parse(JSON.stringify(wkPaper.filter(item => item.caseId === this.selectedCase.caseId && item.delFlag !== '1') || []))
             let canDelete = true
             // 遍历文书，判断是否有自己添加并且已经归档的文书
             let selfDeletePaper = []
@@ -500,7 +495,7 @@ export default {
                     // 删除文书
                     selfPaper.delFlag = '1'
                     // 获取所有需要删除的隐患信息
-                    let dangerList = wkDanger.filter(item => item.paperId === selfPaper.paperId)
+                    let dangerList = JSON.parse(JSON.stringify(wkDanger.filter(item => item.paperId === selfPaper.paperId) || []))
                     for (let i = 0; i < dangerList.length; i++) {
                       let danger = dangerList[i]
                       danger.delFlag = '1'
@@ -522,7 +517,7 @@ export default {
                 // 获取需要物理删除的隐患
                 let pullDangerList = []
                 for (let i = 0; i < pullDeletePaper.length; i ++) {
-                  let dangerList = wkDanger.filter(item => item.paperId === pullDeletePaper[i].paperId) || []
+                  let dangerList = JSON.parse(JSON.stringify(wkDanger.filter(item => item.paperId === pullDeletePaper[i].paperId) || []))
                   for (let j = 0; j < dangerList.length; j++) {
                     pullDangerList.push(dangerList[j])
                   }
@@ -530,7 +525,6 @@ export default {
                 await this.deleteDatabasePhysics('wkDanger', pullDangerList, 'dangerId')
                 await this.deleteDatabasePhysics('wkPaper', pullDeletePaper, 'paperId')
                 // 逻辑删除本地添加的数据：文书、隐患
-                console.log('selfDeletePaper', selfDeletePaper)
                 await this.updateDatabase('wkPaper', selfDeletePaper, 'paperId')
                 await this.updateDatabase('wkDanger', selfDeleteDanger, 'dangerId')
                 // 删除后刷新列表
@@ -547,7 +541,7 @@ export default {
             // 不是拉取的活动删除逻辑：首先遍历检查活动中的文书时候已经有归档的文书
             let wkPaper = await this.getDatabase('wkPaper')
             // 获取所有此检查活动caseId的文书
-            let paperList = wkPaper.filter(item => item.caseId === this.selectedCase.caseId)
+            let paperList = JSON.parse(JSON.stringify(wkPaper.filter(item => item.caseId === this.selectedCase.caseId) || []))
             let canDelete = true
             // 遍历文书，判断是否有已经归档的文书
             paperList.length > 0 && paperList.map(item => {
@@ -573,7 +567,7 @@ export default {
                     let delDangerList = []
                     for (let i = 0; i < paperList.length; i++) {
                       paperList[i].delFlag = '1'
-                      let curDangerList = wkDanger.filter(danger => danger.paperId === paperList[i].paperId)
+                      let curDangerList = JSON.parse(JSON.stringify(wkDanger.filter(danger => danger.paperId === paperList[i].paperId) || []))
                       for (let j = 0; j < curDangerList.length; j++) {
                         curDangerList[j].delFlag = '1'
                         delDangerList.push(curDangerList[j])

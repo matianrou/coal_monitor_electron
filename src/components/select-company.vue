@@ -95,7 +95,7 @@
 <script>
 import { treeDataTranslate } from '@/utils/index'
   export default {
-    name: 'selectCompanyDialog',
+    name: 'SelectCompanyDialog',
     props: {
       visible: {
         type: Boolean,
@@ -131,11 +131,10 @@ import { treeDataTranslate } from '@/utils/index'
       async getAreaTree() {
         let doEnterpriseList = await this.getDatabase('enterpriseList');
         let areaId = this.$store.state.user.userAreaId
-        console.log('enterpriseList', doEnterpriseList)
-        let areaList = doEnterpriseList.filter((item) => {
-          return item.parentIds.includes(areaId) || item.code === areaId;
-        })
-        console.log('areaList', areaList)
+        let areaList = []
+        areaList = JSON.parse(JSON.stringify(doEnterpriseList.filter((item) => {
+          return (item.parentIds && item.parentIds.includes(areaId)) || item.code === areaId;
+        }) || []))
         this.areaTree = treeDataTranslate(JSON.parse(JSON.stringify(areaList)), 'code', 'parentId')
         this.selectArea(this.areaTree[0])
       },
@@ -145,17 +144,17 @@ import { treeDataTranslate } from '@/utils/index'
         // 整理筛选项内容：
         let {onlySelf, companyStatus, companyName, areaId} = this.dataForm
         let corpBase = await this.getDatabase("baseInfo"); // 煤矿企业
-        let corpList = corpBase.length > 0 && corpBase.filter(item => {
+        let corpList = corpBase.length > 0 && JSON.parse(JSON.stringify(corpBase.filter(item => {
           return item.corpName && item.corpName.indexOf(companyName) !== -1 &&
             item.delFlag !== '1' && 
             item.zoneCountyId && item.zoneCountyId.slice(0, this.curAreaLevel) === (areaId ? areaId.slice(0, this.curAreaLevel) : item.zoneCountyId.slice(0, this.curAreaLevel))
-        })
+        }) || []))
         // 是否仅显示本机构
         if (onlySelf) {
-          corpList = corpList.filter(item => item.groupId === this.$store.state.user.userGroupId)
+          corpList = corpList.filter(item => item.groupId === this.$store.state.user.userGroupId) || []
         }
         if (companyStatus === '10') {
-          corpList = corpList.filter(item => item.constructType === companyStatus)
+          corpList = corpList.filter(item => item.constructType === companyStatus) || []
         } else if (companyStatus === '0101' || companyStatus === '0301') {
           corpList = corpList.filter(item => item.mineStatusZs === companyStatus)
         }
@@ -168,11 +167,17 @@ import { treeDataTranslate } from '@/utils/index'
       },
       selectArea(data, node, ele) {
         // 选中地区进行筛选 按名称中是否有省做判断条件，当前选中地区的level
-        if (data && data.name) {
-          if (data.name.indexOf('省') !== -1) {
-            this.curAreaLevel = 2
-          } else {
-            this.curAreaLevel = 4
+        if (data.type) {
+          switch (Number(data.type)) {
+            case 2: 
+              this.curAreaLevel = 2
+              break
+            case 3:
+              this.curAreaLevel = 4
+              break
+            case 4: 
+              this.curAreaLevel = 6
+              break
           }
         }
         this.dataForm.areaId = data ? data.code : null

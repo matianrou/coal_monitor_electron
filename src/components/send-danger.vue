@@ -275,7 +275,7 @@ export default {
       let isSend = this.activeName === 'sendDanger' ? '0' : '1'
       this.loading = true
       let sendDanger = await this.getDatabase('sendDanger')
-      let dangerList = sendDanger.filter(item => item.delFlag !== '1' && item.isSend === isSend)
+      let dangerList = JSON.parse(JSON.stringify(sendDanger.filter(item => item.delFlag !== '1' && item.isSend === isSend) || []))
       dangerList.sort(sortbyAsc('createDate'))
       this.dataForm.dangerContent.tableData = dangerList
       this.loading = false

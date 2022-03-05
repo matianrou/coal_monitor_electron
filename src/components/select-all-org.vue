@@ -99,10 +99,10 @@ export default {
       let orgInfo = await this.getDatabase("org"); // 机构
       // 只针对监察三级机构做的处理
       // 监察过滤机构 同时去掉国家局
-      let orgList = orgInfo.filter(item => 
+      let orgList = JSON.parse(JSON.stringify(orgInfo.filter(item => 
         item.delFlag !== "1" && 
         // (item.type === '3' || item.type === '4' || item.type === '11') &&
-        item.grade !== '1')
+        item.grade !== '1') || []))
       // 过滤掉当前机构省局及处室机构
       let provinceId = ''
       let userGroupId = this.$store.state.user.userGroupId 
@@ -118,7 +118,7 @@ export default {
           provinceId = userGroup.parentId
         }
       }
-      orgList = orgList.filter(item => item.no !== provinceId && item.parentId !== provinceId)
+      orgList = JSON.parse(JSON.stringify(orgList.filter(item => item.no !== provinceId && item.parentId !== provinceId) || []))
       // 处理机构数据，整理为树状结构
       // 按grade排序
       orgList.sort(sortbyAsc('grade'))

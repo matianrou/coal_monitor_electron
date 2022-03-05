@@ -895,9 +895,9 @@ export default {
       this.showChangeDangerList = showChangeDangerList
       // 置verNo为空
       let wkPaper = await this.getDatabase("wkPaper");
-      let paperList = wkPaper.filter((item) => {
+      let paperList = JSON.parse(JSON.stringify(wkPaper.filter((item) => {
         return item.caseId === this.corpData.caseId && item.delFlag !== '1' && item.paperType === paperType
-      });
+      }) || []))
       let newPaperList = []
       for (let i = 0; i < paperList.length; i++) {
         let paperContent = paperList[i].paperContent ? JSON.parse(paperList[i].paperContent) : null
@@ -922,7 +922,7 @@ export default {
       // 获取要删除的文书：
       let wkPaper = await this.getDatabase('wkPaper')
       let curPaper = []
-      curPaper = wkPaper.filter(item => item.paperType === paperType && item.caseId === this.corpData.caseId && item.delFlag === '2')
+      curPaper = JSON.parse(JSON.stringify(wkPaper.filter(item => item.paperType === paperType && item.caseId === this.corpData.caseId && item.delFlag === '2') || []))
       if (curPaper.length === 0) {
         // 如果没有文书则提示没有可以删除的文书，请制作文书
         this.$message.error('没有可以删除的文书，请制作文书!')
@@ -973,7 +973,7 @@ export default {
             await this.updateDatabase('wkPaper', [paperData], 'paperId')
             // 删除对应隐患
             let wkDanger = await this.getDatabase('wkDanger')
-            let dangerList = wkDanger.filter(item => item.paperId === curPaper.paperId)
+            let dangerList = JSON.parse(JSON.stringify(wkDanger.filter(item => item.paperId === curPaper.paperId) || []))
             for (let i = 0; i < dangerList.length; i++) {
               dangerList[i].delFlag = '1'
             }
@@ -992,7 +992,7 @@ export default {
     async showAccidentDangerInfo (docTypeNo) {
       // 展示事故隐患详情
       let wkPaper = await this.getDatabase('wkPaper')
-      let paperList = wkPaper.filter(item => item.delFlag !== '1' && item.paperType === docTypeNo && item.caseId === this.corpData.caseId)
+      let paperList = JSON.parse(JSON.stringify(wkPaper.filter(item => item.delFlag !== '1' && item.paperType === docTypeNo && item.caseId === this.corpData.caseId) || []))
       if (paperList.length > 1) {
         // 多个文书时选择文书，然后展示隐患信息
         this.paperList = paperList

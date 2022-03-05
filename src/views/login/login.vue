@@ -219,7 +219,6 @@ export default {
               }
             }
             let sourceDownload = await this.getDatabase('sourceDownload')
-            console.log('sourceDownload1', sourceDownload)
             if (!sourceDownload || sourceDownload.length === 0) {
               // 如果没有下载过资源则跳转下载资源
               // 初始数据库
@@ -334,16 +333,13 @@ export default {
         // let res = electronRequest({msgName: 'checkExistFile', message: {fileName: `database/${userId}/sourceDownload.txt`}, type: 'sendSync'})
         // 首先判断是否存在database目录，如果没有则创建
         let databaseExist = electronRequest({msgName: 'checkExistFile', message: {fileName: `database`}, type: 'sendSync'})
-        console.log('databaseExist1', databaseExist)
         let databaseIsExist = databaseExist.request
         if (!databaseIsExist) {
           // 如果没有则创建目录
           let mkDatabaseReq = electronRequest({msgName: 'mkdir', message: {mkdirName: `database`}, type: 'sendSync'})
-          console.log('mkDatabaseReq', mkDatabaseReq)
           if (mkDatabaseReq.request.code === '200') {
             // 创建成功则继续创建userId目录
             let mkUserIdReq = electronRequest({msgName: 'mkdir', message: {mkdirName: `database/${userId}`}, type: 'sendSync'})
-            console.log('mkUserIdReq', mkUserIdReq)
             if (mkUserIdReq.request.code === '200') {
               // 创建下载文件sourceDownload
               await this.setSourceDownload()
@@ -352,18 +348,15 @@ export default {
         } else {
           // 如果有database目录，则判断是否有UserId目录
           let userIdExist = electronRequest({msgName: 'checkExistFile', message: {fileName: `database/${userId}`}, type: 'sendSync'})
-          console.log('userIdExist', userIdExist)
           let userIdIsExist = userIdExist.request
           if (!userIdIsExist) {
             // 如果没有目录则创建
             let mkUserIdReq = electronRequest({msgName: 'mkdir', message: {mkdirName: `database/${userId}`}, type: 'sendSync'})
-            console.log('mkUserIdReq', mkUserIdReq)
             if (mkUserIdReq.request.code === '200') {
               // 创建下载文件sourceDownload
               await this.setSourceDownload()
             }
           } else {
-            console.log('2')
             await this.setSourceDownload()
           }
         }

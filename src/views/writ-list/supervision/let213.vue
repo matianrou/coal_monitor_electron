@@ -185,12 +185,12 @@ export default {
         // 立案决定书4中获取立案时间
         let p4DateString = `${let4DataPaperContent.cellIdx6 || 'XX'}年${let4DataPaperContent.cellIdx7 || 'XX'}月${let4DataPaperContent.cellIdx8 || 'XX'}日`
         // 获取调查笔录中的被调查人
-        let paper5List = wkPaper.filter(paper => {
+        let paper5List = JSON.parse(JSON.stringify(wkPaper.filter(paper => {
           return paper.delFlag !== '1'
           && paper.paperType === '5'
           && JSON.parse(paper.paperContent).associationPaperId
           && JSON.parse(paper.paperContent).associationPaperId.paper4Id === selectedPaper.let4Data.paperId
-        })
+        }) || []))
         let paper5CheckName = ''
         if (paper5List.length > 0) {
           for (let i = 0; i < paper5List.length; i++) {

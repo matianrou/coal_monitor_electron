@@ -193,13 +193,13 @@ export default {
       this.loading.list = true;
       // 获取文书列表: 获取建议书16，意见书17，和没有caseId的执法案卷（首页）及目录15
       let wkPaper = await this.getDatabase("wkPaper");
-      let paperList = wkPaper.filter(
+      let paperList = JSON.parse(JSON.stringify(wkPaper.filter(
         (item) =>
           ((item.paperType === "15" && !item.caseId) ||
             item.paperType === "16" ||
             item.paperType === "17") &&
           item.delFlag !== "1"
-      );
+      ) || []))
       // 按创建时间排序
       paperList.length > 0 && paperList.sort(sortbyDes("createTime"));
       paperList.length > 0 &&
@@ -336,9 +336,9 @@ export default {
             await this.updateDatabase('wkPaper', [paperData], 'paperId')
             // 删除对应隐患
             let wkDanger = await this.getDatabase("wkDanger");
-            let dangerList = wkDanger.filter(
+            let dangerList = JSON.parse(JSON.stringify(wkDanger.filter(
               (item) => item.paperId === paper.paperId
-            );
+            ) || []))
             for (let i = 0; i < dangerList.length; i++) {
               dangerList[i].delFlag = "1"
             }

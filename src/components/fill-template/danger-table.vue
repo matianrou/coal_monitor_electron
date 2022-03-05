@@ -980,7 +980,7 @@ export default {
       // 获取隐患从属类别三级码表
       let dangerCate = await this.getDatabase('dangerCate')
       let corpBase = await this.getDatabase('baseInfo');
-      let dangerCateData = dangerCate.filter((item) => item.delFlag !== '1') || [];
+      let dangerCateData = JSON.parse(JSON.stringify(dangerCate.filter((item) => item.delFlag !== '1') || []))
       let corpBaseData = corpBase.find((item) => {
         return item.corpId === this.corpData.corpId
       });

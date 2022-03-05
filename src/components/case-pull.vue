@@ -127,14 +127,14 @@
             let orgList = []
             if (orgData.grade === '1') {
               // 国家局
-              personList = person.filter((item) => {
+              personList = JSON.parse(JSON.stringify(person.filter((item) => {
                 return item.delFlag === "0" && item.no !== userId;
-              });
+              }) || []))
             } else if (orgData.grade === '2') {
               // 省级
               // 获取所有parentId为当前userGroupId的机构
-              let orgChildrenList = orgInfo.filter(item => item.parentId === userGroupId
-                && item.delFlag !== "1")
+              let orgChildrenList = JSON.parse(JSON.stringify(orgInfo.filter(item => item.parentId === userGroupId
+                && item.delFlag !== "1") || []))
               orgList = [...[orgData], ...orgChildrenList]
             } else if (orgData.grade === '3') {
               // 市级
@@ -142,8 +142,8 @@
               let parentOrg = orgInfo.find(item => item.no === orgData.parentId
                 && item.delFlag !== "1")
               // 获取所有parentId为当前parentOrg.no的机构
-              let orgChildrenList = orgInfo.filter(item => item.parentId === parentOrg.no
-                && item.delFlag !== "1")
+              let orgChildrenList = JSON.parse(JSON.stringify(orgInfo.filter(item => item.parentId === parentOrg.no
+                && item.delFlag !== "1") || []))
               orgList = [...[parentOrg], ...orgChildrenList]
             } else if (orgData.grade === '4') {
               // 查询市级，再查询省级
@@ -153,14 +153,14 @@
               let provinceOrg = orgInfo.find(item => item.no === parentOrg.parentId
                 && item.delFlag !== "1")
               // 获取所有parentId为当前parentOrg.no的机构
-              let orgChildrenList = orgInfo.filter(item => item.parentId === provinceOrg.no
-                && item.delFlag !== "1")
+              let orgChildrenList = JSON.parse(JSON.stringify(orgInfo.filter(item => item.parentId === provinceOrg.no
+                && item.delFlag !== "1") || []))
               orgList = [...[provinceOrg], ...orgChildrenList]
             }
             if (orgList.length > 0) {
               // 省级和市区县级根据机构获取人员
               for (let i = 0; i < orgList.length; i++) {
-                let curPersons = person.filter(item => item.delFlag === "0" && item.officeId === orgList[i].no && item.no !== userId)
+                let curPersons = JSON.parse(JSON.stringify(person.filter(item => item.delFlag === "0" && item.officeId === orgList[i].no && item.no !== userId) || []))
                 personList = [...personList, ...curPersons]
               }
             }
@@ -174,9 +174,9 @@
             if (orgData.grade === '2') {
               // 省级
               // 获取所有parentId为当前userGroupId的机构
-              let orgChildrenList = orgInfo.filter(item => item.parentId === userGroupId
+              let orgChildrenList = JSON.parse(JSON.stringify(orgInfo.filter(item => item.parentId === userGroupId
                 // && (item.type === '3' || item.type === '4' || item.type === '11') 
-                && item.delFlag !== "1")
+                && item.delFlag !== "1") || []))
               orgList = [...[orgData], ...orgChildrenList]
             } else if (orgData.grade === '3') {
               // 市区县级
@@ -185,29 +185,29 @@
                 // && (item.type === '3' || item.type === '4' || item.type === '11') 
                 && item.delFlag !== "1")
               // 获取所有parentId为当前parentOrg.no的机构
-              let orgChildrenList = orgInfo.filter(item => item.parentId === parentOrg.no
+              let orgChildrenList = JSON.parse(JSON.stringify(orgInfo.filter(item => item.parentId === parentOrg.no
                 // && (item.type === '3' || item.type === '4' || item.type === '11') 
-                && item.delFlag !== "1")
+                && item.delFlag !== "1") || []))
               orgList = [...[parentOrg], ...orgChildrenList]
             } else {
               // 国家局
-              personList = person.filter((item) => {
+              personList = JSON.parse(JSON.stringify(person.filter((item) => {
                 return item.delFlag === "0" && item.no !== userId;
-              });
+              }) || []))
             }
             if (orgList.length > 0) {
               // 省级和市区县级根据机构获取人员
               for (let i = 0; i < orgList.length; i++) {
-                let curPersons = person.filter(item => item.delFlag === "0" && item.officeId === orgList[i].no && item.no !== userId)
+                let curPersons = JSON.parse(JSON.stringify(person.filter(item => item.delFlag === "0" && item.officeId === orgList[i].no && item.no !== userId) || []))
                 personList = [...personList, ...curPersons]
               }
             }
           }
         } else {
           // 查询当前用户当前机构的所有用户，排除自己
-          personList = person.filter((item) => {
+          personList = JSON.parse(JSON.stringify(person.filter((item) => {
             return item.delFlag === "0" && item.officeId === userGroupId && item.no !== userId;
-          });
+          }) || []))
         }
         // 按姓名筛选
         if (this.dataForm.name) {

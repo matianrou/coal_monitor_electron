@@ -132,7 +132,7 @@ export default {
       }
       // 获取文件列表
 	    let imageEvidence = await this.getDatabase('imageEvidence');
-      this.fileList = imageEvidence.filter(item => item.paperId === this.paperId && item.delFlag !== '1')
+      this.fileList = JSON.parse(JSON.stringify(imageEvidence.filter(item => item.paperId === this.paperId && item.delFlag !== '1') || []))
     },
     async updateFileList () {
       // 上传文件或删除文件时更新本地库

@@ -431,14 +431,14 @@ export default {
         // 获取所有文书，整理成为默认案卷首页
         let wkPaper = await this.getDatabase('wkPaper') 
         // 获取笔录文书：
-        let paper1 = wkPaper.filter(item => item.paperId === selectedPaper.let1Data.paperId)
+        let paper1 = JSON.parse(JSON.stringify(wkPaper.filter(item => item.paperId === selectedPaper.let1Data.paperId) || []))
         let paper22 = []
         let paper22AssociationPaper = []
         if (let1DataPaperContent && let1DataPaperContent.associationPaperId) {
           // 获取关联检查方案文书：
-          paper22 = wkPaper.filter(item => item.paperId === let1DataPaperContent.associationPaperId.paper22Id)
+          paper22 = JSON.parse(JSON.stringify(wkPaper.filter(item => item.paperId === let1DataPaperContent.associationPaperId.paper22Id) || []))
           // 获取关联检查方案复查文书：
-          paper22AssociationPaper = wkPaper.filter(item => {
+          paper22AssociationPaper = JSON.parse(JSON.stringify(wkPaper.filter(item => {
             if (item.paperContent) {
               let paperContent = JSON.parse(item.paperContent) 
               if (paperContent.associationPaperId && paperContent.associationPaperId.paper22Id) {
@@ -448,10 +448,10 @@ export default {
                 }
               }
             }
-          })
+          }) || []))
         }
         // 获取所有关联同一笔录文书的文书
-        let paperList = wkPaper.filter(item => {
+        let paperList = JSON.parse(JSON.stringify(wkPaper.filter(item => {
           if (item.paperContent) {
             let paperContent = JSON.parse(item.paperContent) 
             if (paperContent.associationPaperId && paperContent.associationPaperId.paper1Id) {
@@ -460,7 +460,7 @@ export default {
               }
             }
           }
-        })
+        }) || []))
         let allPaper = [...paper22, ...paper1, ...paper22AssociationPaper, ...paperList]
         // 按文书顺序排序
         let orderList = []

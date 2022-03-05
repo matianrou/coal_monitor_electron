@@ -283,7 +283,7 @@ export default {
       if (((this.docData.docTypeNo === '21' || this.docData.docTypeNo === '44') && this.$parent.fileList.length > 0) || this.docData.docTypeNo === '43'
        || ((this.docData.docTypeNo === '16' || this.docData.docTypeNo === '17') && this.$parent.letData.UploadFile.tableData.length > 0)) {
         let wkPaper = await this.getDatabase("wkPaper");
-        let paperList = wkPaper.filter(item => item.paperId === this.$parent.paperId && item.delFlag !== '1')
+        let paperList = JSON.parse(JSON.stringify(wkPaper.filter(item => item.paperId === this.$parent.paperId && item.delFlag !== '1') || []))
         if (paperList.length < 1) {
           this.$confirm(`${this.docData.docTypeNo === '43' ? '当前未保存文书，如已上传文件，' : '当前已上传文件，但未保存文书，如果'}返回主页面则无法保存已上传的文件，需要先点击“保存”按钮后才能保存已上传的文件！`, '注意!', {
               confirmButtonText: '去保存文书',
@@ -377,7 +377,7 @@ export default {
             let updatePaper = {}
             // 遍历文书类型updatePaperType，逐个拉取需要更新的数据,只拉取状态为保存的文书
             for(let i = curIndex + 1; 0 < i && i < updatePaperType.length; i++) {
-              let paperList = wkPaper.filter(item => item.delFlag === '2' && item.caseId === this.paperData.caseId && item.paperType === updatePaperType[i]) || []
+              let paperList = JSON.parse(JSON.stringify(wkPaper.filter(item => item.delFlag === '2' && item.caseId === this.paperData.caseId && item.paperType === updatePaperType[i]) || []))
               // 遍历检索出的同检查活动下的检查类型文书，如果文书关联的paper1Id相同则保存
               updatePaper[`paper${updatePaperType[i]}List`] = []
               for (let j = 0; j < paperList.length; j++) {
@@ -396,7 +396,7 @@ export default {
             }
             // 当修改的文书时现场检查笔录1和现场处理决定书时，判断是否有复查意见书13，如果有则同样提示更新
             if (this.docData.docTypeNo === '1' || this.docData.docTypeNo === '2') {
-              let paper13List = wkPaper.filter(item => item.delFlag !== '1' && item.caseId === this.paperData.caseId && item.paperType === '13') || []
+              let paper13List = JSON.parse(JSON.stringify(wkPaper.filter(item => item.delFlag !== '1' && item.caseId === this.paperData.caseId && item.paperType === '13') || []))
               updatePaper.paper13List = []
               for (let i = 0; i < paper13List.length; i++) {
                 if (this.docData.docTypeNo === '1' && JSON.parse(paper13List[i].paperContent).associationPaperId) {
@@ -695,7 +695,7 @@ export default {
           // 2.根据paperData.paperId检索wkDanger中的隐患项，如果已存在则删除重新添加，如果未存在则直接添加
           // 删除原隐患项
           let wkDanger = await this.getDatabase("wkDanger")
-          let wkDangerList = wkDanger.filter(item => item.paperId === paperId)
+          let wkDangerList = JSON.parse(JSON.stringify(wkDanger.filter(item => item.paperId === paperId) || []))
           await this.deleteDatabasePhysics('wkDanger', wkDangerList, 'dangerId')
           // 添加隐患项
           let companyOrPerson = ''
@@ -1325,7 +1325,7 @@ export default {
       // 更新隐患
       let wkDanger = await this.getDatabase("wkDanger")
       // 获取当前文书所有隐患项
-      let wkDangerList = wkDanger.filter(item => item.paperId === itemPaper.paperId)
+      let wkDangerList = JSON.parse(JSON.stringify(wkDanger.filter(item => item.paperId === itemPaper.paperId) || []))
       // 删除已有数据
       await this.deleteDatabasePhysics('wkDanger', wkDangerList, 'dangerId')
       // 添加所选数据
