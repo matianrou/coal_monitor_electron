@@ -369,7 +369,6 @@
 <script>
 import selectDangerContent from '../select-danger-content'
 import receiveDanger from '@/components/receive-danger'
-import GoDB from "@/utils/godb.min.js";
 import { severalDaysLater, getNowTime } from "@/utils/date";
 import selectPerson from '@/components/select-person'
 import { treeDataTranslate, fuzzyearch, randomString, getMoney, transformNumToChinese, thousands, sortbyAsc } from '@/utils'
@@ -482,7 +481,6 @@ export default {
         coalingFace: false,
         headingFace: false,
       },
-      DBName: this.$store.state.DBName,
       selectedRowPersonList: [], // 选择的检查人员列表，用于回显
       dangerCateOptions: { // 隐患类别码表，用于修改从属类别
         dangerCateList: [],

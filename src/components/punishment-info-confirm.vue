@@ -79,7 +79,6 @@
 </template>
 
 <script>
-import GoDB from "@/utils/godb.min.js";
 import { sortbyAsc } from "@/utils/index";
 export default {
   name: "PunishmentInfoConfirm",
@@ -96,7 +95,6 @@ export default {
   data() {
     return {
       loading: false,
-      DBName: this.$store.state.DBName,
       subitemTypeOptions: [], // 行政处罚类型码表
       dangerList: [], // 确认处罚的列表
       confirmInfo: '', // 其他确认信息

@@ -5,7 +5,7 @@ import { Message, Alert } from 'element-ui'
 import store from "@/store"
 import { randomString } from "@/utils/index";
 import { getNowTime } from "@/utils/date";
-import { getDatabase, updateDatabase, deleteDatabasePhysics } from '@/utils/databaseOperation'
+import { getDatabase, updateDatabase } from '@/utils/databaseOperation'
 export async function saveToUpload(paperId, messageShow) {
   // messageShow是否展示保存成功提示
   // 保存文书至服务器

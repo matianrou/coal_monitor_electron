@@ -95,7 +95,6 @@
 </template>
 
 <script>
-import GoDB from "@/utils/godb.min.js";
 import associationSelectPaper from "@/components/association-select-paper";
 import { getNowFormatTime, getNowTime } from '@/utils/date'
 import { randomString } from "@/utils/index";

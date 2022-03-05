@@ -168,7 +168,6 @@ export default {
         casePull: false, // 检查活动拉取
       },
       selectedCase: {}, // 已选中的检查活动（或计划）
-      DBName: this.$store.state.DBName,
       loading: {
         btn: false
       }

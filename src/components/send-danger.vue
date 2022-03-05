@@ -212,7 +212,6 @@ import selectDangerContent from '@/components/select-danger-content'
 import addDanger from '@/components/add-danger'
 import {getNowFormatTime, getNowTime} from '@/utils/date'
 import {getUUID, randomString, sortbyAsc} from '@/utils/index'
-import GoDB from '@/utils/godb.min.js'
 export default {
   name: "SendDanger",
   components: {
@@ -231,7 +230,6 @@ export default {
     return {
       loading: false,
       activeName: 'sendDanger',
-      DBName: this.$store.state.DBName,
       tabs: [
         {
           label: '隐患发送',

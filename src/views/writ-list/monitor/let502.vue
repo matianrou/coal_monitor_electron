@@ -201,7 +201,6 @@
 </template>
 
 <script>
-import GoDB from "@/utils/godb.min.js";
 import associationSelectPaper from "@/components/association-select-paper";
 import { getDocNumber } from "@/utils/setInitPaperData";
 export default {

@@ -250,7 +250,6 @@
 </template>
 
 <script>
-import GoDB from "@/utils/godb.min.js";
 import {
   transformNumToChinese,
 } from "@/utils";

@@ -148,7 +148,6 @@
 </template>
 
 <script>
-import GoDB from '@/utils/godb.min.js'
 import { getAffiliateOrgName } from '@/utils/setInitPaperData'
 export default {
   name: "WritCase",
@@ -177,7 +176,6 @@ export default {
       pageSize: 10,
       totalCount: 0,
       tableData: [],
-      DBName: this.$store.state.DBName,
     };
   },
   watch: {

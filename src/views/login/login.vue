@@ -45,7 +45,6 @@
 <script>
 import { encry, Encrypt, Decrypt } from '@/utils/AesEncryptUtil'
 import { electronRequest } from '@/utils/electronRequest'
-import GoDB from "@/utils/godb.min.js";
 import { schema, doDocDb } from '@/utils/downloadSource'
 import { getNowFormatTime } from '@/utils/date'
 import { clearLoginInfo } from '@/utils'

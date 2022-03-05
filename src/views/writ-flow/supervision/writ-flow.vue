@@ -163,7 +163,6 @@
 
 
 <script>
-import GoDB from "@/utils/godb.min.js";
 import receivePaper from "@/views/writ-flow/components/receive-paper";
 import showDangerItems from '@/components/show-danger-items'
 import showChangeDangerItems from '@/components/show-change-danger-items'

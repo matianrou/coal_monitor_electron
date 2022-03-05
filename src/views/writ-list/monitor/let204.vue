@@ -245,7 +245,6 @@
 </template>
 
 <script>
-import GoDB from "@/utils/godb.min.js";
 import {
   getDocNumber,
   setNewDanger,

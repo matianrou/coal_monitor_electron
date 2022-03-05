@@ -48,7 +48,6 @@
 </template>
 
 <script>
-import GoDB from "@/utils/godb.min.js";
 import { sortbyAsc } from "@/utils/index";
 import adjustableDiv from '@/components/adjustable-div'
 export default {
@@ -73,7 +72,6 @@ export default {
   },
   data() {
     return {
-      DBName: this.$store.state.DBName,
       divWidth: 400, // 机构部分div基础宽度
       orgList: [], // 机构平级结构
       orgTreeList: [], // 机构树状结构

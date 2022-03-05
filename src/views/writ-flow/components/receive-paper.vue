@@ -106,7 +106,6 @@
 </template>
 
 <script>
-import GoDB from "@/utils/godb.min.js";
 import { saveToUpload } from '@/utils/savePaperData'
 export default {
   name: "ReceivePaper",

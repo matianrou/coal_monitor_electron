@@ -235,7 +235,6 @@
 
 <script>
 import associationSelectPaper from "@/components/association-select-paper";
-import GoDB from "@/utils/godb.min.js";
 import { corpInformation }from '@/utils/setInitPaperData'
 import { handleDateNormal }from '@/utils/date'
 export default {

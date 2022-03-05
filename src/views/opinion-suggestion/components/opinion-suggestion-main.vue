@@ -134,7 +134,6 @@
   </div>
 </template>
 <script>
-import GoDB from "@/utils/godb.min.js";
 import { sortbyDes } from "@/utils/index";
 import { saveToUpload } from "@/utils/savePaperData";
 export default {
@@ -142,7 +141,6 @@ export default {
   data() {
     return {
       loading: {},
-      DBName: this.$store.state.DBName,
       selectPaperType: "16",
       loading: {
         list: false,

@@ -155,7 +155,6 @@
   </div>
 </template>
 <script>
-import GoDB from "@/utils/godb.min.js";
 import selectPerson from '@/components/select-person'
 import selectCompany from '@/components/select-company'
 export default {

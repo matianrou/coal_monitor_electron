@@ -115,7 +115,6 @@
 </template>
 
 <script>
-import GoDB from "@/utils/godb.min.js";
 import { severalDaysLater, getNowFormatDate, getNowFormatTime, getNowTime  } from "@/utils/date";
 import { sortbyAsc, randomString } from "@/utils/index";
 import selectRiskAssessment from '@/components/select-risk-assessment'
@@ -193,7 +192,6 @@ export default {
           { required: true, message: "请选择重大安全风险研判", trigger: "change" },
         ],
       },
-      DBName: this.$store.state.DBName,
       userType: this.$store.state.user.userType,
       dictionary: {
         caseClassify: []

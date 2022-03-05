@@ -89,7 +89,6 @@
 </template>
 
 <script>
-  import GoDB from '@/utils/godb.min.js'
   import { sortbyAsc } from "@/utils/index";
   export default {
     name: 'ExportCheckItems',
@@ -106,7 +105,6 @@
     data () {
       return {
         loading: false,
-        DBName: this.$store.state.DBName,
         selectedCase: null, // 选择的检查活动
         caseList: [], // 检查活动列表
         checkList: [], // 选中的检查活动的检查项列表

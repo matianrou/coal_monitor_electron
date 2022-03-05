@@ -144,7 +144,6 @@
 
 <script>
 import associationSelectPaper from "@/components/association-select-paper";
-import GoDB from "@/utils/godb.min.js";
 export default {
   name: "Let101",
   mixins: [associationSelectPaper],

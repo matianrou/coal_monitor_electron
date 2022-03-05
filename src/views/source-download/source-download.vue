@@ -252,7 +252,6 @@ export default {
       loading: {
         download: false,
       },
-      DBName: this.$store.state.DBName,
       updateTime: {
         id: 1,
         org: '未下载',

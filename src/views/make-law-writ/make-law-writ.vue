@@ -126,7 +126,6 @@ export default {
       paperCount: {}, // 文书个数，用来在文书流程中展示多个文书数量
       dangerStatus: {}, // 各文书隐患情况
       changeDangerStatus: {}, // 关联文书隐患修改情况
-      DBName: this.$store.state.DBName,
       isCreated: false, // 是否新增文书
       paperData: {}, // 多个文书时选择的文书数据
       selectPaperVisible: false, // 选择文书弹窗

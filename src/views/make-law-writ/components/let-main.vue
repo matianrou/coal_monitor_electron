@@ -108,7 +108,6 @@
 <script>
 import { getNowFormatTime, getNowTime, handleDateRetrun } from "@/utils/date";
 import { randomString, sortbyAsc } from "@/utils/index";
-import GoDB from "@/utils/godb.min.js";
 import { createHtml } from "@/utils/createHtml";
 import letDrawer from "@/components/let-drawer";
 import { saveToUpload, saveFineCollection, updateXkzStatus } from '@/utils/savePaperData'
@@ -200,7 +199,6 @@ export default {
         setSelectPersonItem,
         setDangerTextareaItem
       },
-      DBName: this.$store.state.DBName,
       loading: {
         btn: false,
       },
@@ -696,6 +694,7 @@ export default {
           // 删除原隐患项
           let wkDanger = await this.getDatabase("wkDanger")
           let wkDangerList = JSON.parse(JSON.stringify(wkDanger.filter(item => item.paperId === paperId) || []))
+          console.log('wkDangerList', wkDangerList)
           await this.deleteDatabasePhysics('wkDanger', wkDangerList, 'dangerId')
           // 添加隐患项
           let companyOrPerson = ''
@@ -1327,6 +1326,7 @@ export default {
       // 获取当前文书所有隐患项
       let wkDangerList = JSON.parse(JSON.stringify(wkDanger.filter(item => item.paperId === itemPaper.paperId) || []))
       // 删除已有数据
+      console.log('wkDanger1', wkDangerList)
       await this.deleteDatabasePhysics('wkDanger', wkDangerList, 'dangerId')
       // 添加所选数据
       await this.updateDatabase('wkDanger', paperContentOld.DangerTable.selectedDangerList, 'dangerId')

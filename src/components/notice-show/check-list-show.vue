@@ -108,7 +108,6 @@ export default {
   },
   data() {
     return {
-      DBName: this.$store.state.DBName,
       divWidth: 200, // 企业部分div基础宽度
       selectedCompany: {}, // 选中的企业信息
       tableData: [],

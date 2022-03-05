@@ -109,7 +109,6 @@
 </template>
 
 <script>
-import GoDB from '@/utils/godb.min.js'
 export default {
   name: "CheckPositionItem",
   props: {
@@ -139,7 +138,6 @@ export default {
       },
       coalOptions: [], // 采煤工作面选项列表
       tunnellingOptions: [], // 掘进工作面选项列表
-      DBName: this.$store.state.DBName
     };
   },
   computed: {

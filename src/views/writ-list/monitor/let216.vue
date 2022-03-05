@@ -163,7 +163,6 @@
 </template>
 
 <script>
-import GoDB from "@/utils/godb.min.js";
 import { handleDate } from '@/utils/date'
 import associationSelectPaper from '@/components/association-select-paper'
 import { setDangerTable } from '@/utils/handlePaperData'

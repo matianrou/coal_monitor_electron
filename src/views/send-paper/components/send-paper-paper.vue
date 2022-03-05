@@ -42,7 +42,6 @@ export default {
     return {
       loading: {
       },
-      DBName: this.$store.state.DBName,
       showTemp: ''
     };
   },

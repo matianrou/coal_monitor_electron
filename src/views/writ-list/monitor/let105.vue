@@ -157,7 +157,6 @@
 </template>
 
 <script>
-import GoDB from "@/utils/godb.min.js";
 import associationSelectPaper from "@/components/association-select-paper";
 import selectOrg from '@/components/select-org'
 import { getNowFormatTime, getNowTime} from '@/utils/date'

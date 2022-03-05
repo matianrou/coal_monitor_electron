@@ -69,7 +69,6 @@
 </template>
 
 <script>
-import GoDB from "@/utils/godb.min.js";
 import { retrunGetMoney, getPenaltyDescType } from '@/utils/setInitPaperData'
 import { sortbyAsc } from "@/utils/index";
 export default {
@@ -95,7 +94,6 @@ export default {
   data() {
     return {
       loading: false,
-      DBName: this.$store.state.DBName,
       dataForm: {
         selectedType: null,
         penaltyMoney: 0,

@@ -100,7 +100,6 @@
 </template>
 
 <script>
-import GoDB from '@/utils/godb.min.js'
 import { getAffiliateOrgName } from '@/utils/setInitPaperData'
 export default {
   name: "WritPaper",
@@ -122,7 +121,6 @@ export default {
     return {
       tableData: [],
       loading: false,
-      DBName: this.$store.state.DBName,
     };
   },
   activated() {

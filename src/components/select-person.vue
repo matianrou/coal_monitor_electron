@@ -163,7 +163,6 @@
 </template>
 
 <script>
-import GoDB from "@/utils/godb.min.js";
 import { getAllProvinceOrg, sortbyAsc, randomString } from '@/utils/index'
 import { getNowTime, getNowFormatTime } from '@/utils/date'
 import Sortable from 'sortablejs'
@@ -209,7 +208,6 @@ export default {
   data() {
     return {
       loading: false,
-      DBName: this.$store.state.DBName,
       personList: [], // 人员列表
       currentRow: {}, // 单选时使用选中人员
       currentRows: [], // 多选时当前选中人员

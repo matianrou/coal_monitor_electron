@@ -174,7 +174,6 @@
 <script>
 import caseList from "@/components/case-list";
 import orgInformation from '@/components/org-information' // 企业信息
-import GoDB from '@/utils/godb.min.js'
 import { sortbyDes } from '@/utils/index'
 import { saveToUpload } from '@/utils/savePaperData'
 import monitorWritList from '@/views/make-law-writ/components/monitor-writ-list' // 监察文书组件表
@@ -204,7 +203,6 @@ export default {
       paperList: [], // 文书列表
       showTemp: null, // 展示的文书详情模板号，比如let100
       docData: {}, // 选择显示的文书基本信息编号及名称
-      DBName: this.$store.state.DBName,
       selectedPaper: {}, // 选择编辑的文书数据
       selectedPaperList: [], // 多选的批量归档的文书
       dataForm: {

@@ -16,7 +16,6 @@
 </template>
 
 <script>
-import GoDB from '@/utils/godb.min.js'
 import monitorWritList from '@/views/make-law-writ/components/monitor-writ-list' // 监察文书组件表
 import supervisionWritList from '@/views/make-law-writ/components/supervision-writ-list' // 监管文书组件表
 export default {
@@ -37,7 +36,6 @@ export default {
   },
   data() {
     return {
-      DBName: this.$store.state.DBName,
       showTemp: null, // 展示的文书详情模板号，比如let100
       corpData: {}, // 选择的企业信息
       docData: {}, // 选择显示的文书基本信息编号及名称

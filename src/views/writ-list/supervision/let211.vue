@@ -144,7 +144,6 @@
 </template>
 
 <script>
-import GoDB from "@/utils/godb.min.js";
 import { setNewDanger, getOrgData } from '@/utils/setInitPaperData'
 import associationSelectPaper from '@/components/association-select-paper'
 export default {

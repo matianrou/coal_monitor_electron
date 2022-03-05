@@ -211,7 +211,6 @@
 </template>
 
 <script>
-import GoDB from "@/utils/godb.min.js";
 import associationSelectPaper from "@/components/association-select-paper";
 import { getDocNumber2, setNewDanger } from '@/utils/setInitPaperData'
 import { setDangerTable } from "@/utils/handlePaperData";

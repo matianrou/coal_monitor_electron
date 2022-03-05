@@ -234,7 +234,6 @@
 
 <script>
 import letMain from "@/views/make-law-writ/components/let-main.vue";
-import GoDB from "@/utils/godb.min.js";
 import { getDocNumber } from '@/utils/setInitPaperData'
 const toggleDictionary = [
   {

@@ -163,7 +163,6 @@
 </template>
 
 <script>
-import GoDB from "@/utils/godb.min.js";
 import { getNowDate } from "@/utils/date";
 import { transformNumToChinese } from "@/utils";
 import associationSelectPaper from "@/components/association-select-paper";

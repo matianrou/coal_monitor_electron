@@ -468,7 +468,6 @@
 </template>
 
 <script>
-import GoDB from "@/utils/godb.min.js";
 export default {
   name: "OrgInfoDetail",
   props: {
@@ -484,7 +483,6 @@ export default {
   data() {
     return {
       loading: false,
-      DBName: this.$store.state.DBName,
       corpInfo: null,
       zfCmgzmInfoList: [], // 采煤工作面信息
       zfJjgzmInfoList: [], // 掘进工作面信息

@@ -151,7 +151,6 @@
 
 <script>
 import { treeDataTranslate } from '@/utils'
-import GoDB from '@/utils/godb.min.js'
 export default {
   name: 'SelectDangerContent',
   props: {
@@ -216,7 +215,6 @@ export default {
       },
       tempKey: -666666, // 临时key, 用于解决tree半选中状态项不能传给后台接口问题.
       defaultCheckedKeys: null,
-      DBName: this.$store.state.DBName,
       filter: {
         name: '',
         qdId: null,

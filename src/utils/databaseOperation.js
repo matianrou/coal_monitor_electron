@@ -90,7 +90,6 @@ export async function updateDatabase (table, newData = [], tableKey = 'id') {
     }
   }
   // 重置数据库
-  // console.log('----------updateoldData------------：', oldData)
   await setDatabase(table, oldData, tableKey)
 }
 
@@ -109,7 +108,6 @@ export async function deleteDatabasePhysics (table, delData = [], tableKey = 'id
       }
     }
   }
-  console.log('----------deleteoldData----------：', oldData)
   // 重置数据库
   await setDatabase(table, oldData)
 }

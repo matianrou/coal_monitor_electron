@@ -130,7 +130,6 @@
 </template>
 
 <script>
-import GoDB from "@/utils/godb.min.js";
 import { treeDataTranslate } from '@/utils'
 export default {
   name: "AddDanger",
@@ -150,7 +149,6 @@ export default {
       }
     }
     return {
-      DBName: this.$store.state.DBName,
       dataForm: {
         firstDangerType: null,
         secDangerType: null,

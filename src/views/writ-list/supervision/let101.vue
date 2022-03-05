@@ -171,7 +171,6 @@
 
 <script>
 import associationSelectPaper from "@/components/association-select-paper";
-import GoDB from "@/utils/godb.min.js";
 import { takeOutZero } from '@/utils/date'
 export default {
   name: "Let101",

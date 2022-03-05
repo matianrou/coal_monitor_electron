@@ -276,7 +276,6 @@
 </template>
 
 <script>
-import GoDB from "@/utils/godb.min.js";
 import { getDocNumber, setNewDanger, getOrgData } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 import { setDangerTable } from '@/utils/handlePaperData'

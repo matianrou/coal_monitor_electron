@@ -43,7 +43,6 @@
 </template>
 
 <script>
-  import GoDB from '@/utils/godb.min.js'
   import { sortbyAsc, treeDataTranslate } from "@/utils/index";
   export default {
     name: 'SelectRiskAssessment',
@@ -59,7 +58,6 @@
     },
     data () {
       return {
-        DBName: this.$store.state.DBName,
         loading: false,
         riskAssessmentList: [],
         selectedRisk: [], 

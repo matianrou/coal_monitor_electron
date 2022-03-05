@@ -82,7 +82,6 @@
 </template>
 
 <script>
-import GoDB from "@/utils/godb.min.js";
 import { getNowFormatTime, getNowTime } from '@/utils/date'
 import { randomString } from "@/utils/index";
 import { saveAs } from 'file-saver'
