@@ -428,7 +428,7 @@ export default {
           selectedPaper.let1Data.paperContent
         );
         // 获取所有文书，整理成为默认案卷首页
-        let wkPaper = await this.getDatabase('wkPaper') 
+        let wkPaper = await this.getPaperDatabase(this.corpData.caseId)
         // 获取笔录文书：
         let paper1 = JSON.parse(JSON.stringify(wkPaper.filter(item => item.paperId === selectedPaper.let1Data.paperId) || []))
         let paper22 = []

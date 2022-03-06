@@ -463,7 +463,7 @@ export default {
           let caseData = wkCase.find(item => item.caseId === this.selectedCase.caseId && item.delFlag !== '1')
           if (caseData.isPull) {
             // 拉取文书的删除逻辑：
-            let wkPaper = await this.getDatabase('wkPaper') || []
+            let wkPaper = await this.getPaperDatabase(this.selectedCase.caseId) || []
             // 获取所有此检查活动caseId的文书
             let paperList = wkPaper.length > 0 && JSON.parse(JSON.stringify(wkPaper.filter(item => item.caseId === this.selectedCase.caseId && item.delFlag !== '1') || []))
             let canDelete = true
@@ -522,9 +522,9 @@ export default {
                   }
                 }
                 await this.deleteDatabasePhysics('wkDanger', pullDangerList, 'dangerId')
-                await this.deleteDatabasePhysics('wkPaper', pullDeletePaper, 'paperId')
+                await this.deletePaperDatabasePhysics(caseData.caseId, pullDeletePaper)
                 // 逻辑删除本地添加的数据：文书、隐患
-                await this.updateDatabase('wkPaper', selfDeletePaper, 'paperId')
+                await this.updatePaperDatabase(caseData.caseId, selfDeletePaper)
                 await this.updateDatabase('wkDanger', selfDeleteDanger, 'dangerId')
                 // 删除后刷新列表
                 await this.getData()
@@ -538,7 +538,7 @@ export default {
             }
           } else {
             // 不是拉取的活动删除逻辑：首先遍历检查活动中的文书时候已经有归档的文书
-            let wkPaper = await this.getDatabase('wkPaper')
+            let wkPaper = await this.getPaperDatabase(this.selectedCase.caseId)
             // 获取所有此检查活动caseId的文书
             let paperList = JSON.parse(JSON.stringify(wkPaper.filter(item => item.caseId === this.selectedCase.caseId) || []))
             let canDelete = true
@@ -572,7 +572,7 @@ export default {
                         delDangerList.push(curDangerList[j])
                       }
                     }
-                    await this.updateDatabase('wkPaper', paperList, 'paperId')
+                    await this.updatePaperDatabase(curCase.caseId, paperList)
                     await this.updateDatabase('wkDanger', delDangerList, 'dangerId')
                     this.$message.success('删除成功！')
                   } else {

@@ -342,7 +342,7 @@
                         }
                       }
                       await this.updateDatabase('wkCase', [jczfCase], 'caseId')
-                      await this.updateDatabase('wkPaper', paper, 'paperId')
+                      await this.updatePaperDatabase(jczfCase.caseId, paper)
                       await this.updateDatabase('wkDanger', danger, 'dangerId')
                       // 更新检查活动侧边栏
                       this.$emit('confirm', jczfCase)

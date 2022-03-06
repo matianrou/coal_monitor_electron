@@ -419,7 +419,7 @@ export default {
       let cellIdx20String = orgSysOfficeInfo.phone;
       let cellIdx9String = ''
       // 5.获取检查地点
-      let wkPaper = await this.getDatabase('wkPaper')
+      let wkPaper = await this.getPaperDatabase(this.corpData.caseId)
       if (let1DataPaperContent.associationPaperId) {
         let paper22 = await wkPaper.find(item => item.paperId === let1DataPaperContent.associationPaperId.paper22Id)
         cellIdx9String = paper22.paperContent ? JSON.parse(paper22.paperContent).cellIdx4 : ''

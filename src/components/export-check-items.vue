@@ -119,7 +119,7 @@
         this.multiSelectedIndexs = val
       },  
       async getCheckList() {
-        let wkPaper = await this.getDatabase('wkPaper')
+        let wkPaper = await this.getPaperDatabase()
         // 拉取做的检查活动
         let caseList = JSON.parse(JSON.stringify(wkPaper.filter(item => item.paperType === '22' 
           && item.delFlag !== '1' 

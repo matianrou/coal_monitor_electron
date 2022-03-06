@@ -998,7 +998,7 @@ export default {
       }
       this.showChangeDangerList = showChangeDangerList
       // 置verNo为空
-      let wkPaper = await this.getDatabase("wkPaper");
+      let wkPaper = await this.getPaperDatabase(this.corpData.caseId);
       let paperList = JSON.parse(JSON.stringify(wkPaper.filter((item) => {
         return item.caseId === this.corpData.caseId && item.delFlag !== '1' && item.paperType === paperType
       }) || []))
@@ -1013,7 +1013,7 @@ export default {
         let paperItem = Object.assign({}, paperList[i], {paperContent: JSON.stringify(paperContent)})
         updatePaperList.push(paperItem)
       }
-      await this.updateDatabase('wkPaper', updatePaperList, 'paperId')
+      await this.updatePaperDatabase(this.corpData.caseId, updatePaperList)
       this.$emit('refresh-writ')
     },
     async delPaper (paperType) {
@@ -1024,7 +1024,7 @@ export default {
       // 删除文书 判断是否已归档，如果已归档则不可删除
       this.loading.btn = true
       // 获取要删除的文书：
-      let wkPaper = await this.getDatabase('wkPaper')
+      let wkPaper = await this.getPaperDatabase(this.corpData.caseId)
       let curPaper = []
       curPaper = JSON.parse(JSON.stringify(wkPaper.filter(item => item.paperType === paperType && item.caseId === this.corpData.caseId && item.delFlag === '2') || []))
       if (curPaper.length === 0) {
@@ -1074,7 +1074,7 @@ export default {
             // 删除文书
             let paperData = JSON.parse(JSON.stringify(curPaper))
             paperData.delFlag = '1'
-            await this.updateDatabase('wkPaper', [paperData], 'paperId')
+            await this.updatePaperDatabase(paperData.caseId, [paperData])
             // 删除对应隐患
             let wkDanger = await this.getDatabase('wkDanger')
             let dangerList = JSON.parse(JSON.stringify(wkDanger.filter(item => item.paperId === curPaper.paperId) || []))
@@ -1095,7 +1095,7 @@ export default {
     },
     async showAccidentDangerInfo (docTypeNo) {
       // 展示事故隐患详情
-      let wkPaper = await this.getDatabase('wkPaper')
+      let wkPaper = await this.getPaperDatabase(this.corpData.caseId)
       let paperList = JSON.parse(JSON.stringify(wkPaper.filter(item => item.delFlag !== '1' && item.paperType === docTypeNo && item.caseId === this.corpData.caseId) || []))
       if (paperList.length > 1) { 
         // 多个文书时选择文书，然后展示隐患信息

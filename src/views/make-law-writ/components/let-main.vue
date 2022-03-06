@@ -280,7 +280,7 @@ export default {
       // 当文书为意见建议书时，判断文件为this.$parent.letData.UploadFile.tableData
       if (((this.docData.docTypeNo === '21' || this.docData.docTypeNo === '44') && this.$parent.fileList.length > 0) || this.docData.docTypeNo === '43'
        || ((this.docData.docTypeNo === '16' || this.docData.docTypeNo === '17') && this.$parent.letData.UploadFile.tableData.length > 0)) {
-        let wkPaper = await this.getDatabase("wkPaper");
+        let wkPaper = await this.getPaperDatabase(this.$store.state.curCase.caseId);
         let paperList = JSON.parse(JSON.stringify(wkPaper.filter(item => item.paperId === this.$parent.paperId && item.delFlag !== '1') || []))
         if (paperList.length < 1) {
           this.$confirm(`${this.docData.docTypeNo === '43' ? '当前未保存文书，如已上传文件，' : '当前已上传文件，但未保存文书，如果'}返回主页面则无法保存已上传的文件，需要先点击“保存”按钮后才能保存已上传的文件！`, '注意!', {
@@ -369,7 +369,7 @@ export default {
             // 若修改隐患项则弹窗选择需要修改的关联项
             // 1.拉取本次检查活动中的所有文书
             // 2.比对文书中的关联paper1Id，如果相同则提取文书信息
-            let wkPaper = await this.getDatabase('wkPaper')
+            let wkPaper = await this.getPaperDatabase(this.paperData.caseId)
             let updatePaperType = ['1', '2', '4', '6', '49', '36', '8']
             let curIndex = updatePaperType.indexOf(this.docData.docTypeNo)
             let updatePaper = {}
@@ -650,12 +650,12 @@ export default {
         p36RegisterTime: extraSaveData.p36RegisterTime || null,
         localizeFlag: "1", // 国产化保存标记
       };
-      let wkPaper = await this.getDatabase("wkPaper");
+      let wkPaper = await this.getPaperDatabase(jsonPaper.caseId);
       // 如果保存的是已编辑的 那么保存的同时要把上一条重复的数据删除（修改为直接更新数据库）
       let hasPaperData = wkPaper.find((item) => {
         return item.paperId === paperId && item.delFlag !== '1';
       });
-      await this.updateDatabase('wkPaper', [jsonPaper], 'paperId')
+      await this.updatePaperDatabase(jsonPaper.caseId, [jsonPaper])
       if (!hasPaperData) {
         // 如果新增的文书，需要自增文书号
         let paperNumberType = this.$store.state.dictionary[`${this.$store.state.user.userType}PaperNumberType`]
@@ -777,10 +777,10 @@ export default {
           `“${this.docData.docTypeName}”文书保存成功。`
         );
       }
-      await saveToUpload(paperId, true);
+      await saveToUpload(paperId, true, (jsonPaper.caseId ? jsonPaper.caseId : 'opinion-suggestion'));
       if (this.docData.docTypeNo === '43') {
         // 罚款收缴时，额外发送罚款收缴数据存储
-        await saveFineCollection(paperId)
+        await saveFineCollection(paperId, (jsonPaper.caseId ? jsonPaper.caseId : 'opinion-suggestion'))
       }
       if (this.docData.docTypeNo === '22') {
         // 检查方案，增加逻辑判断，如果选择的全系统各环节监察，则需上传报告提示语
@@ -795,7 +795,7 @@ export default {
       // 还需要确认逻辑，暂时去掉此功能
       // if (this.docData.docTypeNo === '8') {
         // 如果是行政处罚决定书，则还需要上传当前行政处罚类别
-        // await updateXkzStatus(paperId)
+        // await updateXkzStatus(paperId, (jsonPaper.caseId ? jsonPaper.caseId : 'opinion-suggestion'))
       // }
       // 返回列表并刷新
       this.$emit("go-back", { page: "writFlow", data: this.$store.state.curCase });
@@ -1320,7 +1320,7 @@ export default {
       }
       itemPaper.paperContent = JSON.stringify(paperContentOld)
       // 更新文书
-      await this.updateDatabase('wkPaper', [itemPaper], 'paperId')
+      await this.updatePaperDatabase(itemPaper.caseId, [itemPaper])
       // 更新隐患
       let wkDanger = await this.getDatabase("wkDanger")
       // 获取当前文书所有隐患项
@@ -1332,7 +1332,7 @@ export default {
       await this.updateDatabase('wkDanger', paperContentOld.DangerTable.selectedDangerList, 'dangerId')
       if (this.$store.state.onLine) {
         // 有网络时同步上传服务器
-        await saveToUpload(itemPaper.paperId, false)
+        await saveToUpload(itemPaper.paperId, false, itemPaper.caseId)
       }
     },
     closePunishmentInfoFill ({page, refresh}) {

@@ -398,7 +398,7 @@ export default {
   methods: {
     async initData() {
       //查询符合条件的记录
-      let wkPaper = await this.getDatabase("wkPaper");
+      let wkPaper = await this.getPaperDatabase(this.corpData.caseId)
       let caseId = this.corpData.caseId;
       let checkPaper = JSON.parse(JSON.stringify(wkPaper.filter((item) => {
         return item.caseId === caseId && item.paperType === this.docData.docTypeNo && item.delFlag !== '1'

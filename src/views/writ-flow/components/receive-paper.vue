@@ -194,9 +194,9 @@ export default {
             // 接收成功后
             // 将文书数据放入本地数据库中
             row.paperContent = JSON.parse(row.paperContent)
-            await this.updateDatabase('wkPaper', [row.paperContent], 'paperId')
+            await this.updatePaperDatabase(row.paperContent.caseId, [row.paperContent])
             // 上传保存
-            await saveToUpload(row.paperContent.paperId, false);
+            await saveToUpload(row.paperContent.paperId, false, row.paperContent.caseId);
             // 更新列表
             await this.getData()
             // 关闭当前接收窗口

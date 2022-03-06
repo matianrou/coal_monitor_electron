@@ -345,7 +345,7 @@ export default {
       let paper8num1 = '', paper8num2 = '', paper8num3 = '', paper8num4 = ''
       let paper8date = ['', '', '']
       if (let53DataPaperContent.associationPaperId) {
-        let wkPaper = await this.getDatabase('wkPaper')
+        let wkPaper = await this.getPaperDatabase(this.corpData.caseId)
         let paper8 = await wkPaper.find(item => item.paperId === let53DataPaperContent.associationPaperId.paper8Id && item.delFlag !== '1')
         paper8PaperContent = JSON.parse(paper8.paperContent)
         paper8num1 = paper8PaperContent.cellIdx0

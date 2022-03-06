@@ -13,7 +13,16 @@ import cellLine from '@/components/cell-line'
 import JSZipUtils from 'jszip-utils'
 import pizzip from 'pizzip'
 import fileSaver from 'file-saver'
-import { getDatabase, setDatabase, getContrastData, updateDatabase, deleteDatabasePhysics } from '@/utils/databaseOperation'
+import { 
+	getDatabase, 
+	setDatabase, 
+	updateDatabase, 
+	deleteDatabasePhysics, 
+	initMkdir, 
+	getPaperDatabase, 
+	updatePaperDatabase, 
+	deletePaperDatabasePhysics
+} from '@/utils/databaseOperation'
 
 Vue.use(ElementUI)
 Vue.use(Print)
@@ -28,9 +37,12 @@ Vue.prototype.pizzip = pizzip
 Vue.prototype.fileSaver = fileSaver
 Vue.prototype.getDatabase = getDatabase
 Vue.prototype.setDatabase = setDatabase
-Vue.prototype.getContrastData = getContrastData
 Vue.prototype.updateDatabase = updateDatabase
 Vue.prototype.deleteDatabasePhysics = deleteDatabasePhysics
+Vue.prototype.initMkdir = initMkdir
+Vue.prototype.getPaperDatabase = getPaperDatabase
+Vue.prototype.updatePaperDatabase = updatePaperDatabase
+Vue.prototype.deletePaperDatabasePhysics = deletePaperDatabasePhysics
 
 // 全局前缀
 window.SITE_CONFIG = {}

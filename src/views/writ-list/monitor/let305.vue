@@ -244,7 +244,7 @@ export default {
       // 获取文书编号：
       // 行政处罚决定书：
       // 通过10行政复议申请笔录获取8行政处罚决定书中内容
-      let wkPaper = await this.getDatabase('wkPaper')
+      let wkPaper = await this.getPaperDatabase(this.corpData.caseId)
       let paper8 = wkPaper.find(item => item.paperId === let10DataPaperContent.associationPaperId.paper8Id && item.delFlag !== '1')
       let let8DataPaperContent = JSON.parse(
         paper8.paperContent

@@ -127,7 +127,7 @@ export default {
         let corp = corpBase.find((item) => {
           return item.corpId == this.corpData.corpId;
         });
-        let wkPaper = await this.getDatabase('wkPaper')
+        let wkPaper = await this.getPaperDatabase(this.corpData.caseId)
         let let4DataPaperContent = JSON.parse(
           selectedPaper.let4Data.paperContent
         );

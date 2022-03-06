@@ -175,7 +175,7 @@ export default {
           // 且监察时才需要回传
           if (this.$store.state.onLine && data.docData.docTypeNo === '22' && this.corpData.constructType === '11' 
             && this.caseData.caseType === '0' && this.$store.state.user.userType !== 'supervision') {
-            let wkPaper = await this.getDatabase("wkPaper");
+            let wkPaper = await this.getPaperDatabase(this.corpData.caseId);
             let paper22List = JSON.parse(JSON.stringify(wkPaper.filter(item => item.caseId === this.corpData.caseId && item.paperType === '22') || []))
             if (paper22List.length === 0) {
               // 弹窗
@@ -193,7 +193,7 @@ export default {
           this.gotoWritFill(data)
         } else {
           // 如果为编辑则调取wkPaper文书表，如果为多条则弹窗选择文书，选择后的文书id传入组件中以拉取历史数据做为回显
-          let wkPaper = await this.getDatabase("wkPaper");
+          let wkPaper = await this.getPaperDatabase(this.corpData.caseId);
           let checkPaper = JSON.parse(JSON.stringify(wkPaper.filter(item => item.caseId === this.corpData.caseId && item.paperType === data.docData.docTypeNo && item.delFlag !== '1') || []))
           // console.log('checkPaper', checkPaper)
           // await wkPaper.delete(checkPaper[0].id) // 删除文书
@@ -242,7 +242,7 @@ export default {
     async showDocTemplet() {
       //读取当前点击的计划或检查活动的数据
       let corpBase = await this.getDatabase("baseInfo");
-      let wkPaper = await this.getDatabase("wkPaper");
+      let wkPaper = await this.getPaperDatabase(this.caseData.caseId);
       //查询符合条件的记录
       let corp = corpBase.find((item) => {
         return item.corpId === this.caseData.corpId;

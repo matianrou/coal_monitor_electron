@@ -255,7 +255,7 @@ export default {
           : "";
       // 3.案情摘要：与立案决定书案情摘要格式一致。检查时间，煤矿企业全称+进行现场检查时发现，+隐患描述。+违反认定法条+的规定，依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。
       // 获取检查时间
-      let wkPaper = await this.getDatabase('wkPaper')
+      let wkPaper = await this.getPaperDatabase(this.corpData.caseId)
       let let1Data = wkPaper.find(item => item.paperId === letDataPaperContent.associationPaperId.paper1Id && item.delFlag !== '1')
       let let1DataPaperContent = JSON.parse(
         let1Data.paperContent

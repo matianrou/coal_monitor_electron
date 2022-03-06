@@ -1,4 +1,4 @@
-import { setDatabase, updateDatabase } from '@/utils/databaseOperation'
+import { setDatabase, updateDatabase, updatePaperDatabase } from '@/utils/databaseOperation'
 
 // “机构资源”下载。
 export async function orgSave(resId, data) {
@@ -434,7 +434,7 @@ export async function docSave(resId, data, savePullField = false){
 		}
 		arrDocPaper.push(objData);
 	}
-  await updateDatabase('wkPaper', arrDocPaper, 'paperId')
+  await updatePaperDatabase(null, arrDocPaper)
 	//2-case
 	for (let i = 0; i < arrCase.length; i++) {
 		let obj = arrCase[i];

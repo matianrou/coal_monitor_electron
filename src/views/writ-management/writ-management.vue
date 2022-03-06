@@ -261,7 +261,7 @@ export default {
       }
       // 获取文书列表
       if (this.caseData.caseId) {
-        let wkPaper = await this.getDatabase('wkPaper')
+        let wkPaper = await this.getPaperDatabase(this.caseData.caseId)
         let {name, personName} = this.dataForm
         let paperList = JSON.parse(JSON.stringify(wkPaper.filter(item => item.caseId === this.caseData.caseId && item.delFlag !== '1') || []))
         if (paperList.length > 0) {
@@ -304,7 +304,7 @@ export default {
       })
       this.selectedPaper = row
       // row.delFlag = '2'
-      // await this.updateDatabase('wkPaper', [row], 'paperId')
+      // await this.updatePaperDatabase(row.caseId, [row])
     },
     async handleDelete (row) {
       if (!this.$store.state.onLine) {
@@ -330,7 +330,7 @@ export default {
                 // 删除文书
                 let paperData = JSON.parse(JSON.stringify(row))
                 paperData.delFlag = '1'
-                await this.updateDatabase('wkPaper', [paperData], 'paperId')
+                await this.updatePaperDatabase(paperData.caseId, [paperData])
                 // 删除对应隐患
                 let wkDanger = await this.getDatabase('wkDanger')
                 let dangerList = JSON.parse(JSON.stringify(wkDanger.filter(item => item.paperId === row.paperId) || []))
@@ -390,7 +390,7 @@ export default {
       // 修改文书的标识
       let paperData = JSON.parse(JSON.stringify(paper))
       paperData.delFlag = '0'
-      await this.updateDatabase('wkPaper', [paperData], 'paperId')
+      await this.updatePaperDatabase(paperData.caseId, [paperData])
       // 修改隐患的标识
       let wkDanger = await this.getDatabase('wkDanger')
       let wkDangerList = []
@@ -399,7 +399,7 @@ export default {
         wkDangerList[i].delFlag = '0'
       }
       await this.updateDatabase('wkDanger', wkDangerList, 'dangerId')
-      await saveToUpload(paper.paperId, true)
+      await saveToUpload(paper.paperId, true, paper.caseId)
     },
     resetForm () {
       this.$refs.dataForm.resetFields()

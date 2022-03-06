@@ -250,7 +250,7 @@ export default {
       let corp = corpBase.find((item) => {
         return item.corpId == this.corpData.corpId;
       });
-      let wkPaper = await this.getDatabase("wkPaper");
+      let wkPaper = await this.getPaperDatabase(this.corpData.caseId)
       let caseId = this.corpData.caseId;
       //查询当前计划是否已做文书
       let checkPaper = JSON.parse(JSON.stringify(wkPaper.filter((item) => {

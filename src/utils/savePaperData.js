@@ -5,12 +5,13 @@ import { Message, Alert } from 'element-ui'
 import store from "@/store"
 import { randomString } from "@/utils/index";
 import { getNowTime } from "@/utils/date";
-import { getDatabase, updateDatabase } from '@/utils/databaseOperation'
-export async function saveToUpload(paperId, messageShow) {
+import { getDatabase, updateDatabase, getPaperDatabase } from '@/utils/databaseOperation'
+export async function saveToUpload (paperId, messageShow, caseId) {
   // messageShow是否展示保存成功提示
   // 保存文书至服务器
-  let wkPaper = await getDatabase("wkPaper");
+  // 额外补充caseId传输，因wkPaper改为按检查活动读取存储方式
   let wkCase = await getDatabase("wkCase");
+  let wkPaper = await getPaperDatabase(caseId);
   let wkDanger = await getDatabase("wkDanger")
   let corpBase = await getDatabase('baseInfo')
   //查询符合条件的记录
@@ -367,8 +368,9 @@ async function savePaperToPrepareUpload(submitData) {
           submitData.paper[i].p22JczfCheck = JSON.stringify(p22JczfCheck)
         }
       }
+      console.log('submitData.paper', submitData.paper[i])
+      await updatePaperDatabase(submitData.paper[i].caseId, submitData.paper)
     }
-    await updateDatabase('wkPaper', submitData.paper, 'paperId')
   }
   // 修改隐患项delFlag
   if (submitData.danger) {
@@ -379,10 +381,11 @@ async function savePaperToPrepareUpload(submitData) {
   }
 }
 
-export async function saveFineCollection(paperId) {
+export async function saveFineCollection(paperId, caseId) {
+  // 额外补充caseId，因wkPaper存储方式改为按检查活动id存储
   // 上传罚款收缴
   // 整理上传数据：
-  let wkPaper = await getDatabase("wkPaper");
+  let wkPaper = await getPaperDatabase(caseId);
   let wkCase = await getDatabase("wkCase");
     //查询符合条件的记录
   let paperData = wkPaper.find((item) => {
@@ -434,7 +437,7 @@ export async function saveFineCollection(paperId) {
         } else {
           // 上传失败时，重新置文书为保存状态，以备再次归档
           paperData.delFlag = '2'
-          await updateDatabase('wkPaper', [paperData], 'paperId')
+          await updatePaperDatabase(paperData.caseId, [paperData])
           Message.error("上传至服务器请求失败，请重新归档！");
         }
       }
@@ -443,16 +446,17 @@ export async function saveFineCollection(paperId) {
       if (paperData.delFlag === '0') {
         // 上传失败时，重新置文书为保存状态，以备再次归档
         paperData.delFlag = '2'
-        await updateDatabase('wkPaper', [paperData], 'paperId')
+        await updateDatabase(paperData.caseId, [paperData])
         Message.error("上传至服务器请求失败，请重新归档！");
         console.log("上传至服务器请求失败：", err);
       }
     });
 }
 
-export async function updateXkzStatus(paperId) {
+export async function updateXkzStatus(paperId, caseId) {
+  // 额外补充caseId，因wkPaper存储方式改为按检查活动id存储
   // 整理上传数据：
-  let wkPaper = await getDatabase("wkPaper");
+  let wkPaper = await getPaperDatabase(caseId);
   //查询符合条件的记录
   let paperData = wkPaper.find((item) => {
     return item.paperId == paperId && item.delFlag !== '1';

@@ -238,7 +238,7 @@ export default {
     async initLetData(selectedPaper) {
       // 创建初始版本
       // 初始创建时拉取行政处罚决定书，列表展示
-	    let wkPaper = await this.getDatabase('wkPaper');
+      let wkPaper = await this.getPaperDatabase(this.corpData.caseId)
       let p8PaperList = JSON.parse(JSON.stringify(wkPaper.filter(item => item.caseId === this.corpData.caseId && item.paperType === '8' && item.delFlag !== '1') || []))
       // 拉取行政决定履行催告书，如果未制作则不能填写加处罚款
       let p39PaperList = JSON.parse(JSON.stringify(wkPaper.filter(item => item.caseId === this.corpData.caseId && item.paperType === '39' && item.delFlag !== '1') || []))

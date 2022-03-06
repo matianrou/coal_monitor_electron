@@ -111,7 +111,7 @@ export default {
         this.paperId = getNowTime() + randomString(28)
         // 创建初始版本
         if (this.corpData && this.corpData.caseId) {
-          let wkPaper = await this.getDatabase('wkPaper')
+          let wkPaper = await this.getPaperDatabase(this.corpData.caseId)
           // 按组件中定义的associationPaper关联文书
           let isReturn = false
           // 当前有三种文书关联方式：
@@ -297,7 +297,7 @@ export default {
       // 判断必选文书列表：
       let isReturn = false
       if (this.associationList.length > 0) {
-        let wkPaper = await this.getDatabase('wkPaper')
+        let wkPaper = await this.getPaperDatabase(this.corpData.caseId)
         for (let i = 0; i < this.associationList.length; i++) {
           let paperType = this.associationList[i]
           let paperDataList = JSON.parse(JSON.stringify(wkPaper.filter((item) => {

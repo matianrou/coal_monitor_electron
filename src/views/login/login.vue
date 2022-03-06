@@ -147,7 +147,6 @@ export default {
           this.$store.state.user.userAreaId = userAreaId
           this.$store.state.user.userGroupName = userGroupName
           this.$store.state.user.userNumber = userNumber || ''
-          await this.setDB(userId)
           this.loading.loginBtn = false
           this.$message.warning('当前为离线，部分功能无法使用！')
           this.$router.replace({
@@ -246,7 +245,7 @@ export default {
                       if (response.data.data) {
                         let saveData = response.data.data
                         await this.updateDatabase('wkCase', saveData.jczfCase, 'caseId')
-                        await this.updateDatabase('wkPaper', saveData.paper, 'paperId')
+                        await this.updatePaperDatabase(saveData.jczfCase.caseId, saveData.paper, 'paperId')
                         await this.updateDatabase('wkDanger', saveData.danger, 'dangerId')
                         // 修改更新日期
                         await this.handleUpdateTime()
@@ -327,42 +326,16 @@ export default {
       }})
     },
     async setDB (userId) {
-      // 读取当前是否已进行过资源下载，如果没有则表示未下载过资源，则提示需要下载资源，同时创建数据库表
       if (this.NODE_ENV === 'production') {
-        // let res = electronRequest({msgName: 'checkExistFile', message: {fileName: `database/${userId}/sourceDownload.txt`}, type: 'sendSync'})
-        // 首先判断是否存在database目录，如果没有则创建
-        let databaseExist = electronRequest({msgName: 'checkExistFile', message: {fileName: `database`}, type: 'sendSync'})
-        let databaseIsExist = databaseExist.request
-        if (!databaseIsExist) {
-          // 如果没有则创建目录
-          let mkDatabaseReq = electronRequest({msgName: 'mkdir', message: {mkdirName: `database`}, type: 'sendSync'})
-          if (mkDatabaseReq.request.code === '200') {
-            // 创建成功则继续创建userId目录
-            let mkUserIdReq = electronRequest({msgName: 'mkdir', message: {mkdirName: `database/${userId}`}, type: 'sendSync'})
-            if (mkUserIdReq.request.code === '200') {
-              // 创建下载文件sourceDownload
-              await this.setSourceDownload()
-            }
-          }
-        } else {
-          // 如果有database目录，则判断是否有UserId目录
-          let userIdExist = electronRequest({msgName: 'checkExistFile', message: {fileName: `database/${userId}`}, type: 'sendSync'})
-          let userIdIsExist = userIdExist.request
-          if (!userIdIsExist) {
-            // 如果没有目录则创建
-            let mkUserIdReq = electronRequest({msgName: 'mkdir', message: {mkdirName: `database/${userId}`}, type: 'sendSync'})
-            if (mkUserIdReq.request.code === '200') {
-              // 创建下载文件sourceDownload
-              await this.setSourceDownload()
-            }
-          } else {
-            await this.setSourceDownload()
-          }
+        // 创建数据库文件夹
+        let isSuccess = await this.initMkdir(userId)
+        if (!isSuccess) {
+          this.$message.error('系统文件初始化失败，请重新打开系统再次尝试！')
         }
       } else {
         console.log('当前环境不支持electron')
         await this.setSourceDownload()
-      }
+      } 
     },
     async setSourceDownload () {
       let initData = {

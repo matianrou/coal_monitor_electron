@@ -236,7 +236,7 @@ export default {
             groupName: this.$store.state.curCase.provinceGroupName,
           },
         })
-        let wkPaper = await this.getDatabase('wkPaper')
+        let wkPaper = await this.getPaperDatabase(this.corpData.caseId)
         let let4Paper = await wkPaper.find(item => item.paperId === let49DataPaperContent.associationPaperId.paper4Id && item.delFlag !== '1')
         let let4DataPaperContent = JSON.parse(let4Paper.paperContent)
         let {

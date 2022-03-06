@@ -190,7 +190,7 @@ export default {
     async getData() {
       this.loading.list = true;
       // 获取文书列表: 获取建议书16，意见书17，和没有caseId的执法案卷（首页）及目录15
-      let wkPaper = await this.getDatabase("wkPaper");
+      let wkPaper = await this.getPaperDatabase('opinion-suggestion');
       let paperList = JSON.parse(JSON.stringify(wkPaper.filter(
         (item) =>
           ((item.paperType === "15" && !item.caseId) ||
@@ -265,8 +265,8 @@ export default {
       // 拉取已经保存的文书，修改delFlag = '0',调用saveToUpload上传
       let paperData = JSON.parse(JSON.stringify(paper));
       paperData.delFlag = "0";
-      await this.updateDatabase('wkPaper', [paperData], 'paperId')
-      await saveToUpload(paper.paperId, true);
+      await this.updatePaperDatabase('opinion-suggestion', [paperData])
+      await saveToUpload(paper.paperId, true, 'opinion-suggestion');
     },
     async batchFile  () {
       // 批量归档
@@ -331,7 +331,7 @@ export default {
             // 删除文书
             let paperData = JSON.parse(JSON.stringify(paper));
             paperData.delFlag = "1"
-            await this.updateDatabase('wkPaper', [paperData], 'paperId')
+            await this.updatePaperDatabase('opinion-suggestion', [paperData])
             // 删除对应隐患
             let wkDanger = await this.getDatabase("wkDanger");
             let dangerList = JSON.parse(JSON.stringify(wkDanger.filter(

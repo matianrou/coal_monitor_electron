@@ -226,7 +226,7 @@ export default {
       let checkPosition = ''
       if (this.corpData.caseType === "0") {
         // 5.获取检查地点
-        let wkPaper = await this.getDatabase('wkPaper')
+        let wkPaper = await this.getPaperDatabase(this.corpData.caseId)
         let paper22 = await wkPaper.find(item => item.paperId === let25DataPaperContent.associationPaperId.paper22Id)
         checkPosition = paper22.paperContent ? JSON.parse(paper22.paperContent).cellIdx4 || 'XX' + '使用的' : ''
       }
