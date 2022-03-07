@@ -18,7 +18,6 @@ import {
 	setDatabase, 
 	updateDatabase, 
 	deleteDatabasePhysics, 
-	initMkdir, 
 	getPaperDatabase, 
 	updatePaperDatabase, 
 	deletePaperDatabasePhysics
@@ -39,7 +38,6 @@ Vue.prototype.getDatabase = getDatabase
 Vue.prototype.setDatabase = setDatabase
 Vue.prototype.updateDatabase = updateDatabase
 Vue.prototype.deleteDatabasePhysics = deleteDatabasePhysics
-Vue.prototype.initMkdir = initMkdir
 Vue.prototype.getPaperDatabase = getPaperDatabase
 Vue.prototype.updatePaperDatabase = updatePaperDatabase
 Vue.prototype.deletePaperDatabasePhysics = deletePaperDatabasePhysics

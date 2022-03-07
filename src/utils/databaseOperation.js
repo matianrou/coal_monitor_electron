@@ -261,12 +261,12 @@ export async function deletePaperDatabasePhysics (caseId = null, delData = []) {
   }
 }
 
-export async function initMkdir () {
+export async function initMkdir (userId) {
   let success = true
   // 判断是否有wkPaper目录，如果有则直接创建下载文件，如果没有则继续判断是否有userId目录
   let wkPaperIsExist = getMkdir(`database/${userId}/wkPaper`)
   if (wkPaperIsExist) {
-    await this.setSourceDownload()
+    success = true
   } else {
     // 判断是否有userId目录，如果有则直接创建wkPaper和下载记录文件，如果没有则继续判断是否有database目录
     let userIdIsExist = getMkdir(`database/${userId}`)
@@ -274,7 +274,7 @@ export async function initMkdir () {
       let mkUserWkPaperReq = setMkdir(`database/${userId}/wkPaper`)
       if (mkUserWkPaperReq.code === '200') {
         // 创建下载文件sourceDownload
-        await this.setSourceDownload()
+        success = true
       } else {
         // 创建文件夹失败
         success = false
@@ -289,7 +289,7 @@ export async function initMkdir () {
           let mkUserWkPaperReq = setMkdir(`database/${userId}/wkPaper`)
           if (mkUserWkPaperReq.code === '200') {
             // 创建下载文件sourceDownload
-            await this.setSourceDownload()
+            success = true
           } else {
             // 创建文件夹失败
             success = false
@@ -308,7 +308,7 @@ export async function initMkdir () {
             let mkUserWkPaperReq = setMkdir(`database/${userId}/wkPaper`)
             if (mkUserWkPaperReq.code === '200') {
               // 创建下载文件sourceDownload
-              await this.setSourceDownload()
+              success = true
             } else {
               // 创建文件夹失败
               success = false
@@ -328,6 +328,21 @@ export async function initMkdir () {
     }
   }
   return success
+}
+
+export async function initDatabase (userId) {
+  // 初始化所有数据库：将原有存储在indexDB中的自增数据存储在文件中
+  let db = new GoDB(userId)
+  let databaseTable = ['wkCase', 'wkPaper', 'wkDanger', 'localReview', 'fineCollection', 'singleReceipt', 'imageEvidence', 'paperAttachment', 'jczfReport',
+  'personPaperNumber', 'prepareUpload', 'sendDanger', 'sendPaper', 'addPerson']
+  for (let i = 0; i < databaseTable.length; i++) {
+    let table = databaseTable[i]
+    let dbData = db.table(table)
+    let dbList = []
+    dbList = await dbData.findAll(item => item)
+    await setDatabase(table, dbList)
+  }
+  await db.close()
 }
 
 function getMkdir (path) {

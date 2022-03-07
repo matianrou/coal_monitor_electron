@@ -267,12 +267,13 @@ export default {
         // 如果计划中的企业已有检查，则名称前增加”（已做）“
         // 检查活动
         // 当caseClassify执法活动分类为异地执法时，按制作机构展示，其他按归档机构展示
-        let wkCase = wkCaseInfo.length > 0 && JSON.parse(JSON.stringify(wkCaseInfo.filter((item) => {
+        let wkCase = []
+        wkCase = wkCaseInfo.length > 0 && JSON.parse(JSON.stringify(wkCaseInfo.filter((item) => {
           return ((item.caseClassify === '4' && item.groupId === selGovUnit)
           || item.affiliate === selGovUnit)
           && item.pcMonth === selectPlanDate
           && item.planId && item.delFlag !== '1';
-        }) || []))
+        })))
         // 计划
         let arrPlan = docPlan.length > 0 && JSON.parse(JSON.stringify(docPlan.filter((item) => {
           return item.groupId === selGovUnit

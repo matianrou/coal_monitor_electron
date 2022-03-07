@@ -48,6 +48,7 @@ import { electronRequest } from '@/utils/electronRequest'
 import { schema, doDocDb } from '@/utils/downloadSource'
 import { getNowFormatTime } from '@/utils/date'
 import { clearLoginInfo } from '@/utils'
+import { initDatabase, initMkdir } from '@/utils/databaseOperation'
 export default {
   name: "Login",
   data() {
@@ -326,10 +327,15 @@ export default {
       }})
     },
     async setDB (userId) {
-      if (this.NODE_ENV === 'production') {
+      if (process.env.NODE_ENV === 'production') {
         // 创建数据库文件夹
-        let isSuccess = await this.initMkdir(userId)
-        if (!isSuccess) {
+        let isSuccess = await initMkdir(userId)
+        if (isSuccess) {
+          await this.setSourceDownload()
+          // 将现有数据库中内容全部导入至文件中
+          this.$message.info('请稍后，正在整合系统资源！')
+          await initDatabase(userId)
+        } else {
           this.$message.error('系统文件初始化失败，请重新打开系统再次尝试！')
         }
       } else {
