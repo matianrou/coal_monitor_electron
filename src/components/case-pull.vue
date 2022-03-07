@@ -266,7 +266,7 @@
         this.loading.right = true
         this.caseList = []
         let userSessId = this.$store.state.user.userSessId
-        this.$http.get(`/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&flag=true`)
+        this.$http.get(`${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&flag=true`)
         .then(async (response) => {
           if (response.status === 200) {
             if (response.data.data) {
@@ -322,7 +322,7 @@
               if (jczfCase && jczfCase.caseId) {
                 // 通过caseId获取所有文书和隐患
                 let userSessId = this.$store.state.user.userSessId
-                await this.$http.get(`/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${this.selectedUser.no}&flag=false&caseId=${jczfCase.caseId}&pageNo=0&pageSize=5000`)
+                await this.$http.get(`${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${this.selectedUser.no}&flag=false&caseId=${jczfCase.caseId}&pageNo=0&pageSize=5000`)
                   .then(async ({data}) => {
                     if (data.status === '200') {
                       let paper = []

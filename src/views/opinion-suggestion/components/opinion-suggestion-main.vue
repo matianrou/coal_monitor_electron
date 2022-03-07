@@ -333,7 +333,7 @@ export default {
       // 删除文书 判断是否已归档，如果已归档则不可删除
       await this.$http
         .get(
-          `/sv/local/jczf/delPaperByPaperId?__sid=${this.$store.state.user.userSessId}&paperId=${paper.paperId}`
+          `${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/jczf/delPaperByPaperId?__sid=${this.$store.state.user.userSessId}&paperId=${paper.paperId}`
         )
         .then(async ({ data }) => {
           if (data.status === "200") {

@@ -141,7 +141,7 @@ export default {
       this.loading = true
       this.tableData = []
       let { userSessId } = this.$store.state.user
-      this.$http.get(`/local/jczf/getPaperByCaseId?__sid=${userSessId}&caseId=${this.caseData.caseId}`)
+      this.$http.get(`${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/jczf/getPaperByCaseId?__sid=${userSessId}&caseId=${this.caseData.caseId}`)
       .then(async (response) => {
         if (response.status === 200) {
           if (response.data.data) {

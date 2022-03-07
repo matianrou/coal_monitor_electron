@@ -226,7 +226,7 @@ export default {
         paramTxt += `beginTime=${this.dataForm.dateValue[0]}&endTime=${this.dataForm.dateValue[1]}&`
       }
       paramTxt = paramTxt.substring(0, paramTxt.length - 1)
-      this.$http.get(`/local/jczf/getCaseByOfficeId?${paramTxt}`)
+      this.$http.get(`${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/jczf/getCaseByOfficeId?${paramTxt}`)
       .then(async (response) => {
         if (response.status === 200) {
           if (response.data.data && response.data.data.list) {
