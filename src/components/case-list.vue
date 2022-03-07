@@ -275,11 +275,12 @@ export default {
           && item.planId && item.delFlag !== '1';
         })))
         // 计划
-        let arrPlan = docPlan.length > 0 && JSON.parse(JSON.stringify(docPlan.filter((item) => {
+        let arrPlan = []
+        arrPlan = docPlan.length > 0 && JSON.parse(JSON.stringify(docPlan.filter((item) => {
           return item.groupId === selGovUnit
           && (`${item.planYear}-${item.planMonth}`) === selectPlanDate
           && item.delFlag !== '1';
-        }) || []))
+        })))
         if (wkCase.length > 0) {
           wkCase.map(caseItem => {
             arrPlan.forEach(planItem => {
@@ -291,7 +292,16 @@ export default {
           })
         }
         // 使用页面usePage为执法工作台时，计划中展示计划数据，如果为文书管理，计划内也只展示检查活动
-        listArr = this.usePage === 'MakeLawWrit' ? [...wkCase, ...arrPlan] : [...wkCase];
+        if (this.usePage === 'MakeLawWrit') {
+          if (wkCase.length > 0) {
+            listArr = [...wkCase]
+          }
+          if (arrPlan.length > 0) {
+            listArr = [...arrPlan]
+          }
+        } else {
+          listArr = [...wkCase];
+        }
         listArr.sort(sortbyDes('createDate'))
         this.total = listArr.length;
         // 转换为列表所需要的值

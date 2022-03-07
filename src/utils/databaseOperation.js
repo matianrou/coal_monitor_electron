@@ -340,9 +340,21 @@ export async function initDatabase (userId) {
     let dbData = db.table(table)
     let dbList = []
     dbList = await dbData.findAll(item => item)
-    await setDatabase(table, dbList)
+    if (table === 'wkPaper') {
+      await updatePaperDatabase(null, dbList)
+    } else {
+      await updateDatabase(table, dbList)
+    }
   }
+  // 另外获取sourceDownload表中doc字段恢复
+  let tableSourceDownload = db.table('sourceDownload')
+  let tableSourceDownloadList = await tableSourceDownload.findAll(item => item)
   await db.close()
+  let updateTime = await getDatabase('sourceDownload')
+  let saveData = Object.assign({}, updateTime[0], {
+    doc: tableSourceDownloadList[0].doc
+  })
+  await updateDatabase('sourceDownload', [saveData])
 }
 
 function getMkdir (path) {

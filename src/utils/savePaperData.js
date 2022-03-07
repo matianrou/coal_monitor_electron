@@ -368,7 +368,6 @@ async function savePaperToPrepareUpload(submitData) {
           submitData.paper[i].p22JczfCheck = JSON.stringify(p22JczfCheck)
         }
       }
-      console.log('submitData.paper', submitData.paper[i])
       await updatePaperDatabase(submitData.paper[i].caseId, submitData.paper)
     }
   }
