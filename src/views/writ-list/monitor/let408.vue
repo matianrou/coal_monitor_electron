@@ -220,7 +220,7 @@ export default {
       this.letData = Object.assign({}, this.letData, {
         cellIdx1: paperNumber,
         cellIdx2: let4DataPaperContent.cellIdx4, // 案由
-        cellIdx5: let4DataPaperContent.cellIdx5, // 案情摘要 // 22.3.3恢复
+        // cellIdx5: let4DataPaperContent.cellIdx5, // 案情摘要 // 22.3.3恢复
         DangerTable,
         associationPaperId,
         associationPaperOrder
