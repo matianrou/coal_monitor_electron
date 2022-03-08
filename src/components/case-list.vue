@@ -93,6 +93,12 @@
           title="检查活动拉取" 
           @click="casePull"
         />
+        <img 
+          src="@/components/assets/image/cloud-upload.png" 
+          title="云同步" 
+          @click="cloudUpload"
+          style="margin-left: 10px;"
+        />
       </div>
       <div class="add-delete-btn">
         <el-button
@@ -122,6 +128,11 @@
       @close="close"
       @confirm="confirmCasePull"
     ></case-pull>
+    <cloud-upload
+      v-if="visible.cloudUpload"
+      :visible="visible.cloudUpload"
+      @close="close"
+    ></cloud-upload>
   </div>
 </template>
 
@@ -129,11 +140,13 @@
 import { getAllProvinceOrg, sortbyDes } from '@/utils/index'
 import selectCompany from '@/components/select-company'
 import casePull from '@/components/case-pull'
+import cloudUpload from '@/components/cloud-upload'
 export default {
   name: "CaseList",
   components: {
     selectCompany,
-    casePull
+    casePull,
+    cloudUpload
   },
   props: {
     selectPlanData: {
@@ -166,6 +179,7 @@ export default {
       visible: {
         selectCompany: false, // 添加选择企业
         casePull: false, // 检查活动拉取
+        cloudUpload: false, // 云上传
       },
       selectedCase: {}, // 已选中的检查活动（或计划）
       loading: {
@@ -297,7 +311,7 @@ export default {
             listArr = [...wkCase]
           }
           if (arrPlan.length > 0) {
-            listArr = [...arrPlan]
+            listArr = [...listArr, ...arrPlan]
           }
         } else {
           listArr = [...wkCase];
@@ -638,6 +652,14 @@ export default {
       })
       await this.getData()
       this.setStore()
+    },
+    cloudUpload () {
+      // 弹窗展示未上传的文书列表
+      if (!this.$store.state.onLine) {
+        this.$message.error('当前为离线登录，请联网后才能云同步！')
+        return
+      }
+      this.visible.cloudUpload = true
     }
   },
 };

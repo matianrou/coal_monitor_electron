@@ -49,6 +49,7 @@ import { schema, doDocDb } from '@/utils/downloadSource'
 import { getNowFormatTime } from '@/utils/date'
 import { clearLoginInfo } from '@/utils'
 import { initDatabase, initMkdir } from '@/utils/databaseOperation'
+import GoDB from '@/utils/godb.min.js'
 export default {
   name: "Login",
   data() {
@@ -246,7 +247,7 @@ export default {
                       if (response.data.data) {
                         let saveData = response.data.data
                         await this.updateDatabase('wkCase', saveData.jczfCase, 'caseId')
-                        await this.updatePaperDatabase(saveData.jczfCase.caseId, saveData.paper, 'paperId')
+                        await this.updatePaperDatabase(null, saveData.paper, 'paperId')
                         await this.updateDatabase('wkDanger', saveData.danger, 'dangerId')
                         // 修改更新日期
                         await this.handleUpdateTime()
@@ -340,6 +341,8 @@ export default {
         }
       } else {
         console.log('当前环境不支持electron')
+        let db = new GoDB(userId, schema)
+        await db.close()
         await this.setSourceDownload()
       } 
     },

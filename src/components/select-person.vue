@@ -569,7 +569,7 @@ export default {
                 office: JSON.stringify(selectedOrgData),
                 officeId: this.selectedOrgId,
               }
-              await this.updateDatabase('addPerson', [person])
+              await this.updateDatabase('addPerson', [person], 'no')
               this.addClose()
               // 获取所有人员
               await this.getAllPerson()

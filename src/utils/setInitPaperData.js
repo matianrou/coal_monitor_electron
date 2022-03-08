@@ -91,7 +91,7 @@ async function getPersonNumber (docTypeNo) {
         [`paper-${store.state.user.userType}-${docTypeNo}`]: threeNum
       }))
       numberData.updateDate = getNowFormatTime()
-      await updateDatabase('personPaperNumber', [numberData])
+      // await updateDatabase('personPaperNumber', [numberData])
     }
   } else {
     // 还没有当前年份的文书号数据：创建：

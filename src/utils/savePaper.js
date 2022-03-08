@@ -21,9 +21,8 @@ export async function savePaperNumber (docTypeNo) {
   } else {
     threeNum = String(num)
   }
-  numberData.paperNumber = JSON.stringify(Object.assign({}, paperNumber, {
-    [`paper-${store.state.user.userType}-${docTypeNo}`]: threeNum
-  }))
+  paperNumber[`paper-${store.state.user.userType}-${docTypeNo}`] = threeNum
+  numberData.paperNumber = JSON.stringify(paperNumber)
   numberData.updateDate = getNowFormatTime()
-  await updateDatabase('personPaperNumber', numberData)
+  await updateDatabase('personPaperNumber', [numberData])
 }

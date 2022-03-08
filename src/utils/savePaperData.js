@@ -5,7 +5,7 @@ import { Message, Alert } from 'element-ui'
 import store from "@/store"
 import { randomString } from "@/utils/index";
 import { getNowTime } from "@/utils/date";
-import { getDatabase, updateDatabase, getPaperDatabase } from '@/utils/databaseOperation'
+import { getDatabase, updateDatabase, getPaperDatabase, updatePaperDatabase, deleteDatabasePhysics } from '@/utils/databaseOperation'
 export async function saveToUpload (paperId, messageShow, caseId) {
   // messageShow是否展示保存成功提示
   // 保存文书至服务器
@@ -285,20 +285,19 @@ export async function saveToUpload (paperId, messageShow, caseId) {
         }
       )
       .then(async ({ data }) => {
+        if (data.status === "200") {
+          // 保存成功时检索云存储列表中是否有未存储数据，如果有则标记已发送成功
+          let prepareUpload = await getDatabase("prepareUpload");
+          let paperData = prepareUpload.find(item => item.paperId === workPaper.paperId && item.isUpload === '0')
+          if (paperData) {
+            await deleteDatabasePhysics('prepareUpload', [paperData], 'paperId')
+          }
+        } else {
+          // 当保存失败时，将文书保存至库表prepareUpload
+          await savePaperToPrepareUpload(submitData)
+        }
         if (workPaper.delFlag === '0') {
           // 当归档时：
-          if (data.status === "200") {
-            // 保存成功时检索云存储列表中是否有未存储数据，如果有则标记已发送成功
-            let prepareUpload = await getDatabase("prepareUpload");
-            let paperData = prepareUpload.find(item => item.paperId === workPaper.paperId && item.isUpload === '0')
-            if (paperData) {
-              paperData.isUpload = '1'
-              await updateDatabase('prepareUpload', [paperData])
-            }
-          } else {
-            // 当保存失败时，将文书保存至库表prepareUpload
-            await savePaperToPrepareUpload(submitData)
-          }
           if (messageShow) {
             // 需要提示信息时：
             if (data.status === "200") {
@@ -323,9 +322,9 @@ export async function saveToUpload (paperId, messageShow, caseId) {
             showClose: true,
             duration: 0,
           });
-          // 当保存失败时，将文书保存至库表prepareUpload
-          await savePaperToPrepareUpload(submitData)
         }
+        // 当保存失败时，将文书保存至库表prepareUpload
+        await savePaperToPrepareUpload(submitData)
         console.log("上传至服务器请求失败：", err);
       });
   } else {
@@ -349,8 +348,9 @@ async function savePaperToPrepareUpload(submitData) {
     personId: paperData.personId,
     personName: paperData.personName,
     delFlag: '0',
+    caseId: paperData.caseId
   }
-  await updateDatabase('prepareUpload', [prepareUploadData])
+  await updateDatabase('prepareUpload', [prepareUploadData], 'paperId')
   // 置未保存成功的文书delFlag为2保存状态
   // 修改文书delFlag
   if (submitData.paper) {
@@ -368,8 +368,8 @@ async function savePaperToPrepareUpload(submitData) {
           submitData.paper[i].p22JczfCheck = JSON.stringify(p22JczfCheck)
         }
       }
-      await updatePaperDatabase(submitData.paper[i].caseId, submitData.paper)
     }
+    await updatePaperDatabase(submitData.jczfCase[0].caseId, submitData.paper)
   }
   // 修改隐患项delFlag
   if (submitData.danger) {

@@ -241,6 +241,7 @@ async function doPlanDb(resId, data) {
 			'personId': String, // 制作人id
 			'personName': String, // 制作人姓名
 			"delFlag": String, // 删除标记
+			"caseId": String, // 检查活动id
 		},
 		// 个人自增文书编号
 		personPaperNumber: { 
@@ -2369,6 +2370,7 @@ let schema = {
 		'personId': String, // 制作人id
 		'personName': String, // 制作人姓名
 		"delFlag": String, // 删除标记
+		"caseId": String, // 检查活动id
 	},
 	personPaperNumber: { // 个人自增文书编号
 		"id": {

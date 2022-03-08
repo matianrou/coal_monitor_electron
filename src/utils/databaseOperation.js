@@ -1,6 +1,7 @@
 import store from "@/store"
 import { electronRequest } from '@/utils/electronRequest'
 import GoDB from '@/utils/godb.min.js'
+import {getUUID} from '@/utils/index'
 const NODE_ENV = process.env.NODE_ENV
 
 // 一般文件获取、保存、更新、删除
@@ -62,6 +63,13 @@ export async function setDatabase (table, data) {
       let dbList = await dbData.findAll(item => item)
       for (let i = 0; i < dbList.length; i++) {
         await dbData.delete({id: dbList[i].id})
+      }
+      if (table === 'wkCase' || table === 'wkDanger') {
+        for (let i = 0; i < data.length; i++) {
+          if (!data[i].id) {
+            data[i].id = getUUID()
+          }
+        }
       }
       await dbData.addMany(data)
       await db.close()
@@ -190,6 +198,11 @@ export async function setPaperDatabase (caseId = null, data) {
         let dbList = await dbData.findAll(item => item)
         for (let i = 0; i < dbList.length; i++) {
           await dbData.delete({id: dbList[i].id})
+        }
+        for (let i = 0; i < data.length; i++) {
+          if (!data[i].id) {
+            data[i].id = getUUID()
+          }
         }
         await dbData.addMany(data)
         await db.close()
@@ -334,7 +347,7 @@ export async function initDatabase (userId) {
   // 初始化所有数据库：将原有存储在indexDB中的自增数据存储在文件中
   let db = new GoDB(userId)
   let databaseTable = ['wkCase', 'wkPaper', 'wkDanger', 'localReview', 'fineCollection', 'singleReceipt', 'imageEvidence', 'paperAttachment', 'jczfReport',
-  'personPaperNumber', 'prepareUpload', 'sendDanger', 'sendPaper', 'addPerson']
+  'personPaperNumber', 'sendDanger', 'sendPaper', 'addPerson']
   for (let i = 0; i < databaseTable.length; i++) {
     let table = databaseTable[i]
     let dbData = db.table(table)
