@@ -270,7 +270,9 @@ export default {
       // 1.获取创建检查活动的检查时间
       let wkCase = await this.getDatabase('wkCase')
       let caseData = wkCase.find(item => item.caseId === this.corpData.caseId && item.delFlag !== '1')
-      let cellIdx2String = handleDateNormal(caseData.planBeginDate, caseData.planEndDate)
+      let beginList = caseData.planBeginDate.split(' ')
+      let endList = caseData.planEndDate.split(' ')
+      let cellIdx2String = handleDateNormal(beginList[0], endList[0])
       // 2.默认选中监察类型或方式的第一个选项
       let sSummary = await corpInformation(corp)
       let corpOther = "检查的内容和分工变化时，应及时调整。";

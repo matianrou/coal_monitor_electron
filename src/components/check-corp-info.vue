@@ -393,7 +393,7 @@ export default {
       let dictionaryList = await this.getDatabase('dictionary')
       for (let key in this.dictionary) {
         let dictJson = dictionaryList.find(item => item.type === key)
-        let dictList = JSON.parse(dictJson.list)
+        let dictList = dictJson ? JSON.parse(dictJson.list) : []
         dictList.sort(sortbyAsc('sort'))
         this.dictionary[key] = dictList
       }

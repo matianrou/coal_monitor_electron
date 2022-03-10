@@ -328,8 +328,8 @@ export default {
         groupName: groupName,
         checkReason: "1",
         checkStatus: this.dataForm.caseType,
-        planBeginDate: this.dataForm.startDate,
-        planEndDate: this.dataForm.endDate,
+        planBeginDate: this.dataForm.startDate + ' 00:00:00',
+        planEndDate: this.dataForm.endDate + ' 00:00:00',
         meikuangType: corpBase.meikuangType,
         meikuangPlanfrom: "3", // 是否计划内的，此处创建不是检查计划中的所以写死'3'其他
         planId: corpPlan ? corpPlan.dbplanId : '',

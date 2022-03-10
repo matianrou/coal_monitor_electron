@@ -60,7 +60,7 @@
       async getDictionary () {
         let dictionaryList = await this.getDatabase('dictionary')
         let mineStatus = dictionaryList.find(item => item.type === 'baseMineStatusZs') 
-        let mineStatusList = JSON.parse(mineStatus.list)
+        let mineStatusList = mineStatus ? JSON.parse(mineStatus.list) : []
         // 保留一份原始值，用来遍历获取最后矿井状况说明
         this.dictionaryMineStatus = mineStatusList
         // 遍历设置parentId
