@@ -252,7 +252,7 @@ export default {
   methods: {
     /**
      * @param {number} time 秒为单位，自动保存间隔时间 
-     * @param {boolean} isBack 保存后，是否执行返回操作
+     * @param {boolean} isBack 保存后，是否执行返回操作/loadding/提示文案
      */
     autoSaveDoc(time, isBack) {
       clearInterval(this.timer)
