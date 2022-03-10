@@ -247,7 +247,7 @@ export default {
   created() {
   },
   mounted() {
-    this.autoSaveDoc(10, false)
+    this.autoSaveDoc(60, false)
   },
   methods: {
     /**
@@ -257,6 +257,10 @@ export default {
     autoSaveDoc(time, isBack) {
       clearInterval(this.timer)
       this.timer = setInterval(() => {
+        if (this.$refs.letDrawer) {
+          // 如果当前打开正在编辑则先保存当前编辑的内容
+          this.handleSave({value: this.$refs.letDrawer.$refs[this.selectedData.type].dataForm.tempValue, direct: true})
+        }
         this.cmdDocSave('2', isBack)
       }, 1000 * time)
     },
