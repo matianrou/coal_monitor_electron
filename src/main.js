@@ -20,7 +20,8 @@ import {
 	deleteDatabasePhysics, 
 	getPaperDatabase, 
 	updatePaperDatabase, 
-	deletePaperDatabasePhysics
+	deletePaperDatabasePhysics,
+	paperDelete
 } from '@/utils/databaseOperation'
 
 Vue.use(ElementUI)
@@ -40,6 +41,7 @@ Vue.prototype.updateDatabase = updateDatabase
 Vue.prototype.deleteDatabasePhysics = deleteDatabasePhysics
 Vue.prototype.getPaperDatabase = getPaperDatabase
 Vue.prototype.updatePaperDatabase = updatePaperDatabase
+Vue.prototype.paperDelete = paperDelete
 Vue.prototype.deletePaperDatabasePhysics = deletePaperDatabasePhysics
 
 // 全局前缀

@@ -1422,6 +1422,7 @@ export const schema = {
 		'personName': String, // 制作人姓名
 		"delFlag": String, // 删除标记
 		"caseId": String, // 检查活动id
+		"operation": String
 	},
 	personPaperNumber: { // 个人自增文书编号
 		"id": {

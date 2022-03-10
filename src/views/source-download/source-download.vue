@@ -8,6 +8,9 @@
         <td colspan="4">
           <img src="@/components/assets/image/resTitle.png" style="width:109px;height:42px;" />
         </td>
+        <td colspan="1" style="text-align: center;">
+          <el-button type="primary" size="small" @click="downloadAll">全部下载</el-button>
+        </td>
       </tr>
       <tr style="height:36px;background:#DCECFB;color:#333;">
         <td style="width:3%;">&nbsp;</td>
@@ -898,6 +901,25 @@ export default {
       // 根据更新的resId为key更新updateTime为当前时间
       this.updateTime[resId] = getNowFormatTime()
       await this.setDatabase('sourceDownload', [this.updateTime])
+    },
+    downloadAll () {
+      // 下载所有资源
+      if (!this.$store.state.onLine) {
+        this.$message.error('当前为离线登录，请调整网络后再尝试下载！')
+        return
+      }
+      this.$confirm('请确认是否按照当前下载日期范围下载执法文书资源以及其他所有资源？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          dangerouslyUseHTMLString: true,
+          type: 'warning'
+        }).then(async () => {
+          for (let i = 0; i < this.resIdDict.length; i++) {
+            await this.resDownload(this.resIdDict[i].resId)
+          }
+        }).catch((err) => {
+          console.log('下载失败：', err)
+        })
     }
   },
 };

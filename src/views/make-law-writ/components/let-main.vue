@@ -280,7 +280,7 @@ export default {
       // 当文书为意见建议书时，判断文件为this.$parent.letData.UploadFile.tableData
       if (((this.docData.docTypeNo === '21' || this.docData.docTypeNo === '44') && this.$parent.fileList.length > 0) || this.docData.docTypeNo === '43'
        || ((this.docData.docTypeNo === '16' || this.docData.docTypeNo === '17') && this.$parent.letData.UploadFile.tableData.length > 0)) {
-        let wkPaper = await this.getPaperDatabase(this.$store.state.curCase.caseId);
+        let wkPaper = await this.getPaperDatabase(this.$store.state.curCase.caseId ? this.$store.state.curCase.caseId : 'opinion-suggestion');
         let paperList = JSON.parse(JSON.stringify(wkPaper.filter(item => item.paperId === this.$parent.paperId && item.delFlag !== '1') || []))
         if (paperList.length < 1) {
           this.$confirm(`${this.docData.docTypeNo === '43' ? '当前未保存文书，如已上传文件，' : '当前已上传文件，但未保存文书，如果'}返回主页面则无法保存已上传的文件，需要先点击“保存”按钮后才能保存已上传的文件！`, '注意!', {
@@ -650,12 +650,12 @@ export default {
         p36RegisterTime: extraSaveData.p36RegisterTime || null,
         localizeFlag: "1", // 国产化保存标记
       };
-      let wkPaper = await this.getPaperDatabase(jsonPaper.caseId);
+      let wkPaper = await this.getPaperDatabase(jsonPaper.caseId ? jsonPaper.caseId : 'opinion-suggestion');
       // 如果保存的是已编辑的 那么保存的同时要把上一条重复的数据删除（修改为直接更新数据库）
       let hasPaperData = wkPaper.find((item) => {
         return item.paperId === paperId && item.delFlag !== '1';
       });
-      await this.updatePaperDatabase(jsonPaper.caseId, [jsonPaper])
+      await this.updatePaperDatabase(jsonPaper.caseId ? jsonPaper.caseId : 'opinion-suggestion', [jsonPaper])
       if (!hasPaperData) {
         // 如果新增的文书，需要自增文书号
         let paperNumberType = this.$store.state.dictionary[`${this.$store.state.user.userType}PaperNumberType`]
@@ -1330,7 +1330,7 @@ export default {
       await this.updateDatabase('wkDanger', paperContentOld.DangerTable.selectedDangerList, 'dangerId')
       if (this.$store.state.onLine) {
         // 有网络时同步上传服务器
-        await saveToUpload(itemPaper.paperId, false, itemPaper.caseId)
+        await saveToUpload(itemPaper.paperId, false, itemPaper.caseId ? itemPaper.caseId : 'opinion-suggestion')
       }
     },
     closePunishmentInfoFill ({page, refresh}) {

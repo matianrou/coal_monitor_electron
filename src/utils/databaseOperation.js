@@ -1,7 +1,9 @@
 import store from "@/store"
 import { electronRequest } from '@/utils/electronRequest'
 import GoDB from '@/utils/godb.min.js'
-import {getUUID} from '@/utils/index'
+import { getUUID, randomString } from '@/utils/index'
+import http from '@/utils/http'
+import { getNowTime } from '@/utils/date'
 const NODE_ENV = process.env.NODE_ENV
 
 // 一般文件获取、保存、更新、删除
@@ -385,9 +387,10 @@ function setMkdir (path) {
 function getPaperFileList (dataList) {
   // 获取所有要更新的文件，根据要更新的数据去分别更新
   let paperData = []
+  console.log('dataList', dataList)
   if (dataList.length > 0) {
     paperData = [{
-      caseId: dataList[0].caseId,
+      caseId: dataList[0].caseId || 'opinion-suggestion',
       paperList: [dataList[0]]
     }]
     for (let i = 1; i < dataList.length; i++) {
@@ -400,7 +403,7 @@ function getPaperFileList (dataList) {
       }
       if (!isPaperDataHas) {
         paperData.push({
-          caseId: dataList[i].caseId,
+          caseId: dataList[i].caseId || 'opinion-suggestion',
           paperList: [dataList[i]]
         })
       }
@@ -429,4 +432,95 @@ export function getContrastData (newData = [], oldData = [], key) {
     // 旧数据保持不变
     return oldData
   }
+}
+
+export async function paperDelete (paperId, caseId) {
+  let request = {}
+  if (this.$store.state.onLine) {
+    // 在线删除，请求删除接口，如果删除成功则删除本地，如果不成功则提示再次删除
+    await http
+      .get(
+        `${store.state.user.userType === 'supervision' ? '/sv' : ''}/local/jczf/delPaperByPaperId?__sid=${store.state.user.userSessId}&paperId=${paperId}`
+      )
+      .then(async ({ data }) => {
+        if (data.status === "200") {
+          // 删除成功后，从本地数据库中删除
+          // 删除文书
+          let paperList = await getPaperDatabase(caseId)
+          let paperData = paperList.find(item => item.paperId === paperId && item.delFlag !== '1');
+          paperData.delFlag = "1"
+          await updatePaperDatabase(caseId, [paperData])
+          // 删除对应隐患
+          let wkDanger = await getDatabase("wkDanger");
+          let dangerList = []
+          dangerList = JSON.parse(JSON.stringify(wkDanger.filter(
+            (item) => item.paperId === paperId
+          )))
+          for (let i = 0; i < dangerList.length; i++) {
+            dangerList[i].delFlag = "1"
+          }
+          await updateDatabase('wkDanger', dangerList, 'dangerId')
+          request = {
+            code: '200'
+          }
+        } else {
+          // 删除失败，放入prepareUpload
+          request = {
+            code: '500'
+          }
+          await savePrepareUpload(paperData)
+        }
+      })
+      .catch(async (err) => {
+        // 删除失败，放入prepareUpload
+        request = {
+          code: '500',
+          err
+        }
+        console.log("删除文书失败:", err);
+        await savePrepareUpload(paperData)
+      });
+  } else {
+    // 离线删除：先删除本地数据，再放入prepareUpload云同步中
+    request = {
+      code: '500'
+    }
+    let paperList = await getPaperDatabase(caseId)
+    let paperData = paperList.find(item => item.paperId === paperId && item.delFlag !== '1');
+    paperData.delFlag = "1"
+    await updatePaperDatabase('opinion-suggestion', [paperData])
+    // 删除对应隐患
+    let wkDanger = await getDatabase("wkDanger");
+    let dangerList = []
+    dangerList = JSON.parse(JSON.stringify(wkDanger.filter(
+      (item) => item.paperId === paperId
+    )))
+    for (let i = 0; i < dangerList.length; i++) {
+      dangerList[i].delFlag = "1"
+    }
+    await updateDatabase('wkDanger', dangerList, 'dangerId')
+    await savePrepareUpload(paperData)
+  }
+  return request
+}
+
+async function savePrepareUpload (paperData) {
+  console.log('paperData', paperData)
+  let prepareUploadData = {
+    id: getNowTime() + randomString(28),
+    paperId: paperData.paperId,
+    isUpload: '0', 
+    corpId: paperData.corpId || null,
+    corpName: paperData.corpName || '',
+    paperType: paperData.paperType,
+    name: paperData.name,
+    createDate: paperData.createDate,
+    personId: paperData.personId,
+    personName: paperData.personName,
+    delFlag: '0',
+    caseId: paperData.caseId ? paperData.caseId : '',
+    operation: 'delete'
+  }
+  console.log('prepareUploadData', prepareUploadData)
+  await updateDatabase('prepareUpload', [prepareUploadData], 'paperId')
 }

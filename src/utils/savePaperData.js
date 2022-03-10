@@ -348,7 +348,8 @@ async function savePaperToPrepareUpload(submitData) {
     personId: paperData.personId,
     personName: paperData.personName,
     delFlag: '0',
-    caseId: paperData.caseId
+    caseId: paperData.caseId ? paperData.caseId : '',
+    operation: 'save'
   }
   await updateDatabase('prepareUpload', [prepareUploadData], 'paperId')
   // 置未保存成功的文书delFlag为2保存状态
@@ -369,7 +370,7 @@ async function savePaperToPrepareUpload(submitData) {
         }
       }
     }
-    await updatePaperDatabase(submitData.jczfCase[0].caseId, submitData.paper)
+    await updatePaperDatabase(submitData.jczfCase && submitData.jczfCase.length > 0 ? submitData.jczfCase[0].caseId : 'opinion-suggestion', submitData.paper)
   }
   // 修改隐患项delFlag
   if (submitData.danger) {

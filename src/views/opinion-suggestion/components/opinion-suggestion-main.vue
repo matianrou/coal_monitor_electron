@@ -300,10 +300,6 @@ export default {
       }
     },
     singleDelete (row) {
-      if (!this.$store.state.onLine) {
-        this.$message.error('当前为离线登录，请联网后删除！')
-        return
-      }
       this.$confirm(`是否确认删除${row.orgName || ''} ${row.name}?`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -321,42 +317,16 @@ export default {
     },
     async handleDelete(paper) {
       // 删除文书 判断是否已归档，如果已归档则不可删除
-      await this.$http
-        .get(
-          `${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/jczf/delPaperByPaperId?__sid=${this.$store.state.user.userSessId}&paperId=${paper.paperId}`
-        )
-        .then(async ({ data }) => {
-          if (data.status === "200") {
-            // 删除成功后，从本地数据库中删除
-            // 删除文书
-            let paperData = JSON.parse(JSON.stringify(paper));
-            paperData.delFlag = "1"
-            await this.updatePaperDatabase('opinion-suggestion', [paperData])
-            // 删除对应隐患
-            let wkDanger = await this.getDatabase("wkDanger");
-            let dangerList = JSON.parse(JSON.stringify(wkDanger.filter(
-              (item) => item.paperId === paper.paperId
-            ) || []))
-            for (let i = 0; i < dangerList.length; i++) {
-              dangerList[i].delFlag = "1"
-            }
-            await this.updateDatabase('wkDanger', dangerList, 'dangerId')
-            this.$message.success("文书删除成功！");
-          } else {
-            this.$message.error("删除文书失败，请再次尝试");
-          }
-        })
-        .catch((err) => {
-          this.$message.error("删除文书失败，请再次尝试");
-          console.log("删除文书失败:", err);
-        });
+      let request = await this.paperDelete(paper.paperId, 'opinion-suggestion')
+      console.log('request', request)
+      if (request.code === '200') {
+        this.$message.success('删除文书成功！')
+      } else {
+        this.$message.warning('本地删除成功，需云同步至服务器！')
+      }
     },
     batchDelete () {
       // 批量删除
-      if (!this.$store.state.onLine) {
-        this.$message.error('当前为离线登录，请联网后删除！')
-        return
-      }
       if (this.selectedList.length > 0) {
         this.$confirm(`是否确认删除已选择的文书?`, "提示", {
           confirmButtonText: "确定",
