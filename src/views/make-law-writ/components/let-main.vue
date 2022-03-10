@@ -11,7 +11,7 @@
         style="width:100%;height:110px;background-color:#CBE6FF;border-top-left-radius: 10px;border-top-right-radius: 10px; "
       >
         <tr>
-          <td style="width:100px;text-align:center; cursor: pointer; " @click="cmdDocSave('2')">
+          <td style="width:100px;text-align:center; cursor: pointer; " @click="cmdDocSave('2', true)">
             <svg t="1631779691085" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4637" width="40" height="40"><path d="M919.466667 264.533333V832c0 46.933333-38.4 85.333333-85.333334 85.333333h-640c-46.933333 0-85.333333-38.4-85.333333-85.333333V192c0-46.933333 38.4-85.333333 85.333333-85.333333h567.466667c6.4 0 10.666667 2.133333 14.933333 6.4l136.533334 136.533333c4.266667 4.266667 6.4 8.533333 6.4 14.933333z" fill="#1890FF" p-id="4638"></path><path d="M322.133333 106.666667h384v213.333333h-384zM258.133333 640h512v277.333333h-512z" fill="#FFFFFF" p-id="4639"></path><path d="M599.466667 149.333333h64v128h-64zM364.8 725.333333h298.666667v21.333334h-298.666667zM364.8 810.666667h298.666667v21.333333h-298.666667z" fill="#69C0FF" p-id="4640"></path></svg>
             <span style="color: #409EFF; display:block;font-size:14px;font-weight: bold;">保 存</span>
           </td>
@@ -24,7 +24,7 @@
             <svg t="1632967972260" class="icon" viewBox="0 0 1152 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4406" width="38" height="38"><path d="M768 243.8c0-12.6-5-24.8-14-33.8L558.2 14c-9-9-21.2-14-34-14H512v256h256v-12.2zM384 672v-64c0-17.68 14.32-32 32-32h352V320H496c-26.4 0-48-21.6-48-48V0H48C21.4 0 0 21.4 0 48v928c0 26.6 21.4 48 48 48h672c26.6 0 48-21.4 48-48V704H416c-17.68 0-32-14.32-32-32z m758.1-56.04l-191.4-192.86c-20.12-20.28-54.72-6.02-54.72 22.54V576H768v128h127.98v130.36c0 28.56 34.58 42.82 54.72 22.54l191.4-192.84c13.2-13.32 13.2-34.8 0-48.1z" fill="#1890FF" p-id="4407"></path></svg>
             <span style="color: #409EFF; display:block;font-size:14px;font-weight: bold;"> 导 出</span>
           </td> -->
-          <td v-if="fromPage !== 'send-paper'" style="width:100px;text-align:center;cursor: pointer;" @click="cmdDocSave('0')">
+          <td v-if="fromPage !== 'send-paper'" style="width:100px;text-align:center;cursor: pointer;" @click="cmdDocSave('0', true)">
             <svg t="1631780752712" class="icon" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10822" width="40" height="40"><path d="M59.6 513.2h166l44.6 93.8c17.8 37.4 55.6 61.2 97 61.2h300.6c41.6 0 79.4-24 97.2-61.4l44-93.4h162.8c14.2 0 27.8 5.6 38 15.8 10 10 15.8 23.8 15.8 38v268.2c0 28.4-11.4 55.8-31.4 75.8a107.016 107.016 0 0 1-75.8 31.4H113.2c-28.4 0-55.8-11.4-75.8-31.4C17.4 890.8 6 863.6 6 835V566.8c0-29.6 24-53.6 53.6-53.6z m0 0" fill="#1890FF" p-id="10823"></path><path d="M864.4 464h-88.2l-21 77.2c-12.8 46.8-55.2 79.2-103.6 79.2H387.2c-51 0-95-36-105.2-86L267.8 464H167V137.6c0-14.2 5.6-27.8 15.8-38 10-10 23.8-15.8 38-15.8H811c29.6 0 53.6 24 53.6 53.6V464zM442 362.8c-10.6 0-20.2 6.2-24.6 16-4.2 9.8-2.4 21 4.6 28.8l93.4 103 93.4-103c7.2-7.8 9-19.2 4.6-28.8-4.2-9.8-14-16-24.6-16h-40V178.2h-67V363H442z" fill="#1890FF" p-id="10824"></path></svg>
             <span style="color: #409EFF; display:block;font-size:14px;font-weight: bold;"> 归 档</span>
           </td>
@@ -209,6 +209,7 @@ export default {
       punishmentInfoFillVisible: false, // 是否展示行政处罚决定书补充填写信息弹窗 事故类文书
       punishmentInfo: {}, // 事故类行政处罚信息集合
       punishmentInfoConfirmVisible: false, // 确认行政处罚信息，一般文书
+      timer: null
     };
   },
   computed: {
@@ -245,7 +246,20 @@ export default {
   },
   created() {
   },
+  mounted() {
+    this.autoSaveDoc(10, false)
+  },
   methods: {
+    /**
+     * @param {number} time 秒为单位，自动保存间隔时间 
+     * @param {boolean} isBack 保存后，是否执行返回操作/loadding/提示文案
+     */
+    autoSaveDoc(time, isBack) {
+      clearInterval(this.timer)
+      this.timer = setInterval(() => {
+        this.cmdDocSave('2', isBack)
+      }, 1000 * time)
+    },
     async cmdDocBack() {
       // 增加逻辑判断：
       // 判断当前文书内容是否有修改，如果有更改则提示是否确认不保存更改内容
@@ -263,7 +277,7 @@ export default {
               type: 'warning'
             }).then(async() => {
               // 保存
-              await this.cmdDocSave('2')
+              await this.cmdDocSave('2', true)
             }).catch(async () => {
               // 退出
               await this.goBackFunc()
@@ -272,6 +286,7 @@ export default {
       } else {
         await this.goBackFunc()
       }
+      clearInterval(this.timer)
     },
     async goBackFunc () {
       // 增加逻辑判断：
@@ -299,7 +314,7 @@ export default {
         this.$emit("go-back", { page: "writFlow", data: this.$store.state.curCase });
       }
     },
-    async cmdDocSave(saveFlag = "2") {
+    async cmdDocSave(saveFlag = "2", isBack) {
       // 保存或归档文书
       // 判断当前文书是否已经归档，如已归档则不可保存或归档
       if (this.paperData && this.paperData.paperId && this.paperData.isPull) {
@@ -311,7 +326,9 @@ export default {
         return
       }
       if (this.canEdit) {
-        this.loading.btn = true
+        if(isBack) {
+          this.loading.btn = true
+        }
         if (saveFlag === '0') {
           // 归档时首先判断是否为离线操作
           if (!this.$store.state.onLine) {
@@ -332,7 +349,7 @@ export default {
             this.saveSendPaper()
           } else {
             // 一般执法工作台中的文书保存
-            await this.savePaper(saveFlag)
+            await this.savePaper(saveFlag, isBack)
           }
         }
         this.loading.btn = false
@@ -344,7 +361,7 @@ export default {
         }
       }
     },
-    async savePaper (saveFlag) {
+    async savePaper (saveFlag, isBack) {
       if (this.corpData && this.corpData.caseType === '1' && this.docData.docTypeNo === '8') {
         // 事故类型检查活动时，行政处罚决定书弹窗补充行政罚款金额和行政处罚类型
         this.punishmentInfoFillVisible = true
@@ -421,22 +438,22 @@ export default {
               this.selectUpdatePaperVisible = true
               this.saveFlag = saveFlag
             } else {
-              await this.savePaperFunction(saveFlag)
+              await this.savePaperFunction(saveFlag, isBack)
             }
           } else {
             // 若未修改隐患项则直接进入保存
-            await this.savePaperFunction(saveFlag)
+            await this.savePaperFunction(saveFlag, isBack)
           }
         } else {
           // 如果不是以上文书则直接进入保存方法中
-          await this.savePaperFunction(saveFlag)
+          await this.savePaperFunction(saveFlag, isBack)
         }
       } else {
         // 没有则直接进入保存方法中
-        await this.savePaperFunction(saveFlag)
+        await this.savePaperFunction(saveFlag, isBack)
       }
     },
-    async savePaperFunction (saveFlag) {
+    async savePaperFunction (saveFlag, isBack) {
       let paperId = this.$parent.paperId
       let createDate = this.paperData && this.paperData.createDate
         ? this.paperData.createDate
@@ -773,7 +790,7 @@ export default {
       if (saveFlag === "2") {
         // 保存时提示保存成功，服务器上传成功不提示，否则会引起误解，归档时此处不提示，如果上传服务器成功则提示，未成功则直接提示未成功
         this.$message.success(
-          `“${this.docData.docTypeName}”文书保存成功。`
+          `“${this.docData.docTypeName}”文书${isBack? '保存成功': '自动保存成功'}`
         );
       }
       await saveToUpload(paperId, true, (jsonPaper.caseId ? jsonPaper.caseId : 'opinion-suggestion'));
@@ -796,8 +813,11 @@ export default {
         // 如果是行政处罚决定书，则还需要上传当前行政处罚类别
         // await updateXkzStatus(paperId, (jsonPaper.caseId ? jsonPaper.caseId : 'opinion-suggestion'))
       // }
-      // 返回列表并刷新
-      this.$emit("go-back", { page: "writFlow", data: this.$store.state.curCase });
+      // 返回列表并刷新 => 实时保存不执行返回操作
+      if(isBack) {
+        clearInterval(this.timer)
+        this.$emit("go-back", { page: "writFlow", data: this.$store.state.curCase });
+      }      
     },
     async saveSendPaper () {
       // 保存发送文书数据
@@ -1353,6 +1373,9 @@ export default {
       // this.saveFlag = '2'
     }
   },
+  destroyed() {
+    clearInterval(this.timer)
+  }
 };
 </script>
 
