@@ -247,7 +247,7 @@ export default {
   created() {
   },
   mounted() {
-    this.autoSaveDoc(5, false)
+    this.autoSaveDoc(10, false)
   },
   methods: {
     /**
