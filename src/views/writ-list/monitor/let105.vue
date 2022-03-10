@@ -286,7 +286,7 @@ export default {
           "paperId": obj.paperId,
         });
       }
-      await this.updateFileList('localReview', addFileList)
+      await this.updateDatabase('localReview', addFileList)
     },
     addFile (param) {
       // 添加文件

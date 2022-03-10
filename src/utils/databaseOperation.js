@@ -387,7 +387,6 @@ function setMkdir (path) {
 function getPaperFileList (dataList) {
   // 获取所有要更新的文件，根据要更新的数据去分别更新
   let paperData = []
-  console.log('dataList', dataList)
   if (dataList.length > 0) {
     paperData = [{
       caseId: dataList[0].caseId || 'opinion-suggestion',
@@ -505,7 +504,6 @@ export async function paperDelete (paperId, caseId) {
 }
 
 async function savePrepareUpload (paperData) {
-  console.log('paperData', paperData)
   let prepareUploadData = {
     id: getNowTime() + randomString(28),
     paperId: paperData.paperId,
@@ -521,6 +519,5 @@ async function savePrepareUpload (paperData) {
     caseId: paperData.caseId ? paperData.caseId : '',
     operation: 'delete'
   }
-  console.log('prepareUploadData', prepareUploadData)
   await updateDatabase('prepareUpload', [prepareUploadData], 'paperId')
 }

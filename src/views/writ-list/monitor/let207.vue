@@ -247,24 +247,35 @@ export default {
       let cellIdx4String = "国家矿山安全监察行政处罚决定书";
       // 2.文书字号：使用行政处罚决定书的文书编号
       let cellIdx5String = ''
-      for (let i = 0; i < selectedPaper.let8Data.length; i++) {
-        let let8DataPaperContent = JSON.parse(
-          selectedPaper.let8Data[i].paperContent
-        );  
-        cellIdx5String += `${let8DataPaperContent.cellIdx0}煤安监${let8DataPaperContent.cellIdx1}罚〔${let8DataPaperContent.cellIdx2}〕${let8DataPaperContent.cellIdx3}号和`;
+      let let8DataPaperContent = {}
+      if (selectedPaper.let8Data.paperId) {
+        // 当行政处罚决定书只有一个时，返回为对象，处理逻辑：
+        let8DataPaperContent = JSON.parse(
+          selectedPaper.let8Data.paperContent
+        ); 
+        cellIdx5String += `${let8DataPaperContent.cellIdx0 || ''}煤安监${let8DataPaperContent.cellIdx1 || ''}罚〔${let8DataPaperContent.cellIdx2 || ''}〕${let8DataPaperContent.cellIdx3 || ''}号`;
+        
+      } else {
+        // 当行政处罚决定书有多封时，返回为数组，处理逻辑
+        for (let i = 0; i < selectedPaper.let8Data.length; i++) {
+          let paperContent = JSON.parse(
+            selectedPaper.let8Data[i].paperContent
+          );  
+          cellIdx5String += `${paperContent.cellIdx0 || ''}煤安监${paperContent.cellIdx1 || ''}罚〔${paperContent.cellIdx2 || ''}〕${paperContent.cellIdx3 || ''}号和`;
+        }
+        cellIdx5String = cellIdx5String.substring(0, cellIdx5String.length - 1)
+        let8DataPaperContent = JSON.parse(
+          selectedPaper.let8Data[0].paperContent
+        ); 
       }
-      cellIdx5String = cellIdx5String.substring(0, cellIdx5String.length - 1)
       // 3.送达地点：煤矿名称
       let cellIdx6String = corp.corpName;
       let paperNumber = await getDocNumber(
         this.docData.docTypeNo,
         this.corpData.caseId
       );
-      let let8DataPaperContent = JSON.parse(
-        selectedPaper.let8Data[0].paperContent
-      ); 
       let associationPaperId = Object.assign({}, this.setAssociationPaperId(let8DataPaperContent.associationPaperId), {
-        paper8Id: selectedPaper.let8Data[0].paperId
+        paper8Id: selectedPaper.let8Data.paperId
       }) 
       let associationPaperOrder = this.setAssociationPaperOrder(let8DataPaperContent.associationPaperOrder)
       associationPaperOrder.push('8')

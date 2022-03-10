@@ -81,9 +81,12 @@ async function getPersonNumber (docTypeNo) {
   if (numberData) {
     // 如果有当前年份的文书号数据
     let paperNumber = JSON.parse(numberData.paperNumber)
-    if (paperNumber[`paper-${store.state.user.userType}-${docTypeNo}`]) {
+      console.log('docTypeNo', docTypeNo)
+      console.log('paper', `paper-${store.state.user.userType}-${docTypeNo}`)
+      if (paperNumber[`paper-${store.state.user.userType}-${docTypeNo}`]) {
       // 有当前文书的文书号
       threeNum = paperNumber[`paper-${store.state.user.userType}-${docTypeNo}`]
+      console.log('threeNum', threeNum)
     } else {
       // 没有当前文书的文书号
       threeNum = '001'
@@ -91,7 +94,7 @@ async function getPersonNumber (docTypeNo) {
         [`paper-${store.state.user.userType}-${docTypeNo}`]: threeNum
       }))
       numberData.updateDate = getNowFormatTime()
-      // await updateDatabase('personPaperNumber', [numberData])
+      await updateDatabase('personPaperNumber', [numberData])
     }
   } else {
     // 还没有当前年份的文书号数据：创建：
