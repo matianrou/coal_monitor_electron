@@ -64,6 +64,7 @@
 </template>
 
 <script>
+import { sortbyAsc } from "@/utils/index";
 import { saveToUpload } from '@/utils/savePaperData'
 export default {
   name: "CloudUpload",
@@ -93,6 +94,7 @@ export default {
       // 获取要上传的文书
       this.loading = true
       let tableData = await this.getDatabase('prepareUpload')
+      tableData.sort(sortbyAsc('createDate'))
       this.tableData = tableData
       this.loading = false
     },
@@ -108,14 +110,23 @@ export default {
           type: 'warning'
         }).then(async () => {
           this.loading = true
+          this.selectedList.sort(sortbyAsc('createDate'))
           for (let i = 0; i < this.selectedList.length; i++) {
             let item = this.selectedList[i]
-            await saveToUpload(item.paperId, false, item.caseId)
+            if (item.operation === 'save') {
+              // 执行上传保存操作
+              await saveToUpload(item.paperId, false, (item.caseId ? item.caseId : 'opinion-suggestion'))
+            } else if (item.operation === 'delete') {
+              // 执行上传删除操作
+              await this.paperDelete(item.paperId, (item.caseId ? item.caseId : 'opinion-suggestion'))
+            }
           }
           this.$message.success('完成云同步')
           await this.getData()
           this.loading = false
-        }).catch(() => {})
+        }).catch((err) => {
+          console.log('err', err)
+        })
     }
   },
 };

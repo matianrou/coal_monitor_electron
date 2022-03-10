@@ -93,12 +93,12 @@
           title="检查活动拉取" 
           @click="casePull"
         />
-        <!-- <img 
+        <img 
           src="@/components/assets/image/cloud-upload.png" 
           title="云同步" 
           @click="cloudUpload"
           style="margin-left: 10px;"
-        /> -->
+        />
       </div>
       <div class="add-delete-btn">
         <el-button
