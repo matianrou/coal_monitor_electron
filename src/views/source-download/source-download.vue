@@ -468,7 +468,7 @@ export default {
           } else {
             let saveData = response.data.data ? response.data.data : []
             await this.downloadFunction[`${resId}Save`](resId, saveData)
-            if (resId !== 'doc' || resId !== 'plan') this.saveFinished(resId)
+            if (resId !== 'doc' && resId !== 'plan') this.saveFinished(resId)
           }
         })
         .catch((err) => {
