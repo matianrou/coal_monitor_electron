@@ -15,7 +15,7 @@ export async function getDatabase (table) {
   if (!store.state.database[table]) {
     if (NODE_ENV === 'production') {
       // 发布环境：有electron环境
-      let {request} = electronRequest({msgName: 'getDatabase', message: {filePath: `database/${userId}/${table}.txt`, fileName: table}, type: 'sendSync'})
+      let {request} = electronRequest({msgName: 'getDatabase', message: {filePath: `database/${userId}/${table}.js`, fileName: table}, type: 'sendSync'})
       if (request.code === '200') {
         store.state.database[request.fileName] = JSON.parse(request.data)
         dataList = JSON.parse(request.data)
@@ -52,7 +52,7 @@ export async function setDatabase (table, data) {
     let userId = store.state.user.userId
     if (NODE_ENV === 'production') {
       // 发布环境：有electron环境
-      let {request} = electronRequest({msgName: 'setDatabase', message: {filePath: `database/${userId}/${table}.txt`, fileName: table, dataJson}, type: 'sendSync'})
+      let {request} = electronRequest({msgName: 'setDatabase', message: {filePath: `database/${userId}/${table}.js`, fileName: table, dataJson}, type: 'sendSync'})
       if (request.code === '200') {
         store.state.database[table] = data
       } else {
@@ -134,7 +134,7 @@ export async function getPaperDatabase (caseId = null) {
     if (!store.state.database[`wkPaper-${caseId}`]) {
       if (NODE_ENV === 'production') {
         // 发布环境：有electron环境
-        let {request} = electronRequest({msgName: 'getDatabase', message: {filePath: `database/${userId}/wkPaper/${caseId}.txt`, fileName: caseId}, type: 'sendSync'})
+        let {request} = electronRequest({msgName: 'getDatabase', message: {filePath: `database/${userId}/wkPaper/${caseId}.js`, fileName: caseId}, type: 'sendSync'})
         if (request.code === '200') {
           store.state.database[`wkPaper-${caseId}`] = JSON.parse(request.data)
           dataList = JSON.parse(request.data)
@@ -183,7 +183,7 @@ export async function setPaperDatabase (caseId = null, data) {
     if (NODE_ENV === 'production') {
       // 发布环境：有electron环境
       if (caseId) {
-        let {request} = electronRequest({msgName: 'setDatabase', message: {filePath: `database/${userId}/wkPaper/${caseId}.txt`, fileName: caseId, dataJson}, type: 'sendSync'})
+        let {request} = electronRequest({msgName: 'setDatabase', message: {filePath: `database/${userId}/wkPaper/${caseId}.js`, fileName: caseId, dataJson}, type: 'sendSync'})
         if (request.code === '200') {
           store.state.database[`wkPaper-${caseId}`] = data
         } else {
