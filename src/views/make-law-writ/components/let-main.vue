@@ -1373,6 +1373,9 @@ export default {
       // this.saveFlag = '2'
     }
   },
+  destroyed() {
+    clearInterval(this.timer)
+  }
 };
 </script>
 
