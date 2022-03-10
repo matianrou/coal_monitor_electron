@@ -237,14 +237,30 @@ export default {
       if (this.selectedDangerList.length > 0) {
         // 根据已选择的隐患遍历当前所有隐患，置已选择的隐患isSelected为true
         this.allList.length > 0 && this.allList.forEach(receiveDanger => {
-          let dangerContent = receiveDanger.dangerContent ? JSON.parse(decodeURIComponent(receiveDanger.dangerContent.replace(/%/g, '%25'))) : []
-          dangerContent.length > 0 && dangerContent.forEach(danger => {
-            this.selectedDangerList.map(selectedDanger => {
-              if (danger.HistoryId === selectedDanger.HistoryId) {
-                danger.isSelected = true
-              }
+          let dangerContent = []
+          if (receiveDanger.dangerContent) {
+            let dangerContentString = ''
+            if(receiveDanger.dangerContent.indexOf('%') > -1) {
+              // 如果有则置换
+              dangerContentString = receiveDanger.dangerContent.replace(/%/g, '%25')
+            } else {
+              dangerContentString = receiveDanger.dangerContent
+            }
+            // 解码
+            dangerContentString = decodeURIComponent(dangerContentString)
+            if (isJSON(dangerContentString)) {
+              dangerContent = JSON.parse(dangerContentString)
+            }
+          }
+          if (dangerContent.length > 0) {
+            dangerContent.forEach(danger => {
+              this.selectedDangerList.map(selectedDanger => {
+                if (danger.HistoryId === selectedDanger.HistoryId) {
+                  danger.isSelected = true
+                }
+              })
             })
-          })
+          }
           // 重新封装dangerContent大字段为json
           receiveDanger.dangerContent = JSON.stringify(dangerContent)
         })
