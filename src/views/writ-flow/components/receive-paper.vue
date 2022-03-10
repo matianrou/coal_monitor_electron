@@ -10,7 +10,8 @@
     top="5vh">
     <div v-loading="loading.main" class="receive-paper-main">
       <el-tabs 
-        v-model="activeTab">
+        v-model="activeTab"
+        type="card">
         <el-tab-pane 
           v-for="(item, index) in tabList"
           :key="index"
