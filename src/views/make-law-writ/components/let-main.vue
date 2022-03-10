@@ -247,7 +247,7 @@ export default {
   created() {
   },
   mounted() {
-    this.autoSaveDoc(10, false)
+    this.autoSaveDoc(60, false)
   },
   methods: {
     /**
@@ -257,6 +257,10 @@ export default {
     autoSaveDoc(time, isBack) {
       clearInterval(this.timer)
       this.timer = setInterval(() => {
+        if (this.$refs.letDrawer) {
+          // 如果当前打开正在编辑则先保存当前编辑的内容
+          this.handleSave({value: this.$refs.letDrawer.$refs[this.selectedData.type].dataForm.tempValue, direct: true})
+        }
         this.cmdDocSave('2', isBack)
       }, 1000 * time)
     },
@@ -841,8 +845,8 @@ export default {
         personId: this.$store.state.user.userId,
         personName: this.$store.state.user.userName,
         p0FloorTime: "",
-        groupId: this.$store.state.curCase.groupId, //归档机构id
-        groupName: this.$store.state.curCase.groupName, //归档机构名称
+        groupId: this.$store.state.user.userGroupId, //归档机构id
+        groupName: this.$store.state.user.userGroupName, //归档机构名称
         paperContent: JSON.stringify(this.$parent.letData),
         paperType: this.docData.docTypeNo,
         paperHtml: page,
@@ -852,6 +856,7 @@ export default {
         corpId: this.corpData.corpId,
         corpName: this.corpData.corpName,
         planId: '',
+        localizeFlag: "1", // 国产化保存标记
       };
       let saveData = {
         postId: this.$store.state.user.userId,

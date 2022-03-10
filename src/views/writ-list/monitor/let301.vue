@@ -360,9 +360,9 @@ export default {
         return item.corpId == this.corpData.corpId;
       });
       // 创建初始版本 */
-      // 1.文书编号：送达收执文书编号
+      // 1.文书编号：
       let paperNumber = await getDocNumber(
-        "9",
+        '18',
         this.corpData.caseId
       );
       // 2.申请人：机构名称

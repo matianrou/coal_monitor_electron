@@ -302,7 +302,6 @@ export default {
       let cellIdx20String = orgSysOfficeInfo.courtPrefix;
       let DangerTable = null
       let cellIdx11String = ''
-      console.log('corpData', this.corpData)
       if (this.corpData.caseType === '0') {
         // 5.获取检查地点
         let wkPaper = await this.getPaperDatabase(this.corpData.caseId)

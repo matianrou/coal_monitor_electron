@@ -387,7 +387,6 @@ function setMkdir (path) {
 function getPaperFileList (dataList) {
   // 获取所有要更新的文件，根据要更新的数据去分别更新
   let paperData = []
-  console.log('dataList', dataList)
   if (dataList.length > 0) {
     paperData = [{
       caseId: dataList[0].caseId || 'opinion-suggestion',
@@ -447,7 +446,7 @@ export async function paperDelete (paperId, caseId) {
           // 删除成功后，从本地数据库中删除
           // 删除文书
           let paperList = await getPaperDatabase(caseId)
-          let paperData = paperList.find(item => item.paperId === paperId && item.delFlag !== '1');
+          let paperData = paperList.find(item => item.paperId === paperId) // 不可增加delFlag = 1标记，如果增加则无法找到已经被删除文书
           paperData.delFlag = "1"
           await updatePaperDatabase(caseId, [paperData])
           // 删除对应隐患
@@ -460,6 +459,12 @@ export async function paperDelete (paperId, caseId) {
             dangerList[i].delFlag = "1"
           }
           await updateDatabase('wkDanger', dangerList, 'dangerId')
+          // 删除成功后删除prepareUpload中的文书记录
+          let prepareUpload = await getDatabase("prepareUpload");
+          let uploadData = prepareUpload.find(item => item.paperId === paperData.paperId && item.isUpload === '0')
+          if (uploadData && uploadData.paperId) {
+            await deleteDatabasePhysics('prepareUpload', [uploadData], 'paperId')
+          }
           request = {
             code: '200'
           }
@@ -486,9 +491,9 @@ export async function paperDelete (paperId, caseId) {
       code: '500'
     }
     let paperList = await getPaperDatabase(caseId)
-    let paperData = paperList.find(item => item.paperId === paperId && item.delFlag !== '1');
+    let paperData = paperList.find(item => item.paperId === paperId);
     paperData.delFlag = "1"
-    await updatePaperDatabase('opinion-suggestion', [paperData])
+    await updatePaperDatabase(caseId, [paperData])
     // 删除对应隐患
     let wkDanger = await getDatabase("wkDanger");
     let dangerList = []
@@ -505,7 +510,6 @@ export async function paperDelete (paperId, caseId) {
 }
 
 async function savePrepareUpload (paperData) {
-  console.log('paperData', paperData)
   let prepareUploadData = {
     id: getNowTime() + randomString(28),
     paperId: paperData.paperId,
@@ -521,6 +525,5 @@ async function savePrepareUpload (paperData) {
     caseId: paperData.caseId ? paperData.caseId : '',
     operation: 'delete'
   }
-  console.log('prepareUploadData', prepareUploadData)
   await updateDatabase('prepareUpload', [prepareUploadData], 'paperId')
 }

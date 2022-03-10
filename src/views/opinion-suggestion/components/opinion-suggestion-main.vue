@@ -318,7 +318,6 @@ export default {
     async handleDelete(paper) {
       // 删除文书 判断是否已归档，如果已归档则不可删除
       let request = await this.paperDelete(paper.paperId, 'opinion-suggestion')
-      console.log('request', request)
       if (request.code === '200') {
         this.$message.success('删除文书成功！')
       } else {

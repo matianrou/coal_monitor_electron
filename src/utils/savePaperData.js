@@ -14,21 +14,31 @@ export async function saveToUpload (paperId, messageShow, caseId) {
   let wkPaper = await getPaperDatabase(caseId);
   let wkDanger = await getDatabase("wkDanger")
   let corpBase = await getDatabase('baseInfo')
-  //查询符合条件的记录
+  //查询符合条件的记录 不能增加delFlag === '1'的过滤条件，否则在本地已被删除的数据则无法同步上传服务器
   let workPaper = wkPaper.find((item) => {
-    return item.paperId == paperId && item.delFlag !== '1';
+    return item.paperId == paperId
   });
-  let workCase = wkCase.find((item) => {
-    return item.caseId == workPaper.caseId && item.delFlag !== '1';
-  });
-  let wkDangerList = []
-  wkDangerList = JSON.parse(JSON.stringify(wkDanger.filter(item => item.paperId === paperId && item.delFlag !== '1') || []))
   // 没有监察活动和煤矿信息时的容错
   let caseNo = null, caseType = null, corpId = null
   let meikuangType = null, meikuangPlanfrom = null, planId = null
   let checkReason = null, checkStatus = null, planBeginDate = null
   let planEndDate = null, createDate = null, pcMonth = null
   let corpName = null, caseClassify = null, riskAssessment = null, riskAssessmentContent = null
+  let workCase = {}
+  if (workPaper.caseId) {
+    workCase = wkCase.find((item) => {
+      return item.caseId === workPaper.caseId && item.delFlag !== '1';
+    });
+  } else {
+    workCase = { caseNo, caseType, corpId, corpName, 
+      meikuangType, meikuangPlanfrom, planId,
+      checkReason, checkStatus, planBeginDate,
+      planEndDate, createDate, pcMonth, 
+      caseClassify, riskAssessment, riskAssessmentContent 
+    }
+  }
+  let wkDangerList = []
+  wkDangerList = JSON.parse(JSON.stringify(wkDanger.filter(item => item.paperId === paperId && item.delFlag !== '1') || []))
   // 当文书选择为意见建议书或执法案卷（首页）及目录时，corpName赋值：
   if (workPaper.paperType === "16" || workPaper.paperType === "17" || (workPaper.paperType === "15" && !workPaper.caseId)) {
     let paperContent = JSON.parse(workPaper.paperContent);
@@ -38,12 +48,7 @@ export async function saveToUpload (paperId, messageShow, caseId) {
       corpName = paperContent.cellIdx5
     }
   }
-  let workCaseObj = workCase ? workCase
-    : { caseNo, caseType, corpId, corpName, 
-      meikuangType, meikuangPlanfrom, planId,
-      checkReason, checkStatus, planBeginDate,
-      planEndDate, createDate, pcMonth, 
-      caseClassify, riskAssessment, riskAssessmentContent }
+  let workCaseObj = workCase
       // 整理上传数据
   let corpData = corpBase.find(item => item.corpId === workCaseObj.corpId) 
   // 整理网页端展示的html
