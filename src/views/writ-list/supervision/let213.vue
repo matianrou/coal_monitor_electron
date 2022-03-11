@@ -287,7 +287,7 @@ export default {
         let associationPaperOrder = this.setAssociationPaperOrder(let4DataPaperContent.associationPaperOrder)
         associationPaperOrder.push('4')
         this.letData = Object.assign({}, this.letData, {
-          // cellIdx0: cellIdx10String ? cellIdx10String : "", // 案由 22.3.3恢复
+          cellIdx0: cellIdx10String ? cellIdx10String : "", // 案由 22.3.3恢复
           DangerTable: DangerTable,
           associationPaperId,
           associationPaperOrder

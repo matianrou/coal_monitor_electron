@@ -169,55 +169,27 @@
               {{letData.cellIdx12}}检查分工明细表
             </div>
             <div style="width: 19.5cm; margin: 0 auto;">
-              <el-table
-                :data="letData.CheckTable.tableData"
-                width="100%"
-                border
-              >
-                <el-table-column
-                  prop="categoryName"
-                  label="检查事项"
-                  header-align="center"
-                  align="left"
-                  width="110"
+              <table border="0" cellspacing="0" cellpadding="10" style="border: 1px solid #E4E7ED;">
+                <tr>
+                  <th width="70" style="border: 1px solid #E4E7ED; color: #606266;">检查事项</th>
+                  <th style="border: 1px solid #E4E7ED; color: #606266;">检查内容</th>
+                  <th style="border: 1px solid #E4E7ED; color: #606266;">检查主要资料及方法</th>
+                  <th width="70" style="border: 1px solid #E4E7ED; color: #606266;">检查地点</th>
+                  <th width="70" style="border: 1px solid #E4E7ED; color: #606266;">检查分工</th>
+                  <th width="70" style="border: 1px solid #E4E7ED; color: #606266;">调整情况</th>
+                </tr>
+                <tr
+                  v-for="(item, index) in letData.CheckTable.tableData"
+                  :key="index"
                 >
-                </el-table-column>
-                <el-table-column
-                  prop="itemContent"
-                  header-align="center"
-                  align="left"
-                  label="检查内容"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="method"
-                  header-align="center"
-                  align="left"
-                  label="检查主要资料及方法"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="positions"
-                  label="检查地点"
-                  header-align="center"
-                  align="left"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="labor"
-                  label="检查分工"
-                  header-align="center"
-                  align="left"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="condition"
-                  label="调整情况"
-                  header-align="center"
-                  align="left"
-                >
-                </el-table-column>
-              </el-table>
+                  <th style="border: 1px solid #E4E7ED; color: #606266;">{{item.categoryName}}</th>
+                  <th style="border: 1px solid #E4E7ED; color: #606266;">{{item.itemContent}}</th>
+                  <th style="border: 1px solid #E4E7ED; color: #606266;">{{item.method}}</th>
+                  <th style="border: 1px solid #E4E7ED; color: #606266;">{{item.positions}}</th>
+                  <th style="border: 1px solid #E4E7ED; color: #606266;">{{item.personNames}}</th>
+                  <th style="border: 1px solid #E4E7ED; color: #606266;">{{item.situation}}</th>
+                </tr>
+              </table>
             </div>
           </div>
         </div>
