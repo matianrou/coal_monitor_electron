@@ -637,8 +637,8 @@ export default {
         createTime,
         personId: this.$store.state.user.userId,
         personName: this.$store.state.user.userName,
-        groupId: this.fromPage === 'opinion-suggestion' ? this.$store.state.user.userGroupId : this.$store.state.curCase.groupId, //归档机构id
-        groupName: this.fromPage === 'opinion-suggestion' ? this.$store.state.user.userGroupName : this.$store.state.curCase.groupName, //归档机构名称
+        groupId: this.$store.state.user.userGroupId, //归档机构id
+        groupName: this.$store.state.user.userGroupName, //归档机构名称
         paperContent: JSON.stringify(this.$parent.letData),
         paperType: this.docData.docTypeNo,
         paperHtml: page,

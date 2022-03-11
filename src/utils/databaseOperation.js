@@ -366,10 +366,12 @@ export async function initDatabase (userId) {
   let tableSourceDownloadList = await tableSourceDownload.findAll(item => item)
   await db.close()
   let updateTime = await getDatabase('sourceDownload')
-  let saveData = Object.assign({}, updateTime[0], {
-    doc: tableSourceDownloadList[0].doc
-  })
-  await updateDatabase('sourceDownload', [saveData])
+  if (updateTime && updateTime.length > 0 && tableSourceDownloadList && tableSourceDownloadList.length > 0) {
+    let saveData = Object.assign({}, updateTime[0], {
+      doc: tableSourceDownloadList[0].doc
+    })
+    await updateDatabase('sourceDownload', [saveData])
+  }
 }
 
 function getMkdir (path) {
