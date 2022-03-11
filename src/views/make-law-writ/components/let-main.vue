@@ -266,6 +266,7 @@ export default {
     },
     async cmdDocBack() {
       // 22.3.11 修改为统一提示是否保存
+      clearInterval(this.timer)
       if (!this.paperData || this.paperData.delFlag !== '0') {
         await this.$confirm('即将关闭，是否保存？', '提示', {
           confirmButtonText: '是',
@@ -275,7 +276,7 @@ export default {
           type: 'warning'
         }).then(async() => {
           // 保存
-          await this.cmdDocSave('2')
+          await this.cmdDocSave('2', true)
         }).catch(async () => {
           // 退出
           await this.goBackFunc()
@@ -283,7 +284,6 @@ export default {
       } else {
         await this.goBackFunc()
       }
-      clearInterval(this.timer)
       // 判断当前文书内容是否有修改，如果有更改则提示是否确认不保存更改内容
       // if (this.$parent.letDataOragin) {
       //   if (this.$parent.letDataOragin === JSON.stringify(this.$parent.letData)) {
@@ -362,7 +362,7 @@ export default {
             cancelButtonText: '取消',
             type: 'warning'
           }).then(async () => {
-            await this.savePaper(saveFlag)
+            await this.savePaper(saveFlag, isBack)
           }).catch(() => {})
         } else {
           if (this.fromPage === 'send-paper') {
@@ -383,12 +383,12 @@ export default {
       }
     },
     async savePaper (saveFlag, isBack) {
-      if (this.corpData && this.corpData.caseType === '1' && this.docData.docTypeNo === '8') {
+      if (this.corpData && this.corpData.caseType === '1' && this.docData.docTypeNo === '8' && isBack) {
         // 事故类型检查活动时，行政处罚决定书弹窗补充行政罚款金额和行政处罚类型
         this.punishmentInfoFillVisible = true
         this.saveFlag = saveFlag
         return
-      } else if (this.corpData && this.corpData.caseType === '0' && this.docData.docTypeNo === '8') {
+      } else if (this.corpData && this.corpData.caseType === '0' && this.docData.docTypeNo === '8' && isBack) {
         // 
         this.punishmentInfoConfirmVisible = true
         this.saveFlag = saveFlag
@@ -403,7 +403,7 @@ export default {
           let letDataOraginDanger = JSON.parse(this.$parent.letDataOragin).DangerTable || {}
           let newDangerTable = this.$parent.letData.DangerTable
           let isSame = comparDangerTable(letDataOraginDanger, newDangerTable)
-          if (!isSame) {
+          if (!isSame && isBack) {
             // 若修改隐患项则弹窗选择需要修改的关联项
             // 1.拉取本次检查活动中的所有文书
             // 2.比对文书中的关联paper1Id，如果相同则提取文书信息
@@ -1023,6 +1023,10 @@ export default {
             )
           );
         }
+        if (!params.direct) {
+          // 不是直接在编辑区域保存的则关闭弹窗
+          this.handleClose();
+        }
       } else {
         // 通用保存
         // 保存反显数据
@@ -1255,7 +1259,7 @@ export default {
         }
       }
       // 保存当前文书数据
-      await this.savePaperFunction(this.saveFlag)
+      await this.savePaperFunction(this.saveFlag, true)
       // this.saveFlag = '2'
       this.loading.btn = false
     },
@@ -1410,14 +1414,14 @@ export default {
       // 继续保存文书
       this.punishmentInfo = data
       this.punishmentInfoFillVisible = false
-      await this.savePaperFunction(this.saveFlag)
+      await this.savePaperFunction(this.saveFlag, true)
       // this.saveFlag = '2'
     },
     async confirmpunishmentInfo () {
       // 确认一般文书中行政处罚决定书的信息
       // 继续保存文书
       this.punishmentInfoConfirmVisible = false
-      await this.savePaperFunction(this.saveFlag)
+      await this.savePaperFunction(this.saveFlag, true)
       // this.saveFlag = '2'
     }
   },
