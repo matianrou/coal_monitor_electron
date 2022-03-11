@@ -990,28 +990,33 @@ export default {
         // 保存反显数据
         // 处理反显数据，保存一份paperContent通用文本数据
         this.$parent.letData[dataKey] = params.value;
-        this.$set(
-          this.$parent.letData,
-          key,
-          this.functions[`set${type}`](
-            this.$parent.letData[dataKey],
-            this.selectedData,
-            options
+        let person = this.$parent.letData[dataKey].selectedDangerList[0].personIds
+        if(person) {
+          this.$set(
+            this.$parent.letData,
+            key,
+            this.functions[`set${type}`](
+              this.$parent.letData[dataKey],
+              this.selectedData,
+              options
+            )
           )
-        );
-        // 22.2.10修改为所有均弹窗，所以注释掉此处，以防再变化故保留此段代码
-        // if (key === 'TextItem' || key === 'DaterangeItem' || key === 'TextareaItem' || key === 'DateItem' || key === 'DatetimeItem' || key === 'SelectItem' || key === 'SelectInputItem' || key === 'DangerTextareaItem' || key === 'SelectPersonItem') {
-        //   // 不弹出的编辑重新打开编辑窗口以更新数据
-        //   this.commandFill(key, dataKey, title, type, value, options)
-        // }
-        if (key === 'DangerTextareaItem') {
-          // 不弹出的编辑重新打开编辑窗口以更新数据
-          this.commandFill(key, dataKey, title, type, value, options)
+          // 22.2.10修改为所有均弹窗，所以注释掉此处，以防再变化故保留此段代码
+          // if (key === 'TextItem' || key === 'DaterangeItem' || key === 'TextareaItem' || key === 'DateItem' || key === 'DatetimeItem' || key === 'SelectItem' || key === 'SelectInputItem' || key === 'DangerTextareaItem' || key === 'SelectPersonItem') {
+          //   // 不弹出的编辑重新打开编辑窗口以更新数据
+          //   this.commandFill(key, dataKey, title, type, value, options)
+          // }
+          if (key === 'DangerTextareaItem') {
+            // 不弹出的编辑重新打开编辑窗口以更新数据
+            this.commandFill(key, dataKey, title, type, value, options)
+          }
+          if (!params.direct) {
+            // 不是直接在编辑区域保存的则关闭弹窗
+            this.handleClose();
+          }
+        } else {
+          this.$message.error('请添加检查人')
         }
-      }
-      if (!params.direct) {
-        // 不是直接在编辑区域保存的则关闭弹窗
-        this.handleClose();
       }
     },
     async exportTemplate () {
