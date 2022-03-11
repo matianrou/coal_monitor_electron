@@ -62,13 +62,15 @@
         </div>
         <div class="main-top-operation no-drag" style="margin-left: 20px;">
           <span class="el-dropdown-link">
-            <img src="@/components/assets/image/net.png" class="btn-icon img-btn" title="打开网络端" @click="openWeb" />
+            <img src="@/components/assets/image/internet.png" class="btn-icon img-btn custom-icon" title="打开网络端" @click="openWeb" />
           </span>
-          <i class="el-icon-s-promotion btn-icon" title="隐患发送" @click="sendDanger"></i>
+          <span class="el-dropdown-link">
+            <img src="@/components/assets/image/send.png" class="btn-icon img-btn custom-icon" title="隐患发送" @click="sendDanger" />
+          </span>
           <!-- 消息提醒 -->
           <el-dropdown :hide-on-click="false" @command="handleCommand">
             <span class="el-dropdown-link">
-              <img src="@/components/assets/image/message.png" class="btn-icon img-btn" title="消息通知"/>
+              <img src="@/components/assets/image/msg.png" class="btn-icon img-btn custom-icon" title="消息通知"/>
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="checkList">您有{{notice.checkList.length || '0'}}条检查项任务待接收</el-dropdown-item>
@@ -318,6 +320,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.custom-icon {
+  width: 32px!important;
+  height: 32px!important;
+  margin-right: 14px!important;
+}
 .main-top-main {
   width: 100%;
   height: 80px;
