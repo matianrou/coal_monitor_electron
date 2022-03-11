@@ -87,13 +87,14 @@
         <div class="no-drag" style="display: flex; flex: 1; align-items: center;">
           <!-- 个人和更多 -->
           <el-dropdown :hide-on-click="false" @command="handleCommand" style="min-width: 120px; cursor: pointer;">
-            <span class="el-dropdown-link">
+            <span class="el-dropdown-link info-wrap">
               <span style="color: #fff;">欢迎您：{{$store.state.user.userName}}</span><i class="el-icon-caret-bottom" style="color: #f19716;"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="clearLogin">注销登录</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
+          <span style="color: #fff;font-size: 12px;margin-left: 10px;">v{{version}}</span>
         </div>
       </div>
     </div>
@@ -133,13 +134,22 @@ export default {
       notice: {
         checkList: []
       },
-      receiveMessage: null
+      receiveMessage: null,
+      version: null
     };
   },
   created() {
     this.getTab();
     this.getNotice()
     this.receiveElectronChangeSize()
+  },
+  mounted() {
+    this.version = electronRequest(
+      {
+        msgName: 'GETVERSION',
+        type: 'sendSync'
+      }
+    ).request
   },
   watch: {
     receiveMessage (val) {
@@ -363,7 +373,7 @@ export default {
     }
   }
   .main-top-operation-right {
-    width: 150px;
+    width: 200px;
     display: flex;
     align-items: flex-end;
     flex-direction: column;
