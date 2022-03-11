@@ -265,32 +265,49 @@ export default {
       }, 1000 * time)
     },
     async cmdDocBack() {
-      // 增加逻辑判断：
-      // 判断当前文书内容是否有修改，如果有更改则提示是否确认不保存更改内容
-      if (this.$parent.letDataOragin) {
-        if (this.$parent.letDataOragin === JSON.stringify(this.$parent.letData)) {
-          // 相同则直接返回
+      // 22.3.11 修改为统一提示是否保存
+      if (!this.paperData || this.paperData.delFlag !== '0') {
+        await this.$confirm('即将关闭，是否保存？', '提示', {
+          confirmButtonText: '是',
+          cancelButtonText: '否',
+          dangerouslyUseHTMLString: true,
+          closeOnClickModal: false,
+          type: 'warning'
+        }).then(async() => {
+          // 保存
+          await this.cmdDocSave('2')
+        }).catch(async () => {
+          // 退出
           await this.goBackFunc()
-        } else {
-          // 如果有修改
-          await this.$confirm('即将关闭，是否保存？', '提示', {
-              confirmButtonText: '是',
-              cancelButtonText: '否',
-              dangerouslyUseHTMLString: true,
-              closeOnClickModal: false,
-              type: 'warning'
-            }).then(async() => {
-              // 保存
-              await this.cmdDocSave('2', true)
-            }).catch(async () => {
-              // 退出
-              await this.goBackFunc()
-            })
-        }
+        })
       } else {
         await this.goBackFunc()
       }
       clearInterval(this.timer)
+      // 判断当前文书内容是否有修改，如果有更改则提示是否确认不保存更改内容
+      // if (this.$parent.letDataOragin) {
+      //   if (this.$parent.letDataOragin === JSON.stringify(this.$parent.letData)) {
+      //     // 相同则直接返回
+      //     await this.goBackFunc()
+      //   } else {
+      //     // 如果有修改
+      //     await this.$confirm('即将关闭，是否保存？', '提示', {
+      //         confirmButtonText: '是',
+      //         cancelButtonText: '否',
+      //         dangerouslyUseHTMLString: true,
+      //         closeOnClickModal: false,
+      //         type: 'warning'
+      //       }).then(async() => {
+      //         // 保存
+      //         await this.cmdDocSave('2')
+      //       }).catch(async () => {
+      //         // 退出
+      //         await this.goBackFunc()
+      //       })
+      //   }
+      // } else {
+      //   await this.goBackFunc()
+      // }
     },
     async goBackFunc () {
       // 增加逻辑判断：

@@ -385,7 +385,7 @@ export default {
             };
             dataKey = "DangerTable";
           } else {
-            if (this.corpData.caseType === '0' && (key === "cellIdx7" || key === "cellIdx10")) {
+            if (this.corpData.caseType === '0' && (key === "cellIdx10")) {
               this.options[key] = {
                 disabled: true
               };
