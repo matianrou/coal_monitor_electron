@@ -350,7 +350,7 @@ export default {
         } else {
           if (this.fromPage === 'send-paper') {
             // 保存发送文书数据
-            this.saveSendPaper()
+            this.saveSendPaper(isBack)
           } else {
             // 一般执法工作台中的文书保存
             await this.savePaper(saveFlag, isBack)
@@ -503,7 +503,7 @@ export default {
               },
               createDate: item.createDate,
               delFlag: saveFlag,
-              groupId: this.$store.state.curCase.groupId,
+              groupId: this.$store.state.user.userGroupId,
               id: item.itemCode,
               itemCode: item.itemCode,
               itemContent: item.itemContent,
@@ -515,7 +515,7 @@ export default {
               },
               updateDate: item.updateDate,
               paperId: paperId,
-              groupName: this.$store.state.curCase.groupName,
+              groupName: this.$store.state.user.userGroupName,
               personId: JSON.stringify(personIdList),
               Address: item.positions,
               addressType: item.addressType,
@@ -823,8 +823,23 @@ export default {
         this.$emit("go-back", { page: "writFlow", data: this.$store.state.curCase });
       }      
     },
-    async saveSendPaper () {
+    async saveSendPaper (isBack) {
       // 保存发送文书数据
+      // 查询是否为已有文书
+      let sendDataList = await this.getDatabase('sendPaper')
+      let isHasPaper = false
+      let saveData = {}
+      for (let i = 0; i < sendDataList.length; i++) {
+        let item = sendDataList[i]
+        if (item.paperContent && item.delFlag !== '1') {
+          let paperContent = JSON.parse(item.paperContent)
+          let sendPaperId = paperContent.paperId
+          if (sendPaperId === this.$parent.paperId) {
+            isHasPaper = true
+            saveData = item
+          }
+        }
+      }
       let createDate = this.paperData && this.paperData.createDate
         ? this.paperData.createDate
         : getNowFormatTime();
@@ -858,25 +873,31 @@ export default {
         planId: '',
         localizeFlag: "1", // 国产化保存标记
       };
-      let saveData = {
-        postId: this.$store.state.user.userId,
-        receiveId: this.sendData.receiveId,
-        receiveName: this.sendData.receiveName,
-        paperContent: JSON.stringify(jsonPaper),
-        companyId: this.corpData.corpId,
-        companyName: this.corpData.corpName,
-        isReceive: '0',
-        id: getNowTime() + randomString(28),
-        delFlag: '2',
-        createDate,
-        updateDate: getNowFormatTime(),
-        createById: this.$store.state.user.userId,
-        updateById: this.$store.state.user.userId,
+      if (isHasPaper) {
+        saveData.paperContent = JSON.stringify(jsonPaper)
+      } else {
+        saveData = {
+          postId: this.$store.state.user.userId,
+          receiveId: this.sendData.receiveId,
+          receiveName: this.sendData.receiveName,
+          paperContent: JSON.stringify(jsonPaper),
+          companyId: this.corpData.corpId,
+          companyName: this.corpData.corpName,
+          isReceive: '0',
+          id: getNowTime() + randomString(28),
+          delFlag: '2',
+          createDate,
+          updateDate: getNowFormatTime(),
+          createById: this.$store.state.user.userId,
+          updateById: this.$store.state.user.userId,
+        }
       }
       // 保存至本地数据库
       await this.updateDatabase('sendPaper', [saveData])
       this.$message.success(`“${this.docData.docTypeName}”文书已经保存完毕。`);
-      this.$emit("go-back", { page: "writFlow", data: this.$store.state.curCase });
+      if (isBack) {
+        this.$emit("go-back", { page: "writFlow", data: this.$store.state.curCase });
+      }
     },
     cmdDocView() {
       // 打印预览
