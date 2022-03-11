@@ -526,6 +526,7 @@ export default {
           this.getBaseMineStatusZs(userSessId),
         ]).then(async () => {
           await this.downloadFunction['dictionarySave'](resId, this.dictionary)
+          this.saveFinished(resId)
         })
       }
     },
