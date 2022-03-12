@@ -463,6 +463,9 @@ export default {
         selectPerson: false, // 选择隐患发现人
       },
       rules: {
+        personIds: [
+          { required: true, message: '请选择隐患发现人', tirgger: 'change' }
+        ],
         itemContent: [
           { required: true, message: '请填写违法行为描述', tirgger: 'blur' }
         ],

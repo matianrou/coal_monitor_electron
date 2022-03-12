@@ -259,9 +259,19 @@ export default {
       this.timer = setInterval(() => {
         if (this.$refs.letDrawer) {
           // 如果当前打开正在编辑则先保存当前编辑的内容
-          this.handleSave({value: this.$refs.letDrawer.$refs[this.selectedData.type].dataForm.tempValue, direct: true})
+          if (this.selectedData.type === 'DangerTable' && this.$refs.letDrawer.$refs[this.selectedData.type].$refs.dataForm) {
+            // DangerTable校验当前必填项是否全必填，如果有未填写则不自动保存
+            this.$refs.letDrawer.$refs[this.selectedData.type].$refs.dataForm.validate(async validate => { 
+              if (validate) {
+                this.handleSave({value: this.$refs.letDrawer.$refs[this.selectedData.type].dataForm.tempValue, direct: true})
+                this.cmdDocSave('2', isBack)
+              }
+            })
+          } else {
+            this.handleSave({value: this.$refs.letDrawer.$refs[this.selectedData.type].dataForm.tempValue, direct: true})
+            this.cmdDocSave('2', isBack)
+          }
         }
-        this.cmdDocSave('2', isBack)
       }, 1000 * time)
     },
     async cmdDocBack() {
@@ -1032,32 +1042,27 @@ export default {
         // 保存反显数据
         // 处理反显数据，保存一份paperContent通用文本数据
         this.$parent.letData[dataKey] = params.value;
-        let person = this.$parent.letData[dataKey].selectedDangerList[0].personIds
-        if(person) {
-          this.$set(
-            this.$parent.letData,
-            key,
-            this.functions[`set${type}`](
-              this.$parent.letData[dataKey],
-              this.selectedData,
-              options
-            )
+        this.$set(
+          this.$parent.letData,
+          key,
+          this.functions[`set${type}`](
+            this.$parent.letData[dataKey],
+            this.selectedData,
+            options
           )
-          // 22.2.10修改为所有均弹窗，所以注释掉此处，以防再变化故保留此段代码
-          // if (key === 'TextItem' || key === 'DaterangeItem' || key === 'TextareaItem' || key === 'DateItem' || key === 'DatetimeItem' || key === 'SelectItem' || key === 'SelectInputItem' || key === 'DangerTextareaItem' || key === 'SelectPersonItem') {
-          //   // 不弹出的编辑重新打开编辑窗口以更新数据
-          //   this.commandFill(key, dataKey, title, type, value, options)
-          // }
-          if (key === 'DangerTextareaItem') {
-            // 不弹出的编辑重新打开编辑窗口以更新数据
-            this.commandFill(key, dataKey, title, type, value, options)
-          }
-          if (!params.direct) {
-            // 不是直接在编辑区域保存的则关闭弹窗
-            this.handleClose();
-          }
-        } else {
-          this.$message.error('请添加检查人')
+        )
+        // 22.2.10修改为所有均弹窗，所以注释掉此处，以防再变化故保留此段代码
+        // if (key === 'TextItem' || key === 'DaterangeItem' || key === 'TextareaItem' || key === 'DateItem' || key === 'DatetimeItem' || key === 'SelectItem' || key === 'SelectInputItem' || key === 'DangerTextareaItem' || key === 'SelectPersonItem') {
+        //   // 不弹出的编辑重新打开编辑窗口以更新数据
+        //   this.commandFill(key, dataKey, title, type, value, options)
+        // }
+        if (key === 'DangerTextareaItem') {
+          // 不弹出的编辑重新打开编辑窗口以更新数据
+          this.commandFill(key, dataKey, title, type, value, options)
+        }
+        if (!params.direct) {
+          // 不是直接在编辑区域保存的则关闭弹窗
+          this.handleClose();
         }
       }
     },

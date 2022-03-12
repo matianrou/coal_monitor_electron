@@ -49,6 +49,8 @@ import { schema, doDocDb } from '@/utils/downloadSource'
 import { getNowFormatTime } from '@/utils/date'
 import { clearLoginInfo } from '@/utils'
 import { initDatabase, initMkdir } from '@/utils/databaseOperation'
+import { sortbyAsc } from "@/utils/index";
+import { saveToUpload } from '@/utils/savePaperData'
 import GoDB from '@/utils/godb.min.js'
 export default {
   name: "Login",
@@ -232,30 +234,23 @@ export default {
               await this.getDatabase('sourceDownload')
               // 如果有网络则自动更新下载文书资源
               if (!this.offLine) {
-                // 获取是否下载文书资源，如果未下载过，则不自动下载，如果下载过则执行自动下载
-                let updateTime = sourceDownload[0]
-                let docUpdateTime = updateTime ? updateTime.doc : null
-                if (docUpdateTime && docUpdateTime !== '未下载') {
-                  // 获取文书资源
-                  let userId = this.$store.state.user.userId;
-                  let userSessId = this.$store.state.user.userSessId;
-                  let path = this.$store.state.user.userType === 'supervision' ? '/sv' : ''
-                  let url = `${path}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&updateTime=${docUpdateTime}&pageNo=0&pageSize=5000`
-                  await this.$http
-                    .get(`${url}`)
-                    .then(async (response) => {
-                      if (response.data.data) {
-                        let saveData = response.data.data
-                        await this.updateDatabase('wkCase', saveData.jczfCase, 'caseId')
-                        await this.updatePaperDatabase(null, saveData.paper, 'paperId')
-                        await this.updateDatabase('wkDanger', saveData.danger, 'dangerId')
-                        // 修改更新日期
-                        await this.handleUpdateTime()
-                      }
-                    })
-                    .catch((err) => {
-                      console.log("下载文书失败：", err);
-                    })
+                // 在线登录时询问是否要同步文书，如果是则云同步未上传文书，上传成功则更新下载文书资源，如果不成功则不下载
+                // 如果选择不同步文书则不进行云同步且不进行下载
+                let uploadList = await this.getDatabase('prepareUpload')
+                if (uploadList.length > 0) {
+                  this.$confirm('当前有未上传服务器的文书，是否同步至服务器？（如果同步则会上传文书同时下载最新文书，如果不同步则直接进入系统，需要您手动上传文书）', '提示', {
+                    confirmButtonText: '同步',
+                    cancelButtonText: '不同步',
+                    dangerouslyUseHTMLString: true,
+                    closeOnClickModal: false,
+                    type: 'warning'
+                  }).then(async () => {
+                    await this.synchronizationData(uploadList, sourceDownload)
+                  }).catch(err => {
+                  })
+                } else {
+                  // 如果没有需要上传的文书则直接进行更新下载文书
+                  await this.downloadDoc(sourceDownload)
                 }
               }
             }
@@ -275,6 +270,7 @@ export default {
       this.loading.loginBtn = false 
     },
     async getUserType (userId, sessId) {
+      // 获取用户角色
       await this.$http.get(`/local/user/role?__sid=${sessId}&userId=${userId}`).then(({ data }) => {
           if(data.status === '200') {
             // 返回用户类别标识
@@ -298,6 +294,7 @@ export default {
         })
     },
     async getUserInfo(userId, sessId) {
+      // 获取用户信息
       let path = ''
       if (this.$store.state.user.userType === 'supervision') {
         path = '/sv'
@@ -321,6 +318,7 @@ export default {
       })
     },
     logoutHandle () {
+      // 退出返回登录页面
       clearLoginInfo()
       this.handleWindow('window-max')
       this.$router.replace({ name: 'Login', params: {
@@ -328,6 +326,7 @@ export default {
       }})
     },
     async setDB (userId) {
+      // 初始化数据库
       if (process.env.NODE_ENV === 'production') {
         // 创建数据库文件夹
         let isSuccess = await initMkdir(userId)
@@ -368,6 +367,53 @@ export default {
       let updateTime = sourceDownload[0]
       updateTime.doc = getNowFormatTime()
       await this.updateDatabase('sourceDownload', [updateTime])
+    },
+    async synchronizationData (uploadList, sourceDownload) {
+      // 同步数据：
+      // 1.上传当前所有未云同步的数据
+      uploadList.sort(sortbyAsc('createDate'))
+      for (let i = 0; i < uploadList.length; i++) {
+        let item = uploadList[i]
+        if (item.operation === 'save') {
+          // 执行上传保存操作
+          await saveToUpload(item.paperId, false, (item.caseId ? item.caseId : 'opinion-suggestion'))
+        } else if (item.operation === 'delete') {
+          // 执行上传删除操作
+          await this.paperDelete(item.paperId, (item.caseId ? item.caseId : 'opinion-suggestion'))
+        }
+      }
+      // 判断是否全部云同步成功，如果还有数据说明未上传成功，则不执行更新文书操作
+      let hasUploadPaper = await this.getDatabase('prepareUpload')
+      // 2.所有全部上传成功后下载最新文书
+      if (hasUploadPaper.length === 0) {
+        await this.downloadDoc(sourceDownload)
+      }
+    },
+    async downloadDoc (sourceDownload) {
+      let updateTime = sourceDownload[0]
+      let docUpdateTime = updateTime ? updateTime.doc : null
+      if (docUpdateTime && docUpdateTime !== '未下载') {
+        // 获取文书资源
+        let userId = this.$store.state.user.userId;
+        let userSessId = this.$store.state.user.userSessId;
+        let path = this.$store.state.user.userType === 'supervision' ? '/sv' : ''
+        let url = `${path}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&updateTime=${docUpdateTime}&pageNo=0&pageSize=5000`
+        await this.$http
+          .get(`${url}`)
+          .then(async (response) => {
+            if (response.data.data) {
+              let saveData = response.data.data
+              await this.updateDatabase('wkCase', saveData.jczfCase, 'caseId')
+              await this.updatePaperDatabase(null, saveData.paper, 'paperId')
+              await this.updateDatabase('wkDanger', saveData.danger, 'dangerId')
+              // 修改更新日期
+              await this.handleUpdateTime()
+            }
+          })
+          .catch((err) => {
+            console.log("下载文书失败：", err);
+          })
+      }
     }
   },
 };

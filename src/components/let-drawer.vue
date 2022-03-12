@@ -187,9 +187,9 @@ export default {
       // *direct是否直接保存，不关闭（主要处理普通文本框直接在编辑区域修改）
       // *dangerContentMerge为隐患项是否隐患合并，如果为true则需要隐患合并，默认为false
       // 保存数据
-      if (this.selectedData.type === 'DangerTable') {
-        // this.$refs[this.selectedData.type].$refs.dataForm.validate(validate => { // 如果未选择隐患项就保存此处会报错，暂时去掉此校验，后期修改逻辑
-          // if (validate) {
+      if (this.selectedData.type === 'DangerTable' && this.$refs[this.selectedData.type].$refs.dataForm) {
+        this.$refs[this.selectedData.type].$refs.dataForm.validate(async validate => { 
+          if (validate) {
             // 如果是隐患项保存的话则获取当前选中隐患项进行数据总结提取
             let value = this.$refs[this.selectedData.type].dataForm.tempValue
             let isSave = true
@@ -248,8 +248,8 @@ export default {
             } else {
               this.$message.error(`选中的隐患项第${indexString}条中有必填的项目未填写，如：违法行为描述,现场处理决定或更改从属隐患类别`)
             }
-          // }
-        // })
+          }
+        })
       } else {
         this.$emit('handle-save', {value: this.$refs[this.selectedData.type].dataForm.tempValue, direct})
       }
