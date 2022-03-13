@@ -92,7 +92,8 @@
           prop="corpName"
           label="煤矿名称"
           header-align="center"
-          align="center">
+          align="center"
+          min-width="200">
         </el-table-column>
         <el-table-column
           prop="affiliateName"

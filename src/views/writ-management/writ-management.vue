@@ -381,6 +381,7 @@ export default {
     },
     resetForm () {
       this.$refs.dataForm.resetFields()
+      this.getData()
     },
     handleSelectionChange (val) {
       this.selectedPaperList = val

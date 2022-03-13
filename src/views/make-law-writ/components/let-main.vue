@@ -271,6 +271,9 @@ export default {
             this.handleSave({value: this.$refs.letDrawer.$refs[this.selectedData.type].dataForm.tempValue, direct: true})
             this.cmdDocSave('2', isBack)
           }
+        } else {
+          // 如果当前没有打开编辑窗口则直接自动保存
+          this.cmdDocSave('2', isBack)
         }
       }, 1000 * time)
     },
