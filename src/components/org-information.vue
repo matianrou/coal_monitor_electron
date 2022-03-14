@@ -204,7 +204,8 @@ export default {
 <style lang="scss" scoped>
 .enterprisedata {
   width: 100%;
-  height: 180px;
+  height: 173px;
+  overflow: hidden;
   border-collapse: collapse;
   background: #fff;
   color: #000;
