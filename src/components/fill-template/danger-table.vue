@@ -831,14 +831,25 @@ export default {
         }
         let {id, type} = getPenaltyDescType(receiveDanger.penaltyDesc, this.subitemTypeOptions)
         // 通过categoryCode获取从属隐患一级和二级类别
-        let secDangerType = await this.getParentDangerCateCode(receiveDanger.categoryCode)
-        let firstDangerType = await this.getParentDangerCateCode(secDangerType)
+        let categoryCode = receiveDanger.categoryCode
+        let secDangerType = ''
+        if (receiveDanger.categoryCode) {
+          secDangerType = await this.getParentDangerCateCode(receiveDanger.categoryCode)
+        }
+        let firstDangerType = ''
+        if (secDangerType === '000000') {
+          firstDangerType = receiveDanger.categoryCode
+          secDangerType = null
+          categoryCode = null
+        } else {
+          firstDangerType = await this.getParentDangerCateCode(secDangerType)
+        }
         let receData = {
           dangerId: getNowTime() + randomString(28),
           active: false,
           itemCode: receiveDanger.itemCode,
           no: receiveDanger.no,
-          categoryCode: receiveDanger.categoryCode,
+          categoryCode: categoryCode,
           personIds: receiveDanger.personId, // 隐患发现人
           personNames: receiveDanger.name, // 隐患发现人
           itemContent: receiveDanger.itemContent, // 违法行为描述
@@ -856,7 +867,7 @@ export default {
           penaltyBasis: receiveDanger.penaltyBasis, // 行政处罚依据
           firstDangerType, // 第一级隐患类别
           secDangerType, // 第二级隐患类别
-          changeDangerType: receiveDanger.categoryCode, // 更改的隐患类别
+          changeDangerType: categoryCode, // 更改的隐患类别
           isSerious: '0', // 是否重大隐患
           isReview: '0', // 是否复查
           reviewDate: null, // 复查日期
@@ -1025,6 +1036,51 @@ export default {
           this.dangerItemDetail.changeDangerType = null
           this.dangerCateOptions.dangerCateThirdList = []
         }
+      } else if (this.dangerItemDetail.secDangerType) {
+        let curDangerSec = dangerCateData.filter(item => item.categoryCode === this.dangerItemDetail.secDangerType)
+        let curDangerFirst = dangerCateData.filter(item => item.categoryCode === curDangerSec[0].pid)
+        let setDefault = false
+        if (corpBaseData.mineMinetypeName === '井工' || corpBaseData.mineMinetypeName === '露天') {
+          if (curDangerFirst[0].categoryCode === this.dangerCateOptions.dangerCateList[0].categoryCode) {
+            setDefault = true
+          }
+        } else {
+          setDefault = true
+        }
+        if (setDefault) {
+          // 设置默认值
+          this.dangerItemDetail.firstDangerType = curDangerFirst[0].categoryCode
+          this.changeDangerCate(curDangerFirst[0].categoryCode, '0')
+          this.dangerItemDetail.secDangerType = curDangerSec[0].categoryCode
+          this.changeDangerCate(curDangerSec[0].categoryCode, '1')
+        } else {
+          this.dangerItemDetail.firstDangerType = null
+          this.dangerItemDetail.secDangerType = null
+          this.dangerCateOptions.dangerCateSecList = []
+          this.dangerItemDetail.changeDangerType = null
+          this.dangerCateOptions.dangerCateThirdList = []
+        }
+      } else if (this.dangerItemDetail.firstDangerType) {
+        let curDangerFirst = dangerCateData.filter(item => item.categoryCode === this.dangerItemDetail.firstDangerType)
+        let setDefault = false
+        if (corpBaseData.mineMinetypeName === '井工' || corpBaseData.mineMinetypeName === '露天') {
+          if (curDangerFirst[0].categoryCode === this.dangerCateOptions.dangerCateList[0].categoryCode) {
+            setDefault = true
+          }
+        } else {
+          setDefault = true
+        }
+        if (setDefault) {
+          // 设置默认值
+          this.dangerItemDetail.firstDangerType = curDangerFirst[0].categoryCode
+          this.changeDangerCate(curDangerFirst[0].categoryCode, '0')
+        } else {
+          this.dangerItemDetail.firstDangerType = null
+          this.dangerItemDetail.secDangerType = null
+          this.dangerCateOptions.dangerCateSecList = []
+          this.dangerItemDetail.changeDangerType = null
+          this.dangerCateOptions.dangerCateThirdList = []
+        }
       } else {
         this.dangerItemDetail.firstDangerType = null
         this.dangerItemDetail.secDangerType = null
@@ -1062,7 +1118,7 @@ export default {
       let dangerCate = await this.getDatabase('dangerCate')
       let parentCode = ''
       parentCode = dangerCate.find((item) => item.delFlag !== '1' && item.categoryCode === code);
-      return parentCode.pid
+      return parentCode ? parentCode.pid : ''
     },
     changeOnsiteDesc (val) {
       // 修改现场处理决定，关联现场处理决定选择
