@@ -319,11 +319,11 @@ export default {
       // 获取检查时间
       let wkPaper = await this.getPaperDatabase(this.corpData.caseId)
       let let1Data = wkPaper.find(item => item.paperId === letDataPaperContent.associationPaperId.paper1Id && item.delFlag !== '1')
-      let let1DataPaperContent = JSON.parse(
+      let let1DataPaperContent = let1Data ? JSON.parse(
         let1Data.paperContent
-      );
+      ) : null;
       // 检查时间日期：
-      let dateString = let1DataPaperContent.cellIdx1
+      let dateString = let1DataPaperContent
         ? let1DataPaperContent.cellIdx1
         : "X年X月X日-X年X月X日";
       let cellIdx5String =
@@ -397,7 +397,6 @@ export default {
         cellIdx5: cellIdx5String, // 案情摘要
         cellIdx6: cellIdx6String, // 作出决定依据
         cellIdx7: cellIdx7String, // 建议行政决定
-        DangerTable: let1DataPaperContent.DangerTable,
         DangerTable,
         extraData: {
           // 用于拼写隐患内容的字符集合

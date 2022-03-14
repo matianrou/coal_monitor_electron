@@ -28,7 +28,7 @@
             <svg t="1631780752712" class="icon" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10822" width="40" height="40"><path d="M59.6 513.2h166l44.6 93.8c17.8 37.4 55.6 61.2 97 61.2h300.6c41.6 0 79.4-24 97.2-61.4l44-93.4h162.8c14.2 0 27.8 5.6 38 15.8 10 10 15.8 23.8 15.8 38v268.2c0 28.4-11.4 55.8-31.4 75.8a107.016 107.016 0 0 1-75.8 31.4H113.2c-28.4 0-55.8-11.4-75.8-31.4C17.4 890.8 6 863.6 6 835V566.8c0-29.6 24-53.6 53.6-53.6z m0 0" fill="#1890FF" p-id="10823"></path><path d="M864.4 464h-88.2l-21 77.2c-12.8 46.8-55.2 79.2-103.6 79.2H387.2c-51 0-95-36-105.2-86L267.8 464H167V137.6c0-14.2 5.6-27.8 15.8-38 10-10 23.8-15.8 38-15.8H811c29.6 0 53.6 24 53.6 53.6V464zM442 362.8c-10.6 0-20.2 6.2-24.6 16-4.2 9.8-2.4 21 4.6 28.8l93.4 103 93.4-103c7.2-7.8 9-19.2 4.6-28.8-4.2-9.8-14-16-24.6-16h-40V178.2h-67V363H442z" fill="#1890FF" p-id="10824"></path></svg>
             <span style="color: #409EFF; display:block;font-size:14px;font-weight: bold;"> 归 档</span>
           </td>
-          <td style="width:100px;text-align:center;cursor: pointer;" @click="cmdDocBack">
+          <td style="width:100px;text-align:center;cursor: pointer;" @click="val => cmdDocBack(true)">
             <svg t="1631780901791" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="19598" width="40" height="40"><path d="M512 93.090909a418.443636 418.443636 0 0 0-418.909091 418.909091c0 231.703273 187.205818 418.909091 418.909091 418.909091s418.909091-187.205818 418.909091-418.909091-187.205818-418.909091-418.909091-418.909091z m-32.721455 163.653818h65.44291v209.454546h-65.44291v-209.454546zM512 767.255273c-129.582545 0-235.659636-106.030545-235.659636-235.613091a233.192727 233.192727 0 0 1 137.495272-213.410909v74.658909c-43.194182 31.418182-72.005818 81.128727-72.005818 138.705454A169.844364 169.844364 0 0 0 512 701.858909a169.844364 169.844364 0 0 0 170.170182-170.170182c0-57.623273-28.811636-107.333818-72.005818-138.752V318.277818a234.589091 234.589091 0 0 1 137.495272 213.364364A235.52 235.52 0 0 1 512 767.255273z" fill="#1890FF" p-id="19599"></path></svg>
             <span style="color: #409EFF; display:block;font-size:14px;font-weight: bold;"> 返 回</span>
             <!-- <a class="btnTool" href="javascript:cmdDocBack()">返回</a> -->
@@ -277,10 +277,11 @@ export default {
         }
       }, 1000 * time)
     },
-    async cmdDocBack() {
+    async cmdDocBack(backTip = false) {
+      // backTip：是否要展示返回保存的提示标记，如果为true则提示，为false则不提示(用于判断是否可进入编辑文书时，如果条件不符合的返回操作)
       // 22.3.11 修改为统一提示是否保存
       clearInterval(this.timer)
-      if (!this.paperData || this.paperData.delFlag !== '0') {
+      if (backTip && (!this.paperData || this.paperData.delFlag !== '0')) {
         await this.$confirm('即将关闭，是否保存？', '提示', {
           confirmButtonText: '是',
           cancelButtonText: '否',

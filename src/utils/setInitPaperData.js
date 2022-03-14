@@ -547,102 +547,104 @@ export function setNewDanger (paperData, DangerTable) {
   let paperContentOld = JSON.parse(paperData.paperContent)
   let selectedType = paperContentOld.selectedType
   // 遍历更新的隐患项
-  for (let i = 0; i < DangerTable.tableData.length; i++) {
-    // 新的隐患项内容
-    let tableDataNewItem = DangerTable.tableData[i]
-    // 新的隐患id
-    let newDangerId = getNowTime() + randomString(28)
-    // 关联隐患id
-    let dangerParentId = `${tableDataNewItem.dangerParentId ? tableDataNewItem.dangerParentId + ',' : ''}${tableDataNewItem.dangerId}`
-    let tableDataNewSave = {
-      dangerId: newDangerId,
-      categoryCode: tableDataNewItem.categoryCode,
-      personIds: tableDataNewItem.personIds, //"发现人编号多选：以逗号分隔",
-      personNames: tableDataNewItem.personNames, //"隐患发现人多选：以逗号分隔",
-      itemContent: tableDataNewItem.itemContent,
-      confirmBasis: tableDataNewItem.confirmBasis,
-      onsiteDesc: tableDataNewItem.onsiteDesc,
-      onsiteBasis: tableDataNewItem.onsiteBasis,
-      onsiteType: tableDataNewItem.onsiteType, //"现场处理类型",
-      headingFace: tableDataNewItem.headingFace, //"掘进工作面：6",
-      deviceNum: tableDataNewItem.deviceNum, //"设备台数：默认为空",
-      coalingFace: tableDataNewItem.coalingFace, //"采煤工作面：3",
-      penaltyDesc: tableDataNewItem.penaltyDesc,
-      penaltyDescFine: tableDataNewItem.penaltyDescFine, // 罚金
-      penaltyDescTypeId: tableDataNewItem.penaltyDescTypeId, // 行政处罚决定类型的id
-      penaltyDescType: tableDataNewItem.penaltyDescType, // 行政处罚决定类型
-      penaltyBasis: tableDataNewItem.penaltyBasis,
-      firstDangerType: tableDataNewItem.firstDangerType,
-      secDangerType: tableDataNewItem.secDangerType,
-      changeDangerType: tableDataNewItem.changeDangerType, //"更改后隐患类别：710100",
-      isSerious: tableDataNewItem.isSerious,
-      isReview: tableDataNewItem.isReview,
-      reviewDate: tableDataNewItem.reviewDate,
-      createDate: paperData.createDate,
-      itemCode: tableDataNewItem.itemCode, //
-      no: tableDataNewItem.no, // 同itemCode
-      delFlag: '2',
-      order: tableDataNewItem.order,
-      isCommon: tableDataNewItem.isCommon ? tableDataNewItem.isCommon : null, //"是否为其他隐患（自定义隐患传1）：null",
-
-      basisContent: tableDataNewItem.confirmBasis, //"认定：《中华人民共和国安全生产法》第二十九条；《煤矿建设项目安全设施监察规定》第九条",
-      caseId: paperData.caseId,
-      checkPerson: '', //"整改核查人",
-      checkTime: '', //"整改核查时间",
-      createBy: JSON.stringify({
-        id: store.state.user.userId
-      }),
-      dangerCate: tableDataNewItem.categoryCode,
-      dangerContent: tableDataNewItem.itemContent, // "煤矿建设项目未按规定进行安全预评价和安全验收评价，逾期未改正的。"
-      dangerCorrected: tableDataNewItem.dangerCorrected ? tableDataNewItem.dangerCorrected : null, //"隐患整改情况(0未整改，1已整改）：null",
-      dangerItemId: tableDataNewItem.itemCode, //"7101000033",
-      dangerLocation: '', //违法违规及隐患位置
-      dangerParentId: dangerParentId, //"隐患关联id：null",
-      dangerStatus: tableDataNewItem.status, //违法违规及隐患状态
-      dangerType: tableDataNewItem.categoryCode,
-      detectTime: getNowFormatTime(),  //发现时间：2021-06-24 15:48:54
-      isCheck: tableDataNewItem.isReview, //"是否需要复查0不需要1需要",
-      isHigh: tableDataNewItem.isSerious, //是否重大隐患：[0|1]
-      itemOnsiteBasis: tableDataNewItem.onsiteBasis, //"现场决定依据：《中华人民共和国安全生产法》第九十五条第一项",
-      itemOnsiteType: tableDataNewItem.onsiteType, //"现场处理类型",
-      name: null,
-      onsiteContent: tableDataNewItem.onsiteDesc, //"现场处理内容：责令停止建设责令停止作业、限X日内改正",
-      paperId: paperData.paperId,
-      penaltyOrg: '', //"对单位的处罚", // 后台不需要了21.12.2
-      penaltyOrgFine: selectedType === '单位' ? tableDataNewItem.penaltyDescFine : null, //"单位罚金",
-      penaltyPerson: '', //"对个人的处罚",  // 后台不需要了21.12.2
-      penaltyPersonFine: selectedType === '个人' ? tableDataNewItem.penaltyDescFine : null, //"个人罚金",
-      penaltyType: tableDataNewItem.penaltyDescTypeId, //"行政处罚类型3,7",
-      personId: store.state.user.userId, //"7101000033",
-      personName: store.state.user.userName, //"发现人编号：beba494c4b67435f93e5fdfbe440e18e",
-      rectifyTerm: '', //"整改期限",
-      remoteId: '', //服务器端生成的id
-      reviewUnitId: tableDataNewItem.reviewUnitId ? tableDataNewItem.reviewUnitId : null, //"复查单位id：null",
-      reviewUnitName: tableDataNewItem.reviewUnitName ? tableDataNewItem.reviewUnitName : null, //"复查单位名称：null",
-      showIndex: tableDataNewItem.order + '', //"隐患顺序：1",
-      solveMethod: '', //"整改落实措施",
-      solveTime: '', //"隐患消解时间",
-      sourceFlag: '0',
-      subitemCode: '', //"违法违规自由裁量序号",
-      subitemContent: tableDataNewItem.itemContent, //"违法违规内容：煤矿建设项目未按规定进行安全预评价和安全验收评价，逾期未改正的。",
-      subitemPenalty: tableDataNewItem.penaltyDesc, //"违法违规行政处罚决定：逾期未改正的，处五十万元以上一百万元以下的罚款，对其直接负责的主管人员和其他直接责任人员处二万元以上五万元以下的罚款。",
-      subitemPenaltyBasis: tableDataNewItem.penaltyBasis, //"行政处罚依据：《中华人民共和国安全生产法》第二十九条，第九十五条第一项",
-      updateBy: JSON.stringify({
-        id: store.state.user.userId
-      }),
-      updateDate: getNowFormatTime(),
-      verNo: null, //"版本号：null",
-    }
-    if (DangerTable.selectedDangerList) {
-      for (let j = 0; j < DangerTable.selectedDangerList.length; j++) {
-        let selectedItem = DangerTable.selectedDangerList[j]
-        if (selectedItem.dangerId === tableDataNewItem.dangerId) {
-          selectedDangerTableNew.push(tableDataNewSave)
+  if (DangerTable.tableData) {
+    for (let i = 0; i < DangerTable.tableData.length; i++) {
+      // 新的隐患项内容
+      let tableDataNewItem = DangerTable.tableData[i]
+      // 新的隐患id
+      let newDangerId = getNowTime() + randomString(28)
+      // 关联隐患id
+      let dangerParentId = `${tableDataNewItem.dangerParentId ? tableDataNewItem.dangerParentId + ',' : ''}${tableDataNewItem.dangerId}`
+      let tableDataNewSave = {
+        dangerId: newDangerId,
+        categoryCode: tableDataNewItem.categoryCode,
+        personIds: tableDataNewItem.personIds, //"发现人编号多选：以逗号分隔",
+        personNames: tableDataNewItem.personNames, //"隐患发现人多选：以逗号分隔",
+        itemContent: tableDataNewItem.itemContent,
+        confirmBasis: tableDataNewItem.confirmBasis,
+        onsiteDesc: tableDataNewItem.onsiteDesc,
+        onsiteBasis: tableDataNewItem.onsiteBasis,
+        onsiteType: tableDataNewItem.onsiteType, //"现场处理类型",
+        headingFace: tableDataNewItem.headingFace, //"掘进工作面：6",
+        deviceNum: tableDataNewItem.deviceNum, //"设备台数：默认为空",
+        coalingFace: tableDataNewItem.coalingFace, //"采煤工作面：3",
+        penaltyDesc: tableDataNewItem.penaltyDesc,
+        penaltyDescFine: tableDataNewItem.penaltyDescFine, // 罚金
+        penaltyDescTypeId: tableDataNewItem.penaltyDescTypeId, // 行政处罚决定类型的id
+        penaltyDescType: tableDataNewItem.penaltyDescType, // 行政处罚决定类型
+        penaltyBasis: tableDataNewItem.penaltyBasis,
+        firstDangerType: tableDataNewItem.firstDangerType,
+        secDangerType: tableDataNewItem.secDangerType,
+        changeDangerType: tableDataNewItem.changeDangerType, //"更改后隐患类别：710100",
+        isSerious: tableDataNewItem.isSerious,
+        isReview: tableDataNewItem.isReview,
+        reviewDate: tableDataNewItem.reviewDate,
+        createDate: paperData.createDate,
+        itemCode: tableDataNewItem.itemCode, //
+        no: tableDataNewItem.no, // 同itemCode
+        delFlag: '2',
+        order: tableDataNewItem.order,
+        isCommon: tableDataNewItem.isCommon ? tableDataNewItem.isCommon : null, //"是否为其他隐患（自定义隐患传1）：null",
+  
+        basisContent: tableDataNewItem.confirmBasis, //"认定：《中华人民共和国安全生产法》第二十九条；《煤矿建设项目安全设施监察规定》第九条",
+        caseId: paperData.caseId,
+        checkPerson: '', //"整改核查人",
+        checkTime: '', //"整改核查时间",
+        createBy: JSON.stringify({
+          id: store.state.user.userId
+        }),
+        dangerCate: tableDataNewItem.categoryCode,
+        dangerContent: tableDataNewItem.itemContent, // "煤矿建设项目未按规定进行安全预评价和安全验收评价，逾期未改正的。"
+        dangerCorrected: tableDataNewItem.dangerCorrected ? tableDataNewItem.dangerCorrected : null, //"隐患整改情况(0未整改，1已整改）：null",
+        dangerItemId: tableDataNewItem.itemCode, //"7101000033",
+        dangerLocation: '', //违法违规及隐患位置
+        dangerParentId: dangerParentId, //"隐患关联id：null",
+        dangerStatus: tableDataNewItem.status, //违法违规及隐患状态
+        dangerType: tableDataNewItem.categoryCode,
+        detectTime: getNowFormatTime(),  //发现时间：2021-06-24 15:48:54
+        isCheck: tableDataNewItem.isReview, //"是否需要复查0不需要1需要",
+        isHigh: tableDataNewItem.isSerious, //是否重大隐患：[0|1]
+        itemOnsiteBasis: tableDataNewItem.onsiteBasis, //"现场决定依据：《中华人民共和国安全生产法》第九十五条第一项",
+        itemOnsiteType: tableDataNewItem.onsiteType, //"现场处理类型",
+        name: null,
+        onsiteContent: tableDataNewItem.onsiteDesc, //"现场处理内容：责令停止建设责令停止作业、限X日内改正",
+        paperId: paperData.paperId,
+        penaltyOrg: '', //"对单位的处罚", // 后台不需要了21.12.2
+        penaltyOrgFine: selectedType === '单位' ? tableDataNewItem.penaltyDescFine : null, //"单位罚金",
+        penaltyPerson: '', //"对个人的处罚",  // 后台不需要了21.12.2
+        penaltyPersonFine: selectedType === '个人' ? tableDataNewItem.penaltyDescFine : null, //"个人罚金",
+        penaltyType: tableDataNewItem.penaltyDescTypeId, //"行政处罚类型3,7",
+        personId: store.state.user.userId, //"7101000033",
+        personName: store.state.user.userName, //"发现人编号：beba494c4b67435f93e5fdfbe440e18e",
+        rectifyTerm: '', //"整改期限",
+        remoteId: '', //服务器端生成的id
+        reviewUnitId: tableDataNewItem.reviewUnitId ? tableDataNewItem.reviewUnitId : null, //"复查单位id：null",
+        reviewUnitName: tableDataNewItem.reviewUnitName ? tableDataNewItem.reviewUnitName : null, //"复查单位名称：null",
+        showIndex: tableDataNewItem.order + '', //"隐患顺序：1",
+        solveMethod: '', //"整改落实措施",
+        solveTime: '', //"隐患消解时间",
+        sourceFlag: '0',
+        subitemCode: '', //"违法违规自由裁量序号",
+        subitemContent: tableDataNewItem.itemContent, //"违法违规内容：煤矿建设项目未按规定进行安全预评价和安全验收评价，逾期未改正的。",
+        subitemPenalty: tableDataNewItem.penaltyDesc, //"违法违规行政处罚决定：逾期未改正的，处五十万元以上一百万元以下的罚款，对其直接负责的主管人员和其他直接责任人员处二万元以上五万元以下的罚款。",
+        subitemPenaltyBasis: tableDataNewItem.penaltyBasis, //"行政处罚依据：《中华人民共和国安全生产法》第二十九条，第九十五条第一项",
+        updateBy: JSON.stringify({
+          id: store.state.user.userId
+        }),
+        updateDate: getNowFormatTime(),
+        verNo: null, //"版本号：null",
+      }
+      if (DangerTable.selectedDangerList) {
+        for (let j = 0; j < DangerTable.selectedDangerList.length; j++) {
+          let selectedItem = DangerTable.selectedDangerList[j]
+          if (selectedItem.dangerId === tableDataNewItem.dangerId) {
+            selectedDangerTableNew.push(tableDataNewSave)
+          }
         }
       }
+      // 无论是否选中统一添加入allDangerTableNew中
+      allDangerTableNew.push(tableDataNewSave)
     }
-    // 无论是否选中统一添加入allDangerTableNew中
-    allDangerTableNew.push(tableDataNewSave)
   }
   // 返回新的DangerTable
   return Object.assign({}, DangerTable, {

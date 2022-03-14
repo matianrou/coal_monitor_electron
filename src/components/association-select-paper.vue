@@ -211,7 +211,7 @@ export default {
           }
           if (isReturn) {
             // 返回主页面
-            this.$refs.letMain.cmdDocBack()
+            this.$refs.letMain.cmdDocBack(false)
             return
           }
           // 遍历循环选择文书:
@@ -261,7 +261,7 @@ export default {
       // 是否必选文书:
       if (this.isRequired) {
         this.$message.error('必须选择需要关联的文书')
-        this.$refs.letMain.cmdDocBack()
+        this.$refs.letMain.cmdDocBack(false)
       } else {
         // 不是必选文书则进入选择必选文书逻辑
         this.selectFlowList = []
@@ -325,7 +325,7 @@ export default {
       }
       if (isReturn) {
         // 返回主页面
-        this.$refs.letMain.cmdDocBack()
+        this.$refs.letMain.cmdDocBack(false)
         return
       }
       // 遍历循环选择文书:

@@ -63,7 +63,8 @@
             style="width: 100%;"
             row-key="dangerId"
             border
-            @selection-change="handleSelectionChange">
+            @selection-change="handleSelectionChange"
+            @select="selectDanger">
             <el-table-column
               type="selection"
               header-align="center"
@@ -492,6 +493,7 @@ export default {
       },
       sortableItem: null, // 拖拽实例
       originalValue: null, // 原始数据，用来对比是否修改数据
+      setPunishmentInfor: false, // 是否需要重置合并处罚文书用语，如果为true则重新计算合并处罚文书用语
     };
   },
   async created() {
@@ -549,11 +551,6 @@ export default {
         this.sortableItem.options.disabled = true
       }
     },
-    'dataForm.tempValue.selectedDangerList'(val) {
-      // 监听隐患列表中数据变动，根据变化的数据捕获处罚信息和合并处罚文书用语
-      // 当文书为案件处理呈报书、行政处罚告知书、行政处罚决定书时，同步结算行政处罚信息捕获及合并处罚文书
-      this.setPunishmentList(true)
-    }
   },
   methods: {
     async getDictionary () {
@@ -1119,13 +1116,19 @@ export default {
     },
     handleSelectionChange (val) {
       this.dataForm.tempValue.selectedDangerList = val
+      this.setPunishmentList()
+    },
+    selectDanger (val) {
+      // 监听隐患列表中数据变动，根据变化的数据捕获处罚信息和合并处罚文书用语
+      // 当文书为案件处理呈报书、行政处罚告知书、行政处罚决定书时，同步结算行政处罚信息捕获及合并处罚文书
+      this.setPunishmentInfor = true
     },
     dangerMerge () {
       // 隐患合并
       // 检索数据，合并相同字段数据，形成返回数据
       this.$parent.$parent.handleSave(false, true)
     },
-    setPunishmentList (setPunishmentInfor = false) {
+    setPunishmentList () {
       // setPunishmentInfor更新合并处罚信息标记，如果修改隐患中行政处罚决定时，一定联动修改处罚情况
       // 获取行政处罚信息
       if (this.subitemTypeOptions.length > 0) {
@@ -1186,7 +1189,8 @@ export default {
             punishmentList.push(punishmentObj)
           }
           this.$set(this.dataForm.tempValue, 'punishmentList', punishmentList)
-          if (!this.dataForm.tempValue.punishmentInfor || setPunishmentInfor) {
+          if (!this.dataForm.tempValue.punishmentInfor || this.setPunishmentInfor) {
+            // 合并处罚文书仅在选择的隐患项大于1条，即两条以上时才计算
             if (selectedDangerList.length > 1) {
               // 两条以上合并处罚
               let total = 0
@@ -1227,6 +1231,8 @@ export default {
             } else {
               this.$set(this.dataForm.tempValue, 'punishmentInfor', '')
             }
+            // setPunishmentInfor为是否重新计算合并处罚文书用语字段，只有当修改选择的隐患项时才处罚重置，重置一次后标记下次不再重置
+            this.setPunishmentInfor = false
           }
         } else {
           this.$set(this.dataForm.tempValue, 'punishmentList', [])

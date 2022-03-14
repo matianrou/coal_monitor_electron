@@ -290,11 +290,13 @@ export default {
         })))
         // 计划
         let arrPlan = []
-        arrPlan = docPlan.length > 0 && JSON.parse(JSON.stringify(docPlan.filter((item) => {
-          return item.groupId === selGovUnit
-          && (`${item.planYear}-${item.planMonth}`) === selectPlanDate
-          && item.delFlag !== '1';
-        })))
+        if (docPlan.length > 0) {
+          arrPlan = JSON.parse(JSON.stringify(docPlan.filter((item) => {
+            return item.groupId === selGovUnit
+            && (`${item.planYear}-${item.planMonth}`) === selectPlanDate
+            && item.delFlag !== '1';
+          })))
+        }
         if (wkCase.length > 0) {
           wkCase.map(caseItem => {
             arrPlan.forEach(planItem => {

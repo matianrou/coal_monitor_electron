@@ -310,7 +310,15 @@ function setDangerTable(data, selectedData, options) {
           // 多条时
           let dangerString = getDangerPenaltyBasisWithoutPointHasIndex(list36 || [], '；')
           let { descTypeStrings } = getDangerDes(list36 || [])
-          string = `分别依据${dangerString || ''}。${dangerObject.penaltyDescFineTotle ? `合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle) || ''}（￥${dangerObject.penaltyDescFineTotle.toLocaleString() || ''}）` : ''}${descTypeStrings || ''}`
+          let punishmentInfor = ''
+          if (data.punishmentInfor) {
+            punishmentInfor = data.punishmentInfor
+          } else {
+            if (dangerObject.penaltyDescFineTotle) {
+              punishmentInfor = `合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle) || ''}（￥${dangerObject.penaltyDescFineTotle.toLocaleString() || ''}）` + (descTypeStrings || '')
+            }
+          }
+          string = `分别依据${dangerString || ''}。${punishmentInfor}`
         }
       }
       break
@@ -349,7 +357,15 @@ function setDangerTable(data, selectedData, options) {
         } else if (list6.length > 1) {
           let penaltyDescString = getDangerPenaltyDescWithoutPointHasIndex(list6 || [], '；')
           let { descTypeStrings } = getDangerDes(list6 || [])
-          string = `分别作出：${penaltyDescString}。${dangerObject.penaltyDescFineTotle ? `合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle) || ''}（￥${dangerObject.penaltyDescFineTotle.toLocaleString() || ''}）` : ''}${descTypeStrings || ''}`
+          let punishmentInfor = ''
+          if (data.punishmentInfor) {
+            punishmentInfor = data.punishmentInfor
+          } else {
+            if (dangerObject.penaltyDescFineTotle) {
+              punishmentInfor = `合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle) || ''}（￥${dangerObject.penaltyDescFineTotle.toLocaleString() || ''}）` + (descTypeStrings || '')
+            }
+          }
+          string = `分别作出：${penaltyDescString}。${punishmentInfor}`
         }
       }
       break
@@ -398,7 +414,15 @@ function setDangerTable(data, selectedData, options) {
           // 多条时
           let penaltyDescString = getDangerPenaltyDescWithoutPoint(list8 || [], '；')
           let { descTypeStrings } = getDangerDes(list8 || [])
-          string = `分别${penaltyDescString}。${dangerObject.penaltyDescFineTotle ? `合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle) || ''}（￥${dangerObject.penaltyDescFineTotle.toLocaleString() || ''}）` : ''}${descTypeStrings || ''}`
+          let punishmentInfor = ''
+          if (data.punishmentInfor) {
+            punishmentInfor = data.punishmentInfor
+          } else {
+            if (dangerObject.penaltyDescFineTotle) {
+              punishmentInfor = `合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle) || ''}（￥${dangerObject.penaltyDescFineTotle.toLocaleString() || ''}）` + (descTypeStrings || '')
+            }
+          }
+          string = `分别${penaltyDescString}。${punishmentInfor}`
         }
       }
       break
@@ -456,19 +480,29 @@ function setDangerTable(data, selectedData, options) {
         string = `${options.spellString.corpName}涉嫌${dangerString }违法违规案。`
       } else if (options.key === 'cellIdx5') {
         let dangerString2 = getDangerContentWithoutPoint(list47 || [], '；')
-        string = `${options.spellString.dateString}，${options.spellString.groupName}对${options.spellString.corpName}进行现场检查时发现：${dangerString2}。以上行为${list47.length > 1 ? '分别' : ''}涉嫌违反了${dangerObject.illegalString || ''}的规定。依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`
+        string = `${options.spellString.dateString}，${options.spellString.groupName}对${options.spellString.corpName}进行现场检查时发现：${dangerString2}。以上行为${list47 && list47.length > 1 ? '分别' : ''}涉嫌违反了${dangerObject.illegalString || ''}的规定。依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。`
       } else if (options.key === 'cellIdx6') {
         string = getDangerPenaltyBasis(list47 || [], '，') + '。'
       } else if (options.key === 'cellIdx7') {
-        if (list47.length === 1) {
-          // 单条时：
-          let penaltyDescString = getDangerPenaltyDescWithoutPoint(list47 || [], '；')
-          string = `${penaltyDescString}。`
-        } else if (list47.length > 1) {
-          // 多条时
-          let penaltyDescString = getDangerPenaltyDescWithoutPoint(list47 || [], '；')
-          let { descTypeStrings } = getDangerDes(list47 || [])
-          string = `分别${penaltyDescString}。${dangerObject.penaltyDescFineTotle ? `合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle) || ''}（￥${dangerObject.penaltyDescFineTotle.toLocaleString() || ''}）` : ''}${descTypeStrings || ''}`
+        if (list47) {
+          if (list47.length === 1) {
+            // 单条时：
+            let penaltyDescString = getDangerPenaltyDescWithoutPoint(list47 || [], '；')
+            string = `${penaltyDescString}。`
+          } else if (list47.length > 1) {
+            // 多条时
+            let penaltyDescString = getDangerPenaltyDescWithoutPoint(list47 || [], '；')
+            let { descTypeStrings } = getDangerDes(list47 || [])
+            let punishmentInfor = ''
+            if (data.punishmentInfor) {
+              punishmentInfor = data.punishmentInfor
+            } else {
+              if (dangerObject.penaltyDescFineTotle) {
+                punishmentInfor = `合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle) || ''}（￥${dangerObject.penaltyDescFineTotle.toLocaleString() || ''}）` + (descTypeStrings || '')
+              }
+            }
+            string = `分别${penaltyDescString}。${punishmentInfor}`
+          }
         }
       }
       break
@@ -499,7 +533,15 @@ function setDangerTable(data, selectedData, options) {
             // 多条时
             let penaltyDescString = getDangerPenaltyDescWithoutPoint(list49 || [], '；')
             let { descTypeStrings } = getDangerDes(list49 || [])
-            string = `分别${penaltyDescString}。${dangerObject.penaltyDescFineTotle ? `合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle) || ''}（￥${dangerObject.penaltyDescFineTotle.toLocaleString() || ''}）` : ''}${descTypeStrings || ''}`
+            let punishmentInfor = ''
+            if (data.punishmentInfor) {
+              punishmentInfor = data.punishmentInfor
+            } else {
+              if (dangerObject.penaltyDescFineTotle) {
+                punishmentInfor = `合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle) || ''}（￥${dangerObject.penaltyDescFineTotle.toLocaleString() || ''}）` + (descTypeStrings || '')
+              }
+            }
+            string = `分别${penaltyDescString}。${punishmentInfor}`
           }
         }
       }
