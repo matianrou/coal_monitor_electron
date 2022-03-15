@@ -158,11 +158,6 @@ export default {
         page: 'let219'
       },
       {
-        id: '14',
-        name: '案件结案报告',
-        page: 'let213'
-      },
-      {
         id: '15',
         name: '执法案卷（首页）及目录',
         page: 'let214'
@@ -196,7 +191,12 @@ export default {
         id: '55',
         name: '鉴定委托书',
         page: 'let406'
-      }
+      },
+      {
+        id: '14',
+        name: '案件结案报告',
+        page: 'let213'
+      },
     ],
     monitorPaperType: [//监察文书编号及页面对应
       {
@@ -358,11 +358,6 @@ export default {
         page: 'let211'
       },
       {
-        id: '43',
-        name: '罚款收缴',
-        page: 'let212'
-      },
-      {
         id: '51',
         name: '罚款缴纳催告书',
         page: 'let217'
@@ -376,11 +371,6 @@ export default {
         id: '53',
         name: '延期（分期）缴纳罚款决定书',
         page: 'let219'
-      },
-      {
-        id: '14',
-        name: '案件结案报告',
-        page: 'let213'
       },
       {
         id: '15',
@@ -452,6 +442,16 @@ export default {
         id: '45',
         name: '监察执法报告',
         page: 'let407'
+      },
+      {
+        id: '14',
+        name: '案件结案报告',
+        page: 'let213'
+      },
+      {
+        id: '43',
+        name: '罚款收缴',
+        page: 'let212'
       },
     ],
     opinionSuggestionPaperType: [

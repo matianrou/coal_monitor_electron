@@ -452,15 +452,23 @@ export default {
         // 获取所有关联同一笔录文书的文书
         let paperList = JSON.parse(JSON.stringify(wkPaper.filter(item => {
           if (item.paperContent) {
-            let paperContent = JSON.parse(item.paperContent) 
-            if (paperContent.associationPaperId && paperContent.associationPaperId.paper1Id) {
-              if (paperContent.associationPaperId.paper1Id === selectedPaper.let1Data.paperId) {
-                return item
+            // 去掉隐患整改和执法案卷（首页）及目录文书
+            if (item.paperType !== '15' && item.paperType !== '44') {
+              let paperContent = JSON.parse(item.paperContent) 
+              if (paperContent.associationPaperId && paperContent.associationPaperId.paper1Id) {
+                if (paperContent.associationPaperId.paper1Id === selectedPaper.let1Data.paperId) {
+                  return item
+                }
               }
             }
           }
         }) || []))
-        let allPaper = [...paper22, ...paper1, ...paper22AssociationPaper, ...paperList]
+        // 获取罚款收缴文书
+        let fineCollectionPaperList = JSON.parse(JSON.stringify(wkPaper.filter(item => {
+          return item.paperType === '43'
+        })))
+        console.log('fineCollectionPaperList', fineCollectionPaperList)
+        let allPaper = [...paper22, ...paper1, ...paper22AssociationPaper, ...paperList, ...fineCollectionPaperList]
         // 按文书顺序排序
         let orderList = []
         let dictionaryField = `${this.$store.state.user.userType}PaperType`
@@ -482,7 +490,7 @@ export default {
           volumesMenuTableData.push({
             sindex: i + 1,
             paperNumber: number,
-            title: `国家矿山安全监察${item.name}`,
+            title: item.paperType !== '43' ? `国家矿山安全监察${item.name}` : '缴纳罚款凭证',
             date: createDate,
             pageNumber: i + 1,
             note: '',
