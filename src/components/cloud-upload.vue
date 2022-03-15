@@ -24,7 +24,9 @@
           @selection-change="handleSelectionChange">
           <el-table-column
             type="selection"
-            width="55">
+            header-align="center"
+            align="center"
+            width="50">
           </el-table-column>
           <el-table-column
             prop="corpName"
@@ -44,14 +46,24 @@
             header-align="center"
             align="center"
             label="制作人"
-            width="150">
+            width="100">
           </el-table-column>
           <el-table-column
             prop="createDate"
             header-align="center"
             align="center"
             label="制作时间"
-            width="180">
+            width="160">
+          </el-table-column>
+          <el-table-column
+            prop="operation"
+            header-align="center"
+            align="center"
+            label="执行操作"
+            width="80">
+            <template slot-scope="scope">
+              <span>{{ scope.row.operation === 'save' ? '保存' : '删除'}}</span>
+            </template>
           </el-table-column>
         </el-table>
       </div>

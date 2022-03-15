@@ -238,7 +238,7 @@ export default {
                 // 如果选择不同步文书则不进行云同步且不进行下载
                 let uploadList = await this.getDatabase('prepareUpload')
                 if (uploadList.length > 0) {
-                  this.$confirm('当前有未上传服务器的文书，是否同步至服务器？（如果同步则会上传文书同时下载最新文书，如果不同步则直接进入系统，需要您手动上传文书）', '提示', {
+                  this.$confirm('当前有未云同步的文书，是否云同步至服务器？如果不同步则直接进入系统，需要您手动上传未云同步的文书。', '提示', {
                     confirmButtonText: '同步',
                     cancelButtonText: '不同步',
                     dangerouslyUseHTMLString: true,

@@ -229,8 +229,15 @@ export default {
         if (this.orgList.length > 0) {
           let { userGroupId } = this.$store.state.user
           let curUserGroup = this.orgList.find(item => item.value === userGroupId)
-          this.dataForm.selGovUnit = curUserGroup ? curUserGroup.value : null
-          this.dataForm.selGovUnitName = curUserGroup ? curUserGroup.label : null
+          if (curUserGroup) {
+            this.$set(this.dataForm, 'selGovUnit', curUserGroup.value)
+            this.$set(this.dataForm, 'selGovUnitName', curUserGroup.label)
+            this.changeSelect(curUserGroup.value, 'selGovUnit')
+          } else {
+            this.$set(this.dataForm, 'selGovUnit', null)
+            this.$set(this.dataForm, 'selGovUnitName', null)
+            this.changeSelect(null, 'selGovUnit')
+          }
         }
       }
     },

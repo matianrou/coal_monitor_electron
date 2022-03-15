@@ -60,10 +60,10 @@ function setCheckPositionItem(data, selectedData) {
   if (isUnder && underlist.length > 0) {
     string += '井下：'
     coalList.length > 0 && coalList.map(coal => {
-      string += (coal ? coal : '') + '采煤工作面，'
+      string += (coal ? coal : '') + '（采煤工作面），'
     })
     tunnellingList.length > 0 && tunnellingList.map(tunnelling => {
-      string += (tunnelling ? tunnelling : '') + '掘进工作面，'
+      string += (tunnelling ? tunnelling : '') + '（掘进工作面），'
     })
     addList.length > 0 && addList.map(add => {
       string += (add ? add : '') + '，'
