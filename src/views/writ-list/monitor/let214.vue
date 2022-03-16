@@ -467,7 +467,6 @@ export default {
         let fineCollectionPaperList = JSON.parse(JSON.stringify(wkPaper.filter(item => {
           return item.paperType === '43'
         })))
-        console.log('fineCollectionPaperList', fineCollectionPaperList)
         let allPaper = [...paper22, ...paper1, ...paper22AssociationPaper, ...paperList, ...fineCollectionPaperList]
         // 按文书顺序排序
         let orderList = []

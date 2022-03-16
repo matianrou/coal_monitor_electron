@@ -438,11 +438,12 @@ export default {
         case "doc":
           //文书信息分页下载接口//文书信息分页下载接口
           // &officeId=&caseId=&flag=false&pageNo=0&pageSize=5000
+          // &isAll=1为下载全部文书，默认为0只下载近两个月的
           uri +=
             "/local/jczf/getPageJczfByOfficeId?__sid=" +
             userSessId +
             "&userId=" +
-            userId + "&pageNo=0&pageSize=5000"
+            userId + "&pageNo=0&pageSize=5000&isAll=1"
           if (this.dataForm.docDownDaterange && this.dataForm.docDownDaterange.length > 0) {
             uri += `&startTime=${this.dataForm.docDownDaterange[0]}`
             uri += `&endTime=${this.dataForm.docDownDaterange[1]}`
