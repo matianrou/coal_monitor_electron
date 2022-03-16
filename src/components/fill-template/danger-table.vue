@@ -370,7 +370,7 @@
 <script>
 import selectDangerContent from '../select-danger-content'
 import receiveDanger from '@/components/receive-danger'
-import { severalDaysLater, getNowTime } from "@/utils/date";
+import { severalDaysLater, getNowTime, getNowFormatTime } from "@/utils/date";
 import selectPerson from '@/components/select-person'
 import { treeDataTranslate, fuzzyearch, randomString, getMoney, transformNumToChinese, thousands, sortbyAsc } from '@/utils'
 import { retrunGetMoney, getPenaltyDescType } from '@/utils/setInitPaperData'
@@ -714,6 +714,7 @@ export default {
             isReview: '0', // 是否复查
             reviewDate: null, // 复查日期
             order: this.dataForm.tempValue.tableData.length,
+            createDate: getNowFormatTime(),
             delFlag: '2',
           })
           this.dataForm.tempValue.tableData.push(addItem)
@@ -874,6 +875,7 @@ export default {
           order: this.dataForm.tempValue.tableData.length,
           delFlag: '2',
           isCommon: receiveDanger.isCommon,
+          createDate: receiveDanger.createDate
         }
         this.dataForm.tempValue.tableData.push(receData)
           // 同时放入已选隐患中设置选中
@@ -1156,7 +1158,7 @@ export default {
         isSerious: '0', // 是否重大隐患
         isReview: '0', // 是否复查
         reviewDate: '', // 复查日期
-        createDate: '', // 创建日期
+        createDate: getNowFormatTime(), // 创建日期
         itemCode: itemCode, //
         no: itemCode, // 同itemCode
         delFlag: '2',

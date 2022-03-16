@@ -256,26 +256,28 @@ export default {
      */
     autoSaveDoc(time, isBack) {
       clearInterval(this.timer)
-      this.timer = setInterval(() => {
-        if (this.$refs.letDrawer) {
-          // 如果当前打开正在编辑则先保存当前编辑的内容
-          if (this.selectedData.type === 'DangerTable' && this.$refs.letDrawer.$refs[this.selectedData.type].$refs.dataForm) {
-            // DangerTable校验当前必填项是否全必填，如果有未填写则不自动保存
-            this.$refs.letDrawer.$refs[this.selectedData.type].$refs.dataForm.validate(async validate => { 
-              if (validate) {
-                this.handleSave({value: this.$refs.letDrawer.$refs[this.selectedData.type].dataForm.tempValue, direct: true})
-                this.cmdDocSave('2', isBack)
-              }
-            })
+      if (this.canEdit) {
+        this.timer = setInterval(() => {
+          if (this.$refs.letDrawer) {
+            // 如果当前打开正在编辑则先保存当前编辑的内容
+            if (this.selectedData.type === 'DangerTable' && this.$refs.letDrawer.$refs[this.selectedData.type].$refs.dataForm) {
+              // DangerTable校验当前必填项是否全必填，如果有未填写则不自动保存
+              this.$refs.letDrawer.$refs[this.selectedData.type].$refs.dataForm.validate(async validate => { 
+                if (validate) {
+                  this.handleSave({value: this.$refs.letDrawer.$refs[this.selectedData.type].dataForm.tempValue, direct: true})
+                  this.cmdDocSave('2', isBack)
+                }
+              })
+            } else {
+              this.handleSave({value: this.$refs.letDrawer.$refs[this.selectedData.type].dataForm.tempValue, direct: true})
+              this.cmdDocSave('2', isBack)
+            }
           } else {
-            this.handleSave({value: this.$refs.letDrawer.$refs[this.selectedData.type].dataForm.tempValue, direct: true})
+            // 如果当前没有打开编辑窗口则直接自动保存
             this.cmdDocSave('2', isBack)
           }
-        } else {
-          // 如果当前没有打开编辑窗口则直接自动保存
-          this.cmdDocSave('2', isBack)
-        }
-      }, 1000 * time)
+        }, 1000 * time)
+      }
     },
     async cmdDocBack(backTip = false) {
       // backTip：是否要展示返回保存的提示标记，如果为true则提示，为false则不提示(用于判断是否可进入编辑文书时，如果条件不符合的返回操作)
@@ -761,7 +763,7 @@ export default {
               dangerId: item.dangerId, // 客户端生产的隐患唯一id
               paperId: paperId,
               remoteId: '', //服务器端生成的id
-              createDate,
+              createDate: item.createDate ? item.createDate : getNowFormatTime(),
               updateDate: getNowFormatTime(),
               createBy: JSON.stringify({
                 id: this.$store.state.user.userId
