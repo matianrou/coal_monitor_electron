@@ -810,6 +810,11 @@ export default {
           this.dataForm.tempValue.selectedDangerList[selectedItemIndex][field] = val
         }
       }
+      if (field === 'penaltyDesc') {
+        // 修改行政处罚信息捕获内容和合并处罚文书用语
+        this.setPunishmentInfor = true
+        this.setPunishmentList()
+      }
     },
     async handleSaveReceiveDanger (dangerList) {
       // 保存接收的隐患项: 放入隐患列表
@@ -1212,7 +1217,7 @@ export default {
               if (item.penaltyDesc.split('罚款').length > 2) {
                 punishmentObj.fineStr = '（发现本条隐患存在多个罚款金额，对于“行政处罚告知书、行政处罚决定书”只能一条隐患拥有一个罚款金额，请修正“行政处罚决定用语”!）'
               } else {
-                let stringList = item.penaltyDesc.split(/[,᠃.。，]/)
+                let stringList = item.penaltyDesc.replace(/\（(.+?)\）/g, '').replace(/\((.+?)\)/g, '').split(/[,᠃.。，]/)
                 for (let i = 0; i < stringList.length; i++) {
                   let string = stringList[i]
                   if (string.includes('罚款') && string.includes('元')) {
@@ -1245,7 +1250,7 @@ export default {
             if (punishmentObj.penaltyDesId) punishmentObj.penaltyDesId = punishmentObj.penaltyDesId.substring(0, punishmentObj.penaltyDesId.length - 1)
             if (punishmentObj.penaltyDesStr) punishmentObj.penaltyDesStr = punishmentObj.penaltyDesStr.substring(0, punishmentObj.penaltyDesStr.length - 1)
             punishmentList.push(punishmentObj)
-          }
+          } 
           this.$set(this.dataForm.tempValue, 'punishmentList', punishmentList)
           if (!this.dataForm.tempValue.punishmentInfor || this.setPunishmentInfor) {
             // 合并处罚文书仅在选择的隐患项大于1条，即两条以上时才计算
