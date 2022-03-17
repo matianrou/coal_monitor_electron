@@ -596,3 +596,15 @@ export function transformNumToChinese(data) {
       ? str.replace(/(\d)(?=(\d{3})+\.)/g, '$1,')
       : str.replace(/(\d)(?=(\d{3})+$)/g, '$1,')
 }
+
+/**
+  * 去除千分位
+  *@param{Object}num
+*/
+export function delcommafy(num){
+  if ((num + "").Trim() == ""){
+    return ""
+  }
+  num = num.replace(/,/gi, '');
+  return num
+}
