@@ -307,7 +307,7 @@ export default {
     },
     async handleDelete (row) {
       if (row.personId !== this.$store.state.user.userId) {
-        this.$message.error('当前文书为拉取的文书，不可单独删除！')
+        this.$message.error('当前文书不可删除，请联系制作人删除！')
         return
       }
       // 删除文书 判断是否已归档，如果已归档则不可删除

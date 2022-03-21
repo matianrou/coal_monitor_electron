@@ -192,10 +192,19 @@ export default {
   },
   methods: {
     async init () {
+      // 初始化数据：
+      // 获取所有机构列表
       await this.getOrgList()
+      // 默认选中当前用户的机构
       this.setOrg()
+      // 获取所有月份数据
       this.getPlanDateList()
+      // 回显或者默认选中最新月份
       this.setPlanDate()
+      // 清空已选中检查活动
+      this.selectedCase = {}
+      // 清空已选中检查活动流程
+      this.$parent.changePage({page: 'empty'})
       // 恢复数据仓库中已存储数据
       if (this.$store.state.selectedCaseOption) {
         this.$set(this, 'dataForm', this.$store.state.selectedCaseOption)
@@ -232,11 +241,9 @@ export default {
           if (curUserGroup) {
             this.$set(this.dataForm, 'selGovUnit', curUserGroup.value)
             this.$set(this.dataForm, 'selGovUnitName', curUserGroup.label)
-            this.changeSelect(curUserGroup.value, 'selGovUnit')
           } else {
             this.$set(this.dataForm, 'selGovUnit', null)
             this.$set(this.dataForm, 'selGovUnitName', null)
-            this.changeSelect(null, 'selGovUnit')
           }
         }
       }
@@ -581,8 +588,10 @@ export default {
             let canDelete = true
             // 遍历文书，判断是否有已经归档的文书
             paperList.length > 0 && paperList.map(item => {
-              if (item.delFlag === '0' || item.personId !== this.$store.state.user.userId) {
-                canDelete = false
+              if (item.delFlag !== '1') {
+                if (item.delFlag === '0' || (item.personId !== this.$store.state.user.userId)) {
+                  canDelete = false
+                }
               }
             })
             if (canDelete) {
