@@ -159,11 +159,15 @@ export async function getPaperDatabase (caseId = null) {
   } else {
     // 如果没有检查活动caseId，则获取所有文书
     if (!store.state.database[`wkPaper-all`]) {
-      if (NODE_ENV === 'production') {
-        // 发布环境：有electron环境
-      } else {
-        // 开发环境:
+      let wkCase = await getDatabase('wkCase')
+      let wkPaperList= []
+      for (let i = 0; i < wkCase.length; i++) {
+        let casePaper = await getPaperDatabase(wkCase[i].caseId)
+        for (let j = 0; j < casePaper.length; j++) {
+          wkPaperList.push(casePaper[j])
+        }
       }
+      dataList = wkPaperList
     } else {
       dataList = JSON.parse(JSON.stringify(store.state.database[`wkPaper-all`]))
     }

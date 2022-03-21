@@ -5,7 +5,6 @@
       <div class="writ-management-show-select">
         <!-- 选择检查活动 -->
         <case-list
-          ref="caseList"
           use-page="WritManagement"
           :select-plan-data="selectPlanData"
           @change-page="changePage"
@@ -307,7 +306,7 @@ export default {
       // await this.updatePaperDatabase(row.caseId, [row])
     },
     async handleDelete (row) {
-      if (row.isPull) {
+      if (row.personId !== this.$store.state.user.userId) {
         this.$message.error('当前文书为拉取的文书，不可单独删除！')
         return
       }
@@ -340,7 +339,7 @@ export default {
         this.$message.error('当前为离线登录，请联网后再归档！')
         return
       }
-      if (row.isPull) {
+      if (row.personId !== this.$store.state.user.userId) {
         this.$message.error('当前文书为拉取的文书，不可操作！')
         return
       }
@@ -403,8 +402,12 @@ export default {
           for (let i = 0; i < this.selectedPaperList.length; i++) {
             let item = this.selectedPaperList[i]
             if (item.delFlag !== '0') {
-              // 判断是否为已归档，如果已归档则不再重复归档
-              await this.filePaper(item)
+              // 判断是否为已归档，如果已归档则不再重复归档，同时判断是否文书制作人是本人，如果不是本人则不可归档
+              if (item.personId === this.$store.state.user.userId) {
+                await this.filePaper(item)
+              } else {
+                this.$message.error('文书为拉取文书，不可归档！')
+              }
             }
           }
           this.loading.btn = false

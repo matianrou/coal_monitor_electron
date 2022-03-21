@@ -492,10 +492,11 @@ export default {
           type: 'warning'
         }).then(async () => {
           // 删除检查活动:
-          // 首先判断当前检查活动是否为拉取的数据，如果是拉取的则直接删除本地存储（如果其中有自己制作的文书则仍需上传服务器），如果不是拉取则上传服务器
           let wkCase = await this.getDatabase('wkCase') 
           let caseData = wkCase.find(item => item.caseId === this.selectedCase.caseId && item.delFlag !== '1')
-          if (caseData.isPull) {
+          // 首先判断当前检查活动是否为拉取的数据，如果是拉取的则直接删除本地存储（如果其中有自己制作的文书则仍需上传服务器），如果不是拉取则上传服务器
+          // 判断当前检查活动是否为拉取的数据：如果当前检查活动创建人personId不是本登录人，则为拉取的检查活动
+          if (caseData.personId !== this.$store.state.user.userId) {
             // 拉取文书的删除逻辑：
             let wkPaper = await this.getPaperDatabase(this.selectedCase.caseId) || []
             // 获取所有此检查活动caseId的文书
@@ -505,9 +506,11 @@ export default {
             let selfDeletePaper = []
             let pullDeletePaper = []
             paperList.length > 0 && paperList.map(item => {
-              if (item.delFlag === '0' && !item.isPull) {
+              // 判断是否为自己制作的文书，如果不是则为拉取的文书
+              if (item.delFlag === '0' && (item.personId === this.$store.state.user.userId)) {
+                // 如果有已经归档的文书delFlag === '0'，则不可删除检查活动
                 canDelete = false
-              } else if (!item.isPull) {
+              } else if (item.personId === this.$store.state.user.userId) {
                 // 如果是自己新增的文书则需要上传服务器进行文书删除
                 selfDeletePaper.push(item)
               } else {
@@ -571,14 +574,14 @@ export default {
               this.$message.error('当前检查活动有已经归档文书，无法删除！')
             }
           } else {
-            // 不是拉取的活动删除逻辑：首先遍历检查活动中的文书时候已经有归档的文书
+            // 不是拉取的活动删除逻辑：首先遍历检查活动中的文书时候已经有归档的文书或者制作人不是本人的文书
             let wkPaper = await this.getPaperDatabase(this.selectedCase.caseId)
             // 获取所有此检查活动caseId的文书
             let paperList = JSON.parse(JSON.stringify(wkPaper.filter(item => item.caseId === this.selectedCase.caseId) || []))
             let canDelete = true
             // 遍历文书，判断是否有已经归档的文书
             paperList.length > 0 && paperList.map(item => {
-              if (item.delFlag === '0') {
+              if (item.delFlag === '0' || item.personId !== this.$store.state.user.userId) {
                 canDelete = false
               }
             })
@@ -622,8 +625,8 @@ export default {
               this.selectedCase = {}
               this.$parent.changePage({page: 'empty'})
             } else {
-              // 如果有已经归档的文书则弹出无法删除提示
-              this.$message.error('当前检查活动有已经归档文书，无法删除！')
+              // 如果有已经归档的文书或者制作人不是本人的文书，则弹出无法删除提示
+              this.$message.error('当前检查活动有已经归档或制作人不是本人的文书，无法删除！')
             }
           }
           this.loading.btn = false

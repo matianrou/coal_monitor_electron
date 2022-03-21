@@ -218,8 +218,9 @@ export default {
       let edit = true
       // 判断当前是否为编辑，如果编辑时则调取paperData中的delFlag字段，如果为归档，则不可编辑
       // 当文书发送时，如果isSelected为已发送false时则不可再编辑（文书发送保存时无此字段，发送后为false,接收后为true,所以必须判定为===false）
+      // 判断文书是否为拉取的文书：如果文书中的personId与登录用户id不同，则表示文书为拉取数据
       if (this.paperData && this.paperData.paperId) {
-        if (this.paperData.delFlag === '0' || this.paperData.isSelected === false || this.paperData.isPull || this.paperData.localizeFlag !== '1') {
+        if (this.paperData.delFlag === '0' || this.paperData.isSelected === false || (this.paperData.personId !== this.$store.state.user.userId) || this.paperData.localizeFlag !== '1') {
           // 归档、发送的文书、拉取的文书、没有国产化标记不可编辑
           edit = false
         } else {
@@ -353,15 +354,17 @@ export default {
     },
     async cmdDocSave(saveFlag = "2", isBack) {
       // 保存或归档文书
-      // 判断当前文书是否已经归档，如已归档则不可保存或归档
-      if (this.paperData && this.paperData.paperId && this.paperData.isPull) {
+      // 判断当前文书是否为拉取的文书
+      if (this.paperData && this.paperData.paperId && (this.paperData.personId !== this.$store.state.user.userId)) {
         this.$message.error('当前文书为拉取数据，系统不支持修改保存及归档操作')
         return
       }
+      // 判断当前文书是否为PC.net端保存数据
       if (this.paperData && this.paperData.paperId && this.paperData.localizeFlag !== '1') {
         this.$message.error('当前文书为PC端保存数据，系统不支持修改保存及归档操作')
         return
       }
+      // 判断当前文书是否已经归档或已发送，如已归档或已发送则不可保存或归档
       if (this.canEdit) {
         if(isBack) {
           this.loading.btn = true

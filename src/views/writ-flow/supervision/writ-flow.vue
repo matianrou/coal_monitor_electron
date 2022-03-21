@@ -954,7 +954,8 @@ export default {
       this.loading.btn = false
     },
     async confirmDeletePaper (curPaper) {
-      if (curPaper.isPull) {
+      console.log('curPaper', curPaper)
+      if (curPaper.personId !== this.$store.state.user.userId) {
         this.$message.error('当前文书为拉取的文书，不可单独删除！')
         return
       }

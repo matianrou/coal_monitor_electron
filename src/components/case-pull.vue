@@ -309,9 +309,7 @@
               let jczfCase = {}
               this.caseList.map(jcItem => {
                 if (jcItem.caseId === selectedCaseData.caseId && jcItem.delFlag !== '1') {
-                  jczfCase = Object.assign({}, jcItem, {
-                    isPull: true
-                  }) 
+                  jczfCase = Object.assign({}, jcItem) 
                 }
               })
               // 根据监察活动数据jczfCase再获取相应的paper数据
@@ -327,17 +325,13 @@
                         if (data.data.paper) {
                           for (let i = 0; i < data.data.paper.length; i++) {
                             let item = data.data.paper[i]
-                            paper.push(Object.assign({}, item, {
-                              isPull: true
-                            }))
+                            paper.push(Object.assign({}, item))
                           }
                         }
                         if (data.data.danger) {
                           for (let i = 0; i < data.data.danger.length; i++) {
                             let item = data.data.danger[i]
-                            danger.push(Object.assign({}, item, {
-                              isPull: true
-                            }))
+                            danger.push(Object.assign({}, item))
                           }
                         }
                       }

@@ -899,7 +899,7 @@ async function doDangerListDb(resId, data) {
 }
 
 // “个人账号文书资源”下载。
-async function doDocDb(resId, data, savePullField = false){
+async function doDocDb(resId, data){
 	let arrPaper = data && data.paper ? data.paper : [];
 	let arrCase = data && data.jczfCase ? data.jczfCase : [];
 	let arrDanger = data && data.danger ? data.danger : [];
@@ -954,7 +954,6 @@ async function doDocDb(resId, data, savePullField = false){
 			"p36PersonName": String, //null,
 			"p36RegisterTime": String, //null 
 			"localizeFlag": String,
-			"isPull": Boolean, // "拉取的文书标记"
 		},
 		// 检查活动
 		wkCase: {
@@ -995,7 +994,6 @@ async function doDocDb(resId, data, savePullField = false){
 			"riskAssessment": String, // ""0100,0101,0102,0103,0104"
 			"riskAssessmentContent": String, // "生产接续计划方面 ,矿井开拓、准备、回采比例失调（小） ,上级企业超能力下达生产指标，煤矿超强度、超定员组织生产 ,采掘工作面数量超过规定 ,其他 "
 			//"mobile": false
-			"isPull": Boolean, // "拉取的检查活动标记"
 		},
 		// 隐患
 		wkDanger: {
@@ -1061,7 +1059,6 @@ async function doDocDb(resId, data, savePullField = false){
 			"dangerCorrected": String,  //隐患整改情况(0未整改，1已整改）：null
 			"reviewUnitId": String,     //复查单位id：null
 			"reviewUnitName": String,   //复查单位名称：null
-			"isPull": Boolean, // "拉取的隐患标记"
 		},
 		// 创建发送文书数据库
 		sendPaper: {
@@ -1123,11 +1120,7 @@ async function doDocDb(resId, data, savePullField = false){
 	for (let i = 0; i < arrPaper.length; i++) {
 		let obj = arrPaper[i];
 		let item = await wkPaper.get({ paperId: obj.paperId });
-		let isPull = null
 		if (item) {
-			if (!savePullField) {
-				isPull = item.isPull ? item.isPull : null
-			}
 			await wkPaper.delete({ paperId: obj.paperId }); // 删除
 		}
 		arrDocPaper.push({
@@ -1173,7 +1166,6 @@ async function doDocDb(resId, data, savePullField = false){
 			"p36PersonName": obj.p36PersonName, //null,
 			"p36RegisterTime": obj.p36RegisterTime, //null 
 			"localizeFlag": obj.localizeFlag,
-			"isPull": savePullField ? obj.isPull : isPull,
 		});
 	}
 
@@ -1181,11 +1173,7 @@ async function doDocDb(resId, data, savePullField = false){
 	for (let i = 0; i < arrCase.length; i++) {
 		let obj = arrCase[i];
 		let item = await wkCase.get({ caseId: obj.caseId });
-		let isPull = null
 		if (item) {
-			if (!savePullField) {
-				isPull = item.isPull ? item.isPull : null
-			}
 			await wkCase.delete({ caseId: obj.caseId }); //删除
 		}
 		arrDocCase.push({
@@ -1218,7 +1206,6 @@ async function doDocDb(resId, data, savePullField = false){
 			"riskAssessmentContent": obj.riskAssessmentContent, 
 			"affiliate": obj.affiliate,
 			"corpType": obj.corpType,
-			"isPull": savePullField ? obj.isPull : isPull,
 		});
 	}
 
@@ -1244,11 +1231,7 @@ async function doDocDb(resId, data, savePullField = false){
 	for (let i = 0; i < arrDanger.length; i++) {
 		let obj = arrDanger[i];
 		let item = await wkDanger.get({ dangerId: obj.dangerId });
-		let isPull = null
 		if (item) {
-			if (!savePullField) {
-				isPull = item.isPull ? item.isPull : null
-			}
 			await wkDanger.delete({ dangerId: obj.dangerId }); //删除
 		}
 		arrDocDanger.push({
@@ -1306,7 +1289,6 @@ async function doDocDb(resId, data, savePullField = false){
 			"dangerCorrected": obj.dangerCorrected,
 			"reviewUnitId": obj.reviewUnitId,
 			"reviewUnitName": obj.reviewUnitName,
-			"isPull": savePullField ? obj.isPull : isPull,
 		});
 	}
 
@@ -2049,7 +2031,6 @@ let schema = {
 		"p36PersonName": String, //null,
 		"p36RegisterTime": String, //null 
 		"localizeFlag": String, // 国产化标记：1
-		"isPull": Boolean, // "拉取的检查活动标记"
 	},
 	// 检查活动
 	wkCase: {
@@ -2090,7 +2071,6 @@ let schema = {
 		"riskAssessment": String, // ""0100,0101,0102,0103,0104"
 		"riskAssessmentContent": String, // "生产接续计划方面 ,矿井开拓、准备、回采比例失调（小） ,上级企业超能力下达生产指标，煤矿超强度、超定员组织生产 ,采掘工作面数量超过规定 ,其他 "
 		//"mobile": false
-		"isPull": Boolean, // "拉取的检查活动标记"
 	},
 	// 隐患
 	wkDanger: {
@@ -2156,7 +2136,6 @@ let schema = {
 		"dangerCorrected": String,  //隐患整改情况(0未整改，1已整改）：null
 		"reviewUnitId": String,     //复查单位id：null
 		"reviewUnitName": String,   //复查单位名称：null
-		"isPull": Boolean, // "拉取的检查活动标记"
 	},
 	// 创建发送文书数据库
 	sendPaper: {
