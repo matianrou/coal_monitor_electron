@@ -571,9 +571,10 @@ export default {
       }
     },
     async initData () {
-      this.dataForm.tempValue = JSON.parse(JSON.stringify(this.value)) 
+      let tempData = Object.assign({}, this.dataForm.tempValue, this.value)
+      this.dataForm.tempValue = tempData
       // 保存初始数据
-      this.originalValue = JSON.parse(JSON.stringify(this.value)) 
+      this.originalValue = tempData
       if (this.dataForm.tempValue.tableData.length > 0) {
         await this.selectedItem({
           $index: 0,

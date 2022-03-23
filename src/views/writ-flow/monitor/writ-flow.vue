@@ -1066,8 +1066,10 @@ export default {
       let request = await this.paperDelete(curPaper.paperId, curPaper.caseId)
       if (request.code === '200') {
         this.$message.success('删除文书成功！')
+      } else if (request.code === '500') {
+        this.$message.error('删除文书失败，请重新尝试！')
       } else {
-        this.$message.warning('本地删除成功，需云同步至服务器！')
+        this.$message.warning('本地删除成功，请在有网络时再云同步至服务器！')
       }
     },
     async showAccidentDangerInfo (docTypeNo) {

@@ -199,18 +199,12 @@ function setDangerTable(data, selectedData, options) {
         let dangerString = getDangerContentWithoutPointHasIndex(list13 || [], '；')
         string = dangerString
       } else if (options.key === 'cellIdx10') {
-        let dangerString = getDangerContentWithoutPoint(list13 || [], '、')
-        string = dangerString
+        // 监察文书的处理决定
+        string = dangerObject.onsiteDescString || ''
       } else if (options.key === 'cellIdx14') {
+        // 监管文书的处理决定
         string = dangerObject.onsiteDescString || ''
       }
-      // if (options.key === 'cellIdx9') {
-      //   string = dangerObjectIndex.dangerString || ''
-      // } else if (options.key === 'cellIdx10') {
-      //   string = dangerObject.onsiteDescString || ''
-      // } else if (options.key === 'cellIdx14') {
-      //   string = dangerObject.onsiteDescString || ''
-      // }
       break
     case '3': // 撤出作业人员命令书
       let list3 = data && (data.dangerContentMerge ? newList : data.selectedDangerList)

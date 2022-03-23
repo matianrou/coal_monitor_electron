@@ -267,8 +267,9 @@
           if (response.status === 200) {
             if (response.data.data) {
               // 如果有检查活动及文书数据则放入当前用户数据中
-              response.data.data.jczfCase.sort(sortbyDes('createDate'))
-              this.caseList = response.data.data.jczfCase
+              let caseList = response.data.data.jczfCase.filter(item => item.delFlag !== '1')
+              caseList.sort(sortbyDes('createDate'))
+              this.caseList = caseList
             }
             this.loading.right = false
           } else {

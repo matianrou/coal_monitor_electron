@@ -451,20 +451,7 @@ export async function paperDelete (paperId, caseId) {
         if (data.status === "200") {
           // 删除成功后，从本地数据库中删除
           // 删除文书
-          let paperList = await getPaperDatabase(caseId)
-          let paperData = paperList.find(item => item.paperId === paperId) // 不可增加delFlag = 1标记，如果增加则无法找到已经被删除文书
-          paperData.delFlag = "1"
-          await updatePaperDatabase(caseId, [paperData])
-          // 删除对应隐患
-          let wkDanger = await getDatabase("wkDanger");
-          let dangerList = []
-          dangerList = JSON.parse(JSON.stringify(wkDanger.filter(
-            (item) => item.paperId === paperId
-          )))
-          for (let i = 0; i < dangerList.length; i++) {
-            dangerList[i].delFlag = "1"
-          }
-          await updateDatabase('wkDanger', dangerList, 'dangerId')
+          await handleDelPaperData(paperId, caseId)
           // 删除成功后删除prepareUpload中的文书记录
           let prepareUpload = await getDatabase("prepareUpload");
           let uploadData = prepareUpload.find(item => item.paperId === paperData.paperId && item.isUpload === '0')
@@ -475,44 +462,48 @@ export async function paperDelete (paperId, caseId) {
             code: '200'
           }
         } else {
-          // 删除失败，放入prepareUpload
+          // 删除失败，提示再次重试
           request = {
-            code: '500'
+            code: '500' // 调用接口失败，返回
           }
-          await savePrepareUpload(paperData)
         }
       })
       .catch(async (err) => {
-        // 删除失败，放入prepareUpload
+        // 删除失败
         request = {
-          code: '500',
+          code: '500', // 调用接口失败，返回
           err
         }
         console.log("删除文书失败:", err);
-        await savePrepareUpload(paperData)
       });
   } else {
     // 离线删除：先删除本地数据，再放入prepareUpload云同步中
     request = {
-      code: '500'
+      code: '404' // 没有网络时返回值
     }
-    let paperList = await getPaperDatabase(caseId)
-    let paperData = paperList.find(item => item.paperId === paperId);
-    paperData.delFlag = "1"
-    await updatePaperDatabase(caseId, [paperData])
-    // 删除对应隐患
-    let wkDanger = await getDatabase("wkDanger");
-    let dangerList = []
-    dangerList = JSON.parse(JSON.stringify(wkDanger.filter(
-      (item) => item.paperId === paperId
-    )))
-    for (let i = 0; i < dangerList.length; i++) {
-      dangerList[i].delFlag = "1"
-    }
-    await updateDatabase('wkDanger', dangerList, 'dangerId')
+    await handleDelPaperData (paperId, caseId)
     await savePrepareUpload(paperData)
   }
   return request
+}
+
+async function handleDelPaperData (paperId, caseId) {
+  // 处理本地删除文书：
+  // 删除文书：
+  let paperList = await getPaperDatabase(caseId)
+  let paperData = paperList.find(item => item.paperId === paperId);
+  paperData.delFlag = "1"
+  await updatePaperDatabase(caseId, [paperData])
+  // 删除对应隐患
+  let wkDanger = await getDatabase("wkDanger");
+  let dangerList = []
+  dangerList = JSON.parse(JSON.stringify(wkDanger.filter(
+    (item) => item.paperId === paperId
+  )))
+  for (let i = 0; i < dangerList.length; i++) {
+    dangerList[i].delFlag = "1"
+  }
+  await updateDatabase('wkDanger', dangerList, 'dangerId')
 }
 
 async function savePrepareUpload (paperData) {
