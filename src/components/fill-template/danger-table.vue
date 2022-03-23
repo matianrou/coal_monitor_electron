@@ -1116,8 +1116,21 @@ export default {
         // 第三级从属类别
         this.dangerItemDetail.changeDangerType = null
       } else if (level === '2') {
+        // 同时修改tableData和selectedDangerList中的changeDangerType
+        let index = this.dangerItemDetail.order
         if (this.dangerItemDetail.isCommon === '1') {
+          // 自定义隐患修改时，同时修改categoryCode此字段
           this.dangerItemDetail.categoryCode = val
+          this.dataForm.tempValue.tableData[index].categoryCode = val
+        }
+        this.dataForm.tempValue.tableData[index].changeDangerType = val
+        if (this.dataForm.tempValue.selectedDangerList && this.dataForm.tempValue.selectedDangerList.length > 0) {
+          for (let i = 0; i < this.dataForm.tempValue.selectedDangerList.length; i++) {
+            let item = this.dataForm.tempValue.selectedDangerList[i]
+            if (item.dangerId === this.dataForm.tempValue.tableData[index].dangerId) {
+              item.changeDangerType = val
+            }
+          }
         }
       }
     },
