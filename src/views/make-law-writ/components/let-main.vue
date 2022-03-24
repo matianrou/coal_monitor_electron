@@ -783,7 +783,7 @@ export default {
               dangerContent: item.itemContent, // "煤矿建设项目未按规定进行安全预评价和安全验收评价，逾期未改正的。"
               dangerLocation: '', //违法违规及隐患位置
               dangerStatus: item.status, //违法违规及隐患状态
-              detectTime: getNowFormatTime(),  //发现时间：2021-06-24 15:48:54
+              detectTime: item.createDate ? item.createDate : getNowFormatTime(),  //发现时间：2021-06-24 15:48:54
               isHigh: item.isSerious, //是否重大隐患：[0|1]
               personId: this.$store.state.user.userId, //"7101000033",
               personName: this.$store.state.user.userName, //"发现人编号：beba494c4b67435f93e5fdfbe440e18e",

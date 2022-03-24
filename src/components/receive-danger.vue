@@ -175,6 +175,7 @@ export default {
                       no: danger.no ? danger.no : null,
                       confirmBasis: danger.confirmBasis,
                       createDate: danger.createDate,
+                      detectTime: danger.detectTime,
                       createBy: danger.createBy,
                       id: danger.id ? danger.id : null,
                       isNewRecord: danger.isNewRecord ? danger.isNewRecord : false,

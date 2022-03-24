@@ -579,7 +579,7 @@ export function setNewDanger (paperData, DangerTable) {
         isSerious: tableDataNewItem.isSerious,
         isReview: tableDataNewItem.isReview,
         reviewDate: tableDataNewItem.reviewDate,
-        createDate: paperData.createDate,
+        createDate: tableDataNewItem.createDate,
         itemCode: tableDataNewItem.itemCode, //
         no: tableDataNewItem.no, // 同itemCode
         delFlag: '2',
@@ -601,7 +601,7 @@ export function setNewDanger (paperData, DangerTable) {
         dangerParentId: dangerParentId, //"隐患关联id：null",
         dangerStatus: tableDataNewItem.status, //违法违规及隐患状态
         dangerType: tableDataNewItem.categoryCode,
-        detectTime: getNowFormatTime(),  //发现时间：2021-06-24 15:48:54
+        detectTime: tableDataNewItem.createDate,  //发现时间：2021-06-24 15:48:54
         isCheck: tableDataNewItem.isReview, //"是否需要复查0不需要1需要",
         isHigh: tableDataNewItem.isSerious, //是否重大隐患：[0|1]
         itemOnsiteBasis: tableDataNewItem.onsiteBasis, //"现场决定依据：《中华人民共和国安全生产法》第九十五条第一项",

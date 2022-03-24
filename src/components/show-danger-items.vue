@@ -87,7 +87,7 @@ export default {
         },
         {
           label: '隐患发现时间',
-          prop: 'createDate',
+          prop: 'detectTime',
           width: '170'
         },
         {

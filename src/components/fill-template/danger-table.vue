@@ -716,6 +716,7 @@ export default {
             reviewDate: null, // 复查日期
             order: this.dataForm.tempValue.tableData.length,
             createDate: getNowFormatTime(),
+            detectTime: getNowFormatTime(),
             delFlag: '2',
           })
           this.dataForm.tempValue.tableData.push(addItem)
@@ -851,6 +852,7 @@ export default {
         } else {
           firstDangerType = await this.getParentDangerCateCode(secDangerType)
         }
+        console.log('receiveDanger', receiveDanger)
         let receData = {
           dangerId: getNowTime() + randomString(28),
           active: false,
@@ -881,8 +883,10 @@ export default {
           order: this.dataForm.tempValue.tableData.length,
           delFlag: '2',
           isCommon: receiveDanger.isCommon,
-          createDate: receiveDanger.createDate
+          createDate: receiveDanger.createDate,
+          detectTime: receiveDanger.detectTime,
         }
+        console.log('receData', receData)
         this.dataForm.tempValue.tableData.push(receData)
           // 同时放入已选隐患中设置选中
         this.dataForm.tempValue.selectedDangerList.push(receData)
@@ -1178,6 +1182,7 @@ export default {
         isReview: '0', // 是否复查
         reviewDate: '', // 复查日期
         createDate: getNowFormatTime(), // 创建日期
+        detectTime: getNowFormatTime(), // 隐患发现日期
         itemCode: itemCode, //
         no: itemCode, // 同itemCode
         delFlag: '2',
