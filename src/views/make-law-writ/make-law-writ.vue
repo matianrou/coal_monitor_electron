@@ -193,7 +193,7 @@ export default {
           this.gotoWritFill(data)
         } else {
           // 如果为编辑则调取wkPaper文书表，如果为多条则弹窗选择文书，选择后的文书id传入组件中以拉取历史数据做为回显
-          let wkPaper = await this.getPaperDatabase(this.corpData.caseId);
+          let wkPaper = await this.getPaperDatabase(this.corpData.caseId)
           let checkPaper = JSON.parse(JSON.stringify(wkPaper.filter(item => item.caseId === this.corpData.caseId && item.paperType === data.docData.docTypeNo && item.delFlag !== '1') || []))
           // console.log('checkPaper', checkPaper)
           // await wkPaper.delete(checkPaper[0].id) // 删除文书
@@ -230,6 +230,10 @@ export default {
           this.caseData = data
         }
         this.showDocTemplet()
+        // 在线时判断当前case检查活动是否属于登录用户，如果不是则为拉取数据，对比拉取数据内容
+        if (this.$store.state.onLine && this.caseData.personId && this.caseData.personId !== this.$store.state.user.userId) {
+          this.comparePullCase()
+        }
         this.showPage[page] = true
       }
     },
@@ -344,6 +348,62 @@ export default {
       } else {
         this.$message.error('无此企业信息，请核实数据')
         this.changePage({page: 'empty'})
+      }
+    },
+    async comparePullCase () {
+      // 接口请求拉取检查活动当前全部文书，对比本地数据库中检查活动中所有文书
+      // 首先判断检查活动是否已被删除，如果检查活动已被删除则提示
+      let {userSessId, userId} = this.$store.state.user
+      let hasCase = true
+      await this.$http.get(`${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${this.caseData.personId}&flag=true`)
+        .then(async (response) => {
+          if (response.status === 200) {
+            if (response.data.data) {
+              let caseList = response.data.data.jczfCase
+              for (let i = 0; i < caseList.length; i++) {
+                if (caseList[i].caseId === this.caseData.caseId && caseList[i].delFlag === '1') {
+                  hasCase = false
+                  this.$alert(`当前检查活动已被制作人删除，请勿继续制作文书！`, '提示', {
+                    confirmButtonText: '确定',
+                    callback: action => {}
+                  })
+                }
+              }
+            }
+          }
+          }).catch(err => {
+            console.log("获取拉取的文书信息失败：", err);
+          })
+      // 如果检查活动未被删除，则判断检查活动中的文书，除自己制作以外的所有文书，如果有被删除的则提示
+      if (hasCase) {
+        let localPaperList = await this.getPaperDatabase(this.corpData.caseId)
+        await this.$http.get(`${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${this.caseData.personId}&flag=false&caseId=${this.caseData.caseId}&pageNo=0&pageSize=5000`)
+        .then(async (response) => {
+          if (response.status === 200) {
+            if (response.data.data && response.data.data.paper) {
+              let hasPaperChange = false
+              for (let i = 0; i < response.data.data.paper.length; i++) {
+                let responseItem = response.data.data.paper[i]
+                if (responseItem.personId !== userId && responseItem.delFlag === '1') {
+                  let curItem = localPaperList.find(localPaper => localPaper.paperId === responseItem.paperId)
+                  if (curItem && curItem.delFlag !== '1') {
+                    hasPaperChange = true
+                  }
+                }
+                if (hasPaperChange) {
+                  break
+                }
+              }
+              if (hasPaperChange) {
+                this.$alert(`当前检查活动中部分文书已被制作人删除，请重新拉取检查活动！`, '提示', {
+                  confirmButtonText: '确定',
+                  callback: action => {}
+                })
+              }
+            }
+          }}).catch(err => {
+            console.log("获取检查活动的文书列表失败：", err);
+          })
       }
     },
     closeSelectDialog () {

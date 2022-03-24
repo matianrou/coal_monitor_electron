@@ -170,7 +170,7 @@ export default {
           this.loading = false
         }}).catch(err => {
           this.$message.error("远程请求异常，可能是认证信息超时，请重新登录。");
-          console.log("获取检查活动失败：", err);
+          console.log("获取检查活动的文书列表失败：", err);
           this.loading = false
         })
     },

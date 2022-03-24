@@ -347,6 +347,7 @@ export default {
               planId: item.dbplanId,
               no: item.no,
               active: false,
+              personId: item.personId || null,
             }
           } else if (item.caseId) {
             corp = {
@@ -359,6 +360,7 @@ export default {
               corpId: item.corpId,
               no: item.no,
               active: false,
+              personId: item.personId,
             }
           }
           corpList.push(corp)
@@ -390,6 +392,7 @@ export default {
               corpId: item.corpId,
               no: item.no,
               active: false,
+              personId: item.personId,
             }
           }
           corpList.push(corp)
