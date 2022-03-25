@@ -661,7 +661,7 @@ export default {
     },
     handleDialog (key) {
       if (key === 'receiveDanger' && !this.$store.state.onLine) {
-        this.$message.error('当前为离线登录，请联网后接收隐患！')
+        this.$message.error('当前为离线状态，请联网后接收隐患！')
         return
       }
       // 展示选择检查内容弹窗

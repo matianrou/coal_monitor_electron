@@ -338,7 +338,7 @@ export default {
       // 拉取已经保存的文书，修改delFlag = '0',调用saveToUpload上传
       // 如果没有网络则不能归档
       if (!this.$store.state.onLine) {
-        this.$message.error('当前为离线登录，请联网后再归档！')
+        this.$message.error('当前为离线状态，请联网后再归档！')
         return
       }
       if (row.personId !== this.$store.state.user.userId) {
@@ -391,7 +391,7 @@ export default {
       // 批量归档
       // 如果没有网络则不能归档
       if (!this.$store.state.onLine) {
-        this.$message.error('当前为离线登录，请联网后再归档！')
+        this.$message.error('当前为离线状态，请联网后再归档！')
         return
       }
       this.loading.btn = true

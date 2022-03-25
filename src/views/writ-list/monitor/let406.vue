@@ -126,7 +126,7 @@ export default {
     },
     async getFileList () {
       if (!this.$store.state.onLine) {
-        this.$message.warning('当前为离线登录，请联网后才能上传、下载或删除文件！')
+        this.$message.warning('当前为离线状态，请联网后才能上传、下载或删除文件！')
         return
       }
       // 获取文件列表
@@ -183,7 +183,7 @@ export default {
     addFile (param) {
       // 上传文件
       if (!this.$store.state.onLine) {
-        this.$message.error('当前为离线登录，请联网后再上传文件！')
+        this.$message.error('当前为离线状态，请联网后再上传文件！')
         return
       }
       this.loading.btn = true
@@ -231,7 +231,7 @@ export default {
     },
     deleteFile (index, row) {
       if (!this.$store.state.onLine) {
-        this.$message.error('当前为离线登录，请联网后再删除！')
+        this.$message.error('当前为离线状态，请联网后再删除！')
         return
       }
       // 删除文件
@@ -268,7 +268,7 @@ export default {
     },
     async downloadFile (index, row) {
       if (!this.$store.state.onLine) {
-        this.$message.error('当前为离线登录，请联网后再下载！')
+        this.$message.error('当前为离线状态，请联网后再下载！')
         return
       }
       this.loading.btn = true

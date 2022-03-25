@@ -245,7 +245,7 @@ export default {
       if ((this.docData.docTypeNo === '43' && this.$store.state.user.userType !== 'supervision')) {
         // 罚款收缴时如果没有网络则提示
         if (!this.$store.state.onLine) {
-          this.$message.warning('当前为离线登录，请联网后再上传、下载或删除文件！')
+          this.$message.warning('当前为离线状态，请联网后再上传、下载或删除文件！')
           return
         }
       }

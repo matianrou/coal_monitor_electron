@@ -337,7 +337,7 @@ export default {
           this.multiOperationTag = true
         } else if (type === 'send') {
           if (!this.$store.state.onLine) {
-            this.$message.error('当前为离线登录，请联网后发送！')
+            this.$message.error('当前为离线状态，请联网后发送！')
             return
           }
           // 发送检查任务

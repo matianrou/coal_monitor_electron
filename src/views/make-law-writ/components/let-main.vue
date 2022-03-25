@@ -372,7 +372,7 @@ export default {
         if (saveFlag === '0') {
           // 归档时首先判断是否为离线操作
           if (!this.$store.state.onLine) {
-            this.$message.error('当前为离线登录，请联网后再归档保存至服务器！')
+            this.$message.error('当前为离线状态，请联网后再归档保存至服务器！')
             return
           }
           // 如果是归档时增加确认逻辑：

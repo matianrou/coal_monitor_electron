@@ -93,7 +93,21 @@
               <span style="color: #fff;">欢迎您：{{$store.state.user.userName}}</span><i class="el-icon-caret-bottom" style="color: #f19716;"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="clearLogin">注销登录</el-dropdown-item>
+              <el-dropdown-item>
+                <div 
+                  style="display: flex; align-items: center;"
+                  :title="netStatus ? '当前为在线状态，切换离线' : '当前为离线状态，切换在线'">
+                  切换网络
+                  <el-switch
+                    v-model="netStatus"
+                    style="margin-left: 3px;"
+                    active-color="#13ce66"
+                    inactive-color="#ff4949"
+                    @change="changeOnline">
+                  </el-switch>
+                </div>
+              </el-dropdown-item>
+              <el-dropdown-item command="clearLogin" divided>注销登录</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
           <span style="color: #fff;font-size: 12px;margin-left: 10px;">v{{version}}</span>
@@ -118,6 +132,7 @@ import { electronRequest } from '@/utils/electronRequest'
 import { clearLoginInfo } from '@/utils'
 import sendDanger from '@/components/send-danger'
 import checkListShow from '@/components/notice-show/check-list-show'
+import { encry, Decrypt } from '@/utils/AesEncryptUtil'
 export default {
   name: "MainTop",
   components: {
@@ -137,7 +152,8 @@ export default {
         checkList: []
       },
       receiveMessage: null,
-      version: null
+      version: null,
+      netStatus: this.$store.state.onLine,
     };
   },
   created() {
@@ -313,6 +329,55 @@ export default {
         })
       } else {
         console.log('当前环境不支持electron')
+      }
+    },
+    changeOnline (val) {
+      if (val) {
+        // 当离线切换为在线时，请调用户信息接口，获取userSessId
+        let {txtUserNo, txtPassword} = JSON.parse(localStorage.getItem('userAccount'))
+        let username = Decrypt(txtUserNo)
+        let password = Decrypt(txtPassword)
+        this.$http.post(`/login`, {
+          username,
+          password: encry(password),
+          mobileLogin: true,
+        }).then(async ({data}) => {
+          if (data.id) {
+            this.$store.state.user.userId = data.id
+            this.$store.state.user.loginName = data.loginName
+            this.$store.state.user.userName = data.name
+            this.$store.state.user.userSessId = data.sessionid
+            this.$store.commit('changeState', {
+              key: 'onLine',
+              val: true
+            })
+            this.$message.success('已切换为在线状态！')
+          } else {
+            this.$message.error('切换在线状态失败，请确保网络通畅！')
+            this.netStatus = false
+            console.log('切换在线状态失败：', data.message)
+          }
+        }).catch(err => {
+          this.$message.error('切换在线状态失败，请确保网络通畅！')
+          this.netStatus = false
+          console.log('切换在线状态失败：', err)
+        })
+      } else {
+        // 当在线切换为离线时，提示部分功能无法使用，确定后切换
+        this.$confirm('离线会导致部分功能无法使用，是否确认切换为离线状态？', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            dangerouslyUseHTMLString: true,
+            type: 'warning'
+          }).then(() => {
+            this.$store.commit('changeState', {
+              key: 'onLine',
+              val: false
+            })
+            this.$message.success('已切换为离线状态！')
+          }).catch(() => {
+            this.netStatus = true
+          })
       }
     }
   },

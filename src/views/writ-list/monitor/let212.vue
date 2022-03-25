@@ -363,7 +363,7 @@ export default {
     },
     addFile (param, scope) {
       if (!this.$store.state.onLine) {
-        this.$message.error('当前为离线登录，请联网后再上传文件！')
+        this.$message.error('当前为离线状态，请联网后再上传文件！')
         return
       }
       // // 判断如果当前选中的不是点击行，则切换至当前行
@@ -417,7 +417,7 @@ export default {
     },
     deleteFile (index, row) {
       if (!this.$store.state.onLine) {
-        this.$message.error('当前为离线登录，请联网后再下载！')
+        this.$message.error('当前为离线状态，请联网后再下载！')
         return
       }
       // 删除文件
@@ -453,7 +453,7 @@ export default {
     },
     async downloadFile (index, row) {
       if (!this.$store.state.onLine) {
-        this.$message.error('当前为离线登录，请联网后再下载！')
+        this.$message.error('当前为离线状态，请联网后再下载！')
         return
       }
       this.loading.btn = true

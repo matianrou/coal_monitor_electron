@@ -256,7 +256,7 @@
       },
       getUserCase(userId) {
         if (!this.$store.state.onLine) {
-          this.$message.error('当前为离线登录，请联网后再拉取！')
+          this.$message.error('当前为离线状态，请联网后再拉取！')
           return
         }
         this.loading.right = true

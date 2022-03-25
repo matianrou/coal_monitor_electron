@@ -372,7 +372,7 @@ export default {
     ***************************************************************************** */
     async resDownload(resId) {
       if (!this.$store.state.onLine) {
-        this.$message.error('当前为离线登录，请调整网络后再尝试下载！')
+        this.$message.error('当前为离线状态，请调整网络后再尝试下载！')
         return
       }
       let userId = this.$store.state.user.userId;
@@ -907,7 +907,7 @@ export default {
     downloadAll () {
       // 下载所有资源
       if (!this.$store.state.onLine) {
-        this.$message.error('当前为离线登录，请调整网络后再尝试下载！')
+        this.$message.error('当前为离线状态，请调整网络后再尝试下载！')
         return
       }
       this.$confirm('请确认是否按照当前下载日期范围下载执法文书资源以及其他所有资源？', '提示', {

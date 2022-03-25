@@ -242,7 +242,7 @@ export default {
       // 单个文书归档
       // 如果没有网络则不能归档
       if (!this.$store.state.onLine) {
-        this.$message.error('当前为离线登录，请联网后再归档！')
+        this.$message.error('当前为离线状态，请联网后再归档！')
         return
       }
       this.$confirm(`是否确认归档${row.orgName || ''} ${row.name}?`, "提示", {
@@ -271,7 +271,7 @@ export default {
     async batchFile  () {
       // 批量归档
       if (!this.$store.state.onLine) {
-        this.$message.error('当前为离线登录，请联网后再归档！')
+        this.$message.error('当前为离线状态，请联网后再归档！')
         return
       }
       if (this.selectedList.length > 0) {
