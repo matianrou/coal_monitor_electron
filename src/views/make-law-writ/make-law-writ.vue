@@ -28,6 +28,7 @@
             <org-information
               v-if="corpData && corpData.corpId"
               :corp-data="corpData"
+              style="min-width: 1100px;"
             ></org-information>
           </div>
           <div class="detail-writ-flow">
@@ -465,13 +466,12 @@ export default {
         margin-left: 10px;
         .detail-org-information {
           height: 180px;
-          min-width: 1100px;
+          overflow: auto;
         }
         .detail-writ-flow {
           overflow: auto;
           // flex: 1;
           margin-top: 10px;
-          min-width: 1100px;
         }
       }
     }

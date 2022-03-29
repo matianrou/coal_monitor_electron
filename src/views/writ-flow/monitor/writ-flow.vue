@@ -29,10 +29,11 @@
           v-for="(item) in tabList"
           :key="item.id"
           :label="item.name">
-          <div style="padding: 16px">
+          <div style="padding-left: 16px; padding-right: 16px; overflow: auto;">
             <div 
               v-for="first in showColList"
-              :key="first.id">
+              :key="first.id"
+              style="padding-top: 15px; position: relative;">
               <div 
                 v-if="first.name !== '报告上传' || showJczfReport"
                 class="writ-flow-card">
@@ -1128,32 +1129,36 @@ export default {
     text-align: right;
   }
 }
+.writ-flow-card-title {
+  position: absolute;
+  display: block;
+  top: 0px;
+  background: #fff;
+  padding: 0 5px;
+}
 .writ-flow-card {
   border: 1px solid #DCDFE6;
   padding: 15px;
-  position: relative;
-  margin-bottom: 15px;
-  .writ-flow-card-title {
-    position: absolute;
-    display: block;
-    top: -11px;
-    background: #fff;
-    padding: 0 5px;
-  }
+  margin-bottom: 10px;
+  overflow: auto;
   .writ-flow-row-main {
-    width: 626px; 
     height: 75px; 
     border-collapse: collapse; 
     margin-left: 20px;
     display: flex;
+    flex-direction: column;
     .writ-flow-row {
       display: flex;
       align-items: center;
+      flex: 1;
       .writ-flow-td {
         height: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
+      }
+      .writ-flow-td:last-child {
+        margin-right: 10px;
       }
       .arrows {
         margin: 0 15px;
