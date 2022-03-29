@@ -439,6 +439,7 @@ export default {
           //文书信息分页下载接口//文书信息分页下载接口
           // &officeId=&caseId=&flag=false&pageNo=0&pageSize=5000
           // &isAll=1为下载全部文书，默认为0只下载近两个月的
+          // flag=true为只返回检查活动，false为返回监察活动、文书和隐患
           uri +=
             "/local/jczf/getPageJczfByOfficeId?__sid=" +
             userSessId +

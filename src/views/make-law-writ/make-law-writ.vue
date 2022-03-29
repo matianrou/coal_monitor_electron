@@ -379,7 +379,7 @@ export default {
       // 如果检查活动未被删除，则判断检查活动中的文书，除自己制作以外的所有文书，如果有被删除的则提示
       if (hasCase) {
         let localPaperList = await this.getPaperDatabase(this.corpData.caseId)
-        await this.$http.get(`${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${this.caseData.personId}&flag=false&caseId=${this.caseData.caseId}&pageNo=0&pageSize=5000`)
+        await this.$http.get(`${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${this.caseData.personId}&flag=false&caseId=${this.caseData.caseId}&pageNo=0&pageSize=5000&isAll=1`)
         .then(async (response) => {
           if (response.status === 200) {
             if (response.data.data && response.data.data.paper) {

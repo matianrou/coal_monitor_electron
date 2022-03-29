@@ -49,9 +49,17 @@ export async function saveToUpload (paperId, messageShow, caseId) {
     }
   }
   let workCaseObj = workCase
-      // 整理上传数据
   let corpData = corpBase.find(item => item.corpId === workCaseObj.corpId) 
-  // 整理网页端展示的html
+  // 容错，planBeginDate历史数据有不符合规则的，判断是否有时分秒，如果没有则添加
+  let planBegin = workCaseObj.planBeginDate || null
+  let planEnd = workCaseObj.planEndDate || null
+  if (planBegin && planBegin.split(' ').length === 1) {
+    planBegin = planBegin + ' 00:00:00'
+  }
+  if (planEnd && planEnd.split(' ').length === 1) {
+    planEnd = planEnd + ' 00:00:00'
+  }
+  // 整理上传数据
   let submitData = {
     paper: [
       {
@@ -165,8 +173,8 @@ export async function saveToUpload (paperId, messageShow, caseId) {
         corpDataType: "",
         checkReason: workCaseObj.checkReason,
         checkStatus: workCaseObj.checkStatus,
-        planBeginDate: workCaseObj.planBeginDate ? workCaseObj.planBeginDate : null,
-        planEndDate: workCaseObj.planEndDate ? workCaseObj.planEndDate : null,
+        planBeginDate: planBegin,
+        planEndDate: planEnd,
         createTime: workCaseObj.createDate,
         affiliate: workCaseObj.affiliate,
         meikuangType: workCaseObj.meikuangType,
