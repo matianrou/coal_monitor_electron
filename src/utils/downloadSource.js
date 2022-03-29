@@ -482,7 +482,7 @@ export async function docSave(resId, data){
 			"caseId": obj.caseId,
 			"dangerType": JSON.stringify(obj.dangerType),
       "delFlag": obj.delFlag,
-			"dangerCate": obj.dangerType.categoryCode,
+			"dangerCate": obj.dangerType.categoryCode ? obj.dangerType.categoryCode : '',
 			"dangerItemId": obj.dangerItemId,
 			"dangerContent": obj.dangerContent,
 			"dangerLocation": obj.dangerLocation,

@@ -461,16 +461,69 @@ export default {
       this.loading.download = true
       await this.$http
         .get(`${uri}`)
-        .then(async (response) => {
-          if (response.status != 200) {
+        .then(async ({data}) => {
+          if (data.status !== '200') {
             this.$message.error(
               "远程请求异常，可能是认证信息超时，请重新登录。"
             );
             this.loading.download = false
           } else {
-            let saveData = response.data.data ? response.data.data : []
+            let saveData = data.data ? data.data : []
             await this.downloadFunction[`${resId}Save`](resId, saveData)
             if (resId !== 'doc' && resId !== 'plan') this.saveFinished(resId)
+            if (resId === 'doc') {
+              // 后加逻辑：当下载个人账号文书资源时，额外请求接口获取：
+              // 获取委托复查，
+              // 获取罚款收缴，
+              // 获取回执单，
+              // 获取影音证据，
+              // 获取意见建议书中的附件
+              // 获取监察执法报告
+              let {userId, userSessId} = this.$store.state.user
+              if (this.$store.state.user.userType === 'supervision') {
+                // 监管时下载影音证据
+                await Promise.all([
+                  this.getImageEvidencePC(userId, userSessId),
+                ]).then(async () => {
+                  await this.downloadFunction['fileDataSave'](resId, this.fileData)
+                  this.saveFinished(resId)
+                })
+              } else {
+                // 监察时下载委托复查、罚款收缴、回执单、影音证据、意见建议书附件、监察执法报告
+                await Promise.all([
+                  this.getLocalReview(userId, userSessId),
+                  this.getFineCollection(userId, userSessId),
+                  this.getSingleReceipt(userId, userSessId),
+                  this.getImageEvidencePC(userId, userSessId),
+                  this.getPaperAttachment(userId, userSessId),
+                  this.getJczfReport(userId, userSessId)
+                ]).then(async () => {
+                  await this.downloadFunction['fileDataSave'](resId, this.fileData)
+                  this.saveFinished(resId)
+                })
+              }
+            } else if (resId === 'plan') {
+              // 下载其他资源时，同时下载码表
+              let {userSessId} = this.$store.state.user
+              await Promise.all([
+                this.getProgrammeType(userSessId),
+                this.getCaseClassify(userSessId),
+                this.getRiskAssessment(userSessId),
+                this.getSubitemType(userSessId), // 行政处罚类型 
+                this.getOnsiteDesc (userSessId), // 现场处理决定 
+                this.getParentType(userSessId),
+                this.getMineWsGrade(userSessId),
+                this.getGrimeExplosive(userSessId),
+                this.getMineMinestyle(userSessId),
+                this.getMineVentilatestyle(userSessId),
+                this.getHydrogeologicalType(userSessId),
+                this.getMineFire(userSessId),
+                this.getBaseMineStatusZs(userSessId),
+              ]).then(async () => {
+                await this.downloadFunction['dictionarySave'](resId, this.dictionary)
+                this.saveFinished(resId)
+              })
+            }
           }
         })
         .catch((err) => {
@@ -478,59 +531,7 @@ export default {
           console.log("下载失败：", err);
           this.loading.download = false
         });
-      if (resId === 'doc') {
-        // 后加逻辑：当下载个人账号文书资源时，额外请求接口获取：
-        // 获取委托复查，
-        // 获取罚款收缴，
-        // 获取回执单，
-        // 获取影音证据，
-        // 获取意见建议书中的附件
-        // 获取监察执法报告
-        let {userId, userSessId} = this.$store.state.user
-        if (this.$store.state.user.userType === 'supervision') {
-          // 监管时下载影音证据
-          await Promise.all([
-            this.getImageEvidencePC(userId, userSessId),
-          ]).then(async () => {
-            await this.downloadFunction['fileDataSave'](resId, this.fileData)
-            this.saveFinished(resId)
-          })
-        } else {
-          // 监察时下载委托复查、罚款收缴、回执单、影音证据、意见建议书附件、监察执法报告
-          await Promise.all([
-            this.getLocalReview(userId, userSessId),
-            this.getFineCollection(userId, userSessId),
-            this.getSingleReceipt(userId, userSessId),
-            this.getImageEvidencePC(userId, userSessId),
-            this.getPaperAttachment(userId, userSessId),
-            this.getJczfReport(userId, userSessId)
-          ]).then(async () => {
-            await this.downloadFunction['fileDataSave'](resId, this.fileData)
-            this.saveFinished(resId)
-          })
-        }
-      } else if (resId === 'plan') {
-        // 下载其他资源时，同时下载码表
-        let {userSessId} = this.$store.state.user
-        await Promise.all([
-          this.getProgrammeType(userSessId),
-          this.getCaseClassify(userSessId),
-          this.getRiskAssessment(userSessId),
-          this.getSubitemType(userSessId), // 行政处罚类型 
-          this.getOnsiteDesc (userSessId), // 现场处理决定 
-          this.getParentType(userSessId),
-          this.getMineWsGrade(userSessId),
-          this.getGrimeExplosive(userSessId),
-          this.getMineMinestyle(userSessId),
-          this.getMineVentilatestyle(userSessId),
-          this.getHydrogeologicalType(userSessId),
-          this.getMineFire(userSessId),
-          this.getBaseMineStatusZs(userSessId),
-        ]).then(async () => {
-          await this.downloadFunction['dictionarySave'](resId, this.dictionary)
-          this.saveFinished(resId)
-        })
-      }
+      
     },
     saveFinished (resId) {
       let res = this.resIdDict.find(item => item.resId === resId)

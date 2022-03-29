@@ -214,7 +214,7 @@ export async function saveToUpload (paperId, messageShow, caseId) {
           caseId: workPaper.caseId,
           dangerId: item.dangerId,
           dangerCate: item.dangerCate,
-          dangerType: item.dangerCate,
+          dangerType: JSON.parse(item.dangerType),
           delFlag: item.delFlag,
           dangerItemId: item.dangerItemId,
           dangerContent: item.dangerContent,

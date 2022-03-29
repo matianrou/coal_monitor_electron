@@ -232,8 +232,6 @@ export default {
         }
         this.showDocTemplet()
         // 在线时判断当前case检查活动是否属于登录用户，如果不是则为拉取数据，对比拉取数据内容
-        console.log('personId', this.caseData.personId)
-        console.log('userId', this.$store.state.user.userId)
         if (this.$store.state.onLine && this.caseData.personId && this.caseData.personId !== this.$store.state.user.userId) {
           this.comparePullCase()
         }

@@ -775,7 +775,7 @@ export default {
                 id: this.$store.state.user.userId
               }),
               caseId: this.corpData && this.corpData.caseId ? this.corpData.caseId : '',
-              dangerType: item.categoryCode,
+              dangerType: JSON.stringify({categoryCode: item.categoryCode}),
               sourceFlag: '0',
               delFlag: saveFlag,
               dangerCate: item.categoryCode,

@@ -479,10 +479,10 @@ export default {
 
 /*滚动条整体样式*/
 .main-top-tab::-webkit-scrollbar {
-  height: 5px;
+  height: 8px;
 } 
 .main-top-tab::-webkit-scrollbar-thumb {
-  border-radius   : 10px;
+  border-radius: 10px;
   background-color: #f19716;
   background-image: -webkit-linear-gradient(
       45deg,

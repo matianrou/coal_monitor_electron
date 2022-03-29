@@ -852,7 +852,6 @@ export default {
         } else {
           firstDangerType = await this.getParentDangerCateCode(secDangerType)
         }
-        console.log('receiveDanger', receiveDanger)
         let receData = {
           dangerId: getNowTime() + randomString(28),
           active: false,
@@ -886,7 +885,6 @@ export default {
           createDate: receiveDanger.createDate,
           detectTime: receiveDanger.detectTime,
         }
-        console.log('receData', receData)
         this.dataForm.tempValue.tableData.push(receData)
           // 同时放入已选隐患中设置选中
         this.dataForm.tempValue.selectedDangerList.push(receData)
