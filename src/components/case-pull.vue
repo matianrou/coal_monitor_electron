@@ -53,7 +53,7 @@
               <el-radio 
                 style="font-size: 18px;"
                 :label="item.caseId">
-                {{`${item.corpName} [${item.createDate.split(' ')[0]}]`}}
+                {{`${item.corpName} [${item.createTime.split(' ')[0]}]`}}
               </el-radio>
             </div>
           </el-radio-group>
@@ -268,7 +268,7 @@
             if (response.data.data) {
               // 如果有检查活动及文书数据则放入当前用户数据中
               let caseList = response.data.data.jczfCase.filter(item => item.delFlag !== '1')
-              caseList.sort(sortbyDes('createDate'))
+              caseList.sort(sortbyDes('createTime'))
               this.caseList = caseList
             }
             this.loading.right = false
@@ -294,7 +294,7 @@
           for(let i = 0; i < this.caseList.length > 0; i++) {
             let item = this.caseList[i]
             if (item.caseId === this.selcetedCaseId) {
-              msg += `${item.corpName} [${item.createDate.split(' ')[0]}]`
+              msg += `${item.corpName} [${item.createTime.split(' ')[0]}]`
               selectedCaseData = item
             }
           }

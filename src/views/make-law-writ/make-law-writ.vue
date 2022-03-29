@@ -214,7 +214,7 @@ export default {
             this.gotoWritFill(data)
           } else {
             // 如果查询的文书大于1个，则弹窗选择
-            checkPaper.sort(sortbyAsc('createDate'))
+            checkPaper.sort(sortbyAsc('createTime'))
             this.paperList = checkPaper
             this.templatePaperData = data
             this.selectPaperVisible = true

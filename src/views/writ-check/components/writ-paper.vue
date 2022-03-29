@@ -25,7 +25,7 @@
       <div class="writ-paper-case-info-row">
         <div class="writ-paper-case-info">
           <div class="title">制作时间：</div>
-          <div>{{ caseData.createDate }}</div>
+          <div>{{ caseData.createTime }}</div>
         </div>
         <div class="writ-paper-case-info">
           <div class="title">制作人：</div>

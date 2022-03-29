@@ -224,7 +224,7 @@ export default {
         selectedPaper.let25Data.paperContent
       );
       // 日期
-      let let25Date = selectedPaper.let25Data.createDate;
+      let let25Date = selectedPaper.let25Data.createTime;
       let25Date = let25Date
         ? let25Date.split(' ')[0].replace("年", "-").replace("月", "-").replace("日", "-")
         : " - - ";

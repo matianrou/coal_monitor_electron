@@ -132,12 +132,12 @@
             let item = caseList[i]
             item.paperContent = JSON.parse(item.paperContent)
             if (item.paperContent.CheckTable && item.paperContent.CheckTable.tableData.length > 0) {
-              item.showTag = `${item.corpName} ${item.createDate}`
+              item.showTag = `${item.corpName} ${item.createTime}`
               exportCaseList.push(item)
             }
           }
         }
-        exportCaseList.sort(sortbyAsc('createDate'))
+        exportCaseList.sort(sortbyAsc('createTime'))
         this.caseList = exportCaseList
       },
       changeSelected (val) {

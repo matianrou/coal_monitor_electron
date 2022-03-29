@@ -226,7 +226,7 @@ export default {
           && JSON.parse(paper.paperContent).associationPaperId
           && JSON.parse(paper.paperContent).associationPaperId.paper1Id === let4DataPaperContent.associationPaperId.paper1Id
         })
-        let let6Date = paper6Data ? paper6Data.createDate.split(' ')[0].split('-') : []
+        let let6Date = paper6Data ? paper6Data.createTime.split(' ')[0].split('-') : []
         let paper6Date = `${let6Date[0] || '20XX'}年${let6Date[1] || 'XX'}月${let6Date[2] || 'XX'}日`
         let paper6PaperNumber = ''
         if (paper6Data) {
@@ -259,7 +259,7 @@ export default {
         if (paper8Data) {
           let8PaperNum = getCurPaperDocNumber(paper8Data)
         }
-        let let8Date = paper8Data ? paper8Data.createDate.split(' ')[0].split('-') : []
+        let let8Date = paper8Data ? paper8Data.createTime.split(' ')[0].split('-') : []
         string6 += `${let8Date[0] || '20XX'}年${let8Date[1] || 'XX'}月${let8Date[2] || 'XX'}日案件承办人员向${corp.corpName}及其负责人XXX分别送达了《行政处罚决定书》（${let8PaperNum}）。\r\n`;
         // 6，	行政处罚执行情况：固定模板
         // ”行政处罚执行情况：“+煤矿名称+ “接到我分局送达的行政处罚决定书后，该矿及其负责人XXX未申请行政复议和提起行政诉讼。将罚款已划转至指定罚款账户。”

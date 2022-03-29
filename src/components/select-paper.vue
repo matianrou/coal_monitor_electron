@@ -18,7 +18,7 @@
         style="width: 100%;"
         border
         stripe
-        :default-sort = "{prop: 'createDate', order: 'descending'}"
+        :default-sort = "{prop: 'createTime', order: 'descending'}"
         :highlight-current-row="!multiSelect"
         :header-cell-style="{background: '#f5f7fa'}"
         height="100%"
@@ -109,7 +109,7 @@ export default {
         },
         {
           label: '制作日期',
-          prop: 'createDate',
+          prop: 'createTime',
           align: 'center',
           width: '180'
         },

@@ -332,7 +332,7 @@ export default {
         } else {
           listArr = [...wkCase];
         }
-        listArr.sort(sortbyDes('createDate'))
+        listArr.sort(sortbyDes('createTime'))
         this.total = listArr.length;
         // 转换为列表所需要的值
         for (let i = 0; i < listArr.length; i++) {
@@ -376,7 +376,7 @@ export default {
         }) || []))
         listArr = [...wkCase]
         // 按创建时间排序
-        listArr.sort(sortbyDes('createDate'))
+        listArr.sort(sortbyDes('createTime'))
         // 转换为列表所需要的值
         for (let i = 0; i < listArr.length; i++) {
           let item = listArr[i]

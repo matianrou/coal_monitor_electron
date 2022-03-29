@@ -110,7 +110,7 @@
           label="制作机构">
         </el-table-column>
         <el-table-column
-          prop="createDate"
+          prop="createTime"
           header-align="center"
           align="center"
           label="制作时间"

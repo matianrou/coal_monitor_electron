@@ -338,7 +338,7 @@ export default {
             },
           }
         ):'';
-      let let53Date = selectedPaper.let53Data.createDate.split(' ')[0].split('-');
+      let let53Date = selectedPaper.let53Data.createTime.split(' ')[0].split('-');
       // 6.行政处罚决定书编号
       // 获取关联的行政处罚决定书
       let paper8PaperContent = {}
@@ -352,7 +352,7 @@ export default {
         paper8num2 = paper8PaperContent.cellIdx1
         paper8num3 = paper8PaperContent.cellIdx2
         paper8num4 = paper8PaperContent.cellIdx3
-        paper8date = paper8.createDate.split(' ')[0].split('-')
+        paper8date = paper8.createTime.split(' ')[0].split('-')
       }
       // 从sysOfficeInfo中获取：
       let orgSysOfficeInfo = await getOrgData(this.$store.state.curCase.groupId)

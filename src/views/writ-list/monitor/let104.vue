@@ -344,7 +344,7 @@ export default {
           key: "cellIdx10",
         }
       ):'';
-      let date2 = selectedPaper.let2Data ? selectedPaper.let2Data.createDate.split(' ')[0].replace('年', '-').replace('月', '-').replace('日', '-').split('-') : ['', '', '']
+      let date2 = selectedPaper.let2Data ? selectedPaper.let2Data.createTime.split(' ')[0].replace('年', '-').replace('月', '-').replace('日', '-').split('-') : ['', '', '']
       let DangerTable = null
       if (this.corpData.caseType === '0') {
         DangerTable = let2DataPaperContent.DangerTable ? 

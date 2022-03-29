@@ -441,16 +441,16 @@ export default {
         // 获取文号字段
         let number = getCurPaperDocNumber(item)
         // 获取日期字段
-        let createDate = ''
-        if (item.createDate) {
-          let dateList = item.createDate.split(' ')[0].split('-')
-          createDate = `${dateList[0]}年${dateList[1]}月${dateList[2]}日`
+        let createTime = ''
+        if (item.createTime) {
+          let dateList = item.createTime.split(' ')[0].split('-')
+          createTime = `${dateList[0]}年${dateList[1]}月${dateList[2]}日`
         }
         volumesMenuTableData.push({
           sindex: i + 1,
           paperNumber: number,
           title: `${item.name}`,
-          date: createDate,
+          date: createTime,
           pageNumber: i + 1,
           note: '',
         })

@@ -273,7 +273,7 @@ export default {
       // 1.生成文书编号
       let { num0, num1, num3, num4 } = await getDocNumber(this.docData.docTypeNo, this.corpData.caseId)
       // 2.立案时间
-      let let4Date = selectedPaper.let4Data.createDate.split(' ')[0].split('-')
+      let let4Date = selectedPaper.let4Data.createTime.split(' ')[0].split('-')
       // 3.sysOfficeInfo实体中 地址：depAddress、邮政编码：depPost、master、联系电话：phone
       let orgSysOfficeInfo = await getOrgData(this.$store.state.curCase.groupId)
       let let4DataPaperContent = JSON.parse(

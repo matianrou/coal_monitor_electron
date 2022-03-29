@@ -295,7 +295,7 @@ export default {
       let cellIdx8Date = now.getDate().toString();
       // 3.行政处罚决定书 日期、编号、
       let let8DataPaperContent = JSON.parse(selectedPaper.let8Data.paperContent);
-      let date206 = selectedPaper.let8Data.createDate.split(' ')[0].split('-')
+      let date206 = selectedPaper.let8Data.createTime.split(' ')[0].split('-')
       // 4.sysOfficeInfo中 goverPrefix和organName和courtPrefix
       let orgSysOfficeInfo = await getOrgData(this.$store.state.curCase.groupId)
       // 5.被处罚单位个人

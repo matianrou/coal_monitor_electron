@@ -136,7 +136,7 @@ export default {
                 this.selectedPaper[`let${paper}Data`] = paperDataList[0]
               } else {
                 // 如果查到关联的文书有两条及以上，则保留关键字，同时保留多份文书列表，以便后面遍历选择
-                paperDataList.sort(sortbyAsc('createDate'))
+                paperDataList.sort(sortbyAsc('createTime'))
                 this.selectFlowList.push({
                   key: `let${paper}Data`,
                   paperList: paperDataList
@@ -161,7 +161,7 @@ export default {
                 break
               } else if (paperDataList.length > 1){
                 // 如果查到关联的文书有两条及以上，则保留关键字，同时保留多份文书列表，以便后面遍历选择，并退出循环
-                paperDataList.sort(sortbyAsc('createDate'))
+                paperDataList.sort(sortbyAsc('createTime'))
                 this.selectFlowList.push({
                   key: `let${paper}Data`,
                   paperList: paperDataList
@@ -314,7 +314,7 @@ export default {
             break
           } else if (paperDataList.length > 1){
             // 如果查到关联的文书有两条及以上，则保留关键字，同时保留多份文书列表，以便后面遍历选择，并退出循环
-            paperDataList.sort(sortbyAsc('createDate'))
+            paperDataList.sort(sortbyAsc('createTime'))
             this.selectFlowList.push({
               key: `let${paperType}Data`,
               paperList: paperDataList

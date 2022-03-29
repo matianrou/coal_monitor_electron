@@ -52,7 +52,7 @@
                   align="center">
                 </el-table-column>
                 <el-table-column
-                  prop="createDate"
+                  prop="createTime"
                   header-align="center"
                   align="center"
                   label="添加日期"

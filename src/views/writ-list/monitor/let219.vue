@@ -406,7 +406,7 @@ export default {
       let let8DataPaperContent = JSON.parse(selectedPaper.let8Data.paperContent);
       let cellIdx5String = let8DataPaperContent.cellIdx5 || ''
       // 3.行政处罚决定书 日期、编号、
-      let date206 = selectedPaper.let8Data.createDate.split(' ')[0].split('-')
+      let date206 = selectedPaper.let8Data.createTime.split(' ')[0].split('-')
       let selectedTypeExtra = let8DataPaperContent.selectedType
       // 4.获取行政处罚中的罚款金额
       // 带入行政处罚决定书的处罚金额 .罚款数额的填写应当使用中文大写填写，后面用括号标明“¥+阿拉伯数字”，如“人民币贰万元整（¥20,000.00）
