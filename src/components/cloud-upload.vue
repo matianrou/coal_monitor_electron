@@ -115,6 +115,10 @@ export default {
     },
     confirm () {
       // 上传文书
+      if (!this.selectedList || this.selectedList.length === 0) {
+        this.$message.error('请选择需要同步的文书！')
+        return
+      }
       this.$confirm('是否确认上传所选文书至服务器？', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',

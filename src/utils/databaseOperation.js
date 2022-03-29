@@ -454,7 +454,7 @@ export async function paperDelete (paperId, caseId) {
           await handleDelPaperData(paperId, caseId)
           // 删除成功后删除prepareUpload中的文书记录
           let prepareUpload = await getDatabase("prepareUpload");
-          let uploadData = prepareUpload.find(item => item.paperId === paperData.paperId && item.isUpload === '0')
+          let uploadData = prepareUpload.find(item => item.paperId === paperId && item.isUpload === '0')
           if (uploadData && uploadData.paperId) {
             await deleteDatabasePhysics('prepareUpload', [uploadData], 'paperId')
           }
@@ -482,6 +482,8 @@ export async function paperDelete (paperId, caseId) {
       code: '404' // 没有网络时返回值
     }
     await handleDelPaperData (paperId, caseId)
+    let paperList = await getPaperDatabase(caseId)
+    let paperData = paperList.find(item => item.paperId === paperId);
     await savePrepareUpload(paperData)
   }
   return request
