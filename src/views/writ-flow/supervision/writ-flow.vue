@@ -29,7 +29,7 @@
           v-for="(item) in tabList"
           :key="item.id"
           :label="item.name">
-          <div style="padding: 16px">
+          <div style="padding: 16px; overflow: auto;">
             <div 
               v-for="first in showColList"
               :key="first.id">
