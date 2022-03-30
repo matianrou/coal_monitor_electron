@@ -444,7 +444,7 @@ export default {
       })
       this.corpList[index].active = true
     },
-    changeSelect (val, field) {
+    async changeSelect (val, field) {
       // 修改选择的活动日期或归档单位
       if (field === 'selGovUnit') {
         this.orgList.map(org => {
@@ -453,7 +453,7 @@ export default {
           }
         })
       }
-      this.getData()
+      await this.getData()
       this.selectedCase = {}
       this.$parent.changePage({page: 'empty'})
       this.setStore()
@@ -547,6 +547,12 @@ export default {
                       danger.delFlag = '1'
                       selfDeleteDanger.push(danger)
                     }
+                    // 判断当前文书是否仍在云同步列表中，如果在则直接删除，不再同步
+                    let prepareUpload = await this.getDatabase("prepareUpload");
+                    let paperData = prepareUpload.find(item => item.paperId === selfPaper.paperId && item.isUpload === '0')
+                    if (paperData) {
+                      await this.deleteDatabasePhysics('prepareUpload', [paperData], 'paperId')
+                    }
                   } else {
                     deleteAll = false
                   }
@@ -619,6 +625,12 @@ export default {
                       for (let j = 0; j < curDangerList.length; j++) {
                         curDangerList[j].delFlag = '1'
                         delDangerList.push(curDangerList[j])
+                      }
+                      // 判断当前文书是否仍在云同步列表中，如果在则直接删除，不再同步
+                      let prepareUpload = await this.getDatabase("prepareUpload");
+                      let paperData = prepareUpload.find(item => item.paperId === paperList[i].paperId && item.isUpload === '0')
+                      if (paperData) {
+                        await this.deleteDatabasePhysics('prepareUpload', [paperData], 'paperId')
                       }
                     }
                     await this.updatePaperDatabase(curCase.caseId, paperList)

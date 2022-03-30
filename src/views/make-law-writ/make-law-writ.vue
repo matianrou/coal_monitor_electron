@@ -152,10 +152,7 @@ export default {
       // 弹窗创建计划
       this.visible.newCase = true
     },
-    async closeDialog (params) {
-      if (params.refresh) {
-        await this.$refs.caseList.getData()
-      }
+    closeDialog (params) {
       this.visible[params.name] = false
     },
     async changePage ({page, data}) {
