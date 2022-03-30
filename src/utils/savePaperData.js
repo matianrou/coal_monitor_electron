@@ -26,8 +26,9 @@ export async function saveToUpload (paperId, messageShow, caseId) {
   let corpName = null, caseClassify = null, riskAssessment = null, riskAssessmentContent = null
   let workCase = {}
   if (workPaper.caseId) {
+    // 不添加删除过滤条件，否则如果检查活动被删除后不能进行云同步item.delFlag !== '1';
     workCase = wkCase.find((item) => {
-      return item.caseId === workPaper.caseId && item.delFlag !== '1';
+      return item.caseId === workPaper.caseId
     });
   } else {
     workCase = { caseNo, caseType, corpId, corpName, 
@@ -214,7 +215,7 @@ export async function saveToUpload (paperId, messageShow, caseId) {
           caseId: workPaper.caseId,
           dangerId: item.dangerId,
           dangerCate: item.dangerCate,
-          dangerType: JSON.parse(item.dangerType),
+          dangerType: item.dangerType,
           delFlag: item.delFlag,
           dangerItemId: item.dangerItemId,
           dangerContent: item.dangerContent,
@@ -357,6 +358,7 @@ async function savePaperToPrepareUpload(submitData) {
     corpName: paperData.corpName,
     paperType: paperData.paperType,
     name: paperData.name,
+    createTime: paperData.createTime,
     createDate: paperData.createDate,
     personId: paperData.personId,
     personName: paperData.personName,

@@ -775,7 +775,7 @@ export default {
                 id: this.$store.state.user.userId
               }),
               caseId: this.corpData && this.corpData.caseId ? this.corpData.caseId : '',
-              dangerType: JSON.stringify({categoryCode: item.categoryCode}),
+              dangerType: {categoryCode: item.categoryCode},
               sourceFlag: '0',
               delFlag: saveFlag,
               dangerCate: item.categoryCode,
@@ -1414,10 +1414,8 @@ export default {
       await this.deleteDatabasePhysics('wkDanger', wkDangerList, 'dangerId')
       // 添加所选数据
       await this.updateDatabase('wkDanger', paperContentOld.DangerTable.selectedDangerList, 'dangerId')
-      if (this.$store.state.onLine) {
-        // 有网络时同步上传服务器
-        await saveToUpload(itemPaper.paperId, false, itemPaper.caseId ? itemPaper.caseId : 'opinion-suggestion')
-      }
+      // 同步上传服务器(方法内执行，如果没有网络自动放入云同步中)
+      await saveToUpload(itemPaper.paperId, false, itemPaper.caseId ? itemPaper.caseId : 'opinion-suggestion')
     },
     closePunishmentInfoFill ({page, refresh}) {
       this.punishmentInfoFillVisible = false

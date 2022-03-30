@@ -63,7 +63,7 @@ export async function setDatabase (table, data) {
       let db = new GoDB(userId)
       let dbData = db.table(table)
       let dbList = await dbData.findAll(item => item)
-      for (let i = 0; i < dbList.length; i++) {
+      for (let i = 0; i < dbList.length; i++) { 
         await dbData.delete({id: dbList[i].id})
       }
       if (table === 'wkCase' || table === 'wkDanger') {

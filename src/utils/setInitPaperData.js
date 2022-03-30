@@ -600,7 +600,7 @@ export function setNewDanger (paperData, DangerTable) {
         dangerLocation: '', //违法违规及隐患位置
         dangerParentId: dangerParentId, //"隐患关联id：null",
         dangerStatus: tableDataNewItem.status, //违法违规及隐患状态
-        dangerType: JSON.stringify({categoryCode: tableDataNewItem.categoryCode}),
+        dangerType: {categoryCode: tableDataNewItem.categoryCode},
         detectTime: tableDataNewItem.createDate,  //发现时间：2021-06-24 15:48:54
         isCheck: tableDataNewItem.isReview, //"是否需要复查0不需要1需要",
         isHigh: tableDataNewItem.isSerious, //是否重大隐患：[0|1]

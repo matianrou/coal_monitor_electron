@@ -49,7 +49,7 @@
             width="100">
           </el-table-column>
           <el-table-column
-            prop="createDate"
+            prop="createTime"
             header-align="center"
             align="center"
             label="制作时间"
@@ -106,7 +106,7 @@ export default {
       // 获取要上传的文书
       this.loading = true
       let tableData = await this.getDatabase('prepareUpload')
-      tableData.sort(sortbyAsc('createDate'))
+      tableData.sort(sortbyAsc('createTime'))
       this.tableData = tableData
       this.loading = false
     },
@@ -126,7 +126,7 @@ export default {
           type: 'warning'
         }).then(async () => {
           this.loading = true
-          this.selectedList.sort(sortbyAsc('createDate'))
+          this.selectedList.sort(sortbyAsc('createTime'))
           for (let i = 0; i < this.selectedList.length; i++) {
             let item = this.selectedList[i]
             if (item.operation === 'save') {
