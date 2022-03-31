@@ -1,5 +1,5 @@
 import store from "@/store"
-import { getMoney, randomString, treeDataTranslate } from '@/utils'
+import { getMoney, randomString, treeDataTranslate, transformNumToChinese, thousands, sortbyAsc } from '@/utils'
 import { getNowFormatTime, getNowTime } from "@/utils/date";
 import { getDatabase, setDatabase, updateDatabase } from '@/utils/databaseOperation'
 // 初始化各文书数据
@@ -774,4 +774,123 @@ export function getAffiliateOrgName (orgData, allOrgList) {
     name = `${provinceOrg.name}-${upOrg.name}-${item.officeName}`
   }
   return name
+}
+
+export async function setPunishmentList (selectedDangerList = [], selectedType = '', setPunishmentInfor = false) {
+  // selectedDangerList已选中的隐患项列表
+  // selectedType 单位或个人
+  // setPunishmentInfor 是否重新计算punishmentInfor处罚用语 true为重新计算，false为不重新计算
+  // 获取行政处罚信息
+  let dictionaryList = await getDatabase('dictionary')
+  let subitemType = dictionaryList.find(item => item.type === 'subitemType')
+  let subitemTypeOptions = subitemType ? JSON.parse(subitemType.list) : []
+  subitemTypeOptions.sort(sortbyAsc('sort'))
+  let punishmentList = []
+  let punishmentInfor = null
+  if (subitemTypeOptions.length > 0) {
+    if (selectedDangerList.length > 0) {
+      for (let i = 0; i < selectedDangerList.length; i++) {
+        let item = selectedDangerList[i]
+        let punishmentObj = {
+          counterStr: '', // 针对个人或单位
+          fine: 0, // 罚款
+          fineStr: '', // 罚款
+          penaltyDesId: '', // 处罚决定
+          penaltyDesStr: '', // 处罚决定
+        }
+        // 获取针对个人或单位
+        if (selectedType) {
+          punishmentObj.counterStr = `针对“${selectedType}”`
+        }
+        // 获取罚款金额
+        // 增加逻辑：判断是否有多个“罚款”，如果有则提示多个罚款金额，无法计算罚款金额
+        if (item.penaltyDesc) {
+          if (item.penaltyDesc.split('罚款').length > 2) {
+            punishmentObj.fineStr = '（发现本条隐患存在多个罚款金额，对于“行政处罚告知书、行政处罚决定书”只能一条隐患拥有一个罚款金额，请修正“行政处罚决定用语”!）'
+          } else {
+            let stringList = item.penaltyDesc.replace(/\（(.+?)\）/g, '').replace(/\((.+?)\)/g, '').split(/[,᠃.。，]/)
+            for (let i = 0; i < stringList.length; i++) {
+              let string = stringList[i]
+              if (string.includes('罚款') && string.includes('元')) {
+                let count = 0
+                for (let j = 0; j < string.length; j++) {
+                  if (string[j] === '元') count ++  
+                }
+                if (count > 2) {
+                  // 如果当前有2个以上的元字，则报错提示
+                  punishmentObj.fineStr = '（发现本条隐患存在多个罚款金额，对于“行政处罚告知书、行政处罚决定书”只能一条隐患拥有一个罚款金额，请修正“行政处罚决定用语”!）'
+                } else {
+                  // 提取罚款金额
+                  punishmentObj.fine = getMoney(string) 
+                  punishmentObj.fineStr = `罚款${getMoney(string)}元` 
+                  punishmentObj.penaltyDesStr = '罚款,'
+                  punishmentObj.penaltyDesId = subitemTypeOptions.filter(item => item.label === '罚款')[0].value + ','
+                }
+              }
+            }
+          }
+        }
+        // 获取处罚决定
+        // 通过行政处罚决定penaltyDesc获取行政处罚信息
+        for (let j = 0; j < subitemTypeOptions.length; j++) {
+          if (subitemTypeOptions[j].searchLabel && item.penaltyDesc && item.penaltyDesc.includes(subitemTypeOptions[j].searchLabel)) {
+            punishmentObj.penaltyDesId += subitemTypeOptions[j].value + ','
+            punishmentObj.penaltyDesStr += subitemTypeOptions[j].label + ','
+          }
+        }
+        if (punishmentObj.penaltyDesId) punishmentObj.penaltyDesId = punishmentObj.penaltyDesId.substring(0, punishmentObj.penaltyDesId.length - 1)
+        if (punishmentObj.penaltyDesStr) punishmentObj.penaltyDesStr = punishmentObj.penaltyDesStr.substring(0, punishmentObj.penaltyDesStr.length - 1)
+        punishmentList.push(punishmentObj)
+      } 
+      if (setPunishmentInfor) {
+        // 合并处罚文书仅在选择的隐患项大于1条，即两条以上时才计算
+        if (selectedDangerList.length > 1) {
+          // 两条以上合并处罚
+          let total = 0
+          let penaltyId = ''
+          let penaltyStr = ''
+          for (let i = 0; i < punishmentList.length; i++) {
+            let item = punishmentList[i]
+            // 合计罚款
+            if (item.fine) {
+              total += item.fine
+            }
+            if (item.penaltyDesId) {
+              let idItemList = item.penaltyDesId.split(',')
+              idItemList.map(idItem => {
+                if (!penaltyId.includes(idItem)) {
+                  penaltyId += idItem + ','
+                }
+              })
+            }
+            if (item.penaltyDesStr) {
+              let strItemList = item.penaltyDesStr.split(',')
+              strItemList.map(strItem => {
+                // 用语中去掉“罚款”，但行政处罚类型中保留
+                if (strItem !== '罚款') {
+                  if (!penaltyStr.includes(strItem)) {
+                    penaltyStr += strItem + ','
+                  }
+                }
+              })
+            }
+          }
+          // 转换大写和人民币金额样式
+          let transTotal = transformNumToChinese(total)
+          let thousandsTotal = thousands(total)
+          if (penaltyId) penaltyId = penaltyId.substring(0, penaltyId.length - 1)
+          if (penaltyStr) penaltyStr = penaltyStr.substring(0, penaltyStr.length - 1)
+          punishmentInfor = `合并罚款人民币${transTotal}（¥${thousandsTotal}）${penaltyStr}`
+        } else {
+          punishmentInfor = ''
+        }
+      }
+    } else {
+      punishmentList = []
+    }
+  }
+  return {
+    punishmentList,
+    punishmentInfor
+  }
 }

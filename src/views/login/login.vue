@@ -232,6 +232,15 @@ export default {
             } else {
               // 下载过资源进入页面，同时更新文书
               await this.getDatabase('sourceDownload')
+              // 清洗过滤wkCase中问题数据22.3.31 此段代码一年后可删除
+              let wkCase = await this.getDatabase('wkCase')
+              for (let i = 0; i < wkCase.length; i++) {
+                if (!wkCase[i].caseId) {
+                  wkCase.splice(i, 1)
+                  i--
+                }
+              }
+              await this.setDatabase('wkCase', wkCase)
               // 如果有网络则自动更新下载文书资源
               if (!this.offLine) {
                 // 在线登录时询问是否要同步文书，如果是则云同步未上传文书，上传成功则更新下载文书资源，如果不成功则不下载

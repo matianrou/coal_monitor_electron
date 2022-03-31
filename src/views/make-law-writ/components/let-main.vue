@@ -114,7 +114,7 @@ import { saveToUpload, saveFineCollection, updateXkzStatus } from '@/utils/saveP
 import docxtemplater from 'docxtemplater'
 import punishmentInfoFill from '@/components/punishment-info-fill'
 import punishmentInfoConfirm from '@/components/punishment-info-confirm'
-import { setNewDanger, comparDangerTable } from '@/utils/setInitPaperData'
+import { setNewDanger, comparDangerTable, setPunishmentList } from '@/utils/setInitPaperData'
 import {
   setTextItem,
   setCheckItem,
@@ -1402,6 +1402,11 @@ export default {
         paperContentOld.cellIdx8 = cellIdx8String
         paperContentOld.cellIdx9 = cellIdx9String
         paperContentOld.cellIdx10 = cellIdx10String
+      }
+      if (itemPaper.paperType === '36' || itemPaper.paperType === '6' || itemPaper.paperType === '8') {
+        let {punishmentList, punishmentInfor} = await setPunishmentList(this.curDangerTable.selectedDangerList, paperContentOld.selectedType, true)
+        paperContentOld.DangerTable.punishmentList = punishmentList
+        paperContentOld.DangerTable.punishmentInfor = punishmentInfor
       }
       itemPaper.paperContent = JSON.stringify(paperContentOld)
       // 更新文书

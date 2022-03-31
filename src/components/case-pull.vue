@@ -133,7 +133,7 @@
             } else if (orgData.grade === '2') {
               // 省级
               // 获取所有parentId为当前userGroupId的机构
-              let orgChildrenList = JSON.parse(JSON.stringify(orgInfo.filter(item => item.parentId === userGroupId
+              let orgChildrenList = JSON.parse(JSON.stringify(orgInfo.filter(item => item.parentIds.includes(userGroupId)
                 && item.delFlag !== "1") || []))
               orgList = [...[orgData], ...orgChildrenList]
             } else if (orgData.grade === '3') {
@@ -142,7 +142,7 @@
               let parentOrg = orgInfo.find(item => item.no === orgData.parentId
                 && item.delFlag !== "1")
               // 获取所有parentId为当前parentOrg.no的机构
-              let orgChildrenList = JSON.parse(JSON.stringify(orgInfo.filter(item => item.parentId === parentOrg.no
+              let orgChildrenList = JSON.parse(JSON.stringify(orgInfo.filter(item => item.parentIds.includes(parentOrg.no)
                 && item.delFlag !== "1") || []))
               orgList = [...[parentOrg], ...orgChildrenList]
             } else if (orgData.grade === '4') {
@@ -153,7 +153,7 @@
               let provinceOrg = orgInfo.find(item => item.no === parentOrg.parentId
                 && item.delFlag !== "1")
               // 获取所有parentId为当前parentOrg.no的机构
-              let orgChildrenList = JSON.parse(JSON.stringify(orgInfo.filter(item => item.parentId === provinceOrg.no
+              let orgChildrenList = JSON.parse(JSON.stringify(orgInfo.filter(item => item.parentIds.includes(provinceOrg.no)
                 && item.delFlag !== "1") || []))
               orgList = [...[provinceOrg], ...orgChildrenList]
             }

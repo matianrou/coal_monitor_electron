@@ -109,7 +109,7 @@ function setDangerTable(data, selectedData, options) {
               confirmBasis: newList[j].confirmBasis,
               onsiteDesc: getString(newList[j].onsiteDesc, data.selectedDangerList[i].onsiteDesc),
               penaltyBasis: newList[j].penaltyBasis,
-              penaltyDesc: getPenaltyDescString(newList[j].penaltyDesc, data.selectedDangerList[i].penaltyDesc),
+              penaltyDesc: `${getPenaltyDescString(newList[j].penaltyDesc, data.selectedDangerList[i].penaltyDesc)}。`,
               penaltyDescFine: data.selectedDangerList[i].penaltyDescFine ? newList[j].penaltyDescFine + data.selectedDangerList[i].penaltyDescFine : newList[j].penaltyDescFine,
             }
             isAdd = false
@@ -663,7 +663,7 @@ function setDangerTable(data, selectedData, options) {
 function getString(longString, string) {
   // 获取对比后的字符串集合
   let finString = ''
-  if (longString === string) {
+  if (longString.includes(string)) {
     finString = longString
   } else {
     let longStringWithoutPoint = longString
@@ -821,5 +821,5 @@ export {
   setVolumesMenuTable,
   setUploadFile,
   setSelectPersonItem,
-  setDangerTextareaItem
+  setDangerTextareaItem,
 }

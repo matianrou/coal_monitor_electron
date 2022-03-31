@@ -363,7 +363,7 @@ export default {
       // 归档文书
       // 修改当前检查活动归档标记
       let wkCase = await this.getDatabase('wkCase')
-      let caseData = JSON.parse(JSON.stringify(wkCase.filter(item => item.caseId === paper.caseId) || []))
+      let caseData = JSON.parse(JSON.stringify(wkCase.find(item => item.caseId === paper.caseId)))
       caseData.delFlag = '0'
       await this.updateDatabase('wkCase', [caseData], 'caseId')
       // 修改文书的标识
