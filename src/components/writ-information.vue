@@ -143,6 +143,10 @@ export default {
           selGovUnitName: null
         }
       }
+    },
+    isPlan: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -273,7 +277,7 @@ export default {
           item.corpId === corpId && item.groupId === selGovUnit
           && (`${item.planYear}-${item.planMonth}` === selPlanDate)) || []))
           // 创建检查活动
-          if (corpPlan.length > 0 && corpPlan[0].dbplanId) {
+          if (this.isPlan) {
             // 所选煤矿、检查日期年月、归档机构均符合时，直接创建检查活动
             let caseId = await this.doSaveCase(corpBase[0], corpPlan[0]);
             // 点击选中当前创建的检查活动

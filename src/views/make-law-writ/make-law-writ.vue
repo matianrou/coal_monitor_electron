@@ -64,6 +64,7 @@
       :visible="visible.newCase"
       :corp-data="corpData"
       :select-plan-data="selectPlanData"
+      :is-plan="isPlan"
       @close="closeDialog"
     ></writ-information>
     <!-- 文书选择 -->
@@ -117,6 +118,7 @@ export default {
       },
       corpData: {}, // 选择的煤矿
       selectPlanData: {}, // 选择的计划日期和归档机构
+      isPlan: false, // true为创建计划的检查活动，false为创建其他类型检查活动
       visible: {
         newCase: false, // 创建检查活动弹窗
       },
@@ -149,6 +151,7 @@ export default {
       // 创建已有计划的煤矿的检查活动
       this.corpData = data.corpData
       this.selectPlanData = data.selectPlanData
+      this.isPlan = data.isPlan
       // 弹窗创建计划
       this.visible.newCase = true
     },

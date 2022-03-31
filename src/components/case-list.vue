@@ -427,13 +427,15 @@ export default {
       // 文书管理时，展示选择检查活动的所有文书列表
       this.$emit('change-page', {page: 'writFlow', data})
     },
-    editaddbook (item) {
+    editaddbook (item, isPlan = true) {
+      // isPlan为是否创建计划的检查活动,true为从计划中创建检查活动,false为从检查活动列表中添加其他类型检查活动
       // 判断当前是否已有caseId，如果已有则不弹窗新建
       // 使用页面为执法工作台MakeLawWrit时可创建检查活动
       if (this.usePage === 'MakeLawWrit' && !item.caseId) {
         this.$emit('create-case', {
           corpData: item,
-          selectPlanData: this.dataForm
+          selectPlanData: this.dataForm,
+          isPlan
         })
       }
     },
@@ -485,7 +487,7 @@ export default {
     },
     confirmCompany (company) {
       // 选中企业
-      this.editaddbook(company)
+      this.editaddbook(company, false)
     },
     deleteCase () {
       // 删除检查活动
