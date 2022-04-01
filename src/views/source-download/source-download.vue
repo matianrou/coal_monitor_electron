@@ -437,14 +437,15 @@ export default {
           break;
         case "doc":
           //文书信息分页下载接口//文书信息分页下载接口
-          // &officeId=&caseId=&flag=false&pageNo=0&pageSize=5000
+          // &officeId=&caseId=&flag=false&pageNo=1&pageSize=5000
           // &isAll=1为下载全部文书，默认为0只下载近两个月的
           // flag=true为只返回检查活动，false为返回监察活动、文书和隐患
+          // 当前采用分页下载逻辑，所以pageSize为20
           uri +=
             "/local/jczf/getPageJczfByOfficeId?__sid=" +
             userSessId +
             "&userId=" +
-            userId + "&pageNo=0&pageSize=5000&isAll=1"
+            userId + "&pageNo=1&pageSize=20&isAll=1"
           if (this.dataForm.docDownDaterange && this.dataForm.docDownDaterange.length > 0) {
             uri += `&startTime=${this.dataForm.docDownDaterange[0]}`
             uri += `&endTime=${this.dataForm.docDownDaterange[1]}`
@@ -469,9 +470,48 @@ export default {
             this.loading.download = false
           } else {
             let saveData = data.data ? data.data : []
-            await this.downloadFunction[`${resId}Save`](resId, saveData)
+            if (resId !== 'doc') await this.downloadFunction[`${resId}Save`](resId, saveData)
             if (resId !== 'doc' && resId !== 'plan') this.saveFinished(resId)
             if (resId === 'doc') {
+              // 调整文书下载逻辑：分页下载
+              // 分页下载逻辑：
+              // 1.用返回的totalCount总数(即case,danger,paper最多的个数)除以每页20个，获得需要请求的次数
+              // 2.采用promise方式同步请求数据，获取所有数据后统一放入对应文件存储
+              let requestCount = Math.ceil(saveData.totalCount / 20)
+              let promises = []
+              for (let i = 2; i <= requestCount; i++) {
+                let promise = this.getDocData(i)
+                promises.push(promise)
+              }
+              let isSuccess = true // 是否所有请求都成功，如果有一个不成功则提示下载失败
+              await Promise.all(promises).then(async (res) => {
+                let totalSaveData = { // 全部下载数据汇总结果，放入已经下载的第一页数据
+                  jczfCase: saveData.jczfCase,
+                  paper: saveData.paper,
+                  danger: saveData.danger,
+                } 
+                for (let i = 0; i < res.length; i++) {
+                  let item = res[i]
+                  if (item.data.status === '200') {
+                    totalSaveData.jczfCase = [...totalSaveData.jczfCase, ...item.data.data.jczfCase || []]
+                    totalSaveData.paper = [...totalSaveData.paper, ...item.data.data.paper || []]
+                    totalSaveData.danger = [...totalSaveData.danger, ...item.data.data.danger || []]
+                  } else {
+                    isSuccess = false
+                  }
+                  if (!isSuccess) {
+                    break
+                  }
+                }
+                if (!isSuccess) {
+                  this.$message.error('个人账号文书资源下载失败，请尝试重新下载！')
+                } else {
+                  await this.downloadFunction[`docSave`](resId, totalSaveData)
+                }
+              }).catch(err => {
+                console.log('个人账号文书资源下载失败，请尝试重新下载！', err)
+                this.$message.error('个人账号文书资源下载失败，请尝试重新下载！')
+              })
               // 后加逻辑：当下载个人账号文书资源时，额外请求接口获取：
               // 获取委托复查，
               // 获取罚款收缴，
@@ -479,28 +519,30 @@ export default {
               // 获取影音证据，
               // 获取意见建议书中的附件
               // 获取监察执法报告
-              let {userId, userSessId} = this.$store.state.user
-              if (this.$store.state.user.userType === 'supervision') {
-                // 监管时下载影音证据
-                await Promise.all([
-                  this.getImageEvidencePC(userId, userSessId),
-                ]).then(async () => {
-                  await this.downloadFunction['fileDataSave'](resId, this.fileData)
-                  this.saveFinished(resId)
-                })
-              } else {
-                // 监察时下载委托复查、罚款收缴、回执单、影音证据、意见建议书附件、监察执法报告
-                await Promise.all([
-                  this.getLocalReview(userId, userSessId),
-                  this.getFineCollection(userId, userSessId),
-                  this.getSingleReceipt(userId, userSessId),
-                  this.getImageEvidencePC(userId, userSessId),
-                  this.getPaperAttachment(userId, userSessId),
-                  this.getJczfReport(userId, userSessId)
-                ]).then(async () => {
-                  await this.downloadFunction['fileDataSave'](resId, this.fileData)
-                  this.saveFinished(resId)
-                })
+              if (isSuccess) {
+                let {userId, userSessId} = this.$store.state.user
+                if (this.$store.state.user.userType === 'supervision') {
+                  // 监管时下载影音证据
+                  await Promise.all([
+                    this.getImageEvidencePC(userId, userSessId),
+                  ]).then(async () => {
+                    await this.downloadFunction['fileDataSave'](resId, this.fileData)
+                    this.saveFinished(resId)
+                  })
+                } else {
+                  // 监察时下载委托复查、罚款收缴、回执单、影音证据、意见建议书附件、监察执法报告
+                  await Promise.all([
+                    this.getLocalReview(userId, userSessId),
+                    this.getFineCollection(userId, userSessId),
+                    this.getSingleReceipt(userId, userSessId),
+                    this.getImageEvidencePC(userId, userSessId),
+                    this.getPaperAttachment(userId, userSessId),
+                    this.getJczfReport(userId, userSessId)
+                  ]).then(async () => {
+                    await this.downloadFunction['fileDataSave'](resId, this.fileData)
+                    this.saveFinished(resId)
+                  })
+                }
               }
             } else if (resId === 'plan') {
               // 下载其他资源时，同时下载码表
@@ -924,7 +966,19 @@ export default {
         }).catch((err) => {
           console.log('下载失败：', err)
         })
-    }
+    },
+    getDocData (pageNo) {
+      // 分页获取检查活动、文书、隐患数据
+      let {userId, userSessId} = this.$store.state.user
+      let url = `${this.downloadPath}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&pageNo=${pageNo}&pageSize=20&isAll=1`
+      if (this.dataForm.docDownDaterange && this.dataForm.docDownDaterange.length > 0) {
+        url += `&startTime=${this.dataForm.docDownDaterange[0]}`
+        url += `&endTime=${this.dataForm.docDownDaterange[1]}`
+      } else if (this.updateTime.doc !== '未下载') {
+        url += `&updateTime=${this.updateTime.doc}`
+      }
+      return this.$http.get(url)
+    },
   },
 };
 </script>
