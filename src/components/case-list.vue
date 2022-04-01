@@ -455,9 +455,9 @@ export default {
           }
         })
       }
-      await this.getData()
       this.selectedCase = {}
       this.$parent.changePage({page: 'empty'})
+      await this.getData()
       this.setStore()
     },
     setStore () {
