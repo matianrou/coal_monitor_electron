@@ -328,6 +328,7 @@ export default {
         delFlag: "0",
         affiliate: this.dataForm.affiliateId ? this.dataForm.affiliateId : this.selectPlanData.selGovUnit, // 归档机构
         createDate: sDate,
+        createTime: sDate,
         updateDate: sDate,
         createById: userId,
         updateById: userId,

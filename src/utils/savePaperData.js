@@ -22,7 +22,7 @@ export async function saveToUpload (paperId, messageShow, caseId) {
   let caseNo = null, caseType = null, corpId = null
   let meikuangType = null, meikuangPlanfrom = null, planId = null
   let checkReason = null, checkStatus = null, planBeginDate = null
-  let planEndDate = null, createDate = null, pcMonth = null
+  let planEndDate = null, createTime = null, pcMonth = null
   let corpName = null, caseClassify = null, riskAssessment = null, riskAssessmentContent = null
   let workCase = {}
   if (workPaper.caseId) {
@@ -34,8 +34,9 @@ export async function saveToUpload (paperId, messageShow, caseId) {
     workCase = { caseNo, caseType, corpId, corpName, 
       meikuangType, meikuangPlanfrom, planId,
       checkReason, checkStatus, planBeginDate,
-      planEndDate, createDate, pcMonth, 
-      caseClassify, riskAssessment, riskAssessmentContent 
+      planEndDate, pcMonth, 
+      caseClassify, riskAssessment, riskAssessmentContent,
+      createTime
     }
   }
   let wkDangerList = []
@@ -69,8 +70,8 @@ export async function saveToUpload (paperId, messageShow, caseId) {
         remarks: null,
         paperId: workPaper.paperId,
         delFlag: workPaper.delFlag,
-        createDate: workPaper.createDate,
-        updateDate: workPaper.updateDate,
+        createDate: null, // 22.4.1 后台接口不需要，如果传时间可能会导致时间+8小时
+        updateDate: null, // 22.4.1 后台接口不需要，如果传时间可能会导致时间+8小时
         createBy: {
           id: workPaper.personId,
         },
@@ -136,8 +137,8 @@ export async function saveToUpload (paperId, messageShow, caseId) {
         isNewRecord: null,
         remarks: null,
         delFlag: workPaper.delFlag,
-        createDate: workCaseObj.createDate,
-        updateDate: workCaseObj.updateDate,
+        createDate: null, // 22.4.1 后台接口不需要，如果传时间可能会导致时间+8小时
+        updateDate: null, // 22.4.1 后台接口不需要，如果传时间可能会导致时间+8小时
         createBy: {
           id: workCaseObj.personId,
         },
@@ -176,7 +177,7 @@ export async function saveToUpload (paperId, messageShow, caseId) {
         checkStatus: workCaseObj.checkStatus,
         planBeginDate: planBegin,
         planEndDate: planEnd,
-        createTime: workCaseObj.createDate,
+        createTime: workCaseObj.createTime,
         affiliate: workCaseObj.affiliate,
         meikuangType: workCaseObj.meikuangType,
         meikuangPlanfrom: workCaseObj.meikuangPlanfrom, // 是否计划内
@@ -204,8 +205,8 @@ export async function saveToUpload (paperId, messageShow, caseId) {
           isNewRecord: null,
           remarks: null,
           paperId: item.paperId,
-          createDate: item.createDate,
-          updateDate: item.updateDate,
+          createDate: null, // 22.4.1 后台接口不需要，如果传时间可能会导致时间+8小时
+          updateDate: null, // 22.4.1 后台接口不需要，如果传时间可能会导致时间+8小时
           createBy: {
             id: workPaper.personId,
           },
