@@ -1,0 +1,13 @@
+/node_modules/
+/dist/
+/.cache-loader/
+*.iml
+.idea
+.vs/
+package-lock.json
+*.code-workspace
+*.map
+*.exe
+*.zip
+*.rar
+*.7z
