@@ -37,30 +37,30 @@
         <!-- 企业信息 -->
         <div class="enterprisedata-content">
           <span>企业名称：</span>
-          <span>{{corpData.corpName}}</span>
+          <span :title="corpData.corpName">{{corpData.corpName}}</span>
         </div>
         <div class="enterprisedata-content">
           <span>所在区域：</span>
-          <span>{{corpData.corpCountryName}}</span>
+          <span :title="corpData.corpCountryName">{{corpData.corpCountryName}}</span>
         </div>
         <div class="enterprisedata-content">
           <span>负&nbsp;&nbsp;责&nbsp;&nbsp;人：</span>
-          <span>{{corpData.legalName}}</span>
+          <span :title="corpData.legalName">{{corpData.legalName}}</span>
         </div>
       </div>
       <div class="enterprisedata-content-left">
         <!-- 企业信息 -->
         <div class="enterprisedata-content">
           <span>企业类型：</span>
-          <span>{{corpData.corpTypeName}}</span>
+          <span :title="corpData.corpTypeName">{{corpData.corpTypeName}}</span>
         </div>
         <div class="enterprisedata-content">
           <span>经营地址：</span>
-          <span>{{corpData.address}}</span>
+          <span :title="corpData.address">{{corpData.address}}</span>
         </div>
         <div class="enterprisedata-content">
           <span>联系电话：</span>
-          <span>{{corpData.tel}}</span>
+          <span :title="corpData.tel">{{corpData.tel}}</span>
         </div>
       </div>
     </div>
@@ -302,6 +302,9 @@ export default {
         border-bottom: 1px solid #ccc;
         text-indent: 30px;
         font-size: 18px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
     .enterprisedata-content-right {

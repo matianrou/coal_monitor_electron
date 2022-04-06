@@ -104,7 +104,7 @@ export default {
   methods: {
     async downloadFile (data) {
       // 下载文件
-      saveAs(data.url, data.fileName)
+      this.fileSaver.saveAs(data.url, data.fileName)
     },
     async allDownLoad () {
       // 全部下载
