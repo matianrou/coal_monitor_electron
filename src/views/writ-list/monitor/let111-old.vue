@@ -318,7 +318,7 @@ export default {
       let DangerTable = null
       if (this.corpData.caseType === '0') {
         DangerTable = let32DataPaperContent.DangerTable ? 
-          setNewDanger(selectedPaper.let32Data, let32DataPaperContent.DangerTable)
+          setNewDanger(selectedPaper.let32Data, let32DataPaperContent.DangerTable, this.paperId)
           : {}
       }
       this.letData = Object.assign({}, this.letData, {

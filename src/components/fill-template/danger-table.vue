@@ -140,7 +140,7 @@
                   placeholder="请填写现场处理决定"
                   :maxlength="1000"
                   style="width: calc(100% - 210px); margin-right: 10px;"
-                  @change="changeOnsiteDesc">
+                  @change="val => changeValue(val, 'onsiteDesc')">
                 </el-input>
                 <!-- 现场处理类型 -->
                 <el-select
@@ -202,6 +202,8 @@
               <el-input
                 v-model.trim="dangerItemDetail.penaltyDesc"
                 placeholder="请填写行政处罚决定"
+                type="textarea"
+                :autosize="{ minRows: 1, maxRows: 5}"
                 :maxlength="1000"
                 @change="val => changeValue(val, 'penaltyDesc')">
               </el-input>
@@ -436,6 +438,7 @@ export default {
         }
       },
       dangerItemDetail: {
+        dangerId: null,
         personIds: null, // 隐患发现人
         personNames: null, // 隐患发现人
         itemContent: null, // 违法行为描述
@@ -766,19 +769,20 @@ export default {
       this.orderTable(dangerItemDetail.order, newOrder)
     },
     changeValue (val, field) {
-      let index = this.dangerItemDetail.order
-      this.$set(this.dataForm.tempValue.tableData, index, this.dangerItemDetail)
+      let index = this.dataForm.tempValue.tableData.findIndex(item => item.dangerId === this.dangerItemDetail.dangerId)
+      this.dataForm.tempValue.tableData[index][field] = val
       if (field === 'isReview') {
         if (val === '1') {
           // 如果是隐患复查，并且为是的时候，设置reviewDate复查日期为顺延一个月
           let reviewDate = severalDaysLater(30)
           let reviewDateList = reviewDate.split('-')
           this.dangerItemDetail.reviewDate = `${reviewDateList[0]}年${reviewDateList[1]}月${reviewDateList[2]}日`
-          this.$set(this.dataForm.tempValue.tableData, index, this.dangerItemDetail)
+          this.dataForm.tempValue.tableData[index]['reviewDate'] = this.dangerItemDetail.reviewDate
         } else {
           // 如果不为隐患复查，清空日期
           this.dangerItemDetail.reviewDate = ''
-          this.$set(this.dataForm.tempValue.tableData, index, this.dangerItemDetail)
+          // this.$set(this.dataForm.tempValue.tableData, index, this.dangerItemDetail)
+          this.dataForm.tempValue.tableData[index]['reviewDate'] = ''
         }
       } else if (field === 'penaltyDesc') {
         // 修改行政处罚决定时同步关联修改罚金字段penaltyDescFine
@@ -793,29 +797,43 @@ export default {
         this.dataForm.tempValue.tableData[index].penaltyDescTypeId = id
         this.dataForm.tempValue.tableData[index].penaltyDescType = type
         // 同步修改已选择的数据
-        if (this.dataForm.tempValue.selectedDangerList && this.dataForm.tempValue.selectedDangerList.length > 0) {
-          let selectedItemIndex = this.dataForm.tempValue.selectedDangerList.findIndex(item => item.dangerId === this.dataForm.tempValue.tableData[index].dangerId)
-          if (selectedItemIndex !== -1) {
-            let obj = Object.assign({}, this.dataForm.tempValue.selectedDangerList[selectedItemIndex], {
-              penaltyDescFine: penaltyDescFine,
-              penaltyDescTypeId: id,
-              penaltyDescType: type,
-            })
-            this.$set(this.dataForm.tempValue.selectedDangerList, selectedItemIndex, obj)
-          }
-        }
+        // if (this.dataForm.tempValue.selectedDangerList && this.dataForm.tempValue.selectedDangerList.length > 0) {
+        //   let selectedItemIndex = this.dataForm.tempValue.selectedDangerList.findIndex(item => item.dangerId === this.dataForm.tempValue.tableData[index].dangerId)
+        //   if (selectedItemIndex !== -1) {
+        //     let obj = Object.assign({}, this.dataForm.tempValue.selectedDangerList[selectedItemIndex], {
+        //       penaltyDescFine: penaltyDescFine,
+        //       penaltyDescTypeId: id,
+        //       penaltyDescType: type,
+        //     })
+        //     this.$set(this.dataForm.tempValue.selectedDangerList, selectedItemIndex, obj)
+        //   }
+        // }
+      } else if (field === 'onsiteDesc') {
+        this.changeOnsiteDesc(val)
       }
       // 同步修改已选择的数据
       if (this.dataForm.tempValue.selectedDangerList && this.dataForm.tempValue.selectedDangerList.length > 0) {
         let selectedItemIndex = this.dataForm.tempValue.selectedDangerList.findIndex(item => item.dangerId === this.dataForm.tempValue.tableData[index].dangerId)
         if (selectedItemIndex !== -1) {
-          this.dataForm.tempValue.selectedDangerList[selectedItemIndex][field] = val
+          this.dataForm.tempValue.selectedDangerList[selectedItemIndex] = this.dataForm.tempValue.tableData[index]
         }
       }
       if (field === 'penaltyDesc') {
+        // 此步需要等上面同步更新已修改数据后再执行，所以单独放在此处，不要合并至上边的if else中
         // 修改行政处罚信息捕获内容和合并处罚文书用语
         this.setPunishmentInfor = true
-        this.updatePunishmentList()
+        let page = this.options.page
+        if (page === '36' || page === '6' || page === '8') {
+          this.updatePunishmentList()
+        }
+      }
+    },
+    changeOnsiteDesc (val) {
+      // 修改现场处理决定：关联现场处理决定文字内容，自动选择现场处理决定类型
+      let matchOption = fuzzyearch(val, this.onsiteTypeOptions, 'label')
+      if (matchOption) {
+        this.dangerItemDetail.onsiteType = matchOption.value
+        this.changeValue(matchOption.value, 'onsiteType')
       }
     },
     async handleSaveReceiveDanger (dangerList) {
@@ -978,28 +996,27 @@ export default {
     },
     handleSavePerson (personList) {
       // 确认选择检查人员
+      let ids = ''
+      let names = ''
       if (personList.length > 0) {
-        let ids = ''
-        let names = ''
         personList.map(item => {
           ids += item.no + ','
           names += item.name + ','
         })
         ids = ids.substring(0, ids.length - 1)
         names = names.substring(0, names.length - 1)
-        this.dangerItemDetail.personIds = ids
-        this.dangerItemDetail.personNames = names
-      } else {
-        this.dangerItemDetail.personIds = null
-        this.dangerItemDetail.personNames = null
       }
       this.visible.selectPerson = false
+      this.dangerItemDetail.personIds = ids
+      this.dangerItemDetail.personNames = names
+      this.changeValue(ids, 'personIds')
+      this.changeValue(names, 'personNames')
     },
     async getDangerCate () {
       // 获取隐患从属类别三级码表
       let dangerCate = await this.getDatabase('dangerCate')
-      let corpBase = await this.getDatabase('baseInfo');
-      let dangerCateData = JSON.parse(JSON.stringify(dangerCate.filter((item) => item.delFlag !== '1') || []))
+      let corpBase = await this.getDatabase('baseInfo')
+      let dangerCateData = JSON.parse(JSON.stringify(dangerCate.filter((item) => item.delFlag !== '1')))
       let corpBaseData = corpBase.find((item) => {
         return item.corpId === this.corpData.corpId
       });
@@ -1017,64 +1034,22 @@ export default {
       } else if (this.dangerItemDetail.categoryCode) {
         categoryCode = this.dangerItemDetail.categoryCode
       }
+      // 获取所有要设置的隐患类别
+      let clearCode = false 
+      let curCodeList = []
       if (categoryCode) {
-        // 获取当前隐患项的从属类别，设置为默认值
-        // 首先获取最末层类别
-        let curDangerThird = dangerCateData.filter(item => item.categoryCode === categoryCode)
-        let curDangerSec = dangerCateData.filter(item => item.categoryCode === curDangerThird[0].pid)
-        let curDangerFirst = dangerCateData.filter(item => item.categoryCode === curDangerSec[0].pid)
-        let setDefault = false
-        if (corpBaseData.mineMinetypeName === '井工' || corpBaseData.mineMinetypeName === '露天') {
-          if (curDangerFirst[0].categoryCode === this.dangerCateOptions.dangerCateList[0].categoryCode) {
-            setDefault = true
-          }
-        } else {
-          setDefault = true
-        }
-        if (setDefault) {
-          // 设置默认值
-          this.dangerItemDetail.firstDangerType = curDangerFirst[0].categoryCode
-          this.changeDangerCate(curDangerFirst[0].categoryCode, '0')
-          this.dangerItemDetail.secDangerType = curDangerSec[0].categoryCode
-          this.changeDangerCate(curDangerSec[0].categoryCode, '1')
-          this.dangerItemDetail.changeDangerType = curDangerThird[0].categoryCode
-          this.changeDangerCate(curDangerThird[0].categoryCode, '2')
-        } else {
-          this.dangerItemDetail.firstDangerType = null
-          this.dangerItemDetail.secDangerType = null
-          this.dangerCateOptions.dangerCateSecList = []
-          this.dangerItemDetail.changeDangerType = null
-          this.dangerCateOptions.dangerCateThirdList = []
-        }
+        curCodeList = this.getAllDangerCateCode(categoryCode, 3, dangerCateData)
       } else if (this.dangerItemDetail.secDangerType) {
-        let curDangerSec = dangerCateData.filter(item => item.categoryCode === this.dangerItemDetail.secDangerType)
-        let curDangerFirst = dangerCateData.filter(item => item.categoryCode === curDangerSec[0].pid)
-        let setDefault = false
-        if (corpBaseData.mineMinetypeName === '井工' || corpBaseData.mineMinetypeName === '露天') {
-          if (curDangerFirst[0].categoryCode === this.dangerCateOptions.dangerCateList[0].categoryCode) {
-            setDefault = true
-          }
-        } else {
-          setDefault = true
-        }
-        if (setDefault) {
-          // 设置默认值
-          this.dangerItemDetail.firstDangerType = curDangerFirst[0].categoryCode
-          this.changeDangerCate(curDangerFirst[0].categoryCode, '0')
-          this.dangerItemDetail.secDangerType = curDangerSec[0].categoryCode
-          this.changeDangerCate(curDangerSec[0].categoryCode, '1')
-        } else {
-          this.dangerItemDetail.firstDangerType = null
-          this.dangerItemDetail.secDangerType = null
-          this.dangerCateOptions.dangerCateSecList = []
-          this.dangerItemDetail.changeDangerType = null
-          this.dangerCateOptions.dangerCateThirdList = []
-        }
+        curCodeList = this.getAllDangerCateCode(this.dangerItemDetail.secDangerType, 2, dangerCateData)
       } else if (this.dangerItemDetail.firstDangerType) {
-        let curDangerFirst = dangerCateData.filter(item => item.categoryCode === this.dangerItemDetail.firstDangerType)
+        curCodeList = this.getAllDangerCateCode(this.dangerItemDetail.firstDangerType, 1, dangerCateData)
+      } else {
+        clearCode = true
+      }
+      if (curCodeList.length > 0) {
         let setDefault = false
         if (corpBaseData.mineMinetypeName === '井工' || corpBaseData.mineMinetypeName === '露天') {
-          if (curDangerFirst[0].categoryCode === this.dangerCateOptions.dangerCateList[0].categoryCode) {
+          if (curCodeList[curCodeList.length - 1].categoryCode === this.dangerCateOptions.dangerCateList[0].categoryCode) {
             setDefault = true
           }
         } else {
@@ -1082,16 +1057,12 @@ export default {
         }
         if (setDefault) {
           // 设置默认值
-          this.dangerItemDetail.firstDangerType = curDangerFirst[0].categoryCode
-          this.changeDangerCate(curDangerFirst[0].categoryCode, '0')
+          this.setAllDangerCateCode(curCodeList)
         } else {
-          this.dangerItemDetail.firstDangerType = null
-          this.dangerItemDetail.secDangerType = null
-          this.dangerCateOptions.dangerCateSecList = []
-          this.dangerItemDetail.changeDangerType = null
-          this.dangerCateOptions.dangerCateThirdList = []
+          clearCode = true
         }
-      } else {
+      }
+      if (clearCode) {
         this.dangerItemDetail.firstDangerType = null
         this.dangerItemDetail.secDangerType = null
         this.dangerCateOptions.dangerCateSecList = []
@@ -1101,6 +1072,29 @@ export default {
       this.$nextTick(() => {
         this.$refs.dataForm && this.$refs.dataForm.clearValidate()
       })
+    },
+    getAllDangerCateCode (code, level, dangerCateData) {
+      // 获取所有类别编号
+      let curCodeList = []
+      for (let i = 0; i < level; i++) {
+        let curCode = ''
+        if (i === 0) {
+          curCode = dangerCateData.find(item => item.categoryCode === code)
+        } else {
+          curCode = dangerCateData.find(item => item.categoryCode === curCodeList[curCodeList.length - 1].pid)
+        }
+        curCodeList.push(curCode)
+      }
+      return curCodeList
+    },
+    setAllDangerCateCode(codeList) {
+      // 设置所有类别编号
+      let keyList = ['firstDangerType', 'secDangerType', 'changeDangerType']
+      for (let i = 0; i < codeList.length; i++) {
+        let code = codeList[codeList.length - 1 - i].categoryCode
+        this.dangerItemDetail[keyList[i]] = code
+        this.changeDangerCate(code, i + '')
+      }
     },
     changeDangerCate (val, level = '0') {
       // 修改隐患从属类别
@@ -1119,7 +1113,7 @@ export default {
         this.dangerItemDetail.changeDangerType = null
       } else if (level === '2') {
         // 同时修改tableData和selectedDangerList中的changeDangerType
-        let index = this.dangerItemDetail.order
+        let index = this.dataForm.tempValue.tableData.findIndex(item => item.dangerId === this.dangerItemDetail.dangerId)
         if (this.dangerItemDetail.isCommon === '1') {
           // 自定义隐患修改时，同时修改categoryCode此字段
           this.dangerItemDetail.categoryCode = val
@@ -1142,14 +1136,6 @@ export default {
       let parentCode = ''
       parentCode = dangerCate.find((item) => item.delFlag !== '1' && item.categoryCode === code);
       return parentCode ? parentCode.pid : ''
-    },
-    changeOnsiteDesc (val) {
-      // 修改现场处理决定，关联现场处理决定选择
-      let matchOption = fuzzyearch(val, this.onsiteTypeOptions, 'label')
-      if (matchOption) {
-        this.dangerItemDetail.onsiteType = matchOption.value
-        this.changeValue(matchOption.value, 'onsiteType')
-      }
     },
     addNewDanger () {
       // 新建隐患项
@@ -1196,7 +1182,10 @@ export default {
     },
     handleSelectionChange (val) {
       this.dataForm.tempValue.selectedDangerList = val
-      this.updatePunishmentList()
+      let page = this.options.page
+      if (page === '36' || page === '6' || page === '8') {
+        this.updatePunishmentList()
+      }
     },
     selectDanger (val) {
       // 监听隐患列表中数据变动，根据变化的数据捕获处罚信息和合并处罚文书用语

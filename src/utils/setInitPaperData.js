@@ -145,7 +145,7 @@ export function getCurPaperDocNumber(paper) {
     // 以下文书为单字段文书号：取得字段都是cellIdx1
     // 行政执法有关事项审批报告/行政执法决定法制审核意见书/案件处理呈报书
     let paperContent = JSON.parse(paper.paperContent) 
-    paperNumber = paperContent.cellIdx1
+    paperNumber = paperContent.cellIdx1 || ''
   } else {
     // 其他文书为组合式文书号
     for(let i = 0; i < store.state.dictionary[`${store.state.user.userType}PaperNumberType`].length > 0; i++) {
@@ -166,12 +166,12 @@ export function getCurPaperDocNumber(paper) {
     if (store.state.user.userType === 'supervision') {
       // 监管文书号格式
       if (paperNumberFields && paperNumberFields.length > 0) {
-        paperNumber = `${paperContent[paperNumberFields[0]]}（${paperContent[paperNumberFields[1]]}）${paperTypeName}${docString}〔${paperContent[paperNumberFields[2]]}〕${paperContent[paperNumberFields[3]]}号`
+        paperNumber = `${paperContent[paperNumberFields[0]] || ''}（${paperContent[paperNumberFields[1]] || ''}）${paperTypeName}${docString}〔${paperContent[paperNumberFields[2]] || ''}〕${paperContent[paperNumberFields[3]] || ''}号`
       }
     } else {
       // 监察文书号格式
       if (paperNumberFields && paperNumberFields.length > 0) {
-        paperNumber = `${paperContent[paperNumberFields[0]]}${paperTypeName}${paperContent[paperNumberFields[1]]}${docString}〔${paperContent[paperNumberFields[2]]}〕${paperContent[paperNumberFields[3]]}号`
+        paperNumber = `${paperContent[paperNumberFields[0]] || ''}${paperTypeName}${paperContent[paperNumberFields[1]] || ''}${docString}〔${paperContent[paperNumberFields[2]] || ''}〕${paperContent[paperNumberFields[3]] || ''}号`
       }
     }
   }
@@ -539,7 +539,7 @@ export async function corpInformation(corpData) {
 // 现在用于关联隐患项时的创建隐患表和新增文书时自动关联的隐患项
 // paperData创建组合的文书数据，最后合并至此文书数据中的DangerTable中
 // DangerTable组合进来的隐患列表
-export function setNewDanger (paperData, DangerTable) {
+export function setNewDanger (paperData, DangerTable, paperId) {
   // allDangerTableNew新的所有隐患项列表（包括选中和未选中）
   // selectedDangerTableNew新的所有选中的隐患项列表（只有选中）
   let allDangerTableNew = []
@@ -608,7 +608,7 @@ export function setNewDanger (paperData, DangerTable) {
         itemOnsiteType: tableDataNewItem.onsiteType, //"现场处理类型",
         name: null,
         onsiteContent: tableDataNewItem.onsiteDesc, //"现场处理内容：责令停止建设责令停止作业、限X日内改正",
-        paperId: paperData.paperId,
+        paperId,
         penaltyOrg: '', //"对单位的处罚", // 后台不需要了21.12.2
         penaltyOrgFine: selectedType === '单位' ? tableDataNewItem.penaltyDescFine : null, //"单位罚金",
         penaltyPerson: '', //"对个人的处罚",  // 后台不需要了21.12.2
@@ -893,4 +893,15 @@ export async function setPunishmentList (selectedDangerList = [], selectedType =
     punishmentList,
     punishmentInfor
   }
+}
+
+export function handleSelectedDangerList (dangerData) {
+  // 新增隐患过滤逻辑：后续关联的文书，只带入已选择的隐患
+  let dangerTable = JSON.parse(JSON.stringify(dangerData))
+  dangerTable.tableData = []
+  for (let i = 0; i < dangerTable.selectedDangerList.length; i++) {
+    dangerTable.selectedDangerList[i].order = i
+    dangerTable.tableData.push(dangerTable.selectedDangerList[i])
+  }
+  return dangerTable
 }

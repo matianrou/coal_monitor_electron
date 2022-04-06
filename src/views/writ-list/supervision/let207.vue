@@ -229,8 +229,9 @@ export default {
       let selectedString = selectedType === '单位' ? '单位负责人' : '个人'
       let DangerTable = null
       if (this.corpData.caseType === '0') {
-        DangerTable = let8DataPaperContent.DangerTable ? 
-          setNewDanger(selectedPaper.let8Data, let8DataPaperContent.DangerTable)
+        let newDangerTable = this.handleSelectedDangerList(let8DataPaperContent.DangerTable)
+        DangerTable = newDangerTable ? 
+          setNewDanger(selectedPaper.let8Data, newDangerTable, this.paperId)
           : {}
       }
       let associationPaperId = Object.assign({}, this.setAssociationPaperId(let8DataPaperContent.associationPaperId), {

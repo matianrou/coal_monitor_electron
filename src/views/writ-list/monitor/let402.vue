@@ -312,7 +312,7 @@ export default {
       let DangerTable = null
       if (this.corpData.caseType === '0') {
         DangerTable = let4DataPaperContent.DangerTable ? 
-          setNewDanger(selectedPaper.let4Data, let4DataPaperContent.DangerTable)
+          setNewDanger(selectedPaper.let4Data, let4DataPaperContent.DangerTable, this.paperId)
           : {}
       }
       let cellIdx15String = orgSysOfficeInfo.depAddress;

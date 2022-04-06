@@ -273,8 +273,9 @@ export default {
       let let28DataPaperContent = JSON.parse(
         selectedPaper.let28Data.paperContent
       );
+      let newDangerTable = this.corpData.caseType === "0" ? this.handleSelectedDangerList(let28DataPaperContent.DangerTable) : null
       let cellIdx6String = this.corpData.caseType === '0' ?setDangerTable(
-          let28DataPaperContent.DangerTable,
+          newDangerTable,
           {}, 
           {
             page: "29",
@@ -290,8 +291,8 @@ export default {
       let orgSysOfficeInfo = await getOrgData(this.$store.state.curCase.groupId)
       let DangerTable = null
       if (this.corpData.caseType === '0') {
-        DangerTable = let28DataPaperContent.DangerTable ? 
-          setNewDanger(selectedPaper.let28Data, let28DataPaperContent.DangerTable)
+        DangerTable = newDangerTable ? 
+          setNewDanger(selectedPaper.let28Data, newDangerTable, this.paperId)
           : {}
       }
       let associationPaperId = Object.assign({}, this.setAssociationPaperId(let28DataPaperContent.associationPaperId), {

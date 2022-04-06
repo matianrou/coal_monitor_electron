@@ -264,7 +264,7 @@ export default {
       let DangerTable = null
       if (this.corpData.caseType === '0') {
         DangerTable = let25DataPaperContent.DangerTable ? 
-          setNewDanger(selectedPaper.let25Data, let25DataPaperContent.DangerTable)
+          setNewDanger(selectedPaper.let25Data, let25DataPaperContent.DangerTable, this.paperId)
           : {}
       }
       let associationPaperId = Object.assign({}, this.setAssociationPaperId(let25DataPaperContent.associationPaperId), {

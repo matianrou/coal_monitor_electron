@@ -326,8 +326,9 @@ export default {
         selectedPaper.let53Data.paperContent
       );
       // 4.对被申请人：企业名称+'涉嫌'+隐患描述+'案'
+      let newDangerTable = this.corpData.caseType === "0" ? this.handleSelectedDangerList(let53DataPaperContent.DangerTable) : null
       let cellIdx9String = this.corpData.caseType === '0' ? setDangerTable(
-          let53DataPaperContent.DangerTable,
+          newDangerTable,
           {}, 
           {
             page: "18",
@@ -362,8 +363,8 @@ export default {
       // 8.申请人的法定代表人legalPerson和职务post
       let DangerTable = null
       if (this.corpData.caseType === '0') {
-        DangerTable = let53DataPaperContent.DangerTable ? 
-          setNewDanger(selectedPaper.let53Data, let53DataPaperContent.DangerTable)
+        DangerTable = newDangerTable ? 
+          setNewDanger(selectedPaper.let53Data, newDangerTable, this.paperId)
           : {}
       }
       let associationPaperId = Object.assign({}, this.setAssociationPaperId(let53DataPaperContent.associationPaperId), {

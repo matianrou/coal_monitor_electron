@@ -244,11 +244,13 @@ export default {
       let let28DataPaperContent = JSON.parse(
         selectedPaper.let28Data.paperContent
       );
+      let newDangerTable = this.corpData.caseType === "0" ? this.handleSelectedDangerList(let28DataPaperContent.DangerTable) : null
       let DangerTable =
         this.corpData.caseType === "0"
           ? setNewDanger(
               selectedPaper.let28Data,
-              let28DataPaperContent.DangerTable
+              newDangerTable, 
+              this.paperId
             )
           : null;
       let associationPaperId = Object.assign({}, this.setAssociationPaperId(let28DataPaperContent.associationPaperId), {

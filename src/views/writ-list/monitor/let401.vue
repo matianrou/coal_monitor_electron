@@ -260,7 +260,7 @@ export default {
         associationPaperOrder: []
       },
       options: {},
-      associationPaper: ['1']
+      associationPaper: ['4']
     };
   },
   methods: {
@@ -275,9 +275,10 @@ export default {
         this.corpData.caseId
       );
       // 2.违法行为：获取笔录文书中的隐患数据
-      let let1DataPaperContent = selectedPaper.let1Data ? JSON.parse(selectedPaper.let1Data.paperContent) : null
+      let let4DataPaperContent = selectedPaper.let4Data ? JSON.parse(selectedPaper.let4Data.paperContent) : null
+      let newDangerTable = this.corpData.caseType === '0' ? this.handleSelectedDangerList(let4DataPaperContent.DangerTable) : null
       let cellIdx8String = this.corpData.caseType === '0' ? setDangerTable(
-        let1DataPaperContent.DangerTable,
+        newDangerTable,
         {}, 
         {
           page: "19",
@@ -292,15 +293,17 @@ export default {
       let cellIdx16String = orgSysOfficeInfo.phone;
       let DangerTable = null
       if (this.corpData.caseType === '0') {
-        DangerTable = let1DataPaperContent.DangerTable ? 
-          setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
+        DangerTable = newDangerTable ? 
+          setNewDanger(selectedPaper.let4Data, newDangerTable, this.paperId)
           : {}
       }
-      let associationPaperId = Object.assign({}, this.setAssociationPaperId(let1DataPaperContent.associationPaperId), {
-        paper1Id: selectedPaper.let1Data.paperId,
+      let associationPaperId = Object.assign({}, this.setAssociationPaperId(let4DataPaperContent.associationPaperId), {
+        paper4Id: selectedPaper.let4Data.paperId,
       }) 
-      let associationPaperOrder = this.setAssociationPaperOrder(let1DataPaperContent.associationPaperOrder)
-      associationPaperOrder.push('1')
+      let associationPaperOrder = this.setAssociationPaperOrder(let4DataPaperContent.associationPaperOrder)
+      associationPaperOrder.push('4')
+      console.log('associationPaperId', associationPaperId)
+      console.log('associationPaperOrder', associationPaperOrder)
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: num0, // 文书号
         cellIdx1: num1, // 文书号

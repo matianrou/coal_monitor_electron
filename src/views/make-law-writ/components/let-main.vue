@@ -466,6 +466,7 @@ export default {
               }
             }
             this.updatePaper = updatePaper
+            // 获取更新的隐患项：
             this.curDangerTable = this.$parent.letData.DangerTable
             // 如果updatePaper中没有数据则无需再打开弹窗选择更新
             let needSelect = false
@@ -993,6 +994,7 @@ export default {
           dataKey,
           params.value
         );
+        this.handleClose();
       } else if (dataKey === 'DangerTable'
         && (options.page === '13' || options.page === '32' || options.page === '4' 
         || options.page === '36' || options.page === '6' || options.page === '8'
@@ -1281,7 +1283,27 @@ export default {
       // 每一份文书itemPaper
       let paperContentOld = JSON.parse(itemPaper.paperContent)
       // 更新隐患
-      paperContentOld.DangerTable = setNewDanger(itemPaper, this.curDangerTable)
+      // 整理当前更新文书需要更新的隐患newDangerTable
+      // 对比更新tableData所有数据
+      let tableData = []
+      for (let i = 0; i < paperContentOld.DangerTable.tableData.length; i++) {
+        for (let j = 0; j < this.curDangerTable.tableData.length; j++) {
+          if (paperContentOld.DangerTable.tableData[i].dangerParentId.includes(this.curDangerTable.tableData[j].dangerId)) {
+            tableData.push(this.curDangerTable.tableData[j])
+          }
+        }
+      }
+      // 对比更新已选择的selectedDangerList所有数据
+      let selectedDangerList = []
+      for (let i = 0; i < paperContentOld.DangerTable.selectedDangerList.length; i++) {
+        for (let j = 0; j < this.curDangerTable.selectedDangerList.length; j++) {
+          if (paperContentOld.DangerTable.selectedDangerList[i].dangerParentId.includes(this.curDangerTable.selectedDangerList[j].dangerId)) {
+            selectedDangerList.push(this.curDangerTable.selectedDangerList[j])
+          }
+        }
+      }
+      let newDangerTable = Object.assign({}, this.curDangerTable, {tableData, selectedDangerList})
+      paperContentOld.DangerTable = setNewDanger(itemPaper, newDangerTable, itemPaper.paperId)
       // 设置tableData中verNo为1则为标记被连带更新
       if (paperContentOld.DangerTable.tableData) {
         for (let i = 0; i < paperContentOld.DangerTable.tableData.length; i++) {
@@ -1291,17 +1313,17 @@ export default {
       // 按文书更新其他信息
       if (itemPaper.paperType === '2') {
         // 如果是现场处理决定书：修改cellIdx7
-        let newcellIdx7 = setDangerTable(this.curDangerTable, {}, { page: '2' })
+        let newcellIdx7 = setDangerTable(newDangerTable, {}, { page: '2' })
         paperContentOld.cellIdx7 = newcellIdx7
       } else if (itemPaper.paperType === '13') {
         // 复查意见书时，修改cellIdx9和cellIdx10
-        let newcellIdx9 = setDangerTable(this.curDangerTable, {}, { page: '13', key: 'cellIdx9' })
-        let newcellIdx10 = setDangerTable(this.curDangerTable, {}, { page: '13', key: 'cellIdx10' })
+        let newcellIdx9 = setDangerTable(newDangerTable, {}, { page: '13', key: 'cellIdx9' })
+        let newcellIdx10 = setDangerTable(newDangerTable, {}, { page: '13', key: 'cellIdx10' })
         paperContentOld.cellIdx9 = newcellIdx9
         paperContentOld.cellIdx10 = newcellIdx10
       } else if (itemPaper.paperType === '4') {
         // 立案决定书时，修改cellIdx4，cellIdx5
-        let newcellIdx4 = setDangerTable(this.curDangerTable, {}, { 
+        let newcellIdx4 = setDangerTable(newDangerTable, {}, { 
           page: '4', 
           key: 'cellIdx4',
           spellString: {
@@ -1310,7 +1332,7 @@ export default {
             groupName: this.$store.state.curCase.provinceGroupName,
           },
         })
-        let newcellIdx5 = setDangerTable(this.curDangerTable, {}, { 
+        let newcellIdx5 = setDangerTable(newDangerTable, {}, { 
           page: '4', 
           key: 'cellIdx5', 
           spellString: {
@@ -1323,7 +1345,7 @@ export default {
         paperContentOld.cellIdx5 = newcellIdx5
       } else if (itemPaper.paperType === '36') {
         // 案件处理呈报书时，修改cellIdx2，cellIdx6，cellIdx7
-        let cellIdx2String = setDangerTable(this.curDangerTable, {}, { 
+        let cellIdx2String = setDangerTable(newDangerTable, {}, { 
           page: '36', 
           key: 'cellIdx2',
           spellString: {
@@ -1331,7 +1353,7 @@ export default {
             groupName: this.$store.state.curCase.provinceGroupName,
           },
         })
-        let cellIdx6String = setDangerTable(this.curDangerTable, {}, { 
+        let cellIdx6String = setDangerTable(newDangerTable, {}, { 
           page: '36', 
           key: 'cellIdx6',
           spellString: {
@@ -1339,7 +1361,7 @@ export default {
             groupName: this.$store.state.curCase.provinceGroupName,
           },
         })
-        let cellIdx7String = setDangerTable(this.curDangerTable, {}, { 
+        let cellIdx7String = setDangerTable(newDangerTable, {}, { 
           page: '36', 
           key: 'cellIdx7',
           spellString: {
@@ -1352,22 +1374,22 @@ export default {
         paperContentOld.cellIdx7 = cellIdx7String
       } else if (itemPaper.paperType === '6') {
         // 行政处罚告知书时：修改cellIdx6，cellIdx7，cellIdx8，cellIdx10
-        let cellIdx6String = setDangerTable(this.curDangerTable, {}, {
+        let cellIdx6String = setDangerTable(newDangerTable, {}, {
             page: "6",
             key: "cellIdx6",
           }
         );
-        let cellIdx7String = setDangerTable(this.curDangerTable, {}, {
+        let cellIdx7String = setDangerTable(newDangerTable, {}, {
             page: "6",
             key: "cellIdx7",
           }
         );
-        let cellIdx8String = setDangerTable(this.curDangerTable, {}, {
+        let cellIdx8String = setDangerTable(newDangerTable, {}, {
             page: "6",
             key: "cellIdx8",
           }
         );
-        let cellIdx10String = setDangerTable(this.curDangerTable, {}, {
+        let cellIdx10String = setDangerTable(newDangerTable, {}, {
             page: "6",
             key: "cellIdx10",
           }
@@ -1378,22 +1400,22 @@ export default {
         paperContentOld.cellIdx10 = cellIdx10String
       } else if (itemPaper.paperType === '8') {
         // 行政处罚决定书时，修改
-        let cellIdx7String = setDangerTable(this.curDangerTable, {}, {
+        let cellIdx7String = setDangerTable(newDangerTable, {}, {
             page: "8",
             key: "cellIdx7",
           }
         );
-        let cellIdx8String = setDangerTable(this.curDangerTable, {}, {
+        let cellIdx8String = setDangerTable(newDangerTable, {}, {
             page: "8",
             key: "cellIdx8",
           }
         );
-        let cellIdx9String = setDangerTable(this.curDangerTable, {}, {
+        let cellIdx9String = setDangerTable(newDangerTable, {}, {
             page: "8",
             key: "cellIdx9",
           }
         );
-        let cellIdx10String = setDangerTable(this.curDangerTable, {}, {
+        let cellIdx10String = setDangerTable(newDangerTable, {}, {
             page: "8",
             key: "cellIdx10",
           }
@@ -1404,7 +1426,7 @@ export default {
         paperContentOld.cellIdx10 = cellIdx10String
       }
       if (itemPaper.paperType === '36' || itemPaper.paperType === '6' || itemPaper.paperType === '8') {
-        let {punishmentList, punishmentInfor} = await setPunishmentList(this.curDangerTable.selectedDangerList, paperContentOld.selectedType, true)
+        let {punishmentList, punishmentInfor} = await setPunishmentList(newDangerTable.selectedDangerList, paperContentOld.selectedType, true)
         paperContentOld.DangerTable.punishmentList = punishmentList
         paperContentOld.DangerTable.punishmentInfor = punishmentInfor
       }

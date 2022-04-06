@@ -310,7 +310,7 @@ export default {
           cellIdx11String = paper22.paperContent ? JSON.parse(paper22.paperContent).cellIdx4 : ''
         }
         DangerTable = let1DataPaperContent.DangerTable ? 
-          setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
+          setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable, this.paperId)
           : {}
       }
       let associationPaperId = {}

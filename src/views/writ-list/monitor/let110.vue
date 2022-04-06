@@ -490,7 +490,8 @@ export default {
         DangerTable = let1DataPaperContent.DangerTable
           ? setNewDanger(
               selectedPaper.let1Data,
-              let1DataPaperContent.DangerTable
+              let1DataPaperContent.DangerTable,
+              this.paperId
             )
           : {};
       }

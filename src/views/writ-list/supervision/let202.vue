@@ -376,10 +376,11 @@ export default {
       } else {
         groupName = this.$store.state.curCase.groupName
         let let4DataPaperContent = JSON.parse(selectedPaper.let4Data.paperContent);
+        let newDangerTable = this.corpData.caseType === "0" ? this.handleSelectedDangerList(let4DataPaperContent.DangerTable) : null
         cellIdx8String =
           this.corpData.caseType === "0"
             ? setDangerTable(
-                let4DataPaperContent.DangerTable,
+                newDangerTable,
                 {},
                 {
                   page: "5",
@@ -395,7 +396,7 @@ export default {
         dangerString =
           this.corpData.caseType === "0"
             ? setDangerTable(
-                let4DataPaperContent.DangerTable,
+                newDangerTable,
                 {},
                 {
                   page: "5",
@@ -408,10 +409,11 @@ export default {
               )
             : "";
         if (this.corpData.caseType === "0") {
-          DangerTable = let4DataPaperContent.DangerTable
+          DangerTable = newDangerTable
             ? setNewDanger(
                 selectedPaper.let4Data,
-                let4DataPaperContent.DangerTable
+                newDangerTable, 
+                this.paperId
               )
             : {};
         }

@@ -346,7 +346,8 @@ export default {
         DangerTable = let32DataPaperContent.DangerTable
           ? setNewDanger(
               selectedPaper.let32Data,
-              let32DataPaperContent.DangerTable
+              let32DataPaperContent.DangerTable,
+              this.paperId
             )
           : {};
       }

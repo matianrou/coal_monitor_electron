@@ -310,10 +310,11 @@ export default {
       let let6DataPaperContent = JSON.parse(
         selectedPaper.let6Data.paperContent
       );
+      let newDangerTable = this.corpData.caseType === "0" ? this.handleSelectedDangerList(let6DataPaperContent.DangerTable) : null
       let cellIdx19String =
         this.corpData.caseType === "0"
           ? setDangerTable(
-              let6DataPaperContent.DangerTable,
+              newDangerTable,
               {},
               {
                 page: "30",
@@ -327,10 +328,11 @@ export default {
           : "";
       let DangerTable = null;
       if (this.corpData.caseType === "0") {
-        DangerTable = let6DataPaperContent.DangerTable
+        DangerTable = newDangerTable
           ? setNewDanger(
               selectedPaper.let6Data,
-              let6DataPaperContent.DangerTable
+              newDangerTable, 
+              this.paperId
             )
           : {};
       }

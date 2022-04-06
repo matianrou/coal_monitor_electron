@@ -194,7 +194,7 @@ export default {
       // 创建初始版本
       let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
       let DangerTable = let1DataPaperContent.DangerTable ? 
-        setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
+        setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable, this.paperId)
         : {}  
       let associationPaperId = Object.assign({}, this.setAssociationPaperId(let1DataPaperContent.associationPaperId), {
         paper1Id: selectedPaper.let1Data.paperId,

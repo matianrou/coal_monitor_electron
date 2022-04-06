@@ -160,7 +160,7 @@
 </template>
 
 <script>
-import { getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
+import { getDocNumber } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let207",

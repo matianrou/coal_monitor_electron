@@ -503,15 +503,11 @@ export default {
           // 创建初始版本 */
           // 1.案卷题名: 煤矿名称+隐患描述+案
           // 获取笔录文书中的隐患数据
-          
-          // let dangerObject = getDangerObject(
-          //   let1DataPaperContent.DangerTable.selectedDangerList
-          // );
-          // cellIdx2String = `${corp.corpName}${dangerObject.dangerString}案。`;
+          let newDangerTable = this.corpData.caseType === "0" ? this.handleSelectedDangerList(let1DataPaperContent.DangerTable) : null
           cellIdx2String =
             this.corpData.caseType === "0"
               ? setDangerTable(
-                  let1DataPaperContent.DangerTable,
+                  newDangerTable,
                   {},
                   {
                     page: "15",
@@ -523,10 +519,11 @@ export default {
                   }
                 )
               : "";
-          DangerTable = let1DataPaperContent.DangerTable
+          DangerTable = newDangerTable
             ? setNewDanger(
                 selectedPaper.let1Data,
-                let1DataPaperContent.DangerTable
+                newDangerTable, 
+                this.paperId
               )
             : {};
           associationPaperId = Object.assign({}, this.setAssociationPaperId(let1DataPaperContent.associationPaperId), {

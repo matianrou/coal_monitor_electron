@@ -317,8 +317,9 @@ export default {
           associationPaperOrder.push('4')
         }
         // 7.行政处罚决定
+        let newDangerTable = this.handleSelectedDangerList(letDataPaperContent.DangerTable)
         let cellIdx10String = setDangerTable(
-          letDataPaperContent.DangerTable,
+          newDangerTable,
           {},
           {
             page: "6",
@@ -332,7 +333,7 @@ export default {
         // master：我局联系人、
         // phone：联系电话
         let cellIdx6String = setDangerTable(
-          letDataPaperContent.DangerTable,
+          newDangerTable,
           {},
           {
             page: "6",
@@ -340,7 +341,7 @@ export default {
           }
         );
         let cellIdx22String = setDangerTable(
-          letDataPaperContent.DangerTable,
+          newDangerTable,
           {},
           {
             page: "6",
@@ -348,7 +349,7 @@ export default {
           }
         );
         let cellIdx7String = setDangerTable(
-          letDataPaperContent.DangerTable,
+          newDangerTable,
           {},
           {
             page: "6",
@@ -356,15 +357,15 @@ export default {
           }
         );
         let cellIdx8String = setDangerTable(
-          letDataPaperContent.DangerTable,
+          newDangerTable,
           {},
           {
             page: "6",
             key: "cellIdx8",
           }
         );
-        let DangerTable = letDataPaperContent.DangerTable ? 
-          setNewDanger(selectletData, letDataPaperContent.DangerTable)
+        let DangerTable = newDangerTable ? 
+          setNewDanger(selectletData, newDangerTable, this.paperId)
           : {}
         this.letData = Object.assign({}, this.letData, {
           cellIdx0: paperNumber.num0, // 文书号

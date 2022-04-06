@@ -64,6 +64,7 @@ export async function setDatabase (table, data) {
       let dbData = db.table(table)
       let dbList = await dbData.findAll(item => item)
       for (let i = 0; i < dbList.length; i++) { 
+        if (!dbList[i].id) console.log('id', dbList[i].id)
         await dbData.delete({id: dbList[i].id})
       }
       if (table === 'wkCase' || table === 'wkDanger') {

@@ -208,9 +208,10 @@ export default {
         let let49DataPaperContent = JSON.parse(
           selectedPaper.let49Data.paperContent
         );
+        let newDangerTable = this.handleSelectedDangerList(let49DataPaperContent.DangerTable)
         // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
         // 获取笔录文书中的隐患数据
-        let cellIdx2String = setDangerTable(let49DataPaperContent.DangerTable, {}, { 
+        let cellIdx2String = setDangerTable(newDangerTable, {}, { 
           page: '36', 
           key: 'cellIdx2',
           spellString: {
@@ -219,7 +220,7 @@ export default {
           },
         })
         // 2.违法事实及依据：隐患描述+“经调查取证以上违法违规行为属实，分别违反了”+违法认定发条
-        let cellIdx6String = setDangerTable(let49DataPaperContent.DangerTable, {}, { 
+        let cellIdx6String = setDangerTable(newDangerTable, {}, { 
           page: '36', 
           key: 'cellIdx6',
           spellString: {
@@ -228,7 +229,7 @@ export default {
           },
         })
         // 3.建议案件处理意见：行政处罚依据+行政处罚决定（分条）
-        let cellIdx7String = setDangerTable(let49DataPaperContent.DangerTable, {}, { 
+        let cellIdx7String = setDangerTable(newDangerTable, {}, { 
           page: '36', 
           key: 'cellIdx7',
           spellString: {
@@ -254,8 +255,8 @@ export default {
           cellIdx7 ? cellIdx7 : "XX"
         }月${cellIdx8 ? cellIdx8 : "XX"}日`;
         let let4Person = cellIdx9 ? cellIdx9 : 'XX'
-        let DangerTable = let49DataPaperContent.DangerTable ? 
-          setNewDanger(selectedPaper.let49Data, let49DataPaperContent.DangerTable)
+        let DangerTable = newDangerTable ? 
+          setNewDanger(selectedPaper.let49Data, newDangerTable, this.paperId)
           : {}
         let associationPaperId = Object.assign({}, this.setAssociationPaperId(let49DataPaperContent.associationPaperId), {
           paper49Id: selectedPaper.let49Data.paperId,

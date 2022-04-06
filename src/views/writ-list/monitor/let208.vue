@@ -328,8 +328,9 @@ export default {
       // phone：联系电话
       // 1.计算缴纳罚款：
       let totleFine = 0
+      let newDangerTable = this.corpData.caseType === "0" ? this.handleSelectedDangerList(let8DataPaperContent.DangerTable) : null
       if (this.corpData.caseType === '0') {
-        let dangerList = let8DataPaperContent.DangerTable.selectedDangerList || []
+        let dangerList = newDangerTable.selectedDangerList || []
         if (dangerList.length > 0) {
           dangerList.map(danger => {
             if (danger.penaltyDescFine) {
@@ -340,7 +341,7 @@ export default {
       }
       let cellIdx16String = `缴纳罚款${transformNumToChinese(totleFine)}`
       let DangerTable = this.corpData.caseType === '0' ? 
-        setNewDanger(selectedPaper.let8Data, let8DataPaperContent.DangerTable)
+        setNewDanger(selectedPaper.let8Data, newDangerTable, this.paperId)
         : null
       let associationPaperId = Object.assign({}, this.setAssociationPaperId(let8DataPaperContent.associationPaperId), {
         paper8Id: selectedPaper.let8Data.paperId,

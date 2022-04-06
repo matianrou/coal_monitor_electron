@@ -417,10 +417,11 @@ export default {
       let let6DataPaperContent = JSON.parse(
         selectedPaper.let6Data.paperContent
       );
+      let newDangerTable = this.corpData.caseType === "0" ? this.handleSelectedDangerList(let6DataPaperContent.DangerTable) : null
       let cellIdx7String =
         this.corpData.caseType === "0"
           ? setDangerTable(
-              let6DataPaperContent.DangerTable,
+              newDangerTable,
               {},
               {
                 page: "28",
@@ -435,7 +436,7 @@ export default {
       // 5.地点：sysOfficeInfo实体中depAddress字段+ deparFullname字段
       // 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
       let orgSysOfficeInfo = await getOrgData(this.$store.state.curCase.groupId)
-      let cellIdx12String = `${orgSysOfficeInfo.depAddress}${orgSysOfficeInfo.deparFullname}`;
+      let cellIdx12String = `${orgSysOfficeInfo.depAddress || ''}${orgSysOfficeInfo.deparFullname || ''}`;
       let cellIdx31String = orgSysOfficeInfo.depAddress;
       let cellIdx32String = orgSysOfficeInfo.depPost;
       let cellIdx34String = orgSysOfficeInfo.master;
@@ -444,7 +445,8 @@ export default {
         this.corpData.caseType === "0"
           ? setNewDanger(
               selectedPaper.let6Data,
-              let6DataPaperContent.DangerTable
+              newDangerTable,
+              this.paperId
             )
           : null;
       let associationPaperId = Object.assign({}, this.setAssociationPaperId(let6DataPaperContent.associationPaperId), {

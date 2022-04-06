@@ -238,10 +238,11 @@ export default {
       let paperNumber = await getDocNumber2(this.docData.docTypeNo, this.corpData.caseId)
       // 2.案由内容初始化：煤矿企业名称+涉嫌+违法违规行为+案
       // 获取笔录文书中的隐患数据
+      let newDangerTable = this.corpData.caseType === "0" ? this.handleSelectedDangerList(letDataPaperContent.DangerTable) : null
       let cellIdx3String =
         this.corpData.caseType === "0"
           ? setDangerTable(
-              letDataPaperContent.DangerTable,
+              newDangerTable,
               {},
               {
                 page: "49",
@@ -267,7 +268,7 @@ export default {
       let cellIdx5String =
         this.corpData.caseType === "0"
           ? setDangerTable(
-              letDataPaperContent.DangerTable,
+              newDangerTable,
               {},
               {
                 page: "49",
@@ -285,7 +286,7 @@ export default {
       let cellIdx6String =
         this.corpData.caseType === "0"
           ? setDangerTable(
-              letDataPaperContent.DangerTable,
+              newDangerTable,
               {},
               {
                 page: "49",
@@ -297,7 +298,7 @@ export default {
       let cellIdx7String =
         this.corpData.caseType === "0"
           ? setDangerTable(
-              letDataPaperContent.DangerTable,
+              newDangerTable,
               {},
               {
                 page: "49",
@@ -321,10 +322,11 @@ export default {
       });
       let DangerTable = null;
       if (this.corpData.caseType === "0") {
-        DangerTable = letDataPaperContent.DangerTable
+        DangerTable = newDangerTable
           ? setNewDanger(
               selectletData,
-              letDataPaperContent.DangerTable
+              newDangerTable, 
+              this.paperId
             )
           : {};
       }

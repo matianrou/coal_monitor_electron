@@ -5,7 +5,7 @@ import letMain from "@/views/make-law-writ/components/let-main.vue";
 import selectPaper from '@/components/select-paper'
 import { getNowDate, getNowTime } from '@/utils/date'
 import { randomString, sortbyAsc } from "@/utils/index";
-import { setAssociationPaperId, setAssociationPaperOrder } from '@/utils/setInitPaperData'
+import { setAssociationPaperId, setAssociationPaperOrder, handleSelectedDangerList } from '@/utils/setInitPaperData'
 
 export default {
   name: "AssociationSelectPaper",
@@ -55,6 +55,7 @@ export default {
       letDataOragin: null,
       setAssociationPaperId: setAssociationPaperId,
       setAssociationPaperOrder: setAssociationPaperOrder, 
+      handleSelectedDangerList: handleSelectedDangerList,
       associationList: [], // 文书必须关联列表,当前用于行政处罚告知书选择关联文书逻辑
       isRequired: true, // 选择文书时是否必选
     };

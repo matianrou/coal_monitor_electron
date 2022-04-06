@@ -509,6 +509,7 @@ export default {
                   await this.downloadFunction[`docSave`](resId, totalSaveData)
                 }
               }).catch(err => {
+                isSuccess = false
                 console.log('个人账号文书资源下载失败，请尝试重新下载！', err)
                 this.$message.error('个人账号文书资源下载失败，请尝试重新下载！')
               })

@@ -171,7 +171,8 @@ export default {
         })
         let paper1PaperContent = JSON.parse(paper1.paperContent)
         // 违法违规行为
-        let cellIdx5String = setDangerTable(let4DataPaperContent.DangerTable, {}, {
+        let newDangerTable = this.handleSelectedDangerList(let4DataPaperContent.DangerTable)
+        let cellIdx5String = setDangerTable(newDangerTable, {}, {
             page: "14",
             key: "cellIdx5",
           }
@@ -202,17 +203,17 @@ export default {
         let string6 = `    六、立案调查及审理情况：${p4DateString}，经${this.$store.state.curCase.groupName || 'XX局'}负责人批准，决定对该涉嫌违法行为进行立案调查，并指定由${let4DataPaperContent.cellIdx9 || 'XXX、XXX'}两名执法人员承办。案件承办人对${paper5CheckName || 'XXX、XXX……'}进行调查取证，制作了调查取证笔录，收集了该矿违法违规行为的其他证据材料。\r\n`;
         // 获取案件处理呈报书的违法事实及处理依据
         // 规定
-        let cellIdx6String = setDangerTable(let4DataPaperContent.DangerTable, {}, {
+        let cellIdx6String = setDangerTable(newDangerTable, {}, {
             page: "14",
             key: "cellIdx6",
           }
         ); 
-        let cellIdx7String = setDangerTable(let4DataPaperContent.DangerTable, {}, {
+        let cellIdx7String = setDangerTable(newDangerTable, {}, {
             page: "14",
             key: "cellIdx7",
           }
         );
-        let cellIdx8String = setDangerTable(let4DataPaperContent.DangerTable, {}, {
+        let cellIdx8String = setDangerTable(newDangerTable, {}, {
             page: "14",
             key: "cellIdx8",
           }
@@ -277,7 +278,7 @@ export default {
         let string8 = `    八、结案理由：${corp.corpName}及其负责人XXX已执行对其作出的行政处罚决定，承办人员申请结案。`;
         let cellIdx10String =
           string1 + string2 + string3 + string4 + string5 + string6 + string7 + string8;
-        let DangerTable = setNewDanger(selectedPaper.let4Data, let4DataPaperContent.DangerTable)
+        let DangerTable = setNewDanger(selectedPaper.let4Data, newDangerTable, this.paperId)
         let associationPaperId = Object.assign({}, this.setAssociationPaperId(let4DataPaperContent.associationPaperId), {
           paper4Id: selectedPaper.let4Data.paperId
         }) 

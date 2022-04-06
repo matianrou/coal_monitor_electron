@@ -269,10 +269,12 @@ export default {
       let orgSysOfficeInfo = await getOrgData(this.$store.state.curCase.groupId)
       let DangerTable = null;
       if (this.corpData.caseType === "0") {
-        DangerTable = let8DataPaperContent.DangerTable
+        let newDangerTable = this.handleSelectedDangerList(let8DataPaperContent.DangerTable)
+        DangerTable = newDangerTable
           ? setNewDanger(
               selectedPaper.let8Data,
-              let8DataPaperContent.DangerTable
+              newDangerTable, 
+              this.paperId
             )
           : {};
       }

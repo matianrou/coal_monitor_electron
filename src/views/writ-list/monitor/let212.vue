@@ -271,7 +271,7 @@ export default {
         p8PaperList.map(item => {
           let paperContent = JSON.parse(item.paperContent)
           let {cellIdx0, cellIdx1, cellIdx2, cellIdx3, selectedType} = paperContent
-          item.paperNo = `${cellIdx0}煤安监${cellIdx1}罚〔${cellIdx2}〕${cellIdx3}号`
+          item.paperNo = `${cellIdx0 || ''}煤安监${cellIdx1 || ''}罚〔${cellIdx2 || ''}〕${cellIdx3 || ''}号`
           item.punishType = selectedType === '单位' ? '0' : '1'
           item.punishTypeName = selectedType
           // 整理罚款金额
