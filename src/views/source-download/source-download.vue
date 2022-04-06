@@ -1,228 +1,244 @@
 <!-- tab: 资源下载 -->
 <template>
-  <div>
-    <table
-      style="width:98%;border-collapse:collapse;margin:6px auto;background:#093A83;border-radius:10px;"
-    >
-      <tr>
-        <td colspan="4">
-          <img src="@/components/assets/image/resTitle.png" style="width:109px;height:42px;" />
-        </td>
-        <td colspan="1" style="text-align: center;">
-          <el-button type="primary" size="small" @click="downloadAll">全部下载</el-button>
-        </td>
-      </tr>
-      <tr style="height:36px;background:#DCECFB;color:#333;">
-        <td style="width:3%;">&nbsp;</td>
-        <th style="width:30%;text-align:left;">资源名称</th>
-        <th style="width:25%;text-align:center;">更新时间</th>
-        <th style="width:350px;text-align:center;">下载日期范围</th>
-        <th style="text-align:center;">操作</th>
-      </tr>
-      <tbody v-if="updateTime">
-        <tr style="height:36px;background-color:#F9FDFF;">
-          <td colspan="5" style="padding-left:10px;color:#666;font-weight:bold;">
-            <img
-              src="@/components/assets/image/letTitle.png"
-              style="width:32px;height:32px;vertical-align:middle"
-            />基础信息资源
-          </td>
-        </tr>
-        <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
-          <td style="text-align:center;">&nbsp;</td>
-          <td>机构资源</td>
-          <td style="text-align:center;">{{updateTime.org}}</td>
-          <td></td>
-          <td style="text-align:center;" id="cell-org-down">
-            <el-button
-              type="text"
-              :loading="loading.download"
-              id="btn-org-down"
-              @click="resDownload('org')"
-            >下载</el-button>
-          </td>
-        </tr>
-        <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
-          <td style="text-align:center;">&nbsp;</td>
-          <td>用户资源</td>
-          <td style="text-align:center;">{{updateTime.person}}</td>
-          <td></td>
-          <td style="text-align:center;" id="cell-person-down">
-            <el-button
-              type="text"
-              :loading="loading.download"
-              id="btn-person-down"
-              @click="resDownload('person')"
-            >下载</el-button>
-          </td>
-        </tr>
-        <!--
-            <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
-                <td style="text-align:center;">&nbsp;</td>
-                <td>字典资源</td>
-                <td>2020/10/02 18:20:36</td>
-                <td style="text-align:center;" id="cell-other-down"><a href="javascript:resDownload('other')" style="color:#0091FF">下载</a></td>
-            </tr>
-        -->
-        <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
-          <td style="text-align:center;">&nbsp;</td>
-          <td>其它资源（{{userType === 'supervision' ? '监管' : '监察'}}计划及数据码表）</td>
-          <td style="text-align:center;">{{updateTime.plan}}</td>
-          <td></td>
-          <td style="text-align:center;" id="cell-plan-down">
-            <el-button
-              type="text"
-              :loading="loading.download"
-              id="btn-plan-down"
-              @click="resDownload('plan')"
-            >下载</el-button>
-          </td>
-        </tr>
-        <tr style="height:36px;background-color:#F9FDFF;border-top:1px solid #DCECFB;">
-          <td colspan="5" style="padding-left:10px;color:#666;font-weight:bold;">
-            <img
-              src="@/components/assets/image/letTitle.png"
-              style="width:32px;height:32px;vertical-align:middle"
-            />企业信息资源
-          </td>
-        </tr>
-        <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
-          <td style="text-align:center;">&nbsp;</td>
-          <td>煤矿/企业信息</td>
-          <td style="text-align:center;">{{updateTime.corp}}</td>
-          <td></td>
-          <td style="text-align:center;" id="cell-corp-down">
-            <el-button
-              type="text"
-              :loading="loading.download"
-              id="btn-corp-down"
-              @click="resDownload('corp')"
-            >下载</el-button>
-          </td>
-        </tr>
-        <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
-          <td style="text-align:center;">&nbsp;</td>
-          <td>行政区域</td>
-          <td style="text-align:center;">{{updateTime.enterpriseList}}</td>
-          <td></td>
-          <td style="text-align:center;" id="cell-enterpriseList-down">
-            <el-button
-              type="text"
-              :loading="loading.download"
-              id="btn-enterpriseList-down"
-              @click="resDownload('enterpriseList')"
-            >下载</el-button>
-          </td>
-        </tr>
-        <tr style="height:36px;background-color:#F9FDFF;border-top:1px solid #DCECFB;">
-          <td colspan="5" style="padding-left:10px;color:#666;font-weight:bold;">
-            <img
-              src="@/components/assets/image/letTitle.png"
-              style="width:32px;height:32px;vertical-align:middle"
-            />隐患信息资源
-          </td>
-        </tr>
-        <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
-          <td style="text-align:center;">&nbsp;</td>
-          <td>检查项类别</td>
-          <td style="text-align:center;">{{updateTime.checkCate}}</td>
-          <td></td>
-          <td style="text-align:center;" id="cell-checkCate-down">
-            <el-button
-              type="text"
-              :loading="loading.download"
-              id="btn-checkCate-down"
-              @click="resDownload('checkCate')"
-            >下载</el-button>
-          </td>
-        </tr>
-        <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
-          <td style="text-align:center;">&nbsp;</td>
-          <td>检查项内容</td>
-          <td style="text-align:center;">{{updateTime.checkList}}</td>
-          <td></td>
-          <td style="text-align:center;" id="cell-checkList-down">
-            <el-button
-              type="text"
-              :loading="loading.download"
-              id="btn-checkList-down"
-              @click="resDownload('checkList')"
-            >下载</el-button>
-          </td>
-        </tr>
-        <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
-          <td style="text-align:center;">&nbsp;</td>
-          <td>隐患项类别</td>
-          <td style="text-align:center;">{{updateTime.dangerCate}}</td>
-          <td></td>
-          <td style="text-align:center;" id="cell-dangerCate-down">
-            <el-button
-              type="text"
-              :loading="loading.download"
-              id="btn-dangerCate-down"
-              @click="resDownload('dangerCate')"
-            >下载</el-button>
-          </td>
-        </tr>
-        <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
-          <td style="text-align:center;">&nbsp;</td>
-          <td>隐患项内容</td>
-          <td style="text-align:center;">{{updateTime.dangerList}}</td>
-          <td></td>
-          <td style="text-align:center;" id="cell-dangerList-down">
-            <el-button
-              type="text"
-              :loading="loading.download"
-              id="btn-dangerList-down"
-              @click="resDownload('dangerList')"
-            >下载</el-button>
-          </td>
-        </tr>
-        <tr style="height:36px;background-color:#F9FDFF;border-top:1px solid #DCECFB;">
-          <td colspan="5" style="padding-left:10px;color:#666;font-weight:bold;">
-            <img
-              src="@/components/assets/image/letTitle.png"
-              style="width:32px;height:32px;vertical-align:middle"
-            />执法文书资源
-          </td>
-        </tr>
-        <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
-          <td style="text-align:center;">&nbsp;</td>
-          <td>个人账号文书资源</td>
-          <td style="text-align:center;">{{updateTime.doc}}</td>
-          <td style="text-align:center;">
-            <el-date-picker
-              v-model="dataForm.docDownDaterange"
-              type="daterange"
-              format="yyyy-MM-dd"
-              value-format="yyyy-MM-dd"
-              range-separator="至"
-              start-placeholder="起始日期"
-              end-placeholder="截止日期"
-              :unlink-panels="true"
-              style="margin-left: 10px;"
-              size="small"
-            ></el-date-picker>
-          </td>
-          <td style="text-align:center;" id="cell-doc-down">
-            <el-button
-              type="text"
-              :loading="loading.download"
-              id="btn-doc-down"
-              @click="resDownload('doc')"
-            >下载</el-button>
-          </td>
-        </tr>
-        <!--
-            <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
-                <td style="text-align:center;">&nbsp;</td>
-                <td>所在单位全部文书资源</td>
-                <td>2020/10/02 18:20:36</td>
-                <td style="text-align:center;"><a href="javascript:resDownload('')" style="color:#0091FF">下载</a></td>
-            </tr>
-        -->
-      </tbody>
-    </table>
+  <div class="source-download">
+    <div class="source-download-title">
+      <div>
+        <img src="@/components/assets/image/resTitle.png" />
+      </div>
+      <div>
+        <el-button type="primary" size="small" @click="downloadAll">全部下载</el-button>
+      </div>
+    </div>
+    <div class="source-download-title-center">
+      <div class="source-name">
+        资源名称
+      </div>
+      <div class="source-update-time">
+        更新时间
+      </div>
+      <div class="source-date-range">
+        下载日期范围
+      </div>
+      <div class="source-operation">
+        操作
+      </div>
+    </div>
+    <div class="source-download-classify">
+      <img
+        src="@/components/assets/image/letTitle.png"
+        style="width:32px;height:32px;vertical-align:middle"
+      />基础信息资源
+    </div>
+    <div class="source-download-row">
+      <div class="source-name">
+        机构资源
+      </div>
+      <div class="source-update-time">
+        {{updateTime.org}}
+      </div>
+      <div class="source-date-range">
+      </div>
+      <div class="source-operation" id="cell-org-down">
+        <el-button
+          type="text"
+          :loading="loading.download"
+          id="btn-org-down"
+          @click="resDownload('org')"
+        >下载</el-button>
+      </div>
+    </div>
+    <div class="source-download-row">
+      <div class="source-name">
+        用户资源
+      </div>
+      <div class="source-update-time">
+        {{updateTime.person}}
+      </div>
+      <div class="source-date-range">
+      </div>
+      <div class="source-operation" id="cell-person-down">
+        <el-button
+          type="text"
+          :loading="loading.download"
+          id="btn-person-down"
+          @click="resDownload('person')"
+        >下载</el-button>
+      </div>
+    </div>
+    <div class="source-download-row">
+      <div class="source-name">
+        其它资源（{{userType === 'supervision' ? '监管' : '监察'}}计划及数据码表）
+      </div>
+      <div class="source-update-time">
+        {{updateTime.plan}}
+      </div>
+      <div class="source-date-range">
+      </div>
+      <div class="source-operation" id="cell-plan-down">
+        <el-button
+          type="text"
+          :loading="loading.download"
+          id="btn-plan-down"
+          @click="resDownload('plan')"
+        >下载</el-button>
+      </div>
+    </div>
+    <div class="source-download-classify">
+      <img
+        src="@/components/assets/image/letTitle.png"
+        style="width:32px;height:32px;vertical-align:middle"
+      />企业信息资源
+    </div>
+    <div class="source-download-row">
+      <div class="source-name">
+        煤矿/企业信息
+      </div>
+      <div class="source-update-time">
+        {{updateTime.corp}}
+      </div>
+      <div class="source-date-range">
+      </div>
+      <div class="source-operation" id="cell-corp-down">
+        <el-button
+          type="text"
+          :loading="loading.download"
+          id="btn-corp-down"
+          @click="resDownload('corp')"
+        >下载</el-button>
+      </div>
+    </div>
+    <div class="source-download-row">
+      <div class="source-name">
+        行政区域
+      </div>
+      <div class="source-update-time">
+        {{updateTime.enterpriseList}}
+      </div>
+      <div class="source-date-range">
+      </div>
+      <div class="source-operation" id="cell-enterpriseList-down">
+        <el-button
+          type="text"
+          :loading="loading.download"
+          id="btn-enterpriseList-down"
+          @click="resDownload('enterpriseList')"
+        >下载</el-button>
+      </div>
+    </div>
+    <div class="source-download-classify">
+      <img
+        src="@/components/assets/image/letTitle.png"
+        style="width:32px;height:32px;vertical-align:middle"
+      />隐患信息资源
+    </div>
+    <div class="source-download-row">
+      <div class="source-name">
+        检查项类别
+      </div>
+      <div class="source-update-time">
+        {{updateTime.checkCate}}
+      </div>
+      <div class="source-date-range">
+      </div>
+      <div class="source-operation" id="cell-checkCate-down">
+        <el-button
+          type="text"
+          :loading="loading.download"
+          id="btn-checkCate-down"
+          @click="resDownload('checkCate')"
+        >下载</el-button>
+      </div>
+    </div>
+    <div class="source-download-row">
+      <div class="source-name">
+        检查项内容
+      </div>
+      <div class="source-update-time">
+        {{updateTime.checkList}}
+      </div>
+      <div class="source-date-range">
+      </div>
+      <div class="source-operation" id="cell-checkList-down">
+        <el-button
+          type="text"
+          :loading="loading.download"
+          id="btn-checkList-down"
+          @click="resDownload('checkList')"
+        >下载</el-button>
+      </div>
+    </div>
+    <div class="source-download-row">
+      <div class="source-name">
+        隐患项类别
+      </div>
+      <div class="source-update-time">
+        {{updateTime.dangerCate}}
+      </div>
+      <div class="source-date-range">
+      </div>
+      <div class="source-operation" id="cell-dangerCate-down">
+        <el-button
+          type="text"
+          :loading="loading.download"
+          id="btn-dangerCate-down"
+          @click="resDownload('dangerCate')"
+        >下载</el-button>
+      </div>
+    </div>
+    <div class="source-download-row">
+      <div class="source-name">
+        隐患项内容
+      </div>
+      <div class="source-update-time">
+        {{updateTime.dangerList}}
+      </div>
+      <div class="source-date-range">
+      </div>
+      <div class="source-operation" id="cell-dangerList-down">
+        <el-button
+          type="text"
+          :loading="loading.download"
+          id="btn-dangerList-down"
+          @click="resDownload('dangerList')"
+        >下载</el-button>
+      </div>
+    </div>
+    <div class="source-download-classify">
+      <img
+        src="@/components/assets/image/letTitle.png"
+        style="width:32px;height:32px;vertical-align:middle"
+      />执法文书资源
+    </div>
+    <div class="source-download-row">
+      <div class="source-name">
+        个人账号文书资源
+      </div>
+      <div class="source-update-time">
+        {{updateTime.doc}}
+      </div>
+      <div class="source-date-range">
+        <el-date-picker
+          v-model="dataForm.docDownDaterange"
+          type="daterange"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd"
+          range-separator="至"
+          start-placeholder="起始日期"
+          end-placeholder="截止日期"
+          :unlink-panels="true"
+          style="margin-left: 10px;"
+          size="small"
+        ></el-date-picker>
+      </div>
+      <div class="source-operation" id="cell-doc-down">
+        <el-button
+          type="text"
+          :loading="loading.download"
+          id="btn-doc-down"
+          @click="resDownload('doc')"
+        >下载</el-button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -985,4 +1001,71 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.source-download {
+  height: calc(100vh - 120px);
+  width: calc(100% - 30px);
+  margin: 15px auto 0;
+  border-radius: 7px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  .source-download-title {
+    height: 45px;
+    display: flex;
+    align-items: center;
+    background: #093A83;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    justify-content: space-between;
+    padding: 0 10px;
+  }
+  .source-download-title-center {
+    background: #DCECFB;
+    color: #333;
+    display: flex;
+    height: 30px;
+    font-weight: bold;
+    align-items: center;
+    padding-left: 20px;
+    text-align: center;
+  }
+  .source-name {
+    flex: 1;
+    text-align: left;
+  }
+  .source-update-time {
+    width: 280px;
+  }
+  .source-date-range {
+    width: 350px;
+  }
+  .source-operation {
+    width: 150px;
+  }
+  .source-download-classify {
+    background-color:#F9FDFF;
+    padding-left: 10px;
+    color: #666;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+  }
+  .source-download-row {
+    background-color: #fff;
+    color: #666;
+    border-top: 1px solid #DCECFB;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    text-align: center;
+  }
+
+  .source-download-table {
+    width: 98%;
+    border-collapse: collapse;
+    background:#093A83;
+    border-radius: 10px;
+    // height: 1120px;
+  }
+}
 </style>

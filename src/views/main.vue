@@ -81,6 +81,8 @@ export default {
   .main-page {
     height: 100vh;
     width: 100vw;
+    min-height: 500px;
+    min-width: 910px;
     display: flex;
     flex-direction: column;
     .main-header {

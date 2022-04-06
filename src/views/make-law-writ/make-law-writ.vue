@@ -440,8 +440,9 @@ export default {
 <style lang="scss" scoped>
 .make-law-writ {
   display: flex;
-  height: 100%;
-  width: 100%;
+  height: calc(100vh - 120px);
+  width: calc(100vw - 30px);
+  margin: 15px auto 0px;
   align-items: center;
   .make-law-writ-show {
     height: calc(100vh - 102px);
