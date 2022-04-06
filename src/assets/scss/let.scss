@@ -1,0 +1,400 @@
+@page {
+  margin: 92.5px 0px 87.5px 0px;
+}
+@page rotated {
+  size: A4 landscape;
+  page-break-after: avoid;
+  page-break-before: avoid;
+}
+.checkTable {
+  // width: 29.7cm;
+  margin: 0 auto;
+  // page: rotated;
+}
+@media print {
+  div[class=page-break-line] {
+      display: none;
+  }
+  .no-print {
+    visibility:hidden;
+  }
+  .cellNoPrint {
+      text-indent: -9999px;
+  }
+  .cellDateNoPrint span {
+      display:inline-block;
+      width:35px;
+      visibility:hidden;
+  }
+  #foot {
+      display: block;
+      border-top: solid 1px #111;
+  }
+}
+html, body {
+  margin: 0 auto;
+  width: 21cm;
+  padding: 0;
+  background-color: #e0e0e0;
+  overflow-y: auto;
+  counter-reset: page;
+}
+div,table,p{margin:0;padding:0;}
+table tr{margin:0;padding:0;}
+table td{margin:0;padding:0;}
+.page {
+  position: relative;
+  display: block;
+  background: white;
+  /*page-break-after: always;*/
+  width: 21cm;
+  /*height: 29.7cm;*/
+  margin: 0 auto;
+  // padding-bottom: 50px;
+  min-height:calc(100vh - 106px);
+  font-family: 仿宋;
+  font-size: 16px;
+}
+#foot {
+  position: fixed;
+  bottom: 0;
+  width: 21cm;
+  height: 10px;
+  z-index: 99999;
+}
+.page-sizeA4 {
+  width: 21cm;
+}
+// page[size="A4"][layout="portrait"] {
+//   width: 29.7cm;
+//   height: 21cm;
+// }
+.page-sizeA3 {
+  width: 29.7cm;
+  height: 42cm;
+}
+// page[size="A3"][layout="portrait"] {
+//   width: 42cm;
+//   height: 29.7cm;
+// }
+
+.page-sizeA5 {
+  width: 14.8cm;
+  height: 21cm;
+}
+// page[size="A5"][layout="portrait"] {
+//   width: 21cm;
+//   height: 14.8cm;
+// }
+.formHeader0 {
+  margin: 0 auto;
+  width: 15.6cm;
+  font-size: 29.3px;
+  font-family: 华文中宋,SimSun;
+  font-weight: bold;
+  height: 1.5cm;
+  line-height: 1.5cm;
+  border-bottom: 1px solid #000;
+}
+.formHeader1 {
+  margin: 0 auto 30px;
+  width: 15.6cm;
+  font-size: 29.3px;
+  font-family: 黑体;
+  font-weight: bold;
+  height: 1.5cm;
+  line-height: 1.5cm;
+  border-top: solid 1px #000;
+  margin-top: 1px;
+}
+.formHeader2 {
+  margin: 0 auto;
+  width: 15.6cm;
+  margin-top: 2px;
+  font-size: 29.3px;
+  font-family: 隶书;
+  font-weight: bold;
+  height: 1.0cm;
+  line-height: 1.0cm;
+}
+.formHeader3 {
+  margin: 0 auto 20px;
+  width: 15.6cm;
+  font-size: 29.3px;
+  font-family: 黑体;
+  font-weight: bold;
+  height: 1.5cm;
+  line-height: 1.5cm;
+  border-bottom: solid 2px #000;
+}
+.formHeader4 {
+  margin: 0 auto 20px;
+  width: 15.6cm;
+  font-size: 29.3px;
+  font-family: 黑体;
+  font-weight: bold;
+  height: 1.5cm;
+  line-height: 1.5cm;
+}
+.formHeader5 {
+  margin: 0 auto 20px;
+  width: 15.6cm;
+  font-size: 18px;
+  font-family: 宋体;
+  font-weight: bold;
+  border-bottom: solid 2px #000;
+  display: flex;
+}
+.docTop {
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+.docTop td {
+  height: 1cm;
+  line-height: 1cm;
+}
+.docBody {
+  width: 15.6cm;
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+.docBody td {
+  height: 1cm;
+  line-height: 1cm;
+  display: inline-block;
+}
+.docBody.mutiLine td{
+  line-height:0.7cm !important;
+}
+.docTextLine {
+  width: 15.6cm;
+  margin: 0 auto;
+  line-height: 1cm;
+  display: flex;
+  font-family: 仿宋;
+  font-size: 16px;
+  .line-div {
+    flex: 1;
+    border-bottom: solid 1px #000;
+    height: 0.69cm;
+    cursor: pointer;
+    word-break: break-all;
+    word-wrap: break-word;
+  }
+  .no-line-div {
+    flex: 1;
+    cursor: pointer;
+  }
+  .center {
+    text-align: center;
+  }
+}
+.paper-number-div {
+  justify-content: flex-end;
+  span {
+    // border-bottom: solid 1px #000;
+    word-break: break-all;
+    cursor: pointer;
+  }
+  .line {
+    border-bottom: solid 1px #000;
+  }
+}
+.docTextarea {
+  width: 15.6cm;
+  margin: 0 auto;
+  line-height: 1cm;
+  display: flow-root;
+  position: relative;
+  font-family: 仿宋;
+  font-size: 16px;
+  label {
+    display: inline-block;
+  }
+  span {
+    border-bottom: solid 1px #000;
+    word-break: break-all;
+    cursor: pointer;
+  }
+  .line {
+    border-top: 1px solid ;
+    height: 0px;
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+  }
+  .line1 {
+    border-top: 1px solid ;
+    height: 0px;
+    position: absolute;
+    bottom: 47px;
+    width: 100%;
+  }
+  .no-line {
+    position: relative;
+    border-bottom: none;
+    height: 28px;
+    bottom: 0;
+    z-index: 99;
+    display: inline-block;
+    background-color: #fff;
+    cursor: text;
+  }
+  .no-underline {
+    border-bottom: 0px;
+  }
+  .text-decoration {
+    text-decoration: 1px solid;
+  }
+}
+.docHeader{
+  width: 15.6cm;
+  left: 1cm;
+  height: 1cm;
+  line-height: 1cm;
+  padding-left:16px;
+  margin: 0 auto;
+  border-bottom: solid 1px #000;
+}
+.docFooter{
+  position: absolute;
+  bottom: 0;
+  width: 15.6cm;
+  left: 1cm;
+  height: 1cm;
+  line-height: 1cm;
+  border-top: solid 2px #000;
+}
+.docFooter span.pageIdx::before {
+  content: counter(page);
+}
+.oneLine {
+  width: 100%;
+  word-break: keep-all; /* 不换行 */
+  white-space: nowrap; /* 不换行 */
+  overflow: hidden; /* 内容超出宽度时隐藏超出部分的内容 */
+  text-overflow: ellipsis; /* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+}
+.mutiLineArea {
+  width: 15.6cm;
+  margin: 0 auto;
+  position: relative;
+}
+.mutiLineArea p {
+  width: 100%;
+  border-bottom: 1px solid #000;
+  // height: 9.6mm;
+  line-height: 2.25rem;
+  white-space: pre-wrap;
+  // text-indent: 2em;
+}
+.mutiLineArea span{
+  width: 100%;
+  height: 2.25rem;
+  line-height: 2.25rem;
+}
+.page-break-line {
+  margin: 0 auto;
+  height: 10px;
+  /*border-top: dashed 1px #c0c0c0;
+  border-bottom: dashed 1px #c0c0c0;*/
+}
+.stdRowH {
+  height: 1cm;
+  line-height: 1cm;
+}
+.halfRowH {
+  height: 0.5cm;
+  line-height: 0.5cm;
+}
+.cellInput {
+  cursor: pointer;
+  outline: none;
+}
+.cellInput:focus {
+  /*border-bottom:solid 2px gold;*/
+  background-color:yellow;
+}
+.textAlignCenter {
+  text-align: center;
+}
+.textAlignLeft {
+  text-align: left;
+}
+.textAlignRight {
+  text-align: right;
+}
+.textVerticalTop {
+  vertical-align: top;
+}
+.textPaddingLeft {
+  padding-left:0px;
+}
+.textPaddingRight {
+  padding-right: 6px;
+}
+.cellTopLine {
+  border-top: solid 1px #000;
+}
+.cellBottomLine {
+  border-bottom: solid 1px #000;
+}
+.cellRightLine {
+  border-right: solid 1px #000;
+}
+.cellLeftLine {
+  border-right: solid 1px #000;
+}
+.cellBorderRed {
+  border: solid 1px red;
+}
+/*修改滚动条样式*/
+/*
+div::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+div::-webkit-scrollbar-track {
+  background: rgb(239, 239, 239);
+  border-radius: 2px;
+}
+
+div::-webkit-scrollbar-thumb {
+  background: #bfbfbf;
+  border-radius: 10px;
+}
+
+div::-webkit-scrollbar-thumb:hover {
+  background: #669DF8;
+}
+
+div::-webkit-scrollbar-corner {
+  background: #179a16;
+}*/
+
+.show-danger-content {
+  // border-bottom: solid 1px #000;
+  padding-bottom: 5px;
+  line-height: 30px;
+  text-indent: 2em;
+}
+.show-area-item-content {
+  word-wrap: break-word;
+  word-break: break-all;
+  overflow: hidden;
+}
+.show-area-item-p {
+  width: 100%;
+  height: auto;
+  word-wrap: break-word;
+  overflow: hidden;
+  // text-indent: 2em;
+}
+.border-solid {
+  border: solid 0px #000;
+}
+.cellLine {
+  border-top: 1px solid #000;
+  width: 100%;
+  position: absolute;
+}
