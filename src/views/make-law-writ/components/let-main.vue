@@ -1295,22 +1295,36 @@ export default {
       let paperContentOld = JSON.parse(itemPaper.paperContent)
       // 更新隐患
       // 整理当前更新文书需要更新的隐患newDangerTable
-      // 对比更新tableData所有数据
-      let tableData = []
-      for (let i = 0; i < paperContentOld.DangerTable.tableData.length; i++) {
-        for (let j = 0; j < this.curDangerTable.tableData.length; j++) {
-          if (paperContentOld.DangerTable.tableData[i].dangerParentId.includes(this.curDangerTable.tableData[j].dangerId)) {
-            tableData.push(this.curDangerTable.tableData[j])
+      // 对比更新已选择的selectedDangerList所有数据
+      // 1.现场处理决定时带入所有已选隐患
+      // 2.其他文书排除无行政处罚依据或决定的隐患
+      let selectedDangerList = []
+      if (itemPaper.paperType === '2') {
+        for (let i = 0; i < this.curDangerTable.selectedDangerList.length; i++) {
+          let item = this.curDangerTable.selectedDangerList[i]
+          selectedDangerList.push(item)
+        }
+      } else {
+        for (let i = 0; i < this.curDangerTable.selectedDangerList.length; i++) {
+          let item = this.curDangerTable.selectedDangerList[i]
+          if (item.penaltyDesc && item.penaltyBasis) {
+            selectedDangerList.push(item)
           }
         }
       }
-      // 对比更新已选择的selectedDangerList所有数据
-      let selectedDangerList = []
-      for (let i = 0; i < paperContentOld.DangerTable.selectedDangerList.length; i++) {
-        for (let j = 0; j < this.curDangerTable.selectedDangerList.length; j++) {
-          if (paperContentOld.DangerTable.selectedDangerList[i].dangerParentId.includes(this.curDangerTable.selectedDangerList[j].dangerId)) {
-            selectedDangerList.push(this.curDangerTable.selectedDangerList[j])
-          }
+      // 对比更新tableData所有数据：
+      // 1.现场处理决定和立案时带入所有隐患
+      // 2.其他文书排除无行政处罚依据或决定的隐患以及未选中的隐患（即当前选中的所有文书）
+      let tableData = []
+      if (itemPaper.paperType === '2' || itemPaper.paperType === '4') {
+        for (let i = 0; i < this.curDangerTable.tableData.length; i++) {
+          let item = this.curDangerTable.tableData[i]
+          tableData.push(item)
+        }
+      } else {
+        for (let i = 0; i < selectedDangerList.length; i++) {
+          let item = selectedDangerList[i]
+          tableData.push(item)
         }
       }
       let newDangerTable = Object.assign({}, this.curDangerTable, {tableData, selectedDangerList})

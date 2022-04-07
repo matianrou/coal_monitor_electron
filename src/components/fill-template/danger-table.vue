@@ -937,12 +937,7 @@ export default {
     },
     deleteDangerList () {
       if (this.dataForm.tempValue.selectedDangerList && this.dataForm.tempValue.selectedDangerList.length > 0) {
-        let delMsg = '第'
-        this.dataForm.tempValue.selectedDangerList.map((item, index) => {
-          delMsg += (index + 1) + '，'
-        })
-        delMsg = delMsg.substring(0, delMsg.length - 1) + '条'
-        this.$confirm(`是否确定删除隐患项：${delMsg}？`, '提示', {
+        this.$confirm(`是否确定删除所有已选隐患项？`, '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             dangerouslyUseHTMLString: true,
