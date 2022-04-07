@@ -22,7 +22,7 @@ export async function saveToUpload (paperId, messageShow, caseId) {
   let caseNo = null, caseType = null, corpId = null
   let meikuangType = null, meikuangPlanfrom = null, planId = null
   let checkReason = null, checkStatus = null, planBeginDate = null
-  let planEndDate = null, createTime = null, pcMonth = null
+  let planEndDate = null, createTime = null, pcMonth = null, delFlag = null
   let corpName = null, caseClassify = null, riskAssessment = null, riskAssessmentContent = null
   let workCase = {}
   if (workPaper.caseId) {
@@ -36,7 +36,7 @@ export async function saveToUpload (paperId, messageShow, caseId) {
       checkReason, checkStatus, planBeginDate,
       planEndDate, pcMonth, 
       caseClassify, riskAssessment, riskAssessmentContent,
-      createTime
+      createTime, delFlag
     }
   }
   let wkDangerList = []
@@ -136,7 +136,7 @@ export async function saveToUpload (paperId, messageShow, caseId) {
         id: null,
         isNewRecord: null,
         remarks: null,
-        delFlag: workPaper.delFlag,
+        delFlag: workCaseObj.delFlag,
         createDate: null, // 22.4.1 后台接口不需要，如果传时间可能会导致时间+8小时
         updateDate: null, // 22.4.1 后台接口不需要，如果传时间可能会导致时间+8小时
         createBy: {

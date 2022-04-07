@@ -495,6 +495,17 @@ export default {
       }
     },
     async savePaperFunction (saveFlag, isBack) {
+      // 修改本地检查活动数据：仅修改delFlag，如果文书归档时则更新，如果仅保存则不修改
+      if (saveFlag === '0') {
+        let caseId = this.corpData && this.corpData.caseId ? this.corpData.caseId : null
+        if (caseId) {
+          let wkCase = await this.getDatabase("wkCase")
+          let caseData = wkCase.find(item => item.caseId === caseId && item.delFlag !== '1')
+          caseData.delFlag = saveFlag
+          await this.updateDatabase('wkCase', [caseData], 'caseId')
+        }
+      }
+      // 修改本地文书数据
       let paperId = this.$parent.paperId
       let createDate = this.paperData && this.paperData.createDate
         ? this.paperData.createDate

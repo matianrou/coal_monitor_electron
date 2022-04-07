@@ -394,6 +394,10 @@ export default {
         this.$message.error('当前为离线状态，请联网后再归档！')
         return
       }
+      if (this.selectedPaperList.length === 0) {
+        this.$message.error('当前未选择需要归档的文书，请先选择文书！')
+        return
+      }
       this.loading.btn = true
       await this.$confirm(`是否确认归档所有已选中的文书?`, '提示', {
           confirmButtonText: '确定',

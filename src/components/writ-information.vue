@@ -325,7 +325,7 @@ export default {
         caseSn: `${userNumber}${numString}`, // 文书编号后五位：用户userNumber+自增三位数字
         caseType: this.dataForm.caseType,
         remoteId: "",
-        delFlag: "0",
+        delFlag: '2',
         affiliate: this.dataForm.affiliateId ? this.dataForm.affiliateId : this.selectPlanData.selGovUnit, // 归档机构
         createDate: sDate,
         createTime: sDate,

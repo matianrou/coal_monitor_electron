@@ -163,17 +163,15 @@ export default {
       // }
       this.coalOptions = caimei;
       let juejin  = []
-      juejin = JSON.parse(JSON.stringify(zfJserve.filter((item) => item.corpId === this.corpData.corpId && item.delFlag !== '1')))
-      // for (let i = 0; i < juejin.length; i++) {
-      //   juejin[i].select = false
-      // }
+      juejin = JSON.parse(JSON.stringify(zfJserve.filter((item) => {
+        return item.corpId === this.corpData.corpId && item.delFlag !== '1'
+      })))
       // 国产化电脑会有重复，暂时未知原因，增加去重逻辑试试
-	    let obj = {}
-      juejin = juejin.reduce((cur, next) => {
-        obj[next.id] ? "" : obj[next.id] = true && cur.push(next);
-        return cur
-      }, [])
-      console.log('juejin', juejin)
+	    // let obj = {}
+      // juejin = juejin.reduce((cur, next) => {
+      //   obj[next.id] ? "" : obj[next.id] = true && cur.push(next);
+      //   return cur
+      // }, [])
       this.tunnellingOptions = juejin;
     },
     addUnder () {
