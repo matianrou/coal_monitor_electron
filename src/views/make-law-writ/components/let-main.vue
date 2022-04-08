@@ -1298,10 +1298,10 @@ export default {
       // 对比更新已选择的selectedDangerList所有数据
       let selectedDangerList = []
       if (this.docData.docTypeNo === '1' || this.docData.docTypeNo === '2') {
-        // 根据当前保存的文书如果为现场检查笔录1或现场处理决定书2时：
+        // 根据当前保存的文书如果为现场检查笔录1或现场处理决定书2或复查意见书13时：
         // 1.现场处理决定时带入所有已选隐患
         // 2.其他文书排除无行政处罚依据或决定的隐患
-        if (itemPaper.paperType === '2') {
+        if (itemPaper.paperType === '2' || itemPaper.paperType === '13') {
           for (let i = 0; i < this.curDangerTable.selectedDangerList.length; i++) {
             let item = this.curDangerTable.selectedDangerList[i]
             selectedDangerList.push(item)
@@ -1326,7 +1326,7 @@ export default {
       // 1.现场处理决定和立案时带入所有隐患
       // 2.其他文书排除无行政处罚依据或决定的隐患以及未选中的隐患（即当前选中的所有文书）
       let tableData = []
-      if (itemPaper.paperType === '2' || itemPaper.paperType === '4') {
+      if (itemPaper.paperType === '2' || itemPaper.paperType === '13' || itemPaper.paperType === '4') {
         for (let i = 0; i < this.curDangerTable.tableData.length; i++) {
           let item = this.curDangerTable.tableData[i]
           tableData.push(item)
