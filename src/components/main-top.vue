@@ -13,7 +13,7 @@
       </div>
       <div class="main-top-nav">
         <!-- 页签 -->
-        <div class="main-top-tab">
+        <div class="main-top-tab no-drag">
           <div
             class="navTd no-drag"
             :style="activeTab === 'SourceDownload' ? 'background: #224f7d;' : ''"

@@ -104,6 +104,7 @@ export default {
   methods: {
     async downloadFile (data) {
       // 下载文件
+      console.log('data', data)
       this.fileSaver.saveAs(data.url, data.fileName)
     },
     async allDownLoad () {
