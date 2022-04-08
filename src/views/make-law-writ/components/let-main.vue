@@ -1296,20 +1296,30 @@ export default {
       // 更新隐患
       // 整理当前更新文书需要更新的隐患newDangerTable
       // 对比更新已选择的selectedDangerList所有数据
-      // 1.现场处理决定时带入所有已选隐患
-      // 2.其他文书排除无行政处罚依据或决定的隐患
       let selectedDangerList = []
-      if (itemPaper.paperType === '2') {
+      if (this.docData.docTypeNo === '1' || this.docData.docTypeNo === '2') {
+        // 根据当前保存的文书如果为现场检查笔录1或现场处理决定书2时：
+        // 1.现场处理决定时带入所有已选隐患
+        // 2.其他文书排除无行政处罚依据或决定的隐患
+        if (itemPaper.paperType === '2') {
+          for (let i = 0; i < this.curDangerTable.selectedDangerList.length; i++) {
+            let item = this.curDangerTable.selectedDangerList[i]
+            selectedDangerList.push(item)
+          }
+        } else {
+          for (let i = 0; i < this.curDangerTable.selectedDangerList.length; i++) {
+            let item = this.curDangerTable.selectedDangerList[i]
+            if (item.penaltyDesc && item.penaltyBasis) {
+              selectedDangerList.push(item)
+            }
+          }
+        }
+      } else {
+        // 根据当前保存的文书如果为立案决定书或之后的文书时：
+        // 将所有已选择隐患全部带入以后文书（不判断行政处罚依据或处罚是否为空）
         for (let i = 0; i < this.curDangerTable.selectedDangerList.length; i++) {
           let item = this.curDangerTable.selectedDangerList[i]
           selectedDangerList.push(item)
-        }
-      } else {
-        for (let i = 0; i < this.curDangerTable.selectedDangerList.length; i++) {
-          let item = this.curDangerTable.selectedDangerList[i]
-          if (item.penaltyDesc && item.penaltyBasis) {
-            selectedDangerList.push(item)
-          }
         }
       }
       // 对比更新tableData所有数据：

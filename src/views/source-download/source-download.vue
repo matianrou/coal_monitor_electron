@@ -1017,7 +1017,7 @@ export default {
     border-top-left-radius: 7px;
     border-top-right-radius: 7px;
     justify-content: space-between;
-    padding: 0 10px;
+    padding: 0 30px 0 10px;
   }
   .source-download-title-center {
     background: #DCECFB;
@@ -1041,9 +1041,12 @@ export default {
   }
   .source-operation {
     width: 150px;
+    height: 40px;
+    line-height: 40px;
   }
   .source-download-classify {
-    background-color:#F9FDFF;
+    border-top: 1px solid #DCECFB;
+    background-color:#F2F6FC;
     padding-left: 10px;
     color: #666;
     font-weight: bold;
@@ -1059,7 +1062,6 @@ export default {
     padding-left: 20px;
     text-align: center;
   }
-
   .source-download-table {
     width: 98%;
     border-collapse: collapse;
