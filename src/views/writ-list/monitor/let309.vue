@@ -310,7 +310,7 @@ export default {
       let cellIdx14String = selectedPaper.let8Data.p8Penalty ? moneyChinese : ''
       let DangerTable = null;
       if (this.corpData.caseType === "0") {
-        let newDangerTable = this.handleSelectedDangerList(let1DataPaperContent.DangerTable)
+        let newDangerTable = this.handleSelectedDangerList(let8DataPaperContent.DangerTable)
         DangerTable = newDangerTable
           ? setNewDanger(
               selectedPaper.let8Data,
