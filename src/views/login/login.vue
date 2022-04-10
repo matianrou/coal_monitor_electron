@@ -7,35 +7,47 @@
         </div>
         <div class="login-form-main">
           <div>
-            <div style="height: 30px;"></div>
             <div class="form-title">
-              <span>用户登录</span>
+              <div class="form-bar"></div>
+              <span>欢迎登录</span>
             </div>
           </div>
-          <div v-loading="loading.loginBtn" element-loading-text="正在登录，请稍后..." style="width: 300px; margin: 0 auto;">
+          <div v-loading="loading.loginBtn" element-loading-text="正在登录，请稍后...">
             <div style="height: 30px;"></div>
             <div class="form-content">
               <div class="form-content-item">
-                <span class="item-label">用户名</span>
-                <el-input v-model="dataForm.txtUserNo"></el-input>
+                <div>
+                  <img src="./assets/user.png" />
+                </div>
+                <div>
+                  <el-input v-model="dataForm.txtUserNo" placeholder="用户名"></el-input>
+                </div>
               </div>
               <div class="form-content-item">
-                <span class="item-label">密码</span>
-                <el-input v-model="dataForm.txtPassword" type="password"></el-input>
+                <div>
+                  <img src="./assets/password.png" />
+                </div>
+                <div>
+                  <el-input v-model="dataForm.txtPassword" type="password" placeholder="请输入密码"></el-input>
+                </div>
               </div>
             </div>
             <div class="form-foot">
               <el-checkbox v-model="recordAccount">记住登录账号</el-checkbox>
               <el-checkbox v-model="offLine">离线使用</el-checkbox>
             </div>
-            <div class="login-btn">
-              <img
+            <div class="login-btn" @click="doLogin">
+              <!-- <img
                 src="@/views/login/assets/login-btn-enter.jpg"
                 @click="doLogin"
                 style="border:0;cursor:pointer;"
-              />
+              /> -->
+              <span>登录</span>
             </div>
           </div>
+        </div>
+        <div class="bg-icon">
+          <img src="@/views/login/assets/bg_icon.png" />
         </div>
       </div>
     </div>
@@ -68,7 +80,7 @@ export default {
     }
   },
   created() {
-    this.init()
+    // this.init()
   },
   methods: {
     init () {
@@ -430,44 +442,52 @@ export default {
 
 <style lang="scss" scoped>
 .login-main {
-  background: url('~@/assets/img/login_bg.png') no-repeat;
-  background-position: center center;
+  background: #fff url('~@/assets/img/login_bg.png') no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
   width: 1200px;
   height: 720px;
   margin: 0 auto;
   position: relative;
   .close-icon {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 25px;
+    right: 25px;
   }
   .login-form-main {
-    height: 495px;
-    width: 419px;
+    width: 300px;
     position: absolute;
-    top: 89px;
-    right: 82px;
+    top: 33%;
+    left: 17%;
     .form-title {
-      height: 60px;
       display: flex;
       align-items: center;
-      background: rgb(102, 177, 255);
-      justify-content: center;
-      letter-spacing: 0.5rem;
+      letter-spacing: 0.1rem;
+      line-height: 42px;
       span {
-        font-size: 25px;
+        font-family: Source Han Sans CN-Medium;
+        font-size: 20px;
         font-weight: 500;
-        color: #fff;
+        color: #407EE0;
+      }
+      .form-bar {
+        width: 4px;
+        height: 19px;
+        background: #407EE0;
+        border-radius: 6px 6px 6px 6px;
+        margin-right: 10px;
       }
     }
     .form-content {
       .form-content-item {
-        height: 65px;
-        width: 300px;
+        height: 42px;
         position: relative;
-        border: 1px solid #EBEEF5;
-        margin-bottom: 20px;
+        border: 1px solid #DBDBDB;
+        border-radius: 4px 4px 4px 4px;
+        margin-bottom: 30px;
         display: flex;
+        align-items: center;
+        padding: 0 20px;
         .item-label {
           position: absolute;
           top: -11px;
@@ -485,18 +505,43 @@ export default {
         /deep/ .el-input__inner {
           background: #fff;
           border: none;
-          border-bottom: 1px solid #DCDFE6;
-          width: 210px;
-          margin-bottom: 10px;
+          width: calc(300px - 40px - 20px);
         }
       }
     }
     .form-foot {
-      margin-bottom: 30px;
+      margin-bottom: 42px;
+      text-align: left;
       /deep/ .el-checkbox__label {
         font-size: 16px;
       }
     }
+  }
+  .login-btn {
+    width: 100%;
+    height: 42px;
+    background: #0175FE;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0px 1px 5px 0px #0175FE;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    letter-spacing: 0.1rem;
+    &:hover {
+      box-shadow: 0px 2px 7px 2px #0175FE;
+    }
+    span {
+      font-size: 16px;
+      font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+      font-weight: 400;
+      color: #fff;
+    }
+  }
+  .bg-icon {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
   }
 }
 
