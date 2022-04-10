@@ -49,6 +49,10 @@
         <div class="bg-icon">
           <img src="@/views/login/assets/bg_icon.png" />
         </div>
+        <div class="system-name">
+          <img src="@/components/assets/image/coal-logo-mini.png" />
+          <span>国家煤矿安全执法系统</span>
+        </div>
       </div>
     </div>
   </div>
@@ -80,7 +84,7 @@ export default {
     }
   },
   created() {
-    // this.init()
+    this.init()
   },
   methods: {
     init () {
@@ -415,27 +419,72 @@ export default {
       let docUpdateTime = updateTime ? updateTime.doc : null
       if (docUpdateTime && docUpdateTime !== '未下载') {
         // 获取文书资源
-        let userId = this.$store.state.user.userId;
-        let userSessId = this.$store.state.user.userSessId;
+        // 修改为分页下载
+        let {userId, userSessId} = this.$store.state.user
         let path = this.$store.state.user.userType === 'supervision' ? '/sv' : ''
-        let url = `${path}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&updateTime=${docUpdateTime}&pageNo=1&pageSize=5000`
+        let url = `${path}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&updateTime=${docUpdateTime}&pageNo=1&pageSize=20&isAll=1`
         await this.$http
           .get(`${url}`)
           .then(async (response) => {
             if (response.data.data) {
               let saveData = response.data.data
-              await this.updateDatabase('wkCase', saveData.jczfCase, 'caseId')
-              await this.updatePaperDatabase(null, saveData.paper, 'paperId')
-              await this.updateDatabase('wkDanger', saveData.danger, 'dangerId')
-              // 修改更新日期
-              await this.handleUpdateTime()
+              if (saveData.totalCount > 0) {
+                let requestCount = Math.ceil(saveData.totalCount / 20)
+                let promises = []
+                for (let i = 2; i <= requestCount; i++) {
+                  let promise = this.getDocData(i, path, userId, userSessId, docUpdateTime)
+                  promises.push(promise)
+                }
+                let isSuccess = true // 是否所有请求都成功
+                await Promise.all(promises).then(async (res) => {
+                  let totalSaveData = { // 全部下载数据汇总结果，放入已经下载的第一页数据
+                    jczfCase: saveData.jczfCase,
+                    paper: saveData.paper,
+                    danger: saveData.danger,
+                  } 
+                  for (let i = 0; i < res.length; i++) {
+                    let item = res[i]
+                    if (item.data.status === '200') {
+                      totalSaveData.jczfCase = [...totalSaveData.jczfCase, ...item.data.data.jczfCase || []]
+                      totalSaveData.paper = [...totalSaveData.paper, ...item.data.data.paper || []]
+                      totalSaveData.danger = [...totalSaveData.danger, ...item.data.data.danger || []]
+                    } else {
+                      isSuccess = false
+                    }
+                    if (!isSuccess) {
+                      break
+                    }
+                  }
+                  if (isSuccess) {
+                    await this.updateDatabase('wkCase', totalSaveData.jczfCase, 'caseId')
+                    await this.updatePaperDatabase(null, totalSaveData.paper, 'paperId')
+                    await this.updateDatabase('wkDanger', totalSaveData.danger, 'dangerId')
+                    // 修改更新日期
+                    await this.handleUpdateTime()
+                  }
+                }).catch(err => {
+                  isSuccess = false
+                  console.log('个人账号文书资源下载失败，请尝试重新下载！', err)
+                })
+              } else {
+                await this.updateDatabase('wkCase', saveData.jczfCase, 'caseId')
+                await this.updatePaperDatabase(null, saveData.paper, 'paperId')
+                await this.updateDatabase('wkDanger', saveData.danger, 'dangerId')
+                // 修改更新日期
+                await this.handleUpdateTime()
+              }
             }
           })
           .catch((err) => {
             console.log("下载文书失败：", err);
           })
       }
-    }
+    },
+    getDocData (pageNo, path, userId, userSessId, docUpdateTime) {
+      // 分页获取检查活动、文书、隐患数据
+      let url = `${path}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&updateTime=${docUpdateTime}&pageNo=${pageNo}&pageSize=20&isAll=1`
+      return this.$http.get(url)
+    },
   },
 };
 </script>
@@ -542,6 +591,23 @@ export default {
     position: absolute;
     bottom: 0px;
     right: 0px;
+  }
+  .system-name {
+    position: absolute;
+    top: 20%;
+    right: 15%;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.1rem;
+    span {
+      font-size: 36px;
+      font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+      font-weight: 500;
+      color: #FFFFFF;
+    }
+    img {
+      margin-right: 12px;
+    }
   }
 }
 
