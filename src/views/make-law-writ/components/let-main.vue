@@ -427,7 +427,10 @@ export default {
             // 1.拉取本次检查活动中的所有文书
             // 2.比对文书中的关联paper1Id，如果相同则提取文书信息
             let wkPaper = await this.getPaperDatabase(this.paperData.caseId)
-            let updatePaperType = ['1', '2', '4', '6', '49', '36', '8']
+            // 行政执法决定法制审核意见书的文书号，因监察监管不同，所以设置为变量
+            let legalReviewNum = this.$store.state.user.userType === 'supervision' ? '47' : '49'
+            let updatePaperType = ['1', '2', '4', '6', legalReviewNum, '36', '8']
+            console.log('updatePaperType', updatePaperType)
             let curIndex = updatePaperType.indexOf(this.docData.docTypeNo)
             let updatePaper = {}
             // 遍历文书类型updatePaperType，逐个拉取需要更新的数据,只拉取状态为保存的文书
@@ -1433,6 +1436,76 @@ export default {
         paperContentOld.cellIdx7 = cellIdx7String
         paperContentOld.cellIdx8 = cellIdx8String
         paperContentOld.cellIdx10 = cellIdx10String
+      } else if (itemPaper.paperType === '49') {
+        // 监察：行政执法决定法制审核意见书时：修改cellIdx3，cellIdx5，cellIdx6，cellIdx7
+        let cellIdx3String = setDangerTable(newDangerTable, {}, {
+            page: "49",
+            key: "cellIdx3",
+            spellString: {
+              corpName: itemPaper.corpName,
+              groupName: this.$store.state.curCase.provinceGroupName,
+            },
+          }
+        );
+        let cellIdx5String = setDangerTable(newDangerTable, {}, {
+            page: "49",
+            key: "cellIdx5",
+            spellString: {
+              corpName: itemPaper.corpName,
+              dateString: paperContentOld.extraData.dateString,
+              groupName: this.$store.state.curCase.provinceGroupName,
+            },
+          }
+        );
+        let cellIdx6String = setDangerTable(newDangerTable, {}, {
+            page: "49",
+            key: "cellIdx6",
+          }
+        );
+        let cellIdx7String = setDangerTable(newDangerTable, {}, {
+            page: "49",
+            key: "cellIdx7",
+          }
+        );
+        paperContentOld.cellIdx3 = cellIdx3String
+        paperContentOld.cellIdx5 = cellIdx5String
+        paperContentOld.cellIdx6 = cellIdx6String
+        paperContentOld.cellIdx7 = cellIdx7String
+      } else if (itemPaper.paperType === '47') {
+        // 监管：行政执法决定法制审核意见书时：修改cellIdx3，cellIdx5，cellIdx6，cellIdx7
+        let cellIdx3String = setDangerTable(newDangerTable, {}, {
+            page: "47",
+            key: "cellIdx3",
+            spellString: {
+              corpName: itemPaper.corpName,
+              groupName: this.$store.state.curCase.provinceGroupName,
+            },
+          }
+        );
+        let cellIdx5String = setDangerTable(newDangerTable, {}, {
+            page: "47",
+            key: "cellIdx5",
+            spellString: {
+              corpName: itemPaper.corpName,
+              dateString: paperContentOld.extraData.dateString,
+              groupName: this.$store.state.curCase.provinceGroupName,
+            },
+          }
+        );
+        let cellIdx6String = setDangerTable(newDangerTable, {}, {
+            page: "47",
+            key: "cellIdx6",
+          }
+        );
+        let cellIdx7String = setDangerTable(newDangerTable, {}, {
+            page: "47",
+            key: "cellIdx7",
+          }
+        );
+        paperContentOld.cellIdx3 = cellIdx3String
+        paperContentOld.cellIdx5 = cellIdx5String
+        paperContentOld.cellIdx6 = cellIdx6String
+        paperContentOld.cellIdx7 = cellIdx7String
       } else if (itemPaper.paperType === '8') {
         // 行政处罚决定书时，修改
         let cellIdx7String = setDangerTable(newDangerTable, {}, {
