@@ -510,7 +510,7 @@ export default {
   watch: {
     'dangerItemDetail.onsiteType'(val) {
       // 监听现场处理类型
-      if (val === '4' || val === '5' || val === '7') {
+      if (val === '4' || val === '5' || val === '7' || val === '8' || val === '12') {
         // 展示采煤工作面和掘进工作面
         this.showOnsiteDesc = {
           deviceNum: false,
