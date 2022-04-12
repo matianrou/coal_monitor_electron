@@ -178,21 +178,21 @@
           </el-table>
         </div>
       </div>
-      <div v-if="updatePaper.paper49List && updatePaper.paper49List.length > 0">
+      <div v-if="updatePaper[`paper${legalReviewNum}List`] && updatePaper[`paper${legalReviewNum}List`].length > 0">
         <div class="paper-title">
           行政执法决定法制审核意见书
         </div>
         <div>
           <el-table
-            ref="paper49List"
-            :data="updatePaper.paper49List"
+            :ref="`paper${legalReviewNum}List`"
+            :data="updatePaper[`paper${legalReviewNum}List`]"
             style="width: 100%;"
             row-key="paperId"
             border
             stripe
             :default-sort = "{prop: 'createTime', order: 'descending'}"
             :header-cell-style="{background: '#f5f7fa'}"
-            @selection-change="val => handleSelectionChange(val, 'paper49List')">
+            @selection-change="val => handleSelectionChange(val, `paper${legalReviewNum}List`)">
             <el-table-column
               type="selection"
               width="60"
@@ -346,6 +346,12 @@ export default {
       }, // 选中的文书
     };
   },
+  computed: {
+    legalReviewNum () {
+      console.log('legalReviewNum', this.$store.state.user.userType === 'supervision' ? '47' : '49')
+      return this.$store.state.user.userType === 'supervision' ? '47' : '49'
+    }
+  },
   mounted() {
     this.init()
   },
@@ -370,6 +376,7 @@ export default {
       this.$emit("confirm", this.selectedRows);
     },
     handleSelectionChange(val, type) {
+      console.log('type', type)
       this.selectedRows[type] = val
     }
   },
