@@ -141,7 +141,7 @@ export default {
           await this.getData()
           this.loading = false
         }).catch((err) => {
-          console.log('err', err)
+          console.log('云同步失败：', err)
         })
     }
   },

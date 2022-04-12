@@ -1,117 +1,123 @@
 <template>
-  <div>
-    <div class="main-top-main">
-      <div v-if="!maxSrc" style="margin-left: 10px;">
-        <!-- 系统名称图 -->
-        <img v-if="userType === 'supervision'" src="@/components/assets/image/supervision-logo.png" draggable="false" />
-        <img v-else src="@/components/assets/image/coal-logo.png" draggable="false" />
+  <div class="main-top-main">
+    <!-- <div v-if="!maxSrc" style="margin-left: 10px;">
+      <img v-if="userType === 'supervision'" src="@/components/assets/image/supervision-logo.png" draggable="false" />
+      <img v-else src="@/components/assets/image/coal-logo.png" draggable="false" />
+    </div>
+    <div v-else style="margin-left: 10px;">
+      <img v-if="userType === 'supervision'" src="@/components/assets/image/supervision-logo-mini.png" draggable="false" />
+      <img v-else src="@/components/assets/image/coal-logo-mini.png" draggable="false" />
+    </div> -->
+    <div>
+      <!-- 系统名称图 -->
+      <div v-if="!maxSrc" class="main-top-name" >
+        <img :src="require(userType === 'supervision' ? '@/components/assets/image/supervision-logo-mini.png' : '@/components/assets/image/coal-logo-mini.png')" draggable="false" />
+        <span>国家煤矿安全{{userType === 'supervision' ? '监管' : '监察'}}执法系统</span>
       </div>
-      <div v-else style="margin-left: 10px;">
-        <!-- 系统名称图 -->
-        <img v-if="userType === 'supervision'" src="@/components/assets/image/supervision-logo-mini.png" draggable="false" />
-        <img v-else src="@/components/assets/image/coal-logo-mini.png" draggable="false" />
+      <div v-else class="main-top-name" >
+        <img :src="require(userType === 'supervision' ? '@/components/assets/image/supervision-logo-mini.png' : '@/components/assets/image/coal-logo-mini.png')" draggable="false" />
       </div>
-      <div class="main-top-nav">
-        <!-- 页签 -->
-        <div class="main-top-tab no-drag">
-          <div
-            class="navTd no-drag"
-            :style="activeTab === 'SourceDownload' ? 'background: #224f7d;' : ''"
-            @click="changeTab('SourceDownload')">
-            <span>资源下载</span>
-          </div>
-          <div
-            class="navTd no-drag"
-            :style="activeTab === 'MakeLawWrit' ? 'background: #224f7d;' : ''"
-            @click="changeTab('MakeLawWrit')">
-            <span>执法工作台</span>
-          </div>
-          <div
-            class="navTd no-drag"
-            :style="activeTab === 'WritManagement' ? 'background: #224f7d;' : ''"
-            @click="changeTab('WritManagement')">
-            <span>文书管理</span>
-          </div>
-          <div
-            v-if="userType !== 'supervision'"
-            class="navTd no-drag"
-            :style="activeTab === 'WritCheck' ? 'background: #224f7d;' : ''"
-            @click="changeTab('WritCheck')">
-            <span>文书查看</span>
-          </div>
-          <div
-            v-if="userType !== 'supervision'"
-            class="navTd no-drag"
-            :style="activeTab === 'opinionSuggestion' ? 'background: #224f7d;' : ''"
-            @click="changeTab('opinionSuggestion')">
-            <span>意见建议书</span>
-          </div>
-          <div
-            v-if="userType !== 'supervision'"
-            class="navTd no-drag"
-            :style="activeTab === 'sendPaper' ? 'background: #224f7d;' : ''"
-            @click="changeTab('sendPaper')">
-            <span>调查互动</span>
-          </div>
-          <div
-            class="navTd no-drag"
-            :style="activeTab === 'learningMaterials' ? 'background: #224f7d;' : ''"
-            @click="changeTab('learningMaterials')">
-            <span>学习资料</span>
-          </div>
+    </div>
+    <div class="main-top-nav">
+      <!-- 页签 -->
+      <div class="main-top-tab no-drag">
+        <div
+          class="navTd no-drag"
+          :style="activeTab === 'SourceDownload' ? 'background: #224f7d;' : ''"
+          @click="changeTab('SourceDownload')">
+          <span>资源下载</span>
         </div>
-        <div class="main-top-operation no-drag" style="margin-left: 20px;">
+        <div
+          class="navTd no-drag"
+          :style="activeTab === 'MakeLawWrit' ? 'background: #224f7d;' : ''"
+          @click="changeTab('MakeLawWrit')">
+          <span>执法工作台</span>
+        </div>
+        <div
+          class="navTd no-drag"
+          :style="activeTab === 'WritManagement' ? 'background: #224f7d;' : ''"
+          @click="changeTab('WritManagement')">
+          <span>文书管理</span>
+        </div>
+        <div
+          v-if="userType !== 'supervision'"
+          class="navTd no-drag"
+          :style="activeTab === 'WritCheck' ? 'background: #224f7d;' : ''"
+          @click="changeTab('WritCheck')">
+          <span>文书查看</span>
+        </div>
+        <div
+          v-if="userType !== 'supervision'"
+          class="navTd no-drag"
+          :style="activeTab === 'opinionSuggestion' ? 'background: #224f7d;' : ''"
+          @click="changeTab('opinionSuggestion')">
+          <span>意见建议书</span>
+        </div>
+        <div
+          v-if="userType !== 'supervision'"
+          class="navTd no-drag"
+          :style="activeTab === 'sendPaper' ? 'background: #224f7d;' : ''"
+          @click="changeTab('sendPaper')">
+          <span>调查互动</span>
+        </div>
+        <div
+          class="navTd no-drag"
+          :style="activeTab === 'learningMaterials' ? 'background: #224f7d;' : ''"
+          @click="changeTab('learningMaterials')">
+          <span>学习资料</span>
+        </div>
+      </div>
+      <div class="main-top-operation no-drag" style="margin-left: 20px;">
+        <span class="el-dropdown-link">
+          <img src="@/components/assets/image/internet.png" class="btn-icon img-btn custom-icon" title="打开网络端" @click="openWeb" />
+        </span>
+        <span class="el-dropdown-link">
+          <img src="@/components/assets/image/send.png" class="btn-icon img-btn custom-icon" title="隐患发送" @click="sendDanger" />
+        </span>
+        <!-- 消息提醒 -->
+        <el-dropdown :hide-on-click="false" @command="handleCommand">
           <span class="el-dropdown-link">
-            <img src="@/components/assets/image/internet.png" class="btn-icon img-btn custom-icon" title="打开网络端" @click="openWeb" />
+            <img src="@/components/assets/image/msg.png" class="btn-icon img-btn custom-icon" title="消息通知"/>
           </span>
-          <span class="el-dropdown-link">
-            <img src="@/components/assets/image/send.png" class="btn-icon img-btn custom-icon" title="隐患发送" @click="sendDanger" />
-          </span>
-          <!-- 消息提醒 -->
-          <el-dropdown :hide-on-click="false" @command="handleCommand">
-            <span class="el-dropdown-link">
-              <img src="@/components/assets/image/msg.png" class="btn-icon img-btn custom-icon" title="消息通知"/>
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="checkList">您有{{notice.checkList.length || '0'}}条检查项任务待接收</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </div>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item command="checkList">您有{{notice.checkList.length || '0'}}条检查项任务待接收</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
       </div>
-      <div class="main-top-operation-right">
-        <div style="flex: 1;display: flex; align-items: flex-end;">
-          <!-- 操作 -->
-          <img src="@/components/assets/image/minus.png" class="btn-icon no-drag" id="minbt"  title="最小化" @click="handleWindow('window-min')" />&nbsp;
-          <img src="@/components/assets/image/maximize.png" v-show="maxSrc" class="btn-icon no-drag" title="最大化" id="maxbt" @click="handleWindow('window-max')" />&nbsp;
-          <img src="@/components/assets/image/minimize.png" v-show="!maxSrc" class="btn-icon no-drag" id="minbt" title="还原" @click="handleWindow('window-max')" />&nbsp;
-          <img src="@/components/assets/image/close.png" id="closebt" class="btn-icon no-drag" title="关闭" @click="handleWindow('window-quit')" />
-        </div>
-        <div class="no-drag" style="display: flex; flex: 1; align-items: center;">
-          <!-- 个人和更多 -->
-          <el-dropdown :hide-on-click="false" @command="handleCommand" style="min-width: 120px; cursor: pointer;">
-            <span class="el-dropdown-link info-wrap">
-              <span style="color: #fff;">欢迎您：{{$store.state.user.userName}}</span><i class="el-icon-caret-bottom" style="color: #f19716;"></i>
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>
-                <div 
-                  style="display: flex; align-items: center;"
-                  :title="netStatus ? '当前为在线状态，切换离线' : '当前为离线状态，切换在线'">
-                  切换网络
-                  <el-switch
-                    v-model="netStatus"
-                    style="margin-left: 3px;"
-                    active-color="#13ce66"
-                    inactive-color="#ff4949"
-                    @change="changeOnline">
-                  </el-switch>
-                </div>
-              </el-dropdown-item>
-              <el-dropdown-item command="clearLogin" divided>注销登录</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-          <span style="color: #fff;font-size: 12px;margin-left: 10px;">v{{version}}</span>
-        </div>
+    </div>
+    <div class="main-top-operation-right">
+      <div style="flex: 1;display: flex; align-items: flex-end;">
+        <!-- 操作 -->
+        <img src="@/components/assets/image/minus.png" class="btn-icon no-drag" id="minbt"  title="最小化" @click="handleWindow('window-min')" />&nbsp;
+        <img src="@/components/assets/image/maximize.png" v-show="maxSrc" class="btn-icon no-drag" title="最大化" id="maxbt" @click="handleWindow('window-max')" />&nbsp;
+        <img src="@/components/assets/image/minimize.png" v-show="!maxSrc" class="btn-icon no-drag" id="minbt" title="还原" @click="handleWindow('window-max')" />&nbsp;
+        <img src="@/components/assets/image/close.png" id="closebt" class="btn-icon no-drag" title="关闭" @click="handleWindow('window-quit')" />
+      </div>
+      <div class="no-drag" style="display: flex; flex: 1; align-items: center;">
+        <!-- 个人和更多 -->
+        <el-dropdown :hide-on-click="false" @command="handleCommand" style="min-width: 120px; cursor: pointer;">
+          <span class="el-dropdown-link info-wrap">
+            <span style="color: #fff;">欢迎您：{{$store.state.user.userName}}</span><i class="el-icon-caret-bottom" style="color: #f19716;"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>
+              <div 
+                style="display: flex; align-items: center;"
+                :title="netStatus ? '当前为在线状态，切换离线' : '当前为离线状态，切换在线'">
+                切换网络
+                <el-switch
+                  v-model="netStatus"
+                  style="margin-left: 3px;"
+                  active-color="#13ce66"
+                  inactive-color="#ff4949"
+                  @change="changeOnline">
+                </el-switch>
+              </div>
+            </el-dropdown-item>
+            <el-dropdown-item command="clearLogin" divided>注销登录</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+        <span style="color: #fff;font-size: 12px;margin-left: 10px;">v{{version}}</span>
       </div>
     </div>
     <send-danger
@@ -386,19 +392,36 @@ export default {
 
 <style lang="scss" scoped>
 .custom-icon {
-  width: 32px!important;
-  height: 32px!important;
-  margin-right: 14px!important;
+  width: 20px !important;
+  height: 20px !important;
+  margin-right: 12px !important;
 }
 .main-top-main {
   width: 100%;
   height: 80px;
-  background: url('~@/assets/img/top_bg.png');
-  background-position: center center;
+  background: #4282E6;
+  border-radius: 0px 0px 10px 10px;
+  // background: url('~@/assets/img/top_bg.png');
+  // background-position: center center;
   border-spacing: 0px;
   // padding: 0 20px;
   display: flex;
   -webkit-app-region: drag;
+  .main-top-name {
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.1rem;
+    img {
+      margin-right: 7px;
+    }
+    span {
+      font-size: 22px;
+      font-family: Source Han Sans CN-Bold, Source Han Sans CN;
+      font-weight: bold;
+      color: #FFFFFF;
+    }
+  }
   .main-top-nav {
     flex: 1;
     margin-left: 40px;
@@ -415,8 +438,10 @@ export default {
         align-items: center;
         justify-content: center;
         color: #fff;
-        font-size: 18px;
-        font-weight: 500;
+        font-size: 16px;
+        font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+        font-weight: 400;
+        letter-spacing: 0.1rem;
         cursor: pointer;
         &:hover {
           background: rgba(#224f7d, 0.6);

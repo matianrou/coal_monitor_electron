@@ -1002,13 +1002,13 @@ export default {
 
 <style lang="scss" scoped>
 .source-download {
-  height: calc(100vh - 120px);
   width: calc(100% - 30px);
   margin: 15px auto 0;
   border-radius: 7px;
-  overflow: auto;
+  // overflow: auto;
   display: flex;
   flex-direction: column;
+  border: 1px solid #DCDFE6;
   .source-download-title {
     height: 45px;
     display: flex;
@@ -1061,6 +1061,7 @@ export default {
     align-items: center;
     padding-left: 20px;
     text-align: center;
+    height: 43px;
   }
   .source-download-table {
     width: 98%;

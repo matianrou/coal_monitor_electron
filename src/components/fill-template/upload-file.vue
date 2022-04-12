@@ -297,7 +297,7 @@ export default {
         }
       }).catch((err) => {
         this.$message.error('文件下载失败，请重新下载！')
-        console.log('err', err)
+        console.log('文件下载失败', err)
       })
       this.loading.btn = false
     },

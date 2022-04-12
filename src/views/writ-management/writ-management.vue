@@ -26,16 +26,17 @@
               :corp-data="corpData"
             ></org-information>
           </div>
-          <div class="detail-paper-list">
+          <div class="detail-paper-list-main">
             <!-- 文书列表 -->
-            <div class="paper-list-title">
-              <img
-                src="@/components/assets/image/letTitle.png"
-                style="width:32px;height:32px;vertical-align:middle"
-              />执法文书
-            </div>
-            <div class="paper-list-operation">
-              <div style="flex: 2;">
+            <div class="detail-paper-list">
+              <div class="paper-list-title">
+                <img
+                  src="@/views/writ-flow/assets/image/writ-flow.png"
+                  style="margin-right: 10px;"
+                />
+                <span style="color: #4282E6;">执法文书</span>
+              </div>
+              <div class="paper-list-operation">
                 <el-form
                   :model="dataForm"
                   ref="dataForm"
@@ -59,97 +60,97 @@
                     </el-input>
                   </el-form-item>
                 </el-form>
+                <div style="flex: 1; text-align: right;">
+                  <el-button @click="resetForm">重置</el-button>
+                  <el-button type="primary" @click="getData">查询</el-button>
+                  <el-button type="primary" @click="batchFile">批量归档</el-button>
+                </div>
               </div>
-              <div style="flex: 1; text-align: right;">
-                <el-button @click="resetForm">重置</el-button>
-                <el-button type="primary" @click="getData">查询</el-button>
-                <el-button type="primary" @click="batchFile">批量归档</el-button>
+              <div class="paper-list-table">
+                <el-table
+                  :data="paperList"
+                  ref="table"
+                  v-loading="loading.list"
+                  style="width: 100%;"
+                  height="100%"
+                  stripe
+                  :header-cell-style="{background: '#f5f7fa'}"
+                  @selection-change="handleSelectionChange">
+                  <el-table-column
+                    type="selection"
+                    width="55">
+                  </el-table-column>
+                  <el-table-column
+                    header-align="center"
+                    align="center"
+                    width="80">
+                    <template slot-scope="scope">
+                      <span>{{ scope.$index + 1 }}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    prop="name"
+                    header-align="center"
+                    align="center"
+                    label="文书名称">
+                  </el-table-column>
+                  <el-table-column
+                    prop="personName"
+                    header-align="center"
+                    align="center"
+                    width="170"
+                    label="制作人">
+                  </el-table-column>
+                  <el-table-column
+                    prop="createTime"
+                    header-align="center"
+                    align="center"
+                    width="200"
+                    label="制作时间">
+                  </el-table-column>
+                  <el-table-column
+                    prop="fileTime"
+                    header-align="center"
+                    align="center"
+                    width="200"
+                    label="归档时间">
+                  </el-table-column>
+                  <el-table-column
+                    fixed="right"
+                    header-align="center"
+                    align="center"
+                    width="200"
+                    label="操作">
+                    <template slot-scope="scope">
+                      <div>
+                        <el-button
+                          :loading="loading.btn"
+                          type="text"
+                          size="small"
+                          @click="handleEdit(scope.row)">
+                          {{scope.row.delFlag === '0' ? '查看' : '编辑'}}
+                        </el-button>
+                        <el-button
+                          :loading="loading.btn"
+                          :disabled="scope.row.delFlag === '0'"
+                          type="text"
+                          size="small"
+                          @click="handleDelete(scope.row)">
+                          删除
+                        </el-button>
+                        <el-button
+                          :loading="loading.btn"
+                          :disabled="scope.row.delFlag === '0'"
+                          type="text"
+                          size="small"
+                          @click="handleFile(scope.row, 'file')">
+                          归档
+                        </el-button>
+                      </div>
+                    </template>
+                  </el-table-column>
+                </el-table>
               </div>
-            </div>
-            <div class="paper-list-table">
-              <el-table
-                :data="paperList"
-                ref="table"
-                v-loading="loading.list"
-                style="width: 100%;"
-                height="100%"
-                stripe
-                :header-cell-style="{background: '#f5f7fa'}"
-                @selection-change="handleSelectionChange">
-                <el-table-column
-                  type="selection"
-                  width="55">
-                </el-table-column>
-                <el-table-column
-                  header-align="center"
-                  align="center"
-                  width="80">
-                  <template slot-scope="scope">
-                    <span>{{ scope.$index + 1 }}</span>
-                  </template>
-                </el-table-column>
-                <el-table-column
-                  prop="name"
-                  header-align="center"
-                  align="center"
-                  label="文书名称">
-                </el-table-column>
-                <el-table-column
-                  prop="personName"
-                  header-align="center"
-                  align="center"
-                  width="170"
-                  label="制作人">
-                </el-table-column>
-                <el-table-column
-                  prop="createTime"
-                  header-align="center"
-                  align="center"
-                  width="200"
-                  label="制作时间">
-                </el-table-column>
-                <el-table-column
-                  prop="fileTime"
-                  header-align="center"
-                  align="center"
-                  width="200"
-                  label="归档时间">
-                </el-table-column>
-                <el-table-column
-                  fixed="right"
-                  header-align="center"
-                  align="center"
-                  width="200"
-                  label="操作">
-                  <template slot-scope="scope">
-                    <div>
-                      <el-button
-                        :loading="loading.btn"
-                        type="text"
-                        size="small"
-                        @click="handleEdit(scope.row)">
-                        {{scope.row.delFlag === '0' ? '查看' : '编辑'}}
-                      </el-button>
-                      <el-button
-                        :loading="loading.btn"
-                        :disabled="scope.row.delFlag === '0'"
-                        type="text"
-                        size="small"
-                        @click="handleDelete(scope.row)">
-                        删除
-                      </el-button>
-                      <el-button
-                        :loading="loading.btn"
-                        :disabled="scope.row.delFlag === '0'"
-                        type="text"
-                        size="small"
-                        @click="handleFile(scope.row, 'file')">
-                        归档
-                      </el-button>
-                    </div>
-                  </template>
-                </el-table-column>
-              </el-table>
             </div>
           </div>
         </div>
@@ -329,7 +330,7 @@ export default {
           this.getData()
           this.loading.btn = false
         }).catch((err) => {
-          console.log('err', err)
+          console.log('删除文书失败：', err)
           this.loading.btn = false
         })
     },
@@ -435,63 +436,70 @@ export default {
   align-items: center;
   .writ-management-show {
     height: calc(100vh - 102px);
-    width: calc(100vw - 20px);
+    width: calc(100vw - 30px);
     display: flex;
     margin: auto;
     .writ-management-show-select {
-      width: 330px;
-      background-color: #ffffff;
-      border-radius: 10px;
+      flex: 1;
+      min-width: 300px;
+      max-width: 400px;
       height: 100%;
     }
     .writ-management-show-detail {
-      flex: 1;
+      flex: 4;
       height: 100%;
       overflow-y: auto;
       overflow-x: hidden;
       .detail-main {
         display: flex;
         flex-direction: column;
-        margin-left: 10px;
+        margin-left: 20px;
         height: 100%;
-        overflow: auto;
+        overflow: hidden;
         .detail-org-information {
           height: 180px;
-          min-width: 1100px;
+          overflow: auto;
         }
-        .etail-org-information {
-          height: 180px;
-        }
-        .detail-paper-list {
-          margin-top: 20px;
+        .detail-paper-list-main {
           flex: 1;
-          border-radius: 10px;
-          background: #fff;
           overflow: auto;
           display: flex;
-          flex-direction: column;
-          min-width: 1100px;
-          .paper-list-title {
-            width: 100%;
-            height: 40px;
-            line-height: 40px;
-            text-indent: 30px;
-            color: #fff;
-            font-size: 18px;
-            margin: 0px;
-            background: #4f83e9;
-          }
-          .paper-list-operation {
-            height: 50px;
+          margin-top: 20px;
+          border-radius: 10px;
+          background: #fff;
+          box-shadow: 0px 2px 20px 1px rgba(66, 130, 230, 0.09000000357627869);
+          border-radius: 10px 10px 10px 10px;
+          .detail-paper-list {
+            flex: 1;
             display: flex;
-            align-items: center;
-            padding: 0 20px;
-          }
-          .paper-list-table {
-            height: calc(100% - 100px);
-          }
-          /deep/ .el-form-item {
-            margin: 0px;
+            flex-direction: column;
+            min-width: 1100px;
+            .paper-list-title {
+              height: 40px;
+              line-height: 40px;
+              font-size: 18px;
+              margin: 0px;
+              border-top-left-radius: 10px;
+              border-top-right-radius: 10px;
+              display: flex;
+              padding: 10px 20px 5px;
+              align-items: center;
+              border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            }
+            .paper-list-operation {
+              margin: 5px 0px;
+              height: 50px;
+              display: flex;
+              align-items: center;
+              padding: 0 20px;
+            }
+            .paper-list-table {
+              height: calc(100% - 100px);
+              padding: 0 10px;
+            }
+            /deep/ .el-form-item {
+              margin: 0px;
+            }
           }
         }
       }

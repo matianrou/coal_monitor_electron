@@ -1,59 +1,55 @@
 <template>
-  <div>
-    <div style="text-align:center;">
-      <div class="login-main">
-        <div class="close-icon">
-          <img src="@/views/login/assets/btnPower.png" style="cursor: pointer;" @click="closeWin" />
-        </div>
-        <div class="login-form-main">
-          <div>
-            <div class="form-title">
-              <div class="form-bar"></div>
-              <span>欢迎登录</span>
-            </div>
-          </div>
-          <div v-loading="loading.loginBtn" element-loading-text="正在登录，请稍后...">
-            <div style="height: 30px;"></div>
-            <div class="form-content">
-              <div class="form-content-item">
-                <div>
-                  <img src="./assets/user.png" />
-                </div>
-                <div>
-                  <el-input v-model="dataForm.txtUserNo" placeholder="用户名"></el-input>
-                </div>
-              </div>
-              <div class="form-content-item">
-                <div>
-                  <img src="./assets/password.png" />
-                </div>
-                <div>
-                  <el-input v-model="dataForm.txtPassword" type="password" placeholder="请输入密码"></el-input>
-                </div>
-              </div>
-            </div>
-            <div class="form-foot">
-              <el-checkbox v-model="recordAccount">记住登录账号</el-checkbox>
-              <el-checkbox v-model="offLine">离线使用</el-checkbox>
-            </div>
-            <div class="login-btn" @click="doLogin">
-              <!-- <img
-                src="@/views/login/assets/login-btn-enter.jpg"
-                @click="doLogin"
-                style="border:0;cursor:pointer;"
-              /> -->
-              <span>登录</span>
-            </div>
-          </div>
-        </div>
-        <div class="bg-icon">
-          <img src="@/views/login/assets/bg_icon.png" />
-        </div>
-        <div class="system-name">
-          <img src="@/components/assets/image/coal-logo-mini.png" />
-          <span>国家煤矿安全执法系统</span>
+  <div class="login-main">
+    <div class="close-icon">
+      <img src="@/views/login/assets/btnPower.png" style="cursor: pointer;" @click="closeWin" />
+    </div>
+    <div class="login-form-main">
+      <div>
+        <div class="form-title">
+          <div class="form-bar"></div>
+          <span>欢迎登录</span>
         </div>
       </div>
+      <div v-loading="loading.loginBtn" element-loading-text="正在登录，请稍后...">
+        <div style="height: 30px;"></div>
+        <div class="form-content">
+          <div class="form-content-item">
+            <div>
+              <img src="./assets/user.png" />
+            </div>
+            <div>
+              <el-input v-model="dataForm.txtUserNo" placeholder="用户名"></el-input>
+            </div>
+          </div>
+          <div class="form-content-item">
+            <div>
+              <img src="./assets/password.png" />
+            </div>
+            <div>
+              <el-input v-model="dataForm.txtPassword" type="password" placeholder="请输入密码"></el-input>
+            </div>
+          </div>
+        </div>
+        <div class="form-foot">
+          <el-checkbox v-model="recordAccount">记住登录账号</el-checkbox>
+          <el-checkbox v-model="offLine">离线使用</el-checkbox>
+        </div>
+        <div class="login-btn" @click="doLogin">
+          <!-- <img
+            src="@/views/login/assets/login-btn-enter.jpg"
+            @click="doLogin"
+            style="border:0;cursor:pointer;"
+          /> -->
+          <span>登录</span>
+        </div>
+      </div>
+    </div>
+    <div class="bg-icon">
+      <img src="@/views/login/assets/bg_icon.png" />
+    </div>
+    <div class="system-name">
+      <img src="@/components/assets/image/coal-logo-mini.png" />
+      <span>国家煤矿安全执法系统</span>
     </div>
   </div>
 </template>
@@ -500,7 +496,7 @@ export default {
   position: relative;
   .close-icon {
     position: absolute;
-    top: 25px;
+    top: 16px;
     right: 25px;
   }
   .login-form-main {
@@ -590,12 +586,12 @@ export default {
   .bg-icon {
     position: absolute;
     bottom: 0px;
-    right: 0px;
+    right: 4%;
   }
   .system-name {
     position: absolute;
-    top: 20%;
-    right: 15%;
+    top: 15%;
+    right: 16%;
     display: flex;
     align-items: center;
     letter-spacing: 0.1rem;

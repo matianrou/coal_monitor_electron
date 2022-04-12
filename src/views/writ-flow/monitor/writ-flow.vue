@@ -3,9 +3,10 @@
   <div class="writ-flow-main">
     <div class="enterprisedata-title">
       <img
-        src="@/components/assets/image/letTitle.png"
-        style="width: 32px"
-      />执法检查
+        src="@/views/writ-flow/assets/image/writ-flow.png"
+        style="margin-right: 10px;"
+      />
+      <span style="color: #4282E6;">执法检查</span>
       <div class="selected-paper">
         <el-select 
           v-model="createdSelectedPaper"
@@ -24,7 +25,7 @@
       </div>
     </div>
     <div>
-      <el-tabs v-model="activeFlowTab" type="card">
+      <el-tabs v-model="activeFlowTab">
         <el-tab-pane 
           v-for="(item) in tabList"
           :key="item.id"
@@ -32,83 +33,89 @@
           <div style="padding-left: 16px; padding-right: 16px; overflow: auto;">
             <div 
               v-for="first in showColList"
-              :key="first.id"
-              style="padding-top: 15px; position: relative;">
+              :key="first.id">
               <div 
                 v-if="first.name !== '报告上传' || showJczfReport"
                 class="writ-flow-card">
-                <span class="writ-flow-card-title">{{first.name}}</span>
-                <div
-                  v-for="(second, secondIndex) in first.children"
-                  :key="second.id"
-                  class="writ-flow-row-main"
-                  :style="secondIndex !== (first.children.length - 1) ? 'margin-bottom: 20px;' : ''">
-                  <div class="writ-flow-row">
-                    <span class="arrows">{{secondIndex === 0 ? '➤' : '→'}}</span>
-                    <div
-                      v-for="(third, thirdIndex) in second.list"
-                      :key="third.id"
-                      class="writ-flow-td">
-                      <div :class="flowStatus[`paper${third.docTypeNo}`] ? 'writ-flow-spantd-ex writ-flow-td' : 'writ-flow-spantd writ-flow-td'">
-                        <!-- 文书接收 -->
-                        <img
-                          v-if="third.docTypeNo === '5' && unreceivedStatus.unreceived5"
-                          src="@/views/writ-flow/assets/image/paper-send-icon.png"
-                          title="有未接收的文书，请点击接收"
-                          style="top: 42px; left: 8px; cursor: pointer;"
-                          @click="receivePaper(third.docTypeNo)"
-                        />
-                        <!-- 存档标记 -->
-                        <img
-                          v-if="flowStatus[`paper${third.docTypeNo}`]"
-                          :src="flowStatus[`paper${third.docTypeNo}`] === 'save' ? '' : require('../assets/image/file.png')"
-                          :title="flowStatus[`paper${third.docTypeNo}`] === 'save' ? '已保存' : '已归档'"
-                          alt="" />
-                        <!-- 事故时行政处罚决定书展示的处罚详情查看 -->
-                        <i
-                          v-if="corpData.caseType === '1' && third.docTypeNo === '8' && paperCount.count8 > 0"
-                          class="el-icon-warning-outline danger-info-icon"
-                          @click="showAccidentDangerInfo(third.docTypeNo)"
-                        ></i>
-                        <!-- 隐患数量展示及详情查看 -->
-                        <i
-                          v-if="dangerStatus[`danger${third.docTypeNo}`] && dangerStatus[`danger${third.docTypeNo}`].length > 0"
-                          class="el-icon-warning-outline danger-info-icon"
-                          :title="`隐患数：${dangerStatus[`danger${third.docTypeNo}`].length}`"
-                          @click="showDangerInfo(third.docTypeNo)"
-                        ></i>
-                        <!-- 隐患关联修改后展示及详情查看 -->
-                        <img
-                          v-if="changeDangerStatus[`danger${third.docTypeNo}`] && changeDangerStatus[`danger${third.docTypeNo}`].length > 0"
-                          src="@/views/writ-flow/assets/image/warning_fill.png"
-                          style="left: 150px; top: 8px; cursor: pointer;"
-                          :title="`请注意有被关联修改的隐患！`"
-                          @click="showChangeDangerInfo(third.docTypeNo)"
-                        />
-                        <!-- 文书名称,文书数量展示 -->
-                        <div
-                          @click="cmdEditDoc(third.letName, third.name, third.docTypeNo)"
-                          class="flow-span">
-                          <span v-if="third.showName">{{third.showName[0]}}<br />{{third.showName[1]}}</span>
-                          <span v-else>{{third.name}}</span>
-                          <span>{{paperCount[`count${third.docTypeNo}`] && paperCount[`count${third.docTypeNo}`] > 1 ? '(' + paperCount[`count${third.docTypeNo}`] + ')' : ''}}</span>
+                <div class="writ-flow-card-title"><span>{{first.name}}</span></div>
+                <div class="writ-flow-row-main">
+                  <div
+                    v-for="(second, secondIndex) in first.children"
+                    :key="second.id"
+                    class="writ-flow-row-row"
+                    :style="secondIndex !== (first.children.length - 1) ? 'margin-bottom: 20px;' : ''">
+                    <div class="writ-flow-row">
+                      <img 
+                        :src="require(secondIndex === 0 ? '@/views/writ-flow/assets/image/first-row.png' : '@/views/writ-flow/assets/image/else-row.png')" alt=""
+                        style="margin-right: 10px;" />
+                      <div
+                        v-for="(third, thirdIndex) in second.list"
+                        :key="third.id"
+                        class="writ-flow-td">
+                        <div :class="flowStatus[`paper${third.docTypeNo}`] ? 'writ-flow-spantd writ-flow-td-item writ-flow-spantd-ex' : 'writ-flow-spantd writ-flow-td-item'">
+                          <!-- 文书接收 -->
+                          <img
+                            v-if="third.docTypeNo === '5' && unreceivedStatus.unreceived5"
+                            src="@/views/writ-flow/assets/image/paper-send-icon.png"
+                            title="有未接收的文书，请点击接收"
+                            style="top: 42px; left: 8px; cursor: pointer;"
+                            @click="receivePaper(third.docTypeNo)"
+                          />
+                          <!-- 存档标记 -->
+                          <img
+                            v-if="flowStatus[`paper${third.docTypeNo}`]"
+                            :src="flowStatus[`paper${third.docTypeNo}`] === 'save' ? '' : require('../assets/image/file.png')"
+                            :title="flowStatus[`paper${third.docTypeNo}`] === 'save' ? '已保存' : '已归档'"
+                            alt="" />
+                          <!-- 事故时行政处罚决定书展示的处罚详情查看 -->
+                          <i
+                            v-if="corpData.caseType === '1' && third.docTypeNo === '8' && paperCount.count8 > 0"
+                            class="el-icon-warning-outline danger-info-icon"
+                            @click="showAccidentDangerInfo(third.docTypeNo)"
+                          ></i>
+                          <!-- 隐患数量展示及详情查看 -->
+                          <i
+                            v-if="dangerStatus[`danger${third.docTypeNo}`] && dangerStatus[`danger${third.docTypeNo}`].length > 0"
+                            class="el-icon-warning-outline danger-info-icon"
+                            :title="`隐患数：${dangerStatus[`danger${third.docTypeNo}`].length}`"
+                            @click="showDangerInfo(third.docTypeNo)"
+                          ></i>
+                          <!-- 隐患关联修改后展示及详情查看 -->
+                          <img
+                            v-if="changeDangerStatus[`danger${third.docTypeNo}`] && changeDangerStatus[`danger${third.docTypeNo}`].length > 0"
+                            src="@/views/writ-flow/assets/image/warning_fill.png"
+                            style="top: 6px; left: 143px; cursor: pointer;"
+                            :title="`请注意有被关联修改的隐患！`"
+                            @click="showChangeDangerInfo(third.docTypeNo)"
+                          />
+                          <!-- 文书名称,文书数量展示 -->
+                          <div
+                            @click="cmdEditDoc(third.letName, third.name, third.docTypeNo)"
+                            class="flow-span">
+                            <span v-if="third.showName">{{third.showName[0]}}<br />{{third.showName[1]}}</span>
+                            <span v-else>{{third.name}}</span>
+                            <span>{{paperCount[`count${third.docTypeNo}`] && paperCount[`count${third.docTypeNo}`] > 1 ? '(' + paperCount[`count${third.docTypeNo}`] + ')' : ''}}</span>
+                          </div>
+                          <!-- 删除按钮 -->
+                          <i
+                            v-if="paperCount[`count${third.docTypeNo}`] && paperCount[`count${third.docTypeNo}`] > 0"
+                            class="el-icon-minus minus-icon"
+                            title="删除文书"
+                            @click="delPaper(third.docTypeNo)"
+                          ></i>
+                          <!-- 添加按钮 -->
+                          <i
+                            class="el-icon-plus create-icon"
+                            title="添加文书"
+                            @click="addPaper(third.letName, third.name, third.docTypeNo)"
+                          ></i>
                         </div>
-                        <!-- 删除按钮 -->
-                        <i
-                          v-if="paperCount[`count${third.docTypeNo}`] && paperCount[`count${third.docTypeNo}`] > 0"
-                          class="el-icon-minus minus-icon"
-                          title="删除文书"
-                          @click="delPaper(third.docTypeNo)"
-                        ></i>
-                        <!-- 添加按钮 -->
-                        <i
-                          class="el-icon-plus create-icon"
-                          title="添加文书"
-                          @click="addPaper(third.letName, third.name, third.docTypeNo)"
-                        ></i>
-                      </div>
-                      <div v-if="thirdIndex !== (second.list.length - 1)">
-                        <span class="arrows">→</span>
+                        <div v-if="thirdIndex !== (second.list.length - 1)">
+                          <img 
+                            src="@/views/writ-flow/assets/image/else-row.png" 
+                            alt=""
+                            style="margin: 0 10px;" />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1104,99 +1111,108 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/scss/main";
 .writ-flow-main {
-  border: 2px solid rgb(9, 58, 131);
-  border-collapse: collapse;
-  background-color: #fff;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0px 2px 20px 1px rgba(66, 130, 230, 0.1);
+  /deep/ .el-tabs__content {
+    overflow: auto;
+    position: relative;
+    height: calc(100vh - 410px);
+  }
 }
 .enterprisedata-title {
-  height: 35px;
-  line-height: 35px;
-  color: #fff;
+  height: 40px;
+  line-height: 40px;
   font-size: 18px;
   margin: 0px;
-  margin-bottom: 1px;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-  background: rgba(#4f83e9, 1);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   display: flex;
-  padding: 0 20px;
+  padding: 10px 20px 5px;
   align-items: center;
-  border-bottom: 2px solid rgb(9, 58, 131);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   .selected-paper {
     flex: 1;
     text-align: right;
   }
 }
-.writ-flow-card-title {
-  position: absolute;
-  display: block;
-  top: 0px;
-  background: #fff;
-  padding: 0 5px;
-}
 .writ-flow-card {
-  border: 1px solid #DCDFE6;
   padding: 15px;
-  margin-bottom: 10px;
-  overflow: auto;
-  .writ-flow-row-main {
-    height: 75px; 
-    border-collapse: collapse; 
-    margin-left: 20px;
+  display: flex;
+  .writ-flow-card-title {
+    width: 100px;
     display: flex;
+    align-items: center;
+    height: 72px;
+    span {
+      font-size: 16px;
+      font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+      font-weight: 500;
+      color: #3D3D3D;
+    }
+  }
+  .writ-flow-row-main {
+    flex: 1;
+    display: flex; 
     flex-direction: column;
-    .writ-flow-row {
-      display: flex;
+    overflow: auto;
+    padding-bottom: 5px;
+    .writ-flow-row-row {
+      border-collapse: collapse; 
+      display: flex; 
       align-items: center;
-      flex: 1;
-      .writ-flow-td {
-        height: 100%;
+      .writ-flow-row {
+        flex: 1;
         display: flex;
         align-items: center;
-        justify-content: center;
-      }
-      .writ-flow-td:last-child {
-        margin-right: 10px;
-      }
-      .arrows {
-        margin: 0 15px;
+        .writ-flow-td {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          .writ-flow-td-item {
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+        .writ-flow-td:last-child {
+          margin-right: 10px;
+        }
+        .arrows {
+          margin: 0 15px;
+        }
       }
     }
   }
 }
-/deep/ .el-tabs--card>.el-tabs__header .el-tabs__nav {
-  border: none;
+/deep/ .el-tabs__nav {
+  margin-left: 25px;
 }
 /deep/ .el-tabs__item {
-  border: 1px solid #DCDFE6;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
   font-size: 17px;
+  font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+  font-weight: 400;
+  color: #333333;
 }
 /deep/ .el-tabs__item.is-active {
-  border-color: #4F83E9;
-  background: #4F83E9;
-  color: #fff;
+  color: #409EFF;
 }
 //保存前
 .writ-flow-spantd {
-  width: 200px;
-  // background: url("~../assets/image/doc-flow_r1_c2.png") no-repeat;
-  background-color: #cbe6ff;
-  background-size: 100% 100%;
-  border: 1px solid #cbe6ff;
-  box-shadow: #666 1px 1px 5px; //边框阴影
-  border-radius: 5px;
+  width: 190px;
+  // box-shadow: #666 1px 1px 5px; //边框阴影
   text-align: center;
-  color: #000;
   position: relative;
+  background: #BED7FF;
+  border-radius: 10px 10px 10px 10px;
+  opacity: 1;
+  border: 1px dashed #4282E6;
   img {
     position: absolute;
     width: 20px;
-    top: 8px;
-    left: 0;
+    top: 6px;
+    left: 5px;
   }
 }
 .writ-flow {
@@ -1213,7 +1229,7 @@ export default {
   bottom: 8px;
   right: 26px;
   cursor: pointer;
-  color: rgba(#4282e6, 1);
+  color: #999999;
   font-weight: bold;
   font-size: 20px;
   &:hover {
@@ -1223,19 +1239,20 @@ export default {
 .create-icon {
   position: absolute;
   bottom: 8px;
-  right: 3px;
+  right: 5px;
   cursor: pointer;
-  color: rgba(#4282e6, 1);
+  // color: rgba(#4282e6, 1);
+  color: #999999;
   font-weight: bold;
   font-size: 20px;
-  // &:hover {
-  //   color: rgba(#4282E6, 0.8);
-  // }
+  &:hover {
+    color: rgba(#4282E6, 0.8);
+  }
 }
 .danger-info-icon {
   position: absolute;
-  top: 8px;
-  right: 3px;
+  top: 6px;
+  right: 5px;
   cursor: pointer;
   color: rgba(#E6A23C, 1);
   font-weight: bold;
@@ -1246,25 +1263,33 @@ export default {
 }
 //保存后
 .writ-flow-spantd-ex {
-  width: 200px;
+  // width: 200px;
+  background: #C7F9CE;
+  border: 1px solid #9EF3B9;
   // background: url("~../assets/image/doc-flow_r1_c4.png") no-repeat;
-  background-size: 100% 100%;
-  background-color: #b0f6c6;
-  border: 1px solid #cbe6ff;
-  box-shadow: #666 1px 1px 5px; //边框阴影
-  border-radius: 5px;
-  text-align: center;
-  color: #000;
-  position: relative;
-  img {
-    position: absolute;
-    width: 20px;
-    top: 8px;
-    left: 6px;
-  }
+  // background-size: 100% 100%;
+  // background-color: #b0f6c6;
+  // border: 1px solid #cbe6ff;
+  // box-shadow: #666 1px 1px 5px; //边框阴影
+  // border-radius: 5px;
+  // text-align: center;
+  // color: #000;
+  // position: relative;
+  // img {
+  //   position: absolute;
+  //   width: 20px;
+  //   top: 8px;
+  //   left: 6px;
+  // }
 }
 .flow-span {
   cursor: pointer;
+  span {
+    font-size: 14px;
+    font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+    font-weight: 500;
+    color: #3D3D3D;
+  }
   // &:hover {
   //   font-size: 17px;
   //   color: rgba(#fff, 0.8);

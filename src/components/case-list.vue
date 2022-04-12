@@ -2,89 +2,74 @@
 <template>
   <div class="case-list">
     <div class="case-list-select-main">
-      <div style="height:36px; line-height: 36px; color:#666; background:#4F83E9;border-top-left-radius: 10px;border-top-right-radius: 10px;">
-        <td style="text-indent:20px;color:#fff;">{{usePage === 'MakeLawWrit' ? '选择煤矿/企业' : '选择煤矿/企业'}}</td>
+      <div class="case-list-select-title">
+        <img src="@/components/assets/image/company_icon.png" />
+        <span>{{usePage === 'MakeLawWrit' ? '选择煤矿/企业' : '选择煤矿/企业'}}</span>
       </div>
-      <div style="flex: 1;background-color:#fff;vertical-align:top; overflow: auto;">
-        <table style="width:100%;">
-          <tr style="height:36px;background-color:#fff;color:#666;">
-            <!-- 计划年月 -->
-            <td style="width:50%;padding-left:6px;">
-              <el-select
-                v-model="dataForm.selPlanDate"
-                style="width:100%;height:32px;"
-                size="small"
-                @change="val => changeSelect(val, 'selPlanDate')">
-                <el-option
-                  v-for="(item, index) in planDateList"
-                  :key="index"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </td>
-            <!-- 归档机构 -->
-            <td style="width:50%;padding-right:6px;">
-              <el-select
-                v-model="dataForm.selGovUnit"
-                style="width:100%;height:32px;"
-                size="small"
-                @change="val => changeSelect(val, 'selGovUnit')">
-                <el-option
-                  v-for="(item, index) in orgList"
-                  :key="index"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </td>
-          </tr>
-        </table>
-        <div style="height:36px;background-color:#fff;color:#666;display:flex; justify-content: flex-end;padding: 0 8px;">
-          <!-- 选择计划或其他 -->
-          <div style="width:30%;">
-            <el-select
-              v-model="dataForm.isPlan"
-              style="width:100%;height:32px;"
-              size="small"
-              @change="val => changeSelect(val, 'isPlan')">
-              <el-option value="计划"></el-option>
-              <el-option value="其他"></el-option>
-            </el-select>
+      <div class="case-list-select-filter">
+        <div>
+          <el-select
+            v-model="dataForm.selGovUnit"
+            style="width:100%;"
+            size="small"
+            @change="val => changeSelect(val, 'selGovUnit')">
+            <el-option
+              v-for="item in orgList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </div>
+        <div style="margin-top: 10px; display: flex;">
+          <el-select
+            v-model="dataForm.selPlanDate"
+            size="small"
+            @change="val => changeSelect(val, 'selPlanDate')">
+            <el-option
+              v-for="(item, index) in planDateList"
+              :key="index"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+          <el-select
+            v-model="dataForm.isPlan"
+            style="width: 108px; margin-left: 15px;"
+            size="small"
+            @change="val => changeSelect(val, 'isPlan')">
+            <el-option value="计划"></el-option>
+            <el-option value="其他"></el-option>
+          </el-select>
+        </div>
+      </div>
+      <div class="case-list-select-list">
+        <div
+          v-for="(item, index) in corpList"
+          :key="index"
+          :data-corpId="item.corpId"
+          :class="item.active ? 'active' : ''">
+          <div
+            v-if="item.dbplan"
+            class="case-list-select-list-item"
+            @dblclick="editaddbook(item)"
+            :title="item.corpName"
+            @click="showDocHome(item, index)">
+            <!-- <i class="el-icon-date" style="font-size:16px; color: #3D3D3D;"></i> -->
+            <img src="@/components/assets/image/flash_off.png" alt="" style="vertical-align: middle;" />
+            <span>{{ item.corpName }}</span>
+          </div>
+          <div
+            v-else
+            class="case-list-select-list-item"
+            @dblclick="editaddbook(item)"
+            :title="item.corpName"
+            @click="showDocHome(item, index)">
+            <img src="@/components/assets/image/flash_on.png" alt="" style="vertical-align: middle;" />
+            <span>{{ item.corpName }}</span>
           </div>
         </div>
-        <table
-          style="width:320px;background-color:#fff;color:#666;display:inline-block"
-          id="tableCorpList">
-          <tr
-            v-for="(item, index) in corpList"
-            :key="index"
-            :data-corpId="item.corpId"
-            :class="item.active ? 'active' : ''">
-            <td
-              v-if="item.dbplan"
-              class="editaddbook"
-              @dblclick="editaddbook(item)"
-              :title="item.corpName"
-              style="display: inline-block;width: 318px;height:36px;padding-left:8px;cursor:pointer;line-height: 36px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"
-              @click="showDocHome(item, index)">
-              <i class="el-icon-date" style="font-size:16px;color: #DCDFE6;"></i>
-              {{ item.corpName }}
-            </td>
-            <td
-              v-else
-              class="editaddbookG"
-              @dblclick="editaddbook(item)"
-              style="display: inline-block;width: 318px;height:36px;padding-left:8px;cursor:pointer;line-height: 36px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"
-              :title="item.corpName"
-              @click="showDocHome(item, index)">
-              <img src="@/components/assets/image/flash_on.png" alt="" style="vertical-align: middle;" />
-              {{ item.corpName}}
-            </td>
-          </tr>
-        </table>
       </div>
-      <!-- </tr> -->
     </div>
     <div v-if="usePage === 'MakeLawWrit'" class="case-list-select-operation">
       <div class="extra-btn">
@@ -97,22 +82,21 @@
           src="@/components/assets/image/cloud-upload.png" 
           title="云同步" 
           @click="cloudUpload"
-          style="margin-left: 10px;"
+          style="margin-left: 8px;"
         />
       </div>
       <div class="add-delete-btn">
         <el-button
           class="addPlan"
           type="primary"
-          style="height: 35px;width:60px;padding:0;margin: 0;"
           @click="addCase"
         >
-          <i class="el-icon-plus"></i>添加
+          添加
         </el-button>&nbsp;&nbsp;
         <el-button
-          style="height: 35px; width:60px;padding:0;margin: 0;"
+          class="delPlan"
           @click="deleteCase">
-          <i class="el-icon-delete"></i>删除
+          删除
         </el-button>
       </div>
     </div>
@@ -245,6 +229,7 @@ export default {
             this.$set(this.dataForm, 'selGovUnit', null)
             this.$set(this.dataForm, 'selGovUnitName', null)
           }
+          this.setStore()
         }
       }
     },
@@ -330,7 +315,7 @@ export default {
             listArr = [...listArr, ...arrPlan]
           }
         } else {
-          listArr = [...wkCase];
+          listArr = wkCase.length > 0 ? [...wkCase] : [];
         }
         listArr.sort(sortbyDes('createTime'))
         this.total = listArr.length;
@@ -709,38 +694,98 @@ export default {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  border-radius: 10px;
   .case-list-select-main {
     flex: 1;
     border-collapse: collapse;
-    background-color: #093A83;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     display: flex;
     flex-direction: column;
-    height: calc(100% - 50px);
+    background: #FFFFFF;
+    box-shadow: 0px 2px 20px 1px rgba(66, 130, 230, 0.09000000357627869);
+    border-radius: 10px 10px 10px 10px;
+    margin-right: 2px;
+    .case-list-select-title {
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding: 10px 19px 5px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      img {
+        margin-right: 7px;
+      }
+      span {
+        font-size: 18px;
+        font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+        font-weight: 500;
+        color: #4282E6;
+      }
+    }
+    .case-list-select-filter {
+      padding: 15px;
+    }
+    .case-list-select-list {
+      flex: 1;
+      .case-list-select-list-item {
+        display: inline-block;
+        height: 36px;
+        width: calc(100% - 25px);
+        cursor: pointer;
+        line-height: 36px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        padding: 0 10px 0 15px;
+        span {
+          font-size: 16px;
+          font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+          font-weight: 400;
+          color: #3D3D3D;
+        }
+      }
+    }
   }
   .case-list-select-operation {
-    height: 41px;
-    background-color: #DCECFB;
+    height: 60px;
     color: #666;
-    border: 1px solid #093A83;
     border-radius: 10px;
-    padding: 6px;
+    background: #FFFFFF;
+    box-shadow: 0px 2px 20px 1px rgba(66, 130, 230, 0.09000000357627869);
+    border-radius: 10px 10px 10px 10px;
+    padding: 6px 15px;
     display: flex;
     align-items: center;
+    margin-top: 20px;
+    margin-bottom: 10px;
     .extra-btn {
-      margin-left: 10px;
       flex: 1;
       img {
         cursor: pointer;
       }
     }
     .add-delete-btn {
-      width: 150px;
+      width: 180px;
+      text-align: right;
+      .addPlan {
+        height: 35px;
+        width: 70px;
+        padding: 0;
+        margin: 0;
+        background: #4282E6;
+      }
+      .delPlan {
+        height: 35px; 
+        width: 70px;
+        padding: 0;
+        margin: 0;
+        border: 1px solid #4282E6;
+        color: #4282E6;;
+      }
     }
   }
   .active{
-    background: #5f8aca;
+    background: rgba(66, 130, 230, 0.2);
     color: #fff;
   }
 }

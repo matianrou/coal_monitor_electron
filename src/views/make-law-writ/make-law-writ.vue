@@ -28,7 +28,6 @@
             <org-information
               v-if="corpData && corpData.corpId"
               :corp-data="corpData"
-              style="min-width: 1100px;"
             ></org-information>
           </div>
           <div class="detail-writ-flow">
@@ -441,7 +440,7 @@ export default {
 .make-law-writ {
   display: flex;
   height: calc(100vh - 120px);
-  width: calc(100vw - 30px);
+  width: calc(100vw - 40px);
   margin: 15px auto 0px;
   align-items: center;
   .make-law-writ-show {
@@ -450,26 +449,24 @@ export default {
     display: flex;
     margin: auto;
     .make-law-writ-show-select {
-      width: 330px;
-      background-color: #ffffff;
-      border-radius: 10px;
+      flex: 1;
+      min-width: 300px;
+      max-width: 400px;
       height: 100%;
     }
     .make-law-writ-show-detail {
-      flex: 1;
+      flex: 4;
       height: 100%;
-      overflow: auto;
+      overflow: hidden;
       .detail-main {
         display: flex;
         flex-direction: column;
-        margin-left: 10px;
+        margin-left: 20px;
         .detail-org-information {
           height: 180px;
           overflow: auto;
         }
         .detail-writ-flow {
-          overflow: auto;
-          // flex: 1;
           margin-top: 10px;
         }
       }

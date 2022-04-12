@@ -92,6 +92,7 @@ export default {
     .main-content {
       // height: calc(100% - 80px);
       flex: 1;
+      background: #FDFDFF;
     }
   }
 </style>

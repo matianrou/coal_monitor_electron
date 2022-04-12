@@ -116,7 +116,7 @@ export default {
         const promise = this.getFile(item).then(content => {
           zip.file(item.fileName, content)
         }).catch(error => {
-          console.log('error', error)
+          console.log('下载失败：', error)
         })
         promises.push(promise)
       }
@@ -155,6 +155,7 @@ export default {
     border-radius: 10px;
     display: flex;
     flex-direction: column;
+    border: 1px solid #DCDFE6;
     .learning-materials-title {
       height: 40px;
       display: flex;
