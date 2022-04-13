@@ -20,7 +20,7 @@
     </div>
     <div class="main-top-nav">
       <!-- 页签 -->
-      <div class="main-top-tab no-drag">
+      <div class="main-top-tab">
         <div
           class="navTd no-drag"
           :style="activeTab === 'SourceDownload' ? 'background: #224f7d;' : ''"
@@ -69,15 +69,15 @@
       </div>
       <div class="main-top-operation no-drag" style="margin-left: 20px;">
         <span class="el-dropdown-link">
-          <img src="@/components/assets/image/internet.png" class="btn-icon img-btn custom-icon" title="打开网络端" @click="openWeb" />
+          <img src="@/components/assets/image/internet.png" style="cursor: pointer;" title="打开网络端" @click="openWeb" />
         </span>
         <span class="el-dropdown-link">
-          <img src="@/components/assets/image/send.png" class="btn-icon img-btn custom-icon" title="隐患发送" @click="sendDanger" />
+          <img src="@/components/assets/image/send.png" style="margin: 0 20px; cursor: pointer;" title="隐患发送" @click="sendDanger" />
         </span>
         <!-- 消息提醒 -->
         <el-dropdown :hide-on-click="false" @command="handleCommand">
           <span class="el-dropdown-link">
-            <img src="@/components/assets/image/msg.png" class="btn-icon img-btn custom-icon" title="消息通知"/>
+            <img src="@/components/assets/image/msg.png" style="cursor: pointer;" title="消息通知"/>
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="checkList">您有{{notice.checkList.length || '0'}}条检查项任务待接收</el-dropdown-item>
@@ -97,7 +97,7 @@
         <!-- 个人和更多 -->
         <el-dropdown :hide-on-click="false" @command="handleCommand" style="min-width: 120px; cursor: pointer;">
           <span class="el-dropdown-link info-wrap">
-            <span style="color: #fff;">欢迎您：{{$store.state.user.userName}}</span><i class="el-icon-caret-bottom" style="color: #f19716;"></i>
+            <span style="color: #fff; font-size: 0.9rem;">欢迎您：{{$store.state.user.userName}}</span><i class="el-icon-caret-bottom" style="color: #f19716;"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>
@@ -117,7 +117,7 @@
             <el-dropdown-item command="clearLogin" divided>注销登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <span style="color: #fff;font-size: 12px;margin-left: 10px;">v{{version}}</span>
+        <span style="color: #fff; font-size: 0.9rem; margin-left: 10px;">v{{version}}</span>
       </div>
     </div>
     <send-danger
@@ -392,9 +392,9 @@ export default {
 
 <style lang="scss" scoped>
 .custom-icon {
-  width: 20px !important;
-  height: 20px !important;
-  margin-right: 12px !important;
+  width: 32px!important;
+  height: 32px!important;
+  margin-right: 14px!important;
 }
 .main-top-main {
   width: 100%;
@@ -416,7 +416,7 @@ export default {
       margin-right: 7px;
     }
     span {
-      font-size: 22px;
+      font-size: 1.3rem;
       font-family: Source Han Sans CN-Bold, Source Han Sans CN;
       font-weight: bold;
       color: #FFFFFF;
@@ -432,13 +432,13 @@ export default {
       display: flex;
       overflow-y: auto;
       .navTd {
-        width: 100px;
+        width: 120px;
         min-width: 100px;
         display: flex;
         align-items: center;
         justify-content: center;
         color: #fff;
-        font-size: 16px;
+        font-size: 1.1rem;
         font-family: Source Han Sans CN-Regular, Source Han Sans CN;
         font-weight: 400;
         letter-spacing: 0.1rem;
@@ -495,12 +495,12 @@ export default {
 .no-drag {
   -webkit-app-region: no-drag;
 }
-.topNav {
-  color: #f7f7f7;
-  text-decoration: none;
-  font-size: 18px;
-  cursor: pointer;
-}
+// .topNav {
+//   color: #f7f7f7;
+//   text-decoration: none;
+//   font-size: 18px;
+//   cursor: pointer;
+// }
 
 /*滚动条整体样式*/
 .main-top-tab::-webkit-scrollbar {

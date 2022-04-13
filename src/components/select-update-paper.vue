@@ -348,7 +348,6 @@ export default {
   },
   computed: {
     legalReviewNum () {
-      console.log('legalReviewNum', this.$store.state.user.userType === 'supervision' ? '47' : '49')
       return this.$store.state.user.userType === 'supervision' ? '47' : '49'
     }
   },
@@ -376,7 +375,6 @@ export default {
       this.$emit("confirm", this.selectedRows);
     },
     handleSelectionChange(val, type) {
-      console.log('type', type)
       this.selectedRows[type] = val
     }
   },

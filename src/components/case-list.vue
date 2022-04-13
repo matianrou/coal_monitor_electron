@@ -11,7 +11,6 @@
           <el-select
             v-model="dataForm.selGovUnit"
             style="width:100%;"
-            size="small"
             @change="val => changeSelect(val, 'selGovUnit')">
             <el-option
               v-for="item in orgList"
@@ -24,7 +23,6 @@
         <div style="margin-top: 10px; display: flex;">
           <el-select
             v-model="dataForm.selPlanDate"
-            size="small"
             @change="val => changeSelect(val, 'selPlanDate')">
             <el-option
               v-for="(item, index) in planDateList"
@@ -36,7 +34,6 @@
           <el-select
             v-model="dataForm.isPlan"
             style="width: 108px; margin-left: 15px;"
-            size="small"
             @change="val => changeSelect(val, 'isPlan')">
             <el-option value="计划"></el-option>
             <el-option value="其他"></el-option>
@@ -716,7 +713,7 @@ export default {
         margin-right: 7px;
       }
       span {
-        font-size: 18px;
+        font-size: 1.2rem;
         font-family: Source Han Sans CN-Medium, Source Han Sans CN;
         font-weight: 500;
         color: #4282E6;
@@ -727,6 +724,7 @@ export default {
     }
     .case-list-select-list {
       flex: 1;
+      overflow: auto;
       .case-list-select-list-item {
         display: inline-block;
         height: 36px;
@@ -738,7 +736,7 @@ export default {
         text-overflow: ellipsis;
         padding: 0 10px 0 15px;
         span {
-          font-size: 16px;
+          font-size: 1.1rem;
           font-family: Source Han Sans CN-Regular, Source Han Sans CN;
           font-weight: 400;
           color: #3D3D3D;

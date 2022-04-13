@@ -34,34 +34,34 @@
       </div>
     </div>
     <div class="enterprisedata-content-main">
-      <div class="enterprisedata-content-left">
+      <div class="enterprisedata-content-div">
         <!-- 企业信息 -->
         <div class="enterprisedata-content">
           <span>企业名称：</span>
-          <span :title="corpData.corpName">{{corpData.corpName}}</span>
+          <span :title="corpData.corpName">{{corpData.corpName || ''}}</span>
         </div>
         <div class="enterprisedata-content">
           <span>所在区域：</span>
-          <span :title="corpData.corpCountryName">{{corpData.corpCountryName}}</span>
+          <span :title="corpData.corpCountryName">{{corpData.corpCountryName || ''}}</span>
         </div>
         <div class="enterprisedata-content">
           <span>负&nbsp;&nbsp;责&nbsp;&nbsp;人：</span>
-          <span :title="corpData.legalName">{{corpData.legalName}}</span>
+          <span :title="corpData.legalName">{{corpData.legalName || ''}}</span>
         </div>
       </div>
-      <div class="enterprisedata-content-left">
+      <div class="enterprisedata-content-div">
         <!-- 企业信息 -->
         <div class="enterprisedata-content">
           <span>企业类型：</span>
-          <span :title="corpData.corpTypeName">{{corpData.corpTypeName}}</span>
+          <span :title="corpData.corpTypeName">{{corpData.corpTypeName || ''}}</span>
         </div>
         <div class="enterprisedata-content">
           <span>经营地址：</span>
-          <span :title="corpData.address">{{corpData.address}}</span>
+          <span :title="corpData.address">{{corpData.address || ''}}</span>
         </div>
         <div class="enterprisedata-content">
           <span>联系电话：</span>
-          <span :title="corpData.tel">{{corpData.tel}}</span>
+          <span :title="corpData.tel">{{corpData.tel || ''}}</span>
         </div>
       </div>
     </div>
@@ -217,7 +217,7 @@ export default {
   .enterprisedata-title {
     height: 40px;
     line-height: 40px;
-    font-size: 18px;
+    font-size: 1.2rem;
     margin: 0px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -242,7 +242,7 @@ export default {
     // }
     .plan-date {
       margin-left: 40px;
-      font-size: 16px;
+      font-size: 1rem;
       font-family: Source Han Sans CN-Regular, Source Han Sans CN;
       font-weight: 400;
       color: #666666;
@@ -264,7 +264,7 @@ export default {
     // }
     .group-name {
       margin-left: 30px;
-      font-size: 16px;
+      font-size: 1rem;
       font-family: Source Han Sans CN-Regular, Source Han Sans CN;
       font-weight: 400;
       color: #666666;
@@ -287,7 +287,7 @@ export default {
           margin-right: 7px;
         }
         span {
-          font-size: 16px;
+          font-size: 1rem;
           font-family: Source Han Sans CN-Regular, Source Han Sans CN;
           font-weight: 400;
           color: #FFFFFF;
@@ -301,7 +301,7 @@ export default {
   .enterprisedata-content-main { 
     display: flex;
     flex-direction: row;
-    .enterprisedata-content-left {
+    .enterprisedata-content-div {
       flex: 1;
       display: flex;
       flex-direction: column;
@@ -310,7 +310,7 @@ export default {
       .enterprisedata-content {
         display: flex;
         text-indent: 30px;
-        font-size: 18px;
+        font-size: 1.1rem;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -321,9 +321,6 @@ export default {
           color: #333333;
         }
       }
-    }
-    .enterprisedata-content-right {
-      flex: 1;
     }
   }
 }

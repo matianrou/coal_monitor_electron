@@ -11,7 +11,6 @@
         <el-select 
           v-model="createdSelectedPaper"
           placeholder="请选择新建文书"
-          size="small"
           clearable
           filterable
           @change="createPaper">
@@ -1017,7 +1016,7 @@ export default {
 .enterprisedata-title {
   height: 40px;
   line-height: 40px;
-  font-size: 18px;
+  font-size: 1.2rem;
   margin: 0px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -1039,10 +1038,11 @@ export default {
     align-items: center;
     height: 72px;
     span {
-      font-size: 16px;
+      font-size: 1.1rem;
       font-family: Source Han Sans CN-Medium, Source Han Sans CN;
       font-weight: 500;
       color: #3D3D3D;
+      font-weight: bold;
     }
   }
   .writ-flow-row-main {
@@ -1084,7 +1084,7 @@ export default {
   margin-left: 25px;
 }
 /deep/ .el-tabs__item {
-  font-size: 17px;
+  font-size: 1.1rem;
   font-family: Source Han Sans CN-Regular, Source Han Sans CN;
   font-weight: 400;
   color: #333333;
@@ -1178,7 +1178,7 @@ export default {
 .flow-span {
   cursor: pointer;
   span {
-    font-size: 14px;
+    font-size: 1rem;
     font-family: Source Han Sans CN-Regular, Source Han Sans CN;
     font-weight: 500;
     color: #3D3D3D;
@@ -1187,5 +1187,31 @@ export default {
   //   font-size: 17px;
   //   color: rgba(#fff, 0.8);
   // }
+}
+
+// 分别适配1920*1080上下
+@media screen and (min-width: 1920px) {
+  .writ-flow-spantd {
+    width: 200px;
+    // box-shadow: #666 1px 1px 5px; //边框阴影
+    text-align: center;
+    position: relative;
+    background: #BED7FF;
+    border-radius: 10px 10px 10px 10px;
+    opacity: 1;
+    border: 1px dashed #4282E6;
+    img {
+      position: absolute;
+      width: 20px;
+      top: 6px;
+      left: 5px;
+    }
+  }
+  .writ-flow-card .writ-flow-row-main .writ-flow-row-row .writ-flow-row .writ-flow-td .writ-flow-td-item {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 </style>

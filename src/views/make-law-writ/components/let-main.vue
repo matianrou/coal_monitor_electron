@@ -430,7 +430,6 @@ export default {
             // 行政执法决定法制审核意见书的文书号，因监察监管不同，所以设置为变量
             let legalReviewNum = this.$store.state.user.userType === 'supervision' ? '47' : '49'
             let updatePaperType = ['1', '2', '4', '6', legalReviewNum, '36', '8']
-            console.log('updatePaperType', updatePaperType)
             let curIndex = updatePaperType.indexOf(this.docData.docTypeNo)
             let updatePaper = {}
             // 遍历文书类型updatePaperType，逐个拉取需要更新的数据,只拉取状态为保存的文书
@@ -1248,7 +1247,7 @@ export default {
         docName = this.docData.docTypeNo
       }
       await this.JSZipUtils.getBinaryContent(`./static/docxtemplate/${this.$store.state.user.userType}/doc${docName}.docx`, (error, content) => {
-        console.log('error = ', error, content)
+        console.log('导出文件失败：', error, content)
         let zip = new this.pizzip(content)
         let doc = new docxtemplater()
         doc.loadZip(zip)

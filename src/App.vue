@@ -38,31 +38,4 @@
 </script>
 
 <style>
-/*修改滚动条样式*/
-div::-webkit-scrollbar {
-  height: 8px;
-  width: 8px;
-} 
-div::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  background-color: rgba(144,147,153,.3);
-  /* background-color: #f19716; */
-  filter:Alpha(opacity=50);
-  background-image: -webkit-linear-gradient(
-      45deg,
-      rgba(255, 255, 255, 0.2) 25%,
-      transparent 25%,
-      transparent 50%,
-      rgba(255, 255, 255, 0.2) 50%,
-      rgba(255, 255, 255, 0.2) 75%,
-      transparent 75%,
-      transparent
-  );
-}
-div::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-  background: #ededed;
-  border-radius: 10px;
-}
-
 </style>
