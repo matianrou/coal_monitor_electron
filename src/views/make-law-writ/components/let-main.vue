@@ -434,7 +434,12 @@ export default {
             let updatePaper = {}
             // 遍历文书类型updatePaperType，逐个拉取需要更新的数据,只拉取状态为保存的文书
             for(let i = curIndex + 1; 0 < i && i < updatePaperType.length; i++) {
-              let paperList = JSON.parse(JSON.stringify(wkPaper.filter(item => item.delFlag === '2' && item.caseId === this.paperData.caseId && item.paperType === updatePaperType[i]) || []))
+              let paperList = []
+              paperList = JSON.parse(JSON.stringify(wkPaper.filter(item => 
+                item.delFlag === '2' && 
+                item.caseId === this.paperData.caseId && 
+                item.paperType === updatePaperType[i] && 
+                item.createById === this.$store.state.user.userId)))
               // 遍历检索出的同检查活动下的检查类型文书，如果文书关联的paper1Id相同则保存
               updatePaper[`paper${updatePaperType[i]}List`] = []
               for (let j = 0; j < paperList.length; j++) {
@@ -453,7 +458,12 @@ export default {
             }
             // 当修改的文书时现场检查笔录1和现场处理决定书时，判断是否有复查意见书13，如果有则同样提示更新
             if (this.docData.docTypeNo === '1' || this.docData.docTypeNo === '2') {
-              let paper13List = JSON.parse(JSON.stringify(wkPaper.filter(item => item.delFlag !== '1' && item.caseId === this.paperData.caseId && item.paperType === '13') || []))
+              let paper13List = []
+              paper13List = JSON.parse(JSON.stringify(wkPaper.filter(item => 
+                item.delFlag !== '1' && 
+                item.caseId === this.paperData.caseId && 
+                item.paperType === '13' && 
+                item.createById === this.$store.state.user.userId)))
               updatePaper.paper13List = []
               for (let i = 0; i < paper13List.length; i++) {
                 if (this.docData.docTypeNo === '1' && JSON.parse(paper13List[i].paperContent).associationPaperId) {
