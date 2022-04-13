@@ -302,8 +302,6 @@ export default {
       }) 
       let associationPaperOrder = this.setAssociationPaperOrder(let4DataPaperContent.associationPaperOrder)
       associationPaperOrder.push('4')
-      console.log('associationPaperId', associationPaperId)
-      console.log('associationPaperOrder', associationPaperOrder)
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: num0, // 文书号
         cellIdx1: num1, // 文书号
