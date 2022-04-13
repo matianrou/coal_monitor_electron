@@ -434,7 +434,7 @@ export function retrunGetMoney(penaltyDescString) {
   let count = 0
   let stringList = []
   if (penaltyDescString) {
-    stringList = penaltyDescString .split(/[,᠃.。，]/)
+    stringList = penaltyDescString.replace(/\（(.+?)\）/g, '').replace(/\((.+?)\)/g, '').split(/[,᠃.。，]/)
   }
   for (let i = 0; i < stringList.length; i++) {
     let item = stringList[i]
