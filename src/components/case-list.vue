@@ -176,22 +176,14 @@ export default {
       // 初始化数据：
       // 获取所有机构列表
       await this.getOrgList()
-      // 默认选中当前用户的机构
-      this.setOrg()
       // 获取所有月份数据
       this.getPlanDateList()
-      // 回显或者默认选中最新月份
-      this.setPlanDate()
-      // 清空已选中检查活动
-      this.selectedCase = {}
-      // 清空已选中检查活动流程
-      this.$parent.changePage({page: 'empty'})
-      // 恢复数据仓库中已存储数据
-      if (this.$store.state.selectedCaseOption) {
-        this.$set(this, 'dataForm', this.$store.state.selectedCaseOption)
-      } else {
-        this.setStore()
-      }
+      // 回显或者默认选中机构/月份/计划其他
+      this.setInitSelect()
+      // // 清空已选中检查活动
+      // this.selectedCase = {}
+      // // 清空已选中检查活动流程
+      // this.$parent.changePage({page: 'empty'})
       await this.getData()
     },
     async getOrgList () {
@@ -208,27 +200,6 @@ export default {
         orgList.push(org)
       }
       this.orgList = orgList
-    },
-    setOrg () {
-      // 设置默认选择的机构
-      if (this.selectPlanData.selGovUnit) {
-        // 回显已选择内容
-        this.dataForm = this.selectPlanData
-      } else {
-        // 设置为当前机构的选项
-        if (this.orgList.length > 0) {
-          let { userGroupId } = this.$store.state.user
-          let curUserGroup = this.orgList.find(item => item.value === userGroupId)
-          if (curUserGroup) {
-            this.$set(this.dataForm, 'selGovUnit', curUserGroup.value)
-            this.$set(this.dataForm, 'selGovUnitName', curUserGroup.label)
-          } else {
-            this.$set(this.dataForm, 'selGovUnit', null)
-            this.$set(this.dataForm, 'selGovUnitName', null)
-          }
-          this.setStore()
-        }
-      }
     },
     getPlanDateList () {
       // 获取计划年月列表选项
@@ -252,15 +223,35 @@ export default {
       }
       this.planDateList = planDateList
     },
-    setPlanDate () {
-      // 设置检查计划或检查活动默认日期
-      if (this.selectPlanData.selPlanDate) {
-        // 回显
-        this.dataForm.selPlanDate = this.selectPlanData.selPlanDate
+    setInitSelect () {
+      // 如果数据仓库中有存储则恢复
+      if (this.$store.state.selectedCaseOption) {
+        this.$set(this, 'dataForm', this.$store.state.selectedCaseOption)
       } else {
-        // 设置第一个选项
-        this.dataForm.selPlanDate = this.planDateList.length > 0 ? this.planDateList[this.planDateList.length - 1].value : null
+        // 如果已经有选中的则回显
+        if (this.selectPlanData.selGovUnit) {
+          this.$set(this, 'dataForm', this.selectPlanData)
+        } else {
+          // 如果都没有存储则设置初始化选项：
+          // 1.机构选择
+          if (this.orgList.length > 0) {
+            let { userGroupId } = this.$store.state.user
+            let curUserGroup = this.orgList.find(item => item.value === userGroupId)
+            if (curUserGroup) {
+              this.$set(this.dataForm, 'selGovUnit', curUserGroup.value)
+              this.$set(this.dataForm, 'selGovUnitName', curUserGroup.label)
+            } else {
+              this.$set(this.dataForm, 'selGovUnit', null)
+              this.$set(this.dataForm, 'selGovUnitName', null)
+            }
+          }
+          // 2.日期默认选中最近
+          this.dataForm.selPlanDate = this.planDateList.length > 0 ? this.planDateList[this.planDateList.length - 1].value : null
+          // 3.选中计划
+          this.dataForm.isPlan = '计划'
+        }
       }
+      this.setStore()
     },
     async getData() {
       // 根据计划年月和机构获取计划和活动，组合成选择列表
@@ -763,7 +754,7 @@ export default {
       }
     }
     .add-delete-btn {
-      width: 180px;
+      // width: 180px;
       text-align: right;
       .addPlan {
         height: 35px;
