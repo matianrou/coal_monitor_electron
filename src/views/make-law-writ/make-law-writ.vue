@@ -438,13 +438,15 @@ export default {
 <style lang="scss" scoped>
 .make-law-writ {
   display: flex;
-  height: calc(100vh - 120px);
-  width: calc(100vw - 40px);
-  margin: 15px auto 0px;
+  // height: calc(100vh - 120px);
+  // width: calc(100vw - 40px);
+  // margin: 15px auto 0px;
+  height: 100%;
+  width: 100%;
   align-items: center;
   .make-law-writ-show {
     height: calc(100vh - 102px);
-    width: calc(100vw - 20px);
+    width: calc(100vw - 40px);
     display: flex;
     margin: auto;
     .make-law-writ-show-select {

@@ -435,7 +435,7 @@ export default {
   align-items: center;
   .writ-management-show {
     height: calc(100vh - 102px);
-    width: calc(100vw - 30px);
+    width: calc(100vw - 40px);
     display: flex;
     margin: auto;
     .writ-management-show-select {

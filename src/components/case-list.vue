@@ -685,6 +685,7 @@ export default {
   border-radius: 10px;
   .case-list-select-main {
     flex: 1;
+    overflow: auto;
     border-collapse: collapse;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
