@@ -438,8 +438,7 @@ export default {
               paperList = JSON.parse(JSON.stringify(wkPaper.filter(item => 
                 item.delFlag === '2' && 
                 item.caseId === this.paperData.caseId && 
-                item.paperType === updatePaperType[i] && 
-                item.createById === this.$store.state.user.userId)))
+                item.paperType === updatePaperType[i])))
               // 遍历检索出的同检查活动下的检查类型文书，如果文书关联的paper1Id相同则保存
               updatePaper[`paper${updatePaperType[i]}List`] = []
               for (let j = 0; j < paperList.length; j++) {
@@ -462,8 +461,7 @@ export default {
               paper13List = JSON.parse(JSON.stringify(wkPaper.filter(item => 
                 item.delFlag !== '1' && 
                 item.caseId === this.paperData.caseId && 
-                item.paperType === '13' && 
-                item.createById === this.$store.state.user.userId)))
+                item.paperType === '13')))
               updatePaper.paper13List = []
               for (let i = 0; i < paper13List.length; i++) {
                 if (this.docData.docTypeNo === '1' && JSON.parse(paper13List[i].paperContent).associationPaperId) {
@@ -1542,6 +1540,7 @@ export default {
         paperContentOld.cellIdx9 = cellIdx9String
         paperContentOld.cellIdx10 = cellIdx10String
       }
+      // 更新行政处罚信息
       if (itemPaper.paperType === '36' || itemPaper.paperType === '6' || itemPaper.paperType === '8') {
         let {punishmentList, punishmentInfor} = await setPunishmentList(newDangerTable.selectedDangerList, paperContentOld.selectedType, true)
         paperContentOld.DangerTable.punishmentList = punishmentList
@@ -1553,9 +1552,18 @@ export default {
       // 更新隐患
       let wkDanger = await this.getDatabase("wkDanger")
       // 获取当前文书所有隐患项
-      let wkDangerList = JSON.parse(JSON.stringify(wkDanger.filter(item => item.paperId === itemPaper.paperId) || []))
+      let wkDangerList = []
+      wkDangerList = JSON.parse(JSON.stringify(wkDanger.filter(item => item.paperId === itemPaper.paperId) || []))
       // 删除已有数据
       await this.deleteDatabasePhysics('wkDanger', wkDangerList, 'dangerId')
+      // 隐患保留原文书中的制作人
+      for (let i = 0; i < paperContentOld.DangerTable.selectedDangerList.length; i++) {
+        paperContentOld.DangerTable.selectedDangerList[i].createBy = JSON.stringify({
+          id: itemPaper.personId
+        })
+        paperContentOld.DangerTable.selectedDangerList[i].personId = itemPaper.personId
+        paperContentOld.DangerTable.selectedDangerList[i].personName = itemPaper.personName
+      }
       // 添加所选数据
       await this.updateDatabase('wkDanger', paperContentOld.DangerTable.selectedDangerList, 'dangerId')
       // 同步上传服务器(方法内执行，如果没有网络自动放入云同步中)

@@ -91,8 +91,8 @@ export async function saveToUpload (paperId, messageShow, caseId) {
         corpName: workCaseObj.corpName,
         planId: workCaseObj.planId,
         group: {
-          id: workPaper.groupId,
-          name: workPaper.groupName,
+          id: workPaper.groupId ? workPaper.groupId : workPaper.group.id,
+          name: workPaper.groupName ? workPaper.groupName : workPaper.group.name,
         },
         p0FloorTime: workPaper.p0FloorTime,
         p22JczfCheck: workPaper.p22JczfCheck || null,
