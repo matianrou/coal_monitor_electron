@@ -1109,7 +1109,6 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/assets/scss/main";
-@import "@/assets/scss/index";
 .writ-flow-main {
   border-radius: 10px;
   background: #fff;
@@ -1175,6 +1174,10 @@ export default {
             display: flex;
             align-items: center;
             justify-content: center;
+            // 适配1920*1080上下
+            @media screen and (min-width: 1920px) {
+              height: 80px;
+            }
           }
         }
         .writ-flow-td:last-child {
@@ -1202,6 +1205,10 @@ export default {
 //保存前
 .writ-flow-spantd {
   width: 190px;
+  // 适配1920*1080上下
+  @media screen and (min-width: 1920px) {
+    width: 200px;
+  }
   // box-shadow: #666 1px 1px 5px; //边框阴影
   text-align: center;
   position: relative;
@@ -1295,31 +1302,5 @@ export default {
   //   font-size: 17px;
   //   color: rgba(#fff, 0.8);
   // }
-}
-
-// 分别适配1920*1080上下
-@media screen and (min-width: 1920px) {
-  .writ-flow-spantd {
-    width: 200px;
-    // box-shadow: #666 1px 1px 5px; //边框阴影
-    text-align: center;
-    position: relative;
-    background: #BED7FF;
-    border-radius: 10px 10px 10px 10px;
-    opacity: 1;
-    border: 1px dashed #4282E6;
-    img {
-      position: absolute;
-      width: 20px;
-      top: 6px;
-      left: 5px;
-    }
-  }
-  .writ-flow-card .writ-flow-row-main .writ-flow-row-row .writ-flow-row .writ-flow-td .writ-flow-td-item {
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
 }
 </style>
