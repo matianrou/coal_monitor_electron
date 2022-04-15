@@ -72,7 +72,7 @@
             @select="selectPerson"
             @selection-change="handleSelectionChange"
           >
-            <el-table-column v-if="multiSelect" type="selection" width="55" :reserve-selection="true"></el-table-column>
+            <el-table-column v-if="multiSelect" type="selection" header-align="center" align="center" width="55" :reserve-selection="true"></el-table-column>
             <el-table-column type="index" width="50" align="center"></el-table-column>
             <el-table-column prop="name" label="姓名" header-align="center" align="center"></el-table-column>
             <el-table-column prop="officeName" label="所属机构" header-align="center" align="center"></el-table-column>
@@ -96,7 +96,7 @@
             @select="selectPerson"
             @selection-change="handleSelectionChange"
           >
-            <el-table-column v-if="multiSelect" type="selection" width="55" :reserve-selection="true"></el-table-column>
+            <el-table-column v-if="multiSelect" type="selection" header-align="center" align="center" width="55" :reserve-selection="true"></el-table-column>
             <el-table-column type="index" width="50" align="center"></el-table-column>
             <el-table-column prop="name" label="姓名" width="180" header-align="center" align="center"></el-table-column>
             <el-table-column prop="allOrgName" label="所属机构" header-align="center" align="center"></el-table-column>

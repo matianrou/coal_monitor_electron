@@ -1033,10 +1033,13 @@ export default {
   padding: 15px;
   display: flex;
   .writ-flow-card-title {
-    width: 100px;
+    width: 120px;
     display: flex;
     align-items: center;
     height: 72px;
+    @media screen and (min-width: 1920px) {
+      height: 80px;
+    }
     span {
       font-size: 1.1rem;
       font-family: Source Han Sans CN-Medium, Source Han Sans CN;
@@ -1059,6 +1062,9 @@ export default {
         flex: 1;
         display: flex;
         align-items: center;
+        img {
+          width: 20px;
+        }
         .writ-flow-td {
           display: flex;
           align-items: center;

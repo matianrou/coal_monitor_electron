@@ -27,6 +27,8 @@
         <el-table-column
           v-if="multiSelect"
           type="selection"
+          header-align="center"
+          align="center"
           width="55">
         </el-table-column>
         <el-table-column
