@@ -267,6 +267,7 @@ export default {
             dataKey = "DangerTable"
             this.options.cellIdx8 = {
               page: "1", // 用于在隐患项保存，做数据处理
+              selectPerson: true, // 用于区分是否可以修改隐患检查人
               showBaseInfor: true, // 用于区分是否展示基本情况大文本输入
               showSelectDangerBtn: true, // 用于区分是否可以选择隐患项
               showDangerInfor: true, // 

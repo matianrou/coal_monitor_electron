@@ -104,6 +104,7 @@
                 v-model.trim="dangerItemDetail.personNames"
                 placeholder="请选择隐患发现人"
                 readonly
+                :disabled="!options.selectPerson"
                 @focus="selectPerson">
               </el-input>
             </el-form-item>
