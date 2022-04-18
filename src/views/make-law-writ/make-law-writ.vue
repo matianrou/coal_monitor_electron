@@ -354,7 +354,7 @@ export default {
       // 首先判断检查活动是否已被删除，如果检查活动已被删除则提示
       let {userSessId, userId} = this.$store.state.user
       let hasCase = true
-      await this.$http.get(`${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${this.caseData.personId}&flag=true`)
+      await this.$http.get(`${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${this.caseData.personId}&flag=true&pageNo=1&pageSize=5000&isAll=1`)
         .then(async (response) => {
           if (response.status === 200) {
             if (response.data.data) {
@@ -376,13 +376,35 @@ export default {
       // 如果检查活动未被删除，则判断检查活动中的文书，除自己制作以外的所有文书，如果有被删除的则提示
       if (hasCase) {
         let localPaperList = await this.getPaperDatabase(this.corpData.caseId)
-        await this.$http.get(`${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${this.caseData.personId}&flag=false&caseId=${this.caseData.caseId}&pageNo=1&pageSize=5000&isAll=1`)
+        let path = this.$store.state.user.userType === 'supervision' ? '/sv' : ''
+        await this.$http.get(`${path}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${this.caseData.personId}&flag=false&caseId=${this.caseData.caseId}&pageNo=1&pageSize=20&isAll=1`)
         .then(async (response) => {
           if (response.status === 200) {
             if (response.data.data && response.data.data.paper) {
+              // 分页获取所有文书后对比
+              let allPaper = response.data.data
+              if (allPaper.totalCount > 0) {
+                let requestCount = Math.ceil(allPaper.totalCount / 20)
+                let promises = []
+                for (let i = 2; i <= requestCount; i++) {
+                  let promise = this.getDocData(i, path, this.caseData.personId, userSessId, this.caseData.caseId)
+                  promises.push(promise)
+                }
+                if (promises.length > 0) {
+                  // 大于1页数据时
+                  await Promise.all(promises).then(async (res) => {
+                    for (let i = 0; i < res.length; i++) {
+                      let item = res[i]
+                      if (item.data.status === '200') {
+                        allPaper.paper = [...allPaper.paper, ...item.data.data.paper || []]
+                      }
+                    }
+                  })
+                }
+              }
               let hasPaperChange = false
-              for (let i = 0; i < response.data.data.paper.length; i++) {
-                let responseItem = response.data.data.paper[i]
+              for (let i = 0; i < allPaper.paper.length; i++) {
+                let responseItem = allPaper.paper[i]
                 if (responseItem.personId !== userId && responseItem.delFlag === '1') {
                   let curItem = localPaperList.find(localPaper => localPaper.paperId === responseItem.paperId)
                   if (curItem && curItem.delFlag !== '1') {
@@ -404,6 +426,11 @@ export default {
             console.log("获取检查活动的文书列表失败：", err);
           })
       }
+    },
+    getDocData (pageNo, path, userId, userSessId, caseId) {
+      // 分页获取文书、隐患数据
+      let url = `${path}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&flag=false&caseId=${caseId}&pageNo=${pageNo}&pageSize=20&isAll=1`
+      return this.$http.get(url)
     },
     closeSelectDialog () {
       // 关闭选择文书弹窗

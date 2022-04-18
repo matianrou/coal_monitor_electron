@@ -262,7 +262,7 @@
         this.loading.right = true
         this.caseList = []
         let userSessId = this.$store.state.user.userSessId
-        this.$http.get(`${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&flag=true`)
+        this.$http.get(`${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&flag=true&pageNo=1&pageSize=5000&isAll=1`)
         .then(async (response) => {
           if (response.status === 200) {
             if (response.data.data) {
@@ -317,32 +317,62 @@
               if (jczfCase && jczfCase.caseId) {
                 // 通过caseId获取所有文书和隐患
                 let userSessId = this.$store.state.user.userSessId
-                await this.$http.get(`${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${this.selectedUser.no}&flag=false&caseId=${jczfCase.caseId}&pageNo=1&pageSize=5000&isAll=1`)
+                let path = this.$store.state.user.userType === 'supervision' ? '/sv' : ''
+                await this.$http.get(`${path}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${this.selectedUser.no}&flag=false&caseId=${jczfCase.caseId}&pageNo=1&pageSize=20&isAll=1`)
                   .then(async ({data}) => {
                     if (data.status === '200') {
-                      let paper = []
-                      let danger = []
-                      if (data.data) {
-                        if (data.data.paper) {
-                          for (let i = 0; i < data.data.paper.length; i++) {
-                            let item = data.data.paper[i]
-                            paper.push(Object.assign({}, item))
-                          }
+                      let saveData = data.data
+                      if (saveData.totalCount > 0) {
+                        let requestCount = Math.ceil(saveData.totalCount / 20)
+                        let promises = []
+                        for (let i = 2; i <= requestCount; i++) {
+                          let promise = this.getDocData(i, path, this.selectedUser.no, userSessId, jczfCase.caseId)
+                          promises.push(promise)
                         }
-                        if (data.data.danger) {
-                          for (let i = 0; i < data.data.danger.length; i++) {
-                            let item = data.data.danger[i]
-                            danger.push(Object.assign({}, item))
-                          }
+                        let isSuccess = true // 是否所有请求都成功
+                        if (promises.length > 0) {
+                          // 大于1页数据时
+                          await Promise.all(promises).then(async (res) => {
+                            let totalSaveData = { // 全部下载数据汇总结果，放入已经下载的第一页数据
+                              paper: saveData.paper,
+                              danger: saveData.danger,
+                            } 
+                            for (let i = 0; i < res.length; i++) {
+                              let item = res[i]
+                              if (item.data.status === '200') {
+                                totalSaveData.paper = [...totalSaveData.paper, ...item.data.data.paper || []]
+                                totalSaveData.danger = [...totalSaveData.danger, ...item.data.data.danger || []]
+                              } else {
+                                isSuccess = false
+                              }
+                              if (!isSuccess) {
+                                break
+                              }
+                            }
+                            if (isSuccess) {
+                              await this.updateDatabase('wkCase', [jczfCase], 'caseId')
+                              await this.updatePaperDatabase(jczfCase.caseId, totalSaveData.paper)
+                              await this.updateDatabase('wkDanger', totalSaveData.danger, 'dangerId')
+                            }
+                          }).catch(err => {
+                            isSuccess = false
+                            console.log('个人账号文书资源下载失败，请尝试重新下载！', err)
+                          })
+                        } else {
+                          // 不大于1页数据
+                          await this.updateDatabase('wkCase', [jczfCase], 'caseId')
+                          await this.updatePaperDatabase(jczfCase.caseId, saveData.paper)
+                          await this.updateDatabase('wkDanger', saveData.danger, 'dangerId')
+                        }
+                        if (isSuccess) {
+                          // 更新检查活动侧边栏
+                          this.$emit('confirm', jczfCase)
+                          this.$message.success('文书拉取成功！')
+                          this.close()
+                        } else {
+                          this.$message.error("拉取用户文书失败，远程请求异常，可能是认证信息超时，请重新登录。");
                         }
                       }
-                      await this.updateDatabase('wkCase', [jczfCase], 'caseId')
-                      await this.updatePaperDatabase(jczfCase.caseId, paper)
-                      await this.updateDatabase('wkDanger', danger, 'dangerId')
-                      // 更新检查活动侧边栏
-                      this.$emit('confirm', jczfCase)
-                      this.$message.success('文书拉取成功！')
-                      this.close()
                     } else {
                       this.$message.error("拉取用户文书失败，远程请求异常，可能是认证信息超时，请重新登录。");
                     }})
@@ -356,6 +386,11 @@
         } else {
           this.$message.error('当前未选定需要拉取的检查活动，请选择需要拉取的检查活动后再点击拉取！')
         }
+      },
+      getDocData (pageNo, path, userId, userSessId, caseId) {
+        // 分页获取文书、隐患数据
+        let url = `${path}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&flag=false&caseId=${caseId}&pageNo=${pageNo}&pageSize=20&isAll=1`
+        return this.$http.get(url)
       },
     }
   }

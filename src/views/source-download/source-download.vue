@@ -493,42 +493,50 @@ export default {
               // 分页下载逻辑：
               // 1.用返回的totalCount总数(即case,danger,paper最多的个数)除以每页20个，获得需要请求的次数
               // 2.采用promise方式同步请求数据，获取所有数据后统一放入对应文件存储
-              let requestCount = Math.ceil(saveData.totalCount / 20)
-              let promises = []
-              for (let i = 2; i <= requestCount; i++) {
-                let promise = this.getDocData(i)
-                promises.push(promise)
-              }
               let isSuccess = true // 是否所有请求都成功，如果有一个不成功则提示下载失败
-              await Promise.all(promises).then(async (res) => {
-                let totalSaveData = { // 全部下载数据汇总结果，放入已经下载的第一页数据
-                  jczfCase: saveData.jczfCase,
-                  paper: saveData.paper,
-                  danger: saveData.danger,
-                } 
-                for (let i = 0; i < res.length; i++) {
-                  let item = res[i]
-                  if (item.data.status === '200') {
-                    totalSaveData.jczfCase = [...totalSaveData.jczfCase, ...item.data.data.jczfCase || []]
-                    totalSaveData.paper = [...totalSaveData.paper, ...item.data.data.paper || []]
-                    totalSaveData.danger = [...totalSaveData.danger, ...item.data.data.danger || []]
-                  } else {
+              if (saveData.totalCount > 0) {
+                let requestCount = Math.ceil(saveData.totalCount / 20)
+                let promises = []
+                for (let i = 2; i <= requestCount; i++) {
+                  let promise = this.getDocData(i)
+                  promises.push(promise)
+                }
+                if (promises.length > 0) {
+                  await Promise.all(promises).then(async (res) => {
+                    let totalSaveData = { // 全部下载数据汇总结果，放入已经下载的第一页数据
+                      jczfCase: saveData.jczfCase,
+                      paper: saveData.paper,
+                      danger: saveData.danger,
+                    } 
+                    for (let i = 0; i < res.length; i++) {
+                      let item = res[i]
+                      if (item.data.status === '200') {
+                        totalSaveData.jczfCase = [...totalSaveData.jczfCase, ...item.data.data.jczfCase || []]
+                        totalSaveData.paper = [...totalSaveData.paper, ...item.data.data.paper || []]
+                        totalSaveData.danger = [...totalSaveData.danger, ...item.data.data.danger || []]
+                      } else {
+                        isSuccess = false
+                      }
+                      if (!isSuccess) {
+                        break
+                      }
+                    }
+                    if (!isSuccess) {
+                      this.$message.error('个人账号文书资源下载失败，请尝试重新下载！')
+                    } else {
+                      await this.downloadFunction[`docSave`](resId, totalSaveData)
+                    }
+                  }).catch(err => {
                     isSuccess = false
-                  }
-                  if (!isSuccess) {
-                    break
-                  }
-                }
-                if (!isSuccess) {
-                  this.$message.error('个人账号文书资源下载失败，请尝试重新下载！')
+                    console.log('个人账号文书资源下载失败，请尝试重新下载！', err)
+                    this.$message.error('个人账号文书资源下载失败，请尝试重新下载！')
+                  })
                 } else {
-                  await this.downloadFunction[`docSave`](resId, totalSaveData)
+                  await this.downloadFunction[`docSave`](resId, saveData)
                 }
-              }).catch(err => {
-                isSuccess = false
-                console.log('个人账号文书资源下载失败，请尝试重新下载！', err)
-                this.$message.error('个人账号文书资源下载失败，请尝试重新下载！')
-              })
+              } else {
+                await this.downloadFunction[`docSave`](resId, saveData)
+              }
               // 后加逻辑：当下载个人账号文书资源时，额外请求接口获取：
               // 获取委托复查，
               // 获取罚款收缴，

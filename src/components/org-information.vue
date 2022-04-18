@@ -113,6 +113,7 @@ export default {
       if (this.corpData.caseId) {
         let wkCase = await this.getDatabase('wkCase')
         let caseData = wkCase.find(item => item.caseId === this.corpData.caseId)
+        console.log('活动Id：', this.corpData.caseId)
         let orgInfo = await this.getDatabase('org')
         let org = await getOrgTreeList()
         let allOrgList = org.orgList

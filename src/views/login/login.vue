@@ -431,37 +431,47 @@ export default {
                   let promise = this.getDocData(i, path, userId, userSessId, docUpdateTime)
                   promises.push(promise)
                 }
-                let isSuccess = true // 是否所有请求都成功
-                await Promise.all(promises).then(async (res) => {
-                  let totalSaveData = { // 全部下载数据汇总结果，放入已经下载的第一页数据
-                    jczfCase: saveData.jczfCase,
-                    paper: saveData.paper,
-                    danger: saveData.danger,
-                  } 
-                  for (let i = 0; i < res.length; i++) {
-                    let item = res[i]
-                    if (item.data.status === '200') {
-                      totalSaveData.jczfCase = [...totalSaveData.jczfCase, ...item.data.data.jczfCase || []]
-                      totalSaveData.paper = [...totalSaveData.paper, ...item.data.data.paper || []]
-                      totalSaveData.danger = [...totalSaveData.danger, ...item.data.data.danger || []]
-                    } else {
-                      isSuccess = false
+                if (promises.length > 0) {
+                  // 如果需要额外请求数据
+                  let isSuccess = true // 是否所有请求都成功
+                  await Promise.all(promises).then(async (res) => {
+                    let totalSaveData = { // 全部下载数据汇总结果，放入已经下载的第一页数据
+                      jczfCase: saveData.jczfCase,
+                      paper: saveData.paper,
+                      danger: saveData.danger,
+                    } 
+                    for (let i = 0; i < res.length; i++) {
+                      let item = res[i]
+                      if (item.data.status === '200') {
+                        totalSaveData.jczfCase = [...totalSaveData.jczfCase, ...item.data.data.jczfCase || []]
+                        totalSaveData.paper = [...totalSaveData.paper, ...item.data.data.paper || []]
+                        totalSaveData.danger = [...totalSaveData.danger, ...item.data.data.danger || []]
+                      } else {
+                        isSuccess = false
+                      }
+                      if (!isSuccess) {
+                        break
+                      }
                     }
-                    if (!isSuccess) {
-                      break
+                    if (isSuccess) {
+                      await this.updateDatabase('wkCase', totalSaveData.jczfCase, 'caseId')
+                      await this.updatePaperDatabase(null, totalSaveData.paper, 'paperId')
+                      await this.updateDatabase('wkDanger', totalSaveData.danger, 'dangerId')
+                      // 修改更新日期
+                      await this.handleUpdateTime()
                     }
-                  }
-                  if (isSuccess) {
-                    await this.updateDatabase('wkCase', totalSaveData.jczfCase, 'caseId')
-                    await this.updatePaperDatabase(null, totalSaveData.paper, 'paperId')
-                    await this.updateDatabase('wkDanger', totalSaveData.danger, 'dangerId')
-                    // 修改更新日期
-                    await this.handleUpdateTime()
-                  }
-                }).catch(err => {
-                  isSuccess = false
-                  console.log('个人账号文书资源下载失败，请尝试重新下载！', err)
-                })
+                  }).catch(err => {
+                    isSuccess = false
+                    console.log('个人账号文书资源下载失败，请尝试重新下载！', err)
+                  })
+                } else {
+                  // 如果不需要额外请求数据
+                  await this.updateDatabase('wkCase', saveData.jczfCase, 'caseId')
+                  await this.updatePaperDatabase(null, saveData.paper, 'paperId')
+                  await this.updateDatabase('wkDanger', saveData.danger, 'dangerId')
+                  // 修改更新日期
+                  await this.handleUpdateTime()
+                }
               } else {
                 await this.updateDatabase('wkCase', saveData.jczfCase, 'caseId')
                 await this.updatePaperDatabase(null, saveData.paper, 'paperId')

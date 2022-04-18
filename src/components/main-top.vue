@@ -21,68 +21,72 @@
     <div class="main-top-nav">
       <!-- 页签 -->
       <div class="main-top-tab">
-        <div
-          class="navTd no-drag"
-          :style="activeTab === 'SourceDownload' ? 'background: #224f7d;' : ''"
-          @click="changeTab('SourceDownload')">
-          <span>资源下载</span>
-        </div>
-        <div
-          class="navTd no-drag"
-          :style="activeTab === 'MakeLawWrit' ? 'background: #224f7d;' : ''"
-          @click="changeTab('MakeLawWrit')">
-          <span>执法工作台</span>
-        </div>
-        <div
-          class="navTd no-drag"
-          :style="activeTab === 'WritManagement' ? 'background: #224f7d;' : ''"
-          @click="changeTab('WritManagement')">
-          <span>文书管理</span>
-        </div>
-        <div
-          v-if="userType !== 'supervision'"
-          class="navTd no-drag"
-          :style="activeTab === 'WritCheck' ? 'background: #224f7d;' : ''"
-          @click="changeTab('WritCheck')">
-          <span>文书查看</span>
-        </div>
-        <div
-          v-if="userType !== 'supervision'"
-          class="navTd no-drag"
-          :style="activeTab === 'opinionSuggestion' ? 'background: #224f7d;' : ''"
-          @click="changeTab('opinionSuggestion')">
-          <span>意见建议书</span>
-        </div>
-        <div
-          v-if="userType !== 'supervision'"
-          class="navTd no-drag"
-          :style="activeTab === 'sendPaper' ? 'background: #224f7d;' : ''"
-          @click="changeTab('sendPaper')">
-          <span>调查互动</span>
-        </div>
-        <div
-          class="navTd no-drag"
-          :style="activeTab === 'learningMaterials' ? 'background: #224f7d;' : ''"
-          @click="changeTab('learningMaterials')">
-          <span>学习资料</span>
+        <div class="no-drag" style="display: flex;">
+          <div
+            class="navTd no-drag"
+            :style="activeTab === 'SourceDownload' ? 'background: #224f7d;' : ''"
+            @click="changeTab('SourceDownload')">
+            <span>资源下载</span>
+          </div>
+          <div
+            class="navTd no-drag"
+            :style="activeTab === 'MakeLawWrit' ? 'background: #224f7d;' : ''"
+            @click="changeTab('MakeLawWrit')">
+            <span>执法工作台</span>
+          </div>
+          <div
+            class="navTd no-drag"
+            :style="activeTab === 'WritManagement' ? 'background: #224f7d;' : ''"
+            @click="changeTab('WritManagement')">
+            <span>文书管理</span>
+          </div>
+          <div
+            v-if="userType !== 'supervision'"
+            class="navTd no-drag"
+            :style="activeTab === 'WritCheck' ? 'background: #224f7d;' : ''"
+            @click="changeTab('WritCheck')">
+            <span>文书查看</span>
+          </div>
+          <div
+            v-if="userType !== 'supervision'"
+            class="navTd no-drag"
+            :style="activeTab === 'opinionSuggestion' ? 'background: #224f7d;' : ''"
+            @click="changeTab('opinionSuggestion')">
+            <span>意见建议书</span>
+          </div>
+          <div
+            v-if="userType !== 'supervision'"
+            class="navTd no-drag"
+            :style="activeTab === 'sendPaper' ? 'background: #224f7d;' : ''"
+            @click="changeTab('sendPaper')">
+            <span>调查互动</span>
+          </div>
+          <div
+            class="navTd no-drag"
+            :style="activeTab === 'learningMaterials' ? 'background: #224f7d;' : ''"
+            @click="changeTab('learningMaterials')">
+            <span>学习资料</span>
+          </div>
         </div>
       </div>
-      <div class="main-top-operation no-drag" style="margin-left: 20px;">
-        <span class="el-dropdown-link">
-          <img src="@/components/assets/image/internet.png" style="cursor: pointer;" title="打开网络端" @click="openWeb" />
-        </span>
-        <span class="el-dropdown-link">
-          <img src="@/components/assets/image/send.png" style="margin: 0 20px; cursor: pointer;" title="隐患发送" @click="sendDanger" />
-        </span>
-        <!-- 消息提醒 -->
-        <el-dropdown :hide-on-click="false" @command="handleCommand">
+      <div class="main-top-operation" style="margin-left: 20px;">
+        <div class="no-drag" style="display: flex;">
           <span class="el-dropdown-link">
-            <img src="@/components/assets/image/msg.png" style="cursor: pointer;" title="消息通知"/>
+            <img src="@/components/assets/image/internet.png" style="cursor: pointer;" title="打开网络端" @click="openWeb" />
           </span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="checkList">您有{{notice.checkList.length || '0'}}条检查项任务待接收</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
+          <span class="el-dropdown-link">
+            <img src="@/components/assets/image/send.png" style="margin: 0 20px; cursor: pointer;" title="隐患发送" @click="sendDanger" />
+          </span>
+          <!-- 消息提醒 -->
+          <el-dropdown :hide-on-click="false" @command="handleCommand">
+            <span class="el-dropdown-link">
+              <img src="@/components/assets/image/msg.png" style="cursor: pointer;" title="消息通知"/>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="checkList">您有{{notice.checkList.length || '0'}}条检查项任务待接收</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
       </div>
     </div>
     <div class="main-top-operation-right">

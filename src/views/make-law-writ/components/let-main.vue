@@ -586,6 +586,29 @@ export default {
           CheckItemRecords,
         };
         let dateRange = handleDateRetrun(this.$parent.letData.cellIdx2)
+        // 整理监察方案中监察监管类型或方式（因历史数据已经存储文本方式，所以只能在此转为码表发送后台）
+        let checkList = ''
+        let dictionaryList = await this.getDatabase('dictionary')
+        let programmeTypeListJson = dictionaryList.find(item => item.type === 'programmeType')
+        let programmeTypeList = JSON.parse(programmeTypeListJson.list)
+        let stringList = this.$parent.letData.cellIdx1.split(',')
+        // 通过options换取value数组
+        stringList.map(string => {
+          programmeTypeList.map(option => {
+            // 判断当前字符串中是否有：符号，如果有则再次分解
+            if (string.includes('：')) {
+              let strings = string.split('：')
+              if (option.label === strings[0]) {
+                checkList += option.value + ','
+              }
+            } else {
+              if (option.label === string) {
+                checkList += option.value + ','
+              }
+            }
+          })
+        })
+        checkList = checkList.substring(0, checkList.length - 1)
         let p22PaperData = {
           // 获取检查事件
           p22BeginTime:dateRange.length > 0 ? dateRange[0]
@@ -597,7 +620,7 @@ export default {
               .replace("月", "-")
               .replace("日", "") + " 00:00:00" : null,
           p22location: this.$parent.letData.cellIdx4,
-          p22inspection: this.$parent.letData.cellIdx1, // ?
+          p22inspection: checkList, // ?
           p22JczfCheck: JSON.stringify(p22JczfCheck),
           locationRemarks: this.$parent.letData.cellIdx1, // ?
         };
