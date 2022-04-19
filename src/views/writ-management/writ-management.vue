@@ -405,6 +405,7 @@ export default {
           dangerouslyUseHTMLString: true,
           type: 'warning'
         }).then(async () => {
+          let isAllSuccess = true
           for (let i = 0; i < this.selectedPaperList.length; i++) {
             let item = this.selectedPaperList[i]
             if (item.delFlag !== '0') {
@@ -412,12 +413,19 @@ export default {
               if (item.personId === this.$store.state.user.userId) {
                 await this.filePaper(item)
               } else {
+                isAllSuccess = false
                 this.$message.error('文书为拉取文书，不可归档！')
               }
             }
+            if (!isAllSuccess) {
+              // 如果归档失败则跳出
+              break
+            }
           }
           this.loading.btn = false
-          this.$message.success(`批量归档成功！`)
+          if (isAllSuccess) {
+            this.$message.success(`批量归档成功！`)
+          }
           this.getData()
         }).catch(() => {
           this.loading.btn = false

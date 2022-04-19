@@ -21,7 +21,7 @@
     <div class="main-top-nav">
       <!-- 页签 -->
       <div class="main-top-tab">
-        <div class="no-drag" style="display: flex;">
+        <div class="main-top-tab-nav no-drag">
           <div
             class="navTd no-drag"
             :style="activeTab === 'SourceDownload' ? 'background: #224f7d;' : ''"
@@ -434,7 +434,12 @@ export default {
     .main-top-tab {
       flex: 1;
       display: flex;
-      overflow-y: auto;
+      overflow: hidden;
+      .main-top-tab-nav {
+        flex: 1;
+        display: flex; 
+        overflow-y: auto;
+      }
       .navTd {
         width: 120px;
         min-width: 100px;
@@ -507,10 +512,10 @@ export default {
 // }
 
 /*滚动条整体样式*/
-.main-top-tab::-webkit-scrollbar {
+.main-top-tab-nav::-webkit-scrollbar {
   height: 8px;
 } 
-.main-top-tab::-webkit-scrollbar-thumb {
+.main-top-tab-nav::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background-color: #f19716;
   background-image: -webkit-linear-gradient(
@@ -524,7 +529,7 @@ export default {
       transparent
   );
 }
-.main-top-tab::-webkit-scrollbar-track {
+.main-top-tab-nav::-webkit-scrollbar-track {
   box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
   background   : #ededed;
   border-radius: 10px;
