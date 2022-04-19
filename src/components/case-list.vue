@@ -300,12 +300,15 @@ export default {
             listArr = [...wkCase]
           }
           if (arrPlan.length > 0) {
-            listArr = [...listArr, ...arrPlan]
+            listArr = [...listArr]
           }
         } else {
           listArr = wkCase.length > 0 ? [...wkCase] : [];
         }
         listArr.sort(sortbyDes('createTime'))
+        if (arrPlan.length > 0) {
+          listArr = [...listArr, ...arrPlan]
+        }
         this.total = listArr.length;
         // 转换为列表所需要的值
         for (let i = 0; i < listArr.length; i++) {
