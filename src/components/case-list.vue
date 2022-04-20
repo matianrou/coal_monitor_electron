@@ -62,7 +62,8 @@
             @dblclick="editaddbook(item)"
             :title="item.corpName"
             @click="showDocHome(item, index)">
-            <img src="@/components/assets/image/flash_on.png" alt="" style="vertical-align: middle;" />
+            <img v-if="item.personId === $store.state.user.userId" src="@/components/assets/image/flash_on.png" alt="" style="vertical-align: middle;" />
+            <img v-else src="@/components/assets/image/user-group.png" alt="" style="vertical-align: middle; width: 12px;" />
             <span>{{ item.corpName }}</span>
           </div>
         </div>
@@ -721,16 +722,22 @@ export default {
       flex: 1;
       overflow: auto;
       .case-list-select-list-item {
-        display: inline-block;
+        display: flex;
         height: 36px;
         width: calc(100% - 25px);
         cursor: pointer;
         line-height: 36px;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
         padding: 0 10px 0 15px;
+        align-items: center;
+        img {
+          height: 20px;
+          width: 20px;
+          margin-right: 5px;
+        }
         span {
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
           font-size: 1.1rem;
           font-family: Source Han Sans CN-Regular, Source Han Sans CN;
           font-weight: 400;

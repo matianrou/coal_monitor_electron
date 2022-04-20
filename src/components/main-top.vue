@@ -111,6 +111,8 @@
                 切换网络
                 <el-switch
                   v-model="netStatus"
+                  :disabled="changeNetStatusDisabled"
+                  :title="changeNetStatusDisabled ? '当前未记住登录账号，无法切换离线状态' : ''"
                   style="margin-left: 3px;"
                   active-color="#13ce66"
                   inactive-color="#ff4949"
@@ -165,6 +167,18 @@ export default {
       version: null,
       netStatus: this.$store.state.onLine,
     };
+  },
+  computed: {
+    changeNetStatusDisabled () {
+      // 判断是否可以切换在线离线，如果登陆时未选中记住当前账号，则不可切换
+      let changeNetStatusDisabled = true
+      if (localStorage.getItem('userAccount')) {
+        changeNetStatusDisabled = false
+      } else {
+        changeNetStatusDisabled = true
+      }
+      return changeNetStatusDisabled
+    }
   },
   created() {
     this.getTab();
