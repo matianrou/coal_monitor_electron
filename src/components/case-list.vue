@@ -53,7 +53,7 @@
             :title="item.corpName"
             @click="showDocHome(item, index)">
             <!-- <i class="el-icon-date" style="font-size:16px; color: #3D3D3D;"></i> -->
-            <img src="@/components/assets/image/flash_off.png" alt="" style="vertical-align: middle;" />
+            <img src="@/components/assets/image/flash_off.png" alt="" />
             <span>{{ item.corpName }}</span>
           </div>
           <div
@@ -62,8 +62,8 @@
             @dblclick="editaddbook(item)"
             :title="item.corpName"
             @click="showDocHome(item, index)">
-            <img v-if="item.personId === $store.state.user.userId" src="@/components/assets/image/flash_on.png" alt="" style="vertical-align: middle;" />
-            <img v-else src="@/components/assets/image/user-group.png" alt="" style="vertical-align: middle; width: 12px;" />
+            <img v-if="item.personId === $store.state.user.userId" src="@/components/assets/image/flash_on.png" alt="" />
+            <img v-else src="@/components/assets/image/user-group.png" alt="" />
             <span>{{ item.corpName }}</span>
           </div>
         </div>
@@ -733,6 +733,7 @@ export default {
           height: 20px;
           width: 20px;
           margin-right: 5px;
+          vertical-align: middle;
         }
         span {
           overflow: hidden;
