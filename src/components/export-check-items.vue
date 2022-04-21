@@ -126,7 +126,7 @@
         let caseList = []
         caseList = JSON.parse(JSON.stringify(wkPaper.filter(item => item.paperType === '22' 
           && item.delFlag !== '1' 
-          && item.personId === this.$store.state.user.userId
+          // && item.personId === this.$store.state.user.userId // 22.4.20 柴需求：检查方案检查分工明细表可导入拉取的文书
           && item.localizeFlag === '1')))
         let exportCaseList = []
         if (caseList && caseList.length > 0) {

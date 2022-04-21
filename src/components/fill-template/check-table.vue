@@ -453,12 +453,12 @@ export default {
     },
     deleteItems () {
       // 多选删除
-      let mesName = ''
-      this.multiSelectedIndexs.map(item => {
-        mesName += item.categoryName + ','
-      })
-      mesName = mesName.substring(0, mesName.length - 1)
-      this.$confirm(`是否确定删除检查事项：‘${mesName}’？`, '提示', {
+      // let mesName = ''
+      // this.multiSelectedIndexs.map(item => {
+      //   mesName += item.categoryName + ','
+      // })
+      // mesName = mesName.substring(0, mesName.length - 1)
+      this.$confirm(`是否确定删除所有已选的检查事项？`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           dangerouslyUseHTMLString: true,

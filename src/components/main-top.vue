@@ -450,7 +450,7 @@ export default {
       display: flex;
       overflow: hidden;
       .main-top-tab-nav {
-        flex: 1;
+        // flex: 1;
         display: flex; 
         overflow-y: auto;
       }
