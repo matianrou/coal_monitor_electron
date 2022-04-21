@@ -239,13 +239,11 @@ export function createHtml(paperDiv, corpData) {
         .mutiLineArea p {
           width: 100%;
           border-bottom: 1px solid #000;
-          line-height: 2.25rem;;
           white-space: pre-wrap;
         }
         .mutiLineArea span{
           width: 100%;
-          height: 2.25rem;;
-          line-height: 2.25rem;;
+          line-height: 35px;
         }
         .page-break-line {
           margin: 0 auto;

@@ -1,11 +1,12 @@
 <!-- 多行文本下划线 -->
 <template>
   <div>
+    <!-- ${(index + 1) * 2.25}rem; -->
     <div
       v-for="(item, index) in lineNum"
       :key="index"
       class="cellLine"
-      :style="`top: ${(index + 1) * 2.25}rem;`"
+      :style="`top: ${(index + 1) * 35}px;`"
     >
     </div>
   </div>
