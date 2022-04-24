@@ -108,6 +108,11 @@ export default {
       let tableData = await this.getDatabase('prepareUpload')
       tableData.sort(sortbyAsc('createTime'))
       this.tableData = tableData
+      if (tableData.length > 0) {
+        this.$message.error('当前有未同步的文书，请及时同步！')
+      } else {
+        this.$message.success('当前文书已全部同步！')
+      }
       this.loading = false
     },
     handleSelectionChange (val) {
@@ -137,10 +142,10 @@ export default {
               await this.paperDelete(item.paperId, (item.caseId ? item.caseId : 'opinion-suggestion'))
             }
           }
-          this.$message.success('完成云同步')
           await this.getData()
           this.loading = false
         }).catch((err) => {
+          this.$message.error('云同步失败，请重新尝试！')
           console.log('云同步失败：', err)
         })
     }

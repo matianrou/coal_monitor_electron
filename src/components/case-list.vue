@@ -226,7 +226,7 @@ export default {
     },
     setInitSelect () {
       // 如果数据仓库中有存储则恢复
-      if (this.$store.state.selectedCaseOption) {
+      if (this.$store.state.selectedCaseOption && this.$store.state.selectedCaseOption.selGovUnit) {
         this.$set(this, 'dataForm', this.$store.state.selectedCaseOption)
       } else {
         // 如果已经有选中的则回显
@@ -696,7 +696,7 @@ export default {
     display: flex;
     flex-direction: column;
     background: #FFFFFF;
-    box-shadow: 0px 2px 20px 1px rgba(66, 130, 230, 0.09000000357627869);
+    box-shadow: 0px 2px 20px 1px rgba(66, 130, 230, 0.09);
     border-radius: 10px 10px 10px 10px;
     margin-right: 2px;
     .case-list-select-title {
