@@ -227,7 +227,6 @@
                 <p class="show-area-item-p">
                   <span style="padding: 7px;">{{ letData.cellIdx21? letData.cellIdx21 : '（点击编辑）' }}</span>
                 </p>
-                <p class="show-area-item-p">&nbsp;</p>
                 <cell-line :line-num="300"></cell-line>
               </div>
               <div v-else>
