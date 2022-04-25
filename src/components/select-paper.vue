@@ -134,6 +134,24 @@ export default {
           })
           dialogWidth += 200
         }
+        // 特殊处理:调查取证笔录：增加被调查人姓名展示
+        if (paperType === '5') {
+          for (let i = 0; i < this.paperList.length; i++) {
+            let item = this.paperList[i]
+            if (JSON.parse(item.paperContent) && JSON.parse(item.paperContent).cellIdx9) {
+              item.respondent = JSON.parse(item.paperContent).cellIdx9
+            } else {
+              item.respondent = ''
+            }
+          }
+          colList.splice(colList.length - 2, 0, {
+            label: '被调查人',
+            prop: 'respondent',
+            width: '120',
+            align: 'center',
+          })
+          dialogWidth += 120
+        }
         let userType = this.$store.state.user.userType
         // 特殊处理：有隐患项的文书展示隐患描述
         if (paperType === '1' || paperType === '2' || paperType === '13' || paperType === '44'

@@ -469,13 +469,12 @@ export default {
         }
         .detail-paper-list-main {
           flex: 1;
-          overflow: auto;
+          overflow: hidden;
           display: flex;
           margin-top: 20px;
-          border-radius: 10px;
           background: #fff;
-          box-shadow: 0px 2px 20px 1px rgba(66, 130, 230, 0.09000000357627869);
-          border-radius: 10px 10px 10px 10px;
+          box-shadow: 0px 2px 20px 1px rgba(66, 130, 230, 0.09);
+          border-radius: 10px;
           .detail-paper-list {
             flex: 1;
             display: flex;
