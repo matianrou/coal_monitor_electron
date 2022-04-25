@@ -137,7 +137,8 @@ export default {
         }
         let confirmInfo = ''
         if (totalFine) {
-          confirmInfo = `处罚合计${totalFine / 10000}万元，${this.letData.selectedType}${totalFine / 10000}万元。`
+          let fine = (totalFine / 10000).toFixed(6)
+          confirmInfo = `处罚合计${fine}万元，${this.letData.selectedType}${fine}万元。`
         }
         this.confirmInfo = confirmInfo
         this.dangerList = dangerList
