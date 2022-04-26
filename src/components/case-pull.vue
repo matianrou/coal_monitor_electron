@@ -334,8 +334,8 @@
                           // 大于1页数据时
                           await Promise.all(promises).then(async (res) => {
                             let totalSaveData = { // 全部下载数据汇总结果，放入已经下载的第一页数据
-                              paper: saveData.paper,
-                              danger: saveData.danger,
+                              paper: saveData.paper || [],
+                              danger: saveData.danger || [],
                             } 
                             for (let i = 0; i < res.length; i++) {
                               let item = res[i]

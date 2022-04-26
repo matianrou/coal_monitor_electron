@@ -100,8 +100,8 @@
       <div class="no-drag" style="display: flex; flex: 1; align-items: center;">
         <!-- 个人和更多 -->
         <el-dropdown :hide-on-click="false" @command="handleCommand" style="min-width: 120px; cursor: pointer;">
-          <span class="el-dropdown-link info-wrap">
-            <span style="color: #fff; font-size: 0.9rem;">欢迎您：{{$store.state.user.userName}}</span><i class="el-icon-caret-bottom" style="color: #f19716;"></i>
+          <span class="el-dropdown-link info-wrap font-rem">
+            <span style="color: #fff;">欢迎您：{{$store.state.user.userName}}</span><i class="el-icon-caret-bottom" style="color: #f19716;"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>
@@ -123,7 +123,7 @@
             <el-dropdown-item command="clearLogin" divided>注销登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <span style="color: #fff; font-size: 0.9rem; margin-left: 10px;">v{{version}}</span>
+        <span class="font-rem" style="color: #fff; margin-left: 10px;">v{{version}}</span>
       </div>
     </div>
     <send-danger
@@ -435,6 +435,9 @@ export default {
     }
     span {
       font-size: 1.3rem;
+      @media only screen and (min-width: 1920px) {
+        font-size: 1.4rem;
+      }
       font-family: Source Han Sans CN-Bold, Source Han Sans CN;
       font-weight: bold;
       color: #FFFFFF;
@@ -462,6 +465,9 @@ export default {
         justify-content: center;
         color: #fff;
         font-size: 1.1rem;
+        @media only screen and (min-width: 1920px) {
+          font-size: 1.2rem;
+        }
         font-family: Source Han Sans CN-Regular, Source Han Sans CN;
         font-weight: 400;
         letter-spacing: 0.1rem;
@@ -547,5 +553,11 @@ export default {
   box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
   background   : #ededed;
   border-radius: 10px;
+}
+.font-rem {
+  font-size: 0.9rem;
+  @media only screen and (min-width: 1920px) {
+    font-size: 1rem;
+  }
 }
 </style>

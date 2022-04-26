@@ -713,6 +713,9 @@ export default {
         font-family: Source Han Sans CN-Medium, Source Han Sans CN;
         font-weight: 500;
         color: #4282E6;
+        @media only screen and (min-width: 1920px) {
+          font-size: 1.3rem;
+        }
       }
     }
     .case-list-select-filter {
@@ -740,6 +743,9 @@ export default {
           white-space: nowrap;
           text-overflow: ellipsis;
           font-size: 1.1rem;
+          @media only screen and (min-width: 1920px) {
+            font-size: 1.2rem;
+          }
           font-family: Source Han Sans CN-Regular, Source Han Sans CN;
           font-weight: 400;
           color: #3D3D3D;
@@ -790,4 +796,5 @@ export default {
     color: #fff;
   }
 }
+
 </style>

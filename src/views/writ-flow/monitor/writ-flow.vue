@@ -1123,6 +1123,9 @@ export default {
   height: 40px;
   line-height: 40px;
   font-size: 1.2rem;
+  @media only screen and (min-width: 1920px) {
+    font-size: 1.3rem;
+  }
   margin: 0px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -1148,6 +1151,9 @@ export default {
     }
     span {
       font-size: 1.1rem;
+      @media only screen and (min-width: 1920px) {
+        font-size: 1.2rem;
+      }
       font-family: Source Han Sans CN-Medium, Source Han Sans CN;
       font-weight: 500;
       color: #3D3D3D;
@@ -1201,6 +1207,9 @@ export default {
 }
 /deep/ .el-tabs__item {
   font-size: 1.1rem;
+  @media only screen and (min-width: 1920px) {
+    font-size: 1.2rem;
+  }
   font-family: Source Han Sans CN-Regular, Source Han Sans CN;
   font-weight: 400;
   color: #333333;
@@ -1300,6 +1309,9 @@ export default {
   cursor: pointer;
   span {
     font-size: 1rem;
+    @media only screen and (min-width: 1920px) {
+      font-size: 1.1rem;
+    }
     font-family: Source Han Sans CN-Regular, Source Han Sans CN;
     font-weight: 500;
     color: #3D3D3D;

@@ -243,7 +243,7 @@ export function createHtml(paperDiv, corpData) {
         }
         .mutiLineArea span{
           width: 100%;
-          line-height: 2.25em;
+          line-height: 2.25rem;
         }
         .page-break-line {
           margin: 0 auto;

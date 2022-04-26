@@ -219,6 +219,9 @@ export default {
     height: 40px;
     line-height: 40px;
     font-size: 1.2rem;
+    @media only screen and (min-width: 1920px) {
+      font-size: 1.3rem;
+    }
     margin: 0px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -244,6 +247,9 @@ export default {
     .plan-date {
       margin-left: 40px;
       font-size: 1rem;
+      @media only screen and (min-width: 1920px) {
+        font-size: 1.1rem;
+      }
       font-family: Source Han Sans CN-Regular, Source Han Sans CN;
       font-weight: 400;
       color: #666666;
@@ -266,6 +272,9 @@ export default {
     .group-name {
       margin-left: 30px;
       font-size: 1rem;
+      @media only screen and (min-width: 1920px) {
+        font-size: 1.1rem;
+      }
       font-family: Source Han Sans CN-Regular, Source Han Sans CN;
       font-weight: 400;
       color: #666666;
@@ -289,6 +298,9 @@ export default {
         }
         span {
           font-size: 1rem;
+          @media only screen and (min-width: 1920px) {
+            font-size: 1.1rem;
+          }
           font-family: Source Han Sans CN-Regular, Source Han Sans CN;
           font-weight: 400;
           color: #FFFFFF;
@@ -312,6 +324,9 @@ export default {
         display: flex;
         text-indent: 30px;
         font-size: 1.1rem;
+        @media only screen and (min-width: 1920px) {
+          font-size: 1.2rem;
+        }
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
