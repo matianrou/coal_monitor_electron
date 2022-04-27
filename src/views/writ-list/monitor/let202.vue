@@ -225,7 +225,7 @@
               >
               <div v-if="letData.cellIdx21 && letData.cellIdx21.length > 0">
                 <p class="show-area-item-p">
-                  <span style="padding: 7px;">{{ letData.cellIdx21? letData.cellIdx21 : '（点击编辑）' }}</span>
+                  <span>{{ letData.cellIdx21? letData.cellIdx21 : '（点击编辑）' }}</span>
                 </p>
                 <cell-line :line-num="300"></cell-line>
               </div>

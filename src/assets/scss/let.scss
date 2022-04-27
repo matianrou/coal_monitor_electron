@@ -284,13 +284,13 @@ table td{margin:0;padding:0;}
   width: 100%;
   border-bottom: 1px solid #000;
   // height: 9.6mm;
-  // line-height: 2.25rem;
+  line-height: 2.25rem;
   white-space: pre-wrap;
   // text-indent: 2em;
 }
 .mutiLineArea span{
   width: 100%;
-  line-height: 2.25rem;
+  font-size: 100%;
 }
 .page-break-line {
   margin: 0 auto;

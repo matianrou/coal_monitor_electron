@@ -770,62 +770,64 @@ export default {
       this.orderTable(dangerItemDetail.order, newOrder)
     },
     changeValue (val, field) {
-      let index = this.dataForm.tempValue.tableData.findIndex(item => item.dangerId === this.dangerItemDetail.dangerId)
-      this.dataForm.tempValue.tableData[index][field] = val
-      if (field === 'isReview') {
-        if (val === '1') {
-          // 如果是隐患复查，并且为是的时候，设置reviewDate复查日期为顺延一个月
-          let reviewDate = severalDaysLater(30)
-          let reviewDateList = reviewDate.split('-')
-          this.dangerItemDetail.reviewDate = `${reviewDateList[0]}年${reviewDateList[1]}月${reviewDateList[2]}日`
-          this.dataForm.tempValue.tableData[index]['reviewDate'] = this.dangerItemDetail.reviewDate
-        } else {
-          // 如果不为隐患复查，清空日期
-          this.dangerItemDetail.reviewDate = ''
-          // this.$set(this.dataForm.tempValue.tableData, index, this.dangerItemDetail)
-          this.dataForm.tempValue.tableData[index]['reviewDate'] = ''
+      if (this.dataForm.tempValue.tableData.length > 0) {
+        let index = this.dataForm.tempValue.tableData.findIndex(item => item.dangerId === this.dangerItemDetail.dangerId)
+        this.dataForm.tempValue.tableData[index][field] = val
+        if (field === 'isReview') {
+          if (val === '1') {
+            // 如果是隐患复查，并且为是的时候，设置reviewDate复查日期为顺延一个月
+            let reviewDate = severalDaysLater(30)
+            let reviewDateList = reviewDate.split('-')
+            this.dangerItemDetail.reviewDate = `${reviewDateList[0]}年${reviewDateList[1]}月${reviewDateList[2]}日`
+            this.dataForm.tempValue.tableData[index]['reviewDate'] = this.dangerItemDetail.reviewDate
+          } else {
+            // 如果不为隐患复查，清空日期
+            this.dangerItemDetail.reviewDate = ''
+            // this.$set(this.dataForm.tempValue.tableData, index, this.dangerItemDetail)
+            this.dataForm.tempValue.tableData[index]['reviewDate'] = ''
+          }
+        } else if (field === 'penaltyDesc') {
+          // 修改行政处罚决定时同步关联修改罚金字段penaltyDescFine
+          // 同步关联修改行政处罚决定类型
+          let {money, count} = retrunGetMoney(val)
+          let penaltyDescFine = 0
+          if (count > 0 && count < 3) {
+            penaltyDescFine = money
+          }
+          let {id, type} = getPenaltyDescType(val, this.subitemTypeOptions)
+          this.dataForm.tempValue.tableData[index].penaltyDescFine = penaltyDescFine
+          this.dataForm.tempValue.tableData[index].penaltyDescTypeId = id
+          this.dataForm.tempValue.tableData[index].penaltyDescType = type
+          // 同步修改已选择的数据
+          // if (this.dataForm.tempValue.selectedDangerList && this.dataForm.tempValue.selectedDangerList.length > 0) {
+          //   let selectedItemIndex = this.dataForm.tempValue.selectedDangerList.findIndex(item => item.dangerId === this.dataForm.tempValue.tableData[index].dangerId)
+          //   if (selectedItemIndex !== -1) {
+          //     let obj = Object.assign({}, this.dataForm.tempValue.selectedDangerList[selectedItemIndex], {
+          //       penaltyDescFine: penaltyDescFine,
+          //       penaltyDescTypeId: id,
+          //       penaltyDescType: type,
+          //     })
+          //     this.$set(this.dataForm.tempValue.selectedDangerList, selectedItemIndex, obj)
+          //   }
+          // }
+        } else if (field === 'onsiteDesc') {
+          this.changeOnsiteDesc(val)
         }
-      } else if (field === 'penaltyDesc') {
-        // 修改行政处罚决定时同步关联修改罚金字段penaltyDescFine
-        // 同步关联修改行政处罚决定类型
-        let {money, count} = retrunGetMoney(val)
-        let penaltyDescFine = 0
-        if (count > 0 && count < 3) {
-          penaltyDescFine = money
-        }
-        let {id, type} = getPenaltyDescType(val, this.subitemTypeOptions)
-        this.dataForm.tempValue.tableData[index].penaltyDescFine = penaltyDescFine
-        this.dataForm.tempValue.tableData[index].penaltyDescTypeId = id
-        this.dataForm.tempValue.tableData[index].penaltyDescType = type
         // 同步修改已选择的数据
-        // if (this.dataForm.tempValue.selectedDangerList && this.dataForm.tempValue.selectedDangerList.length > 0) {
-        //   let selectedItemIndex = this.dataForm.tempValue.selectedDangerList.findIndex(item => item.dangerId === this.dataForm.tempValue.tableData[index].dangerId)
-        //   if (selectedItemIndex !== -1) {
-        //     let obj = Object.assign({}, this.dataForm.tempValue.selectedDangerList[selectedItemIndex], {
-        //       penaltyDescFine: penaltyDescFine,
-        //       penaltyDescTypeId: id,
-        //       penaltyDescType: type,
-        //     })
-        //     this.$set(this.dataForm.tempValue.selectedDangerList, selectedItemIndex, obj)
-        //   }
-        // }
-      } else if (field === 'onsiteDesc') {
-        this.changeOnsiteDesc(val)
-      }
-      // 同步修改已选择的数据
-      if (this.dataForm.tempValue.selectedDangerList && this.dataForm.tempValue.selectedDangerList.length > 0) {
-        let selectedItemIndex = this.dataForm.tempValue.selectedDangerList.findIndex(item => item.dangerId === this.dataForm.tempValue.tableData[index].dangerId)
-        if (selectedItemIndex !== -1) {
-          this.dataForm.tempValue.selectedDangerList[selectedItemIndex] = this.dataForm.tempValue.tableData[index]
+        if (this.dataForm.tempValue.selectedDangerList && this.dataForm.tempValue.selectedDangerList.length > 0) {
+          let selectedItemIndex = this.dataForm.tempValue.selectedDangerList.findIndex(item => item.dangerId === this.dataForm.tempValue.tableData[index].dangerId)
+          if (selectedItemIndex !== -1) {
+            this.dataForm.tempValue.selectedDangerList[selectedItemIndex] = this.dataForm.tempValue.tableData[index]
+          }
         }
-      }
-      if (field === 'penaltyDesc') {
-        // 此步需要等上面同步更新已修改数据后再执行，所以单独放在此处，不要合并至上边的if else中
-        // 修改行政处罚信息捕获内容和合并处罚文书用语
-        this.setPunishmentInfor = true
-        let page = this.options.page
-        if (page === '36' || page === '6' || page === '8') {
-          this.updatePunishmentList()
+        if (field === 'penaltyDesc') {
+          // 此步需要等上面同步更新已修改数据后再执行，所以单独放在此处，不要合并至上边的if else中
+          // 修改行政处罚信息捕获内容和合并处罚文书用语
+          this.setPunishmentInfor = true
+          let page = this.options.page
+          if (page === '36' || page === '6' || page === '8') {
+            this.updatePunishmentList()
+          }
         }
       }
     },

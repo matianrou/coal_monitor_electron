@@ -470,6 +470,7 @@ export default {
         .detail-paper-list-main {
           flex: 1;
           overflow: hidden;
+          overflow-x: auto;
           display: flex;
           margin-top: 20px;
           background: #fff;

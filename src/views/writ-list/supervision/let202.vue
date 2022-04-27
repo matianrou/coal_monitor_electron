@@ -165,7 +165,7 @@
               @click="commandFill('cellIdx21', '', 'TextareaItem')">
               <div v-if="letData.cellIdx21 && letData.cellIdx21.length > 0" style="position: relative;">
                 <p class="show-area-item-p">
-                  <span style="padding: 7px;">{{letData.cellIdx21 ? letData.cellIdx21 : '（点击编辑）'}}</span>
+                  <span>{{letData.cellIdx21 ? letData.cellIdx21 : '（点击编辑）'}}</span>
                 </p>
                 <p class="show-area-item-p">&nbsp;</p>
                 <cell-line :line-num="300"></cell-line>
