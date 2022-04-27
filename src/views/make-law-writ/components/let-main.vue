@@ -1051,7 +1051,7 @@ export default {
         let saveFields = []
         switch (options.page) {
           case '13': 
-            saveFields = ['cellIdx9', 'cellIdx10']
+            saveFields = this.$store.state.user.userType === 'monitor' ? ['cellIdx9', 'cellIdx10'] : ['cellIdx9', 'cellIdx14']
             break
           case '32': 
             saveFields = this.$store.state.user.userType === 'monitor' ? ['cellIdx6', 'cellIdx7'] : ['cellIdx7', 'cellIdx8']
@@ -1383,12 +1383,18 @@ export default {
         // 如果是现场处理决定书：修改cellIdx7
         let newcellIdx7 = setDangerTable(newDangerTable, {}, { page: '2' })
         paperContentOld.cellIdx7 = newcellIdx7
-      } else if (itemPaper.paperType === '13') {
+      } else if (itemPaper.paperType === '13' && this.$store.state.user.userType !== 'supervision') {
         // 复查意见书时，修改cellIdx9和cellIdx10
         let newcellIdx9 = setDangerTable(newDangerTable, {}, { page: '13', key: 'cellIdx9' })
         let newcellIdx10 = setDangerTable(newDangerTable, {}, { page: '13', key: 'cellIdx10' })
         paperContentOld.cellIdx9 = newcellIdx9
         paperContentOld.cellIdx10 = newcellIdx10
+      }  else if (itemPaper.paperType === '13' && this.$store.state.user.userType === 'supervision') {
+        // 监管复查意见书时，修改cellIdx9和cellIdx14
+        let newcellIdx9 = setDangerTable(newDangerTable, {}, { page: '13', key: 'cellIdx9' })
+        let newcellIdx14 = setDangerTable(newDangerTable, {}, { page: '13', key: 'cellIdx14' })
+        paperContentOld.cellIdx9 = newcellIdx9
+        paperContentOld.cellIdx14 = newcellIdx14
       } else if (itemPaper.paperType === '4') {
         // 立案决定书时，修改cellIdx4，cellIdx5
         let newcellIdx4 = setDangerTable(newDangerTable, {}, { 
