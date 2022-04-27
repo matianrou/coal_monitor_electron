@@ -118,6 +118,9 @@ export default {
       ]
       let paperName = ''
       let dialogWidth = 385
+      if (this.multiSelect) {
+        dialogWidth += 55
+      }
       if (this.paperList && this.paperList.length > 0) {
         // 特殊处理:检查方案
         let paperType = this.paperList[0].paperType

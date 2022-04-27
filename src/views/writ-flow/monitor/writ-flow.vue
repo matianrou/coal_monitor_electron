@@ -145,17 +145,12 @@
       :danger-list="showChangeDangerList"
       @close="closeDialog"
     ></show-change-danger-items>
-    <select-delete-paper
-      :visible="visible.selectDelPaper"
-      :paper-list="deletePaperList"
-      @close="closeDialog"
-      @confirm="confirmDelete"
-    ></select-delete-paper>
     <!-- 选择文书 -->
     <select-paper
       v-if="visible.selectPaper"
       :visible="visible.selectPaper"
       :paper-list="paperList"
+      :multi-select="multiSelect"
       @close="closeDialog"
       @confirm-paper="confirmPaper"
     ></select-paper>
@@ -169,12 +164,10 @@
   </div>
 </template>
 
-
 <script>
 import receivePaper from "@/views/writ-flow/components/receive-paper";
 import showDangerItems from '@/components/show-danger-items'
 import showChangeDangerItems from '@/components/show-change-danger-items'
-import selectDeletePaper from "@/views/writ-flow/components/select-delete-paper";
 import selectPaper from '@/components/select-paper'
 import punishmentInfoFill from '@/components/punishment-info-fill'
 export default {
@@ -183,7 +176,6 @@ export default {
     receivePaper,
     showDangerItems,
     showChangeDangerItems,
-    selectDeletePaper,
     selectPaper,
     punishmentInfoFill
   },
@@ -240,7 +232,6 @@ export default {
         receivePaper: false,
         showDangerItems: false,
         showChangeDangerItems: false, // 查看关联修改隐患项弹窗
-        selectDelPaper: false, // 选择要删除的文书
         selectPaper: false, // 选择文书
         punishmentInfoFill: false, // 事故类型行政处罚决定处罚详情查看
       },
@@ -250,7 +241,7 @@ export default {
       loading: {
         btn: false,
       },
-      deletePaperList: [], // 可删除的文书列表
+      selectDelPaper: false, // 选择删除的文书
       // 以下三个字段用于事故处罚时展示处罚详情
       paperList: [], // 需要查看的文书列表
       letData: {}, // 需要查看文书的字段集合
@@ -904,6 +895,14 @@ export default {
       }
       return status;
     },
+    multiSelect() {
+      let multiSelect = false
+      // 选择删除的文书时可多选
+      if (this.selectDelPaper) {
+        multiSelect = true
+      }
+      return multiSelect
+    }
   },
   methods: {
     doTabSwitch(tab) {
@@ -1049,21 +1048,35 @@ export default {
         })
       } else {
         // 当有多个文书的时候，打开弹窗选择要删除的文书
-        this.deletePaperList = curPaper
-        this.visible.selectDelPaper = true
+        this.paperList = curPaper
+        this.selectDelPaper = true // 选择删除文书标记
+        this.visible.selectPaper = true
       }
       this.loading.btn = false
     },
     async confirmDelete (paperList) {
-      this.loading.btn = true
-      this.visible.selectDelPaper = false
-      // 遍历删除每个文书
-      for (let i = 0; i < paperList.length; i++) {
-        await this.confirmDeletePaper(paperList[i])
+      if (paperList.length > 0) {
+        await this.$confirm(`是否确认删除已选中的文书?`, '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            dangerouslyUseHTMLString: true,
+            type: 'warning'
+          }).then(async () => {
+            this.loading.btn = true
+            this.visible.selectPaper = false
+            this.selectDelPaper = false // 恢复选择删除文书标记
+            // 遍历删除每个文书
+            for (let i = 0; i < paperList.length; i++) {
+              await this.confirmDeletePaper(paperList[i])
+            }
+            // 更新当前文书流程页面
+            await this.$parent.showDocTemplet()
+            this.loading.btn = false
+          }).catch(() => {
+          })
+      } else {
+        this.$message.error('请选择需要删除的文书！')
       }
-      // 更新当前文书流程页面
-      await this.$parent.showDocTemplet()
-      this.loading.btn = false
     },
     async confirmDeletePaper (curPaper) {
       if (curPaper.personId !== this.$store.state.user.userId) {
@@ -1093,9 +1106,14 @@ export default {
       }
     },
     confirmPaper (paper) {
-      // 选择的文书展示隐患信息 当前用于事故类的行政处罚决定书展示隐患内容
-      this.showInfo(paper)
-      this.visible.selectPaper = false
+      if (this.selectDelPaper) {
+        // 选择删除文书时
+        this.confirmDelete(paper)
+      } else {
+        // 选择的文书展示隐患信息 当前用于事故类的行政处罚决定书展示隐患内容
+        this.showInfo(paper)
+        this.visible.selectPaper = false
+      }
     },
     showInfo (paper) {
       this.paperData = paper
