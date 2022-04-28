@@ -1,4 +1,5 @@
 import { setDatabase, updateDatabase, updatePaperDatabase } from '@/utils/databaseOperation'
+import store from '@/store'
 
 // “机构资源”下载。
 export async function orgSave(resId, data) {
@@ -700,6 +701,12 @@ export async function dictionarySave(resId, data) {
 	}
   // 增:
 	await setDatabase('dictionary', arr)
+}
+
+// 个人文书号下载
+export async function personPaperNumberSave(resId, data) {
+	console.log('data', data)
+	await setDatabase('personPaperNumber', data)
 }
 
 // 数据库表结构:
@@ -1410,13 +1417,5 @@ export const schema = {
 		"operation": String
 	},
 	personPaperNumber: { // 个人自增文书编号
-		"id": {
-			type: String,
-			unique: true
-		},
-		"year": String, // 年度文书号
-		"paperNumber": String, // 所有类型文书号
-		"createDate": String, // 创建日期
-		"updateDate": String, // 更新日期
 	}
 };

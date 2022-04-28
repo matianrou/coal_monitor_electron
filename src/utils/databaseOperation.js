@@ -354,7 +354,7 @@ export async function initDatabase (userId) {
   // 初始化所有数据库：将原有存储在indexDB中的自增数据存储在文件中
   let db = new GoDB(userId)
   let databaseTable = ['wkCase', 'wkPaper', 'wkDanger', 'localReview', 'fineCollection', 'singleReceipt', 'imageEvidence', 'paperAttachment', 'jczfReport',
-  'personPaperNumber', 'sendDanger', 'sendPaper', 'addPerson']
+  'sendDanger', 'sendPaper', 'addPerson']
   for (let i = 0; i < databaseTable.length; i++) {
     let table = databaseTable[i]
     let dbData = db.table(table)

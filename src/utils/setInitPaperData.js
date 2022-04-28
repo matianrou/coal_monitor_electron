@@ -73,40 +73,18 @@ export async function getDocNumber2(docTypeNo) {
 
 async function getPersonNumber (docTypeNo) {
   // 读取库表
-  let date = new Date()
-  let curYear = date.getFullYear()
-  let personPaperNumber = await getDatabase('personPaperNumber') || []
-  let numberData = personPaperNumber.find(item => item.year === (curYear + ''))
+  let personPaperNumber = []
+  personPaperNumber = await getDatabase('personPaperNumber')
+  let numData = personPaperNumber.find(item => item.paperType === docTypeNo)
+  console.log('numData1', numData)
+  let num = numData.paperCount
   let threeNum = ''
-  if (numberData) {
-    // 如果有当前年份的文书号数据
-    let paperNumber = JSON.parse(numberData.paperNumber)
-      if (paperNumber[`paper-${store.state.user.userType}-${docTypeNo}`]) {
-      // 有当前文书的文书号
-      threeNum = paperNumber[`paper-${store.state.user.userType}-${docTypeNo}`]
-    } else {
-      // 没有当前文书的文书号
-      threeNum = '001'
-      numberData.paperNumber = JSON.stringify(Object.assign({}, paperNumber, {
-        [`paper-${store.state.user.userType}-${docTypeNo}`]: threeNum
-      }))
-      numberData.updateDate = getNowFormatTime()
-      await updateDatabase('personPaperNumber', [numberData])
-    }
+  if (num < 10) {
+    threeNum = '00' + String(num)
+  } else if (num < 100) {
+    threeNum = '0' + String(num)
   } else {
-    // 还没有当前年份的文书号数据：创建：
-    threeNum = '001'
-    let saveData = {
-      id: getNowTime() + randomString(28),
-      year: curYear + '',
-      paperNumber: JSON.stringify({
-        [`paper-${store.state.user.userType}-${docTypeNo}`]: threeNum
-      }),
-      createDate: getNowFormatTime(),
-      updateDate: getNowFormatTime() 
-    }
-    personPaperNumber.push(saveData)
-    await setDatabase('personPaperNumber', personPaperNumber)
+    threeNum = String(num)
   }
   return (store.state.user.userNumber || '')  + threeNum
 }

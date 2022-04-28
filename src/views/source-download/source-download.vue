@@ -245,7 +245,21 @@
 <script>
 import { getUUID } from '@/utils/index'
 import { getNowFormatTime, getNowDay, getPreMonthDay } from '@/utils/date'
-import { orgSave, personSave, planSave, corpSave, enterpriseListSave, checkCateSave, checkListSave, dangerCateSave, dangerListSave, docSave, fileDataSave, dictionarySave} from '@/utils/downloadSource'
+import { 
+  orgSave, 
+  personSave, 
+  planSave, 
+  corpSave, 
+  enterpriseListSave, 
+  checkCateSave, 
+  checkListSave, 
+  dangerCateSave, 
+  dangerListSave, 
+  docSave, 
+  fileDataSave, 
+  dictionarySave, 
+  personPaperNumberSave
+} from '@/utils/downloadSource'
 export default {
   name: "SourceDownload",
   async beforeRouteLeave(to, from, next){
@@ -356,9 +370,11 @@ export default {
         dangerListSave,
         docSave,
         fileDataSave,
-        dictionarySave
+        dictionarySave,
+        personPaperNumberSave
       },
-      userType: this.$store.state.user.userType
+      userType: this.$store.state.user.userType,
+      personPaperNumber: []
     };
   },
   computed: {
@@ -550,8 +566,10 @@ export default {
                   // 监管时下载影音证据
                   await Promise.all([
                     this.getImageEvidencePC(userId, userSessId),
+                    this.getPersonPaperNumber(userId, userSessId)
                   ]).then(async () => {
                     await this.downloadFunction['fileDataSave'](resId, this.fileData)
+                    await this.downloadFunction['personPaperNumberSave'](resId, this.personPaperNumber)
                     this.saveFinished(resId)
                   })
                 } else {
@@ -562,9 +580,11 @@ export default {
                     this.getSingleReceipt(userId, userSessId),
                     this.getImageEvidencePC(userId, userSessId),
                     this.getPaperAttachment(userId, userSessId),
-                    this.getJczfReport(userId, userSessId)
+                    this.getJczfReport(userId, userSessId),
+                    this.getPersonPaperNumber(userId, userSessId)
                   ]).then(async () => {
                     await this.downloadFunction['fileDataSave'](resId, this.fileData)
+                    await this.downloadFunction['personPaperNumberSave'](resId, this.personPaperNumber)
                     this.saveFinished(resId)
                   })
                 }
@@ -966,6 +986,21 @@ export default {
         })
         .catch((err) => {
           console.log("获取矿井状态码表失败：", err);
+        });
+    },
+    getPersonPaperNumber (userId, userSessId) {
+      // 文书制作总数
+      return this.$http.get(
+          `${this.downloadPath}/local/my/paper/counts?userId=${userId}&__sid=${userSessId}`)
+        .then(async ({ data }) => {
+          if (data.status === "200") {
+            this.personPaperNumber = data.data
+          } else {
+            console.log("获取文书制作总数失败：", data.message);
+          }
+        })
+        .catch((err) => {
+          console.log("获取文书制作总数失败：", err);
         });
     },
     async handleUpdateTime(resId) {
