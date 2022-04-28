@@ -142,7 +142,7 @@ export default {
           && paper.paperId === let4DataPaperContent.associationPaperId.paper22Id
         })
         let string2 = "    二、行政相对人基本情况：";
-        let p22CorpInfo = JSON.parse(paper22.paperContent).cellIdx3 || {}
+        let p22CorpInfo = paper22 ? JSON.parse(paper22.paperContent).cellIdx3 : ''
         string2 += p22CorpInfo + "\r\n";
         // 3，	案发时间：立案决定书中立案时间
         let string3 = `    三、案发时间：${let4DataPaperContent.cellIdx6 || 'XX'}年${let4DataPaperContent.cellIdx7 || 'XX'}月${let4DataPaperContent.cellIdx8 || 'XX'}日。\r\n`;
@@ -150,7 +150,7 @@ export default {
         let string4 = `    四、案发地点：${corp.corpName || 'XX公司XX煤矿'}。\r\n`;
         // 5，	主要违法事实：20XX年XX月XX日至XX月XX日，XX煤矿安全监管局XX监管分局监管员XXX、XXX、XXX……，按照监管执法计划，对XX公司XX煤矿进行现场检查时，发现该矿XX采煤工作面回风巷风流中瓦斯浓度达1.2%，未停止作业，涉嫌违法违规。
         // 获取监管员姓名
-        let p22check = JSON.parse(paper22.paperContent).CheckTable || {}
+        let p22check = paper22 ? JSON.parse(paper22.paperContent).CheckTable : {}
         let p22checkTable = p22check.tableData || []
         let p22checkName = ''
         for (let i = 0; i < p22checkTable.length; i++) {
@@ -169,7 +169,7 @@ export default {
           return paper.delFlag !== '1'
           && paper.paperId === let4DataPaperContent.associationPaperId.paper1Id
         })
-        let paper1PaperContent = JSON.parse(paper1.paperContent)
+        let paper1PaperContent = paper1 ? JSON.parse(paper1.paperContent) : {}
         // 违法违规行为
         let newDangerTable = this.handleSelectedDangerList(let4DataPaperContent.DangerTable)
         let cellIdx5String = setDangerTable(newDangerTable, {}, {

@@ -76,7 +76,6 @@ async function getPersonNumber (docTypeNo) {
   let personPaperNumber = []
   personPaperNumber = await getDatabase('personPaperNumber')
   let numData = personPaperNumber.find(item => item.paperType === docTypeNo)
-  console.log('numData1', numData)
   let num = numData.paperCount
   let threeNum = ''
   if (num < 10) {

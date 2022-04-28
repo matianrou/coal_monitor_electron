@@ -33,6 +33,5 @@ export async function savePaperNumber (docTypeNo) {
   let personPaperNumber = await getDatabase('personPaperNumber')
   let numData = personPaperNumber.find(item => item.paperType === docTypeNo)
   numData.paperCount += 1
-  console.log('numData2', numData)
   await updateDatabase('personPaperNumber', [numData], 'paperType')
 }

@@ -457,8 +457,11 @@ export default {
                       await this.updateDatabase('wkCase', totalSaveData.jczfCase, 'caseId')
                       await this.updatePaperDatabase(null, totalSaveData.paper, 'paperId')
                       await this.updateDatabase('wkDanger', totalSaveData.danger, 'dangerId')
+                      // 更新文书号信息
+                      await this.updatePersonPaperNumber(userId, userSessId, path)
                       // 修改更新日期
                       await this.handleUpdateTime()
+
                     }
                   }).catch(err => {
                     isSuccess = false
@@ -469,6 +472,8 @@ export default {
                   await this.updateDatabase('wkCase', saveData.jczfCase, 'caseId')
                   await this.updatePaperDatabase(null, saveData.paper, 'paperId')
                   await this.updateDatabase('wkDanger', saveData.danger, 'dangerId')
+                  // 更新文书号信息
+                  await this.updatePersonPaperNumber(userId, userSessId, path)
                   // 修改更新日期
                   await this.handleUpdateTime()
                 }
@@ -476,6 +481,8 @@ export default {
                 await this.updateDatabase('wkCase', saveData.jczfCase, 'caseId')
                 await this.updatePaperDatabase(null, saveData.paper, 'paperId')
                 await this.updateDatabase('wkDanger', saveData.danger, 'dangerId')
+                // 更新文书号信息
+                await this.updatePersonPaperNumber(userId, userSessId, path)
                 // 修改更新日期
                 await this.handleUpdateTime()
               }
@@ -490,6 +497,21 @@ export default {
       // 分页获取检查活动、文书、隐患数据
       let url = `${path}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&updateTime=${docUpdateTime}&pageNo=${pageNo}&pageSize=20&isAll=1`
       return this.$http.get(url)
+    },
+    async updatePersonPaperNumber (userId, userSessId, path) {
+      // 文书制作总数
+      await this.$http.get(
+          `${path}/local/my/paper/counts?userId=${userId}&__sid=${userSessId}`)
+        .then(async ({ data }) => {
+          if (data.status === "200") {
+            await this.setDatabase('personPaperNumber', data.data)
+          } else {
+            console.log("获取文书制作总数失败：", data.message);
+          }
+        })
+        .catch((err) => {
+          console.log("获取文书制作总数失败：", err);
+        });
     },
   },
 };

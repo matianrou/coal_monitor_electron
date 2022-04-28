@@ -348,12 +348,12 @@ export default {
       if (let53DataPaperContent.associationPaperId) {
         let wkPaper = await this.getPaperDatabase(this.corpData.caseId)
         let paper8 = await wkPaper.find(item => item.paperId === let53DataPaperContent.associationPaperId.paper8Id && item.delFlag !== '1')
-        paper8PaperContent = JSON.parse(paper8.paperContent)
-        paper8num1 = paper8PaperContent.cellIdx0
-        paper8num2 = paper8PaperContent.cellIdx1
-        paper8num3 = paper8PaperContent.cellIdx2
-        paper8num4 = paper8PaperContent.cellIdx3
-        paper8date = paper8.createTime.split(' ')[0].split('-')
+        paper8PaperContent = paper8 ? JSON.parse(paper8.paperContent) : {}
+        paper8num1 = paper8PaperContent.cellIdx0 || ''
+        paper8num2 = paper8PaperContent.cellIdx1 || ''
+        paper8num3 = paper8PaperContent.cellIdx2 || ''
+        paper8num4 = paper8PaperContent.cellIdx3 || ''
+        paper8date = paper8 ? paper8.createTime.split(' ')[0].split('-') : ''
       }
       // 从sysOfficeInfo中获取：
       let orgSysOfficeInfo = await getOrgData(this.$store.state.curCase.groupId)

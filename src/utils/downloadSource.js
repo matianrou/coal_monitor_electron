@@ -705,7 +705,6 @@ export async function dictionarySave(resId, data) {
 
 // 个人文书号下载
 export async function personPaperNumberSave(resId, data) {
-	console.log('data', data)
 	await setDatabase('personPaperNumber', data)
 }
 
