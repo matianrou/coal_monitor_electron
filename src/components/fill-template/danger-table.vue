@@ -569,10 +569,7 @@ export default {
       subitemTypeList.sort(sortbyAsc('sort'))
       this.subitemTypeOptions = subitemTypeList
       // 当文书为案件处理呈报书、行政处罚告知书、行政处罚决定书时，同步结算行政处罚信息捕获及合并处罚文书
-      let page = this.options.page
-      if (page === '36' || page === '6' || page === '8') {
-        this.updatePunishmentList()
-      }
+      this.updatePunishmentList()
     },
     async initData () {
       let tempData = Object.assign({}, this.dataForm.tempValue, this.value)
@@ -824,10 +821,7 @@ export default {
           // 此步需要等上面同步更新已修改数据后再执行，所以单独放在此处，不要合并至上边的if else中
           // 修改行政处罚信息捕获内容和合并处罚文书用语
           this.setPunishmentInfor = true
-          let page = this.options.page
-          if (page === '36' || page === '6' || page === '8') {
-            this.updatePunishmentList()
-          }
+          this.updatePunishmentList()
         }
       }
     },
@@ -935,6 +929,9 @@ export default {
           } else {
             this.dangerItemDetail = {}
           }
+          // 重新计算合并处罚文书用语
+          this.setPunishmentInfor = true
+          this.updatePunishmentList()
         }).catch(() => {
         })
     },
@@ -1180,10 +1177,7 @@ export default {
     },
     handleSelectionChange (val) {
       this.dataForm.tempValue.selectedDangerList = val
-      let page = this.options.page
-      if (page === '36' || page === '6' || page === '8') {
-        this.updatePunishmentList()
-      }
+      this.updatePunishmentList()
     },
     selectDanger (val) {
       // 监听隐患列表中数据变动，根据变化的数据捕获处罚信息和合并处罚文书用语
@@ -1196,16 +1190,20 @@ export default {
       this.$parent.$parent.handleSave(false, true)
     },
     async updatePunishmentList () {
-      // setPunishmentInfor更新合并处罚信息标记，如果修改隐患中行政处罚决定时，一定联动修改处罚情况
-      let selectedDangerList = this.dataForm.tempValue.selectedDangerList || []
-      let setPunishmentInfor = false
-      if (!this.dataForm.tempValue.punishmentInfor || this.setPunishmentInfor) {
-        setPunishmentInfor = true
-      }
-      let {punishmentList, punishmentInfor} = await setPunishmentList(selectedDangerList, this.options.selectedType, setPunishmentInfor)
-      this.$set(this.dataForm.tempValue, 'punishmentList', punishmentList)
-      if (setPunishmentInfor) {
-        this.$set(this.dataForm.tempValue, 'punishmentInfor', punishmentInfor)
+      let page = this.options.page
+      // 当文书为案件处理呈报书、行政处罚告知书、行政处罚决定书时，同步结算行政处罚信息捕获及合并处罚文书
+      if (page === '36' || page === '6' || page === '8') {
+        // setPunishmentInfor更新合并处罚信息标记，如果修改隐患中行政处罚决定时，一定联动修改处罚情况
+        let selectedDangerList = this.dataForm.tempValue.selectedDangerList || []
+        let setPunishmentInfor = false
+        if (!this.dataForm.tempValue.punishmentInfor || this.setPunishmentInfor) {
+          setPunishmentInfor = true
+        }
+        let {punishmentList, punishmentInfor} = await setPunishmentList(selectedDangerList, this.options.selectedType, setPunishmentInfor)
+        this.$set(this.dataForm.tempValue, 'punishmentList', punishmentList)
+        if (setPunishmentInfor) {
+          this.$set(this.dataForm.tempValue, 'punishmentInfor', punishmentInfor)
+        }
       }
     },
   },
