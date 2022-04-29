@@ -5,7 +5,7 @@
       v-model="dataForm.tempValue"
       type="textarea"
       :placeholder="placeholder"
-      :rows="10"
+      :rows="15"
       :disabled="options.disabled"
       @change="changeValue">
     </el-input>

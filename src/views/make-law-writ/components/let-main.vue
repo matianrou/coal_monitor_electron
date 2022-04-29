@@ -35,8 +35,8 @@
           </td>
         </tr>
       </table>
-      <!-- 执法对象信息 -->
-      <div v-if="corpData" class="corp-info-main">
+      <!-- 执法对象信息 去掉执法对象信息展示 22.4.29 -->
+      <div v-if="false" class="corp-info-main">
         <div class="corp-info-title">
           <span>执法对象</span>
         </div>
@@ -65,6 +65,25 @@
             <td style="border-bottom:1px solid #666;">{{ corpData.tel }}</td>
           </tr>
         </table>
+      </div>
+      <!-- 增加文书信息展示 22.4.29 -->
+      <div class="paper-info-main">
+        <div class="paper-info-item">
+          <div class="title">
+            <span>制作人：</span>
+          </div>
+          <div class="content">
+            <span>{{paperData.personName}}</span>
+          </div>
+        </div>
+        <div class="paper-info-item">
+          <div class="title">
+            <span>制作时间：</span>
+          </div>
+          <div class="content">
+            <span>{{paperData.createTime}}</span>
+          </div>
+        </div>
       </div>
       <!-- 修改数据区域 -->
       <let-drawer
@@ -1648,6 +1667,21 @@ export default {
         font-size: 18px;
         font-weight: bold;
         margin-bottom: 10px;
+      }
+    }
+    .paper-info-main {
+      padding: 10px 20px;
+      border-bottom: 1px solid #DCDFE6;
+      .paper-info-item {
+        display: flex;
+        height: 30px;
+        align-items: center;
+        font-size: 16px;
+        color: #606266;
+        .title {
+          width: 80px;
+          color: #303133;
+        }
       }
     }
   }

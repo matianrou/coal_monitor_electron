@@ -289,7 +289,6 @@ export default {
 .let-drawer-direct {
   margin-top: 10px;
   padding: 10px;
-  border-top: 1px solid #DCDFE6;
   .let-drawer-direct-title {
     font-size: 18px;
     font-weight: bold;
