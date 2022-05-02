@@ -434,7 +434,7 @@ export function retrunGetMoney(penaltyDescString) {
   let count = 0
   let stringList = []
   if (penaltyDescString) {
-    stringList = penaltyDescString.replace(/\（(.+?)\）/g, '').replace(/\((.+?)\)/g, '').split(/[,᠃.。，]/)
+    stringList = penaltyDescString.replace(/\（(.+?)\）/g, '').replace(/\((.+?)\)/g, '').split(/[,᠃。，]/)
   }
   for (let i = 0; i < stringList.length; i++) {
     let item = stringList[i]
@@ -808,7 +808,7 @@ export async function setPunishmentList (selectedDangerList = [], selectedType =
           if (item.penaltyDesc.split('罚款').length > 2) {
             punishmentObj.fineStr = '（发现本条隐患存在多个罚款金额，对于“行政处罚告知书、行政处罚决定书”只能一条隐患拥有一个罚款金额，请修正“行政处罚决定用语”!）'
           } else {
-            let stringList = item.penaltyDesc.replace(/\（(.+?)\）/g, '').replace(/\((.+?)\)/g, '').split(/[,᠃.。，]/)
+            let stringList = item.penaltyDesc.replace(/\（(.+?)\）/g, '').replace(/\((.+?)\)/g, '').split(/[,᠃。，]/)
             for (let i = 0; i < stringList.length; i++) {
               let string = stringList[i]
               if (string.includes('罚款') && string.includes('元')) {

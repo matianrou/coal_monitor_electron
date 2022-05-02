@@ -677,8 +677,8 @@ function getString(longString, string) {
 
 function getPenaltyDescString(longString, string) {
   // 对比行政处罚决定，获取其中各标点符号分割出的数组，分别对比，如果罚款则合并，其他信息对比如果不同则加上
-  let string1List = longString ? longString.split(/[,᠃.。，]/) : []
-  let string2List = string ? string.split(/[,᠃.。，]/) : []
+  let string1List = longString ? longString.split(/[,᠃。，]/) : []
+  let string2List = string ? string.split(/[,᠃。，]/) : []
   let finString = ''
   let noFineList1 = [] // 没有罚款的字符串集合1
   let noFineList2 = [] // 没有罚款的字符串集合2
