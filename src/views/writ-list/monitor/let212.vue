@@ -276,17 +276,23 @@ export default {
           item.punishTypeName = selectedType
           // 整理罚款金额
           let p8Penalty = 0
-          if (paperContent.DangerTable) {
-            let dangerList = paperContent.DangerTable.selectedDangerList || []
-            if (dangerList.length > 0) {
-              dangerList.map(danger => {
-                if (danger.penaltyDescFine) {
-                  p8Penalty += Number(danger.penaltyDescFine) 
-                }
-              })
+          if (this.corpData.caseType === "0") {
+            // 一般检查时：根据tableData中选择的数据自动计算罚款金额，因事故逻辑中使用的字段为22.5.12新增，故一段时间后此逻辑也可以废除，改用同下面事故中的逻辑
+            if (paperContent.DangerTable) {
+              let dangerList = paperContent.DangerTable.selectedDangerList || []
+              if (dangerList.length > 0) {
+                dangerList.map(danger => {
+                  if (danger.penaltyDescFine) {
+                    p8Penalty += Number(danger.penaltyDescFine) 
+                  }
+                })
+              }
             }
+          } else {
+            // 事故时，获取文书中单独保存的p8Penalty字段
+            p8Penalty = paperContent.p8Penalty || 0
           }
-          item.p8Penalty = p8Penalty / 10000
+          item.p8Penalty = p8Penalty > 0 ? p8Penalty / 10000 : 0
           item.collectionDate = getNowDate()
           item.collectionFine = 0
           // 收缴金额最大值：罚款金额 - 以往收缴的总和

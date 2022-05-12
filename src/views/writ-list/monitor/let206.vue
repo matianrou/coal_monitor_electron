@@ -235,7 +235,8 @@ export default {
         DangerTable: null,
         selectedType: null,
         associationPaperId: null,
-        associationPaperOrder: []
+        associationPaperOrder: [],
+        p8Penalty: null, // 本文书处罚金额（总额）
       },
       options: {
         cellIdx4: [

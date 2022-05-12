@@ -685,6 +685,8 @@ export default {
             p8PersonPenalty: this.$parent.letData.selectedType === '个人' ? penaltyTotle : '', // 个人罚款总额
             p8OrgPenalty: this.$parent.letData.selectedType === '单位' ? penaltyTotle : '' // 企业罚款总额
           }
+          // 罚款总额写入文书中,以备罚款收缴时使用
+          this.$parent.letData.p8Penalty = extraSaveData.p8Penalty
         } else {
           // 事故类检查活动保存时
           let penaltyType = ''
@@ -699,6 +701,8 @@ export default {
             p8PersonPenalty: this.punishmentInfo.selectedType === '个人' ? penaltyMoney : '', // 个人罚款总额
             p8OrgPenalty: this.punishmentInfo.selectedType === '单位' ? penaltyMoney : '' // 企业罚款总额
           }
+          // 罚款总额写入文书中,以备罚款收缴时使用
+          this.$parent.letData.p8Penalty = extraSaveData.p8Penalty
         }
       } else if (this.docData.docTypeNo === '13') {
         extraSaveData = {
