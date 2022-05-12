@@ -345,6 +345,10 @@ export default {
         this.$message.error('当前文书为拉取的文书，不可操作！')
         return
       }
+      if (!row.localizeFlag || row.localizeFlag !== '1') {
+        this.$message.error('当前文书为PC端保存数据，系统不支持修改保存及归档操作')
+        return
+      }
       this.loading.btn = true
       this.$confirm(`是否确认归档${row.name}?`, '提示', {
           confirmButtonText: '确定',
