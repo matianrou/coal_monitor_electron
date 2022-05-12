@@ -4,7 +4,7 @@ import http from '@/utils/http'
 import { Message, Alert } from 'element-ui'
 import store from "@/store"
 import { randomString } from "@/utils/index";
-import { getNowTime } from "@/utils/date";
+import { getNowTime, getNowFormatTime } from "@/utils/date";
 import { getDatabase, updateDatabase, getPaperDatabase, updatePaperDatabase, deleteDatabasePhysics } from '@/utils/databaseOperation'
 export async function saveToUpload (paperId, messageShow, caseId) {
   // messageShow是否展示保存成功提示
@@ -359,8 +359,9 @@ async function savePaperToPrepareUpload(submitData) {
     corpName: paperData.corpName,
     paperType: paperData.paperType,
     name: paperData.name,
-    createTime: paperData.createTime,
+    createTime: paperData.createTime, // 文书制作时间
     createDate: paperData.createDate,
+    operationTime: getNowFormatTime(), // 未上传成功时间，后续可以根据此字段按顺序操作上传文书
     personId: paperData.personId,
     personName: paperData.personName,
     delFlag: '0',

@@ -73,7 +73,7 @@
             <span>制作人：</span>
           </div>
           <div class="content">
-            <span>{{paperData.personName}}</span>
+            <span>{{paperData.personName || $store.state.user.userName}}</span>
           </div>
         </div>
         <div class="paper-info-item">
@@ -81,7 +81,7 @@
             <span>制作时间：</span>
           </div>
           <div class="content">
-            <span>{{paperData.createTime}}</span>
+            <span>{{paperData.createTime || getNowFormatTime()}}</span>
           </div>
         </div>
       </div>
@@ -228,7 +228,8 @@ export default {
       punishmentInfoFillVisible: false, // 是否展示行政处罚决定书补充填写信息弹窗 事故类文书
       punishmentInfo: {}, // 事故类行政处罚信息集合
       punishmentInfoConfirmVisible: false, // 确认行政处罚信息，一般文书
-      timer: null
+      timer: null,
+      getNowFormatTime: getNowFormatTime
     };
   },
   computed: {
