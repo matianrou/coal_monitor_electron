@@ -60,7 +60,6 @@
                   letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）"
                 }}</span>
                 <div class="line"></div>
-                <div class="line1"></div>
             </div>
             <div class="docTextarea">
               <span class="no-line">统一社会信用代码：</span>

@@ -403,6 +403,7 @@ export default {
         let orgSysOfficeInfo = await getOrgData(this.$store.state.curCase.groupId)
         let selectedType = ''
         let associationPaperId = {}
+        let associationPaperOrder = []
         let letDataPaperContent = {}
         if (selectedPaper.let36Data) {
           // 如果是关联案件处理呈报书

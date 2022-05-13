@@ -73,7 +73,7 @@
             <span>制作人：</span>
           </div>
           <div class="content">
-            <span>{{paperData.personName || $store.state.user.userName}}</span>
+            <span>{{paperData && paperData.personName ? paperData.personName : $store.state.user.userName}}</span>
           </div>
         </div>
         <div class="paper-info-item">
@@ -81,7 +81,7 @@
             <span>制作时间：</span>
           </div>
           <div class="content">
-            <span>{{paperData.createTime || getNowFormatTime()}}</span>
+            <span>{{paperData && paperData.personName ? paperData.createTime : getNowFormatTime()}}</span>
           </div>
         </div>
       </div>
@@ -540,9 +540,21 @@ export default {
       let createDate = this.paperData && this.paperData.createDate
         ? this.paperData.createDate
         : getNowFormatTime();
+      // 制作时间逻辑修改，按照文书中是否有落款时间为准，如果有则获取落款时间，如果没有则使用当前时间 22.5.12
       let createTime = this.paperData && this.paperData.createTime
         ? this.paperData.createTime
         : getNowFormatTime();
+      let p0FloorTime = ''
+      if (this.paperData && this.paperData.p0FloorTime) {
+        p0FloorTime = this.paperData.p0FloorTime
+      } else {
+        let hasInscribe = this.$store.state.dictionary[`${this.$store.state.user.userType}Inscribe`].find(item => item.docTypeNo === this.docData.docTypeNo)
+        if (hasInscribe) {
+          p0FloorTime = this.$parent.letData[hasInscribe.field].replace('年', '-').replace('月', '-').replace('日', '') + ' 00:00:00'
+        } else {
+          p0FloorTime = getNowFormatTime()
+        }
+      }
       let htmlPage = this.$slots.left[0].elm.innerHTML
       if (this.docData.docTypeNo === '22') {
         // 检查方案时增加分工明细表
@@ -753,7 +765,7 @@ export default {
         corpId: this.corpData && this.corpData.corpId ? this.corpData.corpId : '',
         corpName: this.corpData && this.corpData.corpName ? this.corpData.corpName : '',
         planId: this.corpData && this.corpData.planId ? this.corpData.planId : '',
-        p0FloorTime: saveFlag === '0' ? getNowFormatTime() : '', // 归档时间
+        p0FloorTime: p0FloorTime, // 落款时间，同制作时间
         p0ParentId: p0ParentId,
         p22JczfCheck: extraSaveData.p22JczfCheck || null, // 检查项分工明细表
         p22BeginTime: extraSaveData.p22BeginTime || null,
@@ -792,7 +804,7 @@ export default {
             needSavePaperNumber = true
           }
         }
-        if (this.$store.state.user.userType !== 'supervision' && (docTypeNo === '55' || docTypeNo === '49' || docTypeNo === '36')) {
+        if (this.$store.state.user.userType !== 'supervision' && (docTypeNo === '55' || docTypeNo === '49' || docTypeNo === '36' || docTypeNo === '16' || docTypeNo === '17')) {
           // 监察 非正常格式自增文书号
           // 行政执法决定法制审核意见书49 行政执法有关事项审批报告55 案件处理呈报书36
           needSavePaperNumber = true

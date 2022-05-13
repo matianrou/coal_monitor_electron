@@ -927,7 +927,7 @@ async function doDocDb(resId, data){
 			"personName": String, //文书制作人名称/
 			"corpId": String,
 			"corpName": String,
-			"p0FloorTime": String, //归档时间：2021-06-15 11:00:38
+			"p0FloorTime": String, //落款日期：2021-06-15 11:00:38
 			"p22JczfCheck": String,   //检查项分工明细表
 			"groupId": String, //机构id
 			"groupName": String, //机构名称
@@ -2004,7 +2004,7 @@ let schema = {
 		"personName": String, //文书制作人名称/
 		"corpId": String,
 		"corpName": String,
-		"p0FloorTime": String, //归档时间：2021-06-15 11:00:38
+		"p0FloorTime": String, //落款时间：2021-06-15 11:00:38
 		"p22JczfCheck": String,   //检查项分工明细表
 		"groupId": String, //机构id
 		"groupName": String, //机构名称

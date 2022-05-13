@@ -454,6 +454,7 @@ export default {
         page: 'let212'
       },
     ],
+    // 意见建议书文书号码表
     opinionSuggestionPaperType: [
       {
         id: '15',
@@ -471,6 +472,7 @@ export default {
         page: 'let502'
       },
     ],
+    // 监察有文书号的文书及对应字段
     monitorPaperNumberType: [
       {
         docTypeNo: '2', // 现场处理决定书let102
@@ -646,6 +648,7 @@ export default {
         paperNumberFields: ['cellIdx0', 'cellIdx1', 'cellIdx2', 'cellIdx3']
       },
     ],
+    // 监管有文书号的文书及对应字段
     supervisionPaperNumberType: [
       {
         docTypeNo: '2', // 现场处理决定书let102
@@ -820,6 +823,282 @@ export default {
         docString: '涉',
         paperNumberFields: ['cellIdx0', 'cellIdx1', 'cellIdx2', 'cellIdx3']
       },
-    ]
+    ],
+    // 监察有落款的文书field为对应文书中落款字段
+    monitorInscribe: [
+      {
+        docTypeNo: '2',
+        name: '现场处理决定书',
+        field: 'cellIdx15'
+      },
+      {
+        docTypeNo: '13',
+        name: '复查意见书',
+        field: 'cellIdx23'
+      },
+      {
+        docTypeNo: '3',
+        name: '撤出作业人员命令书',
+        field: 'cellIdx28'
+      },
+      {
+        docTypeNo: '23',
+        name: '抽样取证通知书',
+        field: 'cellIdx23'
+      },
+      {
+        docTypeNo: '25',
+        name: '先行登记保存证据通知书',
+        field: 'cellIdx22'
+      },
+      {
+        docTypeNo: '27',
+        name: '先行登记保存证据处理决定书',
+        field: 'cellIdx18'
+      },
+      {
+        docTypeNo: '32',
+        name: '查封（扣押）决定书',
+        field: 'cellIdx19'
+      },
+      {
+        docTypeNo: '46',
+        name: '延长查封（扣押）期限决定书',
+        field: 'cellIdx26'
+      },
+      {
+        docTypeNo: '47',
+        name: '查封（扣押）处理决定书',
+        field: 'cellIdx28'
+      },
+      {
+        docTypeNo: '48',
+        name: '停供电（停供民用爆炸物品）决定书',
+        field: 'cellIdx21'
+      },
+      {
+        docTypeNo: '37',
+        name: '停供电（停供民用爆炸物品）通知书',
+        field: 'cellIdx20'
+      },
+      {
+        docTypeNo: '38',
+        name: '解除停供电（停供民用爆炸物品）通知书',
+        field: 'cellIdx17'
+      },
+      {
+        docTypeNo: '4',
+        name: '立案决定书',
+        field: 'cellIdx14'
+      },
+      {
+        docTypeNo: '6',
+        name: '行政处罚告知书',
+        field: 'cellIdx20'
+      },
+      {
+        docTypeNo: '8',
+        name: '行政处罚决定书',
+        field: 'cellIdx20'
+      },
+      {
+        docTypeNo: '9',
+        name: '送达收执',
+        field: 'cellIdx13'
+      },
+      {
+        docTypeNo: '28',
+        name: '听证通知书',
+        field: 'cellIdx37'
+      },
+      {
+        docTypeNo: '29',
+        name: '不予受理听证申请通知书',
+        field: 'cellIdx19'
+      },
+      {
+        docTypeNo: '51',
+        name: '罚款缴纳催告书',
+        field: 'cellIdx26'
+      },
+      {
+        docTypeNo: '52',
+        name: '加处罚款决定书',
+        field: 'cellIdx35'
+      },
+      {
+        docTypeNo: '53',
+        name: '延期（分期）缴纳罚款决定书',
+        field: 'cellIdx38'
+      },
+      {
+        docTypeNo: '54',
+        name: '行政强制执行事先催告书',
+        field: 'cellIdx28'
+      },
+      {
+        docTypeNo: '18',
+        name: '强制执行申请书',
+        field: 'cellIdx33'
+      },
+      {
+        docTypeNo: '19',
+        name: '移送书',
+        field: 'cellIdx22'
+      },
+      {
+        docTypeNo: '20',
+        name: '涉嫌犯罪案件移送书',
+        field: 'cellIdx25'
+      },
+      {
+        docTypeNo: '16',
+        name: '加强和改善安全监管建议书',
+        field: 'cellIdx18'
+      },
+      {
+        docTypeNo: '17',
+        name: '加强和改善安全管理意见书',
+        field: 'cellIdx17'
+      },
+    ],
+    // 监管有落款的文书
+    supervisionInscribe: [
+      {
+        docTypeNo: '2',
+        name: '现场处理决定书',
+        field: 'cellIdx18'
+      },
+      {
+        docTypeNo: '13',
+        name: '复查意见书',
+        field: 'cellIdx24'
+      },
+      {
+        docTypeNo: '3',
+        name: '撤出作业人员命令书',
+        field: 'cellIdx30'
+      },
+      {
+        docTypeNo: '23',
+        name: '抽样取证通知书',
+        field: 'cellIdx23'
+      },
+      {
+        docTypeNo: '25',
+        name: '先行登记保存证据通知书',
+        field: 'cellIdx22'
+      },
+      {
+        docTypeNo: '27',
+        name: '先行登记保存证据处理决定书',
+        field: 'cellIdx19'
+      },
+      {
+        docTypeNo: '32',
+        name: '查封（扣押）决定书',
+        field: 'cellIdx22'
+      },
+      {
+        docTypeNo: '45',
+        name: '延长查封（扣押）期限决定书',
+        field: 'cellIdx26'
+      },
+      {
+        docTypeNo: '46',
+        name: '查封（扣押）处理决定书',
+        field: 'cellIdx28'
+      },
+      {
+        docTypeNo: '56',
+        name: '停供电（停供民用爆炸物品）决定书',
+        field: 'cellIdx21'
+      },
+      {
+        docTypeNo: '37',
+        name: '停供电（停供民用爆炸物品）函告书',
+        field: 'cellIdx16'
+      },
+      {
+        docTypeNo: '38',
+        name: '解除停供电（停供民用爆炸物品）通知书',
+        field: 'cellIdx16'
+      },
+      {
+        docTypeNo: '4',
+        name: '立案决定书',
+        field: 'cellIdx15'
+      },
+      {
+        docTypeNo: '6',
+        name: '行政处罚告知书',
+        field: 'cellIdx20'
+      },
+      {
+        docTypeNo: '8',
+        name: '行政处罚决定书',
+        field: 'cellIdx20'
+      },
+      {
+        docTypeNo: '9',
+        name: '送达收执',
+        field: 'cellIdx13'
+      },
+      {
+        docTypeNo: '57',
+        name: '询问通知书',
+        field: 'cellIdx20'
+      },
+      {
+        docTypeNo: '28',
+        name: '听证通知书',
+        field: 'cellIdx32'
+      },
+      {
+        docTypeNo: '29',
+        name: '不予受理听证申请通知书',
+        field: 'cellIdx16'
+      },
+      {
+        docTypeNo: '50',
+        name: '罚款缴纳催告书',
+        field: 'cellIdx26'
+      },
+      {
+        docTypeNo: '51',
+        name: '加处罚款决定书',
+        field: 'cellIdx35'
+      },
+      {
+        docTypeNo: '52',
+        name: '延期（分期）缴纳罚款决定书',
+        field: 'cellIdx38'
+      },
+      {
+        docTypeNo: '53',
+        name: '行政强制执行事先催告书',
+        field: 'cellIdx28'
+      },
+      {
+        docTypeNo: '18',
+        name: '强制执行申请书',
+        field: 'cellIdx30'
+      },
+      {
+        docTypeNo: '19',
+        name: '移送书',
+        field: 'cellIdx22'
+      },
+      {
+        docTypeNo: '20',
+        name: '涉嫌犯罪案件移送书',
+        field: 'cellIdx27'
+      },
+      {
+        docTypeNo: '55',
+        name: '鉴定委托书',
+        field: 'cellIdx13'
+      },
+    ],
   }
 }

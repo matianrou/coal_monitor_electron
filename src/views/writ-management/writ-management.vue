@@ -177,6 +177,7 @@ import { sortbyDes } from '@/utils/index'
 import { saveToUpload } from '@/utils/savePaperData'
 import monitorWritList from '@/views/make-law-writ/components/monitor-writ-list' // 监察文书组件表
 import supervisionWritList from '@/views/make-law-writ/components/supervision-writ-list' // 监管文书组件表
+import { getNowFormatTime } from '@/utils/date'
 export default {
   name: "WritManagement",
   components: {
@@ -368,10 +369,12 @@ export default {
       // 修改当前检查活动归档标记
       let wkCase = await this.getDatabase('wkCase')
       let caseData = JSON.parse(JSON.stringify(wkCase.find(item => item.caseId === paper.caseId)))
+      caseData.updateDate = getNowFormatTime()
       caseData.delFlag = '0'
       await this.updateDatabase('wkCase', [caseData], 'caseId')
       // 修改文书的标识
       let paperData = JSON.parse(JSON.stringify(paper))
+      paperData.updateDate = getNowFormatTime()
       paperData.delFlag = '0'
       await this.updatePaperDatabase(paperData.caseId, [paperData])
       // 修改隐患的标识
@@ -379,6 +382,7 @@ export default {
       let wkDangerList = []
       wkDangerList = JSON.parse(JSON.stringify(wkDanger.filter(item => item.paperId === paper.paperId && item.delFlag !== '1') || []))
       for (let i = 0; i < wkDangerList.length; i++) {
+        wkDangerList[i].updateDate = getNowFormatTime()
         wkDangerList[i].delFlag = '0'
       }
       await this.updateDatabase('wkDanger', wkDangerList, 'dangerId')
