@@ -125,7 +125,7 @@
 </template>
 
 <script>
-import { getNowFormatTime, getNowTime, handleDateRetrun } from "@/utils/date";
+import { getNowFormatTime, getNowTime, handleDateRetrun, getNowMinutesTime } from "@/utils/date";
 import { randomString, sortbyAsc } from "@/utils/index";
 import { createHtml } from "@/utils/createHtml";
 import letDrawer from "@/components/let-drawer";
@@ -545,13 +545,17 @@ export default {
         ? this.paperData.createTime
         : getNowFormatTime();
       let p0FloorTime = ''
-      if (this.paperData && this.paperData.p0FloorTime) {
-        p0FloorTime = this.paperData.p0FloorTime
+      // 判断文书是否有落款
+      let hasInscribe = this.$store.state.dictionary[`${this.$store.state.user.userType}Inscribe`].find(item => item.docTypeNo === this.docData.docTypeNo)
+      if (hasInscribe) {
+        // 如果有落款则以落款为主
+        p0FloorTime = this.$parent.letData[hasInscribe.field].replace('年', '-').replace('月', '-').replace('日', '') + ' ' + getNowMinutesTime()
       } else {
-        let hasInscribe = this.$store.state.dictionary[`${this.$store.state.user.userType}Inscribe`].find(item => item.docTypeNo === this.docData.docTypeNo)
-        if (hasInscribe) {
-          p0FloorTime = this.$parent.letData[hasInscribe.field].replace('年', '-').replace('月', '-').replace('日', '') + ' 00:00:00'
+        // 如果没有落款，则判断是否已经有制作时间
+        if (this.paperData && this.paperData.createTime) {
+          p0FloorTime = this.paperData.createTime
         } else {
+          // 如果没有制作时间则表示创建的文书
           p0FloorTime = getNowFormatTime()
         }
       }
