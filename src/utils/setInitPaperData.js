@@ -414,12 +414,12 @@ export function retrunGetMoney(penaltyDescString) {
     stringList = penaltyDescString.replace(/\（(.+?)\）/g, '').replace(/\((.+?)\)/g, '').split(/[,᠃。，]/)
   }
   for (let i = 0; i < stringList.length; i++) {
-    let item = stringList[i]
-    if (item.includes('罚款') && item.includes('元')) {
-      for (let i = 0; i < item.length; i++) {
-        if (item[i] === '元') count ++  
+    let string = stringList[i]
+    if (string.includes('罚款') && string.includes('元')) {
+      for (let i = 0; i < string.length; i++) {
+        if (string[i] === '元') count ++  
       }
-      money = getMoney(penaltyDescString) 
+      money = getMoney(string) 
     }
   }
   return {money, count}
