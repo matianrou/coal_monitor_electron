@@ -6,8 +6,8 @@
       <!-- 文书制作 -->
       <div>
         <el-radio-group v-model="selectPaperType">
-          <el-radio label="16">加强和改善安全监管建议书</el-radio>
-          <el-radio label="17">加强和改善安全管理意见书</el-radio>
+          <el-radio label="16">加强和改善安全管理意见书</el-radio>
+          <el-radio label="17">加强和改善安全监管建议书</el-radio>
           <el-radio label="15">执法案卷（首页）及目录</el-radio>
         </el-radio-group>
       </div>
@@ -163,14 +163,14 @@ export default {
       if (this.selectPaperType === "16") {
         docData = {
           docTypeNo: "16",
-          docTypeName: "加强和改善安全监管建议书",
-          page: "let501",
+          docTypeName: "加强和改善安全管理意见书",
+          page: "let502",
         };
       } else if (this.selectPaperType === "17") {
         docData = {
           docTypeNo: "17",
-          docTypeName: "加强和改善安全管理意见书",
-          page: "let502",
+          docTypeName: "加强和改善安全监管建议书",
+          page: "let501",
         };
       } else if (this.selectPaperType === "15") {
         docData = {

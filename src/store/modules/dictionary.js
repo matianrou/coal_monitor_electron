@@ -463,13 +463,13 @@ export default {
       },
       {
         id: '16',
-        name: '加强和改善安全监管建议书',
-        page: 'let501'
+        name: '加强和改善安全管理意见书',
+        page: 'let502'
       },
       {
         id: '17',
-        name: '加强和改善安全管理意见书',
-        page: 'let502'
+        name: '加强和改善安全监管建议书',
+        page: 'let501'
       },
     ],
     // 监察有文书号的文书及对应字段
@@ -962,12 +962,12 @@ export default {
         field: 'cellIdx25'
       },
       {
-        docTypeNo: '16',
+        docTypeNo: '17',
         name: '加强和改善安全监管建议书',
         field: 'cellIdx18'
       },
       {
-        docTypeNo: '17',
+        docTypeNo: '16',
         name: '加强和改善安全管理意见书',
         field: 'cellIdx17'
       },
