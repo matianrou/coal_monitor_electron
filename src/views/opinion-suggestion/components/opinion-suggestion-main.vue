@@ -136,6 +136,7 @@
 <script>
 import { sortbyDes } from "@/utils/index";
 import { saveToUpload } from "@/utils/savePaperData";
+import { getNowFormatTime } from '@/utils/date'
 export default {
   name: "OpinionSuggestion",
   data() {
@@ -264,7 +265,8 @@ export default {
       // 归档: 更新delFlag = '0'字段（本地及上传）
       // 拉取已经保存的文书，修改delFlag = '0',调用saveToUpload上传
       let paperData = JSON.parse(JSON.stringify(paper));
-      paperData.delFlag = "0";
+      paperData.updateDate = getNowFormatTime()
+      paperData.delFlag = '0'
       await this.updatePaperDatabase('opinion-suggestion', [paperData])
       await saveToUpload(paper.paperId, true, 'opinion-suggestion');
     },
