@@ -813,7 +813,7 @@ export default {
           // 行政执法决定法制审核意见书49 行政执法有关事项审批报告55 案件处理呈报书36
           needSavePaperNumber = true
         }
-        if (this.$store.state.user.userType === 'supervision' && (docTypeNo === '54' || docTypeNo === '47' || docTypeNo === '36')) {
+        if (this.$store.state.user.userType === 'supervision' && (docTypeNo === '54' || docTypeNo === '47' || docTypeNo === '36' || docTypeNo === '49')) {
           // 监管 非正常格式自增文书号
           // 行政执法决定法制审核意见书47 行政执法有关事项审批报告54 案件处理呈报书36
           needSavePaperNumber = true

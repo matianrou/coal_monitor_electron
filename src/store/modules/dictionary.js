@@ -823,6 +823,16 @@ export default {
         docString: '涉',
         paperNumberFields: ['cellIdx0', 'cellIdx1', 'cellIdx2', 'cellIdx3']
       },
+      {
+        docTypeNo: '55', // 鉴定委托书let406
+        docString: '鉴',
+        paperNumberFields: ['cellIdx0', 'cellIdx1', 'cellIdx2', 'cellIdx3']
+      },
+      {
+        docTypeNo: '57', // 询问通知书let217
+        docString: '询',
+        paperNumberFields: ['cellIdx0', 'cellIdx1', 'cellIdx2', 'cellIdx3']
+      }
     ],
     // 监察有落款的文书field为对应文书中落款字段
     monitorInscribe: [
