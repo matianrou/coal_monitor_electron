@@ -304,11 +304,11 @@ export default {
       // 带入行政处罚决定书的处罚金额 .罚款数额的填写应当使用中文大写填写，后面用括号标明“¥+阿拉伯数字”，如“人民币贰万元整（¥20,000.00）
       let moneyChinese = ''
       let moneyThousands = ''
-      if (selectedPaper.let8Data.p8Penalty) {
-        moneyChinese = transformNumToChinese(selectedPaper.let8Data.p8Penalty)
-        moneyThousands = thousands(selectedPaper.let8Data.p8Penalty, 2)
+      if (let8DataPaperContent.p8Penalty) {
+        moneyChinese = transformNumToChinese(let8DataPaperContent.p8Penalty)
+        moneyThousands = thousands(let8DataPaperContent.p8Penalty, 2)
       }
-      let cellIdx14String = selectedPaper.let8Data.p8Penalty ?`${moneyChinese}（¥${moneyThousands}）` : ''
+      let cellIdx14String = let8DataPaperContent.p8Penalty ?`${moneyChinese}（¥${moneyThousands}）` : ''
       let DangerTable = null;
       if (this.corpData.caseType === "0") {
         let newDangerTable = this.handleSelectedDangerList(let8DataPaperContent.DangerTable)
