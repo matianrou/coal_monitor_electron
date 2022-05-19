@@ -23,7 +23,7 @@ export async function saveToUpload (paperId, messageShow, caseId) {
   let meikuangType = null, meikuangPlanfrom = null, planId = null
   let checkReason = null, checkStatus = null, planBeginDate = null
   let planEndDate = null, createTime = null, pcMonth = null, delFlag = null
-  let corpName = null, caseClassify = null, riskAssessment = null, riskAssessmentContent = null
+  let caseClassify = null, riskAssessment = null, riskAssessmentContent = null
   let workCase = {}
   if (workPaper.caseId) {
     // 不添加删除过滤条件，否则如果检查活动被删除后不能进行云同步item.delFlag !== '1';
@@ -31,7 +31,7 @@ export async function saveToUpload (paperId, messageShow, caseId) {
       return item.caseId === workPaper.caseId
     });
   } else {
-    workCase = { caseNo, caseType, corpId, corpName, 
+    workCase = { caseNo, caseType, corpId,
       meikuangType, meikuangPlanfrom, planId,
       checkReason, checkStatus, planBeginDate,
       planEndDate, pcMonth, 
@@ -41,15 +41,6 @@ export async function saveToUpload (paperId, messageShow, caseId) {
   }
   let wkDangerList = []
   wkDangerList = JSON.parse(JSON.stringify(wkDanger.filter(item => item.paperId === paperId && item.delFlag !== '1') || []))
-  // 当文书选择为意见建议书或执法案卷（首页）及目录时，corpName赋值：
-  if (workPaper.paperType === "16" || workPaper.paperType === "17" || (workPaper.paperType === "15" && !workPaper.caseId)) {
-    let paperContent = JSON.parse(workPaper.paperContent);
-    if (workPaper.paperType === "15") {
-      corpName = paperContent.cellIdx0
-    } else {
-      corpName = paperContent.cellIdx5
-    }
-  }
   let workCaseObj = workCase
   let corpData = corpBase.find(item => item.corpId === workCaseObj.corpId) 
   // 容错，planBeginDate历史数据有不符合规则的，判断是否有时分秒，如果没有则添加
@@ -88,7 +79,7 @@ export async function saveToUpload (paperId, messageShow, caseId) {
         personId: workPaper.personId,
         personName: workPaper.personName,
         corpId: workCaseObj.corpId,
-        corpName: workCaseObj.corpName,
+        corpName: workPaper.corpName || '',
         planId: workCaseObj.planId,
         group: {
           id: workPaper.groupId ? workPaper.groupId : workPaper.group.id,

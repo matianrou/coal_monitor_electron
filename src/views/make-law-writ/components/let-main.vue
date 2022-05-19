@@ -747,6 +747,17 @@ export default {
         let associationPaperOrder = this.$parent.letData.associationPaperOrder
         p0ParentId = associationPaperId[`paper${associationPaperOrder[associationPaperOrder.length - 1]}Id`]
       }
+      // 整理煤矿名称
+      // 如果是16加强和改善安全管理意见书，17加强和改善安全监管建议书或者意见建议书中的执法案卷（首页）及目录15
+      let corpName = this.corpData && this.corpData.corpName ? this.corpData.corpName : ''
+      if (this.docData.docTypeNo === '16' || this.docData.docTypeNo === '17' ||
+        (this.docData.docTypeNo === '15' && this.fromPage === 'opinion-suggestion')) {
+        if (this.docData.docTypeNo === '15') {
+          corpName = this.$parent.letData.cellIdx0 || ''
+        } else {
+          corpName = this.$parent.letData.cellIdx5 || ''
+        }
+      }
       let jsonPaper = {
         paperId: paperId,
         remoteId: "",
@@ -767,7 +778,7 @@ export default {
         caseId: this.corpData && this.corpData.caseId ? this.corpData.caseId : '',
         caseType: this.corpData && this.corpData.caseType ? this.corpData.caseType : '',
         corpId: this.corpData && this.corpData.corpId ? this.corpData.corpId : '',
-        corpName: this.corpData && this.corpData.corpName ? this.corpData.corpName : '',
+        corpName,
         planId: this.corpData && this.corpData.planId ? this.corpData.planId : '',
         p0FloorTime: p0FloorTime, // 落款时间，同制作时间
         p0ParentId: p0ParentId,
