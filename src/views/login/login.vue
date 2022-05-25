@@ -503,7 +503,7 @@ export default {
       await this.$http.get(
           `${path}/local/my/paper/counts?userId=${userId}&__sid=${userSessId}`)
         .then(async ({ data }) => {
-          if (data.status === "200") {
+          if (data && data.status === "200") {
             await this.setDatabase('personPaperNumber', data.data)
           } else {
             console.log("获取文书制作总数失败：", data.message);

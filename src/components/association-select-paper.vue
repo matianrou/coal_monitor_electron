@@ -174,10 +174,7 @@ export default {
             let docTypeNo = this.docData.docTypeNo
             // 按文书将whetherAssociationPaper分解为两个数组：数组1为是否要关联的文书列表，按顺序询问；数组2为必须要关联的文书列表，按顺序关联
             // 当前暂没有使用此逻辑，本来行政处罚告知书使用，但放弃使用（逻辑没有问题，可根据需要使用）
-            let splitIndex = 0
-            if (docTypeNo === '6') {
-              splitIndex = 1
-            }
+            let splitIndex = 1
             let whetherAssociationList = this.whetherAssociationPaper.slice(0, splitIndex)
             this.associationList = this.whetherAssociationPaper.slice(splitIndex, this.whetherAssociationPaper.length)
             let hasWhetherAssociation = false

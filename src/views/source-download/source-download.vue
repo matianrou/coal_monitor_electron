@@ -584,7 +584,9 @@ export default {
                     this.getPersonPaperNumber(userId, userSessId)
                   ]).then(async () => {
                     await this.downloadFunction['fileDataSave'](resId, this.fileData)
-                    await this.downloadFunction['personPaperNumberSave'](resId, this.personPaperNumber)
+                    if (this.personPaperNumber.length > 0) {
+                      await this.downloadFunction['personPaperNumberSave'](resId, this.personPaperNumber)
+                    }
                     this.saveFinished(resId)
                   })
                 }
@@ -993,7 +995,7 @@ export default {
       return this.$http.get(
           `${this.downloadPath}/local/my/paper/counts?userId=${userId}&__sid=${userSessId}`)
         .then(async ({ data }) => {
-          if (data.status === "200") {
+          if (data && data.status === "200") {
             this.personPaperNumber = data.data
           } else {
             console.log("获取文书制作总数失败：", data.message);
