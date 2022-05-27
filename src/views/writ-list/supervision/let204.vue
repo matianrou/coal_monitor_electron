@@ -275,7 +275,7 @@ export default {
       },
       visibleSelectDialog: false,
       selectedType: "单位", // 初始化时选择的单位或个人
-      selectAssociationPaper: ['36', '4'],
+      whetherAssociationPaper: ['36', '4'],
     };
   },
   methods: {

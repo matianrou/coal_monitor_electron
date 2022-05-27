@@ -237,6 +237,9 @@ export default {
             groupName: this.$store.state.curCase.provinceGroupName,
           },
         })
+        // 4.法制审核意见:从关联的法制审核意见书中获取
+        let cellIdx8String = let49DataPaperContent.cellIdx8
+
         let wkPaper = await this.getPaperDatabase(this.corpData.caseId)
         let let4Paper = await wkPaper.find(item => item.paperId === let49DataPaperContent.associationPaperId.paper4Id && item.delFlag !== '1')
         let let4DataPaperContent = let4Paper ? JSON.parse(let4Paper.paperContent) : {}
@@ -271,6 +274,8 @@ export default {
           cellIdx5: let4Person, // 承办人
           cellIdx6: cellIdx6String, // 违法事实及依据
           cellIdx7: cellIdx7String, // 建议案件处理意见
+          cellIdx8: cellIdx8String,
+          cellIdx8TypeSelectInputItem: cellIdx8String,
           DangerTable: DangerTable,
           extraData: {
             // 保存额外拼写的数据内容，用于修改隐患项时回显使用

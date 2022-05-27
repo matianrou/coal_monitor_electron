@@ -255,7 +255,7 @@ export default {
         cellIdx15: toggleDictionary,
         cellIdx16: toggleDictionary,
       },
-      selectAssociationPaper: ['6', '4'],
+      whetherAssociationPaper: ['4', '6'],
       selectedType: "单位",
       visibleSelectDialog: false,
     };

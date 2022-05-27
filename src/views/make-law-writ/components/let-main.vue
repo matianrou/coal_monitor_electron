@@ -1107,9 +1107,9 @@ export default {
           case '32': 
             saveFields = this.$store.state.user.userType === 'monitor' ? ['cellIdx6', 'cellIdx7'] : ['cellIdx7', 'cellIdx8']
             break
-          case '4': 
-            saveFields = ['cellIdx4', 'cellIdx5']
-            break
+          // case '4':  新需求： 去掉立案决定书中联动修改案由
+          //   saveFields = ['cellIdx4', 'cellIdx5']
+          //   break
           case '36': 
             saveFields = ['cellIdx2', 'cellIdx6', 'cellIdx7']
             break
@@ -1448,15 +1448,16 @@ export default {
         paperContentOld.cellIdx14 = newcellIdx14
       } else if (itemPaper.paperType === '4') {
         // 立案决定书时，修改cellIdx4，cellIdx5
-        let newcellIdx4 = setDangerTable(newDangerTable, {}, { 
-          page: '4', 
-          key: 'cellIdx4',
-          spellString: {
-            corpName: itemPaper.corpName,
-            dateString: paperContentOld.extraData.dateString,
-            groupName: this.$store.state.curCase.provinceGroupName,
-          },
-        })
+        // 新需求：立案决定书不同时修改案由cellIdx4
+        // let newcellIdx4 = setDangerTable(newDangerTable, {}, { 
+        //   page: '4', 
+        //   key: 'cellIdx4',
+        //   spellString: {
+        //     corpName: itemPaper.corpName,
+        //     dateString: paperContentOld.extraData.dateString,
+        //     groupName: this.$store.state.curCase.provinceGroupName,
+        //   },
+        // })
         let newcellIdx5 = setDangerTable(newDangerTable, {}, { 
           page: '4', 
           key: 'cellIdx5', 
@@ -1466,7 +1467,7 @@ export default {
             groupName: this.$store.state.curCase.provinceGroupName,
           },
         })
-        paperContentOld.cellIdx4 = newcellIdx4
+        // paperContentOld.cellIdx4 = newcellIdx4
         paperContentOld.cellIdx5 = newcellIdx5
       } else if (itemPaper.paperType === '36') {
         // 案件处理呈报书时，修改cellIdx2，cellIdx6，cellIdx7
