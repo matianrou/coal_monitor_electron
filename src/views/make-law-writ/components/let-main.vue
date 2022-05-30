@@ -493,13 +493,9 @@ export default {
                 item.paperType === '13')))
               updatePaper.paper13List = []
               for (let i = 0; i < paper13List.length; i++) {
-                if (this.docData.docTypeNo === '1' && JSON.parse(paper13List[i].paperContent).associationPaperId) {
-                  if (JSON.parse(paper13List[i].paperContent).associationPaperId.paper1Id === this.paperData.paperId) {
-                    updatePaper.paper13List.push(paper13List[i])
-                  }
-                } else if (JSON.parse(paper13List[i].paperContent).associationPaperId && JSON.parse(this.paperData.paperContent).associationPaperId) {
-                  if (JSON.parse(paper13List[i].paperContent).associationPaperId.paper1Id === JSON.parse(this.paperData.paperContent).associationPaperId.paper1Id) {
-                    updatePaper.paper13List.push(paper13List[i])
+                if (JSON.parse(paper13List[i].paperContent).associationPaperId) {
+                  if (JSON.parse(paper13List[i].paperContent).associationPaperId[`paper${this.docData.docTypeNo}Id`] === this.paperData.paperId) {
+                    updatePaper[`paper13List`].push(paper13List[i])
                   }
                 }
               }
