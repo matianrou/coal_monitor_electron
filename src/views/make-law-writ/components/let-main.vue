@@ -461,19 +461,28 @@ export default {
                 item.paperType === updatePaperType[i])))
               // 遍历检索出的同检查活动下的检查类型文书，如果文书关联的paper1Id相同则保存
               updatePaper[`paper${updatePaperType[i]}List`] = []
+              // 获取前一关联文书
               for (let j = 0; j < paperList.length; j++) {
-                if (this.docData.docTypeNo === '1' && JSON.parse(paperList[j].paperContent).associationPaperId) {
-                  // 笔录对比笔录的paperId
-                  if (JSON.parse(paperList[j].paperContent).associationPaperId.paper1Id === this.paperData.paperId) {
-                    updatePaper[`paper${updatePaperType[i]}List`].push(paperList[j])
-                  }
-                } else if (JSON.parse(paperList[j].paperContent).associationPaperId && JSON.parse(this.paperData.paperContent).associationPaperId) {
-                  // 其他文书对比关联paperId中的paper1Id
-                  if (JSON.parse(paperList[j].paperContent).associationPaperId.paper1Id === JSON.parse(this.paperData.paperContent).associationPaperId.paper1Id) {
+                if (JSON.parse(paperList[j].paperContent).associationPaperId) {
+                  if (JSON.parse(paperList[j].paperContent).associationPaperId[`paper${this.docData.docTypeNo}Id`] === this.paperData.paperId) {
                     updatePaper[`paper${updatePaperType[i]}List`].push(paperList[j])
                   }
                 }
               }
+              // 以下逻辑有问题，暂不用
+              // for (let j = 0; j < paperList.length; j++) {
+              //   if (this.docData.docTypeNo === '1' && JSON.parse(paperList[j].paperContent).associationPaperId) {
+              //     // 笔录对比笔录的paperId
+              //     if (JSON.parse(paperList[j].paperContent).associationPaperId.paper1Id === this.paperData.paperId) {
+              //       updatePaper[`paper${updatePaperType[i]}List`].push(paperList[j])
+              //     }
+              //   } else if (JSON.parse(paperList[j].paperContent).associationPaperId && JSON.parse(this.paperData.paperContent).associationPaperId) {
+              //     // 其他文书对比关联paperId中的paper1Id
+              //     if (JSON.parse(paperList[j].paperContent).associationPaperId.paper1Id === JSON.parse(this.paperData.paperContent).associationPaperId.paper1Id) {
+              //       updatePaper[`paper${updatePaperType[i]}List`].push(paperList[j])
+              //     }
+              //   }
+              // }
             }
             // 当修改的文书时现场检查笔录1和现场处理决定书时，判断是否有复查意见书13，如果有则同样提示更新
             if (this.docData.docTypeNo === '1' || this.docData.docTypeNo === '2') {
@@ -1350,7 +1359,7 @@ export default {
           mimeType:
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
         })
-        this.fileSaver.saveAs(out, `${this.docData.docTypeName}.docx`)
+        this.fileSaver.saveAs(out, `${this.docData.docTypeName}`)
       })
       this.loading.btn = false
     },
