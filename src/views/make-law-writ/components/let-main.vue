@@ -1096,11 +1096,11 @@ export default {
         );
         this.handleClose();
       } else if (dataKey === 'DangerTable'
-        && (options.page === '13' || options.page === '32' || options.page === '4' 
+        && (options.page === '13' || options.page === '32' 
         || options.page === '36' || options.page === '6' || options.page === '8'
         || options.page === '49')) {
         // 特殊保存：当文书中有多个隐患字段时，同时修改所有隐患字段内容
-        // 监察中多个隐患项字段的有:复查意见书13,查封(扣押)决定书32,立案决定书4,
+        // 监察中多个隐患项字段的有:复查意见书13,查封(扣押)决定书32
         // 案件处理呈报书36,行政处罚告知书6,行政处罚决定书8
         // 行政执法决定法制审核意见书49,
         // 监管多个字段的有:
@@ -1112,9 +1112,6 @@ export default {
           case '32': 
             saveFields = this.$store.state.user.userType === 'monitor' ? ['cellIdx6', 'cellIdx7'] : ['cellIdx7', 'cellIdx8']
             break
-          // case '4':  新需求： 去掉立案决定书中联动修改案由
-          //   saveFields = ['cellIdx4', 'cellIdx5']
-          //   break
           case '36': 
             saveFields = ['cellIdx2', 'cellIdx6', 'cellIdx7']
             break
@@ -1355,7 +1352,7 @@ export default {
           mimeType:
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
         })
-        this.fileSaver.saveAs(out, `${this.docData.docTypeName}`)
+        this.fileSaver.saveAs(out, `${this.docData.docTypeName}.docx`)
       })
       this.loading.btn = false
     },
