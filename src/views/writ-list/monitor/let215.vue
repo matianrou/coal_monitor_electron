@@ -397,7 +397,20 @@ export default {
         let corp = corpBase.find((item) => {
           return item.corpId == this.corpData.corpId;
         });
-        cellIdx4String = `${corp.corpName}社会统一信用代码是${corp.uscCode ? corp.uscCode : 'XX'}，采矿许可证号是${corp.uscCode ? corp.uscCode : 'XX'}，安全生产许可证号是${corp.uscCode ? corp.uscCode : 'XX'}。`;
+        let zfZzInfo = await this.getDatabase("zfZzInfo");
+        let zzInfo1 = zfZzInfo.find((item) => {
+          return (
+            item.corpId == this.corpData.corpId &&
+            item.credTypeName == "采矿许可证"
+          );
+        });
+        let zzInfo2 = zfZzInfo.find((item) => {
+          return (
+            item.corpId == this.corpData.corpId &&
+            item.credTypeName == "安全生产许可证"
+          );
+        });
+        cellIdx4String = `${corp.corpName}社会统一信用代码是${corp.uscCode ? corp.uscCode : 'XX'}，采矿许可证号是${zzInfo1 && zzInfo1.credId ? zzInfo1.credId : 'XX'}，安全生产许可证号是${zzInfo2 && zzInfo2.credId ? zzInfo2.credId : 'XX'}。`;
       } else {
         cellIdx4String = '姓名XXX，出生日期XXXX年XX月XX日，身份证号XXXX。'
       }
