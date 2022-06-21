@@ -309,7 +309,7 @@ function setDangerTable(data, selectedData, options) {
             punishmentInfor = data.punishmentInfor
           } else {
             if (dangerObject.penaltyDescFineTotle) {
-              punishmentInfor = `合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle) || ''}（￥${dangerObject.penaltyDescFineTotle.toLocaleString() || ''}）` + (descTypeStrings || '')
+              punishmentInfor = `合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle) || ''}（¥${dangerObject.penaltyDescFineTotle.toLocaleString() || ''}）` + (descTypeStrings || '')
             }
           }
           string = `分别依据${dangerString || ''}。${punishmentInfor}`
@@ -356,7 +356,7 @@ function setDangerTable(data, selectedData, options) {
             punishmentInfor = data.punishmentInfor
           } else {
             if (dangerObject.penaltyDescFineTotle) {
-              punishmentInfor = `合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle) || ''}（￥${dangerObject.penaltyDescFineTotle.toLocaleString() || ''}）` + (descTypeStrings || '')
+              punishmentInfor = `合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle) || ''}（¥${dangerObject.penaltyDescFineTotle.toLocaleString() || ''}）` + (descTypeStrings || '')
             }
           }
           string = `分别作出：${penaltyDescString}。${punishmentInfor}`
@@ -413,7 +413,7 @@ function setDangerTable(data, selectedData, options) {
             punishmentInfor = data.punishmentInfor
           } else {
             if (dangerObject.penaltyDescFineTotle) {
-              punishmentInfor = `合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle) || ''}（￥${dangerObject.penaltyDescFineTotle.toLocaleString() || ''}）` + (descTypeStrings || '')
+              punishmentInfor = `合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle) || ''}（¥${dangerObject.penaltyDescFineTotle.toLocaleString() || ''}）` + (descTypeStrings || '')
             }
           }
           string = `分别${penaltyDescString}。${punishmentInfor}`
@@ -492,7 +492,7 @@ function setDangerTable(data, selectedData, options) {
               punishmentInfor = data.punishmentInfor
             } else {
               if (dangerObject.penaltyDescFineTotle) {
-                punishmentInfor = `合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle) || ''}（￥${dangerObject.penaltyDescFineTotle.toLocaleString() || ''}）` + (descTypeStrings || '')
+                punishmentInfor = `合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle) || ''}（¥${dangerObject.penaltyDescFineTotle.toLocaleString() || ''}）` + (descTypeStrings || '')
               }
             }
             string = `分别${penaltyDescString}。${punishmentInfor}`
@@ -532,7 +532,7 @@ function setDangerTable(data, selectedData, options) {
               punishmentInfor = data.punishmentInfor
             } else {
               if (dangerObject.penaltyDescFineTotle) {
-                punishmentInfor = `合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle) || ''}（￥${dangerObject.penaltyDescFineTotle.toLocaleString() || ''}）` + (descTypeStrings || '')
+                punishmentInfor = `合并罚款人民币${transformNumToChinese(dangerObject.penaltyDescFineTotle) || ''}（¥${dangerObject.penaltyDescFineTotle.toLocaleString() || ''}）` + (descTypeStrings || '')
               }
             }
             string = `分别${penaltyDescString}。${punishmentInfor}`

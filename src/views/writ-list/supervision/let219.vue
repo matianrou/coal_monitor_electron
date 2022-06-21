@@ -226,7 +226,7 @@
               <span
                 @click="editInstallment('fine', '罚款', 'TextItem', index)"
               >{{ item.fine ? item.fine : `&nbsp;&nbsp;&nbsp;&nbsp;`}}</span>
-              （￥
+              （¥
               <span
                 class="no-underline"
                 @click="editInstallment('fineChinese', '罚款（大写）', 'TextItem', index)"
