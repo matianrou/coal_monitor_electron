@@ -22,7 +22,6 @@ module.exports = {
       '/api': {
         target: 'http://192.168.124.232:8081/mj/a', // 内网
         // target: 'http://211.103.169.202:8081/mj/a', // 公网
-        // target: 'http://eeh.emerinfo.cn/mj/a',
         // target: 'https://zhxx.chinamine-safety.gov.cn/mj/a',
         changeOrigin: true,
         pathRewrite: {
