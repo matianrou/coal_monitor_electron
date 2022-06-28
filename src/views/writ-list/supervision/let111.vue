@@ -84,7 +84,7 @@
                 letData.cellIdx9 ? letData.cellIdx9 : "（XX）"
               }}</span>
               日依法对你单位作出
-              <span>{{
+              <span @click="commandFill('cellIdx10', '', 'TextareaItem')">{{
                 letData.cellIdx10 ? letData.cellIdx10 : "（点击编辑）"
               }}</span>
               的决定，但你单位未执行以上决定，未及时消除事故隐患，存在发生生产安全事故的危险。根据《中华人民共和国安全生产法》第<span class="text-decoration">七十</span>条第<span class="text-decoration">一</span>款规定，本机关决定自
