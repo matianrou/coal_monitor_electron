@@ -50,6 +50,8 @@
                   @selection-change="handleSelectionChange">
                   <el-table-column
                     type="selection"
+                    header-align="center"
+                    align="center"
                     width="55">
                   </el-table-column>
                   <el-table-column
@@ -297,6 +299,7 @@ export default {
             no: tableData[i].no,
             confirmBasis: tableData[i].confirmBasis,
             createDate: getNowFormatTime(),
+            detectTime: getNowFormatTime(),
             itemId: tableData[i].id,
             isNewRecord: false,
             isOther: false,
@@ -399,7 +402,7 @@ export default {
     },
     async save () {
       if (!this.$store.state.onLine) {
-        this.$message.error('当前为离线登录，请联网后发送！')
+        this.$message.error('当前为离线状态，请联网后发送！')
         return
       }
       // 确定：发送隐患
@@ -418,6 +421,7 @@ export default {
               no: item.no,
               confirmBasis: item.confirmBasis,
               createDate: item.createDate,
+              detectTime: item.detectTime,
               createBy: this.$store.state.user.userId,
               id: item.itemId,
               isNewRecord: item.isNewRecord,
@@ -529,6 +533,7 @@ export default {
         no: data.categoryCode,
         confirmBasis: data.confirmBasis,
         createDate: getNowFormatTime(),
+        detectTime: getNowFormatTime(),
         itemId: data.id,
         isNewRecord: false,
         isOther: false,

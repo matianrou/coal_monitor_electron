@@ -35,8 +35,8 @@
           </td>
         </tr>
       </table>
-      <!-- 执法对象信息 -->
-      <div v-if="corpData" class="corp-info-main">
+      <!-- 执法对象信息 去掉执法对象信息展示 22.4.29 -->
+      <div v-if="false" class="corp-info-main">
         <div class="corp-info-title">
           <span>执法对象</span>
         </div>
@@ -65,6 +65,25 @@
             <td style="border-bottom:1px solid #666;">{{ corpData.tel }}</td>
           </tr>
         </table>
+      </div>
+      <!-- 增加文书信息展示 22.4.29 -->
+      <div class="paper-info-main">
+        <div class="paper-info-item">
+          <div class="title">
+            <span>制作人：</span>
+          </div>
+          <div class="content">
+            <span>{{paperData && paperData.personName ? paperData.personName : $store.state.user.userName}}</span>
+          </div>
+        </div>
+        <div class="paper-info-item">
+          <div class="title">
+            <span>制作时间：</span>
+          </div>
+          <div class="content">
+            <span>{{paperData && paperData.personName ? paperData.createTime : getNowFormatTime()}}</span>
+          </div>
+        </div>
       </div>
       <!-- 修改数据区域 -->
       <let-drawer
@@ -106,7 +125,7 @@
 </template>
 
 <script>
-import { getNowFormatTime, getNowTime, handleDateRetrun } from "@/utils/date";
+import { getNowFormatTime, getNowTime, handleDateRetrun, getNowMinutesTime } from "@/utils/date";
 import { randomString, sortbyAsc } from "@/utils/index";
 import { createHtml } from "@/utils/createHtml";
 import letDrawer from "@/components/let-drawer";
@@ -114,7 +133,7 @@ import { saveToUpload, saveFineCollection, updateXkzStatus } from '@/utils/saveP
 import docxtemplater from 'docxtemplater'
 import punishmentInfoFill from '@/components/punishment-info-fill'
 import punishmentInfoConfirm from '@/components/punishment-info-confirm'
-import { setNewDanger, comparDangerTable } from '@/utils/setInitPaperData'
+import { setNewDanger, comparDangerTable, setPunishmentList } from '@/utils/setInitPaperData'
 import {
   setTextItem,
   setCheckItem,
@@ -209,7 +228,8 @@ export default {
       punishmentInfoFillVisible: false, // 是否展示行政处罚决定书补充填写信息弹窗 事故类文书
       punishmentInfo: {}, // 事故类行政处罚信息集合
       punishmentInfoConfirmVisible: false, // 确认行政处罚信息，一般文书
-      timer: null
+      timer: null,
+      getNowFormatTime: getNowFormatTime
     };
   },
   computed: {
@@ -218,8 +238,9 @@ export default {
       let edit = true
       // 判断当前是否为编辑，如果编辑时则调取paperData中的delFlag字段，如果为归档，则不可编辑
       // 当文书发送时，如果isSelected为已发送false时则不可再编辑（文书发送保存时无此字段，发送后为false,接收后为true,所以必须判定为===false）
+      // 判断文书是否为拉取的文书：如果文书中的personId与登录用户id不同，则表示文书为拉取数据
       if (this.paperData && this.paperData.paperId) {
-        if (this.paperData.delFlag === '0' || this.paperData.isSelected === false || this.paperData.isPull || this.paperData.localizeFlag !== '1') {
+        if (this.paperData.delFlag === '0' || this.paperData.isSelected === false || (this.paperData.personId !== this.$store.state.user.userId) || this.paperData.localizeFlag !== '1') {
           // 归档、发送的文书、拉取的文书、没有国产化标记不可编辑
           edit = false
         } else {
@@ -256,26 +277,28 @@ export default {
      */
     autoSaveDoc(time, isBack) {
       clearInterval(this.timer)
-      this.timer = setInterval(() => {
-        if (this.$refs.letDrawer) {
-          // 如果当前打开正在编辑则先保存当前编辑的内容
-          if (this.selectedData.type === 'DangerTable' && this.$refs.letDrawer.$refs[this.selectedData.type].$refs.dataForm) {
-            // DangerTable校验当前必填项是否全必填，如果有未填写则不自动保存
-            this.$refs.letDrawer.$refs[this.selectedData.type].$refs.dataForm.validate(async validate => { 
-              if (validate) {
-                this.handleSave({value: this.$refs.letDrawer.$refs[this.selectedData.type].dataForm.tempValue, direct: true})
-                this.cmdDocSave('2', isBack)
-              }
-            })
+      if (this.canEdit) {
+        this.timer = setInterval(() => {
+          if (this.$refs.letDrawer) {
+            // 如果当前打开正在编辑则先保存当前编辑的内容
+            if (this.selectedData.type === 'DangerTable' && this.$refs.letDrawer.$refs[this.selectedData.type].$refs.dataForm) {
+              // DangerTable校验当前必填项是否全必填，如果有未填写则不自动保存
+              this.$refs.letDrawer.$refs[this.selectedData.type].$refs.dataForm.validate(async validate => { 
+                if (validate) {
+                  this.handleSave({value: this.$refs.letDrawer.$refs[this.selectedData.type].dataForm.tempValue, direct: true})
+                  this.cmdDocSave('2', isBack)
+                }
+              })
+            } else {
+              this.handleSave({value: this.$refs.letDrawer.$refs[this.selectedData.type].dataForm.tempValue, direct: true})
+              this.cmdDocSave('2', isBack)
+            }
           } else {
-            this.handleSave({value: this.$refs.letDrawer.$refs[this.selectedData.type].dataForm.tempValue, direct: true})
+            // 如果当前没有打开编辑窗口则直接自动保存
             this.cmdDocSave('2', isBack)
           }
-        } else {
-          // 如果当前没有打开编辑窗口则直接自动保存
-          this.cmdDocSave('2', isBack)
-        }
-      }, 1000 * time)
+        }, 1000 * time)
+      }
     },
     async cmdDocBack(backTip = false) {
       // backTip：是否要展示返回保存的提示标记，如果为true则提示，为false则不提示(用于判断是否可进入编辑文书时，如果条件不符合的返回操作)
@@ -351,15 +374,17 @@ export default {
     },
     async cmdDocSave(saveFlag = "2", isBack) {
       // 保存或归档文书
-      // 判断当前文书是否已经归档，如已归档则不可保存或归档
-      if (this.paperData && this.paperData.paperId && this.paperData.isPull) {
+      // 判断当前文书是否为拉取的文书
+      if (this.paperData && this.paperData.paperId && (this.paperData.personId !== this.$store.state.user.userId)) {
         this.$message.error('当前文书为拉取数据，系统不支持修改保存及归档操作')
         return
       }
+      // 判断当前文书是否为PC.net端保存数据
       if (this.paperData && this.paperData.paperId && this.paperData.localizeFlag !== '1') {
         this.$message.error('当前文书为PC端保存数据，系统不支持修改保存及归档操作')
         return
       }
+      // 判断当前文书是否已经归档或已发送，如已归档或已发送则不可保存或归档
       if (this.canEdit) {
         if(isBack) {
           this.loading.btn = true
@@ -367,7 +392,7 @@ export default {
         if (saveFlag === '0') {
           // 归档时首先判断是否为离线操作
           if (!this.$store.state.onLine) {
-            this.$message.error('当前为离线登录，请联网后再归档保存至服务器！')
+            this.$message.error('当前为离线状态，请联网后再归档保存至服务器！')
             return
           }
           // 如果是归档时增加确认逻辑：
@@ -422,45 +447,61 @@ export default {
             // 1.拉取本次检查活动中的所有文书
             // 2.比对文书中的关联paper1Id，如果相同则提取文书信息
             let wkPaper = await this.getPaperDatabase(this.paperData.caseId)
-            let updatePaperType = ['1', '2', '4', '6', '49', '36', '8']
+            // 行政执法决定法制审核意见书的文书号，因监察监管不同，所以设置为变量
+            let legalReviewNum = this.$store.state.user.userType === 'supervision' ? '47' : '49'
+            let updatePaperType = ['1', '2', '4', '6', legalReviewNum, '36', '8']
             let curIndex = updatePaperType.indexOf(this.docData.docTypeNo)
             let updatePaper = {}
             // 遍历文书类型updatePaperType，逐个拉取需要更新的数据,只拉取状态为保存的文书
             for(let i = curIndex + 1; 0 < i && i < updatePaperType.length; i++) {
-              let paperList = JSON.parse(JSON.stringify(wkPaper.filter(item => item.delFlag === '2' && item.caseId === this.paperData.caseId && item.paperType === updatePaperType[i]) || []))
+              let paperList = []
+              paperList = JSON.parse(JSON.stringify(wkPaper.filter(item => 
+                item.delFlag === '2' && 
+                item.caseId === this.paperData.caseId && 
+                item.paperType === updatePaperType[i])))
               // 遍历检索出的同检查活动下的检查类型文书，如果文书关联的paper1Id相同则保存
               updatePaper[`paper${updatePaperType[i]}List`] = []
+              // 获取前一关联文书
               for (let j = 0; j < paperList.length; j++) {
-                if (this.docData.docTypeNo === '1' && JSON.parse(paperList[j].paperContent).associationPaperId) {
-                  // 笔录对比笔录的paperId
-                  if (JSON.parse(paperList[j].paperContent).associationPaperId.paper1Id === this.paperData.paperId) {
-                    updatePaper[`paper${updatePaperType[i]}List`].push(paperList[j])
-                  }
-                } else if (JSON.parse(paperList[j].paperContent).associationPaperId && JSON.parse(this.paperData.paperContent).associationPaperId) {
-                  // 其他文书对比关联paperId中的paper1Id
-                  if (JSON.parse(paperList[j].paperContent).associationPaperId.paper1Id === JSON.parse(this.paperData.paperContent).associationPaperId.paper1Id) {
+                if (JSON.parse(paperList[j].paperContent).associationPaperId) {
+                  if (JSON.parse(paperList[j].paperContent).associationPaperId[`paper${this.docData.docTypeNo}Id`] === this.paperData.paperId) {
                     updatePaper[`paper${updatePaperType[i]}List`].push(paperList[j])
                   }
                 }
               }
+              // 以下逻辑有问题，暂不用
+              // for (let j = 0; j < paperList.length; j++) {
+              //   if (this.docData.docTypeNo === '1' && JSON.parse(paperList[j].paperContent).associationPaperId) {
+              //     // 笔录对比笔录的paperId
+              //     if (JSON.parse(paperList[j].paperContent).associationPaperId.paper1Id === this.paperData.paperId) {
+              //       updatePaper[`paper${updatePaperType[i]}List`].push(paperList[j])
+              //     }
+              //   } else if (JSON.parse(paperList[j].paperContent).associationPaperId && JSON.parse(this.paperData.paperContent).associationPaperId) {
+              //     // 其他文书对比关联paperId中的paper1Id
+              //     if (JSON.parse(paperList[j].paperContent).associationPaperId.paper1Id === JSON.parse(this.paperData.paperContent).associationPaperId.paper1Id) {
+              //       updatePaper[`paper${updatePaperType[i]}List`].push(paperList[j])
+              //     }
+              //   }
+              // }
             }
             // 当修改的文书时现场检查笔录1和现场处理决定书时，判断是否有复查意见书13，如果有则同样提示更新
             if (this.docData.docTypeNo === '1' || this.docData.docTypeNo === '2') {
-              let paper13List = JSON.parse(JSON.stringify(wkPaper.filter(item => item.delFlag !== '1' && item.caseId === this.paperData.caseId && item.paperType === '13') || []))
+              let paper13List = []
+              paper13List = JSON.parse(JSON.stringify(wkPaper.filter(item => 
+                item.delFlag !== '1' && 
+                item.caseId === this.paperData.caseId && 
+                item.paperType === '13')))
               updatePaper.paper13List = []
               for (let i = 0; i < paper13List.length; i++) {
-                if (this.docData.docTypeNo === '1' && JSON.parse(paper13List[i].paperContent).associationPaperId) {
-                  if (JSON.parse(paper13List[i].paperContent).associationPaperId.paper1Id === this.paperData.paperId) {
-                    updatePaper.paper13List.push(paper13List[i])
-                  }
-                } else if (JSON.parse(paper13List[i].paperContent).associationPaperId && JSON.parse(this.paperData.paperContent).associationPaperId) {
-                  if (JSON.parse(paper13List[i].paperContent).associationPaperId.paper1Id === JSON.parse(this.paperData.paperContent).associationPaperId.paper1Id) {
-                    updatePaper.paper13List.push(paper13List[i])
+                if (JSON.parse(paper13List[i].paperContent).associationPaperId) {
+                  if (JSON.parse(paper13List[i].paperContent).associationPaperId[`paper${this.docData.docTypeNo}Id`] === this.paperData.paperId) {
+                    updatePaper[`paper13List`].push(paper13List[i])
                   }
                 }
               }
             }
             this.updatePaper = updatePaper
+            // 获取更新的隐患项：
             this.curDangerTable = this.$parent.letData.DangerTable
             // 如果updatePaper中没有数据则无需再打开弹窗选择更新
             let needSelect = false
@@ -489,13 +530,40 @@ export default {
       }
     },
     async savePaperFunction (saveFlag, isBack) {
+      // 修改本地检查活动数据：仅修改delFlag，如果文书归档时则更新，如果仅保存则不修改
+      if (saveFlag === '0') {
+        let caseId = this.corpData && this.corpData.caseId ? this.corpData.caseId : null
+        if (caseId) {
+          let wkCase = await this.getDatabase("wkCase")
+          let caseData = wkCase.find(item => item.caseId === caseId && item.delFlag !== '1')
+          caseData.delFlag = saveFlag
+          await this.updateDatabase('wkCase', [caseData], 'caseId')
+        }
+      }
+      // 修改本地文书数据
       let paperId = this.$parent.paperId
       let createDate = this.paperData && this.paperData.createDate
         ? this.paperData.createDate
         : getNowFormatTime();
+      // 制作时间逻辑修改，按照文书中是否有落款时间为准，如果有则获取落款时间，如果没有则使用当前时间 22.5.12
       let createTime = this.paperData && this.paperData.createTime
         ? this.paperData.createTime
         : getNowFormatTime();
+      let p0FloorTime = ''
+      // 判断文书是否有落款
+      let hasInscribe = this.$store.state.dictionary[`${this.$store.state.user.userType}Inscribe`].find(item => item.docTypeNo === this.docData.docTypeNo)
+      if (hasInscribe) {
+        // 如果有落款则以落款为主
+        p0FloorTime = this.$parent.letData[hasInscribe.field].replace('年', '-').replace('月', '-').replace('日', '') + ' ' + getNowMinutesTime()
+      } else {
+        // 如果没有落款，则判断是否已经有制作时间
+        if (this.paperData && this.paperData.createTime) {
+          p0FloorTime = this.paperData.createTime
+        } else {
+          // 如果没有制作时间则表示创建的文书
+          p0FloorTime = getNowFormatTime()
+        }
+      }
       let htmlPage = this.$slots.left[0].elm.innerHTML
       if (this.docData.docTypeNo === '22') {
         // 检查方案时增加分工明细表
@@ -559,6 +627,29 @@ export default {
           CheckItemRecords,
         };
         let dateRange = handleDateRetrun(this.$parent.letData.cellIdx2)
+        // 整理监察方案中监察监管类型或方式（因历史数据已经存储文本方式，所以只能在此转为码表发送后台）
+        let checkList = ''
+        let dictionaryList = await this.getDatabase('dictionary')
+        let programmeTypeListJson = dictionaryList.find(item => item.type === 'programmeType')
+        let programmeTypeList = JSON.parse(programmeTypeListJson.list)
+        let stringList = this.$parent.letData.cellIdx1.split(',')
+        // 通过options换取value数组
+        stringList.map(string => {
+          programmeTypeList.map(option => {
+            // 判断当前字符串中是否有：符号，如果有则再次分解
+            if (string.includes('：')) {
+              let strings = string.split('：')
+              if (option.label === strings[0]) {
+                checkList += option.value + ','
+              }
+            } else {
+              if (option.label === string) {
+                checkList += option.value + ','
+              }
+            }
+          })
+        })
+        checkList = checkList.substring(0, checkList.length - 1)
         let p22PaperData = {
           // 获取检查事件
           p22BeginTime:dateRange.length > 0 ? dateRange[0]
@@ -570,7 +661,7 @@ export default {
               .replace("月", "-")
               .replace("日", "") + " 00:00:00" : null,
           p22location: this.$parent.letData.cellIdx4,
-          p22inspection: this.$parent.letData.cellIdx1, // ?
+          p22inspection: checkList, // ?
           p22JczfCheck: JSON.stringify(p22JczfCheck),
           locationRemarks: this.$parent.letData.cellIdx1, // ?
         };
@@ -616,6 +707,8 @@ export default {
             p8PersonPenalty: this.$parent.letData.selectedType === '个人' ? penaltyTotle : '', // 个人罚款总额
             p8OrgPenalty: this.$parent.letData.selectedType === '单位' ? penaltyTotle : '' // 企业罚款总额
           }
+          // 罚款总额写入文书中,以备罚款收缴时使用
+          this.$parent.letData.p8Penalty = extraSaveData.p8Penalty
         } else {
           // 事故类检查活动保存时
           let penaltyType = ''
@@ -630,6 +723,8 @@ export default {
             p8PersonPenalty: this.punishmentInfo.selectedType === '个人' ? penaltyMoney : '', // 个人罚款总额
             p8OrgPenalty: this.punishmentInfo.selectedType === '单位' ? penaltyMoney : '' // 企业罚款总额
           }
+          // 罚款总额写入文书中,以备罚款收缴时使用
+          this.$parent.letData.p8Penalty = extraSaveData.p8Penalty
         }
       } else if (this.docData.docTypeNo === '13') {
         extraSaveData = {
@@ -657,6 +752,17 @@ export default {
         let associationPaperOrder = this.$parent.letData.associationPaperOrder
         p0ParentId = associationPaperId[`paper${associationPaperOrder[associationPaperOrder.length - 1]}Id`]
       }
+      // 整理煤矿名称
+      // 如果是16加强和改善安全管理意见书，17加强和改善安全监管建议书或者意见建议书中的执法案卷（首页）及目录15
+      let corpName = this.corpData && this.corpData.corpName ? this.corpData.corpName : ''
+      if (this.docData.docTypeNo === '16' || this.docData.docTypeNo === '17' ||
+        (this.docData.docTypeNo === '15' && this.fromPage === 'opinion-suggestion')) {
+        if (this.docData.docTypeNo === '15') {
+          corpName = this.$parent.letData.cellIdx0 || ''
+        } else {
+          corpName = this.$parent.letData.cellIdx5 || ''
+        }
+      }
       let jsonPaper = {
         paperId: paperId,
         remoteId: "",
@@ -677,9 +783,9 @@ export default {
         caseId: this.corpData && this.corpData.caseId ? this.corpData.caseId : '',
         caseType: this.corpData && this.corpData.caseType ? this.corpData.caseType : '',
         corpId: this.corpData && this.corpData.corpId ? this.corpData.corpId : '',
-        corpName: this.corpData && this.corpData.corpName ? this.corpData.corpName : '',
+        corpName,
         planId: this.corpData && this.corpData.planId ? this.corpData.planId : '',
-        p0FloorTime: saveFlag === '0' ? getNowFormatTime() : '', // 归档时间
+        p0FloorTime: p0FloorTime, // 落款时间，同制作时间
         p0ParentId: p0ParentId,
         p22JczfCheck: extraSaveData.p22JczfCheck || null, // 检查项分工明细表
         p22BeginTime: extraSaveData.p22BeginTime || null,
@@ -718,12 +824,12 @@ export default {
             needSavePaperNumber = true
           }
         }
-        if (this.$store.state.user.userType !== 'supervision' && (docTypeNo === '55' || docTypeNo === '49' || docTypeNo === '36')) {
+        if (this.$store.state.user.userType !== 'supervision' && (docTypeNo === '55' || docTypeNo === '49' || docTypeNo === '36' || docTypeNo === '16' || docTypeNo === '17')) {
           // 监察 非正常格式自增文书号
           // 行政执法决定法制审核意见书49 行政执法有关事项审批报告55 案件处理呈报书36
           needSavePaperNumber = true
         }
-        if (this.$store.state.user.userType === 'supervision' && (docTypeNo === '54' || docTypeNo === '47' || docTypeNo === '36')) {
+        if (this.$store.state.user.userType === 'supervision' && (docTypeNo === '54' || docTypeNo === '47' || docTypeNo === '36' || docTypeNo === '49')) {
           // 监管 非正常格式自增文书号
           // 行政执法决定法制审核意见书47 行政执法有关事项审批报告54 案件处理呈报书36
           needSavePaperNumber = true
@@ -761,7 +867,7 @@ export default {
               dangerId: item.dangerId, // 客户端生产的隐患唯一id
               paperId: paperId,
               remoteId: '', //服务器端生成的id
-              createDate,
+              createDate: item.createDate ? item.createDate : getNowFormatTime(),
               updateDate: getNowFormatTime(),
               createBy: JSON.stringify({
                 id: this.$store.state.user.userId
@@ -770,7 +876,7 @@ export default {
                 id: this.$store.state.user.userId
               }),
               caseId: this.corpData && this.corpData.caseId ? this.corpData.caseId : '',
-              dangerType: item.categoryCode,
+              dangerType: {categoryCode: item.categoryCode},
               sourceFlag: '0',
               delFlag: saveFlag,
               dangerCate: item.categoryCode,
@@ -778,7 +884,7 @@ export default {
               dangerContent: item.itemContent, // "煤矿建设项目未按规定进行安全预评价和安全验收评价，逾期未改正的。"
               dangerLocation: '', //违法违规及隐患位置
               dangerStatus: item.status, //违法违规及隐患状态
-              detectTime: getNowFormatTime(),  //发现时间：2021-06-24 15:48:54
+              detectTime: item.createDate ? item.createDate : getNowFormatTime(),  //发现时间：2021-06-24 15:48:54
               isHigh: item.isSerious, //是否重大隐患：[0|1]
               personId: this.$store.state.user.userId, //"7101000033",
               personName: this.$store.state.user.userName, //"发现人编号：beba494c4b67435f93e5fdfbe440e18e",
@@ -988,25 +1094,23 @@ export default {
           dataKey,
           params.value
         );
+        this.handleClose();
       } else if (dataKey === 'DangerTable'
-        && (options.page === '13' || options.page === '32' || options.page === '4' 
+        && (options.page === '13' || options.page === '32' 
         || options.page === '36' || options.page === '6' || options.page === '8'
         || options.page === '49')) {
         // 特殊保存：当文书中有多个隐患字段时，同时修改所有隐患字段内容
-        // 监察中多个隐患项字段的有:复查意见书13,查封(扣押)决定书32,立案决定书4,
+        // 监察中多个隐患项字段的有:复查意见书13,查封(扣押)决定书32
         // 案件处理呈报书36,行政处罚告知书6,行政处罚决定书8
         // 行政执法决定法制审核意见书49,
         // 监管多个字段的有:
         let saveFields = []
         switch (options.page) {
           case '13': 
-            saveFields = ['cellIdx9', 'cellIdx10']
+            saveFields = this.$store.state.user.userType === 'monitor' ? ['cellIdx9', 'cellIdx10'] : ['cellIdx9', 'cellIdx14']
             break
           case '32': 
             saveFields = this.$store.state.user.userType === 'monitor' ? ['cellIdx6', 'cellIdx7'] : ['cellIdx7', 'cellIdx8']
-            break
-          case '4': 
-            saveFields = ['cellIdx4', 'cellIdx5']
             break
           case '36': 
             saveFields = ['cellIdx2', 'cellIdx6', 'cellIdx7']
@@ -1227,7 +1331,7 @@ export default {
         docName = this.docData.docTypeNo
       }
       await this.JSZipUtils.getBinaryContent(`./static/docxtemplate/${this.$store.state.user.userType}/doc${docName}.docx`, (error, content) => {
-        console.log('error = ', error, content)
+        console.log('导出文件失败：', error, content)
         let zip = new this.pizzip(content)
         let doc = new docxtemplater()
         doc.loadZip(zip)
@@ -1276,7 +1380,51 @@ export default {
       // 每一份文书itemPaper
       let paperContentOld = JSON.parse(itemPaper.paperContent)
       // 更新隐患
-      paperContentOld.DangerTable = setNewDanger(itemPaper, this.curDangerTable)
+      // 整理当前更新文书需要更新的隐患newDangerTable
+      // 对比更新已选择的selectedDangerList所有数据
+      let selectedDangerList = []
+      if (this.docData.docTypeNo === '1' || this.docData.docTypeNo === '2') {
+        // 根据当前保存的文书如果为现场检查笔录1或现场处理决定书2或复查意见书13时：
+        // 1.现场处理决定时带入所有已选隐患
+        // 2.其他文书排除无行政处罚依据或决定的隐患
+        if (itemPaper.paperType === '2' || itemPaper.paperType === '13') {
+          for (let i = 0; i < this.curDangerTable.selectedDangerList.length; i++) {
+            let item = this.curDangerTable.selectedDangerList[i]
+            selectedDangerList.push(item)
+          }
+        } else {
+          for (let i = 0; i < this.curDangerTable.selectedDangerList.length; i++) {
+            let item = this.curDangerTable.selectedDangerList[i]
+            if (item.penaltyDesc && item.penaltyBasis) {
+              selectedDangerList.push(item)
+            }
+          }
+        }
+      } else {
+        // 根据当前保存的文书如果为立案决定书或之后的文书时：
+        // 将所有已选择隐患全部带入以后文书（不判断行政处罚依据或处罚是否为空）
+        for (let i = 0; i < this.curDangerTable.selectedDangerList.length; i++) {
+          let item = this.curDangerTable.selectedDangerList[i]
+          selectedDangerList.push(item)
+        }
+      }
+      // 对比更新tableData所有数据：
+      // 1.现场处理决定和立案时带入所有隐患
+      // 2.其他文书排除无行政处罚依据或决定的隐患以及未选中的隐患（即当前选中的所有文书）
+      let tableData = []
+      if (itemPaper.paperType === '2' || itemPaper.paperType === '13' || itemPaper.paperType === '4') {
+        for (let i = 0; i < this.curDangerTable.tableData.length; i++) {
+          let item = this.curDangerTable.tableData[i]
+          tableData.push(item)
+        }
+      } else {
+        for (let i = 0; i < selectedDangerList.length; i++) {
+          let item = selectedDangerList[i]
+          tableData.push(item)
+        }
+      }
+      let newDangerTable = Object.assign({}, this.curDangerTable, {tableData, selectedDangerList})
+      paperContentOld.DangerTable = setNewDanger(itemPaper, newDangerTable, itemPaper.paperId)
       // 设置tableData中verNo为1则为标记被连带更新
       if (paperContentOld.DangerTable.tableData) {
         for (let i = 0; i < paperContentOld.DangerTable.tableData.length; i++) {
@@ -1286,26 +1434,33 @@ export default {
       // 按文书更新其他信息
       if (itemPaper.paperType === '2') {
         // 如果是现场处理决定书：修改cellIdx7
-        let newcellIdx7 = setDangerTable(this.curDangerTable, {}, { page: '2' })
+        let newcellIdx7 = setDangerTable(newDangerTable, {}, { page: '2' })
         paperContentOld.cellIdx7 = newcellIdx7
-      } else if (itemPaper.paperType === '13') {
+      } else if (itemPaper.paperType === '13' && this.$store.state.user.userType !== 'supervision') {
         // 复查意见书时，修改cellIdx9和cellIdx10
-        let newcellIdx9 = setDangerTable(this.curDangerTable, {}, { page: '13', key: 'cellIdx9' })
-        let newcellIdx10 = setDangerTable(this.curDangerTable, {}, { page: '13', key: 'cellIdx10' })
+        let newcellIdx9 = setDangerTable(newDangerTable, {}, { page: '13', key: 'cellIdx9' })
+        let newcellIdx10 = setDangerTable(newDangerTable, {}, { page: '13', key: 'cellIdx10' })
         paperContentOld.cellIdx9 = newcellIdx9
         paperContentOld.cellIdx10 = newcellIdx10
+      }  else if (itemPaper.paperType === '13' && this.$store.state.user.userType === 'supervision') {
+        // 监管复查意见书时，修改cellIdx9和cellIdx14
+        let newcellIdx9 = setDangerTable(newDangerTable, {}, { page: '13', key: 'cellIdx9' })
+        let newcellIdx14 = setDangerTable(newDangerTable, {}, { page: '13', key: 'cellIdx14' })
+        paperContentOld.cellIdx9 = newcellIdx9
+        paperContentOld.cellIdx14 = newcellIdx14
       } else if (itemPaper.paperType === '4') {
         // 立案决定书时，修改cellIdx4，cellIdx5
-        let newcellIdx4 = setDangerTable(this.curDangerTable, {}, { 
-          page: '4', 
-          key: 'cellIdx4',
-          spellString: {
-            corpName: itemPaper.corpName,
-            dateString: paperContentOld.extraData.dateString,
-            groupName: this.$store.state.curCase.provinceGroupName,
-          },
-        })
-        let newcellIdx5 = setDangerTable(this.curDangerTable, {}, { 
+        // 新需求：立案决定书不同时修改案由cellIdx4
+        // let newcellIdx4 = setDangerTable(newDangerTable, {}, { 
+        //   page: '4', 
+        //   key: 'cellIdx4',
+        //   spellString: {
+        //     corpName: itemPaper.corpName,
+        //     dateString: paperContentOld.extraData.dateString,
+        //     groupName: this.$store.state.curCase.provinceGroupName,
+        //   },
+        // })
+        let newcellIdx5 = setDangerTable(newDangerTable, {}, { 
           page: '4', 
           key: 'cellIdx5', 
           spellString: {
@@ -1314,11 +1469,11 @@ export default {
             groupName: this.$store.state.curCase.provinceGroupName,
           },
         })
-        paperContentOld.cellIdx4 = newcellIdx4
+        // paperContentOld.cellIdx4 = newcellIdx4
         paperContentOld.cellIdx5 = newcellIdx5
       } else if (itemPaper.paperType === '36') {
         // 案件处理呈报书时，修改cellIdx2，cellIdx6，cellIdx7
-        let cellIdx2String = setDangerTable(this.curDangerTable, {}, { 
+        let cellIdx2String = setDangerTable(newDangerTable, {}, { 
           page: '36', 
           key: 'cellIdx2',
           spellString: {
@@ -1326,7 +1481,7 @@ export default {
             groupName: this.$store.state.curCase.provinceGroupName,
           },
         })
-        let cellIdx6String = setDangerTable(this.curDangerTable, {}, { 
+        let cellIdx6String = setDangerTable(newDangerTable, {}, { 
           page: '36', 
           key: 'cellIdx6',
           spellString: {
@@ -1334,7 +1489,7 @@ export default {
             groupName: this.$store.state.curCase.provinceGroupName,
           },
         })
-        let cellIdx7String = setDangerTable(this.curDangerTable, {}, { 
+        let cellIdx7String = setDangerTable(newDangerTable, {}, { 
           page: '36', 
           key: 'cellIdx7',
           spellString: {
@@ -1347,22 +1502,22 @@ export default {
         paperContentOld.cellIdx7 = cellIdx7String
       } else if (itemPaper.paperType === '6') {
         // 行政处罚告知书时：修改cellIdx6，cellIdx7，cellIdx8，cellIdx10
-        let cellIdx6String = setDangerTable(this.curDangerTable, {}, {
+        let cellIdx6String = setDangerTable(newDangerTable, {}, {
             page: "6",
             key: "cellIdx6",
           }
         );
-        let cellIdx7String = setDangerTable(this.curDangerTable, {}, {
+        let cellIdx7String = setDangerTable(newDangerTable, {}, {
             page: "6",
             key: "cellIdx7",
           }
         );
-        let cellIdx8String = setDangerTable(this.curDangerTable, {}, {
+        let cellIdx8String = setDangerTable(newDangerTable, {}, {
             page: "6",
             key: "cellIdx8",
           }
         );
-        let cellIdx10String = setDangerTable(this.curDangerTable, {}, {
+        let cellIdx10String = setDangerTable(newDangerTable, {}, {
             page: "6",
             key: "cellIdx10",
           }
@@ -1371,24 +1526,94 @@ export default {
         paperContentOld.cellIdx7 = cellIdx7String
         paperContentOld.cellIdx8 = cellIdx8String
         paperContentOld.cellIdx10 = cellIdx10String
+      } else if (itemPaper.paperType === '49') {
+        // 监察：行政执法决定法制审核意见书时：修改cellIdx3，cellIdx5，cellIdx6，cellIdx7
+        let cellIdx3String = setDangerTable(newDangerTable, {}, {
+            page: "49",
+            key: "cellIdx3",
+            spellString: {
+              corpName: itemPaper.corpName,
+              groupName: this.$store.state.curCase.provinceGroupName,
+            },
+          }
+        );
+        let cellIdx5String = setDangerTable(newDangerTable, {}, {
+            page: "49",
+            key: "cellIdx5",
+            spellString: {
+              corpName: itemPaper.corpName,
+              dateString: paperContentOld.extraData.dateString,
+              groupName: this.$store.state.curCase.provinceGroupName,
+            },
+          }
+        );
+        let cellIdx6String = setDangerTable(newDangerTable, {}, {
+            page: "49",
+            key: "cellIdx6",
+          }
+        );
+        let cellIdx7String = setDangerTable(newDangerTable, {}, {
+            page: "49",
+            key: "cellIdx7",
+          }
+        );
+        paperContentOld.cellIdx3 = cellIdx3String
+        paperContentOld.cellIdx5 = cellIdx5String
+        paperContentOld.cellIdx6 = cellIdx6String
+        paperContentOld.cellIdx7 = cellIdx7String
+      } else if (itemPaper.paperType === '47') {
+        // 监管：行政执法决定法制审核意见书时：修改cellIdx3，cellIdx5，cellIdx6，cellIdx7
+        let cellIdx3String = setDangerTable(newDangerTable, {}, {
+            page: "47",
+            key: "cellIdx3",
+            spellString: {
+              corpName: itemPaper.corpName,
+              groupName: this.$store.state.curCase.provinceGroupName,
+            },
+          }
+        );
+        let cellIdx5String = setDangerTable(newDangerTable, {}, {
+            page: "47",
+            key: "cellIdx5",
+            spellString: {
+              corpName: itemPaper.corpName,
+              dateString: paperContentOld.extraData.dateString,
+              groupName: this.$store.state.curCase.provinceGroupName,
+            },
+          }
+        );
+        let cellIdx6String = setDangerTable(newDangerTable, {}, {
+            page: "47",
+            key: "cellIdx6",
+          }
+        );
+        let cellIdx7String = setDangerTable(newDangerTable, {}, {
+            page: "47",
+            key: "cellIdx7",
+          }
+        );
+        paperContentOld.cellIdx3 = cellIdx3String
+        paperContentOld.cellIdx5 = cellIdx5String
+        paperContentOld.cellIdx6 = cellIdx6String
+        paperContentOld.cellIdx7 = cellIdx7String
       } else if (itemPaper.paperType === '8') {
         // 行政处罚决定书时，修改
-        let cellIdx7String = setDangerTable(this.curDangerTable, {}, {
+        let cellIdx7String = setDangerTable(newDangerTable, {}, {
             page: "8",
             key: "cellIdx7",
           }
         );
-        let cellIdx8String = setDangerTable(this.curDangerTable, {}, {
+        let cellIdx8String = setDangerTable(newDangerTable, {}, {
             page: "8",
             key: "cellIdx8",
           }
         );
-        let cellIdx9String = setDangerTable(this.curDangerTable, {}, {
+        let cellIdx9String = setDangerTable(newDangerTable, {}, {
             page: "8",
             key: "cellIdx9",
           }
         );
-        let cellIdx10String = setDangerTable(this.curDangerTable, {}, {
+        let cellIdx10String = setDangerTable(newDangerTable, {}, {
             page: "8",
             key: "cellIdx10",
           }
@@ -1398,21 +1623,34 @@ export default {
         paperContentOld.cellIdx9 = cellIdx9String
         paperContentOld.cellIdx10 = cellIdx10String
       }
+      // 更新行政处罚信息
+      if (itemPaper.paperType === '36' || itemPaper.paperType === '6' || itemPaper.paperType === '8') {
+        let {punishmentList, punishmentInfor} = await setPunishmentList(newDangerTable.selectedDangerList, paperContentOld.selectedType, true)
+        paperContentOld.DangerTable.punishmentList = punishmentList
+        paperContentOld.DangerTable.punishmentInfor = punishmentInfor
+      }
       itemPaper.paperContent = JSON.stringify(paperContentOld)
       // 更新文书
       await this.updatePaperDatabase(itemPaper.caseId, [itemPaper])
       // 更新隐患
       let wkDanger = await this.getDatabase("wkDanger")
       // 获取当前文书所有隐患项
-      let wkDangerList = JSON.parse(JSON.stringify(wkDanger.filter(item => item.paperId === itemPaper.paperId) || []))
+      let wkDangerList = []
+      wkDangerList = JSON.parse(JSON.stringify(wkDanger.filter(item => item.paperId === itemPaper.paperId) || []))
       // 删除已有数据
       await this.deleteDatabasePhysics('wkDanger', wkDangerList, 'dangerId')
+      // 隐患保留原文书中的制作人
+      for (let i = 0; i < paperContentOld.DangerTable.selectedDangerList.length; i++) {
+        paperContentOld.DangerTable.selectedDangerList[i].createBy = JSON.stringify({
+          id: itemPaper.personId
+        })
+        paperContentOld.DangerTable.selectedDangerList[i].personId = itemPaper.personId
+        paperContentOld.DangerTable.selectedDangerList[i].personName = itemPaper.personName
+      }
       // 添加所选数据
       await this.updateDatabase('wkDanger', paperContentOld.DangerTable.selectedDangerList, 'dangerId')
-      if (this.$store.state.onLine) {
-        // 有网络时同步上传服务器
-        await saveToUpload(itemPaper.paperId, false, itemPaper.caseId ? itemPaper.caseId : 'opinion-suggestion')
-      }
+      // 同步上传服务器(方法内执行，如果没有网络自动放入云同步中)
+      await saveToUpload(itemPaper.paperId, false, itemPaper.caseId ? itemPaper.caseId : 'opinion-suggestion')
     },
     closePunishmentInfoFill ({page, refresh}) {
       this.punishmentInfoFillVisible = false
@@ -1464,6 +1702,21 @@ export default {
         font-size: 18px;
         font-weight: bold;
         margin-bottom: 10px;
+      }
+    }
+    .paper-info-main {
+      padding: 10px 20px;
+      border-bottom: 1px solid #DCDFE6;
+      .paper-info-item {
+        display: flex;
+        height: 30px;
+        align-items: center;
+        font-size: 16px;
+        color: #606266;
+        .title {
+          width: 80px;
+          color: #303133;
+        }
       }
     }
   }

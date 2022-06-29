@@ -224,7 +224,7 @@ export default {
         selectedPaper.let25Data.paperContent
       );
       // 日期
-      let let25Date = selectedPaper.let25Data.createDate;
+      let let25Date = selectedPaper.let25Data.createTime;
       let25Date = let25Date
         ? let25Date.split(' ')[0].replace("年", "-").replace("月", "-").replace("日", "-")
         : " - - ";
@@ -264,7 +264,7 @@ export default {
       let DangerTable = null
       if (this.corpData.caseType === '0') {
         DangerTable = let25DataPaperContent.DangerTable ? 
-          setNewDanger(selectedPaper.let25Data, let25DataPaperContent.DangerTable)
+          setNewDanger(selectedPaper.let25Data, let25DataPaperContent.DangerTable, this.paperId)
           : {}
       }
       let associationPaperId = Object.assign({}, this.setAssociationPaperId(let25DataPaperContent.associationPaperId), {

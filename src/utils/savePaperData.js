@@ -4,7 +4,7 @@ import http from '@/utils/http'
 import { Message, Alert } from 'element-ui'
 import store from "@/store"
 import { randomString } from "@/utils/index";
-import { getNowTime } from "@/utils/date";
+import { getNowTime, getNowFormatTime } from "@/utils/date";
 import { getDatabase, updateDatabase, getPaperDatabase, updatePaperDatabase, deleteDatabasePhysics } from '@/utils/databaseOperation'
 export async function saveToUpload (paperId, messageShow, caseId) {
   // messageShow是否展示保存成功提示
@@ -22,36 +22,37 @@ export async function saveToUpload (paperId, messageShow, caseId) {
   let caseNo = null, caseType = null, corpId = null
   let meikuangType = null, meikuangPlanfrom = null, planId = null
   let checkReason = null, checkStatus = null, planBeginDate = null
-  let planEndDate = null, createDate = null, pcMonth = null
-  let corpName = null, caseClassify = null, riskAssessment = null, riskAssessmentContent = null
+  let planEndDate = null, createTime = null, pcMonth = null, delFlag = null
+  let caseClassify = null, riskAssessment = null, riskAssessmentContent = null
   let workCase = {}
   if (workPaper.caseId) {
+    // 不添加删除过滤条件，否则如果检查活动被删除后不能进行云同步item.delFlag !== '1';
     workCase = wkCase.find((item) => {
-      return item.caseId === workPaper.caseId && item.delFlag !== '1';
+      return item.caseId === workPaper.caseId
     });
   } else {
-    workCase = { caseNo, caseType, corpId, corpName, 
+    workCase = { caseNo, caseType, corpId,
       meikuangType, meikuangPlanfrom, planId,
       checkReason, checkStatus, planBeginDate,
-      planEndDate, createDate, pcMonth, 
-      caseClassify, riskAssessment, riskAssessmentContent 
+      planEndDate, pcMonth, 
+      caseClassify, riskAssessment, riskAssessmentContent,
+      createTime, delFlag
     }
   }
   let wkDangerList = []
   wkDangerList = JSON.parse(JSON.stringify(wkDanger.filter(item => item.paperId === paperId && item.delFlag !== '1') || []))
-  // 当文书选择为意见建议书或执法案卷（首页）及目录时，corpName赋值：
-  if (workPaper.paperType === "16" || workPaper.paperType === "17" || (workPaper.paperType === "15" && !workPaper.caseId)) {
-    let paperContent = JSON.parse(workPaper.paperContent);
-    if (workPaper.paperType === "15") {
-      corpName = paperContent.cellIdx0
-    } else {
-      corpName = paperContent.cellIdx5
-    }
-  }
   let workCaseObj = workCase
-      // 整理上传数据
   let corpData = corpBase.find(item => item.corpId === workCaseObj.corpId) 
-  // 整理网页端展示的html
+  // 容错，planBeginDate历史数据有不符合规则的，判断是否有时分秒，如果没有则添加
+  let planBegin = workCaseObj.planBeginDate || null
+  let planEnd = workCaseObj.planEndDate || null
+  if (planBegin && planBegin.split(' ').length === 1) {
+    planBegin = planBegin + ' 00:00:00'
+  }
+  if (planEnd && planEnd.split(' ').length === 1) {
+    planEnd = planEnd + ' 00:00:00'
+  }
+  // 整理上传数据
   let submitData = {
     paper: [
       {
@@ -60,8 +61,8 @@ export async function saveToUpload (paperId, messageShow, caseId) {
         remarks: null,
         paperId: workPaper.paperId,
         delFlag: workPaper.delFlag,
-        createDate: workPaper.createDate,
-        updateDate: workPaper.updateDate,
+        createDate: null, // 22.4.1 后台接口不需要，如果传时间可能会导致时间+8小时
+        updateDate: null, // 22.4.1 后台接口不需要，如果传时间可能会导致时间+8小时
         createBy: {
           id: workPaper.personId,
         },
@@ -78,11 +79,11 @@ export async function saveToUpload (paperId, messageShow, caseId) {
         personId: workPaper.personId,
         personName: workPaper.personName,
         corpId: workCaseObj.corpId,
-        corpName: workCaseObj.corpName,
+        corpName: workPaper.corpName || '',
         planId: workCaseObj.planId,
         group: {
-          id: workPaper.groupId,
-          name: workPaper.groupName,
+          id: workPaper.groupId ? workPaper.groupId : workPaper.group.id,
+          name: workPaper.groupName ? workPaper.groupName : workPaper.group.name,
         },
         p0FloorTime: workPaper.p0FloorTime,
         p22JczfCheck: workPaper.p22JczfCheck || null,
@@ -126,18 +127,18 @@ export async function saveToUpload (paperId, messageShow, caseId) {
         id: null,
         isNewRecord: null,
         remarks: null,
-        delFlag: workPaper.delFlag,
-        createDate: workPaper.createDate,
-        updateDate: workPaper.updateDate,
+        delFlag: workCaseObj.delFlag,
+        createDate: null, // 22.4.1 后台接口不需要，如果传时间可能会导致时间+8小时
+        updateDate: null, // 22.4.1 后台接口不需要，如果传时间可能会导致时间+8小时
         createBy: {
-          id: workPaper.personId,
+          id: workCaseObj.personId,
         },
         updateBy: {
-          id: workPaper.personId,
+          id: workCaseObj.personId,
         },
         sourceFlag: "0",
         caseSn: workCaseObj.caseSn,
-        caseId: workPaper.caseId,
+        caseId: workCaseObj.caseId,
         caseNo: workCaseObj.caseNo,
         caseType: workCaseObj.caseType,
         penaltyType: null,
@@ -153,10 +154,10 @@ export async function saveToUpload (paperId, messageShow, caseId) {
         accuseId: null,
         corpId: workCaseObj.corpId,
         corpName: workCaseObj.corpName,
-        personId: workPaper.personId,
-        personName: workPaper.personName,
-        groupId: workPaper.groupId,
-        groupName: workPaper.groupName,
+        personId: workCaseObj.personId,
+        personName: workCaseObj.personName,
+        groupId: workCaseObj.groupId,
+        groupName: workCaseObj.groupName,
         verNo: null,
         name: null,
         corpType: "",
@@ -165,9 +166,9 @@ export async function saveToUpload (paperId, messageShow, caseId) {
         corpDataType: "",
         checkReason: workCaseObj.checkReason,
         checkStatus: workCaseObj.checkStatus,
-        planBeginDate: workCaseObj.planBeginDate ? workCaseObj.planBeginDate : null,
-        planEndDate: workCaseObj.planEndDate ? workCaseObj.planEndDate : null,
-        createTime: workCaseObj.createDate,
+        planBeginDate: planBegin,
+        planEndDate: planEnd,
+        createTime: workCaseObj.createTime,
         affiliate: workCaseObj.affiliate,
         meikuangType: workCaseObj.meikuangType,
         meikuangPlanfrom: workCaseObj.meikuangPlanfrom, // 是否计划内
@@ -195,8 +196,8 @@ export async function saveToUpload (paperId, messageShow, caseId) {
           isNewRecord: null,
           remarks: null,
           paperId: item.paperId,
-          createDate: item.createDate,
-          updateDate: item.updateDate,
+          createDate: null, // 22.4.1 后台接口不需要，如果传时间可能会导致时间+8小时
+          updateDate: null, // 22.4.1 后台接口不需要，如果传时间可能会导致时间+8小时
           createBy: {
             id: workPaper.personId,
           },
@@ -206,7 +207,7 @@ export async function saveToUpload (paperId, messageShow, caseId) {
           caseId: workPaper.caseId,
           dangerId: item.dangerId,
           dangerCate: item.dangerCate,
-          dangerType: item.dangerCate,
+          dangerType: item.dangerType,
           delFlag: item.delFlag,
           dangerItemId: item.dangerItemId,
           dangerContent: item.dangerContent,
@@ -349,7 +350,9 @@ async function savePaperToPrepareUpload(submitData) {
     corpName: paperData.corpName,
     paperType: paperData.paperType,
     name: paperData.name,
+    createTime: paperData.createTime, // 文书制作时间
     createDate: paperData.createDate,
+    operationTime: getNowFormatTime(), // 未上传成功时间，后续可以根据此字段按顺序操作上传文书
     personId: paperData.personId,
     personName: paperData.personName,
     delFlag: '0',

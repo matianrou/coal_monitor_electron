@@ -53,6 +53,20 @@ export function getNowFormatTime() {
   return time;
 }
 
+// 获取当前时间时分秒：hh:mm:ss
+export function getNowMinutesTime() {
+  let now = new Date();
+  let hour = now.getHours();//得到小时
+  let minu = now.getMinutes();//得到分钟
+  let sec = now.getSeconds();//得到秒
+  if (hour < 10) hour = "0" + hour;
+  if (minu < 10) minu = "0" + minu;
+  if (sec < 10) sec = "0" + sec;
+  let time = "";
+  time = hour + ":" + minu + ":" + sec;
+  return time;
+}
+
 // 获取当前时间Format:yyyyMMddhhmmss
 export function getNowTime() {
   let now = new Date();

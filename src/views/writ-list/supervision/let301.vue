@@ -326,8 +326,9 @@ export default {
         selectedPaper.let53Data.paperContent
       );
       // 4.对被申请人：企业名称+'涉嫌'+隐患描述+'案'
+      let newDangerTable = this.corpData.caseType === "0" ? this.handleSelectedDangerList(let53DataPaperContent.DangerTable) : null
       let cellIdx9String = this.corpData.caseType === '0' ? setDangerTable(
-          let53DataPaperContent.DangerTable,
+          newDangerTable,
           {}, 
           {
             page: "18",
@@ -338,7 +339,7 @@ export default {
             },
           }
         ):'';
-      let let53Date = selectedPaper.let53Data.createDate.split(' ')[0].split('-');
+      let let53Date = selectedPaper.let53Data.createTime.split(' ')[0].split('-');
       // 6.行政处罚决定书编号
       // 获取关联的行政处罚决定书
       let paper8PaperContent = {}
@@ -347,12 +348,12 @@ export default {
       if (let53DataPaperContent.associationPaperId) {
         let wkPaper = await this.getPaperDatabase(this.corpData.caseId)
         let paper8 = await wkPaper.find(item => item.paperId === let53DataPaperContent.associationPaperId.paper8Id && item.delFlag !== '1')
-        paper8PaperContent = JSON.parse(paper8.paperContent)
-        paper8num1 = paper8PaperContent.cellIdx0
-        paper8num2 = paper8PaperContent.cellIdx1
-        paper8num3 = paper8PaperContent.cellIdx2
-        paper8num4 = paper8PaperContent.cellIdx3
-        paper8date = paper8.createDate.split(' ')[0].split('-')
+        paper8PaperContent = paper8 ? JSON.parse(paper8.paperContent) : {}
+        paper8num1 = paper8PaperContent.cellIdx0 || ''
+        paper8num2 = paper8PaperContent.cellIdx1 || ''
+        paper8num3 = paper8PaperContent.cellIdx2 || ''
+        paper8num4 = paper8PaperContent.cellIdx3 || ''
+        paper8date = paper8 ? paper8.createTime.split(' ')[0].split('-') : ''
       }
       // 从sysOfficeInfo中获取：
       let orgSysOfficeInfo = await getOrgData(this.$store.state.curCase.groupId)
@@ -362,8 +363,8 @@ export default {
       // 8.申请人的法定代表人legalPerson和职务post
       let DangerTable = null
       if (this.corpData.caseType === '0') {
-        DangerTable = let53DataPaperContent.DangerTable ? 
-          setNewDanger(selectedPaper.let53Data, let53DataPaperContent.DangerTable)
+        DangerTable = newDangerTable ? 
+          setNewDanger(selectedPaper.let53Data, newDangerTable, this.paperId)
           : {}
       }
       let associationPaperId = Object.assign({}, this.setAssociationPaperId(let53DataPaperContent.associationPaperId), {

@@ -37,6 +37,8 @@
           @selection-change="handleSelectionChange">
           <el-table-column
             type="selection"
+            header-align="center"
+            align="center"
             width="55">
           </el-table-column>
           <el-table-column
@@ -121,22 +123,23 @@
       async getCheckList() {
         let wkPaper = await this.getPaperDatabase()
         // 拉取做的检查活动
-        let caseList = JSON.parse(JSON.stringify(wkPaper.filter(item => item.paperType === '22' 
+        let caseList = []
+        caseList = JSON.parse(JSON.stringify(wkPaper.filter(item => item.paperType === '22' 
           && item.delFlag !== '1' 
-          && item.personId === this.$store.state.user.userId
-          && item.localizeFlag === '1') || []))
+          // && item.personId === this.$store.state.user.userId // 22.4.20 柴需求：检查方案检查分工明细表可导入拉取的文书
+          && item.localizeFlag === '1')))
         let exportCaseList = []
         if (caseList && caseList.length > 0) {
           for (let i = 0; i < caseList.length; i++) {
             let item = caseList[i]
             item.paperContent = JSON.parse(item.paperContent)
             if (item.paperContent.CheckTable && item.paperContent.CheckTable.tableData.length > 0) {
-              item.showTag = `${item.corpName} ${item.createDate}`
+              item.showTag = `${item.corpName} ${item.createTime}`
               exportCaseList.push(item)
             }
           }
         }
-        exportCaseList.sort(sortbyAsc('createDate'))
+        exportCaseList.sort(sortbyAsc('createTime'))
         this.caseList = exportCaseList
       },
       changeSelected (val) {

@@ -5,7 +5,7 @@ import letMain from "@/views/make-law-writ/components/let-main.vue";
 import selectPaper from '@/components/select-paper'
 import { getNowDate, getNowTime } from '@/utils/date'
 import { randomString, sortbyAsc } from "@/utils/index";
-import { setAssociationPaperId, setAssociationPaperOrder } from '@/utils/setInitPaperData'
+import { setAssociationPaperId, setAssociationPaperOrder, handleSelectedDangerList } from '@/utils/setInitPaperData'
 
 export default {
   name: "AssociationSelectPaper",
@@ -55,6 +55,7 @@ export default {
       letDataOragin: null,
       setAssociationPaperId: setAssociationPaperId,
       setAssociationPaperOrder: setAssociationPaperOrder, 
+      handleSelectedDangerList: handleSelectedDangerList,
       associationList: [], // 文书必须关联列表,当前用于行政处罚告知书选择关联文书逻辑
       isRequired: true, // 选择文书时是否必选
     };
@@ -136,7 +137,7 @@ export default {
                 this.selectedPaper[`let${paper}Data`] = paperDataList[0]
               } else {
                 // 如果查到关联的文书有两条及以上，则保留关键字，同时保留多份文书列表，以便后面遍历选择
-                paperDataList.sort(sortbyAsc('createDate'))
+                paperDataList.sort(sortbyAsc('createTime'))
                 this.selectFlowList.push({
                   key: `let${paper}Data`,
                   paperList: paperDataList
@@ -161,7 +162,7 @@ export default {
                 break
               } else if (paperDataList.length > 1){
                 // 如果查到关联的文书有两条及以上，则保留关键字，同时保留多份文书列表，以便后面遍历选择，并退出循环
-                paperDataList.sort(sortbyAsc('createDate'))
+                paperDataList.sort(sortbyAsc('createTime'))
                 this.selectFlowList.push({
                   key: `let${paper}Data`,
                   paperList: paperDataList
@@ -173,10 +174,7 @@ export default {
             let docTypeNo = this.docData.docTypeNo
             // 按文书将whetherAssociationPaper分解为两个数组：数组1为是否要关联的文书列表，按顺序询问；数组2为必须要关联的文书列表，按顺序关联
             // 当前暂没有使用此逻辑，本来行政处罚告知书使用，但放弃使用（逻辑没有问题，可根据需要使用）
-            let splitIndex = 0
-            if (docTypeNo === '6') {
-              splitIndex = 1
-            }
+            let splitIndex = 1
             let whetherAssociationList = this.whetherAssociationPaper.slice(0, splitIndex)
             this.associationList = this.whetherAssociationPaper.slice(splitIndex, this.whetherAssociationPaper.length)
             let hasWhetherAssociation = false
@@ -245,7 +243,7 @@ export default {
       if ((this.docData.docTypeNo === '43' && this.$store.state.user.userType !== 'supervision')) {
         // 罚款收缴时如果没有网络则提示
         if (!this.$store.state.onLine) {
-          this.$message.warning('当前为离线登录，请联网后再上传、下载或删除文件！')
+          this.$message.warning('当前为离线状态，请联网后再上传、下载或删除文件！')
           return
         }
       }
@@ -314,7 +312,7 @@ export default {
             break
           } else if (paperDataList.length > 1){
             // 如果查到关联的文书有两条及以上，则保留关键字，同时保留多份文书列表，以便后面遍历选择，并退出循环
-            paperDataList.sort(sortbyAsc('createDate'))
+            paperDataList.sort(sortbyAsc('createTime'))
             this.selectFlowList.push({
               key: `let${paperType}Data`,
               paperList: paperDataList

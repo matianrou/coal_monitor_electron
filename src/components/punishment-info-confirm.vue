@@ -131,13 +131,14 @@ export default {
             itemContent: item.itemContent,
           }
           if (item.penaltyDescFine) {
-            totalFine += item.penaltyDescFine / 10000
+            totalFine += item.penaltyDescFine
           }
           dangerList.push(danger)
         }
         let confirmInfo = ''
         if (totalFine) {
-          confirmInfo = `处罚合计${totalFine}万元，${this.letData.selectedType}${totalFine}万元。`
+          let fine = (totalFine / 10000).toFixed(6)
+          confirmInfo = `处罚合计${fine}万元，${this.letData.selectedType}${fine}万元。`
         }
         this.confirmInfo = confirmInfo
         this.dangerList = dangerList

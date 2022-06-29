@@ -160,7 +160,7 @@ export default {
         associationPaperOrder: []
       },
       options: {},
-      associationPaper: ['1']
+      associationPaper: ['4']
     };
   },
   methods: {
@@ -171,13 +171,15 @@ export default {
           return item.corpId == this.corpData.corpId;
         });
         // 获取检查时间
-        let let1DataPaperContent = JSON.parse(selectedPaper.let1Data.paperContent)
+        let let4DataPaperContent = JSON.parse(selectedPaper.let4Data.paperContent)
+        let wkPaper = await this.getPaperDatabase(this.corpData.caseId)
+        let paper1 = await wkPaper.find(item => item.paperId === let4DataPaperContent.associationPaperId.paper1Id)
         // 检查时间日期：
-        let dateString = let1DataPaperContent.cellIdx1 ? let1DataPaperContent.cellIdx1 : 'X年X月X日-X年X月X日'
+        let dateString = paper1.paperContent ? JSON.parse(paper1.paperContent).cellIdx1 : 'X年X月X日-X年X月X日'
         // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
-        let dangerObject = getDangerObject(let1DataPaperContent.DangerTable.selectedDangerList)
+        let newDangerTable = this.corpData.caseType === '0' ? this.handleSelectedDangerList(let4DataPaperContent.DangerTable) : null
         let cellIdx2String = this.corpData.caseType === '0' ? setDangerTable(
-          let1DataPaperContent.DangerTable,
+          newDangerTable,
           {}, 
           {
             page: "35",
@@ -190,7 +192,7 @@ export default {
          // 2.理由和依据
           // 1，移送案件的理由和依据：立案时间+“我分局对”+煤矿名称+“进行安全监察时，发现该矿”+隐患描述+“经分局执法人员初步调查取证，认定该行为涉嫌违反了《矿产资源法》第十七条规定。” 
         let cellIdx3String = this.corpData.caseType === '0' ? setDangerTable(
-          let1DataPaperContent.DangerTable,
+          newDangerTable,
           {}, 
           {
             page: "35",
@@ -201,14 +203,14 @@ export default {
             },
           }
         ):'';
-        let DangerTable = let1DataPaperContent.DangerTable ? 
-          setNewDanger(selectedPaper.let1Data, let1DataPaperContent.DangerTable)
+        let DangerTable = newDangerTable ? 
+          setNewDanger(selectedPaper.let4Data, newDangerTable, this.paperId)
           : {}
-        let associationPaperId = Object.assign({}, this.setAssociationPaperId(let1DataPaperContent.associationPaperId), {
-          paper1Id: selectedPaper.let1Data.paperId,
+        let associationPaperId = Object.assign({}, this.setAssociationPaperId(let4DataPaperContent.associationPaperId), {
+          paper4Id: selectedPaper.let4Data.paperId,
         }) 
-        let associationPaperOrder = this.setAssociationPaperOrder(let1DataPaperContent.associationPaperOrder)
-        associationPaperOrder.push('1')
+        let associationPaperOrder = this.setAssociationPaperOrder(let4DataPaperContent.associationPaperOrder)
+        associationPaperOrder.push('4')
         // XXX国土资源局
         let cellIdx4String = "XXX国土资源局";
         this.letData = Object.assign({}, this.letData, {
@@ -223,11 +225,11 @@ export default {
         let cellIdx2String = `${this.corpData.corpName}XXX案。`
         let cellIdx3String = `20XX年XX月XX日我分局对${this.corpData.corpName}进行安全监察时，发现该矿XXX。经分局执法人员初步调查取证，认定该行为涉嫌违反了《矿产资源法》第十七条规定。`
         let cellIdx4String = "XXX国土资源局";
-        let associationPaperId = Object.assign({}, this.setAssociationPaperId(let1DataPaperContent.associationPaperId), {
-          paper1Id: selectedPaper.let1Data.paperId,
+        let associationPaperId = Object.assign({}, this.setAssociationPaperId(let4DataPaperContent.associationPaperId), {
+          paper4Id: selectedPaper.let4Data.paperId,
         }) 
-        let associationPaperOrder = this.setAssociationPaperOrder(let1DataPaperContent.associationPaperOrder)
-        associationPaperOrder.push('1')
+        let associationPaperOrder = this.setAssociationPaperOrder(let4DataPaperContent.associationPaperOrder)
+        associationPaperOrder.push('4')
         this.letData = Object.assign({}, this.letData, {
           cellIdx2: cellIdx2String, // 案由
           cellIdx3: cellIdx3String, // 理由和依据

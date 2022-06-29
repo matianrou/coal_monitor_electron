@@ -225,10 +225,9 @@
               >
               <div v-if="letData.cellIdx21 && letData.cellIdx21.length > 0">
                 <p class="show-area-item-p">
-                  <span style="padding: 7px;">{{ letData.cellIdx21? letData.cellIdx21 : '（点击编辑）' }}</span>
+                  <span>{{ letData.cellIdx21? letData.cellIdx21 : '（点击编辑）' }}</span>
                 </p>
-                <p class="show-area-item-p">&nbsp;</p>
-                <cell-line></cell-line>
+                <cell-line :line-num="300"></cell-line>
               </div>
               <div v-else>
                 <p
@@ -467,10 +466,11 @@ export default {
         }
       } else {
         let let4DataPaperContent = JSON.parse(selectedPaper.let4Data.paperContent);
+        let newDangerTable = this.corpData.caseType === "0" ? this.handleSelectedDangerList(let4DataPaperContent.DangerTable) : null
         cellIdx8String =
           this.corpData.caseType === "0"
             ? setDangerTable(
-                let4DataPaperContent.DangerTable,
+                newDangerTable,
                 {},
                 {
                   page: "5",
@@ -486,7 +486,7 @@ export default {
         dangerString =
           this.corpData.caseType === "0"
             ? setDangerTable(
-                let4DataPaperContent.DangerTable,
+                newDangerTable,
                 {},
                 {
                   page: "5",
@@ -505,10 +505,11 @@ export default {
         associationPaperOrder = this.setAssociationPaperOrder(let4DataPaperContent.associationPaperOrder)
         associationPaperOrder.push('4')
         if (this.corpData.caseType === "0") {
-          DangerTable = let4DataPaperContent.DangerTable
+          DangerTable = newDangerTable
             ? setNewDanger(
                 selectedPaper.let4Data,
-                let4DataPaperContent.DangerTable
+                newDangerTable,
+                this.paperId
               )
             : {};
         }
@@ -525,8 +526,8 @@ export default {
       问：为什么出现这个问题？
       答：
       问：你还有补充吗？
-      答： 没有了。
-      问： 请你看一下记录，是否如你所说一样，如无异议，请签字确认。`;
+      答：没有了。
+      问：请你看一下记录，是否如你所说一样，如无异议，请签字确认。`;
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: cellIdx0Year, // 年
         cellIdx1: cellIdx1Month, // 月

@@ -1,5 +1,5 @@
 import store from "@/store"
-import { getMoney, randomString, treeDataTranslate } from '@/utils'
+import { getMoney, randomString, treeDataTranslate, transformNumToChinese, thousands, sortbyAsc } from '@/utils'
 import { getNowFormatTime, getNowTime } from "@/utils/date";
 import { getDatabase, setDatabase, updateDatabase } from '@/utils/databaseOperation'
 // 初始化各文书数据
@@ -73,40 +73,17 @@ export async function getDocNumber2(docTypeNo) {
 
 async function getPersonNumber (docTypeNo) {
   // 读取库表
-  let date = new Date()
-  let curYear = date.getFullYear()
-  let personPaperNumber = await getDatabase('personPaperNumber') || []
-  let numberData = personPaperNumber.find(item => item.year === (curYear + ''))
+  let personPaperNumber = []
+  personPaperNumber = await getDatabase('personPaperNumber')
+  let numData = personPaperNumber.find(item => item.paperType === docTypeNo)
+  let num = numData.paperCount
   let threeNum = ''
-  if (numberData) {
-    // 如果有当前年份的文书号数据
-    let paperNumber = JSON.parse(numberData.paperNumber)
-      if (paperNumber[`paper-${store.state.user.userType}-${docTypeNo}`]) {
-      // 有当前文书的文书号
-      threeNum = paperNumber[`paper-${store.state.user.userType}-${docTypeNo}`]
-    } else {
-      // 没有当前文书的文书号
-      threeNum = '001'
-      numberData.paperNumber = JSON.stringify(Object.assign({}, paperNumber, {
-        [`paper-${store.state.user.userType}-${docTypeNo}`]: threeNum
-      }))
-      numberData.updateDate = getNowFormatTime()
-      await updateDatabase('personPaperNumber', [numberData])
-    }
+  if (num < 10) {
+    threeNum = '00' + String(num)
+  } else if (num < 100) {
+    threeNum = '0' + String(num)
   } else {
-    // 还没有当前年份的文书号数据：创建：
-    threeNum = '001'
-    let saveData = {
-      id: getNowTime() + randomString(28),
-      year: curYear + '',
-      paperNumber: JSON.stringify({
-        [`paper-${store.state.user.userType}-${docTypeNo}`]: threeNum
-      }),
-      createDate: getNowFormatTime(),
-      updateDate: getNowFormatTime() 
-    }
-    personPaperNumber.push(saveData)
-    await setDatabase('personPaperNumber', personPaperNumber)
+    threeNum = String(num)
   }
   return (store.state.user.userNumber || '')  + threeNum
 }
@@ -145,7 +122,7 @@ export function getCurPaperDocNumber(paper) {
     // 以下文书为单字段文书号：取得字段都是cellIdx1
     // 行政执法有关事项审批报告/行政执法决定法制审核意见书/案件处理呈报书
     let paperContent = JSON.parse(paper.paperContent) 
-    paperNumber = paperContent.cellIdx1
+    paperNumber = paperContent.cellIdx1 || ''
   } else {
     // 其他文书为组合式文书号
     for(let i = 0; i < store.state.dictionary[`${store.state.user.userType}PaperNumberType`].length > 0; i++) {
@@ -166,12 +143,12 @@ export function getCurPaperDocNumber(paper) {
     if (store.state.user.userType === 'supervision') {
       // 监管文书号格式
       if (paperNumberFields && paperNumberFields.length > 0) {
-        paperNumber = `${paperContent[paperNumberFields[0]]}（${paperContent[paperNumberFields[1]]}）${paperTypeName}${docString}〔${paperContent[paperNumberFields[2]]}〕${paperContent[paperNumberFields[3]]}号`
+        paperNumber = `${paperContent[paperNumberFields[0]] || ''}（${paperContent[paperNumberFields[1]] || ''}）${paperTypeName}${docString}〔${paperContent[paperNumberFields[2]] || ''}〕${paperContent[paperNumberFields[3]] || ''}号`
       }
     } else {
       // 监察文书号格式
       if (paperNumberFields && paperNumberFields.length > 0) {
-        paperNumber = `${paperContent[paperNumberFields[0]]}${paperTypeName}${paperContent[paperNumberFields[1]]}${docString}〔${paperContent[paperNumberFields[2]]}〕${paperContent[paperNumberFields[3]]}号`
+        paperNumber = `${paperContent[paperNumberFields[0]] || ''}${paperTypeName}${paperContent[paperNumberFields[1]] || ''}${docString}〔${paperContent[paperNumberFields[2]] || ''}〕${paperContent[paperNumberFields[3]] || ''}号`
       }
     }
   }
@@ -214,9 +191,9 @@ export function getDangerObject(tableData, hasIndex = {
     for (let index = 0; index < tableData.length; index++) {
       let item = tableData[index]
       contentOnsiteDesc += `    ${(index + 1)}. ${item.itemContent}${item.onsiteDesc}。\r\n`
-      dangerString += hasIndex.danger ? `${(index + 1)}. ${item.itemContent}` : `${item.itemContent}`
-      illegalString += hasIndex.illegal ? `${(index + 1)}. ${item.confirmBasis}、` : `${item.confirmBasis}、`
-      onsiteDescString += hasIndex.onsiteDesc ? `${(index + 1)}. ${item.onsiteDesc}、` : `${item.onsiteDesc}、`
+      dangerString += hasIndex.danger ? `${(index + 1)}. ${item.itemContent || ''}` : `${item.itemContent || ''}`
+      illegalString += hasIndex.illegal ? `${(index + 1)}. ${item.confirmBasis || ''}、` : `${item.confirmBasis || ''}、`
+      onsiteDescString += hasIndex.onsiteDesc ? `${(index + 1)}. ${item.onsiteDesc || ''}、` : `${item.onsiteDesc || ''}、`
       treatmentSuggestion += `${(index + 1)}. ${item.penaltyBasis ? item.penaltyBasis : ''}${item.penaltyDesc ? item.penaltyDesc : ''}；`
       penaltyBasisString += hasIndex.penaltyBasis ? `${(index + 1)}. ${item.penaltyBasis ? item.penaltyBasis : ''}、` : `${item.penaltyBasis ? item.penaltyBasis : ''}、`
       penaltyDesc += hasIndex.penaltyDesc ? `${item.penaltyDesc ? `${(index + 1)}. ${item.penaltyDesc}` : ''}` : `${item.penaltyDesc ? `${item.penaltyDesc}` : ''}`
@@ -434,15 +411,15 @@ export function retrunGetMoney(penaltyDescString) {
   let count = 0
   let stringList = []
   if (penaltyDescString) {
-    stringList = penaltyDescString .split(/[,᠃.。，]/)
+    stringList = penaltyDescString.replace(/\（(.+?)\）/g, '').replace(/\((.+?)\)/g, '').split(/[,᠃。，]/)
   }
   for (let i = 0; i < stringList.length; i++) {
-    let item = stringList[i]
-    if (item.includes('罚款') && item.includes('元')) {
-      for (let i = 0; i < item.length; i++) {
-        if (item[i] === '元') count ++  
+    let string = stringList[i]
+    if (string.includes('罚款') && string.includes('元')) {
+      for (let i = 0; i < string.length; i++) {
+        if (string[i] === '元') count ++  
       }
-      money = getMoney(penaltyDescString) 
+      money = getMoney(string) 
     }
   }
   return {money, count}
@@ -539,7 +516,7 @@ export async function corpInformation(corpData) {
 // 现在用于关联隐患项时的创建隐患表和新增文书时自动关联的隐患项
 // paperData创建组合的文书数据，最后合并至此文书数据中的DangerTable中
 // DangerTable组合进来的隐患列表
-export function setNewDanger (paperData, DangerTable) {
+export function setNewDanger (paperData, DangerTable, paperId) {
   // allDangerTableNew新的所有隐患项列表（包括选中和未选中）
   // selectedDangerTableNew新的所有选中的隐患项列表（只有选中）
   let allDangerTableNew = []
@@ -579,7 +556,7 @@ export function setNewDanger (paperData, DangerTable) {
         isSerious: tableDataNewItem.isSerious,
         isReview: tableDataNewItem.isReview,
         reviewDate: tableDataNewItem.reviewDate,
-        createDate: paperData.createDate,
+        createDate: tableDataNewItem.createDate,
         itemCode: tableDataNewItem.itemCode, //
         no: tableDataNewItem.no, // 同itemCode
         delFlag: '2',
@@ -600,15 +577,15 @@ export function setNewDanger (paperData, DangerTable) {
         dangerLocation: '', //违法违规及隐患位置
         dangerParentId: dangerParentId, //"隐患关联id：null",
         dangerStatus: tableDataNewItem.status, //违法违规及隐患状态
-        dangerType: tableDataNewItem.categoryCode,
-        detectTime: getNowFormatTime(),  //发现时间：2021-06-24 15:48:54
+        dangerType: {categoryCode: tableDataNewItem.categoryCode},
+        detectTime: tableDataNewItem.createDate,  //发现时间：2021-06-24 15:48:54
         isCheck: tableDataNewItem.isReview, //"是否需要复查0不需要1需要",
         isHigh: tableDataNewItem.isSerious, //是否重大隐患：[0|1]
         itemOnsiteBasis: tableDataNewItem.onsiteBasis, //"现场决定依据：《中华人民共和国安全生产法》第九十五条第一项",
         itemOnsiteType: tableDataNewItem.onsiteType, //"现场处理类型",
         name: null,
         onsiteContent: tableDataNewItem.onsiteDesc, //"现场处理内容：责令停止建设责令停止作业、限X日内改正",
-        paperId: paperData.paperId,
+        paperId,
         penaltyOrg: '', //"对单位的处罚", // 后台不需要了21.12.2
         penaltyOrgFine: selectedType === '单位' ? tableDataNewItem.penaltyDescFine : null, //"单位罚金",
         penaltyPerson: '', //"对个人的处罚",  // 后台不需要了21.12.2
@@ -774,4 +751,134 @@ export function getAffiliateOrgName (orgData, allOrgList) {
     name = `${provinceOrg.name}-${upOrg.name}-${item.officeName}`
   }
   return name
+}
+
+export async function setPunishmentList (selectedDangerList = [], selectedType = '', setPunishmentInfor = false) {
+  // selectedDangerList已选中的隐患项列表
+  // selectedType 单位或个人
+  // setPunishmentInfor 是否重新计算punishmentInfor处罚用语 true为重新计算，false为不重新计算
+  // 获取行政处罚信息
+  let dictionaryList = await getDatabase('dictionary')
+  let subitemType = dictionaryList.find(item => item.type === 'subitemType')
+  let subitemTypeOptions = subitemType ? JSON.parse(subitemType.list) : []
+  subitemTypeOptions.sort(sortbyAsc('sort'))
+  let punishmentList = []
+  let punishmentInfor = null
+  if (subitemTypeOptions.length > 0) {
+    if (selectedDangerList.length > 0) {
+      for (let i = 0; i < selectedDangerList.length; i++) {
+        let item = selectedDangerList[i]
+        let punishmentObj = {
+          counterStr: '', // 针对个人或单位
+          fine: 0, // 罚款
+          fineStr: '', // 罚款
+          penaltyDesId: '', // 处罚决定
+          penaltyDesStr: '', // 处罚决定
+        }
+        // 获取针对个人或单位
+        if (selectedType) {
+          punishmentObj.counterStr = `针对“${selectedType}”`
+        }
+        // 获取罚款金额
+        // 增加逻辑：判断是否有多个“罚款”，如果有则提示多个罚款金额，无法计算罚款金额
+        if (item.penaltyDesc) {
+          if (item.penaltyDesc.split('罚款').length > 2) {
+            punishmentObj.fineStr = '（发现本条隐患存在多个罚款金额，对于“行政处罚告知书、行政处罚决定书”只能一条隐患拥有一个罚款金额，请修正“行政处罚决定用语”!）'
+          } else {
+            let stringList = item.penaltyDesc.replace(/\（(.+?)\）/g, '').replace(/\((.+?)\)/g, '').split(/[,᠃。，]/)
+            for (let i = 0; i < stringList.length; i++) {
+              let string = stringList[i]
+              if (string.includes('罚款') && string.includes('元')) {
+                let count = 0
+                for (let j = 0; j < string.length; j++) {
+                  if (string[j] === '元') count ++  
+                }
+                if (count > 2) {
+                  // 如果当前有2个以上的元字，则报错提示
+                  punishmentObj.fineStr = '（发现本条隐患存在多个罚款金额，对于“行政处罚告知书、行政处罚决定书”只能一条隐患拥有一个罚款金额，请修正“行政处罚决定用语”!）'
+                } else {
+                  // 提取罚款金额
+                  punishmentObj.fine = getMoney(string) 
+                  punishmentObj.fineStr = `罚款${getMoney(string)}元` 
+                  punishmentObj.penaltyDesStr = '罚款,'
+                  punishmentObj.penaltyDesId = subitemTypeOptions.filter(item => item.label === '罚款')[0].value + ','
+                }
+              }
+            }
+          }
+        }
+        // 获取处罚决定
+        // 通过行政处罚决定penaltyDesc获取行政处罚信息
+        for (let j = 0; j < subitemTypeOptions.length; j++) {
+          if (subitemTypeOptions[j].searchLabel && item.penaltyDesc && item.penaltyDesc.includes(subitemTypeOptions[j].searchLabel)) {
+            punishmentObj.penaltyDesId += subitemTypeOptions[j].value + ','
+            punishmentObj.penaltyDesStr += subitemTypeOptions[j].label + ','
+          }
+        }
+        if (punishmentObj.penaltyDesId) punishmentObj.penaltyDesId = punishmentObj.penaltyDesId.substring(0, punishmentObj.penaltyDesId.length - 1)
+        if (punishmentObj.penaltyDesStr) punishmentObj.penaltyDesStr = punishmentObj.penaltyDesStr.substring(0, punishmentObj.penaltyDesStr.length - 1)
+        punishmentList.push(punishmentObj)
+      } 
+      if (setPunishmentInfor) {
+        // 合并处罚文书仅在选择的隐患项大于1条，即两条以上时才计算
+        if (selectedDangerList.length > 1) {
+          // 两条以上合并处罚
+          let total = 0
+          let penaltyId = ''
+          let penaltyStr = ''
+          for (let i = 0; i < punishmentList.length; i++) {
+            let item = punishmentList[i]
+            // 合计罚款
+            if (item.fine) {
+              total += item.fine
+            }
+            if (item.penaltyDesId) {
+              let idItemList = item.penaltyDesId.split(',')
+              idItemList.map(idItem => {
+                if (!penaltyId.includes(idItem)) {
+                  penaltyId += idItem + ','
+                }
+              })
+            }
+            if (item.penaltyDesStr) {
+              let strItemList = item.penaltyDesStr.split(',')
+              strItemList.map(strItem => {
+                // 用语中去掉“罚款”，但行政处罚类型中保留
+                if (strItem !== '罚款') {
+                  if (!penaltyStr.includes(strItem)) {
+                    penaltyStr += strItem + ','
+                  }
+                }
+              })
+            }
+          }
+          // 转换大写和人民币金额样式
+          let transTotal = transformNumToChinese(total)
+          let thousandsTotal = thousands(total)
+          if (penaltyId) penaltyId = penaltyId.substring(0, penaltyId.length - 1)
+          if (penaltyStr) penaltyStr = penaltyStr.substring(0, penaltyStr.length - 1)
+          punishmentInfor = `合并罚款人民币${transTotal}（¥${thousandsTotal}）${penaltyStr}`
+        } else {
+          punishmentInfor = ''
+        }
+      }
+    } else {
+      punishmentList = []
+    }
+  }
+  return {
+    punishmentList,
+    punishmentInfor
+  }
+}
+
+export function handleSelectedDangerList (dangerData) {
+  // 新增隐患过滤逻辑：后续关联的文书，只带入已选择的隐患
+  let dangerTable = JSON.parse(JSON.stringify(dangerData))
+  dangerTable.tableData = []
+  for (let i = 0; i < dangerTable.selectedDangerList.length; i++) {
+    dangerTable.selectedDangerList[i].order = i
+    dangerTable.tableData.push(dangerTable.selectedDangerList[i])
+  }
+  return dangerTable
 }

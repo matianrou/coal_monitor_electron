@@ -133,11 +133,29 @@
         </div>
       </div>
     </let-main>
+    <el-dialog
+      title="文书信息选择"
+      :close-on-click-modal="false"
+      append-to-body
+      :visible="visibleSelectDialog"
+      width="400px"
+      :show-close="false"
+    >
+      <span>请选择：</span>
+      <el-radio-group v-model="selectedType">
+        <el-radio label="单位">单位</el-radio>
+        <el-radio label="个人">个人</el-radio>
+      </el-radio-group>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="confirm">确定</el-button>
+      </span>
+    </el-dialog>
     <!-- 关联文书选择 -->
     <select-paper
       v-if="visible.selectPaper"
       :visible="visible.selectPaper"
       :paper-list="paperList"
+      :multi-select="true"
       @close="closeDialog"
       @confirm-paper="confirmPaper"
     ></select-paper>
@@ -169,7 +187,6 @@ export default {
         cellIdx12: null, //
         cellIdx13: null, // 日期
         selectedType: null,
-        DangerTable: null,
         associationPaperId: null,
         associationPaperOrder: []
       },
@@ -207,6 +224,8 @@ export default {
           },
         ]
       },
+      visibleSelectDialog: false,
+      selectedType: "单位", // 初始化时选择的单位或个人
       associationPaper: ['8']
     };
   },
@@ -219,20 +238,33 @@ export default {
       // 1.送达文书：国家煤矿安全监管行政处罚决定书
       let cellIdx4String = '国家煤矿安全监管行政处罚决定书'
       // 2.文书字号：使用行政处罚决定书的文书编号
-      let let8DataPaperContent = JSON.parse(selectedPaper.let8Data.paperContent);
-      let cellIdx5String = `${let8DataPaperContent.cellIdx0}（${let8DataPaperContent.cellIdx1}）煤安罚〔${let8DataPaperContent.cellIdx2}〕${let8DataPaperContent.cellIdx3}号`
-      // 3.送达地点：煤矿名称
-      let cellIdx6String = corp.corpName
-      let paperNumber = await getDocNumber(this.docData.docTypeNo, this.corpData.caseId)
-      // 获取行政处罚决定书中选择的单位/个人
-      let selectedType = let8DataPaperContent.selectedType
-      let selectedString = selectedType === '单位' ? '单位负责人' : '个人'
-      let DangerTable = null
-      if (this.corpData.caseType === '0') {
-        DangerTable = let8DataPaperContent.DangerTable ? 
-          setNewDanger(selectedPaper.let8Data, let8DataPaperContent.DangerTable)
-          : {}
+      let cellIdx5String = ''
+      let let8DataPaperContent = {}
+      if (selectedPaper.let8Data.paperId) {
+        // 当行政处罚决定书只有一个时，返回为对象，处理逻辑：
+        let8DataPaperContent = JSON.parse(
+          selectedPaper.let8Data.paperContent
+        ); 
+        cellIdx5String = `${let8DataPaperContent.cellIdx0 || ''}（${let8DataPaperContent.cellIdx1 || ''}）煤安罚〔${let8DataPaperContent.cellIdx2 || ''}〕${let8DataPaperContent.cellIdx3 || ''}号`
+      } else {
+        // 当行政处罚决定书有多封时，返回为数组，处理逻辑
+        for (let i = 0; i < selectedPaper.let8Data.length; i++) {
+          let paperContent = JSON.parse(
+            selectedPaper.let8Data[i].paperContent
+          );  
+          cellIdx5String += `${paperContent.cellIdx0 || ''}（${paperContent.cellIdx1 || ''}）煤安罚〔${paperContent.cellIdx2 || ''}〕${paperContent.cellIdx3 || ''}号和`
+        }
+        cellIdx5String = cellIdx5String.substring(0, cellIdx5String.length - 1)
+        let8DataPaperContent = JSON.parse(
+          selectedPaper.let8Data[0].paperContent
+        ); 
       }
+      // 3.送达地点：煤矿名称
+      let cellIdx6String = corp.corpName;
+      let paperNumber = await getDocNumber(
+        this.docData.docTypeNo,
+        this.corpData.caseId
+      );
       let associationPaperId = Object.assign({}, this.setAssociationPaperId(let8DataPaperContent.associationPaperId), {
         paper8Id: selectedPaper.let8Data.paperId
       }) 
@@ -246,16 +278,8 @@ export default {
         cellIdx4: cellIdx4String, // 送达文书
         cellIdx5: cellIdx5String, // 文书字号
         cellIdx6: cellIdx6String, // 送达地点
-        cellIdx7: null, // 送达方式
-        cellIdx14: selectedString, // 单位负责人/个人
-        cellIdx8: null, // 受送达单位负责人（个人）（签名）
-        cellIdx9: null, // 日期
-        cellIdx10: null, // 送达人（签名）
-        cellIdx11: null, // 日期
         cellIdx12: this.$store.state.curCase.groupName, //
         cellIdx13: this.todayDate, // 日期
-        selectedType: selectedType,
-        DangerTable,
         associationPaperId,
         associationPaperOrder
       })
@@ -278,6 +302,12 @@ export default {
           this.options[key]
         );
       }
+    },
+    async confirm() {
+      // 选择单位或个人
+      this.visibleSelectDialog = false;
+      this.letData.cellIdx14 = this.selectedType === "单位" ? "单位负责人" : "个人";
+      this.letData.selectedType = this.selectedType;
     },
   },
 };

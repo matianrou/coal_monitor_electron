@@ -156,21 +156,22 @@ export default {
       // 获取采煤和掘进工作面
       let zfCserve = await this.getDatabase("zfCmgzmInfo");
       let zfJserve = await this.getDatabase("zfJjgzmInfo");
-      let caimei = JSON.parse(JSON.stringify(zfCserve.filter((item) => item.corpId === this.corpData.corpId && item.delFlag !== '1') || []))
+      let caimei = []
+      caimei = JSON.parse(JSON.stringify(zfCserve.filter((item) => item.corpId === this.corpData.corpId && item.delFlag !== '1')))
       // for (let i = 0; i < caimei.length; i++) {
       //   caimei[i].select = false
       // }
       this.coalOptions = caimei;
-      let juejin = JSON.parse(JSON.stringify(zfJserve.filter((item) => item.corpId === this.corpData.corpId && item.delFlag !== '1') || []))
-      // for (let i = 0; i < juejin.length; i++) {
-      //   juejin[i].select = false
-      // }
+      let juejin  = []
+      juejin = JSON.parse(JSON.stringify(zfJserve.filter((item) => {
+        return item.corpId === this.corpData.corpId && item.delFlag !== '1'
+      })))
       // 国产化电脑会有重复，暂时未知原因，增加去重逻辑试试
-	    let obj = {}
-      juejin = juejin.reduce((cur, next) => {
-        obj[next.id] ? "" : obj[next.id] = true && cur.push(next);
-        return cur
-      }, [])
+	    // let obj = {}
+      // juejin = juejin.reduce((cur, next) => {
+      //   obj[next.id] ? "" : obj[next.id] = true && cur.push(next);
+      //   return cur
+      // }, [])
       this.tunnellingOptions = juejin;
     },
     addUnder () {

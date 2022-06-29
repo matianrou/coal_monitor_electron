@@ -110,7 +110,7 @@
           label="制作机构">
         </el-table-column>
         <el-table-column
-          prop="createDate"
+          prop="createTime"
           header-align="center"
           align="center"
           label="制作时间"
@@ -207,7 +207,7 @@ export default {
     },
     getDataList () {
       if (!this.$store.state.onLine) {
-        this.$message.warning('当前为离线登录，请联网后再查看文书！')
+        this.$message.warning('当前为离线状态，请联网后再查看文书！')
         return
       }
       this.loading = true

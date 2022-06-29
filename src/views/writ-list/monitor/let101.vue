@@ -60,7 +60,6 @@
                   letData.cellIdx4 ? letData.cellIdx4 : "（点击编辑）"
                 }}</span>
                 <div class="line"></div>
-                <div class="line1"></div>
             </div>
             <div class="docTextarea">
               <span class="no-line">统一社会信用代码：</span>
@@ -243,29 +242,6 @@ export default {
           punishmentInfor: null,
           punishmentList: [],
           tableData: [],
-          dangerItemDetail: {
-            personIds: null, // 隐患发现人
-            personNames: null, // 隐患发现人
-            itemContent: null, // 违法行为描述
-            confirmBasis: null, // 违法认定法条
-            onsiteDesc: null, // 现场处理决定
-            onsiteBasis: null, // 现场处理依据
-            onsiteType: null, // 现场处理决定类型
-            headingFace: null, // 掘进工作面
-            deviceNum: null, // 设备台数
-            coalingFace: null, // 采煤工作面
-            penaltyDesc: null, // 行政处罚决定
-            penaltyDescFine: null, // 行政处罚决定罚金
-            penaltyDescTypeId: null, // 行政处罚决定类型的id
-            penaltyDescType: null, // 行政处罚决定类型
-            penaltyBasis: null, // 行政处罚依据
-            firstDangerType: null, // 第一级隐患类别
-            secDangerType: null, // 第二级隐患类别
-            changeDangerType: null, // 更改的隐患类别
-            isSerious: '0', // 是否重大隐患
-            isReview: '0', // 是否复查
-            reviewDate: null, // 复查日期
-          },
           selectedDangerList: [],
           dangerContentMerge: false,
         } : null, // 隐患项大表
@@ -290,6 +266,7 @@ export default {
             dataKey = "DangerTable"
             this.options.cellIdx8 = {
               page: "1", // 用于在隐患项保存，做数据处理
+              selectPerson: true, // 用于区分是否可以修改隐患检查人
               showBaseInfor: true, // 用于区分是否展示基本情况大文本输入
               showSelectDangerBtn: true, // 用于区分是否可以选择隐患项
               showDangerInfor: true, // 

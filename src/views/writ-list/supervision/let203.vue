@@ -255,7 +255,7 @@ export default {
         cellIdx15: toggleDictionary,
         cellIdx16: toggleDictionary,
       },
-      selectAssociationPaper: ['6', '4'],
+      whetherAssociationPaper: ['4', '6'],
       selectedType: "单位",
       visibleSelectDialog: false,
     };
@@ -300,10 +300,11 @@ export default {
       let paperNumber = await getDocNumber2(this.docData.docTypeNo)
       // 2.案由内容初始化：煤矿企业名称+涉嫌+违法违规行为+案
       // 获取笔录文书中的隐患数据
+      let newDangerTable = this.corpData.caseType === "0" ? this.handleSelectedDangerList(letDataPaperContent.DangerTable) : null
       let cellIdx3String =
         this.corpData.caseType === "0"
           ? setDangerTable(
-              letDataPaperContent.DangerTable,
+              newDangerTable,
               {},
               {
                 page: "47",
@@ -329,7 +330,7 @@ export default {
       let cellIdx5String =
         this.corpData.caseType === "0"
           ? setDangerTable(
-              letDataPaperContent.DangerTable,
+              newDangerTable,
               {},
               {
                 page: "47",
@@ -347,7 +348,7 @@ export default {
       let cellIdx6String =
         this.corpData.caseType === "0"
           ? setDangerTable(
-              letDataPaperContent.DangerTable,
+              newDangerTable,
               {},
               {
                 page: "47",
@@ -359,7 +360,7 @@ export default {
       let cellIdx7String =
         this.corpData.caseType === "0"
           ? setDangerTable(
-              letDataPaperContent.DangerTable,
+              newDangerTable,
               {},
               {
                 page: "47",
@@ -383,10 +384,11 @@ export default {
       });
       let DangerTable = null;
       if (this.corpData.caseType === "0") {
-        DangerTable = letDataPaperContent.DangerTable
+        DangerTable = newDangerTable
           ? setNewDanger(
               selectletData,
-              letDataPaperContent.DangerTable
+              newDangerTable, 
+              this.paperId
             )
           : {};
       }
@@ -456,8 +458,20 @@ export default {
         let corpBase = await this.getDatabase('baseInfo');
         let corp = corpBase.find((item) => {
           return item.corpId == this.corpData.corpId;
+        });let zfZzInfo = await this.getDatabase("zfZzInfo");
+        let zzInfo1 = zfZzInfo.find((item) => {
+          return (
+            item.corpId == this.corpData.corpId &&
+            item.credTypeName == "采矿许可证"
+          );
         });
-        cellIdx4String = `${corp.corpName}社会统一信用代码是${corp.uscCode ? corp.uscCode : 'XX'}，采矿许可证号是${corp.uscCode ? corp.uscCode : 'XX'}，安全生产许可证号是${corp.uscCode ? corp.uscCode : 'XX'}。`;
+        let zzInfo2 = zfZzInfo.find((item) => {
+          return (
+            item.corpId == this.corpData.corpId &&
+            item.credTypeName == "安全生产许可证"
+          );
+        });
+        cellIdx4String = `${corp.corpName}社会统一信用代码是${corp.uscCode ? corp.uscCode : 'XX'}，采矿许可证号是${zzInfo1 && zzInfo1.credId ? zzInfo1.credId : 'XX'}，安全生产许可证号是${zzInfo2 && zzInfo2.credId ? zzInfo2.credId : 'XX'}。`;
       } else {
         cellIdx4String = '姓名XXX，出生日期XXXX年XX月XX日，身份证号XXXX。'
       }

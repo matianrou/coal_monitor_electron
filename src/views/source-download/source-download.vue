@@ -1,235 +1,265 @@
 <!-- tab: 资源下载 -->
 <template>
-  <div>
-    <table
-      style="width:98%;border-collapse:collapse;margin:6px auto;background:#093A83;border-radius:10px;"
-    >
-      <tr>
-        <td colspan="4">
-          <img src="@/components/assets/image/resTitle.png" style="width:109px;height:42px;" />
-        </td>
-        <td colspan="1" style="text-align: center;">
-          <el-button type="primary" size="small" @click="downloadAll">全部下载</el-button>
-        </td>
-      </tr>
-      <tr style="height:36px;background:#DCECFB;color:#333;">
-        <td style="width:3%;">&nbsp;</td>
-        <th style="width:30%;text-align:left;">资源名称</th>
-        <th style="width:25%;text-align:center;">更新时间</th>
-        <th style="width:350px;text-align:center;">下载日期范围</th>
-        <th style="text-align:center;">操作</th>
-      </tr>
-      <tbody v-if="updateTime">
-        <tr style="height:36px;background-color:#F9FDFF;">
-          <td colspan="5" style="padding-left:10px;color:#666;font-weight:bold;">
-            <img
-              src="@/components/assets/image/letTitle.png"
-              style="width:32px;height:32px;vertical-align:middle"
-            />基础信息资源
-          </td>
-        </tr>
-        <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
-          <td style="text-align:center;">&nbsp;</td>
-          <td>机构资源</td>
-          <td style="text-align:center;">{{updateTime.org}}</td>
-          <td></td>
-          <td style="text-align:center;" id="cell-org-down">
-            <el-button
-              type="text"
-              :loading="loading.download"
-              id="btn-org-down"
-              @click="resDownload('org')"
-            >下载</el-button>
-          </td>
-        </tr>
-        <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
-          <td style="text-align:center;">&nbsp;</td>
-          <td>用户资源</td>
-          <td style="text-align:center;">{{updateTime.person}}</td>
-          <td></td>
-          <td style="text-align:center;" id="cell-person-down">
-            <el-button
-              type="text"
-              :loading="loading.download"
-              id="btn-person-down"
-              @click="resDownload('person')"
-            >下载</el-button>
-          </td>
-        </tr>
-        <!--
-            <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
-                <td style="text-align:center;">&nbsp;</td>
-                <td>字典资源</td>
-                <td>2020/10/02 18:20:36</td>
-                <td style="text-align:center;" id="cell-other-down"><a href="javascript:resDownload('other')" style="color:#0091FF">下载</a></td>
-            </tr>
-        -->
-        <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
-          <td style="text-align:center;">&nbsp;</td>
-          <td>其它资源（{{userType === 'supervision' ? '监管' : '监察'}}计划及数据码表）</td>
-          <td style="text-align:center;">{{updateTime.plan}}</td>
-          <td></td>
-          <td style="text-align:center;" id="cell-plan-down">
-            <el-button
-              type="text"
-              :loading="loading.download"
-              id="btn-plan-down"
-              @click="resDownload('plan')"
-            >下载</el-button>
-          </td>
-        </tr>
-        <tr style="height:36px;background-color:#F9FDFF;border-top:1px solid #DCECFB;">
-          <td colspan="5" style="padding-left:10px;color:#666;font-weight:bold;">
-            <img
-              src="@/components/assets/image/letTitle.png"
-              style="width:32px;height:32px;vertical-align:middle"
-            />企业信息资源
-          </td>
-        </tr>
-        <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
-          <td style="text-align:center;">&nbsp;</td>
-          <td>煤矿/企业信息</td>
-          <td style="text-align:center;">{{updateTime.corp}}</td>
-          <td></td>
-          <td style="text-align:center;" id="cell-corp-down">
-            <el-button
-              type="text"
-              :loading="loading.download"
-              id="btn-corp-down"
-              @click="resDownload('corp')"
-            >下载</el-button>
-          </td>
-        </tr>
-        <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
-          <td style="text-align:center;">&nbsp;</td>
-          <td>行政区域</td>
-          <td style="text-align:center;">{{updateTime.enterpriseList}}</td>
-          <td></td>
-          <td style="text-align:center;" id="cell-enterpriseList-down">
-            <el-button
-              type="text"
-              :loading="loading.download"
-              id="btn-enterpriseList-down"
-              @click="resDownload('enterpriseList')"
-            >下载</el-button>
-          </td>
-        </tr>
-        <tr style="height:36px;background-color:#F9FDFF;border-top:1px solid #DCECFB;">
-          <td colspan="5" style="padding-left:10px;color:#666;font-weight:bold;">
-            <img
-              src="@/components/assets/image/letTitle.png"
-              style="width:32px;height:32px;vertical-align:middle"
-            />隐患信息资源
-          </td>
-        </tr>
-        <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
-          <td style="text-align:center;">&nbsp;</td>
-          <td>检查项类别</td>
-          <td style="text-align:center;">{{updateTime.checkCate}}</td>
-          <td></td>
-          <td style="text-align:center;" id="cell-checkCate-down">
-            <el-button
-              type="text"
-              :loading="loading.download"
-              id="btn-checkCate-down"
-              @click="resDownload('checkCate')"
-            >下载</el-button>
-          </td>
-        </tr>
-        <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
-          <td style="text-align:center;">&nbsp;</td>
-          <td>检查项内容</td>
-          <td style="text-align:center;">{{updateTime.checkList}}</td>
-          <td></td>
-          <td style="text-align:center;" id="cell-checkList-down">
-            <el-button
-              type="text"
-              :loading="loading.download"
-              id="btn-checkList-down"
-              @click="resDownload('checkList')"
-            >下载</el-button>
-          </td>
-        </tr>
-        <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
-          <td style="text-align:center;">&nbsp;</td>
-          <td>隐患项类别</td>
-          <td style="text-align:center;">{{updateTime.dangerCate}}</td>
-          <td></td>
-          <td style="text-align:center;" id="cell-dangerCate-down">
-            <el-button
-              type="text"
-              :loading="loading.download"
-              id="btn-dangerCate-down"
-              @click="resDownload('dangerCate')"
-            >下载</el-button>
-          </td>
-        </tr>
-        <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
-          <td style="text-align:center;">&nbsp;</td>
-          <td>隐患项内容</td>
-          <td style="text-align:center;">{{updateTime.dangerList}}</td>
-          <td></td>
-          <td style="text-align:center;" id="cell-dangerList-down">
-            <el-button
-              type="text"
-              :loading="loading.download"
-              id="btn-dangerList-down"
-              @click="resDownload('dangerList')"
-            >下载</el-button>
-          </td>
-        </tr>
-        <tr style="height:36px;background-color:#F9FDFF;border-top:1px solid #DCECFB;">
-          <td colspan="5" style="padding-left:10px;color:#666;font-weight:bold;">
-            <img
-              src="@/components/assets/image/letTitle.png"
-              style="width:32px;height:32px;vertical-align:middle"
-            />执法文书资源
-          </td>
-        </tr>
-        <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
-          <td style="text-align:center;">&nbsp;</td>
-          <td>个人账号文书资源</td>
-          <td style="text-align:center;">{{updateTime.doc}}</td>
-          <td style="text-align:center;">
-            <el-date-picker
-              v-model="dataForm.docDownDaterange"
-              type="daterange"
-              format="yyyy-MM-dd"
-              value-format="yyyy-MM-dd"
-              range-separator="至"
-              start-placeholder="起始日期"
-              end-placeholder="截止日期"
-              :unlink-panels="true"
-              style="margin-left: 10px;"
-              size="small"
-            ></el-date-picker>
-          </td>
-          <td style="text-align:center;" id="cell-doc-down">
-            <el-button
-              type="text"
-              :loading="loading.download"
-              id="btn-doc-down"
-              @click="resDownload('doc')"
-            >下载</el-button>
-          </td>
-        </tr>
-        <!--
-            <tr style="height:36px;background-color:#fff;color:#666;border-top:1px solid #DCECFB;">
-                <td style="text-align:center;">&nbsp;</td>
-                <td>所在单位全部文书资源</td>
-                <td>2020/10/02 18:20:36</td>
-                <td style="text-align:center;"><a href="javascript:resDownload('')" style="color:#0091FF">下载</a></td>
-            </tr>
-        -->
-      </tbody>
-    </table>
+  <div class="source-download">
+    <div class="source-download-title">
+      <div>
+        <img src="@/components/assets/image/resTitle.png" />
+      </div>
+      <div>
+        <el-button type="primary" size="small" @click="downloadAll">全部下载</el-button>
+      </div>
+    </div>
+    <div class="source-download-title-center">
+      <div class="source-name">
+        资源名称
+      </div>
+      <div class="source-update-time">
+        更新时间
+      </div>
+      <div class="source-date-range">
+        下载日期范围
+      </div>
+      <div class="source-operation">
+        操作
+      </div>
+    </div>
+    <div class="source-download-classify">
+      <img
+        src="@/components/assets/image/letTitle.png"
+        style="width:32px;height:32px;vertical-align:middle"
+      />基础信息资源
+    </div>
+    <div class="source-download-row">
+      <div class="source-name">
+        机构资源
+      </div>
+      <div class="source-update-time">
+        {{updateTime.org}}
+      </div>
+      <div class="source-date-range">
+      </div>
+      <div class="source-operation" id="cell-org-down">
+        <el-button
+          type="text"
+          :loading="loading.download"
+          id="btn-org-down"
+          @click="resDownload('org')"
+        >下载</el-button>
+      </div>
+    </div>
+    <div class="source-download-row">
+      <div class="source-name">
+        用户资源
+      </div>
+      <div class="source-update-time">
+        {{updateTime.person}}
+      </div>
+      <div class="source-date-range">
+      </div>
+      <div class="source-operation" id="cell-person-down">
+        <el-button
+          type="text"
+          :loading="loading.download"
+          id="btn-person-down"
+          @click="resDownload('person')"
+        >下载</el-button>
+      </div>
+    </div>
+    <div class="source-download-row">
+      <div class="source-name">
+        其它资源（{{userType === 'supervision' ? '监管' : '监察'}}计划及数据码表）
+      </div>
+      <div class="source-update-time">
+        {{updateTime.plan}}
+      </div>
+      <div class="source-date-range">
+      </div>
+      <div class="source-operation" id="cell-plan-down">
+        <el-button
+          type="text"
+          :loading="loading.download"
+          id="btn-plan-down"
+          @click="resDownload('plan')"
+        >下载</el-button>
+      </div>
+    </div>
+    <div class="source-download-classify">
+      <img
+        src="@/components/assets/image/letTitle.png"
+        style="width:32px;height:32px;vertical-align:middle"
+      />企业信息资源
+    </div>
+    <div class="source-download-row">
+      <div class="source-name">
+        煤矿/企业信息
+      </div>
+      <div class="source-update-time">
+        {{updateTime.corp}}
+      </div>
+      <div class="source-date-range">
+      </div>
+      <div class="source-operation" id="cell-corp-down">
+        <el-button
+          type="text"
+          :loading="loading.download"
+          id="btn-corp-down"
+          @click="resDownload('corp')"
+        >下载</el-button>
+      </div>
+    </div>
+    <div class="source-download-row">
+      <div class="source-name">
+        行政区域
+      </div>
+      <div class="source-update-time">
+        {{updateTime.enterpriseList}}
+      </div>
+      <div class="source-date-range">
+      </div>
+      <div class="source-operation" id="cell-enterpriseList-down">
+        <el-button
+          type="text"
+          :loading="loading.download"
+          id="btn-enterpriseList-down"
+          @click="resDownload('enterpriseList')"
+        >下载</el-button>
+      </div>
+    </div>
+    <div class="source-download-classify">
+      <img
+        src="@/components/assets/image/letTitle.png"
+        style="width:32px;height:32px;vertical-align:middle"
+      />隐患信息资源
+    </div>
+    <div class="source-download-row">
+      <div class="source-name">
+        检查项类别
+      </div>
+      <div class="source-update-time">
+        {{updateTime.checkCate}}
+      </div>
+      <div class="source-date-range">
+      </div>
+      <div class="source-operation" id="cell-checkCate-down">
+        <el-button
+          type="text"
+          :loading="loading.download"
+          id="btn-checkCate-down"
+          @click="resDownload('checkCate')"
+        >下载</el-button>
+      </div>
+    </div>
+    <div class="source-download-row">
+      <div class="source-name">
+        检查项内容
+      </div>
+      <div class="source-update-time">
+        {{updateTime.checkList}}
+      </div>
+      <div class="source-date-range">
+      </div>
+      <div class="source-operation" id="cell-checkList-down">
+        <el-button
+          type="text"
+          :loading="loading.download"
+          id="btn-checkList-down"
+          @click="resDownload('checkList')"
+        >下载</el-button>
+      </div>
+    </div>
+    <div class="source-download-row">
+      <div class="source-name">
+        隐患项类别
+      </div>
+      <div class="source-update-time">
+        {{updateTime.dangerCate}}
+      </div>
+      <div class="source-date-range">
+      </div>
+      <div class="source-operation" id="cell-dangerCate-down">
+        <el-button
+          type="text"
+          :loading="loading.download"
+          id="btn-dangerCate-down"
+          @click="resDownload('dangerCate')"
+        >下载</el-button>
+      </div>
+    </div>
+    <div class="source-download-row">
+      <div class="source-name">
+        隐患项内容
+      </div>
+      <div class="source-update-time">
+        {{updateTime.dangerList}}
+      </div>
+      <div class="source-date-range">
+      </div>
+      <div class="source-operation" id="cell-dangerList-down">
+        <el-button
+          type="text"
+          :loading="loading.download"
+          id="btn-dangerList-down"
+          @click="resDownload('dangerList')"
+        >下载</el-button>
+      </div>
+    </div>
+    <div class="source-download-classify">
+      <img
+        src="@/components/assets/image/letTitle.png"
+        style="width:32px;height:32px;vertical-align:middle"
+      />执法文书资源
+    </div>
+    <div class="source-download-row">
+      <div class="source-name">
+        个人账号文书资源
+      </div>
+      <div class="source-update-time">
+        {{updateTime.doc}}
+      </div>
+      <div class="source-date-range">
+        <el-date-picker
+          v-model="dataForm.docDownDaterange"
+          type="daterange"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd"
+          range-separator="至"
+          start-placeholder="起始日期"
+          end-placeholder="截止日期"
+          :unlink-panels="true"
+          style="margin-left: 10px;"
+          size="small"
+        ></el-date-picker>
+      </div>
+      <div class="source-operation" id="cell-doc-down">
+        <el-button
+          type="text"
+          :loading="loading.download"
+          id="btn-doc-down"
+          @click="resDownload('doc')"
+        >下载</el-button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { getUUID } from '@/utils/index'
 import { getNowFormatTime, getNowDay, getPreMonthDay } from '@/utils/date'
-import { orgSave, personSave, planSave, corpSave, enterpriseListSave, checkCateSave, checkListSave, dangerCateSave, dangerListSave, docSave, fileDataSave, dictionarySave} from '@/utils/downloadSource'
+import { 
+  orgSave, 
+  personSave, 
+  planSave, 
+  corpSave, 
+  enterpriseListSave, 
+  checkCateSave, 
+  checkListSave, 
+  dangerCateSave, 
+  dangerListSave, 
+  docSave, 
+  fileDataSave, 
+  dictionarySave, 
+  personPaperNumberSave
+} from '@/utils/downloadSource'
 export default {
   name: "SourceDownload",
   async beforeRouteLeave(to, from, next){
@@ -340,9 +370,11 @@ export default {
         dangerListSave,
         docSave,
         fileDataSave,
-        dictionarySave
+        dictionarySave,
+        personPaperNumberSave
       },
-      userType: this.$store.state.user.userType
+      userType: this.$store.state.user.userType,
+      personPaperNumber: []
     };
   },
   computed: {
@@ -372,7 +404,7 @@ export default {
     ***************************************************************************** */
     async resDownload(resId) {
       if (!this.$store.state.onLine) {
-        this.$message.error('当前为离线登录，请调整网络后再尝试下载！')
+        this.$message.error('当前为离线状态，请调整网络后再尝试下载！')
         return
       }
       let userId = this.$store.state.user.userId;
@@ -437,12 +469,15 @@ export default {
           break;
         case "doc":
           //文书信息分页下载接口//文书信息分页下载接口
-          // &officeId=&caseId=&flag=false&pageNo=0&pageSize=5000
+          // &officeId=&caseId=&flag=false&pageNo=1&pageSize=5000
+          // &isAll=1为下载全部文书，默认为0只下载近两个月的
+          // flag=true为只返回检查活动，false为返回监察活动、文书和隐患
+          // 当前采用分页下载逻辑，所以pageSize为20
           uri +=
             "/local/jczf/getPageJczfByOfficeId?__sid=" +
             userSessId +
             "&userId=" +
-            userId + "&pageNo=0&pageSize=5000"
+            userId + "&pageNo=1&pageSize=20&isAll=1"
           if (this.dataForm.docDownDaterange && this.dataForm.docDownDaterange.length > 0) {
             uri += `&startTime=${this.dataForm.docDownDaterange[0]}`
             uri += `&endTime=${this.dataForm.docDownDaterange[1]}`
@@ -459,16 +494,125 @@ export default {
       this.loading.download = true
       await this.$http
         .get(`${uri}`)
-        .then(async (response) => {
-          if (response.status != 200) {
+        .then(async ({data}) => {
+          if (data.status !== '200') {
             this.$message.error(
               "远程请求异常，可能是认证信息超时，请重新登录。"
             );
             this.loading.download = false
           } else {
-            let saveData = response.data.data ? response.data.data : []
-            await this.downloadFunction[`${resId}Save`](resId, saveData)
+            let saveData = data.data ? data.data : []
+            if (resId !== 'doc') await this.downloadFunction[`${resId}Save`](resId, saveData)
             if (resId !== 'doc' && resId !== 'plan') this.saveFinished(resId)
+            if (resId === 'doc') {
+              // 调整文书下载逻辑：分页下载
+              // 分页下载逻辑：
+              // 1.用返回的totalCount总数(即case,danger,paper最多的个数)除以每页20个，获得需要请求的次数
+              // 2.采用promise方式同步请求数据，获取所有数据后统一放入对应文件存储
+              let isSuccess = true // 是否所有请求都成功，如果有一个不成功则提示下载失败
+              if (saveData.totalCount > 0) {
+                let requestCount = Math.ceil(saveData.totalCount / 20)
+                let promises = []
+                for (let i = 2; i <= requestCount; i++) {
+                  let promise = this.getDocData(i)
+                  promises.push(promise)
+                }
+                if (promises.length > 0) {
+                  await Promise.all(promises).then(async (res) => {
+                    let totalSaveData = { // 全部下载数据汇总结果，放入已经下载的第一页数据
+                      jczfCase: saveData.jczfCase || [],
+                      paper: saveData.paper || [],
+                      danger: saveData.danger || [],
+                    } 
+                    for (let i = 0; i < res.length; i++) {
+                      let item = res[i]
+                      if (item.data.status === '200') {
+                        totalSaveData.jczfCase = [...totalSaveData.jczfCase, ...item.data.data.jczfCase || []]
+                        totalSaveData.paper = [...totalSaveData.paper, ...item.data.data.paper || []]
+                        totalSaveData.danger = [...totalSaveData.danger, ...item.data.data.danger || []]
+                      } else {
+                        isSuccess = false
+                      }
+                      if (!isSuccess) {
+                        break
+                      }
+                    }
+                    if (!isSuccess) {
+                      this.$message.error('个人账号文书资源下载失败，请尝试重新下载！')
+                    } else {
+                      await this.downloadFunction[`docSave`](resId, totalSaveData)
+                    }
+                  }).catch(err => {
+                    isSuccess = false
+                    console.log('个人账号文书资源下载失败，请尝试重新下载！', err)
+                    this.$message.error('个人账号文书资源下载失败，请尝试重新下载！')
+                  })
+                } else {
+                  await this.downloadFunction[`docSave`](resId, saveData)
+                }
+              } else {
+                await this.downloadFunction[`docSave`](resId, saveData)
+              }
+              // 后加逻辑：当下载个人账号文书资源时，额外请求接口获取：
+              // 获取委托复查，
+              // 获取罚款收缴，
+              // 获取回执单，
+              // 获取影音证据，
+              // 获取意见建议书中的附件
+              // 获取监察执法报告
+              if (isSuccess) {
+                let {userId, userSessId} = this.$store.state.user
+                if (this.$store.state.user.userType === 'supervision') {
+                  // 监管时下载影音证据
+                  await Promise.all([
+                    this.getImageEvidencePC(userId, userSessId),
+                    this.getPersonPaperNumber(userId, userSessId)
+                  ]).then(async () => {
+                    await this.downloadFunction['fileDataSave'](resId, this.fileData)
+                    await this.downloadFunction['personPaperNumberSave'](resId, this.personPaperNumber)
+                    this.saveFinished(resId)
+                  })
+                } else {
+                  // 监察时下载委托复查、罚款收缴、回执单、影音证据、意见建议书附件、监察执法报告
+                  await Promise.all([
+                    this.getLocalReview(userId, userSessId),
+                    this.getFineCollection(userId, userSessId),
+                    this.getSingleReceipt(userId, userSessId),
+                    this.getImageEvidencePC(userId, userSessId),
+                    this.getPaperAttachment(userId, userSessId),
+                    this.getJczfReport(userId, userSessId),
+                    this.getPersonPaperNumber(userId, userSessId)
+                  ]).then(async () => {
+                    await this.downloadFunction['fileDataSave'](resId, this.fileData)
+                    if (this.personPaperNumber.length > 0) {
+                      await this.downloadFunction['personPaperNumberSave'](resId, this.personPaperNumber)
+                    }
+                    this.saveFinished(resId)
+                  })
+                }
+              }
+            } else if (resId === 'plan') {
+              // 下载其他资源时，同时下载码表
+              let {userSessId} = this.$store.state.user
+              await Promise.all([
+                this.getProgrammeType(userSessId),
+                this.getCaseClassify(userSessId),
+                this.getRiskAssessment(userSessId),
+                this.getSubitemType(userSessId), // 行政处罚类型 
+                this.getOnsiteDesc (userSessId), // 现场处理决定 
+                this.getParentType(userSessId),
+                this.getMineWsGrade(userSessId),
+                this.getGrimeExplosive(userSessId),
+                this.getMineMinestyle(userSessId),
+                this.getMineVentilatestyle(userSessId),
+                this.getHydrogeologicalType(userSessId),
+                this.getMineFire(userSessId),
+                this.getBaseMineStatusZs(userSessId),
+              ]).then(async () => {
+                await this.downloadFunction['dictionarySave'](resId, this.dictionary)
+                this.saveFinished(resId)
+              })
+            }
           }
         })
         .catch((err) => {
@@ -476,59 +620,7 @@ export default {
           console.log("下载失败：", err);
           this.loading.download = false
         });
-      if (resId === 'doc') {
-        // 后加逻辑：当下载个人账号文书资源时，额外请求接口获取：
-        // 获取委托复查，
-        // 获取罚款收缴，
-        // 获取回执单，
-        // 获取影音证据，
-        // 获取意见建议书中的附件
-        // 获取监察执法报告
-        let {userId, userSessId} = this.$store.state.user
-        if (this.$store.state.user.userType === 'supervision') {
-          // 监管时下载影音证据
-          await Promise.all([
-            this.getImageEvidencePC(userId, userSessId),
-          ]).then(async () => {
-            await this.downloadFunction['fileDataSave'](resId, this.fileData)
-            this.saveFinished(resId)
-          })
-        } else {
-          // 监察时下载委托复查、罚款收缴、回执单、影音证据、意见建议书附件、监察执法报告
-          await Promise.all([
-            this.getLocalReview(userId, userSessId),
-            this.getFineCollection(userId, userSessId),
-            this.getSingleReceipt(userId, userSessId),
-            this.getImageEvidencePC(userId, userSessId),
-            this.getPaperAttachment(userId, userSessId),
-            this.getJczfReport(userId, userSessId)
-          ]).then(async () => {
-            await this.downloadFunction['fileDataSave'](resId, this.fileData)
-            this.saveFinished(resId)
-          })
-        }
-      } else if (resId === 'plan') {
-        // 下载其他资源时，同时下载码表
-        let {userSessId} = this.$store.state.user
-        await Promise.all([
-          this.getProgrammeType(userSessId),
-          this.getCaseClassify(userSessId),
-          this.getRiskAssessment(userSessId),
-          this.getSubitemType(userSessId), // 行政处罚类型 
-          this.getOnsiteDesc (userSessId), // 现场处理决定 
-          this.getParentType(userSessId),
-          this.getMineWsGrade(userSessId),
-          this.getGrimeExplosive(userSessId),
-          this.getMineMinestyle(userSessId),
-          this.getMineVentilatestyle(userSessId),
-          this.getHydrogeologicalType(userSessId),
-          this.getMineFire(userSessId),
-          this.getBaseMineStatusZs(userSessId),
-        ]).then(async () => {
-          await this.downloadFunction['dictionarySave'](resId, this.dictionary)
-          this.saveFinished(resId)
-        })
-      }
+      
     },
     saveFinished (resId) {
       let res = this.resIdDict.find(item => item.resId === resId)
@@ -898,6 +990,21 @@ export default {
           console.log("获取矿井状态码表失败：", err);
         });
     },
+    getPersonPaperNumber (userId, userSessId) {
+      // 文书制作总数
+      return this.$http.get(
+          `${this.downloadPath}/local/my/paper/counts?userId=${userId}&__sid=${userSessId}`)
+        .then(async ({ data }) => {
+          if (data && data.status === "200") {
+            this.personPaperNumber = data.data
+          } else {
+            console.log("获取文书制作总数失败：", data.message);
+          }
+        })
+        .catch((err) => {
+          console.log("获取文书制作总数失败：", err);
+        });
+    },
     async handleUpdateTime(resId) {
       // 根据更新的resId为key更新updateTime为当前时间
       this.updateTime[resId] = getNowFormatTime()
@@ -906,7 +1013,7 @@ export default {
     downloadAll () {
       // 下载所有资源
       if (!this.$store.state.onLine) {
-        this.$message.error('当前为离线登录，请调整网络后再尝试下载！')
+        this.$message.error('当前为离线状态，请调整网络后再尝试下载！')
         return
       }
       this.$confirm('请确认是否按照当前下载日期范围下载执法文书资源以及其他所有资源？', '提示', {
@@ -921,10 +1028,92 @@ export default {
         }).catch((err) => {
           console.log('下载失败：', err)
         })
-    }
+    },
+    getDocData (pageNo) {
+      // 分页获取检查活动、文书、隐患数据
+      let {userId, userSessId} = this.$store.state.user
+      let url = `${this.downloadPath}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&pageNo=${pageNo}&pageSize=20&isAll=1`
+      if (this.dataForm.docDownDaterange && this.dataForm.docDownDaterange.length > 0) {
+        url += `&startTime=${this.dataForm.docDownDaterange[0]}`
+        url += `&endTime=${this.dataForm.docDownDaterange[1]}`
+      } else if (this.updateTime.doc !== '未下载') {
+        url += `&updateTime=${this.updateTime.doc}`
+      }
+      return this.$http.get(url)
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.source-download {
+  width: calc(100% - 30px);
+  margin: 15px auto 0;
+  border-radius: 7px;
+  // overflow: auto;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #DCDFE6;
+  .source-download-title {
+    height: 45px;
+    display: flex;
+    align-items: center;
+    background: #093A83;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    justify-content: space-between;
+    padding: 0 30px 0 10px;
+  }
+  .source-download-title-center {
+    background: #DCECFB;
+    color: #333;
+    display: flex;
+    height: 30px;
+    font-weight: bold;
+    align-items: center;
+    padding-left: 20px;
+    text-align: center;
+  }
+  .source-name {
+    flex: 1;
+    text-align: left;
+  }
+  .source-update-time {
+    width: 280px;
+  }
+  .source-date-range {
+    width: 350px;
+  }
+  .source-operation {
+    width: 150px;
+    height: 40px;
+    line-height: 40px;
+  }
+  .source-download-classify {
+    border-top: 1px solid #DCECFB;
+    background-color:#F2F6FC;
+    padding-left: 10px;
+    color: #666;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+  }
+  .source-download-row {
+    background-color: #fff;
+    color: #666;
+    border-top: 1px solid #DCECFB;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    text-align: center;
+    height: 43px;
+  }
+  .source-download-table {
+    width: 98%;
+    border-collapse: collapse;
+    background:#093A83;
+    border-radius: 10px;
+    // height: 1120px;
+  }
+}
 </style>

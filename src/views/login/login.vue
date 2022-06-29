@@ -1,43 +1,55 @@
 <template>
-  <div>
-    <div style="text-align:center;">
-      <div class="login-main">
-        <div class="close-icon">
-          <img src="@/views/login/assets/btnPower.png" style="cursor: pointer;" @click="closeWin" />
-        </div>
-        <div class="login-form-main">
-          <div>
-            <div style="height: 30px;"></div>
-            <div class="form-title">
-              <span>用户登录</span>
-            </div>
-          </div>
-          <div v-loading="loading.loginBtn" element-loading-text="正在登录，请稍后..." style="width: 300px; margin: 0 auto;">
-            <div style="height: 30px;"></div>
-            <div class="form-content">
-              <div class="form-content-item">
-                <span class="item-label">用户名</span>
-                <el-input v-model="dataForm.txtUserNo"></el-input>
-              </div>
-              <div class="form-content-item">
-                <span class="item-label">密码</span>
-                <el-input v-model="dataForm.txtPassword" type="password"></el-input>
-              </div>
-            </div>
-            <div class="form-foot">
-              <el-checkbox v-model="recordAccount">记住登录账号</el-checkbox>
-              <el-checkbox v-model="offLine">离线使用</el-checkbox>
-            </div>
-            <div class="login-btn">
-              <img
-                src="@/views/login/assets/login-btn-enter.jpg"
-                @click="doLogin"
-                style="border:0;cursor:pointer;"
-              />
-            </div>
-          </div>
+  <div class="login-main">
+    <div class="close-icon">
+      <img src="@/views/login/assets/btnPower.png" style="cursor: pointer;" @click="closeWin" />
+    </div>
+    <div class="login-form-main">
+      <div>
+        <div class="form-title">
+          <div class="form-bar"></div>
+          <span>欢迎登录</span>
         </div>
       </div>
+      <div v-loading="loading.loginBtn" element-loading-text="正在登录，请稍后...">
+        <div style="height: 30px;"></div>
+        <div class="form-content">
+          <div class="form-content-item">
+            <div>
+              <img src="./assets/user.png" />
+            </div>
+            <div>
+              <el-input v-model="dataForm.txtUserNo" placeholder="用户名"></el-input>
+            </div>
+          </div>
+          <div class="form-content-item">
+            <div>
+              <img src="./assets/password.png" />
+            </div>
+            <div>
+              <el-input v-model="dataForm.txtPassword" type="password" placeholder="请输入密码"></el-input>
+            </div>
+          </div>
+        </div>
+        <div class="form-foot">
+          <el-checkbox v-model="recordAccount">记住登录账号</el-checkbox>
+          <el-checkbox v-model="offLine">离线使用</el-checkbox>
+        </div>
+        <div class="login-btn" @click="doLogin">
+          <!-- <img
+            src="@/views/login/assets/login-btn-enter.jpg"
+            @click="doLogin"
+            style="border:0;cursor:pointer;"
+          /> -->
+          <span>登录</span>
+        </div>
+      </div>
+    </div>
+    <div class="bg-icon">
+      <img src="@/views/login/assets/bg_icon.png" />
+    </div>
+    <div class="system-name">
+      <img src="@/components/assets/image/coal-logo-mini.png" />
+      <span>国家煤矿安全执法系统</span>
     </div>
   </div>
 </template>
@@ -232,13 +244,22 @@ export default {
             } else {
               // 下载过资源进入页面，同时更新文书
               await this.getDatabase('sourceDownload')
+              // 清洗过滤wkCase中问题数据22.3.31 此段代码一年后可删除
+              let wkCase = await this.getDatabase('wkCase')
+              for (let i = 0; i < wkCase.length; i++) {
+                if (!wkCase[i].caseId) {
+                  wkCase.splice(i, 1)
+                  i--
+                }
+              }
+              await this.setDatabase('wkCase', wkCase)
               // 如果有网络则自动更新下载文书资源
               if (!this.offLine) {
                 // 在线登录时询问是否要同步文书，如果是则云同步未上传文书，上传成功则更新下载文书资源，如果不成功则不下载
                 // 如果选择不同步文书则不进行云同步且不进行下载
                 let uploadList = await this.getDatabase('prepareUpload')
                 if (uploadList.length > 0) {
-                  this.$confirm('当前有未上传服务器的文书，是否同步至服务器？（如果同步则会上传文书同时下载最新文书，如果不同步则直接进入系统，需要您手动上传文书）', '提示', {
+                  this.$confirm('当前有未云同步的文书，是否云同步至服务器？如果不同步则直接进入系统，需要您手动上传未云同步的文书。', '提示', {
                     confirmButtonText: '同步',
                     cancelButtonText: '不同步',
                     dangerouslyUseHTMLString: true,
@@ -394,71 +415,156 @@ export default {
       let docUpdateTime = updateTime ? updateTime.doc : null
       if (docUpdateTime && docUpdateTime !== '未下载') {
         // 获取文书资源
-        let userId = this.$store.state.user.userId;
-        let userSessId = this.$store.state.user.userSessId;
+        // 修改为分页下载
+        let {userId, userSessId} = this.$store.state.user
         let path = this.$store.state.user.userType === 'supervision' ? '/sv' : ''
-        let url = `${path}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&updateTime=${docUpdateTime}&pageNo=0&pageSize=5000`
+        let url = `${path}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&updateTime=${docUpdateTime}&pageNo=1&pageSize=20&isAll=1`
         await this.$http
           .get(`${url}`)
           .then(async (response) => {
             if (response.data.data) {
               let saveData = response.data.data
-              await this.updateDatabase('wkCase', saveData.jczfCase, 'caseId')
-              await this.updatePaperDatabase(null, saveData.paper, 'paperId')
-              await this.updateDatabase('wkDanger', saveData.danger, 'dangerId')
-              // 修改更新日期
-              await this.handleUpdateTime()
+              if (saveData.totalCount > 0) {
+                let requestCount = Math.ceil(saveData.totalCount / 20)
+                let promises = []
+                for (let i = 2; i <= requestCount; i++) {
+                  let promise = this.getDocData(i, path, userId, userSessId, docUpdateTime)
+                  promises.push(promise)
+                }
+                if (promises.length > 0) {
+                  // 如果需要额外请求数据
+                  let isSuccess = true // 是否所有请求都成功
+                  await Promise.all(promises).then(async (res) => {
+                    let totalSaveData = { // 全部下载数据汇总结果，放入已经下载的第一页数据
+                      jczfCase: saveData.jczfCase || [],
+                      paper: saveData.paper || [],
+                      danger: saveData.danger || [],
+                    } 
+                    for (let i = 0; i < res.length; i++) {
+                      let item = res[i]
+                      if (item.data.status === '200') {
+                        totalSaveData.jczfCase = [...totalSaveData.jczfCase, ...item.data.data.jczfCase || []]
+                        totalSaveData.paper = [...totalSaveData.paper, ...item.data.data.paper || []]
+                        totalSaveData.danger = [...totalSaveData.danger, ...item.data.data.danger || []]
+                      } else {
+                        isSuccess = false
+                      }
+                      if (!isSuccess) {
+                        break
+                      }
+                    }
+                    if (isSuccess) {
+                      await this.updateDatabase('wkCase', totalSaveData.jczfCase, 'caseId')
+                      await this.updatePaperDatabase(null, totalSaveData.paper, 'paperId')
+                      await this.updateDatabase('wkDanger', totalSaveData.danger, 'dangerId')
+                      // 更新文书号信息
+                      await this.updatePersonPaperNumber(userId, userSessId, path)
+                      // 修改更新日期
+                      await this.handleUpdateTime()
+
+                    }
+                  }).catch(err => {
+                    isSuccess = false
+                    console.log('个人账号文书资源下载失败，请尝试重新下载！', err)
+                  })
+                } else {
+                  // 如果不需要额外请求数据
+                  await this.updateDatabase('wkCase', saveData.jczfCase, 'caseId')
+                  await this.updatePaperDatabase(null, saveData.paper, 'paperId')
+                  await this.updateDatabase('wkDanger', saveData.danger, 'dangerId')
+                  // 更新文书号信息
+                  await this.updatePersonPaperNumber(userId, userSessId, path)
+                  // 修改更新日期
+                  await this.handleUpdateTime()
+                }
+              } else {
+                await this.updateDatabase('wkCase', saveData.jczfCase, 'caseId')
+                await this.updatePaperDatabase(null, saveData.paper, 'paperId')
+                await this.updateDatabase('wkDanger', saveData.danger, 'dangerId')
+                // 更新文书号信息
+                await this.updatePersonPaperNumber(userId, userSessId, path)
+                // 修改更新日期
+                await this.handleUpdateTime()
+              }
             }
           })
           .catch((err) => {
             console.log("下载文书失败：", err);
           })
       }
-    }
+    },
+    getDocData (pageNo, path, userId, userSessId, docUpdateTime) {
+      // 分页获取检查活动、文书、隐患数据
+      let url = `${path}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&updateTime=${docUpdateTime}&pageNo=${pageNo}&pageSize=20&isAll=1`
+      return this.$http.get(url)
+    },
+    async updatePersonPaperNumber (userId, userSessId, path) {
+      // 文书制作总数
+      await this.$http.get(
+          `${path}/local/my/paper/counts?userId=${userId}&__sid=${userSessId}`)
+        .then(async ({ data }) => {
+          if (data && data.status === "200") {
+            await this.setDatabase('personPaperNumber', data.data)
+          } else {
+            console.log("获取文书制作总数失败：", data.message);
+          }
+        })
+        .catch((err) => {
+          console.log("获取文书制作总数失败：", err);
+        });
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .login-main {
-  background: url('~@/assets/img/login_bg.png') no-repeat;
-  background-position: center center;
+  background: #fff url('~@/assets/img/login_bg.png') no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
   width: 1200px;
   height: 720px;
   margin: 0 auto;
   position: relative;
   .close-icon {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 16px;
+    right: 25px;
   }
   .login-form-main {
-    height: 495px;
-    width: 419px;
+    width: 300px;
     position: absolute;
-    top: 89px;
-    right: 82px;
+    top: 33%;
+    left: 17%;
     .form-title {
-      height: 60px;
       display: flex;
       align-items: center;
-      background: rgb(102, 177, 255);
-      justify-content: center;
-      letter-spacing: 0.5rem;
+      letter-spacing: 0.1rem;
+      line-height: 42px;
       span {
-        font-size: 25px;
+        font-family: Source Han Sans CN-Medium;
+        font-size: 20px;
         font-weight: 500;
-        color: #fff;
+        color: #407EE0;
+      }
+      .form-bar {
+        width: 4px;
+        height: 19px;
+        background: #407EE0;
+        border-radius: 6px 6px 6px 6px;
+        margin-right: 10px;
       }
     }
     .form-content {
       .form-content-item {
-        height: 65px;
-        width: 300px;
+        height: 42px;
         position: relative;
-        border: 1px solid #EBEEF5;
-        margin-bottom: 20px;
+        border: 1px solid #DBDBDB;
+        border-radius: 4px 4px 4px 4px;
+        margin-bottom: 30px;
         display: flex;
+        align-items: center;
+        padding: 0 20px;
         .item-label {
           position: absolute;
           top: -11px;
@@ -476,17 +582,59 @@ export default {
         /deep/ .el-input__inner {
           background: #fff;
           border: none;
-          border-bottom: 1px solid #DCDFE6;
-          width: 210px;
-          margin-bottom: 10px;
+          width: calc(300px - 40px - 20px);
         }
       }
     }
     .form-foot {
-      margin-bottom: 30px;
+      margin-bottom: 42px;
+      text-align: left;
       /deep/ .el-checkbox__label {
         font-size: 16px;
       }
+    }
+  }
+  .login-btn {
+    width: 100%;
+    height: 42px;
+    background: #0175FE;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0px 1px 5px 0px #0175FE;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    letter-spacing: 0.1rem;
+    &:hover {
+      box-shadow: 0px 2px 7px 2px #0175FE;
+    }
+    span {
+      font-size: 16px;
+      font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+      font-weight: 400;
+      color: #fff;
+    }
+  }
+  .bg-icon {
+    position: absolute;
+    bottom: 0px;
+    right: 4%;
+  }
+  .system-name {
+    position: absolute;
+    top: 15%;
+    right: 16%;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.1rem;
+    span {
+      font-size: 36px;
+      font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+      font-weight: 500;
+      color: #FFFFFF;
+    }
+    img {
+      margin-right: 12px;
     }
   }
 }

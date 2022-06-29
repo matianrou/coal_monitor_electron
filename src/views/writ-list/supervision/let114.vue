@@ -327,7 +327,7 @@ export default {
         this.corpData.caseId
       );
       // 2.获取查封扣押决定书创建日期
-      let let32Date = selectedPaper.let32Data.createDate.split(' ')[0].split('-')
+      let let32Date = selectedPaper.let32Data.createTime.split(' ')[0].split('-')
       // 3.查封扣押文书号
       let let32DataPaperContent = JSON.parse(selectedPaper.let32Data.paperContent);
       // 4.隐患描述，多个以分号隔开
@@ -351,7 +351,8 @@ export default {
         DangerTable = let32DataPaperContent.DangerTable
           ? setNewDanger(
               selectedPaper.let32Data,
-              let32DataPaperContent.DangerTable
+              let32DataPaperContent.DangerTable, 
+              this.paperId
             )
           : {};
       }

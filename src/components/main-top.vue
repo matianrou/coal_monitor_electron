@@ -1,19 +1,27 @@
 <template>
-  <div>
-    <div class="main-top-main">
-      <div v-if="!maxSrc" style="margin-left: 10px;">
-        <!-- 系统名称图 -->
-        <img v-if="userType === 'supervision'" src="@/components/assets/image/supervision-logo.png" draggable="false" />
-        <img v-else src="@/components/assets/image/coal-logo.png" draggable="false" />
+  <div class="main-top-main">
+    <!-- <div v-if="!maxSrc" style="margin-left: 10px;">
+      <img v-if="userType === 'supervision'" src="@/components/assets/image/supervision-logo.png" draggable="false" />
+      <img v-else src="@/components/assets/image/coal-logo.png" draggable="false" />
+    </div>
+    <div v-else style="margin-left: 10px;">
+      <img v-if="userType === 'supervision'" src="@/components/assets/image/supervision-logo-mini.png" draggable="false" />
+      <img v-else src="@/components/assets/image/coal-logo-mini.png" draggable="false" />
+    </div> -->
+    <div>
+      <!-- 系统名称图 -->
+      <div v-if="!maxSrc" class="main-top-name" >
+        <img :src="require(userType === 'supervision' ? '@/components/assets/image/supervision-logo-mini.png' : '@/components/assets/image/coal-logo-mini.png')" draggable="false" />
+        <span>国家煤矿安全{{userType === 'supervision' ? '监管' : '监察'}}执法系统</span>
       </div>
-      <div v-else style="margin-left: 10px;">
-        <!-- 系统名称图 -->
-        <img v-if="userType === 'supervision'" src="@/components/assets/image/supervision-logo-mini.png" draggable="false" />
-        <img v-else src="@/components/assets/image/coal-logo-mini.png" draggable="false" />
+      <div v-else class="main-top-name" >
+        <img :src="require(userType === 'supervision' ? '@/components/assets/image/supervision-logo-mini.png' : '@/components/assets/image/coal-logo-mini.png')" draggable="false" />
       </div>
-      <div class="main-top-nav">
-        <!-- 页签 -->
-        <div class="main-top-tab">
+    </div>
+    <div class="main-top-nav">
+      <!-- 页签 -->
+      <div class="main-top-tab">
+        <div class="main-top-tab-nav no-drag">
           <div
             class="navTd no-drag"
             :style="activeTab === 'SourceDownload' ? 'background: #224f7d;' : ''"
@@ -60,17 +68,19 @@
             <span>学习资料</span>
           </div>
         </div>
-        <div class="main-top-operation no-drag" style="margin-left: 20px;">
+      </div>
+      <div class="main-top-operation" style="margin-left: 20px;">
+        <div class="no-drag" style="display: flex;">
           <span class="el-dropdown-link">
-            <img src="@/components/assets/image/internet.png" class="btn-icon img-btn custom-icon" title="打开网络端" @click="openWeb" />
+            <img src="@/components/assets/image/internet.png" style="cursor: pointer;" title="打开网络端" @click="openWeb" />
           </span>
           <span class="el-dropdown-link">
-            <img src="@/components/assets/image/send.png" class="btn-icon img-btn custom-icon" title="隐患发送" @click="sendDanger" />
+            <img src="@/components/assets/image/send.png" style="margin: 0 20px; cursor: pointer;" title="隐患发送" @click="sendDanger" />
           </span>
           <!-- 消息提醒 -->
           <el-dropdown :hide-on-click="false" @command="handleCommand">
             <span class="el-dropdown-link">
-              <img src="@/components/assets/image/msg.png" class="btn-icon img-btn custom-icon" title="消息通知"/>
+              <img src="@/components/assets/image/msg.png" style="cursor: pointer;" title="消息通知"/>
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="checkList">您有{{notice.checkList.length || '0'}}条检查项任务待接收</el-dropdown-item>
@@ -78,26 +88,42 @@
           </el-dropdown>
         </div>
       </div>
-      <div class="main-top-operation-right">
-        <div style="flex: 1;display: flex; align-items: flex-end;">
-          <!-- 操作 -->
-          <img src="@/components/assets/image/minus.png" class="btn-icon no-drag" id="minbt"  title="最小化" @click="handleWindow('window-min')" />&nbsp;
-          <img src="@/components/assets/image/maximize.png" v-show="maxSrc" class="btn-icon no-drag" title="最大化" id="maxbt" @click="handleWindow('window-max')" />&nbsp;
-          <img src="@/components/assets/image/minimize.png" v-show="!maxSrc" class="btn-icon no-drag" id="minbt" title="还原" @click="handleWindow('window-max')" />&nbsp;
-          <img src="@/components/assets/image/close.png" id="closebt" class="btn-icon no-drag" title="关闭" @click="handleWindow('window-quit')" />
-        </div>
-        <div class="no-drag" style="display: flex; flex: 1; align-items: center;">
-          <!-- 个人和更多 -->
-          <el-dropdown :hide-on-click="false" @command="handleCommand" style="min-width: 120px; cursor: pointer;">
-            <span class="el-dropdown-link info-wrap">
-              <span style="color: #fff;">欢迎您：{{$store.state.user.userName}}</span><i class="el-icon-caret-bottom" style="color: #f19716;"></i>
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="clearLogin">注销登录</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-          <span style="color: #fff;font-size: 12px;margin-left: 10px;">v{{version}}</span>
-        </div>
+    </div>
+    <div class="main-top-operation-right">
+      <div style="flex: 1;display: flex; align-items: flex-end;">
+        <!-- 操作 -->
+        <img src="@/components/assets/image/minus.png" class="btn-icon no-drag" id="minbt"  title="最小化" @click="handleWindow('window-min')" />&nbsp;
+        <img src="@/components/assets/image/maximize.png" v-show="maxSrc" class="btn-icon no-drag" title="最大化" id="maxbt" @click="handleWindow('window-max')" />&nbsp;
+        <img src="@/components/assets/image/minimize.png" v-show="!maxSrc" class="btn-icon no-drag" id="minbt" title="还原" @click="handleWindow('window-max')" />&nbsp;
+        <img src="@/components/assets/image/close.png" id="closebt" class="btn-icon no-drag" title="关闭" @click="handleWindow('window-quit')" />
+      </div>
+      <div class="no-drag" style="display: flex; flex: 1; align-items: center;">
+        <!-- 个人和更多 -->
+        <el-dropdown :hide-on-click="false" @command="handleCommand" style="min-width: 120px; cursor: pointer;">
+          <span class="el-dropdown-link info-wrap font-rem">
+            <span style="color: #fff;">欢迎您：{{$store.state.user.userName}}</span><i class="el-icon-caret-bottom" style="color: #f19716;"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>
+              <div 
+                style="display: flex; align-items: center;"
+                :title="netStatus ? '当前为在线状态，切换离线' : '当前为离线状态，切换在线'">
+                切换网络
+                <el-switch
+                  v-model="netStatus"
+                  :disabled="changeNetStatusDisabled"
+                  :title="changeNetStatusDisabled ? '当前未记住登录账号，无法切换离线状态' : ''"
+                  style="margin-left: 3px;"
+                  active-color="#13ce66"
+                  inactive-color="#ff4949"
+                  @change="changeOnline">
+                </el-switch>
+              </div>
+            </el-dropdown-item>
+            <el-dropdown-item command="clearLogin" divided>注销登录</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+        <span class="font-rem" style="color: #fff; margin-left: 10px;">v{{version}}</span>
       </div>
     </div>
     <send-danger
@@ -118,6 +144,7 @@ import { electronRequest } from '@/utils/electronRequest'
 import { clearLoginInfo } from '@/utils'
 import sendDanger from '@/components/send-danger'
 import checkListShow from '@/components/notice-show/check-list-show'
+import { encry, Decrypt } from '@/utils/AesEncryptUtil'
 export default {
   name: "MainTop",
   components: {
@@ -137,8 +164,21 @@ export default {
         checkList: []
       },
       receiveMessage: null,
-      version: null
+      version: null,
+      netStatus: this.$store.state.onLine,
     };
+  },
+  computed: {
+    changeNetStatusDisabled () {
+      // 判断是否可以切换在线离线，如果登陆时未选中记住当前账号，则不可切换
+      let changeNetStatusDisabled = true
+      if (localStorage.getItem('userAccount')) {
+        changeNetStatusDisabled = false
+      } else {
+        changeNetStatusDisabled = true
+      }
+      return changeNetStatusDisabled
+    }
   },
   created() {
     this.getTab();
@@ -314,6 +354,55 @@ export default {
       } else {
         console.log('当前环境不支持electron')
       }
+    },
+    changeOnline (val) {
+      if (val) {
+        // 当离线切换为在线时，请调用户信息接口，获取userSessId
+        let {txtUserNo, txtPassword} = JSON.parse(localStorage.getItem('userAccount'))
+        let username = Decrypt(txtUserNo)
+        let password = Decrypt(txtPassword)
+        this.$http.post(`/login`, {
+          username,
+          password: encry(password),
+          mobileLogin: true,
+        }).then(async ({data}) => {
+          if (data.id) {
+            this.$store.state.user.userId = data.id
+            this.$store.state.user.loginName = data.loginName
+            this.$store.state.user.userName = data.name
+            this.$store.state.user.userSessId = data.sessionid
+            this.$store.commit('changeState', {
+              key: 'onLine',
+              val: true
+            })
+            this.$message.success('已切换为在线状态！')
+          } else {
+            this.$message.error('切换在线状态失败，请确保网络通畅！')
+            this.netStatus = false
+            console.log('切换在线状态失败：', data.message)
+          }
+        }).catch(err => {
+          this.$message.error('切换在线状态失败，请确保网络通畅！')
+          this.netStatus = false
+          console.log('切换在线状态失败：', err)
+        })
+      } else {
+        // 当在线切换为离线时，提示部分功能无法使用，确定后切换
+        this.$confirm('离线会导致部分功能无法使用，是否确认切换为离线状态？', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            dangerouslyUseHTMLString: true,
+            type: 'warning'
+          }).then(() => {
+            this.$store.commit('changeState', {
+              key: 'onLine',
+              val: false
+            })
+            this.$message.success('已切换为离线状态！')
+          }).catch(() => {
+            this.netStatus = true
+          })
+      }
     }
   },
 };
@@ -328,12 +417,32 @@ export default {
 .main-top-main {
   width: 100%;
   height: 80px;
-  background: url('~@/assets/img/top_bg.png');
-  background-position: center center;
+  background: #4282E6;
+  border-radius: 0px 0px 10px 10px;
+  // background: url('~@/assets/img/top_bg.png');
+  // background-position: center center;
   border-spacing: 0px;
   // padding: 0 20px;
   display: flex;
   -webkit-app-region: drag;
+  .main-top-name {
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.1rem;
+    img {
+      margin-right: 7px;
+    }
+    span {
+      font-size: 1.3rem;
+      @media only screen and (min-width: 1920px) {
+        font-size: 1.4rem;
+      }
+      font-family: Source Han Sans CN-Bold, Source Han Sans CN;
+      font-weight: bold;
+      color: #FFFFFF;
+    }
+  }
   .main-top-nav {
     flex: 1;
     margin-left: 40px;
@@ -342,16 +451,26 @@ export default {
     .main-top-tab {
       flex: 1;
       display: flex;
-      overflow-y: auto;
+      overflow: hidden;
+      .main-top-tab-nav {
+        // flex: 1;
+        display: flex; 
+        overflow-y: auto;
+      }
       .navTd {
-        width: 100px;
+        width: 120px;
         min-width: 100px;
         display: flex;
         align-items: center;
         justify-content: center;
         color: #fff;
-        font-size: 18px;
-        font-weight: 500;
+        font-size: 1.1rem;
+        @media only screen and (min-width: 1920px) {
+          font-size: 1.2rem;
+        }
+        font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+        font-weight: 400;
+        letter-spacing: 0.1rem;
         cursor: pointer;
         &:hover {
           background: rgba(#224f7d, 0.6);
@@ -405,19 +524,19 @@ export default {
 .no-drag {
   -webkit-app-region: no-drag;
 }
-.topNav {
-  color: #f7f7f7;
-  text-decoration: none;
-  font-size: 18px;
-  cursor: pointer;
-}
+// .topNav {
+//   color: #f7f7f7;
+//   text-decoration: none;
+//   font-size: 18px;
+//   cursor: pointer;
+// }
 
 /*滚动条整体样式*/
-.main-top-tab::-webkit-scrollbar {
-  height: 5px;
+.main-top-tab-nav::-webkit-scrollbar {
+  height: 8px;
 } 
-.main-top-tab::-webkit-scrollbar-thumb {
-  border-radius   : 10px;
+.main-top-tab-nav::-webkit-scrollbar-thumb {
+  border-radius: 10px;
   background-color: #f19716;
   background-image: -webkit-linear-gradient(
       45deg,
@@ -430,9 +549,15 @@ export default {
       transparent
   );
 }
-.main-top-tab::-webkit-scrollbar-track {
+.main-top-tab-nav::-webkit-scrollbar-track {
   box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
   background   : #ededed;
   border-radius: 10px;
+}
+.font-rem {
+  font-size: 0.9rem;
+  @media only screen and (min-width: 1920px) {
+    font-size: 1rem;
+  }
 }
 </style>

@@ -7,7 +7,7 @@
       ></main-top>
     </div>
     <div class="main-content">
-      <router-view/>
+      <router-view />
     </div>
   </div>
 </template>
@@ -81,6 +81,8 @@ export default {
   .main-page {
     height: 100vh;
     width: 100vw;
+    min-height: 500px;
+    min-width: 910px;
     display: flex;
     flex-direction: column;
     .main-header {
@@ -90,6 +92,7 @@ export default {
     .main-content {
       // height: calc(100% - 80px);
       flex: 1;
+      background: #FDFDFF;
     }
   }
 </style>

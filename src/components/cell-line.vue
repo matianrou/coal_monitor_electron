@@ -1,6 +1,7 @@
 <!-- 多行文本下划线 -->
 <template>
   <div>
+    <!-- ${(index + 1) * 2.25}rem; -->
     <div
       v-for="(item, index) in lineNum"
       :key="index"

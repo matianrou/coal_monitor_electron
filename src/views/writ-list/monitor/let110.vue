@@ -113,7 +113,7 @@
               的规定，根据《中华人民共和国安全生产法》第<span class="text-decoration">六十五</span>条第<span class="text-decoration">一</span>款第<span class="text-decoration">四</span>项和《中华人民共和国行政强制法》第<span class="text-decoration">二十四</span>条规定，我
               <span
                 class="no-underline"
-                @click="commandFill('cellIdx8', '局', 'TextItem')"
+                @click="commandFill('cellIdx8', '', 'TextItem')"
                 >{{ letData.cellIdx8 ? letData.cellIdx8 : "(编辑)" }}</span
               >
               决定对你单位涉案
@@ -490,7 +490,8 @@ export default {
         DangerTable = let1DataPaperContent.DangerTable
           ? setNewDanger(
               selectedPaper.let1Data,
-              let1DataPaperContent.DangerTable
+              let1DataPaperContent.DangerTable,
+              this.paperId
             )
           : {};
       }

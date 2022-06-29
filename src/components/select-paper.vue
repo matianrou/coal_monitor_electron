@@ -18,7 +18,7 @@
         style="width: 100%;"
         border
         stripe
-        :default-sort = "{prop: 'createDate', order: 'descending'}"
+        :default-sort = "{prop: 'createTime', order: 'descending'}"
         :highlight-current-row="!multiSelect"
         :header-cell-style="{background: '#f5f7fa'}"
         height="100%"
@@ -27,6 +27,8 @@
         <el-table-column
           v-if="multiSelect"
           type="selection"
+          header-align="center"
+          align="center"
           width="55">
         </el-table-column>
         <el-table-column
@@ -109,13 +111,16 @@ export default {
         },
         {
           label: '制作日期',
-          prop: 'createDate',
+          prop: 'createTime',
           align: 'center',
           width: '180'
         },
       ]
       let paperName = ''
       let dialogWidth = 385
+      if (this.multiSelect) {
+        dialogWidth += 55
+      }
       if (this.paperList && this.paperList.length > 0) {
         // 特殊处理:检查方案
         let paperType = this.paperList[0].paperType
@@ -131,6 +136,24 @@ export default {
             align: 'center',
           })
           dialogWidth += 200
+        }
+        // 特殊处理:调查取证笔录：增加被调查人姓名展示
+        if (paperType === '5') {
+          for (let i = 0; i < this.paperList.length; i++) {
+            let item = this.paperList[i]
+            if (JSON.parse(item.paperContent) && JSON.parse(item.paperContent).cellIdx9) {
+              item.respondent = JSON.parse(item.paperContent).cellIdx9
+            } else {
+              item.respondent = ''
+            }
+          }
+          colList.splice(colList.length - 2, 0, {
+            label: '被调查人',
+            prop: 'respondent',
+            width: '120',
+            align: 'center',
+          })
+          dialogWidth += 120
         }
         let userType = this.$store.state.user.userType
         // 特殊处理：有隐患项的文书展示隐患描述

@@ -216,10 +216,12 @@ export default {
       let minu = now.getMinutes() + '';//得到分钟
       let DangerTable = null;
       if (this.corpData.caseType === "0") {
-        DangerTable = let4DataPaperContent.DangerTable
+        let newDangerTable = this.handleSelectedDangerList(let4DataPaperContent.DangerTable)
+        DangerTable = newDangerTable
           ? setNewDanger(
               selectedPaper.let4Data,
-              let4DataPaperContent.DangerTable
+              newDangerTable, 
+              this.paperId
             )
           : {};
       }

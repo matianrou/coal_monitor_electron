@@ -441,16 +441,16 @@ export default {
         // 获取文号字段
         let number = getCurPaperDocNumber(item)
         // 获取日期字段
-        let createDate = ''
-        if (item.createDate) {
-          let dateList = item.createDate.split(' ')[0].split('-')
-          createDate = `${dateList[0]}年${dateList[1]}月${dateList[2]}日`
+        let createTime = ''
+        if (item.createTime) {
+          let dateList = item.createTime.split(' ')[0].split('-')
+          createTime = `${dateList[0]}年${dateList[1]}月${dateList[2]}日`
         }
         volumesMenuTableData.push({
           sindex: i + 1,
           paperNumber: number,
           title: `${item.name}`,
-          date: createDate,
+          date: createTime,
           pageNumber: i + 1,
           note: '',
         })
@@ -463,11 +463,6 @@ export default {
         // 创建初始版本 */
         // 1.案卷题名: 煤矿名称+隐患描述+案
         // 获取笔录文书中的隐患数据
-        
-        // let dangerObject = getDangerObject(
-        //   let1DataPaperContent.DangerTable.selectedDangerList
-        // );
-        // cellIdx2String = `${corp.corpName}${dangerObject.dangerString}案。`;
         cellIdx2String =
           this.corpData.caseType === "0"
             ? setDangerTable(
@@ -486,7 +481,8 @@ export default {
         DangerTable = let1DataPaperContent.DangerTable
           ? setNewDanger(
               selectedPaper.let1Data,
-              let1DataPaperContent.DangerTable
+              let1DataPaperContent.DangerTable, 
+              this.paperId
             )
           : {};
         associationPaperId = Object.assign({}, this.setAssociationPaperId(let1DataPaperContent.associationPaperId), {

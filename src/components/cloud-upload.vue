@@ -24,7 +24,9 @@
           @selection-change="handleSelectionChange">
           <el-table-column
             type="selection"
-            width="55">
+            header-align="center"
+            align="center"
+            width="50">
           </el-table-column>
           <el-table-column
             prop="corpName"
@@ -44,14 +46,24 @@
             header-align="center"
             align="center"
             label="制作人"
-            width="150">
+            width="100">
           </el-table-column>
           <el-table-column
-            prop="createDate"
+            prop="createTime"
             header-align="center"
             align="center"
             label="制作时间"
-            width="180">
+            width="160">
+          </el-table-column>
+          <el-table-column
+            prop="operation"
+            header-align="center"
+            align="center"
+            label="执行操作"
+            width="80">
+            <template slot-scope="scope">
+              <span>{{ scope.row.operation === 'save' ? '保存' : '删除'}}</span>
+            </template>
           </el-table-column>
         </el-table>
       </div>
@@ -94,8 +106,13 @@ export default {
       // 获取要上传的文书
       this.loading = true
       let tableData = await this.getDatabase('prepareUpload')
-      tableData.sort(sortbyAsc('createDate'))
+      tableData.sort(sortbyAsc('createTime'))
       this.tableData = tableData
+      if (tableData.length > 0) {
+        this.$message.error('当前有未同步的文书，请及时同步！')
+      } else {
+        this.$message.success('当前文书已全部同步！')
+      }
       this.loading = false
     },
     handleSelectionChange (val) {
@@ -103,6 +120,10 @@ export default {
     },
     confirm () {
       // 上传文书
+      if (!this.selectedList || this.selectedList.length === 0) {
+        this.$message.error('请选择需要同步的文书！')
+        return
+      }
       this.$confirm('是否确认上传所选文书至服务器？', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -110,7 +131,7 @@ export default {
           type: 'warning'
         }).then(async () => {
           this.loading = true
-          this.selectedList.sort(sortbyAsc('createDate'))
+          this.selectedList.sort(sortbyAsc('createTime'))
           for (let i = 0; i < this.selectedList.length; i++) {
             let item = this.selectedList[i]
             if (item.operation === 'save') {
@@ -121,11 +142,11 @@ export default {
               await this.paperDelete(item.paperId, (item.caseId ? item.caseId : 'opinion-suggestion'))
             }
           }
-          this.$message.success('完成云同步')
           await this.getData()
           this.loading = false
         }).catch((err) => {
-          console.log('err', err)
+          this.$message.error('云同步失败，请重新尝试！')
+          console.log('云同步失败：', err)
         })
     }
   },

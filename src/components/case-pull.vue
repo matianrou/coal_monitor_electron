@@ -7,7 +7,7 @@
     :visible="visible"
     width="800px"
     top="5vh"
-    @close="close">
+    :show-close="false">
     <div class="user-tree" v-loading="loading.main">
       <div class="selected-all-users">
         <!-- 用户筛选 -->
@@ -53,7 +53,7 @@
               <el-radio 
                 style="font-size: 18px;"
                 :label="item.caseId">
-                {{`${item.corpName} [${item.createDate.split(' ')[0]}]`}}
+                {{`${item.corpName} [${item.createTime.split(' ')[0]}]`}}
               </el-radio>
             </div>
           </el-radio-group>
@@ -133,7 +133,7 @@
             } else if (orgData.grade === '2') {
               // 省级
               // 获取所有parentId为当前userGroupId的机构
-              let orgChildrenList = JSON.parse(JSON.stringify(orgInfo.filter(item => item.parentId === userGroupId
+              let orgChildrenList = JSON.parse(JSON.stringify(orgInfo.filter(item => item.parentIds.includes(userGroupId)
                 && item.delFlag !== "1") || []))
               orgList = [...[orgData], ...orgChildrenList]
             } else if (orgData.grade === '3') {
@@ -142,7 +142,7 @@
               let parentOrg = orgInfo.find(item => item.no === orgData.parentId
                 && item.delFlag !== "1")
               // 获取所有parentId为当前parentOrg.no的机构
-              let orgChildrenList = JSON.parse(JSON.stringify(orgInfo.filter(item => item.parentId === parentOrg.no
+              let orgChildrenList = JSON.parse(JSON.stringify(orgInfo.filter(item => item.parentIds.includes(parentOrg.no)
                 && item.delFlag !== "1") || []))
               orgList = [...[parentOrg], ...orgChildrenList]
             } else if (orgData.grade === '4') {
@@ -153,7 +153,7 @@
               let provinceOrg = orgInfo.find(item => item.no === parentOrg.parentId
                 && item.delFlag !== "1")
               // 获取所有parentId为当前parentOrg.no的机构
-              let orgChildrenList = JSON.parse(JSON.stringify(orgInfo.filter(item => item.parentId === provinceOrg.no
+              let orgChildrenList = JSON.parse(JSON.stringify(orgInfo.filter(item => item.parentIds.includes(provinceOrg.no)
                 && item.delFlag !== "1") || []))
               orgList = [...[provinceOrg], ...orgChildrenList]
             }
@@ -256,19 +256,20 @@
       },
       getUserCase(userId) {
         if (!this.$store.state.onLine) {
-          this.$message.error('当前为离线登录，请联网后再拉取！')
+          this.$message.error('当前为离线状态，请联网后再拉取！')
           return
         }
         this.loading.right = true
         this.caseList = []
         let userSessId = this.$store.state.user.userSessId
-        this.$http.get(`${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&flag=true`)
+        this.$http.get(`${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&flag=true&pageNo=1&pageSize=5000&isAll=1`)
         .then(async (response) => {
           if (response.status === 200) {
             if (response.data.data) {
               // 如果有检查活动及文书数据则放入当前用户数据中
-              response.data.data.jczfCase.sort(sortbyDes('createDate'))
-              this.caseList = response.data.data.jczfCase
+              let caseList = response.data.data.jczfCase.filter(item => item.delFlag !== '1')
+              caseList.sort(sortbyDes('createTime'))
+              this.caseList = caseList
             }
             this.loading.right = false
           } else {
@@ -293,7 +294,7 @@
           for(let i = 0; i < this.caseList.length > 0; i++) {
             let item = this.caseList[i]
             if (item.caseId === this.selcetedCaseId) {
-              msg += `${item.corpName} [${item.createDate.split(' ')[0]}]`
+              msg += `${item.corpName} [${item.createTime.split(' ')[0]}]`
               selectedCaseData = item
             }
           }
@@ -309,45 +310,69 @@
               let jczfCase = {}
               this.caseList.map(jcItem => {
                 if (jcItem.caseId === selectedCaseData.caseId && jcItem.delFlag !== '1') {
-                  jczfCase = Object.assign({}, jcItem, {
-                    isPull: true
-                  }) 
+                  jczfCase = Object.assign({}, jcItem) 
                 }
               })
               // 根据监察活动数据jczfCase再获取相应的paper数据
               if (jczfCase && jczfCase.caseId) {
                 // 通过caseId获取所有文书和隐患
                 let userSessId = this.$store.state.user.userSessId
-                await this.$http.get(`${this.$store.state.user.userType === 'supervision' ? '/sv' : ''}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${this.selectedUser.no}&flag=false&caseId=${jczfCase.caseId}&pageNo=0&pageSize=5000`)
+                let path = this.$store.state.user.userType === 'supervision' ? '/sv' : ''
+                await this.$http.get(`${path}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${this.selectedUser.no}&flag=false&caseId=${jczfCase.caseId}&pageNo=1&pageSize=20&isAll=1`)
                   .then(async ({data}) => {
                     if (data.status === '200') {
-                      let paper = []
-                      let danger = []
-                      if (data.data) {
-                        if (data.data.paper) {
-                          for (let i = 0; i < data.data.paper.length; i++) {
-                            let item = data.data.paper[i]
-                            paper.push(Object.assign({}, item, {
-                              isPull: true
-                            }))
-                          }
+                      let saveData = data.data
+                      if (saveData.totalCount > 0) {
+                        let requestCount = Math.ceil(saveData.totalCount / 20)
+                        let promises = []
+                        for (let i = 2; i <= requestCount; i++) {
+                          let promise = this.getDocData(i, path, this.selectedUser.no, userSessId, jczfCase.caseId)
+                          promises.push(promise)
                         }
-                        if (data.data.danger) {
-                          for (let i = 0; i < data.data.danger.length; i++) {
-                            let item = data.data.danger[i]
-                            danger.push(Object.assign({}, item, {
-                              isPull: true
-                            }))
-                          }
+                        let isSuccess = true // 是否所有请求都成功
+                        if (promises.length > 0) {
+                          // 大于1页数据时
+                          await Promise.all(promises).then(async (res) => {
+                            let totalSaveData = { // 全部下载数据汇总结果，放入已经下载的第一页数据
+                              paper: saveData.paper || [],
+                              danger: saveData.danger || [],
+                            } 
+                            for (let i = 0; i < res.length; i++) {
+                              let item = res[i]
+                              if (item.data.status === '200') {
+                                totalSaveData.paper = [...totalSaveData.paper, ...item.data.data.paper || []]
+                                totalSaveData.danger = [...totalSaveData.danger, ...item.data.data.danger || []]
+                              } else {
+                                isSuccess = false
+                              }
+                              if (!isSuccess) {
+                                break
+                              }
+                            }
+                            if (isSuccess) {
+                              await this.updateDatabase('wkCase', [jczfCase], 'caseId')
+                              await this.updatePaperDatabase(jczfCase.caseId, totalSaveData.paper)
+                              await this.updateDatabase('wkDanger', totalSaveData.danger, 'dangerId')
+                            }
+                          }).catch(err => {
+                            isSuccess = false
+                            console.log('个人账号文书资源下载失败，请尝试重新下载！', err)
+                          })
+                        } else {
+                          // 不大于1页数据
+                          await this.updateDatabase('wkCase', [jczfCase], 'caseId')
+                          await this.updatePaperDatabase(jczfCase.caseId, saveData.paper)
+                          await this.updateDatabase('wkDanger', saveData.danger, 'dangerId')
+                        }
+                        if (isSuccess) {
+                          // 更新检查活动侧边栏
+                          this.$emit('confirm', jczfCase)
+                          this.$message.success('文书拉取成功！')
+                          this.close()
+                        } else {
+                          this.$message.error("拉取用户文书失败，远程请求异常，可能是认证信息超时，请重新登录。");
                         }
                       }
-                      await this.updateDatabase('wkCase', [jczfCase], 'caseId')
-                      await this.updatePaperDatabase(jczfCase.caseId, paper)
-                      await this.updateDatabase('wkDanger', danger, 'dangerId')
-                      // 更新检查活动侧边栏
-                      this.$emit('confirm', jczfCase)
-                      this.$message.success('文书拉取成功！')
-                      this.close()
                     } else {
                       this.$message.error("拉取用户文书失败，远程请求异常，可能是认证信息超时，请重新登录。");
                     }})
@@ -361,6 +386,11 @@
         } else {
           this.$message.error('当前未选定需要拉取的检查活动，请选择需要拉取的检查活动后再点击拉取！')
         }
+      },
+      getDocData (pageNo, path, userId, userSessId, caseId) {
+        // 分页获取文书、隐患数据
+        let url = `${path}/local/jczf/getPageJczfByOfficeId?__sid=${userSessId}&userId=${userId}&flag=false&caseId=${caseId}&pageNo=${pageNo}&pageSize=20&isAll=1`
+        return this.$http.get(url)
       },
     }
   }

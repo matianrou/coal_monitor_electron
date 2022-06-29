@@ -5,7 +5,6 @@
       <div class="writ-management-show-select">
         <!-- 选择检查活动 -->
         <case-list
-          ref="caseList"
           use-page="WritManagement"
           :select-plan-data="selectPlanData"
           @change-page="changePage"
@@ -23,20 +22,20 @@
           <div class="detail-org-information">
             <!-- 企业信息 -->
             <org-information
-              v-if="corpData && corpData.corpId"
               :corp-data="corpData"
             ></org-information>
           </div>
-          <div class="detail-paper-list">
+          <div class="detail-paper-list-main">
             <!-- 文书列表 -->
-            <div class="paper-list-title">
-              <img
-                src="@/components/assets/image/letTitle.png"
-                style="width:32px;height:32px;vertical-align:middle"
-              />执法文书
-            </div>
-            <div class="paper-list-operation">
-              <div style="flex: 2;">
+            <div class="detail-paper-list">
+              <div class="paper-list-title">
+                <img
+                  src="@/views/writ-flow/assets/image/writ-flow.png"
+                  style="margin-right: 10px;"
+                />
+                <span style="color: #4282E6;">执法文书</span>
+              </div>
+              <div class="paper-list-operation">
                 <el-form
                   :model="dataForm"
                   ref="dataForm"
@@ -60,97 +59,97 @@
                     </el-input>
                   </el-form-item>
                 </el-form>
+                <div style="flex: 1; text-align: right;">
+                  <el-button @click="resetForm">重置</el-button>
+                  <el-button type="primary" @click="getData">查询</el-button>
+                  <el-button type="primary" @click="batchFile">批量归档</el-button>
+                </div>
               </div>
-              <div style="flex: 1; text-align: right;">
-                <el-button @click="resetForm">重置</el-button>
-                <el-button type="primary" @click="getData">查询</el-button>
-                <el-button type="primary" @click="batchFile">批量归档</el-button>
+              <div class="paper-list-table">
+                <el-table
+                  :data="paperList"
+                  ref="table"
+                  v-loading="loading.list"
+                  style="width: 100%;"
+                  height="100%"
+                  stripe
+                  :header-cell-style="{background: '#f5f7fa'}"
+                  @selection-change="handleSelectionChange">
+                  <el-table-column
+                    type="selection"
+                    width="55">
+                  </el-table-column>
+                  <el-table-column
+                    header-align="center"
+                    align="center"
+                    width="80">
+                    <template slot-scope="scope">
+                      <span>{{ scope.$index + 1 }}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    prop="name"
+                    header-align="center"
+                    align="center"
+                    label="文书名称">
+                  </el-table-column>
+                  <el-table-column
+                    prop="personName"
+                    header-align="center"
+                    align="center"
+                    width="170"
+                    label="制作人">
+                  </el-table-column>
+                  <el-table-column
+                    prop="createTime"
+                    header-align="center"
+                    align="center"
+                    width="200"
+                    label="制作时间">
+                  </el-table-column>
+                  <el-table-column
+                    prop="fileTime"
+                    header-align="center"
+                    align="center"
+                    width="200"
+                    label="归档时间">
+                  </el-table-column>
+                  <el-table-column
+                    fixed="right"
+                    header-align="center"
+                    align="center"
+                    width="200"
+                    label="操作">
+                    <template slot-scope="scope">
+                      <div>
+                        <el-button
+                          :loading="loading.btn"
+                          type="text"
+                          size="small"
+                          @click="handleEdit(scope.row)">
+                          {{scope.row.delFlag === '0' ? '查看' : '编辑'}}
+                        </el-button>
+                        <el-button
+                          :loading="loading.btn"
+                          :disabled="scope.row.delFlag === '0'"
+                          type="text"
+                          size="small"
+                          @click="handleDelete(scope.row)">
+                          删除
+                        </el-button>
+                        <el-button
+                          :loading="loading.btn"
+                          :disabled="scope.row.delFlag === '0'"
+                          type="text"
+                          size="small"
+                          @click="handleFile(scope.row, 'file')">
+                          归档
+                        </el-button>
+                      </div>
+                    </template>
+                  </el-table-column>
+                </el-table>
               </div>
-            </div>
-            <div class="paper-list-table">
-              <el-table
-                :data="paperList"
-                ref="table"
-                v-loading="loading.list"
-                style="width: 100%;"
-                height="100%"
-                stripe
-                :header-cell-style="{background: '#f5f7fa'}"
-                @selection-change="handleSelectionChange">
-                <el-table-column
-                  type="selection"
-                  width="55">
-                </el-table-column>
-                <el-table-column
-                  header-align="center"
-                  align="center"
-                  width="80">
-                  <template slot-scope="scope">
-                    <span>{{ scope.$index + 1 }}</span>
-                  </template>
-                </el-table-column>
-                <el-table-column
-                  prop="name"
-                  header-align="center"
-                  align="center"
-                  label="文书名称">
-                </el-table-column>
-                <el-table-column
-                  prop="personName"
-                  header-align="center"
-                  align="center"
-                  width="170"
-                  label="制作人">
-                </el-table-column>
-                <el-table-column
-                  prop="createTime"
-                  header-align="center"
-                  align="center"
-                  width="200"
-                  label="制作时间">
-                </el-table-column>
-                <el-table-column
-                  prop="fileTime"
-                  header-align="center"
-                  align="center"
-                  width="200"
-                  label="归档时间">
-                </el-table-column>
-                <el-table-column
-                  fixed="right"
-                  header-align="center"
-                  align="center"
-                  width="200"
-                  label="操作">
-                  <template slot-scope="scope">
-                    <div>
-                      <el-button
-                        :loading="loading.btn"
-                        type="text"
-                        size="small"
-                        @click="handleEdit(scope.row)">
-                        {{scope.row.delFlag === '0' ? '查看' : '编辑'}}
-                      </el-button>
-                      <el-button
-                        :loading="loading.btn"
-                        :disabled="scope.row.delFlag === '0'"
-                        type="text"
-                        size="small"
-                        @click="handleDelete(scope.row)">
-                        删除
-                      </el-button>
-                      <el-button
-                        :loading="loading.btn"
-                        :disabled="scope.row.delFlag === '0'"
-                        type="text"
-                        size="small"
-                        @click="handleFile(scope.row, 'file')">
-                        归档
-                      </el-button>
-                    </div>
-                  </template>
-                </el-table-column>
-              </el-table>
             </div>
           </div>
         </div>
@@ -178,6 +177,7 @@ import { sortbyDes } from '@/utils/index'
 import { saveToUpload } from '@/utils/savePaperData'
 import monitorWritList from '@/views/make-law-writ/components/monitor-writ-list' // 监察文书组件表
 import supervisionWritList from '@/views/make-law-writ/components/supervision-writ-list' // 监管文书组件表
+import { getNowFormatTime } from '@/utils/date'
 export default {
   name: "WritManagement",
   components: {
@@ -307,8 +307,8 @@ export default {
       // await this.updatePaperDatabase(row.caseId, [row])
     },
     async handleDelete (row) {
-      if (row.isPull) {
-        this.$message.error('当前文书为拉取的文书，不可单独删除！')
+      if (row.personId !== this.$store.state.user.userId) {
+        this.$message.error('当前文书不可删除，请联系制作人删除！')
         return
       }
       // 删除文书 判断是否已归档，如果已归档则不可删除
@@ -322,13 +322,15 @@ export default {
           let request = await this.paperDelete(row.paperId, row.caseId)
           if (request.code === '200') {
             this.$message.success('删除文书成功！')
+          } else if (request.code === '500') {
+            this.$message.error('删除文书失败，请重新尝试！')
           } else {
-            this.$message.warning('本地删除成功，需云同步至服务器！')
+            this.$message.warning('本地删除成功，请在有网络时再云同步至服务器！')
           }
           this.getData()
           this.loading.btn = false
         }).catch((err) => {
-          console.log('err', err)
+          console.log('删除文书失败：', err)
           this.loading.btn = false
         })
     },
@@ -337,11 +339,15 @@ export default {
       // 拉取已经保存的文书，修改delFlag = '0',调用saveToUpload上传
       // 如果没有网络则不能归档
       if (!this.$store.state.onLine) {
-        this.$message.error('当前为离线登录，请联网后再归档！')
+        this.$message.error('当前为离线状态，请联网后再归档！')
         return
       }
-      if (row.isPull) {
+      if (row.personId !== this.$store.state.user.userId) {
         this.$message.error('当前文书为拉取的文书，不可操作！')
+        return
+      }
+      if (!row.localizeFlag || row.localizeFlag !== '1') {
+        this.$message.error('当前文书为PC端保存数据，系统不支持修改保存及归档操作')
         return
       }
       this.loading.btn = true
@@ -362,11 +368,13 @@ export default {
       // 归档文书
       // 修改当前检查活动归档标记
       let wkCase = await this.getDatabase('wkCase')
-      let caseData = JSON.parse(JSON.stringify(wkCase.filter(item => item.caseId === paper.caseId) || []))
+      let caseData = JSON.parse(JSON.stringify(wkCase.find(item => item.caseId === paper.caseId)))
+      caseData.updateDate = getNowFormatTime()
       caseData.delFlag = '0'
       await this.updateDatabase('wkCase', [caseData], 'caseId')
       // 修改文书的标识
       let paperData = JSON.parse(JSON.stringify(paper))
+      paperData.updateDate = getNowFormatTime()
       paperData.delFlag = '0'
       await this.updatePaperDatabase(paperData.caseId, [paperData])
       // 修改隐患的标识
@@ -374,6 +382,7 @@ export default {
       let wkDangerList = []
       wkDangerList = JSON.parse(JSON.stringify(wkDanger.filter(item => item.paperId === paper.paperId && item.delFlag !== '1') || []))
       for (let i = 0; i < wkDangerList.length; i++) {
+        wkDangerList[i].updateDate = getNowFormatTime()
         wkDangerList[i].delFlag = '0'
       }
       await this.updateDatabase('wkDanger', wkDangerList, 'dangerId')
@@ -390,7 +399,11 @@ export default {
       // 批量归档
       // 如果没有网络则不能归档
       if (!this.$store.state.onLine) {
-        this.$message.error('当前为离线登录，请联网后再归档！')
+        this.$message.error('当前为离线状态，请联网后再归档！')
+        return
+      }
+      if (this.selectedPaperList.length === 0) {
+        this.$message.error('当前未选择需要归档的文书，请先选择文书！')
         return
       }
       this.loading.btn = true
@@ -400,15 +413,27 @@ export default {
           dangerouslyUseHTMLString: true,
           type: 'warning'
         }).then(async () => {
+          let isAllSuccess = true
           for (let i = 0; i < this.selectedPaperList.length; i++) {
             let item = this.selectedPaperList[i]
             if (item.delFlag !== '0') {
-              // 判断是否为已归档，如果已归档则不再重复归档
-              await this.filePaper(item)
+              // 判断是否为已归档，如果已归档则不再重复归档，同时判断是否文书制作人是本人，如果不是本人则不可归档
+              if (item.personId === this.$store.state.user.userId) {
+                await this.filePaper(item)
+              } else {
+                isAllSuccess = false
+                this.$message.error('文书为拉取文书，不可归档！')
+              }
+            }
+            if (!isAllSuccess) {
+              // 如果归档失败则跳出
+              break
             }
           }
           this.loading.btn = false
-          this.$message.success(`批量归档成功！`)
+          if (isAllSuccess) {
+            this.$message.success(`批量归档成功！`)
+          }
           this.getData()
         }).catch(() => {
           this.loading.btn = false
@@ -426,63 +451,70 @@ export default {
   align-items: center;
   .writ-management-show {
     height: calc(100vh - 102px);
-    width: calc(100vw - 20px);
+    width: calc(100vw - 40px);
     display: flex;
     margin: auto;
     .writ-management-show-select {
-      width: 330px;
-      background-color: #ffffff;
-      border-radius: 10px;
+      flex: 1;
+      min-width: 300px;
+      max-width: 400px;
       height: 100%;
     }
     .writ-management-show-detail {
-      flex: 1;
+      flex: 4;
       height: 100%;
       overflow-y: auto;
       overflow-x: hidden;
       .detail-main {
         display: flex;
         flex-direction: column;
-        margin-left: 10px;
+        margin-left: 20px;
         height: 100%;
-        overflow: auto;
+        overflow: hidden;
         .detail-org-information {
           height: 180px;
-          min-width: 1100px;
-        }
-        .etail-org-information {
-          height: 180px;
-        }
-        .detail-paper-list {
-          margin-top: 20px;
-          flex: 1;
-          border-radius: 10px;
-          background: #fff;
           overflow: auto;
+        }
+        .detail-paper-list-main {
+          flex: 1;
+          overflow: hidden;
+          overflow-x: auto;
           display: flex;
-          flex-direction: column;
-          min-width: 1100px;
-          .paper-list-title {
-            width: 100%;
-            height: 40px;
-            line-height: 40px;
-            text-indent: 30px;
-            color: #fff;
-            font-size: 18px;
-            margin: 0px;
-            background: #4f83e9;
-          }
-          .paper-list-operation {
-            height: 50px;
+          margin-top: 20px;
+          background: #fff;
+          box-shadow: 0px 2px 20px 1px rgba(66, 130, 230, 0.09);
+          border-radius: 10px;
+          .detail-paper-list {
+            flex: 1;
             display: flex;
-            align-items: center;
-            padding: 0 20px;
-          }
-          .paper-list-table {
-            height: calc(100% - 100px);
-          }
-          /deep/ .el-form-item {
-            margin: 0px;
+            flex-direction: column;
+            min-width: 1100px;
+            .paper-list-title {
+              height: 40px;
+              line-height: 40px;
+              font-size: 18px;
+              margin: 0px;
+              border-top-left-radius: 10px;
+              border-top-right-radius: 10px;
+              display: flex;
+              padding: 10px 20px 5px;
+              align-items: center;
+              border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            }
+            .paper-list-operation {
+              margin: 5px 0px;
+              height: 50px;
+              display: flex;
+              align-items: center;
+              padding: 0 20px;
+            }
+            .paper-list-table {
+              height: calc(100% - 100px);
+              padding: 0 10px;
+            }
+            /deep/ .el-form-item {
+              margin: 0px;
+            }
           }
         }
       }

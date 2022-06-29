@@ -33,7 +33,7 @@
           ></component>
         </div>
         <div slot="footer" class="let-drawer-operation">
-          <el-button @click="handleClose">返回</el-button>
+          <el-button v-if="this.selectedData.type !== 'DangerTable'" @click="handleClose">返回</el-button>
           <el-button type="primary" @click="handleSave(false)">保存</el-button>
         </div>
       </div>
@@ -289,7 +289,6 @@ export default {
 .let-drawer-direct {
   margin-top: 10px;
   padding: 10px;
-  border-top: 1px solid #DCDFE6;
   .let-drawer-direct-title {
     font-size: 18px;
     font-weight: bold;

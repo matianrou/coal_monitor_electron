@@ -2,89 +2,72 @@
 <template>
   <div class="case-list">
     <div class="case-list-select-main">
-      <div style="height:36px; line-height: 36px; color:#666; background:#4F83E9;border-top-left-radius: 10px;border-top-right-radius: 10px;">
-        <td style="text-indent:20px;color:#fff;">{{usePage === 'MakeLawWrit' ? '选择煤矿/企业' : '选择煤矿/企业'}}</td>
+      <div class="case-list-select-title">
+        <img src="@/components/assets/image/company_icon.png" />
+        <span>{{usePage === 'MakeLawWrit' ? '选择煤矿/企业' : '选择煤矿/企业'}}</span>
       </div>
-      <div style="flex: 1;background-color:#fff;vertical-align:top; overflow: auto;">
-        <table style="width:100%;">
-          <tr style="height:36px;background-color:#fff;color:#666;">
-            <!-- 计划年月 -->
-            <td style="width:50%;padding-left:6px;">
-              <el-select
-                v-model="dataForm.selPlanDate"
-                style="width:100%;height:32px;"
-                size="small"
-                @change="val => changeSelect(val, 'selPlanDate')">
-                <el-option
-                  v-for="(item, index) in planDateList"
-                  :key="index"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </td>
-            <!-- 归档机构 -->
-            <td style="width:50%;padding-right:6px;">
-              <el-select
-                v-model="dataForm.selGovUnit"
-                style="width:100%;height:32px;"
-                size="small"
-                @change="val => changeSelect(val, 'selGovUnit')">
-                <el-option
-                  v-for="(item, index) in orgList"
-                  :key="index"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </td>
-          </tr>
-        </table>
-        <div style="height:36px;background-color:#fff;color:#666;display:flex; justify-content: flex-end;padding: 0 8px;">
-          <!-- 选择计划或其他 -->
-          <div style="width:30%;">
-            <el-select
-              v-model="dataForm.isPlan"
-              style="width:100%;height:32px;"
-              size="small"
-              @change="val => changeSelect(val, 'isPlan')">
-              <el-option value="计划"></el-option>
-              <el-option value="其他"></el-option>
-            </el-select>
+      <div class="case-list-select-filter">
+        <div>
+          <el-select
+            v-model="dataForm.selGovUnit"
+            style="width:100%;"
+            @change="val => changeSelect(val, 'selGovUnit')">
+            <el-option
+              v-for="item in orgList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </div>
+        <div style="margin-top: 10px; display: flex;">
+          <el-select
+            v-model="dataForm.selPlanDate"
+            @change="val => changeSelect(val, 'selPlanDate')">
+            <el-option
+              v-for="(item, index) in planDateList"
+              :key="index"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+          <el-select
+            v-model="dataForm.isPlan"
+            style="width: 108px; margin-left: 15px;"
+            @change="val => changeSelect(val, 'isPlan')">
+            <el-option value="计划"></el-option>
+            <el-option value="其他"></el-option>
+          </el-select>
+        </div>
+      </div>
+      <div class="case-list-select-list">
+        <div
+          v-for="(item, index) in corpList"
+          :key="index"
+          :data-corpId="item.corpId"
+          :class="item.active ? 'active' : ''">
+          <div
+            v-if="item.dbplan"
+            class="case-list-select-list-item"
+            @dblclick="editaddbook(item)"
+            :title="item.corpName"
+            @click="showDocHome(item, index)">
+            <!-- <i class="el-icon-date" style="font-size:16px; color: #3D3D3D;"></i> -->
+            <img src="@/components/assets/image/flash_off.png" alt="" />
+            <span>{{ item.corpName }}</span>
+          </div>
+          <div
+            v-else
+            class="case-list-select-list-item"
+            @dblclick="editaddbook(item)"
+            :title="item.corpName"
+            @click="showDocHome(item, index)">
+            <img v-if="item.personId === $store.state.user.userId" src="@/components/assets/image/flash_on.png" alt="" />
+            <img v-else src="@/components/assets/image/user-group.png" alt="" />
+            <span>{{ item.corpName }}</span>
           </div>
         </div>
-        <table
-          style="width:320px;background-color:#fff;color:#666;display:inline-block"
-          id="tableCorpList">
-          <tr
-            v-for="(item, index) in corpList"
-            :key="index"
-            :data-corpId="item.corpId"
-            :class="item.active ? 'active' : ''">
-            <td
-              v-if="item.dbplan"
-              class="editaddbook"
-              @dblclick="editaddbook(item)"
-              :title="item.corpName"
-              style="display: inline-block;width: 318px;height:36px;padding-left:8px;cursor:pointer;line-height: 36px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"
-              @click="showDocHome(item, index)">
-              <i class="el-icon-date" style="font-size:16px;color: #DCDFE6;"></i>
-              {{ item.corpName }}
-            </td>
-            <td
-              v-else
-              class="editaddbookG"
-              @dblclick="editaddbook(item)"
-              style="display: inline-block;width: 318px;height:36px;padding-left:8px;cursor:pointer;line-height: 36px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"
-              :title="item.corpName"
-              @click="showDocHome(item, index)">
-              <img src="@/components/assets/image/flash_on.png" alt="" style="vertical-align: middle;" />
-              {{ item.corpName}}
-            </td>
-          </tr>
-        </table>
       </div>
-      <!-- </tr> -->
     </div>
     <div v-if="usePage === 'MakeLawWrit'" class="case-list-select-operation">
       <div class="extra-btn">
@@ -97,22 +80,21 @@
           src="@/components/assets/image/cloud-upload.png" 
           title="云同步" 
           @click="cloudUpload"
-          style="margin-left: 10px;"
+          style="margin-left: 8px;"
         />
       </div>
       <div class="add-delete-btn">
         <el-button
           class="addPlan"
           type="primary"
-          style="height: 35px;width:60px;padding:0;margin: 0;"
           @click="addCase"
         >
-          <i class="el-icon-plus"></i>添加
+          添加
         </el-button>&nbsp;&nbsp;
         <el-button
-          style="height: 35px; width:60px;padding:0;margin: 0;"
+          class="delPlan"
           @click="deleteCase">
-          <i class="el-icon-delete"></i>删除
+          删除
         </el-button>
       </div>
     </div>
@@ -192,16 +174,17 @@ export default {
   },
   methods: {
     async init () {
+      // 初始化数据：
+      // 获取所有机构列表
       await this.getOrgList()
-      this.setOrg()
+      // 获取所有月份数据
       this.getPlanDateList()
-      this.setPlanDate()
-      // 恢复数据仓库中已存储数据
-      if (this.$store.state.selectedCaseOption) {
-        this.$set(this, 'dataForm', this.$store.state.selectedCaseOption)
-      } else {
-        this.setStore()
-      }
+      // 回显或者默认选中机构/月份/计划其他
+      this.setInitSelect()
+      // // 清空已选中检查活动
+      // this.selectedCase = {}
+      // // 清空已选中检查活动流程
+      // this.$parent.changePage({page: 'empty'})
       await this.getData()
     },
     async getOrgList () {
@@ -218,21 +201,6 @@ export default {
         orgList.push(org)
       }
       this.orgList = orgList
-    },
-    setOrg () {
-      // 设置默认选择的机构
-      if (this.selectPlanData.selGovUnit) {
-        // 回显已选择内容
-        this.dataForm = this.selectPlanData
-      } else {
-        // 设置为当前机构的选项
-        if (this.orgList.length > 0) {
-          let { userGroupId } = this.$store.state.user
-          let curUserGroup = this.orgList.find(item => item.value === userGroupId)
-          this.dataForm.selGovUnit = curUserGroup ? curUserGroup.value : null
-          this.dataForm.selGovUnitName = curUserGroup ? curUserGroup.label : null
-        }
-      }
     },
     getPlanDateList () {
       // 获取计划年月列表选项
@@ -256,15 +224,35 @@ export default {
       }
       this.planDateList = planDateList
     },
-    setPlanDate () {
-      // 设置检查计划或检查活动默认日期
-      if (this.selectPlanData.selPlanDate) {
-        // 回显
-        this.dataForm.selPlanDate = this.selectPlanData.selPlanDate
+    setInitSelect () {
+      // 如果数据仓库中有存储则恢复
+      if (this.$store.state.selectedCaseOption && this.$store.state.selectedCaseOption.selGovUnit) {
+        this.$set(this, 'dataForm', this.$store.state.selectedCaseOption)
       } else {
-        // 设置第一个选项
-        this.dataForm.selPlanDate = this.planDateList.length > 0 ? this.planDateList[this.planDateList.length - 1].value : null
+        // 如果已经有选中的则回显
+        if (this.selectPlanData.selGovUnit) {
+          this.$set(this, 'dataForm', this.selectPlanData)
+        } else {
+          // 如果都没有存储则设置初始化选项：
+          // 1.机构选择
+          if (this.orgList.length > 0) {
+            let { userGroupId } = this.$store.state.user
+            let curUserGroup = this.orgList.find(item => item.value === userGroupId)
+            if (curUserGroup) {
+              this.$set(this.dataForm, 'selGovUnit', curUserGroup.value)
+              this.$set(this.dataForm, 'selGovUnitName', curUserGroup.label)
+            } else {
+              this.$set(this.dataForm, 'selGovUnit', null)
+              this.$set(this.dataForm, 'selGovUnitName', null)
+            }
+          }
+          // 2.日期默认选中最近
+          this.dataForm.selPlanDate = this.planDateList.length > 0 ? this.planDateList[this.planDateList.length - 1].value : null
+          // 3.选中计划
+          this.dataForm.isPlan = '计划'
+        }
       }
+      this.setStore()
     },
     async getData() {
       // 根据计划年月和机构获取计划和活动，组合成选择列表
@@ -313,12 +301,15 @@ export default {
             listArr = [...wkCase]
           }
           if (arrPlan.length > 0) {
-            listArr = [...listArr, ...arrPlan]
+            listArr = [...listArr]
           }
         } else {
-          listArr = [...wkCase];
+          listArr = wkCase.length > 0 ? [...wkCase] : [];
         }
-        listArr.sort(sortbyDes('createDate'))
+        listArr.sort(sortbyDes('createTime'))
+        if (arrPlan.length > 0) {
+          listArr = [...listArr, ...arrPlan]
+        }
         this.total = listArr.length;
         // 转换为列表所需要的值
         for (let i = 0; i < listArr.length; i++) {
@@ -333,6 +324,7 @@ export default {
               planId: item.dbplanId,
               no: item.no,
               active: false,
+              personId: item.personId || null,
             }
           } else if (item.caseId) {
             corp = {
@@ -340,11 +332,13 @@ export default {
               plan: true,
               caseType: item.caseType,
               caseId: item.caseId,
+              caseNo: item.caseNo,
               corpName: item.corpName,
               planId: item.planId,
               corpId: item.corpId,
               no: item.no,
               active: false,
+              personId: item.personId,
             }
           }
           corpList.push(corp)
@@ -360,7 +354,7 @@ export default {
         }) || []))
         listArr = [...wkCase]
         // 按创建时间排序
-        listArr.sort(sortbyDes('createDate'))
+        listArr.sort(sortbyDes('createTime'))
         // 转换为列表所需要的值
         for (let i = 0; i < listArr.length; i++) {
           let item = listArr[i]
@@ -371,11 +365,13 @@ export default {
               plan: true,
               caseType: item.caseType,
               caseId: item.caseId,
+              caseNo: item.caseNo,
               corpName: item.corpName,
               planId: '',
               corpId: item.corpId,
               no: item.no,
               active: false,
+              personId: item.personId,
             }
           }
           corpList.push(corp)
@@ -410,13 +406,15 @@ export default {
       // 文书管理时，展示选择检查活动的所有文书列表
       this.$emit('change-page', {page: 'writFlow', data})
     },
-    editaddbook (item) {
+    editaddbook (item, isPlan = true) {
+      // isPlan为是否创建计划的检查活动,true为从计划中创建检查活动,false为从检查活动列表中添加其他类型检查活动
       // 判断当前是否已有caseId，如果已有则不弹窗新建
       // 使用页面为执法工作台MakeLawWrit时可创建检查活动
       if (this.usePage === 'MakeLawWrit' && !item.caseId) {
         this.$emit('create-case', {
           corpData: item,
-          selectPlanData: this.dataForm
+          selectPlanData: this.dataForm,
+          isPlan
         })
       }
     },
@@ -427,7 +425,7 @@ export default {
       })
       this.corpList[index].active = true
     },
-    changeSelect (val, field) {
+    async changeSelect (val, field) {
       // 修改选择的活动日期或归档单位
       if (field === 'selGovUnit') {
         this.orgList.map(org => {
@@ -436,9 +434,9 @@ export default {
           }
         })
       }
-      this.getData()
       this.selectedCase = {}
       this.$parent.changePage({page: 'empty'})
+      await this.getData()
       this.setStore()
     },
     setStore () {
@@ -468,12 +466,12 @@ export default {
     },
     confirmCompany (company) {
       // 选中企业
-      this.editaddbook(company)
+      this.editaddbook(company, false)
     },
     deleteCase () {
       // 删除检查活动
       if (!this.$store.state.onLine) {
-        this.$message.error('当前为离线登录，请联网后再尝试删除！')
+        this.$message.error('当前为离线状态，请联网后再尝试删除！')
         return
       }
       if (this.selectedCase && this.selectedCase.caseId) {
@@ -485,10 +483,11 @@ export default {
           type: 'warning'
         }).then(async () => {
           // 删除检查活动:
-          // 首先判断当前检查活动是否为拉取的数据，如果是拉取的则直接删除本地存储（如果其中有自己制作的文书则仍需上传服务器），如果不是拉取则上传服务器
           let wkCase = await this.getDatabase('wkCase') 
           let caseData = wkCase.find(item => item.caseId === this.selectedCase.caseId && item.delFlag !== '1')
-          if (caseData.isPull) {
+          // 首先判断当前检查活动是否为拉取的数据，如果是拉取的则直接删除本地存储（如果其中有自己制作的文书则仍需上传服务器），如果不是拉取则上传服务器
+          // 判断当前检查活动是否为拉取的数据：如果当前检查活动创建人personId不是本登录人，则为拉取的检查活动
+          if (caseData.personId !== this.$store.state.user.userId) {
             // 拉取文书的删除逻辑：
             let wkPaper = await this.getPaperDatabase(this.selectedCase.caseId) || []
             // 获取所有此检查活动caseId的文书
@@ -498,9 +497,11 @@ export default {
             let selfDeletePaper = []
             let pullDeletePaper = []
             paperList.length > 0 && paperList.map(item => {
-              if (item.delFlag === '0' && !item.isPull) {
+              // 判断是否为自己制作的文书，如果不是则为拉取的文书
+              if (item.delFlag === '0' && (item.personId === this.$store.state.user.userId)) {
+                // 如果有已经归档的文书delFlag === '0'，则不可删除检查活动
                 canDelete = false
-              } else if (!item.isPull) {
+              } else if (item.personId === this.$store.state.user.userId) {
                 // 如果是自己新增的文书则需要上传服务器进行文书删除
                 selfDeletePaper.push(item)
               } else {
@@ -526,6 +527,12 @@ export default {
                       let danger = dangerList[i]
                       danger.delFlag = '1'
                       selfDeleteDanger.push(danger)
+                    }
+                    // 判断当前文书是否仍在云同步列表中，如果在则直接删除，不再同步
+                    let prepareUpload = await this.getDatabase("prepareUpload");
+                    let paperData = prepareUpload.find(item => item.paperId === selfPaper.paperId && item.isUpload === '0')
+                    if (paperData) {
+                      await this.deleteDatabasePhysics('prepareUpload', [paperData], 'paperId')
                     }
                   } else {
                     deleteAll = false
@@ -564,15 +571,17 @@ export default {
               this.$message.error('当前检查活动有已经归档文书，无法删除！')
             }
           } else {
-            // 不是拉取的活动删除逻辑：首先遍历检查活动中的文书时候已经有归档的文书
+            // 不是拉取的活动删除逻辑：首先遍历检查活动中的文书时候已经有归档的文书或者制作人不是本人的文书
             let wkPaper = await this.getPaperDatabase(this.selectedCase.caseId)
             // 获取所有此检查活动caseId的文书
             let paperList = JSON.parse(JSON.stringify(wkPaper.filter(item => item.caseId === this.selectedCase.caseId) || []))
             let canDelete = true
             // 遍历文书，判断是否有已经归档的文书
             paperList.length > 0 && paperList.map(item => {
-              if (item.delFlag === '0') {
-                canDelete = false
+              if (item.delFlag !== '1') {
+                if (item.delFlag === '0' || (item.personId !== this.$store.state.user.userId)) {
+                  canDelete = false
+                }
               }
             })
             if (canDelete) {
@@ -598,6 +607,12 @@ export default {
                         curDangerList[j].delFlag = '1'
                         delDangerList.push(curDangerList[j])
                       }
+                      // 判断当前文书是否仍在云同步列表中，如果在则直接删除，不再同步
+                      let prepareUpload = await this.getDatabase("prepareUpload");
+                      let paperData = prepareUpload.find(item => item.paperId === paperList[i].paperId && item.isUpload === '0')
+                      if (paperData) {
+                        await this.deleteDatabasePhysics('prepareUpload', [paperData], 'paperId')
+                      }
                     }
                     await this.updatePaperDatabase(curCase.caseId, paperList)
                     await this.updateDatabase('wkDanger', delDangerList, 'dangerId')
@@ -615,8 +630,8 @@ export default {
               this.selectedCase = {}
               this.$parent.changePage({page: 'empty'})
             } else {
-              // 如果有已经归档的文书则弹出无法删除提示
-              this.$message.error('当前检查活动有已经归档文书，无法删除！')
+              // 如果有已经归档的文书或者制作人不是本人的文书，则弹出无法删除提示
+              this.$message.error('当前检查活动有已经归档或制作人不是本人的文书，无法删除！')
             }
           }
           this.loading.btn = false
@@ -658,7 +673,7 @@ export default {
     cloudUpload () {
       // 弹窗展示未上传的文书列表
       if (!this.$store.state.onLine) {
-        this.$message.error('当前为离线登录，请联网后才能云同步！')
+        this.$message.error('当前为离线状态，请联网后才能云同步！')
         return
       }
       this.visible.cloudUpload = true
@@ -673,39 +688,115 @@ export default {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  border-radius: 10px;
   .case-list-select-main {
     flex: 1;
+    overflow: auto;
     border-collapse: collapse;
-    background-color: #093A83;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     display: flex;
     flex-direction: column;
-    height: calc(100% - 50px);
+    background: #FFFFFF;
+    box-shadow: 0px 2px 20px 1px rgba(66, 130, 230, 0.09);
+    border-radius: 10px 10px 10px 10px;
+    margin-right: 2px;
+    .case-list-select-title {
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding: 10px 19px 5px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      img {
+        margin-right: 7px;
+      }
+      span {
+        font-size: 1.2rem;
+        font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+        font-weight: 500;
+        color: #4282E6;
+        @media only screen and (min-width: 1920px) {
+          font-size: 1.3rem;
+        }
+      }
+    }
+    .case-list-select-filter {
+      padding: 15px;
+    }
+    .case-list-select-list {
+      flex: 1;
+      overflow: auto;
+      .case-list-select-list-item {
+        display: flex;
+        height: 36px;
+        width: calc(100% - 25px);
+        cursor: pointer;
+        line-height: 36px;
+        padding: 0 10px 0 15px;
+        align-items: center;
+        img {
+          height: 20px;
+          width: 20px;
+          margin-right: 5px;
+          vertical-align: middle;
+        }
+        span {
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          font-size: 1.1rem;
+          @media only screen and (min-width: 1920px) {
+            font-size: 1.2rem;
+          }
+          font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+          font-weight: 400;
+          color: #3D3D3D;
+        }
+      }
+    }
   }
   .case-list-select-operation {
-    height: 41px;
-    background-color: #DCECFB;
+    height: 60px;
     color: #666;
-    border: 1px solid #093A83;
     border-radius: 10px;
-    padding: 6px;
+    background: #FFFFFF;
+    box-shadow: 0px 2px 20px 1px rgba(66, 130, 230, 0.09000000357627869);
+    border-radius: 10px 10px 10px 10px;
+    padding: 6px 15px;
     display: flex;
     align-items: center;
+    margin-top: 20px;
+    margin-bottom: 10px;
     .extra-btn {
-      margin-left: 10px;
       flex: 1;
       img {
         cursor: pointer;
       }
     }
     .add-delete-btn {
-      width: 150px;
+      // width: 180px;
+      text-align: right;
+      .addPlan {
+        height: 35px;
+        width: 70px;
+        padding: 0;
+        margin: 0;
+        background: #4282E6;
+      }
+      .delPlan {
+        height: 35px; 
+        width: 70px;
+        padding: 0;
+        margin: 0;
+        border: 1px solid #4282E6;
+        color: #4282E6;;
+      }
     }
   }
   .active{
-    background: #5f8aca;
+    background: rgba(66, 130, 230, 0.2);
     color: #fff;
   }
 }
+
 </style>

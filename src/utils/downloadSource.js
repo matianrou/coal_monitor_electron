@@ -1,4 +1,5 @@
 import { setDatabase, updateDatabase, updatePaperDatabase } from '@/utils/databaseOperation'
+import store from '@/store'
 
 // “机构资源”下载。
 export async function orgSave(resId, data) {
@@ -376,7 +377,7 @@ export async function dangerListSave(resId, data) {
 }
 
 // “个人账号文书资源”下载。
-export async function docSave(resId, data, savePullField = false){
+export async function docSave(resId, data){
 	let arrPaper = data && data.paper ? data.paper : [];
 	let arrCase = data && data.jczfCase ? data.jczfCase : [];
 	let arrDanger = data && data.danger ? data.danger : [];
@@ -428,10 +429,6 @@ export async function docSave(resId, data, savePullField = false){
 			"p36RegisterTime": obj.p36RegisterTime, //null 
 			"localizeFlag": obj.localizeFlag,
 		}
-		if (savePullField) {
-			// 保存是否为拉取字段时 添加isPull标记字段存储，否则按原始数据存储
-			objData.isPull = obj.isPull
-		}
 		arrDocPaper.push(objData);
 	}
   await updatePaperDatabase(null, arrDocPaper)
@@ -469,10 +466,6 @@ export async function docSave(resId, data, savePullField = false){
 			"affiliate": obj.affiliate,
 			"corpType": obj.corpType,
 		}
-		if (savePullField) {
-			// 保存是否为拉取字段时 添加isPull标记字段存储，否则按原始数据存储
-			objData.isPull = obj.isPull
-		}
 		arrDocCase.push(objData);
 	}
   await updateDatabase('wkCase', arrDocCase, 'caseId')
@@ -488,9 +481,9 @@ export async function docSave(resId, data, savePullField = false){
 			"createBy": JSON.stringify(obj.createBy),
 			"updateBy": JSON.stringify(obj.updateBy),
 			"caseId": obj.caseId,
-			"dangerType": JSON.stringify(obj.dangerType),
+			"dangerType": obj.dangerType,
       "delFlag": obj.delFlag,
-			"dangerCate": obj.dangerType.categoryCode,
+			"dangerCate": obj.dangerType && obj.dangerType.categoryCode ? obj.dangerType.categoryCode : '',
 			"dangerItemId": obj.dangerItemId,
 			"dangerContent": obj.dangerContent,
 			"dangerLocation": obj.dangerLocation,
@@ -534,10 +527,6 @@ export async function docSave(resId, data, savePullField = false){
 			"dangerCorrected": obj.dangerCorrected,
 			"reviewUnitId": obj.reviewUnitId,
 			"reviewUnitName": obj.reviewUnitName,
-		}
-		if (savePullField) {
-			// 保存是否为拉取字段时 添加isPull标记字段存储，否则按原始数据存储
-			objData.isPull = obj.isPull
 		}
 		arrDocDanger.push(objData);
 	}
@@ -712,6 +701,11 @@ export async function dictionarySave(resId, data) {
 	}
   // 增:
 	await setDatabase('dictionary', arr)
+}
+
+// 个人文书号下载
+export async function personPaperNumberSave(resId, data) {
+	await setDatabase('personPaperNumber', data)
 }
 
 // 数据库表结构:
@@ -1073,7 +1067,7 @@ export const schema = {
 		"personName": String, //文书制作人名称/
 		"corpId": String,
 		"corpName": String,
-		"p0FloorTime": String, //归档时间：2021-06-15 11:00:38
+		"p0FloorTime": String, //落款时间（制作时间）：2021-06-15 11:00:38
 		"p22JczfCheck": String,   //检查项分工明细表
 		"groupId": String, //机构id
 		"groupName": String, //机构名称
@@ -1100,7 +1094,6 @@ export const schema = {
 		"p36PersonName": String, //null,
 		"p36RegisterTime": String, //null 
 		"localizeFlag": String, // 国产化标记：1
-		"isPull": Boolean, // "拉取的检查活动标记"
 	},
 	// 检查活动
 	wkCase: {
@@ -1141,7 +1134,6 @@ export const schema = {
 		"riskAssessment": String, // ""0100,0101,0102,0103,0104"
 		"riskAssessmentContent": String, // "生产接续计划方面 ,矿井开拓、准备、回采比例失调（小） ,上级企业超能力下达生产指标，煤矿超强度、超定员组织生产 ,采掘工作面数量超过规定 ,其他 "
 		//"mobile": false
-		"isPull": Boolean, // "拉取的检查活动标记"
 	},
 	// 隐患
 	wkDanger: {
@@ -1161,7 +1153,7 @@ export const schema = {
 		"createBy": String,
 		"updateBy":String,
 		"caseId": String,
-		"dangerType": String,
+		"dangerType": Object,
 		"delFlag": String,
 		"dangerCate": String,
 		"dangerItemId": String,   //"7101000033",
@@ -1207,7 +1199,6 @@ export const schema = {
 		"dangerCorrected": String,  //隐患整改情况(0未整改，1已整改）：null
 		"reviewUnitId": String,     //复查单位id：null
 		"reviewUnitName": String,   //复查单位名称：null
-		"isPull": Boolean, // "拉取的检查活动标记"
 	},
 	// 创建发送文书数据库
 	sendPaper: {
@@ -1425,13 +1416,5 @@ export const schema = {
 		"operation": String
 	},
 	personPaperNumber: { // 个人自增文书编号
-		"id": {
-			type: String,
-			unique: true
-		},
-		"year": String, // 年度文书号
-		"paperNumber": String, // 所有类型文书号
-		"createDate": String, // 创建日期
-		"updateDate": String, // 更新日期
 	}
 };

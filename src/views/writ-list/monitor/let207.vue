@@ -160,7 +160,7 @@
 </template>
 
 <script>
-import { getDocNumber, setNewDanger } from "@/utils/setInitPaperData";
+import { getDocNumber } from "@/utils/setInitPaperData";
 import associationSelectPaper from "@/components/association-select-paper";
 export default {
   name: "Let207",
@@ -254,7 +254,6 @@ export default {
           selectedPaper.let8Data.paperContent
         ); 
         cellIdx5String += `${let8DataPaperContent.cellIdx0 || ''}煤安监${let8DataPaperContent.cellIdx1 || ''}罚〔${let8DataPaperContent.cellIdx2 || ''}〕${let8DataPaperContent.cellIdx3 || ''}号`;
-        
       } else {
         // 当行政处罚决定书有多封时，返回为数组，处理逻辑
         for (let i = 0; i < selectedPaper.let8Data.length; i++) {

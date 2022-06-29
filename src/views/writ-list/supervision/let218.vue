@@ -187,10 +187,11 @@ export default {
         selectedPaper.let7Data.paperContent
       );
       // 案由：煤矿名称 + '涉嫌' + 隐患描述 + '案。'
+      let newDangerTable = this.corpData.caseType === "0" ? this.handleSelectedDangerList(let7DataPaperContent.DangerTable) : null
       let cellIdx2String =
         this.corpData.caseType === "0"
           ? setDangerTable(
-              let7DataPaperContent.DangerTable,
+              newDangerTable,
               {},
               {
                 page: "49",
@@ -207,7 +208,8 @@ export default {
         this.corpData.caseType === "0"
           ? setNewDanger(
               selectedPaper.let7Data,
-              let7DataPaperContent.DangerTable
+              newDangerTable, 
+              this.paperId
             )
           : null;
       let associationPaperId = Object.assign({}, this.setAssociationPaperId(let7DataPaperContent.associationPaperId), {

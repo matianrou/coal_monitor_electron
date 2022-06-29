@@ -22,7 +22,7 @@
             row-key="paperId"
             border
             stripe
-            :default-sort = "{prop: 'createDate', order: 'asc'}"
+            :default-sort = "{prop: 'createTime', order: 'asc'}"
             :header-cell-style="{background: '#f5f7fa'}"
             @selection-change="val => handleSelectionChange(val, 'paper2List')">
             <el-table-column
@@ -45,7 +45,7 @@
             </el-table-column>
             <el-table-column
               label="制作时间"
-              prop="createDate"
+              prop="createTime"
               header-align="center"
               align="center">
             </el-table-column>
@@ -64,7 +64,7 @@
             row-key="paperId"
             border
             stripe
-            :default-sort = "{prop: 'createDate', order: 'descending'}"
+            :default-sort = "{prop: 'createTime', order: 'descending'}"
             :header-cell-style="{background: '#f5f7fa'}"
             @selection-change="val => handleSelectionChange(val, 'paper13List')">
             <el-table-column
@@ -87,7 +87,7 @@
             </el-table-column>
             <el-table-column
               label="制作时间"
-              prop="createDate"
+              prop="createTime"
               header-align="center"
               align="center">
             </el-table-column>
@@ -106,7 +106,7 @@
             row-key="paperId"
             border
             stripe
-            :default-sort = "{prop: 'createDate', order: 'descending'}"
+            :default-sort = "{prop: 'createTime', order: 'descending'}"
             :header-cell-style="{background: '#f5f7fa'}"
             @selection-change="val => handleSelectionChange(val, 'paper4List')">
             <el-table-column
@@ -129,7 +129,7 @@
             </el-table-column>
             <el-table-column
               label="制作时间"
-              prop="createDate"
+              prop="createTime"
               header-align="center"
               align="center">
             </el-table-column>
@@ -148,7 +148,7 @@
             row-key="paperId"
             border
             stripe
-            :default-sort = "{prop: 'createDate', order: 'descending'}"
+            :default-sort = "{prop: 'createTime', order: 'descending'}"
             :header-cell-style="{background: '#f5f7fa'}"
             @selection-change="val => handleSelectionChange(val, 'paper6List')">
             <el-table-column
@@ -171,28 +171,28 @@
             </el-table-column>
             <el-table-column
               label="制作时间"
-              prop="createDate"
+              prop="createTime"
               header-align="center"
               align="center">
             </el-table-column>
           </el-table>
         </div>
       </div>
-      <div v-if="updatePaper.paper49List && updatePaper.paper49List.length > 0">
+      <div v-if="updatePaper[`paper${legalReviewNum}List`] && updatePaper[`paper${legalReviewNum}List`].length > 0">
         <div class="paper-title">
           行政执法决定法制审核意见书
         </div>
         <div>
           <el-table
-            ref="paper49List"
-            :data="updatePaper.paper49List"
+            :ref="`paper${legalReviewNum}List`"
+            :data="updatePaper[`paper${legalReviewNum}List`]"
             style="width: 100%;"
             row-key="paperId"
             border
             stripe
-            :default-sort = "{prop: 'createDate', order: 'descending'}"
+            :default-sort = "{prop: 'createTime', order: 'descending'}"
             :header-cell-style="{background: '#f5f7fa'}"
-            @selection-change="val => handleSelectionChange(val, 'paper49List')">
+            @selection-change="val => handleSelectionChange(val, `paper${legalReviewNum}List`)">
             <el-table-column
               type="selection"
               width="60"
@@ -213,7 +213,7 @@
             </el-table-column>
             <el-table-column
               label="制作时间"
-              prop="createDate"
+              prop="createTime"
               header-align="center"
               align="center">
             </el-table-column>
@@ -232,7 +232,7 @@
             row-key="paperId"
             border
             stripe
-            :default-sort = "{prop: 'createDate', order: 'descending'}"
+            :default-sort = "{prop: 'createTime', order: 'descending'}"
             :header-cell-style="{background: '#f5f7fa'}"
             @selection-change="val => handleSelectionChange(val, 'paper36List')">
             <el-table-column
@@ -255,7 +255,7 @@
             </el-table-column>
             <el-table-column
               label="制作时间"
-              prop="createDate"
+              prop="createTime"
               header-align="center"
               align="center">
             </el-table-column>
@@ -274,7 +274,7 @@
             row-key="paperId"
             border
             stripe
-            :default-sort = "{prop: 'createDate', order: 'descending'}"
+            :default-sort = "{prop: 'createTime', order: 'descending'}"
             :header-cell-style="{background: '#f5f7fa'}"
             @selection-change="val => handleSelectionChange(val, 'paper8List')">
             <el-table-column
@@ -297,7 +297,7 @@
             </el-table-column>
             <el-table-column
               label="制作时间"
-              prop="createDate"
+              prop="createTime"
               header-align="center"
               align="center">
             </el-table-column>
@@ -345,6 +345,11 @@ export default {
         paper8List: []
       }, // 选中的文书
     };
+  },
+  computed: {
+    legalReviewNum () {
+      return this.$store.state.user.userType === 'supervision' ? '47' : '49'
+    }
   },
   mounted() {
     this.init()

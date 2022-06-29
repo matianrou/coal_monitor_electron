@@ -170,6 +170,23 @@
         </div>
       </div>
     </let-main>
+    <el-dialog
+      title="文书信息选择"
+      :close-on-click-modal="false"
+      append-to-body
+      :visible="visibleSelectDialog"
+      width="400px"
+      :show-close="false"
+    >
+      <span>请选择：</span>
+      <el-radio-group v-model="selectedType">
+        <el-radio label="单位">单位</el-radio>
+        <el-radio label="个人">个人</el-radio>
+      </el-radio-group>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="confirm">确定</el-button>
+      </span>
+    </el-dialog>
     <!-- 关联文书选择 -->
     <select-paper
       v-if="visible.selectPaper"
@@ -218,7 +235,8 @@ export default {
         DangerTable: null,
         selectedType: null,
         associationPaperId: null,
-        associationPaperOrder: []
+        associationPaperOrder: [],
+        p8Penalty: null, // 本文书处罚金额（总额）
       },
       options: {
         cellIdx4: [
@@ -282,34 +300,35 @@ export default {
       let cellIdx8String = ''
       let cellIdx9String = ''
       let cellIdx10String = ''
+      let newDangerTable = this.corpData.caseType === "0" ? this.handleSelectedDangerList(letDataPaperContent.DangerTable) : null
       if (this.corpData.caseType === '0') {
         // 一般监察类文书
         // 5.违法事实：行政处罚告知书中的cellIdx6
-        cellIdx7String = setDangerTable(letDataPaperContent.DangerTable, {}, {
+        cellIdx7String = setDangerTable(newDangerTable, {}, {
             page: "8",
             key: "cellIdx7",
           }
         );
         // 是否多条显示分别
-        cellIdx22String = setDangerTable(letDataPaperContent.DangerTable, {}, {
+        cellIdx22String = setDangerTable(newDangerTable, {}, {
             page: "8",
             key: "cellIdx22",
           }
         );
         // 6.法律规定 :行政处罚告知书中的cellIdx7
-        cellIdx8String = setDangerTable(letDataPaperContent.DangerTable, {}, {
+        cellIdx8String = setDangerTable(newDangerTable, {}, {
             page: "8",
             key: "cellIdx8",
           }
         );
         // 7.法律依据 :行政处罚告知书中的cellIdx8
-        cellIdx9String = setDangerTable(letDataPaperContent.DangerTable, {}, {
+        cellIdx9String = setDangerTable(newDangerTable, {}, {
             page: "8",
             key: "cellIdx9",
           }
         );
         // 8.行政处罚 :行政处罚告知书中的cellIdx9
-        cellIdx10String = setDangerTable(letDataPaperContent.DangerTable, {}, {
+        cellIdx10String = setDangerTable(newDangerTable, {}, {
             page: "8",
             key: "cellIdx10",
           }
@@ -330,7 +349,7 @@ export default {
         this.corpData.caseId
       );
       let DangerTable = this.corpData.caseType === '0' ? 
-        setNewDanger(selectletData, letDataPaperContent.DangerTable)
+        setNewDanger(selectletData, newDangerTable, this.paperId)
         : null
       this.letData = Object.assign({}, this.letData, {
         cellIdx0: paperNumber.num0, // 文书号

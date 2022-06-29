@@ -263,14 +263,16 @@ export default {
       // 2.被处罚单位个人
       let cellIdx4String = let8DataPaperContent.cellIdx5 || ''
       // 3.行政处罚决定书 日期、编号
-      let date206 = selectedPaper.let8Data.createDate.split(' ')[0].split('-')
+      let date206 = selectedPaper.let8Data.createTime.split(' ')[0].split('-')
       let orgSysOfficeInfo = await getOrgData(this.$store.state.curCase.groupId)
       let DangerTable = null;
       if (this.corpData.caseType === "0") {
-        DangerTable = let8DataPaperContent.DangerTable
+        let newDangerTable = this.handleSelectedDangerList(let8DataPaperContent.DangerTable)
+        DangerTable = newDangerTable
           ? setNewDanger(
               selectedPaper.let8Data,
-              let8DataPaperContent.DangerTable
+              newDangerTable, 
+              this.paperId
             )
           : {};
       }

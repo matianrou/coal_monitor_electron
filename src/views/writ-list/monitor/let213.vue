@@ -181,7 +181,8 @@ export default {
         })
         let paper1PaperContent = JSON.parse(paper1.paperContent)
         // 违法违规行为
-        let cellIdx5String = setDangerTable(let4DataPaperContent.DangerTable, {}, {
+        let newDangerTable = this.corpData.caseType === "0" ? this.handleSelectedDangerList(let4DataPaperContent.DangerTable) : null
+        let cellIdx5String = setDangerTable(newDangerTable, {}, {
             page: "14",
             key: "cellIdx5",
           }
@@ -211,19 +212,19 @@ export default {
         if (paper5CheckName) paper5CheckName = paper5CheckName.substring(0, paper5CheckName.length - 1)
         let string6 = `    六、立案调查及审理情况：${p4DateString}，经${this.$store.state.curCase.provinceGroupName || '国家矿山安全监察局XX局'}负责人批准，决定对该涉嫌违法行为进行立案调查，并指定由${let4DataPaperContent.cellIdx9 || 'XXX、XXX'}两名执法人员承办。案件承办人对${paper5CheckName || 'XXX、XXX……'}进行调查取证，制作了调查取证笔录，收集了该矿违法违规行为的其他证据材料。\r\n`;
         // 获取案件处理呈报书的违法事实及处理依据
-        let isMultiString = let4DataPaperContent.DangerTable.selectedDangerList.length > 1 ? '分别' : ''
+        let isMultiString = newDangerTable.selectedDangerList.length > 1 ? '分别' : ''
         // 规定
-        let cellIdx6String = setDangerTable(let4DataPaperContent.DangerTable, {}, {
+        let cellIdx6String = setDangerTable(newDangerTable, {}, {
             page: "14",
             key: "cellIdx6",
           }
         ); 
-        let cellIdx7String = setDangerTable(let4DataPaperContent.DangerTable, {}, {
+        let cellIdx7String = setDangerTable(newDangerTable, {}, {
             page: "14",
             key: "cellIdx7",
           }
         );
-        let cellIdx8String = setDangerTable(let4DataPaperContent.DangerTable, {}, {
+        let cellIdx8String = setDangerTable(newDangerTable, {}, {
             page: "14",
             key: "cellIdx8",
           }
@@ -237,7 +238,7 @@ export default {
           && JSON.parse(paper.paperContent).associationPaperId
           && JSON.parse(paper.paperContent).associationPaperId.paper1Id === let4DataPaperContent.associationPaperId.paper1Id
         })
-        let let6Date = paper6Data ? paper6Data.createDate.split(' ')[0].split('-') : []
+        let let6Date = paper6Data ? paper6Data.createTime.split(' ')[0].split('-') : []
         let paper6Date = `${let6Date[0] || '20XX'}年${let6Date[1] || 'XX'}月${let6Date[2] || 'XX'}日`
         let paper6PaperNumber = ''
         if (paper6Data) {
@@ -272,7 +273,7 @@ export default {
           let8PaperNum = getCurPaperDocNumber(paper8Data)
         }
         // let let8PaperNum = `${let8DataPaperContent.cellIdx0}煤安监${let8DataPaperContent.cellIdx1}罚〔${let8DataPaperContent.cellIdx2}〕${let8DataPaperContent.cellIdx3}号`;
-        let let8Date = paper8Data ? paper8Data.createDate.split(' ')[0].split('-') : []
+        let let8Date = paper8Data ? paper8Data.createTime.split(' ')[0].split('-') : []
         string6 += `${let8Date[0] || '20XX'}年${let8Date[1] || 'XX'}月${let8Date[2] || 'XX'}日案件承办人员向${corp.corpName}及其负责人XXX分别送达了《行政处罚决定书》（${let8PaperNum}）。\r\n`;
         // 6，	行政处罚执行情况：固定模板
         // ”行政处罚执行情况：“+煤矿名称+ “接到我分局送达的行政处罚决定书后，该矿及其负责人XXX未申请行政复议和提起行政诉讼。将罚款已划转至指定罚款账户。”
@@ -290,7 +291,7 @@ export default {
         let string8 = `    八、结案理由：${corp.corpName}及其负责人XXX已执行对其作出的行政处罚决定，承办人员申请结案。`;
         let cellIdx10String =
           string1 + string2 + string3 + string4 + string5 + string6 + string7 + string8;
-        let DangerTable = setNewDanger(selectedPaper.let4Data, let4DataPaperContent.DangerTable)
+        let DangerTable = setNewDanger(selectedPaper.let4Data, newDangerTable, this.paperId)
         let associationPaperId = Object.assign({}, this.setAssociationPaperId(let4DataPaperContent.associationPaperId), {
           paper4Id: selectedPaper.let4Data.paperId
         }) 

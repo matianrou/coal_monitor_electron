@@ -143,6 +143,10 @@ export default {
           selGovUnitName: null
         }
       }
+    },
+    isPlan: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -247,13 +251,13 @@ export default {
       this.dataForm.startDate = val && val.length > 0 ? val[0] : null;
       this.dataForm.endDate = val && val.length > 1 ? val[1] : null;
     },
-    cancel(refresh = false) {
+    cancel() {
       // 关闭弹窗
       this.$refs.dataForm.resetFields();
       this.dataForm.riskAssessment = null
       this.dataForm.affiliateId = null
       this.initData();
-      this.$emit("close", { name: "newCase", refresh });
+      this.$emit("close", { name: "newCase" });
     },
     async submit() {
       // 提交
@@ -273,18 +277,25 @@ export default {
           item.corpId === corpId && item.groupId === selGovUnit
           && (`${item.planYear}-${item.planMonth}` === selPlanDate)) || []))
           // 创建检查活动
-          if (corpPlan.length > 0 && corpPlan[0].dbplanId) {
+          if (this.isPlan) {
             // 所选煤矿、检查日期年月、归档机构均符合时，直接创建检查活动
-            await this.doSaveCase(corpBase[0], corpPlan[0]);
+            let caseId = await this.doSaveCase(corpBase[0], corpPlan[0]);
+            // 点击选中当前创建的检查活动
+            await this.$parent.$refs.caseList.getData()
+            let curCase = this.$parent.$refs.caseList.corpList.find(item => item.caseId === caseId)
+            this.$parent.$refs.caseList.showDocHome(curCase, curCase.index)
           } else {
             // 无计划时，创建无planId的检查活动，放入其他类型中
-            await this.doSaveCase(corpBase[0]);
+            let caseId = await this.doSaveCase(corpBase[0]);
             // 创建成功后进入其他选择页签
             this.$parent.$refs.caseList.dataForm.isPlan = '其他'
-            this.$parent.$refs.caseList.changeSelect('其他', 'isPlan')
+            await this.$parent.$refs.caseList.changeSelect('其他', 'isPlan')
+            // 点击选中当前创建的检查活动
+            let curCase = this.$parent.$refs.caseList.corpList.find(item => item.caseId === caseId)
+            this.$parent.$refs.caseList.showDocHome(curCase, curCase.index)
           }
           // 刷新页面
-          this.cancel(true);
+          this.cancel();
         }
       })
     },
@@ -314,9 +325,10 @@ export default {
         caseSn: `${userNumber}${numString}`, // 文书编号后五位：用户userNumber+自增三位数字
         caseType: this.dataForm.caseType,
         remoteId: "",
-        delFlag: "0",
+        delFlag: '2',
         affiliate: this.dataForm.affiliateId ? this.dataForm.affiliateId : this.selectPlanData.selGovUnit, // 归档机构
         createDate: sDate,
+        createTime: sDate,
         updateDate: sDate,
         createById: userId,
         updateById: userId,
@@ -342,6 +354,7 @@ export default {
       await this.updateDatabase('wkCase', [jsonCase], 'caseId')
       // 回调 渲染方法
       this.$message.success("检查活动已经创建完毕");
+      return caseId
     },
     closeDialog ({page}) {
       this.showDialog[page] = false

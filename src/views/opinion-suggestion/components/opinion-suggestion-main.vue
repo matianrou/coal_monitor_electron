@@ -6,8 +6,8 @@
       <!-- 文书制作 -->
       <div>
         <el-radio-group v-model="selectPaperType">
-          <el-radio label="16">加强和改善安全监管建议书</el-radio>
-          <el-radio label="17">加强和改善安全管理意见书</el-radio>
+          <el-radio label="16">加强和改善安全管理意见书</el-radio>
+          <el-radio label="17">加强和改善安全监管建议书</el-radio>
           <el-radio label="15">执法案卷（首页）及目录</el-radio>
         </el-radio-group>
       </div>
@@ -136,6 +136,7 @@
 <script>
 import { sortbyDes } from "@/utils/index";
 import { saveToUpload } from "@/utils/savePaperData";
+import { getNowFormatTime } from '@/utils/date'
 export default {
   name: "OpinionSuggestion",
   data() {
@@ -162,14 +163,14 @@ export default {
       if (this.selectPaperType === "16") {
         docData = {
           docTypeNo: "16",
-          docTypeName: "加强和改善安全监管建议书",
-          page: "let501",
+          docTypeName: "加强和改善安全管理意见书",
+          page: "let502",
         };
       } else if (this.selectPaperType === "17") {
         docData = {
           docTypeNo: "17",
-          docTypeName: "加强和改善安全管理意见书",
-          page: "let502",
+          docTypeName: "加强和改善安全监管建议书",
+          page: "let501",
         };
       } else if (this.selectPaperType === "15") {
         docData = {
@@ -242,7 +243,7 @@ export default {
       // 单个文书归档
       // 如果没有网络则不能归档
       if (!this.$store.state.onLine) {
-        this.$message.error('当前为离线登录，请联网后再归档！')
+        this.$message.error('当前为离线状态，请联网后再归档！')
         return
       }
       this.$confirm(`是否确认归档${row.orgName || ''} ${row.name}?`, "提示", {
@@ -264,14 +265,15 @@ export default {
       // 归档: 更新delFlag = '0'字段（本地及上传）
       // 拉取已经保存的文书，修改delFlag = '0',调用saveToUpload上传
       let paperData = JSON.parse(JSON.stringify(paper));
-      paperData.delFlag = "0";
+      paperData.updateDate = getNowFormatTime()
+      paperData.delFlag = '0'
       await this.updatePaperDatabase('opinion-suggestion', [paperData])
       await saveToUpload(paper.paperId, true, 'opinion-suggestion');
     },
     async batchFile  () {
       // 批量归档
       if (!this.$store.state.onLine) {
-        this.$message.error('当前为离线登录，请联网后再归档！')
+        this.$message.error('当前为离线状态，请联网后再归档！')
         return
       }
       if (this.selectedList.length > 0) {
@@ -320,8 +322,10 @@ export default {
       let request = await this.paperDelete(paper.paperId, 'opinion-suggestion')
       if (request.code === '200') {
         this.$message.success('删除文书成功！')
+      } else if (request.code === '500') {
+        this.$message.error('删除文书失败，请重新尝试！')
       } else {
-        this.$message.warning('本地删除成功，需云同步至服务器！')
+        this.$message.warning('本地删除成功，请在有网络时再云同步至服务器！')
       }
     },
     batchDelete () {

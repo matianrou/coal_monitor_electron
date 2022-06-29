@@ -271,22 +271,28 @@ export default {
         p8PaperList.map(item => {
           let paperContent = JSON.parse(item.paperContent)
           let {cellIdx0, cellIdx1, cellIdx2, cellIdx3, selectedType} = paperContent
-          item.paperNo = `${cellIdx0}煤安监${cellIdx1}罚〔${cellIdx2}〕${cellIdx3}号`
+          item.paperNo = `${cellIdx0 || ''}煤安监${cellIdx1 || ''}罚〔${cellIdx2 || ''}〕${cellIdx3 || ''}号`
           item.punishType = selectedType === '单位' ? '0' : '1'
           item.punishTypeName = selectedType
           // 整理罚款金额
           let p8Penalty = 0
-          if (paperContent.DangerTable) {
-            let dangerList = paperContent.DangerTable.selectedDangerList || []
-            if (dangerList.length > 0) {
-              dangerList.map(danger => {
-                if (danger.penaltyDescFine) {
-                  p8Penalty += Number(danger.penaltyDescFine) 
-                }
-              })
+          if (this.corpData.caseType === "0") {
+            // 一般检查时：根据tableData中选择的数据自动计算罚款金额，因事故逻辑中使用的字段为22.5.12新增，故一段时间后此逻辑也可以废除，改用同下面事故中的逻辑
+            if (paperContent.DangerTable) {
+              let dangerList = paperContent.DangerTable.selectedDangerList || []
+              if (dangerList.length > 0) {
+                dangerList.map(danger => {
+                  if (danger.penaltyDescFine) {
+                    p8Penalty += Number(danger.penaltyDescFine) 
+                  }
+                })
+              }
             }
+          } else {
+            // 事故时，获取文书中单独保存的p8Penalty字段
+            p8Penalty = paperContent.p8Penalty || 0
           }
-          item.p8Penalty = p8Penalty / 10000
+          item.p8Penalty = p8Penalty > 0 ? p8Penalty / 10000 : 0
           item.collectionDate = getNowDate()
           item.collectionFine = 0
           // 收缴金额最大值：罚款金额 - 以往收缴的总和
@@ -363,7 +369,7 @@ export default {
     },
     addFile (param, scope) {
       if (!this.$store.state.onLine) {
-        this.$message.error('当前为离线登录，请联网后再上传文件！')
+        this.$message.error('当前为离线状态，请联网后再上传文件！')
         return
       }
       // // 判断如果当前选中的不是点击行，则切换至当前行
@@ -417,7 +423,7 @@ export default {
     },
     deleteFile (index, row) {
       if (!this.$store.state.onLine) {
-        this.$message.error('当前为离线登录，请联网后再下载！')
+        this.$message.error('当前为离线状态，请联网后再下载！')
         return
       }
       // 删除文件
@@ -453,7 +459,7 @@ export default {
     },
     async downloadFile (index, row) {
       if (!this.$store.state.onLine) {
-        this.$message.error('当前为离线登录，请联网后再下载！')
+        this.$message.error('当前为离线状态，请联网后再下载！')
         return
       }
       this.loading.btn = true
@@ -479,7 +485,7 @@ export default {
         }
       }).catch((err) => {
         this.$message.error('文件下载失败，请重新下载！')
-        console.log('err', err)
+        console.log('文件下载失败', err)
       })
       this.loading.btn = false
     },

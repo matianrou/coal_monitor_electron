@@ -452,15 +452,22 @@ export default {
         // 获取所有关联同一笔录文书的文书
         let paperList = JSON.parse(JSON.stringify(wkPaper.filter(item => {
           if (item.paperContent) {
-            let paperContent = JSON.parse(item.paperContent) 
-            if (paperContent.associationPaperId && paperContent.associationPaperId.paper1Id) {
-              if (paperContent.associationPaperId.paper1Id === selectedPaper.let1Data.paperId) {
-                return item
+            // 去掉隐患整改和执法案卷（首页）及目录文书
+            if (item.paperType !== '15' && item.paperType !== '44') {
+              let paperContent = JSON.parse(item.paperContent) 
+              if (paperContent.associationPaperId && paperContent.associationPaperId.paper1Id) {
+                if (paperContent.associationPaperId.paper1Id === selectedPaper.let1Data.paperId) {
+                  return item
+                }
               }
             }
           }
         }) || []))
-        let allPaper = [...paper22, ...paper1, ...paper22AssociationPaper, ...paperList]
+        // 获取罚款收缴文书
+        let fineCollectionPaperList = JSON.parse(JSON.stringify(wkPaper.filter(item => {
+          return item.paperType === '43'
+        })))
+        let allPaper = [...paper22, ...paper1, ...paper22AssociationPaper, ...paperList, ...fineCollectionPaperList]
         // 按文书顺序排序
         let orderList = []
         let dictionaryField = `${this.$store.state.user.userType}PaperType`
@@ -474,16 +481,16 @@ export default {
           // 获取文号字段
           let number = getCurPaperDocNumber(item)
           // 获取日期字段
-          let createDate = ''
-          if (item.createDate) {
-            let dateList = item.createDate.split(' ')[0].split('-')
-            createDate = `${dateList[0]}年${dateList[1]}月${dateList[2]}日`
+          let createTime = ''
+          if (item.createTime) {
+            let dateList = item.createTime.split(' ')[0].split('-')
+            createTime = `${dateList[0]}年${dateList[1]}月${dateList[2]}日`
           }
           volumesMenuTableData.push({
             sindex: i + 1,
             paperNumber: number,
-            title: `国家矿山安全监察${item.name}`,
-            date: createDate,
+            title: item.paperType !== '43' ? `国家矿山安全监察${item.name}` : '缴纳罚款凭证',
+            date: createTime,
             pageNumber: i + 1,
             note: '',
           })
@@ -496,15 +503,11 @@ export default {
           // 创建初始版本 */
           // 1.案卷题名: 煤矿名称+隐患描述+案
           // 获取笔录文书中的隐患数据
-          
-          // let dangerObject = getDangerObject(
-          //   let1DataPaperContent.DangerTable.selectedDangerList
-          // );
-          // cellIdx2String = `${corp.corpName}${dangerObject.dangerString}案。`;
+          let newDangerTable = this.corpData.caseType === "0" ? this.handleSelectedDangerList(let1DataPaperContent.DangerTable) : null
           cellIdx2String =
             this.corpData.caseType === "0"
               ? setDangerTable(
-                  let1DataPaperContent.DangerTable,
+                  newDangerTable,
                   {},
                   {
                     page: "15",
@@ -516,10 +519,11 @@ export default {
                   }
                 )
               : "";
-          DangerTable = let1DataPaperContent.DangerTable
+          DangerTable = newDangerTable
             ? setNewDanger(
                 selectedPaper.let1Data,
-                let1DataPaperContent.DangerTable
+                newDangerTable, 
+                this.paperId
               )
             : {};
           associationPaperId = Object.assign({}, this.setAssociationPaperId(let1DataPaperContent.associationPaperId), {

@@ -29,6 +29,8 @@
                   @selection-change="handleSelectionChange">
                   <el-table-column
                     type="selection"
+                    header-align="center"
+                    align="center"
                     width="55">
                   </el-table-column>
                   <el-table-column
@@ -175,6 +177,7 @@ export default {
                       no: danger.no ? danger.no : null,
                       confirmBasis: danger.confirmBasis,
                       createDate: danger.createDate,
+                      detectTime: danger.detectTime,
                       createBy: danger.createBy,
                       id: danger.id ? danger.id : null,
                       isNewRecord: danger.isNewRecord ? danger.isNewRecord : false,

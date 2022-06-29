@@ -58,34 +58,51 @@
             因调查有关安全生产违法案件的需要，本机关现委托你单位对下列物品进行鉴定。
             </div>
             <div class="docBody itemTable">
-              <table>
-                <thead>
-                  <tr>
-                    <th style="width: 30%;">物品名称</th>
-                    <th style="width: 30%;">规格型号</th>
-                    <th style="width: 15%;">数量</th>
-                    <th>备注</th>
-                  </tr>
-                </thead>
-                <tr
-                  v-for="(item, index) in (letData.cellIdx5 ? letData.cellIdx5 : [])"
-                  :key="index">
-                  <td style="width: 30%;">{{item.name}}</td>
-                  <td style="width: 30%;">{{item.modelNumber}}</td>
-                  <td style="width: 15%;">{{item.num}}</td>
-                  <td>{{item.note}}</td>
-                </tr>
-                <tr 
-                  class="edit-tr"
-                  @click="commandFill('cellIdx5', '', 'SamplingForensicsTable')"
-                >
-                <span class="no-print">（点击编辑）</span>
-                </tr>
-              </table>
+              <div class="title col-row-border">
+                <div class="col-col-border" style="flex: 6;">
+                  <span>物品名称</span>
+                </div>
+                <div class="col-col-border" style="flex: 6;">
+                  <span>规格型号</span>
+                </div>
+                <div class="col-col-border" style="width: 80px;">
+                  <span>数量</span>
+                </div>
+                <div class="col-col-border" style="flex: 5;">
+                  <span>备注</span>
+                </div>
+              </div>
+              <div v-if="letData.cellIdx5 && letData.cellIdx5.length > 0" class="content col-row-border">
+                <div
+                  v-for="(item, index) in letData.cellIdx5"
+                  :key="index"
+                  class="content-col"
+                  @click="commandFill('cellIdx5', '', 'SamplingForensicsTable')">
+                  <div class="col-col-border" style="flex: 6;">
+                    <span>{{item.name || ''}}</span>
+                  </div>
+                  <div class="col-col-border" style="flex: 6;">
+                    <span>{{item.modelNumber || ''}}</span>
+                  </div>
+                  <div class="col-col-border" style="width: 80px;">
+                    <span>{{item.num || ''}}</span>
+                  </div>
+                  <div class="col-col-border" style="flex: 5;">
+                    <span>{{item.note || ''}}</span>
+                  </div>
+                </div>
+              </div>
+              <div v-else class="content col-row-border">
+                <div class="content-col" @click="commandFill('cellIdx5', '', 'SamplingForensicsTable')">
+                  <div class="col-col-border" style="flex: 1;">
+                    <span>（点击编辑）</span>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="docTextarea ">
               <label style="width: 2em;"></label>
-            鉴定要求：
+              鉴定要求：
             </div>
             <div
               style="word-wrap:break-word;word-break:break-all;overflow:hidden;"
@@ -217,6 +234,7 @@ export default {
         cellIdx1: num1, // 文书号
         cellIdx2: num3, // 文书号
         cellIdx3: num4, // 文书号
+        cellIdx5: [],
         cellIdx10: orgSysOfficeInfo.master,
         cellIdx11: orgSysOfficeInfo.phone,
         cellIdx12: this.$store.state.curCase.groupName, //
@@ -273,5 +291,51 @@ export default {
 .itemTable table td, table th {
   border: 1px solid #000;
   height: 40px;
+}
+.itemTable {
+  display: flex;
+  flex-direction: column;
+  .title {
+    height: 40px;
+    display: flex;
+    text-align: center;
+    line-height: 38px;
+    span {
+      font-family: 仿宋;
+      font-size: 16px;
+      font-weight: bold;
+    }
+  }
+  .content {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    line-height: 38px;
+    .content-col {
+      height: 40px;
+      width: 100%;
+      display: flex;
+      cursor: pointer;
+      span {
+        font-family: 仿宋;
+        font-size: 16px;
+        font-weight: bold;
+      }
+    }
+    .empty-col {
+      width: 100%;
+      cursor: pointer;
+    }
+  }
+  .col-row-border {
+    border-right: 1px solid #000;
+    &:last-child {
+      border-bottom: 1px solid #000;
+    }
+  }
+  .col-col-border {
+    border-top: 1px solid #000;
+    border-left: 1px solid #000;
+  }
 }
 </style>

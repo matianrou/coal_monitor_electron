@@ -495,7 +495,7 @@ export function getMoney (str) {
       let curNumber = numberdict.findIndex(item => item.label === str[i])
       let curdict1 = unitDict1.findIndex(item => item.label === str[i])
       let curdict2 = unitDict2.findIndex(item => item.label === str[i])
-      if (curNumber === -1 && curdict1 === -1 && curdict2 === -1) {
+      if (curNumber === -1 && curdict1 === -1 && curdict2 === -1 && str[i] !== '.') {
         // 如果不在码表中则表示已经完成金额转换，则完成遍历，跳出循环
         break
       } else {
@@ -526,6 +526,11 @@ export function getMoney (str) {
         if (curNumber > -1) {
           // 如果数值
           moneyStr += numberdict[curNumber].value
+          continue
+        }
+        // 如果是小数点
+        if (allMoneyStr[i] === '.') {
+          moneyStr += '.'
           continue
         }
       }
@@ -595,4 +600,16 @@ export function transformNumToChinese(data) {
     : /\./.test(str)
       ? str.replace(/(\d)(?=(\d{3})+\.)/g, '$1,')
       : str.replace(/(\d)(?=(\d{3})+$)/g, '$1,')
+}
+
+/**
+  * 去除千分位
+  *@param{Object}num
+*/
+export function delcommafy(num){
+  if ((num + "").Trim() == ""){
+    return ""
+  }
+  num = num.replace(/,/gi, '');
+  return num
 }

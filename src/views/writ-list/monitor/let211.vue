@@ -193,7 +193,7 @@ export default {
       // 5.地点：sysOfficeInfo实体中depAddress字段+ deparFullname字段
       // 地址：depAddress、邮政编码：depPost、联系人：master、联系电话：phone
       let orgSysOfficeInfo = await getOrgData(this.$store.state.curCase.groupId)
-      let cellIdx7String = `${orgSysOfficeInfo.depAddress}${orgSysOfficeInfo.deparFullname}`;
+      let cellIdx7String = `${orgSysOfficeInfo.depAddress || ''}${orgSysOfficeInfo.deparFullname || ''}`;
       // 1.时间
       let now = new Date();
       let cellIdx0Year = now.getFullYear().toString();
@@ -258,11 +258,13 @@ export default {
       let let28DataPaperContent = JSON.parse(
         selectedPaper.let28Data.paperContent
       );
+      let newDangerTable = this.corpData.caseType === "0" ? this.handleSelectedDangerList(let28DataPaperContent.DangerTable) : null
       let DangerTable =
         this.corpData.caseType === "0"
           ? setNewDanger(
               selectedPaper.let28Data,
-              let28DataPaperContent.DangerTable
+              newDangerTable, 
+              this.paperId
             )
           : null;
       let associationPaperId = Object.assign({}, this.setAssociationPaperId(let28DataPaperContent.associationPaperId), {

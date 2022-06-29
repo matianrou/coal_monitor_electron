@@ -4,7 +4,7 @@
     <div class="writ-check-title">
       文书查看
     </div>
-    <div>
+    <div style="flex: 1; display: flex; flex-direction: column;">
       <!-- 面包屑导航 -->
       <div class="breadcrumb-main">
         <div
@@ -120,11 +120,14 @@ export default {
 
 <style lang="scss" scoped>
 .writ-check {
-  height: calc(100% - 30px);
-  margin: 15px;
+  height: calc(100% - 30px);;
+  width: calc(100% - 30px);
+  margin: 15px auto 0;
   border: 1px solid #DCDFE6;
   background: #fff;
   border-radius: 10px;
+  display: flex;
+  flex-direction: column;
   .writ-check-title {
     height: 40px;
     background: rgb(79, 131, 233);

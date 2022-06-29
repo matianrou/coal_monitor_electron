@@ -290,7 +290,7 @@ export default {
     },
     async handleSend (row) {
       if (!this.$store.state.onLine) {
-        this.$message.error('当前为离线登录，请联网后发送！')
+        this.$message.error('当前为离线状态，请联网后发送！')
         return
       }
       this.$confirm(`是否确认发送给${row.receiveName || ''}“${row.companyName}”的${row.paperContent.name}?`, "提示", {
@@ -308,7 +308,7 @@ export default {
           row.paperContent = JSON.stringify(row.paperContent)
           // 调用接口发送文书数据
           await this.$http.post(
-              `${this.userType === 'supervision' ? '/sv' : ''}/local/api-postPaper/save?__sid=${this.$store.state.user.userSessId}`,
+              `${this.userType === 'supervision' ? '/sv' : ''}/local/api-postPaper?__sid=${this.$store.state.user.userSessId}`,
               {
                 sendJson: true,
                 data: row

@@ -171,7 +171,7 @@ export default {
     },
     async handleRecevice (row) {
       if (!this.$store.state.onLine) {
-        this.$message.error('当前离线登录，请联网后才能接收！')
+        this.$message.error('当前离线状态，请联网后才能接收！')
         return
       }
       // 接收文书
@@ -183,7 +183,7 @@ export default {
       row.paperContent = JSON.stringify(row.paperContent)
       // 发送请求确认接收
       await this.$http.post(
-          `${this.userType === 'supervision' ? '/sv' : ''}/local/api-postPaper/save?__sid=${this.$store.state.user.userSessId}`,
+          `${this.userType === 'supervision' ? '/sv' : ''}/local/api-postPaper?__sid=${this.$store.state.user.userSessId}`,
           {
             sendJson: true,
             data: row

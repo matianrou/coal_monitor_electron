@@ -307,10 +307,12 @@ export default {
       let cellIdx14String = selectedPaper.let8Data.p8Penalty ? moneyChinese : ''
       let DangerTable = null;
       if (this.corpData.caseType === "0") {
-        DangerTable = let8DataPaperContent.DangerTable
+        let newDangerTable = this.handleSelectedDangerList(let8DataPaperContent.DangerTable)
+        DangerTable = newDangerTable
           ? setNewDanger(
               selectedPaper.let8Data,
-              let8DataPaperContent.DangerTable
+              newDangerTable, 
+              this.paperId
             )
           : {};
       }

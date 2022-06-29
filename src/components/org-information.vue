@@ -3,15 +3,16 @@
   <div class="enterprisedata">
     <div class="enterprisedata-title">
       <img
-        src="@/components/assets/image/letTitle.png"
-        style="width:32px;"
-      />企业信息
+        src="@/components/assets/image/company_info.png"
+        style="margin-right: 10px;"
+      />
+      <span style="color: #4282E6;">企业信息</span>
       <div v-if="caseData.planDate" class="plan-date">
-        <i class="el-icon-time"></i>
+        <!-- <i class="el-icon-time"></i> -->
         <span>{{caseData.planDate}}</span>
       </div>
       <div v-if="caseData.groupName" class="group-name">
-        <i class="el-icon-s-flag"></i>
+        <!-- <i class="el-icon-s-flag"></i> -->
         <span>{{`${userType === 'supervision' ? '监管' : '监察'}归档至${caseData.affiliateName}`}}</span>
       </div>
       <div class="enterprisedata-title-function">
@@ -21,46 +22,46 @@
           class="enterprisedata-title-function-content" 
           style="margin-right: 7px;"
           @click="gotoCompanyPaintings">
-          <i class="el-icon-office-building"></i>
+          <img src="@/components/assets/image/office-building.png" alt="" />
           <span>企业画像</span>
         </div>
         <div 
           class="enterprisedata-title-function-content"
           @click="showCompanyInfoDetail">
-          <i class="el-icon-s-order"></i>
+          <img src="@/components/assets/image/information_more.png" alt="" />
           <span>更多详情</span>
         </div>
       </div>
     </div>
     <div class="enterprisedata-content-main">
-      <div class="enterprisedata-content-left">
+      <div class="enterprisedata-content-div">
         <!-- 企业信息 -->
         <div class="enterprisedata-content">
           <span>企业名称：</span>
-          <span>{{corpData.corpName}}</span>
+          <span :title="corpData.corpName">{{corpData.corpName || ''}}</span>
         </div>
         <div class="enterprisedata-content">
           <span>所在区域：</span>
-          <span>{{corpData.corpCountryName}}</span>
+          <span :title="corpData.corpCountryName">{{corpData.corpCountryName || ''}}</span>
         </div>
         <div class="enterprisedata-content">
           <span>负&nbsp;&nbsp;责&nbsp;&nbsp;人：</span>
-          <span>{{corpData.legalName}}</span>
+          <span :title="corpData.legalName">{{corpData.legalName || ''}}</span>
         </div>
       </div>
-      <div class="enterprisedata-content-left">
+      <div class="enterprisedata-content-div">
         <!-- 企业信息 -->
         <div class="enterprisedata-content">
           <span>企业类型：</span>
-          <span>{{corpData.corpTypeName}}</span>
+          <span :title="corpData.corpTypeName">{{corpData.corpTypeName || ''}}</span>
         </div>
         <div class="enterprisedata-content">
           <span>经营地址：</span>
-          <span>{{corpData.address}}</span>
+          <span :title="corpData.address">{{corpData.address || ''}}</span>
         </div>
         <div class="enterprisedata-content">
           <span>联系电话：</span>
-          <span>{{corpData.tel}}</span>
+          <span :title="corpData.tel">{{corpData.tel || ''}}</span>
         </div>
       </div>
     </div>
@@ -112,6 +113,8 @@ export default {
       if (this.corpData.caseId) {
         let wkCase = await this.getDatabase('wkCase')
         let caseData = wkCase.find(item => item.caseId === this.corpData.caseId)
+        console.log('活动Id：', this.corpData.caseId)
+        console.log('活动No：', caseData.caseNo)
         let orgInfo = await this.getDatabase('org')
         let org = await getOrgTreeList()
         let allOrgList = org.orgList
@@ -204,7 +207,7 @@ export default {
 <style lang="scss" scoped>
 .enterprisedata {
   width: 100%;
-  height: 173px;
+  min-width: 1100px;
   overflow: hidden;
   border-collapse: collapse;
   background: #fff;
@@ -212,47 +215,70 @@ export default {
   border-radius: 10px;
   margin: 0px;
   padding: 0px;
+  box-shadow: 0px 2px 20px 1px rgba(66, 130, 230, 0.1);
   .enterprisedata-title {
-    height: 35px;
-    line-height: 35px;
-    color: #fff;
-    font-size: 18px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 1.2rem;
+    @media only screen and (min-width: 1920px) {
+      font-size: 1.3rem;
+    }
     margin: 0px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    background: rgba(#4f83e9, 1);
     display: flex;
-    padding: 0 20px;
+    padding: 10px 20px 5px;
     align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    // .plan-date {
+    //   margin-left: 20px;
+    //   padding: 0 10px;
+    //   background: rgba(#DDFAE6, 0.9);
+    //   color: #303133;
+    //   height: 25px;
+    //   font-size: 14px;
+    //   border-radius: 5px;
+    //   display: flex;
+    //   align-items: center;
+    //   span {
+    //     display: inline-block;
+    //     margin-left: 5px;
+    //   }
+    // }
     .plan-date {
-      margin-left: 20px;
-      padding: 0 10px;
-      background: rgba(#DDFAE6, 0.9);
-      color: #303133;
-      height: 25px;
-      font-size: 14px;
-      border-radius: 5px;
-      display: flex;
-      align-items: center;
-      span {
-        display: inline-block;
-        margin-left: 5px;
+      margin-left: 40px;
+      font-size: 1rem;
+      @media only screen and (min-width: 1920px) {
+        font-size: 1.1rem;
       }
+      font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+      font-weight: 400;
+      color: #666666;
     }
+    // .group-name {
+    //   margin-left: 20px;
+    //   padding: 0 10px;
+    //   background: rgba(#FAF8DD, 0.9);
+    //   color: #303133;
+    //   height: 25px;
+    //   font-size: 14px;
+    //   border-radius: 5px;
+    //   display: flex;
+    //   align-items: center;
+    //   span {
+    //     display: inline-block;
+    //     margin-left: 5px;
+    //   }
+    // }
     .group-name {
-      margin-left: 20px;
-      padding: 0 10px;
-      background: rgba(#FAF8DD, 0.9);
-      color: #303133;
-      height: 25px;
-      font-size: 14px;
-      border-radius: 5px;
-      display: flex;
-      align-items: center;
-      span {
-        display: inline-block;
-        margin-left: 5px;
+      margin-left: 30px;
+      font-size: 1rem;
+      @media only screen and (min-width: 1920px) {
+        font-size: 1.1rem;
       }
+      font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+      font-weight: 400;
+      color: #666666;
     }
     .enterprisedata-title-function {
       flex: 1;
@@ -260,27 +286,25 @@ export default {
       justify-content: flex-end;
       cursor: pointer;
       .enterprisedata-title-function-content {
-        height: 23px;
-        border: 1px solid rgba(#ffffe0, 0.9);
-        border-radius: 5px;
-        background: rgba(#ffffe0, 0.9);
+        height: 32px;
         display: flex;
         align-items: center;
         padding: 0 7px;
-        i {
-          color: #606266;
+        background: #4282E6;
+        box-shadow: 0px 3px 8px 1px rgba(66, 130, 230, 0.6);
+        border-radius: 4px 4px 4px 4px;
+        border: 1px solid #4282E6;
+        img {
+          margin-right: 7px;
         }
         span {
-          color: #606266;
-          font-size: 16px;
-        }
-        &:hover {
-          i {
-            color: #409EFF;
+          font-size: 1rem;
+          @media only screen and (min-width: 1920px) {
+            font-size: 1.1rem;
           }
-          span {
-            color: #409EFF;
-          }
+          font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+          font-weight: 400;
+          color: #FFFFFF;
         }
       }
     }
@@ -291,21 +315,29 @@ export default {
   .enterprisedata-content-main { 
     display: flex;
     flex-direction: row;
-    .enterprisedata-content-left {
+    .enterprisedata-content-div {
       flex: 1;
       display: flex;
       flex-direction: column;
+      height: calc(163px - 40px - 1px);
+      justify-content: space-evenly;
       .enterprisedata-content {
-        height: 45px;
-        line-height: 45px;
         display: flex;
-        border-bottom: 1px solid #ccc;
         text-indent: 30px;
-        font-size: 18px;
+        font-size: 1.1rem;
+        @media only screen and (min-width: 1920px) {
+          font-size: 1.2rem;
+        }
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        :first-child {
+          color: #666666;
+        }
+        :last-child {
+          color: #333333;
+        }
       }
-    }
-    .enterprisedata-content-right {
-      flex: 1;
     }
   }
 }

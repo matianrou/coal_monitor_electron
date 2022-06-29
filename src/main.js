@@ -24,6 +24,19 @@ import {
 	paperDelete
 } from '@/utils/databaseOperation'
 
+['success', 'warning', 'info', 'error'].forEach(type => {
+	ElementUI.Message[type] = options => {
+		if (typeof options === 'string') {
+			options = {
+				message: options
+			}
+			options.showClose = true
+		}
+		options.type = type
+		return ElementUI.Message(options)
+	}
+})
+
 Vue.use(ElementUI)
 Vue.use(Print)
 Vue.config.productionTip = false

@@ -58,13 +58,12 @@
             </span>
           </el-tree>
         </div>
-        <div :class="multiSelect ? 'dialog-max-multi' : 'dialog-max'" style="flex: 1;">
+        <div :class="multiSelect ? 'dialog-max-multi org-table-main' : 'dialog-max org-table-main'">
           <el-table
             ref="personList"
             :data="personList"
             stripe
             border
-            style="width: 100%;"
             height="100%"
             :row-key="getRowKey"
             :header-cell-style="{background: '#f5f7fa'}"
@@ -73,7 +72,7 @@
             @select="selectPerson"
             @selection-change="handleSelectionChange"
           >
-            <el-table-column v-if="multiSelect" type="selection" width="55" :reserve-selection="true"></el-table-column>
+            <el-table-column v-if="multiSelect" type="selection" header-align="center" align="center" width="55" :reserve-selection="true"></el-table-column>
             <el-table-column type="index" width="50" align="center"></el-table-column>
             <el-table-column prop="name" label="姓名" header-align="center" align="center"></el-table-column>
             <el-table-column prop="officeName" label="所属机构" header-align="center" align="center"></el-table-column>
@@ -97,7 +96,7 @@
             @select="selectPerson"
             @selection-change="handleSelectionChange"
           >
-            <el-table-column v-if="multiSelect" type="selection" width="55" :reserve-selection="true"></el-table-column>
+            <el-table-column v-if="multiSelect" type="selection" header-align="center" align="center" width="55" :reserve-selection="true"></el-table-column>
             <el-table-column type="index" width="50" align="center"></el-table-column>
             <el-table-column prop="name" label="姓名" width="180" header-align="center" align="center"></el-table-column>
             <el-table-column prop="allOrgName" label="所属机构" header-align="center" align="center"></el-table-column>
@@ -606,6 +605,7 @@ export default {
   display: flex;
   flex-direction: row;
   border: 1px solid #EBEEF5;
+  width: 860px;
   .org-tree-main {
     width: 350px;
     overflow: auto;
@@ -613,6 +613,9 @@ export default {
       background-color: rgb(121, 187, 255);
       color: #fff;
     }
+  }
+  .org-table-main {
+    width: calc(860px - 350px);
   }
 }
 .dialog-max-multi {

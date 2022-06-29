@@ -198,9 +198,21 @@ export default {
         let dateString = let2DataPaperContent.cellIdx6
           ? let2DataPaperContent.cellIdx6
           : "X年X月X日-X年X月X日";
+        // 22.4.1增加逻辑：立案决定书中隐患根据是否有行政处罚决定和行政处罚依据
+        let filterDangerTable = JSON.parse(JSON.stringify(let2DataPaperContent.DangerTable))
+        for (let i = 0; i < filterDangerTable.tableData.length; i++) {
+          let item = filterDangerTable.tableData[i]
+          if (!item.penaltyDesc || !item.penaltyBasis) {
+            let delIndex = filterDangerTable.selectedDangerList.findIndex(selected => selected.dangerId === item.dangerId)
+            if (delIndex !== -1) {
+              filterDangerTable.selectedDangerList.splice(delIndex, 1)
+              filterDangerTable.punishmentList.splice(delIndex, 1)
+            }
+          }
+        }
         // 1.案由内容初始化：煤矿名称+隐患描述+“案”组成
         let cellIdx4String = setDangerTable(
-          let2DataPaperContent.DangerTable,
+          filterDangerTable,
           {},
           {
             page: "4",
@@ -214,7 +226,7 @@ export default {
         );
         // 2.案情摘要：检查时间+当前机构名称+“对”+煤矿名称+“进行现场检查时发现”+隐患描述+"以上行为分别涉嫌违反了"+违法认定法条+“依据《安全生产违法行为行政处罚办法》第二十三条的规定申请立案。”
         let cellIdx5String = setDangerTable(
-          let2DataPaperContent.DangerTable,
+          filterDangerTable,
           {},
           {
             page: "4",
@@ -227,8 +239,8 @@ export default {
           }
         );
         let paperNumber = await getDocNumber(this.docData.docTypeNo, this.corpData.caseId)
-        let DangerTable = let2DataPaperContent.DangerTable ? 
-          setNewDanger(selectedPaper.let2Data, let2DataPaperContent.DangerTable)
+        let DangerTable = filterDangerTable ? 
+          setNewDanger(selectedPaper.let2Data, filterDangerTable, this.paperId)
           : {}
         let associationPaperId = Object.assign({}, this.setAssociationPaperId(let2DataPaperContent.associationPaperId), {
           paper2Id: selectedPaper.let2Data.paperId,
