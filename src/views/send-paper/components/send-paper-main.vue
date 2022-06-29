@@ -308,7 +308,7 @@ export default {
           row.paperContent = JSON.stringify(row.paperContent)
           // 调用接口发送文书数据
           await this.$http.post(
-              `${this.userType === 'supervision' ? '/sv' : ''}/local/api-postPaper/save?__sid=${this.$store.state.user.userSessId}`,
+              `${this.userType === 'supervision' ? '/sv' : ''}/local/api-postPaper?__sid=${this.$store.state.user.userSessId}`,
               {
                 sendJson: true,
                 data: row
