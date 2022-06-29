@@ -183,7 +183,7 @@ export default {
       row.paperContent = JSON.stringify(row.paperContent)
       // 发送请求确认接收
       await this.$http.post(
-          `${this.userType === 'supervision' ? '/sv' : ''}/local/api-postPaper/save?__sid=${this.$store.state.user.userSessId}`,
+          `${this.userType === 'supervision' ? '/sv' : ''}/local/api-postPaper?__sid=${this.$store.state.user.userSessId}`,
           {
             sendJson: true,
             data: row
